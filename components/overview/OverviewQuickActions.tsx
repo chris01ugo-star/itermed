@@ -12,10 +12,10 @@ export function OverviewQuickActions({ focusShort, casesThisWeek }: OverviewQuic
   const weekProgress = Math.min(100, Math.round((casesThisWeek / WEEKLY_GOAL) * 100));
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-panel-bg shadow-aequan-panel">
       <Link
         href="/dashboard/prassi"
-        className="group flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-[#1E324E] px-5 py-5 text-white shadow-sm transition hover:bg-[#2A486D]"
+        className="group flex items-center justify-between gap-4 bg-brand-primary px-5 py-5 text-white transition hover:bg-brand-primary-hover"
       >
         <div>
           <p className="text-base font-semibold">Prassi Clinica</p>
@@ -26,36 +26,34 @@ export function OverviewQuickActions({ focusShort, casesThisWeek }: OverviewQuic
         </span>
       </Link>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="flex items-start gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-700">
+      <div className="grid flex-1 grid-cols-1 divide-y divide-border-subtle sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+        <div className="flex items-start gap-2.5 px-5 py-4">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-700">
             <Target className="h-4 w-4" />
           </div>
-          <div>
-            <p className="text-sm text-slate-500">Da migliorare</p>
-            <p className="mt-0.5 text-base font-semibold text-slate-900">{focusShort}</p>
+          <div className="min-w-0">
+            <p className="text-xs text-slate-500">Da migliorare</p>
+            <p className="mt-0.5 truncate text-sm font-semibold text-text-primary">{focusShort}</p>
           </div>
         </div>
-      </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <div className="flex items-start gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
-            <Calendar className="h-4 w-4" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-sm text-slate-500">Questa settimana</p>
-              <span className="text-sm font-semibold tabular-nums text-slate-900">
+        <div className="px-5 py-4">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+              <Calendar className="h-4 w-4" />
+            </div>
+            <div className="flex min-w-0 flex-1 items-center justify-between gap-2">
+              <p className="text-xs text-slate-500">Questa settimana</p>
+              <span className="text-sm font-semibold tabular-nums text-text-primary">
                 {casesThisWeek}/{WEEKLY_GOAL}
               </span>
             </div>
-            <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
-              <div
-                className="h-full rounded-full bg-[#345884] transition-all"
-                style={{ width: `${weekProgress}%` }}
-              />
-            </div>
+          </div>
+          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100">
+            <div
+              className="h-full rounded-full bg-brand-secondary transition-all"
+              style={{ width: `${weekProgress}%` }}
+            />
           </div>
         </div>
       </div>

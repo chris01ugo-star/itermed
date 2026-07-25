@@ -1,6 +1,5 @@
 import type { ElementType } from "react";
-import Link from "next/link";
-import { ArrowRight, Award, Flame, Target } from "lucide-react";
+import { Award, Flame, Target } from "lucide-react";
 
 type OverviewHeroProps = {
   userName?: string | null;
@@ -12,7 +11,7 @@ type OverviewHeroProps = {
   streakDays: number;
 };
 
-function StatCard({
+function StatChip({
   icon: Icon,
   label,
   value,
@@ -22,13 +21,13 @@ function StatCard({
   value: string;
 }) {
   return (
-    <div className="flex min-w-[7.5rem] items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+    <div className="flex min-w-[7.5rem] items-center gap-2.5 rounded-xl border border-border bg-ui-bg/80 px-3.5 py-2.5">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-slate-600 shadow-sm">
         <Icon className="h-4 w-4" />
       </div>
       <div className="min-w-0">
-        <p className="text-xs text-slate-500">{label}</p>
-        <p className="truncate text-lg font-semibold tabular-nums text-slate-900">{value}</p>
+        <p className="text-[10px] uppercase tracking-wide text-slate-500">{label}</p>
+        <p className="truncate text-sm font-semibold tabular-nums text-text-primary">{value}</p>
       </div>
     </div>
   );
@@ -49,44 +48,33 @@ export function OverviewHero({
     hour < 12 ? "Buongiorno" : hour < 18 ? "Buon pomeriggio" : "Buonasera";
 
   return (
-    <header className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-        <div className="max-w-xl space-y-4">
-          <div>
-            <h1 className="font-display text-3xl font-semibold tracking-tight text-slate-900">
-              {greeting}
-              {firstName ? `, ${firstName}` : ""}.
-            </h1>
-            <p className="mt-2 text-base leading-relaxed text-slate-600">
-              {completedCount > 0 ? (
-                <>
-                  Questa settimana: {casesThisWeek}{" "}
-                  {casesThisWeek === 1 ? "caso" : "casi"}. Focus consigliato:{" "}
-                  <span className="font-medium text-slate-800">{focusLabel}</span>.
-                </>
-              ) : (
-                <>Inizia dalla Prassi Clinica: scegli un caso e avvia la simulazione.</>
-              )}
-            </p>
-          </div>
-          <Link
-            href="/dashboard/prassi"
-            className="inline-flex items-center gap-2 rounded-xl bg-[#1E324E] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#2A486D]"
-          >
-            {completedCount > 0 ? "Continua a esercitarti" : "Inizia una simulazione"}
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
+    <header className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="max-w-xl space-y-1.5">
+        <h1 className="font-display text-2xl font-semibold tracking-tight text-text-primary">
+          {greeting}
+          {firstName ? `, ${firstName}` : ""}.
+        </h1>
+        <p className="text-sm leading-relaxed text-slate-500">
+          {completedCount > 0 ? (
+            <>
+              Questa settimana: {casesThisWeek}{" "}
+              {casesThisWeek === 1 ? "caso" : "casi"}. Focus consigliato:{" "}
+              <span className="font-medium text-slate-700">{focusLabel}</span>.
+            </>
+          ) : (
+            <>Inizia dalla Prassi Clinica: scegli un caso e avvia la simulazione.</>
+          )}
+        </p>
+      </div>
 
-        <div className="flex flex-wrap gap-3">
-          <StatCard
-            icon={Award}
-            label="Score"
-            value={iterMedScore != null ? String(iterMedScore) : "—"}
-          />
-          <StatCard icon={Target} label="Focus" value={completedCount > 0 ? focusShort : "—"} />
-          <StatCard icon={Flame} label="Streak" value={`${streakDays}g`} />
-        </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <StatChip
+          icon={Award}
+          label="Score"
+          value={iterMedScore != null ? String(iterMedScore) : "—"}
+        />
+        <StatChip icon={Target} label="Focus" value={completedCount > 0 ? focusShort : "—"} />
+        <StatChip icon={Flame} label="Streak" value={`${streakDays}g`} />
       </div>
     </header>
   );
