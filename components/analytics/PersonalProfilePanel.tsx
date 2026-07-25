@@ -1,13 +1,12 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { UserCircle2 } from "lucide-react";
+import { Award, Clock3, TrendingUp, UserCircle2 } from "lucide-react";
 import type { LeaderboardNameType } from "@prisma/client";
 import type {
   LeaderboardPreferences,
   PersonalPerformanceMetrics,
 } from "@/lib/leaderboard/leaderboard-queries";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 
 type PersonalProfilePanelProps = {
@@ -26,6 +25,15 @@ const VISIBILITY_OPTIONS = [
   { value: "visible" as const, label: "Visibile" },
   { value: "hidden" as const, label: "Nascosto" },
 ];
+
+function StatTile({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg bg-ui-bg/80 px-3 py-2.5">
+      <p className="text-[10px] uppercase tracking-wide text-slate-500">{label}</p>
+      <p className="mt-0.5 text-lg font-semibold tabular-nums text-text-primary">{value}</p>
+    </div>
+  );
+}
 
 export function PersonalProfilePanel({
   metrics,
@@ -81,127 +89,105 @@ export function PersonalProfilePanel({
 
   const percentileText =
     prefs.leaderboardOptIn && metrics.percentileTop != null
-      ? `Ti posizioni nel top ${metrics.percentileTop}% dei medici esaminati`
-      : "Registrati in classifica per calcolare il percentile nazionale";
+      ? `Top ${metrics.percentileTop}% dei medici esaminati`
+      : "Registrati in classifica per il percentile";
 
   return (
-    <Card className="h-full flex flex-col">
-      <CardHeader>
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
-            <UserCircle2 className="h-4 w-4" />
-          </div>
-          <div>
-            <CardTitle>Il tuo Profilo Performance</CardTitle>
-            <CardDescription>
-              Metriche personali aggregate da simulazioni cliniche completate.
-            </CardDescription>
-          </div>
+    <div className="flex h-full flex-col rounded-xl border border-border bg-panel-bg shadow-aequan-panel">
+      <div className="flex items-center gap-2.5 border-b border-border-subtle px-5 py-4">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+          <UserCircle2 className="h-4 w-4" />
         </div>
-      </CardHeader>
-
-      <CardContent className="space-y-4 flex-1">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-clinical border border-zinc-200/60 bg-clinical-bg px-3 py-3">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-              Punteggio medio
-            </p>
-            <p className="mt-1 text-2xl font-semibold text-clinical-navy font-tabular">
-              {metrics.averageScore != null ? metrics.averageScore : "—"}
-              {metrics.averageScore != null ? (
-                <span className="text-sm font-normal text-slate-400"> /30</span>
-              ) : null}
-            </p>
-          </div>
-          <div className="rounded-clinical border border-zinc-200/60 bg-clinical-bg px-3 py-3">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-              Simulazioni
-            </p>
-            <p className="mt-1 text-2xl font-semibold text-clinical-navy font-tabular">
-              {metrics.completedCount}
-            </p>
-          </div>
-        </div>
-
-        <div className="rounded-clinical border border-sky-100 bg-sky-50/40 px-4 py-3">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-clinical-blue/80">
-            Percentile nazionale
+        <div>
+          <h2 className="font-display text-sm font-semibold text-brand-primary">
+            Il tuo Profilo Performance
+          </h2>
+          <p className="mt-0.5 text-xs text-slate-500">
+            Metriche personali aggregate dalle simulazioni completate.
           </p>
-          <p className="mt-1 text-sm font-medium text-clinical-navy leading-snug">{percentileText}</p>
         </div>
+      </div>
 
-        {metrics.clinicalResolutionRate != null ? (
-          <div className="text-xs text-slate-600 border-t border-zinc-200/60 pt-3 space-y-1">
-            <p>
-              Tasso di risoluzione clinica:{" "}
-              <span className="font-semibold text-clinical-navy font-tabular">
-                {metrics.clinicalResolutionRate}%
-              </span>
-            </p>
-            {metrics.averageResolutionMinutes != null ? (
-              <p>
-                Tempo medio di risoluzione:{" "}
-                <span className="font-semibold text-clinical-navy font-tabular">
-                  {metrics.averageResolutionMinutes} min
-                </span>
-              </p>
-            ) : null}
-          </div>
-        ) : null}
-      </CardContent>
-
-      <CardFooter className="mt-auto space-y-3">
-        <div className="space-y-2 w-full">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-            Visibilità in registro
-          </p>
-          <SegmentedControl
-            aria-label="Visibilità profilo in registro"
-            options={VISIBILITY_OPTIONS}
-            value={prefs.leaderboardOptIn ? "visible" : "hidden"}
-            onChange={setVisibility}
-            disabled={isPending}
+      <div className="flex flex-1 flex-col gap-4 px-5 py-4">
+        <div className="grid grid-cols-2 gap-2.5">
+          <StatTile
+            label="Punteggio medio"
+            value={metrics.averageScore != null ? `${metrics.averageScore}/30` : "—"}
+          />
+          <StatTile label="Simulazioni" value={String(metrics.completedCount)} />
+          <StatTile
+            label="Risoluzione clinica"
+            value={metrics.clinicalResolutionRate != null ? `${metrics.clinicalResolutionRate}%` : "—"}
+          />
+          <StatTile
+            label="Tempo medio"
+            value={
+              metrics.averageResolutionMinutes != null ? `${metrics.averageResolutionMinutes} min` : "—"
+            }
           />
         </div>
 
-        {prefs.leaderboardOptIn ? (
-          <div className="space-y-2 w-full">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-              Identità in classifica
+        <div className="inline-flex items-center gap-2 self-start rounded-full bg-brand-primary/[0.06] px-3 py-1.5">
+          <Award className="h-3.5 w-3.5 shrink-0 text-brand-primary" />
+          <span className="text-xs font-medium text-brand-primary">{percentileText}</span>
+        </div>
+
+        <div className="mt-auto flex flex-col divide-y divide-border-subtle overflow-hidden rounded-lg border border-border bg-ui-bg/40">
+          <div className="flex flex-wrap items-center justify-between gap-2.5 px-3 py-2.5">
+            <p className="flex items-center gap-1.5 text-xs font-medium text-text-primary">
+              <TrendingUp className="h-3.5 w-3.5 shrink-0 text-slate-400" /> Visibilità in
+              registro
             </p>
             <SegmentedControl
-              aria-label="Tipo di identità in classifica"
-              options={NAME_OPTIONS}
-              value={prefs.leaderboardNameType}
-              onChange={selectNameType}
+              aria-label="Visibilità profilo in registro"
+              options={VISIBILITY_OPTIONS}
+              value={prefs.leaderboardOptIn ? "visible" : "hidden"}
+              onChange={setVisibility}
               disabled={isPending}
+              fullWidth={false}
             />
-
-            {prefs.leaderboardNameType === "NICKNAME" ? (
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  maxLength={40}
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
-                  placeholder="Nickname"
-                  className="flex-1 rounded-clinical border border-zinc-200/60 px-2.5 py-1.5 text-xs outline-none focus:border-clinical-blue/60"
-                />
-                <button
-                  type="button"
-                  onClick={saveNickname}
-                  disabled={isPending}
-                  className="rounded-clinical border border-clinical-navy bg-clinical-navy px-3 py-1.5 text-[11px] font-medium text-white"
-                >
-                  Salva
-                </button>
-              </div>
-            ) : null}
           </div>
-        ) : null}
 
-        {error ? <p className="text-[11px] text-clinical-rose">{error}</p> : null}
-      </CardFooter>
-    </Card>
+          {prefs.leaderboardOptIn ? (
+            <div className="flex flex-wrap items-center justify-between gap-2.5 px-3 py-2.5">
+              <p className="flex items-center gap-1.5 text-xs font-medium text-text-primary">
+                <Clock3 className="h-3.5 w-3.5 shrink-0 text-slate-400" /> Identità in classifica
+              </p>
+              <SegmentedControl
+                aria-label="Tipo di identità in classifica"
+                options={NAME_OPTIONS}
+                value={prefs.leaderboardNameType}
+                onChange={selectNameType}
+                disabled={isPending}
+                fullWidth={false}
+              />
+            </div>
+          ) : null}
+
+          {prefs.leaderboardOptIn && prefs.leaderboardNameType === "NICKNAME" ? (
+            <div className="flex gap-2 px-3 py-2.5">
+              <input
+                type="text"
+                maxLength={40}
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                placeholder="Nickname"
+                className="flex-1 rounded-lg border border-border bg-white px-2.5 py-1.5 text-xs text-text-primary outline-none focus:border-brand-secondary/60"
+              />
+              <button
+                type="button"
+                onClick={saveNickname}
+                disabled={isPending}
+                className="rounded-lg bg-brand-primary px-3 py-1.5 text-[11px] font-medium text-white transition hover:bg-brand-primary-hover"
+              >
+                Salva
+              </button>
+            </div>
+          ) : null}
+
+          {error ? <p className="px-3 pb-2.5 text-[11px] text-rose-600">{error}</p> : null}
+        </div>
+      </div>
+    </div>
   );
 }

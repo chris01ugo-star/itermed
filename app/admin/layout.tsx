@@ -21,9 +21,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
 
   return (
     <div className="relative flex h-screen w-full overflow-hidden bg-[#F4F6F8] text-text-primary">
-      <aside className="flex h-full w-60 min-w-[15rem] shrink-0 flex-col border-r border-slate-200 bg-white">
-        <DashboardSidebar userLabel={label} isAdmin ssmSpecialties={ssmSpecialties} />
-      </aside>
+      <DashboardSidebar userLabel={label} isAdmin ssmSpecialties={ssmSpecialties} />
       <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <TopBar userLabel={label} />
         <main className="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto p-4">

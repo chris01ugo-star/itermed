@@ -27,11 +27,11 @@ function InfoTile({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center gap-2 rounded-xl bg-slate-50 px-4 py-4 text-center">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white text-[#345884] shadow-sm">
-        <Icon className="h-4 w-4" />
+    <div className="flex flex-col items-center gap-1.5 rounded-xl bg-slate-50 px-3 py-2.5 text-center">
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-[#345884] shadow-sm">
+        <Icon className="h-3.5 w-3.5" />
       </div>
-      <p className="text-xs leading-relaxed text-slate-600">{children}</p>
+      <p className="text-[11px] leading-snug text-slate-600">{children}</p>
     </div>
   );
 }
@@ -48,14 +48,14 @@ function StatTile({
   caption: string;
 }) {
   return (
-    <div className="flex min-w-0 items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
-        <Icon className="h-4 w-4" />
+    <div className="flex min-w-0 items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-3 py-2">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+        <Icon className="h-3.5 w-3.5" />
       </div>
       <div className="min-w-0">
-        <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">{label}</p>
-        <p className="truncate text-lg font-semibold tabular-nums text-slate-900">{value}</p>
-        <p className="truncate text-[11px] text-slate-400">{caption}</p>
+        <p className="text-[10px] font-medium uppercase tracking-wide text-slate-400">{label}</p>
+        <p className="truncate text-sm font-semibold tabular-nums text-slate-900">{value}</p>
+        <p className="truncate text-[10px] text-slate-400">{caption}</p>
       </div>
     </div>
   );
@@ -68,22 +68,22 @@ export function PrassiWelcomeDashboard({ stats }: PrassiWelcomeDashboardProps) {
   const focusShort = stats?.focusShort?.trim() || "Appropriatezza prescrittiva";
 
   return (
-    <div className="flex h-full min-h-0 flex-col justify-center gap-8 py-4">
-      <div className="mx-auto w-full max-w-2xl space-y-6 text-center">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1E324E]/8">
-          <Stethoscope className="h-7 w-7 text-[#1E324E]" strokeWidth={1.75} />
+    <div className="flex h-full min-h-0 flex-col justify-center gap-5 py-1">
+      <div className="mx-auto w-full max-w-2xl space-y-3.5 text-center">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#1E324E]/8">
+          <Stethoscope className="h-6 w-6 text-[#1E324E]" strokeWidth={1.75} />
         </div>
-        <div className="space-y-2">
-          <h2 className="font-display text-xl font-semibold tracking-tight text-slate-900">
+        <div className="space-y-1">
+          <h2 className="font-display text-lg font-semibold tracking-tight text-slate-900">
             Seleziona un caso clinico a sinistra
           </h2>
-          <p className="mx-auto max-w-lg text-sm leading-relaxed text-slate-500">
+          <p className="mx-auto max-w-lg text-xs leading-relaxed text-slate-500">
             La Prassi Clinica è il tuo ambiente di esercitazione medico-legale: dialoga con il
             paziente, richiedi esami e chiudi il caso rispettando linee guida e sostenibilità SSN.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
           <InfoTile icon={Euro}>
             Ogni prescrizione consuma budget SSN e tempo clinico simulato.
           </InfoTile>
@@ -95,14 +95,14 @@ export function PrassiWelcomeDashboard({ stats }: PrassiWelcomeDashboardProps) {
           </InfoTile>
         </div>
 
-        <p className="mx-auto max-w-lg text-xs italic leading-relaxed text-slate-400">
+        <p className="mx-auto max-w-lg text-[11px] italic leading-snug text-slate-400">
           &ldquo;La tutela legale del medico si fonda sull&apos;aderenza rigorosa alle buone
           pratiche clinico-assistenziali e alle linee guida ufficiali&rdquo; — Art. 5, Legge
           24/2017 (Gelli-Bianco)
         </p>
       </div>
 
-      <div className="mx-auto grid w-full max-w-2xl grid-cols-1 gap-3 border-t border-slate-100 pt-6 sm:grid-cols-3">
+      <div className="mx-auto grid w-full max-w-2xl grid-cols-1 gap-2.5 border-t border-slate-100 pt-3.5 sm:grid-cols-3">
         <StatTile
           icon={ClipboardCheck}
           label="Questa settimana"

@@ -13,6 +13,8 @@ type SegmentedControlProps<T extends string> = {
   onChange: (value: T) => void;
   disabled?: boolean;
   className?: string;
+  /** When false, the control sizes itself to its content instead of stretching to fill its parent. Default: true. */
+  fullWidth?: boolean;
   "aria-label"?: string;
 };
 
@@ -23,6 +25,7 @@ export function SegmentedControl<T extends string>({
   onChange,
   disabled,
   className,
+  fullWidth = true,
   "aria-label": ariaLabel,
 }: SegmentedControlProps<T>) {
   return (
@@ -30,7 +33,8 @@ export function SegmentedControl<T extends string>({
       role="tablist"
       aria-label={ariaLabel}
       className={cn(
-        "inline-flex w-full rounded-full border border-slate-200 bg-slate-50 p-1",
+        "inline-flex items-stretch rounded-full border border-slate-200 bg-slate-50 p-1",
+        fullWidth && "w-full",
         disabled && "opacity-60 pointer-events-none",
         className,
       )}
@@ -46,7 +50,8 @@ export function SegmentedControl<T extends string>({
             disabled={disabled}
             onClick={() => onChange(opt.value)}
             className={cn(
-              "flex-1 rounded-full px-2.5 py-1.5 text-[11px] font-medium transition-colors",
+              "whitespace-nowrap rounded-full px-3 py-1.5 text-[11px] font-medium leading-none transition-colors",
+              fullWidth && "flex-1",
               active
                 ? "bg-[#1E324E] text-white shadow-sm"
                 : "text-slate-600 hover:text-[#1E324E]",

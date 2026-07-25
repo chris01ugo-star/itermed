@@ -18,7 +18,11 @@ type DashboardChromeProps = {
 export function DashboardChrome({ userLabel, isAdmin, ssmSpecialties = [], children }: DashboardChromeProps) {
   const pathname = usePathname() ?? "";
   const isImmersivePlay = /\/dashboard\/prassi\/play\//.test(pathname);
-  const hideTopBarSearch = pathname.startsWith("/dashboard/prassi");
+  const hideTopBarSearch =
+    pathname === "/dashboard" ||
+    pathname.startsWith("/dashboard/prassi") ||
+    pathname.startsWith("/dashboard/analytics") ||
+    pathname.startsWith("/dashboard/guidelines");
 
   if (isImmersivePlay) {
     return (
@@ -32,9 +36,7 @@ export function DashboardChrome({ userLabel, isAdmin, ssmSpecialties = [], child
 
   return (
     <div className="relative flex h-screen w-full overflow-hidden bg-[#F4F6F8] text-text-primary">
-      <aside className="flex h-full w-60 min-w-[15rem] shrink-0 flex-col border-r border-slate-200 bg-white">
-        <DashboardSidebar userLabel={userLabel} isAdmin={isAdmin} ssmSpecialties={ssmSpecialties} />
-      </aside>
+      <DashboardSidebar userLabel={userLabel} isAdmin={isAdmin} ssmSpecialties={ssmSpecialties} />
       <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <TopBar userLabel={userLabel} showSearch={!hideTopBarSearch} />
         <main className="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto bg-[#F4F6F8]">

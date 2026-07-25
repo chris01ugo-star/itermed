@@ -21,7 +21,7 @@ export function TopBar({ userLabel, showSearch = true }: TopBarProps) {
   };
 
   return (
-    <div className="flex h-16 shrink-0 items-center gap-4 border-b border-slate-200 bg-white px-6">
+    <div className="relative z-10 flex h-16 shrink-0 items-center gap-4 border-b border-slate-100 bg-white px-6 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
       {showSearch ? (
         <form onSubmit={handleSubmit} className="min-w-0 max-w-md flex-1">
           <div className="relative">
@@ -51,7 +51,7 @@ export function TopBar({ userLabel, showSearch = true }: TopBarProps) {
         >
           <Bell className="h-[18px] w-[18px]" />
         </button>
-        <div className="ml-1 h-8 w-px bg-slate-200" aria-hidden />
+        <div className="ml-1 h-8 w-px bg-slate-100" aria-hidden />
         <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1E324E] text-xs font-semibold text-white">
           {initialsFromLabel(userLabel)}
           <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-500" />
