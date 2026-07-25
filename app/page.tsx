@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation";
+import { LandingPage } from "@/components/marketing/LandingPage";
 
 export default function Home() {
-  // Reindirizza direttamente alla dashboard principale di IterMed.
-  redirect("/dashboard");
+  return <LandingPage />;
 }
