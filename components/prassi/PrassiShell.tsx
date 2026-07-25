@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useMemo, useState, type ReactNode } from "react";
-import { Filter, Search } from "lucide-react";
+import { type ReactNode } from "react";
 import {
-  type CaseDifficulty,
   DIFFICULTY_LABELS,
   displaySpecialtyName,
   isCaseDifficulty,
@@ -59,17 +57,7 @@ function specialtyStyle(label: string) {
   return SPECIALTY_PALETTE[hash % SPECIALTY_PALETTE.length];
 }
 
-const DIFFICULTY_OPTIONS: Array<{ id: CaseDifficulty | "ALL"; label: string }> = [
-  { id: "ALL", label: "Tutte le difficoltà" },
-  { id: "EASY", label: "Facile" },
-  { id: "MEDIUM", label: "Media" },
-  { id: "HARD", label: "Difficile" },
-];
-
 export function PrassiShell({ cases, specialties = [], children }: PrassiShellProps) {
-  const [railQuery, setRailQuery] = useState("");
-  const [railDifficulty, setRailDifficulty] = useState<CaseDifficulty | "ALL">("ALL");
-  const [isRailFilterOpen, setIsRailFilterOpen] = useState(false);
   const pathname = usePathname() ?? "";
   const searchParams = useSearchParams();
   const queryCaseId = searchParams?.get("caseId") ?? null;
@@ -122,20 +110,6 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
   ]
     .filter(Boolean)
     .join("&");
-
-  const railFilteredCases = useMemo(() => {
-    const q = railQuery.trim().toLowerCase();
-    return visibleCases.filter((c) => {
-      if (railDifficulty !== "ALL" && c.difficulty !== railDifficulty) return false;
-      if (!q) return true;
-      const patientLabel = patientDisplayName(c.id, c.title, c.sex);
-      const haystack = [c.title, patientLabel, displaySpecialtyName(c)]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-      return haystack.includes(q);
-    });
-  }, [visibleCases, railQuery, railDifficulty]);
 
   const renderCaseList = (list: ClinicalCaseRow[]) => (
     <div className="scrollbar-aequan min-h-0 flex-1 space-y-4 overflow-y-auto overflow-x-hidden p-3 pt-4 pb-6">
@@ -204,75 +178,10 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
     </div>
   );
 
-  /* Immersive simulation: left case rail + full workspace (mockup layout) */
+  /* Immersive simulation: full-width workspace, no case rail — keeps focus on the active case. */
   if (isPlaying) {
     return (
       <div className="flex h-screen min-h-0 w-full overflow-hidden bg-[#F4F6F8]">
-        <aside className="flex h-full w-[17.5rem] shrink-0 flex-col border-r border-slate-200 bg-white">
-          <div className="shrink-0 border-b border-slate-100 px-4 py-4">
-            <p className="text-sm font-bold text-slate-800">I miei casi</p>
-            <div className="relative mt-3 flex items-center gap-2">
-              <div className="relative min-w-0 flex-1">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
-                <input
-                  type="search"
-                  value={railQuery}
-                  onChange={(e) => setRailQuery(e.target.value)}
-                  placeholder="Cerca un caso…"
-                  aria-label="Cerca un caso tra i miei casi"
-                  className="h-9 w-full rounded-full border border-slate-200 bg-slate-50 pl-8 pr-3 text-xs text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#1E324E]/30 focus:bg-white focus:ring-2 focus:ring-[#1E324E]/10"
-                />
-              </div>
-              <div className="relative shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setIsRailFilterOpen((v) => !v)}
-                  aria-label="Filtra per difficoltà"
-                  aria-expanded={isRailFilterOpen}
-                  className={cn(
-                    "flex h-9 w-9 items-center justify-center rounded-full border transition",
-                    railDifficulty !== "ALL"
-                      ? "border-[#1E324E] bg-[#1E324E] text-white"
-                      : "border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100",
-                  )}
-                >
-                  <Filter className="h-3.5 w-3.5" />
-                </button>
-                {isRailFilterOpen ? (
-                  <div className="absolute right-0 top-11 z-10 w-44 rounded-xl border border-slate-200 bg-white p-1.5 shadow-lg">
-                    {DIFFICULTY_OPTIONS.map((opt) => (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        onClick={() => {
-                          setRailDifficulty(opt.id);
-                          setIsRailFilterOpen(false);
-                        }}
-                        className={cn(
-                          "flex w-full items-center rounded-lg px-2.5 py-1.5 text-left text-xs font-medium transition",
-                          railDifficulty === opt.id
-                            ? "bg-[#1E324E]/10 text-[#1E324E]"
-                            : "text-slate-600 hover:bg-slate-50",
-                        )}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          </div>
-          {renderCaseList(railFilteredCases)}
-          <div className="shrink-0 border-t border-slate-100 p-3">
-            <Link
-              href="/dashboard/prassi"
-              className="flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
-            >
-              Carica altri casi
-            </Link>
-          </div>
-        </aside>
         <div className="scrollbar-aequan min-h-0 min-w-0 flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-4">
           {children}
         </div>

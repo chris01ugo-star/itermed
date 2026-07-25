@@ -38,7 +38,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         className="pointer-events-auto absolute left-1/2 top-0 z-20 flex h-16 items-center"
         style={{ transform: "translateX(calc(-50% + 28px))" }}
       >
-        <AequanLogo height={28} />
+        <AequanLogo height={38} />
       </Link>
     </div>
   );
