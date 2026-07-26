@@ -1,5 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { compare } from "bcryptjs";
 import { config } from "@/lib/config";
 import { prisma } from "@/lib/prisma";
@@ -30,13 +31,58 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
+    // Only registered when both env vars are configured — keeps credentials-only
+    // deployments (and local dev without Google Cloud setup) working untouched.
+    ...(config.GOOGLE_CLIENT_ID && config.GOOGLE_CLIENT_SECRET
+      ? [
+          GoogleProvider({
+            clientId: config.GOOGLE_CLIENT_ID,
+            clientSecret: config.GOOGLE_CLIENT_SECRET,
+          }),
+        ]
+      : []),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async signIn({ user, account }) {
+      // Google users don't go through the credentials `authorize()` flow above,
+      // so we upsert the local User row here (no passwordHash — OAuth-only account).
+      if (account?.provider === "google") {
+        const email = user.email?.toLowerCase().trim();
+        if (!email) return false;
+        await prisma.user.upsert({
+          where: { email },
+          update: { name: user.name ?? undefined },
+          create: {
+            email,
+            name: user.name ?? undefined,
+          },
+        });
+      }
+      return true;
+    },
+    async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
         token.role = (user as { role?: string }).role;
       }
+
+      // For Google sign-ins, `user.id` is the provider's own id, not our DB id —
+      // resolve it via email so the rest of the app (roles, ownership checks) is consistent.
+      if (account?.provider === "google" && token.email) {
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { email: String(token.email).toLowerCase() },
+            select: { id: true, role: true },
+          });
+          if (dbUser) {
+            token.id = dbUser.id;
+            token.role = dbUser.role;
+          }
+        } catch {
+          // Keep whatever we already have if the DB is temporarily unavailable.
+        }
+      }
+
       if (!token.id && token.sub) {
         token.id = token.sub;
       }

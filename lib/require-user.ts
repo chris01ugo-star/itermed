@@ -21,7 +21,7 @@ const DEV_MOCK_USER: SessionUser = {
 export const SANDBOX_TEST_USER_ID = "cl-tester-999";
 
 export function isDevAuthBypass(): boolean {
-  return config.isDevelopment;
+  return config.isDevelopment && config.DEV_AUTH_BYPASS;
 }
 
 export function getDevMockUser(): SessionUser {

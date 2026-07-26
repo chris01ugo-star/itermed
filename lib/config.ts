@@ -60,6 +60,15 @@ const envSchema = z
     AUTH_SECRET: z.string().min(1).optional(),
     NEXTAUTH_URL: z.string().url("NEXTAUTH_URL must be a valid URL").optional(),
     NEXT_PUBLIC_APP_URL: z.string().url("NEXT_PUBLIC_APP_URL must be a valid URL").optional(),
+    GOOGLE_CLIENT_ID: z.string().min(1).optional(),
+    GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
+    /** Dev-only convenience: auto-authenticate every request as an admin mock user.
+     *  Defaults to enabled in development; set to "false" to exercise the real
+     *  login/logout flow locally (e.g. while testing auth changes). */
+    DEV_AUTH_BYPASS: z
+      .string()
+      .optional()
+      .transform((value) => value !== "false"),
     ITERMED_BOOTSTRAP_DEMO: z
       .string()
       .optional()
@@ -164,6 +173,10 @@ function buildConfigFromParsed(env: z.infer<typeof envSchema>) {
     PINECONE_INDEX: env.PINECONE_INDEX,
     AUTH_SECRET: authSecret ?? DEV_AUTH_SECRET_PLACEHOLDER,
     NEXTAUTH_URL: nextAuthUrl ?? appUrl ?? DEV_APP_URL_FALLBACK,
+    GOOGLE_CLIENT_ID: env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: env.GOOGLE_CLIENT_SECRET,
+    isGoogleAuthConfigured: Boolean(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET),
+    DEV_AUTH_BYPASS: env.DEV_AUTH_BYPASS,
     ITERMED_BOOTSTRAP_DEMO: env.ITERMED_BOOTSTRAP_DEMO,
     STRIPE_SECRET_KEY: env.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: env.STRIPE_WEBHOOK_SECRET,
@@ -235,6 +248,12 @@ function loadDevFallbackConfig(
       envInput.AUTH_SECRET?.trim() ||
       DEV_AUTH_SECRET_PLACEHOLDER,
     NEXTAUTH_URL: nextAuthUrl,
+    GOOGLE_CLIENT_ID: envInput.GOOGLE_CLIENT_ID?.trim() || undefined,
+    GOOGLE_CLIENT_SECRET: envInput.GOOGLE_CLIENT_SECRET?.trim() || undefined,
+    isGoogleAuthConfigured: Boolean(
+      envInput.GOOGLE_CLIENT_ID?.trim() && envInput.GOOGLE_CLIENT_SECRET?.trim(),
+    ),
+    DEV_AUTH_BYPASS: envInput.DEV_AUTH_BYPASS !== "false",
     ITERMED_BOOTSTRAP_DEMO: envInput.ITERMED_BOOTSTRAP_DEMO === "true",
     STRIPE_SECRET_KEY: envInput.STRIPE_SECRET_KEY?.trim() || undefined,
     STRIPE_WEBHOOK_SECRET: envInput.STRIPE_WEBHOOK_SECRET?.trim() || undefined,

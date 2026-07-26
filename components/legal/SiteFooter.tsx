@@ -5,7 +5,7 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-slate-200/80 bg-white/90">
+    <footer className="site-footer border-t border-slate-200/80 bg-white/90">
       <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-4 py-6 text-center sm:flex-row sm:text-left">
         <p className="text-[11px] text-slate-500">
           © {year} Aequan · Simulatore formativo medico-legale (solo uso educativo)
