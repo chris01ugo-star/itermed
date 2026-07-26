@@ -2,6 +2,7 @@
 
 import { Lightbulb } from "lucide-react";
 import { cn } from "@/app/utils/cn";
+import { PRASSI_TONE } from "@/lib/ui/prassi-pastels";
 
 type LiveCoachingPanelProps = {
   score: number;
@@ -10,11 +11,7 @@ type LiveCoachingPanelProps = {
   className?: string;
 };
 
-function barColor(tone: "good" | "warn" | "risk" = "good") {
-  if (tone === "risk") return "bg-rose-500";
-  if (tone === "warn") return "bg-amber-400";
-  return "bg-emerald-500";
-}
+const COACHING_BLUE = "#345884";
 
 export function LiveCoachingPanel({
   score,
@@ -23,8 +20,9 @@ export function LiveCoachingPanel({
   className,
 }: LiveCoachingPanelProps) {
   const clamped = Math.max(0, Math.min(100, score));
-  const circumference = 2 * Math.PI * 34;
+  const circumference = 2 * Math.PI * 32;
   const offset = circumference * (1 - clamped / 100);
+  const track = "#E8ECF1";
 
   return (
     <div
@@ -36,56 +34,71 @@ export function LiveCoachingPanel({
       <div className="border-b border-slate-100 px-4 py-3">
         <p className="text-sm font-semibold text-slate-800">Coaching in tempo reale</p>
       </div>
-      <div className="flex items-center gap-4 px-4 py-4">
-        <div className="relative flex h-20 w-20 shrink-0 items-center justify-center">
-          <svg className="h-20 w-20 -rotate-90" viewBox="0 0 76 76" aria-hidden>
-            <circle cx="38" cy="38" r="34" fill="none" stroke="#E2E8F0" strokeWidth="6" />
+
+      <div className="flex items-center gap-5 px-4 py-4">
+        <div className="relative flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center">
+          <svg className="h-full w-full -rotate-90" viewBox="0 0 72 72" aria-hidden>
+            <circle cx="36" cy="36" r="32" fill="none" stroke={track} strokeWidth="5" />
             <circle
-              cx="38"
-              cy="38"
-              r="34"
+              cx="36"
+              cy="36"
+              r="32"
               fill="none"
-              stroke="#1E324E"
-              strokeWidth="6"
+              stroke={COACHING_BLUE}
+              strokeWidth="5"
               strokeLinecap="round"
               strokeDasharray={circumference}
               strokeDashoffset={offset}
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-xl font-bold tabular-nums leading-none text-slate-900">
+            <span className="text-lg font-bold tabular-nums leading-none text-slate-800">
               {clamped}
             </span>
-            <span className="text-xs text-slate-400">/100</span>
+            <span className="mt-0.5 text-[10px] text-slate-400">/100</span>
           </div>
         </div>
-        <div className="min-w-0 flex-1 space-y-2.5">
+
+        <div className="min-w-0 flex-1 divide-y divide-slate-100">
           {metrics.map((m) => (
-            <div key={m.label}>
+            <div key={m.label} className="py-2 first:pt-0 last:pb-0">
               <div className="mb-1 flex items-center justify-between gap-2">
-                <span className="truncate text-sm text-slate-600">{m.label}</span>
-                <span className="shrink-0 text-xs font-semibold tabular-nums text-slate-700">
+                <span className="truncate text-[13px] text-slate-600">{m.label}</span>
+                <span className="shrink-0 text-[11px] font-semibold tabular-nums text-slate-500">
                   {Math.round(m.value)}
                 </span>
               </div>
-              <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+              <div className="h-2 overflow-hidden rounded-full bg-slate-100">
                 <div
-                  className={cn("h-full rounded-full", barColor(m.tone))}
-                  style={{ width: `${Math.max(0, Math.min(100, m.value))}%` }}
+                  className="h-full rounded-full transition-[width]"
+                  style={{
+                    width: `${Math.max(0, Math.min(100, m.value))}%`,
+                    backgroundColor: COACHING_BLUE,
+                  }}
                 />
               </div>
             </div>
           ))}
         </div>
       </div>
+
       {tip ? (
-        <div className="border-t border-slate-100 bg-[#1E324E]/[0.04] px-4 py-3">
-          <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-[#1E324E]/70">
-            Suggerimento
-          </p>
+        <div
+          className="border-t border-slate-100 px-4 py-3"
+          style={{ backgroundColor: `${PRASSI_TONE.blue.fill}B3` }}
+        >
           <div className="flex items-start gap-2">
-            <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-[#345884]" />
-            <p className="text-sm leading-relaxed text-slate-700">{tip}</p>
+            <Lightbulb
+              className="mt-0.5 h-3.5 w-3.5 shrink-0"
+              style={{ color: PRASSI_TONE.blue.accent }}
+              strokeWidth={1.75}
+            />
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                Suggerimento
+              </p>
+              <p className="mt-0.5 text-sm leading-relaxed text-slate-600">{tip}</p>
+            </div>
           </div>
         </div>
       ) : null}

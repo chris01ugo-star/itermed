@@ -12,6 +12,7 @@ import { cn } from "@/app/utils/cn";
 import type { ClinicalCaseRow } from "@/components/dashboard/ClinicalCaseCard";
 import { CaseFilters } from "@/components/dashboard/CaseFilters";
 import { estimateAgeFromTitle, patientDisplayName } from "@/lib/prassi/demo-vitals";
+import { PRASSI_PASTELS } from "@/lib/ui/prassi-pastels";
 
 type SpecialtyOption = {
   id: string;
@@ -33,28 +34,12 @@ function conditionFromTitle(title?: string | null): string {
   return stripped.charAt(0).toUpperCase() + stripped.slice(1);
 }
 
-/**
- * Very light, sober pastel fill for the whole folder-shaped card — one per
- * department family. Deliberately custom hex (not named Tailwind colours) so
- * it never inherits the app's global colour remaps. Same specialty name →
- * always the same pastel.
- */
-const SPECIALTY_PALETTE: Array<{ fill: string; border: string }> = [
-  { fill: "#EEF2F9", border: "#DCE4F0" }, // pale blue
-  { fill: "#EAF6F1", border: "#D7EDE3" }, // pale mint
-  { fill: "#FDF3E5", border: "#F8E4C4" }, // pale peach
-  { fill: "#FBEDEF", border: "#F3D9DE" }, // pale blush
-  { fill: "#F0ECFB", border: "#E1D8F5" }, // pale lavender
-  { fill: "#E9F4F7", border: "#D5E9EF" }, // pale sky
-  { fill: "#F2F0ED", border: "#E5E1DA" }, // pale sand
-];
-
 function specialtyStyle(label: string) {
   let hash = 0;
   for (let i = 0; i < label.length; i += 1) {
     hash = (hash * 31 + label.charCodeAt(i)) >>> 0;
   }
-  return SPECIALTY_PALETTE[hash % SPECIALTY_PALETTE.length];
+  return PRASSI_PASTELS[hash % PRASSI_PASTELS.length];
 }
 
 export function PrassiShell({ cases, specialties = [], children }: PrassiShellProps) {

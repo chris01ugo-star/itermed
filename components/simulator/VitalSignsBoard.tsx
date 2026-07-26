@@ -13,6 +13,7 @@ import {
   type VitalStatus,
 } from "@/lib/clinical/vital-status";
 import { cn } from "@/app/utils/cn";
+import { PRASSI_TONE } from "@/lib/ui/prassi-pastels";
 import {
   Activity,
   Droplets,
@@ -40,26 +41,12 @@ const VITAL_ICONS: Record<string, LucideIcon> = {
   temp: Thermometer,
 };
 
-function findingTextTone(status: VitalStatus) {
-  switch (status) {
-    case "critical":
-      return "text-rose-600";
-    case "borderline":
-      return "text-amber-600";
-    default:
-      return "text-slate-400";
-  }
-}
+/** Same red as Termina caso / Paziente instabile. */
+const ALERT_RED = PRASSI_TONE.blush.accent;
 
-function iconTone(status: VitalStatus) {
-  switch (status) {
-    case "critical":
-      return "text-rose-500";
-    case "borderline":
-      return "text-amber-500";
-    default:
-      return "text-[#345884]";
-  }
+function findingColor(status: VitalStatus): string {
+  if (status === "stable") return "#94A3B8";
+  return ALERT_RED;
 }
 
 export function VitalSignsBoard({
@@ -101,10 +88,20 @@ export function VitalSignsBoard({
             </p>
           </div>
           <span
-            className={cn(
-              "inline-flex shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold uppercase tracking-wide",
-              unstable ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600",
-            )}
+            className="inline-flex shrink-0 items-center rounded-lg px-2.5 py-1 text-xs font-semibold uppercase tracking-wide"
+            style={
+              unstable
+                ? {
+                    backgroundColor: PRASSI_TONE.blush.fill,
+                    color: ALERT_RED,
+                    border: `1px solid ${PRASSI_TONE.blush.border}`,
+                  }
+                : {
+                    backgroundColor: "#F1F5F9",
+                    color: "#64748B",
+                    border: "1px solid #E2E8F0",
+                  }
+            }
           >
             {unstable ? "Instabile" : vitalStatusLabel(overall)}
           </span>
@@ -122,8 +119,8 @@ export function VitalSignsBoard({
               title={`${vital.fullLabel}: ${vital.value} ${vital.unit}`}
             >
               <div className="flex items-center gap-1.5">
-                <Icon className={cn("h-4 w-4 shrink-0", iconTone(vital.status))} />
-                <span className="text-sm font-semibold text-slate-500">{vital.label}</span>
+                <Icon className="h-4 w-4 shrink-0 text-slate-600" strokeWidth={1.75} />
+                <span className="text-sm font-semibold text-slate-700">{vital.label}</span>
               </div>
               <p className="text-2xl font-bold tabular-nums leading-none text-slate-900 md:text-[1.75rem]">
                 {vital.value}
@@ -132,7 +129,10 @@ export function VitalSignsBoard({
               <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
                 {vital.id === "spo2" ? "aria ambiente" : vital.unit}
               </p>
-              <p className={cn("text-xs font-bold uppercase tracking-wide", findingTextTone(vital.status))}>
+              <p
+                className="text-xs font-bold uppercase tracking-wide"
+                style={{ color: findingColor(vital.status) }}
+              >
                 {finding}
               </p>
             </div>

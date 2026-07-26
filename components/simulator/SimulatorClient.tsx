@@ -1,6 +1,6 @@
 "use client";
 
-import { type ComponentType, type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useChat } from "ai/react";
@@ -8,7 +8,6 @@ import {
   Activity,
   ArrowLeft,
   BookOpen,
-  Building2,
   CheckCheck,
   FlaskConical,
   Clock,
@@ -16,14 +15,10 @@ import {
   FolderOpen,
   HelpCircle,
   MessageCircle,
-  Microscope,
   Pause,
   Play,
-  ScanLine,
-  Search,
   Send,
   Sparkles,
-  TestTube2,
   User,
   X,
 } from "lucide-react";
@@ -47,12 +42,15 @@ import { PatientStressBar } from "./PatientStressBar";
 import { SafeLlmText } from "@/components/ui/safe-llm-content";
 import { SkeletonChatBubble } from "@/components/ui/Skeleton";
 import { VitalSignsBoard } from "./VitalSignsBoard";
-import { SimulationProcessStepper } from "./SimulationProcessStepper";
+import { ExamReportRecap } from "./ExamReportRecap";
+import { DiagnosticCategoryPanel } from "./DiagnosticCategoryPanel";
 import {
   SessionEventTimeline,
   type SessionTimelineEvent,
 } from "./SessionEventTimeline";
 import { LiveCoachingPanel } from "./LiveCoachingPanel";
+import { SessionSideMetrics } from "./SessionSideMetrics";
+import { PRASSI_TONE } from "@/lib/ui/prassi-pastels";
 import {
   ClinicalDischargeReportPanel,
   composeClinicalReport,
@@ -337,6 +335,7 @@ export function SimulatorClient({
   const selectedExamIdsRef = useRef<string[]>([]);
   const [isPatientChartOpen, setIsPatientChartOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isDischargeOpen, setIsDischargeOpen] = useState(false);
   const [patientChartTab, setPatientChartTab] = useState<"base" | "referto">("base");
 
   const [examFindings, setExamFindings] = useState<
@@ -846,25 +845,6 @@ export function SimulatorClient({
     return 1;
   }, [activeTab, examFindings, gameStatus, messages, reportSections, selectedExamIds.length]);
 
-  const [stepTimes, setStepTimes] = useState<Record<number, string>>({});
-  useEffect(() => {
-    const label = new Date().toLocaleTimeString("it-IT", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    setStepTimes((prev) => {
-      const next = { ...prev };
-      let changed = false;
-      for (let step = 1; step <= processStep; step++) {
-        if (!next[step]) {
-          next[step] = label;
-          changed = true;
-        }
-      }
-      return changed ? next : prev;
-    });
-  }, [processStep]);
-
   const sessionTimelineEvents = useMemo((): SessionTimelineEvent[] => {
     const sessionStartMs = Date.now() - elapsedSeconds * 1000;
     const wallClockAt = (secondsOffset: number) =>
@@ -1315,33 +1295,28 @@ export function SimulatorClient({
         }
       >
         {embedded ? (
-          <header className="flex w-full min-w-0 flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-3.5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex min-w-0 items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#1E324E]/8 text-[#1E324E]">
-                <Building2 className="h-5 w-5" />
-              </span>
-              <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
-                  <p className="truncate text-sm font-bold text-slate-900">
-                    {patient.context?.trim() &&
-                    patient.context.trim().toLowerCase() !== "pronto soccorso"
-                      ? patient.context.trim()
-                      : "Ospedale San Carlo"}
-                  </p>
-                  <span className="inline-flex shrink-0 items-center rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-600">
-                    Pronto Soccorso
-                  </span>
-                </div>
-                <span className="mt-0.5 inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700">
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
-                  Sessione attiva
+          <header className="grid w-full min-w-0 grid-cols-1 gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-center lg:gap-3 lg:px-5">
+            <div className="min-w-0">
+              <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+                <p className="truncate text-sm font-semibold text-slate-800">
+                  {patient.context?.trim() &&
+                  patient.context.trim().toLowerCase() !== "pronto soccorso"
+                    ? patient.context.trim()
+                    : "Ospedale San Carlo"}
+                </p>
+                <span className="inline-flex shrink-0 items-center rounded-md bg-slate-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                  Pronto Soccorso
                 </span>
               </div>
+              <span className="mt-0.5 inline-flex items-center gap-1.5 text-[11px] font-medium text-[#345884]">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#345884]" />
+                Sessione attiva
+              </span>
             </div>
 
-            <div className="flex shrink-0 items-center gap-2.5 self-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-[#1E324E] shadow-sm">
-                <Clock className="h-4 w-4" />
+            <div className="flex shrink-0 items-center justify-center gap-2.5 justify-self-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-slate-500 shadow-sm">
+                <Clock className="h-4 w-4" strokeWidth={1.75} />
               </span>
               <div className="leading-tight">
                 <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
@@ -1353,15 +1328,15 @@ export function SimulatorClient({
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+            <div className="flex flex-wrap items-center gap-1 lg:justify-self-end">
               <button
                 type="button"
                 onClick={() => {
                   document.getElementById("aequan-sim-chat")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
               >
-                <MessageCircle className="h-4 w-4" />
+                <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
                 Dialogo guidato
               </button>
               <button
@@ -1369,31 +1344,48 @@ export function SimulatorClient({
                 onClick={() => setIsPaused((v) => !v)}
                 aria-pressed={isPaused}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-2.5 text-sm font-medium transition",
+                  "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium transition",
                   isPaused
-                    ? "border-amber-300 bg-amber-50 text-amber-800 hover:bg-amber-100"
-                    : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50",
+                    ? "hover:brightness-[0.98]"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-800",
                 )}
+                style={
+                  isPaused
+                    ? {
+                        backgroundColor: PRASSI_TONE.peach.fill,
+                        color: PRASSI_TONE.peach.accent,
+                      }
+                    : undefined
+                }
               >
-                {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+                {isPaused ? (
+                  <Play className="h-3.5 w-3.5" strokeWidth={1.75} />
+                ) : (
+                  <Pause className="h-3.5 w-3.5" strokeWidth={1.75} />
+                )}
                 {isPaused ? "Riprendi" : "Interruzione"}
               </button>
+              <span className="mx-0.5 hidden h-4 w-px bg-slate-200 sm:block" aria-hidden />
               {persistReports && disclaimerAccepted ? (
                 <button
                   type="button"
                   disabled={dismissLoading}
                   onClick={handleDismissCase}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-rose-600 px-3.5 py-2.5 text-sm font-semibold text-white transition hover:bg-rose-700 disabled:opacity-60"
+                  className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] font-semibold transition hover:brightness-[0.98] disabled:opacity-60"
+                  style={{
+                    backgroundColor: PRASSI_TONE.blush.fill,
+                    color: PRASSI_TONE.blush.accent,
+                  }}
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-3.5 w-3.5" strokeWidth={1.75} />
                   {dismissLoading ? "Uscita…" : "Termina caso"}
                 </button>
               ) : (
                 <Link
                   href={backHref}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                  className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-800"
                 >
-                  <ArrowLeft className="h-4 w-4" />
+                  <ArrowLeft className="h-3.5 w-3.5" strokeWidth={1.75} />
                   Esci
                 </Link>
               )}
@@ -1401,8 +1393,14 @@ export function SimulatorClient({
           </header>
         ) : null}
         {embedded && isPaused ? (
-          <div className="flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-medium text-amber-800">
-            <Pause className="h-4 w-4" />
+          <div
+            className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium"
+            style={{
+              backgroundColor: PRASSI_TONE.peach.fill,
+              color: PRASSI_TONE.peach.accent,
+            }}
+          >
+            <Pause className="h-4 w-4" strokeWidth={1.75} />
             Simulazione in pausa — i timer sono fermi. Premi &quot;Riprendi&quot; per continuare.
           </div>
         ) : null}
@@ -1460,7 +1458,7 @@ export function SimulatorClient({
               <div className="flex w-full min-w-0 flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
                 <div className="flex min-w-0 items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <h1 className="truncate font-display text-base font-bold tracking-tight text-slate-900 sm:text-lg">
+                    <h1 className="truncate font-display text-base font-bold tracking-tight text-slate-800 sm:text-lg">
                       {initialCaseData.title}
                     </h1>
                     <p className="mt-1 truncate text-xs text-slate-500">
@@ -1476,13 +1474,33 @@ export function SimulatorClient({
                       (v) => v.status,
                     ),
                   ) !== "stable" ? (
-                    <span className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-rose-50 px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wide text-rose-600 ring-1 ring-rose-200">
-                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-rose-500" />
+                    <span
+                      className="inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wide"
+                      style={{
+                        backgroundColor: PRASSI_TONE.blush.fill,
+                        color: PRASSI_TONE.blush.accent,
+                        border: `1px solid ${PRASSI_TONE.blush.border}`,
+                      }}
+                    >
+                      <span
+                        className="h-1.5 w-1.5 animate-pulse rounded-full"
+                        style={{ backgroundColor: PRASSI_TONE.blush.accent }}
+                      />
                       Paziente instabile
                     </span>
                   ) : (
-                    <span className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-emerald-50 px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wide text-emerald-600 ring-1 ring-emerald-200">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    <span
+                      className="inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wide"
+                      style={{
+                        backgroundColor: PRASSI_TONE.mint.fill,
+                        color: PRASSI_TONE.mint.accent,
+                        border: `1px solid ${PRASSI_TONE.mint.border}`,
+                      }}
+                    >
+                      <span
+                        className="h-1.5 w-1.5 rounded-full"
+                        style={{ backgroundColor: PRASSI_TONE.mint.accent }}
+                      />
                       Stabile
                     </span>
                   )}
@@ -1499,12 +1517,20 @@ export function SimulatorClient({
                 />
               </div>
 
-              <SimulationProcessStepper activeStep={processStep} stepTimes={stepTimes} />
+              <ExamReportRecap
+                exams={selectedExamsRecentFirst}
+                objectiveFindings={objectiveFindingsRecentFirst}
+                examCatalog={examCatalog}
+                caseExamValues={caseAdvancedExamValues}
+                examMacroCatalog={examMacroCatalog}
+              />
 
-              <div className="grid min-h-0 grid-cols-1 gap-3 xl:grid-cols-2">
+              <div className="grid min-h-0 grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_20rem]">
                 <div className="flex min-h-[26rem] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                  <div className="flex shrink-0 items-center gap-2 border-b border-slate-100 px-4 py-3">
-                    <MessageCircle className="h-4 w-4 text-slate-400" />
+                  <div className="flex shrink-0 items-center gap-2.5 border-b border-slate-100 px-4 py-3">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#EEF2F9] text-[#345884]">
+                      <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                    </span>
                     <p className="text-sm font-semibold text-slate-800">Dialogo con il paziente</p>
                   </div>
                   <div className="flex min-h-0 flex-1 flex-col p-3">
@@ -1519,9 +1545,12 @@ export function SimulatorClient({
                     />
                   </div>
                 </div>
-                <SessionEventTimeline
-                  events={sessionTimelineEvents}
-                  className="min-h-[26rem]"
+                <SessionSideMetrics
+                  totalCost={totalCost}
+                  patientStress={patientStress}
+                  reportReady={isClinicalReportComplete(reportSections)}
+                  onOpenDischarge={() => setIsDischargeOpen(true)}
+                  className="xl:min-h-[26rem]"
                 />
               </div>
             </div>
@@ -1630,24 +1659,22 @@ export function SimulatorClient({
                     />
                   </TabsContent>
                   <TabsContent value="labs" currentValue={activeTab} className="mt-3 w-full min-w-0">
-                    <ExamsPanel
+                    <DiagnosticCategoryPanel
                       selectedExamIds={selectedExamIds}
                       onToggleExam={toggleExam}
                       caseExamValues={caseAdvancedExamValues}
                       examCatalog={examCatalog}
                       examMacroCatalog={examMacroCatalog}
-                      availableExams={availableExams}
                       macroFilter={["lab"]}
                     />
                   </TabsContent>
                   <TabsContent value="imaging" currentValue={activeTab} className="mt-3 w-full min-w-0">
-                    <ExamsPanel
+                    <DiagnosticCategoryPanel
                       selectedExamIds={selectedExamIds}
                       onToggleExam={toggleExam}
                       caseExamValues={caseAdvancedExamValues}
                       examCatalog={examCatalog}
                       examMacroCatalog={examMacroCatalog}
-                      availableExams={availableExams}
                       macroFilter={["img", "strum", "endo"]}
                     />
                   </TabsContent>
@@ -1722,9 +1749,9 @@ export function SimulatorClient({
                       onValueChange={(value) => setActiveTab(value as typeof activeTab)}
                     >
                       <TabsContent value="history" currentValue={activeTab} className="mt-0">
-                        <div className="space-y-4">
-                          <div>
-                            <p className="text-xs font-bold uppercase tracking-wide text-slate-500">
+                        <div className="space-y-2">
+                          <div className="rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-3">
+                            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
                               Anamnesi iniziale
                             </p>
                             <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
@@ -1733,23 +1760,25 @@ export function SimulatorClient({
                                 "Usa il dialogo al centro per raccogliere l'anamnesi."}
                             </p>
                           </div>
-                          <div>
-                            <p className="text-xs font-bold uppercase tracking-wide text-slate-500">
-                              Storia clinica
-                            </p>
-                            <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
-                              {expectedConditionText && isAdmin
-                                ? expectedConditionText
-                                : "Nessuna patologia nota."}
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-xs font-bold uppercase tracking-wide text-slate-500">
-                              Allergie
-                            </p>
-                            <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
-                              Nessuna allergia nota.
-                            </p>
+                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                            <div className="rounded-xl border border-slate-200 bg-white px-3.5 py-3">
+                              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                                Storia clinica
+                              </p>
+                              <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
+                                {expectedConditionText && isAdmin
+                                  ? expectedConditionText
+                                  : "Nessuna patologia nota."}
+                              </p>
+                            </div>
+                            <div className="rounded-xl border border-slate-200 bg-white px-3.5 py-3">
+                              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                                Allergie
+                              </p>
+                              <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
+                                Nessuna allergia nota.
+                              </p>
+                            </div>
                           </div>
                         </div>
                         <button
@@ -1772,25 +1801,23 @@ export function SimulatorClient({
                           onExamResult={handleExamFinding}
                         />
                       </TabsContent>
-                      <TabsContent value="labs" currentValue={activeTab} className="scrollbar-aequan mt-0 max-h-64 overflow-y-auto">
-                        <ExamsPanel
+                      <TabsContent value="labs" currentValue={activeTab} className="mt-0">
+                        <DiagnosticCategoryPanel
                           selectedExamIds={selectedExamIds}
                           onToggleExam={toggleExam}
                           caseExamValues={caseAdvancedExamValues}
                           examCatalog={examCatalog}
                           examMacroCatalog={examMacroCatalog}
-                          availableExams={availableExams}
                           macroFilter={["lab"]}
                         />
                       </TabsContent>
-                      <TabsContent value="imaging" currentValue={activeTab} className="scrollbar-aequan mt-0 max-h-64 overflow-y-auto">
-                        <ExamsPanel
+                      <TabsContent value="imaging" currentValue={activeTab} className="mt-0">
+                        <DiagnosticCategoryPanel
                           selectedExamIds={selectedExamIds}
                           onToggleExam={toggleExam}
                           caseExamValues={caseAdvancedExamValues}
                           examCatalog={examCatalog}
                           examMacroCatalog={examMacroCatalog}
-                          availableExams={availableExams}
                           macroFilter={["img", "strum", "endo"]}
                         />
                       </TabsContent>
@@ -1811,6 +1838,7 @@ export function SimulatorClient({
                   metrics={liveCoaching.metrics}
                   tip={liveCoaching.tip}
                 />
+                <SessionEventTimeline events={sessionTimelineEvents} compact />
               </>
             ) : null}
 
@@ -2087,200 +2115,195 @@ export function SimulatorClient({
         </div>
 
         {embedded ? (
-          <div className="flex w-full min-w-0 flex-col gap-4">
-            <div className="grid gap-3 sm:grid-cols-3">
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-                <p className="text-sm font-medium text-slate-500">Esami richiesti</p>
-                <p className="mt-1 text-base font-semibold text-slate-900">
-                  {selectedExams.length > 0
-                    ? `${selectedExams.length} ${selectedExams.length === 1 ? "esame" : "esami"}`
-                    : "Nessuno"}
-                </p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-                <p className="text-sm font-medium text-slate-500">Costo SSN</p>
-                <p className="mt-1 text-base font-semibold tabular-nums text-slate-900">
-                  €{totalCost.toFixed(0)}
-                  <span className="text-sm font-normal text-slate-400"> / 250</span>
-                </p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-                <p className="mb-2 text-sm font-medium text-slate-500">Stress paziente</p>
-                <PatientStressBar value={patientStress} />
-              </div>
-            </div>
-
-            <Card
-              id="aequan-sim-conclusion"
-              className="w-full min-w-0 overflow-x-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
-            >
-              <CardHeader className="border-b border-slate-100">
-                <CardTitle className="text-lg font-semibold text-slate-900">
-                  Referto di dimissione
-                </CardTitle>
-                <CardDescription className="text-sm text-slate-500">
-                  Compila le tre sezioni e conferma la diagnosi per chiudere il caso.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 pt-4 text-sm">
-                {gameStatus === "playing" && (
-                  <div className="space-y-4">
-                    {isAdmin && debugTargetCondition && (
-                      <div className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-sm text-amber-900">
-                        <span className="font-medium">Debug – patologia target:</span>{" "}
-                        {debugTargetCondition}
-                      </div>
-                    )}
-                    <ClinicalDischargeReportPanel
-                      sections={reportSections}
-                      onChange={setReportSections}
-                      onConfirm={confirmDiagnosis}
-                      confirmDisabled={!isClinicalReportComplete(reportSections)}
-                      isAdminExtras={
-                        isAdmin ? (
-                          <div className="flex items-center justify-end">
-                            <button
-                              type="button"
-                              onClick={() => setForceAiSurprise((v) => !v)}
-                              className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors ${
-                                forceAiSurprise
-                                  ? "border-amber-200 bg-amber-50 text-amber-900"
-                                  : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
-                              }`}
-                            >
-                              {forceAiSurprise ? "Forza imprevisto: ON" : "Forza imprevisto: OFF"}
-                            </button>
-                          </div>
-                        ) : undefined
-                      }
-                    />
-                  </div>
-                )}
-
-                {gameStatus === "checking_diagnosis" && (
-                  <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-slate-700">
-                    <span className="inline-flex items-center gap-2">
-                      <Activity className="h-4 w-4 animate-spin text-[#345884]" />
-                      Verifica diagnosi in corso…
-                    </span>
-                  </div>
-                )}
-
-                {(gameStatus === "wrong_diagnosis" ||
-                  gameStatus === "success" ||
-                  gameStatus === "complication") && (
-                  <div className="space-y-3">
-                    {gameStatus === "wrong_diagnosis" && (
-                      <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2.5 text-rose-800">
-                        Diagnosi errata. Il trattamento ha peggiorato il quadro.
-                      </div>
-                    )}
-                    {gameStatus === "success" && (
-                      <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-800">
-                        Diagnosi corretta. Puoi generare il report finale.
-                      </div>
-                    )}
-                    {gameStatus === "complication" && (
-                      <div className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-amber-900">
-                        Diagnosi corretta, ma è comparsa una complicazione improvvisa.
-                      </div>
-                    )}
-                    <div className="flex justify-end gap-2">
-                      {gameStatus === "complication" ? (
-                        <Button
-                          type="button"
-                          size="md"
-                          className="rounded-xl bg-[#1E324E] px-4 text-sm text-white hover:bg-[#2A486D]"
-                          onClick={async () => {
-                            if (isStartingEmergency) return;
-                            setIsStartingEmergency(true);
-                            try {
-                              const sid = await ensureSessionId();
-                              if (!sid) return;
-                              await fetch("/api/session/complication", {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                  sessionId: sid,
-                                  caseId: initialCaseData.id,
-                                  basePatientPrompt: initialCaseData.patientPrompt,
-                                  complication: "anaphylaxis",
-                                }),
-                              });
-                              setDebugTargetCondition("Anafilassi / reazione allergica grave");
-                              setFinalDiagnosis("");
-                              setReportSections({
-                                anamnesisObjective: "",
-                                diagnosticFindings: "",
-                                diagnosisTreatment: "",
-                              });
-                              setGameStatus("playing");
-                            } finally {
-                              setIsStartingEmergency(false);
-                            }
-                          }}
-                          disabled={isStartingEmergency}
-                        >
-                          {isStartingEmergency ? "Avvio…" : "Gestisci emergenza"}
-                        </Button>
-                      ) : (
-                        <Button
-                          type="button"
-                          size="md"
-                          className="rounded-xl bg-[#1E324E] px-4 text-sm text-white hover:bg-[#2A486D]"
-                          onClick={() => void generateReportAndNavigate()}
-                          disabled={reportLoading}
-                        >
-                          {reportLoading ? "Generazione…" : "Vai al Report"}
-                        </Button>
-                      )}
-                    </div>
-                    {reportError ? (
-                      <p className="text-sm text-rose-700">{reportError}</p>
-                    ) : null}
-                    {reportLoading ? (
-                      <ReportGenerationProgress
-                        progress={reportProgress}
-                        message={reportProgressMessage}
-                      />
-                    ) : null}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        ) : null}
-
-        {embedded ? (
-          <footer className="flex w-full min-w-0 flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+          <footer className="flex w-full min-w-0 flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-4 lg:px-5">
             <div className="min-w-0">
-              <p className="text-sm font-medium text-slate-500">Obiettivo del caso</p>
-              <p className="mt-0.5 line-clamp-2 text-sm text-slate-700">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+                Obiettivo del caso
+              </p>
+              <p className="mt-1.5 max-w-3xl text-[13px] leading-relaxed text-slate-700">
                 {initialCaseData.description ||
                   "Gestisci il paziente in PS con appropriatezza clinica e medico-legale."}
               </p>
             </div>
-            <div className="flex shrink-0 items-center gap-2">
+            <div className="flex shrink-0 items-center gap-1">
               <Link
                 href="/dashboard/guidelines"
-                className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
               >
-                <BookOpen className="h-4 w-4" />
+                <BookOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
                 Linee guida correlate
               </Link>
+              <span className="mx-0.5 hidden h-4 w-px bg-slate-200 sm:block" aria-hidden />
               <button
                 type="button"
                 onClick={() => setIsHelpOpen(true)}
                 aria-label="Aiuto"
                 title="Aiuto"
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:bg-slate-50 hover:text-slate-700"
+                className="inline-flex items-center justify-center rounded-md p-1.5 text-slate-500 transition hover:bg-slate-50 hover:text-[#345884]"
               >
-                <HelpCircle className="h-4 w-4" />
+                <HelpCircle className="h-4 w-4" strokeWidth={1.75} />
               </button>
             </div>
           </footer>
         ) : null}
       </div>
+
+      <Dialog open={isDischargeOpen}>
+        <DialogContent className="flex max-h-[min(90dvh,720px)] max-w-2xl flex-col overflow-hidden rounded-xl border border-slate-200 bg-white p-0 shadow-2xl">
+          <div
+            id="aequan-sim-conclusion"
+            className="border-b border-slate-200 bg-white px-6 pb-1 pt-4"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <DialogHeader className="mb-0 min-w-0 space-y-0 text-left">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                  Documentazione clinica
+                </p>
+                <DialogTitle className="mt-0.5 text-base font-semibold text-slate-900">
+                  Referto di dimissione
+                </DialogTitle>
+                <DialogDescription className="sr-only">
+                  Compila il referto clinico strutturato e conferma la diagnosi.
+                </DialogDescription>
+                {isAdmin && debugTargetCondition ? (
+                  <p className="mt-2 border-l-2 border-slate-300 pl-2 text-[10px] italic leading-snug text-slate-500">
+                    <span className="not-italic font-medium text-slate-600">
+                      Debug · patologia target ·{" "}
+                    </span>
+                    {debugTargetCondition}
+                  </p>
+                ) : null}
+              </DialogHeader>
+              <button
+                type="button"
+                onClick={() => setIsDischargeOpen(false)}
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+                aria-label="Chiudi"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+          <div className="scrollbar-aequan min-h-0 flex-1 space-y-3 overflow-y-auto px-6 pb-5 pt-3 text-sm">
+            {gameStatus === "playing" ? (
+              <div className="space-y-4">
+                <ClinicalDischargeReportPanel
+                  sections={reportSections}
+                  onChange={setReportSections}
+                  onConfirm={confirmDiagnosis}
+                  confirmDisabled={!isClinicalReportComplete(reportSections)}
+                  isAdminExtras={
+                    isAdmin ? (
+                      <div className="flex items-center justify-end">
+                        <button
+                          type="button"
+                          onClick={() => setForceAiSurprise((v) => !v)}
+                          className={cn(
+                            "rounded-md px-2.5 py-1 text-xs font-medium transition",
+                            forceAiSurprise
+                              ? "bg-slate-800 text-white"
+                              : "text-slate-500 hover:bg-slate-100 hover:text-slate-700",
+                          )}
+                        >
+                          {forceAiSurprise ? "Forza imprevisto: ON" : "Forza imprevisto: OFF"}
+                        </button>
+                      </div>
+                    ) : undefined
+                  }
+                />
+              </div>
+            ) : null}
+
+            {gameStatus === "checking_diagnosis" ? (
+              <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-slate-700">
+                <span className="inline-flex items-center gap-2">
+                  <Activity className="h-4 w-4 animate-spin text-[#345884]" />
+                  Verifica diagnosi in corso…
+                </span>
+              </div>
+            ) : null}
+
+            {gameStatus === "wrong_diagnosis" ||
+            gameStatus === "success" ||
+            gameStatus === "complication" ? (
+              <div className="space-y-3">
+                {gameStatus === "wrong_diagnosis" ? (
+                  <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2.5 text-rose-800">
+                    Diagnosi errata. Il trattamento ha peggiorato il quadro.
+                  </div>
+                ) : null}
+                {gameStatus === "success" ? (
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-800">
+                    Diagnosi corretta. Puoi generare il report finale.
+                  </div>
+                ) : null}
+                {gameStatus === "complication" ? (
+                  <div className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-amber-900">
+                    Diagnosi corretta, ma è comparsa una complicazione improvvisa.
+                  </div>
+                ) : null}
+                <div className="flex justify-end gap-2">
+                  {gameStatus === "complication" ? (
+                    <Button
+                      type="button"
+                      size="md"
+                      className="rounded-xl bg-[#1E324E] px-4 text-sm text-white hover:bg-[#2A486D]"
+                      onClick={async () => {
+                        if (isStartingEmergency) return;
+                        setIsStartingEmergency(true);
+                        try {
+                          const sid = await ensureSessionId();
+                          if (!sid) return;
+                          await fetch("/api/session/complication", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                              sessionId: sid,
+                              caseId: initialCaseData.id,
+                              basePatientPrompt: initialCaseData.patientPrompt,
+                              complication: "anaphylaxis",
+                            }),
+                          });
+                          setDebugTargetCondition("Anafilassi / reazione allergica grave");
+                          setFinalDiagnosis("");
+                          setReportSections({
+                            anamnesisObjective: "",
+                            diagnosticFindings: "",
+                            diagnosisTreatment: "",
+                          });
+                          setGameStatus("playing");
+                        } finally {
+                          setIsStartingEmergency(false);
+                        }
+                      }}
+                      disabled={isStartingEmergency}
+                    >
+                      {isStartingEmergency ? "Avvio…" : "Gestisci emergenza"}
+                    </Button>
+                  ) : (
+                    <Button
+                      type="button"
+                      size="md"
+                      className="rounded-xl bg-[#1E324E] px-4 text-sm text-white hover:bg-[#2A486D]"
+                      onClick={() => void generateReportAndNavigate()}
+                      disabled={reportLoading}
+                    >
+                      {reportLoading ? "Generazione…" : "Vai al Report"}
+                    </Button>
+                  )}
+                </div>
+                {reportError ? <p className="text-sm text-rose-700">{reportError}</p> : null}
+                {reportLoading ? (
+                  <ReportGenerationProgress
+                    progress={reportProgress}
+                    message={reportProgressMessage}
+                  />
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={isPatientChartOpen}>
         <DialogContent className="bg-white rounded-3xl">
@@ -2678,259 +2701,11 @@ function HistoryChat({
   );
 }
 
-type ExamsPanelProps = {
-  selectedExamIds: string[];
-  onToggleExam: (id: string) => void;
-  caseExamValues: Record<string, CaseExamStoredValues>;
-  examCatalog: Record<string, ExamClinicalMeta>;
-  examMacroCatalog: ExamMacroCategory[];
-  availableExams: Exam[];
-  /** When set, only these macro category ids are shown (e.g. lab / img). */
-  macroFilter?: string[];
-};
-
-type ExamSelectionCardProps = {
-  exam: Exam;
-  isSelected: boolean;
-  onToggle: (id: string) => void;
-  caseExamValues: Record<string, CaseExamStoredValues>;
-  examCatalog: Record<string, ExamClinicalMeta>;
-  nameNode?: ReactNode;
-  className: string;
-};
-
 function formatElapsedClock(totalSeconds: number): string {
   const safe = Math.max(0, Math.floor(totalSeconds));
   const hours = Math.floor(safe / 3600);
   const minutes = Math.floor((safe % 3600) / 60);
   const seconds = safe % 60;
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-}
-
-function ExamSelectionCard({
-  exam,
-  isSelected,
-  onToggle,
-  caseExamValues,
-  examCatalog,
-  nameNode,
-  className,
-}: ExamSelectionCardProps) {
-  return (
-    <button
-      type="button"
-      onClick={() => onToggle(exam.id)}
-      className={className}
-    >
-      <p className="text-[11px] text-zinc-900">{nameNode ?? exam.name}</p>
-      {!isSelected ? (
-        <p className="text-[10px] text-zinc-500 mt-0.5">€ {exam.cost} · {exam.timeMinutes} min</p>
-      ) : null}
-      {isSelected ? (
-        <p className="text-[10px] text-emerald-800 mt-1 whitespace-pre-line">
-          {formatExamFinding(exam.id, examCatalog, caseExamValues)}
-        </p>
-      ) : null}
-    </button>
-  );
-}
-
-function ExamsPanel({
-  selectedExamIds,
-  onToggleExam,
-  caseExamValues,
-  examCatalog,
-  examMacroCatalog,
-  availableExams,
-  macroFilter,
-}: ExamsPanelProps) {
-  const macros = useMemo(() => {
-    if (!macroFilter?.length) return examMacroCatalog;
-    return examMacroCatalog.filter((m) => macroFilter.includes(m.id));
-  }, [examMacroCatalog, macroFilter]);
-
-  const [query, setQuery] = useState("");
-  const [openMacroId, setOpenMacroId] = useState<string | null>(macros[0]?.id ?? null);
-  const [openGroupIds, setOpenGroupIds] = useState<Record<string, string | null>>({});
-  const macroVisuals: Record<string, { short: string; icon: ComponentType<{ className?: string }> }> = {
-    lab: { short: "Lab", icon: FlaskConical },
-    img: { short: "Imaging", icon: ScanLine },
-    strum: { short: "Strum", icon: Microscope },
-    endo: { short: "Endo", icon: TestTube2 },
-  };
-  const selectedSet = useMemo(() => new Set(selectedExamIds), [selectedExamIds]);
-
-  useEffect(() => {
-    if (!macros.some((m) => m.id === openMacroId)) {
-      setOpenMacroId(macros[0]?.id ?? null);
-    }
-  }, [macros, openMacroId]);
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return [];
-    return availableExams.filter((exam) => exam.name.toLowerCase().includes(q));
-  }, [availableExams, query]);
-
-  const highlight = (text: string, q: string) => {
-    if (!q.trim()) return text;
-    const normalized = q.trim().toLowerCase();
-    const i = text.toLowerCase().indexOf(normalized);
-    if (i < 0) return text;
-    return (
-      <>
-        {text.slice(0, i)}
-        <mark className="bg-amber-200/80 rounded px-0.5">{text.slice(i, i + normalized.length)}</mark>
-        {text.slice(i + normalized.length)}
-      </>
-    );
-  };
-
-  const toggleGroup = (macroId: string, groupId: string) => {
-    setOpenGroupIds((prev) => ({
-      ...prev,
-      [macroId]: prev[macroId] === groupId ? null : groupId,
-    }));
-  };
-
-  return (
-    <div className="h-[420px]">
-      <div className="scrollbar-aequan rounded-2xl bg-white/70 border border-zinc-200/80 p-3 overflow-y-auto text-xs h-full">
-        <div className="relative mb-3">
-          <Search className="h-3.5 w-3.5 text-zinc-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Cerca esami (es. troponina, TC torace, colonscopia...)"
-            className="w-full h-9 rounded-xl border border-zinc-200/80 bg-white pl-8 pr-3 text-xs text-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-300"
-          />
-        </div>
-
-        {query.trim() ? (
-          <div className="space-y-1.5">
-            {filtered.length === 0 ? (
-              <p className="text-zinc-500">Nessun esame trovato.</p>
-            ) : (
-              filtered.map((exam) => {
-                const isSelected = selectedSet.has(exam.id);
-                return (
-                  <ExamSelectionCard
-                    key={exam.id}
-                    exam={exam}
-                    isSelected={isSelected}
-                    onToggle={onToggleExam}
-                    caseExamValues={caseExamValues}
-                    examCatalog={examCatalog}
-                    nameNode={<span className="font-medium">{highlight(exam.name, query)}</span>}
-                    className={
-                      "w-full text-left rounded-xl border px-3 py-2 transition-colors " +
-                      (isSelected
-                        ? "border-[#345884]/40 bg-slate-50"
-                        : "border-slate-200 bg-white hover:bg-slate-50")
-                    }
-                  />
-                );
-              })
-            )}
-          </div>
-        ) : (
-          <div className="space-y-2">
-            <div className="mb-2 flex flex-wrap items-center gap-1.5 rounded-2xl border border-zinc-200/80 bg-zinc-100/70 p-1.5">
-              {macros.map((macro) => {
-                const Icon = macroVisuals[macro.id]?.icon ?? FlaskConical;
-                const short = macroVisuals[macro.id]?.short ?? macro.label;
-                const active = openMacroId === macro.id;
-                return (
-                  <button
-                    key={`tab-${macro.id}`}
-                    type="button"
-                    onClick={() => setOpenMacroId(macro.id)}
-                    className={
-                      "inline-flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-[10px] font-medium transition-colors " +
-                      (active
-                        ? "border-zinc-300 bg-white text-zinc-950 shadow-sm"
-                        : "border-transparent bg-transparent text-zinc-600 hover:bg-white/80 hover:border-zinc-200/70")
-                    }
-                  >
-                    <Icon className="h-3.5 w-3.5" />
-                    {short}
-                  </button>
-                );
-              })}
-            </div>
-            {macros.filter((macro) => macro.id === openMacroId).map((macro) => (
-              <div key={macro.id} className="rounded-2xl border border-zinc-200/80 bg-white p-2 space-y-2">
-                {macro.groups.length === 1 ? (
-                  <div className="px-1 pb-1 space-y-1.5">
-                    {macro.groups[0].exams.map((exam) => {
-                      const isSelected = selectedSet.has(exam.id);
-                      return (
-                        <ExamSelectionCard
-                          key={exam.id}
-                          exam={exam}
-                          isSelected={isSelected}
-                          onToggle={onToggleExam}
-                          caseExamValues={caseExamValues}
-                          examCatalog={examCatalog}
-                          className={
-                            "w-full text-left rounded-lg border px-2.5 py-2 transition-colors " +
-                            (isSelected
-                              ? "border-[#345884]/40 bg-slate-50"
-                              : "border-slate-200 bg-white hover:bg-slate-50")
-                          }
-                        />
-                      );
-                    })}
-                  </div>
-                ) : (
-                  macro.groups.map((group) => {
-                    const groupOpen = openGroupIds[macro.id] === group.id;
-                    return (
-                      <div key={group.id} className="rounded-xl border border-zinc-200/80 bg-zinc-50/70">
-                        <button
-                          type="button"
-                          onClick={() => toggleGroup(macro.id, group.id)}
-                          className="w-full flex items-center justify-between px-2.5 py-2 text-[11px] font-medium text-zinc-800"
-                        >
-                          <span>{group.label}</span>
-                          <span className="text-zinc-500">{groupOpen ? "−" : "+"}</span>
-                        </button>
-                        {groupOpen ? (
-                          <div className="px-2 pb-2 space-y-1.5">
-                            {group.exams.map((exam) => {
-                              const isSelected = selectedSet.has(exam.id);
-                              return (
-                                <ExamSelectionCard
-                                  key={exam.id}
-                                  exam={exam}
-                                  isSelected={isSelected}
-                                  onToggle={onToggleExam}
-                                  caseExamValues={caseExamValues}
-                                  examCatalog={examCatalog}
-                                  className={
-                                    "w-full text-left rounded-lg border px-2.5 py-2 transition-colors " +
-                                    (isSelected
-                                      ? "border-[#345884]/40 bg-slate-50"
-                                      : "border-slate-200 bg-white hover:bg-slate-50")
-                                  }
-                                />
-                              );
-                            })}
-                          </div>
-                        ) : null}
-                      </div>
-                    );
-                  })
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-        <p className="mt-3 text-[10px] text-zinc-500">
-          Clic su un esame per richiederlo: una volta richiesto non può essere annullato.
-        </p>
-      </div>
-    </div>
-  );
 }
 
