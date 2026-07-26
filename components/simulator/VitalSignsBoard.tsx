@@ -108,10 +108,11 @@ export function VitalSignsBoard({
         </div>
       ) : null}
 
-      <div className="grid grid-cols-2 divide-y divide-slate-100 sm:grid-cols-3 sm:divide-y-0 sm:divide-x lg:grid-cols-5">
+      <div className="grid grid-cols-2 divide-y divide-slate-200/80 sm:grid-cols-3 sm:divide-y-0 sm:divide-x lg:grid-cols-5">
         {classified.map((vital) => {
           const Icon = VITAL_ICONS[vital.id] ?? Activity;
           const finding = vitalFindingLabel(vital).toUpperCase();
+          const alert = vital.status !== "stable";
           return (
             <div
               key={vital.id}
@@ -119,7 +120,11 @@ export function VitalSignsBoard({
               title={`${vital.fullLabel}: ${vital.value} ${vital.unit}`}
             >
               <div className="flex items-center gap-1.5">
-                <Icon className="h-4 w-4 shrink-0 text-slate-600" strokeWidth={1.75} />
+                <Icon
+                  className="h-4 w-4 shrink-0"
+                  strokeWidth={1.75}
+                  style={{ color: alert ? ALERT_RED : "#475569" }}
+                />
                 <span className="text-sm font-semibold text-slate-700">{vital.label}</span>
               </div>
               <p className="text-2xl font-bold tabular-nums leading-none text-slate-900 md:text-[1.75rem]">
