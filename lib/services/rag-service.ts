@@ -12,6 +12,12 @@ const PROTOCOL_TOP_K = 4;
 const CHUNK_SIZE = 1000;
 const CHUNK_OVERLAP = 200;
 
+/**
+ * Minimum Pinecone cosine similarity to accept a match as "relevant context".
+ * Matches below this threshold are treated as soft-fail (no usable RAG context).
+ */
+const MIN_PINECONE_SIMILARITY = 0.35;
+
 const PROTOCOL_TAG_HINTS = [
   "protocollo",
   "protocolli",
@@ -51,12 +57,20 @@ export type GuidelineRetrievalSection = {
   sources: string[];
   combinedText: string;
   source: "pinecone" | "postgres" | "none";
+  /** True when at least one chunk passed retrieval + confidence filters. */
+  hasContext: boolean;
+  /** Count of accepted source titles (0 ⇒ soft-fail for this section). */
+  ragSourcesCount: number;
 };
 
 export type RelevantGuidelines = {
   query: string;
   legal: GuidelineRetrievalSection;
   protocol: GuidelineRetrievalSection;
+  /** Specialty-scoped legal corpus available for evaluation. */
+  hasLegalContext: boolean;
+  /** Specialty-scoped clinical protocol corpus available for evaluation. */
+  hasProtocolContext: boolean;
 };
 
 export type GetRelevantGuidelinesParams = {
@@ -301,12 +315,16 @@ function toSection(
   chunks: GuidelineChunk[],
   source: "pinecone" | "postgres" | "none",
 ): GuidelineRetrievalSection {
-  const sources = [...new Set(chunks.map((c) => c.title))];
+  const safeChunks = Array.isArray(chunks) ? chunks.filter((c) => c?.content?.trim()) : [];
+  const sources = [...new Set(safeChunks.map((c) => c.title).filter(Boolean))];
+  const hasContext = safeChunks.length > 0 && source !== "none";
   return {
-    chunks,
+    chunks: safeChunks,
     sources,
-    combinedText: chunks.map((c) => `[${c.title}]\n${c.content}`).join("\n---\n"),
-    source: chunks.length > 0 ? source : "none",
+    combinedText: safeChunks.map((c) => `[${c.title}]\n${c.content}`).join("\n---\n"),
+    source: hasContext ? source : "none",
+    hasContext,
+    ragSourcesCount: sources.length,
   };
 }
 
@@ -386,7 +404,9 @@ export class RagService {
     }
 
     if (legalChunks.length === 0 && protocolChunks.length === 0) {
-      log.info("No guidelines retrieved from any source", { queryLength: query.length });
+      log.info("No guidelines retrieved from any source (RAG soft-fail)", {
+        queryLength: query.length,
+      });
     } else {
       log.info("Guidelines retrieved with specialty scope", {
         specialtyId: specialtyId ?? null,
@@ -396,10 +416,15 @@ export class RagService {
       });
     }
 
+    const legal = toSection(legalChunks, legalSource);
+    const protocol = toSection(protocolChunks, protocolSource);
+
     return {
       query,
-      legal: toSection(legalChunks, legalSource),
-      protocol: toSection(protocolChunks, protocolSource),
+      legal,
+      protocol,
+      hasLegalContext: legal.hasContext,
+      hasProtocolContext: protocol.hasContext,
     };
   }
 
@@ -444,6 +469,9 @@ export class RagService {
 
     const ranked: Array<GuidelineChunk & { score: number }> = [];
     for (const match of response.matches ?? []) {
+      const pineconeScore = typeof match.score === "number" ? match.score : 0;
+      if (pineconeScore < MIN_PINECONE_SIMILARITY) continue;
+
       const metadata = (match.metadata ?? {}) as PineconeMetadata;
       const content = typeof metadata.content === "string" ? metadata.content.trim() : "";
       if (!content) continue;
@@ -468,7 +496,7 @@ export class RagService {
         documentId: typeof metadata.documentId === "string" ? metadata.documentId : undefined,
         kind: "legal",
         score:
-          (match.score ?? 0) +
+          pineconeScore +
           scoreChunkWithSpecialty(query, `${title} ${content}`, tags, specialtyHints) * 0.1,
       });
     }
@@ -521,6 +549,9 @@ export class RagService {
 
     for (const response of responses) {
       for (const match of response.matches ?? []) {
+        const pineconeScore = typeof match.score === "number" ? match.score : 0;
+        if (pineconeScore < MIN_PINECONE_SIMILARITY) continue;
+
         const metadata = (match.metadata ?? {}) as PineconeMetadata;
         const content = typeof metadata.content === "string" ? metadata.content.trim() : "";
         if (!content) continue;
@@ -543,7 +574,7 @@ export class RagService {
           documentId: typeof metadata.documentId === "string" ? metadata.documentId : undefined,
           kind: "protocol",
           score:
-            (match.score ?? 0) +
+            pineconeScore +
             (chunkMatchesSpecialty(tags, specialtyHints) ? 2 : 0) +
             (isProtocolGuideline(tags) ? 1 : 0),
         });
