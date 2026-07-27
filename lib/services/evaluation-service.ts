@@ -186,6 +186,9 @@ export function buildDeterministicEvaluation(
     exams: ExamPayload[];
     examBudgetEuro: number;
     examCatalog?: Record<string, ExamClinicalMeta>;
+    /** RAG soft-fail flags from getRelevantGuidelines. */
+    hasLegalContext?: boolean;
+    ragSourcesCount?: number;
   },
 ): Pick<
   EvaluationResult,
@@ -203,6 +206,8 @@ export function buildDeterministicEvaluation(
     legalInstrumentReviews: analytical.legalInstrumentReviews,
     totalCostEuro,
     budgetEuro: params.examBudgetEuro,
+    hasLegalContext: params.hasLegalContext,
+    ragSourcesCount: params.ragSourcesCount,
   });
 
   return {
@@ -260,10 +265,35 @@ function buildSystemPrompt(params: {
     goldStandardPath,
   } = params;
 
+  const hasLegalContext =
+    guidelines.hasLegalContext ??
+    (guidelines.legal.hasContext ??
+      (guidelines.legal.source !== "none" && (guidelines.legal.chunks?.length ?? 0) > 0));
+
+  const hasProtocolContext =
+    guidelines.hasProtocolContext ??
+    (guidelines.protocol.hasContext ??
+      (guidelines.protocol.source !== "none" && (guidelines.protocol.chunks?.length ?? 0) > 0));
+
   const goldBlock =
     goldStandardPath?.length ?
       `GOLD STANDARD (percorso obbligatorio):\n${goldStandardPath.map((s, i) => `${i + 1}. ${s}`).join("\n")}`
     : "GOLD STANDARD: non definito — costruisci clinicalDeltaTable da linee guida e best practice.";
+
+  const legalSoftFailBlock = !hasLegalContext
+    ? `
+ATTENZIONE — RAG LEGAL SOFT-FAIL:
+Nessuna linea guida o documento legale specifico è stato trovato per questa specialità (Pinecone/DB senza fonti rilevanti o sotto soglia di confidenza).
+- NON inventare articoli di legge, norme, protocolli o citazioni non presenti nel contesto.
+- NON assumere conformità legale "di default".
+- In legalProtectionStatus: status = PARTIALLY_EXPOSED (o HIGHLY_EXPOSED se il caso lo richiede clinicamente), justification deve indicare ESPLICITAMENTE la mancanza di documentazione legale indicizzata per la specialità, referenceDocuments = [].
+- In legalInstrumentReviews: marca gli strumenti come "non_applicabile" con rationale che cita l'assenza di corpus RAG (non inventare compliance "rispettato").
+`.trim()
+    : "";
+
+  const protocolSoftFailHint = !hasProtocolContext
+    ? `\nNOTA PROTOCOLLI: nessun protocollo clinico indicizzato recuperato — non inventare linee guida cliniche specifiche non presenti nel contesto.`
+    : "";
 
   return `
 Sei un valutatore clinico-medico-legale IterMed di livello élite. Compila TUTTI i campi dello schema JSON con precisione spietata.
@@ -278,14 +308,17 @@ BUDGET ESAMI TARGET: €${examBudgetEuro}
 
 ${goldBlock}
 
-CORPUS LEGALE (${guidelines.legal.source}) — CITA NOMI FILE in referenceDocuments:
-"""${retrievedLegalText}"""
+${legalSoftFailBlock}
 
-FONTI RAG LEGALI:
-${retrievedLegalSources.map((s) => `- ${s}`).join("\n") || "- Nessuna"}
+CORPUS LEGALE (${guidelines.legal.source}${hasLegalContext ? "" : ", SOFT-FAIL"}) — CITA NOMI FILE in referenceDocuments:
+"""${hasLegalContext ? retrievedLegalText : "Nessun estratto legale recuperato (RAG soft-fail: 0 fonti)."}"""
 
-PROTOCOLLI CLINICI:
-"""${retrievedProtocolText}"""
+FONTI RAG LEGALI (count=${hasLegalContext ? retrievedLegalSources.length : 0}):
+${hasLegalContext ? retrievedLegalSources.map((s) => `- ${s}`).join("\n") || "- Nessuna" : "- Nessuna (ragSourcesCount: 0)"}
+
+PROTOCOLLI CLINICI (${guidelines.protocol.source}${hasProtocolContext ? "" : ", soft-fail"}):
+"""${hasProtocolContext ? retrievedProtocolText : "Nessun estratto protocollo recuperato."}"""
+${protocolSoftFailHint}
 
 ISTRUZIONI ANALITICHE (OBBLIGATORIE):
 
@@ -294,7 +327,7 @@ ISTRUZIONI ANALITICHE (OBBLIGATORIE):
 2) legalProtectionStatus:
    - status: PROTECTED se documentazione e percorso difendibile; PARTIALLY_EXPOSED se lacune; HIGHLY_EXPOSED se violazioni gravi.
    - justification: cita articoli/norme dal corpus legale caricato (Gelli-Bianco, consenso, cartella, ecc.).
-   - referenceDocuments: nomi esatti dei file RAG citati.
+   - referenceDocuments: nomi esatti dei file RAG citati (vuoto se soft-fail).
 
 3) clinicalDeltaTable — una riga per ogni tappa Gold Standard o azione protocollo chiave:
    - protocolAction: cosa richiede il Gold Standard / linea guida.
@@ -389,12 +422,25 @@ export class EvaluationService {
       input.examCatalog ?? {},
     );
 
+    const hasLegalContext =
+      input.guidelines.hasLegalContext ??
+      (input.guidelines.legal.hasContext ??
+        (input.guidelines.legal.source !== "none" &&
+          (input.guidelines.legal.chunks?.length ?? 0) > 0));
+
+    const ragSourcesCount =
+      input.guidelines.legal.ragSourcesCount ??
+      (Array.isArray(input.guidelines.legal.sources) ? input.guidelines.legal.sources.length : 0);
+
     const retrievedLegalText =
-      input.guidelines.legal.combinedText ||
-      "Nessun estratto legale recuperato.";
+      hasLegalContext && input.guidelines.legal.combinedText
+        ? input.guidelines.legal.combinedText
+        : "Nessun estratto legale recuperato (RAG soft-fail: 0 fonti).";
     const retrievedProtocolText =
-      input.guidelines.protocol.combinedText ||
-      "Nessun estratto protocollo recuperato.";
+      (input.guidelines.hasProtocolContext ?? input.guidelines.protocol.hasContext) &&
+      input.guidelines.protocol.combinedText
+        ? input.guidelines.protocol.combinedText
+        : "Nessun estratto protocollo recuperato.";
 
     try {
       const evalStartedAt = Date.now();
@@ -407,7 +453,7 @@ export class EvaluationService {
           guidelines: input.guidelines,
           retrievedLegalText,
           retrievedProtocolText,
-          retrievedLegalSources: input.guidelines.legal.sources,
+          retrievedLegalSources: hasLegalContext ? input.guidelines.legal.sources : [],
           difficulty: input.difficulty,
           specialty: input.specialty,
           examBudgetEuro,
@@ -446,6 +492,8 @@ export class EvaluationService {
         exams: input.exams,
         examBudgetEuro,
         examCatalog: input.examCatalog,
+        hasLegalContext,
+        ragSourcesCount: hasLegalContext ? ragSourcesCount : 0,
       });
 
       this.deps.logger.info("Simulation evaluation completed (deterministic scoring)", {
@@ -453,10 +501,22 @@ export class EvaluationService {
         totalExamCostEuro: deterministic.totalExamCostEuro,
         examBudgetEuro,
         milestoneCount: input.sessionMilestones?.length ?? 0,
+        hasLegalContext,
+        ragSourcesCount: hasLegalContext ? ragSourcesCount : 0,
+        legalUnevaluable: deterministic.scoreBreakdown.legal.unevaluable,
         durationMs: Date.now() - evalStartedAt,
       });
 
-      return { ...guardedAnalytical, ...deterministic };
+      return {
+        ...guardedAnalytical,
+        ...deterministic,
+        evidence: {
+          ...guardedAnalytical.evidence,
+          legalSources: hasLegalContext
+            ? guardedAnalytical.evidence.legalSources
+            : [],
+        },
+      };
     } catch (error) {
       this.deps.logger.error("Simulation evaluation failed", { error });
       throw AIServiceError.fromUnknown(error);

@@ -5,6 +5,7 @@ import type {
   ClinicalDeltaRow,
   CoachingFeedback,
   EconomicAnalysis,
+  FatalError,
   LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
@@ -17,6 +18,14 @@ export type ClinicalCaseSnapshot = {
   baselineExamFindings?: unknown;
 } | null;
 
+/** Killer-Switch telemetry persisted inside SessionReport.rawTrace (Json). */
+export type KillerSwitchTrace = {
+  applied: boolean;
+  rawTotalTrentesimi: number;
+  finalTotalTrentesimi: number;
+  cap: number;
+};
+
 export function buildSessionReportData(params: {
   userId: string;
   caseId: string;
@@ -26,20 +35,25 @@ export function buildSessionReportData(params: {
   normalizedReportText: string;
   evaluation: EvaluationResult;
   guidelines: RelevantGuidelines;
+  /** Final grade on 0–30 trentesimi scale (Killer-Switch may cap at 17.9). */
   totalScore: number;
   completedAt: Date;
+  /** Deterministic fatal errors detected post-evaluation (always persisted). */
+  fatalErrors?: FatalError[];
+  killerSwitch?: KillerSwitchTrace;
 }): Prisma.SessionReportUncheckedUpdateInput {
   const {
     userId,
     caseId,
     clinicalCase,
     evaluationChatHistory,
-    exams,
     normalizedReportText,
     evaluation,
     guidelines,
     totalScore,
     completedAt,
+    fatalErrors = [],
+    killerSwitch,
   } = params;
 
   const { scores, feedback } = evaluation;
@@ -53,6 +67,13 @@ export function buildSessionReportData(params: {
     evaluation.evidence.protocolSources.length > 0
       ? evaluation.evidence.protocolSources
       : guidelines.protocol.sources;
+
+  const killerSwitchTrace: KillerSwitchTrace = killerSwitch ?? {
+    applied: false,
+    rawTotalTrentesimi: totalScore,
+    finalTotalTrentesimi: totalScore,
+    cap: 17.9,
+  };
 
   return {
     userId,
@@ -85,7 +106,11 @@ export function buildSessionReportData(params: {
         clinicalDeltaTable: evaluation.clinicalDeltaTable,
         economicAnalysis: evaluation.economicAnalysis,
         coachingFeedback: evaluation.coachingFeedback,
+        fatalErrors: evaluation.fatalErrors ?? [],
       },
+      /** Full deterministic Killer-Switch audit trail for coaching / appeals. */
+      fatalErrors,
+      killerSwitch: killerSwitchTrace,
       scoreBreakdown: evaluation.scoreBreakdown,
       examEconomics: {
         budgetEuro: evaluation.examBudgetEuro,

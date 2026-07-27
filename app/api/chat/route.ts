@@ -6,6 +6,7 @@ import {
   assertCanStartSimulation,
   gateToResponse,
   resolveChatModel,
+  resolveClinicalUserMessageLimit,
 } from "@/lib/billing/access-gate";
 import { countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
@@ -17,7 +18,7 @@ import {
   shouldRejectUserChatInput,
 } from "@/lib/security/prompt-injection-guard";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
-import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
+import { AI_RATE_LIMITS, CHAT_MESSAGES_PER_MINUTE } from "@/lib/security/ai-rate-limits";
 import { applyPatientChatWindow } from "@/lib/simulator/chat-context-window";
 import { buildPatientSimulatorCaseInput } from "@/lib/simulator/patientCaseContext";
 import { generatePatientResponse } from "@/lib/simulator/generatePatientResponse";
@@ -45,6 +46,9 @@ type ChatBody = Record<string, unknown> & {
   requestedExamIds?: unknown;
   completedGoldSteps?: unknown;
   model?: unknown;
+  /** Optional per-case override for the user-message anamnesis cap. */
+  maxUserMessages?: unknown;
+  caseInput?: unknown;
 };
 
 type ChatTurn = { role: "user" | "assistant" | "system"; content: string };
@@ -77,6 +81,19 @@ function parseStringArray(raw: unknown): string[] {
   return raw.filter((v): v is string => typeof v === "string" && v.trim().length > 0);
 }
 
+/**
+ * Resolves `caseInput.maxUserMessages` (or top-level `maxUserMessages`) for the session cap.
+ */
+function resolveMaxUserMessagesOverride(body: ChatBody): unknown {
+  if (body.maxUserMessages != null) return body.maxUserMessages;
+  const caseInput = body.caseInput;
+  if (caseInput && typeof caseInput === "object" && !Array.isArray(caseInput)) {
+    const record = caseInput as Record<string, unknown>;
+    if (record.maxUserMessages != null) return record.maxUserMessages;
+  }
+  return undefined;
+}
+
 export async function POST(req: Request) {
   const userId = await getSessionUserId();
   if (!userId) {
@@ -86,9 +103,10 @@ export async function POST(req: Request) {
     });
   }
 
+  // Anti-abuse: max 10 chat messages / authenticated user / minute (Upstash or in-memory).
   const rateLimited = await enforceRateLimit(req, {
     namespace: "api-chat",
-    limit: AI_RATE_LIMITS.chat,
+    limit: CHAT_MESSAGES_PER_MINUTE ?? AI_RATE_LIMITS.chat,
     userId,
   });
   if (rateLimited) return rateLimited;
@@ -143,8 +161,18 @@ export async function POST(req: Request) {
   // Sanitize early so downstream gold-inference never sees raw injection text.
   const chatMessages = sanitizeUserMessagesForAI(chatMessagesPreview);
 
-  const chatGate = assertCanSendChatMessage(billingProfile, chatMessages);
+  const maxUserMessagesOverride = resolveMaxUserMessagesOverride(body);
+  const clinicalUserMessageLimit = resolveClinicalUserMessageLimit(maxUserMessagesOverride);
+
+  const chatGate = assertCanSendChatMessage(billingProfile, chatMessages, {
+    maxUserMessages: clinicalUserMessageLimit,
+  });
   if (!chatGate.allowed) {
+    chatLogger.info("Clinical anamnesis soft-stop", {
+      userId,
+      code: chatGate.code,
+      limit: clinicalUserMessageLimit,
+    });
     return gateToResponse(chatGate);
   }
 
