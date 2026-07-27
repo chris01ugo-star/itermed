@@ -7,6 +7,7 @@ import {
   gateToResponse,
   resolveChatModel,
 } from "@/lib/billing/access-gate";
+import { countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
 import { createLogger } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
@@ -147,11 +148,6 @@ export async function POST(req: Request) {
     return gateToResponse(chatGate);
   }
 
-  const simGate = assertCanStartSimulation(billingProfile);
-  if (!simGate.allowed) {
-    return gateToResponse(simGate);
-  }
-
   const modelGate = assertAllowedChatModel(billingProfile, model);
   if (!modelGate.allowed) {
     return gateToResponse(modelGate);
@@ -176,6 +172,16 @@ export async function POST(req: Request) {
         headers: { "Content-Type": "application/json" },
       });
     }
+  } else {
+    // No live session yet — apply the same soft daily gate as session start.
+    const usedToday = await countSimulationsStartedToday(userId);
+    const simGate = assertCanStartSimulation(billingProfile, { usedToday });
+    if (!simGate.allowed) {
+      return gateToResponse(simGate);
+    }
+  }
+
+  if (liveSessionId) {
     const session = await prisma.caseSession.findUnique({
       where: { id: liveSessionId },
       include: {

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { userCanPlayCase, verifyLiveSessionOwner } from "@/lib/access";
 import { getSessionUserId } from "@/lib/api-session";
 import { assertCanStartSimulation, gateToResponse } from "@/lib/billing/access-gate";
+import { countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
 import { toApiErrorResponse, ValidationError } from "@/lib/errors";
 import { createLogger } from "@/lib/logger";
@@ -94,11 +95,6 @@ export async function POST(req: Request) {
       return jsonResponse({ error: "User not found", code: "NOT_FOUND" }, 404);
     }
 
-    const simGate = assertCanStartSimulation(billingProfile);
-    if (!simGate.allowed) {
-      return gateToResponse(simGate);
-    }
-
     const allowed = await userCanPlayCase(userId, caseId);
     if (!allowed) {
       return jsonResponse({ error: "Forbidden", code: "FORBIDDEN" }, 403);
@@ -108,6 +104,13 @@ export async function POST(req: Request) {
       const owns = await verifyLiveSessionOwner(liveSessionId, userId);
       if (!owns) {
         return jsonResponse({ error: "Forbidden", code: "FORBIDDEN" }, 403);
+      }
+      // Owned live session already passed the trial gate at /api/session/start.
+    } else {
+      const usedToday = await countSimulationsStartedToday(userId);
+      const simGate = assertCanStartSimulation(billingProfile, { usedToday });
+      if (!simGate.allowed) {
+        return gateToResponse(simGate);
       }
     }
 

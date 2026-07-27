@@ -5,8 +5,6 @@ import { evaluationService, computeTotalScore } from "@/lib/services/evaluation-
 import { ragService } from "@/lib/services/rag-service";
 import { getExamValuesCatalog } from "@/lib/exam-values-service";
 import { resolveExamBudgetEuro } from "@/lib/services/evaluation-scoring";
-import { hasActiveSubscription } from "@/lib/billing/access-gate";
-import { getUserBillingProfile, incrementFreeTrialUsage } from "@/lib/billing/user-billing";
 import {
   buildSessionReportData,
   type ClinicalCaseSnapshot,
@@ -165,11 +163,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       persistDurationMs,
       totalDurationMs: Date.now() - jobStartedAt,
     });
-
-    const billingProfile = await getUserBillingProfile(input.userId);
-    if (billingProfile && !hasActiveSubscription(billingProfile) && billingProfile.role !== "ADMIN") {
-      await incrementFreeTrialUsage(input.userId);
-    }
+    // Free-trial usage is consumed at POST /api/session/start, not on report completion.
   } catch (error) {
     log.error("Simulation report job failed", {
       error,

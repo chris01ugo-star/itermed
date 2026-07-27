@@ -29,20 +29,32 @@ export async function assertUserCanPlayCase(userId: string, caseId: string): Pro
   });
 
   if (!clinicalCase) {
-    return new Response(JSON.stringify({ error: "Forbidden" }), {
-      status: 403,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        error: "Questo caso non è disponibile o non è più attivo.",
+        code: "CASE_NOT_VISIBLE",
+      }),
+      {
+        status: 403,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 
   if (!clinicalCase.caseBundleId) return null;
 
   const profile = await getUserBillingProfile(userId);
   if (!profile) {
-    return new Response(JSON.stringify({ error: "Forbidden" }), {
-      status: 403,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        error: "Profilo utente non trovato.",
+        code: "USER_NOT_FOUND",
+      }),
+      {
+        status: 403,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 
   const bundleGate = assertCanAccessBundle(profile, clinicalCase.caseBundleId);

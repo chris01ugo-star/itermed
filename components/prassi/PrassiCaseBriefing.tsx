@@ -19,7 +19,9 @@ export function PrassiCaseBriefing({ caseRow }: PrassiCaseBriefingProps) {
   const name = patientDisplayName(caseRow.id, caseRow.title, caseRow.sex);
 
   const handleSessionStart = (caseId: string, sessionId: string) => {
-    router.push(`/dashboard/prassi/play/${caseId}?sessionId=${sessionId}`);
+    router.push(
+      `/dashboard/prassi/play/${encodeURIComponent(caseId)}?sessionId=${encodeURIComponent(sessionId)}`,
+    );
   };
 
   return (

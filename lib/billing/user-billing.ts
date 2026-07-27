@@ -61,6 +61,24 @@ export async function incrementFreeTrialUsage(userId: string): Promise<void> {
   });
 }
 
+/**
+ * Atomically consumes one free-trial start when `freeTrialUsageCount` is still under the limit.
+ * Returns false if the trial was already exhausted (race with a concurrent start).
+ */
+export async function tryConsumeFreeTrialUsage(
+  userId: string,
+  limit: number,
+): Promise<boolean> {
+  const result = await prisma.user.updateMany({
+    where: {
+      id: userId,
+      freeTrialUsageCount: { lt: limit },
+    },
+    data: { freeTrialUsageCount: { increment: 1 } },
+  });
+  return result.count > 0;
+}
+
 export async function applySubscriptionUpdate(params: {
   stripeCustomerId: string;
   stripeSubscriptionId: string;

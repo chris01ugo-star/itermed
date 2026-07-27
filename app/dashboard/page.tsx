@@ -1,10 +1,12 @@
 import { redirect } from "next/navigation";
 import { BarChart3, History } from "lucide-react";
 import { CompetencyRadarChart } from "@/components/overview/CompetencyRadarChart";
+import { DailySimQuotaBanner } from "@/components/overview/DailySimQuotaBanner";
 import { OverviewHero } from "@/components/overview/OverviewHero";
 import { OverviewQuickActions } from "@/components/overview/OverviewQuickActions";
 import { OverviewStatsBar } from "@/components/overview/OverviewStatsBar";
 import { RecentSessionsTimeline } from "@/components/overview/RecentSessionsTimeline";
+import { getDailySimulationQuota } from "@/lib/billing/daily-sim-quota";
 import { fetchUserOverviewData } from "@/lib/overview-queries";
 import { requireUser } from "@/lib/require-user";
 
@@ -22,7 +24,10 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   }
 
   const user = await requireUser();
-  const overview = await fetchUserOverviewData(user.id);
+  const [overview, dailyQuota] = await Promise.all([
+    fetchUserOverviewData(user.id),
+    getDailySimulationQuota(user.id),
+  ]);
 
   const bestDimension = overview.radarData.reduce(
     (best, point) => (point.score > best.score ? point : best),
@@ -40,6 +45,12 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         completedCount={overview.completedCount}
         casesThisWeek={overview.casesThisWeek}
         focusLabel={overview.focusLabel}
+      />
+
+      <DailySimQuotaBanner
+        remaining={dailyQuota.remaining}
+        limit={dailyQuota.limit}
+        used={dailyQuota.used}
       />
 
       <OverviewStatsBar

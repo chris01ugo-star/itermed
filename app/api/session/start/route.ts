@@ -4,7 +4,13 @@ import { z } from "zod";
 import { prisma } from "../../../../lib/prisma";
 import { assertUserCanPlayCase } from "../../../../lib/access";
 import { getSessionUserId } from "../../../../lib/api-session";
-import { assertCanStartSimulation, gateToResponse } from "@/lib/billing/access-gate";
+import {
+  assertCanStartSimulation,
+  gateToResponse,
+  shouldCountAgainstDailyQuota,
+} from "@/lib/billing/access-gate";
+import { DAILY_SIMULATION_LIMIT } from "@/lib/billing/plans";
+import { countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
@@ -12,12 +18,51 @@ import { enforceRateLimit } from "@/lib/security/rate-limit";
 const bodySchema = z.object({
   caseId: z.string().min(1),
   mode: z.enum(["original", "variant"]),
+  /** Soft bypass while payments are not live (UI: "Sono un dev"). */
+  devBypass: z.boolean().optional(),
 });
 
 const variantSchema = z.object({
   newPatientPrompt: z.string(),
   newCorrectSolution: z.string(),
 });
+
+async function createSession(params: {
+  userId: string;
+  caseId: string;
+  isVariant: boolean;
+  variantPrompt?: string;
+  variantSolution?: string;
+  enforceDailyCap: boolean;
+}): Promise<Response> {
+  const session = await prisma.caseSession.create({
+    data: {
+      userId: params.userId,
+      caseId: params.caseId,
+      isVariant: params.isVariant,
+      variantPrompt: params.variantPrompt,
+      variantSolution: params.variantSolution,
+    },
+  });
+
+  if (params.enforceDailyCap) {
+    const usedToday = await countSimulationsStartedToday(params.userId);
+    if (usedToday > DAILY_SIMULATION_LIMIT) {
+      await prisma.caseSession.delete({ where: { id: session.id } }).catch(() => undefined);
+      return gateToResponse({
+        allowed: false,
+        code: "DAILY_LIMIT",
+        status: 403,
+        message: `Hai esaurito le ${DAILY_SIMULATION_LIMIT} simulazioni di oggi. Il contatore si resetta a mezzanotte.`,
+      });
+    }
+  }
+
+  return new Response(JSON.stringify({ sessionId: session.id }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
+}
 
 export async function POST(req: Request) {
   const userId = await getSessionUserId();
@@ -29,7 +74,7 @@ export async function POST(req: Request) {
   }
 
   const json = await req.json();
-  const { caseId, mode } = bodySchema.parse(json);
+  const { caseId, mode, devBypass } = bodySchema.parse(json);
 
   const rateLimited = await enforceRateLimit(req, {
     namespace: mode === "variant" ? "api-session-start-variant" : "api-session-start",
@@ -50,11 +95,6 @@ export async function POST(req: Request) {
     });
   }
 
-  const simGate = assertCanStartSimulation(billingProfile);
-  if (!simGate.allowed) {
-    return gateToResponse(simGate);
-  }
-
   const clinicalCase = await prisma.clinicalCase.findUnique({
     where: { id: caseId },
     include: {
@@ -69,23 +109,30 @@ export async function POST(req: Request) {
     });
   }
 
+  const usedToday = await countSimulationsStartedToday(userId);
+  const accessOptions = {
+    caseBundleId: clinicalCase.caseBundleId,
+    usedToday,
+    bypassDailyLimit: Boolean(devBypass),
+  };
+  const simGate = assertCanStartSimulation(billingProfile, accessOptions);
+  if (!simGate.allowed) {
+    return gateToResponse(simGate);
+  }
+
+  const enforceDailyCap = shouldCountAgainstDailyQuota(billingProfile, accessOptions);
+
   const firstNode = clinicalCase.nodes[0];
   const basePrompt =
     (firstNode?.content as any)?.casePrompt ??
     `${clinicalCase.title}. ${clinicalCase.description}`;
 
   if (mode === "original") {
-    const session = await prisma.caseSession.create({
-      data: {
-        userId,
-        caseId,
-        isVariant: false,
-      },
-    });
-
-    return new Response(JSON.stringify({ sessionId: session.id }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
+    return createSession({
+      userId,
+      caseId,
+      isVariant: false,
+      enforceDailyCap,
     });
   }
 
@@ -111,19 +158,12 @@ Prompt paziente di base: ${basePrompt}
 `.trim(),
   });
 
-  const session = await prisma.caseSession.create({
-    data: {
-      userId,
-      caseId,
-      isVariant: true,
-      variantPrompt: object.newPatientPrompt,
-      variantSolution: object.newCorrectSolution,
-    },
-  });
-
-  return new Response(JSON.stringify({ sessionId: session.id }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
+  return createSession({
+    userId,
+    caseId,
+    isVariant: true,
+    variantPrompt: object.newPatientPrompt,
+    variantSolution: object.newCorrectSolution,
+    enforceDailyCap,
   });
 }
-

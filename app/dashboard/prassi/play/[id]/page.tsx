@@ -96,102 +96,115 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
   const user = await requireUser();
   const userId = user.id;
 
-  try {
-    const canPlay = await userCanPlayCase(userId, rawId);
-    if (!canPlay) {
-      return notFound();
-    }
+  const canPlay = await userCanPlayCase(userId, rawId).catch(() => false);
+  if (!canPlay) {
+    return notFound();
+  }
 
-    const caseData = await prisma.clinicalCase.findUnique({
+  let caseData: {
+    id: string;
+    title: string;
+    description: string;
+    specialty: string | null;
+    difficulty: string;
+    estimatedDurationMinutes: number | null;
+    correctSolution: string | null;
+    baselineExamFindings: unknown;
+    timeLimitMinutes: number | null;
+    examLatencies: unknown;
+    goldStandardPath: unknown;
+    patientDeteriorationThreshold: number | null;
+    nodes: { content: unknown }[];
+  } | null = null;
+
+  try {
+    caseData = await prisma.clinicalCase.findUnique({
       where: { id: rawId },
       include: { nodes: { orderBy: { order: "asc" }, take: 1 } },
     });
-
-    if (!caseData) {
-      return notFound();
-    }
-
-    const [session, examCatalog, caseExamOverrides] = await Promise.all([
-      sessionId
-        ? prisma.caseSession.findUnique({
-            where: { id: sessionId },
-          })
-        : Promise.resolve(null),
-      getExamValuesCatalog(),
-      getCaseExamOverrides(rawId, caseData.baselineExamFindings),
-    ]);
-
-    if (
-      sessionId &&
-      !isDevAuthBypass() &&
-      (!session || session.userId !== userId || session.caseId !== rawId)
-    ) {
-      redirect(`/dashboard/prassi/play/${rawId}`);
-    }
-
-    if (sessionId && isDevAuthBypass() && session && session.caseId !== rawId) {
-      redirect(`/dashboard/prassi/play/${rawId}`);
-    }
-
-    const firstNode = caseData.nodes[0];
-    const basePatientPrompt =
-      ((firstNode?.content as CaseNodeContent | null | undefined)?.casePrompt) ??
-      "Paziente in simulazione. Rispondi come paziente, senza diagnosi e senza valori vitali a voce.";
-    const baseline = (caseData.baselineExamFindings as CaseBaseline | null | undefined) ?? {};
-    const demographics = baseline.demographics ?? {};
-
-    const isVariant = Boolean(session?.isVariant);
-    const effectivePrompt =
-      isVariant && session?.variantPrompt ? session.variantPrompt : basePatientPrompt;
-
-    const initialCaseData = {
-      id: caseData.id,
-      title: caseData.title,
-      description: caseData.description,
-      specialty: caseData.specialty ?? null,
-      difficulty: caseData.difficulty,
-      estimatedDurationMinutes: caseData.estimatedDurationMinutes ?? null,
-      patientPrompt: effectivePrompt,
-      correctSolution: caseData.correctSolution ?? null,
-      demographics: {
-        age: demographics.age ?? null,
-        sex: demographics.sex ?? null,
-        context: demographics.context ?? null,
-      },
-      baselineExamFindings: baseline as Record<string, unknown>,
-      timeLimitMinutes: caseData.timeLimitMinutes ?? null,
-      examLatencies: (caseData.examLatencies as Record<string, number> | null) ?? null,
-      goldStandardPath: (caseData.goldStandardPath as string[] | null) ?? null,
-      patientDeteriorationThreshold: caseData.patientDeteriorationThreshold ?? null,
-    };
-
-    return (
-      <LiveAequanClinicalWorkspace
-        caseMeta={{
-          title: caseData.title,
-          specialty: caseData.specialty,
-          patientAge: demographics.age ?? null,
-          patientSex: demographics.sex ?? null,
-          caseId: caseData.id,
-        }}
-        backHref="/dashboard/prassi"
-      >
-        <SimulatorClient
-          initialCaseData={initialCaseData}
-          isVariant={isVariant}
-          sessionId={session?.id ?? sessionId}
-          isAdmin={user.role === "ADMIN"}
-          persistReports
-          examCatalog={examCatalog}
-          caseExamOverrides={caseExamOverrides}
-          embedded
-          backHref="/dashboard/prassi"
-        />
-      </LiveAequanClinicalWorkspace>
-    );
   } catch {
-    // DB non pronto
+    return notFound();
   }
 
-  return notFound();
+  if (!caseData) {
+    return notFound();
+  }
+
+  const [session, examCatalog, caseExamOverrides] = await Promise.all([
+    sessionId
+      ? prisma.caseSession.findUnique({ where: { id: sessionId } }).catch(() => null)
+      : Promise.resolve(null),
+    getExamValuesCatalog(),
+    getCaseExamOverrides(rawId, caseData.baselineExamFindings),
+  ]);
+
+  // Do not wrap redirect()/notFound() in try/catch — Next throws control-flow errors.
+  if (
+    sessionId &&
+    !isDevAuthBypass() &&
+    (!session || session.userId !== userId || session.caseId !== rawId)
+  ) {
+    redirect(`/dashboard/prassi/play/${rawId}`);
+  }
+
+  if (sessionId && isDevAuthBypass() && session && session.caseId !== rawId) {
+    redirect(`/dashboard/prassi/play/${rawId}`);
+  }
+
+  const firstNode = caseData.nodes[0];
+  const basePatientPrompt =
+    ((firstNode?.content as CaseNodeContent | null | undefined)?.casePrompt) ??
+    "Paziente in simulazione. Rispondi come paziente, senza diagnosi e senza valori vitali a voce.";
+  const baseline = (caseData.baselineExamFindings as CaseBaseline | null | undefined) ?? {};
+  const demographics = baseline.demographics ?? {};
+
+  const isVariant = Boolean(session?.isVariant);
+  const effectivePrompt =
+    isVariant && session?.variantPrompt ? session.variantPrompt : basePatientPrompt;
+
+  const initialCaseData = {
+    id: caseData.id,
+    title: caseData.title,
+    description: caseData.description,
+    specialty: caseData.specialty ?? null,
+    difficulty: caseData.difficulty,
+    estimatedDurationMinutes: caseData.estimatedDurationMinutes ?? null,
+    patientPrompt: effectivePrompt,
+    correctSolution: caseData.correctSolution ?? null,
+    demographics: {
+      age: demographics.age ?? null,
+      sex: demographics.sex ?? null,
+      context: demographics.context ?? null,
+    },
+    baselineExamFindings: baseline as Record<string, unknown>,
+    timeLimitMinutes: caseData.timeLimitMinutes ?? null,
+    examLatencies: (caseData.examLatencies as Record<string, number> | null) ?? null,
+    goldStandardPath: (caseData.goldStandardPath as string[] | null) ?? null,
+    patientDeteriorationThreshold: caseData.patientDeteriorationThreshold ?? null,
+  };
+
+  return (
+    <LiveAequanClinicalWorkspace
+      caseMeta={{
+        title: caseData.title,
+        specialty: caseData.specialty,
+        patientAge: demographics.age ?? null,
+        patientSex: demographics.sex ?? null,
+        caseId: caseData.id,
+      }}
+      backHref="/dashboard/prassi"
+    >
+      <SimulatorClient
+        initialCaseData={initialCaseData}
+        isVariant={isVariant}
+        sessionId={session?.id ?? sessionId}
+        isAdmin={user.role === "ADMIN"}
+        persistReports
+        examCatalog={examCatalog}
+        caseExamOverrides={caseExamOverrides}
+        embedded
+        backHref="/dashboard/prassi"
+      />
+    </LiveAequanClinicalWorkspace>
+  );
 }

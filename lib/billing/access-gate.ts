@@ -1,8 +1,8 @@
 import "server-only";
 import {
   ACTIVE_SUBSCRIPTION_STATUSES,
+  DAILY_SIMULATION_LIMIT,
   FREE_CHAT_MESSAGE_LIMIT,
-  FREE_TRIAL_SIMULATION_LIMIT,
   isSubscriptionPlan,
   PAID_CHAT_MESSAGE_LIMIT,
 } from "@/lib/billing/plans";
@@ -26,18 +26,54 @@ export function hasActiveSubscription(profile: UserBillingProfile): boolean {
   return ACTIVE_SUBSCRIPTION_STATUSES.has(profile.subscriptionStatus);
 }
 
-export function assertCanStartSimulation(profile: UserBillingProfile): GateResult {
+export type SimulationAccessOptions = {
+  /** When set, purchasers of this bundle may start without the soft daily cap. */
+  caseBundleId?: string | null;
+  /** Simulations already started today (Europe/Rome). */
+  usedToday?: number;
+  /** Temporary soft bypass while payments are not live ("Sono un dev"). */
+  bypassDailyLimit?: boolean;
+};
+
+/** True when this start should count against the soft daily quota. */
+export function shouldCountAgainstDailyQuota(
+  profile: UserBillingProfile,
+  options?: SimulationAccessOptions,
+): boolean {
+  if (options?.bypassDailyLimit) return false;
+  if (isAdmin(profile) || hasActiveSubscription(profile)) return false;
+  const bundleId = options?.caseBundleId?.trim();
+  if (bundleId && profile.purchasedBundleIds.includes(bundleId)) return false;
+  return true;
+}
+
+/** @deprecated Prefer shouldCountAgainstDailyQuota */
+export const shouldConsumeFreeTrial = shouldCountAgainstDailyQuota;
+
+export function assertCanStartSimulation(
+  profile: UserBillingProfile,
+  options?: SimulationAccessOptions,
+): GateResult {
+  if (options?.bypassDailyLimit) {
+    return { allowed: true };
+  }
+
   if (isAdmin(profile) || hasActiveSubscription(profile)) {
     return { allowed: true };
   }
 
-  if (profile.freeTrialUsageCount >= FREE_TRIAL_SIMULATION_LIMIT) {
+  const bundleId = options?.caseBundleId?.trim();
+  if (bundleId && profile.purchasedBundleIds.includes(bundleId)) {
+    return { allowed: true };
+  }
+
+  const usedToday = options?.usedToday ?? 0;
+  if (usedToday >= DAILY_SIMULATION_LIMIT) {
     return {
       allowed: false,
-      code: "TRIAL_EXHAUSTED",
+      code: "DAILY_LIMIT",
       status: 403,
-      message:
-        "Hai esaurito le 2 simulazioni gratuite. Abbonati a IterMed per continuare ad allenarti.",
+      message: `Hai esaurito le ${DAILY_SIMULATION_LIMIT} simulazioni di oggi. Il contatore si resetta a mezzanotte.`,
     };
   }
 
@@ -88,7 +124,7 @@ export function assertCanSendChatMessage(
       allowed: false,
       code: "FREE_CHAT_LIMIT",
       status: 403,
-      message: `Piano gratuito: massimo ${FREE_CHAT_MESSAGE_LIMIT} messaggi per sessione. Passa a un abbonamento per chat illimitata.`,
+      message: `Piano gratuito: massimo ${FREE_CHAT_MESSAGE_LIMIT} messaggi per sessione.`,
     };
   }
 
