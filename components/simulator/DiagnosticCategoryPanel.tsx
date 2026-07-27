@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ComponentType } from "react";
+import { useMemo, useState } from "react";
 import {
   Activity,
   ChevronRight,
@@ -12,6 +12,7 @@ import {
   Shield,
   Target,
   TestTube2,
+  type LucideIcon,
 } from "lucide-react";
 import { ExamOrderDialog } from "@/components/simulator/ExamOrderDialog";
 import { cn } from "@/app/utils/cn";
@@ -35,7 +36,7 @@ type DiagnosticCategoryPanelProps = {
 type CategoryVisual = {
   title: string;
   description: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: LucideIcon;
   tone: string;
 };
 
@@ -110,7 +111,7 @@ type CategoryButton = {
   id: string;
   title: string;
   description: string;
-  icon: ComponentType<{ className?: string }>;
+  icon: LucideIcon;
   tone: string;
   exams: SimulatorExam[];
   selectedCount: number;
