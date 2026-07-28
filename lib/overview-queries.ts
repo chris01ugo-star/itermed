@@ -1,6 +1,7 @@
 import type { CaseDifficulty } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { displaySpecialtyName } from "@/lib/dashboard-case-utils";
+import { completedPerformanceSessionWhere } from "@/lib/session-report-performance";
 
 export const OVERVIEW_RADAR_METRICS = [
   { metric: "Accuratezza Clinica", key: "clinicalAccuracy" as const },
@@ -73,15 +74,17 @@ function computeStreakDays(sessionDates: Date[], now: Date): number {
 export async function fetchUserOverviewData(userId: string): Promise<UserOverviewData> {
   const now = new Date();
 
+  const performanceWhere = completedPerformanceSessionWhere({ userId });
+
   const [completedSessions, scoreAverages] = await Promise.all([
     prisma.sessionReport.findMany({
-      where: { userId, status: "COMPLETED" },
+      where: performanceWhere,
       orderBy: [{ completedAt: "desc" }, { createdAt: "desc" }],
       include: { case: { include: { medicalSpecialty: true } } },
       take: 50,
     }),
     prisma.sessionReport.aggregate({
-      where: { userId, status: "COMPLETED" },
+      where: performanceWhere,
       _avg: {
         clinicalAccuracy: true,
         legalComplianceGelliBianco: true,

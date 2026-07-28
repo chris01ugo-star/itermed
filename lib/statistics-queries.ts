@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { OVERVIEW_RADAR_METRICS } from "@/lib/overview-queries";
+import { completedPerformanceSessionWhere } from "@/lib/session-report-performance";
 
 export type ScoreTrendPoint = {
   sessionId: string;
@@ -90,8 +91,10 @@ function buildCoachInsights(
 }
 
 export async function fetchStatisticsPageData(userId: string): Promise<StatisticsPageData> {
+  const performanceWhere = completedPerformanceSessionWhere({ userId });
+
   const sessions = await prisma.sessionReport.findMany({
-    where: { userId, status: "COMPLETED" },
+    where: performanceWhere,
     orderBy: [{ completedAt: "asc" }, { createdAt: "asc" }],
     select: {
       id: true,
@@ -108,7 +111,7 @@ export async function fetchStatisticsPageData(userId: string): Promise<Statistic
   });
 
   const aggregates = await prisma.sessionReport.aggregate({
-    where: { userId, status: "COMPLETED" },
+    where: performanceWhere,
     _avg: {
       clinicalAccuracy: true,
       legalComplianceGelliBianco: true,
