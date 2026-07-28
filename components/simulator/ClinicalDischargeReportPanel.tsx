@@ -211,7 +211,7 @@ export function ClinicalDischargeReportPanel({
 
       <div className="flex items-center justify-end gap-3 pt-1">
         <p className="mr-auto hidden max-w-xs text-[11px] leading-snug text-slate-400 sm:block">
-          La conferma chiude il percorso clinico simulato e avvia la valutazione.
+          La conferma verifica la diagnosi. Poi potrai generare il report finale.
         </p>
         <button
           type="button"
