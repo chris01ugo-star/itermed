@@ -67,6 +67,12 @@ export type ScoreBreakdown = {
     partial: number;
     weightPerInstrument: number;
     final: number;
+    /** Accepted RAG source titles used for legal scoring (0 ⇒ soft-fail). */
+    ragSourcesCount?: number;
+    /** False when Pinecone/DB returned no usable legal corpus. */
+    hasLegalContext?: boolean;
+    /** True when legal dimension is not verifiable — neutral score applied. */
+    unevaluable?: boolean;
   };
   empathy: {
     totalParameters: number;
@@ -207,23 +213,67 @@ export function computeEconomicSustainabilityScore(
 }
 
 /**
+ * Neutral safeguard score when no RAG legal corpus is available.
+ * Prevents defaulting to 100/100 (false "fully protected") on soft-fail.
+ */
+export const LEGAL_SOFT_FAIL_NEUTRAL_SCORE = 50;
+
+/**
  * Tutela legale: quota proporzionale per strumento applicabile dal corpus RAG.
  * violato → −100%; parziale → −50%; non_applicabile → ignorato.
+ *
+ * Soft-fail: if `hasLegalContext` is false or `ragSourcesCount` is 0,
+ * returns a neutral score (never 100) and marks the dimension unevaluable.
  */
-export function computeLegalComplianceScore(reviews: LegalInstrumentReview[]): {
+export function computeLegalComplianceScore(
+  reviews: LegalInstrumentReview[],
+  options?: {
+    hasLegalContext?: boolean;
+    ragSourcesCount?: number;
+  },
+): {
   score: number;
   breakdown: ScoreBreakdown["legal"];
 } {
-  const applicable = reviews.filter((r) => r.compliance !== "non_applicabile");
-  if (applicable.length === 0) {
+  const safeReviews = Array.isArray(reviews) ? reviews : [];
+  const hasLegalContext = options?.hasLegalContext ?? true;
+  const ragSourcesCount =
+    typeof options?.ragSourcesCount === "number"
+      ? Math.max(0, options.ragSourcesCount)
+      : hasLegalContext
+        ? 1
+        : 0;
+
+  if (!hasLegalContext || ragSourcesCount === 0) {
     return {
-      score: 100,
+      score: LEGAL_SOFT_FAIL_NEUTRAL_SCORE,
       breakdown: {
         applicableInstruments: 0,
         violated: 0,
         partial: 0,
         weightPerInstrument: 0,
-        final: 100,
+        final: LEGAL_SOFT_FAIL_NEUTRAL_SCORE,
+        ragSourcesCount: 0,
+        hasLegalContext: false,
+        unevaluable: true,
+      },
+    };
+  }
+
+  const applicable = safeReviews.filter((r) => r.compliance !== "non_applicabile");
+  if (applicable.length === 0) {
+    // Corpus present but AI marked everything non_applicabile — still not a free 100.
+    return {
+      score: LEGAL_SOFT_FAIL_NEUTRAL_SCORE,
+      breakdown: {
+        applicableInstruments: 0,
+        violated: 0,
+        partial: 0,
+        weightPerInstrument: 0,
+        final: LEGAL_SOFT_FAIL_NEUTRAL_SCORE,
+        ragSourcesCount,
+        hasLegalContext: true,
+        unevaluable: true,
       },
     };
   }
@@ -253,6 +303,9 @@ export function computeLegalComplianceScore(reviews: LegalInstrumentReview[]): {
       partial,
       weightPerInstrument: Math.round(weightPerInstrument * 100) / 100,
       final,
+      ragSourcesCount,
+      hasLegalContext: true,
+      unevaluable: false,
     },
   };
 }
@@ -289,11 +342,18 @@ export function deriveDimensionScores(params: {
   legalInstrumentReviews: LegalInstrumentReview[];
   totalCostEuro: number;
   budgetEuro: number;
+  /** When false, legal score soft-fails to a neutral value (never 100). */
+  hasLegalContext?: boolean;
+  /** Number of accepted RAG legal source titles (0 ⇒ soft-fail). */
+  ragSourcesCount?: number;
 }): { scores: DimensionScores; breakdown: ScoreBreakdown } {
   const clinical = computeClinicalAccuracyScore(params.criticalActions);
   const exams = computeAppropriatenessScore(params.inappropriateActions);
   const economy = computeEconomicSustainabilityScore(params.totalCostEuro, params.budgetEuro);
-  const legal = computeLegalComplianceScore(params.legalInstrumentReviews);
+  const legal = computeLegalComplianceScore(params.legalInstrumentReviews, {
+    hasLegalContext: params.hasLegalContext,
+    ragSourcesCount: params.ragSourcesCount,
+  });
   const empathy = computeEmpathyScore(params.empathyChecklist);
 
   return {
