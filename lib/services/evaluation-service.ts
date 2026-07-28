@@ -26,98 +26,161 @@ import {
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 
-/** Truncate / coerce LLM strings so Zod .max() does not abort report generation. */
-function cappedString(max: number, fallback = "") {
-  return z.preprocess((value) => {
-    if (value == null) return fallback;
-    const text = typeof value === "string" ? value : String(value);
-    return text.length > max ? text.slice(0, max) : text;
-  }, z.string().max(max));
-}
-
-/** GPT-4o often returns null for optional arrays — coerce to []. */
-function nullishArray<T extends z.ZodTypeAny>(item: T, listMax: number) {
-  return z.preprocess((value) => {
-    if (value == null) return [];
-    return Array.isArray(value) ? value : [];
-  }, z.array(item).max(listMax));
-}
-
 const criticalActionSchema = z.object({
-  description: cappedString(200),
+  description: z.string().max(200),
   performed: z.boolean(),
   criticalLevel: z.enum(["HIGH", "MEDIUM"]),
-  feedback: cappedString(320),
+  feedback: z.string().max(320),
 });
 
 const inappropriateActionSchema = z.object({
-  description: cappedString(200),
+  description: z.string().max(200),
   performed: z.boolean(),
-  penaltyWeight: z.preprocess((value) => {
-    const n = typeof value === "number" ? value : Number(value);
-    if (!Number.isFinite(n)) return 0;
-    return Math.max(0, Math.min(100, n));
-  }, z.number().min(0).max(100)),
-  feedback: cappedString(320),
+  penaltyWeight: z.number().min(0).max(100),
+  feedback: z.string().max(320),
 });
 
 const empathyChecklistItemSchema = z.object({
-  parameter: cappedString(120),
+  parameter: z.string().max(120),
   met: z.boolean(),
-  feedback: cappedString(280),
+  feedback: z.string().max(280),
 });
 
 /**
- * Schema compilato dall'AI: solo checklist oggettive, nessun punteggio numerico.
- * Tolerant of null arrays / overlong strings (common GPT-4o tool-call quirks).
+ * Schema for GPT-4o structured outputs (OpenAI strict mode).
+ * Must stay free of z.preprocess / ZodEffects — those drop keys from JSON Schema
+ * `required` and cause the OpenAI tool call to fail before generation.
  */
 export const AnalyticalEvaluationSchema = z.object({
-  criticalActions: nullishArray(criticalActionSchema, 12),
-  inappropriateActions: nullishArray(inappropriateActionSchema, 12),
-  empathyChecklist: nullishArray(empathyChecklistItemSchema, 10),
+  criticalActions: z.array(criticalActionSchema).min(1).max(12),
+  inappropriateActions: z.array(inappropriateActionSchema).max(12),
+  empathyChecklist: z.array(empathyChecklistItemSchema).min(1).max(10),
   feedback: z.object({
-    strengths: nullishArray(cappedString(160), 3),
-    weaknesses: nullishArray(cappedString(160), 3),
-    clinicalNote: cappedString(400),
-    legalComplianceNote: cappedString(400),
-    prescribingNote: cappedString(400),
-    empathyNote: cappedString(300),
-    economyNote: cappedString(300),
-    correctSolution: cappedString(320),
+    strengths: z.array(z.string().max(160)).max(3),
+    weaknesses: z.array(z.string().max(160)).max(3),
+    clinicalNote: z.string().max(400),
+    legalComplianceNote: z.string().max(400),
+    prescribingNote: z.string().max(400),
+    empathyNote: z.string().max(300),
+    economyNote: z.string().max(300),
+    correctSolution: z.string().max(320),
   }),
   evidence: z.object({
-    legalSources: nullishArray(cappedString(120), 8),
-    protocolSources: nullishArray(cappedString(120), 6),
+    legalSources: z.array(z.string().max(120)).max(8),
+    protocolSources: z.array(z.string().max(120)).max(6),
   }),
-  legalInstrumentReviews: nullishArray(
+  legalInstrumentReviews: z.array(
     z.object({
-      instrument: cappedString(80),
-      documentTitle: z.preprocess(
-        (value) => (value == null ? undefined : value),
-        cappedString(120).optional(),
-      ),
+      instrument: z.string().max(80),
+      /** Prefer "" over omitting — strict OpenAI schemas require every key. */
+      documentTitle: z.string().max(120),
       compliance: z.enum(["rispettato", "violato", "parziale", "non_applicabile"]),
-      rationale: cappedString(220),
+      rationale: z.string().max(220),
     }),
-    8,
-  ),
+  ).max(8),
   legalProtectionStatus: LegalProtectionStatusSchema,
-  clinicalDeltaTable: nullishArray(ClinicalDeltaRowSchema, 20),
+  clinicalDeltaTable: z.array(ClinicalDeltaRowSchema).min(1).max(20),
   economicAnalysis: EconomicAnalysisSchema,
   coachingFeedback: CoachingFeedbackSchema,
-  fatalErrors: z.preprocess(
-    (value) => (value == null ? undefined : value),
-    z
-      .array(
-        z.object({
-          description: cappedString(200),
-          rationale: cappedString(320),
-        }),
-      )
-      .max(8)
-      .optional(),
-  ),
+  /** Always present (may be empty) so the field stays required in strict JSON Schema. */
+  fatalErrors: z
+    .array(
+      z.object({
+        description: z.string().max(200),
+        rationale: z.string().max(320),
+      }),
+    )
+    .max(8),
 });
+
+/** Soft-trim overlong strings / coerce sparse arrays after a successful model response. */
+export function normalizeAnalyticalEvaluation(
+  raw: AnalyticalEvaluation,
+): AnalyticalEvaluation {
+  const clip = (value: string, max: number) =>
+    value.length > max ? value.slice(0, max) : value;
+
+  return {
+    ...raw,
+    criticalActions: (raw.criticalActions ?? []).slice(0, 12).map((item) => ({
+      ...item,
+      description: clip(item.description ?? "", 200),
+      feedback: clip(item.feedback ?? "", 320),
+    })),
+    inappropriateActions: (raw.inappropriateActions ?? []).slice(0, 12).map((item) => ({
+      ...item,
+      description: clip(item.description ?? "", 200),
+      feedback: clip(item.feedback ?? "", 320),
+      penaltyWeight: Math.max(0, Math.min(100, Number(item.penaltyWeight) || 0)),
+    })),
+    empathyChecklist: (raw.empathyChecklist ?? []).slice(0, 10).map((item) => ({
+      ...item,
+      parameter: clip(item.parameter ?? "", 120),
+      feedback: clip(item.feedback ?? "", 280),
+    })),
+    feedback: {
+      strengths: (raw.feedback?.strengths ?? []).slice(0, 3).map((s) => clip(s, 160)),
+      weaknesses: (raw.feedback?.weaknesses ?? []).slice(0, 3).map((s) => clip(s, 160)),
+      clinicalNote: clip(raw.feedback?.clinicalNote ?? "", 400),
+      legalComplianceNote: clip(raw.feedback?.legalComplianceNote ?? "", 400),
+      prescribingNote: clip(raw.feedback?.prescribingNote ?? "", 400),
+      empathyNote: clip(raw.feedback?.empathyNote ?? "", 300),
+      economyNote: clip(raw.feedback?.economyNote ?? "", 300),
+      correctSolution: clip(raw.feedback?.correctSolution ?? "", 320),
+    },
+    evidence: {
+      legalSources: (raw.evidence?.legalSources ?? []).slice(0, 8).map((s) => clip(s, 120)),
+      protocolSources: (raw.evidence?.protocolSources ?? []).slice(0, 6).map((s) => clip(s, 120)),
+    },
+    legalInstrumentReviews: (raw.legalInstrumentReviews ?? []).slice(0, 8).map((item) => ({
+      instrument: clip(item.instrument ?? "", 80),
+      documentTitle: clip(item.documentTitle ?? "", 120),
+      compliance: item.compliance,
+      rationale: clip(item.rationale ?? "", 220),
+    })),
+    legalProtectionStatus: {
+      status: raw.legalProtectionStatus.status,
+      justification: clip(raw.legalProtectionStatus.justification ?? "", 800),
+      referenceDocuments: (raw.legalProtectionStatus.referenceDocuments ?? [])
+        .slice(0, 12)
+        .map((s) => clip(s, 120)),
+    },
+    clinicalDeltaTable: (raw.clinicalDeltaTable ?? []).slice(0, 20).map((row) => ({
+      protocolAction: clip(row.protocolAction ?? "", 200),
+      userAction: clip(row.userAction ?? "", 200),
+      status: row.status,
+      penaltyOrBonusReason: clip(row.penaltyOrBonusReason ?? "", 320),
+    })),
+    economicAnalysis: {
+      targetBudget: Math.max(0, Number(raw.economicAnalysis?.targetBudget) || 0),
+      actualSpent: Math.max(0, Number(raw.economicAnalysis?.actualSpent) || 0),
+      unnecessaryExpenses: (raw.economicAnalysis?.unnecessaryExpenses ?? [])
+        .slice(0, 15)
+        .map((e) => ({
+          examName: clip(e.examName ?? "", 120),
+          cost: Math.max(0, Number(e.cost) || 0),
+          reason: clip(e.reason ?? "", 280),
+        })),
+      missedRequiredExams: (raw.economicAnalysis?.missedRequiredExams ?? [])
+        .slice(0, 15)
+        .map((e) => ({
+          examName: clip(e.examName ?? "", 120),
+          cost: Math.max(0, Number(e.cost) || 0),
+          reason: clip(e.reason ?? "", 280),
+        })),
+    },
+    coachingFeedback: {
+      empatia: clip(raw.coachingFeedback?.empatia ?? "", 400),
+      tutelaLegale: clip(raw.coachingFeedback?.tutelaLegale ?? "", 400),
+      economicita: clip(raw.coachingFeedback?.economicita ?? "", 400),
+      accuratezza: clip(raw.coachingFeedback?.accuratezza ?? "", 400),
+    },
+    fatalErrors: (raw.fatalErrors ?? []).slice(0, 8).map((item) => ({
+      description: clip(item.description ?? "", 200),
+      rationale: clip(item.rationale ?? "", 320),
+    })),
+  };
+}
 
 export type AnalyticalEvaluation = z.infer<typeof AnalyticalEvaluationSchema>;
 
@@ -315,9 +378,9 @@ Nessuna linea guida o documento legale specifico è stato trovato per questa spe
 - NON inventare articoli di legge, norme, protocolli o citazioni non presenti nel contesto.
 - NON assumere conformità legale "di default".
 - In legalProtectionStatus: status = PARTIALLY_EXPOSED (o HIGHLY_EXPOSED se il caso lo richiede clinicamente), justification deve indicare ESPLICITAMENTE la mancanza di documentazione legale indicizzata per la specialità, referenceDocuments deve essere un array vuoto [] (MAI null).
-- In legalInstrumentReviews: almeno 1 voce "non_applicabile" con rationale che cita l'assenza di corpus RAG (non inventare compliance "rispettato").
+- In legalInstrumentReviews: almeno 1 voce "non_applicabile" con documentTitle "" e rationale che cita l'assenza di corpus RAG (non inventare compliance "rispettato").
 - Compila comunque criticalActions (≥3), empathyChecklist (≥4) e clinicalDeltaTable (≥3 righe dal Gold Standard / chat) anche senza corpus RAG.
-- Non usare mai null per array: usa sempre [].
+- fatalErrors: array (vuoto [] se nessuno). Non usare mai null per array o stringhe: usa [] oppure "".
 `.trim()
     : "";
 
@@ -510,7 +573,7 @@ export class EvaluationService {
               sessionMilestones: input.sessionMilestones,
             }),
           });
-          analytical = result.object;
+          analytical = normalizeAnalyticalEvaluation(result.object);
           break;
         } catch (generateError) {
           lastGenerateError = generateError;
