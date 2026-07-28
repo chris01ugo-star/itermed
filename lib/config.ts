@@ -273,6 +273,11 @@ function loadDevFallbackConfig(
 
 function loadConfig() {
   const nodeEnv = process.env.NODE_ENV ?? "development";
+  /** Next.js "collect page data" / compile runs with NODE_ENV=production but secrets may be runtime-only. */
+  const isBuildPhase =
+    process.env.NEXT_PHASE === "phase-production-build" ||
+    process.env.NEXT_PHASE === "phase-export";
+
   const envInput: Record<string, string | undefined> = {
     ...normalizedEnv,
     NODE_ENV: nodeEnv,
@@ -286,15 +291,36 @@ function loadConfig() {
   }
 
   // Dev: ignore partial Pinecone config (RAG works without vector search).
-  if (nodeEnv === "development") {
+  if (nodeEnv === "development" || isBuildPhase) {
     const hasPineconeKey = Boolean(envInput.PINECONE_API_KEY);
     const hasPineconeIndex = Boolean(envInput.PINECONE_INDEX);
     if (hasPineconeKey !== hasPineconeIndex) {
       console.warn(
-        "[itermed/config] DEV: Pinecone env incomplete — disabling vector RAG for this session.",
+        "[itermed/config] Pinecone env incomplete — disabling vector RAG for this session.",
       );
       delete envInput.PINECONE_API_KEY;
       delete envInput.PINECONE_INDEX;
+    }
+  }
+
+  // Build-time placeholders so `next build` can collect route data without runtime secrets.
+  // Must satisfy production Zod checks (no DEV_AUTH_SECRET_PLACEHOLDER).
+  if (isBuildPhase) {
+    if (!envInput.DATABASE_URL?.trim()) {
+      envInput.DATABASE_URL =
+        "postgresql://build:build@127.0.0.1:5432/itermed_build?schema=public";
+    }
+    if (!envInput.OPENAI_API_KEY?.trim()) {
+      envInput.OPENAI_API_KEY = "sk-build-placeholder";
+    }
+    if (!(envInput.NEXTAUTH_SECRET?.trim() || envInput.AUTH_SECRET?.trim())) {
+      envInput.NEXTAUTH_SECRET = "build-phase-secret-do-not-use-at-runtime-32c";
+    }
+    if (!envInput.NEXT_PUBLIC_APP_URL?.trim()) {
+      envInput.NEXT_PUBLIC_APP_URL = DEV_APP_URL_FALLBACK;
+    }
+    if (!envInput.NEXTAUTH_URL?.trim()) {
+      envInput.NEXTAUTH_URL = DEV_APP_URL_FALLBACK;
     }
   }
 
@@ -312,8 +338,8 @@ function loadConfig() {
     console.error("╚══════════════════════════════════════════════════════════╝");
     console.error(JSON.stringify(details, null, 2));
 
-    // Development / local: never block the app — return soft fallback.
-    if (nodeEnv === "development" || nodeEnv === "test") {
+    // Development / local / Next build collect: never block — return soft fallback.
+    if (nodeEnv === "development" || nodeEnv === "test" || isBuildPhase) {
       return loadDevFallbackConfig(envInput, details);
     }
 
