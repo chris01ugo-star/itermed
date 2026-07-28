@@ -13,6 +13,7 @@ import {
   Route,
   Sparkles,
   Stethoscope,
+  Trash2,
   UserRound,
 } from "lucide-react";
 import { flattenCatalogExams } from "@/lib/exam-catalog-structure";
@@ -23,6 +24,7 @@ import { Button } from "@/app/ui/button";
 import { Badge } from "@/app/ui/badge";
 import { cn } from "@/app/utils/cn";
 import { Skeleton, SkeletonText } from "@/components/ui/Skeleton";
+import { SegmentedControl } from "@/components/ui/segmented-control";
 
 const STEPS = [
   { id: 1, label: "Anagrafica", icon: UserRound },
@@ -32,6 +34,23 @@ const STEPS = [
 ] as const;
 
 const CATALOG_EXAMS = flattenCatalogExams().slice(0, 48);
+
+const DIFFICULTY_OPTIONS = [
+  { value: "EASY", label: "Facile" },
+  { value: "MEDIUM", label: "Media" },
+  { value: "HARD", label: "Difficile" },
+] as const;
+
+const SEX_OPTIONS = [
+  { value: "", label: "—" },
+  { value: "M", label: "Maschio" },
+  { value: "F", label: "Femmina" },
+] as const;
+
+const PANEL_CARD =
+  "rounded-xl border border-border bg-panel-bg shadow-aequan-panel hover:shadow-aequan-panel";
+const FIELD_LABEL = "text-xs font-medium text-slate-700";
+const FIELD_STACK = "space-y-1.5";
 
 type WizardForm = {
   title: string;
@@ -78,6 +97,32 @@ const INITIAL: WizardForm = {
 type CaseCreatorWizardProps = {
   canPublishGlobal?: boolean;
 };
+
+function StepPanelHeader({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: typeof Stethoscope;
+  title: string;
+  description: string;
+}) {
+  return (
+    <CardHeader className="border-b border-border-subtle">
+      <div className="flex items-start gap-2.5">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+          <Icon className="h-4 w-4" />
+        </div>
+        <div className="min-w-0 space-y-0.5">
+          <CardTitle className="font-display text-sm font-semibold text-brand-primary">
+            {title}
+          </CardTitle>
+          <CardDescription className="text-xs leading-relaxed">{description}</CardDescription>
+        </div>
+      </div>
+    </CardHeader>
+  );
+}
 
 export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizardProps) {
   const router = useRouter();
@@ -293,18 +338,29 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
   };
 
   return (
-    <div className="space-y-6">
-      <Card className="overflow-hidden border-[#345884]/20 bg-gradient-to-br from-[#345884]/[0.06] via-white to-slate-50 shadow-sm">
-        <CardHeader className="pb-2">
-          <CardTitle className="font-display flex items-center gap-2 text-base font-bold tracking-tight text-[#1E324E]">
-            <span aria-hidden>✨</span>
-            Compilazione Rapida con IA AEQUAN
-          </CardTitle>
-          <CardDescription className="text-xs text-slate-500">
-            Incolla un breve riassunto clinico: l&apos;IA compilerà titolo, presentazione, vitali,
-            anamnesi e diagnosi attesa. Potrai rivedere e modificare ogni campo prima del
-            salvataggio.
-          </CardDescription>
+    <div className="space-y-5">
+      <Card
+        className={cn(
+          PANEL_CARD,
+          "overflow-hidden border-brand-secondary/20 bg-gradient-to-br from-brand-secondary/[0.06] via-panel-bg to-ui-bg",
+        )}
+      >
+        <CardHeader>
+          <div className="flex items-start gap-2.5">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+              <Sparkles className="h-4 w-4" />
+            </div>
+            <div className="min-w-0 space-y-0.5">
+              <CardTitle className="font-display text-sm font-semibold text-brand-primary">
+                Compilazione rapida con IA
+              </CardTitle>
+              <CardDescription className="text-xs leading-relaxed">
+                Incolla un breve riassunto clinico: l&apos;IA compilerà titolo, presentazione,
+                vitali, anamnesi e diagnosi attesa. Potrai rivedere ogni campo prima del
+                salvataggio.
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="space-y-3">
           <Textarea
@@ -313,15 +369,17 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
             rows={4}
             disabled={aiGenerating}
             placeholder='Es. "Uomo di 62 anni con dolore toracico irradiato al braccio sinistro, iperteso, fumatore. Sospetto infarto STEMI."'
-            className="rounded-xl border-slate-200/80 bg-white/90 text-sm"
+            className="rounded-xl border-border bg-white text-sm"
           />
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-[11px] text-slate-500">Modello: gpt-4o-mini · disponibile per tutti gli utenti</p>
+            <p className="text-[11px] text-slate-500">
+              Modello: gpt-4o-mini · disponibile per tutti gli utenti
+            </p>
             <Button
               type="button"
               onClick={() => void handleGenerateCaseFields()}
               disabled={aiGenerating || aiBrief.trim().length < 20}
-              className="inline-flex items-center gap-2 rounded-xl"
+              className="inline-flex items-center gap-2"
             >
               {aiGenerating ? (
                 <>
@@ -331,7 +389,7 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
               ) : (
                 <>
                   <Sparkles className="h-4 w-4" />
-                  Genera Struttura Caso
+                  Genera struttura caso
                 </>
               )}
             </Button>
@@ -345,9 +403,9 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
           {aiMessage ? (
             <p
               className={cn(
-                "rounded-xl border px-3 py-2 text-[11px]",
+                "rounded-xl border px-3 py-2 text-xs",
                 aiMessage.includes("Struttura caso generata")
-                  ? "border-emerald-200/80 bg-emerald-50/80 text-emerald-900"
+                  ? "border-emerald-200/80 bg-emerald-50/80 text-emerald-800"
                   : "border-amber-200/80 bg-amber-50/80 text-amber-950",
               )}
               role="status"
@@ -358,7 +416,10 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
         </CardContent>
       </Card>
 
-      <nav className="flex flex-wrap gap-2" aria-label="Sezioni wizard caso">
+      <nav
+        className="flex flex-wrap items-center gap-1 rounded-2xl border border-slate-200 bg-slate-50 p-1"
+        aria-label="Sezioni wizard caso"
+      >
         {STEPS.map(({ id, label, icon: Icon }) => {
           const active = step === id;
           const visited = step > id;
@@ -369,12 +430,12 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
               onClick={() => goToStep(id)}
               aria-current={active ? "step" : undefined}
               className={cn(
-                "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                "inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors",
                 active
-                  ? "border-[#345884]/30 bg-[#345884]/10 text-[#1E324E]"
+                  ? "bg-[#1E324E] text-white shadow-sm"
                   : visited
-                    ? "border-slate-200 bg-slate-50 text-[#345884] hover:border-[#345884]/25"
-                    : "border-zinc-200 bg-white text-zinc-500 hover:border-zinc-300 hover:text-zinc-700",
+                    ? "bg-transparent text-brand-secondary hover:text-[#1E324E]"
+                    : "bg-transparent text-slate-500 hover:text-[#2F4156]",
               )}
             >
               {visited && !active ? (
@@ -391,99 +452,152 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
       </nav>
 
       {error ? (
-        <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+        <div
+          className="rounded-xl border border-rose-200/80 bg-rose-50/80 px-4 py-2 text-xs text-rose-800"
+          role="alert"
+        >
           {error}
         </div>
       ) : null}
 
       {step === 1 ? (
-        <Card className="border-zinc-200/80 bg-white/90 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Stethoscope className="h-4 w-4 text-sky-600" />
-              Anagrafica e presentazione clinica
-            </CardTitle>
-            <CardDescription>
-              Definisci il profilo del paziente virtuale e i parametri vitali iniziali.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4 md:grid-cols-2">
-            <label className="space-y-1 md:col-span-2">
-              <span className="text-xs font-medium text-zinc-600">Titolo caso</span>
-              <Input value={form.title} onChange={(e) => update("title", e.target.value)} className="h-9 text-sm" />
+        <Card className={PANEL_CARD}>
+          <StepPanelHeader
+            icon={Stethoscope}
+            title="Anagrafica e presentazione clinica"
+            description="Definisci il profilo del paziente virtuale e i parametri vitali iniziali."
+          />
+          <CardContent className="grid gap-4 pt-4 md:grid-cols-2">
+            <label className={cn(FIELD_STACK, "md:col-span-2")}>
+              <span className={FIELD_LABEL}>Titolo caso</span>
+              <Input
+                value={form.title}
+                onChange={(e) => update("title", e.target.value)}
+                className="h-9 text-sm"
+              />
             </label>
-            <label className="space-y-1">
-              <span className="text-xs font-medium text-zinc-600">Specialità</span>
-              <Input value={form.specialty} onChange={(e) => update("specialty", e.target.value)} className="h-9 text-sm" />
+            <label className={FIELD_STACK}>
+              <span className={FIELD_LABEL}>Specialità</span>
+              <Input
+                value={form.specialty}
+                onChange={(e) => update("specialty", e.target.value)}
+                className="h-9 text-sm"
+              />
             </label>
-            <label className="space-y-1">
-              <span className="text-xs font-medium text-zinc-600">Difficoltà</span>
-              <select
+            <div className={FIELD_STACK}>
+              <span className={FIELD_LABEL}>Difficoltà</span>
+              <SegmentedControl
+                aria-label="Difficoltà caso"
+                options={[...DIFFICULTY_OPTIONS]}
                 value={form.difficulty}
-                onChange={(e) => update("difficulty", e.target.value as WizardForm["difficulty"])}
-                className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-sm"
-              >
-                <option value="EASY">Facile</option>
-                <option value="MEDIUM">Media</option>
-                <option value="HARD">Difficile</option>
-              </select>
+                onChange={(value) => update("difficulty", value)}
+              />
+            </div>
+            <label className={FIELD_STACK}>
+              <span className={FIELD_LABEL}>Età</span>
+              <Input
+                value={form.age}
+                onChange={(e) => update("age", e.target.value)}
+                className="h-9 text-sm"
+              />
             </label>
-            <label className="space-y-1">
-              <span className="text-xs font-medium text-zinc-600">Età</span>
-              <Input value={form.age} onChange={(e) => update("age", e.target.value)} className="h-9 text-sm" />
-            </label>
-            <label className="space-y-1">
-              <span className="text-xs font-medium text-zinc-600">Sesso</span>
-              <select
+            <div className={FIELD_STACK}>
+              <span className={FIELD_LABEL}>Sesso</span>
+              <SegmentedControl
+                aria-label="Sesso paziente"
+                options={[...SEX_OPTIONS]}
                 value={form.sex}
-                onChange={(e) => update("sex", e.target.value as WizardForm["sex"])}
-                className="h-9 w-full rounded-md border border-zinc-200 bg-white px-2 text-sm"
-              >
-                <option value="">—</option>
-                <option value="M">Maschio</option>
-                <option value="F">Femmina</option>
-              </select>
+                onChange={(value) => update("sex", value)}
+              />
+            </div>
+            <label className={cn(FIELD_STACK, "md:col-span-2")}>
+              <span className={FIELD_LABEL}>Contesto / setting</span>
+              <Input
+                value={form.context}
+                onChange={(e) => update("context", e.target.value)}
+                className="h-9 text-sm"
+                placeholder="es. PS notturno, dolore toracico da 2 ore"
+              />
             </label>
-            <label className="space-y-1 md:col-span-2">
-              <span className="text-xs font-medium text-zinc-600">Contesto / setting</span>
-              <Input value={form.context} onChange={(e) => update("context", e.target.value)} className="h-9 text-sm" placeholder="es. PS notturno, dolore toracico da 2 ore" />
+            <label className={cn(FIELD_STACK, "md:col-span-2")}>
+              <span className={FIELD_LABEL}>Presentazione clinica</span>
+              <Textarea
+                value={form.description}
+                onChange={(e) => update("description", e.target.value)}
+                rows={4}
+                className="text-sm"
+              />
             </label>
-            <label className="space-y-1 md:col-span-2">
-              <span className="text-xs font-medium text-zinc-600">Presentazione clinica</span>
-              <Textarea value={form.description} onChange={(e) => update("description", e.target.value)} rows={4} className="text-sm" />
+            <label className={cn(FIELD_STACK, "md:col-span-2")}>
+              <span className={FIELD_LABEL}>Anamnesi / comorbidità</span>
+              <Textarea
+                value={form.pastMedicalHistory}
+                onChange={(e) => update("pastMedicalHistory", e.target.value)}
+                rows={2}
+                className="text-sm"
+              />
             </label>
-            <label className="space-y-1 md:col-span-2">
-              <span className="text-xs font-medium text-zinc-600">Anamnesi / comorbidità</span>
-              <Textarea value={form.pastMedicalHistory} onChange={(e) => update("pastMedicalHistory", e.target.value)} rows={2} className="text-sm" />
+            <label className={FIELD_STACK}>
+              <span className={FIELD_LABEL}>FC (bpm)</span>
+              <Input
+                value={form.vitals_fc}
+                onChange={(e) => update("vitals_fc", e.target.value)}
+                className="h-9 text-sm"
+              />
             </label>
-            <label className="space-y-1">
-              <span className="text-xs font-medium text-zinc-600">FC (bpm)</span>
-              <Input value={form.vitals_fc} onChange={(e) => update("vitals_fc", e.target.value)} className="h-9 text-sm" />
+            <label className={FIELD_STACK}>
+              <span className={FIELD_LABEL}>PA</span>
+              <Input
+                value={form.vitals_pa}
+                onChange={(e) => update("vitals_pa", e.target.value)}
+                className="h-9 text-sm"
+                placeholder="120/80"
+              />
             </label>
-            <label className="space-y-1">
-              <span className="text-xs font-medium text-zinc-600">PA</span>
-              <Input value={form.vitals_pa} onChange={(e) => update("vitals_pa", e.target.value)} className="h-9 text-sm" placeholder="120/80" />
+            <label className={FIELD_STACK}>
+              <span className={FIELD_LABEL}>SpO₂ (%)</span>
+              <Input
+                value={form.vitals_spo2}
+                onChange={(e) => update("vitals_spo2", e.target.value)}
+                className="h-9 text-sm"
+              />
             </label>
-            <label className="space-y-1">
-              <span className="text-xs font-medium text-zinc-600">SpO₂ (%)</span>
-              <Input value={form.vitals_spo2} onChange={(e) => update("vitals_spo2", e.target.value)} className="h-9 text-sm" />
+            <label className={FIELD_STACK}>
+              <span className={FIELD_LABEL}>Temperatura (°C)</span>
+              <Input
+                value={form.vitals_temp}
+                onChange={(e) => update("vitals_temp", e.target.value)}
+                className="h-9 text-sm"
+              />
             </label>
-            <label className="space-y-1">
-              <span className="text-xs font-medium text-zinc-600">Temperatura (°C)</span>
-              <Input value={form.vitals_temp} onChange={(e) => update("vitals_temp", e.target.value)} className="h-9 text-sm" />
+            <label className={FIELD_STACK}>
+              <span className={FIELD_LABEL}>FR (atti/min)</span>
+              <Input
+                value={form.vitals_fr}
+                onChange={(e) => update("vitals_fr", e.target.value)}
+                className="h-9 text-sm"
+              />
             </label>
-            <label className="space-y-1">
-              <span className="text-xs font-medium text-zinc-600">FR (atti/min)</span>
-              <Input value={form.vitals_fr} onChange={(e) => update("vitals_fr", e.target.value)} className="h-9 text-sm" />
-            </label>
-            <label className="space-y-1 md:col-span-2">
-              <span className="text-xs font-medium text-zinc-600">Soluzione corretta (nascosta allo studente)</span>
-              <Textarea value={form.correctSolution} onChange={(e) => update("correctSolution", e.target.value)} rows={2} className="text-sm" />
+            <label className={cn(FIELD_STACK, "md:col-span-2")}>
+              <span className={FIELD_LABEL}>Soluzione corretta (nascosta allo studente)</span>
+              <Textarea
+                value={form.correctSolution}
+                onChange={(e) => update("correctSolution", e.target.value)}
+                rows={2}
+                className="text-sm"
+              />
             </label>
             {canPublishGlobal ? (
-              <label className="flex items-center gap-2 md:col-span-2 text-xs text-zinc-600">
-                <input type="checkbox" checked={isGlobal} onChange={(e) => setIsGlobal(e.target.checked)} className="h-3.5 w-3.5" />
-                Pubblica come caso globale Aequan
+              <label className="flex items-center gap-2.5 md:col-span-2">
+                <input
+                  type="checkbox"
+                  checked={isGlobal}
+                  onChange={(e) => setIsGlobal(e.target.checked)}
+                  className="h-4 w-4 rounded border-border text-brand-primary accent-[#1E324E]"
+                />
+                <span className="text-xs font-medium text-slate-700">
+                  Pubblica come caso globale Aequan
+                </span>
               </label>
             ) : null}
           </CardContent>
@@ -491,19 +605,15 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
       ) : null}
 
       {step === 2 ? (
-        <Card className="border-zinc-200/80 bg-white/90 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Clock className="h-4 w-4 text-amber-600" />
-              Tempi di refertazione esami
-            </CardTitle>
-            <CardDescription>
-              Imposta i minuti di attesa per ogni esame. Il simulatore sommerà queste latenze al tempo trascorso.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3 max-h-[520px] overflow-y-auto">
+        <Card className={PANEL_CARD}>
+          <StepPanelHeader
+            icon={Clock}
+            title="Tempi di refertazione esami"
+            description="Imposta i minuti di attesa per ogni esame. Il simulatore sommerà queste latenze al tempo trascorso."
+          />
+          <CardContent className="max-h-[520px] space-y-3 overflow-y-auto pt-4">
             {configuredExams.length > 0 ? (
-              <div className="flex flex-wrap gap-1.5 pb-2">
+              <div className="flex flex-wrap gap-1.5 pb-1">
                 {configuredExams.map(([id, mins]) => (
                   <Badge key={id} variant="info" className="text-[10px]">
                     {id}: {mins} min
@@ -513,8 +623,11 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
             ) : null}
             <div className="grid gap-2 sm:grid-cols-2">
               {CATALOG_EXAMS.map((exam) => (
-                <label key={exam.id} className="flex items-center justify-between gap-2 rounded-lg border border-zinc-100 bg-zinc-50/80 px-3 py-2">
-                  <span className="text-[11px] text-zinc-700 truncate" title={exam.name}>
+                <label
+                  key={exam.id}
+                  className="flex items-center justify-between gap-2 rounded-xl border border-border bg-ui-bg/80 px-3 py-2"
+                >
+                  <span className="truncate text-[11px] text-slate-700" title={exam.name}>
                     {exam.name}
                   </span>
                   <Input
@@ -528,7 +641,7 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
                         [exam.id]: e.target.value,
                       })
                     }
-                    className="h-7 w-16 text-[11px] text-right"
+                    className="h-7 w-16 text-right text-[11px]"
                   />
                 </label>
               ))}
@@ -538,17 +651,13 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
       ) : null}
 
       {step === 3 ? (
-        <Card className="border-zinc-200/80 bg-white/90 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Route className="h-4 w-4 text-[#345884]" />
-              Percorso Gold Standard
-            </CardTitle>
-            <CardDescription>
-              Tappe cliniche obbligatorie per superare il caso (es. anamnesi, obiettivo, esami, terapie salvavita).
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
+        <Card className={PANEL_CARD}>
+          <StepPanelHeader
+            icon={Route}
+            title="Percorso Gold Standard"
+            description="Tappe cliniche obbligatorie per superare il caso (es. anamnesi, obiettivo, esami, terapie salvavita)."
+          />
+          <CardContent className="space-y-4 pt-4">
             <div className="flex gap-2">
               <Input
                 value={newGoldStep}
@@ -570,18 +679,19 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
               {form.goldSteps.map((stepId, index) => (
                 <li
                   key={`${stepId}-${index}`}
-                  className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-border bg-ui-bg/80 px-3 py-2.5 text-sm"
                 >
-                  <span>
-                    <span className="text-zinc-400 mr-2">{index + 1}.</span>
+                  <span className="min-w-0 truncate text-text-primary">
+                    <span className="mr-2 tabular-nums text-slate-400">{index + 1}.</span>
                     {stepId}
                   </span>
                   <button
                     type="button"
                     onClick={() => removeGoldStep(index)}
-                    className="text-xs text-rose-600 hover:underline"
+                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-rose-50 hover:text-rose-600"
+                    aria-label={`Rimuovi tappa ${stepId}`}
                   >
-                    Rimuovi
+                    <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 </li>
               ))}
@@ -591,19 +701,15 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
       ) : null}
 
       {step === 4 ? (
-        <Card className="border-zinc-200/80 bg-white/90 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
-              <Activity className="h-4 w-4 text-rose-600" />
-              Soglie di deterioramento
-            </CardTitle>
-            <CardDescription>
-              Dopo quanti minuti simulati, senza azioni salvavita, il paziente inizia a peggiorare.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4 md:grid-cols-2">
-            <label className="space-y-1">
-              <span className="text-xs font-medium text-zinc-600">Tempo massimo simulazione (min)</span>
+        <Card className={PANEL_CARD}>
+          <StepPanelHeader
+            icon={Activity}
+            title="Soglie di deterioramento"
+            description="Dopo quanti minuti simulati, senza azioni salvavita, il paziente inizia a peggiorare."
+          />
+          <CardContent className="grid gap-4 pt-4 md:grid-cols-2">
+            <label className={FIELD_STACK}>
+              <span className={FIELD_LABEL}>Tempo massimo simulazione (min)</span>
               <Input
                 type="number"
                 min={5}
@@ -612,8 +718,8 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
                 className="h-9 text-sm"
               />
             </label>
-            <label className="space-y-1">
-              <span className="text-xs font-medium text-zinc-600">Soglia deterioramento (min)</span>
+            <label className={FIELD_STACK}>
+              <span className={FIELD_LABEL}>Soglia deterioramento (min)</span>
               <Input
                 type="number"
                 min={1}
@@ -622,23 +728,30 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
                 className="h-9 text-sm"
               />
             </label>
-            <div className="md:col-span-2 rounded-xl border border-amber-200/80 bg-amber-50/60 p-4 text-xs text-amber-900 space-y-1">
+            <div className="space-y-1 rounded-xl border border-amber-200/80 bg-amber-50/60 p-4 text-xs text-amber-900 md:col-span-2">
               <p>
                 <strong>Riepilogo:</strong> {form.goldSteps.length} tappe Gold Standard,{" "}
                 {configuredExams.length} esami con latenza configurata.
               </p>
               <p>
                 Se il tempo simulato supera{" "}
-                <strong>{form.patientDeteriorationThreshold || "—"} min</strong> senza completare il percorso,
-                l&apos;AI farà deteriorare il paziente (desaturazione, ipotensione, distress).
+                <strong>{form.patientDeteriorationThreshold || "—"} min</strong> senza
+                completare il percorso, l&apos;AI farà deteriorare il paziente
+                (desaturazione, ipotensione, distress).
               </p>
             </div>
           </CardContent>
         </Card>
       ) : null}
 
-      <div className="flex items-center justify-between gap-3">
-        <Button type="button" variant="outline" onClick={goBack} disabled={step === 1 || saving} className="gap-1">
+      <div className="flex items-center justify-between gap-3 border-t border-border-subtle pt-4">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={goBack}
+          disabled={step === 1 || saving}
+          className="gap-1"
+        >
           <ChevronLeft className="h-4 w-4" />
           Indietro
         </Button>
@@ -648,7 +761,12 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
             <ChevronRight className="h-4 w-4" />
           </Button>
         ) : (
-          <Button type="button" onClick={handleSubmit} disabled={saving} className="gap-1.5 min-w-[140px]">
+          <Button
+            type="button"
+            onClick={handleSubmit}
+            disabled={saving}
+            className="min-w-[140px] gap-1.5"
+          >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
             Crea caso
           </Button>
