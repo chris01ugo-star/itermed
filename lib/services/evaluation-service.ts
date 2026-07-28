@@ -26,69 +26,97 @@ import {
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 
+/** Truncate / coerce LLM strings so Zod .max() does not abort report generation. */
+function cappedString(max: number, fallback = "") {
+  return z.preprocess((value) => {
+    if (value == null) return fallback;
+    const text = typeof value === "string" ? value : String(value);
+    return text.length > max ? text.slice(0, max) : text;
+  }, z.string().max(max));
+}
+
+/** GPT-4o often returns null for optional arrays — coerce to []. */
+function nullishArray<T extends z.ZodTypeAny>(item: T, listMax: number) {
+  return z.preprocess((value) => {
+    if (value == null) return [];
+    return Array.isArray(value) ? value : [];
+  }, z.array(item).max(listMax));
+}
+
 const criticalActionSchema = z.object({
-  description: z.string().max(200),
+  description: cappedString(200),
   performed: z.boolean(),
   criticalLevel: z.enum(["HIGH", "MEDIUM"]),
-  feedback: z.string().max(320),
+  feedback: cappedString(320),
 });
 
 const inappropriateActionSchema = z.object({
-  description: z.string().max(200),
+  description: cappedString(200),
   performed: z.boolean(),
-  penaltyWeight: z.number().min(0).max(100),
-  feedback: z.string().max(320),
+  penaltyWeight: z.preprocess((value) => {
+    const n = typeof value === "number" ? value : Number(value);
+    if (!Number.isFinite(n)) return 0;
+    return Math.max(0, Math.min(100, n));
+  }, z.number().min(0).max(100)),
+  feedback: cappedString(320),
 });
 
 const empathyChecklistItemSchema = z.object({
-  parameter: z.string().max(120),
+  parameter: cappedString(120),
   met: z.boolean(),
-  feedback: z.string().max(280),
+  feedback: cappedString(280),
 });
 
-/** Schema compilato dall'AI: solo checklist oggettive, nessun punteggio numerico. */
+/**
+ * Schema compilato dall'AI: solo checklist oggettive, nessun punteggio numerico.
+ * Tolerant of null arrays / overlong strings (common GPT-4o tool-call quirks).
+ */
 export const AnalyticalEvaluationSchema = z.object({
-  criticalActions: z.array(criticalActionSchema).min(3).max(12),
-  inappropriateActions: z.array(inappropriateActionSchema).max(12).default([]),
-  empathyChecklist: z.array(empathyChecklistItemSchema).min(4).max(10),
+  criticalActions: nullishArray(criticalActionSchema, 12),
+  inappropriateActions: nullishArray(inappropriateActionSchema, 12),
+  empathyChecklist: nullishArray(empathyChecklistItemSchema, 10),
   feedback: z.object({
-    strengths: z.array(z.string().max(160)).max(3).default([]),
-    weaknesses: z.array(z.string().max(160)).max(3).default([]),
-    clinicalNote: z.string().max(400),
-    legalComplianceNote: z.string().max(400),
-    prescribingNote: z.string().max(400),
-    empathyNote: z.string().max(300),
-    economyNote: z.string().max(300),
-    correctSolution: z.string().max(320),
+    strengths: nullishArray(cappedString(160), 3),
+    weaknesses: nullishArray(cappedString(160), 3),
+    clinicalNote: cappedString(400),
+    legalComplianceNote: cappedString(400),
+    prescribingNote: cappedString(400),
+    empathyNote: cappedString(300),
+    economyNote: cappedString(300),
+    correctSolution: cappedString(320),
   }),
   evidence: z.object({
-    legalSources: z.array(z.string().max(120)).max(8).default([]),
-    protocolSources: z.array(z.string().max(120)).max(6).default([]),
+    legalSources: nullishArray(cappedString(120), 8),
+    protocolSources: nullishArray(cappedString(120), 6),
   }),
-  legalInstrumentReviews: z
-    .array(
-      z.object({
-        instrument: z.string().max(80),
-        documentTitle: z.string().max(120).optional(),
-        compliance: z.enum(["rispettato", "violato", "parziale", "non_applicabile"]),
-        rationale: z.string().max(220),
-      }),
-    )
-    .max(8)
-    .default([]),
+  legalInstrumentReviews: nullishArray(
+    z.object({
+      instrument: cappedString(80),
+      documentTitle: z.preprocess(
+        (value) => (value == null ? undefined : value),
+        cappedString(120).optional(),
+      ),
+      compliance: z.enum(["rispettato", "violato", "parziale", "non_applicabile"]),
+      rationale: cappedString(220),
+    }),
+    8,
+  ),
   legalProtectionStatus: LegalProtectionStatusSchema,
-  clinicalDeltaTable: z.array(ClinicalDeltaRowSchema).min(3).max(20),
+  clinicalDeltaTable: nullishArray(ClinicalDeltaRowSchema, 20),
   economicAnalysis: EconomicAnalysisSchema,
   coachingFeedback: CoachingFeedbackSchema,
-  fatalErrors: z
-    .array(
-      z.object({
-        description: z.string().max(200),
-        rationale: z.string().max(320),
-      }),
-    )
-    .max(8)
-    .optional(),
+  fatalErrors: z.preprocess(
+    (value) => (value == null ? undefined : value),
+    z
+      .array(
+        z.object({
+          description: cappedString(200),
+          rationale: cappedString(320),
+        }),
+      )
+      .max(8)
+      .optional(),
+  ),
 });
 
 export type AnalyticalEvaluation = z.infer<typeof AnalyticalEvaluationSchema>;
@@ -286,13 +314,15 @@ ATTENZIONE — RAG LEGAL SOFT-FAIL:
 Nessuna linea guida o documento legale specifico è stato trovato per questa specialità (Pinecone/DB senza fonti rilevanti o sotto soglia di confidenza).
 - NON inventare articoli di legge, norme, protocolli o citazioni non presenti nel contesto.
 - NON assumere conformità legale "di default".
-- In legalProtectionStatus: status = PARTIALLY_EXPOSED (o HIGHLY_EXPOSED se il caso lo richiede clinicamente), justification deve indicare ESPLICITAMENTE la mancanza di documentazione legale indicizzata per la specialità, referenceDocuments = [].
-- In legalInstrumentReviews: marca gli strumenti come "non_applicabile" con rationale che cita l'assenza di corpus RAG (non inventare compliance "rispettato").
+- In legalProtectionStatus: status = PARTIALLY_EXPOSED (o HIGHLY_EXPOSED se il caso lo richiede clinicamente), justification deve indicare ESPLICITAMENTE la mancanza di documentazione legale indicizzata per la specialità, referenceDocuments deve essere un array vuoto [] (MAI null).
+- In legalInstrumentReviews: almeno 1 voce "non_applicabile" con rationale che cita l'assenza di corpus RAG (non inventare compliance "rispettato").
+- Compila comunque criticalActions (≥3), empathyChecklist (≥4) e clinicalDeltaTable (≥3 righe dal Gold Standard / chat) anche senza corpus RAG.
+- Non usare mai null per array: usa sempre [].
 `.trim()
     : "";
 
   const protocolSoftFailHint = !hasProtocolContext
-    ? `\nNOTA PROTOCOLLI: nessun protocollo clinico indicizzato recuperato — non inventare linee guida cliniche specifiche non presenti nel contesto.`
+    ? `\nNOTA PROTOCOLLI: nessun protocollo clinico indicizzato recuperato — non inventare linee guida cliniche specifiche non presenti nel contesto. clinicalDeltaTable deve comunque basarsi su Gold Standard e chat.`
     : "";
 
   return `
@@ -444,36 +474,57 @@ export class EvaluationService {
 
     try {
       const evalStartedAt = Date.now();
-      const { object: analytical } = await this.deps.generateObject({
-        model: this.deps.getEvaluationModel(),
-        schema: AnalyticalEvaluationSchema,
-        temperature: 0,
-        system: buildSystemPrompt({
-          caseContext: input.caseContext,
-          guidelines: input.guidelines,
-          retrievedLegalText,
-          retrievedProtocolText,
-          retrievedLegalSources: hasLegalContext ? input.guidelines.legal.sources : [],
-          difficulty: input.difficulty,
-          specialty: input.specialty,
-          examBudgetEuro,
-          goldStandardPath: input.goldStandardPath,
-        }),
-        prompt: buildUserPrompt({
-          guidelines: input.guidelines,
-          finalDiagnosis: input.finalDiagnosis,
-          caseContext: input.caseContext,
-          chatHistory: sanitizedChat,
-          exams: input.exams,
-          reportText: normalizedReport,
-          difficulty: input.difficulty,
-          specialty: input.specialty,
-          examBudgetEuro,
-          totalExamCostEuro: totalCostEuro,
-          goldStandardPath: input.goldStandardPath,
-          sessionMilestones: input.sessionMilestones,
-        }),
-      });
+      let analytical: AnalyticalEvaluation | null = null;
+      let lastGenerateError: unknown = null;
+
+      // One retry: GPT-4o tool calls occasionally fail Zod once then succeed.
+      for (let attempt = 1; attempt <= 2; attempt += 1) {
+        try {
+          const result = await this.deps.generateObject({
+            model: this.deps.getEvaluationModel(),
+            schema: AnalyticalEvaluationSchema,
+            temperature: 0,
+            system: buildSystemPrompt({
+              caseContext: input.caseContext,
+              guidelines: input.guidelines,
+              retrievedLegalText,
+              retrievedProtocolText,
+              retrievedLegalSources: hasLegalContext ? input.guidelines.legal.sources : [],
+              difficulty: input.difficulty,
+              specialty: input.specialty,
+              examBudgetEuro,
+              goldStandardPath: input.goldStandardPath,
+            }),
+            prompt: buildUserPrompt({
+              guidelines: input.guidelines,
+              finalDiagnosis: input.finalDiagnosis,
+              caseContext: input.caseContext,
+              chatHistory: sanitizedChat,
+              exams: input.exams,
+              reportText: normalizedReport,
+              difficulty: input.difficulty,
+              specialty: input.specialty,
+              examBudgetEuro,
+              totalExamCostEuro: totalCostEuro,
+              goldStandardPath: input.goldStandardPath,
+              sessionMilestones: input.sessionMilestones,
+            }),
+          });
+          analytical = result.object;
+          break;
+        } catch (generateError) {
+          lastGenerateError = generateError;
+          this.deps.logger.warn("Simulation evaluation generateObject failed", {
+            attempt,
+            error:
+              generateError instanceof Error ? generateError.message : String(generateError),
+          });
+        }
+      }
+
+      if (!analytical) {
+        throw lastGenerateError ?? new Error("No object generated from evaluation model.");
+      }
 
       const guardedAnalytical = guardEvaluationAgainstFalseOmissions(
         {
