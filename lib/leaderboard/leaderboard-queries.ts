@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import { resolveLeaderboardDisplayName } from "@/lib/leaderboard/leaderboard-display";
 import { completedPerformanceSessionWhere } from "@/lib/session-report-performance";
 import {
-  CLINICAL_PASS_TRENTESIMI,
   normalizeTrentesimiScore,
   SQL_NORMALIZE_TRENTESIMI,
 } from "@/lib/scoring/trentesimi";
@@ -165,6 +164,7 @@ async function fetchPersonalPerformanceMetrics(
       where: performanceWhere,
       select: {
         totalScore: true,
+        clinicalAccuracy: true,
         startedAt: true,
         completedAt: true,
         caseId: true,
@@ -208,7 +208,12 @@ async function fetchPersonalPerformanceMetrics(
     const avgClinical = aggregate._avg.clinicalAccuracy;
     averageAccuracyPercent = avgClinical != null ? Math.round(avgClinical) : null;
 
-    const resolved = normalizedScores.filter((s) => s >= CLINICAL_PASS_TRENTESIMI).length;
+    // Clinically "resolved" = clinical accuracy dimension at least sufficient (0–100).
+    // Using totalScore ≥ 18/30 was too harsh on early/legacy scores and often showed 0%.
+    const CLINICAL_ACCURACY_PASS = 55;
+    const resolved = sessions.filter(
+      (s) => (s.clinicalAccuracy ?? 0) >= CLINICAL_ACCURACY_PASS,
+    ).length;
     clinicalResolutionRate = Math.round((resolved / completedCount) * 100);
 
     const durations = sessions

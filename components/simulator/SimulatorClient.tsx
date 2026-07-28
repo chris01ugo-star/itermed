@@ -1542,14 +1542,14 @@ export function SimulatorClient({
               />
 
               <div className="grid min-h-0 grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_20rem]">
-                <div className="flex min-h-[26rem] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div className="flex h-[min(26rem,55vh)] min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                   <div className="flex shrink-0 items-center gap-2.5 border-b border-slate-100 px-4 py-3">
                     <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#EEF2F9] text-[#345884]">
                       <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
                     </span>
                     <p className="text-sm font-semibold text-slate-800">Dialogo con il paziente</p>
                   </div>
-                  <div className="flex min-h-0 flex-1 flex-col p-3">
+                  <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-3">
                     <HistoryChat
                       messages={messages}
                       input={input}
@@ -1569,7 +1569,7 @@ export function SimulatorClient({
                   patientStress={patientStress}
                   reportReady={isClinicalReportComplete(reportSections)}
                   onOpenDischarge={() => setIsDischargeOpen(true)}
-                  className="xl:min-h-[26rem]"
+                  className="xl:h-[min(26rem,55vh)]"
                 />
               </div>
             </div>
@@ -2632,7 +2632,7 @@ function HistoryChat({
   return (
     <div
       className={cn(
-        "flex min-w-0 flex-col gap-3 overflow-x-hidden overflow-hidden",
+        "flex min-h-0 min-w-0 flex-col gap-3 overflow-hidden",
         fill
           ? "h-full"
           : compact
@@ -2642,7 +2642,7 @@ function HistoryChat({
     >
       <div
         ref={scrollRef}
-        className="scrollbar-aequan flex-1 space-y-3 overflow-y-auto overflow-x-hidden pr-1.5"
+        className="scrollbar-aequan min-h-0 flex-1 space-y-3 overflow-y-auto overflow-x-hidden pr-1.5"
         onWheel={(event) => {
           // Some mouse wheels on Arc do not scroll nested containers reliably.
           if (!scrollRef.current) return;
@@ -2650,7 +2650,7 @@ function HistoryChat({
         }}
       >
         {visibleMessages.length === 0 && (
-          <div className="flex h-full min-h-[180px] flex-col items-center justify-center gap-2 px-6 text-center">
+          <div className="flex min-h-[140px] flex-col items-center justify-center gap-2 px-6 py-8 text-center">
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#1E324E]/8">
               <MessageCircle className="h-5 w-5 text-[#1E324E]" />
             </div>

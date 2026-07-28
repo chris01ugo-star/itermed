@@ -198,7 +198,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       where: { id: input.reportId },
       data: {
         progress: 70,
-        progressMessage: "Generazione valutazione con GPT-4o...",
+        progressMessage: "Generazione report...",
       },
     });
 
