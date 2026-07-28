@@ -1,6 +1,7 @@
 import type { LeaderboardNameType } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { resolveLeaderboardDisplayName } from "@/lib/leaderboard/leaderboard-display";
+import { completedPerformanceSessionWhere } from "@/lib/session-report-performance";
 import { sessionReportUserWhere } from "@/lib/statistics-user-scope";
 
 export type LeaderboardEntry = {
@@ -64,6 +65,7 @@ async function fetchRankedLeaderboardRows(): Promise<RankedRow[]> {
       FROM "SessionReport" sr
       INNER JOIN "User" u ON u.id = sr."userId"
       WHERE sr.status = 'COMPLETED'
+        AND (sr."rawTrace"->>'dismissed') IS DISTINCT FROM 'true'
         AND u."leaderboardOptIn" = true
       GROUP BY sr."userId"
       HAVING COUNT(*) >= 1
@@ -113,10 +115,10 @@ async function fetchPersonalPerformanceMetrics(
   rank: number | null,
   totalParticipants: number,
 ): Promise<PersonalPerformanceMetrics & { averageAccuracyPercent: number | null }> {
-  const userWhere = sessionReportUserWhere(userId);
+  const performanceWhere = completedPerformanceSessionWhere(sessionReportUserWhere(userId));
   const [sessions, aggregate] = await Promise.all([
     prisma.sessionReport.findMany({
-      where: { ...userWhere, status: "COMPLETED" },
+      where: performanceWhere,
       select: {
         totalScore: true,
         startedAt: true,
@@ -124,7 +126,7 @@ async function fetchPersonalPerformanceMetrics(
       },
     }),
     prisma.sessionReport.aggregate({
-      where: { ...userWhere, status: "COMPLETED" },
+      where: performanceWhere,
       _avg: { clinicalAccuracy: true, totalScore: true },
     }),
   ]);
