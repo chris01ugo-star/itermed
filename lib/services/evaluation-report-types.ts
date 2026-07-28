@@ -1,72 +1,42 @@
 import { z } from "zod";
 
-/** GPT-4o often emits null instead of omitting optional arrays — coerce to []. */
-function nullishStringArray(itemMax: number, listMax: number) {
-  return z.preprocess((value) => {
-    if (value == null) return [];
-    if (!Array.isArray(value)) return [];
-    return value
-      .filter((item): item is string => typeof item === "string")
-      .map((item) => item.slice(0, itemMax));
-  }, z.array(z.string().max(itemMax)).max(listMax));
-}
-
-/** Truncate overlong model strings so .max() validation does not abort the report. */
-function cappedString(max: number, fallback = "") {
-  return z.preprocess((value) => {
-    if (value == null) return fallback;
-    const text = typeof value === "string" ? value : String(value);
-    return text.length > max ? text.slice(0, max) : text;
-  }, z.string().max(max));
-}
+/**
+ * Clean Zod schemas for OpenAI structured outputs (strict mode).
+ * Do NOT use z.preprocess / ZodEffects here — they drop fields from JSON Schema
+ * `required`, and OpenAI then rejects the tool schema.
+ */
 
 export const LegalProtectionStatusSchema = z.object({
   status: z.enum(["PROTECTED", "PARTIALLY_EXPOSED", "HIGHLY_EXPOSED"]),
-  justification: cappedString(800),
-  referenceDocuments: nullishStringArray(120, 12),
+  justification: z.string().max(800),
+  referenceDocuments: z.array(z.string().max(120)).max(12),
 });
 
 export const ClinicalDeltaRowSchema = z.object({
-  protocolAction: cappedString(200),
-  userAction: cappedString(200),
+  protocolAction: z.string().max(200),
+  userAction: z.string().max(200),
   status: z.enum(["MET", "MISSED", "DELAYED"]),
-  penaltyOrBonusReason: cappedString(320),
+  penaltyOrBonusReason: z.string().max(320),
 });
 
 export const EconomicExpenseSchema = z.object({
-  examName: cappedString(120),
-  cost: z.preprocess((value) => {
-    const n = typeof value === "number" ? value : Number(value);
-    return Number.isFinite(n) && n >= 0 ? n : 0;
-  }, z.number().min(0)),
-  reason: cappedString(280),
+  examName: z.string().max(120),
+  cost: z.number().min(0),
+  reason: z.string().max(280),
 });
 
-function nullishExpenseArray(listMax: number) {
-  return z.preprocess((value) => {
-    if (value == null) return [];
-    return Array.isArray(value) ? value : [];
-  }, z.array(EconomicExpenseSchema).max(listMax));
-}
-
 export const EconomicAnalysisSchema = z.object({
-  targetBudget: z.preprocess((value) => {
-    const n = typeof value === "number" ? value : Number(value);
-    return Number.isFinite(n) && n >= 0 ? n : 0;
-  }, z.number().min(0)),
-  actualSpent: z.preprocess((value) => {
-    const n = typeof value === "number" ? value : Number(value);
-    return Number.isFinite(n) && n >= 0 ? n : 0;
-  }, z.number().min(0)),
-  unnecessaryExpenses: nullishExpenseArray(15),
-  missedRequiredExams: nullishExpenseArray(15),
+  targetBudget: z.number().min(0),
+  actualSpent: z.number().min(0),
+  unnecessaryExpenses: z.array(EconomicExpenseSchema).max(15),
+  missedRequiredExams: z.array(EconomicExpenseSchema).max(15),
 });
 
 export const CoachingFeedbackSchema = z.object({
-  empatia: cappedString(400),
-  tutelaLegale: cappedString(400),
-  economicita: cappedString(400),
-  accuratezza: cappedString(400),
+  empatia: z.string().max(400),
+  tutelaLegale: z.string().max(400),
+  economicita: z.string().max(400),
+  accuratezza: z.string().max(400),
 });
 
 export type LegalProtectionStatus = z.infer<typeof LegalProtectionStatusSchema>;
