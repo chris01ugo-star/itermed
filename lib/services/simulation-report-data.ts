@@ -93,6 +93,8 @@ export function buildSessionReportData(params: {
     progress: 100,
     progressMessage: "Report pronto!",
     rawTrace: {
+      /** Explicit false so dashboard JSON filters never treat missing keys as dismissed. */
+      dismissed: false,
       chatHistory: evaluationChatHistory,
       exams: evaluation.resolvedExams,
       resolvedExams: evaluation.resolvedExams,
