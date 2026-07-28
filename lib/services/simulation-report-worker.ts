@@ -297,8 +297,16 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     });
     // Free-trial usage is consumed at POST /api/session/start, not on report completion.
   } catch (error) {
+    const detail =
+      error instanceof Error
+        ? error.message.slice(0, 280)
+        : typeof error === "string"
+          ? error.slice(0, 280)
+          : "errore sconosciuto";
+
     log.error("Simulation report job failed", {
       error,
+      detail,
       durationMs: Date.now() - jobStartedAt,
     });
 
@@ -308,6 +316,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
         data: {
           status: "FAILED",
           progressMessage: "Errore durante la generazione.",
+          notes: `Report generation failed: ${detail}`,
         },
       })
       .catch((updateError) => {
