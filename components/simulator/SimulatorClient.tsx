@@ -148,6 +148,23 @@ type ReportStatusPayload = {
 const REPORT_POLL_INTERVAL_MS = 500;
 const REPORT_POLL_TIMEOUT_MS = 3 * 60 * 1000;
 
+/**
+ * Keep `sessionId` in the address bar without Next.js navigation.
+ * `router.replace` on the play page remounts SimulatorClient and wipes in-progress game state.
+ */
+function syncSessionIdInUrl(sessionId: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("sessionId") === sessionId) return;
+    url.searchParams.set("sessionId", sessionId);
+    window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+  } catch {
+    /* ignore malformed URL edge cases */
+  }
+}
+
+
 type PollReportResult = {
   reportId: string;
   reportData: SimulationReportData;
@@ -612,11 +629,8 @@ export function SimulatorClient({
         const newSessionId = data?.sessionId as string | undefined;
         if (!cancelled && newSessionId) {
           setEffectiveSessionId(newSessionId);
-          router.replace(
-            embedded
-              ? `/dashboard/prassi/play/${initialCaseData.id}?sessionId=${newSessionId}`
-              : `/case/${initialCaseData.id}?sessionId=${newSessionId}`,
-          );
+          // Prefer history sync over router.replace to avoid remounting the play page.
+          syncSessionIdInUrl(newSessionId);
         }
       } catch {
         // ignore
@@ -626,7 +640,7 @@ export function SimulatorClient({
     return () => {
       cancelled = true;
     };
-  }, [effectiveSessionId, initialCaseData.id, router]);
+  }, [effectiveSessionId, initialCaseData.id]);
 
   useEffect(() => {
     if (!isAdmin || !effectiveSessionId) return;
@@ -712,6 +726,9 @@ export function SimulatorClient({
 
     try {
       const liveSessionId = await ensureSessionId();
+      if (liveSessionId) {
+        syncSessionIdInUrl(liveSessionId);
+      }
       const diagnosisForEval =
         extractFinalDiagnosisFromReport(reportSections).trim() || finalDiagnosis.trim();
       const composedReport = composeClinicalReport(reportSections);
@@ -743,7 +760,7 @@ export function SimulatorClient({
       }
 
       setReportProgressMessage("Inizializzazione report...");
-      const res = await fetch("/api/evaluate", {
+      const res = await fetch("/api/simulation/report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1079,12 +1096,12 @@ export function SimulatorClient({
                 basePatientPrompt: initialCaseData.patientPrompt,
                 outcome: "success",
               }),
+            }).catch(() => {
+              /* non-blocking */
             });
-            router.replace(
-              embedded
-                ? `/dashboard/prassi/play/${initialCaseData.id}?sessionId=${sid}`
-                : `/case/${initialCaseData.id}?sessionId=${sid}`,
-            );
+            // Sync sessionId in the URL without Next navigation — router.replace
+            // remounts the play page and wipes gameStatus / report UI.
+            syncSessionIdInUrl(sid);
           }
           return;
         }
@@ -1101,12 +1118,10 @@ export function SimulatorClient({
               basePatientPrompt: initialCaseData.patientPrompt,
               outcome: "wrong_diagnosis",
             }),
+          }).catch(() => {
+            /* non-blocking */
           });
-          router.replace(
-            embedded
-              ? `/dashboard/prassi/play/${initialCaseData.id}?sessionId=${sid}`
-              : `/case/${initialCaseData.id}?sessionId=${sid}`,
-          );
+          syncSessionIdInUrl(sid);
         }
       } catch {
         // fallback safe: don't block the flow; treat as success but without surprise
