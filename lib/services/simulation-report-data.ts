@@ -38,6 +38,8 @@ export function buildSessionReportData(params: {
   /** Final grade on 0–30 trentesimi scale (Killer-Switch may cap at 17.9). */
   totalScore: number;
   completedAt: Date;
+  /** Wall / clinical simulation minutes (from CaseSession when available). */
+  simulationElapsedMinutes?: number | null;
   /** Deterministic fatal errors detected post-evaluation (always persisted). */
   fatalErrors?: FatalError[];
   killerSwitch?: KillerSwitchTrace;
@@ -52,6 +54,7 @@ export function buildSessionReportData(params: {
     guidelines,
     totalScore,
     completedAt,
+    simulationElapsedMinutes,
     fatalErrors = [],
     killerSwitch,
   } = params;
@@ -118,6 +121,9 @@ export function buildSessionReportData(params: {
         budgetEuro: evaluation.examBudgetEuro,
         totalCostEuro: evaluation.totalExamCostEuro,
       },
+      ...(typeof simulationElapsedMinutes === "number" && simulationElapsedMinutes > 0
+        ? { simulationElapsedMinutes }
+        : {}),
       evidence: {
         ...evaluation.evidence,
         legalSources: legalEvidenceSources,

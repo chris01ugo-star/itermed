@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { OVERVIEW_RADAR_METRICS } from "@/lib/overview-queries";
+import { normalizeTrentesimiScore } from "@/lib/scoring/trentesimi";
 import { completedPerformanceSessionWhere } from "@/lib/session-report-performance";
 
 export type ScoreTrendPoint = {
@@ -142,7 +143,7 @@ export async function fetchStatisticsPageData(userId: string): Promise<Statistic
     return {
       sessionId: session.id,
       label: formatTrendLabel(date, sameDayCount > 1 || sessions.length > 8),
-      averageScore: Math.round(session.totalScore ?? 0),
+      averageScore: Math.round(normalizeTrentesimiScore(session.totalScore) ?? 0),
       clinicalAccuracy: Math.round(session.clinicalAccuracy ?? 0),
       legalCompliance: Math.round(session.legalComplianceGelliBianco ?? 0),
       prescribingAppropriateness: Math.round(session.prescribingAppropriateness ?? 0),

@@ -2,6 +2,11 @@ import type { LeaderboardNameType } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { resolveLeaderboardDisplayName } from "@/lib/leaderboard/leaderboard-display";
 import { completedPerformanceSessionWhere } from "@/lib/session-report-performance";
+import {
+  CLINICAL_PASS_TRENTESIMI,
+  normalizeTrentesimiScore,
+  SQL_NORMALIZE_TRENTESIMI,
+} from "@/lib/scoring/trentesimi";
 import { sessionReportUserWhere } from "@/lib/statistics-user-scope";
 
 export type LeaderboardEntry = {
@@ -52,14 +57,13 @@ type RankedRow = {
 };
 
 const TOP_LIMIT = 50;
-const CLINICAL_PASS_SCORE = 18;
 
 async function fetchRankedLeaderboardRows(): Promise<RankedRow[]> {
-  return prisma.$queryRaw<RankedRow[]>`
+  return prisma.$queryRawUnsafe<RankedRow[]>(`
     WITH "user_scores" AS (
       SELECT
         sr."userId" AS "userId",
-        AVG(sr."totalScore")::float8 AS "avgScore",
+        AVG(${SQL_NORMALIZE_TRENTESIMI})::float8 AS "avgScore",
         AVG(sr."clinicalAccuracy")::float8 AS "avgClinicalAccuracy",
         COUNT(*)::int AS "sessionCount"
       FROM "SessionReport" sr
@@ -91,7 +95,7 @@ async function fetchRankedLeaderboardRows(): Promise<RankedRow[]> {
     FROM "ranked" r
     INNER JOIN "User" u ON u.id = r."userId"
     ORDER BY r."rank" ASC
-  `;
+  `);
 }
 
 function toEntry(row: RankedRow, currentUserId: string): LeaderboardEntry {
@@ -103,11 +107,51 @@ function toEntry(row: RankedRow, currentUserId: string): LeaderboardEntry {
       nickname: row.nickname,
       nameType: row.nameType,
     }),
-    averageScore: Math.round(row.avgScore * 10) / 10,
+    averageScore: normalizeTrentesimiScore(row.avgScore) ?? 0,
     averageAccuracyPercent: Math.round(row.avgClinicalAccuracy),
     sessionCount: row.sessionCount,
     isCurrentUser: row.userId === currentUserId,
   };
+}
+
+type CaseSessionTiming = {
+  caseId: string;
+  createdAt: Date;
+  elapsedMinutes: number;
+};
+
+function resolveSimulationDurationMinutes(
+  report: {
+    caseId: string;
+    startedAt: Date;
+    completedAt: Date | null;
+    createdAt: Date;
+    rawTrace: unknown;
+  },
+  caseSessions: CaseSessionTiming[],
+): number | null {
+  const trace = report.rawTrace as { simulationElapsedMinutes?: unknown } | null;
+  if (typeof trace?.simulationElapsedMinutes === "number" && trace.simulationElapsedMinutes > 0) {
+    return trace.simulationElapsedMinutes;
+  }
+
+  const end = report.completedAt ?? report.createdAt;
+  const matching = caseSessions.find(
+    (cs) => cs.caseId === report.caseId && cs.createdAt.getTime() <= end.getTime(),
+  );
+
+  if (matching) {
+    if (matching.elapsedMinutes > 0) return matching.elapsedMinutes;
+    const wall = (end.getTime() - matching.createdAt.getTime()) / 60_000;
+    if (wall >= 1) return wall;
+  }
+
+  const reportWall = report.completedAt
+    ? (report.completedAt.getTime() - report.startedAt.getTime()) / 60_000
+    : 0;
+  // Report generation is usually < 1 min — ignore noise.
+  if (reportWall >= 1) return reportWall;
+  return null;
 }
 
 async function fetchPersonalPerformanceMetrics(
@@ -116,18 +160,30 @@ async function fetchPersonalPerformanceMetrics(
   totalParticipants: number,
 ): Promise<PersonalPerformanceMetrics & { averageAccuracyPercent: number | null }> {
   const performanceWhere = completedPerformanceSessionWhere(sessionReportUserWhere(userId));
-  const [sessions, aggregate] = await Promise.all([
+  const [sessions, aggregate, caseSessions] = await Promise.all([
     prisma.sessionReport.findMany({
       where: performanceWhere,
       select: {
         totalScore: true,
         startedAt: true,
         completedAt: true,
+        caseId: true,
+        rawTrace: true,
+        createdAt: true,
       },
     }),
     prisma.sessionReport.aggregate({
       where: performanceWhere,
       _avg: { clinicalAccuracy: true, totalScore: true },
+    }),
+    prisma.caseSession.findMany({
+      where: { userId },
+      select: {
+        caseId: true,
+        createdAt: true,
+        elapsedMinutes: true,
+      },
+      orderBy: { createdAt: "desc" },
     }),
   ]);
 
@@ -138,23 +194,30 @@ async function fetchPersonalPerformanceMetrics(
   let averageAccuracyPercent: number | null = null;
 
   if (completedCount > 0) {
-    const avgTotal = aggregate._avg.totalScore;
-    averageScore = avgTotal != null ? Math.round(avgTotal * 10) / 10 : null;
+    const normalizedScores = sessions
+      .map((s) => normalizeTrentesimiScore(s.totalScore))
+      .filter((s): s is number => s != null);
+
+    if (normalizedScores.length > 0) {
+      const sum = normalizedScores.reduce((a, b) => a + b, 0);
+      averageScore = Math.round((sum / normalizedScores.length) * 10) / 10;
+    } else {
+      averageScore = normalizeTrentesimiScore(aggregate._avg.totalScore);
+    }
 
     const avgClinical = aggregate._avg.clinicalAccuracy;
-    averageAccuracyPercent =
-      avgClinical != null ? Math.round(avgClinical) : null;
+    averageAccuracyPercent = avgClinical != null ? Math.round(avgClinical) : null;
 
-    const resolved = sessions.filter((s) => (s.totalScore ?? 0) >= CLINICAL_PASS_SCORE).length;
+    const resolved = normalizedScores.filter((s) => s >= CLINICAL_PASS_TRENTESIMI).length;
     clinicalResolutionRate = Math.round((resolved / completedCount) * 100);
 
     const durations = sessions
-      .filter((s) => s.completedAt)
-      .map((s) => (s.completedAt!.getTime() - s.startedAt.getTime()) / 60_000);
+      .map((report) => resolveSimulationDurationMinutes(report, caseSessions))
+      .filter((m): m is number => m != null && m > 0);
 
     if (durations.length > 0) {
       const avg = durations.reduce((a, b) => a + b, 0) / durations.length;
-      averageResolutionMinutes = Math.round(avg);
+      averageResolutionMinutes = Math.max(1, Math.round(avg));
     }
   }
 

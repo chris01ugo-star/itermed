@@ -512,6 +512,7 @@ export function SimulatorClient({
     handleSubmit: submitChatMessage,
     isLoading: isChatLoading,
     setMessages,
+    append,
   } = useChat({
     api: "/api/chat",
     streamProtocol: "data",
@@ -1554,6 +1555,9 @@ export function SimulatorClient({
                       input={input}
                       onInputChange={handleInputChange}
                       onSubmit={handleSubmit}
+                      onSuggestedPrompt={(text) => {
+                        void append({ role: "user", content: text });
+                      }}
                       isLoading={isChatLoading}
                       compact
                       fill
@@ -1661,6 +1665,9 @@ export function SimulatorClient({
                       input={input}
                       onInputChange={handleInputChange}
                       onSubmit={handleSubmit}
+                      onSuggestedPrompt={(text) => {
+                        void append({ role: "user", content: text });
+                      }}
                       isLoading={isChatLoading}
                       compact={embedded}
                     />
@@ -2550,6 +2557,8 @@ type HistoryChatProps = {
   input: string;
   onInputChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  /** Suggested prompt chips — send immediately as a user message. */
+  onSuggestedPrompt?: (text: string) => void;
   isLoading: boolean;
   /** Bound height for embedded Prassi grid — avoids fixed 460px blowing layout. */
   compact?: boolean;
@@ -2557,11 +2566,20 @@ type HistoryChatProps = {
   fill?: boolean;
 };
 
+const CHAT_SUGGESTED_PROMPTS = [
+  {
+    id: "consenso",
+    label: "Modulo consenso",
+    text: "Le propongo di firmare il modulo di consenso informato. Le spiego indicazioni, benefici, rischi e alternative della procedura che stiamo considerando.",
+  },
+] as const;
+
 function HistoryChat({
   messages,
   input,
   onInputChange,
   onSubmit,
+  onSuggestedPrompt,
   isLoading,
   compact = false,
   fill = false,
@@ -2600,6 +2618,11 @@ function HistoryChat({
   const scrollAnchor = visibleMessages
     .map((message) => messageText(message))
     .join("\u0000");
+
+  const alreadySentConsent = visibleMessages.some((m) => {
+    if (m.role !== "user") return false;
+    return /consenso\s+informat/i.test(messageText(m));
+  });
 
   useEffect(() => {
     if (!scrollRef.current) return;
@@ -2679,6 +2702,21 @@ function HistoryChat({
         ) : null}
       </div>
       <form ref={formRef} onSubmit={onSubmit} className="mt-1 shrink-0 space-y-1.5">
+        {onSuggestedPrompt && !alreadySentConsent ? (
+          <div className="flex flex-wrap gap-1.5 px-0.5">
+            {CHAT_SUGGESTED_PROMPTS.map((prompt) => (
+              <button
+                key={prompt.id}
+                type="button"
+                disabled={isLoading}
+                onClick={() => onSuggestedPrompt(prompt.text)}
+                className="inline-flex items-center rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-medium text-slate-600 transition hover:border-[#345884]/40 hover:bg-[#EEF2F9] hover:text-[#345884] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {prompt.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
         <div className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-1.5 pl-3 transition focus-within:border-[#345884] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#345884]/20">
           <Textarea
             className="min-h-[2.25rem] flex-1 resize-none border-0 bg-transparent p-1.5 text-xs text-slate-800 shadow-none outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"

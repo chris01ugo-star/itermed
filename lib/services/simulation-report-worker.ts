@@ -243,6 +243,23 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     const totalScore = finalTotalTrentesimi;
     const completedAt = new Date();
 
+    const liveSession = input.liveSessionId
+      ? await prisma.caseSession.findUnique({
+          where: { id: input.liveSessionId },
+          select: { elapsedMinutes: true, createdAt: true },
+        })
+      : null;
+
+    const simulationElapsedMinutes =
+      liveSession && liveSession.elapsedMinutes > 0
+        ? liveSession.elapsedMinutes
+        : liveSession
+          ? Math.max(
+              1,
+              Math.round((completedAt.getTime() - liveSession.createdAt.getTime()) / 60_000),
+            )
+          : null;
+
     log.info("Killer-Switch evaluation", {
       fatalErrorCount: fatalErrors.length,
       killerSwitchApplied,
@@ -264,25 +281,29 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     const persistStartedAt = Date.now();
     await prisma.sessionReport.update({
       where: { id: input.reportId },
-      data: buildSessionReportData({
-        userId: input.userId,
-        caseId: input.caseId,
-        clinicalCase: clinicalCase as ClinicalCaseSnapshot,
-        evaluationChatHistory: input.evaluationChatHistory,
-        exams: input.exams,
-        normalizedReportText: input.normalizedReportText,
-        evaluation: evaluationForPersist,
-        guidelines,
-        totalScore,
-        completedAt,
-        fatalErrors,
-        killerSwitch: {
-          applied: killerSwitchApplied,
-          rawTotalTrentesimi,
-          finalTotalTrentesimi,
-          cap: KILLER_SWITCH_CAP,
-        },
-      }),
+      data: {
+        ...buildSessionReportData({
+          userId: input.userId,
+          caseId: input.caseId,
+          clinicalCase: clinicalCase as ClinicalCaseSnapshot,
+          evaluationChatHistory: input.evaluationChatHistory,
+          exams: input.exams,
+          normalizedReportText: input.normalizedReportText,
+          evaluation: evaluationForPersist,
+          guidelines,
+          totalScore,
+          completedAt,
+          simulationElapsedMinutes,
+          fatalErrors,
+          killerSwitch: {
+            applied: killerSwitchApplied,
+            rawTotalTrentesimi,
+            finalTotalTrentesimi,
+            cap: KILLER_SWITCH_CAP,
+          },
+        }),
+        ...(liveSession ? { startedAt: liveSession.createdAt } : {}),
+      },
     });
     const persistDurationMs = Date.now() - persistStartedAt;
 

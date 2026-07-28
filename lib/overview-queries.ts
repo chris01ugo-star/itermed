@@ -1,6 +1,7 @@
 import type { CaseDifficulty } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { displaySpecialtyName } from "@/lib/dashboard-case-utils";
+import { normalizeTrentesimiScore } from "@/lib/scoring/trentesimi";
 import { completedPerformanceSessionWhere } from "@/lib/session-report-performance";
 
 export const OVERVIEW_RADAR_METRICS = [
@@ -123,7 +124,15 @@ export async function fetchUserOverviewData(userId: string): Promise<UserOvervie
   );
 
   const iterMedScore =
-    completedSessions.length > 0 ? Math.round(scoreAverages._avg.totalScore ?? 0) : null;
+    completedSessions.length > 0
+      ? (() => {
+          const scores = completedSessions
+            .map((s) => normalizeTrentesimiScore(s.totalScore))
+            .filter((s): s is number => s != null);
+          if (scores.length === 0) return normalizeTrentesimiScore(scoreAverages._avg.totalScore);
+          return Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+        })()
+      : null;
 
   const streakDays = computeStreakDays(
     completedSessions.map((s) => s.completedAt ?? s.createdAt),
@@ -144,7 +153,7 @@ export async function fetchUserOverviewData(userId: string): Promise<UserOvervie
         }),
       difficulty: s.difficultySnapshot ?? s.case.difficulty,
       completedLabel: formatItalianLongDate(completedAt),
-      score: Math.round(s.totalScore ?? 0),
+      score: Math.round(normalizeTrentesimiScore(s.totalScore) ?? 0),
     };
   });
 
