@@ -25,7 +25,10 @@ export function AuthShell({
   brandLine = "Simulatore clinico con valutazione AI su cinque dimensioni.",
 }: AuthShellProps) {
   return (
-    <div className="relative flex min-h-screen w-full overflow-hidden bg-[#F4F6F8]">
+    <div
+      data-auth-fullscreen
+      className="relative flex min-h-dvh w-full overflow-hidden bg-[#F4F6F8]"
+    >
       {/* Ambient wash behind the form column */}
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,rgba(52,88,132,0.08),transparent_50%),radial-gradient(ellipse_at_20%_90%,rgba(30,50,78,0.05),transparent_45%)]"
@@ -98,10 +101,11 @@ export function AuthShell({
         </p>
       </aside>
 
-      {/* Form column */}
-      <main className="relative z-10 flex min-h-screen flex-1 flex-col items-center justify-center px-5 py-10 sm:px-8">
+      {/* Form column — top-weighted, not dead-centered in the viewport
+          (justify-center + full viewport height was the excess top gap). */}
+      <main className="relative z-10 flex flex-1 flex-col items-center justify-start px-5 pb-12 pt-10 sm:px-8 lg:pt-[clamp(2.5rem,9vh,4.5rem)] lg:pb-12">
         {/* Mobile brand mark (desktop has the left panel) */}
-        <div className="mb-8 flex w-full max-w-[24rem] flex-col items-center gap-3 lg:hidden">
+        <div className="mb-6 flex w-full max-w-[24rem] flex-col items-center gap-3 lg:hidden">
           <Link href="/" aria-label="Vai alla home">
             <AequanLogo height={38} />
           </Link>
