@@ -172,6 +172,14 @@
   animation: authFormIn 0.45s ease-out both;
 }
 
+.results-section-enter {
+  animation: fadeIn 0.5s ease-out both;
+}
+
+.results-pillar-enter {
+  animation: fadeIn 0.55s ease-out both;
+}
+
 /* Hide the global SiteFooter on full-bleed auth pages (login / signup). */
 body:has([data-auth-fullscreen]) .site-footer {
   display: none;
