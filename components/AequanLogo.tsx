@@ -18,15 +18,15 @@ export const AequanLogo: React.FC<AequanLogoProps> = ({
   if (showText) {
     const width = Math.round(height * HORIZONTAL_LOGO_ASPECT);
     return (
-      <div className={`flex items-center justify-center ${className}`}>
+      <div className={`flex max-w-full items-center justify-center ${className}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/aequan-logo-horizontal.png"
           alt="AEQUAN"
           width={width}
           height={height}
-          className="max-w-full object-contain"
-          style={{ height, width: "auto" }}
+          className="h-auto max-h-full max-w-full object-contain object-left"
+          style={{ height, width: "auto", maxWidth: "100%" }}
         />
       </div>
     );

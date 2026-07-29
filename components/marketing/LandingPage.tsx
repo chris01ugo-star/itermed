@@ -28,9 +28,15 @@ const NAV_LINKS = [
 function LandingNavbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link href="/" className="shrink-0">
-          <AequanLogo height={40} />
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 px-3 sm:h-20 sm:gap-4 sm:px-6">
+        <Link href="/" className="min-w-0 shrink">
+          {/* Compact mark on narrow screens so Accedi + CTA stay on one row. */}
+          <span className="block sm:hidden">
+            <AequanLogo height={28} className="max-w-[7.5rem]" />
+          </span>
+          <span className="hidden sm:block">
+            <AequanLogo height={40} />
+          </span>
         </Link>
         <nav className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => (
@@ -43,16 +49,16 @@ function LandingNavbar() {
             </a>
           ))}
         </nav>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <Link
             href="/login"
-            className="rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900"
+            className="rounded-full px-2.5 py-1.5 text-xs font-semibold text-slate-600 transition-colors hover:text-slate-900 sm:px-4 sm:py-2 sm:text-sm"
           >
             Accedi
           </Link>
           <Link
             href="/signup"
-            className="inline-flex items-center gap-1.5 rounded-full bg-[#1E324E] px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#2A486D]"
+            className="inline-flex items-center gap-1 rounded-full bg-[#1E324E] px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-[#2A486D] sm:gap-1.5 sm:px-4 sm:py-2 sm:text-sm"
           >
             Inizia gratis
           </Link>
