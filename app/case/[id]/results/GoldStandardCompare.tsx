@@ -1,8 +1,7 @@
 "use client";
 
-import { CheckCircle2, Clock3, XCircle } from "lucide-react";
+import { CheckCircle2, Clock3, Scale, XCircle } from "lucide-react";
 import type { ClinicalDeltaRow } from "@/lib/services/evaluation-report-types";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/ui/card";
 import { cn } from "@/app/utils/cn";
 import { SafeLlmText } from "@/components/ui/safe-llm-content";
 
@@ -41,17 +40,23 @@ export function GoldStandardCompare({ rows }: GoldStandardCompareProps) {
   if (rows.length === 0) return null;
 
   return (
-    <Card className="overflow-hidden rounded-xl border-border bg-panel-bg shadow-aequan-panel">
-      <CardHeader>
-        <CardTitle className="font-display text-sm font-bold text-brand-primary">
-          Confronto Gold Standard
-        </CardTitle>
-        <CardDescription className="text-xs text-slate-500">
-          Protocollo di riferimento vs azioni eseguite durante la simulazione.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        <div className="hidden grid-cols-2 gap-3 px-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400 md:grid">
+    <div className="overflow-hidden rounded-xl border border-border bg-panel-bg shadow-aequan-panel">
+      <div className="flex items-start gap-3 border-b border-border-subtle px-5 py-4 md:px-6">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+          <Scale className="h-4 w-4" />
+        </div>
+        <div className="min-w-0 space-y-0.5">
+          <h2 className="font-display text-sm font-semibold text-brand-primary">
+            Confronto Gold Standard
+          </h2>
+          <p className="text-xs leading-relaxed text-slate-500">
+            Protocollo di riferimento vs azioni eseguite durante la simulazione.
+          </p>
+        </div>
+      </div>
+
+      <div className="space-y-3 p-5 md:p-6">
+        <div className="hidden grid-cols-2 gap-3 px-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400 md:grid">
           <span>Protocollo Gold Standard</span>
           <span>Azioni utente</span>
         </div>
@@ -62,7 +67,7 @@ export function GoldStandardCompare({ rows }: GoldStandardCompareProps) {
             <div
               key={`${row.protocolAction}-${idx}`}
               className={cn(
-                "grid grid-cols-1 gap-3 rounded-xl border border-border bg-ui-bg/60 p-3 md:grid-cols-2",
+                "grid grid-cols-1 gap-3 rounded-xl border border-border bg-ui-bg/50 p-3.5 md:grid-cols-2",
                 "border-l-4",
                 meta.rail,
               )}
@@ -77,7 +82,7 @@ export function GoldStandardCompare({ rows }: GoldStandardCompareProps) {
                 <div className="flex flex-wrap items-center gap-2">
                   <span
                     className={cn(
-                      "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold",
+                      "inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[10px] font-semibold",
                       meta.chip,
                     )}
                   >
@@ -102,7 +107,7 @@ export function GoldStandardCompare({ rows }: GoldStandardCompareProps) {
             </div>
           );
         })}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

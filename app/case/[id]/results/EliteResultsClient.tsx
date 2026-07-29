@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import {
   Activity,
   AlertTriangle,
@@ -20,11 +21,8 @@ import type {
   EconomicAnalysis,
   LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
-import { Badge } from "@/app/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/ui/card";
 import { cn } from "@/app/utils/cn";
 import { SafeLlmText } from "@/components/ui/safe-llm-content";
-import { MetricBar } from "./MetricBar";
 import { ScoreProgressRing } from "./ScoreProgressRing";
 import { ResultsRadarClient, type RadarDatum } from "./ResultsRadarClient";
 import { EconomicBudgetGauge } from "./EconomicBudgetGauge";
@@ -102,25 +100,28 @@ function legalShieldConfig(status: LegalProtectionStatus["status"]) {
       return {
         label: "Protetto",
         icon: ShieldCheck,
-        panel: "border-[#345884]/15 bg-gradient-to-br from-[#345884]/5 to-white",
-        badge: "bg-[#1E324E]/5 text-[#1E324E] border-[#345884]/20",
-        accent: "text-[#345884]",
+        rail: "border-l-brand-secondary",
+        badge: "border-brand-secondary/25 bg-brand-secondary/10 text-brand-primary",
+        accent: "text-brand-secondary",
+        wash: "from-brand-secondary/[0.06]",
       };
     case "PARTIALLY_EXPOSED":
       return {
         label: "Parzialmente esposto",
         icon: Shield,
-        panel: "border-amber-300/80 bg-gradient-to-br from-amber-50 to-white",
-        badge: "bg-amber-100 text-amber-900 border-amber-200",
+        rail: "border-l-status-warn",
+        badge: "border-amber-200 bg-amber-50 text-amber-900",
         accent: "text-amber-800",
+        wash: "from-amber-50/80",
       };
     default:
       return {
         label: "Altamente esposto",
         icon: ShieldAlert,
-        panel: "border-rose-300/80 bg-gradient-to-br from-rose-50 to-white",
-        badge: "bg-rose-100 text-rose-800 border-rose-200",
+        rail: "border-l-status-risk",
+        badge: "border-rose-200 bg-rose-50 text-rose-800",
         accent: "text-rose-700",
+        wash: "from-rose-50/80",
       };
   }
 }
@@ -129,6 +130,68 @@ function resolvePillarScore(radarData: RadarDatumWithKey[], pillar: (typeof PILL
   const byKey = radarData.find((d) => d.key === pillar.key);
   if (byKey) return byKey.score;
   return radarData[pillar.fallbackIndex]?.score ?? 0;
+}
+
+function Section({
+  children,
+  className,
+  delayMs = 0,
+}: {
+  children: ReactNode;
+  className?: string;
+  delayMs?: number;
+}) {
+  return (
+    <section
+      className={cn("results-section-enter", className)}
+      style={{ animationDelay: `${delayMs}ms` }}
+    >
+      {children}
+    </section>
+  );
+}
+
+function Panel({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "rounded-xl border border-border bg-panel-bg shadow-aequan-panel",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+function PanelHeader({
+  title,
+  description,
+  icon,
+}: {
+  title: string;
+  description?: string;
+  icon?: ReactNode;
+}) {
+  return (
+    <div className="flex items-start gap-3 border-b border-border-subtle px-5 py-4 md:px-6">
+      {icon ? (
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+          {icon}
+        </div>
+      ) : null}
+      <div className="min-w-0 space-y-0.5">
+        <h2 className="font-display text-sm font-semibold text-brand-primary">{title}</h2>
+        {description ? <p className="text-xs leading-relaxed text-slate-500">{description}</p> : null}
+      </div>
+    </div>
+  );
 }
 
 export function EliteResultsClient({
@@ -163,161 +226,205 @@ export function EliteResultsClient({
     : true;
 
   return (
-    <div className="space-y-6 font-[family-name:var(--font-inter)]">
-      <AiTransparencyBadge variant="report" />
+    <div className="space-y-6 text-text-primary">
+      <AiTransparencyBadge variant="report" className="results-section-enter border-border bg-ui-bg/80" />
 
-      {/* ── A. Banner abbandono ── */}
       {dismissed ? (
-        <p className="rounded-2xl border border-amber-200/80 bg-amber-50/80 px-4 py-2 text-xs text-amber-950">
-          Caso abbandonato: i punteggi sono stati registrati a 0 su tutti gli assi.
-        </p>
-      ) : null}
-
-      {/* ── B. Header ── */}
-      <header className="flex flex-col gap-4 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm md:flex-row md:items-end md:justify-between">
-        <div className="space-y-1.5">
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#345884]">
-            REPORT DI VALUTAZIONE SCIENTIFICA · AEQUAN
-          </p>
-          <h1 className="font-display text-xl font-semibold tracking-tight text-[#1E324E]">
-            Valutazione clinica e medico-legale
-          </h1>
-          <p className="max-w-xl text-xs leading-relaxed text-slate-500">
-            Analisi multidimensionale con delta Gold Standard, bilancio economico e coaching AI.
-          </p>
-        </div>
-        <div className="flex flex-col items-start rounded-xl border border-[#345884]/10 bg-[#345884]/5 px-4 py-3 md:items-end">
-          <span className="text-[11px] text-slate-500">Score complessivo</span>
-          <span className="font-display text-3xl font-semibold tracking-tight text-[#1E324E]">
-            {Math.round(totalScore)}
-          </span>
-        </div>
-      </header>
-
-      {/* ── C. Scudo Legale ── */}
-      {legalProtectionStatus && shield ? (
-        <section
-          className={cn("rounded-3xl border p-5 shadow-sm md:p-6", shield.panel)}
+        <Section
+          delayMs={40}
+          className="flex items-start gap-3 rounded-xl border border-amber-200/80 bg-amber-50/90 px-4 py-3 shadow-aequan-panel"
         >
-          <div className="flex flex-col gap-4 md:flex-row md:items-start">
-            <div className={cn("shrink-0 rounded-2xl border p-3", shield.badge)}>
-              <ShieldIcon className={cn("h-8 w-8", shield.accent)} />
-            </div>
-            <div className="min-w-0 flex-1 space-y-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <h2 className="font-display text-sm font-semibold text-[#1E324E]">
-                  Scudo Legale
-                </h2>
-                <span
-                  className={cn(
-                    "rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide",
-                    shield.badge,
-                  )}
-                >
-                  {shield.label}
-                </span>
-              </div>
-              <p className="rounded-xl border border-slate-100 border-l-4 border-l-[#1E324E] bg-white/80 p-4 text-sm leading-relaxed text-slate-600">
-                <SafeLlmText as="span" className="whitespace-pre-line">
-                  {legalProtectionStatus.justification}
-                </SafeLlmText>
-              </p>
-              {legalProtectionStatus.referenceDocuments.length > 0 ? (
-                <div className="flex flex-wrap gap-1.5">
-                  {legalProtectionStatus.referenceDocuments.map((doc) => (
-                    <Badge key={doc} variant="default" className="text-[10px]">
-                      {doc}
-                    </Badge>
-                  ))}
-                </div>
-              ) : null}
-              {legalSources.length > 0 ? (
-                <p className="text-[10px] text-slate-500">
-                  Fonti RAG: {legalSources.join(" · ")}
-                </p>
-              ) : null}
-            </div>
-          </div>
-        </section>
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" aria-hidden />
+          <p className="text-xs leading-relaxed text-amber-950">
+            Caso abbandonato: i punteggi sono stati registrati a 0 su tutti gli assi.
+          </p>
+        </Section>
       ) : null}
 
-      {/* ═══════════════════════════════════════════════════
-          D. GRID — Executive plancia + Bilancio
-          ═══════════════════════════════════════════════════ */}
-      <section className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch">
-        {/* D1 — Plancia dei 5 Pilastri */}
-        <Card className="rounded-xl border-border bg-panel-bg shadow-aequan-panel lg:col-span-7 xl:col-span-8">
-          <CardHeader className="pb-3">
-            <CardTitle className="font-display text-sm font-bold tracking-tight text-brand-primary">
-              Plancia dei 5 Pilastri
-            </CardTitle>
-            <CardDescription className="text-xs text-slate-500">
-              Indicatori core AEQUAN — pari dignità visiva su tutti gli assi di valutazione.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
+      {/* Hero */}
+      <Section
+        delayMs={60}
+        className="relative overflow-hidden rounded-xl border border-border bg-panel-bg shadow-aequan-panel"
+      >
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_0%_0%,rgba(52,88,132,0.1),transparent_55%),radial-gradient(ellipse_at_100%_100%,rgba(30,50,78,0.06),transparent_50%)]"
+          aria-hidden
+        />
+        <div className="absolute inset-y-0 left-0 w-1 bg-brand-primary" aria-hidden />
+
+        <div className="relative flex flex-col gap-6 p-5 md:flex-row md:items-end md:justify-between md:p-7">
+          <div className="max-w-xl space-y-2">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-secondary">
+              AEQUAN · Report di valutazione
+            </p>
+            <h1 className="font-display text-[1.65rem] font-bold tracking-tight text-text-primary md:text-[1.85rem]">
+              Valutazione clinica e medico-legale
+            </h1>
+            <p className="text-sm leading-relaxed text-slate-500">
+              Analisi multidimensionale con delta Gold Standard, bilancio economico e coaching AI.
+            </p>
+          </div>
+
+          <div className="flex shrink-0 flex-col items-start rounded-xl border border-brand-secondary/15 bg-brand-secondary/[0.06] px-5 py-4 md:items-end">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+              Score complessivo
+            </span>
+            <p className="mt-1 font-display text-4xl font-bold tabular-nums tracking-tight text-brand-primary">
+              {Math.round(totalScore)}
+              <span className="ml-0.5 text-lg font-medium text-slate-400">/30</span>
+            </p>
+          </div>
+        </div>
+      </Section>
+
+      {/* Scudo Legale */}
+      {legalProtectionStatus && shield ? (
+        <Section delayMs={100}>
+          <article
+            className={cn(
+              "overflow-hidden rounded-xl border border-border border-l-4 bg-gradient-to-br to-panel-bg p-5 shadow-aequan-panel md:p-6",
+              shield.rail,
+              shield.wash,
+            )}
+          >
+            <div className="flex flex-col gap-4 md:flex-row md:items-start">
+              <div
+                className={cn(
+                  "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border",
+                  shield.badge,
+                )}
+              >
+                <ShieldIcon className={cn("h-6 w-6", shield.accent)} />
+              </div>
+              <div className="min-w-0 flex-1 space-y-3">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <h2 className="font-display text-base font-semibold text-brand-primary">
+                    Scudo Legale
+                  </h2>
+                  <span
+                    className={cn(
+                      "rounded-md border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide",
+                      shield.badge,
+                    )}
+                  >
+                    {shield.label}
+                  </span>
+                </div>
+                <p className="text-sm leading-relaxed text-slate-600">
+                  <SafeLlmText as="span" className="whitespace-pre-line">
+                    {legalProtectionStatus.justification}
+                  </SafeLlmText>
+                </p>
+                {legalProtectionStatus.referenceDocuments.length > 0 ? (
+                  <div className="flex flex-wrap gap-1.5">
+                    {legalProtectionStatus.referenceDocuments.map((doc) => (
+                      <span
+                        key={doc}
+                        className="rounded-md border border-border bg-ui-bg/80 px-2 py-1 text-[10px] font-medium text-slate-600"
+                      >
+                        {doc}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+                {legalSources.length > 0 ? (
+                  <p className="text-[11px] text-slate-500">
+                    Fonti RAG: {legalSources.join(" · ")}
+                  </p>
+                ) : null}
+              </div>
+            </div>
+          </article>
+        </Section>
+      ) : null}
+
+      {/* Pilastri + Bilancio */}
+      <Section
+        delayMs={140}
+        className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start"
+      >
+        <Panel className="lg:col-span-7 xl:col-span-8">
+          <PanelHeader
+            title="Cinque pilastri AEQUAN"
+            description="Indicatori core a pari dignità — accuratezza, tutela, appropriatezza, sostenibilità, empatia."
+            icon={<Activity className="h-4 w-4" />}
+          />
+          <div className="space-y-6 p-5 md:p-6">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-6 sm:grid-cols-3 md:grid-cols-5 md:gap-x-1">
               {PILLARS.map((pillar) => {
                 const Icon = pillar.icon;
                 const score = resolvePillarScore(radarData, pillar);
                 return (
-                  <div
+                  <ScoreProgressRing
                     key={pillar.key}
-                    className="flex flex-col items-center rounded-xl border border-border bg-ui-bg/80 px-2 py-4"
-                  >
-                    <ScoreProgressRing
-                      compact
-                      size={100}
-                      score={score}
-                      label={pillar.label}
-                      icon={<Icon className="h-4 w-4" />}
-                    />
+                    compact
+                    size={100}
+                    score={score}
+                    label={pillar.label}
+                    icon={<Icon className="h-4 w-4" />}
+                    className="results-pillar-enter"
+                  />
+                );
+              })}
+            </div>
+
+            <div className="space-y-3 border-t border-border-subtle pt-5">
+              {PILLARS.map((pillar) => {
+                const score = resolvePillarScore(radarData, pillar);
+                const clamped = Math.max(0, Math.min(100, score));
+                const Icon = pillar.icon;
+                return (
+                  <div key={`row-${pillar.key}`} className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-secondary/10 text-brand-secondary">
+                      <Icon className="h-3.5 w-3.5" />
+                    </div>
+                    <div className="min-w-0 flex-1 space-y-1.5">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="truncate text-xs font-medium text-slate-600">
+                          {pillar.label}
+                        </span>
+                        <span className="shrink-0 text-xs font-semibold tabular-nums text-brand-primary">
+                          {Math.round(clamped)}%
+                        </span>
+                      </div>
+                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+                        <div
+                          className="h-full rounded-full bg-brand-secondary transition-all duration-700 ease-out"
+                          style={{ width: `${clamped}%` }}
+                          role="progressbar"
+                          aria-valuenow={Math.round(clamped)}
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                          aria-label={pillar.label}
+                        />
+                      </div>
+                    </div>
                   </div>
                 );
               })}
             </div>
 
-            <div className="space-y-4 border-t border-border-subtle pt-5">
-              {PILLARS.map((pillar) => (
-                <MetricBar
-                  key={`bar-${pillar.key}`}
-                  label={pillar.label}
-                  score={resolvePillarScore(radarData, pillar)}
-                />
-              ))}
-            </div>
-
             <div className="border-t border-border-subtle pt-5">
-              <p className="mb-3 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
                 Radar competenze vs target
               </p>
-              <div className="h-80 w-full rounded-xl border border-border bg-ui-bg/60 p-2">
+              <div className="h-80 w-full rounded-xl border border-border bg-ui-bg/50 p-3">
                 <ResultsRadarClient data={radarData} />
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </Panel>
 
-        {/* D2 — Bilancio Economico */}
-        <Card
-          className={cn(
-            "rounded-xl shadow-aequan-panel lg:col-span-5 xl:col-span-4",
-            "border border-brand-secondary/15 bg-brand-secondary/[0.04]",
-          )}
-        >
-          <CardHeader>
-            <CardTitle className="font-display flex items-center gap-2 text-sm font-bold tracking-tight text-brand-primary">
-              <Euro className="h-4 w-4 text-brand-secondary" />
-              Bilancio economico SSN
-            </CardTitle>
-            <CardDescription className="text-xs text-slate-500">
-              Documento di appropriatezza: budget assegnato vs spesa effettuata.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
+        <Panel className="border-brand-secondary/15 bg-gradient-to-b from-brand-secondary/[0.05] to-panel-bg lg:col-span-5 xl:col-span-4">
+          <PanelHeader
+            title="Bilancio economico SSN"
+            description="Budget assegnato vs spesa effettuata."
+            icon={<Euro className="h-4 w-4" />}
+          />
+          <div className="space-y-4 p-5 md:p-6">
             {economicAnalysis ? (
               <>
-                <div className="rounded-xl border border-white/80 bg-white/90 p-4 shadow-sm">
+                <div className="rounded-xl border border-border bg-panel-bg/90 p-4">
                   <EconomicBudgetGauge
                     targetBudget={economicAnalysis.targetBudget}
                     actualSpent={economicAnalysis.actualSpent}
@@ -326,195 +433,179 @@ export function EliteResultsClient({
                 </div>
 
                 {overspend > 0 ? (
-                  <p className="flex items-center gap-1.5 rounded-xl border border-rose-200/80 bg-rose-50/70 px-3 py-2 text-[11px] text-rose-800">
+                  <p className="flex items-center gap-1.5 rounded-xl border border-rose-200/80 bg-rose-50/80 px-3 py-2.5 text-[11px] text-rose-800">
                     <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
                     Sforamento budget: +€{overspend.toFixed(2)} rispetto al target SSN.
                   </p>
                 ) : budgetRespected ? (
-                  <p className="rounded-xl border border-emerald-200/80 bg-emerald-50/70 px-3 py-2 text-[11px] font-medium text-emerald-800">
+                  <p className="rounded-xl border border-emerald-200/80 bg-emerald-50/80 px-3 py-2.5 text-[11px] font-medium text-emerald-800">
                     Budget rispettato — spesa entro soglia di appropriatezza.
                   </p>
                 ) : null}
               </>
             ) : (
-              <p className="rounded-xl border border-dashed border-border bg-white/60 px-4 py-8 text-center text-xs text-slate-500">
+              <p className="rounded-xl border border-dashed border-border bg-ui-bg/60 px-4 py-10 text-center text-xs leading-relaxed text-slate-500">
                 Bilancio economico non disponibile per questa sessione.
               </p>
             )}
-          </CardContent>
-        </Card>
-      </section>
+          </div>
+        </Panel>
+      </Section>
 
-      {/* ── E. Gold Standard side-by-side ── */}
       {clinicalDeltaTable.length > 0 ? (
-        <GoldStandardCompare rows={clinicalDeltaTable} />
+        <Section delayMs={180}>
+          <GoldStandardCompare rows={clinicalDeltaTable} />
+        </Section>
       ) : null}
 
-      {/* ── F. Spese / Esami mancati ── */}
       {economicAnalysis &&
       (economicAnalysis.unnecessaryExpenses.length > 0 ||
         economicAnalysis.missedRequiredExams.length > 0) ? (
-        <section className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <Card className="rounded-2xl border-rose-200/80 bg-rose-50/40 shadow-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-sm text-rose-800">
-                <XCircle className="h-4 w-4" />
-                Spese superflue
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
+        <Section delayMs={200} className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <Panel className="overflow-hidden border-rose-200/70">
+            <div className="flex items-center gap-2 border-b border-rose-100 bg-rose-50/50 px-5 py-3.5">
+              <XCircle className="h-4 w-4 text-rose-700" />
+              <h2 className="font-display text-sm font-semibold text-rose-800">Spese superflue</h2>
+            </div>
+            <div className="space-y-2 p-4 md:p-5">
               {economicAnalysis.unnecessaryExpenses.length === 0 ? (
                 <p className="text-xs text-slate-500">Nessuna spesa superflua rilevata.</p>
               ) : (
                 economicAnalysis.unnecessaryExpenses.map((item, i) => (
                   <div
                     key={i}
-                    className="rounded-xl border border-rose-200/80 bg-white px-3 py-2"
+                    className="rounded-xl border border-rose-100 bg-ui-bg/40 px-3.5 py-2.5"
                   >
                     <div className="flex justify-between gap-2">
-                      <span className="font-medium text-slate-800">{item.examName}</span>
-                      <span className="font-semibold text-rose-700">
+                      <span className="text-sm font-medium text-slate-800">{item.examName}</span>
+                      <span className="text-sm font-semibold tabular-nums text-rose-700">
                         €{item.cost.toFixed(2)}
                       </span>
                     </div>
-                    <p className="mt-1 text-[11px] text-slate-600">{item.reason}</p>
+                    <p className="mt-1 text-[11px] leading-relaxed text-slate-600">{item.reason}</p>
                   </div>
                 ))
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </Panel>
 
-          <Card className="rounded-2xl border-amber-200/80 bg-amber-50/40 shadow-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-sm text-amber-900">
-                <AlertTriangle className="h-4 w-4" />
-                Esami mancati
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
+          <Panel className="overflow-hidden border-amber-200/70">
+            <div className="flex items-center gap-2 border-b border-amber-100 bg-amber-50/50 px-5 py-3.5">
+              <AlertTriangle className="h-4 w-4 text-amber-800" />
+              <h2 className="font-display text-sm font-semibold text-amber-950">Esami mancati</h2>
+            </div>
+            <div className="space-y-2 p-4 md:p-5">
               {economicAnalysis.missedRequiredExams.length === 0 ? (
-                <p className="text-xs text-slate-500">
-                  Nessun esame obbligatorio omesso.
-                </p>
+                <p className="text-xs text-slate-500">Nessun esame obbligatorio omesso.</p>
               ) : (
                 economicAnalysis.missedRequiredExams.map((item, i) => (
                   <div
                     key={i}
-                    className="rounded-xl border border-amber-200/80 bg-white px-3 py-2"
+                    className="rounded-xl border border-amber-100 bg-ui-bg/40 px-3.5 py-2.5"
                   >
                     <div className="flex justify-between gap-2">
-                      <span className="font-medium text-slate-800">{item.examName}</span>
-                      <span className="font-semibold text-amber-800">
+                      <span className="text-sm font-medium text-slate-800">{item.examName}</span>
+                      <span className="text-sm font-semibold tabular-nums text-amber-800">
                         €{item.cost.toFixed(2)}
                       </span>
                     </div>
-                    <p className="mt-1 text-[11px] text-slate-600">{item.reason}</p>
+                    <p className="mt-1 text-[11px] leading-relaxed text-slate-600">{item.reason}</p>
                   </div>
                 ))
               )}
-            </CardContent>
-          </Card>
-        </section>
+            </div>
+          </Panel>
+        </Section>
       ) : null}
 
-      {/* ═══════════════════════════════════════════════════
-          G. AI Clinical Coach
-          ═══════════════════════════════════════════════════ */}
       {coachingFeedback ? (
-        <section className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-          <div className="mb-4 flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-[#345884]" />
-            <h2 className="font-display text-sm font-bold text-[#1E324E]">
-              AI Clinical Coach
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {COACH_CARDS.map(({ key, label, icon: Icon }) => (
-              <div
-                key={key}
-                className="space-y-2 rounded-2xl border border-slate-100 border-l-4 border-l-[#1E324E] bg-slate-50/50 p-4"
-              >
-                <div className="flex items-center gap-2">
-                  <Icon className="h-4 w-4 text-[#345884]" />
-                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                    {label}
-                  </span>
+        <Section delayMs={220}>
+          <Panel>
+            <PanelHeader
+              title="AI Clinical Coach"
+              description="Feedback mirato sui quattro assi di coaching."
+              icon={<Sparkles className="h-4 w-4" />}
+            />
+            <div className="grid grid-cols-1 gap-4 p-5 md:grid-cols-2 md:p-6 lg:grid-cols-2 xl:grid-cols-4">
+              {COACH_CARDS.map(({ key, label, icon: Icon }) => (
+                <div
+                  key={key}
+                  className="space-y-2.5 rounded-xl border border-border border-l-[3px] border-l-brand-primary bg-ui-bg/40 p-4"
+                >
+                  <div className="flex items-center gap-2">
+                    <Icon className="h-4 w-4 text-brand-secondary" />
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-500">
+                      {label}
+                    </span>
+                  </div>
+                  <p className="text-sm leading-relaxed text-slate-600">
+                    <SafeLlmText as="span" className="whitespace-pre-line">
+                      {coachingFeedback[key] ?? ""}
+                    </SafeLlmText>
+                  </p>
                 </div>
-                <p className="text-sm leading-relaxed text-slate-600">
-                  <SafeLlmText as="span" className="whitespace-pre-line">
-                    {coachingFeedback[key] ?? ""}
-                  </SafeLlmText>
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </Panel>
+        </Section>
       ) : null}
 
-      {/* ── H. Forza / Debolezza ── */}
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <Card className="rounded-2xl border-slate-100 bg-white shadow-sm">
-          <CardHeader>
-            <CardTitle className="font-display text-sm font-bold text-[#1E324E]">
-              Punti di forza
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-1.5 text-xs">
+      <Section delayMs={240} className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <Panel>
+          <PanelHeader title="Punti di forza" />
+          <div className="space-y-2 p-5">
             {strengths.length === 0 ? (
-              <p className="text-slate-500">Nessun punto di forza specifico.</p>
+              <p className="text-xs text-slate-500">Nessun punto di forza specifico.</p>
             ) : (
-              <ul className="space-y-1.5">
+              <ul className="space-y-2">
                 {strengths.map((item, idx) => (
                   <li
                     key={idx}
-                    className="rounded-xl border border-slate-100 bg-slate-50/50 px-3 py-1.5 text-slate-600"
+                    className="rounded-lg border-l-[3px] border-l-brand-secondary bg-ui-bg/50 px-3.5 py-2.5 text-xs leading-relaxed text-slate-600"
                   >
                     <SafeLlmText as="span">{item}</SafeLlmText>
                   </li>
                 ))}
               </ul>
             )}
-          </CardContent>
-        </Card>
-        <Card className="rounded-2xl border-slate-100 bg-white shadow-sm">
-          <CardHeader>
-            <CardTitle className="font-display text-sm font-bold text-[#1E324E]">
-              Aree di miglioramento
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-1.5 text-xs">
+          </div>
+        </Panel>
+        <Panel>
+          <PanelHeader title="Aree di miglioramento" />
+          <div className="space-y-2 p-5">
             {weaknesses.length === 0 ? (
-              <p className="text-slate-500">Nessuna criticità specifica.</p>
+              <p className="text-xs text-slate-500">Nessuna criticità specifica.</p>
             ) : (
-              <ul className="space-y-1.5">
+              <ul className="space-y-2">
                 {weaknesses.map((item, idx) => (
                   <li
                     key={idx}
-                    className="rounded-xl border border-slate-100 bg-slate-50/50 px-3 py-1.5 text-slate-600"
+                    className="rounded-lg border-l-[3px] border-l-amber-500 bg-ui-bg/50 px-3.5 py-2.5 text-xs leading-relaxed text-slate-600"
                   >
                     <SafeLlmText as="span">{item}</SafeLlmText>
                   </li>
                 ))}
               </ul>
             )}
-          </CardContent>
-        </Card>
-      </section>
+          </div>
+        </Panel>
+      </Section>
 
-      {/* ── I. Gestione esperta ── */}
       {correctSolution ? (
-        <Card className="rounded-2xl border-slate-100 bg-white shadow-sm">
-          <CardHeader>
-            <CardTitle className="font-display text-sm font-bold text-[#1E324E]">
-              Gestione esperta di riferimento
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-xs leading-relaxed text-slate-600">
-            <SafeLlmText as="div" className="whitespace-pre-line">
-              {correctSolution}
-            </SafeLlmText>
-          </CardContent>
-        </Card>
+        <Section delayMs={260}>
+          <Panel>
+            <PanelHeader
+              title="Gestione esperta di riferimento"
+              description="Percorso clinico atteso secondo il Gold Standard del caso."
+              icon={<Stethoscope className="h-4 w-4" />}
+            />
+            <div className="p-5 text-sm leading-relaxed text-slate-600 md:p-6">
+              <SafeLlmText as="div" className="whitespace-pre-line">
+                {correctSolution}
+              </SafeLlmText>
+            </div>
+          </Panel>
+        </Section>
       ) : null}
     </div>
   );

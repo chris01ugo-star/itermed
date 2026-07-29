@@ -30,9 +30,9 @@ export function ScoreProgressRing({
   const resolvedSize = compact ? Math.min(size, 108) : size;
 
   return (
-    <div className={cn("flex flex-col items-center gap-2", className)}>
+    <div className={cn("flex flex-col items-center gap-2.5", className)}>
       {icon ? (
-        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#1E324E]/5 text-[#345884]">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-secondary/10 text-brand-secondary">
           {icon}
         </div>
       ) : null}
@@ -49,7 +49,7 @@ export function ScoreProgressRing({
             cy="50"
             r={radius}
             fill="none"
-            stroke="#e2e8f0"
+            stroke="#E2E8F0"
             strokeWidth={strokeWidth}
           />
           <circle
@@ -62,14 +62,14 @@ export function ScoreProgressRing({
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={offset}
-            className="transition-all duration-500 ease-out"
+            className="transition-all duration-700 ease-out"
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
           <span
             className={cn(
-              "font-extrabold tabular-nums text-[#1E324E]",
-              compact ? "text-xl" : "text-3xl",
+              "font-display font-bold tabular-nums text-brand-primary",
+              compact ? "text-lg" : "text-3xl",
             )}
           >
             {Math.round(clamped)}%

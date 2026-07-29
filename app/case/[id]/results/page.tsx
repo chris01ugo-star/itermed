@@ -10,6 +10,7 @@ import type {
   EconomicAnalysis,
   LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
+import { AequanLogo } from "@/components/AequanLogo";
 import { EliteResultsClient } from "./EliteResultsClient";
 
 type ResultsPageProps = {
@@ -73,15 +74,18 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-950 flex items-stretch justify-center px-4 py-10">
-      <div className="w-full max-w-6xl flex flex-col gap-6">
-        <div className="flex justify-start">
+    <div className="min-h-screen bg-[#F4F6F8] text-text-primary">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 md:px-8 md:py-10">
+        <div className="flex items-center justify-between gap-4">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-panel-bg px-3.5 py-2 text-xs font-medium text-brand-primary shadow-aequan-panel transition hover:border-brand-secondary/30 hover:bg-brand-secondary/[0.04] aequan-interactive"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Dashboard
+          </Link>
+          <Link href="/dashboard" aria-label="Vai alla dashboard" className="hidden sm:block">
+            <AequanLogo height={32} />
           </Link>
         </div>
 

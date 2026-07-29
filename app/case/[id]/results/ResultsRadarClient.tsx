@@ -9,7 +9,6 @@ import {
   Radar,
   Legend,
 } from "recharts";
-import { AiTransparencyBadge } from "@/components/legal/AiTransparencyBadge";
 
 export type RadarDatum = {
   metric: string;
@@ -24,42 +23,39 @@ export function ResultsRadarClient({ data }: { data: RadarDatum[] }) {
   }));
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-col gap-2">
-      <AiTransparencyBadge variant="report" className="shrink-0" />
-      <div className="min-h-0 flex-1">
-        <ResponsiveContainer width="100%" height="100%">
-          <RadarChart data={chartData} outerRadius="72%">
-            <PolarGrid radialLines={false} stroke="#E2E8F0" />
-            <PolarAngleAxis dataKey="metric" tick={{ fill: "#64748B", fontSize: 11 }} />
-            <PolarRadiusAxis
-              angle={90}
-              domain={[0, 100]}
-              tick={{ fill: "#94A3B8", fontSize: 10 }}
-              tickCount={6}
-            />
-            <Radar
-              name="Target"
-              dataKey="target"
-              stroke="#CBD5E1"
-              fill="#E2E8F0"
-              fillOpacity={0.25}
-              strokeDasharray="4 4"
-            />
-            <Radar
-              name="Performance"
-              dataKey="score"
-              stroke="#345884"
-              fill="#345884"
-              fillOpacity={0.22}
-            />
-            <Legend
-              verticalAlign="bottom"
-              height={28}
-              wrapperStyle={{ fontSize: 11, color: "#64748B" }}
-            />
-          </RadarChart>
-        </ResponsiveContainer>
-      </div>
+    <div className="h-full min-h-0 w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <RadarChart data={chartData} outerRadius="72%">
+          <PolarGrid radialLines={false} stroke="#E2E8F0" />
+          <PolarAngleAxis dataKey="metric" tick={{ fill: "#64748B", fontSize: 11 }} />
+          <PolarRadiusAxis
+            angle={90}
+            domain={[0, 100]}
+            tick={{ fill: "#94A3B8", fontSize: 10 }}
+            tickCount={6}
+          />
+          <Radar
+            name="Target"
+            dataKey="target"
+            stroke="#CBD5E1"
+            fill="#E2E8F0"
+            fillOpacity={0.25}
+            strokeDasharray="4 4"
+          />
+          <Radar
+            name="Performance"
+            dataKey="score"
+            stroke="#345884"
+            fill="#345884"
+            fillOpacity={0.22}
+          />
+          <Legend
+            verticalAlign="bottom"
+            height={28}
+            wrapperStyle={{ fontSize: 11, color: "#64748B" }}
+          />
+        </RadarChart>
+      </ResponsiveContainer>
     </div>
   );
 }
