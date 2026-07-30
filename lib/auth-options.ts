@@ -49,14 +49,37 @@ export const authOptions: NextAuthOptions = {
       if (account?.provider === "google") {
         const email = user.email?.toLowerCase().trim();
         if (!email) return false;
-        await prisma.user.upsert({
+        const acceptedAt = new Date();
+        const existing = await prisma.user.findUnique({
           where: { email },
-          update: { name: user.name ?? undefined },
-          create: {
-            email,
-            name: user.name ?? undefined,
+          select: {
+            id: true,
+            termsAcceptedAt: true,
+            privacyAcceptedAt: true,
           },
         });
+
+        if (existing) {
+          await prisma.user.update({
+            where: { email },
+            data: {
+              name: user.name ?? undefined,
+              // Backfill legal acceptance once for legacy Google accounts.
+              ...(!existing.termsAcceptedAt ? { termsAcceptedAt: acceptedAt } : {}),
+              ...(!existing.privacyAcceptedAt ? { privacyAcceptedAt: acceptedAt } : {}),
+            },
+          });
+        } else {
+          await prisma.user.create({
+            data: {
+              email,
+              name: user.name ?? undefined,
+              leaderboardOptIn: false,
+              termsAcceptedAt: acceptedAt,
+              privacyAcceptedAt: acceptedAt,
+            },
+          });
+        }
       }
       return true;
     },
@@ -88,6 +111,7 @@ export const authOptions: NextAuthOptions = {
       }
 
       // Re-read role from DB so promotions (e.g. STUDENT → ADMIN) apply without re-login.
+      // If the user was erased (Art. 17), invalidate the JWT.
       const userId = typeof token.id === "string" ? token.id : null;
       if (userId) {
         try {
@@ -95,7 +119,10 @@ export const authOptions: NextAuthOptions = {
             where: { id: userId },
             select: { role: true },
           });
-          if (dbUser?.role) {
+          if (!dbUser) {
+            return {};
+          }
+          if (dbUser.role) {
             token.role = dbUser.role;
           }
         } catch {

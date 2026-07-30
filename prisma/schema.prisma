@@ -59,8 +59,8 @@ model User {
   freeTrialUsageCount  Int      @default(0)
   purchasedBundleIds   String[] @default([])
 
-  /// Leaderboard gamification preferences.
-  leaderboardOptIn     Boolean              @default(true)
+  /// Leaderboard gamification preferences (Privacy by Default: opt-out).
+  leaderboardOptIn     Boolean              @default(false)
   leaderboardNameType  LeaderboardNameType  @default(REAL_NAME)
   nickname             String?
 

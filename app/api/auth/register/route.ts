@@ -48,6 +48,7 @@ export async function POST(req: Request) {
       name: parsed.data.name?.trim() || null,
       passwordHash,
       role: "STUDENT",
+      leaderboardOptIn: false,
       termsAcceptedAt: acceptedAt,
       privacyAcceptedAt: acceptedAt,
     },
