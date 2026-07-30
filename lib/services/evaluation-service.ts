@@ -25,6 +25,7 @@ import {
 } from "@/lib/services/evaluation-scoring";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
+import { EVALUATION_MAX_OUTPUT_TOKENS } from "@/lib/security/ai-rate-limits";
 
 const criticalActionSchema = z.object({
   description: z.string().max(200),
@@ -547,6 +548,7 @@ export class EvaluationService {
             model: this.deps.getEvaluationModel(),
             schema: AnalyticalEvaluationSchema,
             temperature: 0,
+            maxTokens: EVALUATION_MAX_OUTPUT_TOKENS,
             system: buildSystemPrompt({
               caseContext: input.caseContext,
               guidelines: input.guidelines,

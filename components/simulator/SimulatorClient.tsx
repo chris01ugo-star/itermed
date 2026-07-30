@@ -527,7 +527,7 @@ export function SimulatorClient({
       chiefComplaint: initialCaseData.description,
       vitalSigns: vitalSignsForChat,
       abnormalExams: abnormalExamsForChat,
-      trueDiagnosis: initialCaseData.correctSolution ?? undefined,
+      // Never send gold diagnosis from the browser — server loads it only for owned live sessions.
     },
     experimental_prepareRequestBody: ({ messages: chatMessages, requestBody }) => ({
       ...(requestBody ?? {}),

@@ -1,6 +1,8 @@
 import { hash } from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
+import { enforceRateLimit } from "@/lib/security/rate-limit";
 
 const bodySchema = z.object({
   email: z.string().email(),
@@ -14,6 +16,12 @@ const bodySchema = z.object({
 });
 
 export async function POST(req: Request) {
+  const rateLimited = await enforceRateLimit(req, {
+    namespace: "api-auth-register",
+    limit: AI_RATE_LIMITS.register,
+  });
+  if (rateLimited) return rateLimited;
+
   let json: unknown;
   try {
     json = await req.json();

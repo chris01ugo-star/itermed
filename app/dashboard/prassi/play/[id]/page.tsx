@@ -170,7 +170,8 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     difficulty: caseData.difficulty,
     estimatedDurationMinutes: caseData.estimatedDurationMinutes ?? null,
     patientPrompt: effectivePrompt,
-    correctSolution: caseData.correctSolution ?? null,
+    // Gold answer stays server-side only (Art. 32 / anti-cheat).
+    correctSolution: null,
     demographics: {
       age: demographics.age ?? null,
       sex: demographics.sex ?? null,

@@ -76,6 +76,7 @@ export function generatePatientResponse(params: GeneratePatientResponseParams) {
   return streamText({
     model: openai(modelId),
     messages: [{ role: "system", content: systemPrompt }, ...params.messages],
+    maxTokens: 450,
     onFinish: params.onFinish
       ? async (event) => {
           await params.onFinish?.({ text: event.text });

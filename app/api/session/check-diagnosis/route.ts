@@ -6,6 +6,8 @@ import { getSessionUserId } from "../../../../lib/api-session";
 import { userCanPlayCase, verifyLiveSessionOwner } from "../../../../lib/access";
 import { isDevAuthBypass } from "../../../../lib/require-user";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
+import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
+import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../../lib/auth-options";
 
@@ -57,6 +59,13 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "application/json" },
     });
   }
+
+  const rateLimited = await enforceRateLimit(req, {
+    namespace: "api-check-diagnosis",
+    limit: AI_RATE_LIMITS.checkDiagnosis,
+    userId,
+  });
+  if (rateLimited) return rateLimited;
 
   const json = await req.json();
   const { caseId, sessionId, diagnosisText } = bodySchema.parse(json);

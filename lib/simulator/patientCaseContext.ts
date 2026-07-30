@@ -94,7 +94,7 @@ export function buildPatientSimulatorCaseInput(params: {
   const trueDiagnosis =
     clinicalCase?.correctSolution && str(clinicalCase.correctSolution)
       ? str(clinicalCase.correctSolution)
-      : str(body.trueDiagnosis ?? body.true_diagnosis);
+      : "(non definita nel caso)";
 
   return {
     patientAge: patientAge || "(non specificata)",
@@ -102,7 +102,8 @@ export function buildPatientSimulatorCaseInput(params: {
     chiefComplaint: chiefComplaint || "(non specificato)",
     vitalSigns,
     patientStress,
-    trueDiagnosis: trueDiagnosis || "(non definita nel caso)",
+    // Never trust client-supplied trueDiagnosis / true_diagnosis (prompt injection / gold leak).
+    trueDiagnosis,
     abnormalExams,
   };
 }

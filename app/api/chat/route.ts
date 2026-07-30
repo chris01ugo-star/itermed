@@ -341,14 +341,9 @@ export async function POST(req: Request) {
     }
   }
 
-  // Block client-injected gold answers unless the user owns a live session.
-  const caseBodyForPrompt =
-    liveSessionId != null
-      ? { ...body, casePrompt }
-      : { ...body, casePrompt, trueDiagnosis: undefined, true_diagnosis: undefined };
-
+  // Client-injected gold answers are never trusted — only DB correctSolution on owned sessions.
   let caseData = buildPatientSimulatorCaseInput({
-    body: caseBodyForPrompt,
+    body: { ...body, casePrompt },
     clinicalCase,
     patientStress: stressClamped,
   });

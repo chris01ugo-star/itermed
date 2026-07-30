@@ -4,6 +4,8 @@ import { z } from "zod";
 import { prisma } from "../../../../lib/prisma";
 import { getSessionUserId } from "../../../../lib/api-session";
 import { verifyLiveSessionOwner } from "../../../../lib/access";
+import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
+import { enforceRateLimit } from "@/lib/security/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -62,6 +64,13 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "application/json" },
     });
   }
+
+  const rateLimited = await enforceRateLimit(req, {
+    namespace: "api-session-complication",
+    limit: AI_RATE_LIMITS.sessionComplication,
+    userId,
+  });
+  if (rateLimited) return rateLimited;
 
   const json = await req.json();
   const { sessionId, caseId, basePatientPrompt, complication } = bodySchema.parse(json);

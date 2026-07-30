@@ -1,3 +1,6 @@
+/** Cap evaluation JSON output — structured schema is large but unbounded generation burns cost. */
+export const EVALUATION_MAX_OUTPUT_TOKENS = 4500;
+
 /** Shared per-minute limits for OpenAI-backed / abuse-sensitive API routes. */
 export const AI_RATE_LIMITS = {
   /**
