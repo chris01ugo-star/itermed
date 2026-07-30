@@ -3,6 +3,7 @@ import { generateObject } from "ai";
 import { z } from "zod";
 import { normalizeStepId } from "@/lib/cases/simulation-time";
 import type { SessionMilestoneSnapshot } from "@/lib/simulator/milestone-tracker";
+import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 
 export const semanticVerdictSchema = z.object({
   isEquivalent: z.boolean(),
@@ -258,11 +259,12 @@ export async function evaluateSemanticDiagnosisLLM(params: {
 }): Promise<SemanticVerdict> {
   const generate = params.generateObjectFn ?? generateObject;
 
-  const { object } = await generate({
-    model: openai("gpt-4o-mini"),
-    schema: semanticVerdictSchema,
-    temperature: 0,
-    system: `
+  const { object } = await withOpenAIRetry(() =>
+    generate({
+      model: openai("gpt-4o-mini"),
+      schema: semanticVerdictSchema,
+      temperature: 0,
+      system: `
 Sei un arbitro semantico clinico. Rispondi SOLO JSON.
 Regola: se lo studente identifica correttamente la patologia e il distretto d'organo bersaglio,
 anche con gergo, acronimi o descrizioni fisiopatologiche equivalenti → isEquivalent: true.
@@ -271,14 +273,15 @@ macroscopicMismatch: true SOLO se la diagnosi indica una patologia radicalmente 
 confidence: 0.0-1.0 (quanto sei sicuro dell'equivalenza semantica).
 standardizedDiagnosis: forma canonica breve in italiano.
 `.trim(),
-    prompt: `
+      prompt: `
 CASO: ${params.caseTitle ?? "N/D"}
 DESCRIZIONE: ${params.caseDescription ?? "N/D"}
 DIAGNOSI ATTESA: """${params.expectedDiagnosis}"""
 DIAGNOSI STUDENTE: """${params.userDiagnosis}"""
 MILESTONE COMPLETATI: ${params.milestoneCompletionRate != null ? `${Math.round(params.milestoneCompletionRate * 100)}%` : "N/D"}
 `.trim(),
-  });
+    }),
+  );
 
   return object;
 }

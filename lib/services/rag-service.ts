@@ -7,6 +7,7 @@ import { getPineconeIndex, type PineconeIndex } from "@/lib/pinecone";
 import { prisma } from "@/lib/prisma";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { truncateForLlmContext } from "@/lib/security/prompt-context";
+import { embedQueryTextCached } from "@/lib/ai/embedding-cache";
 
 const LEGAL_TOP_K = 8;
 const PROTOCOL_TOP_K = 4;
@@ -441,6 +442,10 @@ export class RagService {
     }
 
     try {
+      // Production default: Upstash-cached OpenAI embeddings. Tests may inject deps.embed.
+      if (this.deps.embed === embed) {
+        return await embedQueryTextCached(query);
+      }
       const { embedding } = await this.deps.embed({
         model: openai.embedding("text-embedding-3-small"),
         value: query,

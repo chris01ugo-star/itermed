@@ -14,6 +14,7 @@ import { countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
+import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 
 const bodySchema = z.object({
   caseId: z.string().min(1),
@@ -146,17 +147,19 @@ Restituisci un JSON con i campi:
 - "newCorrectSolution": breve descrizione della gestione clinico-medico-legale corretta per questa variante.
 `.trim();
 
-  const { object } = await generateObject({
-    model: openai("gpt-4o-mini"),
-    system: systemPrompt,
-    schema: variantSchema,
-    prompt: `
+  const { object } = await withOpenAIRetry(() =>
+    generateObject({
+      model: openai("gpt-4o-mini"),
+      system: systemPrompt,
+      schema: variantSchema,
+      prompt: `
 Caso di partenza:
 Titolo: ${clinicalCase.title}
 Descrizione: ${clinicalCase.description}
 Prompt paziente di base: ${basePrompt}
 `.trim(),
-  });
+    }),
+  );
 
   return createSession({
     userId,

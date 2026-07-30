@@ -31,7 +31,8 @@ export function isUpstashRateLimitConfigured(): boolean {
   );
 }
 
-function getUpstashRedis(): Redis | null {
+/** Shared Upstash Redis client (null when env is unset). Used by rate-limit + embedding cache. */
+export function getUpstashRedis(): Redis | null {
   if (redisSingleton !== undefined) return redisSingleton;
 
   const url = process.env.UPSTASH_REDIS_REST_URL?.trim();

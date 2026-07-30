@@ -1,6 +1,7 @@
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
+import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 
 export type PatientSimulatorCaseInput = {
   patientAge: string;
@@ -67,20 +68,23 @@ ${ctx.deteriorationInstruction}`
 
 /**
  * Streams the virtual patient's reply token-by-token via OpenAI.
- * Returns a `streamText` result — call `.toDataStreamResponse()` in the route handler.
+ * Retries the initial `streamText` invocation on transient 429 / network errors.
+ * Call `.toDataStreamResponse()` in the route handler.
  */
-export function generatePatientResponse(params: GeneratePatientResponseParams) {
+export async function generatePatientResponse(params: GeneratePatientResponseParams) {
   const systemPrompt = buildPatientSystemPrompt(params.caseData);
   const modelId = params.model ?? "gpt-4o-mini";
 
-  return streamText({
-    model: openai(modelId),
-    messages: [{ role: "system", content: systemPrompt }, ...params.messages],
-    maxTokens: 450,
-    onFinish: params.onFinish
-      ? async (event) => {
-          await params.onFinish?.({ text: event.text });
-        }
-      : undefined,
-  });
+  return withOpenAIRetry(async () =>
+    streamText({
+      model: openai(modelId),
+      messages: [{ role: "system", content: systemPrompt }, ...params.messages],
+      maxTokens: 450,
+      onFinish: params.onFinish
+        ? async (event) => {
+            await params.onFinish?.({ text: event.text });
+          }
+        : undefined,
+    }),
+  );
 }

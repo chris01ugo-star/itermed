@@ -8,6 +8,7 @@ import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
+import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -80,11 +81,12 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { object } = await generateObject({
-      model: openai("gpt-4o-mini"),
-      schema: GeneratedCaseFieldsSchema,
-      temperature: 0.35,
-      system: `Sei un medico primario esperto che progetta casi clinici per un simulatore formativo medico-legale (AEQUAN).
+    const { object } = await withOpenAIRetry(() =>
+      generateObject({
+        model: openai("gpt-4o-mini"),
+        schema: GeneratedCaseFieldsSchema,
+        temperature: 0.35,
+        system: `Sei un medico primario esperto che progetta casi clinici per un simulatore formativo medico-legale (AEQUAN).
 Dato un breve testo riassuntivo, genera un profilo di caso completo, coerente e realistico in italiano.
 
 ${AI_PROMPT_INJECTION_GUARD}
@@ -100,14 +102,15 @@ Regole:
 - abnormalExamsSummary: elenco sintetico delle alterazioni attese (es. "Troponina ↑, ECG: ST elevazione V2-V4, glicemia borderline").
 - Non inventare dettagli assurdi rispetto al brief.
 - Non includere markdown o testo fuori dallo schema.`,
-      prompt: `Riassunto clinico fornito dall'utente:
+        prompt: `Riassunto clinico fornito dall'utente:
 
 """
 ${brief}
 """
 
 Compila tutti i campi del caso per il form di creazione.`,
-    });
+      }),
+    );
 
     logger.info("Case fields generated", {
       userId,

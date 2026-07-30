@@ -381,7 +381,7 @@ export async function POST(req: Request) {
     deteriorating: Boolean(deteriorationInstruction),
   });
 
-  const stream = generatePatientResponse({
+  const stream = await generatePatientResponse({
     caseData,
     messages: windowedMessages,
     model: chatModel,

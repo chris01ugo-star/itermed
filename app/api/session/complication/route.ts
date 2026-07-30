@@ -9,6 +9,7 @@ import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { fenceContext } from "@/lib/security/prompt-context";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
+import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 
 export const runtime = "nodejs";
 
@@ -116,12 +117,14 @@ IMPREVISTO:
 ${complication === "anaphylaxis" ? "Shock anafilattico/improvvisa reazione allergica grave dopo somministrazione farmaco." : ""}
 `.trim();
 
-  const { object } = await generateObject({
-    model: openai("gpt-4o-mini"),
-    system,
-    schema: emergencySchema,
-    prompt,
-  });
+  const { object } = await withOpenAIRetry(() =>
+    generateObject({
+      model: openai("gpt-4o-mini"),
+      system,
+      schema: emergencySchema,
+      prompt,
+    }),
+  );
 
   await prisma.caseSession.update({
     where: { id: sessionId },

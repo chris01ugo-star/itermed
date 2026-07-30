@@ -27,6 +27,7 @@ import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 import { EVALUATION_MAX_OUTPUT_TOKENS } from "@/lib/security/ai-rate-limits";
 import { fenceContext, truncateForLlmContext } from "@/lib/security/prompt-context";
+import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 
 const criticalActionSchema = z.object({
   description: z.string().max(200),
@@ -668,8 +669,13 @@ export class EvaluationService {
 export function createEvaluationService(
   overrides: Partial<EvaluationServiceDeps> = {},
 ): EvaluationService {
+  const rawGenerate = overrides.generateObject ?? generateObject;
+  const generateWithRetry: GenerateObjectFn = ((
+    args: Parameters<GenerateObjectFn>[0],
+  ) => withOpenAIRetry(() => rawGenerate(args))) as GenerateObjectFn;
+
   return new EvaluationService({
-    generateObject: overrides.generateObject ?? generateObject,
+    generateObject: generateWithRetry,
     getEvaluationModel: overrides.getEvaluationModel ?? (() => openai("gpt-4o")),
     logger: overrides.logger ?? createLogger("evaluation-service"),
   });

@@ -16,4 +16,5 @@ export {
   enforceRateLimit,
   enforceLLMRateLimit,
   isUpstashRateLimitConfigured,
+  getUpstashRedis,
 } from "@/lib/security/rate-limit";

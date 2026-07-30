@@ -7,6 +7,7 @@ import { userCanPlayCase, verifyLiveSessionOwner } from "../../../lib/access";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
+import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 
 const bodySchema = z.object({
   sessionId: z.string().optional(),
@@ -318,15 +319,17 @@ Devi restituire SOLO un JSON con i campi:
 - "numericValue": se la manovra corrisponde a un parametro vitale (es. BPM, pressione arteriosa, temperatura, frequenza respiratoria, SpO2) restituisci il numero esatto; altrimenti usa null.
 `.trim();
 
-  const { object } = await generateObject({
-    model: openai("gpt-4o-mini"),
-    system: systemPrompt,
-    schema: examResultSchema,
-    prompt: `
+  const { object } = await withOpenAIRetry(() =>
+    generateObject({
+      model: openai("gpt-4o-mini"),
+      system: systemPrompt,
+      schema: examResultSchema,
+      prompt: `
 Contesto clinico/paziente:
 ${sanitizedPatientPrompt}
 `.trim(),
-  });
+    }),
+  );
 
   return new Response(JSON.stringify(object), {
     status: 200,

@@ -10,6 +10,7 @@ import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 import { generateCaseMetadataAndObjective } from "@/lib/simulator/generate-case-metadata";
 import { fenceContext } from "@/lib/security/prompt-context";
+import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 
 const generateExamsLogger = createLogger("generate-exams");
 
@@ -102,18 +103,20 @@ Non aggiungere markdown, spiegazioni o testo fuori dal JSON.`;
         "Genera solo l'oggetto JSON richiesto per eventuali esami secondari coerenti.",
       ].join("\n\n");
 
-  const result = await generateText({
-    model: openai("gpt-4o-mini"),
-    messages: [
-      { role: "system", content: systemPrompt },
-      {
-        role: "user",
-        content: userPrompt,
-      },
-    ],
-    temperature: 0.4,
-    maxTokens: 1200,
-  });
+  const result = await withOpenAIRetry(() =>
+    generateText({
+      model: openai("gpt-4o-mini"),
+      messages: [
+        { role: "system", content: systemPrompt },
+        {
+          role: "user",
+          content: userPrompt,
+        },
+      ],
+      temperature: 0.4,
+      maxTokens: 1200,
+    }),
+  );
 
   const llmText = result.text;
 

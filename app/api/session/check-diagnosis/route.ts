@@ -8,6 +8,7 @@ import { isDevAuthBypass } from "../../../../lib/require-user";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
+import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../../lib/auth-options";
 
@@ -168,11 +169,12 @@ Regole:
 - Se è troppo generica e non identifica il problema principale -> false.
 `.trim();
 
-  const { object } = await generateObject({
-    model: openai("gpt-4o-mini"),
-    system,
-    schema: verdictSchema,
-    prompt: `
+  const { object } = await withOpenAIRetry(() =>
+    generateObject({
+      model: openai("gpt-4o-mini"),
+      system,
+      schema: verdictSchema,
+      prompt: `
 CASO:
 Titolo: ${clinicalCase.title}
 Descrizione: ${clinicalCase.description}
@@ -183,7 +185,8 @@ SOLUZIONE CORRETTA ATTESA:
 DIAGNOSI INSERITA DALL'UTENTE:
 """${userDx}"""
 `.trim(),
-  });
+    }),
+  );
 
   return new Response(
     JSON.stringify(stripExpectedConditionIfNeeded(object, includeExpectedCondition)),
