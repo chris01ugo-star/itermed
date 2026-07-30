@@ -388,7 +388,14 @@ ${protocolSoftFailHint}
 
 ISTRUZIONI ANALITICHE (OBBLIGATORIE):
 
-1) criticalActions / inappropriateActions / empathyChecklist / legalInstrumentReviews — checklist oggettive.
+0) FEDELTÀ ALL'INTERAZIONE (ANTI-ALLUCINAZIONE — PRIORITÀ MASSIMA):
+   - Usa SOLO: trascritto chat, referto scritto, esami prescritti, milestone deterministiche, Gold Standard e corpus RAG forniti nei tag utente.
+   - NON inventare azioni, domande, esami, consensi o omissioni che NON compaiono nel trascritto o nei registri deterministici.
+   - NON inventare citazioni di linee guida, articoli di legge o nomi di documenti non presenti in <<<RAG_GUIDELINES>>>.
+   - Se un'azione non è documentata: status MISSED / omissione — non inventare una userAction fittizia.
+   - Se il corpus RAG è soft-fail: non colmare con conoscenza parametrica inventata.
+
+1) criticalActions / inappropriateActions / empathyChecklist / legalInstrumentReviews — checklist oggettive ancorate al trascritto.
 
 2) legalProtectionStatus:
    - status: PROTECTED se documentazione e percorso difendibile; PARTIALLY_EXPOSED se lacune; HIGHLY_EXPOSED se violazioni gravi.
@@ -397,7 +404,7 @@ ISTRUZIONI ANALITICHE (OBBLIGATORIE):
 
 3) clinicalDeltaTable — una riga per ogni tappa Gold Standard o azione protocollo chiave:
    - protocolAction: cosa richiede il Gold Standard / linea guida.
-   - userAction: cosa ha fatto il medico (da chat + referto + esami).
+   - userAction: SOLO ciò che risulta da chat + referto + esami + milestone (se assente: "Non eseguito / non documentato").
    - status: MET | MISSED | DELAYED (ritardo clinicamente significativo).
    - penaltyOrBonusReason: spiegazione quantitativa/qualitativa dello scostamento.
 
@@ -408,7 +415,7 @@ ISTRUZIONI ANALITICHE (OBBLIGATORIE):
 
 5) coachingFeedback — consigli actionable per pilastro: empatia, tutelaLegale, economicita, accuratezza.
 
-Sii rigoroso: evidenzia errori, ritardi, sprechi economici e gap medico-legali. NON inventare punteggi numerici globali.
+Sii rigoroso: evidenzia errori, ritardi, sprechi economici e gap medico-legali. NON inventare punteggi numerici globali. NON inventare fatti clinici o legali assenti dai dati forniti.
 `.trim();
 }
 

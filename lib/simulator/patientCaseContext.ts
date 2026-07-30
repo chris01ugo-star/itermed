@@ -84,12 +84,15 @@ export function buildPatientSimulatorCaseInput(params: {
 
   const vitalFromBody = firstNonEmpty(body.vitalSigns ?? body.vital_signs);
   const vitalFromBaseline = formatVitalSignsFromBaseline(baseline ?? undefined);
-  const vitalSigns = vitalFromBody || vitalFromBaseline || "(non specificati)";
+  // Prefer explicit "unknown" over inventable placeholders when case has no vitals.
+  const vitalSigns = vitalFromBody || vitalFromBaseline || "(non specificati — NON inventare valori)";
 
   const abnormalFromBody = firstNonEmpty(body.abnormalExams ?? body.abnormal_exams);
   const abnormalFromBaseline = formatAbnormalExamsFromBaseline(baseline ?? undefined);
   const abnormalExams =
-    abnormalFromBody || abnormalFromBaseline || "(non specificate o da definire con gli esami richiesti)";
+    abnormalFromBody ||
+    abnormalFromBaseline ||
+    "(nessuna alterazione esplicitata nel caso — NON inventare esami o valori)";
 
   const trueDiagnosis =
     clinicalCase?.correctSolution && str(clinicalCase.correctSolution)
