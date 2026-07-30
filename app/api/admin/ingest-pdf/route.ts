@@ -6,6 +6,7 @@ import { config } from "@/lib/config";
 import { createLogger } from "@/lib/logger";
 import { getPineconeIndex } from "@/lib/pinecone";
 import { prisma } from "@/lib/prisma";
+import { requireAdminApi } from "@/lib/require-admin-api";
 
 export const runtime = "nodejs";
 
@@ -57,9 +58,8 @@ async function extractPdfText(buffer: Buffer): Promise<string> {
 }
 
 export async function POST(req: Request) {
-  // DEV: bypass temporaneo controllo admin
-  // const denied = await requireAdminApi();
-  // if (denied) return denied;
+  const denied = await requireAdminApi();
+  if (denied) return denied;
 
   const pineconeConfigured = config.isPineconeConfigured;
   const index = pineconeConfigured ? getPineconeIndex() : null;

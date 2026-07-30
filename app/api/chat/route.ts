@@ -1,5 +1,5 @@
 import { getSessionUserId } from "@/lib/api-session";
-import { verifyLiveSessionOwner } from "@/lib/access";
+import { assertUserCanPlayCase, verifyLiveSessionOwner } from "@/lib/access";
 import {
   assertAllowedChatModel,
   assertCanSendChatMessage,
@@ -273,21 +273,56 @@ export async function POST(req: Request) {
   } | null = null;
 
   if (caseId && typeof caseId === "string" && caseId.trim()) {
-    const row = await prisma.clinicalCase.findUnique({
-      where: { id: caseId.trim() },
-      select: {
-        description: true,
-        correctSolution: true,
-        baselineExamFindings: true,
-        examLatencies: true,
-        goldStandardPath: true,
-        patientDeteriorationThreshold: true,
-      },
-    });
-    if (row) {
-      clinicalCase = row;
+    const resolvedCaseId = caseId.trim();
+    const accessDenied = await assertUserCanPlayCase(userId, resolvedCaseId);
+    if (accessDenied) return accessDenied;
 
-      if (!liveSessionId) {
+    // Gold answer only for an owned live session — never expose/map otherwise.
+    const authorizedLiveSession = Boolean(liveSessionId);
+
+    if (authorizedLiveSession) {
+      const row = await prisma.clinicalCase.findUnique({
+        where: { id: resolvedCaseId },
+        select: {
+          description: true,
+          correctSolution: true,
+          baselineExamFindings: true,
+          examLatencies: true,
+          goldStandardPath: true,
+          patientDeteriorationThreshold: true,
+        },
+      });
+      if (row) {
+        clinicalCase = {
+          description: row.description,
+          correctSolution: row.correctSolution ?? null,
+          baselineExamFindings: row.baselineExamFindings,
+          examLatencies: row.examLatencies,
+          goldStandardPath: row.goldStandardPath,
+          patientDeteriorationThreshold: row.patientDeteriorationThreshold,
+        };
+      }
+    } else {
+      const row = await prisma.clinicalCase.findUnique({
+        where: { id: resolvedCaseId },
+        select: {
+          description: true,
+          baselineExamFindings: true,
+          examLatencies: true,
+          goldStandardPath: true,
+          patientDeteriorationThreshold: true,
+        },
+      });
+      if (row) {
+        clinicalCase = {
+          description: row.description,
+          correctSolution: null,
+          baselineExamFindings: row.baselineExamFindings,
+          examLatencies: row.examLatencies,
+          goldStandardPath: row.goldStandardPath,
+          patientDeteriorationThreshold: row.patientDeteriorationThreshold,
+        };
+
         const examLatencies = parseExamLatencies(row.examLatencies);
         const goldPath = parseGoldStandardPath(row.goldStandardPath);
         elapsedMinutes = computeElapsedMinutesFromExams(clientRequestedExams, examLatencies);
@@ -306,8 +341,14 @@ export async function POST(req: Request) {
     }
   }
 
+  // Block client-injected gold answers unless the user owns a live session.
+  const caseBodyForPrompt =
+    liveSessionId != null
+      ? { ...body, casePrompt }
+      : { ...body, casePrompt, trueDiagnosis: undefined, true_diagnosis: undefined };
+
   let caseData = buildPatientSimulatorCaseInput({
-    body: { ...body, casePrompt },
+    body: caseBodyForPrompt,
     clinicalCase,
     patientStress: stressClamped,
   });
