@@ -6,6 +6,7 @@ import { createLogger } from "@/lib/logger";
 import { getPineconeIndex } from "@/lib/pinecone";
 import { requireAdminApi } from "@/lib/require-admin-api";
 import { prisma } from "@/lib/prisma";
+import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 
 const ingestGuidelinesLogger = createLogger("ingest-guidelines");
 
@@ -82,7 +83,11 @@ export async function POST(req: Request) {
     start = end - CHUNK_OVERLAP;
   }
 
-  if (chunks.length === 0) {
+  const sanitizedChunks = chunks
+    .map((chunk) => sanitizeForExternalAI(chunk))
+    .filter((chunk) => chunk.length > 0);
+
+  if (sanitizedChunks.length === 0) {
     return new Response(
       JSON.stringify({ error: "Nessun contenuto valido da indicizzare." }),
       { status: 400, headers: { "Content-Type": "application/json" } },
@@ -93,7 +98,7 @@ export async function POST(req: Request) {
     // 2. Embedding dei chunk
     const { embeddings } = await embedMany({
       model: openai.embedding("text-embedding-3-small"),
-      values: chunks,
+      values: sanitizedChunks,
     });
 
     // 3. Upsert su Pinecone
@@ -108,7 +113,7 @@ export async function POST(req: Request) {
         documentId: docId,
         title,
         tags,
-        content: chunks[i],
+        content: sanitizedChunks[i],
         ...(medicalSpecialtyId ? { medicalSpecialtyId } : {}),
       },
     }));
@@ -131,7 +136,7 @@ export async function POST(req: Request) {
       return new Response(
         JSON.stringify({
           status: "partial",
-          chunks: chunks.length,
+          chunks: sanitizedChunks.length,
           warning:
             "Testo elaborato ma non indicizzato correttamente in Pinecone. Verifica configurazione Pinecone/SDK.",
         }),
@@ -146,7 +151,7 @@ export async function POST(req: Request) {
         tags,
         sourceType: "TEXT",
         text: normalized,
-        chunkCount: chunks.length,
+        chunkCount: sanitizedChunks.length,
         vectorIds,
         isActive: true,
         ...(medicalSpecialtyId ? { medicalSpecialtyId } : {}),
@@ -156,7 +161,7 @@ export async function POST(req: Request) {
     return new Response(
       JSON.stringify({
         status: "ok",
-        chunks: chunks.length,
+        chunks: sanitizedChunks.length,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );

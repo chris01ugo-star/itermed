@@ -6,6 +6,7 @@ import { createLogger, type Logger } from "@/lib/logger";
 import { getPineconeIndex, type PineconeIndex } from "@/lib/pinecone";
 import { prisma } from "@/lib/prisma";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
+import { truncateForLlmContext } from "@/lib/security/prompt-context";
 
 const LEGAL_TOP_K = 8;
 const PROTOCOL_TOP_K = 4;
@@ -318,10 +319,11 @@ function toSection(
   const safeChunks = Array.isArray(chunks) ? chunks.filter((c) => c?.content?.trim()) : [];
   const sources = [...new Set(safeChunks.map((c) => c.title).filter(Boolean))];
   const hasContext = safeChunks.length > 0 && source !== "none";
+  const rawCombined = safeChunks.map((c) => `[${c.title}]\n${c.content}`).join("\n---\n");
   return {
     chunks: safeChunks,
     sources,
-    combinedText: safeChunks.map((c) => `[${c.title}]\n${c.content}`).join("\n---\n"),
+    combinedText: truncateForLlmContext(rawCombined),
     source: hasContext ? source : "none",
     hasContext,
     ragSourcesCount: sources.length,

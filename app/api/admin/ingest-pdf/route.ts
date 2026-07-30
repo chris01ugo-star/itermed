@@ -7,6 +7,7 @@ import { createLogger } from "@/lib/logger";
 import { getPineconeIndex } from "@/lib/pinecone";
 import { prisma } from "@/lib/prisma";
 import { requireAdminApi } from "@/lib/require-admin-api";
+import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 
 export const runtime = "nodejs";
 
@@ -135,7 +136,9 @@ export async function POST(req: Request) {
       );
     }
 
-    const chunks = chunkText(rawText);
+    const chunks = chunkText(rawText)
+      .map((chunk) => sanitizeForExternalAI(chunk))
+      .filter((chunk) => chunk.length > 0);
     if (chunks.length === 0) {
       return new Response(
         JSON.stringify({
