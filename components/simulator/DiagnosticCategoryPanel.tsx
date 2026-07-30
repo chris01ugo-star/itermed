@@ -208,7 +208,7 @@ export function DiagnosticCategoryPanel({
                   btn.tone,
                 )}
               >
-                <Icon className="h-4 w-4" strokeWidth={1.75} />
+                <Icon className="h-4 w-4" />
               </span>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-semibold leading-snug text-slate-800">{btn.title}</p>

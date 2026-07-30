@@ -1,14 +1,17 @@
 import { revalidatePath } from "next/cache";
-import { requireUser } from "../../../lib/require-user";
+import { createLogger } from "../../../lib/logger";
+import { requireAdmin } from "../../../lib/require-user";
 import { prisma } from "../../../lib/prisma";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../ui/card";
 import { Button } from "../../ui/button";
 
+const adminAuditLogger = createLogger("admin-audit");
+
 async function setUserRole(formData: FormData) {
   "use server";
 
-  const user = await requireUser();
-  const actorId = user.id;
+  const actor = await requireAdmin();
+  const actorId = actor.id;
   if (!actorId) return;
 
   const userId = formData.get("userId");
@@ -17,16 +20,33 @@ async function setUserRole(formData: FormData) {
   if (role !== "ADMIN" && role !== "STUDENT" && role !== "INSTRUCTOR") return;
   if (userId === actorId && role !== "ADMIN") return;
 
+  const previous = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { role: true, email: true },
+  });
+  if (!previous) return;
+  if (previous.role === role) return;
+
   await prisma.user.update({
     where: { id: userId },
     data: { role },
+  });
+
+  adminAuditLogger.info("user.role.changed", {
+    event: "user.role.changed",
+    actorId,
+    actorEmail: actor.email,
+    targetUserId: userId,
+    targetEmail: previous.email,
+    previousRole: previous.role,
+    newRole: role,
   });
 
   revalidatePath("/admin/users");
 }
 
 export default async function AdminUsersPage() {
-  const user = await requireUser();
+  const user = await requireAdmin();
   const currentUserId = user.id;
 
   const users = await prisma.user.findMany({
