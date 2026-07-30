@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-/** Global legal footer — Terms & Privacy (GDPR). */
+/** Global legal footer — Terms, Privacy, Cookies, AI transparency. */
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
@@ -22,6 +22,18 @@ export function SiteFooter() {
             className="font-medium text-slate-600 underline-offset-2 hover:text-[#1E324E] hover:underline"
           >
             Privacy Policy
+          </Link>
+          <Link
+            href="/cookies"
+            className="font-medium text-slate-600 underline-offset-2 hover:text-[#1E324E] hover:underline"
+          >
+            Cookie Policy
+          </Link>
+          <Link
+            href="/ai-transparency"
+            className="font-medium text-slate-600 underline-offset-2 hover:text-[#1E324E] hover:underline"
+          >
+            Trasparenza AI
           </Link>
         </nav>
       </div>

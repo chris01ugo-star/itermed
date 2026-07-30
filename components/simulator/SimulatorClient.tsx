@@ -37,6 +37,7 @@ import { Textarea } from "../../app/ui/textarea";
 import { handleTextareaEnterSubmit } from "@/lib/hooks/textarea-submit";
 import { cn } from "@/app/utils/cn";
 import { Badge } from "../../app/ui/badge";
+import { AiTransparencyBadge } from "@/components/legal/AiTransparencyBadge";
 import { PhysicalExamTab } from "./PhysicalExamTab";
 import { PatientStressBar } from "./PatientStressBar";
 import { SafeLlmText } from "@/components/ui/safe-llm-content";
@@ -1543,11 +1544,14 @@ export function SimulatorClient({
 
               <div className="grid min-h-0 grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_20rem]">
                 <div className="flex h-[min(26rem,55vh)] min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                  <div className="flex shrink-0 items-center gap-2.5 border-b border-slate-100 px-4 py-3">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#EEF2F9] text-[#345884]">
-                      <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
-                    </span>
-                    <p className="text-sm font-semibold text-slate-800">Dialogo con il paziente</p>
+                  <div className="flex shrink-0 flex-col gap-2 border-b border-slate-100 px-4 py-3">
+                    <div className="flex items-center gap-2.5">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#EEF2F9] text-[#345884]">
+                        <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                      </span>
+                      <p className="text-sm font-semibold text-slate-800">Dialogo con il paziente</p>
+                    </div>
+                    <AiTransparencyBadge variant="workspace" />
                   </div>
                   <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-3">
                     <HistoryChat
@@ -2640,6 +2644,7 @@ function HistoryChat({
             : "h-[460px] rounded-xl border border-slate-100 bg-white p-4 shadow-sm",
       )}
     >
+      {!fill ? <AiTransparencyBadge variant="workspace" className="shrink-0" /> : null}
       <div
         ref={scrollRef}
         className="scrollbar-aequan min-h-0 flex-1 space-y-3 overflow-y-auto overflow-x-hidden pr-1.5"

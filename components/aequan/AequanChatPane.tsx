@@ -2,6 +2,7 @@
 
 import type { MockChatMessage } from "@/lib/mock-data/aequan-mock-data";
 import { cn } from "@/app/utils/cn";
+import { AiTransparencyBadge } from "@/components/legal/AiTransparencyBadge";
 
 type AequanChatPaneProps = {
   messages: MockChatMessage[];
@@ -17,8 +18,9 @@ export function AequanChatPane({ messages, className }: AequanChatPaneProps) {
         className,
       )}
     >
-      <div className="shrink-0 border-b border-slate-100 px-4 py-3">
+      <div className="shrink-0 space-y-2 border-b border-slate-100 px-4 py-3">
         <p className="text-sm font-semibold text-slate-800">Dialogo con il paziente</p>
+        <AiTransparencyBadge variant="workspace" />
       </div>
 
       <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">

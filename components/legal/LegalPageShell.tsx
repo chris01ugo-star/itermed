@@ -19,12 +19,21 @@ export function LegalPageShell({
           <Link href="/" className="inline-flex items-center hover:opacity-90">
             <AequanLogo height={36} />
           </Link>
-          <nav className="flex items-center gap-4 text-xs font-medium text-slate-600">
+          <nav className="flex flex-wrap items-center justify-end gap-3 text-xs font-medium text-slate-600 sm:gap-4">
             <Link href="/terms" className="underline-offset-2 hover:text-[#1E324E] hover:underline">
               Termini
             </Link>
             <Link href="/privacy" className="underline-offset-2 hover:text-[#1E324E] hover:underline">
               Privacy
+            </Link>
+            <Link href="/cookies" className="underline-offset-2 hover:text-[#1E324E] hover:underline">
+              Cookie
+            </Link>
+            <Link
+              href="/ai-transparency"
+              className="underline-offset-2 hover:text-[#1E324E] hover:underline"
+            >
+              AI
             </Link>
             <Link href="/signup" className="underline-offset-2 hover:text-[#1E324E] hover:underline">
               Registrati

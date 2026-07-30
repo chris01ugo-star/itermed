@@ -691,11 +691,14 @@ function LandingFinalCTA() {
 function LandingFooter() {
   return (
     <div className="border-t border-slate-200 bg-white">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row sm:px-6">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row sm:items-start sm:px-6">
         <AequanLogo height={20} />
-        <div className="flex items-center gap-2 text-xs text-slate-500">
-          <BadgeCheck className="h-3.5 w-3.5 text-[#345884]" />
-          Conforme EU AI Act — simulazione a scopo didattico
+        <div className="flex max-w-xl items-start gap-2 text-left text-xs leading-snug text-slate-500">
+          <BadgeCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#345884]" />
+          <span>
+            Progettato in conformità con le linee guida di trasparenza e sicurezza del Regolamento
+            UE sull&apos;Intelligenza Artificiale (EU AI Act)
+          </span>
         </div>
       </div>
     </div>
