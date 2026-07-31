@@ -20,6 +20,14 @@ export const metadata: Metadata = {
   title: "AEQUAN · Medical-Legal Training Simulator",
   description:
     "AEQUAN è una piattaforma di simulazione clinica e medico-legale per studenti e specialisti, con valutazione Gelli-Bianco, appropriatezza prescrittiva, sostenibilità SSN ed empatia.",
+  // Explicit icons so browsers that hard-request /favicon.ico (and cache it) pick Aequan, not a stale default.
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({
