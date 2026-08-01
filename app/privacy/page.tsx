@@ -9,7 +9,7 @@ export const metadata = {
 
 /**
  * Privacy Policy definitiva (GDPR).
- * Titolare: Christopher Uguzzoni — CF GZZCRS01T12G393M — chris01.ugo@gmail.com
+ * Titolare: Christopher Uguzzoni — CF GZZCRS01T12G393M — digitaleducation@aequan.it
  */
 export default function PrivacyPage() {
   return (
@@ -25,10 +25,10 @@ export default function PrivacyPage() {
         <p>
           Contatto ufficiale per privacy, billing e esercizio dei diritti:{" "}
           <a
-            href="mailto:chris01.ugo@gmail.com"
+            href="mailto:digitaleducation@aequan.it"
             className="font-mono text-xs font-medium text-[#1E324E] underline-offset-2 hover:underline"
           >
-            chris01.ugo@gmail.com
+            digitaleducation@aequan.it
           </a>
           . Foro competente: <strong>Tribunale di Modena</strong>. Al momento non è stato nominato
           un Responsabile della protezione dei dati (DPO).
@@ -112,10 +112,10 @@ export default function PrivacyPage() {
         <p>
           Contatto privacy ufficiale:{" "}
           <a
-            href="mailto:chris01.ugo@gmail.com"
+            href="mailto:digitaleducation@aequan.it"
             className="font-mono text-xs font-medium text-[#1E324E] underline-offset-2 hover:underline"
           >
-            chris01.ugo@gmail.com
+            digitaleducation@aequan.it
           </a>
           .
         </p>

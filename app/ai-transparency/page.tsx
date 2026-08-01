@@ -100,10 +100,10 @@ export default function AiTransparencyPage() {
         <p>
           Domande su trasparenza AI e privacy:{" "}
           <a
-            href="mailto:chris01.ugo@gmail.com"
+            href="mailto:digitaleducation@aequan.it"
             className="font-mono text-xs font-medium text-[#1E324E] underline-offset-2 hover:underline"
           >
-            chris01.ugo@gmail.com
+            digitaleducation@aequan.it
           </a>
           . Documenti correlati:{" "}
           <Link href="/terms" className="font-medium text-[#1E324E] underline-offset-2 hover:underline">

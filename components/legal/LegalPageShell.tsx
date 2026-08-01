@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { AequanLogo } from "@/components/AequanLogo";
+import { ContactEmail } from "@/components/legal/ContactEmail";
 
 /** Shared chrome for legal pages — no banners, no placeholder notices. */
 export function LegalPageShell({
@@ -57,15 +58,9 @@ export function LegalPageShell({
           <p>
             Titolare: Christopher Uguzzoni · Pavullo nel Frignano (MO), Italia · CF GZZCRS01T12G393M
           </p>
-          <p className="mt-1">
-            Contatti:{" "}
-            <a
-              href="mailto:chris01.ugo@gmail.com"
-              className="font-medium text-[#1E324E] underline-offset-2 hover:underline"
-            >
-              chris01.ugo@gmail.com
-            </a>
-          </p>
+          <div className="mt-3">
+            <ContactEmail variant="stacked" />
+          </div>
         </footer>
       </main>
     </div>

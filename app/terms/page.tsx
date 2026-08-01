@@ -9,7 +9,7 @@ export const metadata = {
 
 /**
  * Termini di servizio definitivi.
- * Titolare: Christopher Uguzzoni — CF GZZCRS01T12G393M — chris01.ugo@gmail.com
+ * Titolare: Christopher Uguzzoni — CF GZZCRS01T12G393M — digitaleducation@aequan.it
  */
 export default function TermsPage() {
   return (
@@ -29,10 +29,10 @@ export default function TermsPage() {
           <strong>Pavullo nel Frignano (MO), Italia</strong>, Codice Fiscale{" "}
           <strong>GZZCRS01T12G393M</strong>. Email ufficiale:{" "}
           <a
-            href="mailto:chris01.ugo@gmail.com"
+            href="mailto:digitaleducation@aequan.it"
             className="font-mono text-xs font-medium text-[#1E324E] underline-offset-2 hover:underline"
           >
-            chris01.ugo@gmail.com
+            digitaleducation@aequan.it
           </a>
           . Foro competente: <strong>Tribunale di Modena</strong>.
         </p>
@@ -138,10 +138,10 @@ export default function TermsPage() {
         <p>
           Per fatturazione, rimborsi e questioni fiscali relative ai piani a pagamento:{" "}
           <a
-            href="mailto:chris01.ugo@gmail.com"
+            href="mailto:digitaleducation@aequan.it"
             className="font-mono text-xs font-medium text-[#1E324E] underline-offset-2 hover:underline"
           >
-            chris01.ugo@gmail.com
+            digitaleducation@aequan.it
           </a>
           . Titolare del Servizio: <strong>Christopher Uguzzoni</strong>, Pavullo nel Frignano
           (MO), Italia, CF <strong>GZZCRS01T12G393M</strong>. Foro competente:{" "}
@@ -177,10 +177,10 @@ export default function TermsPage() {
           Per qualsiasi richiesta relativa ai presenti Termini, alla fatturazione o agli
           abbonamenti scrivere a:{" "}
           <a
-            href="mailto:chris01.ugo@gmail.com"
+            href="mailto:digitaleducation@aequan.it"
             className="font-mono text-xs font-medium text-[#1E324E] underline-offset-2 hover:underline"
           >
-            chris01.ugo@gmail.com
+            digitaleducation@aequan.it
           </a>
           .
         </p>

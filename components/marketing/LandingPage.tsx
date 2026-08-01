@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { AequanLogo } from "@/components/AequanLogo";
 import { Badge } from "@/app/ui/badge";
+import { ContactEmail } from "@/components/legal/ContactEmail";
 
 /* ────────────────────────────────────────────────────────────────────────
    Navbar
@@ -686,13 +687,16 @@ function LandingFinalCTA() {
    Footer
    ──────────────────────────────────────────────────────────────────────── */
 
-/** Slim marketing strip above the global SiteFooter (logo + compliance badge only —
+/** Slim marketing strip above the global SiteFooter (logo, contact, compliance —
  *  Termini/Privacy/copyright already live in the app-wide SiteFooter). */
 function LandingFooter() {
   return (
     <div className="border-t border-slate-200 bg-white">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row sm:items-start sm:px-6">
-        <AequanLogo height={20} />
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-4 py-8 sm:flex-row sm:items-start sm:px-6">
+        <div className="flex flex-col items-center gap-3 sm:items-start">
+          <AequanLogo height={20} />
+          <ContactEmail variant="stacked" />
+        </div>
         <div className="flex max-w-xl items-start gap-2 text-left text-xs leading-snug text-slate-500">
           <BadgeCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#345884]" />
           <span>
