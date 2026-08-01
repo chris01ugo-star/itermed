@@ -7,8 +7,6 @@ import {
   Euro,
   GraduationCap,
   HeartHandshake,
-  Instagram,
-  Linkedin,
   MessageCircle,
   Search,
   ShieldCheck,
@@ -17,6 +15,10 @@ import {
 import { AequanLogo } from "@/components/AequanLogo";
 import { Badge } from "@/app/ui/badge";
 import { ContactEmail } from "@/components/legal/ContactEmail";
+import {
+  InstagramBrandIcon,
+  LinkedInBrandIcon,
+} from "@/components/marketing/SocialBrandIcons";
 import {
   AEQUAN_INSTAGRAM_HANDLE,
   AEQUAN_INSTAGRAM_URL,
@@ -721,7 +723,7 @@ function LandingContacts() {
               className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:border-[#1E324E]/30 hover:bg-[#1E324E]/[0.04] hover:text-[#1E324E]"
               aria-label={`LinkedIn ${AEQUAN_LINKEDIN_HANDLE}`}
             >
-              <Linkedin className="h-4 w-4 text-[#0A66C2]" aria-hidden />
+              <LinkedInBrandIcon className="h-4 w-4" />
               <span>{AEQUAN_LINKEDIN_HANDLE}</span>
             </a>
             <a
@@ -731,8 +733,8 @@ function LandingContacts() {
               className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:border-[#1E324E]/30 hover:bg-[#1E324E]/[0.04] hover:text-[#1E324E]"
               aria-label={`Instagram ${AEQUAN_INSTAGRAM_HANDLE}`}
             >
-              <Instagram className="h-4 w-4 text-[#E4405F]" aria-hidden />
-              <span>{AEQUAN_INSTAGRAM_HANDLE}</span>
+              <InstagramBrandIcon className="h-4 w-4" />
+              <span>@{AEQUAN_INSTAGRAM_HANDLE}</span>
             </a>
           </div>
         </div>
