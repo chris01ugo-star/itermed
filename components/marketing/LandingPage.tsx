@@ -7,6 +7,8 @@ import {
   Euro,
   GraduationCap,
   HeartHandshake,
+  Instagram,
+  Linkedin,
   MessageCircle,
   Search,
   ShieldCheck,
@@ -15,6 +17,12 @@ import {
 import { AequanLogo } from "@/components/AequanLogo";
 import { Badge } from "@/app/ui/badge";
 import { ContactEmail } from "@/components/legal/ContactEmail";
+import {
+  AEQUAN_INSTAGRAM_HANDLE,
+  AEQUAN_INSTAGRAM_URL,
+  AEQUAN_LINKEDIN_HANDLE,
+  AEQUAN_LINKEDIN_URL,
+} from "@/lib/brand/contact";
 
 /* ────────────────────────────────────────────────────────────────────────
    Navbar
@@ -24,6 +32,7 @@ const NAV_LINKS = [
   { href: "#pilastri", label: "Come funziona" },
   { href: "#percorso", label: "Il percorso" },
   { href: "#prezzi", label: "Prezzi" },
+  { href: "#contatti", label: "Contatti" },
 ];
 
 function LandingNavbar() {
@@ -684,6 +693,55 @@ function LandingFinalCTA() {
 }
 
 /* ────────────────────────────────────────────────────────────────────────
+   Contatti
+   ──────────────────────────────────────────────────────────────────────── */
+
+function LandingContacts() {
+  return (
+    <section id="contatti" className="border-t border-slate-200 bg-slate-50/70">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+            Contatti
+          </h2>
+          <p className="mt-3 text-base leading-relaxed text-slate-600">
+            Scrivici per supporto, partnership o informazioni su Aequan. Seguici anche sui canali
+            ufficiali.
+          </p>
+        </div>
+
+        <div className="mx-auto mt-10 flex max-w-xl flex-col items-center gap-6">
+          <ContactEmail variant="stacked" showLabel={false} className="items-center" />
+
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <a
+              href={AEQUAN_LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:border-[#1E324E]/30 hover:bg-[#1E324E]/[0.04] hover:text-[#1E324E]"
+              aria-label={`LinkedIn ${AEQUAN_LINKEDIN_HANDLE}`}
+            >
+              <Linkedin className="h-4 w-4 text-[#0A66C2]" aria-hidden />
+              <span>{AEQUAN_LINKEDIN_HANDLE}</span>
+            </a>
+            <a
+              href={AEQUAN_INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:border-[#1E324E]/30 hover:bg-[#1E324E]/[0.04] hover:text-[#1E324E]"
+              aria-label={`Instagram ${AEQUAN_INSTAGRAM_HANDLE}`}
+            >
+              <Instagram className="h-4 w-4 text-[#E4405F]" aria-hidden />
+              <span>{AEQUAN_INSTAGRAM_HANDLE}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────────────────
    Footer
    ──────────────────────────────────────────────────────────────────────── */
 
@@ -723,6 +781,7 @@ export function LandingPage() {
         <LandingPillars />
         <LandingHowItWorks />
         <LandingPricing />
+        <LandingContacts />
         <LandingFinalCTA />
       </main>
       <LandingFooter />
