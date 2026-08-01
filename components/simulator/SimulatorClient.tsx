@@ -38,6 +38,7 @@ import { handleTextareaEnterSubmit } from "@/lib/hooks/textarea-submit";
 import { cn } from "@/app/utils/cn";
 import { Badge } from "../../app/ui/badge";
 import { AiTransparencyBadge } from "@/components/legal/AiTransparencyBadge";
+import { ClinicalSimulationDisclaimer } from "@/components/legal/ClinicalSimulationDisclaimer";
 import { PhysicalExamTab } from "./PhysicalExamTab";
 import { PatientStressBar } from "./PatientStressBar";
 import { SafeLlmText } from "@/components/ui/safe-llm-content";
@@ -2751,6 +2752,7 @@ function HistoryChat({
             )}
           </Button>
         </div>
+        <ClinicalSimulationDisclaimer />
         <p className="px-1 text-[11px] text-slate-400">
           Invio per inviare · Shift+Invio per andare a capo · l&apos;IA risponde solo come paziente
         </p>

@@ -1,8 +1,9 @@
 "use client";
 
 import type { MockChatMessage } from "@/lib/mock-data/aequan-mock-data";
-import { cn } from "@/app/utils/cn";
 import { AiTransparencyBadge } from "@/components/legal/AiTransparencyBadge";
+import { ClinicalSimulationDisclaimer } from "@/components/legal/ClinicalSimulationDisclaimer";
+import { cn } from "@/app/utils/cn";
 
 type AequanChatPaneProps = {
   messages: MockChatMessage[];
@@ -54,12 +55,13 @@ export function AequanChatPane({ messages, className }: AequanChatPaneProps) {
         })}
       </div>
 
-      <div className="shrink-0 border-t border-slate-100 bg-white p-3">
+      <div className="shrink-0 space-y-1.5 border-t border-slate-100 bg-white p-3">
         <textarea
           rows={2}
           placeholder="Scrivi la prossima domanda al paziente…"
           className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:border-[#1E324E] focus:outline-none focus:ring-2 focus:ring-[#1E324E]/20"
         />
+        <ClinicalSimulationDisclaimer />
       </div>
     </div>
   );
