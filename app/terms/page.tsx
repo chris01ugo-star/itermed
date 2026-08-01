@@ -13,7 +13,7 @@ export const metadata = {
  */
 export default function TermsPage() {
   return (
-    <LegalPageShell title="Termini di servizio" lastUpdated="20 luglio 2026">
+    <LegalPageShell title="Termini di servizio" lastUpdated="1 agosto 2026">
       <LegalSection title="1. Oggetto del servizio e Titolare">
         <p>
           Aequan (di seguito &quot;la Piattaforma&quot;) è un ambiente digitale di{" "}
@@ -110,30 +110,49 @@ export default function TermsPage() {
         </p>
         <p>
           <strong>Diritto di recesso (14 giorni)</strong> — In conformità alla Direttiva UE
-          2011/83/UE e alla normativa italiana di recepimento, gli utenti consumatori hanno il
-          diritto legale di cancellare / recedere dall&apos;abbonamento entro{" "}
-          <strong>14 (quattordici) giorni</strong> dall&apos;acquisto, senza obbligo di fornire
-          giustificazione, con diritto al <strong>rimborso integrale</strong> tramite Stripe, salve
-          le eccezioni di seguito.
+          2011/83/UE e al <strong>Codice del Consumo italiano (art. 59)</strong>, gli utenti
+          consumatori hanno in linea di principio il diritto di recedere dal contratto di
+          abbonamento entro <strong>14 (quattordici) giorni</strong> dalla conclusione
+          dell&apos;acquisto, senza obbligo di giustificazione e con diritto al{" "}
+          <strong>rimborso</strong> tramite Stripe, <strong>salvo</strong> quanto previsto dalle
+          eccezioni di seguito per i contenuti / servizi digitali ad esecuzione immediata.
         </p>
         <p>
-          <strong>Eccezione per servizio digitale ad esecuzione immediata</strong> — Se l&apos;utente
-          richiede espressamente e inizia immediatamente a utilizzare le simulazioni cliniche
-          digitali durante la finestra di 14 giorni, acconsente all&apos;esecuzione immediata del
-          servizio e riconosce, ai sensi della normativa UE, la perdita o la riduzione
-          proporzionale del diritto di recesso rispetto all&apos;uso già effettuato, fino alla
-          perdita del diritto quando l&apos;esecuzione del servizio digitale è pienamente iniziata
-          con consenso informato, secondo quanto previsto dalla legge.
+          <strong>Natura del servizio e esecuzione immediata</strong> — Aequan è un{" "}
+          <strong>servizio digitale erogato tramite software SaaS</strong>. L&apos;
+          <strong>attivazione dell&apos;abbonamento</strong> oppure l&apos;
+          <strong>avvio della prima simulazione</strong> clinico-formativa costituiscono{" "}
+          <strong>esecuzione immediata del contratto</strong> ai sensi della normativa
+          consumeristica applicabile.
         </p>
         <p>
-          <strong>Rinnovo automatico e cancellazione</strong> — Gli abbonamenti si rinnovano
+          <strong>
+            Consenso preventivo espresso e perdita del diritto di recesso (art. 59 Codice del
+            Consumo / Dir. 2011/83/UE)
+          </strong>{" "}
+          — In fase di <strong>checkout / acquisto</strong>, richiedendo l&apos;
+          <strong>accesso immediato</strong> alle simulazioni e alle funzionalità digitali a
+          pagamento, l&apos;utente fornisce il proprio{" "}
+          <strong>consenso preventivo espresso</strong> all&apos;inizio dell&apos;esecuzione del
+          servizio durante il periodo di recesso e{" "}
+          <strong>
+            riconosce espressamente di perdere il diritto di recesso di 14 giorni una volta che
+            l&apos;esecuzione del servizio digitale è iniziata
+          </strong>
+          , nei limiti e alle condizioni previste dall&apos;art. 59 del Codice del Consumo e dalla
+          Direttiva UE 2011/83/UE. In assenza di tale richiesta/consenso, restano ferme le tutele
+          di legge applicabili al consumatore.
+        </p>
+        <p>
+          <strong>Rinnovo automatico e disdetta</strong> — Gli abbonamenti si rinnovano
           automaticamente al termine di ciascun ciclo di fatturazione (mensile o annuale).
-          L&apos;utente può cancellare il rinnovo automatico in qualsiasi momento prima della
-          successiva data di addebito, direttamente dalle{" "}
-          <strong>impostazioni / dashboard del proprio account</strong> oppure tramite il{" "}
-          <strong>Stripe Customer Portal</strong>. La disdetta del rinnovo non comporta di per sé
-          il rimborso del periodo già pagato e non ancora scaduto, salvo quanto dovuto in caso di
-          legittimo esercizio del diritto di recesso.
+          L&apos;utente può <strong>disdire il rinnovo automatico in qualsiasi momento</strong> —
+          prima della successiva data di addebito — dalle{" "}
+          <strong>Impostazioni</strong> del proprio account e/o tramite il{" "}
+          <strong>Stripe Customer Portal</strong>. La disdetta{" "}
+          <strong>disattiva gli addebiti futuri</strong> e non comporta di per sé il rimborso del
+          periodo già pagato e non ancora scaduto, salvo quanto dovuto in caso di legittimo
+          esercizio del diritto di recesso ove ancora spettante.
         </p>
         <p>
           Per fatturazione, rimborsi e questioni fiscali relative ai piani a pagamento:{" "}
