@@ -1,8 +1,6 @@
-import type { ReactNode } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
-  ArrowUpRight,
   BadgeCheck,
   BookOpen,
   Check,
@@ -18,10 +16,6 @@ import { AequanLogo } from "@/components/AequanLogo";
 import { Badge } from "@/app/ui/badge";
 import { ContactEmail } from "@/components/legal/ContactEmail";
 import { LandingContactEmail } from "@/components/marketing/LandingContactEmail";
-import {
-  InstagramBrandIcon,
-  LinkedInBrandIcon,
-} from "@/components/marketing/SocialBrandIcons";
 import {
   AEQUAN_INSTAGRAM_HANDLE,
   AEQUAN_INSTAGRAM_URL,
@@ -705,39 +699,29 @@ function ContactChannelLink({
   href,
   label,
   handle,
-  icon,
 }: {
   href: string;
   label: string;
   handle: string;
-  icon: ReactNode;
 }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex min-h-[9.5rem] flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_18px_40px_-28px_rgba(30,50,78,0.35)] transition duration-300 hover:-translate-y-0.5 hover:border-[#345884]/35 hover:shadow-[0_22px_48px_-26px_rgba(30,50,78,0.5)] sm:p-6"
+      className="group flex min-w-0 flex-col justify-between gap-4 rounded-xl border border-slate-200 bg-white px-5 py-5 transition hover:border-[#345884]/35"
     >
-      <div className="flex items-start justify-between gap-3">
-        <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl shadow-sm">
-          {icon}
-        </span>
-        <ArrowUpRight
-          className="h-4 w-4 text-slate-300 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#345884]"
-          strokeWidth={1.75}
-          aria-hidden
-        />
-      </div>
-      <div className="mt-5">
+      <div className="min-w-0">
         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
           {label}
         </p>
-        <p className="mt-1.5 font-display text-lg font-semibold tracking-tight text-slate-900">
+        <p className="mt-2 truncate font-display text-base font-semibold tracking-tight text-slate-900 sm:text-lg">
           {handle}
         </p>
-        <p className="mt-3 text-sm font-semibold text-[#345884]">Apri profilo</p>
       </div>
+      <p className="text-sm font-semibold text-[#345884] transition group-hover:text-[#1E324E]">
+        Apri profilo
+      </p>
     </a>
   );
 }
@@ -767,19 +751,17 @@ function LandingContacts() {
           </p>
         </div>
 
-        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <LandingContactEmail className="sm:col-span-2 lg:col-span-1 lg:min-h-[11rem]" />
+        <div className="mt-8 grid gap-3 sm:grid-cols-3">
+          <LandingContactEmail />
           <ContactChannelLink
             href={AEQUAN_LINKEDIN_URL}
             label="LinkedIn"
             handle={AEQUAN_LINKEDIN_HANDLE}
-            icon={<LinkedInBrandIcon className="h-10 w-10" />}
           />
           <ContactChannelLink
             href={AEQUAN_INSTAGRAM_URL}
             label="Instagram"
             handle={`@${AEQUAN_INSTAGRAM_HANDLE}`}
-            icon={<InstagramBrandIcon className="h-10 w-10" />}
           />
         </div>
       </div>
