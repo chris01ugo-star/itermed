@@ -13,7 +13,7 @@ export const metadata = {
  */
 export default function PrivacyPage() {
   return (
-    <LegalPageShell title="Privacy Policy (GDPR)" lastUpdated="20 luglio 2026">
+    <LegalPageShell title="Privacy Policy (GDPR)" lastUpdated="1 agosto 2026">
       <LegalSection title="1. Titolare del trattamento">
         <p>
           Il <strong>Titolare del trattamento</strong> dei dati personali — anche per fatturazione,
@@ -74,6 +74,15 @@ export default function PrivacyPage() {
             <strong>Consenso</strong> — ove richiesto (es. cookie non necessari, analitici o di
             marketing). Il consenso può essere revocato in qualsiasi momento.
           </li>
+          <li>
+            <strong>Classifica / Leaderboard (consenso esplicito)</strong> — finalità: partecipazione
+            e pubblicazione dei punteggi formativi nella classifica pubblica della Piattaforma. Base
+            giuridica:{" "}
+            <strong>consenso esplicito dell&apos;interessato (art. 6.1.a GDPR)</strong>, fornito
+            tramite opzione (opt-in) nelle impostazioni del profilo e{" "}
+            <strong>revocabile in qualsiasi momento</strong> senza pregiudicare la fruizione del
+            servizio.
+          </li>
         </ul>
       </LegalSection>
 
@@ -84,6 +93,16 @@ export default function PrivacyPage() {
           (hosting/cloud, database Neon, autenticazione, Stripe se attivata, OpenAI/Pinecone per
           funzionalità AI). Ove un trattamento comporti trasferimento fuori dallo SEE, si adottano
           garanzie adeguate ai sensi del GDPR (decisioni di adeguatezza, SCC o misure equivalenti).
+        </p>
+        <p>
+          I dati e i prompt inviati tramite API ai fornitori terzi di modelli linguistici (es.{" "}
+          <strong>OpenAI</strong>) sono elaborati esclusivamente per l&apos;erogazione della
+          simulazione e la generazione dei report. Tali dati{" "}
+          <strong>
+            NON vengono utilizzati dai fornitori terzi per l&apos;addestramento o il miglioramento
+            dei propri modelli di intelligenza artificiale
+          </strong>
+          .
         </p>
         <p>
           L&apos;architettura software, il database dei casi clinici, gli algoritmi Aequan e i

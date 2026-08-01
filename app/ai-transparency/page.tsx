@@ -12,7 +12,7 @@ export const metadata = {
  */
 export default function AiTransparencyPage() {
   return (
-    <LegalPageShell title="Trasparenza sull'Intelligenza Artificiale" lastUpdated="30 luglio 2026">
+    <LegalPageShell title="Trasparenza sull'Intelligenza Artificiale" lastUpdated="1 agosto 2026">
       <LegalSection title="1. Avviso di interazione (Art. 50 AI Act)">
         <p>
           Quando usi la chat di simulazione o generi un report valutativo,{" "}
@@ -54,6 +54,16 @@ export default function AiTransparencyPage() {
             Privacy Policy
           </Link>
           . Non inserire dati di pazienti reali o informazioni sanitarie identificative.
+        </p>
+        <p>
+          I dati e i prompt inviati tramite API ai fornitori terzi di modelli linguistici (es.{" "}
+          <strong>OpenAI</strong>) sono elaborati esclusivamente per l&apos;erogazione della
+          simulazione e la generazione dei report. Tali dati{" "}
+          <strong>
+            NON vengono utilizzati dai fornitori terzi per l&apos;addestramento o il miglioramento
+            dei propri modelli di intelligenza artificiale
+          </strong>
+          .
         </p>
       </LegalSection>
 
