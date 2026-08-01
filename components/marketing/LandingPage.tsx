@@ -1,6 +1,8 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
+  ArrowUpRight,
   BadgeCheck,
   BookOpen,
   Check,
@@ -17,8 +19,13 @@ import { Badge } from "@/app/ui/badge";
 import { ContactEmail } from "@/components/legal/ContactEmail";
 import { LandingContactEmail } from "@/components/marketing/LandingContactEmail";
 import {
+  InstagramBrandIcon,
+  LinkedInBrandIcon,
+} from "@/components/marketing/SocialBrandIcons";
+import {
   AEQUAN_INSTAGRAM_HANDLE,
   AEQUAN_INSTAGRAM_URL,
+  AEQUAN_LINKEDIN_HANDLE,
   AEQUAN_LINKEDIN_URL,
 } from "@/lib/brand/contact";
 
@@ -636,7 +643,7 @@ function LandingPricing() {
 
 function LandingFinalCTA() {
   return (
-    <section className="mx-auto max-w-5xl px-4 pb-24 sm:px-6">
+    <section className="mx-auto max-w-5xl px-4 py-12 pb-24 sm:px-6 sm:py-14 sm:pb-24">
       <div className="relative isolate overflow-hidden rounded-[2rem] bg-[#0F1E30] px-8 py-16 text-center sm:px-16">
         {/* Ambient glow blobs */}
         <div
@@ -694,50 +701,86 @@ function LandingFinalCTA() {
    Contatti
    ──────────────────────────────────────────────────────────────────────── */
 
-function LandingContacts() {
+function ContactChannelLink({
+  href,
+  label,
+  handle,
+  icon,
+}: {
+  href: string;
+  label: string;
+  handle: string;
+  icon: ReactNode;
+}) {
   return (
-    <section id="contatti" className="relative overflow-hidden px-4 pt-8 pb-16 sm:px-6 sm:pt-10 sm:pb-20">
-      <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[1.75rem] bg-[#0F1E30] px-6 py-10 text-center sm:px-12 sm:py-12">
-        <div
-          className="pointer-events-none absolute -top-16 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-[#345884] opacity-35 blur-[80px]"
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex min-h-[9.5rem] flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-5 shadow-[0_18px_40px_-28px_rgba(30,50,78,0.35)] transition duration-300 hover:-translate-y-0.5 hover:border-[#345884]/35 hover:shadow-[0_22px_48px_-26px_rgba(30,50,78,0.5)] sm:p-6"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl shadow-sm">
+          {icon}
+        </span>
+        <ArrowUpRight
+          className="h-4 w-4 text-slate-300 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#345884]"
+          strokeWidth={1.75}
           aria-hidden
         />
-        <div className="relative">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/50">
+      </div>
+      <div className="mt-5">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+          {label}
+        </p>
+        <p className="mt-1.5 font-display text-lg font-semibold tracking-tight text-slate-900">
+          {handle}
+        </p>
+        <p className="mt-3 text-sm font-semibold text-[#345884]">Apri profilo</p>
+      </div>
+    </a>
+  );
+}
+
+function LandingContacts() {
+  return (
+    <section
+      id="contatti"
+      className="relative border-t border-slate-200/80 bg-[#F4F7FA] px-4 py-12 sm:px-6 sm:py-14"
+    >
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(ellipse_at_top,rgba(52,88,132,0.12),transparent_70%)]"
+        aria-hidden
+      />
+      <div className="relative mx-auto max-w-5xl">
+        <div className="max-w-xl">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1E324E]/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-[#1E324E]">
             Contatti
-          </p>
-          <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-            Scrivici
+          </span>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-slate-900 sm:text-[2.15rem]">
+            Come raggiungerci
           </h2>
-          <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-white/65">
-            Supporto, partnership o info su Aequan.
+          <PulseLine className="mt-3 h-5 w-28 text-[#1E324E]/25" />
+          <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+            Supporto, partnership o informazioni su Aequan: scegli il canale e apri direttamente
+            email o profilo.
           </p>
+        </div>
 
-          <div className="mt-6 flex justify-center">
-            <LandingContactEmail tone="onDark" />
-          </div>
-
-          <p className="mt-6 text-[13px] text-white/45">
-            <a
-              href={AEQUAN_LINKEDIN_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/70 underline-offset-4 transition hover:text-white hover:underline"
-            >
-              LinkedIn
-            </a>
-            <span className="mx-2.5 text-white/25" aria-hidden>
-              ·
-            </span>
-            <a
-              href={AEQUAN_INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/70 underline-offset-4 transition hover:text-white hover:underline"
-            >
-              @{AEQUAN_INSTAGRAM_HANDLE}
-            </a>
-          </p>
+        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <LandingContactEmail className="sm:col-span-2 lg:col-span-1 lg:min-h-[11rem]" />
+          <ContactChannelLink
+            href={AEQUAN_LINKEDIN_URL}
+            label="LinkedIn"
+            handle={AEQUAN_LINKEDIN_HANDLE}
+            icon={<LinkedInBrandIcon className="h-10 w-10" />}
+          />
+          <ContactChannelLink
+            href={AEQUAN_INSTAGRAM_URL}
+            label="Instagram"
+            handle={`@${AEQUAN_INSTAGRAM_HANDLE}`}
+            icon={<InstagramBrandIcon className="h-10 w-10" />}
+          />
         </div>
       </div>
     </section>
