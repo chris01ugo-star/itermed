@@ -24,9 +24,8 @@ export default function TermsPage() {
         </p>
         <p>
           Il <strong>Titolare del Servizio</strong> — anche per fatturazione, adempimenti fiscali e
-          richieste commerciali, fino a eventuale aggiornamento con diversa entità societaria — è{" "}
-          <strong>Christopher Uguzzoni</strong>, con residenza / sede legale in{" "}
-          <strong>Pavullo nel Frignano (MO), Italia</strong>, Codice Fiscale{" "}
+          richieste commerciali — è <strong>Christopher Uguzzoni</strong>, con residenza / sede
+          legale in <strong>Pavullo nel Frignano (MO), Italia</strong>, Codice Fiscale{" "}
           <strong>GZZCRS01T12G393M</strong>. Email ufficiale:{" "}
           <a
             href="mailto:digitaleducation@aequan.it"
@@ -35,6 +34,21 @@ export default function TermsPage() {
             digitaleducation@aequan.it
           </a>
           . Foro competente: <strong>Tribunale di Modena</strong>.
+        </p>
+        <p>
+          Il Servizio è attualmente promosso e gestito in fase di{" "}
+          <strong>validazione tecnica e commerciale</strong> da{" "}
+          <strong>Christopher Uguzzoni</strong> (C.F. <strong>GZZCRS01T12G393M</strong>, email:{" "}
+          <a
+            href="mailto:digitaleducation@aequan.it"
+            className="font-mono text-xs font-medium text-[#1E324E] underline-offset-2 hover:underline"
+          >
+            digitaleducation@aequan.it
+          </a>
+          ). A seguito del consolidamento operativo e del raggiungimento delle soglie di attività
+          previste, la titolarità della piattaforma, della gestione contabile/fiscale e dei rapporti
+          contrattuali <strong>potrà essere trasferita</strong> a una P.IVA o società di scopo,
+          previa comunicazione agli utenti tramite aggiornamento dei presenti Termini.
         </p>
       </LegalSection>
 
