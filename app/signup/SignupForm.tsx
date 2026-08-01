@@ -9,7 +9,11 @@ import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 const fieldClassName =
   "h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#345884]/45 focus:ring-4 focus:ring-[#345884]/10";
 
-export function SignupForm() {
+type SignupFormProps = {
+  googleEnabled?: boolean;
+};
+
+export function SignupForm({ googleEnabled = false }: SignupFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -80,7 +84,7 @@ export function SignupForm() {
           <GoogleSignInButton
             callbackUrl="/dashboard"
             label="Registrati con Google"
-            disabled
+            disabled={!googleEnabled}
           />
 
           <div className="flex items-center gap-3">

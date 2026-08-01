@@ -10,7 +10,11 @@ import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 const fieldClassName =
   "h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#345884]/45 focus:ring-4 focus:ring-[#345884]/10";
 
-export function LoginForm() {
+type LoginFormProps = {
+  googleEnabled?: boolean;
+};
+
+export function LoginForm({ googleEnabled = false }: LoginFormProps) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
 
@@ -55,7 +59,7 @@ export function LoginForm() {
           <GoogleSignInButton
             callbackUrl={callbackUrl}
             label="Accedi con Google"
-            disabled
+            disabled={!googleEnabled}
           />
 
           <div className="flex items-center gap-3">

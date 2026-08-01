@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import { config } from "@/lib/config";
 import { isDevAuthBypass } from "../../lib/require-user";
 import { LoginForm } from "./LoginForm";
 
@@ -16,7 +17,7 @@ export default function LoginPage() {
         </div>
       }
     >
-      <LoginForm />
+      <LoginForm googleEnabled={config.isGoogleAuthConfigured} />
     </Suspense>
   );
 }
