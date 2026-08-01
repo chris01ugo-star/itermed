@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, Mail } from "lucide-react";
 import { AEQUAN_CONTACT_EMAIL, AEQUAN_CONTACT_MAILTO } from "@/lib/brand/contact";
 import { cn } from "@/app/utils/cn";
 
@@ -9,7 +9,7 @@ type LandingContactEmailProps = {
   className?: string;
 };
 
-/** Simple contact row: mailto + copy, no icon chrome. */
+/** Simple contact row: mailto + copy, monochrome site icons. */
 export function LandingContactEmail({ className }: LandingContactEmailProps) {
   const [copied, setCopied] = useState(false);
 
@@ -33,9 +33,12 @@ export function LandingContactEmail({ className }: LandingContactEmailProps) {
       )}
     >
       <div className="min-w-0">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-          Email
-        </p>
+        <div className="flex items-center gap-2">
+          <Mail className="h-4 w-4 shrink-0 text-[#345884]" strokeWidth={1.75} aria-hidden />
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+            Email
+          </p>
+        </div>
         <a
           href={AEQUAN_CONTACT_MAILTO}
           className="mt-2 block break-all font-display text-base font-semibold leading-snug tracking-tight text-[#1E324E] transition hover:text-[#345884] sm:text-lg"

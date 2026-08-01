@@ -7,10 +7,13 @@ import {
   Euro,
   GraduationCap,
   HeartHandshake,
+  Instagram,
+  Linkedin,
   MessageCircle,
   Search,
   ShieldCheck,
   Sparkles,
+  type LucideIcon,
 } from "lucide-react";
 import { AequanLogo } from "@/components/AequanLogo";
 import { Badge } from "@/app/ui/badge";
@@ -699,10 +702,12 @@ function ContactChannelLink({
   href,
   label,
   handle,
+  icon: Icon,
 }: {
   href: string;
   label: string;
   handle: string;
+  icon: LucideIcon;
 }) {
   return (
     <a
@@ -712,9 +717,12 @@ function ContactChannelLink({
       className="group flex min-w-0 flex-col justify-between gap-4 rounded-xl border border-slate-200 bg-white px-5 py-5 transition hover:border-[#345884]/35"
     >
       <div className="min-w-0">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-          {label}
-        </p>
+        <div className="flex items-center gap-2">
+          <Icon className="h-4 w-4 shrink-0 text-[#345884]" strokeWidth={1.75} aria-hidden />
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+            {label}
+          </p>
+        </div>
         <p className="mt-2 truncate font-display text-base font-semibold tracking-tight text-slate-900 sm:text-lg">
           {handle}
         </p>
@@ -757,11 +765,13 @@ function LandingContacts() {
             href={AEQUAN_LINKEDIN_URL}
             label="LinkedIn"
             handle={AEQUAN_LINKEDIN_HANDLE}
+            icon={Linkedin}
           />
           <ContactChannelLink
             href={AEQUAN_INSTAGRAM_URL}
             label="Instagram"
             handle={`@${AEQUAN_INSTAGRAM_HANDLE}`}
+            icon={Instagram}
           />
         </div>
       </div>
