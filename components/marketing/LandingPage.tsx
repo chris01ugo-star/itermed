@@ -19,7 +19,6 @@ import { LandingContactEmail } from "@/components/marketing/LandingContactEmail"
 import {
   AEQUAN_INSTAGRAM_HANDLE,
   AEQUAN_INSTAGRAM_URL,
-  AEQUAN_LINKEDIN_HANDLE,
   AEQUAN_LINKEDIN_URL,
 } from "@/lib/brand/contact";
 
@@ -567,7 +566,7 @@ const PLANS: PricingPlan[] = [
 
 function LandingPricing() {
   return (
-    <section id="prezzi" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <section id="prezzi" className="mx-auto max-w-6xl px-4 py-16 pb-10 sm:px-6 sm:py-20 sm:pb-12">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="font-display text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
           Un piano per ogni fase del tuo percorso
@@ -697,76 +696,48 @@ function LandingFinalCTA() {
 
 function LandingContacts() {
   return (
-    <section id="contatti" className="relative overflow-hidden">
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 70% at 0% 50%, rgba(52,88,132,0.10), transparent 55%), radial-gradient(ellipse 60% 50% at 100% 80%, rgba(30,50,78,0.06), transparent 50%)",
-        }}
-        aria-hidden
-      />
-      <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
-        <div className="grid items-end gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
-          <div className="max-w-md">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#345884]">
-              Contatti
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
-              Parliamone.
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-slate-600">
-              Supporto, partnership o informazioni su Aequan: scrivici. Oppure seguici sui canali
-              ufficiali.
-            </p>
+    <section id="contatti" className="relative overflow-hidden px-4 pt-8 pb-16 sm:px-6 sm:pt-10 sm:pb-20">
+      <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[1.75rem] bg-[#0F1E30] px-6 py-10 text-center sm:px-12 sm:py-12">
+        <div
+          className="pointer-events-none absolute -top-16 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-[#345884] opacity-35 blur-[80px]"
+          aria-hidden
+        />
+        <div className="relative">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/50">
+            Contatti
+          </p>
+          <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+            Scrivici
+          </h2>
+          <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-white/65">
+            Supporto, partnership o info su Aequan.
+          </p>
+
+          <div className="mt-6 flex justify-center">
+            <LandingContactEmail tone="onDark" />
           </div>
 
-          <div className="space-y-8 border-t border-slate-200/80 pt-8 lg:border-t-0 lg:border-l lg:pl-12 lg:pt-0">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-                Email
-              </p>
-              <div className="mt-3">
-                <LandingContactEmail />
-              </div>
-            </div>
-
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
-                Social
-              </p>
-              <ul className="mt-3 space-y-2.5">
-                <li>
-                  <a
-                    href={AEQUAN_LINKEDIN_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-baseline gap-2 text-sm text-slate-700 transition-colors hover:text-[#1E324E]"
-                  >
-                    <span className="font-medium">LinkedIn</span>
-                    <span className="text-slate-400 group-hover:text-[#345884]">
-                      {AEQUAN_LINKEDIN_HANDLE}
-                    </span>
-                    <ArrowRight className="h-3.5 w-3.5 shrink-0 translate-y-px text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#345884]" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={AEQUAN_INSTAGRAM_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-baseline gap-2 text-sm text-slate-700 transition-colors hover:text-[#1E324E]"
-                  >
-                    <span className="font-medium">Instagram</span>
-                    <span className="text-slate-400 group-hover:text-[#345884]">
-                      @{AEQUAN_INSTAGRAM_HANDLE}
-                    </span>
-                    <ArrowRight className="h-3.5 w-3.5 shrink-0 translate-y-px text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#345884]" />
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <p className="mt-6 text-[13px] text-white/45">
+            <a
+              href={AEQUAN_LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/70 underline-offset-4 transition hover:text-white hover:underline"
+            >
+              LinkedIn
+            </a>
+            <span className="mx-2.5 text-white/25" aria-hidden>
+              ·
+            </span>
+            <a
+              href={AEQUAN_INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/70 underline-offset-4 transition hover:text-white hover:underline"
+            >
+              @{AEQUAN_INSTAGRAM_HANDLE}
+            </a>
+          </p>
         </div>
       </div>
     </section>
