@@ -15,10 +15,7 @@ import {
 import { AequanLogo } from "@/components/AequanLogo";
 import { Badge } from "@/app/ui/badge";
 import { ContactEmail } from "@/components/legal/ContactEmail";
-import {
-  InstagramBrandIcon,
-  LinkedInBrandIcon,
-} from "@/components/marketing/SocialBrandIcons";
+import { LandingContactEmail } from "@/components/marketing/LandingContactEmail";
 import {
   AEQUAN_INSTAGRAM_HANDLE,
   AEQUAN_INSTAGRAM_URL,
@@ -700,42 +697,75 @@ function LandingFinalCTA() {
 
 function LandingContacts() {
   return (
-    <section id="contatti" className="border-t border-slate-200 bg-slate-50/70">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
-            Contatti
-          </h2>
-          <p className="mt-3 text-base leading-relaxed text-slate-600">
-            Scrivici per supporto, partnership o informazioni su Aequan. Seguici anche sui canali
-            ufficiali.
-          </p>
-        </div>
+    <section id="contatti" className="relative overflow-hidden">
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 70% at 0% 50%, rgba(52,88,132,0.10), transparent 55%), radial-gradient(ellipse 60% 50% at 100% 80%, rgba(30,50,78,0.06), transparent 50%)",
+        }}
+        aria-hidden
+      />
+      <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
+        <div className="grid items-end gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
+          <div className="max-w-md">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#345884]">
+              Contatti
+            </p>
+            <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+              Parliamone.
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-slate-600">
+              Supporto, partnership o informazioni su Aequan: scrivici. Oppure seguici sui canali
+              ufficiali.
+            </p>
+          </div>
 
-        <div className="mx-auto mt-10 flex max-w-xl flex-col items-center gap-6">
-          <ContactEmail variant="stacked" showLabel={false} className="items-center" />
+          <div className="space-y-8 border-t border-slate-200/80 pt-8 lg:border-t-0 lg:border-l lg:pl-12 lg:pt-0">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                Email
+              </p>
+              <div className="mt-3">
+                <LandingContactEmail />
+              </div>
+            </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <a
-              href={AEQUAN_LINKEDIN_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:border-[#1E324E]/30 hover:bg-[#1E324E]/[0.04] hover:text-[#1E324E]"
-              aria-label={`LinkedIn ${AEQUAN_LINKEDIN_HANDLE}`}
-            >
-              <LinkedInBrandIcon className="h-4 w-4" />
-              <span>{AEQUAN_LINKEDIN_HANDLE}</span>
-            </a>
-            <a
-              href={AEQUAN_INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:border-[#1E324E]/30 hover:bg-[#1E324E]/[0.04] hover:text-[#1E324E]"
-              aria-label={`Instagram ${AEQUAN_INSTAGRAM_HANDLE}`}
-            >
-              <InstagramBrandIcon className="h-4 w-4" />
-              <span>@{AEQUAN_INSTAGRAM_HANDLE}</span>
-            </a>
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                Social
+              </p>
+              <ul className="mt-3 space-y-2.5">
+                <li>
+                  <a
+                    href={AEQUAN_LINKEDIN_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-baseline gap-2 text-sm text-slate-700 transition-colors hover:text-[#1E324E]"
+                  >
+                    <span className="font-medium">LinkedIn</span>
+                    <span className="text-slate-400 group-hover:text-[#345884]">
+                      {AEQUAN_LINKEDIN_HANDLE}
+                    </span>
+                    <ArrowRight className="h-3.5 w-3.5 shrink-0 translate-y-px text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#345884]" />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={AEQUAN_INSTAGRAM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-baseline gap-2 text-sm text-slate-700 transition-colors hover:text-[#1E324E]"
+                  >
+                    <span className="font-medium">Instagram</span>
+                    <span className="text-slate-400 group-hover:text-[#345884]">
+                      @{AEQUAN_INSTAGRAM_HANDLE}
+                    </span>
+                    <ArrowRight className="h-3.5 w-3.5 shrink-0 translate-y-px text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-[#345884]" />
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
