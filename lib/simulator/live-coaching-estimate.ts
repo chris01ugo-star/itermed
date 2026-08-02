@@ -161,7 +161,7 @@ function buildBaselineEstimate(input: LiveCoachingInput): LiveCoachingEstimate {
         value: legal,
         tone: physiologicallyUnstable ? "risk" : "good",
         statusLabel: physiologicallyUnstable
-          ? "Risk/Alert: da stabilizzare"
+          ? "Da stabilizzare"
           : "ABC ok · stabile",
       },
       {
@@ -328,7 +328,7 @@ export function estimateLiveCoaching(input: LiveCoachingInput): LiveCoachingEsti
         tone: physiologicallyUnstable && !stabilized ? "risk" : toneFor(legal, 60, 45),
         statusLabel:
           physiologicallyUnstable && !stabilized
-            ? "Risk/Alert: da stabilizzare"
+            ? "Da stabilizzare"
             : undefined,
       },
       {

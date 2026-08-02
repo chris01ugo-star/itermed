@@ -34,8 +34,8 @@ export function SessionSideMetrics({
   };
 
   return (
-    <div className={cn("flex h-full min-h-0 flex-col gap-3", className)}>
-      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
+    <div className={cn("flex h-full min-h-0 flex-col gap-3.5", className)}>
+      <div className="rounded-2xl border border-slate-200 bg-white px-5 py-5 shadow-sm">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
             <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
@@ -45,7 +45,7 @@ export function SessionSideMetrics({
               <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500">
                 Costo SSN
               </p>
-              <p className="mt-0.5 text-2xl font-bold tabular-nums leading-none text-slate-800">
+              <p className="mt-1 text-2xl font-bold tabular-nums leading-none text-slate-800">
                 €{totalCost.toFixed(0)}
                 <span className="ml-1.5 text-sm font-medium text-slate-400">/ {budget}</span>
               </p>
@@ -57,7 +57,7 @@ export function SessionSideMetrics({
             </span>
           ) : null}
         </div>
-        <div className="mt-3.5 h-2 overflow-hidden rounded-full bg-slate-100">
+        <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
           <div
             className="h-full rounded-full transition-all duration-500"
             style={{ width: `${costPct}%`, backgroundColor: "#345884" }}
@@ -65,7 +65,7 @@ export function SessionSideMetrics({
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 bg-white px-5 py-5 shadow-sm">
         <div className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
             <Gauge className="h-5 w-5" strokeWidth={1.75} />
@@ -79,7 +79,7 @@ export function SessionSideMetrics({
                 {stress}%
               </p>
             </div>
-            <div className="mt-2.5 h-2 overflow-hidden rounded-full bg-slate-100">
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{ width: `${stress}%`, backgroundColor: "#345884" }}
@@ -88,7 +88,7 @@ export function SessionSideMetrics({
           </div>
         </div>
         {stressTier !== "calm" ? (
-          <p className="mt-2.5 text-xs font-medium text-slate-500">
+          <p className="mt-3 text-xs font-medium text-slate-500">
             {stressTier === "danger"
               ? "Situazione critica — paziente molto instabile"
               : "Pressione temporale e disagio in aumento"}
@@ -110,7 +110,7 @@ export function SessionSideMetrics({
         <button
           type="button"
           onClick={onOpenDischarge}
-          className="group relative z-10 flex h-full min-h-[9rem] w-full flex-col justify-between overflow-hidden rounded-b-2xl rounded-tr-2xl border px-4 py-4 text-left transition hover:brightness-[0.985]"
+          className="group relative z-10 flex h-full min-h-[11rem] w-full flex-col justify-between overflow-hidden rounded-b-2xl rounded-tr-2xl border px-5 py-5 text-left transition hover:brightness-[0.985]"
           style={{
             backgroundColor: referto.fill,
             borderColor: referto.border,

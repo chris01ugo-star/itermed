@@ -54,7 +54,7 @@ import {
   SessionEventTimeline,
   type SessionTimelineEvent,
 } from "./SessionEventTimeline";
-import { LiveCoachingPanel } from "./LiveCoachingPanel";
+import { ClinicalNudgeBanner, LiveCoachingPanel } from "./LiveCoachingPanel";
 import { SessionSideMetrics } from "./SessionSideMetrics";
 import { PRASSI_TONE } from "@/lib/ui/prassi-pastels";
 import {
@@ -1571,7 +1571,7 @@ export function SimulatorClient({
               />
 
               <div className="grid min-h-0 grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_20rem]">
-                <div className="flex h-[min(26rem,55vh)] min-h-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white">
+                <div className="flex h-[min(38rem,72vh)] min-h-[32rem] flex-col overflow-hidden rounded-xl border border-slate-200 bg-white">
                   <div className="flex shrink-0 flex-col gap-2 border-b border-slate-100 bg-slate-50 px-4 py-3">
                     <div className="flex items-center gap-2.5">
                       <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[#345884]/10 text-[#345884]">
@@ -1609,7 +1609,7 @@ export function SimulatorClient({
                   patientStress={patientStress}
                   reportReady={isClinicalReportComplete(reportSections)}
                   onOpenDischarge={() => setIsDischargeOpen(true)}
-                  className="xl:h-[min(26rem,55vh)]"
+                  className="xl:h-[min(38rem,72vh)] xl:min-h-[32rem]"
                 />
               </div>
             </div>
@@ -1758,6 +1758,12 @@ export function SimulatorClient({
           >
             {embedded ? (
               <>
+                {liveCoaching.tip ? (
+                  <ClinicalNudgeBanner
+                    tip={liveCoaching.tip}
+                    unstable={liveCoaching.unstable}
+                  />
+                ) : null}
                 <Card className="overflow-hidden rounded-2xl border-slate-200 shadow-sm">
                   <CardHeader className="border-b border-slate-100 pb-3">
                     <CardTitle className="text-sm font-semibold text-slate-800">
@@ -1903,6 +1909,7 @@ export function SimulatorClient({
                   metrics={liveCoaching.metrics}
                   tip={liveCoaching.tip}
                   unstable={liveCoaching.unstable}
+                  showTip={false}
                 />
                 <SessionEventTimeline events={sessionTimelineEvents} compact />
               </>
@@ -2726,14 +2733,22 @@ function HistoryChat({
         }}
       >
         {visibleMessages.length === 0 && (
-          <div className="flex min-h-[140px] flex-col items-center justify-center gap-2 px-6 py-8 text-center">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#1E324E]/8">
-              <MessageCircle className="h-5 w-5 text-[#1E324E]" />
+          <div className="flex min-h-[220px] flex-col items-center justify-center gap-3 px-6 py-10 text-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#E4EAF3] text-[#345884]">
+              <MessageCircle className="h-5 w-5" strokeWidth={1.75} />
             </div>
-            <p className="text-sm font-semibold text-slate-700">Inizia l&apos;anamnesi</p>
-            <p className="max-w-xs text-xs leading-relaxed text-slate-500">
-              Poni una domanda aperta al paziente, ad es. &quot;Mi racconti cosa è successo da
-              quando sono iniziati i sintomi&quot;.
+            <div className="space-y-1.5">
+              <p className="font-display text-base font-semibold text-slate-800">
+                Inizia l&apos;anamnesi
+              </p>
+              <p className="mx-auto max-w-sm text-sm leading-relaxed text-slate-500">
+                Fai una domanda aperta al paziente. Esempio: &quot;Mi racconti cosa è successo da
+                quando sono iniziati i sintomi?&quot;
+              </p>
+            </div>
+            <p className="max-w-sm border-l-2 border-[#345884]/30 pl-3 text-left text-xs leading-relaxed text-slate-500">
+              Oppure usa il pulsante <span className="font-medium text-slate-700">Modulo consenso</span>{" "}
+              sotto, quando serve spiegare una procedura.
             </p>
           </div>
         )}

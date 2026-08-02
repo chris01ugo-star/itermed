@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import {
-  Activity,
   ClipboardList,
   FolderOpen,
   HeartPulse,
@@ -13,50 +12,39 @@ import {
   DialogContent,
   DialogDescription,
   DialogFooter,
-  DialogHeader,
   DialogTitle,
 } from "@/app/ui/dialog";
 import { Button } from "@/app/ui/button";
 import { writeTutorialCompleted } from "@/lib/simulator/onboarding-storage";
 import { cn } from "@/app/utils/cn";
 
-const MEDICAL_BLUE = "#1E324E";
-
 const TUTORIAL_STEPS = [
   {
     id: "vitals",
-    title: "Telemetria & Monitor Vitali",
-    eyebrow: "Strip superiore · multiparametrico",
-    body: "In alto trovi il monitor in tempo reale (PA, FC, SpO₂, Temp, FR). Presta attenzione immediata ai parametri in rosso e ai pazienti instabili.",
-    detail:
-      "Il badge «PAZIENTE INSTABILE» e i vitali critici (es. SpO₂ < 90%) hanno priorità ABC rispetto a qualsiasi approfondimento anamnestico.",
+    title: "Monitor dei vitali",
+    body: "In alto vedi pressione, frequenza, saturazione e temperatura aggiornati in tempo reale.",
+    tip: "Se un valore è rosso o compare «Paziente instabile», dai priorità a quello prima di tutto il resto.",
     icon: HeartPulse,
   },
   {
     id: "chat",
-    title: "Anamnesi & Dialogo Clinico",
-    eyebrow: "Area centrale · chat paziente",
-    body: "Usa la chat per raccogliere i sintomi dal paziente virtuale. Un Nudge discreto ti aiuterà se ti fermi per più di 2 minuti.",
-    detail:
-      "Domande aperte, fattori di rischio e red flag alimentano Accuratezza Clinica ed Empatia nel Coaching live.",
+    title: "Dialogo con il paziente",
+    body: "Al centro raccogli l’anamnesi: chiedi sintomi, tempi, rischi e cosa teme il paziente.",
+    tip: "Parti da una domanda aperta. Se resti fermo troppo a lungo, ti arriva un piccolo promemoria.",
     icon: MessageCircle,
   },
   {
     id: "chart",
-    title: "Cartella, Esami & Budget SSN",
-    eyebrow: "Cartella · laboratorio · imaging",
-    body: "Apri la cartella clinica a destra per richiedere EKG, laboratori o imaging. Rispetta l’appropriatezza prescrittiva ed il budget SSN.",
-    detail:
-      "Più di 3 esami prima di un’anamnesi adeguata riduce Appropriatezza Esami sia nel live coaching sia nel voto finale.",
+    title: "Cartella ed esami",
+    body: "A destra apri la cartella per esame obiettivo, laboratori e imaging.",
+    tip: "Prescrivi solo ciò che serve: gli esami pesano sul budget SSN e sul voto di appropriatezza.",
     icon: FolderOpen,
   },
   {
     id: "coaching",
-    title: "Live Coaching & Referto di Dimissione",
-    eyebrow: "Pannello destro · chiusura caso",
-    body: "Controlla le 4 macro-aree telemetriche a destra. Quando il quadro è chiaro, clicca su «Referto di dimissione» per inviare la diagnosi finale.",
-    detail:
-      "Clinica 30% · Sicurezza/ABC 30% · Esami 20% · Empatia 20% — stessa struttura del punteggio in 30esimi del report ufficiale.",
+    title: "Coaching e chiusura",
+    body: "Il pannello a destra ti mostra come stai andando su clinica, sicurezza, esami ed empatia.",
+    tip: "Quando il quadro è chiaro, apri «Referto di dimissione» e chiudi il caso.",
     icon: ClipboardList,
   },
 ] as const;
@@ -71,6 +59,7 @@ export function OnboardingTutorialModal({ open, onComplete }: OnboardingTutorial
   const step = TUTORIAL_STEPS[stepIndex] ?? TUTORIAL_STEPS[0];
   const Icon = step.icon;
   const isLast = stepIndex >= TUTORIAL_STEPS.length - 1;
+  const progress = ((stepIndex + 1) / TUTORIAL_STEPS.length) * 100;
 
   useEffect(() => {
     if (open) setStepIndex(0);
@@ -96,89 +85,86 @@ export function OnboardingTutorialModal({ open, onComplete }: OnboardingTutorial
 
   return (
     <Dialog open={open}>
-      <DialogContent className="max-w-lg overflow-hidden rounded-xl border border-slate-200 bg-white p-0 shadow-2xl">
-        <div className="px-6 pb-5 pt-5 text-white" style={{ backgroundColor: MEDICAL_BLUE }}>
-          <DialogHeader className="mb-0 space-y-3 text-left">
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-[10px] font-mono uppercase tracking-wider text-white/70">
-                Tutorial Aequan · Passo {stepIndex + 1} di {TUTORIAL_STEPS.length}
-              </p>
-              <span className="rounded border border-white/25 bg-white/10 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-white/90">
-                First-run
-              </span>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white">
-                <Icon className="h-5 w-5" strokeWidth={1.75} />
-              </span>
-              <div className="min-w-0 space-y-1">
-                <p className="text-[10px] font-mono uppercase tracking-wider text-white/65">
-                  {step.eyebrow}
-                </p>
-                <DialogTitle className="text-lg font-semibold leading-snug text-white">
-                  {step.title}
-                </DialogTitle>
-              </div>
-            </div>
-          </DialogHeader>
+      <DialogContent className="max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white p-0 shadow-2xl">
+        <div className="h-1 w-full bg-slate-100">
+          <div
+            className="h-full bg-[#345884] transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
         </div>
 
-        <div className="space-y-3 bg-slate-50 px-6 py-5">
-          <DialogDescription className="space-y-3 text-left">
-            <p className="text-sm font-medium leading-relaxed text-slate-800">{step.body}</p>
-            <p className="rounded-md border border-slate-200 bg-white px-3 py-2.5 text-xs leading-relaxed text-slate-600">
-              {step.detail}
+        <div className="space-y-5 px-6 pb-2 pt-6">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#345884]">
+              Tutorial
             </p>
-          </DialogDescription>
+            <p className="text-[11px] font-medium tabular-nums text-slate-400">
+              {stepIndex + 1} / {TUTORIAL_STEPS.length}
+            </p>
+          </div>
 
-          <div className="flex items-center justify-center gap-2 pt-1">
+          <div className="flex items-start gap-3.5">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#E4EAF3] text-[#345884]">
+              <Icon className="h-5 w-5" strokeWidth={1.75} />
+            </span>
+            <div className="min-w-0 pt-0.5">
+              <DialogTitle className="font-display text-xl font-semibold tracking-tight text-slate-900">
+                {step.title}
+              </DialogTitle>
+              <DialogDescription className="mt-2 space-y-3 text-left">
+                <p className="text-sm leading-relaxed text-slate-600">{step.body}</p>
+                <p className="border-l-2 border-[#345884]/35 pl-3 text-sm leading-relaxed text-slate-700">
+                  <span className="font-semibold text-[#345884]">Suggerimento. </span>
+                  {step.tip}
+                </p>
+              </DialogDescription>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-1.5 pt-1">
             {TUTORIAL_STEPS.map((s, i) => (
               <button
                 key={s.id}
                 type="button"
-                aria-label={`Vai allo step ${i + 1}: ${s.title}`}
+                aria-label={`Passo ${i + 1}: ${s.title}`}
                 aria-current={i === stepIndex ? "step" : undefined}
                 onClick={() => setStepIndex(i)}
                 className={cn(
-                  "h-2.5 rounded-full transition-all",
-                  i === stepIndex
-                    ? "w-8 bg-[#345884]"
-                    : "w-2.5 bg-slate-300 hover:bg-slate-400",
+                  "h-1.5 flex-1 rounded-full transition-colors",
+                  i <= stepIndex ? "bg-[#345884]" : "bg-slate-200 hover:bg-slate-300",
                 )}
               />
             ))}
           </div>
         </div>
 
-        <DialogFooter className="flex-col gap-2 border-t border-slate-200 bg-white px-6 py-4 sm:flex-row sm:justify-between">
+        <DialogFooter className="mt-0 flex-col gap-2 border-t border-slate-100 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
           <button
             type="button"
             onClick={finish}
-            className="order-2 text-center text-xs font-medium text-slate-500 underline-offset-2 hover:text-slate-700 hover:underline sm:order-1 sm:text-left"
+            className="order-2 text-center text-xs font-medium text-slate-400 transition hover:text-slate-600 sm:order-1 sm:text-left"
           >
-            Salta tutorial
+            Salta
           </button>
           <div className="order-1 flex w-full items-center justify-end gap-2 sm:order-2 sm:w-auto">
             {stepIndex > 0 ? (
-              <Button type="button" size="sm" variant="outline" onClick={goPrev}>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                className="rounded-lg"
+                onClick={goPrev}
+              >
                 Indietro
               </Button>
             ) : null}
             <Button
               type="button"
               size="sm"
-              className="bg-[#1E324E] text-white hover:bg-[#2A486D]"
+              className="rounded-lg bg-[#1E324E] px-4 text-white hover:bg-[#2A486D]"
               onClick={goNext}
             >
-              {isLast ? (
-                <span className="inline-flex items-center gap-1.5">
-                  <Activity className="h-3.5 w-3.5" />
-                  Inizia Simulazione
-                </span>
-              ) : (
-                "Avanti"
-              )}
+              {isLast ? "Inizia" : "Avanti"}
             </Button>
           </div>
         </DialogFooter>
