@@ -42,7 +42,7 @@ export function SessionSideMetrics({
               <EuroIcon className="h-5 w-5" strokeWidth={1.75} />
             </span>
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500">
+              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
                 Costo SSN
               </p>
               <p className="mt-0.5 text-2xl font-bold tabular-nums leading-none text-slate-800">
@@ -60,7 +60,7 @@ export function SessionSideMetrics({
         <div className="mt-3.5 h-2 overflow-hidden rounded-full bg-slate-100">
           <div
             className="h-full rounded-full transition-all duration-500"
-            style={{ width: `${costPct}%`, backgroundColor: "#345884" }}
+            style={{ width: `${costPct}%`, backgroundColor: "#0e3b68" }}
           />
         </div>
       </div>
@@ -72,7 +72,7 @@ export function SessionSideMetrics({
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex items-baseline justify-between gap-2">
-              <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500">
+              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
                 Stress paziente
               </p>
               <p className="text-2xl font-bold tabular-nums leading-none text-slate-800">
@@ -82,7 +82,7 @@ export function SessionSideMetrics({
             <div className="mt-2.5 h-2 overflow-hidden rounded-full bg-slate-100">
               <div
                 className="h-full rounded-full transition-all duration-500"
-                style={{ width: `${stress}%`, backgroundColor: "#345884" }}
+                style={{ width: `${stress}%`, backgroundColor: "#0e3b68" }}
               />
             </div>
           </div>
@@ -117,17 +117,17 @@ export function SessionSideMetrics({
           }}
         >
           <div className="flex items-center justify-between gap-2">
-            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
               Chiusura caso
             </p>
             <ArrowUpRight
-              className="h-4 w-4 text-slate-500 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#1E324E]"
+              className="h-4 w-4 text-slate-500 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#0e3b68]"
               strokeWidth={1.75}
             />
           </div>
 
           <div>
-            <p className="font-display text-xl font-semibold tracking-tight text-[#1E324E]">
+            <p className="font-display text-xl font-semibold tracking-tight text-[#0e3b68]">
               Referto di dimissione
             </p>
             <p className="mt-1.5 max-w-[16rem] text-[13px] leading-snug text-slate-600">
@@ -137,7 +137,7 @@ export function SessionSideMetrics({
             </p>
           </div>
 
-          <p className="text-[11px] font-semibold text-[#345884] underline-offset-2 group-hover:underline">
+          <p className="text-[11px] font-semibold text-[#00B4D8] underline-offset-2 group-hover:underline">
             {reportReady ? "Apri referto" : "Inizia compilazione"}
           </p>
         </button>

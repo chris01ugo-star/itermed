@@ -9,7 +9,7 @@ type EnsureResult = {
  */
 export async function ensureBootstrapData(): Promise<EnsureResult> {
   const demoUserId = "demo-user";
-  const demoCaseIds = ["demo", "cs_001", "cs_002"];
+  const demoCaseIds = ["demo", "cs_001", "cs_002", "cs_003"];
 
   const { config } = await import("./config");
 

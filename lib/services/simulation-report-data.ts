@@ -59,17 +59,42 @@ export function buildSessionReportData(params: {
     killerSwitch,
   } = params;
 
-  const { scores, feedback } = evaluation;
+  const scores = evaluation.scores ?? {
+    clinical: 0,
+    legal: 0,
+    exams: 0,
+    economy: 0,
+    empathy: 0,
+  };
+  const feedback = evaluation.feedback ?? {
+    strengths: [] as string[],
+    weaknesses: [] as string[],
+    clinicalNote: "",
+    legalComplianceNote: "",
+    prescribingNote: "",
+    empathyNote: "",
+    economyNote: "",
+    correctSolution: "",
+  };
+
+  const evalLegalSources = Array.isArray(evaluation.evidence?.legalSources)
+    ? evaluation.evidence.legalSources
+    : [];
+  const evalProtocolSources = Array.isArray(evaluation.evidence?.protocolSources)
+    ? evaluation.evidence.protocolSources
+    : [];
+  const guidelineLegalSources = Array.isArray(guidelines.legal?.sources)
+    ? guidelines.legal.sources
+    : [];
+  const guidelineProtocolSources = Array.isArray(guidelines.protocol?.sources)
+    ? guidelines.protocol.sources
+    : [];
 
   const legalEvidenceSources =
-    evaluation.evidence.legalSources.length > 0
-      ? evaluation.evidence.legalSources
-      : guidelines.legal.sources;
+    evalLegalSources.length > 0 ? evalLegalSources : guidelineLegalSources;
 
   const protocolEvidenceSources =
-    evaluation.evidence.protocolSources.length > 0
-      ? evaluation.evidence.protocolSources
-      : guidelines.protocol.sources;
+    evalProtocolSources.length > 0 ? evalProtocolSources : guidelineProtocolSources;
 
   const killerSwitchTrace: KillerSwitchTrace = killerSwitch ?? {
     applied: false,
@@ -83,7 +108,12 @@ export function buildSessionReportData(params: {
     caseId,
     clinicalAccuracy: scores.clinical,
     legalComplianceGelliBianco: scores.legal,
+    /** Exam appropriateness (0–100) — feeds the 20% weight of the /30 grade. */
     prescribingAppropriateness: scores.exams,
+    /**
+     * Economic sustainability indicator (0–100) — radar / bilancio SSN only.
+     * Distinct from prescribingAppropriateness; not used in computeTotalScoreTrentesimi.
+     */
     economicSustainability: scores.economy,
     empathy: scores.empathy,
     totalScore,
@@ -98,52 +128,64 @@ export function buildSessionReportData(params: {
     rawTrace: {
       /** Explicit false so dashboard JSON filters never treat missing keys as dismissed. */
       dismissed: false,
-      chatHistory: evaluationChatHistory,
-      exams: evaluation.resolvedExams,
-      resolvedExams: evaluation.resolvedExams,
-      reportText: normalizedReportText,
+      chatHistory: Array.isArray(evaluationChatHistory) ? evaluationChatHistory : [],
+      exams: Array.isArray(evaluation.resolvedExams) ? evaluation.resolvedExams : [],
+      resolvedExams: Array.isArray(evaluation.resolvedExams) ? evaluation.resolvedExams : [],
+      reportText: normalizedReportText ?? "",
       feedback,
       analytical: {
-        criticalActions: evaluation.criticalActions,
-        inappropriateActions: evaluation.inappropriateActions,
-        empathyChecklist: evaluation.empathyChecklist,
+        criticalActions: Array.isArray(evaluation.criticalActions)
+          ? evaluation.criticalActions
+          : [],
+        inappropriateActions: Array.isArray(evaluation.inappropriateActions)
+          ? evaluation.inappropriateActions
+          : [],
+        empathyChecklist: Array.isArray(evaluation.empathyChecklist)
+          ? evaluation.empathyChecklist
+          : [],
         legalProtectionStatus: evaluation.legalProtectionStatus,
-        clinicalDeltaTable: evaluation.clinicalDeltaTable,
+        clinicalDeltaTable: Array.isArray(evaluation.clinicalDeltaTable)
+          ? evaluation.clinicalDeltaTable
+          : [],
         economicAnalysis: evaluation.economicAnalysis,
         coachingFeedback: evaluation.coachingFeedback,
-        fatalErrors: evaluation.fatalErrors ?? [],
+        fatalErrors: Array.isArray(evaluation.fatalErrors) ? evaluation.fatalErrors : [],
       },
       /** Full deterministic Killer-Switch audit trail for coaching / appeals. */
-      fatalErrors,
+      fatalErrors: Array.isArray(fatalErrors) ? fatalErrors : [],
       killerSwitch: killerSwitchTrace,
       scoreBreakdown: evaluation.scoreBreakdown,
       examEconomics: {
-        budgetEuro: evaluation.examBudgetEuro,
-        totalCostEuro: evaluation.totalExamCostEuro,
+        budgetEuro: evaluation.examBudgetEuro ?? null,
+        totalCostEuro: evaluation.totalExamCostEuro ?? null,
       },
       ...(typeof simulationElapsedMinutes === "number" && simulationElapsedMinutes > 0
         ? { simulationElapsedMinutes }
         : {}),
       evidence: {
-        ...evaluation.evidence,
+        ...(evaluation.evidence ?? {}),
         legalSources: legalEvidenceSources,
         protocolSources: protocolEvidenceSources,
       },
       legalEvaluation: {
-        retrievalSource: guidelines.legal.source,
-        retrievalQuery: guidelines.query,
-        retrievedChunks: guidelines.legal.chunks,
-        retrievedSources: guidelines.legal.sources,
+        retrievalSource: guidelines.legal?.source ?? "none",
+        retrievalQuery: guidelines.query ?? "",
+        retrievedChunks: Array.isArray(guidelines.legal?.chunks) ? guidelines.legal.chunks : [],
+        retrievedSources: guidelineLegalSources,
         overallLegalScore: scores.legal,
-        instrumentReviews: evaluation.legalInstrumentReviews,
+        instrumentReviews: Array.isArray(evaluation.legalInstrumentReviews)
+          ? evaluation.legalInstrumentReviews
+          : [],
       },
       protocolEvaluation: {
-        retrievalSource: guidelines.protocol.source,
-        retrievedChunks: guidelines.protocol.chunks,
-        retrievedSources: guidelines.protocol.sources,
+        retrievalSource: guidelines.protocol?.source ?? "none",
+        retrievedChunks: Array.isArray(guidelines.protocol?.chunks)
+          ? guidelines.protocol.chunks
+          : [],
+        retrievedSources: guidelineProtocolSources,
       },
     },
-    notes: feedback.legalComplianceNote,
+    notes: typeof feedback.legalComplianceNote === "string" ? feedback.legalComplianceNote : "",
   };
 }
 

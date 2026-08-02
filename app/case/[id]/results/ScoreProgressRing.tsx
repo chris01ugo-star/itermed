@@ -6,6 +6,8 @@ import { cn } from "@/app/utils/cn";
 type ScoreProgressRingProps = {
   score: number;
   label: string;
+  /** Optional secondary line (e.g. "72/100 · 6.5/30"). */
+  subtitle?: string;
   size?: number;
   className?: string;
   /** Optional icon rendered above the ring (plancia 5 pilastri). */
@@ -17,12 +19,13 @@ type ScoreProgressRingProps = {
 export function ScoreProgressRing({
   score,
   label,
+  subtitle,
   size = 132,
   className,
   icon,
   compact = false,
 }: ScoreProgressRingProps) {
-  const clamped = Math.max(0, Math.min(100, score));
+  const clamped = Math.max(0, Math.min(100, Number.isFinite(score) ? score : 0));
   const radius = compact ? 36 : 42;
   const strokeWidth = compact ? 7 : 8;
   const circumference = 2 * Math.PI * radius;
@@ -72,18 +75,28 @@ export function ScoreProgressRing({
               compact ? "text-lg" : "text-3xl",
             )}
           >
-            {Math.round(clamped)}%
+            {Math.round(clamped)}
+            <span className={cn("font-medium text-slate-400", compact ? "text-[10px]" : "text-sm")}>
+              /100
+            </span>
           </span>
         </div>
       </div>
-      <p
-        className={cn(
-          "text-center font-medium leading-snug text-slate-500",
-          compact ? "max-w-[7.5rem] text-[10px]" : "max-w-[9rem] text-xs",
-        )}
-      >
-        {label}
-      </p>
+      <div className="space-y-0.5 text-center">
+        <p
+          className={cn(
+            "font-medium leading-snug text-slate-500",
+            compact ? "max-w-[7.5rem] text-[10px]" : "max-w-[9rem] text-xs",
+          )}
+        >
+          {label}
+        </p>
+        {subtitle ? (
+          <p className="max-w-[7.5rem] text-[9px] leading-snug tabular-nums text-slate-400">
+            {subtitle}
+          </p>
+        ) : null}
+      </div>
     </div>
   );
 }

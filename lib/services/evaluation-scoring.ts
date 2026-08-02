@@ -33,10 +33,23 @@ export type LegalInstrumentReview = {
 };
 
 export type DimensionScores = {
+  /** Accuratezza clinica diagnostico-terapeutica (0–100). Weight 30% → max 9/30. */
   clinical: number;
+  /** Sicurezza / tutela legale (0–100). Weight 30% → max 9/30. */
   legal: number;
+  /**
+   * Appropriatezza prescrittiva degli esami (0–100).
+   * Weight 20% → max 6/30 in `computeTotalScoreTrentesimi`.
+   * Persisted as SessionReport.prescribingAppropriateness.
+   */
   exams: number;
+  /**
+   * Sostenibilità economica / budget SSN (0–100) — analytical / radar only.
+   * Persisted as SessionReport.economicSustainability.
+   * NOT weighted into the final /30 grade.
+   */
   economy: number;
+  /** Comunicazione ed empatia (0–100). Weight 20% → max 6/30. */
   empathy: number;
 };
 
@@ -97,21 +110,29 @@ export function resolveExamBudgetEuro(
   difficulty?: CaseDifficulty,
   baselineExamFindings?: unknown,
 ): number {
-  const baseline = baselineExamFindings as { examBudgetEuro?: number } | null | undefined;
-  if (typeof baseline?.examBudgetEuro === "number" && baseline.examBudgetEuro > 0) {
-    return baseline.examBudgetEuro;
+  const baseline =
+    baselineExamFindings &&
+    typeof baselineExamFindings === "object" &&
+    !Array.isArray(baselineExamFindings)
+      ? (baselineExamFindings as { examBudgetEuro?: unknown })
+      : null;
+  const budget = Number(baseline?.examBudgetEuro);
+  if (Number.isFinite(budget) && budget > 0) {
+    return budget;
   }
-  return DEFAULT_BUDGET_BY_DIFFICULTY[difficulty ?? "MEDIUM"];
+  return DEFAULT_BUDGET_BY_DIFFICULTY[difficulty ?? "MEDIUM"] ?? DEFAULT_BUDGET_BY_DIFFICULTY.MEDIUM;
 }
 
 /** Overlays authoritative exam prices from the catalog/DB config. */
 export function resolveExamCostsFromCatalog(
-  exams: ExamPayload[],
-  catalog: Record<string, ExamClinicalMeta>,
+  exams: ExamPayload[] | null | undefined,
+  catalog: Record<string, ExamClinicalMeta> | null | undefined,
 ): { exams: ExamPayload[]; totalCostEuro: number } {
-  const resolved = exams.map((exam) => ({
+  const safeExams = Array.isArray(exams) ? exams : [];
+  const safeCatalog = catalog ?? {};
+  const resolved = safeExams.map((exam) => ({
     ...exam,
-    cost: (catalog[exam.id]?.price ?? Number(exam.cost)) || 0,
+    cost: (safeCatalog[exam.id]?.price ?? Number(exam.cost)) || 0,
   }));
 
   const totalCostEuro = resolved.reduce((sum, exam) => sum + (Number(exam.cost) || 0), 0);
@@ -122,12 +143,15 @@ export function resolveExamCostsFromCatalog(
  * Accuratezza clinica: 100 − 25 per ogni azione critica HIGH non eseguita,
  * −15 per ogni azione critica MEDIUM non eseguita.
  */
-export function computeClinicalAccuracyScore(criticalActions: CriticalActionItem[]): {
+export function computeClinicalAccuracyScore(
+  criticalActions: CriticalActionItem[] | null | undefined,
+): {
   score: number;
   breakdown: ScoreBreakdown["clinical"];
 } {
-  const missedHigh = criticalActions.filter((a) => !a.performed && a.criticalLevel === "HIGH");
-  const missedMedium = criticalActions.filter((a) => !a.performed && a.criticalLevel === "MEDIUM");
+  const actions = Array.isArray(criticalActions) ? criticalActions : [];
+  const missedHigh = actions.filter((a) => !a.performed && a.criticalLevel === "HIGH");
+  const missedMedium = actions.filter((a) => !a.performed && a.criticalLevel === "MEDIUM");
   const penaltyHigh = missedHigh.length * CRITICAL_PENALTY_HIGH;
   const penaltyMedium = missedMedium.length * CRITICAL_PENALTY_MEDIUM;
   const final = clampScore(100 - penaltyHigh - penaltyMedium);
@@ -148,11 +172,14 @@ export function computeClinicalAccuracyScore(criticalActions: CriticalActionItem
 /**
  * Appropriatezza prescrittiva: 100 − somma penaltyWeight delle inappropriateActions eseguite.
  */
-export function computeAppropriatenessScore(inappropriateActions: InappropriateActionItem[]): {
+export function computeAppropriatenessScore(
+  inappropriateActions: InappropriateActionItem[] | null | undefined,
+): {
   score: number;
   breakdown: ScoreBreakdown["exams"];
 } {
-  const performed = inappropriateActions.filter((a) => a.performed);
+  const actions = Array.isArray(inappropriateActions) ? inappropriateActions : [];
+  const performed = actions.filter((a) => a.performed);
   const penaltySum = performed.reduce((sum, a) => sum + Math.max(0, a.penaltyWeight), 0);
   const final = clampScore(100 - penaltySum);
 
@@ -310,25 +337,36 @@ export function computeLegalComplianceScore(
   };
 }
 
+/**
+ * Neutral empathy when the LLM returns an empty checklist (schema soft-fail / truncation).
+ * Never treat "no checklist" as proven zero empathy — that erased real chat interactions.
+ */
+export const EMPATHY_EMPTY_CHECKLIST_BASELINE = 45;
+
 /** Empatia: (parametri soddisfatti / totali) × 100. */
 export function computeEmpathyScore(checklist: EmpathyChecklistItem[]): {
   score: number;
   breakdown: ScoreBreakdown["empathy"];
 } {
-  if (checklist.length === 0) {
+  const safe = Array.isArray(checklist) ? checklist : [];
+  if (safe.length === 0) {
     return {
-      score: 0,
-      breakdown: { totalParameters: 0, metParameters: 0, final: 0 },
+      score: EMPATHY_EMPTY_CHECKLIST_BASELINE,
+      breakdown: {
+        totalParameters: 0,
+        metParameters: 0,
+        final: EMPATHY_EMPTY_CHECKLIST_BASELINE,
+      },
     };
   }
 
-  const metParameters = checklist.filter((item) => item.met).length;
-  const final = clampScore((metParameters / checklist.length) * 100);
+  const metParameters = safe.filter((item) => item.met).length;
+  const final = clampScore((metParameters / safe.length) * 100);
 
   return {
     score: final,
     breakdown: {
-      totalParameters: checklist.length,
+      totalParameters: safe.length,
       metParameters,
       final,
     },
@@ -374,21 +412,61 @@ export function deriveDimensionScores(params: {
   };
 }
 
-/** Weight distribution for the four macro-areas (must sum to 1). */
+/**
+ * Official weights for the final grade on the 0–30 (trentesimi) scale.
+ * Must sum to 1.0. Max contribution per area:
+ *   - Clinical Diagnostic → 30% → max 9/30  (DimensionScores.clinical)
+ *   - Legal Compliance    → 30% → max 9/30  (DimensionScores.legal)
+ *   - Exam Appropriateness→ 20% → max 6/30  (DimensionScores.exams)
+ *   - Empathy & Communication → 20% → max 6/30 (DimensionScores.empathy)
+ *
+ * IMPORTANT — `exams` vs `economy`:
+ * - `scores.exams` (DB: prescribingAppropriateness) is the **prescriptive appropriateness**
+ *   of ordered exams and is the dimension weighted at 20% in the final /30 grade.
+ * - `scores.economy` (DB: economicSustainability) is an **analytical budget/SSN indicator**
+ *   used for radar charts and the economic panel; it is NOT a weight in
+ *   `computeTotalScoreTrentesimi`.
+ */
 export const MACRO_AREA_WEIGHTS = {
   clinicalDiagnostic: 0.3,
   legalCompliance: 0.3,
-  economicSustainability: 0.2,
+  examAppropriateness: 0.2,
   empathy: 0.2,
 } as const;
 
-/** Weighted sum of dimension scores on a 0–30 trentesimi scale. */
+/** Max trentesimi contribution for each official weight (weight × 30). */
+export const MACRO_AREA_MAX_TRENTESIMI = {
+  clinicalDiagnostic: 9,
+  legalCompliance: 9,
+  examAppropriateness: 6,
+  empathy: 6,
+} as const;
+
+/**
+ * Contribution of a 0–100 dimension score to the final /30 grade.
+ * Returns a value in [0, weight×30], rounded to 1 decimal; never NaN.
+ */
+export function dimensionContributionTrentesimi(
+  scorePercent: number,
+  weight: number,
+): number {
+  const pct = Number.isFinite(scorePercent) ? Math.max(0, Math.min(100, scorePercent)) : 0;
+  const w = Number.isFinite(weight) ? Math.max(0, Math.min(1, weight)) : 0;
+  return Math.round((pct / 100) * w * 30 * 10) / 10;
+}
+
+/**
+ * Weighted sum of the four official macro-areas on a 0–30 trentesimi scale.
+ * Uses `scores.exams` (appropriateness) for the 20% exam weight — not `scores.economy`.
+ */
 export function computeTotalScoreTrentesimi(scores: DimensionScores): number {
   const w = MACRO_AREA_WEIGHTS;
   const total =
-    (scores.clinical / 100) * w.clinicalDiagnostic * 30 +
-    (scores.legal / 100) * w.legalCompliance * 30 +
-    (scores.exams / 100) * w.economicSustainability * 30 +
-    (scores.empathy / 100) * w.empathy * 30;
-  return Math.round(total * 10) / 10;
+    dimensionContributionTrentesimi(scores.clinical, w.clinicalDiagnostic) +
+    dimensionContributionTrentesimi(scores.legal, w.legalCompliance) +
+    dimensionContributionTrentesimi(scores.exams, w.examAppropriateness) +
+    dimensionContributionTrentesimi(scores.empathy, w.empathy);
+  // Hard clamp — never NaN / never > 30.
+  if (!Number.isFinite(total)) return 0;
+  return Math.min(30, Math.max(0, Math.round(total * 10) / 10));
 }
