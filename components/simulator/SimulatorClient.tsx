@@ -50,10 +50,6 @@ import { SkeletonChatBubble } from "@/components/ui/Skeleton";
 import { VitalSignsBoard } from "./VitalSignsBoard";
 import { ExamReportRecap } from "./ExamReportRecap";
 import { DiagnosticCategoryPanel } from "./DiagnosticCategoryPanel";
-import {
-  SessionEventTimeline,
-  type SessionTimelineEvent,
-} from "./SessionEventTimeline";
 import { ClinicalNudgeBanner, LiveCoachingPanel } from "./LiveCoachingPanel";
 import { SessionSideMetrics } from "./SessionSideMetrics";
 import { PRASSI_TONE } from "@/lib/ui/prassi-pastels";
@@ -913,82 +909,6 @@ export function SimulatorClient({
     if (messages.some((m) => m.role === "user")) return 2;
     return 1;
   }, [activeTab, examFindings, gameStatus, messages, reportSections, selectedExamIds.length]);
-
-  const sessionTimelineEvents = useMemo((): SessionTimelineEvent[] => {
-    const sessionStartMs = Date.now() - elapsedSeconds * 1000;
-    const wallClockAt = (secondsOffset: number) =>
-      new Date(sessionStartMs + Math.min(elapsedSeconds, secondsOffset) * 1000).toLocaleTimeString(
-        "it-IT",
-        { hour: "2-digit", minute: "2-digit" },
-      );
-
-    const events: SessionTimelineEvent[] = [
-      {
-        id: "ingresso",
-        timeLabel: wallClockAt(0),
-        title: "Ingresso in PS",
-        detail: patient.mainComplaint?.slice(0, 90) || "Accettazione paziente",
-        kind: "ingresso",
-      },
-    ];
-    const userTurns = messages.filter((m) => m.role === "user").length;
-    if (userTurns > 0) {
-      events.push({
-        id: "anamnesi",
-        timeLabel: wallClockAt(60),
-        title: "Anamnesi",
-        detail: "Raccolta anamnesi e sintomi principali.",
-        kind: "dialogo",
-      });
-    }
-    if (Object.keys(examFindings).length > 0 || activeTab === "exam") {
-      events.push({
-        id: "esame-obiettivo",
-        timeLabel: wallClockAt(180),
-        title: "Esame obiettivo",
-        detail: "Valutazione parametri vitali e reperti clinici.",
-        kind: "vitale",
-        current: processStep === 3,
-      });
-    }
-    selectedExamsRecentFirst.slice(0, 4).forEach((exam, idx) => {
-      events.push({
-        id: `exam-${exam.id}`,
-        timeLabel: wallClockAt(240 + idx * 30),
-        title: `Esame: ${exam.name}`,
-        detail: `Costo SSN €${exam.cost.toFixed(0)}`,
-        kind: "esame",
-      });
-    });
-    if (selectedExamIds.length === 0) {
-      events.push({
-        id: "esami-pending",
-        timeLabel: "",
-        title: "Esami richiesti",
-        detail: "In attesa di prescrizione.",
-        kind: "esame",
-        pending: true,
-      });
-    }
-    events.push({
-      id: "diagnosi-pending",
-      timeLabel: "",
-      title: "Diagnosi",
-      detail: "In attesa di definizione.",
-      kind: "nota",
-      pending: true,
-    });
-    return events.slice(0, 12);
-  }, [
-    activeTab,
-    elapsedSeconds,
-    examFindings,
-    messages,
-    patient.mainComplaint,
-    processStep,
-    selectedExamIds.length,
-    selectedExamsRecentFirst,
-  ]);
 
   const liveCoaching = useMemo(() => {
     const userMessages = messages
@@ -1911,7 +1831,6 @@ export function SimulatorClient({
                   unstable={liveCoaching.unstable}
                   showTip={false}
                 />
-                <SessionEventTimeline events={sessionTimelineEvents} compact />
               </>
             ) : null}
 
@@ -2560,10 +2479,6 @@ export function SimulatorClient({
                 <li>
                   Consulta la <span className="font-medium text-slate-800">Cartella clinica</span> a
                   destra per anamnesi, esame obiettivo, esami e imaging.
-                </li>
-                <li>
-                  Segui la <span className="font-medium text-slate-800">Cronologia eventi</span> per
-                  ripercorrere le tappe della sessione.
                 </li>
                 <li>
                   Il pannello <span className="font-medium text-slate-800">Coaching</span> mostra un
