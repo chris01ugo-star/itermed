@@ -2733,20 +2733,20 @@ function HistoryChat({
         }}
       >
         {visibleMessages.length === 0 && (
-          <div className="flex min-h-[220px] flex-col items-center justify-center gap-3 px-6 py-10 text-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#E4EAF3] text-[#345884]">
-              <MessageCircle className="h-5 w-5" strokeWidth={1.75} />
+          <div className="flex min-h-[180px] flex-col items-center justify-center gap-2.5 px-6 py-8 text-center">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E4EAF3] text-[#345884]">
+              <MessageCircle className="h-4 w-4" strokeWidth={1.75} />
             </div>
-            <div className="space-y-1.5">
-              <p className="font-display text-base font-semibold text-slate-800">
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-slate-800">
                 Inizia l&apos;anamnesi
               </p>
-              <p className="mx-auto max-w-sm text-sm leading-relaxed text-slate-500">
+              <p className="mx-auto max-w-sm text-xs leading-relaxed text-slate-500">
                 Fai una domanda aperta al paziente. Esempio: &quot;Mi racconti cosa è successo da
                 quando sono iniziati i sintomi?&quot;
               </p>
             </div>
-            <p className="max-w-sm border-l-2 border-[#345884]/30 pl-3 text-left text-xs leading-relaxed text-slate-500">
+            <p className="max-w-sm border-l-2 border-[#345884]/30 pl-2.5 text-left text-[11px] leading-relaxed text-slate-500">
               Oppure usa il pulsante <span className="font-medium text-slate-700">Modulo consenso</span>{" "}
               sotto, quando serve spiegare una procedura.
             </p>
