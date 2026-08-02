@@ -21,13 +21,16 @@ import {
   deriveDimensionScores,
   resolveExamBudgetEuro,
   resolveExamCostsFromCatalog,
+  type DimensionScores,
   type ScoreBreakdown,
 } from "@/lib/services/evaluation-scoring";
+import { deriveMilestoneDimensionScores } from "@/lib/services/evaluation-milestone-scoring";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 import { EVALUATION_MAX_OUTPUT_TOKENS } from "@/lib/security/ai-rate-limits";
 import { fenceContext, truncateForLlmContext } from "@/lib/security/prompt-context";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
+import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
 
 const criticalActionSchema = z.object({
   description: z.string().max(200),
@@ -142,16 +145,16 @@ export function normalizeAnalyticalEvaluation(
       rationale: clip(item.rationale ?? "", 220),
     })),
     legalProtectionStatus: {
-      status: raw.legalProtectionStatus.status,
-      justification: clip(raw.legalProtectionStatus.justification ?? "", 800),
-      referenceDocuments: (raw.legalProtectionStatus.referenceDocuments ?? [])
+      status: raw.legalProtectionStatus?.status ?? "PARTIALLY_EXPOSED",
+      justification: clip(raw.legalProtectionStatus?.justification ?? "", 800),
+      referenceDocuments: (raw.legalProtectionStatus?.referenceDocuments ?? [])
         .slice(0, 12)
         .map((s) => clip(s, 120)),
     },
     clinicalDeltaTable: (raw.clinicalDeltaTable ?? []).slice(0, 20).map((row) => ({
       protocolAction: clip(row.protocolAction ?? "", 200),
       userAction: clip(row.userAction ?? "", 200),
-      status: row.status,
+      status: row.status ?? "MISSED",
       penaltyOrBonusReason: clip(row.penaltyOrBonusReason ?? "", 320),
     })),
     economicAnalysis: {
@@ -283,6 +286,8 @@ export function buildDeterministicEvaluation(
     /** RAG soft-fail flags from getRelevantGuidelines. */
     hasLegalContext?: boolean;
     ragSourcesCount?: number;
+    sessionMilestones?: SessionMilestoneSnapshot[];
+    goldStandardPath?: string[];
   },
 ): Pick<
   EvaluationResult,
@@ -293,7 +298,7 @@ export function buildDeterministicEvaluation(
     params.examCatalog ?? {},
   );
 
-  const { scores, breakdown } = deriveDimensionScores({
+  const { scores: checklistScores, breakdown: checklistBreakdown } = deriveDimensionScores({
     criticalActions: analytical.criticalActions,
     inappropriateActions: analytical.inappropriateActions,
     empathyChecklist: analytical.empathyChecklist,
@@ -303,6 +308,40 @@ export function buildDeterministicEvaluation(
     hasLegalContext: params.hasLegalContext,
     ragSourcesCount: params.ragSourcesCount,
   });
+
+  const milestones = params.sessionMilestones ?? [];
+  let scores = checklistScores;
+  let breakdown = checklistBreakdown;
+
+  // Blend deterministic milestone evidence so real chat/exam events cannot be erased by a sparse LLM checklist.
+  if (milestones.length > 0) {
+    const milestoneDerived = deriveMilestoneDimensionScores({
+      milestones,
+      goldStandardPath: params.goldStandardPath,
+      inappropriateActions: analytical.inappropriateActions,
+      exams: resolvedExams,
+      totalCostEuro,
+      budgetEuro: params.examBudgetEuro,
+    });
+    const blend = (checklist: number, milestone: number, milestoneWeight = 0.45): number => {
+      const w = Math.max(0, Math.min(1, milestoneWeight));
+      return Math.round(checklist * (1 - w) + milestone * w);
+    };
+    scores = {
+      clinical: blend(checklistScores.clinical, milestoneDerived.scores.clinical, 0.4),
+      legal: blend(checklistScores.legal, milestoneDerived.scores.legal, 0.5),
+      exams: blend(checklistScores.exams, milestoneDerived.scores.exams, 0.35),
+      economy: checklistScores.economy,
+      empathy: blend(checklistScores.empathy, milestoneDerived.scores.empathy, 0.55),
+    } satisfies DimensionScores;
+    breakdown = {
+      ...checklistBreakdown,
+      clinical: { ...checklistBreakdown.clinical, final: scores.clinical },
+      legal: { ...checklistBreakdown.legal, final: scores.legal },
+      exams: { ...checklistBreakdown.exams, final: scores.exams },
+      empathy: { ...checklistBreakdown.empathy, final: scores.empathy },
+    };
+  }
 
   return {
     scores,
@@ -396,6 +435,8 @@ ISTRUZIONI ANALITICHE (OBBLIGATORIE):
    - Se il corpus RAG è soft-fail: non colmare con conoscenza parametrica inventata.
 
 1) criticalActions / inappropriateActions / empathyChecklist / legalInstrumentReviews — checklist oggettive ancorate al trascritto.
+   - empathyChecklist: ≥4 parametri (ascolto, rassicurazione, spiegazione, gestione stress). Imposta met=true SOLO se c'è evidenza testuale in <<<CHAT_TRANSCRIPT>>> o milestone empatiche; met=false se assente — NON azzerare l'intera checklist inventando parametri tutti falsi senza citare il trascritto.
+   - legalInstrumentReviews: se in chat compare consenso / allergie / spiegazione rischi, NON marcare "violato" senza motivazione testuale; usa "rispettato" o "parziale" coerente con le evidenze.
 
 2) legalProtectionStatus:
    - status: PROTECTED se documentazione e percorso difendibile; PARTIALLY_EXPOSED se lacune; HIGHLY_EXPOSED se violazioni gravi.
@@ -466,10 +507,11 @@ function buildUserPrompt(params: {
 
   const milestoneBlock = milestonesToEvaluationJson(sessionMilestones ?? []);
 
+  const safeGoldPath = parseGoldStandardPath(goldStandardPath);
   const goldBlock =
-    goldStandardPath?.length ?
-      goldStandardPath.map((s, i) => `${i + 1}. ${s}`).join("\n")
-    : "Non definito — costruisci clinicalDeltaTable da linee guida e best practice.";
+    safeGoldPath.length > 0
+      ? safeGoldPath.map((s, i) => `${i + 1}. ${s}`).join("\n")
+      : "Non definito — costruisci clinicalDeltaTable da linee guida e best practice.";
 
   const legalCorpus = hasLegalContext
     ? truncateForLlmContext(retrievedLegalText)
@@ -643,6 +685,8 @@ export class EvaluationService {
         examCatalog: input.examCatalog,
         hasLegalContext,
         ragSourcesCount: hasLegalContext ? ragSourcesCount : 0,
+        sessionMilestones: input.sessionMilestones,
+        goldStandardPath: input.goldStandardPath,
       });
 
       this.deps.logger.info("Simulation evaluation completed (deterministic scoring)", {

@@ -15,6 +15,8 @@ import { getUserBillingProfile } from "@/lib/billing/user-billing";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
+import { extractPatientPromptFromNode } from "@/lib/cases/case-payload";
+import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
 
 const bodySchema = z.object({
   caseId: z.string().min(1),
@@ -36,6 +38,7 @@ async function createSession(params: {
   variantSolution?: string;
   enforceDailyCap: boolean;
 }): Promise<Response> {
+  // Persist caseId + empty milestone/exam arrays so sync-milestones can merge safely.
   const session = await prisma.caseSession.create({
     data: {
       userId: params.userId,
@@ -43,6 +46,8 @@ async function createSession(params: {
       isVariant: params.isVariant,
       variantPrompt: params.variantPrompt,
       variantSolution: params.variantSolution,
+      requestedExamIds: [],
+      completedGoldSteps: [],
     },
   });
 
@@ -59,10 +64,17 @@ async function createSession(params: {
     }
   }
 
-  return new Response(JSON.stringify({ sessionId: session.id }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+  return new Response(
+    JSON.stringify({
+      sessionId: session.id,
+      caseId: session.caseId,
+      isVariant: session.isVariant,
+    }),
+    {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    },
+  );
 }
 
 export async function POST(req: Request) {
@@ -74,8 +86,25 @@ export async function POST(req: Request) {
     });
   }
 
-  const json = await req.json();
-  const { caseId, mode, devBypass } = bodySchema.parse(json);
+  let json: unknown;
+  try {
+    json = await req.json();
+  } catch {
+    return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const parsed = bodySchema.safeParse(json);
+  if (!parsed.success) {
+    return new Response(JSON.stringify({ error: "Invalid body", details: parsed.error.flatten() }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const { caseId, mode, devBypass } = parsed.data;
 
   const rateLimited = await enforceRateLimit(req, {
     namespace: mode === "variant" ? "api-session-start-variant" : "api-session-start",
@@ -96,14 +125,40 @@ export async function POST(req: Request) {
     });
   }
 
-  const clinicalCase = await prisma.clinicalCase.findUnique({
-    where: { id: caseId },
-    include: {
-      nodes: { orderBy: { order: "asc" }, take: 1 },
-    },
-  });
+  let clinicalCase: {
+    id: string;
+    title: string;
+    description: string;
+    isActive: boolean;
+    caseBundleId: string | null;
+    goldStandardPath: unknown;
+    nodes: { content: unknown }[];
+  } | null = null;
 
-  if (!clinicalCase) {
+  try {
+    clinicalCase = await prisma.clinicalCase.findUnique({
+      where: { id: caseId },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        isActive: true,
+        caseBundleId: true,
+        goldStandardPath: true,
+        nodes: { orderBy: { order: "asc" }, take: 1, select: { content: true } },
+      },
+    });
+  } catch {
+    return new Response(
+      JSON.stringify({ error: "Database unavailable while loading case" }),
+      {
+        status: 503,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
+
+  if (!clinicalCase || !clinicalCase.isActive) {
     return new Response(JSON.stringify({ error: "Case not found" }), {
       status: 404,
       headers: { "Content-Type": "application/json" },
@@ -124,17 +179,28 @@ export async function POST(req: Request) {
   const enforceDailyCap = shouldCountAgainstDailyQuota(billingProfile, accessOptions);
 
   const firstNode = clinicalCase.nodes[0];
-  const basePrompt =
-    (firstNode?.content as any)?.casePrompt ??
-    `${clinicalCase.title}. ${clinicalCase.description}`;
+  const basePrompt = extractPatientPromptFromNode(
+    firstNode?.content,
+    `${clinicalCase.title}. ${clinicalCase.description}`,
+  );
+
+  // Validate gold path shape early (non-blocking) so evaluation later never sees corrupt JSON.
+  const goldPath = parseGoldStandardPath(clinicalCase.goldStandardPath);
 
   if (mode === "original") {
-    return createSession({
-      userId,
-      caseId,
-      isVariant: false,
-      enforceDailyCap,
-    });
+    try {
+      return await createSession({
+        userId,
+        caseId: clinicalCase.id,
+        isVariant: false,
+        enforceDailyCap,
+      });
+    } catch {
+      return new Response(JSON.stringify({ error: "Failed to create session" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
   }
 
   const systemPrompt = `
@@ -147,26 +213,34 @@ Restituisci un JSON con i campi:
 - "newCorrectSolution": breve descrizione della gestione clinico-medico-legale corretta per questa variante.
 `.trim();
 
-  const { object } = await withOpenAIRetry(() =>
-    generateObject({
-      model: openai("gpt-4o-mini"),
-      system: systemPrompt,
-      schema: variantSchema,
-      prompt: `
+  try {
+    const { object } = await withOpenAIRetry(() =>
+      generateObject({
+        model: openai("gpt-4o-mini"),
+        system: systemPrompt,
+        schema: variantSchema,
+        prompt: `
 Caso di partenza:
 Titolo: ${clinicalCase.title}
 Descrizione: ${clinicalCase.description}
 Prompt paziente di base: ${basePrompt}
+Gold standard steps (non alterare): ${goldPath.length ? goldPath.join(", ") : "n/d"}
 `.trim(),
-    }),
-  );
+      }),
+    );
 
-  return createSession({
-    userId,
-    caseId,
-    isVariant: true,
-    variantPrompt: object.newPatientPrompt,
-    variantSolution: object.newCorrectSolution,
-    enforceDailyCap,
-  });
+    return await createSession({
+      userId,
+      caseId: clinicalCase.id,
+      isVariant: true,
+      variantPrompt: object.newPatientPrompt,
+      variantSolution: object.newCorrectSolution,
+      enforceDailyCap,
+    });
+  } catch {
+    return new Response(JSON.stringify({ error: "Failed to create variant session" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 }

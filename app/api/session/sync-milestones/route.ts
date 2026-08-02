@@ -51,10 +51,16 @@ export async function POST(req: Request) {
   }
 
   const mergedExamIds = [
-    ...new Set([...session.requestedExamIds, ...body.requestedExamIds]),
+    ...new Set([
+      ...(Array.isArray(session.requestedExamIds) ? session.requestedExamIds : []),
+      ...(Array.isArray(body.requestedExamIds) ? body.requestedExamIds : []),
+    ]),
   ];
   const mergedGold = [
-    ...new Set([...session.completedGoldSteps, ...body.completedGoldSteps]),
+    ...new Set([
+      ...(Array.isArray(session.completedGoldSteps) ? session.completedGoldSteps : []),
+      ...(Array.isArray(body.completedGoldSteps) ? body.completedGoldSteps : []),
+    ]),
   ];
 
   const detected = detectMilestonesFromTurn({

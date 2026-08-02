@@ -28,8 +28,19 @@ import { ResultsRadarClient, type RadarDatum } from "./ResultsRadarClient";
 import { EconomicBudgetGauge } from "./EconomicBudgetGauge";
 import { GoldStandardCompare } from "./GoldStandardCompare";
 import { AiTransparencyBadge } from "@/components/legal/AiTransparencyBadge";
+import { CLINICAL_PASS_TRENTESIMI, clampPercentScore, safeDisplayTrentesimi } from "@/lib/scoring/trentesimi";
+import {
+  MACRO_AREA_WEIGHTS,
+  dimensionContributionTrentesimi,
+} from "@/lib/services/evaluation-scoring";
+import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 
 type RadarDatumWithKey = RadarDatum & { key?: string };
+
+type FatalErrorUi = {
+  code: string;
+  description: string;
+};
 
 type EliteResultsClientProps = {
   totalScore: number;
@@ -43,6 +54,8 @@ type EliteResultsClientProps = {
   economicAnalysis?: EconomicAnalysis;
   coachingFeedback?: CoachingFeedback;
   legalSources?: string[];
+  killerSwitch?: KillerSwitchTrace;
+  fatalErrors?: FatalErrorUi[];
 };
 
 const PILLARS: Array<{
@@ -50,36 +63,49 @@ const PILLARS: Array<{
   label: string;
   icon: LucideIcon;
   fallbackIndex: number;
+  /** Official /30 weight; null = analytical radar metric only (not in final grade). */
+  gradeWeight: number | null;
+  scaleHint: string;
 }> = [
   {
     key: "clinicalAccuracy",
     label: "Accuratezza Clinica",
     icon: Stethoscope,
     fallbackIndex: 0,
+    gradeWeight: MACRO_AREA_WEIGHTS.clinicalDiagnostic,
+    scaleHint: "30% del voto · max 9/30",
   },
   {
     key: "legalComplianceGelliBianco",
     label: "Tutela Medico-Legale",
     icon: Scale,
     fallbackIndex: 1,
+    gradeWeight: MACRO_AREA_WEIGHTS.legalCompliance,
+    scaleHint: "30% del voto · max 9/30",
   },
   {
     key: "prescribingAppropriateness",
-    label: "Appropriatezza Prescrittiva",
+    label: "Appropriatezza Esami",
     icon: Activity,
     fallbackIndex: 2,
+    gradeWeight: MACRO_AREA_WEIGHTS.examAppropriateness,
+    scaleHint: "20% del voto · max 6/30",
   },
   {
     key: "economicSustainability",
     label: "Sostenibilità Economica",
     icon: Euro,
     fallbackIndex: 3,
+    gradeWeight: null,
+    scaleHint: "Metrica analitica · non pesa sul /30",
   },
   {
     key: "empathy",
     label: "Empatia Clinica",
     icon: HeartHandshake,
     fallbackIndex: 4,
+    gradeWeight: MACRO_AREA_WEIGHTS.empathy,
+    scaleHint: "20% del voto · max 6/30",
   },
 ];
 
@@ -128,8 +154,8 @@ function legalShieldConfig(status: LegalProtectionStatus["status"]) {
 
 function resolvePillarScore(radarData: RadarDatumWithKey[], pillar: (typeof PILLARS)[number]) {
   const byKey = radarData.find((d) => d.key === pillar.key);
-  if (byKey) return byKey.score;
-  return radarData[pillar.fallbackIndex]?.score ?? 0;
+  const raw = byKey?.score ?? radarData[pillar.fallbackIndex]?.score ?? 0;
+  return clampPercentScore(raw);
 }
 
 function Section({
@@ -206,11 +232,19 @@ export function EliteResultsClient({
   economicAnalysis,
   coachingFeedback,
   legalSources = [],
+  killerSwitch,
+  fatalErrors = [],
 }: EliteResultsClientProps) {
   const shield = legalProtectionStatus
     ? legalShieldConfig(legalProtectionStatus.status)
     : null;
   const ShieldIcon = shield?.icon ?? Shield;
+
+  const normalizedScore = safeDisplayTrentesimi(totalScore);
+  const showKillerSwitchBanner =
+    killerSwitch?.applied === true ||
+    (normalizedScore < CLINICAL_PASS_TRENTESIMI && fatalErrors.length > 0);
+  const killerCap = killerSwitch?.cap ?? 17.9;
 
   const wastedEuro = economicAnalysis
     ? economicAnalysis.unnecessaryExpenses.reduce((sum, item) => sum + (item.cost ?? 0), 0)
@@ -270,11 +304,50 @@ export function EliteResultsClient({
               Score complessivo
             </span>
             <p className="mt-1 font-display text-4xl font-bold tabular-nums tracking-tight text-brand-primary">
-              {Math.round(totalScore)}
+              {Math.round(normalizedScore * 10) / 10}
               <span className="ml-0.5 text-lg font-medium text-slate-400">/30</span>
+            </p>
+            <p className="mt-1 text-[10px] font-medium uppercase tracking-wide text-slate-400">
+              Scala trentesimi
             </p>
           </div>
         </div>
+
+        {showKillerSwitchBanner ? (
+          <div
+            role="alert"
+            className="relative mx-5 mb-5 rounded-xl border border-red-500/50 bg-red-950/40 px-4 py-3 text-rose-100 md:mx-7 md:mb-6"
+          >
+            <div className="flex items-start gap-2.5">
+              <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-400" aria-hidden />
+              <div className="min-w-0 space-y-2">
+                <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-red-300">
+                  Bocciatura d&apos;ufficio (Killer-Switch applicato)
+                </p>
+                <p className="text-xs leading-relaxed text-rose-100/90">
+                  Il punteggio massimo è stato limitato d&apos;ufficio a {killerCap}/30 a causa del
+                  rilevamento di uno o più errori clinici o legali fatali durante la simulazione.
+                  {killerSwitch?.applied &&
+                  typeof killerSwitch.rawTotalTrentesimi === "number" &&
+                  typeof killerSwitch.finalTotalTrentesimi === "number"
+                    ? ` Calcolo grezzo: ${killerSwitch.rawTotalTrentesimi}/30 → voto finale: ${killerSwitch.finalTotalTrentesimi}/30.`
+                    : null}
+                </p>
+                {fatalErrors.length > 0 ? (
+                  <ul className="list-disc space-y-1 pl-4 text-xs leading-relaxed text-rose-100/85">
+                    {fatalErrors.map((error) => (
+                      <li key={error.code}>
+                        <span className="font-mono text-[10px] text-red-300/80">{error.code}</span>
+                        {" — "}
+                        {error.description}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        ) : null}
       </Section>
 
       {/* Scudo Legale */}
@@ -346,7 +419,7 @@ export function EliteResultsClient({
         <Panel className="lg:col-span-7 xl:col-span-8">
           <PanelHeader
             title="Cinque pilastri AEQUAN"
-            description="Indicatori core a pari dignità — accuratezza, tutela, appropriatezza, sostenibilità, empatia."
+            description="Quattro dimensioni pesano sul voto /30 (30%+30%+20%+20%). La sostenibilità economica è metrica analitica (radar/bilancio), distinta dall'appropriatezza prescrittiva degli esami."
             icon={<Activity className="h-4 w-4" />}
           />
           <div className="space-y-6 p-5 md:p-6">
@@ -354,6 +427,10 @@ export function EliteResultsClient({
               {PILLARS.map((pillar) => {
                 const Icon = pillar.icon;
                 const score = resolvePillarScore(radarData, pillar);
+                const contribution =
+                  pillar.gradeWeight != null
+                    ? dimensionContributionTrentesimi(score, pillar.gradeWeight)
+                    : null;
                 return (
                   <ScoreProgressRing
                     key={pillar.key}
@@ -361,6 +438,11 @@ export function EliteResultsClient({
                     size={100}
                     score={score}
                     label={pillar.label}
+                    subtitle={
+                      contribution != null
+                        ? `${Math.round(score)}/100 · ${contribution}/30`
+                        : `${Math.round(score)}/100 · radar`
+                    }
                     icon={<Icon className="h-4 w-4" />}
                     className="results-pillar-enter"
                   />
@@ -371,7 +453,10 @@ export function EliteResultsClient({
             <div className="space-y-3 border-t border-border-subtle pt-5">
               {PILLARS.map((pillar) => {
                 const score = resolvePillarScore(radarData, pillar);
-                const clamped = Math.max(0, Math.min(100, score));
+                const contribution =
+                  pillar.gradeWeight != null
+                    ? dimensionContributionTrentesimi(score, pillar.gradeWeight)
+                    : null;
                 const Icon = pillar.icon;
                 return (
                   <div key={`row-${pillar.key}`} className="flex items-center gap-3">
@@ -380,22 +465,37 @@ export function EliteResultsClient({
                     </div>
                     <div className="min-w-0 flex-1 space-y-1.5">
                       <div className="flex items-center justify-between gap-3">
-                        <span className="truncate text-xs font-medium text-slate-600">
-                          {pillar.label}
-                        </span>
-                        <span className="shrink-0 text-xs font-semibold tabular-nums text-brand-primary">
-                          {Math.round(clamped)}%
+                        <div className="min-w-0">
+                          <span className="block truncate text-xs font-medium text-slate-600">
+                            {pillar.label}
+                          </span>
+                          <span className="block truncate text-[10px] text-slate-400">
+                            {pillar.scaleHint}
+                          </span>
+                        </div>
+                        <span className="shrink-0 text-right text-xs font-semibold tabular-nums text-brand-primary">
+                          {Math.round(score)}
+                          <span className="font-medium text-slate-400">/100</span>
+                          {contribution != null ? (
+                            <span className="mt-0.5 block text-[10px] font-medium text-slate-500">
+                              → {contribution}/30
+                            </span>
+                          ) : (
+                            <span className="mt-0.5 block text-[10px] font-medium text-slate-400">
+                              non in /30
+                            </span>
+                          )}
                         </span>
                       </div>
                       <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
                         <div
                           className="h-full rounded-full bg-brand-secondary transition-all duration-700 ease-out"
-                          style={{ width: `${clamped}%` }}
+                          style={{ width: `${score}%` }}
                           role="progressbar"
-                          aria-valuenow={Math.round(clamped)}
+                          aria-valuenow={Math.round(score)}
                           aria-valuemin={0}
                           aria-valuemax={100}
-                          aria-label={pillar.label}
+                          aria-label={`${pillar.label}: ${Math.round(score)} su 100`}
                         />
                       </div>
                     </div>

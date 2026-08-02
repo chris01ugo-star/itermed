@@ -21,19 +21,27 @@ type DashboardSimulatorPageProps = {
 const DEMO_CASES = (userId: string): ClinicalCaseRow[] => [
   {
     id: "cs_001",
-    title: "Dolore toracico in PS",
-    specialty: "Emergenza",
+    title: "Uomo 58 anni con dolore toracico in PS",
+    specialty: "Medicina d'Emergenza-Urgenza",
     difficulty: "MEDIUM",
     createdById: "seed",
     isGlobal: true,
   },
   {
     id: "cs_002",
-    title: "Febbre persistente in paziente anziano",
-    specialty: "Medicina interna",
+    title: "Donna 72 anni con febbre persistente",
+    specialty: "Medicina Interna",
     difficulty: "EASY",
     createdById: userId,
     isGlobal: false,
+  },
+  {
+    id: "cs_003",
+    title: "Uomo 33 anni con idrocefalo e cefalea acuta",
+    specialty: "Neurologia",
+    difficulty: "HARD",
+    createdById: "seed",
+    isGlobal: true,
   },
 ];
 

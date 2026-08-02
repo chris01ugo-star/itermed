@@ -8,8 +8,10 @@ import type {
   ClinicalDeltaRow,
   CoachingFeedback,
   EconomicAnalysis,
+  FatalError,
   LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
+import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 import { AequanLogo } from "@/components/AequanLogo";
 import { EliteResultsClient } from "./EliteResultsClient";
 
@@ -18,6 +20,7 @@ type ResultsPageProps = {
   searchParams: Promise<{ sessionId?: string }> | { sessionId?: string };
 };
 
+/** Trace shape persisted by simulation-report-worker → buildSessionReportData. */
 type SessionTrace = {
   feedback?: {
     strengths?: string[];
@@ -31,8 +34,25 @@ type SessionTrace = {
     clinicalDeltaTable?: ClinicalDeltaRow[];
     economicAnalysis?: EconomicAnalysis;
     coachingFeedback?: CoachingFeedback;
+    fatalErrors?: FatalError[];
   };
+  /** Deterministic Killer-Switch audit trail (preferred source). */
+  killerSwitch?: KillerSwitchTrace;
+  /** Top-level fatal errors from detectFatalErrors (description + rationale). */
+  fatalErrors?: FatalError[];
 };
+
+function normalizeFatalErrorsForUi(
+  errors: FatalError[] | undefined,
+): Array<{ code: string; description: string }> {
+  if (!Array.isArray(errors) || errors.length === 0) return [];
+  return errors
+    .filter((e) => typeof e?.description === "string" && e.description.trim().length > 0)
+    .map((e, index) => ({
+      code: `FATAL_${index + 1}`,
+      description: e.description.trim(),
+    }));
+}
 
 export default async function CaseResultsPage({ params, searchParams }: ResultsPageProps) {
   const resolvedParams = "then" in params ? await params : params;
@@ -64,6 +84,11 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
   }
 
   const trace = (session.rawTrace ?? {}) as SessionTrace;
+
+  const killerSwitch = trace.killerSwitch;
+  const fatalErrors = normalizeFatalErrorsForUi(
+    trace.fatalErrors ?? trace.analytical?.fatalErrors,
+  );
 
   const radarData = [
     { metric: "Accuratezza clinica", key: "clinicalAccuracy", score: session.clinicalAccuracy },
@@ -101,6 +126,8 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
           economicAnalysis={trace.analytical?.economicAnalysis}
           coachingFeedback={trace.analytical?.coachingFeedback}
           legalSources={trace.evidence?.legalSources ?? []}
+          killerSwitch={killerSwitch}
+          fatalErrors={fatalErrors}
         />
       </div>
     </div>

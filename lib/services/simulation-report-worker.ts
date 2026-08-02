@@ -21,6 +21,7 @@ import {
 } from "@/lib/services/simulation-report-data";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
 import { fetchSessionMilestones } from "@/lib/simulator/milestone-tracker";
+import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
 
 export type SimulationReportJobInput = {
   reportId: string;
@@ -66,17 +67,20 @@ function toAnalyticalSnapshot(evaluation: EvaluationResult): AnalyticalEvaluatio
   };
 }
 
-function sanitizeDimensionScores(scores: EvaluationResult["scores"]): DimensionScores {
-  const clamp = (n: number): number => {
-    if (!Number.isFinite(n)) return 0;
-    return Math.max(0, Math.min(100, n));
+function sanitizeDimensionScores(
+  scores: EvaluationResult["scores"] | null | undefined,
+): DimensionScores {
+  const clamp = (n: unknown): number => {
+    const value = typeof n === "number" ? n : Number(n);
+    if (!Number.isFinite(value)) return 0;
+    return Math.max(0, Math.min(100, value));
   };
   return {
-    clinical: clamp(scores.clinical),
-    legal: clamp(scores.legal),
-    exams: clamp(scores.exams),
-    economy: clamp(scores.economy),
-    empathy: clamp(scores.empathy),
+    clinical: clamp(scores?.clinical),
+    legal: clamp(scores?.legal),
+    exams: clamp(scores?.exams),
+    economy: clamp(scores?.economy),
+    empathy: clamp(scores?.empathy),
   };
 }
 
@@ -101,7 +105,7 @@ function applyKillerSwitchToEvaluation(evaluation: EvaluationResult): {
   }
 
   const safeScores = sanitizeDimensionScores(evaluation.scores);
-  const { rawTotal, finalTotal, killerSwitchApplied, adjustedScores } =
+  const { rawTotal, finalTotal, killerSwitchApplied, scoresForPersist } =
     computeFinalTrentesimiWithKillerSwitch(safeScores, fatalErrors);
 
   // Hard ceiling via applyKillerSwitch — never exceeds 17.9/30 when fatal errors exist.
@@ -112,7 +116,7 @@ function applyKillerSwitchToEvaluation(evaluation: EvaluationResult): {
     rawTotalTrentesimi: rawTotal,
     finalTotalTrentesimi: cappedFinal,
     killerSwitchApplied: killerSwitchApplied || cappedFinal < rawTotal,
-    scoresForPersist: adjustedScores,
+    scoresForPersist,
   };
 }
 
@@ -207,22 +211,24 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       ? await fetchSessionMilestones(input.liveSessionId)
       : [];
 
+    const goldStandardPath = parseGoldStandardPath(clinicalCase?.goldStandardPath);
+
     const evaluation = await evaluationService.evaluateSimulation({
-      chatHistory: input.evaluationChatHistory,
-      exams: input.exams,
-      reportText: input.normalizedReportText,
+      chatHistory: Array.isArray(input.evaluationChatHistory)
+        ? input.evaluationChatHistory
+        : [],
+      exams: Array.isArray(input.exams) ? input.exams : [],
+      reportText: input.normalizedReportText ?? "",
       caseContext: input.caseContext,
       finalDiagnosis: input.finalDiagnosis,
       guidelines,
       difficulty: caseDifficulty,
       specialty: specialtyName,
       examBudgetEuro,
-      baselineExamFindings: clinicalCase?.baselineExamFindings,
-      examCatalog,
-      goldStandardPath: Array.isArray(clinicalCase?.goldStandardPath)
-        ? (clinicalCase.goldStandardPath as string[])
-        : undefined,
-      sessionMilestones,
+      baselineExamFindings: clinicalCase?.baselineExamFindings ?? {},
+      examCatalog: examCatalog ?? {},
+      goldStandardPath: goldStandardPath.length > 0 ? goldStandardPath : undefined,
+      sessionMilestones: Array.isArray(sessionMilestones) ? sessionMilestones : [],
     });
     const evaluationDurationMs = Date.now() - evaluationStartedAt;
 

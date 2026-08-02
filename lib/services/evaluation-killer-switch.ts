@@ -5,6 +5,7 @@ import type { MilestoneScoreBreakdown } from "@/lib/services/evaluation-mileston
 import {
   MACRO_AREA_WEIGHTS,
   computeTotalScoreTrentesimi,
+  dimensionContributionTrentesimi,
 } from "@/lib/services/evaluation-scoring";
 
 const KILLER_SWITCH_CAP = 17.9;
@@ -23,37 +24,46 @@ export function detectFatalErrors(analytical: AnalyticalEvaluation): FatalError[
     errors.push({ description, rationale });
   };
 
-  for (const action of analytical.criticalActions) {
-    if (!action.performed && action.criticalLevel === "HIGH") {
-      push(action.description, action.feedback);
+  for (const action of analytical.criticalActions ?? []) {
+    if (!action?.performed && action?.criticalLevel === "HIGH") {
+      push(action.description ?? "Azione critica omessa", action.feedback ?? "");
     }
   }
 
-  for (const action of analytical.inappropriateActions) {
-    if (action.performed && action.penaltyWeight >= 30) {
-      push(`Azione inappropriata: ${action.description}`, action.feedback);
+  for (const action of analytical.inappropriateActions ?? []) {
+    if (action?.performed && (action.penaltyWeight ?? 0) >= 30) {
+      push(
+        `Azione inappropriata: ${action.description ?? "n/d"}`,
+        action.feedback ?? "",
+      );
     }
   }
 
-  for (const row of analytical.clinicalDeltaTable) {
-    if (row.status !== "MISSED" && row.status !== "DELAYED") continue;
-    const combined = `${row.protocolAction} ${row.penaltyOrBonusReason}`;
+  for (const row of analytical.clinicalDeltaTable ?? []) {
+    if (!row || (row.status !== "MISSED" && row.status !== "DELAYED")) continue;
+    const combined = `${row.protocolAction ?? ""} ${row.penaltyOrBonusReason ?? ""}`;
     const isFatalPattern = FATAL_OMISSION_PATTERN.test(combined);
     const isLifeThreatening =
       /red flag|salvavita|emergenza|entro\s*\d|fatale|catastrof/i.test(combined);
     if (isFatalPattern || (row.status === "MISSED" && isLifeThreatening)) {
-      push(row.protocolAction, row.penaltyOrBonusReason);
+      push(row.protocolAction ?? "Omissione critica", row.penaltyOrBonusReason ?? "");
     }
   }
 
-  for (const review of analytical.legalInstrumentReviews) {
-    if (review.compliance === "violato" && /gelli|24\/2017|consenso|allerg|farmaco/i.test(review.instrument + review.rationale)) {
-      push(`Violazione ${review.instrument}`, review.rationale);
+  for (const review of analytical.legalInstrumentReviews ?? []) {
+    if (
+      review?.compliance === "violato" &&
+      /gelli|24\/2017|consenso|allerg|farmaco/i.test(
+        `${review.instrument ?? ""}${review.rationale ?? ""}`,
+      )
+    ) {
+      push(`Violazione ${review.instrument ?? "strumento legale"}`, review.rationale ?? "");
     }
   }
 
   for (const fatal of analytical.fatalErrors ?? []) {
-    push(fatal.description, fatal.rationale);
+    if (!fatal) continue;
+    push(fatal.description ?? "Errore fatale", fatal.rationale ?? "");
   }
 
   return errors;
@@ -85,8 +95,10 @@ export function buildMacroAreaRationales(
       label: "Accuratezza Clinica",
       weightPercent: MACRO_AREA_WEIGHTS.clinicalDiagnostic * 100,
       scorePercent: scores.clinical,
-      contributionTrentesimi:
-        Math.round(((scores.clinical / 100) * MACRO_AREA_WEIGHTS.clinicalDiagnostic * 30) * 10) / 10,
+      contributionTrentesimi: dimensionContributionTrentesimi(
+        scores.clinical,
+        MACRO_AREA_WEIGHTS.clinicalDiagnostic,
+      ),
       rationale: mb
         ? `Deterministico: ${mb.clinical.goldStepsMet}/${mb.clinical.goldStepsExpected} step Gold Standard + ${mb.clinical.met} milestone clinici (${mb.clinical.ratePercent}%).`
         : `Accuratezza diagnostico-terapeutica: ${breakdown.clinical.final}/100.`,
@@ -95,28 +107,34 @@ export function buildMacroAreaRationales(
       label: "Sicurezza del Paziente",
       weightPercent: MACRO_AREA_WEIGHTS.legalCompliance * 100,
       scorePercent: scores.legal,
-      contributionTrentesimi:
-        Math.round(((scores.legal / 100) * MACRO_AREA_WEIGHTS.legalCompliance * 30) * 10) / 10,
+      contributionTrentesimi: dimensionContributionTrentesimi(
+        scores.legal,
+        MACRO_AREA_WEIGHTS.legalCompliance,
+      ),
       rationale: mb
         ? `Allergie/farmaci/parametri: ${mb.safety.met}/${mb.safety.expected} controlli (${mb.safety.vitalsMet ? "monitoraggio presente" : "monitoraggio assente"}).`
         : `Sicurezza paziente: ${breakdown.legal.final}/100.`,
     },
     {
-      label: "Appropriatezza Economica e Clinica",
-      weightPercent: MACRO_AREA_WEIGHTS.economicSustainability * 100,
+      label: "Appropriatezza Prescrittiva (Esami)",
+      weightPercent: MACRO_AREA_WEIGHTS.examAppropriateness * 100,
       scorePercent: scores.exams,
-      contributionTrentesimi:
-        Math.round(((scores.exams / 100) * MACRO_AREA_WEIGHTS.economicSustainability * 30) * 10) / 10,
+      contributionTrentesimi: dimensionContributionTrentesimi(
+        scores.exams,
+        MACRO_AREA_WEIGHTS.examAppropriateness,
+      ),
       rationale: mb
-        ? `Base 100% − ${mb.appropriateness.penaltyPercent}% (${mb.appropriateness.inappropriateCount} inappropriate + ${mb.appropriateness.tier3WithoutIndication} esami III livello senza indicazione). Budget €${breakdown.economy.budgetEuro} vs €${breakdown.economy.totalCostEuro.toFixed(2)}.`
-        : `Appropriatezza prescrittiva: ${breakdown.exams.final}/100.`,
+        ? `Base 100% − ${mb.appropriateness.penaltyPercent}% (${mb.appropriateness.inappropriateCount} inappropriate + ${mb.appropriateness.tier3WithoutIndication} esami III livello senza indicazione). Budget analitico €${breakdown.economy.budgetEuro} vs €${breakdown.economy.totalCostEuro.toFixed(2)} (economia = metrica radar, non peso /30).`
+        : `Appropriatezza prescrittiva (scores.exams): ${breakdown.exams.final}/100. Economia (scores.economy) esclusa dal voto /30.`,
     },
     {
       label: "Comunicazione ed Empatia",
       weightPercent: MACRO_AREA_WEIGHTS.empathy * 100,
       scorePercent: scores.empathy,
-      contributionTrentesimi:
-        Math.round(((scores.empathy / 100) * MACRO_AREA_WEIGHTS.empathy * 30) * 10) / 10,
+      contributionTrentesimi: dimensionContributionTrentesimi(
+        scores.empathy,
+        MACRO_AREA_WEIGHTS.empathy,
+      ),
       rationale: mb
         ? `Milestone empatici: ${mb.empathy.met}/${mb.empathy.expected} (rassicurazione, gestione stress).`
         : `Empatia: ${breakdown.empathy.metParameters}/${breakdown.empathy.totalParameters} parametri.`,
@@ -127,19 +145,30 @@ export function buildMacroAreaRationales(
 export function computeFinalTrentesimiWithKillerSwitch(
   scores: DimensionScores,
   fatalErrors: FatalError[],
-): { rawTotal: number; finalTotal: number; killerSwitchApplied: boolean; adjustedScores: DimensionScores } {
-  let adjustedScores = scores;
-  if (fatalErrors.length > 0) {
-    adjustedScores = { ...scores, legal: 0 };
-  }
+): {
+  rawTotal: number;
+  finalTotal: number;
+  killerSwitchApplied: boolean;
+  /** Scores used ONLY to compute the capped total — never overwrite persisted legal/empathy. */
+  adjustedScoresForTotal: DimensionScores;
+  /** Authentic dimension scores for SessionReport columns / UI radar. */
+  scoresForPersist: DimensionScores;
+} {
+  const scoresForPersist = { ...scores };
+  // Fatal clinical errors reduce the safety contribution in the TOTAL only.
+  // Persisting legal=0 made Tutela Medico-Legale look unevaluated even when chat had consent/docs.
+  const adjustedScoresForTotal =
+    fatalErrors.length > 0 ? { ...scores, legal: Math.min(scores.legal, 0) } : scores;
+
   const rawTotal = computeTotalScoreTrentesimi(scores);
-  const cappedRaw = computeTotalScoreTrentesimi(adjustedScores);
+  const cappedRaw = computeTotalScoreTrentesimi(adjustedScoresForTotal);
   const finalTotal = applyKillerSwitch(cappedRaw, fatalErrors);
   return {
     rawTotal,
     finalTotal,
     killerSwitchApplied: fatalErrors.length > 0 && finalTotal < rawTotal,
-    adjustedScores,
+    adjustedScoresForTotal,
+    scoresForPersist,
   };
 }
 

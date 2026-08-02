@@ -20,7 +20,7 @@ const DEMO_CASES = (userId: string): ClinicalCaseRow[] => [
   {
     id: "cs_001",
     title: "Uomo 58 anni con dolore toracico in PS",
-    specialty: "Emergenza",
+    specialty: "Medicina d'Emergenza-Urgenza",
     difficulty: "MEDIUM",
     createdById: "seed",
     isGlobal: true,
@@ -29,7 +29,7 @@ const DEMO_CASES = (userId: string): ClinicalCaseRow[] => [
   {
     id: "cs_002",
     title: "Donna 72 anni con febbre persistente",
-    specialty: "Medicina interna",
+    specialty: "Medicina Interna",
     difficulty: "EASY",
     createdById: userId,
     isGlobal: false,

@@ -7,51 +7,18 @@ import { SimulatorClient } from "@/components/simulator/SimulatorClient";
 import { LiveAequanClinicalWorkspace } from "@/components/aequan/LiveAequanClinicalWorkspace";
 import { getExamValuesCatalog, getCaseExamOverrides } from "@/lib/exam-values-service";
 import { EXAM_DEFAULT_VALUES } from "@/lib/exam-default-values";
-
-const FALLBACK_CASES: Record<
-  string,
-  {
-    id: string;
-    title: string;
-    description: string;
-    specialty: string | null;
-    difficulty: string;
-    estimatedDurationMinutes: number | null;
-    patientPrompt: string;
-  }
-> = {
-  cs_001: {
-    id: "cs_001",
-    title: "Dolore toracico in PS",
-    description:
-      "Dolore toracico acuto con sintomi associati. Focus su appropriatezza esami e sicurezza clinica.",
-    specialty: "Emergenza",
-    difficulty: "MEDIUM",
-    estimatedDurationMinutes: 15,
-    patientPrompt:
-      "Paziente con dolore toracico acuto e dispnea. Rispondi da paziente ansioso, evita diagnosi e valori vitali a voce.",
-  },
-  cs_002: {
-    id: "cs_002",
-    title: "Febbre persistente in paziente anziano",
-    description:
-      "Febbre e astenia persistenti. Focus su raccolta anamnesi e tutela medico-legale nella documentazione.",
-    specialty: "Medicina interna",
-    difficulty: "EASY",
-    estimatedDurationMinutes: 18,
-    patientPrompt:
-      "Paziente anziano con febbre persistente. Rispondi da paziente, non dare diagnosi, descrivi sintomi e preoccupazioni.",
-  },
-};
+import {
+  getFallbackCase,
+  toSimulatorFallbackPayload,
+} from "@/lib/cases/fallback-cases";
+import {
+  buildSimulatorCasePayload,
+  extractPatientPromptFromNode,
+} from "@/lib/cases/case-payload";
 
 type PlayPageProps = {
   params: Promise<{ id: string }> | { id: string };
   searchParams?: Promise<{ sessionId?: string }> | { sessionId?: string };
-};
-
-type CaseNodeContent = { casePrompt?: string };
-type CaseBaseline = {
-  demographics?: { age?: number | string | null; sex?: string | null; context?: string | null };
 };
 
 export default async function PrassiPlayPage(props: PlayPageProps) {
@@ -67,19 +34,22 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
   const sessionId = searchParams?.sessionId;
 
   if (!hasDatabase) {
-    const fallback = FALLBACK_CASES[idNormalized];
+    const fallback = getFallbackCase(idNormalized);
     if (fallback) {
+      const initialCaseData = toSimulatorFallbackPayload(fallback);
       return (
         <LiveAequanClinicalWorkspace
           caseMeta={{
             title: fallback.title,
             specialty: fallback.specialty,
+            patientAge: initialCaseData.demographics.age,
+            patientSex: initialCaseData.demographics.sex,
             caseId: fallback.id,
           }}
           backHref="/dashboard/prassi"
         >
           <SimulatorClient
-            initialCaseData={fallback}
+            initialCaseData={initialCaseData}
             sessionId={sessionId}
             isAdmin={false}
             persistReports={false}
@@ -108,6 +78,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     specialty: string | null;
     difficulty: string;
     estimatedDurationMinutes: number | null;
+    isActive: boolean;
     correctSolution: string | null;
     baselineExamFindings: unknown;
     timeLimitMinutes: number | null;
@@ -123,10 +94,36 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       include: { nodes: { orderBy: { order: "asc" }, take: 1 } },
     });
   } catch {
+    const fallback = getFallbackCase(idNormalized);
+    if (fallback) {
+      const initialCaseData = toSimulatorFallbackPayload(fallback);
+      return (
+        <LiveAequanClinicalWorkspace
+          caseMeta={{
+            title: fallback.title,
+            specialty: fallback.specialty,
+            patientAge: initialCaseData.demographics.age,
+            patientSex: initialCaseData.demographics.sex,
+            caseId: fallback.id,
+          }}
+          backHref="/dashboard/prassi"
+        >
+          <SimulatorClient
+            initialCaseData={initialCaseData}
+            sessionId={sessionId}
+            isAdmin={false}
+            persistReports={false}
+            examCatalog={EXAM_DEFAULT_VALUES}
+            embedded
+            backHref="/dashboard/prassi"
+          />
+        </LiveAequanClinicalWorkspace>
+      );
+    }
     return notFound();
   }
 
-  if (!caseData) {
+  if (!caseData || !caseData.isActive) {
     return notFound();
   }
 
@@ -152,17 +149,12 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
   }
 
   const firstNode = caseData.nodes[0];
-  const basePatientPrompt =
-    ((firstNode?.content as CaseNodeContent | null | undefined)?.casePrompt) ??
-    "Paziente in simulazione. Rispondi come paziente, senza diagnosi e senza valori vitali a voce.";
-  const baseline = (caseData.baselineExamFindings as CaseBaseline | null | undefined) ?? {};
-  const demographics = baseline.demographics ?? {};
-
+  const basePatientPrompt = extractPatientPromptFromNode(firstNode?.content);
   const isVariant = Boolean(session?.isVariant);
   const effectivePrompt =
     isVariant && session?.variantPrompt ? session.variantPrompt : basePatientPrompt;
 
-  const initialCaseData = {
+  const initialCaseData = buildSimulatorCasePayload({
     id: caseData.id,
     title: caseData.title,
     description: caseData.description,
@@ -170,27 +162,20 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     difficulty: caseData.difficulty,
     estimatedDurationMinutes: caseData.estimatedDurationMinutes ?? null,
     patientPrompt: effectivePrompt,
-    // Gold answer stays server-side only (Art. 32 / anti-cheat).
-    correctSolution: null,
-    demographics: {
-      age: demographics.age ?? null,
-      sex: demographics.sex ?? null,
-      context: demographics.context ?? null,
-    },
-    baselineExamFindings: baseline as Record<string, unknown>,
+    baselineExamFindings: caseData.baselineExamFindings,
     timeLimitMinutes: caseData.timeLimitMinutes ?? null,
-    examLatencies: (caseData.examLatencies as Record<string, number> | null) ?? null,
-    goldStandardPath: (caseData.goldStandardPath as string[] | null) ?? null,
+    examLatencies: caseData.examLatencies,
+    goldStandardPath: caseData.goldStandardPath,
     patientDeteriorationThreshold: caseData.patientDeteriorationThreshold ?? null,
-  };
+  });
 
   return (
     <LiveAequanClinicalWorkspace
       caseMeta={{
         title: caseData.title,
         specialty: caseData.specialty,
-        patientAge: demographics.age ?? null,
-        patientSex: demographics.sex ?? null,
+        patientAge: initialCaseData.demographics.age,
+        patientSex: initialCaseData.demographics.sex,
         caseId: caseData.id,
       }}
       backHref="/dashboard/prassi"

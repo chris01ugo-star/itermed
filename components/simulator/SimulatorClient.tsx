@@ -39,6 +39,10 @@ import { cn } from "@/app/utils/cn";
 import { Badge } from "../../app/ui/badge";
 import { AiTransparencyBadge } from "@/components/legal/AiTransparencyBadge";
 import { ClinicalSimulationDisclaimer } from "@/components/legal/ClinicalSimulationDisclaimer";
+import { OnboardingTutorialModal } from "@/components/simulator/OnboardingTutorialModal";
+import {
+  readTutorialCompleted,
+} from "@/lib/simulator/onboarding-storage";
 import { PhysicalExamTab } from "./PhysicalExamTab";
 import { PatientStressBar } from "./PatientStressBar";
 import { SafeLlmText } from "@/components/ui/safe-llm-content";
@@ -65,6 +69,7 @@ import { ScoreProgressRing } from "@/app/case/[id]/results/ScoreProgressRing";
 import { deriveDemoVitals, patientDisplayName } from "@/lib/prassi/demo-vitals";
 import { classifyVitals, maxVitalStatus } from "@/lib/clinical/vital-status";
 import { resolveCaseStressProfile } from "@/lib/simulator/patient-stress-engine";
+import { estimateLiveCoaching } from "@/lib/simulator/live-coaching-estimate";
 import { EXAM_DEFAULT_VALUES, type ExamClinicalMeta } from "../../lib/exam-default-values";
 import { EXAM_CATALOG_STRUCTURE } from "@/lib/exam-catalog-structure";
 import {
@@ -346,6 +351,10 @@ export function SimulatorClient({
   const router = useRouter();
 
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
+  const [tutorialOpen, setTutorialOpen] = useState(false);
+  const [tutorialHydrated, setTutorialHydrated] = useState(false);
+  const [showInactivityNudge, setShowInactivityNudge] = useState(false);
+  const lastActivityAtRef = useRef<number>(Date.now());
   const [activeTab, setActiveTab] = useState<"history" | "exam" | "labs" | "imaging" | "notes">(
     "history",
   );
@@ -409,6 +418,23 @@ export function SimulatorClient({
   useEffect(() => {
     patientStressRef.current = patientStress;
   }, [patientStress]);
+
+  // SSR-safe: read tutorial completion only after mount.
+  useEffect(() => {
+    setTutorialHydrated(true);
+  }, []);
+
+  // First-run tutorial — only after disclaimer acceptance + hydrated localStorage check.
+  useEffect(() => {
+    if (!tutorialHydrated || !disclaimerAccepted) return;
+    if (readTutorialCompleted()) return;
+    setTutorialOpen(true);
+  }, [tutorialHydrated, disclaimerAccepted]);
+
+  const markUserActivity = useCallback(() => {
+    lastActivityAtRef.current = Date.now();
+    setShowInactivityNudge(false);
+  }, []);
 
   // Apply case baseline stress once (e.g. STEMI seed initialStress: 75).
   useEffect(() => {
@@ -556,6 +582,29 @@ export function SimulatorClient({
       });
     },
   });
+
+  // Inactivity nudge: 120s without chat messages or exam requests while playing.
+  const userMessageCount = useMemo(
+    () => messages.filter((m) => m.role === "user").length,
+    [messages],
+  );
+
+  useEffect(() => {
+    markUserActivity();
+  }, [userMessageCount, selectedExamIds.length, markUserActivity]);
+
+  useEffect(() => {
+    if (!disclaimerAccepted || gameStatus !== "playing" || isPaused || tutorialOpen) {
+      setShowInactivityNudge(false);
+      return;
+    }
+    const id = window.setInterval(() => {
+      if (Date.now() - lastActivityAtRef.current >= 120_000) {
+        setShowInactivityNudge(true);
+      }
+    }, 5_000);
+    return () => window.clearInterval(id);
+  }, [disclaimerAccepted, gameStatus, isPaused, tutorialOpen]);
 
   const ensureSessionId = async (): Promise<string | null> => {
     if (effectiveSessionId) return effectiveSessionId;
@@ -942,55 +991,35 @@ export function SimulatorClient({
   ]);
 
   const liveCoaching = useMemo(() => {
-    const chatTurns = messages.filter((m) => m.role === "user").length;
-    const examCount = selectedExamIds.length;
-    const appropriateness = Math.max(20, Math.min(95, 55 + chatTurns * 6 - Math.max(0, examCount - 3) * 8));
-    const objectiveExam = activeTab === "exam" || Object.keys(examFindings).length > 0 ? 72 : 38;
-    const timeMgmt = Math.max(25, Math.min(92, 88 - Math.floor(elapsedSeconds / 45)));
-    const completeness = Math.max(
-      15,
-      Math.min(90, chatTurns * 12 + examCount * 8 + (reportSections.anamnesisObjective ? 15 : 0)),
-    );
-    const score = Math.round((appropriateness + objectiveExam + timeMgmt + completeness) / 4);
-    const vitals = classifyVitals(deriveDemoVitals(initialCaseData.id, patientStress));
-    const unstable = maxVitalStatus(vitals.map((v) => v.status)) !== "stable";
-    return {
-      score,
-      metrics: [
-        { label: "Appropriatezza anamnesi", value: appropriateness, tone: "good" as const },
-        {
-          label: "Esame obiettivo",
-          value: objectiveExam,
-          tone: (objectiveExam >= 60 ? "good" : "warn") as "good" | "warn",
-        },
-        {
-          label: "Gestione tempo",
-          value: timeMgmt,
-          tone: (timeMgmt >= 60 ? "good" : "warn") as "good" | "warn",
-        },
-        {
-          label: "Completezza dati",
-          value: completeness,
-          tone: (completeness >= 55 ? "good" : "warn") as "good" | "warn",
-        },
-      ],
-      tip: unstable
-        ? "Paziente instabile: valuta subito ABC e saturazione prima di approfondire l’anamnesi."
-        : chatTurns < 2
-          ? "Inizia con un’anamnesi mirata sul motivo di accesso e i fattori di rischio."
-          : examCount === 0
-            ? "Considera gli esami di primo livello solo dopo aver raccolto i dati clinici essenziali."
-            : "Documenta i reperti chiave nella cartella prima di formulare la diagnosi.",
-    };
+    const userMessages = messages
+      .filter((m) => m.role === "user")
+      .map((m) => getChatMessageText(m))
+      .filter((text) => text.trim().length > 0);
+    const chatTurns = userMessages.length;
+    const hasUserInteracted =
+      chatTurns > 0 || selectedExamIds.length > 0 || Object.keys(examFindings).length > 0;
+    const vitals = deriveDemoVitals(initialCaseData.id, patientStress);
+    return estimateLiveCoaching({
+      userMessages,
+      selectedExamIds,
+      examFindingIds: Object.keys(examFindings),
+      hasObjectiveExamActivity:
+        activeTab === "exam" || Object.keys(examFindings).length > 0,
+      hasAnamnesisDraft: Boolean(reportSections.anamnesisObjective.trim()),
+      patientStress,
+      vitals,
+      goldStandardPath: initialCaseData.goldStandardPath,
+      hasUserInteracted,
+    });
   }, [
     activeTab,
-    elapsedSeconds,
     examFindings,
+    initialCaseData.goldStandardPath,
     initialCaseData.id,
     messages,
     patientStress,
     reportSections.anamnesisObjective,
-    selectedExamIds.length,
+    selectedExamIds,
   ]);
 
   const handleExamFinding = (payload: {
@@ -1012,6 +1041,7 @@ export function SimulatorClient({
   };
 
   const toggleExam = (examId: string) => {
+    markUserActivity();
     setSelectedExamIds((current) => {
       if (current.includes(examId)) {
         return current;
@@ -1322,7 +1352,7 @@ export function SimulatorClient({
                     ? patient.context.trim()
                     : "Ospedale San Carlo"}
                 </p>
-                <span className="inline-flex shrink-0 items-center rounded-md bg-slate-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+              <span className="inline-flex shrink-0 items-center rounded-md bg-[#345884]/10 px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#345884]">
                   Pronto Soccorso
                 </span>
               </div>
@@ -1333,11 +1363,11 @@ export function SimulatorClient({
             </div>
 
             <div className="flex shrink-0 items-center justify-center gap-2.5 justify-self-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-slate-500 shadow-sm">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-[#345884] shadow-sm">
                 <Clock className="h-4 w-4" strokeWidth={1.75} />
               </span>
               <div className="leading-tight">
-                <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
+                <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
                   Tempo simulazione
                 </p>
                 <p className="text-base font-bold tabular-nums text-slate-900">
@@ -1452,9 +1482,23 @@ export function SimulatorClient({
                   )}
                 </div>
               </div>
-              <div className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-border bg-panel-bg px-3 py-1.5 text-xs text-slate-600 shadow-sm">
-                <Activity className="h-3.5 w-3.5 text-brand-secondary" />
-                <span>Sessione in corso</span>
+              <div className="inline-flex shrink-0 items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    markUserActivity();
+                    setIsHelpOpen(true);
+                  }}
+                  aria-label="Aiuto"
+                  title="Aiuto"
+                  className="inline-flex items-center justify-center rounded-xl border border-border bg-panel-bg p-2 text-slate-500 shadow-sm transition hover:bg-ui-bg hover:text-[#345884]"
+                >
+                  <HelpCircle className="h-4 w-4" strokeWidth={1.75} />
+                </button>
+                <div className="inline-flex items-center gap-2 rounded-xl border border-border bg-panel-bg px-3 py-1.5 text-xs text-slate-600 shadow-sm">
+                  <Activity className="h-3.5 w-3.5 text-brand-secondary" />
+                  <span>Sessione in corso</span>
+                </div>
               </div>
             </header>
           </>
@@ -1473,10 +1517,13 @@ export function SimulatorClient({
               id="aequan-sim-chat"
               className="col-span-1 flex min-w-0 flex-col gap-3 lg:col-span-8"
             >
-              <div className="flex w-full min-w-0 flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
+              <div className="flex w-full min-w-0 flex-col gap-3 rounded-xl border border-slate-200 bg-slate-50 px-5 py-4">
                 <div className="flex min-w-0 items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <h1 className="truncate font-display text-base font-bold tracking-tight text-slate-800 sm:text-lg">
+                    <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                      Caso clinico attivo
+                    </p>
+                    <h1 className="mt-0.5 truncate font-display text-base font-bold tracking-tight text-[#345884] sm:text-lg">
                       {initialCaseData.title}
                     </h1>
                     <p className="mt-1 truncate text-xs text-slate-500">
@@ -1492,33 +1539,13 @@ export function SimulatorClient({
                       (v) => v.status,
                     ),
                   ) !== "stable" ? (
-                    <span
-                      className="inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wide"
-                      style={{
-                        backgroundColor: PRASSI_TONE.blush.fill,
-                        color: PRASSI_TONE.blush.accent,
-                        border: `1px solid ${PRASSI_TONE.blush.border}`,
-                      }}
-                    >
-                      <span
-                        className="h-1.5 w-1.5 animate-pulse rounded-full"
-                        style={{ backgroundColor: PRASSI_TONE.blush.accent }}
-                      />
+                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-red-500/40 bg-red-500/10 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-red-600">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
                       Paziente instabile
                     </span>
                   ) : (
-                    <span
-                      className="inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wide"
-                      style={{
-                        backgroundColor: PRASSI_TONE.mint.fill,
-                        color: PRASSI_TONE.mint.accent,
-                        border: `1px solid ${PRASSI_TONE.mint.border}`,
-                      }}
-                    >
-                      <span
-                        className="h-1.5 w-1.5 rounded-full"
-                        style={{ backgroundColor: PRASSI_TONE.mint.accent }}
-                      />
+                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#345884]" />
                       Stabile
                     </span>
                   )}
@@ -1544,13 +1571,20 @@ export function SimulatorClient({
               />
 
               <div className="grid min-h-0 grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_20rem]">
-                <div className="flex h-[min(26rem,55vh)] min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                  <div className="flex shrink-0 flex-col gap-2 border-b border-slate-100 px-4 py-3">
+                <div className="flex h-[min(26rem,55vh)] min-h-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white">
+                  <div className="flex shrink-0 flex-col gap-2 border-b border-slate-100 bg-slate-50 px-4 py-3">
                     <div className="flex items-center gap-2.5">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#EEF2F9] text-[#345884]">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[#345884]/10 text-[#345884]">
                         <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
                       </span>
-                      <p className="text-sm font-semibold text-slate-800">Dialogo con il paziente</p>
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                          Dialogo clinico
+                        </p>
+                        <p className="text-sm font-semibold text-slate-900">
+                          Anamnesi con il paziente
+                        </p>
+                      </div>
                     </div>
                     <AiTransparencyBadge variant="workspace" />
                   </div>
@@ -1566,6 +1600,7 @@ export function SimulatorClient({
                       isLoading={isChatLoading}
                       compact
                       fill
+                      showInactivityNudge={showInactivityNudge}
                     />
                   </div>
                 </div>
@@ -1675,6 +1710,7 @@ export function SimulatorClient({
                       }}
                       isLoading={isChatLoading}
                       compact={embedded}
+                      showInactivityNudge={showInactivityNudge}
                     />
                   </TabsContent>
                   <TabsContent value="exam" currentValue={activeTab} className="mt-3 w-full min-w-0">
@@ -1861,9 +1897,12 @@ export function SimulatorClient({
                   </CardContent>
                 </Card>
                 <LiveCoachingPanel
-                  score={liveCoaching.score}
+                  scorePercent={liveCoaching.scorePercent}
+                  scoreTrentesimi={liveCoaching.scoreTrentesimi}
+                  isBaseline={liveCoaching.isBaseline}
                   metrics={liveCoaching.metrics}
                   tip={liveCoaching.tip}
+                  unstable={liveCoaching.unstable}
                 />
                 <SessionEventTimeline events={sessionTimelineEvents} compact />
               </>
@@ -1900,34 +1939,36 @@ export function SimulatorClient({
                 )}
               </section>
 
-              <div className="rounded-xl border border-[#345884]/10 bg-[#345884]/5 p-3.5">
+              <div className="rounded-xl border border-[#345884]/15 bg-slate-50 p-3.5">
                 <div className="mb-2 flex items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#345884]">
-                    <EuroIcon className="h-3.5 w-3.5" />
+                  <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                    <EuroIcon className="h-3.5 w-3.5 text-[#345884]" />
                     Costo SSN
                   </span>
-                  <span className="text-[10px] text-slate-500">Budget rif. €250</span>
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
+                    Budget rif. €250
+                  </span>
                 </div>
-                <p className="font-mono text-base font-semibold tracking-tight text-[#1E324E]">
+                <p className="font-mono text-base font-semibold tracking-tight text-[#345884]">
                   Costo Appropriato: €{totalCost.toFixed(2)}
                 </p>
-                <div className="mt-2.5 h-2 w-full overflow-hidden rounded-full bg-white/80 shadow-inner">
+                <div className="mt-2.5 h-2 w-full overflow-hidden rounded-sm bg-white">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#1E324E] to-[#345884] transition-all duration-500"
+                    className="h-full rounded-sm bg-[#345884] transition-all duration-500"
                     style={{ width: `${Math.min(100, (totalCost / 250) * 100)}%` }}
                   />
                 </div>
-                <p className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-slate-500">
+                <p className="mt-2 inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
                   <Clock className="h-3.5 w-3.5" />
-                  Tempo sessione:{" "}
-                  <span className="font-mono font-semibold tabular-nums text-slate-700">
+                  Tempo simulazione{" "}
+                  <span className="font-semibold tabular-nums normal-case tracking-normal text-slate-700">
                     {formatElapsedClock(elapsedSeconds)}
                   </span>
                 </p>
               </div>
 
               <div>
-                <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                <p className="mb-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
                   Stress paziente
                 </p>
                 <PatientStressBar value={patientStress} />
@@ -2163,7 +2204,10 @@ export function SimulatorClient({
               <span className="mx-0.5 hidden h-4 w-px bg-slate-200 sm:block" aria-hidden />
               <button
                 type="button"
-                onClick={() => setIsHelpOpen(true)}
+                onClick={() => {
+                  markUserActivity();
+                  setIsHelpOpen(true);
+                }}
                 aria-label="Aiuto"
                 title="Aiuto"
                 className="inline-flex items-center justify-center rounded-md p-1.5 text-slate-500 transition hover:bg-slate-50 hover:text-[#345884]"
@@ -2488,7 +2532,10 @@ export function SimulatorClient({
               size="sm"
               variant="secondary"
               className="rounded-xl text-xs"
-              onClick={() => setDisclaimerAccepted(true)}
+              onClick={() => {
+                setDisclaimerAccepted(true);
+                markUserActivity();
+              }}
             >
               Accetto e desidero procedere
             </Button>
@@ -2519,13 +2566,33 @@ export function SimulatorClient({
               </ul>
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
+          <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => {
+                markUserActivity();
+                setIsHelpOpen(false);
+                setTutorialOpen(true);
+              }}
+            >
+              Rivedi Tutorial
+            </Button>
             <Button type="button" size="sm" onClick={() => setIsHelpOpen(false)}>
               Ho capito
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <OnboardingTutorialModal
+        open={tutorialOpen}
+        onComplete={() => {
+          setTutorialOpen(false);
+          markUserActivity();
+        }}
+      />
     </div>
   );
 }
@@ -2569,6 +2636,8 @@ type HistoryChatProps = {
   compact?: boolean;
   /** Stretch to fill the parent container height instead of a fixed px height. */
   fill?: boolean;
+  /** Soft tip when the clinician has been idle too long. */
+  showInactivityNudge?: boolean;
 };
 
 const CHAT_SUGGESTED_PROMPTS = [
@@ -2588,6 +2657,7 @@ function HistoryChat({
   isLoading,
   compact = false,
   fill = false,
+  showInactivityNudge = false,
 }: HistoryChatProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -2708,6 +2778,18 @@ function HistoryChat({
         ) : null}
       </div>
       <form ref={formRef} onSubmit={onSubmit} className="mt-1 shrink-0 space-y-1.5">
+        {showInactivityNudge ? (
+          <div
+            role="status"
+            className="animate-in fade-in slide-in-from-bottom-1 flex items-start gap-2 rounded-full border border-amber-200/80 bg-amber-50 px-3 py-2 text-[11px] leading-snug text-amber-950 shadow-sm duration-300"
+          >
+            <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-600" strokeWidth={1.75} />
+            <p>
+              Ti sei bloccato? Prova a chiedere al paziente da quanto tempo ha i sintomi o consulta
+              il pannello delle opzioni.
+            </p>
+          </div>
+        ) : null}
         {onSuggestedPrompt && !alreadySentConsent ? (
           <div className="flex flex-wrap gap-1.5 px-0.5">
             {CHAT_SUGGESTED_PROMPTS.map((prompt) => (
