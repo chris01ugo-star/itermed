@@ -902,14 +902,6 @@ export function SimulatorClient({
     id: `CASE-${String(initialCaseData.id ?? "").slice(0, 6).toUpperCase() || "DEMO"}`,
   };
 
-  const processStep = useMemo(() => {
-    if (gameStatus !== "playing" || isClinicalReportComplete(reportSections)) return 6;
-    if (selectedExamIds.length > 0 || Object.keys(examFindings).length > 0) return 4;
-    if (activeTab === "exam") return 3;
-    if (messages.some((m) => m.role === "user")) return 2;
-    return 1;
-  }, [activeTab, examFindings, gameStatus, messages, reportSections, selectedExamIds.length]);
-
   const liveCoaching = useMemo(() => {
     const userMessages = messages
       .filter((m) => m.role === "user")
