@@ -12,6 +12,7 @@ import type {
   LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
+import type { EmpathyBehavioralBreakdown } from "@/lib/services/evaluation-scoring";
 import { AequanLogo } from "@/components/AequanLogo";
 import { EliteResultsClient } from "./EliteResultsClient";
 
@@ -40,6 +41,8 @@ type SessionTrace = {
   killerSwitch?: KillerSwitchTrace;
   /** Top-level fatal errors from detectFatalErrors (description + rationale). */
   fatalErrors?: FatalError[];
+  empathyBreakdown?: EmpathyBehavioralBreakdown | null;
+  scoreBreakdown?: { empathy?: EmpathyBehavioralBreakdown };
 };
 
 function normalizeFatalErrorsForUi(
@@ -128,6 +131,7 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
           legalSources={trace.evidence?.legalSources ?? []}
           killerSwitch={killerSwitch}
           fatalErrors={fatalErrors}
+          empathyBreakdown={trace.empathyBreakdown ?? trace.scoreBreakdown?.empathy ?? null}
         />
       </div>
     </div>

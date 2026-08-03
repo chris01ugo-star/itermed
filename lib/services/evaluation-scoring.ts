@@ -53,6 +53,20 @@ export type DimensionScores = {
   empathy: number;
 };
 
+/** Behavioral empathy audit trail persisted in scoreBreakdown / report UI. */
+export type EmpathyBehavioralBreakdown = {
+  baseline: number;
+  validationBonus: number;
+  transparencyBonus: number;
+  allianceBonus: number;
+  dismissalPenalty: number;
+  finalScore: number;
+  final: number;
+  qualitativeLabel: string;
+  totalParameters?: number;
+  metParameters?: number;
+};
+
 export type ScoreBreakdown = {
   clinical: {
     base: number;
@@ -87,12 +101,17 @@ export type ScoreBreakdown = {
     /** True when legal dimension is not verifiable — neutral score applied. */
     unevaluable?: boolean;
   };
-  empathy: {
-    totalParameters: number;
-    metParameters: number;
-    final: number;
-  };
+  empathy: EmpathyBehavioralBreakdown;
 };
+
+/**
+ * Clinical behavioral psychology — professional communication starts at 60/100.
+ * Bonuses for validation / transparency / alliance; penalties only for explicit harm.
+ */
+export const EMPATHY_PROFESSIONAL_BASELINE = 60;
+
+/** @deprecated Use EMPATHY_PROFESSIONAL_BASELINE (behavioral model). */
+export const EMPATHY_EMPTY_CHECKLIST_BASELINE = EMPATHY_PROFESSIONAL_BASELINE;
 
 const DEFAULT_BUDGET_BY_DIFFICULTY: Record<CaseDifficulty, number> = {
   EASY: 250,
@@ -338,39 +357,198 @@ export function computeLegalComplianceScore(
 }
 
 /**
- * Neutral empathy when the LLM returns an empty checklist (schema soft-fail / truncation).
- * Never treat "no checklist" as proven zero empathy — that erased real chat interactions.
+ * Empathy evaluation — clinical behavioral psychology model.
+ * @see computeBehavioralEmpathyScore
  */
-export const EMPATHY_EMPTY_CHECKLIST_BASELINE = 45;
 
-/** Empatia: (parametri soddisfatti / totali) × 100. */
-export function computeEmpathyScore(checklist: EmpathyChecklistItem[]): {
-  score: number;
-  breakdown: ScoreBreakdown["empathy"];
-} {
-  const safe = Array.isArray(checklist) ? checklist : [];
-  if (safe.length === 0) {
-    return {
-      score: EMPATHY_EMPTY_CHECKLIST_BASELINE,
-      breakdown: {
-        totalParameters: 0,
-        metParameters: 0,
-        final: EMPATHY_EMPTY_CHECKLIST_BASELINE,
-      },
-    };
+const VALIDATION_RE =
+  /capisco|comprendo|mi dispiace|la sua ansia|preoccupat[oaie]?|paura|angoscia|disagio|è normale sentirsi|riconosco (che|il)|dev['’]?essere difficil|come si sente|il suo stress|la capisco|la rassicuro|non è sola|non è solo/i;
+
+const TRANSPARENCY_RE =
+  /le spiego|in parole semplic|significa che|cioè\b|in pratica|faremo (un |una )?|l['’]esame serve|serve a|senza (dolore|rischi?o)|per capire meglio|le dico|passo dopo passo|in termini semplici|le racconto (cosa|come)/i;
+
+const ALLIANCE_RE =
+  /ha domande|domande\s*\?|stia tranquillo|stia seren|ora (facciamo|procediamo|vediamo)|insieme (a lei|facciamo)|d['’]accordo\s*\?|mi segue|si senta liber|posso (aiutarla|rispondere)|la accompagno|procediamo insieme/i;
+
+const BRUSQUE_RE =
+  /\b(faccia subito|deve stare zitt|non c['’]è tempo|sbrighi?ati|solo s[iì] o no|non interrompa|basta cos[iì]|non mi interessa)\b|!{2,}/i;
+
+const UNEXPLAINED_JARGON_RE =
+  /\b(STEMI|NSTEMI|troponina(?:-hs)?|emogasanalisi|emogas|ECG|TC\b|TAC\b|RMN|fibrinolisi|PCI|SpO₂|SpO2|PAS|PAD|GCS|shock\s+ipovol)\b/i;
+
+const PATIENT_ANXIETY_RE =
+  /paura|ansios[oa]|ansia|preoccupat[oa]|ho paura|non ce la faccio|sto malissimo|aiuto|terrorizzat|agitato|mi sento male|ho paura di/i;
+
+function scaledBonus(hitCount: number, minBonus: number, maxBonus: number): number {
+  if (hitCount <= 0) return 0;
+  if (hitCount === 1) return minBonus;
+  if (hitCount === 2) return Math.round((minBonus + maxBonus) / 2);
+  return maxBonus;
+}
+
+export function qualitativeEmpathyLabel(breakdown: {
+  finalScore: number;
+  validationBonus: number;
+  transparencyBonus: number;
+  allianceBonus: number;
+  dismissalPenalty: number;
+}): string {
+  const { finalScore, validationBonus, transparencyBonus, allianceBonus, dismissalPenalty } =
+    breakdown;
+
+  if (dismissalPenalty >= 25 && finalScore < 60) {
+    return "Comunicazione a rischio — tono brusco o disattenzione all'ansia";
+  }
+  if (finalScore >= 85 && allianceBonus >= 10 && validationBonus >= 10) {
+    return "Eccellente alleanza terapeutica e validazione emotiva";
+  }
+  if (finalScore >= 75 && allianceBonus >= 10) {
+    return "Buona alleanza terapeutica";
+  }
+  if (finalScore >= 70 && transparencyBonus >= 10 && validationBonus < 10) {
+    return "Comunicazione tecnica ma rispettosa";
+  }
+  if (finalScore >= 60) {
+    return "Comunicazione professionale corretta";
+  }
+  if (finalScore >= 45) {
+    return "Empatia insufficiente — gap di validazione o trasparenza";
+  }
+  return "Comunicazione a rischio — tono brusco o disattenzione all'ansia";
+}
+
+/**
+ * Behavioral empathy from doctor↔patient chat turns.
+ * Baseline 60; bonuses for validation/transparency/alliance; penalties only on explicit harm.
+ * Without negative behaviors, score never falls below 60.
+ */
+export function computeBehavioralEmpathyScore(params: {
+  chatHistory?: Array<{ role: string; content: string }> | null;
+  /** Optional LLM checklist — telemetry only, does not drive the score. */
+  empathyChecklist?: EmpathyChecklistItem[] | null;
+}): { score: number; breakdown: EmpathyBehavioralBreakdown } {
+  const chat = Array.isArray(params.chatHistory) ? params.chatHistory : [];
+  const doctorTurns = chat
+    .filter((m) => m.role === "user" && typeof m.content === "string")
+    .map((m) => m.content.trim())
+    .filter(Boolean);
+  const patientTurns = chat
+    .filter((m) => m.role === "assistant" && typeof m.content === "string")
+    .map((m) => m.content.trim())
+    .filter(Boolean);
+
+  let validationHits = 0;
+  let transparencyHits = 0;
+  let allianceHits = 0;
+  let brusqueHits = 0;
+  let jargonHits = 0;
+
+  for (const turn of doctorTurns) {
+    if (VALIDATION_RE.test(turn)) validationHits += 1;
+    if (TRANSPARENCY_RE.test(turn)) transparencyHits += 1;
+    if (ALLIANCE_RE.test(turn)) allianceHits += 1;
+    if (BRUSQUE_RE.test(turn)) brusqueHits += 1;
+    if (UNEXPLAINED_JARGON_RE.test(turn) && !TRANSPARENCY_RE.test(turn)) {
+      jargonHits += 1;
+    }
   }
 
-  const metParameters = safe.filter((item) => item.met).length;
-  const final = clampScore((metParameters / safe.length) * 100);
+  const validationBonus = scaledBonus(validationHits, 10, 20);
+  const transparencyBonus = scaledBonus(transparencyHits, 10, 20);
+  const allianceBonus = allianceHits > 0 ? 10 : 0;
 
-  return {
-    score: final,
-    breakdown: {
-      totalParameters: safe.length,
-      metParameters,
-      final,
-    },
+  let dismissalPenalty = 0;
+  // Disattenzione all'ansia espressa dal paziente (−15, once).
+  let anxietyIgnored = false;
+  for (let i = 0; i < chat.length - 1; i += 1) {
+    const cur = chat[i];
+    const next = chat[i + 1];
+    if (
+      cur?.role === "assistant" &&
+      next?.role === "user" &&
+      PATIENT_ANXIETY_RE.test(cur.content) &&
+      !VALIDATION_RE.test(next.content) &&
+      !ALLIANCE_RE.test(next.content)
+    ) {
+      anxietyIgnored = true;
+      break;
+    }
+  }
+  if (!anxietyIgnored) {
+    const lastAnxietyIdx = [...patientTurns.keys()]
+      .reverse()
+      .find((idx) => PATIENT_ANXIETY_RE.test(patientTurns[idx] ?? ""));
+    if (typeof lastAnxietyIdx === "number") {
+      let patientSeen = -1;
+      for (let i = 0; i < chat.length; i += 1) {
+        if (chat[i]?.role !== "assistant") continue;
+        patientSeen += 1;
+        if (patientSeen !== lastAnxietyIdx) continue;
+        const laterDoctor = chat
+          .slice(i + 1)
+          .filter((m) => m.role === "user")
+          .map((m) => m.content);
+        if (
+          laterDoctor.length > 0 &&
+          !laterDoctor.some((t) => VALIDATION_RE.test(t) || ALLIANCE_RE.test(t))
+        ) {
+          anxietyIgnored = true;
+        }
+        break;
+      }
+    }
+  }
+  if (anxietyIgnored) dismissalPenalty += 15;
+  if (brusqueHits > 0) dismissalPenalty += 25;
+  if (jargonHits > 0) dismissalPenalty += 15;
+
+  const raw =
+    EMPATHY_PROFESSIONAL_BASELINE +
+    validationBonus +
+    transparencyBonus +
+    allianceBonus -
+    dismissalPenalty;
+
+  // Floor at baseline when no explicit negative behaviors.
+  const floored = dismissalPenalty === 0 ? Math.max(EMPATHY_PROFESSIONAL_BASELINE, raw) : raw;
+  const finalScore = clampScore(floored);
+
+  const checklist = Array.isArray(params.empathyChecklist) ? params.empathyChecklist : [];
+  const metParameters = checklist.filter((item) => item.met).length;
+
+  const partial = {
+    finalScore,
+    validationBonus,
+    transparencyBonus,
+    allianceBonus,
+    dismissalPenalty,
   };
+
+  const breakdown: EmpathyBehavioralBreakdown = {
+    baseline: EMPATHY_PROFESSIONAL_BASELINE,
+    validationBonus,
+    transparencyBonus,
+    allianceBonus,
+    dismissalPenalty,
+    finalScore,
+    final: finalScore,
+    qualitativeLabel: qualitativeEmpathyLabel(partial),
+    totalParameters: checklist.length,
+    metParameters,
+  };
+
+  return { score: finalScore, breakdown };
+}
+
+/**
+ * @deprecated Prefer computeBehavioralEmpathyScore with chatHistory.
+ * Checklist-only path returns the professional baseline (60).
+ */
+export function computeEmpathyScore(checklist: EmpathyChecklistItem[]): {
+  score: number;
+  breakdown: EmpathyBehavioralBreakdown;
+} {
+  return computeBehavioralEmpathyScore({ empathyChecklist: checklist, chatHistory: [] });
 }
 
 export function deriveDimensionScores(params: {
@@ -380,6 +558,8 @@ export function deriveDimensionScores(params: {
   legalInstrumentReviews: LegalInstrumentReview[];
   totalCostEuro: number;
   budgetEuro: number;
+  /** Doctor↔patient transcript for behavioral empathy scoring. */
+  chatHistory?: Array<{ role: string; content: string }> | null;
   /** When false, legal score soft-fails to a neutral value (never 100). */
   hasLegalContext?: boolean;
   /** Number of accepted RAG legal source titles (0 ⇒ soft-fail). */
@@ -392,7 +572,10 @@ export function deriveDimensionScores(params: {
     hasLegalContext: params.hasLegalContext,
     ragSourcesCount: params.ragSourcesCount,
   });
-  const empathy = computeEmpathyScore(params.empathyChecklist);
+  const empathy = computeBehavioralEmpathyScore({
+    chatHistory: params.chatHistory,
+    empathyChecklist: params.empathyChecklist,
+  });
 
   return {
     scores: {

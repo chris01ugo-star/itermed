@@ -288,6 +288,8 @@ export function buildDeterministicEvaluation(
     ragSourcesCount?: number;
     sessionMilestones?: SessionMilestoneSnapshot[];
     goldStandardPath?: string[];
+    /** Doctor↔patient transcript for behavioral empathy. */
+    chatHistory?: ChatMessage[];
   },
 ): Pick<
   EvaluationResult,
@@ -307,6 +309,7 @@ export function buildDeterministicEvaluation(
     budgetEuro: params.examBudgetEuro,
     hasLegalContext: params.hasLegalContext,
     ragSourcesCount: params.ragSourcesCount,
+    chatHistory: params.chatHistory,
   });
 
   const milestones = params.sessionMilestones ?? [];
@@ -315,6 +318,7 @@ export function buildDeterministicEvaluation(
 
   // Blend deterministic milestone evidence so real chat/exam events cannot be erased by a sparse LLM checklist.
   // Soft-fail / empty-checklist neutrals must not be crushed toward milestone zeros (Math.max floor).
+  // Empathy is scored exclusively by the behavioral chat model — do not blend with milestones.
   if (milestones.length > 0) {
     const milestoneDerived = deriveMilestoneDimensionScores({
       milestones,
@@ -339,7 +343,6 @@ export function buildDeterministicEvaluation(
     };
 
     const legalUnevaluable = checklistBreakdown.legal.unevaluable === true;
-    const empathyEmptyChecklist = checklistBreakdown.empathy.totalParameters === 0;
 
     scores = {
       clinical: blend(checklistScores.clinical, milestoneDerived.scores.clinical, 0.4),
@@ -351,19 +354,14 @@ export function buildDeterministicEvaluation(
       ),
       exams: blend(checklistScores.exams, milestoneDerived.scores.exams, 0.35),
       economy: checklistScores.economy,
-      empathy: blendPreservingFloor(
-        checklistScores.empathy,
-        milestoneDerived.scores.empathy,
-        0.55,
-        empathyEmptyChecklist,
-      ),
+      empathy: checklistScores.empathy,
     } satisfies DimensionScores;
     breakdown = {
       ...checklistBreakdown,
       clinical: { ...checklistBreakdown.clinical, final: scores.clinical },
       legal: { ...checklistBreakdown.legal, final: scores.legal },
       exams: { ...checklistBreakdown.exams, final: scores.exams },
-      empathy: { ...checklistBreakdown.empathy, final: scores.empathy },
+      empathy: checklistBreakdown.empathy,
     };
   }
 
@@ -459,7 +457,7 @@ ISTRUZIONI ANALITICHE (OBBLIGATORIE):
    - Se il corpus RAG è soft-fail: non colmare con conoscenza parametrica inventata.
 
 1) criticalActions / inappropriateActions / empathyChecklist / legalInstrumentReviews — checklist oggettive ancorate al trascritto.
-   - empathyChecklist: ≥4 parametri (ascolto, rassicurazione, spiegazione, gestione stress). Imposta met=true SOLO se c'è evidenza testuale in <<<CHAT_TRANSCRIPT>>> o milestone empatiche; met=false se assente — NON azzerare l'intera checklist inventando parametri tutti falsi senza citare il trascritto.
+   - empathyChecklist: ≥4 parametri (ascolto, rassicurazione, spiegazione, gestione stress) come TELEMETRIA qualitativa. Il voto numerico di empatia è calcolato deterministicamente dal trascritto (baseline 60 + validazione/trasparenza/alleanza − penalità). Imposta met=true SOLO con evidenza in <<<CHAT_TRANSCRIPT>>>; non inventare checklist tutta falsa.
    - legalInstrumentReviews: se in chat compare consenso / allergie / spiegazione rischi, NON marcare "violato" senza motivazione testuale; usa "rispettato" o "parziale" coerente con le evidenze.
 
 2) legalProtectionStatus:
@@ -711,6 +709,7 @@ export class EvaluationService {
         ragSourcesCount: hasLegalContext ? ragSourcesCount : 0,
         sessionMilestones: input.sessionMilestones,
         goldStandardPath: input.goldStandardPath,
+        chatHistory: sanitizedChat,
       });
 
       this.deps.logger.info("Simulation evaluation completed (deterministic scoring)", {

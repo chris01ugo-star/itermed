@@ -9,6 +9,7 @@ import type {
   LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
+import type { EmpathyBehavioralBreakdown } from "@/lib/services/evaluation-scoring";
 
 export type ClinicalCaseSnapshot = {
   difficulty: CaseDifficulty;
@@ -155,6 +156,8 @@ export function buildSessionReportData(params: {
       fatalErrors: Array.isArray(fatalErrors) ? fatalErrors : [],
       killerSwitch: killerSwitchTrace,
       scoreBreakdown: evaluation.scoreBreakdown,
+      /** Explicit empathy behavioral contract for report UI. */
+      empathyBreakdown: evaluation.scoreBreakdown?.empathy ?? null,
       examEconomics: {
         budgetEuro: evaluation.examBudgetEuro ?? null,
         totalCostEuro: evaluation.totalExamCostEuro ?? null,
@@ -208,6 +211,7 @@ export type EliteReportData = {
   clinicalDeltaTable?: ClinicalDeltaRow[];
   economicAnalysis?: EconomicAnalysis;
   coachingFeedback?: CoachingFeedback;
+  empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   totalScore: number;
 };
 
@@ -234,6 +238,8 @@ export function buildReportDataFromSession(session: {
       economicAnalysis?: EconomicAnalysis;
       coachingFeedback?: CoachingFeedback;
     };
+    empathyBreakdown?: EmpathyBehavioralBreakdown | null;
+    scoreBreakdown?: { empathy?: EmpathyBehavioralBreakdown };
   };
 
   const legalEvidenceSources = trace.evidence?.legalSources ?? [];
@@ -258,6 +264,7 @@ export function buildReportDataFromSession(session: {
     clinicalDeltaTable: trace.analytical?.clinicalDeltaTable,
     economicAnalysis: trace.analytical?.economicAnalysis,
     coachingFeedback: trace.analytical?.coachingFeedback,
+    empathyBreakdown: trace.empathyBreakdown ?? trace.scoreBreakdown?.empathy ?? null,
     totalScore: session.totalScore,
   } satisfies EliteReportData;
 }

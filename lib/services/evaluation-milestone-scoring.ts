@@ -322,9 +322,16 @@ export function deriveMilestoneDimensionScores(
       final: safety.score,
     },
     empathy: {
+      baseline: 60,
+      validationBonus: 0,
+      transparencyBonus: 0,
+      allianceBonus: 0,
+      dismissalPenalty: 0,
+      finalScore: empathy.score,
+      final: empathy.score,
+      qualitativeLabel: "Telemetria milestone (non usata per il voto comportamentale)",
       totalParameters: empathy.breakdown.expected,
       metParameters: empathy.breakdown.met,
-      final: empathy.score,
     },
   };
 

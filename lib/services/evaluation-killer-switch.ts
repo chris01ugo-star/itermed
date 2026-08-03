@@ -154,8 +154,10 @@ export function buildMacroAreaRationales(
         MACRO_AREA_WEIGHTS.empathy,
       ),
       rationale: mb
-        ? `Milestone empatici: ${mb.empathy.met}/${mb.empathy.expected} (rassicurazione, gestione stress).`
-        : `Empatia: ${breakdown.empathy.metParameters}/${breakdown.empathy.totalParameters} parametri.`,
+        ? `Modello comportamentale (baseline 60) + milestone empatici ${mb.empathy.met}/${mb.empathy.expected} (solo telemetria).`
+        : breakdown.empathy.qualitativeLabel
+          ? `${breakdown.empathy.qualitativeLabel} · baseline ${breakdown.empathy.baseline} + validazione +${breakdown.empathy.validationBonus} + trasparenza +${breakdown.empathy.transparencyBonus} + alleanza +${breakdown.empathy.allianceBonus} − penalità ${breakdown.empathy.dismissalPenalty}.`
+          : `Empatia: ${breakdown.empathy.final}/100.`,
     },
   ];
 }

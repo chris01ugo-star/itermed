@@ -32,6 +32,7 @@ import { CLINICAL_PASS_TRENTESIMI, clampPercentScore, safeDisplayTrentesimi } fr
 import {
   MACRO_AREA_WEIGHTS,
   dimensionContributionTrentesimi,
+  type EmpathyBehavioralBreakdown,
 } from "@/lib/services/evaluation-scoring";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 
@@ -56,6 +57,7 @@ type EliteResultsClientProps = {
   legalSources?: string[];
   killerSwitch?: KillerSwitchTrace;
   fatalErrors?: FatalErrorUi[];
+  empathyBreakdown?: EmpathyBehavioralBreakdown | null;
 };
 
 const PILLARS: Array<{
@@ -234,6 +236,7 @@ export function EliteResultsClient({
   legalSources = [],
   killerSwitch,
   fatalErrors = [],
+  empathyBreakdown = null,
 }: EliteResultsClientProps) {
   const shield = legalProtectionStatus
     ? legalShieldConfig(legalProtectionStatus.status)
@@ -504,6 +507,41 @@ export function EliteResultsClient({
                 );
               })}
             </div>
+
+            {empathyBreakdown ? (
+              <div className="rounded-xl border border-brand-secondary/20 bg-brand-secondary/[0.04] px-4 py-3.5">
+                <div className="flex items-start gap-2.5">
+                  <HeartHandshake className="mt-0.5 h-4 w-4 shrink-0 text-brand-secondary" />
+                  <div className="min-w-0 space-y-2">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-brand-secondary">
+                      Empatia · modello comportamentale
+                    </p>
+                    <p className="text-sm font-medium text-brand-primary">
+                      {empathyBreakdown.qualitativeLabel}
+                    </p>
+                    <p className="text-xs leading-relaxed text-slate-600">
+                      Baseline professionale {empathyBreakdown.baseline}/100
+                      {empathyBreakdown.validationBonus > 0
+                        ? ` · validazione emotiva +${empathyBreakdown.validationBonus}`
+                        : ""}
+                      {empathyBreakdown.transparencyBonus > 0
+                        ? ` · trasparenza +${empathyBreakdown.transparencyBonus}`
+                        : ""}
+                      {empathyBreakdown.allianceBonus > 0
+                        ? ` · alleanza terapeutica +${empathyBreakdown.allianceBonus}`
+                        : ""}
+                      {empathyBreakdown.dismissalPenalty > 0
+                        ? ` · penalità comunicative −${empathyBreakdown.dismissalPenalty}`
+                        : " · nessuna penalità comunicativa"}
+                      {" → "}
+                      <span className="font-semibold tabular-nums text-brand-primary">
+                        {empathyBreakdown.finalScore}/100
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : null}
 
             <div className="border-t border-border-subtle pt-5">
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
