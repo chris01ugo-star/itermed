@@ -33,6 +33,7 @@ export async function GET(request: Request) {
         status: true,
         progress: true,
         progressMessage: true,
+        notes: true,
         clinicalAccuracy: true,
         legalComplianceGelliBianco: true,
         prescribingAppropriateness: true,
@@ -61,6 +62,9 @@ export async function GET(request: Request) {
       status: report.status,
       progress: report.progress,
       progressMessage: report.progressMessage,
+      ...(report.status === "FAILED" && typeof report.notes === "string" && report.notes
+        ? { error: report.notes }
+        : {}),
       reportData: report.status === "COMPLETED" ? buildReportDataFromSession(report) : null,
     });
   } catch (error) {

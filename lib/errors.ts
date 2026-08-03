@@ -42,8 +42,15 @@ export class ValidationError extends AppError {
 /** Thrown when an upstream AI provider call fails. */
 export class AIServiceError extends AppError {
   constructor(message = "AI evaluation service is temporarily unavailable.", cause?: unknown) {
+    const causeText =
+      cause instanceof Error
+        ? cause.message
+        : typeof cause === "string" && cause.trim()
+          ? cause.trim()
+          : null;
     super({
-      message: cause instanceof Error ? cause.message : message,
+      // Preserve upstream detail in `.message` so workers/logs are actionable.
+      message: causeText ? `${message}: ${causeText.slice(0, 400)}` : message,
       publicMessage: message,
       statusCode: 503,
       code: "AI_SERVICE_ERROR",
@@ -54,15 +61,24 @@ export class AIServiceError extends AppError {
   static fromUnknown(error: unknown): AIServiceError {
     if (error instanceof AIServiceError) return error;
     const detail = error instanceof Error ? error.message : String(error);
-    return new AIServiceError("AI evaluation service is temporarily unavailable.", detail);
+    return new AIServiceError(
+      "AI evaluation service is temporarily unavailable.",
+      error instanceof Error ? error : detail,
+    );
   }
 }
 
 /** Thrown when guideline retrieval (RAG) fails unexpectedly. */
 export class RAGServiceError extends AppError {
   constructor(message = "Guideline retrieval service is temporarily unavailable.", cause?: unknown) {
+    const causeText =
+      cause instanceof Error
+        ? cause.message
+        : typeof cause === "string" && cause.trim()
+          ? cause.trim()
+          : null;
     super({
-      message: cause instanceof Error ? cause.message : message,
+      message: causeText ? `${message}: ${causeText.slice(0, 400)}` : message,
       publicMessage: message,
       statusCode: 503,
       code: "RAG_SERVICE_ERROR",
@@ -73,7 +89,10 @@ export class RAGServiceError extends AppError {
   static fromUnknown(error: unknown): RAGServiceError {
     if (error instanceof RAGServiceError) return error;
     const detail = error instanceof Error ? error.message : String(error);
-    return new RAGServiceError("Guideline retrieval service is temporarily unavailable.", detail);
+    return new RAGServiceError(
+      "Guideline retrieval service is temporarily unavailable.",
+      error instanceof Error ? error : detail,
+    );
   }
 }
 

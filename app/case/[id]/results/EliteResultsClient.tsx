@@ -1,9 +1,10 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   Activity,
   AlertTriangle,
+  ChevronDown,
   Euro,
   HeartHandshake,
   Scale,
@@ -23,7 +24,6 @@ import type {
 } from "@/lib/services/evaluation-report-types";
 import { cn } from "@/app/utils/cn";
 import { SafeLlmText } from "@/components/ui/safe-llm-content";
-import { ScoreProgressRing } from "./ScoreProgressRing";
 import { ResultsRadarClient, type RadarDatum } from "./ResultsRadarClient";
 import { EconomicBudgetGauge } from "./EconomicBudgetGauge";
 import { GoldStandardCompare } from "./GoldStandardCompare";
@@ -32,7 +32,12 @@ import { CLINICAL_PASS_TRENTESIMI, clampPercentScore, safeDisplayTrentesimi } fr
 import {
   MACRO_AREA_WEIGHTS,
   dimensionContributionTrentesimi,
+  legalConformityFormalLabel,
+  resolveLegalConformity,
   type EmpathyBehavioralBreakdown,
+  type LegalConformityStatus,
+  type ScoreBreakdown,
+  type ScoreMotivation,
 } from "@/lib/services/evaluation-scoring";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 
@@ -58,6 +63,7 @@ type EliteResultsClientProps = {
   killerSwitch?: KillerSwitchTrace;
   fatalErrors?: FatalErrorUi[];
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
+  scoreBreakdown?: ScoreBreakdown | null;
 };
 
 const PILLARS: Array<{
@@ -222,6 +228,211 @@ function PanelHeader({
   );
 }
 
+function MotivationsAccordion({ items }: { items: ScoreMotivation[] }) {
+  const [isOpen, setIsOpen] = useState(false);
+  if (!items.length) return null;
+
+  return (
+    <div className="mt-3 border-t border-slate-100 pt-2">
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((v) => !v)}
+        className="flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left text-[11px] font-semibold text-slate-600 transition hover:bg-slate-50"
+      >
+        <span>Mostra Motivazioni ed Analisi Fonti</span>
+        <ChevronDown
+          className={cn(
+            "h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200",
+            isOpen && "rotate-180",
+          )}
+        />
+      </button>
+      {isOpen ? (
+        <div className="mt-1 rounded-lg border border-slate-200 bg-slate-50 px-3 py-3">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+            Motivazione Esperti
+          </p>
+          <ul className="mt-2.5 space-y-2.5">
+            {items.map((item) => {
+              const tone =
+                item.type === "negative"
+                  ? "text-rose-800"
+                  : item.type === "positive"
+                    ? "text-emerald-800"
+                    : "text-slate-700";
+              const impact =
+                item.scoreImpact === 0
+                  ? null
+                  : item.scoreImpact > 0
+                    ? `+${item.scoreImpact}`
+                    : `${item.scoreImpact}`;
+              return (
+                <li key={item.id} className={cn("text-[12px] leading-snug", tone)}>
+                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                    {impact ? (
+                      <span className="shrink-0 font-semibold tabular-nums">{impact}</span>
+                    ) : null}
+                    <span>{item.text}</span>
+                  </div>
+                  {item.sourceRef ? (
+                    <p className="mt-0.5 text-[10px] font-medium text-slate-500">{item.sourceRef}</p>
+                  ) : null}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function MacroScoreCard({
+  label,
+  scaleHint,
+  score,
+  gradeWeight,
+  icon: Icon,
+  motivations,
+  badge,
+}: {
+  label: string;
+  scaleHint: string;
+  score: number;
+  gradeWeight: number | null;
+  icon: LucideIcon;
+  motivations: ScoreMotivation[];
+  badge?: string | null;
+}) {
+  const contribution =
+    gradeWeight != null ? dimensionContributionTrentesimi(score, gradeWeight) : null;
+  return (
+    <article className="flex flex-col rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="flex items-start gap-3">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+          <Icon className="h-4 w-4" strokeWidth={1.75} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="font-display text-sm font-semibold text-slate-900">{label}</h3>
+            {badge ? (
+              <span className="rounded-md border border-rose-200 bg-rose-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-rose-800">
+                {badge}
+              </span>
+            ) : null}
+          </div>
+          <p className="mt-0.5 text-[10px] text-slate-400">{scaleHint}</p>
+        </div>
+        <div className="shrink-0 text-right">
+          <p className="font-display text-2xl font-bold tabular-nums text-[#1E324E]">
+            {Math.round(score)}
+            <span className="text-sm font-medium text-slate-400">/100</span>
+          </p>
+          {contribution != null ? (
+            <p className="text-[10px] font-medium tabular-nums text-slate-500">
+              → {contribution}/30
+            </p>
+          ) : (
+            <p className="text-[10px] font-medium text-slate-400">radar · non in /30</p>
+          )}
+        </div>
+      </div>
+      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100">
+        <div
+          className="h-full rounded-full bg-[#345884] transition-all duration-700"
+          style={{ width: `${Math.max(0, Math.min(100, score))}%` }}
+        />
+      </div>
+      <MotivationsAccordion items={motivations} />
+    </article>
+  );
+}
+
+function LegalConformityCard({
+  status,
+  sourceRef,
+  motivations,
+  gradeWeight,
+}: {
+  status: LegalConformityStatus;
+  sourceRef?: string;
+  motivations: ScoreMotivation[];
+  gradeWeight: number;
+}) {
+  const conforme = status === "CONFORME";
+  const formal = legalConformityFormalLabel(status);
+  const mappedScore = conforme ? 100 : 0;
+  const contribution = dimensionContributionTrentesimi(mappedScore, gradeWeight);
+
+  return (
+    <article
+      className={cn(
+        "flex flex-col rounded-xl border bg-white p-4 shadow-sm",
+        conforme ? "border-emerald-200" : "border-rose-200",
+      )}
+    >
+      <div className="flex items-start gap-3">
+        <div
+          className={cn(
+            "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
+            conforme ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700",
+          )}
+        >
+          {conforme ? (
+            <ShieldCheck className="h-4 w-4" strokeWidth={1.75} />
+          ) : (
+            <ShieldAlert className="h-4 w-4" strokeWidth={1.75} />
+          )}
+        </div>
+        <div className="min-w-0 flex-1">
+          <h3 className="font-display text-sm font-semibold text-slate-900">
+            Tutela Medico-Legale
+          </h3>
+          <p className="mt-0.5 text-[10px] text-slate-400">
+            Valutazione giuridica binaria · 30% del voto · max 9/30
+          </p>
+        </div>
+        <p className="shrink-0 text-[10px] font-medium tabular-nums text-slate-500">
+          → {contribution}/30
+        </p>
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <span
+          className={cn(
+            "inline-flex items-center rounded-md border px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide",
+            conforme
+              ? "border-emerald-300 bg-emerald-50 text-emerald-900"
+              : "border-rose-300 bg-rose-50 text-rose-900",
+          )}
+        >
+          {formal}
+        </span>
+      </div>
+
+      {sourceRef ? (
+        <p
+          className={cn(
+            "mt-3 rounded-lg border px-3 py-2 text-[12px] font-medium leading-snug",
+            conforme
+              ? "border-emerald-100 bg-emerald-50/60 text-emerald-900"
+              : "border-rose-100 bg-rose-50/60 text-rose-900",
+          )}
+        >
+          <span className="text-[10px] font-semibold uppercase tracking-wide opacity-70">
+            Citazione normativa
+          </span>
+          <br />
+          {sourceRef}
+        </p>
+      ) : null}
+
+      <MotivationsAccordion items={motivations} />
+    </article>
+  );
+}
+
 export function EliteResultsClient({
   totalScore,
   radarData,
@@ -237,6 +448,7 @@ export function EliteResultsClient({
   killerSwitch,
   fatalErrors = [],
   empathyBreakdown = null,
+  scoreBreakdown = null,
 }: EliteResultsClientProps) {
   const shield = legalProtectionStatus
     ? legalShieldConfig(legalProtectionStatus.status)
@@ -248,6 +460,75 @@ export function EliteResultsClient({
     killerSwitch?.applied === true ||
     (normalizedScore < CLINICAL_PASS_TRENTESIMI && fatalErrors.length > 0);
   const killerCap = killerSwitch?.cap ?? 17.9;
+
+  const sb = scoreBreakdown;
+  const empathyMotivations: ScoreMotivation[] =
+    sb?.empathy?.motivations?.length
+      ? sb.empathy.motivations
+      : empathyBreakdown?.motivations?.length
+        ? empathyBreakdown.motivations
+        : empathyBreakdown
+          ? [
+              {
+                id: "emp_fallback_floor",
+                type: "positive" as const,
+                text: "Competenza comunicativa professionale",
+                scoreImpact: empathyBreakdown.baseline,
+                sourceRef: "Rif. Modello comportamentale Aequan — empatia clinica",
+              },
+              ...(empathyBreakdown.validationBonus > 0
+                ? [
+                    {
+                      id: "emp_fallback_val",
+                      type: "positive" as const,
+                      text: "Validazione emotiva",
+                      scoreImpact: empathyBreakdown.validationBonus,
+                    },
+                  ]
+                : []),
+              ...(empathyBreakdown.transparencyBonus > 0
+                ? [
+                    {
+                      id: "emp_fallback_trans",
+                      type: "positive" as const,
+                      text: "Trasparenza",
+                      scoreImpact: empathyBreakdown.transparencyBonus,
+                    },
+                  ]
+                : []),
+              ...(empathyBreakdown.allianceBonus > 0
+                ? [
+                    {
+                      id: "emp_fallback_ally",
+                      type: "positive" as const,
+                      text: "Alleanza terapeutica",
+                      scoreImpact: empathyBreakdown.allianceBonus,
+                    },
+                  ]
+                : []),
+              ...(empathyBreakdown.dismissalPenalty > 0
+                ? [
+                    {
+                      id: "emp_fallback_pen",
+                      type: "negative" as const,
+                      text: "Penalità comunicative",
+                      scoreImpact: -empathyBreakdown.dismissalPenalty,
+                    },
+                  ]
+                : []),
+              {
+                id: "emp_fallback_label",
+                type: "neutral" as const,
+                text: empathyBreakdown.qualitativeLabel,
+                scoreImpact: 0,
+              },
+            ]
+          : [];
+
+  const legalConformity: LegalConformityStatus = resolveLegalConformity(
+    sb?.legal?.conformityStatus ?? sb?.legal?.protectionLabel,
+  );
+  const legalSourceRef = sb?.legal?.sourceRef;
 
   const wastedEuro = economicAnalysis
     ? economicAnalysis.unnecessaryExpenses.reduce((sum, item) => sum + (item.cost ?? 0), 0)
@@ -415,180 +696,121 @@ export function EliteResultsClient({
         </Section>
       ) : null}
 
-      {/* Pilastri + Bilancio */}
-      <Section
-        delayMs={140}
-        className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start"
-      >
-        <Panel className="lg:col-span-7 xl:col-span-8">
-          <PanelHeader
-            title="Cinque pilastri AEQUAN"
-            description="Quattro dimensioni pesano sul voto /30 (30%+30%+20%+20%). La sostenibilità economica è metrica analitica (radar/bilancio), distinta dall'appropriatezza prescrittiva degli esami."
-            icon={<Activity className="h-4 w-4" />}
-          />
-          <div className="space-y-6 p-5 md:p-6">
-            <div className="grid grid-cols-2 gap-x-2 gap-y-6 sm:grid-cols-3 md:grid-cols-5 md:gap-x-1">
-              {PILLARS.map((pillar) => {
-                const Icon = pillar.icon;
-                const score = resolvePillarScore(radarData, pillar);
-                const contribution =
-                  pillar.gradeWeight != null
-                    ? dimensionContributionTrentesimi(score, pillar.gradeWeight)
-                    : null;
-                return (
-                  <ScoreProgressRing
-                    key={pillar.key}
-                    compact
-                    size={100}
-                    score={score}
-                    label={pillar.label}
-                    subtitle={
-                      contribution != null
-                        ? `${Math.round(score)}/100 · ${contribution}/30`
-                        : `${Math.round(score)}/100 · radar`
-                    }
-                    icon={<Icon className="h-4 w-4" />}
-                    className="results-pillar-enter"
-                  />
-                );
-              })}
-            </div>
-
-            <div className="space-y-3 border-t border-border-subtle pt-5">
-              {PILLARS.map((pillar) => {
-                const score = resolvePillarScore(radarData, pillar);
-                const contribution =
-                  pillar.gradeWeight != null
-                    ? dimensionContributionTrentesimi(score, pillar.gradeWeight)
-                    : null;
-                const Icon = pillar.icon;
-                return (
-                  <div key={`row-${pillar.key}`} className="flex items-center gap-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-secondary/10 text-brand-secondary">
-                      <Icon className="h-3.5 w-3.5" />
-                    </div>
-                    <div className="min-w-0 flex-1 space-y-1.5">
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="min-w-0">
-                          <span className="block truncate text-xs font-medium text-slate-600">
-                            {pillar.label}
-                          </span>
-                          <span className="block truncate text-[10px] text-slate-400">
-                            {pillar.scaleHint}
-                          </span>
-                        </div>
-                        <span className="shrink-0 text-right text-xs font-semibold tabular-nums text-brand-primary">
-                          {Math.round(score)}
-                          <span className="font-medium text-slate-400">/100</span>
-                          {contribution != null ? (
-                            <span className="mt-0.5 block text-[10px] font-medium text-slate-500">
-                              → {contribution}/30
-                            </span>
-                          ) : (
-                            <span className="mt-0.5 block text-[10px] font-medium text-slate-400">
-                              non in /30
-                            </span>
-                          )}
-                        </span>
-                      </div>
-                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
-                        <div
-                          className="h-full rounded-full bg-brand-secondary transition-all duration-700 ease-out"
-                          style={{ width: `${score}%` }}
-                          role="progressbar"
-                          aria-valuenow={Math.round(score)}
-                          aria-valuemin={0}
-                          aria-valuemax={100}
-                          aria-label={`${pillar.label}: ${Math.round(score)} su 100`}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {empathyBreakdown ? (
-              <div className="rounded-xl border border-brand-secondary/20 bg-brand-secondary/[0.04] px-4 py-3.5">
-                <div className="flex items-start gap-2.5">
-                  <HeartHandshake className="mt-0.5 h-4 w-4 shrink-0 text-brand-secondary" />
-                  <div className="min-w-0 space-y-2">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-brand-secondary">
-                      Empatia · modello comportamentale
-                    </p>
-                    <p className="text-sm font-medium text-brand-primary">
-                      {empathyBreakdown.qualitativeLabel}
-                    </p>
-                    <p className="text-xs leading-relaxed text-slate-600">
-                      Baseline professionale {empathyBreakdown.baseline}/100
-                      {empathyBreakdown.validationBonus > 0
-                        ? ` · validazione emotiva +${empathyBreakdown.validationBonus}`
-                        : ""}
-                      {empathyBreakdown.transparencyBonus > 0
-                        ? ` · trasparenza +${empathyBreakdown.transparencyBonus}`
-                        : ""}
-                      {empathyBreakdown.allianceBonus > 0
-                        ? ` · alleanza terapeutica +${empathyBreakdown.allianceBonus}`
-                        : ""}
-                      {empathyBreakdown.dismissalPenalty > 0
-                        ? ` · penalità comunicative −${empathyBreakdown.dismissalPenalty}`
-                        : " · nessuna penalità comunicativa"}
-                      {" → "}
-                      <span className="font-semibold tabular-nums text-brand-primary">
-                        {empathyBreakdown.finalScore}/100
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ) : null}
-
-            <div className="border-t border-border-subtle pt-5">
-              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-                Radar competenze vs target
-              </p>
-              <div className="h-80 w-full rounded-xl border border-border bg-ui-bg/50 p-3">
-                <ResultsRadarClient data={radarData} />
-              </div>
-            </div>
+      {/* Macro-aree: card chiare + motivazioni */}
+      <Section delayMs={140} className="space-y-4">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="font-display text-base font-semibold text-[#1E324E]">
+              Macro-aree di valutazione
+            </h2>
+            <p className="text-xs text-slate-500">
+              Quattro dimensioni pesano sul voto /30 (30%+30%+20%+20%). Economia SSN è metrica
+              analitica (radar), distinta dall&apos;appropriatezza prescrittiva.
+            </p>
           </div>
-        </Panel>
+        </div>
 
-        <Panel className="border-brand-secondary/15 bg-gradient-to-b from-brand-secondary/[0.05] to-panel-bg lg:col-span-5 xl:col-span-4">
-          <PanelHeader
-            title="Bilancio economico SSN"
-            description="Budget assegnato vs spesa effettuata."
-            icon={<Euro className="h-4 w-4" />}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <MacroScoreCard
+            label="Accuratezza Clinica"
+            scaleHint="30% del voto · max 9/30 · proporzionale al Gold Standard"
+            score={resolvePillarScore(radarData, PILLARS[0])}
+            gradeWeight={MACRO_AREA_WEIGHTS.clinicalDiagnostic}
+            icon={Stethoscope}
+            motivations={sb?.clinical?.motivations ?? []}
+            badge={
+              sb?.clinical?.anamnesisCapped
+                ? `Anamnesi ${(sb.clinical.anamnesisCoveragePercent ?? 0)}% < 20%`
+                : null
+            }
           />
-          <div className="space-y-4 p-5 md:p-6">
-            {economicAnalysis ? (
-              <>
-                <div className="rounded-xl border border-border bg-panel-bg/90 p-4">
-                  <EconomicBudgetGauge
-                    targetBudget={economicAnalysis.targetBudget}
-                    actualSpent={economicAnalysis.actualSpent}
-                    wastedEuro={wastedEuro}
-                  />
-                </div>
+          <LegalConformityCard
+            status={legalConformity}
+            sourceRef={legalSourceRef}
+            motivations={sb?.legal?.motivations ?? []}
+            gradeWeight={MACRO_AREA_WEIGHTS.legalCompliance}
+          />
+          <MacroScoreCard
+            label="Appropriatezza Esami"
+            scaleHint="20% del voto · max 6/30 · −25% per esame incongruente"
+            score={resolvePillarScore(radarData, PILLARS[2])}
+            gradeWeight={MACRO_AREA_WEIGHTS.examAppropriateness}
+            icon={Activity}
+            motivations={sb?.exams?.motivations ?? []}
+          />
+          <MacroScoreCard
+            label="Empatia Clinica"
+            scaleHint="20% del voto · max 6/30"
+            score={resolvePillarScore(radarData, PILLARS[4])}
+            gradeWeight={MACRO_AREA_WEIGHTS.empathy}
+            icon={HeartHandshake}
+            motivations={empathyMotivations}
+          />
+          <MacroScoreCard
+            label="Sostenibilità Economica"
+            scaleHint="Metrica analitica · non pesa sul /30"
+            score={resolvePillarScore(radarData, PILLARS[3])}
+            gradeWeight={null}
+            icon={Euro}
+            motivations={sb?.economy?.motivations ?? []}
+            badge={
+              sb?.economy?.underPrescriptionApplied
+                ? "Sotto-prescrizione pericolosa"
+                : sb?.economy?.appropriatenessCouplingApplied
+                  ? "Penalità da sovra-prescrizione"
+                  : null
+            }
+          />
+        </div>
 
-                {overspend > 0 ? (
-                  <p className="flex items-center gap-1.5 rounded-xl border border-rose-200/80 bg-rose-50/80 px-3 py-2.5 text-[11px] text-rose-800">
-                    <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
-                    Sforamento budget: +€{overspend.toFixed(2)} rispetto al target SSN.
-                  </p>
-                ) : budgetRespected ? (
-                  <p className="rounded-xl border border-emerald-200/80 bg-emerald-50/80 px-3 py-2.5 text-[11px] font-medium text-emerald-800">
-                    Budget rispettato — spesa entro soglia di appropriatezza.
-                  </p>
-                ) : null}
-              </>
-            ) : (
-              <p className="rounded-xl border border-dashed border-border bg-ui-bg/60 px-4 py-10 text-center text-xs leading-relaxed text-slate-500">
-                Bilancio economico non disponibile per questa sessione.
-              </p>
-            )}
-          </div>
-        </Panel>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <Panel className="lg:col-span-7">
+            <PanelHeader
+              title="Radar competenze vs target"
+              description="Profilo multidimensionale della sessione."
+              icon={<Activity className="h-4 w-4" />}
+            />
+            <div className="h-80 w-full p-4 md:p-5">
+              <ResultsRadarClient data={radarData} />
+            </div>
+          </Panel>
+
+          <Panel className="lg:col-span-5">
+            <PanelHeader
+              title="Bilancio economico SSN"
+              description="Budget assegnato vs spesa effettuata."
+              icon={<Euro className="h-4 w-4" />}
+            />
+            <div className="space-y-4 p-5 md:p-6">
+              {economicAnalysis ? (
+                <>
+                  <div className="rounded-xl border border-border bg-white p-4">
+                    <EconomicBudgetGauge
+                      targetBudget={economicAnalysis.targetBudget}
+                      actualSpent={economicAnalysis.actualSpent}
+                      wastedEuro={wastedEuro}
+                    />
+                  </div>
+                  {overspend > 0 ? (
+                    <p className="flex items-center gap-1.5 rounded-xl border border-rose-200/80 bg-rose-50/80 px-3 py-2.5 text-[11px] text-rose-800">
+                      <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+                      Sforamento budget: +€{overspend.toFixed(2)} rispetto al target SSN.
+                    </p>
+                  ) : budgetRespected ? (
+                    <p className="rounded-xl border border-emerald-200/80 bg-emerald-50/80 px-3 py-2.5 text-[11px] font-medium text-emerald-800">
+                      Budget rispettato — spesa entro soglia di appropriatezza.
+                    </p>
+                  ) : null}
+                  <MotivationsAccordion items={sb?.economy?.motivations ?? []} />
+                </>
+              ) : (
+                <p className="rounded-xl border border-dashed border-border bg-ui-bg/60 px-4 py-10 text-center text-xs leading-relaxed text-slate-500">
+                  Bilancio economico non disponibile per questa sessione.
+                </p>
+              )}
+            </div>
+          </Panel>
+        </div>
       </Section>
 
       {clinicalDeltaTable.length > 0 ? (

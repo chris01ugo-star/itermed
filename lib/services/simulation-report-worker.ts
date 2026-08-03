@@ -183,20 +183,21 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       },
     });
 
-    const caseDifficulty = clinicalCase?.difficulty;
+    const caseDifficulty = clinicalCase?.difficulty ?? undefined;
     const examBudgetEuro = resolveExamBudgetEuro(
       caseDifficulty,
-      clinicalCase?.baselineExamFindings,
+      clinicalCase?.baselineExamFindings ?? {},
     );
 
     log.info("Parallel prefetch completed", {
       prefetchDurationMs,
-      legalSource: guidelines.legal.source,
-      protocolSource: guidelines.protocol.source,
+      legalSource: guidelines?.legal?.source ?? "none",
+      protocolSource: guidelines?.protocol?.source ?? "none",
       specialtyId: specialtyId ?? null,
       specialtyName: specialtyName ?? null,
-      difficulty: caseDifficulty,
+      difficulty: caseDifficulty ?? null,
       examBudgetEuro,
+      hasClinicalCase: Boolean(clinicalCase),
     });
 
     await prisma.sessionReport.update({

@@ -38,10 +38,10 @@ const SimulationReportBodySchema = z.object({
   exams: z
     .array(
       z.object({
-        id: z.string(),
-        name: z.string(),
-        cost: z.number(),
-        timeMinutes: z.number(),
+        id: z.string().default(""),
+        name: z.string().default(""),
+        cost: z.coerce.number().finite().default(0),
+        timeMinutes: z.coerce.number().finite().default(0),
       }),
     )
     .default([]),

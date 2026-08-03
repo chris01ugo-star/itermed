@@ -211,7 +211,11 @@ async function pollReportUntilComplete(
       return { reportId, reportData: data.reportData };
     }
     if (data.status === "FAILED") {
-      throw new Error(data.progressMessage || "Errore durante la generazione.");
+      const detail =
+        (typeof data.error === "string" && data.error.trim()) ||
+        data.progressMessage ||
+        "Errore durante la generazione.";
+      throw new Error(detail);
     }
     return null;
   };
