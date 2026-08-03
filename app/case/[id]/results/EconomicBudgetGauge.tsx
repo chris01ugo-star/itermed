@@ -15,10 +15,15 @@ export function EconomicBudgetGauge({
   wastedEuro = 0,
   className,
 }: EconomicBudgetGaugeProps) {
-  const ratio = targetBudget > 0 ? Math.min(actualSpent / targetBudget, 1.5) : 0;
+  const safeTarget = Number.isFinite(targetBudget) ? targetBudget : 0;
+  const safeSpent = Number.isFinite(actualSpent) ? actualSpent : 0;
+  const safeWaste = Number.isFinite(wastedEuro) ? wastedEuro : 0;
+  const ratio = safeTarget > 0 ? Math.min(safeSpent / safeTarget, 1.5) : 0;
   const fillPercent = Math.min(100, ratio * 100);
-  const isOver = actualSpent > targetBudget;
+  const isOver = safeSpent > safeTarget;
   const isWarning = ratio > 0.85 && !isOver;
+  const efficiency =
+    safeTarget > 0 ? Math.round((safeTarget / Math.max(safeSpent, 1)) * 100) : 100;
 
   const fillColor = isOver
     ? "bg-status-risk"
@@ -34,10 +39,10 @@ export function EconomicBudgetGauge({
             Utilizzo budget esami
           </p>
           <p className="mt-1 font-display text-2xl font-semibold tracking-tight text-text-primary tabular-nums">
-            €{actualSpent.toFixed(0)}
+            €{safeSpent.toFixed(0)}
             <span className="text-sm font-normal text-slate-500">
               {" "}
-              / €{targetBudget.toFixed(0)}
+              / €{safeTarget.toFixed(0)}
             </span>
           </p>
         </div>
@@ -53,7 +58,7 @@ export function EconomicBudgetGauge({
                   : "text-brand-secondary",
             )}
           >
-            {targetBudget > 0 ? Math.round((targetBudget / Math.max(actualSpent, 1)) * 100) : 100}%
+            {efficiency}%
           </p>
         </div>
       </div>
@@ -78,15 +83,13 @@ export function EconomicBudgetGauge({
             Budget ideale
           </p>
           <p className="mt-0.5 text-sm font-semibold tabular-nums text-brand-secondary">
-            €{targetBudget.toFixed(0)}
+            €{safeTarget.toFixed(0)}
           </p>
         </div>
         <div
           className={cn(
             "rounded-xl border px-2 py-2.5",
-            isOver
-              ? "border-rose-200/80 bg-rose-50/80"
-              : "border-border bg-ui-bg/60",
+            isOver ? "border-rose-200/80 bg-rose-50/80" : "border-border bg-ui-bg/60",
           )}
         >
           <p className="text-[9px] font-semibold uppercase tracking-wide text-slate-500">Speso</p>
@@ -96,7 +99,7 @@ export function EconomicBudgetGauge({
               isOver ? "text-status-risk" : "text-brand-primary",
             )}
           >
-            €{actualSpent.toFixed(0)}
+            €{safeSpent.toFixed(0)}
           </p>
         </div>
         <div className="rounded-xl border border-border bg-ui-bg/60 px-2 py-2.5">
@@ -104,7 +107,7 @@ export function EconomicBudgetGauge({
             Spreco stimato
           </p>
           <p className="mt-0.5 text-sm font-semibold tabular-nums text-amber-800">
-            €{wastedEuro.toFixed(0)}
+            €{safeWaste.toFixed(0)}
           </p>
         </div>
       </div>

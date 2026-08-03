@@ -1,21 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import {
-  Activity,
-  AlertTriangle,
-  ChevronDown,
-  Euro,
-  HeartHandshake,
-  Scale,
-  Shield,
-  ShieldAlert,
-  ShieldCheck,
-  Sparkles,
-  Stethoscope,
-  XCircle,
-  type LucideIcon,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import type {
   ClinicalDeltaRow,
   CoachingFeedback,
@@ -28,7 +14,11 @@ import { ResultsRadarClient, type RadarDatum } from "./ResultsRadarClient";
 import { EconomicBudgetGauge } from "./EconomicBudgetGauge";
 import { GoldStandardCompare } from "./GoldStandardCompare";
 import { AiTransparencyBadge } from "@/components/legal/AiTransparencyBadge";
-import { CLINICAL_PASS_TRENTESIMI, clampPercentScore, safeDisplayTrentesimi } from "@/lib/scoring/trentesimi";
+import {
+  CLINICAL_PASS_TRENTESIMI,
+  clampPercentScore,
+  safeDisplayTrentesimi,
+} from "@/lib/scoring/trentesimi";
 import {
   MACRO_AREA_WEIGHTS,
   dimensionContributionTrentesimi,
@@ -40,6 +30,85 @@ import {
   type ScoreMotivation,
 } from "@/lib/services/evaluation-scoring";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
+
+/* ═══════════════════════════════════════════════════════════════════
+ * AEQUAN CLINICAL-TECH — Design System tokens (report surface)
+ * Palette desaturata: ardesia · salvia · ossido · zaffiro sordo
+ * ═══════════════════════════════════════════════════════════════════ */
+
+const AQ = {
+  ink: "text-[#1C2430]",
+  muted: "text-[#6B7585]",
+  faint: "text-[#8A93A1]",
+  sage: "text-[#4F6B5C]",
+  sageBg: "bg-[#4F6B5C]/[0.08]",
+  sageBorder: "border-[#4F6B5C]/25",
+  oxide: "text-[#8B5A45]",
+  oxideBg: "bg-[#8B5A45]/[0.07]",
+  oxideBorder: "border-[#8B5A45]/25",
+  sapphire: "text-[#3D5A73]",
+  sapphireBg: "bg-[#3D5A73]/[0.06]",
+  sapphireBorder: "border-[#3D5A73]/20",
+  plate:
+    "rounded-2xl border border-neutral-200/60 bg-[#FCFCFD]/90 shadow-[0_1px_0_rgba(28,36,48,0.04)]",
+  platePad: "p-6 md:p-8",
+  hairline: "border-neutral-200/50",
+  microLabel:
+    "text-[10px] font-medium uppercase tracking-[0.16em] text-[#8A93A1]",
+} as const;
+
+/** Coerce legacy string[] / partial objects into ScoreMotivation[]. Never throws. */
+function normalizeMotivations(raw: unknown): ScoreMotivation[] {
+  if (!Array.isArray(raw) || raw.length === 0) return [];
+  return raw
+    .map((item, index): ScoreMotivation | null => {
+      if (typeof item === "string") {
+        const text = item.trim();
+        if (!text) return null;
+        return {
+          id: `legacy_${index}`,
+          type: text.startsWith("−") || text.startsWith("-") ? "negative" : "neutral",
+          text,
+          scoreImpact: 0,
+        };
+      }
+      if (!item || typeof item !== "object") return null;
+      const rec = item as Record<string, unknown>;
+      const text =
+        typeof rec.text === "string"
+          ? rec.text
+          : typeof rec.message === "string"
+            ? rec.message
+            : "";
+      if (!text.trim()) return null;
+      const typeRaw = rec.type;
+      const type: ScoreMotivation["type"] =
+        typeRaw === "positive" || typeRaw === "negative" || typeRaw === "neutral"
+          ? typeRaw
+          : "neutral";
+      const scoreImpact =
+        typeof rec.scoreImpact === "number" && Number.isFinite(rec.scoreImpact)
+          ? rec.scoreImpact
+          : typeof rec.impactPoints === "number" && Number.isFinite(rec.impactPoints)
+            ? rec.impactPoints
+            : 0;
+      const id =
+        typeof rec.id === "string" && rec.id.trim()
+          ? rec.id
+          : `mot_${index}_${text.slice(0, 16)}`;
+      const sourceRef =
+        typeof rec.sourceRef === "string" && rec.sourceRef.trim()
+          ? rec.sourceRef
+          : undefined;
+      return { id, type, text, scoreImpact, ...(sourceRef ? { sourceRef } : {}) };
+    })
+    .filter((m): m is ScoreMotivation => m != null);
+}
+
+function safeScore(value: unknown, fallback = 0): number {
+  const n = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(n) ? n : fallback;
+}
 
 type RadarDatumWithKey = RadarDatum & { key?: string };
 
@@ -69,101 +138,141 @@ type EliteResultsClientProps = {
 const PILLARS: Array<{
   key: string;
   label: string;
-  icon: LucideIcon;
   fallbackIndex: number;
-  /** Official /30 weight; null = analytical radar metric only (not in final grade). */
   gradeWeight: number | null;
   scaleHint: string;
+  code: string;
 }> = [
   {
     key: "clinicalAccuracy",
     label: "Accuratezza Clinica",
-    icon: Stethoscope,
     fallbackIndex: 0,
     gradeWeight: MACRO_AREA_WEIGHTS.clinicalDiagnostic,
-    scaleHint: "30% del voto · max 9/30",
+    scaleHint: "30% · max 9/30 · proporzionale al Gold Standard",
+    code: "01",
   },
   {
     key: "legalComplianceGelliBianco",
     label: "Tutela Medico-Legale",
-    icon: Scale,
     fallbackIndex: 1,
     gradeWeight: MACRO_AREA_WEIGHTS.legalCompliance,
-    scaleHint: "30% del voto · max 9/30",
+    scaleHint: "Valutazione giuridica binaria · 30% · max 9/30",
+    code: "02",
   },
   {
     key: "prescribingAppropriateness",
     label: "Appropriatezza Esami",
-    icon: Activity,
     fallbackIndex: 2,
     gradeWeight: MACRO_AREA_WEIGHTS.examAppropriateness,
-    scaleHint: "20% del voto · max 6/30",
+    scaleHint: "20% · max 6/30 · −25% per esame incongruente",
+    code: "03",
   },
   {
     key: "economicSustainability",
     label: "Sostenibilità Economica",
-    icon: Euro,
     fallbackIndex: 3,
     gradeWeight: null,
-    scaleHint: "Metrica analitica · non pesa sul /30",
+    scaleHint: "Metrica analitica · esclusa dal /30",
+    code: "04",
   },
   {
     key: "empathy",
     label: "Empatia Clinica",
-    icon: HeartHandshake,
     fallbackIndex: 4,
     gradeWeight: MACRO_AREA_WEIGHTS.empathy,
-    scaleHint: "20% del voto · max 6/30",
+    scaleHint: "20% · max 6/30",
+    code: "05",
   },
 ];
 
 const COACH_CARDS: Array<{
   key: keyof CoachingFeedback;
   label: string;
-  icon: LucideIcon;
+  code: string;
 }> = [
-  { key: "accuratezza", label: "Accuratezza clinica", icon: Stethoscope },
-  { key: "tutelaLegale", label: "Tutela legale", icon: Scale },
-  { key: "economicita", label: "Economicità", icon: Euro },
-  { key: "empatia", label: "Empatia", icon: HeartHandshake },
+  { key: "accuratezza", label: "Accuratezza clinica", code: "A" },
+  { key: "tutelaLegale", label: "Tutela legale", code: "B" },
+  { key: "economicita", label: "Economicità", code: "C" },
+  { key: "empatia", label: "Empatia", code: "D" },
 ];
 
-function legalShieldConfig(status: LegalProtectionStatus["status"]) {
+function resolvePillarScore(
+  radarData: RadarDatumWithKey[],
+  pillar: (typeof PILLARS)[number],
+) {
+  const byKey = radarData.find((d) => d.key === pillar.key);
+  const raw = byKey?.score ?? radarData[pillar.fallbackIndex]?.score ?? 0;
+  return clampPercentScore(raw);
+}
+
+function legalStatusMeta(status: LegalProtectionStatus["status"]) {
   switch (status) {
     case "PROTECTED":
       return {
         label: "Protetto",
-        icon: ShieldCheck,
-        rail: "border-l-brand-secondary",
-        badge: "border-brand-secondary/25 bg-brand-secondary/10 text-brand-primary",
-        accent: "text-brand-secondary",
-        wash: "from-brand-secondary/[0.06]",
+        tone: "sage" as const,
       };
     case "PARTIALLY_EXPOSED":
       return {
         label: "Parzialmente esposto",
-        icon: Shield,
-        rail: "border-l-status-warn",
-        badge: "border-amber-200 bg-amber-50 text-amber-900",
-        accent: "text-amber-800",
-        wash: "from-amber-50/80",
+        tone: "sapphire" as const,
       };
     default:
       return {
         label: "Altamente esposto",
-        icon: ShieldAlert,
-        rail: "border-l-status-risk",
-        badge: "border-rose-200 bg-rose-50 text-rose-800",
-        accent: "text-rose-700",
-        wash: "from-rose-50/80",
+        tone: "oxide" as const,
       };
   }
 }
 
-function resolvePillarScore(radarData: RadarDatumWithKey[], pillar: (typeof PILLARS)[number]) {
-  const byKey = radarData.find((d) => d.key === pillar.key);
-  const raw = byKey?.score ?? radarData[pillar.fallbackIndex]?.score ?? 0;
-  return clampPercentScore(raw);
+/** Micro-indicatore geometrico di stato — 1px stroke, no iconography. */
+function StatusDot({
+  tone,
+}: {
+  tone: "sage" | "oxide" | "sapphire" | "neutral";
+}) {
+  const fill =
+    tone === "sage"
+      ? "bg-[#4F6B5C]"
+      : tone === "oxide"
+        ? "bg-[#8B5A45]"
+        : tone === "sapphire"
+          ? "bg-[#3D5A73]"
+          : "bg-[#9AA3B0]";
+  return (
+    <span
+      className={cn("inline-block h-1.5 w-1.5 shrink-0 rounded-full", fill)}
+      aria-hidden
+    />
+  );
+}
+
+function StatusPill({
+  children,
+  tone = "neutral",
+}: {
+  children: ReactNode;
+  tone?: "sage" | "oxide" | "sapphire" | "neutral";
+}) {
+  const styles =
+    tone === "sage"
+      ? cn(AQ.sage, AQ.sageBg, AQ.sageBorder)
+      : tone === "oxide"
+        ? cn(AQ.oxide, AQ.oxideBg, AQ.oxideBorder)
+        : tone === "sapphire"
+          ? cn(AQ.sapphire, AQ.sapphireBg, AQ.sapphireBorder)
+          : "border-neutral-200/70 bg-neutral-100/60 text-[#5C6570]";
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em]",
+        styles,
+      )}
+    >
+      <StatusDot tone={tone} />
+      {children}
+    </span>
+  );
 }
 
 function Section({
@@ -185,98 +294,136 @@ function Section({
   );
 }
 
-function Panel({
+/** Doppia piastra clinica — bordo ultra-sottile, padding breathable. */
+function Plate({
   children,
   className,
 }: {
   children: ReactNode;
   className?: string;
 }) {
-  return (
-    <div
-      className={cn(
-        "rounded-xl border border-border bg-panel-bg shadow-aequan-panel",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
+  return <div className={cn(AQ.plate, className)}>{children}</div>;
 }
 
-function PanelHeader({
+function PlateHeader({
   title,
   description,
-  icon,
+  index,
 }: {
   title: string;
   description?: string;
-  icon?: ReactNode;
+  index?: string;
 }) {
   return (
-    <div className="flex items-start gap-3 border-b border-border-subtle px-5 py-4 md:px-6">
-      {icon ? (
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
-          {icon}
-        </div>
-      ) : null}
-      <div className="min-w-0 space-y-0.5">
-        <h2 className="font-display text-sm font-semibold text-brand-primary">{title}</h2>
-        {description ? <p className="text-xs leading-relaxed text-slate-500">{description}</p> : null}
+    <div
+      className={cn(
+        "flex items-baseline justify-between gap-4 border-b px-6 py-5 md:px-8",
+        AQ.hairline,
+      )}
+    >
+      <div className="min-w-0 space-y-1">
+        <h2 className={cn("font-display text-sm font-semibold tracking-tight", AQ.ink)}>
+          {title}
+        </h2>
+        {description ? (
+          <p className={cn("text-xs leading-relaxed", AQ.muted)}>{description}</p>
+        ) : null}
       </div>
+      {index ? (
+        <span className={cn(AQ.microLabel, "shrink-0 tabular-nums")}>{index}</span>
+      ) : null}
     </div>
   );
 }
 
-function MotivationsAccordion({ items }: { items: ScoreMotivation[] }) {
+function MotivationsAccordion({ items }: { items?: ScoreMotivation[] | null }) {
   const [isOpen, setIsOpen] = useState(false);
-  if (!items.length) return null;
+  const safeItems = normalizeMotivations(items);
+  if (safeItems.length === 0) return null;
 
   return (
-    <div className="mt-3 border-t border-slate-100 pt-2">
+    <div className={cn("mt-5 border-t pt-3", AQ.hairline)}>
       <button
         type="button"
         aria-expanded={isOpen}
         onClick={() => setIsOpen((v) => !v)}
-        className="flex w-full items-center justify-between gap-2 rounded-lg px-2 py-2 text-left text-[11px] font-semibold text-slate-600 transition hover:bg-slate-50"
+        className={cn(
+          "group flex w-full items-center justify-between gap-3 rounded-lg px-1 py-2 text-left transition-colors hover:bg-neutral-50/80",
+        )}
       >
-        <span>Mostra Motivazioni ed Analisi Fonti</span>
+        <span className={cn(AQ.microLabel, "normal-case tracking-[0.1em]")}>
+          Motivazioni Esperti · Analisi fonti
+        </span>
         <ChevronDown
           className={cn(
-            "h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200",
+            "h-3.5 w-3.5 shrink-0 opacity-40 transition-transform duration-200",
+            AQ.ink,
             isOpen && "rotate-180",
           )}
+          strokeWidth={1.25}
+          aria-hidden
         />
       </button>
+
       {isOpen ? (
-        <div className="mt-1 rounded-lg border border-slate-200 bg-slate-50 px-3 py-3">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-            Motivazione Esperti
-          </p>
-          <ul className="mt-2.5 space-y-2.5">
-            {items.map((item) => {
+        <div
+          className={cn(
+            "mt-2 rounded-xl border bg-[#F7F8F9]/80 px-4 py-4",
+            AQ.hairline,
+          )}
+        >
+          <ul className="space-y-3.5">
+            {(safeItems || []).map((item) => {
               const tone =
                 item.type === "negative"
-                  ? "text-rose-800"
+                  ? AQ.oxide
                   : item.type === "positive"
-                    ? "text-emerald-800"
-                    : "text-slate-700";
+                    ? AQ.sage
+                    : AQ.ink;
+              const impactValue = safeScore(item.scoreImpact, 0);
               const impact =
-                item.scoreImpact === 0
+                impactValue === 0
                   ? null
-                  : item.scoreImpact > 0
-                    ? `+${item.scoreImpact}`
-                    : `${item.scoreImpact}`;
+                  : impactValue > 0
+                    ? `+${impactValue}`
+                    : `${impactValue}`;
               return (
-                <li key={item.id} className={cn("text-[12px] leading-snug", tone)}>
-                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                <li key={item.id || `mot_${item.text.slice(0, 20)}`} className="space-y-1">
+                  <div
+                    className={cn(
+                      "flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5 text-[12.5px] leading-snug",
+                      tone,
+                    )}
+                  >
+                    <StatusDot
+                      tone={
+                        item.type === "negative"
+                          ? "oxide"
+                          : item.type === "positive"
+                            ? "sage"
+                            : "neutral"
+                      }
+                    />
                     {impact ? (
-                      <span className="shrink-0 font-semibold tabular-nums">{impact}</span>
+                      <span className="shrink-0 font-medium tabular-nums tracking-tight">
+                        {impact}
+                      </span>
                     ) : null}
-                    <span>{item.text}</span>
+                    <span className="font-normal">{item.text}</span>
                   </div>
                   {item.sourceRef ? (
-                    <p className="mt-0.5 text-[10px] font-medium text-slate-500">{item.sourceRef}</p>
+                    <p
+                      className={cn(
+                        "ml-3.5 flex items-start gap-2 text-[10.5px] leading-snug",
+                        AQ.sapphire,
+                      )}
+                    >
+                      <span
+                        className="mt-[5px] inline-block h-2.5 w-px shrink-0 bg-[#3D5A73]/55"
+                        aria-hidden
+                      />
+                      <span className="font-medium tracking-wide">{item.sourceRef}</span>
+                    </p>
                   ) : null}
                 </li>
               );
@@ -293,58 +440,66 @@ function MacroScoreCard({
   scaleHint,
   score,
   gradeWeight,
-  icon: Icon,
   motivations,
   badge,
+  code,
 }: {
   label: string;
   scaleHint: string;
   score: number;
   gradeWeight: number | null;
-  icon: LucideIcon;
-  motivations: ScoreMotivation[];
+  motivations?: ScoreMotivation[] | null;
   badge?: string | null;
+  code: string;
 }) {
+  const safe = safeScore(score, 0);
   const contribution =
-    gradeWeight != null ? dimensionContributionTrentesimi(score, gradeWeight) : null;
+    gradeWeight != null ? dimensionContributionTrentesimi(safe, gradeWeight) : null;
+  const safeMotivations = normalizeMotivations(motivations);
+
   return (
-    <article className="flex flex-col rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-      <div className="flex items-start gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
-          <Icon className="h-4 w-4" strokeWidth={1.75} />
-        </div>
-        <div className="min-w-0 flex-1">
+    <article className={cn(AQ.plate, AQ.platePad, "flex flex-col")}>
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0 space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <h3 className="font-display text-sm font-semibold text-slate-900">{label}</h3>
-            {badge ? (
-              <span className="rounded-md border border-rose-200 bg-rose-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-rose-800">
-                {badge}
-              </span>
-            ) : null}
+            <span className={cn(AQ.microLabel, "tabular-nums")}>{code}</span>
+            <h3 className={cn("font-display text-[15px] font-semibold tracking-tight", AQ.ink)}>
+              {label}
+            </h3>
           </div>
-          <p className="mt-0.5 text-[10px] text-slate-400">{scaleHint}</p>
+          {badge ? <StatusPill tone="oxide">{badge}</StatusPill> : null}
+          <p className={cn("text-[11px] leading-relaxed", AQ.faint)}>{scaleHint}</p>
         </div>
+
         <div className="shrink-0 text-right">
-          <p className="font-display text-2xl font-bold tabular-nums text-[#1E324E]">
-            {Math.round(score)}
-            <span className="text-sm font-medium text-slate-400">/100</span>
+          <p
+            className={cn(
+              "font-display text-[2rem] font-semibold tabular-nums tracking-tight leading-none",
+              AQ.ink,
+            )}
+          >
+            {Math.round(safe)}
+            <span className={cn("ml-0.5 text-sm font-medium", AQ.faint)}>/100</span>
           </p>
           {contribution != null ? (
-            <p className="text-[10px] font-medium tabular-nums text-slate-500">
-              → {contribution}/30
+            <p className={cn("mt-1.5", AQ.microLabel)}>
+              <span className="tabular-nums">{contribution}</span>
+              <span className="opacity-60">/30</span>
             </p>
           ) : (
-            <p className="text-[10px] font-medium text-slate-400">radar · non in /30</p>
+            <p className={cn("mt-1.5", AQ.microLabel)}>Radar</p>
           )}
         </div>
       </div>
-      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100">
+
+      <div className="mt-5 h-px overflow-visible bg-neutral-200/80">
         <div
-          className="h-full rounded-full bg-[#345884] transition-all duration-700"
-          style={{ width: `${Math.max(0, Math.min(100, score))}%` }}
+          className="h-px bg-[#3D5A73]/70 transition-all duration-700"
+          style={{ width: `${Math.max(0, Math.min(100, safe))}%` }}
         />
       </div>
-      <MotivationsAccordion items={motivations} />
+
+      <MotivationsAccordion items={safeMotivations} />
     </article>
   );
 }
@@ -355,80 +510,71 @@ function LegalConformityCard({
   motivations,
   gradeWeight,
 }: {
-  status: LegalConformityStatus;
-  sourceRef?: string;
-  motivations: ScoreMotivation[];
+  status?: LegalConformityStatus | null;
+  sourceRef?: string | null;
+  motivations?: ScoreMotivation[] | null;
   gradeWeight: number;
 }) {
-  const conforme = status === "CONFORME";
-  const formal = legalConformityFormalLabel(status);
+  const safeStatus: LegalConformityStatus = resolveLegalConformity(status ?? null);
+  const conforme = safeStatus === "CONFORME";
+  const formal = legalConformityFormalLabel(safeStatus);
   const mappedScore = conforme ? 100 : 0;
   const contribution = dimensionContributionTrentesimi(mappedScore, gradeWeight);
+  const tone = conforme ? "sage" : "oxide";
+  const safeMotivations = normalizeMotivations(motivations);
+  const citation = typeof sourceRef === "string" && sourceRef.trim() ? sourceRef.trim() : null;
 
   return (
-    <article
-      className={cn(
-        "flex flex-col rounded-xl border bg-white p-4 shadow-sm",
-        conforme ? "border-emerald-200" : "border-rose-200",
-      )}
-    >
-      <div className="flex items-start gap-3">
-        <div
-          className={cn(
-            "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
-            conforme ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700",
-          )}
-        >
-          {conforme ? (
-            <ShieldCheck className="h-4 w-4" strokeWidth={1.75} />
-          ) : (
-            <ShieldAlert className="h-4 w-4" strokeWidth={1.75} />
-          )}
-        </div>
-        <div className="min-w-0 flex-1">
-          <h3 className="font-display text-sm font-semibold text-slate-900">
-            Tutela Medico-Legale
-          </h3>
-          <p className="mt-0.5 text-[10px] text-slate-400">
-            Valutazione giuridica binaria · 30% del voto · max 9/30
+    <article className={cn(AQ.plate, AQ.platePad, "flex flex-col")}>
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0 space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className={cn(AQ.microLabel, "tabular-nums")}>02</span>
+            <h3 className={cn("font-display text-[15px] font-semibold tracking-tight", AQ.ink)}>
+              Tutela Medico-Legale
+            </h3>
+          </div>
+          <p className={cn("text-[11px] leading-relaxed", AQ.faint)}>
+            Valutazione giuridica binaria · 30% · max 9/30
           </p>
         </div>
-        <p className="shrink-0 text-[10px] font-medium tabular-nums text-slate-500">
-          → {contribution}/30
+        <p className={cn("shrink-0", AQ.microLabel)}>
+          <span className="tabular-nums">{contribution}</span>
+          <span className="opacity-60">/30</span>
         </p>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        <span
-          className={cn(
-            "inline-flex items-center rounded-md border px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide",
-            conforme
-              ? "border-emerald-300 bg-emerald-50 text-emerald-900"
-              : "border-rose-300 bg-rose-50 text-rose-900",
-          )}
-        >
-          {formal}
-        </span>
+      <div className="mt-5">
+        <StatusPill tone={tone}>{formal}</StatusPill>
       </div>
 
-      {sourceRef ? (
-        <p
+      {citation ? (
+        <div
           className={cn(
-            "mt-3 rounded-lg border px-3 py-2 text-[12px] font-medium leading-snug",
-            conforme
-              ? "border-emerald-100 bg-emerald-50/60 text-emerald-900"
-              : "border-rose-100 bg-rose-50/60 text-rose-900",
+            "mt-4 rounded-xl border px-4 py-3",
+            conforme ? cn(AQ.sageBorder, AQ.sageBg) : cn(AQ.oxideBorder, AQ.oxideBg),
           )}
         >
-          <span className="text-[10px] font-semibold uppercase tracking-wide opacity-70">
-            Citazione normativa
-          </span>
-          <br />
-          {sourceRef}
-        </p>
+          <p className={cn(AQ.microLabel, "mb-1.5")}>Citazione normativa</p>
+          <p
+            className={cn(
+              "flex items-start gap-2.5 text-[12.5px] font-medium leading-snug tracking-tight",
+              conforme ? AQ.sage : AQ.oxide,
+            )}
+          >
+            <span
+              className={cn(
+                "mt-1 inline-block h-3 w-px shrink-0",
+                conforme ? "bg-[#4F6B5C]/60" : "bg-[#8B5A45]/60",
+              )}
+              aria-hidden
+            />
+            {citation}
+          </p>
+        </div>
       ) : null}
 
-      <MotivationsAccordion items={motivations} />
+      <MotivationsAccordion items={safeMotivations} />
     </article>
   );
 }
@@ -450,19 +596,18 @@ export function EliteResultsClient({
   empathyBreakdown = null,
   scoreBreakdown = null,
 }: EliteResultsClientProps) {
-  const shield = legalProtectionStatus
-    ? legalShieldConfig(legalProtectionStatus.status)
+  const legalMeta = legalProtectionStatus
+    ? legalStatusMeta(legalProtectionStatus?.status ?? "HIGHLY_EXPOSED")
     : null;
-  const ShieldIcon = shield?.icon ?? Shield;
 
-  const normalizedScore = safeDisplayTrentesimi(totalScore);
+  const normalizedScore = safeDisplayTrentesimi(safeScore(totalScore, 0));
   const showKillerSwitchBanner =
     killerSwitch?.applied === true ||
-    (normalizedScore < CLINICAL_PASS_TRENTESIMI && fatalErrors.length > 0);
+    (normalizedScore < CLINICAL_PASS_TRENTESIMI && (fatalErrors?.length ?? 0) > 0);
   const killerCap = killerSwitch?.cap ?? 17.9;
 
-  const sb = scoreBreakdown;
-  const empathyMotivations: ScoreMotivation[] =
+  const sb = scoreBreakdown ?? null;
+  const empathyMotivations: ScoreMotivation[] = normalizeMotivations(
     sb?.empathy?.motivations?.length
       ? sb.empathy.motivations
       : empathyBreakdown?.motivations?.length
@@ -473,286 +618,300 @@ export function EliteResultsClient({
                 id: "emp_fallback_floor",
                 type: "positive" as const,
                 text: "Competenza comunicativa professionale",
-                scoreImpact: empathyBreakdown.baseline,
+                scoreImpact: safeScore(empathyBreakdown.baseline, 0),
                 sourceRef: "Rif. Modello comportamentale Aequan — empatia clinica",
               },
-              ...(empathyBreakdown.validationBonus > 0
+              ...(safeScore(empathyBreakdown.validationBonus, 0) > 0
                 ? [
                     {
                       id: "emp_fallback_val",
                       type: "positive" as const,
                       text: "Validazione emotiva",
-                      scoreImpact: empathyBreakdown.validationBonus,
+                      scoreImpact: safeScore(empathyBreakdown.validationBonus, 0),
                     },
                   ]
                 : []),
-              ...(empathyBreakdown.transparencyBonus > 0
+              ...(safeScore(empathyBreakdown.transparencyBonus, 0) > 0
                 ? [
                     {
                       id: "emp_fallback_trans",
                       type: "positive" as const,
                       text: "Trasparenza",
-                      scoreImpact: empathyBreakdown.transparencyBonus,
+                      scoreImpact: safeScore(empathyBreakdown.transparencyBonus, 0),
                     },
                   ]
                 : []),
-              ...(empathyBreakdown.allianceBonus > 0
+              ...(safeScore(empathyBreakdown.allianceBonus, 0) > 0
                 ? [
                     {
                       id: "emp_fallback_ally",
                       type: "positive" as const,
                       text: "Alleanza terapeutica",
-                      scoreImpact: empathyBreakdown.allianceBonus,
+                      scoreImpact: safeScore(empathyBreakdown.allianceBonus, 0),
                     },
                   ]
                 : []),
-              ...(empathyBreakdown.dismissalPenalty > 0
+              ...(safeScore(empathyBreakdown.dismissalPenalty, 0) > 0
                 ? [
                     {
                       id: "emp_fallback_pen",
                       type: "negative" as const,
                       text: "Penalità comunicative",
-                      scoreImpact: -empathyBreakdown.dismissalPenalty,
+                      scoreImpact: -safeScore(empathyBreakdown.dismissalPenalty, 0),
                     },
                   ]
                 : []),
               {
                 id: "emp_fallback_label",
                 type: "neutral" as const,
-                text: empathyBreakdown.qualitativeLabel,
+                text: empathyBreakdown.qualitativeLabel || "Empatia clinica",
                 scoreImpact: 0,
               },
             ]
-          : [];
+          : [],
+  );
 
   const legalConformity: LegalConformityStatus = resolveLegalConformity(
-    sb?.legal?.conformityStatus ?? sb?.legal?.protectionLabel,
+    sb?.legal?.conformityStatus ?? sb?.legal?.protectionLabel ?? null,
   );
-  const legalSourceRef = sb?.legal?.sourceRef;
+  const legalSourceRef = sb?.legal?.sourceRef ?? null;
 
-  const wastedEuro = economicAnalysis
-    ? economicAnalysis.unnecessaryExpenses.reduce((sum, item) => sum + (item.cost ?? 0), 0)
-    : 0;
+  const referenceDocuments = Array.isArray(legalProtectionStatus?.referenceDocuments)
+    ? legalProtectionStatus.referenceDocuments
+    : [];
 
-  const overspend =
-    economicAnalysis && economicAnalysis.actualSpent > economicAnalysis.targetBudget
-      ? economicAnalysis.actualSpent - economicAnalysis.targetBudget
-      : 0;
+  const unnecessaryExpenses = Array.isArray(economicAnalysis?.unnecessaryExpenses)
+    ? economicAnalysis.unnecessaryExpenses
+    : [];
+  const missedRequiredExams = Array.isArray(economicAnalysis?.missedRequiredExams)
+    ? economicAnalysis.missedRequiredExams
+    : [];
 
-  const budgetRespected = economicAnalysis
-    ? economicAnalysis.actualSpent <= economicAnalysis.targetBudget
-    : true;
+  const wastedEuro = unnecessaryExpenses.reduce(
+    (sum, item) => sum + safeScore(item?.cost, 0),
+    0,
+  );
+
+  const actualSpent = safeScore(economicAnalysis?.actualSpent, 0);
+  const targetBudget = safeScore(economicAnalysis?.targetBudget, 0);
+  const overspend = actualSpent > targetBudget ? actualSpent - targetBudget : 0;
+  const budgetRespected = actualSpent <= targetBudget;
+
+  const safeFatalErrors = Array.isArray(fatalErrors) ? fatalErrors : [];
+  const safeStrengths = Array.isArray(strengths) ? strengths : [];
+  const safeWeaknesses = Array.isArray(weaknesses) ? weaknesses : [];
+  const safeLegalSources = Array.isArray(legalSources) ? legalSources : [];
+  const safeClinicalDelta = Array.isArray(clinicalDeltaTable) ? clinicalDeltaTable : [];
+  const safeRadar = Array.isArray(radarData) ? radarData : [];
 
   return (
-    <div className="space-y-6 text-text-primary">
-      <AiTransparencyBadge variant="report" className="results-section-enter border-border bg-ui-bg/80" />
+    <div className={cn("space-y-8", AQ.ink)}>
+      <AiTransparencyBadge
+        variant="report"
+        className="results-section-enter border-neutral-200/60 bg-[#FCFCFD]/80"
+      />
 
       {dismissed ? (
-        <Section
-          delayMs={40}
-          className="flex items-start gap-3 rounded-xl border border-amber-200/80 bg-amber-50/90 px-4 py-3 shadow-aequan-panel"
-        >
-          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" aria-hidden />
-          <p className="text-xs leading-relaxed text-amber-950">
-            Caso abbandonato: i punteggi sono stati registrati a 0 su tutti gli assi.
-          </p>
+        <Section delayMs={40}>
+          <div
+            className={cn(
+              AQ.plate,
+              "flex items-start gap-3 px-6 py-4",
+              AQ.sapphireBorder,
+              AQ.sapphireBg,
+            )}
+          >
+            <StatusDot tone="sapphire" />
+            <p className={cn("text-xs leading-relaxed", AQ.sapphire)}>
+              Caso abbandonato: i punteggi sono stati registrati a 0 su tutti gli assi.
+            </p>
+          </div>
         </Section>
       ) : null}
 
-      {/* Hero */}
-      <Section
-        delayMs={60}
-        className="relative overflow-hidden rounded-xl border border-border bg-panel-bg shadow-aequan-panel"
-      >
-        <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_0%_0%,rgba(52,88,132,0.1),transparent_55%),radial-gradient(ellipse_at_100%_100%,rgba(30,50,78,0.06),transparent_50%)]"
-          aria-hidden
-        />
-        <div className="absolute inset-y-0 left-0 w-1 bg-brand-primary" aria-hidden />
-
-        <div className="relative flex flex-col gap-6 p-5 md:flex-row md:items-end md:justify-between md:p-7">
-          <div className="max-w-xl space-y-2">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-secondary">
-              AEQUAN · Report di valutazione
-            </p>
-            <h1 className="font-display text-[1.65rem] font-bold tracking-tight text-text-primary md:text-[1.85rem]">
-              Valutazione clinica e medico-legale
-            </h1>
-            <p className="text-sm leading-relaxed text-slate-500">
-              Analisi multidimensionale con delta Gold Standard, bilancio economico e coaching AI.
-            </p>
-          </div>
-
-          <div className="flex shrink-0 flex-col items-start rounded-xl border border-brand-secondary/15 bg-brand-secondary/[0.06] px-5 py-4 md:items-end">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
-              Score complessivo
-            </span>
-            <p className="mt-1 font-display text-4xl font-bold tabular-nums tracking-tight text-brand-primary">
-              {Math.round(normalizedScore * 10) / 10}
-              <span className="ml-0.5 text-lg font-medium text-slate-400">/30</span>
-            </p>
-            <p className="mt-1 text-[10px] font-medium uppercase tracking-wide text-slate-400">
-              Scala trentesimi
-            </p>
-          </div>
-        </div>
-
-        {showKillerSwitchBanner ? (
+      {/* ── Hero score plate ─────────────────────────────────────── */}
+      <Section delayMs={60}>
+        <Plate className="relative overflow-hidden">
           <div
-            role="alert"
-            className="relative mx-5 mb-5 rounded-xl border border-red-500/50 bg-red-950/40 px-4 py-3 text-rose-100 md:mx-7 md:mb-6"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_8%_0%,rgba(61,90,115,0.05),transparent_50%)]"
+            aria-hidden
+          />
+          <div
+            className={cn(
+              "relative flex flex-col gap-8 md:flex-row md:items-end md:justify-between",
+              AQ.platePad,
+            )}
           >
-            <div className="flex items-start gap-2.5">
-              <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-400" aria-hidden />
-              <div className="min-w-0 space-y-2">
-                <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-red-300">
-                  Bocciatura d&apos;ufficio (Killer-Switch applicato)
-                </p>
-                <p className="text-xs leading-relaxed text-rose-100/90">
-                  Il voto complessivo è stato limitato d&apos;ufficio a {killerCap}/30 per uno o più
-                  errori clinici o legali fatali. I punteggi parziali (Clinica, Tutela, Esami,
-                  Empatia) restano autentici sul radar: interviene solo il totale hero.
+            <div className="max-w-xl space-y-3">
+              <p className={AQ.microLabel}>Aequan · Report di valutazione</p>
+              <h1
+                className={cn(
+                  "font-display text-[1.75rem] font-semibold tracking-tight md:text-[2rem]",
+                  AQ.ink,
+                )}
+              >
+                Valutazione clinica e medico-legale
+              </h1>
+              <p className={cn("text-sm leading-relaxed", AQ.muted)}>
+                Analisi multidimensionale con delta Gold Standard, bilancio economico e coaching.
+              </p>
+            </div>
+
+            <div className="shrink-0 text-left md:text-right">
+              <p className={AQ.microLabel}>Score complessivo</p>
+              <p
+                className={cn(
+                  "mt-2 font-display text-5xl font-semibold tabular-nums tracking-tight leading-none md:text-6xl",
+                  AQ.ink,
+                )}
+              >
+                {Math.round(normalizedScore * 10) / 10}
+                <span className={cn("ml-1 text-xl font-medium", AQ.faint)}>/30</span>
+              </p>
+              <p className={cn("mt-2", AQ.microLabel)}>Scala trentesimi</p>
+            </div>
+          </div>
+
+          {showKillerSwitchBanner ? (
+            <div
+              role="alert"
+              className={cn(
+                "relative mx-6 mb-6 rounded-xl border px-5 py-4 md:mx-8 md:mb-8",
+                AQ.oxideBorder,
+                AQ.oxideBg,
+              )}
+            >
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-2">
+                  <StatusDot tone="oxide" />
+                  <p className={cn(AQ.microLabel, AQ.oxide)}>
+                    Bocciatura d&apos;ufficio · Killer-Switch
+                  </p>
+                </div>
+                <p className={cn("text-xs leading-relaxed", AQ.oxide)}>
+                  Il voto complessivo è limitato a {killerCap}/30 per errori clinici o legali
+                  fatali. I punteggi parziali restano autentici sul radar: interviene solo il
+                  totale.
                   {killerSwitch?.applied &&
                   typeof killerSwitch.rawTotalTrentesimi === "number" &&
                   typeof killerSwitch.finalTotalTrentesimi === "number"
-                    ? ` Calcolo grezzo: ${killerSwitch.rawTotalTrentesimi}/30 → voto finale: ${killerSwitch.finalTotalTrentesimi}/30.`
+                    ? ` Grezzo: ${killerSwitch.rawTotalTrentesimi}/30 → finale: ${killerSwitch.finalTotalTrentesimi}/30.`
                     : null}
                 </p>
-                {fatalErrors.length > 0 ? (
-                  <ul className="list-disc space-y-1 pl-4 text-xs leading-relaxed text-rose-100/85">
-                    {fatalErrors.map((error) => (
-                      <li key={error.code}>
-                        <span className="font-mono text-[10px] text-red-300/80">{error.code}</span>
-                        {" — "}
-                        {error.description}
+                {safeFatalErrors.length > 0 ? (
+                  <ul className={cn("space-y-1.5 text-xs leading-relaxed", AQ.oxide)}>
+                    {(safeFatalErrors || []).map((error) => (
+                      <li key={error.code} className="flex gap-2">
+                        <span className="mt-1.5 inline-block h-px w-2.5 shrink-0 bg-[#8B5A45]/50" />
+                        <span>
+                          <span className="font-mono text-[10px] opacity-70">{error.code}</span>
+                          {" — "}
+                          {error.description}
+                        </span>
                       </li>
                     ))}
                   </ul>
                 ) : null}
               </div>
             </div>
-          </div>
-        ) : null}
+          ) : null}
+        </Plate>
       </Section>
 
-      {/* Scudo Legale */}
-      {legalProtectionStatus && shield ? (
+      {/* ── Scudo legale (senza border-left / icone oversized) ───── */}
+      {legalProtectionStatus && legalMeta ? (
         <Section delayMs={100}>
-          <article
-            className={cn(
-              "overflow-hidden rounded-xl border border-border border-l-4 bg-gradient-to-br to-panel-bg p-5 shadow-aequan-panel md:p-6",
-              shield.rail,
-              shield.wash,
-            )}
-          >
-            <div className="flex flex-col gap-4 md:flex-row md:items-start">
-              <div
-                className={cn(
-                  "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border",
-                  shield.badge,
-                )}
-              >
-                <ShieldIcon className={cn("h-6 w-6", shield.accent)} />
-              </div>
-              <div className="min-w-0 flex-1 space-y-3">
-                <div className="flex flex-wrap items-center gap-2.5">
-                  <h2 className="font-display text-base font-semibold text-brand-primary">
-                    Scudo Legale
-                  </h2>
+          <Plate className={AQ.platePad}>
+            <div className="flex flex-wrap items-center gap-2.5">
+              <p className={AQ.microLabel}>Scudo legale</p>
+              <StatusPill tone={legalMeta.tone}>{legalMeta.label}</StatusPill>
+            </div>
+            <p className={cn("mt-4 text-sm leading-relaxed", AQ.muted)}>
+              <SafeLlmText as="span" className="whitespace-pre-line">
+                {legalProtectionStatus?.justification ?? ""}
+              </SafeLlmText>
+            </p>
+            {referenceDocuments.length > 0 ? (
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {(referenceDocuments || []).map((doc) => (
                   <span
+                    key={doc}
                     className={cn(
-                      "rounded-md border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide",
-                      shield.badge,
+                      "rounded-md border px-2 py-1 text-[10px] font-medium",
+                      AQ.hairline,
+                      AQ.sapphire,
                     )}
                   >
-                    {shield.label}
+                    {doc}
                   </span>
-                </div>
-                <p className="text-sm leading-relaxed text-slate-600">
-                  <SafeLlmText as="span" className="whitespace-pre-line">
-                    {legalProtectionStatus.justification}
-                  </SafeLlmText>
-                </p>
-                {legalProtectionStatus.referenceDocuments.length > 0 ? (
-                  <div className="flex flex-wrap gap-1.5">
-                    {legalProtectionStatus.referenceDocuments.map((doc) => (
-                      <span
-                        key={doc}
-                        className="rounded-md border border-border bg-ui-bg/80 px-2 py-1 text-[10px] font-medium text-slate-600"
-                      >
-                        {doc}
-                      </span>
-                    ))}
-                  </div>
-                ) : null}
-                {legalSources.length > 0 ? (
-                  <p className="text-[11px] text-slate-500">
-                    Fonti RAG: {legalSources.join(" · ")}
-                  </p>
-                ) : null}
+                ))}
               </div>
-            </div>
-          </article>
+            ) : null}
+            {safeLegalSources.length > 0 ? (
+              <p className={cn("mt-3 text-[11px]", AQ.faint)}>
+                Fonti RAG: {safeLegalSources.join(" · ")}
+              </p>
+            ) : null}
+          </Plate>
         </Section>
       ) : null}
 
-      {/* Macro-aree: card chiare + motivazioni */}
-      <Section delayMs={140} className="space-y-4">
-        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 className="font-display text-base font-semibold text-[#1E324E]">
-              Macro-aree di valutazione
-            </h2>
-            <p className="text-xs text-slate-500">
-              Quattro dimensioni pesano sul voto /30 (30%+30%+20%+20%). Economia SSN è metrica
-              analitica (radar), distinta dall&apos;appropriatezza prescrittiva.
-            </p>
-          </div>
+      {/* ── Macro-aree ──────────────────────────────────────────── */}
+      <Section delayMs={140} className="space-y-5">
+        <div className="space-y-1.5">
+          <p className={AQ.microLabel}>Modulo di valutazione</p>
+          <h2 className={cn("font-display text-base font-semibold tracking-tight", AQ.ink)}>
+            Macro-aree
+          </h2>
+          <p className={cn("max-w-2xl text-xs leading-relaxed", AQ.muted)}>
+            Quattro dimensioni pesano sul voto /30 (30%+30%+20%+20%). Economia SSN è metrica
+            analitica, distinta dall&apos;appropriatezza prescrittiva.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <MacroScoreCard
             label="Accuratezza Clinica"
-            scaleHint="30% del voto · max 9/30 · proporzionale al Gold Standard"
-            score={resolvePillarScore(radarData, PILLARS[0])}
+            scaleHint={PILLARS[0].scaleHint}
+            score={resolvePillarScore(safeRadar, PILLARS[0])}
             gradeWeight={MACRO_AREA_WEIGHTS.clinicalDiagnostic}
-            icon={Stethoscope}
-            motivations={sb?.clinical?.motivations ?? []}
+            motivations={normalizeMotivations(sb?.clinical?.motivations)}
+            code={PILLARS[0].code}
             badge={
               sb?.clinical?.anamnesisCapped
-                ? `Anamnesi ${(sb.clinical.anamnesisCoveragePercent ?? 0)}% < 20%`
+                ? `Anamnesi ${safeScore(sb.clinical.anamnesisCoveragePercent, 0)}% < 20%`
                 : null
             }
           />
           <LegalConformityCard
             status={legalConformity}
             sourceRef={legalSourceRef}
-            motivations={sb?.legal?.motivations ?? []}
+            motivations={normalizeMotivations(sb?.legal?.motivations)}
             gradeWeight={MACRO_AREA_WEIGHTS.legalCompliance}
           />
           <MacroScoreCard
             label="Appropriatezza Esami"
-            scaleHint="20% del voto · max 6/30 · −25% per esame incongruente"
-            score={resolvePillarScore(radarData, PILLARS[2])}
+            scaleHint={PILLARS[2].scaleHint}
+            score={resolvePillarScore(safeRadar, PILLARS[2])}
             gradeWeight={MACRO_AREA_WEIGHTS.examAppropriateness}
-            icon={Activity}
-            motivations={sb?.exams?.motivations ?? []}
+            motivations={normalizeMotivations(sb?.exams?.motivations)}
+            code={PILLARS[2].code}
           />
           <MacroScoreCard
             label="Empatia Clinica"
-            scaleHint="20% del voto · max 6/30"
-            score={resolvePillarScore(radarData, PILLARS[4])}
+            scaleHint={PILLARS[4].scaleHint}
+            score={resolvePillarScore(safeRadar, PILLARS[4])}
             gradeWeight={MACRO_AREA_WEIGHTS.empathy}
-            icon={HeartHandshake}
             motivations={empathyMotivations}
+            code={PILLARS[4].code}
           />
           <MacroScoreCard
             label="Sostenibilità Economica"
-            scaleHint="Metrica analitica · non pesa sul /30"
-            score={resolvePillarScore(radarData, PILLARS[3])}
+            scaleHint={PILLARS[3].scaleHint}
+            score={resolvePillarScore(safeRadar, PILLARS[3])}
             gradeWeight={null}
-            icon={Euro}
-            motivations={sb?.economy?.motivations ?? []}
+            motivations={normalizeMotivations(sb?.economy?.motivations)}
+            code={PILLARS[3].code}
             badge={
               sb?.economy?.underPrescriptionApplied
                 ? "Sotto-prescrizione pericolosa"
@@ -763,143 +922,175 @@ export function EliteResultsClient({
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          <Panel className="lg:col-span-7">
-            <PanelHeader
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-12">
+          <Plate className="lg:col-span-7">
+            <PlateHeader
               title="Radar competenze vs target"
               description="Profilo multidimensionale della sessione."
-              icon={<Activity className="h-4 w-4" />}
+              index="R.01"
             />
-            <div className="h-80 w-full p-4 md:p-5">
-              <ResultsRadarClient data={radarData} />
+            <div className="h-80 w-full px-4 py-5 md:px-6 md:py-6">
+              <ResultsRadarClient data={safeRadar} />
             </div>
-          </Panel>
+          </Plate>
 
-          <Panel className="lg:col-span-5">
-            <PanelHeader
+          <Plate className="lg:col-span-5">
+            <PlateHeader
               title="Bilancio economico SSN"
               description="Budget assegnato vs spesa effettuata."
-              icon={<Euro className="h-4 w-4" />}
+              index="E.01"
             />
-            <div className="space-y-4 p-5 md:p-6">
+            <div className="space-y-4 px-6 py-5 md:px-8 md:py-6">
               {economicAnalysis ? (
                 <>
-                  <div className="rounded-xl border border-border bg-white p-4">
+                  <div className={cn("rounded-xl border bg-white/70 p-4", AQ.hairline)}>
                     <EconomicBudgetGauge
-                      targetBudget={economicAnalysis.targetBudget}
-                      actualSpent={economicAnalysis.actualSpent}
+                      targetBudget={targetBudget}
+                      actualSpent={actualSpent}
                       wastedEuro={wastedEuro}
                     />
                   </div>
                   {overspend > 0 ? (
-                    <p className="flex items-center gap-1.5 rounded-xl border border-rose-200/80 bg-rose-50/80 px-3 py-2.5 text-[11px] text-rose-800">
-                      <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+                    <p
+                      className={cn(
+                        "flex items-start gap-2 rounded-xl border px-3.5 py-2.5 text-[11px]",
+                        AQ.oxideBorder,
+                        AQ.oxideBg,
+                        AQ.oxide,
+                      )}
+                    >
+                      <StatusDot tone="oxide" />
                       Sforamento budget: +€{overspend.toFixed(2)} rispetto al target SSN.
                     </p>
                   ) : budgetRespected ? (
-                    <p className="rounded-xl border border-emerald-200/80 bg-emerald-50/80 px-3 py-2.5 text-[11px] font-medium text-emerald-800">
+                    <p
+                      className={cn(
+                        "flex items-start gap-2 rounded-xl border px-3.5 py-2.5 text-[11px] font-medium",
+                        AQ.sageBorder,
+                        AQ.sageBg,
+                        AQ.sage,
+                      )}
+                    >
+                      <StatusDot tone="sage" />
                       Budget rispettato — spesa entro soglia di appropriatezza.
                     </p>
                   ) : null}
-                  <MotivationsAccordion items={sb?.economy?.motivations ?? []} />
+                  <MotivationsAccordion
+                    items={normalizeMotivations(sb?.economy?.motivations)}
+                  />
                 </>
               ) : (
-                <p className="rounded-xl border border-dashed border-border bg-ui-bg/60 px-4 py-10 text-center text-xs leading-relaxed text-slate-500">
+                <p
+                  className={cn(
+                    "rounded-xl border border-dashed px-4 py-10 text-center text-xs leading-relaxed",
+                    AQ.hairline,
+                    AQ.muted,
+                  )}
+                >
                   Bilancio economico non disponibile per questa sessione.
                 </p>
               )}
             </div>
-          </Panel>
+          </Plate>
         </div>
       </Section>
 
-      {clinicalDeltaTable.length > 0 ? (
+      {safeClinicalDelta.length > 0 ? (
         <Section delayMs={180}>
-          <GoldStandardCompare rows={clinicalDeltaTable} />
+          <GoldStandardCompare rows={safeClinicalDelta} />
         </Section>
       ) : null}
 
       {economicAnalysis &&
-      (economicAnalysis.unnecessaryExpenses.length > 0 ||
-        economicAnalysis.missedRequiredExams.length > 0) ? (
-        <Section delayMs={200} className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <Panel className="overflow-hidden border-rose-200/70">
-            <div className="flex items-center gap-2 border-b border-rose-100 bg-rose-50/50 px-5 py-3.5">
-              <XCircle className="h-4 w-4 text-rose-700" />
-              <h2 className="font-display text-sm font-semibold text-rose-800">Spese superflue</h2>
-            </div>
-            <div className="space-y-2 p-4 md:p-5">
-              {economicAnalysis.unnecessaryExpenses.length === 0 ? (
-                <p className="text-xs text-slate-500">Nessuna spesa superflua rilevata.</p>
+      (unnecessaryExpenses.length > 0 || missedRequiredExams.length > 0) ? (
+        <Section delayMs={200} className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <Plate>
+            <PlateHeader title="Spese superflue" index="E.02" />
+            <div className="space-y-2.5 px-6 py-5 md:px-8">
+              {unnecessaryExpenses.length === 0 ? (
+                <p className={cn("text-xs", AQ.muted)}>Nessuna spesa superflua rilevata.</p>
               ) : (
-                economicAnalysis.unnecessaryExpenses.map((item, i) => (
+                (unnecessaryExpenses || []).map((item, i) => (
                   <div
                     key={i}
-                    className="rounded-xl border border-rose-100 bg-ui-bg/40 px-3.5 py-2.5"
+                    className={cn("rounded-xl border bg-white/50 px-4 py-3", AQ.hairline)}
                   >
                     <div className="flex justify-between gap-2">
-                      <span className="text-sm font-medium text-slate-800">{item.examName}</span>
-                      <span className="text-sm font-semibold tabular-nums text-rose-700">
-                        €{item.cost.toFixed(2)}
+                      <span className={cn("text-sm font-medium", AQ.ink)}>
+                        {item?.examName ?? "Esame"}
+                      </span>
+                      <span
+                        className={cn(
+                          "text-sm font-medium tabular-nums tracking-tight",
+                          AQ.oxide,
+                        )}
+                      >
+                        €{safeScore(item?.cost, 0).toFixed(2)}
                       </span>
                     </div>
-                    <p className="mt-1 text-[11px] leading-relaxed text-slate-600">{item.reason}</p>
+                    <p className={cn("mt-1 text-[11px] leading-relaxed", AQ.muted)}>
+                      {item?.reason ?? ""}
+                    </p>
                   </div>
                 ))
               )}
             </div>
-          </Panel>
+          </Plate>
 
-          <Panel className="overflow-hidden border-amber-200/70">
-            <div className="flex items-center gap-2 border-b border-amber-100 bg-amber-50/50 px-5 py-3.5">
-              <AlertTriangle className="h-4 w-4 text-amber-800" />
-              <h2 className="font-display text-sm font-semibold text-amber-950">Esami mancati</h2>
-            </div>
-            <div className="space-y-2 p-4 md:p-5">
-              {economicAnalysis.missedRequiredExams.length === 0 ? (
-                <p className="text-xs text-slate-500">Nessun esame obbligatorio omesso.</p>
+          <Plate>
+            <PlateHeader title="Esami mancati" index="E.03" />
+            <div className="space-y-2.5 px-6 py-5 md:px-8">
+              {missedRequiredExams.length === 0 ? (
+                <p className={cn("text-xs", AQ.muted)}>Nessun esame obbligatorio omesso.</p>
               ) : (
-                economicAnalysis.missedRequiredExams.map((item, i) => (
+                (missedRequiredExams || []).map((item, i) => (
                   <div
                     key={i}
-                    className="rounded-xl border border-amber-100 bg-ui-bg/40 px-3.5 py-2.5"
+                    className={cn("rounded-xl border bg-white/50 px-4 py-3", AQ.hairline)}
                   >
                     <div className="flex justify-between gap-2">
-                      <span className="text-sm font-medium text-slate-800">{item.examName}</span>
-                      <span className="text-sm font-semibold tabular-nums text-amber-800">
-                        €{item.cost.toFixed(2)}
+                      <span className={cn("text-sm font-medium", AQ.ink)}>
+                        {item?.examName ?? "Esame"}
+                      </span>
+                      <span
+                        className={cn(
+                          "text-sm font-medium tabular-nums tracking-tight",
+                          AQ.sapphire,
+                        )}
+                      >
+                        €{safeScore(item?.cost, 0).toFixed(2)}
                       </span>
                     </div>
-                    <p className="mt-1 text-[11px] leading-relaxed text-slate-600">{item.reason}</p>
+                    <p className={cn("mt-1 text-[11px] leading-relaxed", AQ.muted)}>
+                      {item?.reason ?? ""}
+                    </p>
                   </div>
                 ))
               )}
             </div>
-          </Panel>
+          </Plate>
         </Section>
       ) : null}
 
       {coachingFeedback ? (
         <Section delayMs={220}>
-          <Panel>
-            <PanelHeader
+          <Plate>
+            <PlateHeader
               title="AI Clinical Coach"
               description="Feedback mirato sui quattro assi di coaching."
-              icon={<Sparkles className="h-4 w-4" />}
+              index="C.01"
             />
-            <div className="grid grid-cols-1 gap-4 p-5 md:grid-cols-2 md:p-6 lg:grid-cols-2 xl:grid-cols-4">
-              {COACH_CARDS.map(({ key, label, icon: Icon }) => (
+            <div className="grid grid-cols-1 gap-4 px-6 py-5 md:grid-cols-2 md:px-8 md:py-6 xl:grid-cols-4">
+              {COACH_CARDS.map(({ key, label, code }) => (
                 <div
                   key={key}
-                  className="space-y-2.5 rounded-xl border border-border border-l-[3px] border-l-brand-primary bg-ui-bg/40 p-4"
+                  className={cn("space-y-2.5 rounded-xl border bg-white/40 p-4", AQ.hairline)}
                 >
                   <div className="flex items-center gap-2">
-                    <Icon className="h-4 w-4 text-brand-secondary" />
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-500">
-                      {label}
-                    </span>
+                    <span className={cn(AQ.microLabel, "tabular-nums")}>{code}</span>
+                    <span className={cn(AQ.microLabel)}>{label}</span>
                   </div>
-                  <p className="text-sm leading-relaxed text-slate-600">
+                  <p className={cn("text-sm leading-relaxed", AQ.muted)}>
                     <SafeLlmText as="span" className="whitespace-pre-line">
                       {coachingFeedback[key] ?? ""}
                     </SafeLlmText>
@@ -907,65 +1098,75 @@ export function EliteResultsClient({
                 </div>
               ))}
             </div>
-          </Panel>
+          </Plate>
         </Section>
       ) : null}
 
-      <Section delayMs={240} className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <Panel>
-          <PanelHeader title="Punti di forza" />
-          <div className="space-y-2 p-5">
-            {strengths.length === 0 ? (
-              <p className="text-xs text-slate-500">Nessun punto di forza specifico.</p>
+      <Section delayMs={240} className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <Plate>
+          <PlateHeader title="Punti di forza" index="S.01" />
+          <div className="space-y-2 px-6 py-5 md:px-8">
+            {safeStrengths.length === 0 ? (
+              <p className={cn("text-xs", AQ.muted)}>Nessun punto di forza specifico.</p>
             ) : (
               <ul className="space-y-2">
-                {strengths.map((item, idx) => (
+                {(safeStrengths || []).map((item, idx) => (
                   <li
                     key={idx}
-                    className="rounded-lg border-l-[3px] border-l-brand-secondary bg-ui-bg/50 px-3.5 py-2.5 text-xs leading-relaxed text-slate-600"
+                    className={cn(
+                      "flex gap-2.5 rounded-xl border bg-white/40 px-3.5 py-2.5 text-xs leading-relaxed",
+                      AQ.hairline,
+                      AQ.muted,
+                    )}
                   >
+                    <StatusDot tone="sage" />
                     <SafeLlmText as="span">{item}</SafeLlmText>
                   </li>
                 ))}
               </ul>
             )}
           </div>
-        </Panel>
-        <Panel>
-          <PanelHeader title="Aree di miglioramento" />
-          <div className="space-y-2 p-5">
-            {weaknesses.length === 0 ? (
-              <p className="text-xs text-slate-500">Nessuna criticità specifica.</p>
+        </Plate>
+        <Plate>
+          <PlateHeader title="Aree di miglioramento" index="S.02" />
+          <div className="space-y-2 px-6 py-5 md:px-8">
+            {safeWeaknesses.length === 0 ? (
+              <p className={cn("text-xs", AQ.muted)}>Nessuna criticità specifica.</p>
             ) : (
               <ul className="space-y-2">
-                {weaknesses.map((item, idx) => (
+                {(safeWeaknesses || []).map((item, idx) => (
                   <li
                     key={idx}
-                    className="rounded-lg border-l-[3px] border-l-amber-500 bg-ui-bg/50 px-3.5 py-2.5 text-xs leading-relaxed text-slate-600"
+                    className={cn(
+                      "flex gap-2.5 rounded-xl border bg-white/40 px-3.5 py-2.5 text-xs leading-relaxed",
+                      AQ.hairline,
+                      AQ.muted,
+                    )}
                   >
+                    <StatusDot tone="oxide" />
                     <SafeLlmText as="span">{item}</SafeLlmText>
                   </li>
                 ))}
               </ul>
             )}
           </div>
-        </Panel>
+        </Plate>
       </Section>
 
       {correctSolution ? (
         <Section delayMs={260}>
-          <Panel>
-            <PanelHeader
+          <Plate>
+            <PlateHeader
               title="Gestione esperta di riferimento"
               description="Percorso clinico atteso secondo il Gold Standard del caso."
-              icon={<Stethoscope className="h-4 w-4" />}
+              index="G.01"
             />
-            <div className="p-5 text-sm leading-relaxed text-slate-600 md:p-6">
+            <div className={cn("px-6 py-5 text-sm leading-relaxed md:px-8 md:py-6", AQ.muted)}>
               <SafeLlmText as="div" className="whitespace-pre-line">
                 {correctSolution}
               </SafeLlmText>
             </div>
-          </Panel>
+          </Plate>
         </Section>
       ) : null}
     </div>
