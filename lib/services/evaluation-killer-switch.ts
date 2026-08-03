@@ -9,8 +9,16 @@ import {
 } from "@/lib/services/evaluation-scoring";
 
 const KILLER_SWITCH_CAP = 17.9;
-const FATAL_OMISSION_PATTERN =
-  /tc\s*encefal|tac\s*encefal|ictus|stroke|fibrinol|rtpa|alteplase|allerg|anafil|controindic|emorragia cerebr|stemi|infarto acut/i;
+
+/**
+ * Life-saving actions only — matched against protocolAction / critical description,
+ * NOT against free-text rationales (avoids stroke/ACS keyword false positives).
+ */
+const FATAL_LIFE_SAVING_ACTION_PATTERN =
+  /tc\s*encefal|tac\s*encefal|angio[\s-]?tc|rm\s*encefal|fibrinol|rt[\s-]?pa|alteplase|trombol|perfus(?:ione)?\s*coronar|pci\s*primar|angioplast(?:ica)?\s*primar|ecg\s*12|aspirina|asa\s*carico|doppio\s*antiaggreg|defibrill|rcp\s*avanzat|intubaz|via\s*aerea|adrenalina|epinefrina|adrenalina\s*im/i;
+
+const FATAL_ALLERGY_DRUG_ACTION_PATTERN =
+  /allerg|anafil|controindicazion[ei].{0,40}farmac|farmaco.{0,40}controindic/i;
 
 /** Detects clinically fatal errors from structured evaluation checklist. */
 export function detectFatalErrors(analytical: AnalyticalEvaluation): FatalError[] {
@@ -26,36 +34,46 @@ export function detectFatalErrors(analytical: AnalyticalEvaluation): FatalError[
 
   for (const action of analytical.criticalActions ?? []) {
     if (!action?.performed && action?.criticalLevel === "HIGH") {
-      push(action.description ?? "Azione critica omessa", action.feedback ?? "");
+      const desc = action.description ?? "";
+      // Only treat HIGH omissions as fatal when the omitted action itself is life-saving.
+      if (FATAL_LIFE_SAVING_ACTION_PATTERN.test(desc) || FATAL_ALLERGY_DRUG_ACTION_PATTERN.test(desc)) {
+        push(desc || "Azione critica salvavita omessa", action.feedback ?? "");
+      }
     }
   }
 
   for (const action of analytical.inappropriateActions ?? []) {
-    if (action?.performed && (action.penaltyWeight ?? 0) >= 30) {
-      push(
-        `Azione inappropriata: ${action.description ?? "n/d"}`,
-        action.feedback ?? "",
-      );
+    // High bar: severe contraindicated act (allergy / wrong fibrinolytic, etc.).
+    if (action?.performed && (action.penaltyWeight ?? 0) >= 40) {
+      const desc = action.description ?? "";
+      if (
+        FATAL_LIFE_SAVING_ACTION_PATTERN.test(desc) ||
+        FATAL_ALLERGY_DRUG_ACTION_PATTERN.test(desc)
+      ) {
+        push(`Azione inappropriata: ${desc || "n/d"}`, action.feedback ?? "");
+      }
     }
   }
 
   for (const row of analytical.clinicalDeltaTable ?? []) {
     if (!row || (row.status !== "MISSED" && row.status !== "DELAYED")) continue;
-    const combined = `${row.protocolAction ?? ""} ${row.penaltyOrBonusReason ?? ""}`;
-    const isFatalPattern = FATAL_OMISSION_PATTERN.test(combined);
-    const isLifeThreatening =
-      /red flag|salvavita|emergenza|entro\s*\d|fatale|catastrof/i.test(combined);
-    if (isFatalPattern || (row.status === "MISSED" && isLifeThreatening)) {
-      push(row.protocolAction ?? "Omissione critica", row.penaltyOrBonusReason ?? "");
+    // Match ONLY the protocol action label — never explanatory penalty text.
+    const protocol = row.protocolAction ?? "";
+    if (!FATAL_LIFE_SAVING_ACTION_PATTERN.test(protocol)) continue;
+    if (row.status === "DELAYED") {
+      // Delayed life-saving step is fatal only when reason explicitly marks time-critical harm.
+      const reason = row.penaltyOrBonusReason ?? "";
+      if (!/entro\s*\d|finestra|tempo.?dipendent|ritardo\s*critico|fatale|catastrof/i.test(reason)) {
+        continue;
+      }
     }
+    push(protocol || "Omissione critica salvavita", row.penaltyOrBonusReason ?? "");
   }
 
   for (const review of analytical.legalInstrumentReviews ?? []) {
     if (
       review?.compliance === "violato" &&
-      /gelli|24\/2017|consenso|allerg|farmaco/i.test(
-        `${review.instrument ?? ""}${review.rationale ?? ""}`,
-      )
+      /gelli|24\/2017|consenso informato/i.test(`${review.instrument ?? ""}`)
     ) {
       push(`Violazione ${review.instrument ?? "strumento legale"}`, review.rationale ?? "");
     }
@@ -69,7 +87,7 @@ export function detectFatalErrors(analytical: AnalyticalEvaluation): FatalError[
   return errors;
 }
 
-/** Killer Switch: fatal clinical error caps final grade below 18/30. */
+/** Killer Switch: fatal clinical error caps final grade at ≤17.9/30. */
 export function applyKillerSwitch(totalScore: number, fatalErrors: FatalError[]): number {
   if (fatalErrors.length === 0) return totalScore;
   return Math.min(totalScore, KILLER_SWITCH_CAP);
@@ -149,25 +167,20 @@ export function computeFinalTrentesimiWithKillerSwitch(
   rawTotal: number;
   finalTotal: number;
   killerSwitchApplied: boolean;
-  /** Scores used ONLY to compute the capped total — never overwrite persisted legal/empathy. */
+  /** @deprecated Kept for callers — identical to scoresForPersist (cap-only, no pillar wipe). */
   adjustedScoresForTotal: DimensionScores;
   /** Authentic dimension scores for SessionReport columns / UI radar. */
   scoresForPersist: DimensionScores;
 } {
   const scoresForPersist = { ...scores };
-  // Fatal clinical errors reduce the safety contribution in the TOTAL only.
-  // Persisting legal=0 made Tutela Medico-Legale look unevaluated even when chat had consent/docs.
-  const adjustedScoresForTotal =
-    fatalErrors.length > 0 ? { ...scores, legal: Math.min(scores.legal, 0) } : scores;
-
+  // Cap-only: never zero legal/empathy for the total math — partials stay authentic in DB/UI.
   const rawTotal = computeTotalScoreTrentesimi(scores);
-  const cappedRaw = computeTotalScoreTrentesimi(adjustedScoresForTotal);
-  const finalTotal = applyKillerSwitch(cappedRaw, fatalErrors);
+  const finalTotal = applyKillerSwitch(rawTotal, fatalErrors);
   return {
     rawTotal,
     finalTotal,
-    killerSwitchApplied: fatalErrors.length > 0 && finalTotal < rawTotal,
-    adjustedScoresForTotal,
+    killerSwitchApplied: fatalErrors.length > 0,
+    adjustedScoresForTotal: scoresForPersist,
     scoresForPersist,
   };
 }

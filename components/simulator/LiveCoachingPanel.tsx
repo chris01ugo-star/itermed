@@ -153,9 +153,12 @@ export function LiveCoachingPanel({
           <div className="space-y-3">
             {metrics.map((m) => {
               const barColor = TONE_BAR[m.tone ?? "good"];
-              const awaitingAnamnesis = m.id === "clinical" && m.value === 0;
-              const safetyAlert = m.id === "legal" && m.value <= 40 && m.tone === "risk";
-              const pct = Math.max(0, Math.min(100, m.value));
+              const showNeutral = isBaseline || !hasScore;
+              const awaitingAnamnesis =
+                showNeutral || (m.id === "clinical" && m.value === 0);
+              const safetyAlert =
+                !showNeutral && m.id === "legal" && m.value <= 40 && m.tone === "risk";
+              const pct = showNeutral ? 0 : Math.max(0, Math.min(100, m.value));
 
               return (
                 <div key={m.id} className="space-y-1.5">
@@ -169,8 +172,14 @@ export function LiveCoachingPanel({
                         awaitingAnamnesis && "text-slate-400",
                       )}
                     >
-                      {Math.round(m.value)}
-                      <span className="font-normal text-slate-400">/100</span>
+                      {showNeutral ? (
+                        <span className="font-medium text-slate-300">—</span>
+                      ) : (
+                        <>
+                          {Math.round(m.value)}
+                          <span className="font-normal text-slate-400">/100</span>
+                        </>
+                      )}
                     </span>
                   </div>
                   <div className="h-2 overflow-hidden rounded-full bg-slate-100">
@@ -183,7 +192,7 @@ export function LiveCoachingPanel({
                       }}
                     />
                   </div>
-                  {m.statusLabel ? (
+                  {(m.statusLabel || showNeutral) ? (
                     <p
                       className={cn(
                         "text-[11px] leading-snug text-slate-500",
@@ -191,7 +200,7 @@ export function LiveCoachingPanel({
                         awaitingAnamnesis && "text-slate-400",
                       )}
                     >
-                      {m.statusLabel}
+                      {m.statusLabel ?? "In attesa di anamnesi"}
                     </p>
                   ) : null}
                 </div>

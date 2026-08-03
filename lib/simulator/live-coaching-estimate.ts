@@ -153,7 +153,7 @@ function buildBaselineEstimate(input: LiveCoachingInput): LiveCoachingEstimate {
         label: "Clinica",
         value: clinical,
         tone: "warn",
-        statusLabel: "In attesa anamnesi",
+        statusLabel: "In attesa di anamnesi",
       },
       {
         id: "legal",
@@ -161,22 +161,22 @@ function buildBaselineEstimate(input: LiveCoachingInput): LiveCoachingEstimate {
         value: legal,
         tone: physiologicallyUnstable ? "risk" : "good",
         statusLabel: physiologicallyUnstable
-          ? "Da stabilizzare"
-          : "ABC ok · stabile",
+          ? "Da stabilizzare · Minuto 0"
+          : "In attesa di anamnesi",
       },
       {
         id: "exams",
         label: "Esami",
         value: exams,
         tone: "good",
-        statusLabel: "Nessuna prematurità",
+        statusLabel: "In attesa di anamnesi",
       },
       {
         id: "empathy",
         label: "Empatia",
         value: clampScore(empathy),
         tone: toneFor(empathy),
-        statusLabel: "Baseline triage",
+        statusLabel: "In attesa di anamnesi",
       },
     ],
   };

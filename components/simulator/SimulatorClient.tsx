@@ -66,6 +66,8 @@ import { deriveDemoVitals, patientDisplayName } from "@/lib/prassi/demo-vitals";
 import { classifyVitals, maxVitalStatus } from "@/lib/clinical/vital-status";
 import { resolveCaseStressProfile } from "@/lib/simulator/patient-stress-engine";
 import { estimateLiveCoaching } from "@/lib/simulator/live-coaching-estimate";
+import { resolveExamBudgetEuro } from "@/lib/services/evaluation-scoring";
+import type { CaseDifficulty } from "@prisma/client";
 import { EXAM_DEFAULT_VALUES, type ExamClinicalMeta } from "../../lib/exam-default-values";
 import { EXAM_CATALOG_STRUCTURE } from "@/lib/exam-catalog-structure";
 import {
@@ -375,6 +377,7 @@ export function SimulatorClient({
     | "showing_report";
 
   const [gameStatus, setGameStatus] = useState<GameStatus>("playing");
+  const [diagnosisCheckError, setDiagnosisCheckError] = useState<string | null>(null);
   const [enableAiSurprises, setEnableAiSurprises] = useState(false);
   const [forceAiSurprise, setForceAiSurprise] = useState(false);
   const [finalDiagnosis, setFinalDiagnosis] = useState("");
@@ -408,6 +411,7 @@ export function SimulatorClient({
   /** User-triggered pause ("Interruzione") — freezes clocks without ending the session. */
   const [isPaused, setIsPaused] = useState(false);
   const effectiveSessionIdRef = useRef(effectiveSessionId);
+  const sessionStartPromiseRef = useRef<Promise<string | null> | null>(null);
   const examIdsChargedForStressRef = useRef<Set<string>>(new Set());
   const stressInitializedRef = useRef(false);
 
@@ -537,6 +541,8 @@ export function SimulatorClient({
     isLoading: isChatLoading,
     setMessages,
     append,
+    error: chatError,
+    reload: reloadChat,
   } = useChat({
     api: "/api/chat",
     streamProtocol: "data",
@@ -569,11 +575,21 @@ export function SimulatorClient({
     onError: () => {
       setMessages((prev) => {
         const last = prev[prev.length - 1];
-        if (!last || last.role !== "assistant") return prev;
+        if (!last || last.role !== "assistant") {
+          return [
+            ...prev,
+            {
+              id: `chat-error-${Date.now()}`,
+              role: "assistant" as const,
+              content:
+                "Connessione interrotta o timeout. Usa «Riprova invio» per ripetere l’ultimo messaggio.",
+            },
+          ];
+        }
         const existing =
           typeof last.content === "string" && last.content.length > 0
             ? last.content
-            : "Errore nella chat. Riprova tra qualche secondo.";
+            : "Errore nella chat. Usa «Riprova invio» tra qualche secondo.";
         return [...prev.slice(0, -1), { ...last, content: existing }];
       });
     },
@@ -602,28 +618,39 @@ export function SimulatorClient({
     return () => window.clearInterval(id);
   }, [disclaimerAccepted, gameStatus, isPaused, tutorialOpen]);
 
-  const ensureSessionId = async (): Promise<string | null> => {
-    if (effectiveSessionId) return effectiveSessionId;
-    try {
-      const res = await fetch("/api/session/start", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          caseId: initialCaseData.id,
-          mode: "original",
-        }),
-      });
-      const data = await res.json().catch(() => null);
-      const newSessionId = data?.sessionId as string | undefined;
-      if (newSessionId) {
-        setEffectiveSessionId(newSessionId);
-        return newSessionId;
+  const ensureSessionId = useCallback(async (): Promise<string | null> => {
+    if (effectiveSessionIdRef.current) return effectiveSessionIdRef.current;
+    if (sessionStartPromiseRef.current) return sessionStartPromiseRef.current;
+
+    const startPromise = (async (): Promise<string | null> => {
+      try {
+        const res = await fetch("/api/session/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            caseId: initialCaseData.id,
+            mode: "original",
+          }),
+        });
+        const data = await res.json().catch(() => null);
+        const newSessionId = data?.sessionId as string | undefined;
+        if (newSessionId) {
+          setEffectiveSessionId(newSessionId);
+          effectiveSessionIdRef.current = newSessionId;
+          syncSessionIdInUrl(newSessionId);
+          return newSessionId;
+        }
+        return null;
+      } catch {
+        return null;
+      } finally {
+        sessionStartPromiseRef.current = null;
       }
-      return null;
-    } catch {
-      return null;
-    }
-  };
+    })();
+
+    sessionStartPromiseRef.current = startPromise;
+    return startPromise;
+  }, [initialCaseData.id]);
 
   const handleDismissCase = async () => {
     const confirmed = window.confirm(
@@ -659,36 +686,12 @@ export function SimulatorClient({
     }
   };
 
+  // Single-flight session start — only after clinical disclaimer (avoid orphan sessions).
   useEffect(() => {
-    if (effectiveSessionId) return;
-    let cancelled = false;
-
-    (async () => {
-      try {
-        const res = await fetch("/api/session/start", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            caseId: initialCaseData.id,
-            mode: "original",
-          }),
-        });
-        const data = await res.json().catch(() => null);
-        const newSessionId = data?.sessionId as string | undefined;
-        if (!cancelled && newSessionId) {
-          setEffectiveSessionId(newSessionId);
-          // Prefer history sync over router.replace to avoid remounting the play page.
-          syncSessionIdInUrl(newSessionId);
-        }
-      } catch {
-        // ignore
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [effectiveSessionId, initialCaseData.id]);
+    if (!disclaimerAccepted || !persistReports) return;
+    if (effectiveSessionIdRef.current) return;
+    void ensureSessionId();
+  }, [disclaimerAccepted, persistReports, ensureSessionId]);
 
   useEffect(() => {
     if (!isAdmin || !effectiveSessionId) return;
@@ -753,6 +756,14 @@ export function SimulatorClient({
   );
 
   const totalCost = selectedExams.reduce((sum, exam) => sum + exam.cost, 0);
+  const examBudgetEuro = useMemo(
+    () =>
+      resolveExamBudgetEuro(
+        initialCaseData.difficulty as CaseDifficulty,
+        initialCaseData.baselineExamFindings,
+      ),
+    [initialCaseData.difficulty, initialCaseData.baselineExamFindings],
+  );
 
   const reportGenerationAbortRef = useRef<AbortController | null>(null);
 
@@ -992,6 +1003,7 @@ export function SimulatorClient({
     const diagnosisText = extractFinalDiagnosisFromReport(reportSections).trim();
     if (!isClinicalReportComplete(reportSections) || !diagnosisText) return;
     setFinalDiagnosis(diagnosisText);
+    setDiagnosisCheckError(null);
     setGameStatus("checking_diagnosis");
 
     window.setTimeout(async () => {
@@ -1007,13 +1019,29 @@ export function SimulatorClient({
           }),
         });
 
+        if (!res.ok) {
+          setDiagnosisCheckError(
+            "Verifica diagnosi non riuscita (errore di rete o server). Puoi correggere il referto e riprovare.",
+          );
+          setGameStatus("playing");
+          return;
+        }
+
         const verdict = (await res.json().catch(() => null)) as
           | { isCorrect: boolean; expectedCondition?: string }
           | null;
 
-        const isCorrect = Boolean(verdict && verdict.isCorrect);
+        if (!verdict) {
+          setDiagnosisCheckError(
+            "Risposta di verifica non valida. Riprendi l’anamnesi o correggi la diagnosi e riprova.",
+          );
+          setGameStatus("playing");
+          return;
+        }
+
+        const isCorrect = Boolean(verdict.isCorrect);
         setExpectedConditionText(
-          verdict?.expectedCondition ? String(verdict.expectedCondition) : null,
+          verdict.expectedCondition ? String(verdict.expectedCondition) : null,
         );
 
         if (isCorrect) {
@@ -1069,10 +1097,19 @@ export function SimulatorClient({
           syncSessionIdInUrl(sid);
         }
       } catch {
-        // fallback safe: don't block the flow; treat as success but without surprise
-        setGameStatus("success");
+        setDiagnosisCheckError(
+          "Impossibile verificare la diagnosi (timeout o errore di rete). Lo stato torna a «in corso» — correggi e riprova.",
+        );
+        setGameStatus("playing");
       }
     }, 2000);
+  };
+
+  const resumeAfterWrongDiagnosis = () => {
+    setDiagnosisCheckError(null);
+    setGameStatus("playing");
+    setIsDischargeOpen(true);
+    setPatientChartTab("referto");
   };
 
   if (gameStatus === "showing_report") {
@@ -1510,6 +1547,8 @@ export function SimulatorClient({
                         void append({ role: "user", content: text });
                       }}
                       isLoading={isChatLoading}
+                      chatError={chatError}
+                      onRetryChat={() => void reloadChat()}
                       compact
                       fill
                       showInactivityNudge={showInactivityNudge}
@@ -1518,6 +1557,7 @@ export function SimulatorClient({
                 </div>
                 <SessionSideMetrics
                   totalCost={totalCost}
+                  budget={examBudgetEuro}
                   patientStress={patientStress}
                   reportReady={isClinicalReportComplete(reportSections)}
                   onOpenDischarge={() => setIsDischargeOpen(true)}
@@ -1621,6 +1661,8 @@ export function SimulatorClient({
                         void append({ role: "user", content: text });
                       }}
                       isLoading={isChatLoading}
+                      chatError={chatError}
+                      onRetryChat={() => void reloadChat()}
                       compact={embedded}
                       showInactivityNudge={showInactivityNudge}
                     />
@@ -1864,7 +1906,7 @@ export function SimulatorClient({
                     Costo SSN
                   </span>
                   <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
-                    Budget rif. €250
+                    Budget rif. €{examBudgetEuro}
                   </span>
                 </div>
                 <p className="font-mono text-base font-semibold tracking-tight text-[#345884]">
@@ -1873,7 +1915,9 @@ export function SimulatorClient({
                 <div className="mt-2.5 h-2 w-full overflow-hidden rounded-sm bg-white">
                   <div
                     className="h-full rounded-sm bg-[#345884] transition-all duration-500"
-                    style={{ width: `${Math.min(100, (totalCost / 250) * 100)}%` }}
+                    style={{
+                      width: `${Math.min(100, (totalCost / Math.max(1, examBudgetEuro)) * 100)}%`,
+                    }}
                   />
                 </div>
                 <p className="mt-2 inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
@@ -1909,6 +1953,14 @@ export function SimulatorClient({
               <CardContent className="space-y-3 text-xs">
                 {gameStatus === "playing" && (
                   <div className="space-y-4">
+                    {diagnosisCheckError ? (
+                      <div
+                        role="alert"
+                        className="rounded-2xl border border-rose-200 bg-rose-50 px-3 py-2.5 text-sm text-rose-800"
+                      >
+                        {diagnosisCheckError}
+                      </div>
+                    ) : null}
                     {isAdmin && debugTargetCondition && (
                       <div className="rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-[11px] text-amber-900">
                         <span className="font-medium">Debug – patologia target (sessione):</span>{" "}
@@ -2078,6 +2130,27 @@ export function SimulatorClient({
                           >
                             {isStartingEmergency ? "Avvio emergenza..." : "Gestisci emergenza"}
                           </Button>
+                        ) : gameStatus === "wrong_diagnosis" ? (
+                          <>
+                            <Button
+                              type="button"
+                              size="md"
+                              variant="outline"
+                              className="rounded-xl px-4 text-xs"
+                              onClick={resumeAfterWrongDiagnosis}
+                            >
+                              Riprendi anamnesi / Correggi diagnosi
+                            </Button>
+                            <Button
+                              type="button"
+                              size="md"
+                              className="rounded-xl bg-gradient-to-r from-[#1E324E] to-[#345884] px-4 text-xs text-white shadow-sm transition-all duration-300 hover:opacity-95 hover:shadow-md"
+                              onClick={() => void generateReportAndNavigate()}
+                              disabled={reportLoading}
+                            >
+                              {reportLoading ? "Generazione report..." : "Chiudi e vai al Report"}
+                            </Button>
+                          </>
                         ) : (
                           <Button
                             type="button"
@@ -2176,6 +2249,14 @@ export function SimulatorClient({
           <div className="scrollbar-aequan min-h-0 flex-1 space-y-3 overflow-y-auto px-6 pb-5 pt-3 text-sm">
             {gameStatus === "playing" ? (
               <div className="space-y-4">
+                {diagnosisCheckError ? (
+                  <div
+                    role="alert"
+                    className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2.5 text-sm text-rose-800"
+                  >
+                    {diagnosisCheckError}
+                  </div>
+                ) : null}
                 <ClinicalDischargeReportPanel
                   sections={reportSections}
                   onChange={setReportSections}
@@ -2269,6 +2350,27 @@ export function SimulatorClient({
                     >
                       {isStartingEmergency ? "Avvio…" : "Gestisci emergenza"}
                     </Button>
+                  ) : gameStatus === "wrong_diagnosis" ? (
+                    <>
+                      <Button
+                        type="button"
+                        size="md"
+                        variant="outline"
+                        className="rounded-xl px-4 text-sm"
+                        onClick={resumeAfterWrongDiagnosis}
+                      >
+                        Riprendi anamnesi / Correggi diagnosi
+                      </Button>
+                      <Button
+                        type="button"
+                        size="md"
+                        className="rounded-xl bg-[#1E324E] px-4 text-sm text-white hover:bg-[#2A486D]"
+                        onClick={() => void generateReportAndNavigate()}
+                        disabled={reportLoading}
+                      >
+                        {reportLoading ? "Generazione…" : "Chiudi e vai al Report"}
+                      </Button>
+                    </>
                   ) : (
                     <Button
                       type="button"
@@ -2546,6 +2648,10 @@ type HistoryChatProps = {
   /** Suggested prompt chips — send immediately as a user message. */
   onSuggestedPrompt?: (text: string) => void;
   isLoading: boolean;
+  /** Streaming / network failure from useChat. */
+  chatError?: Error | undefined;
+  /** Re-send last message after stream failure. */
+  onRetryChat?: () => void;
   /** Bound height for embedded Prassi grid — avoids fixed 460px blowing layout. */
   compact?: boolean;
   /** Stretch to fill the parent container height instead of a fixed px height. */
@@ -2569,6 +2675,8 @@ function HistoryChat({
   onSubmit,
   onSuggestedPrompt,
   isLoading,
+  chatError,
+  onRetryChat,
   compact = false,
   fill = false,
   showInactivityNudge = false,
@@ -2700,6 +2808,28 @@ function HistoryChat({
         ) : null}
       </div>
       <form ref={formRef} onSubmit={onSubmit} className="mt-1 shrink-0 space-y-1.5">
+        {chatError ? (
+          <div
+            role="alert"
+            className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-[12px] text-rose-900"
+          >
+            <p className="min-w-0 flex-1 leading-snug">
+              Chat interrotta (timeout o rete). Puoi riprovare l&apos;ultimo invio.
+            </p>
+            {onRetryChat ? (
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                className="shrink-0 border-rose-300 bg-white text-xs text-rose-900 hover:bg-rose-100"
+                onClick={onRetryChat}
+                disabled={isLoading}
+              >
+                Riprova invio
+              </Button>
+            ) : null}
+          </div>
+        ) : null}
         {showInactivityNudge ? (
           <div
             role="status"

@@ -314,6 +314,7 @@ export function buildDeterministicEvaluation(
   let breakdown = checklistBreakdown;
 
   // Blend deterministic milestone evidence so real chat/exam events cannot be erased by a sparse LLM checklist.
+  // Soft-fail / empty-checklist neutrals must not be crushed toward milestone zeros (Math.max floor).
   if (milestones.length > 0) {
     const milestoneDerived = deriveMilestoneDimensionScores({
       milestones,
@@ -327,12 +328,35 @@ export function buildDeterministicEvaluation(
       const w = Math.max(0, Math.min(1, milestoneWeight));
       return Math.round(checklist * (1 - w) + milestone * w);
     };
+    const blendPreservingFloor = (
+      checklist: number,
+      milestone: number,
+      milestoneWeight: number,
+      preserveFloor: boolean,
+    ): number => {
+      const blended = blend(checklist, milestone, milestoneWeight);
+      return preserveFloor ? Math.max(checklist, blended) : blended;
+    };
+
+    const legalUnevaluable = checklistBreakdown.legal.unevaluable === true;
+    const empathyEmptyChecklist = checklistBreakdown.empathy.totalParameters === 0;
+
     scores = {
       clinical: blend(checklistScores.clinical, milestoneDerived.scores.clinical, 0.4),
-      legal: blend(checklistScores.legal, milestoneDerived.scores.legal, 0.5),
+      legal: blendPreservingFloor(
+        checklistScores.legal,
+        milestoneDerived.scores.legal,
+        0.5,
+        legalUnevaluable,
+      ),
       exams: blend(checklistScores.exams, milestoneDerived.scores.exams, 0.35),
       economy: checklistScores.economy,
-      empathy: blend(checklistScores.empathy, milestoneDerived.scores.empathy, 0.55),
+      empathy: blendPreservingFloor(
+        checklistScores.empathy,
+        milestoneDerived.scores.empathy,
+        0.55,
+        empathyEmptyChecklist,
+      ),
     } satisfies DimensionScores;
     breakdown = {
       ...checklistBreakdown,

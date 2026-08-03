@@ -325,8 +325,9 @@ export function EliteResultsClient({
                   Bocciatura d&apos;ufficio (Killer-Switch applicato)
                 </p>
                 <p className="text-xs leading-relaxed text-rose-100/90">
-                  Il punteggio massimo è stato limitato d&apos;ufficio a {killerCap}/30 a causa del
-                  rilevamento di uno o più errori clinici o legali fatali durante la simulazione.
+                  Il voto complessivo è stato limitato d&apos;ufficio a {killerCap}/30 per uno o più
+                  errori clinici o legali fatali. I punteggi parziali (Clinica, Tutela, Esami,
+                  Empatia) restano autentici sul radar: interviene solo il totale hero.
                   {killerSwitch?.applied &&
                   typeof killerSwitch.rawTotalTrentesimi === "number" &&
                   typeof killerSwitch.finalTotalTrentesimi === "number"

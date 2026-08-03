@@ -115,6 +115,7 @@ function applyKillerSwitchToEvaluation(evaluation: EvaluationResult): {
     fatalErrors,
     rawTotalTrentesimi: rawTotal,
     finalTotalTrentesimi: cappedFinal,
+    // Cap-only: applied whenever fatals exist (partials stay authentic in scoresForPersist).
     killerSwitchApplied: killerSwitchApplied || cappedFinal < rawTotal,
     scoresForPersist,
   };
