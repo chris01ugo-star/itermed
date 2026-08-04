@@ -162,6 +162,10 @@ export function buildSessionReportData(params: {
         budgetEuro: evaluation.examBudgetEuro ?? null,
         totalCostEuro: evaluation.totalExamCostEuro ?? null,
       },
+      helpTelemetry: evaluation.helpTelemetry ?? {
+        helpRequested: false,
+        helpRequestCount: 0,
+      },
       ...(typeof simulationElapsedMinutes === "number" && simulationElapsedMinutes > 0
         ? { simulationElapsedMinutes }
         : {}),

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRef, useState, type MouseEvent } from "react";
+import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import {
   Dialog,
@@ -15,14 +15,19 @@ import { Button } from "@/app/ui/button";
 
 type StartCaseButtonsProps = {
   caseId: string;
-  /** Se fornito, avvia la sessione senza navigazione diretta (master-detail Prassi). */
+  /** @deprecated Prefer direct Link + hard nav — kept for optional analytics hooks. */
   onSessionStart?: (caseId: string, sessionId: string) => void;
   /** Destinazione di fallback se `onSessionStart` non è passato. */
   playBasePath?: string;
 };
 
-function playHref(playBasePath: string, caseId: string, sessionId: string) {
-  return `${playBasePath}/${encodeURIComponent(caseId)}?sessionId=${encodeURIComponent(sessionId)}`;
+/** Hard timeout: never wait longer than this for /api/session/start. */
+const SESSION_START_DEADLINE_MS = 1_500;
+
+function playHref(playBasePath: string, caseId: string, sessionId?: string) {
+  const base = `${playBasePath}/${encodeURIComponent(caseId)}`;
+  if (!sessionId || sessionId.startsWith("registry_")) return base;
+  return `${base}?sessionId=${encodeURIComponent(sessionId)}`;
 }
 
 type LimitDialogState = {
@@ -30,55 +35,92 @@ type LimitDialogState = {
   message: string;
 };
 
+function fetchWithDeadline(
+  input: RequestInfo | URL,
+  init: RequestInit,
+  ms: number,
+): Promise<Response> {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), ms);
+  return fetch(input, { ...init, signal: controller.signal }).finally(() => {
+    window.clearTimeout(timer);
+  });
+}
+
 export function StartCaseButtons({
   caseId,
   onSessionStart,
   playBasePath = "/dashboard/prassi/play",
 }: StartCaseButtonsProps) {
-  const router = useRouter();
   const [isStartingOriginal, setIsStartingOriginal] = useState(false);
   const [isStartingVariant, setIsStartingVariant] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [limitDialog, setLimitDialog] = useState<LimitDialogState | null>(null);
+  const navigatedRef = useRef(false);
 
-  const navigateToSession = (sessionId: string) => {
+  const directPlayHref = playHref(playBasePath, caseId);
+
+  /** Native hard navigation — never depends on Next soft routing. */
+  const forceNavigate = (sessionId?: string) => {
+    if (navigatedRef.current) return;
+    navigatedRef.current = true;
     const href = playHref(playBasePath, caseId, sessionId);
-    if (onSessionStart) {
-      onSessionStart(caseId, sessionId);
-    } else {
-      router.push(href);
+    try {
+      onSessionStart?.(caseId, sessionId?.trim() || `registry_${caseId}`);
+    } catch (err) {
+      console.error("[DEBUG CLICK] onSessionStart threw", err);
     }
-    // Soft nav can stall inside nested dashboard layouts — hard fallback.
-    window.setTimeout(() => {
-      if (!window.location.pathname.includes(`/prassi/play/`)) {
-        window.location.assign(href);
-      }
-    }, 800);
+    try {
+      console.log("[DEBUG CLICK] forceNavigate", { caseId, href });
+      window.location.href = href;
+    } catch (err) {
+      console.error("[DEBUG CLICK] window.location.href failed", err);
+      window.location.assign(href);
+    }
   };
 
   const start = async (mode: "original" | "variant", opts?: { devBypass?: boolean }) => {
+    console.log("[DEBUG CLICK]", caseId, { mode });
     setError(null);
-    try {
-      if (mode === "original") {
-        setIsStartingOriginal(true);
-      } else {
-        setIsStartingVariant(true);
-      }
+    navigatedRef.current = false;
 
-      const res = await fetch("/api/session/start", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          caseId,
-          mode,
-          ...(opts?.devBypass ? { devBypass: true } : {}),
-        }),
+    if (mode === "original") {
+      setIsStartingOriginal(true);
+    } else {
+      setIsStartingVariant(true);
+    }
+
+    // Emergency: if anything stalls, open play anyway within 1.5s.
+    const emergencyTimer = window.setTimeout(() => {
+      console.warn("[DEBUG CLICK] emergency deadline — hard redirect", {
+        caseId,
+        href: directPlayHref,
       });
+      forceNavigate();
+      setIsStartingOriginal(false);
+      setIsStartingVariant(false);
+    }, SESSION_START_DEADLINE_MS);
+
+    try {
+      const res = await fetchWithDeadline(
+        "/api/session/start",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            caseId,
+            mode,
+            ...(opts?.devBypass ? { devBypass: true } : {}),
+          }),
+        },
+        SESSION_START_DEADLINE_MS,
+      );
 
       const data = (await res.json().catch(() => null)) as {
         sessionId?: string;
         error?: string;
         code?: string;
+        offline?: boolean;
       } | null;
 
       if (!res.ok) {
@@ -90,26 +132,69 @@ export function StartCaseButtons({
             : "Errore nell'avvio della sessione.");
 
         if (code === "DAILY_LIMIT" || code === "TRIAL_EXHAUSTED") {
+          window.clearTimeout(emergencyTimer);
           setLimitDialog({ mode, message });
           return;
         }
 
-        throw new Error(message);
+        console.warn("[DEBUG CLICK] session API error — redirecting anyway", {
+          caseId,
+          status: res.status,
+          code,
+          message,
+        });
+        forceNavigate();
+        return;
       }
 
       const sessionId = data?.sessionId?.trim();
-      if (!sessionId) {
-        throw new Error("Sessione creata senza ID. Riprova.");
-      }
-
       setLimitDialog(null);
-      navigateToSession(sessionId);
+      forceNavigate(sessionId);
     } catch (err) {
-      console.error(err);
-      setError(err instanceof Error ? err.message : "Errore nell'avvio della sessione.");
+      console.error("[DEBUG CLICK] exception — forcing play redirect", {
+        caseId,
+        mode,
+        err,
+      });
+      setError(
+        err instanceof Error
+          ? `${err.message} Apertura diretta della simulazione…`
+          : "Errore nell'avvio. Apertura diretta…",
+      );
+      forceNavigate();
     } finally {
+      window.clearTimeout(emergencyTimer);
       setIsStartingOriginal(false);
       setIsStartingVariant(false);
+    }
+  };
+
+  const handleOriginalClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    console.log("[DEBUG CLICK]", caseId);
+    // Allow open-in-new-tab / modified clicks to use the native Link href.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+    event.preventDefault();
+    try {
+      void start("original");
+    } catch (err) {
+      console.error("[DEBUG CLICK] sync throw — forcing redirect", err);
+      window.location.href = directPlayHref;
+    }
+  };
+
+  const handleVariantClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    console.log("[DEBUG CLICK]", caseId, { mode: "variant" });
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+    event.preventDefault();
+    try {
+      void start("variant");
+    } catch (err) {
+      console.error("[DEBUG CLICK] variant sync throw — forcing redirect", err);
+      window.location.href = directPlayHref;
     }
   };
 
@@ -118,19 +203,22 @@ export function StartCaseButtons({
   return (
     <div className="space-y-2">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-        <button
-          type="button"
-          className="inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
-          onClick={() => void start("original")}
-          disabled={isBusy}
+        {/* Native HTML fallback: works without JS; JS enhances with session create (≤1.5s). */}
+        <Link
+          href={directPlayHref}
+          prefetch
+          onClick={handleOriginalClick}
+          aria-busy={isStartingOriginal}
+          className="inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-center text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-800"
         >
           {isStartingOriginal ? "Avvio..." : "Gioca caso originale"}
-        </button>
-        <button
-          type="button"
-          className="inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-lg bg-[#1E324E] px-4 py-2 font-display text-sm font-medium text-white transition-colors hover:bg-[#2A486D] disabled:cursor-not-allowed disabled:opacity-60"
-          onClick={() => void start("variant")}
-          disabled={isBusy}
+        </Link>
+        <Link
+          href={directPlayHref}
+          prefetch={false}
+          onClick={handleVariantClick}
+          aria-busy={isStartingVariant}
+          className="inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-lg bg-[#1E324E] px-4 py-2 text-center font-display text-sm font-medium text-white transition-colors hover:bg-[#2A486D]"
         >
           {isStartingVariant ? (
             "Generazione variante..."
@@ -140,7 +228,7 @@ export function StartCaseButtons({
               Genera variante IA
             </>
           )}
-        </button>
+        </Link>
       </div>
       {error ? (
         <p
@@ -178,7 +266,13 @@ export function StartCaseButtons({
               disabled={isBusy || !limitDialog}
               onClick={() => {
                 if (!limitDialog) return;
-                void start(limitDialog.mode, { devBypass: true });
+                console.log("[DEBUG CLICK]", caseId, { mode: limitDialog.mode, devBypass: true });
+                try {
+                  void start(limitDialog.mode, { devBypass: true });
+                } catch (err) {
+                  console.error("[DEBUG CLICK] dev bypass throw", err);
+                  window.location.href = directPlayHref;
+                }
               }}
             >
               {isBusy ? "Avvio..." : "Sono un dev"}

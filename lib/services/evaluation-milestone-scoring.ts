@@ -402,9 +402,9 @@ export function deriveMilestoneDimensionScores(
       conformityStatus,
       protectionLabel: conformityStatus,
       formalLabel: safetyFullyMet
-        ? "CONFORME (TUTELATO)"
-        : "NON CONFORME (RISCHIO CONTENZIOSO)",
-      sourceRef: LEGAL_SOURCE_REFS.gelliArt5,
+        ? "CONFORME (Scudo Legale Attivo)"
+        : "NON CONFORME (Profilo di Rischio Contenzioso)",
+      sourceRef: "[Corpus normativo RAG della specialità]",
       motivations: [
         motivation(
           safetyFullyMet ? "positive" : "negative",
@@ -412,7 +412,7 @@ export function deriveMilestoneDimensionScores(
           {
             id: "ms_legal",
             scoreImpact: 0,
-            sourceRef: LEGAL_SOURCE_REFS.gelliArt5,
+            sourceRef: "[Corpus normativo RAG della specialità]",
           },
         ),
       ],

@@ -23,11 +23,13 @@ import {
   resolveExamBudgetEuro,
   resolveExamCostsFromCatalog,
   motivation,
+  buildExecutedActionIds,
   type DimensionScores,
   type ScoreBreakdown,
 } from "@/lib/services/evaluation-scoring";
 import { deriveMilestoneDimensionScores } from "@/lib/services/evaluation-milestone-scoring";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
+import { getCaseById } from "@/lib/data/cases/registry";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 import { EVALUATION_MAX_OUTPUT_TOKENS } from "@/lib/security/ai-rate-limits";
 import { fenceContext, truncateForLlmContext } from "@/lib/security/prompt-context";
@@ -317,7 +319,7 @@ export function buildDeterministicAnalyticalFallback(params: {
         : "Nessun corpus legale RAG disponibile (soft-fail).",
       prescribingNote: `Esami prescritti: ${exams.length}. Costo stimato €${params.totalCostEuro.toFixed(2)} su budget €${params.examBudgetEuro}.`,
       empathyNote:
-        "Empatia calcolata con modello comportamentale sulla chat (baseline 60 + indicatori).",
+        "Empatia calcolata con Framework Calgary-Cambridge (ascolto, validazione Art. 20, adeguatezza d'urgenza) sulla chat.",
       economyNote: `Spesa esami €${params.totalCostEuro.toFixed(2)} / budget €${params.examBudgetEuro}.`,
       correctSolution: gold.length > 0 ? gold.slice(0, 6).join(" → ") : "",
     },
@@ -392,6 +394,11 @@ export type EvaluationResult = AnalyticalEvaluation & {
   resolvedExams: ExamPayload[];
   examBudgetEuro: number;
   totalExamCostEuro: number;
+  /** User-initiated help/consult telemetry for autonomy tracking (Pilastro 5). */
+  helpTelemetry?: {
+    helpRequested: boolean;
+    helpRequestCount: number;
+  };
 };
 
 export type ChatMessage = {
@@ -411,6 +418,8 @@ export type EvaluateSimulationInput = {
   exams: ExamPayload[];
   reportText: string;
   caseContext?: string;
+  caseTitle?: string;
+  caseId?: string;
   finalDiagnosis?: string;
   guidelines: RelevantGuidelines;
   difficulty?: CaseDifficulty;
@@ -421,6 +430,12 @@ export type EvaluateSimulationInput = {
   goldStandardPath?: string[];
   /** Deterministic session milestones (exams, gold steps, empathy/legal cues). */
   sessionMilestones?: SessionMilestoneSnapshot[];
+  /** Immutable action registry — exact IDs only (Pilastro 2). */
+  executedActionIds?: string[];
+  requestedExamIds?: string[];
+  /** User-initiated help/consult requests (Pilastro 5 — autonomy tracking). */
+  helpRequested?: boolean;
+  helpRequestCount?: number;
 };
 
 export type GenerateObjectFn = typeof generateObject;
@@ -477,6 +492,15 @@ export function buildDeterministicEvaluation(
     goldStandardPath?: string[];
     /** Doctor↔patient transcript for behavioral empathy. */
     chatHistory?: ChatMessage[];
+    caseId?: string;
+    caseContext?: string;
+    caseTitle?: string;
+    /** Immutable session action registry (exact IDs only). */
+    executedActionIds?: string[];
+    requestedExamIds?: string[];
+    /** Legal RAG chunks/sources from getRelevantGuidelines (specialty-scoped). */
+    legalChunks?: import("@/lib/services/rag-service").GuidelineChunk[];
+    legalSources?: string[];
   },
 ): Pick<
   EvaluationResult,
@@ -488,6 +512,15 @@ export function buildDeterministicEvaluation(
   );
 
   const milestones = params.sessionMilestones ?? [];
+  const registered = params.caseId ? getCaseById(params.caseId) : undefined;
+
+  const executedActionIds =
+    params.executedActionIds && params.executedActionIds.length > 0
+      ? params.executedActionIds
+      : buildExecutedActionIds({
+          requestedExamIds: params.requestedExamIds,
+          exams: resolvedExams,
+        });
 
   const { scores: checklistScores, breakdown: checklistBreakdown } = deriveDimensionScores({
     criticalActions: analytical.criticalActions,
@@ -500,8 +533,18 @@ export function buildDeterministicEvaluation(
     ragSourcesCount: params.ragSourcesCount,
     chatHistory: params.chatHistory,
     sessionMilestones: milestones,
-    goldStandardPath: params.goldStandardPath,
+    goldStandardPath: params.goldStandardPath ?? registered?.goldStandardPath,
     orderedExams: resolvedExams,
+    caseId: params.caseId ?? registered?.id,
+    caseContext: params.caseContext,
+    caseTitle: params.caseTitle ?? registered?.title,
+    anamnesisQuestions: registered?.anamnesisQuestions,
+    executedActionIds,
+    requestedExamIds: params.requestedExamIds,
+    mandatoryExams: registered?.mandatoryExams,
+    inappropriateExams: registered?.inappropriateExams,
+    legalChunks: params.legalChunks,
+    legalSources: params.legalSources,
   });
 
   let scores = checklistScores;
@@ -509,6 +552,7 @@ export function buildDeterministicEvaluation(
 
   // Blend deterministic milestone evidence so real chat/exam events cannot be erased by a sparse LLM checklist.
   // Legal is RAG Strict binary (0/100) — never blend mid-scores.
+  // Clinical is scored exclusively by ESC/AHA matrix × executedActionIds — do not blend with milestones.
   // Empathy is scored exclusively by the behavioral chat model — do not blend with milestones.
   // Economy is recomputed in severity gates with the asymmetric fork.
   if (milestones.length > 0) {
@@ -526,7 +570,7 @@ export function buildDeterministicEvaluation(
     };
 
     scores = {
-      clinical: blend(checklistScores.clinical, milestoneDerived.scores.clinical, 0.4),
+      clinical: checklistScores.clinical,
       legal: checklistScores.legal,
       exams: blend(checklistScores.exams, milestoneDerived.scores.exams, 0.35),
       economy: checklistScores.economy,
@@ -534,18 +578,7 @@ export function buildDeterministicEvaluation(
     } satisfies DimensionScores;
     breakdown = {
       ...checklistBreakdown,
-      clinical: {
-        ...checklistBreakdown.clinical,
-        final: scores.clinical,
-        motivations: [
-          ...(checklistBreakdown.clinical.motivations ?? []),
-          motivation(
-            "neutral",
-            `Blend milestone clinici: checklist ${checklistScores.clinical} ↔ milestone ${milestoneDerived.scores.clinical} → ${scores.clinical}`,
-            { scoreImpact: 0, sourceRef: "Rif. Milestone deterministici × checklist" },
-          ),
-        ],
-      },
+      clinical: checklistBreakdown.clinical,
       legal: {
         ...checklistBreakdown.legal,
         final: scores.legal,
@@ -592,8 +625,12 @@ export function buildDeterministicEvaluation(
     chatHistory: params.chatHistory,
     sessionMilestones: milestones,
     inappropriateActions: analytical.inappropriateActions,
-    goldStandardPath: params.goldStandardPath,
+    goldStandardPath: params.goldStandardPath ?? registered?.goldStandardPath,
     orderedExams: resolvedExams,
+    caseId: params.caseId ?? registered?.id,
+    caseTitle: params.caseTitle ?? registered?.title,
+    mandatoryExams: registered?.mandatoryExams,
+    inappropriateExams: registered?.inappropriateExams,
   });
 
   return {
@@ -688,13 +725,15 @@ ISTRUZIONI ANALITICHE (OBBLIGATORIE):
    - Se il corpus RAG è soft-fail: non colmare con conoscenza parametrica inventata.
 
 1) criticalActions / inappropriateActions / empathyChecklist / legalInstrumentReviews — checklist oggettive ancorate al trascritto.
-   - empathyChecklist: ≥4 parametri (ascolto, rassicurazione, spiegazione, gestione stress) come TELEMETRIA qualitativa. Il voto numerico di empatia è calcolato deterministicamente dal trascritto (baseline 60 + validazione/trasparenza/alleanza − penalità). Imposta met=true SOLO con evidenza in <<<CHAT_TRANSCRIPT>>>; non inventare checklist tutta falsa.
+   - criticalActions: TELEMETRIA qualitativa (HIGH/MEDIUM). Il voto numerico di Accuratezza Clinica è calcolato deterministicamente dalla matrice ESC/AHA (Classe I/III) sul registro immutabile executedActionIds — non inventare performed=true senza evidenza di esame/azione nel trascritto o negli esami prescritti.
+   - empathyChecklist: ≥4 parametri (ascolto, rassicurazione, spiegazione, gestione stress) come TELEMETRIA qualitativa. Il voto numerico di empatia è calcolato deterministicamente dal trascritto con Framework Calgary-Cambridge (ascolto attivo vs quesiti anamnestici + validazione emotiva Art. 20 + adeguatezza all'urgenza clinica; Art. 24 per informazione). Imposta met=true SOLO con evidenza in <<<CHAT_TRANSCRIPT>>>; non inventare checklist tutta falsa.
    - legalInstrumentReviews: se in chat compare consenso / allergie / spiegazione rischi, NON marcare "violato" senza motivazione testuale; usa "rispettato" o "parziale" coerente con le evidenze.
 
 2) legalProtectionStatus:
    - status: PROTECTED se documentazione e percorso difendibile; PARTIALLY_EXPOSED se lacune; HIGHLY_EXPOSED se violazioni gravi.
-   - justification: cita articoli/norme dal corpus legale fornito nel messaggio utente (Gelli-Bianco, consenso, cartella, ecc.).
+   - justification: cita SOLO titoli esatti di documenti presenti in <<<RAG_GUIDELINES>>> (nessuna legge inventata o memorizzata a priori). Formato citazione: [Titolo Documento] - Sezione/Articolo se presente nel chunk.
    - referenceDocuments: nomi esatti dei file RAG citati (vuoto se soft-fail).
+   - legalInstrumentReviews: TELEMETRIA qualitativa. Il verdetto binario CONFORME/NON CONFORME è calcolato deterministicamente dal motore RAG specialty (criteri caso + corpus recuperato). Imposta documentTitle = titolo esatto della fonte RAG usata.
 
 3) clinicalDeltaTable — una riga per ogni tappa Gold Standard o azione protocollo chiave:
    - protocolAction: cosa richiede il Gold Standard / linea guida.
@@ -958,6 +997,13 @@ export class EvaluationService {
         sessionMilestones: input.sessionMilestones,
         goldStandardPath: input.goldStandardPath,
         chatHistory: sanitizedChat,
+        caseId: input.caseId,
+        caseContext: input.caseContext,
+        caseTitle: input.caseTitle,
+        executedActionIds: input.executedActionIds,
+        requestedExamIds: input.requestedExamIds,
+        legalChunks: input.guidelines?.legal?.chunks,
+        legalSources: input.guidelines?.legal?.sources,
       });
 
       this.deps.logger.info("Simulation evaluation completed (deterministic scoring)", {
@@ -969,6 +1015,8 @@ export class EvaluationService {
         ragSourcesCount: hasLegalContext ? ragSourcesCount : 0,
         legalUnevaluable: deterministic.scoreBreakdown.legal.unevaluable,
         empathyFinal: deterministic.scoreBreakdown.empathy?.finalScore,
+        helpRequested: Boolean(input.helpRequested) || (input.helpRequestCount ?? 0) > 0,
+        helpRequestCount: input.helpRequestCount ?? 0,
         usedAiAnalytical,
         durationMs: Date.now() - evalStartedAt,
       });
@@ -1036,10 +1084,18 @@ export class EvaluationService {
             }
           : guardedAnalytical.legalProtectionStatus;
 
+      const helpRequestCount = Math.max(0, Math.floor(input.helpRequestCount ?? 0));
+      const helpRequested =
+        Boolean(input.helpRequested) || helpRequestCount > 0;
+
       return {
         ...guardedAnalytical,
         ...deterministic,
         legalProtectionStatus,
+        helpTelemetry: {
+          helpRequested,
+          helpRequestCount,
+        },
         evidence: {
           ...guardedAnalytical.evidence,
           legalSources: hasLegalContext

@@ -1,5 +1,5 @@
 /**
- * CAR-F01 — STEMI Anteriore Acuto (Cardiologia, Livello Facile)
+ * CAR-F01 — STEMI Anteriore Acuto (Prassi Clinica → Cardiologia → Facile)
  * Gold Standard case anchored to Aequan `rag_knowledge_base`.
  *
  * RAG citations (verbatim paths under rag_knowledge_base/):
@@ -18,9 +18,10 @@ const TROPONINA_FINDING =
   "Troponina hs (t0): 86 ng/L (URL <14 ng/L) — elevazione basale compatibile con danno miocardico acuto; " +
   "non ritardare la riperfusione in attesa del dosaggio.";
 
-const LAB_FINDING =
-  "Na 139 mmol/L, K 4.1 mmol/L, Cl 102 mmol/L. Creatinina 0.95 mg/dL, eGFR >90 mL/min/1.73m². " +
-  "PT/INR 1.0, aPTT 28 s. Emocromo: Hb 14.2 g/dL, PLT 245×10⁹/L, GB 9.8×10⁹/L.";
+const LAB_PANEL_FINDING =
+  "Ematochimici di routine — Elettroliti: Na 139 · K 4.1 · Cl 102 mmol/L. " +
+  "Funzionalità renale: Creatinina 0.95 mg/dL · eGFR >90. " +
+  "Coagulazione: INR 1.0 · aPTT 28 s. Emocromo: Hb 14.2 · PLT 245 · GB 9.8.";
 
 const ECOCARDIO_FINDING =
   "Eco TT bedside focalizzato: acinesia / ipocinesia severa della parete antero-settale e apicale; " +
@@ -28,43 +29,48 @@ const ECOCARDIO_FINDING =
 
 const ANGIO_TC_WASTE_FINDING =
   "Esame non indicato di prima intenzione in STEMI tipico ECG-positivo: genera ritardo Door-to-Balloon " +
-  "e consumo inappropriato di risorsa SSN (Angio-TC / Coronaro-TC). Nessuna evidenza di dissezione aortica o EP " +
-  "nel quesito clinico attuale.";
+  "e spreco di risorsa SSN (~€180). Nessuna evidenza di dissezione aortica o EP nel quesito clinico attuale.";
 
 const PHYSICAL_SUMMARY =
   "Uomo di 58 anni, vigile, collaborante, dolorante, diaforetico. Killip I. " +
   "PA 140/85 mmHg, FC 90 bpm ritmica, SpO₂ 97% in aria ambiente. Toni cardiaci validi, non soffi né sfregamenti. " +
   "Murmure vescicolare fisiologico su tutto l'ambito polmonare. Perfusione periferica valida, polsi simmetrici.";
 
+/** Budget I livello gold (11.60+8+25+43.90) ≈ €88.50 — buffer operativo SSN. */
+const EXAM_BUDGET_EURO = 120;
+
 export const CAR_F01: ClinicalCase = {
   code: "CAR-F01",
   id: "car-f01",
-  title: "CAR-F01 · STEMI anteriore acuto (PS)",
+  title: "STEMI Anteriore Acuto in Paziente di 58 anni",
   description:
-    "Uomo, 58 anni, dolore toracico retrosternale oppressivo insorto da 40 minuti, irradiato all'arto superiore " +
-    "sinistro e alla mandibola, associato a diaforesi e nausea. Presentazione tipica di sindrome coronarica acuta " +
-    "con sopraslivellamento ST (STEMI anteriore) — percorso Easy di Cardiologia.",
-  specialty: "Cardiologia",
+    "Uomo, 58 anni, dolore toracico retrosternale oppressivo insorto da 40 minuti, irradiato al braccio sinistro " +
+    "e alla mandibola, associato a diaforesi e nausea. Caso gold standard Prassi Clinica — Cardiologia — Facile.",
+  category: "prassi-clinica",
+  specialty: "cardiologia",
+  specialtyLabel: "Cardiologia",
   medicalSpecialtyKey: "cardiologia",
   difficulty: "EASY",
-  estimatedDurationMinutes: 40,
-  timeLimitMinutes: 40,
-  patientDeteriorationThreshold: 12,
+  difficultyLabel: "facile",
+  estimatedTimeMinutes: 20,
+  estimatedDurationMinutes: 20,
+  timeLimitMinutes: 20,
+  patientDeteriorationThreshold: 10,
   patientPrompt: [
     "Sei Roberto, 58 anni. Da circa 40 minuti hai un peso oppressivo dietro lo sterno che si irradia al braccio sinistro e alla mandibola.",
     "Sei sudato e nauseato. Hai paura di un infarto ma non dare diagnosi né valori vitali numerici.",
-    "Rispondi in prima persona, ansioso ma collaborante. Se il medico chiede, conferma fumo attivo e pressione alta in terapia.",
-    "Se ritarda l'ECG o propone esami non urgenti (TC torace), aumenta ansia e senso di morte imminente.",
+    "Rispondi in prima persona, ansioso ma collaborante. Se il medico chiede, conferma fumo attivo, ipertensione in terapia e padre morto di infarto.",
+    "Se ritarda l'ECG o propone Angio-TC/Coronaro-TC, aumenta ansia e senso di morte imminente.",
   ].join(" "),
   pastMedicalHistory:
     "Ipertensione arteriosa in terapia con ACE-inibitore (ramipril 5 mg). Fumatore attivo (~15 sigarette/die, 25 pack-year). " +
-    "Dislipidemia non trattata. Nessuna allergia nota a farmaci. Nessun episodio di sanguinamento maggiore, ulcera peptica attiva, " +
-    "ictus recente o chirurgia maggiore negli ultimi 30 giorni. Padre deceduto per IMA a 62 anni.",
+    "Dislipidemia non trattata. Familiarità positiva per CAD (padre deceduto per IMA a 62 anni). " +
+    "Nessuna allergia nota. Nessun sanguinamento maggiore, ulcera peptica attiva, ictus recente o chirurgia maggiore negli ultimi 30 giorni.",
   diagnosis: "STEMI anteriore acuto (occlusione tipica IVA) — Killip I",
   correctSolution:
-    "STEMI anteriore: ECG 12 derivazioni entro 10' dal triage → attivazione Primary PCI (Door-to-Balloon <90') → " +
-    "DAPT (ASA + inibitore P2Y12) dopo esclusione anamnestica di sanguinamento attivo → eco TT bedside se non ritarda la sala. " +
-    "Troponina hs t0 e laboratorio di base. Evitare Angio-TC/Coronaro-TC di prima intenzione.",
+    "STEMI anteriore: ECG 12 derivazioni entro 10' dal triage → DAPT (ASA + P2Y12) dopo verifica assenza sanguinamenti attivi → " +
+    "invio immediato in Emodinamica (Primary PCI, Door-to-Balloon <90') → troponina hs t0 + ematochimici + eco TT bedside se non ritarda la sala. " +
+    "Evitare Angio-TC/Coronaro-TC di prima intenzione.",
   goldStandardPath: [
     "ecg",
     "troponina-hs",
@@ -77,92 +83,89 @@ export const CAR_F01: ClinicalCase = {
   ],
   examLatencies: {
     ecg: 8,
-    "troponina-hs": 40,
-    elettroliti: 35,
-    "creat-urea-gfr": 35,
-    "pt-ptt-inr": 35,
-    emocromo: 35,
-    ecocardio: 20,
+    "troponina-hs": 35,
+    elettroliti: 30,
+    "creat-urea-gfr": 30,
+    "pt-ptt-inr": 30,
+    emocromo: 30,
+    ecocardio: 18,
     angio: 45,
     tc: 40,
     coronarografia: 25,
   },
+  examBudgetEuro: EXAM_BUDGET_EURO,
 
-  /* ── 8 quesiti anamnestici critici ─────────────────────────────── */
+  /* ── 8 quesiti anamnestici critici (Prassi) ────────────────────── */
   anamnesisQuestions: [
     {
-      id: "aq_tempo_insorgenza",
-      prompt: "Da quanto tempo è iniziato il dolore? (onset esatto in minuti/ore)",
+      id: "aq_insorgenza",
+      prompt: "Tempo di insorgenza del dolore (minuti/ore esatte dall'onset)",
       critical: true,
-      expectedKeywords: ["da quanto", "quando è iniziato", "da quanti minuti", "da quante ore", "insorgenza"],
-      rationale:
-        "Finestra temporale per riperfusione e Door-to-Balloon; criterio ESC ACS 2023 sul timing.",
+      expectedKeywords: ["da quanto", "quando è iniziato", "da quanti minuti", "insorgenza", "da 40"],
+      rationale: "Finestra per riperfusione e Door-to-Balloon — ESC ACS 2023.",
     },
     {
       id: "aq_caratteristiche_dolore",
       prompt:
-        "Caratteristiche del dolore: sede, qualità (oppressivo/costrittivo), irradiazione (arto SX, mandibola), intensità",
+        "Caratteristiche del dolore: sede retrosternale, qualità oppressiva, irradiazione a braccio sinistro e mandibola",
       critical: true,
       expectedKeywords: [
         "dove fa male",
-        "che tipo di dolore",
         "oppressiv",
+        "retrosternal",
         "irradia",
         "braccio",
         "mandibola",
-        "retrosternal",
       ],
-      rationale: "Fenotipo clinico tipico di ischemia miocardica — guida priorità ECG e pathway STEMI.",
+      rationale: "Fenotipo tipico di ischemia miocardica — priorità ECG e pathway STEMI.",
     },
     {
-      id: "aq_fattori_rischio_cv",
-      prompt: "Fattori di rischio cardiovascolare: fumo, ipertensione, dislipidemia, diabete, familiarità per IMA",
+      id: "aq_ipertensione",
+      prompt: "Anamnesi di ipertensione arteriosa e terapia antiipertensiva in atto",
       critical: true,
-      expectedKeywords: ["fum", "pression", "ipertens", "colesterol", "dislipid", "diabet", "familiar"],
-      rationale: "Profilo di rischio a priori e contesto prognostico; non ritarda comunque l'ECG.",
+      expectedKeywords: ["ipertens", "pression", "ramipril", "antiipertens"],
+      rationale: "Fattore di rischio CV maggiore; contesto terapeutico pre-PCI.",
     },
     {
-      id: "aq_episodicita",
-      prompt: "Episodicità: episodi analoghi pregressi, angina da sforzo, durata degli episodi precedenti",
+      id: "aq_fumo",
+      prompt: "Abitudine tabagica (fumo attivo / pack-year)",
       critical: true,
-      expectedKeywords: ["già avuto", "altre volte", "sforzo", "angina", "episodi precedenti"],
-      rationale: "Distingue SCA di novo vs angina instabile / crescendo — refinement diagnostico.",
+      expectedKeywords: ["fum", "sigarett", "tabag"],
+      rationale: "Fattore di rischio modificabile ad alto impatto su CAD.",
     },
     {
-      id: "aq_farmaci_in_uso",
-      prompt: "Farmaci in uso abituale (antiipertensivi, antiaggreganti, anticoagulanti, nitrati)",
+      id: "aq_familiarita_cad",
+      prompt: "Familiarità per coronaropatia / IMA (parenti di I grado)",
       critical: true,
-      expectedKeywords: ["farmaci", "terapia", "assume", "pillol", "ramipril", "aspirina", "cardioaspirin"],
-      rationale: "Interazioni e baseline antiaggregante/anticoagulante prima di DAPT e sala di emodinamica.",
+      expectedKeywords: ["familiar", "padre", "infarto", "ima", "cuore in famiglia"],
+      rationale: "Anamnesi familiare positiva per CAD — completa il profilo di rischio.",
+    },
+    {
+      id: "aq_farmaci",
+      prompt: "Farmaci in uso (antiipertensivi, antiaggreganti, anticoagulanti, nitrati)",
+      critical: true,
+      expectedKeywords: ["farmaci", "terapia", "assume", "pillol", "aspirina", "cardioaspirin"],
+      rationale: "Baseline farmacologica prima di DAPT e sala di emodinamica.",
     },
     {
       id: "aq_controindicazioni_trombolisi",
       prompt:
-        "Controindicazioni a fibrinolisi (se PCI non tempestiva): ictus recente, trauma/chirurgia recente, sanguinamento attivo, neoplasie intracraniche",
+        "Controindicazioni a fibrinolisi (se PCI non tempestiva): ictus, trauma/chirurgia recente, sanguinamento, neoplasia intracranica",
       critical: true,
-      expectedKeywords: ["ictus", "emorragia", "sanguinamento", "chirurgia", "trauma cranico", "controindicaz"],
-      rationale:
-        "Branch ESC: se Primary PCI non raggiungibile entro tempi, valutare fibrinolisi solo senza controindicazioni.",
+      expectedKeywords: ["ictus", "emorragia", "sanguinamento", "chirurgia", "trauma", "controindicaz"],
+      rationale: "Branch ESC: fibrinolisi solo se Primary PCI non raggiungibile e senza controindicazioni.",
     },
     {
-      id: "aq_controindicazioni_dapt",
+      id: "aq_controindicazioni_antiaggreganti",
       prompt:
-        "Controindicazioni / cautela ad antiaggregazione: sanguinamento attivo, ulcera peptica attiva, allergia ad ASA/P2Y12, diatesi emorragica",
+        "Controindicazioni / cautela ad antiaggregazione (DAPT): sanguinamento attivo, ulcera peptica attiva, allergia ASA/P2Y12",
       critical: true,
-      expectedKeywords: ["sanguinamento", "ulcera", "allergia", "aspirina", "emorragia", "feci nere", "melena"],
-      rationale:
-        "Prerequisito anamnestico obbligatorio prima della DAPT — tutela medico-legale e sicurezza prescrittiva.",
-    },
-    {
-      id: "aq_sintomi_associati",
-      prompt: "Sintomi associati: diaforesi, nausea/vomito, dispnea, sincope, palpitazioni",
-      critical: true,
-      expectedKeywords: ["sudor", "nause", "vomit", "fiato", "dispnea", "svenuto", "palpitaz"],
-      rationale: "Completezza anamnestica SCA; supporta triage e monitoraggio continuo.",
+      expectedKeywords: ["sanguinamento", "ulcera", "allergia", "aspirina", "melena", "emorragia"],
+      rationale: "Prerequisito obbligatorio prima della DAPT — tutela medico-legale e sicurezza prescrittiva.",
     },
   ],
 
-  /* ── Esame obiettivo — Single Source of Truth (Killip I) ───────── */
+  /* ── Esame obiettivo SSOT (Killip I) ───────────────────────────── */
   physicalExam: {
     killipClass: "I",
     summary: PHYSICAL_SUMMARY,
@@ -175,18 +178,16 @@ export const CAR_F01: ClinicalCase = {
       {
         district: "cardiovascolare",
         finding:
-          "PA 140/85 mmHg, FC 90 bpm ritmica. Toni cardiaci validi, ritmici; non soffi, non sfregamenti pericardici. " +
-          "Non rumori da scompenso (no S3 da congestione).",
+          "PA 140/85 mmHg, FC 90 bpm ritmica. Toni cardiaci validi, ritmici; non soffi, non sfregamenti pericardici.",
       },
       {
         district: "torace_polmonare",
         finding:
-          "SpO₂ 97% in aria ambiente. Murmure vescicolare fisiologico su tutto l'ambito polmonare; non rantoli, non sibili. " +
-          "Torace espansibile simmetricamente.",
+          "SpO₂ 97% in aria ambiente. Murmure vescicolare fisiologico su tutto l'ambito polmonare; non rantoli (Killip I).",
       },
       {
         district: "addome",
-        finding: "Addome trattabile, non dolente, non epatomegalia da stasi. Non segni di peritonismo.",
+        finding: "Addome trattabile, non dolente, non epatomegalia da stasi.",
       },
       {
         district: "neurologico",
@@ -195,21 +196,20 @@ export const CAR_F01: ClinicalCase = {
       {
         district: "periferico",
         finding:
-          "Perfusione periferica valida, estremità calde. Polsi radiali e pedidi simmetrici e validi bilateralmente. " +
-          "Tempo di riempimento capillare <2 s.",
+          "Perfusione periferica valida. Polsi radiali e pedidi simmetrici e validi. Riempimento capillare <2 s.",
       },
     ],
   },
 
-  /* ── Esami mandatori I livello ─────────────────────────────────── */
+  /* ── Modulo Econ — esami mandatori I livello (tariffe SSN) ─────── */
   mandatoryExams: [
     {
       examId: "ecg",
-      name: "ECG 12 derivazioni",
+      name: "ECG 12 derivazioni (entro 10 min dal triage)",
       level: "I",
       mandatory: true,
       maxLatencyMinutes: 10,
-      priceEuro: 15,
+      priceEuro: 11.6,
       finding: ECG_FINDING,
     },
     {
@@ -217,40 +217,25 @@ export const CAR_F01: ClinicalCase = {
       name: "Troponina ad alta sensibilità (t0)",
       level: "I",
       mandatory: true,
-      priceEuro: 18,
+      priceEuro: 8.0,
       finding: TROPONINA_FINDING,
     },
     {
-      examId: "elettroliti",
-      name: "Elettroliti sierici",
+      examId: "ematochimici-routine",
+      name: "Ematochimici di routine (Elettroliti, Funzionalità Renale, Coagulazione)",
       level: "I",
       mandatory: true,
-      priceEuro: 8,
-      finding: "Na 139 · K 4.1 · Cl 102 · Ca 9.2 · Mg 2.0 mmol/L — nei limiti.",
-    },
-    {
-      examId: "creat-urea-gfr",
-      name: "Funzionalità renale (Creatinina/Urea/eGFR)",
-      level: "I",
-      mandatory: true,
-      priceEuro: 8,
-      finding: "Creatinina 0.95 mg/dL · Urea 32 mg/dL · eGFR >90 — idoneità a mdc / terapia.",
-    },
-    {
-      examId: "pt-ptt-inr",
-      name: "Coagulazione (PT, aPTT, INR)",
-      level: "I",
-      mandatory: true,
-      priceEuro: 10,
-      finding: "INR 1.0 · aPTT 28 s — coagulazione nella norma pre-PCI / DAPT.",
+      priceEuro: 25.0,
+      componentExamIds: ["elettroliti", "creat-urea-gfr", "pt-ptt-inr", "emocromo"],
+      finding: LAB_PANEL_FINDING,
     },
     {
       examId: "ecocardio",
-      name: "Ecocardiogramma transtoracico focalizzato bedside",
+      name: "Ecocardiogramma transtoracico bedside",
       level: "I",
       mandatory: true,
       maxLatencyMinutes: 30,
-      priceEuro: 75,
+      priceEuro: 43.9,
       finding: ECOCARDIO_FINDING,
     },
   ],
@@ -259,16 +244,15 @@ export const CAR_F01: ClinicalCase = {
   inappropriateExams: [
     {
       examId: "angio",
-      name: "Angio-TC torace / Coronaro-TC d'urgenza",
+      name: "Angio-TC Torace / Coronaro-TC immediata",
       level: "III",
       mandatory: false,
       inappropriate: true,
       inappropriatePenaltyPercent: 25,
-      priceEuro: 350,
+      priceEuro: 180.0,
       finding: ANGIO_TC_WASTE_FINDING,
       wasteRationale:
-        "In STEMI tipico ECG-documentato, Angio-TC/Coronaro-TC non sono di prima intenzione: ritardano " +
-        "Door-to-Balloon e configurano spreco di risorsa SSN (prescrizione inappropriata).",
+        "Spreco risorsa SSN ≈ €180 e ritardo Door-to-Balloon: non indicato di prima intenzione in STEMI tipico ECG-positivo.",
     },
     {
       examId: "tc",
@@ -277,10 +261,10 @@ export const CAR_F01: ClinicalCase = {
       mandatory: false,
       inappropriate: true,
       inappropriatePenaltyPercent: 25,
-      priceEuro: 180,
+      priceEuro: 180.0,
       finding: ANGIO_TC_WASTE_FINDING,
       wasteRationale:
-        "TC torace generica non sostituisce né anticipa la Primary PCI in STEMI tipico; rischio di ritardo terapeutico.",
+        "TC torace generica non sostituisce né anticipa la Primary PCI; rischio di ritardo terapeutico e costo inappropriato.",
     },
   ],
 
@@ -295,16 +279,16 @@ export const CAR_F01: ClinicalCase = {
         requiredMilestoneKeys: ["richiesto_ecg", "ecg", "gold_standard_ecg"],
       },
       {
-        id: "leg_primary_pci_90",
+        id: "leg_dapt_screen",
         description:
-          "Invia in emodinamica per Primary PCI con obiettivo Door-to-Balloon < 90 minuti",
-        requiredMilestoneKeys: ["coronarografia", "gold_standard_coronarografia", "richiesto_coronarografia"],
+          "Somministra DAPT previa verifica anamnestica di assenza di controindicazioni / sanguinamenti attivi",
+        requiredMilestoneKeys: ["dapt", "antiaggregazione", "asa_p2y12", "anamnesi_farmaci"],
       },
       {
-        id: "leg_dapt_after_bleed_screen",
+        id: "leg_primary_pci_90",
         description:
-          "Somministra doppia antiaggregazione (DAPT) previa verifica anamnestica di assenza di sanguinamenti attivi",
-        requiredMilestoneKeys: ["dapt", "antiaggregazione", "asa_p2y12", "anamnesi_farmaci"],
+          "Invio immediato in Emodinamica per Primary PCI con Door-to-Balloon < 90 minuti",
+        requiredMilestoneKeys: ["coronarografia", "gold_standard_coronarografia", "richiesto_coronarografia"],
       },
     ],
     ragReferences: [
@@ -373,18 +357,32 @@ export const CAR_F01: ClinicalCase = {
     peripheral: {
       finding: "Perfusione valida; polsi simmetrici; riempimento capillare <2 s.",
     },
-    examBudgetEuro: 350,
+    examBudgetEuro: EXAM_BUDGET_EURO,
     caseCode: "CAR-F01",
+    category: "prassi-clinica",
+    specialty: "cardiologia",
+    difficultyLabel: "facile",
+    estimatedTimeMinutes: 20,
     legalConformityCriteria: [
       "ecg_entro_10_min",
-      "primary_pci_dtb_lt_90",
       "dapt_dopo_screen_emorragico",
+      "primary_pci_dtb_lt_90",
     ],
     ragSourceRefs: [
       "Rif. 2023-ESC-Linee-guida-per-la-gestione-delle-sindromi-coronariche-acute.pdf (Timing PCI & Troponina hs)",
       "Rif. 227-20170317-legge-cd-gelli.pdf - Art. 5 (Buone pratiche clinico-assistenziali)",
       "Rif. CODICE-DEONTOLOGIA-MEDICA-2014.pdf - Art. 13 (Prescrizione appropriata)",
     ],
+    econModule: {
+      mandatory: [
+        { examId: "ecg", priceEuro: 11.6 },
+        { examId: "troponina-hs", priceEuro: 8.0 },
+        { examId: "ematochimici-routine", priceEuro: 25.0 },
+        { examId: "ecocardio", priceEuro: 43.9 },
+      ],
+      inappropriate: [{ examId: "angio", priceEuro: 180.0, penaltyPercent: 25 }],
+      goldPathCostEuro: 11.6 + 8.0 + 25.0 + 43.9,
+    },
     stressProfile: {
       initialStress: 70,
       reactivityType: "hyper",
@@ -397,23 +395,24 @@ export const CAR_F01: ClinicalCase = {
       relievingExams: ["ecg", "troponina-hs", "ecocardio", "coronarografia"],
       dangerousPrescriptions: ["angio", "tc"],
     },
-    labPanel: { finding: LAB_FINDING },
+    labPanel: { finding: LAB_PANEL_FINDING },
     ecg: { finding: ECG_FINDING },
     "troponina-hs": { finding: TROPONINA_FINDING },
     troponina: { finding: TROPONINA_FINDING },
     elettroliti: { finding: "Na 139 · K 4.1 · Cl 102 — nei limiti." },
     "creat-urea-gfr": { finding: "Creatinina 0.95 mg/dL · eGFR >90." },
     "pt-ptt-inr": { finding: "INR 1.0 · aPTT 28 s." },
+    emocromo: { finding: "Hb 14.2 · PLT 245 · GB 9.8 — nei limiti." },
     ecocardio: { finding: ECOCARDIO_FINDING },
-    angio: { finding: ANGIO_TC_WASTE_FINDING, cost: 350 },
+    angio: { finding: ANGIO_TC_WASTE_FINDING, cost: 180 },
     tc: { finding: ANGIO_TC_WASTE_FINDING, cost: 180 },
     advancedExams: {
       notes:
-        "CAR-F01 STEMI anteriore Killip I. ECG ≤10' triage. Primary PCI DTB <90'. " +
-        "DAPT dopo screen emorragico. Evitare Angio-TC/Coronaro-TC di prima intenzione.",
+        "CAR-F01 STEMI anteriore Killip I · Prassi Clinica · Facile. " +
+        "ECG ≤10' · DAPT dopo screen · Primary PCI DTB <90'. Evitare Angio-TC.",
       values: {
         ecg: {
-          price: 15,
+          price: 11.6,
           urgencyTiming: "≤10 min dal triage",
           routineTiming: "n.p.",
           routineMinutes: 8,
@@ -421,67 +420,66 @@ export const CAR_F01: ClinicalCase = {
           isAbnormal: true,
         },
         "troponina-hs": {
-          price: 18,
-          urgencyTiming: "40 min",
+          price: 8.0,
+          urgencyTiming: "35 min",
           routineTiming: "2h",
-          routineMinutes: 40,
+          routineMinutes: 35,
           normalFinding: TROPONINA_FINDING,
           isAbnormal: true,
         },
         troponina: {
-          price: 18,
-          urgencyTiming: "40 min",
+          price: 8.0,
+          urgencyTiming: "35 min",
           routineTiming: "2h",
-          routineMinutes: 40,
+          routineMinutes: 35,
           normalFinding: TROPONINA_FINDING,
           isAbnormal: true,
         },
         elettroliti: {
-          price: 8,
-          urgencyTiming: "35 min",
+          price: 8.0,
+          urgencyTiming: "30 min",
           routineTiming: "2h",
-          routineMinutes: 35,
+          routineMinutes: 30,
           normalFinding: "Na 139 · K 4.1 · Cl 102 — nei limiti.",
         },
         "creat-urea-gfr": {
-          price: 8,
-          urgencyTiming: "35 min",
+          price: 8.0,
+          urgencyTiming: "30 min",
           routineTiming: "2h",
-          routineMinutes: 35,
+          routineMinutes: 30,
           normalFinding: "Creatinina 0.95 mg/dL · eGFR >90.",
         },
         "pt-ptt-inr": {
-          price: 10,
-          urgencyTiming: "35 min",
+          price: 9.0,
+          urgencyTiming: "30 min",
           routineTiming: "2h",
-          routineMinutes: 35,
+          routineMinutes: 30,
           normalFinding: "INR 1.0 · aPTT 28 s.",
         },
         emocromo: {
-          price: 8,
-          urgencyTiming: "35 min",
+          price: 0,
+          urgencyTiming: "30 min",
           routineTiming: "2h",
-          routineMinutes: 35,
+          routineMinutes: 30,
           normalFinding: "Hb 14.2 · PLT 245 · GB 9.8 — nei limiti.",
         },
         ecocardio: {
-          price: 75,
-          urgencyTiming: "20 min (bedside, non ritardare PCI)",
+          price: 43.9,
+          urgencyTiming: "18 min (bedside, non ritardare PCI)",
           routineTiming: "24h",
-          routineMinutes: 20,
+          routineMinutes: 18,
           normalFinding: ECOCARDIO_FINDING,
           isAbnormal: true,
         },
         angio: {
-          price: 350,
+          price: 180.0,
           urgencyTiming: "45 min",
           routineTiming: "48h",
           routineMinutes: 45,
           normalFinding: ANGIO_TC_WASTE_FINDING,
-          isAbnormal: false,
         },
         tc: {
-          price: 180,
+          price: 180.0,
           urgencyTiming: "40 min",
           routineTiming: "24h",
           routineMinutes: 40,
@@ -493,8 +491,7 @@ export const CAR_F01: ClinicalCase = {
           routineTiming: "n.p.",
           routineMinutes: 25,
           normalFinding:
-            "Occlusione critica IVA prossimale; Primary PCI con stent DES — flusso TIMI 3. " +
-            "Door-to-Balloon rispettato.",
+            "Occlusione critica IVA prossimale; Primary PCI con stent DES — flusso TIMI 3. Door-to-Balloon rispettato.",
           isAbnormal: true,
         },
       },

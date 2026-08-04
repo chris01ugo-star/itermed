@@ -71,11 +71,12 @@ export function detectFatalErrors(analytical: AnalyticalEvaluation): FatalError[
   }
 
   for (const review of analytical.legalInstrumentReviews ?? []) {
-    if (
-      review?.compliance === "violato" &&
-      /gelli|24\/2017|consenso informato/i.test(`${review.instrument ?? ""}`)
-    ) {
-      push(`Violazione ${review.instrument ?? "strumento legale"}`, review.rationale ?? "");
+    // Any explicit violation of a legal duty is fatal — no hardcoded law name list.
+    if (review?.compliance === "violato") {
+      push(
+        `Violazione normativa: ${review.instrument ?? "obbligo medico-legale"}`,
+        review.rationale ?? review.documentTitle ?? "",
+      );
     }
   }
 
@@ -117,9 +118,19 @@ export function buildMacroAreaRationales(
         scores.clinical,
         MACRO_AREA_WEIGHTS.clinicalDiagnostic,
       ),
-      rationale: mb
-        ? `Deterministico: ${mb.clinical.goldStepsMet}/${mb.clinical.goldStepsExpected} step Gold Standard + ${mb.clinical.met} milestone clinici (${mb.clinical.ratePercent}%).`
-        : `Accuratezza diagnostico-terapeutica: ${breakdown.clinical.final}/100.`,
+      rationale: (() => {
+        const clin = breakdown.clinical;
+        if (clin.iatrogenicCritical) {
+          return `Danno Iatrogeno Critico (Classe III ESC/AHA) — Accuratezza 0. Registro: ${(clin.classI?.executed ?? 0)}/${(clin.classI?.expected ?? 0)} Classe I.`;
+        }
+        const dims = clin.dimensions;
+        if (dims) {
+          return `ESC/AHA: Classe I ${dims.classIAdherence.met}/${dims.classIAdherence.expected} (${dims.classIAdherence.score}/100) · Classe III evitamento ${dims.classIIIAvoidance.score}/100 · Sequenza ${dims.diagnosticSequencing.score}/100.`;
+        }
+        return clin.qualitativeLabel
+          ? clin.qualitativeLabel
+          : `Accuratezza diagnostico-terapeutica: ${clin.final}/100.`;
+      })(),
     },
     {
       label: "Sicurezza del Paziente",
@@ -129,9 +140,13 @@ export function buildMacroAreaRationales(
         scores.legal,
         MACRO_AREA_WEIGHTS.legalCompliance,
       ),
-      rationale: mb
-        ? `Allergie/farmaci/parametri: ${mb.safety.met}/${mb.safety.expected} controlli (${mb.safety.vitalsMet ? "monitoraggio presente" : "monitoraggio assente"}).`
-        : `Sicurezza paziente: ${breakdown.legal.final}/100.`,
+      rationale: (() => {
+        const leg = breakdown.legal;
+        const n = leg.rilievi?.length ?? 0;
+        const status = leg.formalLabel || leg.conformityStatus || "n/d";
+        const src = leg.sourceRef ? ` · ${leg.sourceRef}` : "";
+        return `${status} — ${n} rilievi medico-legali deduplicati (motore RAG specialty)${src}.`;
+      })(),
     },
     {
       label: "Appropriatezza Prescrittiva (Esami)",
@@ -142,8 +157,8 @@ export function buildMacroAreaRationales(
         MACRO_AREA_WEIGHTS.examAppropriateness,
       ),
       rationale: mb
-        ? `Base 100% − ${mb.appropriateness.penaltyPercent}% (${mb.appropriateness.inappropriateCount} inappropriate + ${mb.appropriateness.tier3WithoutIndication} esami III livello senza indicazione). Budget analitico €${breakdown.economy.budgetEuro} vs €${breakdown.economy.totalCostEuro.toFixed(2)} (economia = metrica radar, non peso /30).`
-        : `Appropriatezza prescrittiva (scores.exams): ${breakdown.exams.final}/100. Economia (scores.economy) esclusa dal voto /30.`,
+        ? `Base 100% − ${mb.appropriateness.penaltyPercent}% (${mb.appropriateness.inappropriateCount} inappropriate + ${mb.appropriateness.tier3WithoutIndication} esami III livello senza indicazione). Economia HTA: effettiva €${breakdown.economy.totalCostEuro.toFixed(2)} vs ideale €${(breakdown.economy.idealSpendEuro ?? breakdown.economy.budgetEuro).toFixed(2)} · efficienza ${breakdown.economy.efficiencyPercent ?? "n/d"}% (radar, esclusa dal /30).`
+        : `Appropriatezza prescrittiva (scores.exams): ${breakdown.exams.final}/100. Economia HTA efficienza ${breakdown.economy.efficiencyPercent ?? breakdown.economy.final}% (esclusa dal /30).`,
     },
     {
       label: "Comunicazione ed Empatia",
@@ -153,11 +168,17 @@ export function buildMacroAreaRationales(
         scores.empathy,
         MACRO_AREA_WEIGHTS.empathy,
       ),
-      rationale: mb
-        ? `Modello comportamentale (baseline 60) + milestone empatici ${mb.empathy.met}/${mb.empathy.expected} (solo telemetria).`
-        : breakdown.empathy.qualitativeLabel
-          ? `${breakdown.empathy.qualitativeLabel} · baseline ${breakdown.empathy.baseline} + validazione +${breakdown.empathy.validationBonus} + trasparenza +${breakdown.empathy.transparencyBonus} + alleanza +${breakdown.empathy.allianceBonus} − penalità ${breakdown.empathy.dismissalPenalty}.`
-          : `Empatia: ${breakdown.empathy.final}/100.`,
+      rationale: (() => {
+        const emp = breakdown.empathy;
+        const dims = emp.dimensions;
+        const dimLine = dims
+          ? `A ascolto ${dims.activeListening.score}/100 · B validazione ${dims.emotionalValidation.score}/100 · C contesto ${dims.clinicalContext.score}/100 (Calgary-Cambridge)`
+          : emp.qualitativeLabel || `Empatia ${emp.final}/100`;
+        const mil = mb
+          ? ` · milestone telemetria ${mb.empathy.met}/${mb.empathy.expected}`
+          : "";
+        return `${dimLine}${mil}.`;
+      })(),
     },
   ];
 }

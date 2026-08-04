@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { prisma } from "../../../lib/prisma";
-import { config } from "../../../lib/config";
+import { config, isUsableDatabase } from "../../../lib/config";
 import { userCanPlayCase } from "../../../lib/access";
 import { requireUser, isDevAuthBypass } from "../../../lib/require-user";
 import { SimulatorClient } from "../../../components/simulator/SimulatorClient";
@@ -15,7 +15,8 @@ import {
   buildSimulatorCasePayload,
   extractPatientPromptFromNode,
 } from "@/lib/cases/case-payload";
-
+import { ensureRegisteredCaseInDb } from "@/lib/cases/ensure-registered-case";
+import { normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 type CasePageProps = {
   params: Promise<{ id: string }> | { id: string };
   searchParams?:
@@ -35,15 +36,15 @@ export default async function CasePage(props: CasePageProps) {
       : props.searchParams;
 
   const rawId = params.id || "";
-  const idNormalized = rawId.trim().toLowerCase();
+  const idNormalized = normalizeCaseLookupKey(rawId);
 
-  const hasDatabase = Boolean(config.DATABASE_URL);
+  const hasDatabase = isUsableDatabase(config.DATABASE_URL);
 
   const sessionId = searchParams?.sessionId;
 
-  // Se il database non è configurato, usiamo direttamente i casi demo.
+  // Se il database non è configurato, usiamo direttamente i casi demo / registry.
   if (!hasDatabase) {
-    const fallback = getFallbackCase(idNormalized);
+    const fallback = getFallbackCase(rawId);
     if (fallback) {
       const initialCaseData = toSimulatorFallbackPayload(fallback);
       return (
@@ -76,17 +77,71 @@ export default async function CasePage(props: CasePageProps) {
   const userId = user.id;
 
   try {
-    const canPlay = await userCanPlayCase(userId, rawId);
+    await ensureRegisteredCaseInDb(rawId, userId);
+
+    const canPlay = await userCanPlayCase(userId, idNormalized);
     if (!canPlay) {
+      const fallback = getFallbackCase(rawId);
+      if (fallback) {
+        const initialCaseData = toSimulatorFallbackPayload(fallback);
+        return (
+          <LiveAequanClinicalWorkspace
+            caseMeta={{
+              title: fallback.title,
+              specialty: fallback.specialty,
+              patientAge: initialCaseData.demographics.age,
+              patientSex: initialCaseData.demographics.sex,
+              caseId: fallback.id,
+            }}
+            backHref="/dashboard/prassi"
+          >
+            <SimulatorClient
+              initialCaseData={initialCaseData}
+              sessionId={sessionId}
+              isAdmin={false}
+              persistReports={false}
+              examCatalog={EXAM_DEFAULT_VALUES}
+              embedded
+              backHref="/dashboard/prassi"
+            />
+          </LiveAequanClinicalWorkspace>
+        );
+      }
       return notFound();
     }
 
     const caseData = await prisma.clinicalCase.findUnique({
-      where: { id: rawId },
+      where: { id: idNormalized },
       include: { nodes: { orderBy: { order: "asc" }, take: 1 } },
     });
 
     if (!caseData || !caseData.isActive) {
+      const fallback = getFallbackCase(rawId);
+      if (fallback) {
+        const initialCaseData = toSimulatorFallbackPayload(fallback);
+        return (
+          <LiveAequanClinicalWorkspace
+            caseMeta={{
+              title: fallback.title,
+              specialty: fallback.specialty,
+              patientAge: initialCaseData.demographics.age,
+              patientSex: initialCaseData.demographics.sex,
+              caseId: fallback.id,
+            }}
+            backHref="/dashboard/prassi"
+          >
+            <SimulatorClient
+              initialCaseData={initialCaseData}
+              sessionId={sessionId}
+              isAdmin={false}
+              persistReports={false}
+              examCatalog={EXAM_DEFAULT_VALUES}
+              embedded
+              backHref="/dashboard/prassi"
+            />
+          </LiveAequanClinicalWorkspace>
+        );
+      }
       return notFound();
     }
 
@@ -97,23 +152,26 @@ export default async function CasePage(props: CasePageProps) {
           })
         : Promise.resolve(null),
       getExamValuesCatalog(),
-      getCaseExamOverrides(rawId, caseData.baselineExamFindings),
+      getCaseExamOverrides(caseData.id, caseData.baselineExamFindings),
     ]);
 
     if (
       sessionId &&
       !isDevAuthBypass() &&
-      (!session || session.userId !== userId || session.caseId !== rawId)
+      (!session || session.userId !== userId || session.caseId !== caseData.id)
     ) {
-      redirect(`/case/${rawId}`);
+      redirect(`/case/${caseData.id}`);
     }
 
-    if (sessionId && isDevAuthBypass() && session && session.caseId !== rawId) {
-      redirect(`/case/${rawId}`);
+    if (sessionId && isDevAuthBypass() && session && session.caseId !== caseData.id) {
+      redirect(`/case/${caseData.id}`);
     }
 
     const firstNode = caseData.nodes[0];
-    const basePatientPrompt = extractPatientPromptFromNode(firstNode?.content);
+    const basePatientPrompt = extractPatientPromptFromNode(
+      firstNode?.content,
+      getFallbackCase(caseData.id)?.patientPrompt,
+    );
     const isVariant = Boolean(session?.isVariant);
     const effectivePrompt =
       isVariant && session?.variantPrompt ? session.variantPrompt : basePatientPrompt;
@@ -159,7 +217,7 @@ export default async function CasePage(props: CasePageProps) {
     );
   } catch {
     // DB non pronto — soft-fallback to in-memory cases when id matches.
-    const fallback = getFallbackCase(idNormalized);
+    const fallback = getFallbackCase(rawId);
     if (fallback) {
       const initialCaseData = toSimulatorFallbackPayload(fallback);
       return (

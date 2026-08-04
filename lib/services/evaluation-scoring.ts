@@ -1,6 +1,42 @@
 import type { CaseDifficulty } from "@prisma/client";
 import type { ExamClinicalMeta } from "@/lib/exam-default-values";
+import type { AnamnesisQuestion, CaseExamDefinition } from "@/lib/data/cases/types";
 import type { ExamPayload } from "@/lib/services/evaluation-service";
+import {
+  computeCalgaryCambridgeEmpathy,
+  EMPATHY_RAG_REFS,
+  resolveClinicalUrgencyMode,
+  type ClinicalUrgencyMode,
+} from "@/lib/services/evaluation-empathy-calgary";
+import {
+  buildExecutedActionIds,
+  computeEscAhaClinicalAccuracy,
+  CLINICAL_RAG_REFS,
+} from "@/lib/services/evaluation-clinical-esc";
+import {
+  computeLegalRagConformity,
+  type LegalRagFinding,
+} from "@/lib/services/evaluation-legal-rag";
+import {
+  computeEconomySsnScore,
+  computeEfficiencyPercent,
+  computeScostamentoPercent,
+  clampPercent as clampEconomyPercent,
+  ECONOMY_RAG_REFS,
+} from "@/lib/services/evaluation-economy-ssn";
+import type { GuidelineChunk } from "@/lib/services/rag-service";
+
+export {
+  EMPATHY_RAG_REFS,
+  resolveClinicalUrgencyMode,
+  CLINICAL_RAG_REFS,
+  buildExecutedActionIds,
+  ECONOMY_RAG_REFS,
+  computeEfficiencyPercent,
+  computeScostamentoPercent,
+  clampEconomyPercent,
+};
+export type { ClinicalUrgencyMode, LegalRagFinding };
 
 export const CRITICAL_WEIGHT_HIGH = 2;
 export const CRITICAL_WEIGHT_MEDIUM = 1;
@@ -73,6 +109,7 @@ export type LegalProtectionLabel =
   | "PARZIALMENTE_TUTELATO";
 
 export type EmpathyBehavioralBreakdown = {
+  /** Always 0 in Calgary model — kept for persisted traces. */
   baseline: number;
   validationBonus: number;
   transparencyBonus: number;
@@ -84,6 +121,15 @@ export type EmpathyBehavioralBreakdown = {
   motivations: ScoreMotivation[];
   totalParameters?: number;
   metParameters?: number;
+  /** Analisi esperta (registro psicologo comportamentale / docente). */
+  expertAnalysis?: string;
+  framework?: "calgary-cambridge";
+  urgencyMode?: "acute_emergency" | "stable_exploratory" | "standard";
+  dimensions?: {
+    activeListening: { score: number; weight: number; label: string };
+    emotionalValidation: { score: number; weight: number; label: string };
+    clinicalContext: { score: number; weight: number; label: string };
+  };
 };
 
 export type ScoreBreakdown = {
@@ -100,6 +146,27 @@ export type ScoreBreakdown = {
     /** Azioni critiche eseguite / attese (peso). */
     earnedWeight?: number;
     totalWeight?: number;
+    /** Analisi esperta — Professore di Clinica (ESC/AHA). */
+    expertAnalysis?: string;
+    framework?: "esc-aha-recommendation-matrix";
+    qualitativeLabel?: string;
+    iatrogenicCritical?: boolean;
+    iatrogenicEvents?: Array<{ actionId: string; name: string; rationale: string }>;
+    /** Registro immutabile — solo ID esatti. */
+    executedActionIds?: string[];
+    classI?: { executed: number; expected: number; omittedIds: string[]; executedIds: string[] };
+    classIII?: { executed: number; expectedAvoid: number; executedIds: string[] };
+    dimensions?: {
+      classIAdherence: { score: number; weight: number; label: string; met: number; expected: number };
+      classIIIAvoidance: { score: number; weight: number; label: string; met: number; expected: number };
+      diagnosticSequencing: {
+        score: number;
+        weight: number;
+        label: string;
+        met: number;
+        expected: number;
+      };
+    };
   };
   exams: {
     base: number;
@@ -121,6 +188,21 @@ export type ScoreBreakdown = {
     underPrescriptionApplied?: boolean;
     overPrescriptionWasteEuro?: number;
     virtuousSpendEuro?: number;
+    /** Spesa ideale Gold Standard (€). */
+    idealSpendEuro?: number;
+    /** Delta = effettiva − ideale (€). */
+    deltaSpendEuro?: number;
+    scostamentoPercent?: number;
+    efficiencyPercent?: number;
+    omissionEuro?: number;
+    expertAnalysis?: string;
+    framework?: "economy-ssn-hta";
+    qualitativeLabel?: string;
+    prescriptions?: {
+      virtuous: Array<{ examId: string; name: string; costEuro: number; sourceRef: string }>;
+      inappropriate: Array<{ examId: string; name: string; costEuro: number; sourceRef: string }>;
+      omissions: Array<{ examId: string; name: string; costEuro: number; sourceRef: string }>;
+    };
   };
   legal: {
     applicableInstruments: number;
@@ -138,16 +220,28 @@ export type ScoreBreakdown = {
     conformityStatus: LegalConformityStatus;
     /** @deprecated alias of conformityStatus for older UI. */
     protectionLabel?: LegalProtectionLabel;
-    /** Citazione normativa principale in evidenza. */
+    /** Citazione normativa principale in evidenza (dinamica dal RAG). */
     sourceRef?: string;
     formalLabel?: string;
+    /** Analisi esperta — Perito Medico-Legale / CTU. */
+    expertAnalysis?: string;
+    framework?: "legal-rag-ctu";
+    /** Rilievi deduplicati (documento + fattispecie). */
+    rilievi?: LegalRagFinding[];
+    criteriaResults?: Array<{
+      id: string;
+      description: string;
+      met: boolean;
+      sourceRef: string;
+    }>;
   };
   empathy: EmpathyBehavioralBreakdown;
 };
 
-export const EMPATHY_PROFESSIONAL_BASELINE = 60;
+/** @deprecated Calgary model — no fictitious +60 floor. */
+export const EMPATHY_PROFESSIONAL_BASELINE = 0;
 /** @deprecated */
-export const EMPATHY_EMPTY_CHECKLIST_BASELINE = EMPATHY_PROFESSIONAL_BASELINE;
+export const EMPATHY_EMPTY_CHECKLIST_BASELINE = 0;
 
 export const INCONGRUENT_EXAM_PENALTY_PERCENT = 25;
 export const CLINICAL_ANAMNESIS_SEVERITY_CAP = 15;
@@ -161,9 +255,18 @@ export const EXAMS_APPROPRIATENESS_ECONOMY_THRESHOLD = 60;
 export const UNDERPRESCRIPTION_ECONOMY_PENALTY = 35;
 
 export const PRONTUARIO_MEDICO_LEGALE_BASE_SSN = "Prontuario Medico-Legale Base SSN";
+/**
+ * @deprecated Citazioni legali devono arrivare dinamicamente dal corpus RAG specialty
+ * (`evaluation-legal-rag.ts`). Questi riferimenti restano solo per pilastri non-legal
+ * (nomenclatore / protocollo clinico) e compatibilità persistence.
+ */
 export const LEGAL_SOURCE_REFS = {
   gelliArt5: "Rif. Art. 5 L. 24/2017 (Gelli-Bianco)",
   consensoL219: "Rif. Art. 1 L. 219/2017 (Consenso Informato)",
+  deontologia20:
+    "Rif. CODICE-DEONTOLOGIA-MEDICA-2014.pdf - Art. 20 (Relazione di cura e tempo di comunicazione)",
+  deontologia24:
+    "Rif. CODICE-DEONTOLOGIA-MEDICA-2014.pdf - Art. 24 (Informazione e consenso del paziente)",
   deontologia33: "Rif. Art. 33 Codice Deontologico",
   deontologia35: "Rif. Art. 35 Codice Deontologico",
   prontuario: "Rif. Prontuario Medico-Legale Base SSN — sicurezza e gestione emergenze",
@@ -273,6 +376,18 @@ export function motivation(
   };
 }
 
+function dedupeMotivationsByText(items: ScoreMotivation[]): ScoreMotivation[] {
+  const seen = new Set<string>();
+  const out: ScoreMotivation[] = [];
+  for (const m of items) {
+    const key = `${m.type}|${(m.text ?? "").trim().toLowerCase()}|${(m.sourceRef ?? "").trim().toLowerCase()}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(m);
+  }
+  return out;
+}
+
 export function normalizeExamSlug(value: string): string {
   return value
     .toLowerCase()
@@ -329,8 +444,8 @@ export function resolveLegalConformity(
 
 export function legalConformityFormalLabel(status: LegalConformityStatus): string {
   return status === "CONFORME"
-    ? "CONFORME (TUTELATO)"
-    : "NON CONFORME (RISCHIO CONTENZIOSO)";
+    ? "CONFORME (Scudo Legale Attivo)"
+    : "NON CONFORME (Profilo di Rischio Contenzioso)";
 }
 
 /** Resolves per-case exam budget from baseline JSON or difficulty tier. */
@@ -408,18 +523,95 @@ export function computeAnamnesisProtocolCoverage(params: {
 }
 
 /**
- * Accuratezza clinica proporzionale: peso azioni critiche eseguite / peso totale.
- * Nessun +100 di partenza.
+ * Accuratezza clinica — matrice ESC/AHA su registro `executedActionIds`.
+ * Fallback legacy: checklist LLM solo se matrice caso assente.
  */
 export function computeClinicalAccuracyScore(
   criticalActions: CriticalActionItem[] | null | undefined,
   options?: {
     anamnesisCoveragePercent?: number;
+    caseId?: string | null;
+    caseTitle?: string | null;
+    executedActionIds?: string[] | null;
+    requestedExamIds?: string[] | null;
+    orderedExams?: Array<{ id?: string; name?: string; cost?: number }> | null;
+    mandatoryExams?: CaseExamDefinition[] | null;
+    inappropriateExams?: CaseExamDefinition[] | null;
+    goldStandardPath?: string[] | null;
   },
 ): {
   score: number;
   breakdown: ScoreBreakdown["clinical"];
 } {
+  const hasEscInputs =
+    Boolean(options?.caseId) ||
+    (Array.isArray(options?.goldStandardPath) && options!.goldStandardPath!.length > 0) ||
+    (Array.isArray(options?.mandatoryExams) && options!.mandatoryExams!.length > 0) ||
+    (Array.isArray(options?.executedActionIds) && options!.executedActionIds!.length > 0) ||
+    (Array.isArray(options?.requestedExamIds) && options!.requestedExamIds!.length > 0) ||
+    (Array.isArray(options?.orderedExams) && options!.orderedExams!.length > 0);
+
+  if (hasEscInputs) {
+    const result = computeEscAhaClinicalAccuracy({
+      caseId: options?.caseId,
+      caseTitle: options?.caseTitle,
+      executedActionIds: options?.executedActionIds,
+      requestedExamIds: options?.requestedExamIds,
+      exams: options?.orderedExams,
+      mandatoryExams: options?.mandatoryExams,
+      inappropriateExams: options?.inappropriateExams,
+      goldStandardPath: options?.goldStandardPath,
+    });
+
+    return {
+      score: result.score,
+      breakdown: {
+        base: 0,
+        missedHigh: result.legacy.missedHigh,
+        missedMedium: result.legacy.missedMedium,
+        penaltyHigh: result.legacy.missedHigh * CRITICAL_WEIGHT_HIGH,
+        penaltyMedium: 0,
+        final: result.score,
+        motivations: result.motivations as ScoreMotivation[],
+        earnedWeight: result.legacy.earnedWeight,
+        totalWeight: result.legacy.totalWeight,
+        anamnesisCoveragePercent: options?.anamnesisCoveragePercent,
+        expertAnalysis: result.expertAnalysis,
+        framework: "esc-aha-recommendation-matrix",
+        qualitativeLabel: result.qualitativeLabel,
+        iatrogenicCritical: result.iatrogenicCritical,
+        iatrogenicEvents: result.iatrogenicEvents,
+        executedActionIds: result.executedActionIds,
+        classI: result.classI,
+        classIII: result.classIII,
+        dimensions: {
+          classIAdherence: {
+            score: result.dimensions.classIAdherence.score,
+            weight: result.dimensions.classIAdherence.weight,
+            label: result.dimensions.classIAdherence.label,
+            met: result.dimensions.classIAdherence.met,
+            expected: result.dimensions.classIAdherence.expected,
+          },
+          classIIIAvoidance: {
+            score: result.dimensions.classIIIAvoidance.score,
+            weight: result.dimensions.classIIIAvoidance.weight,
+            label: result.dimensions.classIIIAvoidance.label,
+            met: result.dimensions.classIIIAvoidance.met,
+            expected: result.dimensions.classIIIAvoidance.expected,
+          },
+          diagnosticSequencing: {
+            score: result.dimensions.diagnosticSequencing.score,
+            weight: result.dimensions.diagnosticSequencing.weight,
+            label: result.dimensions.diagnosticSequencing.label,
+            met: result.dimensions.diagnosticSequencing.met,
+            expected: result.dimensions.diagnosticSequencing.expected,
+          },
+        },
+      },
+    };
+  }
+
+  // Legacy fallback — LLM checklist (no fictitious +100 base).
   const actions = Array.isArray(criticalActions) ? criticalActions : [];
   const motivations: ScoreMotivation[] = [];
 
@@ -427,14 +619,12 @@ export function computeClinicalAccuracyScore(
   let earnedWeight = 0;
   let missedHigh = 0;
   let missedMedium = 0;
-  let performedHigh = 0;
 
   for (const a of actions) {
     const w = a.criticalLevel === "HIGH" ? CRITICAL_WEIGHT_HIGH : CRITICAL_WEIGHT_MEDIUM;
     totalWeight += w;
     if (a.performed) {
       earnedWeight += w;
-      if (a.criticalLevel === "HIGH") performedHigh += 1;
       motivations.push(
         motivation("positive", `Eseguita azione critica ${a.criticalLevel} — «${a.description.slice(0, 72)}»`, {
           id: `clin_ok_${normalizeExamSlug(a.description).slice(0, 24)}`,
@@ -467,59 +657,14 @@ export function computeClinicalAccuracyScore(
   let final: number;
 
   if (totalWeight > 0) {
-    // 70% azioni critiche + 30% copertura anamnesi (se disponibile)
     const actionScore = (earnedWeight / totalWeight) * 100;
     if (typeof anamnesisPct === "number" && Number.isFinite(anamnesisPct)) {
       final = clampScore(actionScore * 0.7 + anamnesisPct * 0.3);
-      motivations.push(
-        motivation(
-          "neutral",
-          `Copertura anamnesi protocollo: ${anamnesisPct}% (peso 30% del punteggio clinico)`,
-          {
-            id: "clin_anamnesis_mix",
-            scoreImpact: Math.round(anamnesisPct * 0.3),
-            sourceRef: LEGAL_SOURCE_REFS.protocollo,
-          },
-        ),
-      );
-      motivations.push(
-        motivation(
-          "neutral",
-          `Copertura azioni critiche: ${Math.round(actionScore)}% (${earnedWeight}/${totalWeight} peso)`,
-          {
-            id: "clin_actions_mix",
-            scoreImpact: Math.round(actionScore * 0.7),
-            sourceRef: LEGAL_SOURCE_REFS.protocollo,
-          },
-        ),
-      );
     } else {
       final = clampScore(actionScore);
-      motivations.push(
-        motivation(
-          "neutral",
-          `Punteggio analitico: ${earnedWeight}/${totalWeight} peso azioni critiche = ${final}/100`,
-          {
-            id: "clin_proportional",
-            scoreImpact: final,
-            sourceRef: LEGAL_SOURCE_REFS.protocollo,
-          },
-        ),
-      );
     }
   } else if (typeof anamnesisPct === "number" && Number.isFinite(anamnesisPct)) {
     final = clampScore(anamnesisPct);
-    motivations.push(
-      motivation(
-        "neutral",
-        `Nessuna azione critica checklist — punteggio = copertura anamnesi ${anamnesisPct}%`,
-        {
-          id: "clin_anamnesis_only",
-          scoreImpact: final,
-          sourceRef: LEGAL_SOURCE_REFS.protocollo,
-        },
-      ),
-    );
   } else {
     final = 0;
     motivations.push(
@@ -530,8 +675,6 @@ export function computeClinicalAccuracyScore(
       }),
     );
   }
-
-  void performedHigh;
 
   return {
     score: final,
@@ -713,8 +856,8 @@ export function computeAppropriatenessScore(
 }
 
 /**
- * Economia a forchetta: spesa virtuosa GS vs spreco vs sotto-prescrizione.
- * Parte da 0 e costruisce il punteggio in modo analitico.
+ * Economia SSN / HTA — spesa effettiva vs ideale GS, efficienza clamp [0,100].
+ * Zero divisioni per zero: effettiva=ideale=0 → scostamento 0%, efficienza 100%.
  */
 export function computeEconomicSustainabilityScore(
   totalCostEuro: number,
@@ -723,186 +866,72 @@ export function computeEconomicSustainabilityScore(
     examsAppropriatenessScore?: number;
     orderedExams?: Array<{ id?: string; name?: string; cost?: number }> | null;
     goldStandardPath?: string[] | null;
+    caseId?: string | null;
+    caseTitle?: string | null;
+    mandatoryExams?: CaseExamDefinition[] | null;
+    inappropriateExams?: CaseExamDefinition[] | null;
   },
 ): { score: number; breakdown: ScoreBreakdown["economy"] } {
-  const motivations: ScoreMotivation[] = [];
-  const goldExams = extractMandatoryFirstLevelExams(options?.goldStandardPath);
-  const ordered = Array.isArray(options?.orderedExams) ? options!.orderedExams! : [];
-
-  const missingMandatory = goldExams.filter(
-    (g) => !ordered.some((exam) => examMatchesGold(exam, [g])),
-  );
-  const virtuous = ordered.filter((exam) =>
-    goldExams.length === 0 ? false : examMatchesGold(exam, goldExams),
-  );
-  const overPrescribed = ordered.filter((exam) => {
-    if (goldExams.length === 0) return false;
-    return !examMatchesGold(exam, goldExams);
+  const result = computeEconomySsnScore({
+    caseId: options?.caseId,
+    caseTitle: options?.caseTitle,
+    totalCostEuro,
+    budgetEuro,
+    orderedExams: options?.orderedExams,
+    goldStandardPath: options?.goldStandardPath,
+    mandatoryExams: options?.mandatoryExams,
+    inappropriateExams: options?.inappropriateExams,
+    examsAppropriatenessScore: options?.examsAppropriatenessScore,
   });
-  const wasteEuro = overPrescribed.reduce((sum, e) => sum + (Number(e.cost) || 0), 0);
-  const virtuousSpendEuro = virtuous.reduce((sum, e) => sum + (Number(e.cost) || 0), 0);
-
-  let score = 0;
-  let formula = "Analitico: virtù prescrittiva × rispetto budget − sprechi − sotto-prescrizione";
-
-  // Virtuous spend within budget earns proportional credit
-  if (goldExams.length > 0) {
-    const coverage = virtuous.length / goldExams.length;
-    score = coverage * 70; // up to 70 from covering mandatory exams
-    motivations.push(
-      motivation(
-        "positive",
-        `Spesa virtuosa su ${virtuous.length}/${goldExams.length} esami Gold Standard (€${virtuousSpendEuro.toFixed(0)})`,
-        {
-          id: "eco_virtuous",
-          scoreImpact: Math.round(coverage * 70),
-          sourceRef: LEGAL_SOURCE_REFS.nomenclatore,
-        },
-      ),
-    );
-  } else if (totalCostEuro > 0 && totalCostEuro <= budgetEuro) {
-    score = 50;
-    motivations.push(
-      motivation("neutral", `Spesa €${totalCostEuro.toFixed(0)} entro budget senza GS esami verificabile`, {
-        id: "eco_budget_only",
-        scoreImpact: 50,
-        sourceRef: LEGAL_SOURCE_REFS.nomenclatore,
-      }),
-    );
-  } else if (totalCostEuro <= 0) {
-    score = 0;
-    motivations.push(
-      motivation("neutral", "Nessuna spesa SSN — punteggio economico 0 (nessuna attività prescrittiva)", {
-        id: "eco_zero_spend",
-        scoreImpact: 0,
-        sourceRef: LEGAL_SOURCE_REFS.nomenclatore,
-      }),
-    );
-  }
-
-  // Budget respect bonus (up to +30) when GS coverage path used
-  if (goldExams.length > 0 && totalCostEuro > 0) {
-    if (totalCostEuro <= budgetEuro) {
-      score += 30;
-      motivations.push(
-        motivation("positive", `Budget rispettato (€${totalCostEuro.toFixed(0)} ≤ €${budgetEuro})`, {
-          id: "eco_budget_ok",
-          scoreImpact: 30,
-          sourceRef: LEGAL_SOURCE_REFS.nomenclatore,
-        }),
-      );
-    } else {
-      const overrunPenalty = Math.min(30, Math.round(30 * (1 - budgetEuro / totalCostEuro)));
-      score -= overrunPenalty;
-      formula = `Sforamento budget: €${totalCostEuro.toFixed(0)} / €${budgetEuro}`;
-      motivations.push(
-        motivation(
-          "negative",
-          `Sforamento budget — spesi €${totalCostEuro.toFixed(0)} su €${budgetEuro}`,
-          {
-            id: "eco_overrun",
-            scoreImpact: -overrunPenalty,
-            sourceRef: LEGAL_SOURCE_REFS.nomenclatore,
-          },
-        ),
-      );
-    }
-  }
-
-  let appropriatenessCouplingApplied = false;
-  let underPrescriptionApplied = false;
-
-  // Spreco da esami incongruenti
-  if (wasteEuro > 0 || overPrescribed.length > 0) {
-    const before = score;
-    const wastePenalty = Math.min(
-      40,
-      Math.round(wasteEuro / 5) + overPrescribed.length * INCONGRUENT_EXAM_PENALTY_PERCENT,
-    );
-    score -= wastePenalty;
-    appropriatenessCouplingApplied = true;
-    motivations.push(
-      motivation(
-        "negative",
-        `Spreco risorse SSN: ${overPrescribed.length} esami incongruenti (€${wasteEuro.toFixed(0)})`,
-        {
-          id: "eco_waste",
-          scoreImpact: -Math.round(before - (before - wastePenalty)),
-          sourceRef: LEGAL_SOURCE_REFS.nomenclatore,
-        },
-      ),
-    );
-  }
-
-  const examsScore = options?.examsAppropriatenessScore;
-  if (
-    typeof examsScore === "number" &&
-    Number.isFinite(examsScore) &&
-    examsScore < EXAMS_APPROPRIATENESS_ECONOMY_THRESHOLD &&
-    !appropriatenessCouplingApplied
-  ) {
-    const gap = EXAMS_APPROPRIATENESS_ECONOMY_THRESHOLD - examsScore;
-    score -= gap;
-    appropriatenessCouplingApplied = true;
-    motivations.push(
-      motivation(
-        "negative",
-        `Appropriatezza esami ${Math.round(examsScore)}% < ${EXAMS_APPROPRIATENESS_ECONOMY_THRESHOLD}% → spesa non etica/inefficiente`,
-        {
-          id: "eco_incong_coupling",
-          scoreImpact: -gap,
-          sourceRef: LEGAL_SOURCE_REFS.nomenclatore,
-        },
-      ),
-    );
-  }
-
-  // Sotto-prescrizione pericolosa — mai 100%
-  if (missingMandatory.length > 0) {
-    const penalty = Math.min(
-      70,
-      UNDERPRESCRIPTION_ECONOMY_PENALTY + missingMandatory.length * 10,
-    );
-    score = Math.min(score, 100 - penalty);
-    underPrescriptionApplied = true;
-    motivations.push(
-      motivation(
-        "negative",
-        `Sotto-prescrizione pericolosa: omessi ${missingMandatory.length} esami I livello (${missingMandatory.slice(0, 3).join(", ")}${missingMandatory.length > 3 ? "…" : ""})`,
-        {
-          id: "eco_underRx",
-          scoreImpact: -penalty,
-          sourceRef: LEGAL_SOURCE_REFS.protocollo,
-        },
-      ),
-    );
-  }
-
-  const final = clampScore(score);
-  // Hard rule: under-prescription can never yield 100
-  const cappedFinal =
-    underPrescriptionApplied && final >= 100 ? 100 - UNDERPRESCRIPTION_ECONOMY_PENALTY : final;
 
   return {
-    score: clampScore(cappedFinal),
+    score: result.score,
     breakdown: {
-      budgetEuro,
-      totalCostEuro,
-      formula,
-      final: clampScore(cappedFinal),
-      motivations,
-      appropriatenessCouplingApplied,
-      underPrescriptionApplied,
-      overPrescriptionWasteEuro: wasteEuro,
-      virtuousSpendEuro,
+      budgetEuro: result.budgetEuro,
+      totalCostEuro: result.actualSpendEuro,
+      formula: `Efficienza ${result.efficiencyPercent}% − sprechi − omissioni (Δ €${result.deltaSpendEuro.toFixed(2)}; scostamento ${result.scostamentoPercent}%)`,
+      final: result.score,
+      motivations: result.motivations as ScoreMotivation[],
+      appropriatenessCouplingApplied: result.appropriatenessCouplingApplied,
+      underPrescriptionApplied: result.underPrescriptionApplied,
+      overPrescriptionWasteEuro: result.wasteEuro,
+      virtuousSpendEuro: result.virtuousSpendEuro,
+      idealSpendEuro: result.idealSpendEuro,
+      deltaSpendEuro: result.deltaSpendEuro,
+      scostamentoPercent: result.scostamentoPercent,
+      efficiencyPercent: result.efficiencyPercent,
+      omissionEuro: result.omissionEuro,
+      expertAnalysis: result.expertAnalysis,
+      framework: "economy-ssn-hta",
+      qualitativeLabel: result.qualitativeLabel,
+      prescriptions: {
+        virtuous: result.prescriptions.virtuous.map((p) => ({
+          examId: p.examId,
+          name: p.name,
+          costEuro: p.costEuro,
+          sourceRef: p.sourceRef,
+        })),
+        inappropriate: result.prescriptions.inappropriate.map((p) => ({
+          examId: p.examId,
+          name: p.name,
+          costEuro: p.costEuro,
+          sourceRef: p.sourceRef,
+        })),
+        omissions: result.prescriptions.omissions.map((p) => ({
+          examId: p.examId,
+          name: p.name,
+          costEuro: p.costEuro,
+          sourceRef: p.sourceRef,
+        })),
+      },
     },
   };
 }
 
 /**
  * Tutela medico-legale: esito GIURIDICO BINARIO (non voto numerico in UI).
- * CONFORME (TUTELATO) | NON CONFORME (RISCHIO CONTENZIOSO)
- * Citazione normativa obbligatoria su ogni giudizio.
+ * Motore RAG-agnostico — citazioni dinamiche dal corpus specialty.
+ * CONFORME (Scudo Legale Attivo) | NON CONFORME (Profilo di Rischio Contenzioso)
  */
 export function computeLegalComplianceScore(
   reviews: LegalInstrumentReview[],
@@ -911,200 +940,53 @@ export function computeLegalComplianceScore(
     ragSourcesCount?: number;
     sessionMilestones?: Array<{ milestoneKey: string }> | null;
     chatHistory?: Array<{ role: string; content: string }> | null;
+    caseId?: string | null;
+    caseTitle?: string | null;
+    legalChunks?: GuidelineChunk[] | null;
+    legalSources?: string[] | null;
   },
 ): {
   score: number;
   breakdown: ScoreBreakdown["legal"];
 } {
-  const safeReviews = Array.isArray(reviews) ? reviews : [];
-  const ragSourcesCount =
-    typeof options?.ragSourcesCount === "number"
-      ? Math.max(0, options.ragSourcesCount)
-      : options?.hasLegalContext
-        ? 1
-        : 0;
-  const hasRagCorpus = (options?.hasLegalContext ?? false) && ragSourcesCount > 0;
-  const usedProntuarioFallback = !hasRagCorpus;
-
-  const applicable = safeReviews.filter((r) => r.compliance !== "non_applicabile");
-  const violatedReviews = applicable.filter(
-    (r) => r.compliance === "violato" || r.compliance === "parziale",
-  );
-  const respectedReviews = applicable.filter((r) => r.compliance === "rispettato");
-
-  const milestoneKeys = new Set(
-    (options?.sessionMilestones ?? []).map((m) => m.milestoneKey).filter(Boolean),
-  );
-  const chat = Array.isArray(options?.chatHistory) ? options!.chatHistory! : [];
-  const doctorTurns = chat.filter(
-    (m) => m.role === "user" && typeof m.content === "string" && m.content.trim().length > 0,
-  );
-  const doctorText = doctorTurns.map((t) => t.content).join("\n");
-  const hasMilestone = (key: string) =>
-    milestoneKeys.has(key) ||
-    [...milestoneKeys].some((k) => k.includes(key) || key.includes(k));
-
-  const safetyChecks: Array<{ ok: boolean; label: string; sourceRef: string }> = [
-    {
-      ok:
-        hasMilestone("consenso_informato") ||
-        /consenso informato|ha compreso i rischi|accetta (l['']esame|la procedura)/i.test(doctorText),
-      label: "Consenso informato / informativa sui rischi",
-      sourceRef: LEGAL_SOURCE_REFS.consensoL219,
-    },
-    {
-      ok: hasMilestone("indagate_allergie") || /allergi/i.test(doctorText),
-      label: "Rilevazione allergie (sicurezza prescrittiva)",
-      sourceRef: LEGAL_SOURCE_REFS.deontologia35,
-    },
-    {
-      ok:
-        hasMilestone("anamnesi_farmaci") ||
-        /farmaci|terapia in atto|assume/i.test(doctorText),
-      label: "Anamnesi farmacologica",
-      sourceRef: LEGAL_SOURCE_REFS.gelliArt5,
-    },
-  ];
-
-  const milestonesTracked = milestoneKeys.size > 0 || doctorTurns.length > 0;
-  const safetyViolations = milestonesTracked ? safetyChecks.filter((c) => !c.ok) : [];
-  const hasViolation = violatedReviews.length > 0 || safetyViolations.length > 0;
-
-  const motivations: ScoreMotivation[] = [];
-
-  if (usedProntuarioFallback) {
-    motivations.push(
-      motivation(
-        "neutral",
-        "Corpus RAG non disponibile per la disciplina — applicazione Prontuario Medico-Legale Base SSN",
-        {
-          id: "legal_fallback",
-          scoreImpact: 0,
-          sourceRef: LEGAL_SOURCE_REFS.prontuario,
-        },
-      ),
-    );
-  } else {
-    motivations.push(
-      motivation("neutral", `Corpus RAG attivo (${ragSourcesCount} fonti medico-legali)`, {
-        id: "legal_rag_active",
-        scoreImpact: 0,
-        sourceRef: LEGAL_SOURCE_REFS.gelliArt5,
-      }),
-    );
-  }
-
-  for (const r of respectedReviews.slice(0, 8)) {
-    const ref =
-      r.documentTitle?.trim() ||
-      (r.instrument.includes("24/2017") ? LEGAL_SOURCE_REFS.gelliArt5 : r.instrument);
-    motivations.push(
-      motivation("positive", `Obbligo rispettato — «${r.instrument}»: ${r.rationale.slice(0, 120)}`, {
-        id: `legal_ok_${normalizeExamSlug(r.instrument).slice(0, 20)}`,
-        scoreImpact: 0,
-        sourceRef: ref.startsWith("Rif.") ? ref : `Rif. ${ref}`,
-      }),
-    );
-  }
-
-  for (const r of violatedReviews) {
-    const ref =
-      r.documentTitle?.trim() ||
-      (r.instrument.toLowerCase().includes("consenso")
-        ? LEGAL_SOURCE_REFS.consensoL219
-        : LEGAL_SOURCE_REFS.gelliArt5);
-    motivations.push(
-      motivation(
-        "negative",
-        `Violazione — «${r.instrument}»: ${r.rationale.slice(0, 140)}`,
-        {
-          id: `legal_viol_${normalizeExamSlug(r.instrument).slice(0, 20)}`,
-          scoreImpact: 0,
-          sourceRef: ref.startsWith("Rif.") ? ref : `Rif. ${ref}`,
-        },
-      ),
-    );
-  }
-
-  for (const v of safetyViolations) {
-    motivations.push(
-      motivation("negative", `Inadempimento di sicurezza: ${v.label}`, {
-        id: `legal_safety_${normalizeExamSlug(v.label).slice(0, 20)}`,
-        scoreImpact: 0,
-        sourceRef: v.sourceRef,
-      }),
-    );
-  }
-
-  const conformityStatus: LegalConformityStatus = hasViolation ? "NON_CONFORME" : "CONFORME";
-  const score =
-    conformityStatus === "CONFORME" ? LEGAL_CONFORME_SCORE : LEGAL_NON_CONFORME_SCORE;
-  const sourceRef =
-    violatedReviews[0]?.documentTitle?.trim() ||
-    (violatedReviews[0]?.instrument
-      ? `Rif. ${violatedReviews[0].instrument}`
-      : undefined) ||
-    safetyViolations[0]?.sourceRef ||
-    respectedReviews[0]?.documentTitle?.trim() ||
-    (usedProntuarioFallback ? LEGAL_SOURCE_REFS.gelliArt5 : LEGAL_SOURCE_REFS.gelliArt5);
-
-  const formalLabel = legalConformityFormalLabel(conformityStatus);
-  motivations.push(
-    motivation(
-      conformityStatus === "CONFORME" ? "positive" : "negative",
-      formalLabel,
-      {
-        id: "legal_verdict",
-        scoreImpact: 0,
-        sourceRef,
-      },
-    ),
-  );
+  const result = computeLegalRagConformity({
+    caseId: options?.caseId,
+    caseTitle: options?.caseTitle,
+    chatHistory: options?.chatHistory,
+    sessionMilestones: options?.sessionMilestones,
+    legalInstrumentReviews: reviews,
+    legalChunks: options?.legalChunks,
+    legalSources: options?.legalSources,
+    hasLegalContext: options?.hasLegalContext,
+    ragSourcesCount: options?.ragSourcesCount,
+  });
 
   return {
-    score,
+    score: result.score,
     breakdown: {
-      applicableInstruments: Math.max(applicable.length, safetyChecks.length),
-      violated:
-        violatedReviews.filter((r) => r.compliance === "violato").length +
-        safetyViolations.length,
-      partial: violatedReviews.filter((r) => r.compliance === "parziale").length,
+      applicableInstruments: result.applicableInstruments,
+      violated: result.violated,
+      partial: result.partial,
       weightPerInstrument: 0,
-      final: score,
-      motivations,
-      ragSourcesCount,
-      hasLegalContext: hasRagCorpus,
-      usedProntuarioFallback,
-      unevaluable: false,
-      conformityStatus,
-      protectionLabel: conformityStatus,
-      sourceRef,
-      formalLabel,
+      final: result.score,
+      motivations: result.motivations as ScoreMotivation[],
+      ragSourcesCount: result.ragSourcesCount,
+      hasLegalContext: result.hasLegalContext,
+      usedProntuarioFallback: result.usedCorpusFallback,
+      unevaluable: result.unevaluable,
+      conformityStatus: result.conformityStatus,
+      protectionLabel: result.conformityStatus,
+      sourceRef: result.primarySourceRef,
+      formalLabel: result.formalLabel,
+      expertAnalysis: result.expertAnalysis,
+      framework: "legal-rag-ctu",
+      rilievi: result.rilievi,
+      criteriaResults: result.criteriaResults,
     },
   };
 }
 
-/* ── Empathy (behavioral; no fictitious +100) ─────────────────────── */
-
-const VALIDATION_RE =
-  /capisco|comprendo|mi dispiace|la sua ansia|preoccupat[oaie]?|paura|angoscia|disagio|è normale sentirsi|riconosco (che|il)|dev['’]?essere difficil|come si sente|il suo stress|la capisco|la rassicuro|non è sola|non è solo/i;
-const TRANSPARENCY_RE =
-  /le spiego|in parole semplic|significa che|cioè\b|in pratica|faremo (un |una )?|l['’]esame serve|serve a|senza (dolore|rischi?o)|per capire meglio|le dico|passo dopo passo|in termini semplici|le racconto (cosa|come)/i;
-const ALLIANCE_RE =
-  /ha domande|domande\s*\?|stia tranquillo|stia seren|ora (facciamo|procediamo|vediamo)|insieme (a lei|facciamo)|d['’]accordo\s*\?|mi segue|si senta liber|posso (aiutarla|rispondere)|la accompagno|procediamo insieme/i;
-const BRUSQUE_RE =
-  /\b(faccia subito|deve stare zitt|non c['’]è tempo|sbrighi?ati|solo s[iì] o no|non interrompa|basta cos[iì]|non mi interessa)\b|!{2,}/i;
-const UNEXPLAINED_JARGON_RE =
-  /\b(STEMI|NSTEMI|troponina(?:-hs)?|emogasanalisi|emogas|ECG|TC\b|TAC\b|RMN|fibrinolisi|PCI|SpO₂|SpO2|PAS|PAD|GCS|shock\s+ipovol)\b/i;
-const PATIENT_ANXIETY_RE =
-  /paura|ansios[oa]|ansia|preoccupat[oa]|ho paura|non ce la faccio|sto malissimo|aiuto|terrorizzat|agitato|mi sento male|ho paura di/i;
-
-function scaledBonus(hitCount: number, minBonus: number, maxBonus: number): number {
-  if (hitCount <= 0) return 0;
-  if (hitCount === 1) return minBonus;
-  if (hitCount === 2) return Math.round((minBonus + maxBonus) / 2);
-  return maxBonus;
-}
+/* ── Empathy — Calgary-Cambridge × Validazione × Urgenza ─────────── */
 
 export function qualitativeEmpathyLabel(breakdown: {
   finalScore: number;
@@ -1112,198 +994,76 @@ export function qualitativeEmpathyLabel(breakdown: {
   transparencyBonus: number;
   allianceBonus: number;
   dismissalPenalty: number;
+  qualitativeLabel?: string;
 }): string {
-  const { finalScore, validationBonus, transparencyBonus, allianceBonus, dismissalPenalty } =
-    breakdown;
-  if (dismissalPenalty >= 25 && finalScore < 60) {
+  if (breakdown.qualitativeLabel) return breakdown.qualitativeLabel;
+  const { finalScore, dismissalPenalty } = breakdown;
+  if (dismissalPenalty >= 25 && finalScore < 55) {
     return "Comunicazione a rischio — tono brusco o disattenzione all'ansia";
   }
-  if (finalScore >= 85 && allianceBonus >= 10 && validationBonus >= 10) {
-    return "Eccellente alleanza terapeutica e validazione emotiva";
+  if (finalScore >= 85) {
+    return "Eccellente alleanza terapeutica e esplorazione del vissuto (Calgary-Cambridge)";
   }
-  if (finalScore >= 75 && allianceBonus >= 10) return "Buona alleanza terapeutica";
-  if (finalScore >= 70 && transparencyBonus >= 10 && validationBonus < 10) {
-    return "Comunicazione tecnica ma rispettosa";
+  if (finalScore >= 70) return "Buona comunicazione patient-centered";
+  if (finalScore >= 55) {
+    return "Comunicazione professionale parziale — gap di validazione o esplorazione";
   }
-  if (finalScore >= 60) return "Comunicazione professionale corretta";
-  if (finalScore >= 45) return "Empatia insufficiente — gap di validazione o trasparenza";
-  return "Comunicazione a rischio — tono brusco o disattenzione all'ansia";
+  if (finalScore >= 40) return "Empatia insufficiente — deficit anamnestici/relazionali";
+  return "Comunicazione a rischio — tono inadeguato o errore di priorità clinico-comportamentale";
 }
 
 export function computeBehavioralEmpathyScore(params: {
   chatHistory?: Array<{ role: string; content: string }> | null;
   empathyChecklist?: EmpathyChecklistItem[] | null;
+  caseId?: string | null;
+  caseContext?: string | null;
+  caseTitle?: string | null;
+  anamnesisQuestions?: AnamnesisQuestion[] | null;
+  sessionMilestones?: Array<{ milestoneKey: string }> | null;
 }): { score: number; breakdown: EmpathyBehavioralBreakdown } {
-  const chat = Array.isArray(params.chatHistory) ? params.chatHistory : [];
-  const doctorTurns = chat
-    .filter((m) => m.role === "user" && typeof m.content === "string")
-    .map((m) => m.content.trim())
-    .filter(Boolean);
-  const patientTurns = chat
-    .filter((m) => m.role === "assistant" && typeof m.content === "string")
-    .map((m) => m.content.trim())
-    .filter(Boolean);
-
-  let validationHits = 0;
-  let transparencyHits = 0;
-  let allianceHits = 0;
-  let brusqueHits = 0;
-  let jargonHits = 0;
-
-  for (const turn of doctorTurns) {
-    if (VALIDATION_RE.test(turn)) validationHits += 1;
-    if (TRANSPARENCY_RE.test(turn)) transparencyHits += 1;
-    if (ALLIANCE_RE.test(turn)) allianceHits += 1;
-    if (BRUSQUE_RE.test(turn)) brusqueHits += 1;
-    if (UNEXPLAINED_JARGON_RE.test(turn) && !TRANSPARENCY_RE.test(turn)) jargonHits += 1;
-  }
-
-  const validationBonus = scaledBonus(validationHits, 10, 20);
-  const transparencyBonus = scaledBonus(transparencyHits, 10, 20);
-  const allianceBonus = allianceHits > 0 ? 10 : 0;
-
-  let dismissalPenalty = 0;
-  let anxietyIgnored = false;
-  for (let i = 0; i < chat.length - 1; i += 1) {
-    const cur = chat[i];
-    const next = chat[i + 1];
-    if (
-      cur?.role === "assistant" &&
-      next?.role === "user" &&
-      PATIENT_ANXIETY_RE.test(cur.content) &&
-      !VALIDATION_RE.test(next.content) &&
-      !ALLIANCE_RE.test(next.content)
-    ) {
-      anxietyIgnored = true;
-      break;
-    }
-  }
-  if (!anxietyIgnored) {
-    const lastAnxietyIdx = [...patientTurns.keys()]
-      .reverse()
-      .find((idx) => PATIENT_ANXIETY_RE.test(patientTurns[idx] ?? ""));
-    if (typeof lastAnxietyIdx === "number") {
-      let patientSeen = -1;
-      for (let i = 0; i < chat.length; i += 1) {
-        if (chat[i]?.role !== "assistant") continue;
-        patientSeen += 1;
-        if (patientSeen !== lastAnxietyIdx) continue;
-        const laterDoctor = chat
-          .slice(i + 1)
-          .filter((m) => m.role === "user")
-          .map((m) => m.content);
-        if (
-          laterDoctor.length > 0 &&
-          !laterDoctor.some((t) => VALIDATION_RE.test(t) || ALLIANCE_RE.test(t))
-        ) {
-          anxietyIgnored = true;
-        }
-        break;
-      }
-    }
-  }
-  if (anxietyIgnored) dismissalPenalty += 15;
-  if (brusqueHits > 0) dismissalPenalty += 25;
-  if (jargonHits > 0) dismissalPenalty += 15;
-
-  // Earned score: professional floor only if doctor engaged; otherwise 0 start + earned bonuses
-  const engaged = doctorTurns.length > 0;
-  const floor = engaged ? EMPATHY_PROFESSIONAL_BASELINE : 0;
-  const raw = floor + validationBonus + transparencyBonus + allianceBonus - dismissalPenalty;
-  const floored =
-    engaged && dismissalPenalty === 0 ? Math.max(EMPATHY_PROFESSIONAL_BASELINE, raw) : raw;
-  const finalScore = clampScore(floored);
-
+  const result = computeCalgaryCambridgeEmpathy({
+    chatHistory: params.chatHistory,
+    caseId: params.caseId,
+    caseContext: params.caseContext,
+    caseTitle: params.caseTitle,
+    anamnesisQuestions: params.anamnesisQuestions,
+    sessionMilestones: params.sessionMilestones,
+  });
   const checklist = Array.isArray(params.empathyChecklist) ? params.empathyChecklist : [];
-  const motivations: ScoreMotivation[] = [];
-  if (engaged) {
-    motivations.push(
-      motivation("positive", "Competenza comunicativa professionale dimostrata in chat", {
-        id: "emp_floor",
-        scoreImpact: EMPATHY_PROFESSIONAL_BASELINE,
-        sourceRef: "Rif. Modello comportamentale Aequan — empatia clinica",
-      }),
-    );
-  } else {
-    motivations.push(
-      motivation("negative", "Nessun turno medico — empatia non dimostrata", {
-        id: "emp_empty",
-        scoreImpact: 0,
-        sourceRef: "Rif. Modello comportamentale Aequan — empatia clinica",
-      }),
-    );
-  }
-  if (validationBonus > 0) {
-    motivations.push(
-      motivation("positive", "Validazione emotiva del disagio/ansia", {
-        id: "emp_val",
-        scoreImpact: validationBonus,
-      }),
-    );
-  }
-  if (transparencyBonus > 0) {
-    motivations.push(
-      motivation("positive", "Trasparenza su manovre/esami", {
-        id: "emp_trans",
-        scoreImpact: transparencyBonus,
-      }),
-    );
-  }
-  if (allianceBonus > 0) {
-    motivations.push(
-      motivation("positive", "Alleanza terapeutica", {
-        id: "emp_ally",
-        scoreImpact: allianceBonus,
-      }),
-    );
-  }
-  if (anxietyIgnored) {
-    motivations.push(
-      motivation("negative", "Disattenzione all'ansia del paziente", {
-        id: "emp_anx",
-        scoreImpact: -15,
-      }),
-    );
-  }
-  if (brusqueHits > 0) {
-    motivations.push(
-      motivation("negative", "Linguaggio brusco o imperativo", {
-        id: "emp_brusque",
-        scoreImpact: -25,
-      }),
-    );
-  }
-  if (jargonHits > 0) {
-    motivations.push(
-      motivation("negative", "Gergo tecnico non spiegato", {
-        id: "emp_jargon",
-        scoreImpact: -15,
-      }),
-    );
-  }
-
-  const partial = {
-    finalScore,
-    validationBonus,
-    transparencyBonus,
-    allianceBonus,
-    dismissalPenalty,
-  };
-
   return {
-    score: finalScore,
+    score: result.score,
     breakdown: {
-      baseline: engaged ? EMPATHY_PROFESSIONAL_BASELINE : 0,
-      validationBonus,
-      transparencyBonus,
-      allianceBonus,
-      dismissalPenalty,
-      finalScore,
-      final: finalScore,
-      qualitativeLabel: qualitativeEmpathyLabel(partial),
-      motivations,
+      baseline: result.legacy.baseline,
+      validationBonus: result.legacy.validationBonus,
+      transparencyBonus: result.legacy.transparencyBonus,
+      allianceBonus: result.legacy.allianceBonus,
+      dismissalPenalty: result.legacy.dismissalPenalty,
+      finalScore: result.score,
+      final: result.score,
+      qualitativeLabel: result.qualitativeLabel,
+      motivations: result.motivations as ScoreMotivation[],
       totalParameters: checklist.length,
       metParameters: checklist.filter((i) => i.met).length,
+      expertAnalysis: result.expertAnalysis,
+      framework: "calgary-cambridge",
+      urgencyMode: result.urgencyMode,
+      dimensions: {
+        activeListening: {
+          score: result.dimensions.activeListening.score,
+          weight: result.dimensions.activeListening.weight,
+          label: result.dimensions.activeListening.label,
+        },
+        emotionalValidation: {
+          score: result.dimensions.emotionalValidation.score,
+          weight: result.dimensions.emotionalValidation.weight,
+          label: result.dimensions.emotionalValidation.label,
+        },
+        clinicalContext: {
+          score: result.dimensions.clinicalContext.score,
+          weight: result.dimensions.clinicalContext.weight,
+          label: result.dimensions.clinicalContext.label,
+        },
+      },
     },
   };
 }
@@ -1328,6 +1088,16 @@ export function deriveDimensionScores(params: {
   sessionMilestones?: Array<{ milestoneKey: string }> | null;
   goldStandardPath?: string[] | null;
   orderedExams?: Array<{ id?: string; name?: string; cost?: number }> | null;
+  caseId?: string | null;
+  caseContext?: string | null;
+  caseTitle?: string | null;
+  anamnesisQuestions?: AnamnesisQuestion[] | null;
+  executedActionIds?: string[] | null;
+  requestedExamIds?: string[] | null;
+  mandatoryExams?: CaseExamDefinition[] | null;
+  inappropriateExams?: CaseExamDefinition[] | null;
+  legalChunks?: GuidelineChunk[] | null;
+  legalSources?: string[] | null;
 }): { scores: DimensionScores; breakdown: ScoreBreakdown } {
   const anamnesis = computeAnamnesisProtocolCoverage({
     chatHistory: params.chatHistory,
@@ -1337,6 +1107,14 @@ export function deriveDimensionScores(params: {
 
   const clinical = computeClinicalAccuracyScore(params.criticalActions, {
     anamnesisCoveragePercent: anamnesis.coveragePercent,
+    caseId: params.caseId,
+    caseTitle: params.caseTitle,
+    executedActionIds: params.executedActionIds,
+    requestedExamIds: params.requestedExamIds,
+    orderedExams: params.orderedExams,
+    mandatoryExams: params.mandatoryExams,
+    inappropriateExams: params.inappropriateExams,
+    goldStandardPath: params.goldStandardPath,
   });
   const exams = computeAppropriatenessScore(params.inappropriateActions, {
     orderedExams: params.orderedExams,
@@ -1346,16 +1124,29 @@ export function deriveDimensionScores(params: {
     examsAppropriatenessScore: exams.score,
     orderedExams: params.orderedExams,
     goldStandardPath: params.goldStandardPath,
+    caseId: params.caseId,
+    caseTitle: params.caseTitle,
+    mandatoryExams: params.mandatoryExams,
+    inappropriateExams: params.inappropriateExams,
   });
   const legal = computeLegalComplianceScore(params.legalInstrumentReviews, {
     hasLegalContext: params.hasLegalContext,
     ragSourcesCount: params.ragSourcesCount,
     sessionMilestones: params.sessionMilestones,
     chatHistory: params.chatHistory,
+    caseId: params.caseId,
+    caseTitle: params.caseTitle,
+    legalChunks: params.legalChunks,
+    legalSources: params.legalSources,
   });
   const empathy = computeBehavioralEmpathyScore({
     chatHistory: params.chatHistory,
     empathyChecklist: params.empathyChecklist,
+    caseId: params.caseId,
+    caseContext: params.caseContext,
+    caseTitle: params.caseTitle,
+    anamnesisQuestions: params.anamnesisQuestions,
+    sessionMilestones: params.sessionMilestones,
   });
 
   // Attach anamnesis detail to clinical motivations
@@ -1401,6 +1192,10 @@ export function applyPedagogicalSeverityGates(params: {
   inappropriateActions?: InappropriateActionItem[] | null;
   goldStandardPath?: string[] | null;
   orderedExams?: Array<{ id?: string; name?: string; cost?: number }> | null;
+  caseId?: string | null;
+  caseTitle?: string | null;
+  mandatoryExams?: CaseExamDefinition[] | null;
+  inappropriateExams?: CaseExamDefinition[] | null;
 }): { scores: DimensionScores; breakdown: ScoreBreakdown } {
   const scores = { ...params.scores };
   const breakdown: ScoreBreakdown = {
@@ -1436,7 +1231,11 @@ export function applyPedagogicalSeverityGates(params: {
   });
   breakdown.clinical.anamnesisCoveragePercent = coverage.coveragePercent;
 
-  if (coverage.coveragePercent / 100 < ANAMNESIS_COVERAGE_THRESHOLD) {
+  if (breakdown.clinical.iatrogenicCritical) {
+    // Class III iatrogenic critical locks clinical at 0 — never raise via other gates.
+    scores.clinical = 0;
+    breakdown.clinical.final = 0;
+  } else if (coverage.coveragePercent / 100 < ANAMNESIS_COVERAGE_THRESHOLD) {
     const before = scores.clinical;
     scores.clinical = Math.min(scores.clinical, CLINICAL_ANAMNESIS_SEVERITY_CAP);
     breakdown.clinical.final = scores.clinical;
@@ -1454,51 +1253,38 @@ export function applyPedagogicalSeverityGates(params: {
     );
   }
 
-  // Re-affirm binary legal from live evidence
-  const legalRescored = computeLegalComplianceScore([], {
-    hasLegalContext: params.breakdown.legal.hasLegalContext,
-    ragSourcesCount: params.breakdown.legal.ragSourcesCount,
-    sessionMilestones: params.sessionMilestones,
-    chatHistory: params.chatHistory,
-  });
-  // Preserve violations already recorded in reviews via previous breakdown
+  // Preserve prior legal RAG verdict — do not wipe rilievi by re-scoring with empty reviews.
   const priorNonConforme =
     resolveLegalConformity(params.breakdown.legal.protectionLabel) === "NON_CONFORME" ||
     params.breakdown.legal.conformityStatus === "NON_CONFORME" ||
-    (params.breakdown.legal.violated ?? 0) > 0;
+    (params.breakdown.legal.violated ?? 0) > 0 ||
+    (params.breakdown.legal.partial ?? 0) > 0;
 
-  if (priorNonConforme || legalRescored.breakdown.conformityStatus === "NON_CONFORME") {
+  if (priorNonConforme) {
     scores.legal = LEGAL_NON_CONFORME_SCORE;
     breakdown.legal = {
-      ...legalRescored.breakdown,
+      ...params.breakdown.legal,
       conformityStatus: "NON_CONFORME",
       protectionLabel: "NON_CONFORME",
       formalLabel: legalConformityFormalLabel("NON_CONFORME"),
       final: LEGAL_NON_CONFORME_SCORE,
-      motivations: [
-        ...params.breakdown.legal.motivations.filter((m) => m.type === "negative"),
-        ...legalRescored.breakdown.motivations.filter(
-          (m) => m.type === "negative" || m.id === "legal_verdict",
-        ),
-      ],
-      sourceRef:
-        legalRescored.breakdown.sourceRef ||
-        params.breakdown.legal.sourceRef ||
-        LEGAL_SOURCE_REFS.gelliArt5,
+      motivations: dedupeMotivationsByText(params.breakdown.legal.motivations ?? []),
+      rilievi: params.breakdown.legal.rilievi,
+      expertAnalysis: params.breakdown.legal.expertAnalysis,
+      framework: params.breakdown.legal.framework ?? "legal-rag-ctu",
     };
   } else {
     scores.legal = LEGAL_CONFORME_SCORE;
     breakdown.legal = {
-      ...legalRescored.breakdown,
+      ...params.breakdown.legal,
       conformityStatus: "CONFORME",
       protectionLabel: "CONFORME",
       formalLabel: legalConformityFormalLabel("CONFORME"),
       final: LEGAL_CONFORME_SCORE,
-      motivations: legalRescored.breakdown.motivations,
-      sourceRef:
-        legalRescored.breakdown.sourceRef ||
-        params.breakdown.legal.sourceRef ||
-        LEGAL_SOURCE_REFS.gelliArt5,
+      motivations: dedupeMotivationsByText(params.breakdown.legal.motivations ?? []),
+      rilievi: params.breakdown.legal.rilievi,
+      expertAnalysis: params.breakdown.legal.expertAnalysis,
+      framework: params.breakdown.legal.framework ?? "legal-rag-ctu",
     };
   }
 
@@ -1509,6 +1295,10 @@ export function applyPedagogicalSeverityGates(params: {
       examsAppropriatenessScore: scores.exams,
       orderedExams: params.orderedExams,
       goldStandardPath: params.goldStandardPath,
+      caseId: params.caseId,
+      caseTitle: params.caseTitle,
+      mandatoryExams: params.mandatoryExams,
+      inappropriateExams: params.inappropriateExams,
     },
   );
   scores.economy = economyRescored.score;

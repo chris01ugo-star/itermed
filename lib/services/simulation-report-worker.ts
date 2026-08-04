@@ -14,14 +14,20 @@ import {
   computeFinalTrentesimiWithKillerSwitch,
   detectFatalErrors,
 } from "@/lib/services/evaluation-killer-switch";
+import { buildExecutedActionIds } from "@/lib/services/evaluation-clinical-esc";
 import type { FatalError } from "@/lib/services/evaluation-report-types";
 import {
   buildSessionReportData,
   type ClinicalCaseSnapshot,
 } from "@/lib/services/simulation-report-data";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
-import { fetchSessionMilestones } from "@/lib/simulator/milestone-tracker";
+import {
+  fetchSessionMilestones,
+  parseHelpTelemetryFromMilestones,
+} from "@/lib/simulator/milestone-tracker";
+import { asStringArray } from "@/lib/simulator/session-id";
 import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
+import { getCaseById } from "@/lib/data/cases/registry";
 
 export type SimulationReportJobInput = {
   reportId: string;
@@ -34,6 +40,11 @@ export type SimulationReportJobInput = {
   normalizedReportText: string;
   caseContext?: string;
   finalDiagnosis?: string;
+  /** Optional client-side immutable action registry. */
+  executedActionIds?: string[];
+  requestedExamIds?: string[];
+  helpRequested?: boolean;
+  helpRequestCount?: number;
 };
 
 /** Clinical fail ceiling on the trentesimi scale (&lt; 18/30). */
@@ -102,6 +113,25 @@ function applyKillerSwitchToEvaluation(evaluation: EvaluationResult): {
   } catch {
     // Never abort the job on detector failure — treat as no fatal errors.
     fatalErrors = [];
+  }
+
+  // ESC Class III iatrogenic critical from deterministic clinical matrix.
+  const clinical = evaluation.scoreBreakdown?.clinical;
+  if (clinical?.iatrogenicCritical) {
+    for (const ev of clinical.iatrogenicEvents ?? []) {
+      fatalErrors.push({
+        description: `Danno Iatrogeno Critico (Classe III): ${ev.name}`,
+        rationale: ev.rationale,
+      });
+    }
+    if ((clinical.iatrogenicEvents?.length ?? 0) === 0) {
+      fatalErrors.push({
+        description: "Danno Iatrogeno Critico — intervento di Classe III ESC/AHA",
+        rationale:
+          clinical.qualitativeLabel ||
+          "Esecuzione di azione controindicata (Classe III) rilevata nel registro esecutivo.",
+      });
+    }
   }
 
   const safeScores = sanitizeDimensionScores(evaluation.scores);
@@ -214,6 +244,41 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       : [];
 
     const goldStandardPath = parseGoldStandardPath(clinicalCase?.goldStandardPath);
+    const registeredCase = getCaseById(input.caseId);
+
+    let sessionRequestedExamIds = asStringArray(input.requestedExamIds);
+    if (input.liveSessionId) {
+      try {
+        const liveSession = await prisma.caseSession.findUnique({
+          where: { id: input.liveSessionId },
+          select: { requestedExamIds: true },
+        });
+        if (Array.isArray(liveSession?.requestedExamIds)) {
+          sessionRequestedExamIds = [
+            ...new Set([
+              ...sessionRequestedExamIds,
+              ...asStringArray(liveSession.requestedExamIds),
+            ]),
+          ];
+        }
+      } catch (err) {
+        console.error("[simulation-report-worker] requestedExamIds merge failed", err);
+      }
+    }
+
+    const executedActionIds = buildExecutedActionIds({
+      executedActionIds: asStringArray(input.executedActionIds),
+      requestedExamIds: sessionRequestedExamIds,
+      exams: Array.isArray(input.exams) ? input.exams : [],
+    });
+
+    const milestoneHelp = parseHelpTelemetryFromMilestones(sessionMilestones);
+    const helpRequestCount = Math.max(
+      Number(input.helpRequestCount) || 0,
+      milestoneHelp.helpRequestCount,
+    );
+    const helpRequested =
+      Boolean(input.helpRequested) || milestoneHelp.helpRequested || helpRequestCount > 0;
 
     const evaluation = await evaluationService.evaluateSimulation({
       chatHistory: Array.isArray(input.evaluationChatHistory)
@@ -221,6 +286,8 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
         : [],
       exams: Array.isArray(input.exams) ? input.exams : [],
       reportText: input.normalizedReportText ?? "",
+      caseId: input.caseId,
+      caseTitle: registeredCase?.title,
       caseContext: input.caseContext,
       finalDiagnosis: input.finalDiagnosis,
       guidelines,
@@ -231,6 +298,10 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       examCatalog: examCatalog ?? {},
       goldStandardPath: goldStandardPath.length > 0 ? goldStandardPath : undefined,
       sessionMilestones: Array.isArray(sessionMilestones) ? sessionMilestones : [],
+      executedActionIds,
+      requestedExamIds: sessionRequestedExamIds,
+      helpRequested,
+      helpRequestCount,
     });
     const evaluationDurationMs = Date.now() - evaluationStartedAt;
 

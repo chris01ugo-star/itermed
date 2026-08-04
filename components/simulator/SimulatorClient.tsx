@@ -15,6 +15,7 @@ import {
   FolderOpen,
   HelpCircle,
   MessageCircle,
+  FileText,
   Pause,
   Play,
   Send,
@@ -50,7 +51,6 @@ import { SkeletonChatBubble } from "@/components/ui/Skeleton";
 import { VitalSignsBoard } from "./VitalSignsBoard";
 import { ExamReportRecap } from "./ExamReportRecap";
 import { DiagnosticCategoryPanel } from "./DiagnosticCategoryPanel";
-import { ClinicalNudgeBanner, LiveCoachingPanel } from "./LiveCoachingPanel";
 import { SessionSideMetrics } from "./SessionSideMetrics";
 import { PRASSI_TONE } from "@/lib/ui/prassi-pastels";
 import {
@@ -65,7 +65,7 @@ import { ScoreProgressRing } from "@/app/case/[id]/results/ScoreProgressRing";
 import { deriveDemoVitals, patientDisplayName } from "@/lib/prassi/demo-vitals";
 import { classifyVitals, maxVitalStatus } from "@/lib/clinical/vital-status";
 import { resolveCaseStressProfile } from "@/lib/simulator/patient-stress-engine";
-import { estimateLiveCoaching } from "@/lib/simulator/live-coaching-estimate";
+import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 import { resolveExamBudgetEuro } from "@/lib/services/evaluation-scoring";
 import type { CaseDifficulty } from "@prisma/client";
 import { EXAM_DEFAULT_VALUES, type ExamClinicalMeta } from "../../lib/exam-default-values";
@@ -152,6 +152,8 @@ type ReportStatusPayload = {
 
 const REPORT_POLL_INTERVAL_MS = 500;
 const REPORT_POLL_TIMEOUT_MS = 3 * 60 * 1000;
+/** Canonical gold / ESC action id for informed consent (must match registry paths). */
+const CONSENT_INFORMED_ACTION_ID = "consenso-informato";
 
 /**
  * Keep `sessionId` in the address bar without Next.js navigation.
@@ -355,7 +357,6 @@ export function SimulatorClient({
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
   const [tutorialOpen, setTutorialOpen] = useState(false);
   const [tutorialHydrated, setTutorialHydrated] = useState(false);
-  const [showInactivityNudge, setShowInactivityNudge] = useState(false);
   const lastActivityAtRef = useRef<number>(Date.now());
   const [activeTab, setActiveTab] = useState<"history" | "exam" | "labs" | "imaging" | "notes">(
     "history",
@@ -365,6 +366,15 @@ export function SimulatorClient({
   const selectedExamIdsRef = useRef<string[]>([]);
   const [isPatientChartOpen, setIsPatientChartOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  /** User-initiated help/consult telemetry for evaluator autonomy tracking. */
+  const [helpRequested, setHelpRequested] = useState(false);
+  const [helpRequestCount, setHelpRequestCount] = useState(0);
+  const helpRequestCountRef = useRef(0);
+  /** Non-exam clinical actions (e.g. consenso-informato) for ESC executedActionIds. */
+  const [extraExecutedActionIds, setExtraExecutedActionIds] = useState<string[]>([]);
+  const extraExecutedActionIdsRef = useRef<string[]>([]);
+  const [consentRequested, setConsentRequested] = useState(false);
+  const [isConsentBusy, setIsConsentBusy] = useState(false);
   const [isDischargeOpen, setIsDischargeOpen] = useState(false);
   const [patientChartTab, setPatientChartTab] = useState<"base" | "referto">("base");
 
@@ -402,7 +412,10 @@ export function SimulatorClient({
   const [reportProgressMessage, setReportProgressMessage] = useState("");
   const [reportData, setReportData] = useState<SimulationReportData | null>(null);
 
-  const [effectiveSessionId, setEffectiveSessionId] = useState<string | undefined>(sessionId);
+  const sanitizedIncomingSessionId = sanitizeLiveSessionId(sessionId);
+  const [effectiveSessionId, setEffectiveSessionId] = useState<string | undefined>(
+    sanitizedIncomingSessionId,
+  );
   const [isStartingEmergency, setIsStartingEmergency] = useState(false);
   const [dismissLoading, setDismissLoading] = useState(false);
   /** 0–100: pressione temporale e carico simulato (chat, esami, errori, tempo). */
@@ -437,7 +450,6 @@ export function SimulatorClient({
 
   const markUserActivity = useCallback(() => {
     lastActivityAtRef.current = Date.now();
-    setShowInactivityNudge(false);
   }, []);
 
   // Apply case baseline stress once (e.g. STEMI seed initialStress: 75).
@@ -464,6 +476,10 @@ export function SimulatorClient({
   useEffect(() => {
     selectedExamIdsRef.current = selectedExamIds;
   }, [selectedExamIds]);
+
+  useEffect(() => {
+    extraExecutedActionIdsRef.current = extraExecutedActionIds;
+  }, [extraExecutedActionIds]);
 
   useEffect(() => {
     const onClinicalAction = (event: Event) => {
@@ -599,7 +615,7 @@ export function SimulatorClient({
     },
   });
 
-  // Inactivity nudge: 120s without chat messages or exam requests while playing.
+  // Activity timestamp for session UX (no passive coaching nudges).
   const userMessageCount = useMemo(
     () => messages.filter((m) => m.role === "user").length,
     [messages],
@@ -608,19 +624,6 @@ export function SimulatorClient({
   useEffect(() => {
     markUserActivity();
   }, [userMessageCount, selectedExamIds.length, markUserActivity]);
-
-  useEffect(() => {
-    if (!disclaimerAccepted || gameStatus !== "playing" || isPaused || tutorialOpen) {
-      setShowInactivityNudge(false);
-      return;
-    }
-    const id = window.setInterval(() => {
-      if (Date.now() - lastActivityAtRef.current >= 120_000) {
-        setShowInactivityNudge(true);
-      }
-    }, 5_000);
-    return () => window.clearInterval(id);
-  }, [disclaimerAccepted, gameStatus, isPaused, tutorialOpen]);
 
   const ensureSessionId = useCallback(async (): Promise<string | null> => {
     if (effectiveSessionIdRef.current) return effectiveSessionIdRef.current;
@@ -637,7 +640,9 @@ export function SimulatorClient({
           }),
         });
         const data = await res.json().catch(() => null);
-        const newSessionId = data?.sessionId as string | undefined;
+        const newSessionId = sanitizeLiveSessionId(
+          typeof data?.sessionId === "string" ? data.sessionId : undefined,
+        );
         if (newSessionId) {
           setEffectiveSessionId(newSessionId);
           effectiveSessionIdRef.current = newSessionId;
@@ -645,7 +650,8 @@ export function SimulatorClient({
           return newSessionId;
         }
         return null;
-      } catch {
+      } catch (err) {
+        console.error("[SimulatorClient] ensureSessionId failed", err);
         return null;
       } finally {
         sessionStartPromiseRef.current = null;
@@ -655,6 +661,80 @@ export function SimulatorClient({
     sessionStartPromiseRef.current = startPromise;
     return startPromise;
   }, [initialCaseData.id]);
+
+  const openHelpConsult = useCallback(() => {
+    markUserActivity();
+    const nextCount = helpRequestCountRef.current + 1;
+    helpRequestCountRef.current = nextCount;
+    setHelpRequestCount(nextCount);
+    setHelpRequested(true);
+    setIsHelpOpen(true);
+
+    void (async () => {
+      const sid = effectiveSessionIdRef.current ?? (await ensureSessionId());
+      if (!sid) return;
+      try {
+        await fetch("/api/session/help", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sessionId: sid,
+            helpRequestCount: nextCount,
+          }),
+        });
+      } catch {
+        // Telemetry best-effort — never block the help dialog.
+      }
+    })();
+  }, [ensureSessionId, markUserActivity]);
+
+  const requestInformedConsent = useCallback(() => {
+    console.log("[DEBUG CLICK] consenso-informato", initialCaseData.id);
+    markUserActivity();
+    if (consentRequested || isConsentBusy) return;
+    setIsConsentBusy(true);
+
+    const consentMessage =
+      "Le spiego ora la procedura proposta, i benefici attesi, i rischi principali e le alternative cliniche. " +
+      "Le chiedo di confermare di aver compreso le informazioni e di prestare il consenso informato prima di procedere.";
+
+    try {
+      void append({ role: "user", content: consentMessage });
+    } catch (err) {
+      console.error("[SimulatorClient] consent append failed", err);
+    }
+
+    setExtraExecutedActionIds((prev) => {
+      if (prev.includes(CONSENT_INFORMED_ACTION_ID)) return prev;
+      const next = [...prev, CONSENT_INFORMED_ACTION_ID];
+      extraExecutedActionIdsRef.current = next;
+      return next;
+    });
+    setConsentRequested(true);
+
+    void (async () => {
+      try {
+        const sid = effectiveSessionIdRef.current ?? (await ensureSessionId());
+        if (!sid) return;
+        await fetch("/api/session/consent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId: sid }),
+        });
+      } catch (err) {
+        console.error("[SimulatorClient] consent telemetry failed", err);
+      } finally {
+        setIsConsentBusy(false);
+      }
+    })();
+  }, [
+    append,
+    consentRequested,
+    ensureSessionId,
+    initialCaseData.id,
+    isConsentBusy,
+    markUserActivity,
+  ]);
 
   const handleDismissCase = async () => {
     const confirmed = window.confirm(
@@ -839,6 +919,13 @@ export function SimulatorClient({
           reportText: composedReport,
           caseContext: initialCaseData.patientPrompt,
           finalDiagnosis: diagnosisForEval,
+          requestedExamIds: selectedExamIdsRef.current ?? [],
+          executedActionIds: [
+            ...(selectedExamIdsRef.current ?? []),
+            ...(extraExecutedActionIdsRef.current ?? []),
+          ],
+          helpRequested: Boolean(helpRequested),
+          helpRequestCount: helpRequestCountRef.current ?? 0,
         }),
         signal: abortController.signal,
       });
@@ -916,38 +1003,6 @@ export function SimulatorClient({
     context: contextValue,
     id: `CASE-${String(initialCaseData.id ?? "").slice(0, 6).toUpperCase() || "DEMO"}`,
   };
-
-  const liveCoaching = useMemo(() => {
-    const userMessages = messages
-      .filter((m) => m.role === "user")
-      .map((m) => getChatMessageText(m))
-      .filter((text) => text.trim().length > 0);
-    const chatTurns = userMessages.length;
-    const hasUserInteracted =
-      chatTurns > 0 || selectedExamIds.length > 0 || Object.keys(examFindings).length > 0;
-    const vitals = deriveDemoVitals(initialCaseData.id, patientStress);
-    return estimateLiveCoaching({
-      userMessages,
-      selectedExamIds,
-      examFindingIds: Object.keys(examFindings),
-      hasObjectiveExamActivity:
-        activeTab === "exam" || Object.keys(examFindings).length > 0,
-      hasAnamnesisDraft: Boolean(reportSections.anamnesisObjective.trim()),
-      patientStress,
-      vitals,
-      goldStandardPath: initialCaseData.goldStandardPath,
-      hasUserInteracted,
-    });
-  }, [
-    activeTab,
-    examFindings,
-    initialCaseData.goldStandardPath,
-    initialCaseData.id,
-    messages,
-    patientStress,
-    reportSections.anamnesisObjective,
-    selectedExamIds,
-  ]);
 
   const handleExamFinding = (payload: {
     id: string;
@@ -1273,7 +1328,7 @@ export function SimulatorClient({
     <div
       className={
         embedded
-          ? "flex w-full min-w-0 flex-col bg-transparent text-text-primary"
+          ? "flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden bg-transparent text-text-primary"
           : "flex min-h-screen w-full items-stretch justify-center overflow-x-hidden bg-ui-bg px-4 pb-10 pt-16 text-text-primary"
       }
     >
@@ -1291,12 +1346,12 @@ export function SimulatorClient({
       <div
         className={
           embedded
-            ? "flex w-full min-w-0 flex-col gap-3 font-[family-name:var(--font-inter)]"
+            ? "flex h-full min-h-0 w-full min-w-0 flex-col gap-2.5 overflow-hidden font-[family-name:var(--font-inter)]"
             : "flex w-full min-w-0 flex-col gap-3 overflow-x-hidden font-[family-name:var(--font-inter)]"
         }
       >
-        {embedded ? (
-          <header className="grid w-full min-w-0 grid-cols-1 gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-center lg:gap-3 lg:px-5">
+          {embedded ? (
+          <header className="grid w-full min-w-0 shrink-0 grid-cols-1 gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-sm lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-center lg:gap-3 lg:px-5">
             <div className="min-w-0">
               <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
                 <p className="truncate text-sm font-semibold text-slate-800">
@@ -1438,15 +1493,13 @@ export function SimulatorClient({
               <div className="inline-flex shrink-0 items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => {
-                    markUserActivity();
-                    setIsHelpOpen(true);
-                  }}
-                  aria-label="Aiuto"
-                  title="Aiuto"
-                  className="inline-flex items-center justify-center rounded-xl border border-border bg-panel-bg p-2 text-slate-500 shadow-sm transition hover:bg-ui-bg hover:text-[#345884]"
+                  onClick={openHelpConsult}
+                  aria-label="Aiuto / Richiesta consulto"
+                  title="Aiuto / Richiesta consulto"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-[#345884]/30 bg-[#EEF2F9] px-2.5 py-2 text-xs font-medium text-[#345884] shadow-sm transition hover:bg-[#345884] hover:text-white"
                 >
                   <HelpCircle className="h-4 w-4" strokeWidth={1.75} />
+                  <span className="hidden sm:inline">Aiuto</span>
                 </button>
                 <div className="inline-flex items-center gap-2 rounded-xl border border-border bg-panel-bg px-3 py-1.5 text-xs text-slate-600 shadow-sm">
                   <Activity className="h-3.5 w-3.5 text-brand-secondary" />
@@ -1457,20 +1510,20 @@ export function SimulatorClient({
           </>
         ) : null}
 
-        {/* Embedded mockup: center workspace | right tools. Standalone: EHR 8 | diagnostic 4. */}
+        {/* Embedded: immersive 2-col full-height. Standalone: EHR 8 | diagnostic 4. */}
         <div
           className={
             embedded
-              ? "grid w-full min-w-0 grid-cols-1 gap-4 lg:grid-cols-12 lg:items-start"
+              ? "grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 gap-2.5 overflow-hidden lg:grid-cols-[minmax(0,1.55fr)_minmax(19rem,1fr)] lg:items-stretch"
               : "grid w-full min-w-0 grid-cols-1 gap-6 overflow-x-hidden lg:grid-cols-12 lg:items-start"
           }
         >
           {embedded ? (
             <div
               id="aequan-sim-chat"
-              className="col-span-1 flex min-w-0 flex-col gap-3 lg:col-span-8"
+              className="flex min-h-0 min-w-0 flex-col gap-2.5 overflow-hidden"
             >
-              <div className="flex w-full min-w-0 flex-col gap-3 rounded-xl border border-slate-200 bg-slate-50 px-5 py-4">
+              <div className="flex w-full min-w-0 shrink-0 flex-col gap-2.5 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 shadow-sm">
                 <div className="flex min-w-0 items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
@@ -1487,21 +1540,33 @@ export function SimulatorClient({
                       ID: {patient.id}
                     </p>
                   </div>
-                  {maxVitalStatus(
-                    classifyVitals(deriveDemoVitals(initialCaseData.id, patientStress)).map(
-                      (v) => v.status,
-                    ),
-                  ) !== "stable" ? (
-                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-red-500/40 bg-red-500/10 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-red-600">
-                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
-                      Paziente instabile
-                    </span>
-                  ) : (
-                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#345884]" />
-                      Stabile
-                    </span>
-                  )}
+                  <div className="flex shrink-0 items-center gap-2">
+                    {maxVitalStatus(
+                      classifyVitals(deriveDemoVitals(initialCaseData.id, patientStress)).map(
+                        (v) => v.status,
+                      ),
+                    ) !== "stable" ? (
+                      <span className="inline-flex items-center gap-1.5 rounded-md border border-red-500/40 bg-red-500/10 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-red-600">
+                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
+                        Instabile
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#345884]" />
+                        Stabile
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={openHelpConsult}
+                      aria-label="Aiuto / Richiesta consulto"
+                      title="Aiuto / Richiesta consulto"
+                      className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/30 bg-[#EEF2F9] px-2.5 py-1.5 text-[11px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white"
+                    >
+                      <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                      Aiuto
+                    </button>
+                  </div>
                 </div>
 
                 <VitalSignsBoard
@@ -1515,58 +1580,39 @@ export function SimulatorClient({
                 />
               </div>
 
-              <ExamReportRecap
-                exams={selectedExamsRecentFirst}
-                objectiveFindings={objectiveFindingsRecentFirst}
-                examCatalog={examCatalog}
-                caseExamValues={caseAdvancedExamValues}
-                examMacroCatalog={examMacroCatalog}
-              />
-
-              <div className="grid min-h-0 grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_20rem]">
-                <div className="flex h-[min(38rem,72vh)] min-h-[32rem] flex-col overflow-hidden rounded-xl border border-slate-200 bg-white">
-                  <div className="flex shrink-0 flex-col gap-2 border-b border-slate-100 bg-slate-50 px-4 py-3">
-                    <div className="flex items-center gap-2.5">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[#345884]/10 text-[#345884]">
-                        <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
-                      </span>
-                      <div className="min-w-0">
-                        <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
-                          Dialogo clinico
-                        </p>
-                        <p className="text-sm font-semibold text-slate-900">
-                          Anamnesi con il paziente
-                        </p>
-                      </div>
+              <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
+                <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-100 bg-slate-50/90 px-4 py-2.5">
+                  <div className="flex min-w-0 items-center gap-2.5">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[#345884]/10 text-[#345884]">
+                      <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                        Dialogo clinico
+                      </p>
+                      <p className="text-sm font-semibold text-slate-900">
+                        Anamnesi con il paziente
+                      </p>
                     </div>
-                    <AiTransparencyBadge variant="workspace" />
                   </div>
-                  <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-3">
-                    <HistoryChat
-                      messages={messages}
-                      input={input}
-                      onInputChange={handleInputChange}
-                      onSubmit={handleSubmit}
-                      onSuggestedPrompt={(text) => {
-                        void append({ role: "user", content: text });
-                      }}
-                      isLoading={isChatLoading}
-                      chatError={chatError}
-                      onRetryChat={() => void reloadChat()}
-                      compact
-                      fill
-                      showInactivityNudge={showInactivityNudge}
-                    />
-                  </div>
+                  <AiTransparencyBadge variant="workspace" />
                 </div>
-                <SessionSideMetrics
-                  totalCost={totalCost}
-                  budget={examBudgetEuro}
-                  patientStress={patientStress}
-                  reportReady={isClinicalReportComplete(reportSections)}
-                  onOpenDischarge={() => setIsDischargeOpen(true)}
-                  className="xl:h-[min(38rem,72vh)] xl:min-h-[32rem]"
-                />
+                <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-3">
+                  <HistoryChat
+                    messages={messages}
+                    input={input}
+                    onInputChange={handleInputChange}
+                    onSubmit={handleSubmit}
+                    isLoading={isChatLoading}
+                    chatError={chatError}
+                    onRetryChat={() => void reloadChat()}
+                    onRequestConsent={requestInformedConsent}
+                    consentRequested={consentRequested}
+                    consentBusy={isConsentBusy}
+                    compact
+                    fill
+                  />
+                </div>
               </div>
             </div>
           ) : (
@@ -1661,14 +1707,13 @@ export function SimulatorClient({
                       input={input}
                       onInputChange={handleInputChange}
                       onSubmit={handleSubmit}
-                      onSuggestedPrompt={(text) => {
-                        void append({ role: "user", content: text });
-                      }}
                       isLoading={isChatLoading}
                       chatError={chatError}
                       onRetryChat={() => void reloadChat()}
+                      onRequestConsent={requestInformedConsent}
+                      consentRequested={consentRequested}
+                      consentBusy={isConsentBusy}
                       compact={embedded}
-                      showInactivityNudge={showInactivityNudge}
                     />
                   </TabsContent>
                   <TabsContent value="exam" currentValue={activeTab} className="mt-3 w-full min-w-0">
@@ -1705,31 +1750,36 @@ export function SimulatorClient({
           </div>
           )}
 
-          {/* Right diagnostic panel — monitor, exams, referto */}
+          {/* Right clinical rail */}
           <div
             id="aequan-sim-exams"
             className={
               embedded
-                ? "col-span-1 flex min-w-0 flex-col gap-3 lg:col-span-4"
+                ? "flex min-h-0 min-w-0 flex-col gap-2.5 overflow-hidden"
                 : "flex min-w-0 flex-col gap-4 overflow-x-hidden pb-8 lg:col-span-4"
             }
           >
             {embedded ? (
               <>
-                {liveCoaching.tip ? (
-                  <ClinicalNudgeBanner
-                    tip={liveCoaching.tip}
-                    unstable={liveCoaching.unstable}
+                <div className="grid shrink-0 grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
+                  <SessionSideMetrics
+                    totalCost={totalCost}
+                    budget={examBudgetEuro}
+                    patientStress={patientStress}
+                    reportReady={isClinicalReportComplete(reportSections)}
+                    onOpenDischarge={() => setIsDischargeOpen(true)}
+                    className="min-h-0"
                   />
-                ) : null}
-                <Card className="overflow-hidden rounded-2xl border-slate-200 shadow-sm">
-                  <CardHeader className="border-b border-slate-100 pb-3">
+                </div>
+
+                <Card className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border-slate-200/80 shadow-sm">
+                  <CardHeader className="shrink-0 border-b border-slate-100 py-3 pb-2.5">
                     <CardTitle className="text-sm font-semibold text-slate-800">
                       Cartella clinica
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="pt-3">
-                    <TabsList wrap className="mb-3 w-full">
+                  <CardContent className="flex min-h-0 flex-1 flex-col overflow-hidden pt-2.5">
+                    <TabsList wrap className="mb-2.5 w-full shrink-0">
                       <TabsTrigger
                         value="history"
                         currentValue={activeTab}
@@ -1771,104 +1821,117 @@ export function SimulatorClient({
                         Note
                       </TabsTrigger>
                     </TabsList>
-                    <Tabs
-                      value={activeTab}
-                      onValueChange={(value) => setActiveTab(value as typeof activeTab)}
-                    >
-                      <TabsContent value="history" currentValue={activeTab} className="mt-0">
-                        <div className="space-y-2">
-                          <div className="rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-3">
-                            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                              Anamnesi iniziale
-                            </p>
-                            <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
-                              {reportSections.anamnesisObjective?.trim() ||
-                                patient.mainComplaint ||
-                                "Usa il dialogo al centro per raccogliere l'anamnesi."}
-                            </p>
-                          </div>
-                          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                            <div className="rounded-xl border border-slate-200 bg-white px-3.5 py-3">
+                    <div className="scrollbar-aequan min-h-0 flex-1 overflow-y-auto overflow-x-hidden pr-0.5">
+                      <Tabs
+                        value={activeTab}
+                        onValueChange={(value) => setActiveTab(value as typeof activeTab)}
+                      >
+                        <TabsContent value="history" currentValue={activeTab} className="mt-0">
+                          <div className="space-y-2">
+                            <div className="rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-3">
                               <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                                Storia clinica
+                                Anamnesi iniziale
                               </p>
                               <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
-                                {expectedConditionText && isAdmin
-                                  ? expectedConditionText
-                                  : "Nessuna patologia nota."}
+                                {reportSections.anamnesisObjective?.trim() ||
+                                  patient.mainComplaint ||
+                                  "Usa il dialogo al centro per raccogliere l'anamnesi."}
                               </p>
                             </div>
-                            <div className="rounded-xl border border-slate-200 bg-white px-3.5 py-3">
-                              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                                Allergie
-                              </p>
-                              <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
-                                Nessuna allergia nota.
-                              </p>
+                            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                              <div className="rounded-xl border border-slate-200 bg-white px-3.5 py-3">
+                                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                                  Storia clinica
+                                </p>
+                                <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
+                                  {expectedConditionText && isAdmin
+                                    ? expectedConditionText
+                                    : "Nessuna patologia nota."}
+                                </p>
+                              </div>
+                              <div className="rounded-xl border border-slate-200 bg-white px-3.5 py-3">
+                                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                                  Allergie
+                                </p>
+                                <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
+                                  Nessuna allergia nota.
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setPatientChartTab("base");
-                            setIsPatientChartOpen(true);
-                          }}
-                          className="mt-4 flex w-full items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-                        >
-                          <FolderOpen className="h-4 w-4" />
-                          Visualizza cartella completa
-                        </button>
-                      </TabsContent>
-                      <TabsContent value="exam" currentValue={activeTab} className="mt-0">
-                        <PhysicalExamTab
-                          sessionId={effectiveSessionId}
-                          patientPrompt={initialCaseData.patientPrompt}
-                          caseId={initialCaseData.id}
-                          onExamResult={handleExamFinding}
-                        />
-                      </TabsContent>
-                      <TabsContent value="labs" currentValue={activeTab} className="mt-0">
-                        <DiagnosticCategoryPanel
-                          selectedExamIds={selectedExamIds}
-                          onToggleExam={toggleExam}
-                          caseExamValues={caseAdvancedExamValues}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setPatientChartTab("base");
+                              setIsPatientChartOpen(true);
+                            }}
+                            className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                          >
+                            <FolderOpen className="h-4 w-4" />
+                            Visualizza cartella completa
+                          </button>
+                        </TabsContent>
+                        <TabsContent value="exam" currentValue={activeTab} className="mt-0">
+                          <PhysicalExamTab
+                            sessionId={effectiveSessionId}
+                            patientPrompt={initialCaseData.patientPrompt}
+                            caseId={initialCaseData.id}
+                            onExamResult={handleExamFinding}
+                          />
+                        </TabsContent>
+                        <TabsContent value="labs" currentValue={activeTab} className="mt-0">
+                          <DiagnosticCategoryPanel
+                            selectedExamIds={selectedExamIds}
+                            onToggleExam={toggleExam}
+                            caseExamValues={caseAdvancedExamValues}
+                            examCatalog={examCatalog}
+                            examMacroCatalog={examMacroCatalog}
+                            macroFilter={["lab"]}
+                          />
+                        </TabsContent>
+                        <TabsContent value="imaging" currentValue={activeTab} className="mt-0">
+                          <DiagnosticCategoryPanel
+                            selectedExamIds={selectedExamIds}
+                            onToggleExam={toggleExam}
+                            caseExamValues={caseAdvancedExamValues}
+                            examCatalog={examCatalog}
+                            examMacroCatalog={examMacroCatalog}
+                            macroFilter={["img", "strum", "endo"]}
+                          />
+                        </TabsContent>
+                        <TabsContent value="notes" currentValue={activeTab} className="mt-0">
+                          <Textarea
+                            rows={6}
+                            value={sessionNotes}
+                            onChange={(e) => setSessionNotes(e.target.value)}
+                            placeholder="Appunti personali sulla sessione (non salvati nel referto)…"
+                            className="rounded-xl border-slate-200 text-sm shadow-none focus:border-[#345884] focus:ring-2 focus:ring-[#345884]/20"
+                          />
+                        </TabsContent>
+                      </Tabs>
+
+                      <div className="mt-3 border-t border-slate-100 pt-3">
+                        <ExamReportRecap
+                          exams={selectedExamsRecentFirst}
+                          objectiveFindings={objectiveFindingsRecentFirst}
                           examCatalog={examCatalog}
-                          examMacroCatalog={examMacroCatalog}
-                          macroFilter={["lab"]}
-                        />
-                      </TabsContent>
-                      <TabsContent value="imaging" currentValue={activeTab} className="mt-0">
-                        <DiagnosticCategoryPanel
-                          selectedExamIds={selectedExamIds}
-                          onToggleExam={toggleExam}
                           caseExamValues={caseAdvancedExamValues}
-                          examCatalog={examCatalog}
                           examMacroCatalog={examMacroCatalog}
-                          macroFilter={["img", "strum", "endo"]}
                         />
-                      </TabsContent>
-                      <TabsContent value="notes" currentValue={activeTab} className="mt-0">
-                        <Textarea
-                          rows={6}
-                          value={sessionNotes}
-                          onChange={(e) => setSessionNotes(e.target.value)}
-                          placeholder="Appunti personali sulla sessione (non salvati nel referto)…"
-                          className="rounded-xl border-slate-200 text-sm shadow-none focus:border-[#345884] focus:ring-2 focus:ring-[#345884]/20"
-                        />
-                      </TabsContent>
-                    </Tabs>
+                      </div>
+
+                      <div className="mt-3 rounded-xl border border-slate-100 bg-slate-50/80 px-3.5 py-3">
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">
+                          Obiettivo del caso
+                        </p>
+                        <p className="mt-1.5 text-[13px] leading-relaxed text-slate-700">
+                          {initialCaseData.description ||
+                            "Gestisci il paziente in PS con appropriatezza clinica e medico-legale."}
+                        </p>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
-                <LiveCoachingPanel
-                  scorePercent={liveCoaching.scorePercent}
-                  scoreTrentesimi={liveCoaching.scoreTrentesimi}
-                  isBaseline={liveCoaching.isBaseline}
-                  metrics={liveCoaching.metrics}
-                  tip={liveCoaching.tip}
-                  unstable={liveCoaching.unstable}
-                  showTip={false}
-                />
               </>
             ) : null}
 
@@ -2178,38 +2241,24 @@ export function SimulatorClient({
         </div>
 
         {embedded ? (
-          <footer className="flex w-full min-w-0 flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-4 lg:px-5">
-            <div className="min-w-0">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">
-                Obiettivo del caso
-              </p>
-              <p className="mt-1.5 max-w-3xl text-[13px] leading-relaxed text-slate-700">
-                {initialCaseData.description ||
-                  "Gestisci il paziente in PS con appropriatezza clinica e medico-legale."}
-              </p>
-            </div>
-            <div className="flex shrink-0 items-center gap-1">
-              <Link
-                href="/dashboard/guidelines"
-                className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
-              >
-                <BookOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
-                Linee guida correlate
-              </Link>
-              <span className="mx-0.5 hidden h-4 w-px bg-slate-200 sm:block" aria-hidden />
-              <button
-                type="button"
-                onClick={() => {
-                  markUserActivity();
-                  setIsHelpOpen(true);
-                }}
-                aria-label="Aiuto"
-                title="Aiuto"
-                className="inline-flex items-center justify-center rounded-md p-1.5 text-slate-500 transition hover:bg-slate-50 hover:text-[#345884]"
-              >
-                <HelpCircle className="h-4 w-4" strokeWidth={1.75} />
-              </button>
-            </div>
+          <footer className="flex w-full shrink-0 items-center justify-between gap-3 rounded-xl border border-slate-200/80 bg-white/90 px-3.5 py-2 shadow-sm">
+            <Link
+              href="/dashboard/guidelines"
+              className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[12px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
+            >
+              <BookOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
+              Linee guida correlate
+            </Link>
+            <button
+              type="button"
+              onClick={openHelpConsult}
+              aria-label="Aiuto / Richiesta consulto"
+              title="Aiuto / Richiesta consulto"
+              className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/25 bg-[#EEF2F9] px-2.5 py-1 text-[12px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white"
+            >
+              <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+              Aiuto
+            </button>
           </footer>
         ) : null}
       </div>
@@ -2570,8 +2619,14 @@ export function SimulatorClient({
       <Dialog open={isHelpOpen}>
         <DialogContent className="max-w-lg bg-white">
           <DialogHeader>
-            <DialogTitle>Come funziona la simulazione</DialogTitle>
+            <DialogTitle>Aiuto / Richiesta consulto</DialogTitle>
             <DialogDescription>
+              <p className="mb-3 text-sm leading-relaxed text-slate-600">
+                Supporto disponibile su tua iniziativa. Questa richiesta viene registrata nella
+                sessione ({helpRequestCount}{" "}
+                {helpRequestCount === 1 ? "volta" : "volte"}) per il tracciamento dell&apos;autonomia
+                clinica nel report — senza interrompere la simulazione.
+              </p>
               <ul className="list-disc space-y-1.5 pl-4 text-sm leading-relaxed text-slate-600">
                 <li>Usa il dialogo per raccogliere l&apos;anamnesi ponendo domande aperte.</li>
                 <li>
@@ -2579,8 +2634,8 @@ export function SimulatorClient({
                   destra per anamnesi, esame obiettivo, esami e imaging.
                 </li>
                 <li>
-                  Il pannello <span className="font-medium text-slate-800">Coaching</span> mostra un
-                  punteggio live e suggerimenti sull&apos;appropriatezza clinica.
+                  I suggerimenti clinici non vengono proposti automaticamente: usa questo pulsante
+                  Aiuto quando ti serve un consulto.
                 </li>
                 <li>Al termine, compila il referto di dimissione per chiudere il caso.</li>
               </ul>
@@ -2600,7 +2655,7 @@ export function SimulatorClient({
               Rivedi Tutorial
             </Button>
             <Button type="button" size="sm" onClick={() => setIsHelpOpen(false)}>
-              Ho capito
+              Continua la simulazione
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -2649,41 +2704,34 @@ type HistoryChatProps = {
   input: string;
   onInputChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  /** Suggested prompt chips — send immediately as a user message. */
-  onSuggestedPrompt?: (text: string) => void;
   isLoading: boolean;
   /** Streaming / network failure from useChat. */
   chatError?: Error | undefined;
   /** Re-send last message after stream failure. */
   onRetryChat?: () => void;
+  /** Request informed consent module (user-initiated). */
+  onRequestConsent?: () => void;
+  consentRequested?: boolean;
+  consentBusy?: boolean;
   /** Bound height for embedded Prassi grid — avoids fixed 460px blowing layout. */
   compact?: boolean;
   /** Stretch to fill the parent container height instead of a fixed px height. */
   fill?: boolean;
-  /** Soft tip when the clinician has been idle too long. */
-  showInactivityNudge?: boolean;
 };
-
-const CHAT_SUGGESTED_PROMPTS = [
-  {
-    id: "consenso",
-    label: "Modulo consenso",
-    text: "Le propongo di firmare il modulo di consenso informato. Le spiego indicazioni, benefici, rischi e alternative della procedura che stiamo considerando.",
-  },
-] as const;
 
 function HistoryChat({
   messages,
   input,
   onInputChange,
   onSubmit,
-  onSuggestedPrompt,
   isLoading,
   chatError,
   onRetryChat,
+  onRequestConsent,
+  consentRequested = false,
+  consentBusy = false,
   compact = false,
   fill = false,
-  showInactivityNudge = false,
 }: HistoryChatProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -2719,11 +2767,6 @@ function HistoryChat({
   const scrollAnchor = visibleMessages
     .map((message) => messageText(message))
     .join("\u0000");
-
-  const alreadySentConsent = visibleMessages.some((m) => {
-    if (m.role !== "user") return false;
-    return /consenso\s+informat/i.test(messageText(m));
-  });
 
   useEffect(() => {
     if (!scrollRef.current) return;
@@ -2834,31 +2877,27 @@ function HistoryChat({
             ) : null}
           </div>
         ) : null}
-        {showInactivityNudge ? (
-          <div
-            role="status"
-            className="animate-in fade-in slide-in-from-bottom-1 flex items-start gap-2 rounded-full border border-amber-200/80 bg-amber-50 px-3 py-2 text-[11px] leading-snug text-amber-950 shadow-sm duration-300"
-          >
-            <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-600" strokeWidth={1.75} />
-            <p>
-              Ti sei bloccato? Prova a chiedere al paziente da quanto tempo ha i sintomi o consulta
-              il pannello delle opzioni.
-            </p>
-          </div>
-        ) : null}
-        {onSuggestedPrompt && !alreadySentConsent ? (
-          <div className="flex flex-wrap gap-1.5 px-0.5">
-            {CHAT_SUGGESTED_PROMPTS.map((prompt) => (
-              <button
-                key={prompt.id}
-                type="button"
-                disabled={isLoading}
-                onClick={() => onSuggestedPrompt(prompt.text)}
-                className="inline-flex items-center rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-medium text-slate-600 transition hover:border-[#345884]/40 hover:bg-[#EEF2F9] hover:text-[#345884] disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {prompt.label}
-              </button>
-            ))}
+        {onRequestConsent ? (
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={onRequestConsent}
+              disabled={isLoading || consentBusy || consentRequested}
+              aria-label="Richiesta Modulo Consenso Informato"
+              title="Richiesta Modulo Consenso Informato"
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition",
+                consentRequested
+                  ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                  : "border-[#345884]/25 bg-[#EEF2F9] text-[#345884] hover:bg-[#345884] hover:text-white disabled:opacity-50",
+              )}
+            >
+              <FileText className="h-3.5 w-3.5" strokeWidth={1.75} />
+              {consentRequested ? "Consenso registrato" : "Modulo consenso"}
+            </button>
+            <span className="text-[10px] leading-snug text-slate-400">
+              Spiega rischi/benefici e acquisisci il consenso prima di procedure invasive.
+            </span>
           </div>
         ) : null}
         <div className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-1.5 pl-3 transition focus-within:border-[#345884] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#345884]/20">
