@@ -84,7 +84,9 @@ export function isGoldStandardMet(
   goldStandardPath: string[],
   completedSteps: string[],
 ): boolean {
-  if (!goldStandardPath.length) return true;
+  // Empty / absent gold path is NOT "met" — otherwise deterioration never fires
+  // and incomplete beta cases look clinically complete.
+  if (!goldStandardPath.length) return false;
   const done = new Set(completedSteps.map(normalizeStepId));
   return goldStandardPath.every((step) => done.has(normalizeStepId(step)));
 }

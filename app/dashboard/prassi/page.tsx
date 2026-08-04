@@ -1,4 +1,4 @@
-import { config } from "@/lib/config";
+import { config, isUsableDatabase } from "@/lib/config";
 import { requireUser } from "@/lib/require-user";
 import {
   fetchFilteredClinicalCases,
@@ -9,42 +9,13 @@ import { fetchUserOverviewData } from "@/lib/overview-queries";
 import { PrassiWelcomeDashboard } from "@/components/prassi/PrassiEmptyState";
 import { PrassiCaseBriefing } from "@/components/prassi/PrassiCaseBriefing";
 import type { ClinicalCaseRow } from "@/components/dashboard/ClinicalCaseCard";
+import { getPrassiRegistryCaseRows } from "@/lib/data/cases";
 
 type PrassiPageProps = {
   searchParams?:
     | Promise<{ specialtyId?: string; specialty?: string; difficulty?: string; caseId?: string }>
     | { specialtyId?: string; specialty?: string; difficulty?: string; caseId?: string };
 };
-
-const DEMO_CASES = (userId: string): ClinicalCaseRow[] => [
-  {
-    id: "cs_001",
-    title: "Uomo 58 anni con dolore toracico in PS",
-    specialty: "Medicina d'Emergenza-Urgenza",
-    difficulty: "MEDIUM",
-    createdById: "seed",
-    isGlobal: true,
-    sex: "M",
-  },
-  {
-    id: "cs_002",
-    title: "Donna 72 anni con febbre persistente",
-    specialty: "Medicina Interna",
-    difficulty: "EASY",
-    createdById: userId,
-    isGlobal: false,
-    sex: "F",
-  },
-  {
-    id: "cs_003",
-    title: "Uomo 33 anni con idrocefalo e cefalea acuta",
-    specialty: "Neurologia",
-    difficulty: "HARD",
-    createdById: "seed",
-    isGlobal: true,
-    sex: "M",
-  },
-];
 
 function filterDemoCases(cases: ClinicalCaseRow[], filters: CaseFilterParams): ClinicalCaseRow[] {
   return cases.filter((c) => {
@@ -60,7 +31,7 @@ function filterDemoCases(cases: ClinicalCaseRow[], filters: CaseFilterParams): C
 
 export default async function PrassiPage({ searchParams }: PrassiPageProps) {
   const user = await requireUser();
-  const hasDatabase = Boolean(config.DATABASE_URL) && !config.DATABASE_URL.includes("itermed_dev");
+  const hasDatabase = isUsableDatabase(config.DATABASE_URL);
   const resolvedSearch =
     searchParams && "then" in searchParams ? await searchParams : searchParams;
 
@@ -83,7 +54,13 @@ export default async function PrassiPage({ searchParams }: PrassiPageProps) {
         fetchFilteredClinicalCases(user.id, filters, 60),
         fetchUserOverviewData(user.id).catch(() => null),
       ]);
-      cases = caseRows as ClinicalCaseRow[];
+      const registryFiltered = filterDemoCases(getPrassiRegistryCaseRows(user.id), filters);
+      const byId = new Map<string, ClinicalCaseRow>();
+      for (const row of caseRows as ClinicalCaseRow[]) byId.set(row.id, row);
+      for (const row of registryFiltered) {
+        if (!byId.has(row.id)) byId.set(row.id, row);
+      }
+      cases = Array.from(byId.values());
       if (overview) {
         welcomeStats = {
           casesThisWeek: overview.casesThisWeek,
@@ -92,10 +69,10 @@ export default async function PrassiPage({ searchParams }: PrassiPageProps) {
         };
       }
     } catch {
-      cases = filterDemoCases(DEMO_CASES(user.id), filters);
+      cases = filterDemoCases(getPrassiRegistryCaseRows(user.id), filters);
     }
   } else {
-    cases = filterDemoCases(DEMO_CASES(user.id), filters);
+    cases = filterDemoCases(getPrassiRegistryCaseRows(user.id), filters);
     welcomeStats = {
       casesThisWeek: 8,
       averageScore: 31,

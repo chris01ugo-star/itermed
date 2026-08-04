@@ -230,8 +230,14 @@ export async function POST(req: Request) {
     if (session?.case) {
       const examLatencies = parseExamLatencies(session.case.examLatencies);
       const goldPath = parseGoldStandardPath(session.case.goldStandardPath);
+      const sessionRequestedExamIds = Array.isArray(session.requestedExamIds)
+        ? session.requestedExamIds
+        : [];
+      const sessionCompletedGoldSteps = Array.isArray(session.completedGoldSteps)
+        ? session.completedGoldSteps
+        : [];
       const mergedExamIds = [
-        ...new Set([...session.requestedExamIds, ...clientRequestedExams]),
+        ...new Set([...sessionRequestedExamIds, ...clientRequestedExams]),
       ];
 
       elapsedMinutes = computeElapsedMinutesFromExams(mergedExamIds, examLatencies);
@@ -241,7 +247,7 @@ export async function POST(req: Request) {
       const inferredGold = inferCompletedGoldSteps({
         goldStandardPath: goldPath,
         requestedExamIds: mergedExamIds,
-        clientCompletedSteps: [...session.completedGoldSteps, ...clientGoldSteps],
+        clientCompletedSteps: [...sessionCompletedGoldSteps, ...clientGoldSteps],
         lastUserMessage: lastUserMessageForGold,
       });
 

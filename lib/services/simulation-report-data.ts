@@ -9,6 +9,7 @@ import type {
   LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
+import type { EmpathyBehavioralBreakdown, ScoreBreakdown } from "@/lib/services/evaluation-scoring";
 
 export type ClinicalCaseSnapshot = {
   difficulty: CaseDifficulty;
@@ -154,10 +155,16 @@ export function buildSessionReportData(params: {
       /** Full deterministic Killer-Switch audit trail for coaching / appeals. */
       fatalErrors: Array.isArray(fatalErrors) ? fatalErrors : [],
       killerSwitch: killerSwitchTrace,
-      scoreBreakdown: evaluation.scoreBreakdown,
+      scoreBreakdown: evaluation.scoreBreakdown ?? null,
+      /** Explicit empathy behavioral contract for report UI. */
+      empathyBreakdown: evaluation.scoreBreakdown?.empathy ?? null,
       examEconomics: {
         budgetEuro: evaluation.examBudgetEuro ?? null,
         totalCostEuro: evaluation.totalExamCostEuro ?? null,
+      },
+      helpTelemetry: evaluation.helpTelemetry ?? {
+        helpRequested: false,
+        helpRequestCount: 0,
       },
       ...(typeof simulationElapsedMinutes === "number" && simulationElapsedMinutes > 0
         ? { simulationElapsedMinutes }
@@ -208,6 +215,8 @@ export type EliteReportData = {
   clinicalDeltaTable?: ClinicalDeltaRow[];
   economicAnalysis?: EconomicAnalysis;
   coachingFeedback?: CoachingFeedback;
+  empathyBreakdown?: EmpathyBehavioralBreakdown | null;
+  scoreBreakdown?: ScoreBreakdown | null;
   totalScore: number;
 };
 
@@ -234,6 +243,8 @@ export function buildReportDataFromSession(session: {
       economicAnalysis?: EconomicAnalysis;
       coachingFeedback?: CoachingFeedback;
     };
+    empathyBreakdown?: EmpathyBehavioralBreakdown | null;
+    scoreBreakdown?: ScoreBreakdown | null;
   };
 
   const legalEvidenceSources = trace.evidence?.legalSources ?? [];
@@ -258,6 +269,8 @@ export function buildReportDataFromSession(session: {
     clinicalDeltaTable: trace.analytical?.clinicalDeltaTable,
     economicAnalysis: trace.analytical?.economicAnalysis,
     coachingFeedback: trace.analytical?.coachingFeedback,
+    empathyBreakdown: trace.empathyBreakdown ?? trace.scoreBreakdown?.empathy ?? null,
+    scoreBreakdown: trace.scoreBreakdown ?? null,
     totalScore: session.totalScore,
   } satisfies EliteReportData;
 }

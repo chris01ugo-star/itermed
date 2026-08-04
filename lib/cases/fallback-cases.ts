@@ -6,6 +6,8 @@
  * but must never be forwarded to the browser (Art. 32 / anti-cheat).
  */
 
+import { buildFallbackMapFromRegistry, getCaseById, normalizeCaseLookupKey, toFallbackClinicalCase } from "@/lib/data/cases/registry";
+
 export type FallbackCaseDifficulty = "EASY" | "MEDIUM" | "HARD";
 
 export type FallbackClinicalCase = {
@@ -38,6 +40,7 @@ const HYDRO_CT =
   "Ventricoli dilatati rispetto a TC precedenti; sospetta malfunzione di shunt.";
 
 export const FALLBACK_CASES: Record<string, FallbackClinicalCase> = {
+  ...buildFallbackMapFromRegistry(),
   cs_001: {
     id: "cs_001",
     title: "Uomo 58 anni con dolore toracico in PS",
@@ -264,8 +267,19 @@ export const FALLBACK_CASES: Record<string, FallbackClinicalCase> = {
 
 /** Lookup by case id (case-insensitive). */
 export function getFallbackCase(rawId: string): FallbackClinicalCase | undefined {
-  const key = rawId.trim().toLowerCase();
-  return FALLBACK_CASES[key];
+  const key = normalizeCaseLookupKey(rawId);
+  if (!key) return undefined;
+
+  const fromMap =
+    FALLBACK_CASES[key] ??
+    FALLBACK_CASES[key.replace(/-/g, "_")] ??
+    FALLBACK_CASES[rawId.trim()] ??
+    FALLBACK_CASES[rawId.trim().toUpperCase()];
+
+  if (fromMap) return fromMap;
+
+  const registered = getCaseById(rawId);
+  return registered ? toFallbackClinicalCase(registered) : undefined;
 }
 
 /**

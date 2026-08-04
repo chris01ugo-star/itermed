@@ -11,7 +11,7 @@ export type DetectedMilestone = {
   milestoneKey: string;
   label: string;
   category: MilestoneCategory;
-  source: "chat_pattern" | "exam_request" | "gold_standard";
+  source: "chat_pattern" | "exam_request" | "gold_standard" | "user_action";
   evidence?: string;
 };
 
@@ -262,6 +262,86 @@ export async function fetchSessionMilestones(
       detectedAt: true,
     },
   });
+}
+
+export const HELP_REQUESTED_MILESTONE_KEY = "help_requested";
+export const CONSENT_INFORMED_MILESTONE_KEY = "consenso_informato";
+/** Canonical action id for ESC Class I / gold path matching. */
+export const CONSENT_INFORMED_ACTION_ID = "consenso-informato";
+
+/**
+ * Records a user-initiated informed-consent request (Modulo consenso).
+ */
+export async function recordConsentInformedRequest(params: {
+  sessionId: string;
+}): Promise<{ consentRequested: true; actionId: string }> {
+  await prisma.simulationMilestone.upsert({
+    where: {
+      sessionId_milestoneKey: {
+        sessionId: params.sessionId,
+        milestoneKey: CONSENT_INFORMED_MILESTONE_KEY,
+      },
+    },
+    create: {
+      sessionId: params.sessionId,
+      milestoneKey: CONSENT_INFORMED_MILESTONE_KEY,
+      label: "Consenso informato / spiegazione procedura (iniziativa utente)",
+      category: "legal",
+      source: "user_action",
+      evidence: CONSENT_INFORMED_ACTION_ID,
+    },
+    update: {
+      evidence: CONSENT_INFORMED_ACTION_ID,
+      label: "Consenso informato / spiegazione procedura (iniziativa utente)",
+      source: "user_action",
+    },
+  });
+  return { consentRequested: true, actionId: CONSENT_INFORMED_ACTION_ID };
+}
+
+/**
+ * Records a user-initiated help/consult request for autonomy tracking.
+ * Increments count in milestone evidence (unique key per session).
+ */
+export async function recordHelpRequest(params: {
+  sessionId: string;
+  helpRequestCount: number;
+}): Promise<{ helpRequested: true; helpRequestCount: number }> {
+  const count = Math.max(1, Math.floor(params.helpRequestCount) || 1);
+  await prisma.simulationMilestone.upsert({
+    where: {
+      sessionId_milestoneKey: {
+        sessionId: params.sessionId,
+        milestoneKey: HELP_REQUESTED_MILESTONE_KEY,
+      },
+    },
+    create: {
+      sessionId: params.sessionId,
+      milestoneKey: HELP_REQUESTED_MILESTONE_KEY,
+      label: "Richiesta aiuto / consulto (iniziativa utente)",
+      category: "clinical",
+      source: "user_action",
+      evidence: String(count),
+    },
+    update: {
+      evidence: String(count),
+      label: "Richiesta aiuto / consulto (iniziativa utente)",
+      source: "user_action",
+    },
+  });
+  return { helpRequested: true, helpRequestCount: count };
+}
+
+export function parseHelpTelemetryFromMilestones(
+  milestones: Array<{ milestoneKey: string; evidence?: string | null }>,
+): { helpRequested: boolean; helpRequestCount: number } {
+  const hit = milestones.find((m) => m.milestoneKey === HELP_REQUESTED_MILESTONE_KEY);
+  if (!hit) return { helpRequested: false, helpRequestCount: 0 };
+  const n = Number.parseInt(String(hit.evidence ?? "1"), 10);
+  return {
+    helpRequested: true,
+    helpRequestCount: Number.isFinite(n) && n > 0 ? n : 1,
+  };
 }
 
 export function milestonesToEvaluationJson(milestones: SessionMilestoneSnapshot[]): string {

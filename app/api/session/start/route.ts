@@ -1,9 +1,9 @@
 import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { z } from "zod";
-import { prisma } from "../../../../lib/prisma";
-import { assertUserCanPlayCase } from "../../../../lib/access";
-import { getSessionUserId } from "../../../../lib/api-session";
+import { prisma } from "@/lib/prisma";
+import { assertUserCanPlayCase } from "@/lib/access";
+import { getSessionUserId } from "@/lib/api-session";
 import {
   assertCanStartSimulation,
   gateToResponse,
@@ -17,6 +17,9 @@ import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { extractPatientPromptFromNode } from "@/lib/cases/case-payload";
 import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
+import { config, isUsableDatabase } from "@/lib/config";
+import { ensureRegisteredCaseInDb } from "@/lib/cases/ensure-registered-case";
+import { getCaseById, isRegisteredCaseId, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 
 const bodySchema = z.object({
   caseId: z.string().min(1),
@@ -38,7 +41,6 @@ async function createSession(params: {
   variantSolution?: string;
   enforceDailyCap: boolean;
 }): Promise<Response> {
-  // Persist caseId + empty milestone/exam arrays so sync-milestones can merge safely.
   const session = await prisma.caseSession.create({
     data: {
       userId: params.userId,
@@ -77,6 +79,24 @@ async function createSession(params: {
   );
 }
 
+/** Offline / registry-only session token (no Prisma CaseSession). */
+function createRegistryOfflineSessionResponse(caseId: string, isVariant: boolean): Response {
+  const id = normalizeCaseLookupKey(caseId);
+  const sessionId = `registry_${id}_${Date.now().toString(36)}`;
+  return new Response(
+    JSON.stringify({
+      sessionId,
+      caseId: id,
+      isVariant,
+      offline: true,
+    }),
+    {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    },
+  );
+}
+
 export async function POST(req: Request) {
   const userId = await getSessionUserId();
   if (!userId) {
@@ -104,7 +124,8 @@ export async function POST(req: Request) {
     });
   }
 
-  const { caseId, mode, devBypass } = parsed.data;
+  const { caseId: rawCaseId, mode, devBypass } = parsed.data;
+  const caseId = normalizeCaseLookupKey(rawCaseId);
 
   const rateLimited = await enforceRateLimit(req, {
     namespace: mode === "variant" ? "api-session-start-variant" : "api-session-start",
@@ -117,6 +138,26 @@ export async function POST(req: Request) {
   const accessDenied = await assertUserCanPlayCase(userId, caseId);
   if (accessDenied) return accessDenied;
 
+  // Placeholder DB / offline: allow registry cases without Prisma session FK.
+  if (!isUsableDatabase(config.DATABASE_URL)) {
+    if (isRegisteredCaseId(caseId) || getCaseById(caseId)) {
+      if (mode === "variant") {
+        return new Response(
+          JSON.stringify({
+            error: "Varianti IA non disponibili in modalità offline. Avvia il caso originale.",
+            code: "OFFLINE_NO_VARIANT",
+          }),
+          { status: 400, headers: { "Content-Type": "application/json" } },
+        );
+      }
+      return createRegistryOfflineSessionResponse(caseId, false);
+    }
+    return new Response(JSON.stringify({ error: "Case not found", code: "CASE_NOT_FOUND" }), {
+      status: 404,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const billingProfile = await getUserBillingProfile(userId);
   if (!billingProfile) {
     return new Response(JSON.stringify({ error: "User not found" }), {
@@ -124,6 +165,8 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "application/json" },
     });
   }
+
+  await ensureRegisteredCaseInDb(caseId, userId);
 
   let clinicalCase: {
     id: string;
@@ -149,6 +192,9 @@ export async function POST(req: Request) {
       },
     });
   } catch {
+    if (isRegisteredCaseId(caseId)) {
+      return createRegistryOfflineSessionResponse(caseId, false);
+    }
     return new Response(
       JSON.stringify({ error: "Database unavailable while loading case" }),
       {
@@ -159,7 +205,10 @@ export async function POST(req: Request) {
   }
 
   if (!clinicalCase || !clinicalCase.isActive) {
-    return new Response(JSON.stringify({ error: "Case not found" }), {
+    if (isRegisteredCaseId(caseId)) {
+      return createRegistryOfflineSessionResponse(caseId, false);
+    }
+    return new Response(JSON.stringify({ error: "Case not found", code: "CASE_NOT_FOUND" }), {
       status: 404,
       headers: { "Content-Type": "application/json" },
     });
@@ -183,8 +232,6 @@ export async function POST(req: Request) {
     firstNode?.content,
     `${clinicalCase.title}. ${clinicalCase.description}`,
   );
-
-  // Validate gold path shape early (non-blocking) so evaluation later never sees corrupt JSON.
   const goldPath = parseGoldStandardPath(clinicalCase.goldStandardPath);
 
   if (mode === "original") {
@@ -195,11 +242,25 @@ export async function POST(req: Request) {
         isVariant: false,
         enforceDailyCap,
       });
-    } catch {
-      return new Response(JSON.stringify({ error: "Failed to create session" }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
+    } catch (err) {
+      console.error("[POST /api/session/start] createSession failed", {
+        caseId: clinicalCase.id,
+        error: err instanceof Error ? err.message : String(err),
       });
+      // Keep navigation unblocked: client can open play with registry/offline token.
+      if (isRegisteredCaseId(clinicalCase.id) || getCaseById(clinicalCase.id)) {
+        return createRegistryOfflineSessionResponse(clinicalCase.id, false);
+      }
+      return new Response(
+        JSON.stringify({
+          error: "Failed to create session",
+          code: "SESSION_CREATE_FAILED",
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
   }
 
@@ -237,10 +298,20 @@ Gold standard steps (non alterare): ${goldPath.length ? goldPath.join(", ") : "n
       variantSolution: object.newCorrectSolution,
       enforceDailyCap,
     });
-  } catch {
-    return new Response(JSON.stringify({ error: "Failed to create variant session" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
+  } catch (err) {
+    console.error("[POST /api/session/start] variant session failed", {
+      caseId: clinicalCase.id,
+      error: err instanceof Error ? err.message : String(err),
     });
+    return new Response(
+      JSON.stringify({
+        error: "Failed to create variant session",
+        code: "SESSION_CREATE_FAILED",
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 }

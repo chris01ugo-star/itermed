@@ -7,11 +7,14 @@ import {
   hasActiveSubscription,
 } from "./billing/access-gate";
 import { getUserBillingProfile } from "./billing/user-billing";
+import { isRegisteredCaseId } from "@/lib/data/cases/registry";
 
 export { attachableCasesWhere, visibleCasesWhere } from "./access-queries";
 
 export async function userCanPlayCase(userId: string, caseId: string): Promise<boolean> {
   if (isDevAuthBypass()) return true;
+  // Gold-standard Prassi registry cases are always playable for authenticated users.
+  if (isRegisteredCaseId(caseId)) return true;
 
   const n = await prisma.clinicalCase.count({
     where: { id: caseId, ...visibleCasesWhere(userId) },
@@ -22,6 +25,10 @@ export async function userCanPlayCase(userId: string, caseId: string): Promise<b
 /** Returns a billing-aware HTTP response when case access is denied; null if allowed. */
 export async function assertUserCanPlayCase(userId: string, caseId: string): Promise<Response | null> {
   if (isDevAuthBypass()) return null;
+
+  if (isRegisteredCaseId(caseId)) {
+    return null;
+  }
 
   const clinicalCase = await prisma.clinicalCase.findFirst({
     where: { id: caseId, ...visibleCasesWhere(userId) },

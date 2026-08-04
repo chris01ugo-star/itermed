@@ -163,11 +163,11 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
     </div>
   );
 
-  /* Immersive simulation: full-width workspace, no case rail — keeps focus on the active case. */
+  /* Immersive simulation: full-viewport workspace, no page scroll chrome. */
   if (isPlaying) {
     return (
-      <div className="flex h-screen min-h-0 w-full overflow-hidden bg-[#F4F6F8]">
-        <div className="scrollbar-aequan min-h-0 min-w-0 flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-4">
+      <div className="flex h-[100dvh] max-h-[100dvh] min-h-0 w-full overflow-hidden bg-[#F4F6F8]">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden p-2.5 sm:p-3">
           {children}
         </div>
       </div>

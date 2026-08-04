@@ -19,13 +19,17 @@ import {
 } from "@/lib/services/evaluation-report-types";
 import {
   deriveDimensionScores,
+  applyPedagogicalSeverityGates,
   resolveExamBudgetEuro,
   resolveExamCostsFromCatalog,
+  motivation,
+  buildExecutedActionIds,
   type DimensionScores,
   type ScoreBreakdown,
 } from "@/lib/services/evaluation-scoring";
 import { deriveMilestoneDimensionScores } from "@/lib/services/evaluation-milestone-scoring";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
+import { getCaseById } from "@/lib/data/cases/registry";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 import { EVALUATION_MAX_OUTPUT_TOKENS } from "@/lib/security/ai-rate-limits";
 import { fenceContext, truncateForLlmContext } from "@/lib/security/prompt-context";
@@ -190,6 +194,191 @@ export function normalizeAnalyticalEvaluation(
 
 export type AnalyticalEvaluation = z.infer<typeof AnalyticalEvaluationSchema>;
 
+/**
+ * Minimal analytical payload when the LLM / structured-output call fails.
+ * Keeps the report pipeline alive: deterministic scoring + behavioral empathy still run.
+ */
+export function buildDeterministicAnalyticalFallback(params: {
+  goldStandardPath?: string[] | null;
+  exams?: ExamPayload[] | null;
+  examBudgetEuro: number;
+  totalCostEuro: number;
+  chatHistory?: ChatMessage[] | null;
+  hasLegalContext?: boolean;
+}): AnalyticalEvaluation {
+  const exams = Array.isArray(params.exams) ? params.exams : [];
+  const chat = Array.isArray(params.chatHistory) ? params.chatHistory : [];
+  const gold = Array.isArray(params.goldStandardPath)
+    ? params.goldStandardPath.filter((s) => typeof s === "string" && s.trim())
+    : [];
+  const hasDoctorTurns = chat.some((m) => m.role === "user");
+
+  const examHaystack = exams
+    .map((e) => `${e.id} ${e.name}`.toLowerCase())
+    .join(" | ");
+
+  const clinicalDeltaTable =
+    gold.length > 0
+      ? gold.slice(0, 20).map((step) => {
+          const key = step.toLowerCase();
+          const met =
+            examHaystack.includes(key) ||
+            key.split(/[\s/_-]+/).some((token) => token.length >= 4 && examHaystack.includes(token));
+          return {
+            protocolAction: step.slice(0, 200),
+            userAction: met
+              ? "Evidenza prescrittiva / milestone (fallback deterministico)"
+              : "Non evidenziato nel trascritto esami",
+            status: met ? ("MET" as const) : ("MISSED" as const),
+            penaltyOrBonusReason:
+              "Valutazione analitica AI non disponibile — delta derivato dal Gold Standard.",
+          };
+        })
+      : [
+          {
+            protocolAction: "Valutazione clinica iniziale e anamnesi",
+            userAction: hasDoctorTurns
+              ? "Interazione anamnestica presente in chat"
+              : "Nessuna interazione medico in chat",
+            status: hasDoctorTurns ? ("MET" as const) : ("MISSED" as const),
+            penaltyOrBonusReason:
+              "Valutazione analitica AI non disponibile — fallback minimo.",
+          },
+        ];
+
+  const missedGold = clinicalDeltaTable.filter((r) => r.status === "MISSED").length;
+
+  return {
+    criticalActions: [
+      {
+        description:
+          gold[0]?.slice(0, 200) ||
+          "Avviare anamnesi mirata e stabilizzazione ABC ove indicato",
+        performed: hasDoctorTurns || exams.length > 0,
+        criticalLevel: "HIGH",
+        feedback:
+          "Fallback deterministico: azione critica inferita da chat/esami (AI non disponibile).",
+      },
+      ...(gold.slice(1, 3).map((step) => ({
+        description: step.slice(0, 200),
+        performed:
+          examHaystack.includes(step.toLowerCase()) ||
+          step
+            .toLowerCase()
+            .split(/[\s/_-]+/)
+            .some((token) => token.length >= 4 && examHaystack.includes(token)),
+        criticalLevel: "MEDIUM" as const,
+        feedback: "Derivato dal Gold Standard (fallback).",
+      })) || []),
+    ],
+    inappropriateActions: [],
+    empathyChecklist: [
+      {
+        parameter: "Ascolto e comunicazione professionale",
+        met: hasDoctorTurns,
+        feedback: "Telemetria fallback — il voto empatia usa il modello comportamentale sulla chat.",
+      },
+      {
+        parameter: "Spiegazione trasparente di manovre/esami",
+        met: chat.some(
+          (m) =>
+            m.role === "user" &&
+            /spiego|significa|in pratica|esame|facciamo/i.test(m.content),
+        ),
+        feedback: "Telemetria fallback.",
+      },
+      {
+        parameter: "Rassicurazione / alleanza terapeutica",
+        met: chat.some(
+          (m) =>
+            m.role === "user" &&
+            /tranquill|domande|insieme|capisco|comprendo/i.test(m.content),
+        ),
+        feedback: "Telemetria fallback.",
+      },
+      {
+        parameter: "Gestione dello stress del paziente",
+        met: hasDoctorTurns,
+        feedback: "Telemetria fallback.",
+      },
+    ],
+    feedback: {
+      strengths: hasDoctorTurns
+        ? ["Interazione clinica avviata con il paziente virtuale."]
+        : [],
+      weaknesses:
+        missedGold > 0
+          ? [
+              "Alcuni step del Gold Standard non risultano evidenziati (valutazione AI non disponibile).",
+            ]
+          : ["Analisi narrativa AI non disponibile — punteggi basati su evidenze deterministic."],
+      clinicalNote:
+        "Report generato in modalità fallback deterministica (servizio AI di valutazione non disponibile).",
+      legalComplianceNote: params.hasLegalContext
+        ? "Corpus legale recuperato; revisione strumenti non eseguita dall'AI."
+        : "Nessun corpus legale RAG disponibile (soft-fail).",
+      prescribingNote: `Esami prescritti: ${exams.length}. Costo stimato €${params.totalCostEuro.toFixed(2)} su budget €${params.examBudgetEuro}.`,
+      empathyNote:
+        "Empatia calcolata con Framework Calgary-Cambridge (ascolto, validazione Art. 20, adeguatezza d'urgenza) sulla chat.",
+      economyNote: `Spesa esami €${params.totalCostEuro.toFixed(2)} / budget €${params.examBudgetEuro}.`,
+      correctSolution: gold.length > 0 ? gold.slice(0, 6).join(" → ") : "",
+    },
+    evidence: {
+      legalSources: [],
+      protocolSources: [],
+    },
+    legalInstrumentReviews: params.hasLegalContext
+      ? [
+          {
+            instrument: "Documentazione clinica",
+            documentTitle: "",
+            compliance: "parziale" as const,
+            rationale:
+              "Revisione AI non disponibile — conformità stimata parziale in fallback.",
+          },
+        ]
+      : [
+          {
+            instrument: "Corpus legale",
+            documentTitle: "",
+            compliance: "non_applicabile" as const,
+            rationale: "Nessun corpus legale RAG disponibile.",
+          },
+        ],
+    legalProtectionStatus: {
+      status: params.hasLegalContext ? "PARTIALLY_EXPOSED" : "PARTIALLY_EXPOSED",
+      justification: params.hasLegalContext
+        ? "Fallback deterministico: tutela non verificata integralmente dall'AI."
+        : "Soft-fail RAG: documentazione legale indicizzata assente per la specialità.",
+      referenceDocuments: [],
+    },
+    clinicalDeltaTable,
+    economicAnalysis: {
+      targetBudget: params.examBudgetEuro,
+      actualSpent: params.totalCostEuro,
+      unnecessaryExpenses: [],
+      missedRequiredExams: clinicalDeltaTable
+        .filter((r) => r.status === "MISSED")
+        .slice(0, 8)
+        .map((r) => ({
+          examName: r.protocolAction.slice(0, 120),
+          cost: 0,
+          reason: r.penaltyOrBonusReason.slice(0, 280),
+        })),
+    },
+    coachingFeedback: {
+      empatia:
+        "Usa validazione emotiva, trasparenza sulle indagini e domande di alleanza («Ha domande?»).",
+      tutelaLegale:
+        "Documenta consenso e allineamento alle linee guida quando il corpus RAG è disponibile.",
+      economicita: "Prescrivi esami mirati rispetto al budget SSN del caso.",
+      accuratezza:
+        "Segui il Gold Standard del caso e stabilizza ABC prima di approfondire.",
+    },
+    fatalErrors: [],
+  };
+}
+
 /** @deprecated Use {@link AnalyticalEvaluationSchema}. */
 export const EvaluationSchema = AnalyticalEvaluationSchema;
 
@@ -205,6 +394,11 @@ export type EvaluationResult = AnalyticalEvaluation & {
   resolvedExams: ExamPayload[];
   examBudgetEuro: number;
   totalExamCostEuro: number;
+  /** User-initiated help/consult telemetry for autonomy tracking (Pilastro 5). */
+  helpTelemetry?: {
+    helpRequested: boolean;
+    helpRequestCount: number;
+  };
 };
 
 export type ChatMessage = {
@@ -224,6 +418,8 @@ export type EvaluateSimulationInput = {
   exams: ExamPayload[];
   reportText: string;
   caseContext?: string;
+  caseTitle?: string;
+  caseId?: string;
   finalDiagnosis?: string;
   guidelines: RelevantGuidelines;
   difficulty?: CaseDifficulty;
@@ -234,6 +430,12 @@ export type EvaluateSimulationInput = {
   goldStandardPath?: string[];
   /** Deterministic session milestones (exams, gold steps, empathy/legal cues). */
   sessionMilestones?: SessionMilestoneSnapshot[];
+  /** Immutable action registry — exact IDs only (Pilastro 2). */
+  executedActionIds?: string[];
+  requestedExamIds?: string[];
+  /** User-initiated help/consult requests (Pilastro 5 — autonomy tracking). */
+  helpRequested?: boolean;
+  helpRequestCount?: number;
 };
 
 export type GenerateObjectFn = typeof generateObject;
@@ -288,6 +490,17 @@ export function buildDeterministicEvaluation(
     ragSourcesCount?: number;
     sessionMilestones?: SessionMilestoneSnapshot[];
     goldStandardPath?: string[];
+    /** Doctor↔patient transcript for behavioral empathy. */
+    chatHistory?: ChatMessage[];
+    caseId?: string;
+    caseContext?: string;
+    caseTitle?: string;
+    /** Immutable session action registry (exact IDs only). */
+    executedActionIds?: string[];
+    requestedExamIds?: string[];
+    /** Legal RAG chunks/sources from getRelevantGuidelines (specialty-scoped). */
+    legalChunks?: import("@/lib/services/rag-service").GuidelineChunk[];
+    legalSources?: string[];
   },
 ): Pick<
   EvaluationResult,
@@ -298,6 +511,17 @@ export function buildDeterministicEvaluation(
     params.examCatalog ?? {},
   );
 
+  const milestones = params.sessionMilestones ?? [];
+  const registered = params.caseId ? getCaseById(params.caseId) : undefined;
+
+  const executedActionIds =
+    params.executedActionIds && params.executedActionIds.length > 0
+      ? params.executedActionIds
+      : buildExecutedActionIds({
+          requestedExamIds: params.requestedExamIds,
+          exams: resolvedExams,
+        });
+
   const { scores: checklistScores, breakdown: checklistBreakdown } = deriveDimensionScores({
     criticalActions: analytical.criticalActions,
     inappropriateActions: analytical.inappropriateActions,
@@ -307,13 +531,30 @@ export function buildDeterministicEvaluation(
     budgetEuro: params.examBudgetEuro,
     hasLegalContext: params.hasLegalContext,
     ragSourcesCount: params.ragSourcesCount,
+    chatHistory: params.chatHistory,
+    sessionMilestones: milestones,
+    goldStandardPath: params.goldStandardPath ?? registered?.goldStandardPath,
+    orderedExams: resolvedExams,
+    caseId: params.caseId ?? registered?.id,
+    caseContext: params.caseContext,
+    caseTitle: params.caseTitle ?? registered?.title,
+    anamnesisQuestions: registered?.anamnesisQuestions,
+    executedActionIds,
+    requestedExamIds: params.requestedExamIds,
+    mandatoryExams: registered?.mandatoryExams,
+    inappropriateExams: registered?.inappropriateExams,
+    legalChunks: params.legalChunks,
+    legalSources: params.legalSources,
   });
 
-  const milestones = params.sessionMilestones ?? [];
   let scores = checklistScores;
   let breakdown = checklistBreakdown;
 
   // Blend deterministic milestone evidence so real chat/exam events cannot be erased by a sparse LLM checklist.
+  // Legal is RAG Strict binary (0/100) — never blend mid-scores.
+  // Clinical is scored exclusively by ESC/AHA matrix × executedActionIds — do not blend with milestones.
+  // Empathy is scored exclusively by the behavioral chat model — do not blend with milestones.
+  // Economy is recomputed in severity gates with the asymmetric fork.
   if (milestones.length > 0) {
     const milestoneDerived = deriveMilestoneDimensionScores({
       milestones,
@@ -327,25 +568,74 @@ export function buildDeterministicEvaluation(
       const w = Math.max(0, Math.min(1, milestoneWeight));
       return Math.round(checklist * (1 - w) + milestone * w);
     };
+
     scores = {
-      clinical: blend(checklistScores.clinical, milestoneDerived.scores.clinical, 0.4),
-      legal: blend(checklistScores.legal, milestoneDerived.scores.legal, 0.5),
+      clinical: checklistScores.clinical,
+      legal: checklistScores.legal,
       exams: blend(checklistScores.exams, milestoneDerived.scores.exams, 0.35),
       economy: checklistScores.economy,
-      empathy: blend(checklistScores.empathy, milestoneDerived.scores.empathy, 0.55),
+      empathy: checklistScores.empathy,
     } satisfies DimensionScores;
     breakdown = {
       ...checklistBreakdown,
-      clinical: { ...checklistBreakdown.clinical, final: scores.clinical },
-      legal: { ...checklistBreakdown.legal, final: scores.legal },
-      exams: { ...checklistBreakdown.exams, final: scores.exams },
-      empathy: { ...checklistBreakdown.empathy, final: scores.empathy },
+      clinical: checklistBreakdown.clinical,
+      legal: {
+        ...checklistBreakdown.legal,
+        final: scores.legal,
+        motivations: [
+          ...(checklistBreakdown.legal.motivations ?? []),
+          motivation(
+            "neutral",
+            "Tutela giuridica binaria: nessuno blend numerico",
+            {
+              scoreImpact: 0,
+              sourceRef: checklistBreakdown.legal.sourceRef,
+            },
+          ),
+        ],
+      },
+      exams: {
+        ...checklistBreakdown.exams,
+        final: scores.exams,
+        performedInappropriateCount: Math.max(
+          checklistBreakdown.exams.performedInappropriateCount,
+          milestoneDerived.breakdown.exams.performedInappropriateCount,
+        ),
+        penaltySum: Math.max(
+          checklistBreakdown.exams.penaltySum,
+          milestoneDerived.breakdown.exams.penaltySum,
+        ),
+        motivations: [
+          ...(checklistBreakdown.exams.motivations ?? []),
+          ...(milestoneDerived.breakdown.exams.motivations ?? []),
+          motivation(
+            "neutral",
+            `Blend appropriatezza: checklist ${checklistScores.exams} ↔ milestone ${milestoneDerived.scores.exams} → ${scores.exams}`,
+            { scoreImpact: 0, sourceRef: "Rif. Gold Standard × Nomenclatore SSN" },
+          ),
+        ],
+      },
+      empathy: checklistBreakdown.empathy,
     };
   }
 
-  return {
+  const gated = applyPedagogicalSeverityGates({
     scores,
-    scoreBreakdown: breakdown,
+    breakdown,
+    chatHistory: params.chatHistory,
+    sessionMilestones: milestones,
+    inappropriateActions: analytical.inappropriateActions,
+    goldStandardPath: params.goldStandardPath ?? registered?.goldStandardPath,
+    orderedExams: resolvedExams,
+    caseId: params.caseId ?? registered?.id,
+    caseTitle: params.caseTitle ?? registered?.title,
+    mandatoryExams: registered?.mandatoryExams,
+    inappropriateExams: registered?.inappropriateExams,
+  });
+
+  return {
+    scores: gated.scores,
+    scoreBreakdown: gated.breakdown,
     resolvedExams,
     examBudgetEuro: params.examBudgetEuro,
     totalExamCostEuro: totalCostEuro,
@@ -435,13 +725,15 @@ ISTRUZIONI ANALITICHE (OBBLIGATORIE):
    - Se il corpus RAG è soft-fail: non colmare con conoscenza parametrica inventata.
 
 1) criticalActions / inappropriateActions / empathyChecklist / legalInstrumentReviews — checklist oggettive ancorate al trascritto.
-   - empathyChecklist: ≥4 parametri (ascolto, rassicurazione, spiegazione, gestione stress). Imposta met=true SOLO se c'è evidenza testuale in <<<CHAT_TRANSCRIPT>>> o milestone empatiche; met=false se assente — NON azzerare l'intera checklist inventando parametri tutti falsi senza citare il trascritto.
+   - criticalActions: TELEMETRIA qualitativa (HIGH/MEDIUM). Il voto numerico di Accuratezza Clinica è calcolato deterministicamente dalla matrice ESC/AHA (Classe I/III) sul registro immutabile executedActionIds — non inventare performed=true senza evidenza di esame/azione nel trascritto o negli esami prescritti.
+   - empathyChecklist: ≥4 parametri (ascolto, rassicurazione, spiegazione, gestione stress) come TELEMETRIA qualitativa. Il voto numerico di empatia è calcolato deterministicamente dal trascritto con Framework Calgary-Cambridge (ascolto attivo vs quesiti anamnestici + validazione emotiva Art. 20 + adeguatezza all'urgenza clinica; Art. 24 per informazione). Imposta met=true SOLO con evidenza in <<<CHAT_TRANSCRIPT>>>; non inventare checklist tutta falsa.
    - legalInstrumentReviews: se in chat compare consenso / allergie / spiegazione rischi, NON marcare "violato" senza motivazione testuale; usa "rispettato" o "parziale" coerente con le evidenze.
 
 2) legalProtectionStatus:
    - status: PROTECTED se documentazione e percorso difendibile; PARTIALLY_EXPOSED se lacune; HIGHLY_EXPOSED se violazioni gravi.
-   - justification: cita articoli/norme dal corpus legale fornito nel messaggio utente (Gelli-Bianco, consenso, cartella, ecc.).
+   - justification: cita SOLO titoli esatti di documenti presenti in <<<RAG_GUIDELINES>>> (nessuna legge inventata o memorizzata a priori). Formato citazione: [Titolo Documento] - Sezione/Articolo se presente nel chunk.
    - referenceDocuments: nomi esatti dei file RAG citati (vuoto se soft-fail).
+   - legalInstrumentReviews: TELEMETRIA qualitativa. Il verdetto binario CONFORME/NON CONFORME è calcolato deterministicamente dal motore RAG specialty (criteri caso + corpus recuperato). Imposta documentTitle = titolo esatto della fonte RAG usata.
 
 3) clinicalDeltaTable — una riga per ogni tappa Gold Standard o azione protocollo chiave:
    - protocolAction: cosa richiede il Gold Standard / linea guida.
@@ -617,6 +909,7 @@ export class EvaluationService {
       const evalStartedAt = Date.now();
       let analytical: AnalyticalEvaluation | null = null;
       let lastGenerateError: unknown = null;
+      let usedAiAnalytical = false;
 
       // One retry: GPT-4o tool calls occasionally fail Zod once then succeed.
       for (let attempt = 1; attempt <= 2; attempt += 1) {
@@ -651,6 +944,7 @@ export class EvaluationService {
             }),
           });
           analytical = normalizeAnalyticalEvaluation(result.object);
+          usedAiAnalytical = true;
           break;
         } catch (generateError) {
           lastGenerateError = generateError;
@@ -663,7 +957,22 @@ export class EvaluationService {
       }
 
       if (!analytical) {
-        throw lastGenerateError ?? new Error("No object generated from evaluation model.");
+        const fallbackDetail =
+          lastGenerateError instanceof Error
+            ? lastGenerateError.message
+            : String(lastGenerateError ?? "No object generated");
+        this.deps.logger.warn(
+          "Simulation evaluation AI unavailable — using deterministic analytical fallback",
+          { detail: fallbackDetail.slice(0, 400) },
+        );
+        analytical = buildDeterministicAnalyticalFallback({
+          goldStandardPath: input.goldStandardPath,
+          exams: input.exams,
+          examBudgetEuro,
+          totalCostEuro,
+          chatHistory: sanitizedChat,
+          hasLegalContext,
+        });
       }
 
       const guardedAnalytical = guardEvaluationAgainstFalseOmissions(
@@ -687,6 +996,14 @@ export class EvaluationService {
         ragSourcesCount: hasLegalContext ? ragSourcesCount : 0,
         sessionMilestones: input.sessionMilestones,
         goldStandardPath: input.goldStandardPath,
+        chatHistory: sanitizedChat,
+        caseId: input.caseId,
+        caseContext: input.caseContext,
+        caseTitle: input.caseTitle,
+        executedActionIds: input.executedActionIds,
+        requestedExamIds: input.requestedExamIds,
+        legalChunks: input.guidelines?.legal?.chunks,
+        legalSources: input.guidelines?.legal?.sources,
       });
 
       this.deps.logger.info("Simulation evaluation completed (deterministic scoring)", {
@@ -697,12 +1014,88 @@ export class EvaluationService {
         hasLegalContext,
         ragSourcesCount: hasLegalContext ? ragSourcesCount : 0,
         legalUnevaluable: deterministic.scoreBreakdown.legal.unevaluable,
+        empathyFinal: deterministic.scoreBreakdown.empathy?.finalScore,
+        helpRequested: Boolean(input.helpRequested) || (input.helpRequestCount ?? 0) > 0,
+        helpRequestCount: input.helpRequestCount ?? 0,
+        usedAiAnalytical,
         durationMs: Date.now() - evalStartedAt,
       });
+
+      const legalGateLabel = String(
+        deterministic.scoreBreakdown.legal.conformityStatus ??
+          deterministic.scoreBreakdown.legal.protectionLabel ??
+          "",
+      );
+      const legalSourceRef = deterministic.scoreBreakdown.legal.sourceRef;
+      const isNonConforme =
+        legalGateLabel === "NON_CONFORME" || legalGateLabel === "NON_TUTELATO";
+      const isConforme = legalGateLabel === "CONFORME" || legalGateLabel === "TUTELATO";
+      const legalProtectionStatus = isNonConforme
+        ? {
+            status: "HIGHLY_EXPOSED" as const,
+            justification:
+              [
+                deterministic.scoreBreakdown.legal.formalLabel,
+                ...deterministic.scoreBreakdown.legal.motivations
+                  .filter((m) => m.type === "negative")
+                  .map((m) =>
+                    m.sourceRef ? `${m.text} [${m.sourceRef}]` : m.text,
+                  ),
+                legalSourceRef ? `Fonte: ${legalSourceRef}` : "",
+              ]
+                .filter(Boolean)
+                .join(" ") ||
+              "NON CONFORME (RISCHIO CONTENZIOSO) — violazione di obblighi di sicurezza/norma.",
+            referenceDocuments: Array.from(
+              new Set(
+                [
+                  ...(guardedAnalytical.legalProtectionStatus?.referenceDocuments ?? []),
+                  ...(legalSourceRef ? [legalSourceRef] : []),
+                  ...deterministic.scoreBreakdown.legal.motivations
+                    .map((m) => m.sourceRef)
+                    .filter((s): s is string => Boolean(s)),
+                ].filter(Boolean),
+              ),
+            ).slice(0, 8),
+          }
+        : isConforme
+          ? {
+              status: "PROTECTED" as const,
+              justification:
+                [
+                  deterministic.scoreBreakdown.legal.formalLabel,
+                  ...deterministic.scoreBreakdown.legal.motivations
+                    .filter((m) => m.type === "positive" || m.id === "legal_verdict")
+                    .map((m) =>
+                      m.sourceRef ? `${m.text} [${m.sourceRef}]` : m.text,
+                    ),
+                ]
+                  .filter(Boolean)
+                  .join(" ") ||
+                `CONFORME (TUTELATO)${legalSourceRef ? ` — ${legalSourceRef}` : ""}.`,
+              referenceDocuments: Array.from(
+                new Set(
+                  [
+                    ...(guardedAnalytical.legalProtectionStatus?.referenceDocuments ?? []),
+                    ...(legalSourceRef ? [legalSourceRef] : []),
+                  ].filter(Boolean),
+                ),
+              ).slice(0, 8),
+            }
+          : guardedAnalytical.legalProtectionStatus;
+
+      const helpRequestCount = Math.max(0, Math.floor(input.helpRequestCount ?? 0));
+      const helpRequested =
+        Boolean(input.helpRequested) || helpRequestCount > 0;
 
       return {
         ...guardedAnalytical,
         ...deterministic,
+        legalProtectionStatus,
+        helpTelemetry: {
+          helpRequested,
+          helpRequestCount,
+        },
         evidence: {
           ...guardedAnalytical.evidence,
           legalSources: hasLegalContext
