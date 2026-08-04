@@ -573,7 +573,8 @@ export function SimulatorClient({
     },
     experimental_prepareRequestBody: ({ messages: chatMessages, requestBody }) => ({
       ...(requestBody ?? {}),
-      sessionId: effectiveSessionIdRef.current,
+      sessionId: sanitizeLiveSessionId(effectiveSessionIdRef.current),
+      caseId: initialCaseData.id,
       patientStress: patientStressRef.current,
       requestedExamIds: selectedExamIdsRef.current,
       messages: chatMessages.map((m) => ({

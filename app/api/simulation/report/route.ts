@@ -1,6 +1,6 @@
 import { after } from "next/server";
 import { z } from "zod";
-import { userCanPlayCase, verifyLiveSessionOwner } from "@/lib/access";
+import { authorizeSimulationAction } from "@/lib/access";
 import { getSessionUserId } from "@/lib/api-session";
 import { assertCanStartSimulation, gateToResponse } from "@/lib/billing/access-gate";
 import { countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
@@ -19,6 +19,8 @@ import {
   buildJobQueueRawTrace,
   scheduleSimulationReportJob,
 } from "@/lib/services/simulation-report-scheduler";
+import { ensureRegisteredCaseInDb } from "@/lib/cases/ensure-registered-case";
+import { normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
@@ -78,8 +80,20 @@ export async function POST(req: Request) {
       throw new ValidationError(message);
     }
 
-    const { caseId, sessionId: liveSessionId, chatHistory, exams, reportText, caseContext, finalDiagnosis, requestedExamIds, executedActionIds, helpRequested, helpRequestCount } =
-      parsed.data;
+    const {
+      caseId: rawCaseId,
+      sessionId: rawSessionId,
+      chatHistory,
+      exams,
+      reportText,
+      caseContext,
+      finalDiagnosis,
+      requestedExamIds,
+      executedActionIds,
+      helpRequested,
+      helpRequestCount,
+    } = parsed.data;
+    const caseId = normalizeCaseLookupKey(rawCaseId);
     const log = routeLogger.child({ caseId });
 
     const userId = await getSessionUserId();
@@ -99,24 +113,26 @@ export async function POST(req: Request) {
       return jsonResponse({ error: "User not found", code: "NOT_FOUND" }, 404);
     }
 
-    const allowed = await userCanPlayCase(userId, caseId);
-    if (!allowed) {
-      return jsonResponse({ error: "Forbidden", code: "FORBIDDEN" }, 403);
+    const access = await authorizeSimulationAction({
+      userId,
+      sessionId: rawSessionId,
+      caseId,
+    });
+    if (!access.ok) {
+      return jsonResponse({ error: access.error, code: access.code }, access.status);
     }
 
-    if (liveSessionId) {
-      const owns = await verifyLiveSessionOwner(liveSessionId, userId);
-      if (!owns) {
-        return jsonResponse({ error: "Forbidden", code: "FORBIDDEN" }, 403);
-      }
-      // Owned live session already passed the trial gate at /api/session/start.
-    } else {
+    const liveSessionId = access.liveSessionId;
+    if (!liveSessionId) {
       const usedToday = await countSimulationsStartedToday(userId);
       const simGate = assertCanStartSimulation(billingProfile, { usedToday });
       if (!simGate.allowed) {
         return gateToResponse(simGate);
       }
     }
+
+    // Materialize registry cases so SessionReport.caseId FK succeeds.
+    await ensureRegisteredCaseInDb(caseId, userId);
 
     const normalizedReportText = normalizeReportText(
       sanitizeForExternalAI(reportText),

@@ -3,7 +3,8 @@ import { generateObject } from "ai";
 import { z } from "zod";
 import { prisma } from "../../../../lib/prisma";
 import { getSessionUserId } from "../../../../lib/api-session";
-import { userCanPlayCase, verifyLiveSessionOwner } from "../../../../lib/access";
+import { authorizeSimulationAction } from "../../../../lib/access";
+import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 import { isDevAuthBypass } from "../../../../lib/require-user";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
@@ -71,27 +72,19 @@ export async function POST(req: Request) {
   const json = await req.json();
   const { caseId, sessionId, diagnosisText } = bodySchema.parse(json);
 
-  if (sessionId) {
-    const owns = await verifyLiveSessionOwner(sessionId, userId);
-    if (!owns) {
-      return new Response(JSON.stringify({ error: "Forbidden" }), {
-        status: 403,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-  } else {
-    const allowed = await userCanPlayCase(userId, caseId);
-    if (!allowed) {
-      return new Response(JSON.stringify({ error: "Forbidden" }), {
-        status: 403,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
+  const access = await authorizeSimulationAction({ userId, sessionId, caseId });
+  if (!access.ok) {
+    return new Response(JSON.stringify({ error: access.error, code: access.code }), {
+      status: access.status,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
-  const session = sessionId
+  const liveSessionId = sanitizeLiveSessionId(access.liveSessionId);
+
+  const session = liveSessionId
     ? await prisma.caseSession.findUnique({
-        where: { id: sessionId },
+        where: { id: liveSessionId },
         include: { case: true },
       })
     : null;

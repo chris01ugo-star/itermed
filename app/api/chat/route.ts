@@ -1,5 +1,6 @@
 import { getSessionUserId } from "@/lib/api-session";
-import { assertUserCanPlayCase, verifyLiveSessionOwner } from "@/lib/access";
+import { assertUserCanPlayCase, authorizeSimulationAction } from "@/lib/access";
+import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 import {
   assertAllowedChatModel,
   assertCanSendChatMessage,
@@ -183,8 +184,27 @@ export async function POST(req: Request) {
 
   const chatModel = resolveChatModel(billingProfile);
 
-  const liveSessionId =
-    typeof sessionId === "string" && sessionId.trim().length > 0 ? sessionId.trim() : null;
+  const access = await authorizeSimulationAction({
+    userId,
+    sessionId: typeof sessionId === "string" ? sessionId : null,
+    caseId: typeof caseId === "string" ? caseId : null,
+  });
+  // Soft-fail: if only offline token / missing case, continue with daily gate (legacy chat).
+  if (!access.ok && access.code === "FORBIDDEN_SESSION") {
+    return new Response(JSON.stringify({ error: "Forbidden", code: access.code }), {
+      status: 403,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+  if (!access.ok && access.code === "FORBIDDEN_CASE") {
+    return new Response(JSON.stringify({ error: "Forbidden", code: access.code }), {
+      status: 403,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+  const liveSessionId = access.ok
+    ? (sanitizeLiveSessionId(access.liveSessionId) ?? null)
+    : null;
   const clientRequestedExams = parseStringArray(requestedExamIds);
   const clientGoldSteps = parseStringArray(completedGoldSteps);
 
@@ -192,15 +212,7 @@ export async function POST(req: Request) {
   let elapsedMinutes = 0;
   let deteriorationInstruction: string | null = null;
 
-  if (liveSessionId) {
-    const ok = await verifyLiveSessionOwner(liveSessionId, userId);
-    if (!ok) {
-      return new Response(JSON.stringify({ error: "Forbidden" }), {
-        status: 403,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-  } else {
+  if (!liveSessionId) {
     // No live session yet — apply the same soft daily gate as session start.
     const usedToday = await countSimulationsStartedToday(userId);
     const simGate = assertCanStartSimulation(billingProfile, { usedToday });

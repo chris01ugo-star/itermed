@@ -42,7 +42,12 @@ export async function POST(req: Request) {
 
     const owns = await verifyLiveSessionOwner(liveSessionId, userId);
     if (!owns) {
-      return Response.json({ error: "Forbidden" }, { status: 403 });
+      // Soft-fail: consent UX must never hard-block the simulation.
+      return Response.json({
+        consentRequested: true,
+        actionId: "consenso-informato",
+        skipped: true,
+      });
     }
 
     const result = await recordConsentInformedRequest({ sessionId: liveSessionId });

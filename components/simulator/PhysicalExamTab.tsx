@@ -119,11 +119,18 @@ export function PhysicalExamTab({
     }));
 
     try {
+      const liveSessionId =
+        typeof sessionId === "string" &&
+        sessionId.trim() &&
+        !sessionId.trim().startsWith("registry_")
+          ? sessionId.trim()
+          : undefined;
+
       const res = await fetch("/api/examine", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          sessionId,
+          sessionId: liveSessionId,
           caseId,
           examId: id,
           examType: label,

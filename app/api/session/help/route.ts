@@ -47,7 +47,11 @@ export async function POST(req: Request) {
 
     const owns = await verifyLiveSessionOwner(liveSessionId, userId);
     if (!owns) {
-      return Response.json({ error: "Forbidden" }, { status: 403 });
+      return Response.json({
+        helpRequested: true,
+        helpRequestCount,
+        skipped: true,
+      });
     }
 
     const result = await recordHelpRequest({
