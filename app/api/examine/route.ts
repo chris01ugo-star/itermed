@@ -151,21 +151,46 @@ export async function POST(req: Request) {
   });
   if (rateLimited) return rateLimited;
 
-  const json = await req.json();
-  const parsed = bodySchema.parse(json);
-  const { sessionId, caseId, examId, examType, patientPrompt } = parsed;
-  const sanitizedPatientPrompt = sanitizeForExternalAI(patientPrompt);
-
-  const access = await authorizeSimulationAction({ userId, sessionId, caseId });
-  if (!access.ok) {
-    return new Response(JSON.stringify({ error: access.error, code: access.code }), {
-      status: access.status,
+  let parsed: z.infer<typeof bodySchema>;
+  try {
+    parsed = bodySchema.parse(await req.json());
+  } catch {
+    return new Response(JSON.stringify({ error: "Invalid body", code: "INVALID_BODY" }), {
+      status: 400,
       headers: { "Content-Type": "application/json" },
     });
   }
 
-  const liveSessionId = access.liveSessionId;
-  const resolvedCaseId = access.caseId ?? caseId;
+  const { sessionId, caseId, examId, examType, patientPrompt } = parsed;
+  const sanitizedPatientPrompt = sanitizeForExternalAI(patientPrompt);
+
+  // Soft-allow: esame obiettivo is driven by client case payload. Never hard-block a
+  // logged-in clinician on stale/offline session tokens (common with registry cases).
+  let liveSessionId: string | undefined;
+  let resolvedCaseId = caseId;
+  try {
+    const access = await authorizeSimulationAction({ userId, sessionId, caseId });
+    if (access.ok) {
+      liveSessionId = access.liveSessionId;
+      resolvedCaseId = access.caseId ?? caseId;
+    } else {
+      console.warn("[POST /api/examine] soft-allow after access denial", {
+        code: access.code,
+        caseId,
+        hasSession: Boolean(sessionId),
+        userId,
+      });
+    }
+  } catch (err) {
+    console.error("[POST /api/examine] authorizeSimulationAction failed — soft-allow", err);
+  }
+
+  if (!resolvedCaseId && !sanitizedPatientPrompt.trim()) {
+    return new Response(
+      JSON.stringify({ error: "caseId or patientPrompt required", code: "EXAMINE_CONTEXT_REQUIRED" }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
 
   // 0) Se esiste una sessione con overrides (Parte 2 / Variante), usali prima di tutto
   if (liveSessionId && examId) {

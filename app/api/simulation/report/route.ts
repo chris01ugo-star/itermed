@@ -1,6 +1,6 @@
 import { after } from "next/server";
 import { z } from "zod";
-import { authorizeSimulationAction } from "@/lib/access";
+import { authorizeSimulationAction, userCanPlayCase } from "@/lib/access";
 import { getSessionUserId } from "@/lib/api-session";
 import { assertCanStartSimulation, gateToResponse } from "@/lib/billing/access-gate";
 import { countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
@@ -113,16 +113,34 @@ export async function POST(req: Request) {
       return jsonResponse({ error: "User not found", code: "NOT_FOUND" }, 404);
     }
 
-    const access = await authorizeSimulationAction({
-      userId,
-      sessionId: rawSessionId,
-      caseId,
-    });
-    if (!access.ok) {
-      return jsonResponse({ error: access.error, code: access.code }, access.status);
+    let liveSessionId: string | undefined;
+    try {
+      const access = await authorizeSimulationAction({
+        userId,
+        sessionId: rawSessionId,
+        caseId,
+      });
+      if (access.ok) {
+        liveSessionId = access.liveSessionId;
+      } else {
+        // Soft-allow report generation for playable/registry cases even with stale session tokens.
+        const canPlay = await userCanPlayCase(userId, caseId);
+        if (!canPlay) {
+          return jsonResponse({ error: access.error, code: access.code }, access.status);
+        }
+        log.warn("Report soft-allow after session access denial", {
+          code: access.code,
+          caseId,
+          userId,
+        });
+      }
+    } catch (err) {
+      log.error("authorizeSimulationAction failed — attempting case soft-allow", { error: err });
+      if (!(await userCanPlayCase(userId, caseId))) {
+        return jsonResponse({ error: "Forbidden", code: "FORBIDDEN" }, 403);
+      }
     }
 
-    const liveSessionId = access.liveSessionId;
     if (!liveSessionId) {
       const usedToday = await countSimulationsStartedToday(userId);
       const simGate = assertCanStartSimulation(billingProfile, { usedToday });

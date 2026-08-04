@@ -138,11 +138,16 @@ export function PhysicalExamTab({
         }),
       });
 
+      const payload = (await res.json().catch(() => null)) as
+        | (ExamResult & { error?: string; code?: string })
+        | null;
+
       if (!res.ok) {
-        throw new Error("Errore nell'esecuzione dell'esame.");
+        const detail = payload?.code || payload?.error || `HTTP ${res.status}`;
+        throw new Error(`Errore nell'esecuzione dell'esame (${detail}).`);
       }
 
-      const data = (await res.json()) as ExamResult;
+      const data = payload as ExamResult;
 
       setExams((prev) => ({
         ...prev,

@@ -18,14 +18,20 @@ export async function userCanPlayCase(userId: string, caseId: string): Promise<b
   // Gold-standard Prassi registry cases are always playable for authenticated users.
   if (isRegisteredCaseId(caseId) || isRegisteredCaseId(normalized)) return true;
 
-  const ids = [...new Set([caseId, normalized].filter(Boolean))];
-  const n = await prisma.clinicalCase.count({
-    where: {
-      id: { in: ids },
-      ...visibleCasesWhere(userId),
-    },
-  });
-  return n > 0;
+  try {
+    const ids = [...new Set([caseId, normalized].filter(Boolean))];
+    const n = await prisma.clinicalCase.count({
+      where: {
+        id: { in: ids },
+        ...visibleCasesWhere(userId),
+      },
+    });
+    return n > 0;
+  } catch (err) {
+    console.error("[userCanPlayCase] prisma failed", caseId, err);
+    // Fail-open for authored registry cases if DB is unreachable.
+    return isRegisteredCaseId(caseId) || isRegisteredCaseId(normalized);
+  }
 }
 
 /** Returns a billing-aware HTTP response when case access is denied; null if allowed. */
@@ -95,11 +101,16 @@ export async function verifyLiveSessionOwner(
   // Offline / registry tokens are not Prisma CaseSession rows.
   if (isOfflineSessionId(sessionId)) return false;
 
-  const row = await prisma.caseSession.findUnique({
-    where: { id: sessionId },
-    select: { userId: true },
-  });
-  return row?.userId === userId;
+  try {
+    const row = await prisma.caseSession.findUnique({
+      where: { id: sessionId },
+      select: { userId: true },
+    });
+    return row?.userId === userId;
+  } catch (err) {
+    console.error("[verifyLiveSessionOwner] prisma failed", err);
+    return false;
+  }
 }
 
 export type SimulationAccessResult =
