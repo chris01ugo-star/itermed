@@ -81,9 +81,52 @@ export async function getCaseExamOverrides(
 function extractLegacyCaseOverrides(
   baselineExamFindings?: unknown,
 ): Record<string, CaseExamOverride> {
-  const bf = baselineExamFindings as
-    | { advancedExams?: { values?: Record<string, CaseExamOverride> } }
-    | null
-    | undefined;
-  return bf?.advancedExams?.values ?? {};
+  const bf =
+    baselineExamFindings &&
+    typeof baselineExamFindings === "object" &&
+    !Array.isArray(baselineExamFindings)
+      ? (baselineExamFindings as Record<string, unknown>)
+      : null;
+  if (!bf) return {};
+
+  const fromAdvanced =
+    bf.advancedExams &&
+    typeof bf.advancedExams === "object" &&
+    !Array.isArray(bf.advancedExams)
+      ? ((bf.advancedExams as { values?: Record<string, CaseExamOverride> }).values ?? {})
+      : {};
+
+  const reserved = new Set([
+    "vitals",
+    "demographics",
+    "advancedExams",
+    "examBudgetEuro",
+    "stressProfile",
+    "physicalExam",
+    "thorax",
+    "abdomen",
+    "neuro",
+  ]);
+
+  const fromTopLevel: Record<string, CaseExamOverride> = {};
+  for (const [key, value] of Object.entries(bf)) {
+    if (reserved.has(key) || fromAdvanced[key]) continue;
+    if (!value || typeof value !== "object" || Array.isArray(value)) continue;
+    const row = value as Record<string, unknown>;
+    const finding =
+      typeof row.finding === "string"
+        ? row.finding
+        : typeof row.normalFinding === "string"
+          ? row.normalFinding
+          : null;
+    if (!finding?.trim()) continue;
+    fromTopLevel[key] = {
+      normalFinding: finding.trim(),
+      isAbnormal: row.isAbnormal === true,
+      ...(typeof row.price === "number" ? { price: row.price } : {}),
+      ...(typeof row.customCost === "number" ? { customCost: row.customCost } : {}),
+    };
+  }
+
+  return { ...fromTopLevel, ...fromAdvanced };
 }

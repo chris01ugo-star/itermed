@@ -57,6 +57,9 @@ export function extractDemographics(baseline: Record<string, unknown>): {
 /**
  * Builds the SimulatorClient `initialCaseData` shape from a Prisma clinical case row.
  * Always strips `correctSolution` from the client payload.
+ *
+ * For beta JSON ingest, gate with `assertPlayableCase` from `@/lib/cases/case-import-schema`
+ * before writing to the DB.
  */
 export function buildSimulatorCasePayload(params: {
   id: string;

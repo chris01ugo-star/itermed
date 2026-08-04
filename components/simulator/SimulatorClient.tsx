@@ -66,6 +66,7 @@ import { deriveDemoVitals, patientDisplayName } from "@/lib/prassi/demo-vitals";
 import { classifyVitals, maxVitalStatus } from "@/lib/clinical/vital-status";
 import { resolveCaseStressProfile } from "@/lib/simulator/patient-stress-engine";
 import { estimateLiveCoaching } from "@/lib/simulator/live-coaching-estimate";
+import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 import { EXAM_DEFAULT_VALUES, type ExamClinicalMeta } from "../../lib/exam-default-values";
 import { EXAM_CATALOG_STRUCTURE } from "@/lib/exam-catalog-structure";
 import {
@@ -150,6 +151,8 @@ type ReportStatusPayload = {
 
 const REPORT_POLL_INTERVAL_MS = 500;
 const REPORT_POLL_TIMEOUT_MS = 3 * 60 * 1000;
+/** Canonical gold / ESC action id for informed consent (must match registry paths). */
+const CONSENT_INFORMED_ACTION_ID = "consenso-informato";
 
 /**
  * Keep `sessionId` in the address bar without Next.js navigation.
@@ -359,6 +362,15 @@ export function SimulatorClient({
   const selectedExamIdsRef = useRef<string[]>([]);
   const [isPatientChartOpen, setIsPatientChartOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  /** User-initiated help/consult telemetry for evaluator autonomy tracking. */
+  const [helpRequested, setHelpRequested] = useState(false);
+  const [helpRequestCount, setHelpRequestCount] = useState(0);
+  const helpRequestCountRef = useRef(0);
+  /** Non-exam clinical actions (e.g. consenso-informato) for ESC executedActionIds. */
+  const [extraExecutedActionIds, setExtraExecutedActionIds] = useState<string[]>([]);
+  const extraExecutedActionIdsRef = useRef<string[]>([]);
+  const [consentRequested, setConsentRequested] = useState(false);
+  const [isConsentBusy, setIsConsentBusy] = useState(false);
   const [isDischargeOpen, setIsDischargeOpen] = useState(false);
   const [patientChartTab, setPatientChartTab] = useState<"base" | "referto">("base");
 
@@ -395,7 +407,9 @@ export function SimulatorClient({
   const [reportProgressMessage, setReportProgressMessage] = useState("");
   const [reportData, setReportData] = useState<SimulationReportData | null>(null);
 
-  const [effectiveSessionId, setEffectiveSessionId] = useState<string | undefined>(sessionId);
+  const [effectiveSessionId, setEffectiveSessionId] = useState<string | undefined>(
+    sanitizeLiveSessionId(sessionId),
+  );
   const [isStartingEmergency, setIsStartingEmergency] = useState(false);
   const [dismissLoading, setDismissLoading] = useState(false);
   /** 0–100: pressione temporale e carico simulato (chat, esami, errori, tempo). */
@@ -408,6 +422,7 @@ export function SimulatorClient({
   /** User-triggered pause ("Interruzione") — freezes clocks without ending the session. */
   const [isPaused, setIsPaused] = useState(false);
   const effectiveSessionIdRef = useRef(effectiveSessionId);
+  const sessionStartPromiseRef = useRef<Promise<string | null> | null>(null);
   const examIdsChargedForStressRef = useRef<Set<string>>(new Set());
   const stressInitializedRef = useRef(false);
 
@@ -456,6 +471,10 @@ export function SimulatorClient({
   useEffect(() => {
     selectedExamIdsRef.current = selectedExamIds;
   }, [selectedExamIds]);
+
+  useEffect(() => {
+    extraExecutedActionIdsRef.current = extraExecutedActionIds;
+  }, [extraExecutedActionIds]);
 
   useEffect(() => {
     const onClinicalAction = (event: Event) => {
@@ -602,28 +621,114 @@ export function SimulatorClient({
     return () => window.clearInterval(id);
   }, [disclaimerAccepted, gameStatus, isPaused, tutorialOpen]);
 
-  const ensureSessionId = async (): Promise<string | null> => {
-    if (effectiveSessionId) return effectiveSessionId;
-    try {
-      const res = await fetch("/api/session/start", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          caseId: initialCaseData.id,
-          mode: "original",
-        }),
-      });
-      const data = await res.json().catch(() => null);
-      const newSessionId = data?.sessionId as string | undefined;
-      if (newSessionId) {
-        setEffectiveSessionId(newSessionId);
-        return newSessionId;
+  const ensureSessionId = useCallback(async (): Promise<string | null> => {
+    if (effectiveSessionIdRef.current) return effectiveSessionIdRef.current;
+    if (sessionStartPromiseRef.current) return sessionStartPromiseRef.current;
+
+    const startPromise = (async (): Promise<string | null> => {
+      try {
+        const res = await fetch("/api/session/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            caseId: initialCaseData.id,
+            mode: "original",
+          }),
+        });
+        const data = await res.json().catch(() => null);
+        const newSessionId = sanitizeLiveSessionId(
+          typeof data?.sessionId === "string" ? data.sessionId : undefined,
+        );
+        if (newSessionId) {
+          setEffectiveSessionId(newSessionId);
+          effectiveSessionIdRef.current = newSessionId;
+          syncSessionIdInUrl(newSessionId);
+          return newSessionId;
+        }
+        return null;
+      } catch (err) {
+        console.error("[SimulatorClient] ensureSessionId failed", err);
+        return null;
+      } finally {
+        sessionStartPromiseRef.current = null;
       }
-      return null;
-    } catch {
-      return null;
+    })();
+
+    sessionStartPromiseRef.current = startPromise;
+    return startPromise;
+  }, [initialCaseData.id]);
+
+  const openHelpConsult = useCallback(() => {
+    markUserActivity();
+    const nextCount = helpRequestCountRef.current + 1;
+    helpRequestCountRef.current = nextCount;
+    setHelpRequestCount(nextCount);
+    setHelpRequested(true);
+    setIsHelpOpen(true);
+
+    void (async () => {
+      const sid = effectiveSessionIdRef.current ?? (await ensureSessionId());
+      if (!sid) return;
+      try {
+        await fetch("/api/session/help", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sessionId: sid,
+            helpRequestCount: nextCount,
+          }),
+        });
+      } catch {
+        // Telemetry best-effort — never block the help dialog.
+      }
+    })();
+  }, [ensureSessionId, markUserActivity]);
+
+  const requestInformedConsent = useCallback(() => {
+    markUserActivity();
+    if (consentRequested || isConsentBusy) return;
+    setIsConsentBusy(true);
+
+    const consentMessage =
+      "Le spiego ora la procedura proposta, i benefici attesi, i rischi principali e le alternative cliniche. " +
+      "Le chiedo di confermare di aver compreso le informazioni e di prestare il consenso informato prima di procedere.";
+
+    try {
+      void append({ role: "user", content: consentMessage });
+    } catch (err) {
+      console.error("[SimulatorClient] consent append failed", err);
     }
-  };
+
+    setExtraExecutedActionIds((prev) => {
+      if (prev.includes(CONSENT_INFORMED_ACTION_ID)) return prev;
+      const next = [...prev, CONSENT_INFORMED_ACTION_ID];
+      extraExecutedActionIdsRef.current = next;
+      return next;
+    });
+    setConsentRequested(true);
+
+    void (async () => {
+      try {
+        const sid = effectiveSessionIdRef.current ?? (await ensureSessionId());
+        if (!sid) return;
+        await fetch("/api/session/consent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId: sid }),
+        });
+      } catch (err) {
+        console.error("[SimulatorClient] consent telemetry failed", err);
+      } finally {
+        setIsConsentBusy(false);
+      }
+    })();
+  }, [
+    append,
+    consentRequested,
+    ensureSessionId,
+    isConsentBusy,
+    markUserActivity,
+  ]);
 
   const handleDismissCase = async () => {
     const confirmed = window.confirm(
@@ -674,9 +779,12 @@ export function SimulatorClient({
           }),
         });
         const data = await res.json().catch(() => null);
-        const newSessionId = data?.sessionId as string | undefined;
+        const newSessionId = sanitizeLiveSessionId(
+          typeof data?.sessionId === "string" ? data.sessionId : undefined,
+        );
         if (!cancelled && newSessionId) {
           setEffectiveSessionId(newSessionId);
+          effectiveSessionIdRef.current = newSessionId;
           // Prefer history sync over router.replace to avoid remounting the play page.
           syncSessionIdInUrl(newSessionId);
         }
@@ -824,6 +932,13 @@ export function SimulatorClient({
           reportText: composedReport,
           caseContext: initialCaseData.patientPrompt,
           finalDiagnosis: diagnosisForEval,
+          requestedExamIds: selectedExamIdsRef.current ?? [],
+          executedActionIds: [
+            ...(selectedExamIdsRef.current ?? []),
+            ...(extraExecutedActionIdsRef.current ?? []),
+          ],
+          helpRequested: Boolean(helpRequested),
+          helpRequestCount: helpRequestCountRef.current ?? 0,
         }),
         signal: abortController.signal,
       });
@@ -1397,12 +1512,9 @@ export function SimulatorClient({
               <div className="inline-flex shrink-0 items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => {
-                    markUserActivity();
-                    setIsHelpOpen(true);
-                  }}
-                  aria-label="Aiuto"
-                  title="Aiuto"
+                  onClick={openHelpConsult}
+                  aria-label="Aiuto / Richiesta consulto"
+                  title="Aiuto / Richiesta consulto"
                   className="inline-flex items-center justify-center rounded-xl border border-border bg-panel-bg p-2 text-slate-500 shadow-sm transition hover:bg-ui-bg hover:text-[#345884]"
                 >
                   <HelpCircle className="h-4 w-4" strokeWidth={1.75} />
@@ -1506,9 +1618,9 @@ export function SimulatorClient({
                       input={input}
                       onInputChange={handleInputChange}
                       onSubmit={handleSubmit}
-                      onSuggestedPrompt={(text) => {
-                        void append({ role: "user", content: text });
-                      }}
+                      onRequestConsent={requestInformedConsent}
+                      consentRequested={consentRequested}
+                      consentBusy={isConsentBusy}
                       isLoading={isChatLoading}
                       compact
                       fill
@@ -1617,9 +1729,9 @@ export function SimulatorClient({
                       input={input}
                       onInputChange={handleInputChange}
                       onSubmit={handleSubmit}
-                      onSuggestedPrompt={(text) => {
-                        void append({ role: "user", content: text });
-                      }}
+                      onRequestConsent={requestInformedConsent}
+                      consentRequested={consentRequested}
+                      consentBusy={isConsentBusy}
                       isLoading={isChatLoading}
                       compact={embedded}
                       showInactivityNudge={showInactivityNudge}
@@ -2122,12 +2234,9 @@ export function SimulatorClient({
               <span className="mx-0.5 hidden h-4 w-px bg-slate-200 sm:block" aria-hidden />
               <button
                 type="button"
-                onClick={() => {
-                  markUserActivity();
-                  setIsHelpOpen(true);
-                }}
-                aria-label="Aiuto"
-                title="Aiuto"
+                onClick={openHelpConsult}
+                aria-label="Aiuto / Richiesta consulto"
+                title="Aiuto / Richiesta consulto"
                 className="inline-flex items-center justify-center rounded-md p-1.5 text-slate-500 transition hover:bg-slate-50 hover:text-[#345884]"
               >
                 <HelpCircle className="h-4 w-4" strokeWidth={1.75} />
@@ -2543,8 +2652,10 @@ type HistoryChatProps = {
   input: string;
   onInputChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  /** Suggested prompt chips — send immediately as a user message. */
-  onSuggestedPrompt?: (text: string) => void;
+  /** Informed-consent module — logs telemetry + sends explanation to the patient. */
+  onRequestConsent?: () => void;
+  consentRequested?: boolean;
+  consentBusy?: boolean;
   isLoading: boolean;
   /** Bound height for embedded Prassi grid — avoids fixed 460px blowing layout. */
   compact?: boolean;
@@ -2554,20 +2665,14 @@ type HistoryChatProps = {
   showInactivityNudge?: boolean;
 };
 
-const CHAT_SUGGESTED_PROMPTS = [
-  {
-    id: "consenso",
-    label: "Modulo consenso",
-    text: "Le propongo di firmare il modulo di consenso informato. Le spiego indicazioni, benefici, rischi e alternative della procedura che stiamo considerando.",
-  },
-] as const;
-
 function HistoryChat({
   messages,
   input,
   onInputChange,
   onSubmit,
-  onSuggestedPrompt,
+  onRequestConsent,
+  consentRequested = false,
+  consentBusy = false,
   isLoading,
   compact = false,
   fill = false,
@@ -2607,11 +2712,6 @@ function HistoryChat({
   const scrollAnchor = visibleMessages
     .map((message) => messageText(message))
     .join("\u0000");
-
-  const alreadySentConsent = visibleMessages.some((m) => {
-    if (m.role !== "user") return false;
-    return /consenso\s+informat/i.test(messageText(m));
-  });
 
   useEffect(() => {
     if (!scrollRef.current) return;
@@ -2712,19 +2812,23 @@ function HistoryChat({
             </p>
           </div>
         ) : null}
-        {onSuggestedPrompt && !alreadySentConsent ? (
-          <div className="flex flex-wrap gap-1.5 px-0.5">
-            {CHAT_SUGGESTED_PROMPTS.map((prompt) => (
-              <button
-                key={prompt.id}
-                type="button"
-                disabled={isLoading}
-                onClick={() => onSuggestedPrompt(prompt.text)}
-                className="inline-flex items-center rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-medium text-slate-600 transition hover:border-[#345884]/40 hover:bg-[#EEF2F9] hover:text-[#345884] disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {prompt.label}
-              </button>
-            ))}
+        {onRequestConsent ? (
+          <div className="flex flex-wrap items-center gap-1.5 px-0.5">
+            <button
+              type="button"
+              disabled={isLoading || consentBusy || consentRequested}
+              onClick={onRequestConsent}
+              aria-label="Richiesta Modulo Consenso Informato"
+              title="Richiesta Modulo Consenso Informato"
+              className={cn(
+                "inline-flex items-center rounded-full border px-2.5 py-1 text-[11px] font-medium transition disabled:cursor-not-allowed",
+                consentRequested
+                  ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                  : "border-slate-200 bg-white text-slate-600 hover:border-[#345884]/40 hover:bg-[#EEF2F9] hover:text-[#345884] disabled:opacity-50",
+              )}
+            >
+              {consentRequested ? "Consenso registrato" : "Modulo consenso"}
+            </button>
           </div>
         ) : null}
         <div className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-1.5 pl-3 transition focus-within:border-[#345884] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#345884]/20">

@@ -34,6 +34,10 @@ import {
   dimensionContributionTrentesimi,
 } from "@/lib/services/evaluation-scoring";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
+import type {
+  EmpathyBehavioralBreakdown,
+  ScoreBreakdown,
+} from "@/lib/services/evaluation-scoring";
 
 type RadarDatumWithKey = RadarDatum & { key?: string };
 
@@ -56,6 +60,9 @@ type EliteResultsClientProps = {
   legalSources?: string[];
   killerSwitch?: KillerSwitchTrace;
   fatalErrors?: FatalErrorUi[];
+  /** Optional 5-pillars breakdown from new eval engine (UI deferred). */
+  empathyBreakdown?: EmpathyBehavioralBreakdown | null;
+  scoreBreakdown?: ScoreBreakdown | null;
 };
 
 const PILLARS: Array<{

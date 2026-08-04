@@ -38,16 +38,20 @@ const SimulationReportBodySchema = z.object({
   exams: z
     .array(
       z.object({
-        id: z.string(),
-        name: z.string(),
-        cost: z.number(),
-        timeMinutes: z.number(),
+        id: z.string().default(""),
+        name: z.string().default(""),
+        cost: z.coerce.number().finite().default(0),
+        timeMinutes: z.coerce.number().finite().default(0),
       }),
     )
     .default([]),
   reportText: z.string().default(""),
   caseContext: z.string().optional(),
   finalDiagnosis: z.string().optional(),
+  requestedExamIds: z.array(z.string()).default([]),
+  executedActionIds: z.array(z.string()).default([]),
+  helpRequested: z.boolean().optional(),
+  helpRequestCount: z.coerce.number().int().min(0).max(500).optional(),
 });
 
 function jsonResponse(payload: unknown, status = 200): Response {
@@ -74,7 +78,7 @@ export async function POST(req: Request) {
       throw new ValidationError(message);
     }
 
-    const { caseId, sessionId: liveSessionId, chatHistory, exams, reportText, caseContext, finalDiagnosis } =
+    const { caseId, sessionId: liveSessionId, chatHistory, exams, reportText, caseContext, finalDiagnosis, requestedExamIds, executedActionIds, helpRequested, helpRequestCount } =
       parsed.data;
     const log = routeLogger.child({ caseId });
 
@@ -131,6 +135,10 @@ export async function POST(req: Request) {
       normalizedReportText,
       caseContext: sanitizedCaseContext,
       finalDiagnosis: sanitizedFinalDiagnosis,
+      requestedExamIds,
+      executedActionIds,
+      helpRequested,
+      helpRequestCount,
     };
 
     const report = await prisma.sessionReport.create({
@@ -153,6 +161,10 @@ export async function POST(req: Request) {
           caseContext: sanitizedCaseContext,
           finalDiagnosis: sanitizedFinalDiagnosis,
           liveSessionId,
+          requestedExamIds,
+          executedActionIds,
+          helpRequested,
+          helpRequestCount,
         }),
       },
       select: { id: true },

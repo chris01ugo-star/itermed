@@ -362,3 +362,14 @@ export type AppConfig = ReturnType<typeof loadConfig>;
 
 /** Singleton configuration object — validated once at module load. */
 export const config: AppConfig = loadConfig();
+
+/**
+ * True when Prisma should be used for clinical cases / sessions.
+ * Placeholder `itermed_dev` URLs are treated as offline (Prassi registry / fallback cases).
+ */
+export function isUsableDatabase(databaseUrl: string = config.DATABASE_URL): boolean {
+  const url = (databaseUrl ?? "").trim();
+  if (!url) return false;
+  if (url.includes("itermed_dev")) return false;
+  return true;
+}

@@ -1,11 +1,17 @@
 import { normalizeStepId } from "@/lib/cases/simulation-time";
 import type { SessionMilestoneSnapshot } from "@/lib/simulator/milestone-tracker";
 import type { InappropriateActionItem } from "@/lib/services/evaluation-scoring";
-import type { DimensionScores, ScoreBreakdown } from "@/lib/services/evaluation-scoring";
+import {
+  INCONGRUENT_EXAM_PENALTY_PERCENT,
+  LEGAL_SOURCE_REFS,
+  motivation,
+  type DimensionScores,
+  type ScoreBreakdown,
+  type ScoreMotivation,
+} from "@/lib/services/evaluation-scoring";
 
-const INAPPROPRIATE_EXAM_PENALTY_PERCENT = 15;
+const INAPPROPRIATE_EXAM_PENALTY_PERCENT = INCONGRUENT_EXAM_PENALTY_PERCENT;
 
-/** Milestone clinici attesi oltre al Gold Standard per caso. */
 const BASELINE_CLINICAL_MILESTONES = [
   "anamnesi_completa",
   "esame_obiettivo",
@@ -13,24 +19,20 @@ const BASELINE_CLINICAL_MILESTONES = [
   "piano_terapeutico",
 ] as const;
 
-/** Sicurezza del paziente: allergie, farmaci, parametri/esame obiettivo. */
 const PATIENT_SAFETY_MILESTONES = [
   "indagate_allergie",
   "anamnesi_farmaci",
   "esame_obiettivo",
 ] as const;
 
-/** Parametri vitali / monitoraggio (almeno uno richiesto). */
 const VITALS_EXAM_MILESTONE_PREFIXES = [
   "richiesto_ecg",
   "richiesto_emogas",
   "richiesto_parametri",
 ] as const;
 
-/** Comunicazione ed empatia. */
 const EMPATHY_MILESTONES = ["ascolto_attivo", "comunicazione_empatica"] as const;
 
-/** Esami di III livello / alta invasività senza indicazione. */
 const TIER3_EXAM_MILESTONE_KEYS = new Set([
   "richiesto_tc_encefalo",
   "richiesto_tc_torace",
@@ -97,6 +99,7 @@ export type MilestoneScoreBreakdown = {
     tier3WithoutIndication: number;
     penaltyPercent: number;
     final: number;
+    motivations?: ScoreMotivation[];
   };
   empathy: {
     expected: number;
@@ -106,9 +109,6 @@ export type MilestoneScoreBreakdown = {
   economy: ScoreBreakdown["economy"];
 };
 
-/**
- * Accuratezza clinica (30%): % milestone diagnostico-terapeutici d'oro sbloccati.
- */
 export function computeClinicalAccuracyFromMilestones(
   milestones: SessionMilestoneSnapshot[],
   goldStandardPath?: string[],
@@ -128,9 +128,7 @@ export function computeClinicalAccuracyFromMilestones(
 
   let rate: number;
   if (goldExpected > 0) {
-    const goldRate = goldMet / goldExpected;
-    const baselineRate = baselineMet / baselineExpected;
-    rate = goldRate * 0.75 + baselineRate * 0.25;
+    rate = (goldMet / goldExpected) * 0.75 + (baselineMet / baselineExpected) * 0.25;
   } else {
     rate = baselineMet / baselineExpected;
   }
@@ -150,9 +148,6 @@ export function computeClinicalAccuracyFromMilestones(
   };
 }
 
-/**
- * Sicurezza del paziente (30%): allergie, anamnesi farmacologica, parametri vitali.
- */
 export function computePatientSafetyFromMilestones(
   milestones: SessionMilestoneSnapshot[],
 ): { score: number; breakdown: MilestoneScoreBreakdown["safety"] } {
@@ -176,9 +171,6 @@ export function computePatientSafetyFromMilestones(
   };
 }
 
-/**
- * Appropriatezza economico-clinica (20%): 100% − 15% per indagine non indicata/ridondante.
- */
 export function computeClinicalAppropriatenessScore(params: {
   inappropriateActions: InappropriateActionItem[];
   milestones: SessionMilestoneSnapshot[];
@@ -190,26 +182,70 @@ export function computeClinicalAppropriatenessScore(params: {
   const hasBasicWorkup =
     hasMilestone(keys, "anamnesi_completa") || hasMilestone(keys, "esame_obiettivo");
   const tier3Requested = [...keys].filter((k) => TIER3_EXAM_MILESTONE_KEYS.has(k));
-  const tier3WithoutIndication =
-    hasBasicWorkup ? 0 : tier3Requested.length;
+  const tier3WithoutIndication = hasBasicWorkup ? 0 : tier3Requested.length;
 
-  const inappropriateCount = performedInappropriate.length + tier3WithoutIndication;
-  const penaltyPercent = inappropriateCount * INAPPROPRIATE_EXAM_PENALTY_PERCENT;
-  const final = clampScore(100 - penaltyPercent);
+  const examCount = Math.max(params.exams.length, 1);
+  const appropriateCount = Math.max(0, params.exams.length - performedInappropriate.length);
+  let score =
+    params.exams.length > 0 ? (appropriateCount / examCount) * 100 : 0;
+
+  const penaltyPercent =
+    (performedInappropriate.length + tier3WithoutIndication) * INAPPROPRIATE_EXAM_PENALTY_PERCENT;
+  score = clampScore(score - tier3WithoutIndication * INAPPROPRIATE_EXAM_PENALTY_PERCENT);
+
+  const motivations: ScoreMotivation[] = [
+    motivation(
+      "neutral",
+      `Copertura prescrittiva milestone: ${appropriateCount}/${params.exams.length || 0} esami non incongruenti`,
+      {
+        id: "ms_exam_cov",
+        scoreImpact: Math.round(score),
+        sourceRef: LEGAL_SOURCE_REFS.protocollo,
+      },
+    ),
+  ];
+  if (performedInappropriate.length > 0) {
+    motivations.push(
+      motivation(
+        "negative",
+        `${performedInappropriate.length} esami incongruenti (−${INAPPROPRIATE_EXAM_PENALTY_PERCENT}% cad.)`,
+        {
+          id: "ms_exam_incong",
+          scoreImpact: -(performedInappropriate.length * INAPPROPRIATE_EXAM_PENALTY_PERCENT),
+          sourceRef: LEGAL_SOURCE_REFS.protocollo,
+        },
+      ),
+    );
+  }
+  if (tier3WithoutIndication > 0) {
+    motivations.push(
+      motivation(
+        "negative",
+        `${tier3WithoutIndication} esami III livello senza anamnesi/EO preliminare`,
+        {
+          id: "ms_exam_t3",
+          scoreImpact: -(tier3WithoutIndication * INAPPROPRIATE_EXAM_PENALTY_PERCENT),
+          sourceRef: LEGAL_SOURCE_REFS.protocollo,
+        },
+      ),
+    );
+  }
+
+  const final = clampScore(score);
 
   return {
     score: final,
     breakdown: {
-      base: 100,
+      base: 0,
       inappropriateCount: performedInappropriate.length,
       tier3WithoutIndication,
       penaltyPercent,
       final,
+      motivations,
     },
   };
 }
 
-/** Comunicazione ed empatia (20%): milestone empatici sbloccati. */
 export function computeEmpathyFromMilestones(
   milestones: SessionMilestoneSnapshot[],
 ): { score: number; breakdown: MilestoneScoreBreakdown["empathy"] } {
@@ -231,34 +267,56 @@ function computeEconomyIndicator(
   totalCostEuro: number,
   budgetEuro: number,
 ): { score: number; breakdown: ScoreBreakdown["economy"] } {
-  let baseScore = 100;
-  let formula = "Nessun esame a pagamento richiesto";
+  const motivations: ScoreMotivation[] = [];
+  let score = 0;
+  let formula = "Analitico milestone budget";
 
-  if (totalCostEuro > 0) {
-    if (totalCostEuro <= budgetEuro) {
-      baseScore = 100;
-      formula = "Costo entro budget";
-    } else {
-      baseScore = clampScore(100 * (budgetEuro / totalCostEuro));
-      formula = `100 × (${budgetEuro} / ${totalCostEuro.toFixed(2)})`;
-    }
+  if (totalCostEuro > 0 && totalCostEuro <= budgetEuro) {
+    score = 70;
+    formula = "Costo entro budget";
+    motivations.push(
+      motivation(
+        "positive",
+        `Spesa €${totalCostEuro.toFixed(0)} entro budget €${budgetEuro}`,
+        { id: "ms_eco_ok", scoreImpact: 70, sourceRef: LEGAL_SOURCE_REFS.nomenclatore },
+      ),
+    );
+  } else if (totalCostEuro > budgetEuro) {
+    score = clampScore(70 * (budgetEuro / totalCostEuro));
+    formula = `Sforamento €${totalCostEuro.toFixed(0)} / €${budgetEuro}`;
+    motivations.push(
+      motivation(
+        "negative",
+        `Sforamento — €${totalCostEuro.toFixed(0)} su budget €${budgetEuro}`,
+        {
+          id: "ms_eco_over",
+          scoreImpact: score - 70,
+          sourceRef: LEGAL_SOURCE_REFS.nomenclatore,
+        },
+      ),
+    );
+  } else {
+    motivations.push(
+      motivation("neutral", "Nessuna spesa SSN — punteggio economico 0", {
+        id: "ms_eco_zero",
+        scoreImpact: 0,
+        sourceRef: LEGAL_SOURCE_REFS.nomenclatore,
+      }),
+    );
   }
 
   return {
-    score: baseScore,
+    score,
     breakdown: {
       budgetEuro,
       totalCostEuro,
       formula,
-      final: baseScore,
+      final: score,
+      motivations,
     },
   };
 }
 
-/**
- * Pipeline deterministica: punteggi 0–100 derivati esclusivamente da milestone + penalità oggettive.
- * `scores.exams` = appropriatezza clinica; `scores.economy` = indicatore budget (dashboard).
- */
 export function deriveMilestoneDimensionScores(
   input: MilestoneScoreInput,
 ): {
@@ -284,9 +342,14 @@ export function deriveMilestoneDimensionScores(
     clinicalScore = clampScore(clinicalScore * 0.65);
   }
 
+  const safetyFullyMet =
+    safety.breakdown.met >= safety.breakdown.expected && safety.breakdown.vitalsMet;
+  const legalScore = safetyFullyMet ? 100 : 0;
+  const conformityStatus = safetyFullyMet ? ("CONFORME" as const) : ("NON_CONFORME" as const);
+
   const scores: DimensionScores = {
     clinical: clinicalScore,
-    legal: safety.score,
+    legal: legalScore,
     exams: appropriateness.score,
     economy: economy.score,
     empathy: empathy.score,
@@ -294,37 +357,84 @@ export function deriveMilestoneDimensionScores(
 
   const breakdown: ScoreBreakdown = {
     clinical: {
-      base: 100,
+      base: 0,
       missedHigh: clinical.breakdown.goldStepsExpected - clinical.breakdown.goldStepsMet,
-      missedMedium: BASELINE_CLINICAL_MILESTONES.length - Math.min(
-        BASELINE_CLINICAL_MILESTONES.length,
-        clinical.breakdown.met - clinical.breakdown.goldStepsMet,
-      ),
-      penaltyHigh: 100 - clinical.score,
+      missedMedium:
+        BASELINE_CLINICAL_MILESTONES.length -
+        Math.min(
+          BASELINE_CLINICAL_MILESTONES.length,
+          clinical.breakdown.met - clinical.breakdown.goldStepsMet,
+        ),
+      penaltyHigh: 0,
       penaltyMedium: 0,
       final: clinicalScore,
+      motivations: [
+        motivation(
+          "neutral",
+          `Milestone clinici: ${clinical.breakdown.met}/${clinical.breakdown.expected} (gold ${clinical.breakdown.goldStepsMet}/${clinical.breakdown.goldStepsExpected}) = ${clinicalScore}/100`,
+          {
+            id: "ms_clin",
+            scoreImpact: clinicalScore,
+            sourceRef: LEGAL_SOURCE_REFS.protocollo,
+          },
+        ),
+      ],
     },
     exams: {
-      base: appropriateness.breakdown.base,
+      base: 0,
       penaltySum: appropriateness.breakdown.penaltyPercent,
       performedInappropriateCount:
         appropriateness.breakdown.inappropriateCount +
         appropriateness.breakdown.tier3WithoutIndication,
       final: appropriateness.score,
+      motivations: appropriateness.breakdown.motivations ?? [],
     },
-    economy: economy.breakdown,
+    economy: {
+      ...economy.breakdown,
+      motivations: economy.breakdown.motivations ?? [],
+    },
     legal: {
       applicableInstruments: safety.breakdown.expected,
       violated: safety.breakdown.expected - safety.breakdown.met,
       partial: 0,
-      weightPerInstrument:
-        safety.breakdown.expected > 0 ? 100 / safety.breakdown.expected : 0,
-      final: safety.score,
+      weightPerInstrument: 0,
+      final: legalScore,
+      conformityStatus,
+      protectionLabel: conformityStatus,
+      formalLabel: safetyFullyMet
+        ? "CONFORME (Scudo Legale Attivo)"
+        : "NON CONFORME (Profilo di Rischio Contenzioso)",
+      sourceRef: "[Corpus normativo RAG della specialità]",
+      motivations: [
+        motivation(
+          safetyFullyMet ? "positive" : "negative",
+          `Sicurezza paziente: ${safety.breakdown.met}/${safety.breakdown.expected} (vitali: ${safety.breakdown.vitalsMet ? "sì" : "no"})`,
+          {
+            id: "ms_legal",
+            scoreImpact: 0,
+            sourceRef: "[Corpus normativo RAG della specialità]",
+          },
+        ),
+      ],
     },
     empathy: {
+      baseline: 0,
+      validationBonus: 0,
+      transparencyBonus: 0,
+      allianceBonus: 0,
+      dismissalPenalty: 0,
+      finalScore: empathy.score,
+      final: empathy.score,
+      qualitativeLabel: "Telemetria milestone (non usata per il voto comportamentale)",
+      motivations: [
+        motivation(
+          "neutral",
+          `Milestone empatici: ${empathy.breakdown.met}/${empathy.breakdown.expected}`,
+          { id: "ms_emp", scoreImpact: empathy.score },
+        ),
+      ],
       totalParameters: empathy.breakdown.expected,
       metParameters: empathy.breakdown.met,
-      final: empathy.score,
     },
   };
 
@@ -341,7 +451,6 @@ export function deriveMilestoneDimensionScores(
   };
 }
 
-/** Azzera sicurezza paziente se errore fatale (Killer Switch). */
 export function applyFatalErrorToSafetyScore(scores: DimensionScores): DimensionScores {
   return { ...scores, legal: 0 };
 }

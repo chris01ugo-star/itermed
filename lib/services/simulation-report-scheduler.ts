@@ -14,6 +14,10 @@ type JobQueuePayload = {
   caseContext?: string;
   finalDiagnosis?: string;
   liveSessionId?: string;
+  requestedExamIds?: string[];
+  executedActionIds?: string[];
+  helpRequested?: boolean;
+  helpRequestCount?: number;
 };
 
 const globalForScheduler = globalThis as unknown as {
@@ -108,6 +112,10 @@ export async function ensureSimulationReportProcessing(
     normalizedReportText: queue.normalizedReportText,
     caseContext: queue.caseContext,
     finalDiagnosis: queue.finalDiagnosis,
+    requestedExamIds: queue.requestedExamIds,
+    executedActionIds: queue.executedActionIds,
+    helpRequested: queue.helpRequested,
+    helpRequestCount: queue.helpRequestCount,
   });
 }
 
