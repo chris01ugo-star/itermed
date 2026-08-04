@@ -323,14 +323,14 @@ export function EliteResultsClient({
         />
         <div className="relative flex flex-col gap-6 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7">
           <div className="min-w-0 space-y-3">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] !text-white/70">
               Aequan · Verdetto
             </p>
             <div className="space-y-1.5">
-              <h1 className="font-display text-[1.85rem] font-semibold tracking-tight sm:text-[2.1rem]">
+              <h1 className="font-display text-[1.85rem] font-semibold tracking-tight !text-white sm:text-[2.1rem]">
                 {verdict.label}
               </h1>
-              <p className="max-w-md text-sm leading-relaxed text-white/70">{verdict.detail}</p>
+              <p className="max-w-md text-sm leading-relaxed !text-white/75">{verdict.detail}</p>
             </div>
             {dismissed ? (
               <p className="inline-flex items-center gap-2 rounded-full bg-amber-400/15 px-3 py-1.5 text-[11px] font-medium text-amber-100 ring-1 ring-amber-200/25">
@@ -687,11 +687,14 @@ export function EliteResultsClient({
           </Accordion>
         ) : null}
 
-        <Accordion title="Radar competenze">
-          <div className="h-72 w-full rounded-xl bg-slate-50 p-2">
+        <div className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white">
+          <div className="border-b border-slate-100 px-4 py-3.5 sm:px-5">
+            <h2 className="font-display text-sm font-semibold text-[#1E324E]">Radar competenze</h2>
+          </div>
+          <div className="h-72 w-full bg-slate-50/80 p-3 sm:p-4">
             <ResultsRadarClient data={radarData} />
           </div>
-        </Accordion>
+        </div>
       </section>
     </div>
   );
