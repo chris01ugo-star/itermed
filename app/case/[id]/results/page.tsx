@@ -24,7 +24,6 @@ type ResultsPageProps = {
   searchParams: Promise<{ sessionId?: string }> | { sessionId?: string };
 };
 
-/** Trace shape persisted by simulation-report-worker → buildSessionReportData. */
 type SessionTrace = {
   feedback?: {
     strengths?: string[];
@@ -135,22 +134,22 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
       : [];
 
     return (
-      <div className="min-h-screen bg-[#F7F8FA] text-slate-800">
+      <div className="min-h-screen bg-[#EEF1F5] text-slate-800">
         <div
-          className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(52,88,132,0.07),transparent_45%),radial-gradient(ellipse_at_bottom_right,rgba(30,50,78,0.05),transparent_40%)]"
+          className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(52,88,132,0.11),transparent_42%),radial-gradient(ellipse_at_bottom_right,rgba(30,50,78,0.08),transparent_40%)]"
           aria-hidden
         />
-        <div className="relative mx-auto w-full max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
-          <div className="mb-6 flex items-center justify-between gap-3">
+        <div className="relative mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
+          <div className="mb-5 flex items-center justify-between gap-3">
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 transition hover:text-[#345884]"
+              className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80 transition hover:text-[#345884]"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               Dashboard
             </Link>
-            <Link href="/dashboard" aria-label="Vai alla dashboard" className="opacity-90">
-              <AequanLogo height={26} />
+            <Link href="/dashboard" aria-label="Vai alla dashboard">
+              <AequanLogo height={28} />
             </Link>
           </div>
 
