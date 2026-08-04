@@ -40,9 +40,7 @@ type SessionTrace = {
     coachingFeedback?: CoachingFeedback;
     fatalErrors?: FatalError[];
   };
-  /** Deterministic Killer-Switch audit trail (preferred source). */
   killerSwitch?: KillerSwitchTrace;
-  /** Top-level fatal errors from detectFatalErrors (description + rationale). */
   fatalErrors?: FatalError[];
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
@@ -137,18 +135,22 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
       : [];
 
     return (
-      <div className="min-h-screen bg-[#F4F6F8] text-text-primary">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 md:px-8 md:py-10">
-          <div className="flex items-center justify-between gap-4">
+      <div className="min-h-screen bg-[#F7F8FA] text-slate-800">
+        <div
+          className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(52,88,132,0.07),transparent_45%),radial-gradient(ellipse_at_bottom_right,rgba(30,50,78,0.05),transparent_40%)]"
+          aria-hidden
+        />
+        <div className="relative mx-auto w-full max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
+          <div className="mb-6 flex items-center justify-between gap-3">
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-panel-bg px-3.5 py-2 text-xs font-medium text-brand-primary shadow-aequan-panel transition hover:border-brand-secondary/30 hover:bg-brand-secondary/[0.04] aequan-interactive"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 transition hover:text-[#345884]"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               Dashboard
             </Link>
-            <Link href="/dashboard" aria-label="Vai alla dashboard" className="hidden sm:block">
-              <AequanLogo height={32} />
+            <Link href="/dashboard" aria-label="Vai alla dashboard" className="opacity-90">
+              <AequanLogo height={26} />
             </Link>
           </div>
 
