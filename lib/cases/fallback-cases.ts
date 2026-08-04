@@ -6,6 +6,9 @@
  * but must never be forwarded to the browser (Art. 32 / anti-cheat).
  */
 
+import { toFallbackClinicalCase } from "@/lib/data/cases";
+import { CAR_F01 } from "@/lib/data/cases/cardiologia/car-f01";
+
 export type FallbackCaseDifficulty = "EASY" | "MEDIUM" | "HARD";
 
 export type FallbackClinicalCase = {
@@ -38,6 +41,9 @@ const HYDRO_CT =
   "Ventricoli dilatati rispetto a TC precedenti; sospetta malfunzione di shunt.";
 
 export const FALLBACK_CASES: Record<string, FallbackClinicalCase> = {
+  /** Gold Standard Cardiologia Easy — STEMI anteriore (CAR-F01). */
+  "car-f01": toFallbackClinicalCase(CAR_F01),
+  car_f01: toFallbackClinicalCase(CAR_F01),
   cs_001: {
     id: "cs_001",
     title: "Uomo 58 anni con dolore toracico in PS",
