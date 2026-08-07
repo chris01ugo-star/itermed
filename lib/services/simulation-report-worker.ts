@@ -1,5 +1,5 @@
 import { userCanPlayCase } from "@/lib/access";
-import { createLogger } from "@/lib/logger";
+import { createLogger, type Logger } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
 import { evaluationService } from "@/lib/services/evaluation-service";
 import type { AnalyticalEvaluation, EvaluationResult } from "@/lib/services/evaluation-service";
@@ -21,6 +21,8 @@ import {
   type ClinicalCaseSnapshot,
 } from "@/lib/services/simulation-report-data";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
+import { runLegalAudit, type LegalAuditResult } from "@/lib/services/legal-audit-service";
+import type { GuidelineChunk } from "@/lib/services/rag-service";
 import {
   fetchSessionMilestones,
   parseHelpTelemetryFromMilestones,
@@ -28,6 +30,75 @@ import {
 import { asStringArray } from "@/lib/simulator/session-id";
 import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
 import { getCaseById } from "@/lib/data/cases/registry";
+
+function mapLegalChunksForAudit(
+  chunks: GuidelineChunk[] | null | undefined,
+): Array<{
+  chunkId: string;
+  title: string;
+  section?: string;
+  article?: string;
+  year?: number;
+  text: string;
+}> {
+  if (!Array.isArray(chunks)) return [];
+  return chunks
+    .map((chunk, index) => {
+      const chunkId =
+        (typeof chunk.chunkId === "string" && chunk.chunkId.trim()) ||
+        (typeof chunk.documentId === "string" && chunk.documentId.trim()
+          ? `${chunk.documentId}-${index}`
+          : "");
+      if (!chunkId || !chunk.content?.trim()) return null;
+      const yearRaw = chunk.year;
+      const year =
+        typeof yearRaw === "number" && Number.isFinite(yearRaw)
+          ? yearRaw
+          : typeof yearRaw === "string" && /^(19|20)\d{2}$/.test(yearRaw.trim())
+            ? Number(yearRaw.trim())
+            : undefined;
+      return {
+        chunkId,
+        title: chunk.title || "Documento legale",
+        ...(chunk.section ? { section: chunk.section } : {}),
+        ...(chunk.article ? { article: chunk.article } : {}),
+        ...(year != null ? { year } : {}),
+        text: chunk.content,
+      };
+    })
+    .filter((c): c is NonNullable<typeof c> => Boolean(c));
+}
+
+async function safeRunLegalAudit(params: {
+  simulationLog: {
+    chatHistory: ChatMessage[];
+    requestedExams: ExamPayload[];
+    finalDiagnosis?: string;
+  };
+  legalChunks: ReturnType<typeof mapLegalChunksForAudit>;
+  log: Logger;
+}): Promise<LegalAuditResult> {
+  try {
+    return await runLegalAudit({
+      simulationLog: params.simulationLog,
+      legalChunks: params.legalChunks,
+    });
+  } catch (error) {
+    params.log.warn("Legal audit LLM failed — persisting NOT_EVALUABLE fallback", {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return {
+      status: "NOT_EVALUABLE_NO_SOURCES",
+      overallVerdict: "NOT_EVALUABLE",
+      complianceScore: 0,
+      compliantActions: [],
+      legalOmissionsOrRisks: [],
+      uncoveredAreas: [
+        "Audit legale non completato: errore durante la generazione del giudizio LLM.",
+      ],
+    };
+  }
+}
 
 export type SimulationReportJobInput = {
   reportId: string;
@@ -350,6 +421,35 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     await prisma.sessionReport.update({
       where: { id: input.reportId },
       data: {
+        progress: 85,
+        progressMessage: "Audit medico-legale (Gelli-Bianco)...",
+      },
+    });
+
+    // Legal RAG chunks already filtered at SIMILARITY_THRESHOLD_LEGAL (0.70) in rag-service.
+    const legalChunks = mapLegalChunksForAudit(guidelines.legal?.chunks);
+    const simulationLog = {
+      chatHistory: Array.isArray(input.evaluationChatHistory) ? input.evaluationChatHistory : [],
+      requestedExams: Array.isArray(input.exams) ? input.exams : [],
+      ...(input.finalDiagnosis ? { finalDiagnosis: input.finalDiagnosis } : {}),
+    };
+    const legalAuditResult = await safeRunLegalAudit({
+      simulationLog,
+      legalChunks,
+      log,
+    });
+
+    log.info("Legal audit completed", {
+      status: legalAuditResult.status,
+      overallVerdict: legalAuditResult.overallVerdict,
+      complianceScore: legalAuditResult.complianceScore,
+      legalChunkCount: legalChunks.length,
+      retrievalSource: guidelines.legal?.source ?? "none",
+    });
+
+    await prisma.sessionReport.update({
+      where: { id: input.reportId },
+      data: {
         progress: 90,
         progressMessage: killerSwitchApplied
           ? "Applicazione Killer-Switch clinico..."
@@ -380,6 +480,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
             finalTotalTrentesimi,
             cap: KILLER_SWITCH_CAP,
           },
+          legalAudit: legalAuditResult,
         }),
         ...(liveSession ? { startedAt: liveSession.createdAt } : {}),
       },
