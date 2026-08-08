@@ -33,6 +33,10 @@ import {
   runClinicalAudit,
   type ClinicalAuditResult,
 } from "@/lib/services/clinical-audit-service";
+import {
+  runRelationalAudit,
+  type RelationalAuditResult,
+} from "@/lib/services/relational-audit-service";
 import type { GuidelineChunk } from "@/lib/services/rag-service";
 import type { ExamClinicalMeta } from "@/lib/exam-default-values";
 import { flattenCatalogExams } from "@/lib/exam-catalog-structure";
@@ -44,6 +48,7 @@ import { asStringArray } from "@/lib/simulator/session-id";
 import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
 import { getCaseById } from "@/lib/data/cases/registry";
 import type { ClinicalCase } from "@/lib/data/cases/types";
+import { estimateAgeFromTitle, patientDisplayName } from "@/lib/prassi/demo-vitals";
 
 function mapLegalChunksForAudit(
   chunks: GuidelineChunk[] | null | undefined,
@@ -388,6 +393,92 @@ async function safeRunClinicalAudit(params: {
       timeCriticalCompliance: {
         wereTimeLimitsRespected: false,
         delayNotes: ["Audit clinico non disponibile per errore di sistema."],
+      },
+    };
+  }
+}
+
+function buildPatientProfileForRelationalAudit(params: {
+  caseId: string;
+  registeredCase: ClinicalCase | undefined;
+  caseTitle?: string | null;
+  caseContext?: string;
+}): {
+  name?: string;
+  age?: number;
+  emotionalState?: string;
+  isBadNewsCase?: boolean;
+} {
+  const { caseId, registeredCase, caseTitle, caseContext } = params;
+  const title = registeredCase?.title || caseTitle || "";
+  const prompt = registeredCase?.patientPrompt || caseContext || "";
+  const diagnosis = registeredCase?.diagnosis || "";
+  const haystack = `${title}\n${prompt}\n${diagnosis}\n${registeredCase?.correctSolution || ""}`.toLowerCase();
+
+  const name = patientDisplayName(caseId, title);
+  const age = estimateAgeFromTitle(title);
+
+  const isBadNewsCase =
+    /metastas|prognosi infaust|cattive notizie|comunicazione della diagnosi|decess|fine vita|tumore malign|neoplas|oncolog/.test(
+      haystack,
+    );
+
+  let emotionalState: string | undefined;
+  if (/terror|panico|angosci/.test(haystack)) emotionalState = "angoscia/panico";
+  else if (/ansios|agit|paur|distress|preoccup/.test(haystack)) emotionalState = "ansia/distress";
+  else if (/calmo|collaborativ/.test(haystack)) emotionalState = "calmo/collaborativo";
+
+  return {
+    name,
+    age,
+    ...(emotionalState ? { emotionalState } : {}),
+    ...(isBadNewsCase ? { isBadNewsCase: true } : {}),
+  };
+}
+
+async function safeRunRelationalAudit(params: {
+  chatHistory: Array<{ role: string; content: string }>;
+  patientProfile?: {
+    name?: string;
+    age?: number;
+    emotionalState?: string;
+    isBadNewsCase?: boolean;
+  };
+  log: Logger;
+}): Promise<RelationalAuditResult> {
+  try {
+    return await runRelationalAudit({
+      chatHistory: params.chatHistory,
+      patientProfile: params.patientProfile,
+    });
+  } catch (error) {
+    params.log.warn("Relational audit LLM failed — persisting NOT_EVALUABLE fallback", {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return {
+      status: "NOT_EVALUABLE",
+      overallVerdict: "MECHANICAL_TRANSACTIONAL",
+      careEmpathyScore: 0,
+      riasMetrics: {
+        empathyValidationCount: 0,
+        jargonWithoutExplanationCount: 0,
+        activeListeningScore: 0,
+        sharedDecisionMakingScore: 0,
+      },
+      careMeasureChecklist: [],
+      criticalRelationalFlaws: [
+        {
+          doctorUtteranceOrOmission: "Audit relazionale non completato.",
+          psychologicalImpact: "Valutazione RIAS/CARE/SPIKES non disponibile.",
+          riasViolationType: "System Evaluation Failure",
+          suggestedEvidenceBasedAlternative:
+            "Rieseguire l'audit relazionale quando il servizio LLM è disponibile.",
+        },
+      ],
+      spikesProtocolCompliance: {
+        isApplicable: Boolean(params.patientProfile?.isBadNewsCase),
+        adherenceScorePercentage: 0,
+        missedSteps: [],
       },
     };
   }
@@ -842,7 +933,41 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     await prisma.sessionReport.update({
       where: { id: input.reportId },
       data: {
-        progress: 95,
+        progress: 94,
+        progressMessage: "Audit relazionale (RIAS / CARE / SPIKES)...",
+      },
+    });
+
+    const chatHistory = Array.isArray(input.evaluationChatHistory)
+      ? input.evaluationChatHistory.map((m) => ({
+          role: m.role,
+          content: typeof m.content === "string" ? m.content : String(m.content ?? ""),
+        }))
+      : [];
+    const patientProfile = buildPatientProfileForRelationalAudit({
+      caseId: input.caseId,
+      registeredCase,
+      caseTitle: registeredCase?.title,
+      caseContext: input.caseContext,
+    });
+    const relationalAuditResult = await safeRunRelationalAudit({
+      chatHistory,
+      patientProfile,
+      log,
+    });
+
+    log.info("Relational audit completed", {
+      status: relationalAuditResult.status,
+      overallVerdict: relationalAuditResult.overallVerdict,
+      careEmpathyScore: relationalAuditResult.careEmpathyScore,
+      chatTurns: chatHistory.length,
+      isBadNewsCase: Boolean(patientProfile.isBadNewsCase),
+    });
+
+    await prisma.sessionReport.update({
+      where: { id: input.reportId },
+      data: {
+        progress: 96,
         progressMessage: killerSwitchApplied
           ? "Applicazione Killer-Switch clinico..."
           : "Finalizzazione punteggi...",
@@ -875,6 +1000,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           legalAudit: legalAuditResult,
           economicAudit: economicAuditResult,
           clinicalAudit: clinicalAuditResult,
+          relationalAudit: relationalAuditResult,
         }),
         ...(liveSession ? { startedAt: liveSession.createdAt } : {}),
       },
