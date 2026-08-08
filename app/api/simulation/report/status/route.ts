@@ -1,9 +1,11 @@
 import { getSessionUserId } from "@/lib/api-session";
 import { toApiErrorResponse, ValidationError } from "@/lib/errors";
 import { createLogger } from "@/lib/logger";
+import { mapClinicalAuditToDTO } from "@/lib/mappers/clinical-audit-mapper";
 import { mapEconomicAuditToDTO } from "@/lib/mappers/economic-audit-mapper";
 import { mapLegalAuditToDTO } from "@/lib/mappers/legal-audit-mapper";
 import { prisma } from "@/lib/prisma";
+import type { ClinicalAuditResult } from "@/lib/services/clinical-audit-service";
 import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
 import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
 import { buildReportDataFromSession } from "@/lib/services/simulation-report-data";
@@ -13,7 +15,7 @@ export const runtime = "nodejs";
 
 function extractAuditFromRawTrace<T extends object>(
   rawTrace: unknown,
-  key: "legalAudit" | "economicAudit",
+  key: "legalAudit" | "economicAudit" | "clinicalAudit",
 ): T | null {
   if (!rawTrace || typeof rawTrace !== "object") return null;
   const value = (rawTrace as Record<string, unknown>)[key];
@@ -81,6 +83,11 @@ export async function GET(request: Request) {
           extractAuditFromRawTrace<EconomicAuditResult>(report.rawTrace, "economicAudit"),
         )
       : null;
+    const clinicalReport = isCompleted
+      ? mapClinicalAuditToDTO(
+          extractAuditFromRawTrace<ClinicalAuditResult>(report.rawTrace, "clinicalAudit"),
+        )
+      : null;
 
     return Response.json({
       reportId: report.id,
@@ -94,6 +101,7 @@ export async function GET(request: Request) {
       reportData: isCompleted ? buildReportDataFromSession(report) : null,
       legalReport,
       economicReport,
+      clinicalReport,
     });
   } catch (error) {
     routeLogger.error("Report status lookup failed", { error });
