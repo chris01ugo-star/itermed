@@ -29,6 +29,10 @@ import {
   runEconomicAudit,
   type EconomicAuditResult,
 } from "@/lib/services/economic-audit-service";
+import {
+  runClinicalAudit,
+  type ClinicalAuditResult,
+} from "@/lib/services/clinical-audit-service";
 import type { GuidelineChunk } from "@/lib/services/rag-service";
 import type { ExamClinicalMeta } from "@/lib/exam-default-values";
 import { flattenCatalogExams } from "@/lib/exam-catalog-structure";
@@ -239,6 +243,156 @@ async function safeRunEconomicAudit(params: {
   }
 }
 
+function buildClinicalAuditInputs(params: {
+  registeredCase: ClinicalCase | undefined;
+  goldStandardPath: string[];
+  finalDiagnosis?: string;
+  reportText?: string;
+  executedActionIds: string[];
+  requestedExamIds: string[];
+  exams: ExamPayload[];
+  prismaCorrectSolution?: string | null;
+}): {
+  userDiagnosis?: string;
+  goldDiagnosis: string;
+  goldStandardPath: string[];
+  performedActions: string[];
+  mandatoryExams: Array<{ id: string; name: string; maxLatencyMinutes?: number }>;
+  inappropriateExams: Array<{
+    id: string;
+    name: string;
+    iatrogenicCritical?: boolean;
+    wasteRationale?: string;
+  }>;
+} {
+  const {
+    registeredCase,
+    goldStandardPath,
+    finalDiagnosis,
+    reportText,
+    executedActionIds,
+    requestedExamIds,
+    exams,
+    prismaCorrectSolution,
+  } = params;
+
+  const userDiagnosis =
+    finalDiagnosis?.trim() ||
+    reportText?.trim().slice(0, 500) ||
+    undefined;
+
+  const goldDiagnosis =
+    registeredCase?.diagnosis?.trim() ||
+    registeredCase?.correctSolution?.trim() ||
+    prismaCorrectSolution?.trim() ||
+    (goldStandardPath.length > 0 ? goldStandardPath.join(" → ") : "Diagnosi gold non disponibile");
+
+  const path =
+    registeredCase?.goldStandardPath?.length
+      ? registeredCase.goldStandardPath
+      : goldStandardPath;
+
+  const performedSet = new Set<string>();
+  for (const id of executedActionIds) {
+    if (id?.trim()) performedSet.add(id.trim());
+  }
+  for (const id of requestedExamIds) {
+    if (id?.trim()) performedSet.add(id.trim());
+  }
+  for (const exam of exams) {
+    if (exam?.id?.trim()) performedSet.add(exam.id.trim());
+    if (exam?.name?.trim()) performedSet.add(exam.name.trim());
+  }
+  const performedActions = [...performedSet];
+
+  const mandatoryExams =
+    Array.isArray(registeredCase?.mandatoryExams) && registeredCase!.mandatoryExams.length > 0
+      ? registeredCase!.mandatoryExams.map((m) => ({
+          id: m.examId,
+          name: m.name || EXAM_NAME_BY_ID.get(m.examId) || m.examId,
+          ...(typeof m.maxLatencyMinutes === "number"
+            ? { maxLatencyMinutes: m.maxLatencyMinutes }
+            : {}),
+        }))
+      : extractMandatoryFirstLevelExams(path).map((id) => ({
+          id,
+          name: EXAM_NAME_BY_ID.get(id) || id,
+        }));
+
+  const inappropriateExams = Array.isArray(registeredCase?.inappropriateExams)
+    ? registeredCase!.inappropriateExams.map((exam) => ({
+        id: exam.examId,
+        name: exam.name || EXAM_NAME_BY_ID.get(exam.examId) || exam.examId,
+        ...(exam.iatrogenicCritical ? { iatrogenicCritical: true } : {}),
+        ...(exam.wasteRationale ? { wasteRationale: exam.wasteRationale } : {}),
+      }))
+    : [];
+
+  return {
+    ...(userDiagnosis ? { userDiagnosis } : {}),
+    goldDiagnosis,
+    goldStandardPath: path,
+    performedActions,
+    mandatoryExams,
+    inappropriateExams,
+  };
+}
+
+async function safeRunClinicalAudit(params: {
+  userDiagnosis?: string;
+  goldDiagnosis: string;
+  goldStandardPath: string[];
+  performedActions: string[];
+  mandatoryExams: Array<{ id: string; name: string; maxLatencyMinutes?: number }>;
+  inappropriateExams: Array<{
+    id: string;
+    name: string;
+    iatrogenicCritical?: boolean;
+    wasteRationale?: string;
+  }>;
+  elapsedMinutes: number;
+  clinicalGuidelineChunks: Array<{ title: string; text: string }>;
+  log: Logger;
+}): Promise<ClinicalAuditResult> {
+  try {
+    return await runClinicalAudit({
+      userDiagnosis: params.userDiagnosis,
+      goldDiagnosis: params.goldDiagnosis,
+      goldStandardPath: params.goldStandardPath,
+      performedActions: params.performedActions,
+      mandatoryExams: params.mandatoryExams,
+      inappropriateExams: params.inappropriateExams,
+      elapsedMinutes: params.elapsedMinutes,
+      clinicalGuidelineChunks: params.clinicalGuidelineChunks,
+    });
+  } catch (error) {
+    params.log.warn("Clinical audit LLM failed — persisting NOT_EVALUABLE fallback", {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return {
+      status: "NOT_EVALUABLE",
+      overallVerdict: "CRITICAL_CLINICAL_ERROR",
+      clinicalAccuracyScore: 0,
+      diagnosticMatch: {
+        userDiagnosis: params.userDiagnosis || "Nessuna diagnosi fornita",
+        goldDiagnosis: params.goldDiagnosis,
+        isCorrect: false,
+        diagnosticAccuracyDescription:
+          "Audit clinico non completato: errore durante la generazione del giudizio LLM.",
+      },
+      therapeuticCompliance: {
+        correctInterventions: [],
+        omittedEssentialInterventions: [],
+        contraindicatedOrIatrogenicActions: [],
+      },
+      timeCriticalCompliance: {
+        wereTimeLimitsRespected: false,
+        delayNotes: ["Audit clinico non disponibile per errore di sistema."],
+      },
+    };
+  }
+}
+
 export type SimulationReportJobInput = {
   reportId: string;
   userId: string;
@@ -394,6 +548,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
         specialty: true,
         baselineExamFindings: true,
         goldStandardPath: true,
+        correctSolution: true,
         medicalSpecialty: { select: { id: true, name: true } },
       },
     });
@@ -648,7 +803,46 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     await prisma.sessionReport.update({
       where: { id: input.reportId },
       data: {
-        progress: 90,
+        progress: 92,
+        progressMessage: "Audit accuratezza diagnostico-terapeutica...",
+      },
+    });
+
+    // Protocol RAG chunks already filtered at SIMILARITY_THRESHOLD_PROTOCOL (0.35).
+    const clinicalGuidelineChunks = economicGuidelineChunks;
+    const clinicalAuditInputs = buildClinicalAuditInputs({
+      registeredCase,
+      goldStandardPath,
+      finalDiagnosis: input.finalDiagnosis,
+      reportText: input.normalizedReportText,
+      executedActionIds,
+      requestedExamIds: sessionRequestedExamIds,
+      exams: Array.isArray(input.exams) ? input.exams : [],
+      prismaCorrectSolution: clinicalCase?.correctSolution,
+    });
+    const clinicalAuditResult = await safeRunClinicalAudit({
+      ...clinicalAuditInputs,
+      elapsedMinutes:
+        typeof simulationElapsedMinutes === "number" && simulationElapsedMinutes > 0
+          ? simulationElapsedMinutes
+          : 0,
+      clinicalGuidelineChunks,
+      log,
+    });
+
+    log.info("Clinical audit completed", {
+      status: clinicalAuditResult.status,
+      overallVerdict: clinicalAuditResult.overallVerdict,
+      clinicalAccuracyScore: clinicalAuditResult.clinicalAccuracyScore,
+      diagnosticMatch: clinicalAuditResult.diagnosticMatch.isCorrect,
+      performedActionCount: clinicalAuditInputs.performedActions.length,
+      protocolChunkCount: clinicalGuidelineChunks.length,
+    });
+
+    await prisma.sessionReport.update({
+      where: { id: input.reportId },
+      data: {
+        progress: 95,
         progressMessage: killerSwitchApplied
           ? "Applicazione Killer-Switch clinico..."
           : "Finalizzazione punteggi...",
@@ -680,6 +874,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           },
           legalAudit: legalAuditResult,
           economicAudit: economicAuditResult,
+          clinicalAudit: clinicalAuditResult,
         }),
         ...(liveSession ? { startedAt: liveSession.createdAt } : {}),
       },
