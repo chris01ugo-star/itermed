@@ -1,19 +1,24 @@
 import { getSessionUserId } from "@/lib/api-session";
 import { toApiErrorResponse, ValidationError } from "@/lib/errors";
 import { createLogger } from "@/lib/logger";
+import { mapEconomicAuditToDTO } from "@/lib/mappers/economic-audit-mapper";
 import { mapLegalAuditToDTO } from "@/lib/mappers/legal-audit-mapper";
 import { prisma } from "@/lib/prisma";
+import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
 import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
 import { buildReportDataFromSession } from "@/lib/services/simulation-report-data";
 import { ensureSimulationReportProcessing } from "@/lib/services/simulation-report-scheduler";
 
 export const runtime = "nodejs";
 
-function extractLegalAuditFromRawTrace(rawTrace: unknown): LegalAuditResult | null {
+function extractAuditFromRawTrace<T extends object>(
+  rawTrace: unknown,
+  key: "legalAudit" | "economicAudit",
+): T | null {
   if (!rawTrace || typeof rawTrace !== "object") return null;
-  const legalAudit = (rawTrace as { legalAudit?: unknown }).legalAudit;
-  if (!legalAudit || typeof legalAudit !== "object") return null;
-  return legalAudit as LegalAuditResult;
+  const value = (rawTrace as Record<string, unknown>)[key];
+  if (!value || typeof value !== "object") return null;
+  return value as T;
 }
 
 export async function GET(request: Request) {
@@ -65,10 +70,17 @@ export async function GET(request: Request) {
       progressMessage: report.progressMessage,
     });
 
-    const legalReport =
-      report.status === "COMPLETED"
-        ? mapLegalAuditToDTO(extractLegalAuditFromRawTrace(report.rawTrace))
-        : null;
+    const isCompleted = report.status === "COMPLETED";
+    const legalReport = isCompleted
+      ? mapLegalAuditToDTO(
+          extractAuditFromRawTrace<LegalAuditResult>(report.rawTrace, "legalAudit"),
+        )
+      : null;
+    const economicReport = isCompleted
+      ? mapEconomicAuditToDTO(
+          extractAuditFromRawTrace<EconomicAuditResult>(report.rawTrace, "economicAudit"),
+        )
+      : null;
 
     return Response.json({
       reportId: report.id,
@@ -79,8 +91,9 @@ export async function GET(request: Request) {
       ...(report.status === "FAILED" && typeof report.notes === "string" && report.notes
         ? { error: report.notes }
         : {}),
-      reportData: report.status === "COMPLETED" ? buildReportDataFromSession(report) : null,
+      reportData: isCompleted ? buildReportDataFromSession(report) : null,
       legalReport,
+      economicReport,
     });
   } catch (error) {
     routeLogger.error("Report status lookup failed", { error });
