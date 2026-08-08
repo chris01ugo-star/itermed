@@ -1,11 +1,20 @@
 import { getSessionUserId } from "@/lib/api-session";
 import { toApiErrorResponse, ValidationError } from "@/lib/errors";
 import { createLogger } from "@/lib/logger";
+import { mapLegalAuditToDTO } from "@/lib/mappers/legal-audit-mapper";
 import { prisma } from "@/lib/prisma";
+import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
 import { buildReportDataFromSession } from "@/lib/services/simulation-report-data";
 import { ensureSimulationReportProcessing } from "@/lib/services/simulation-report-scheduler";
 
 export const runtime = "nodejs";
+
+function extractLegalAuditFromRawTrace(rawTrace: unknown): LegalAuditResult | null {
+  if (!rawTrace || typeof rawTrace !== "object") return null;
+  const legalAudit = (rawTrace as { legalAudit?: unknown }).legalAudit;
+  if (!legalAudit || typeof legalAudit !== "object") return null;
+  return legalAudit as LegalAuditResult;
+}
 
 export async function GET(request: Request) {
   const routeLogger = createLogger("simulation-report-status");
@@ -56,6 +65,11 @@ export async function GET(request: Request) {
       progressMessage: report.progressMessage,
     });
 
+    const legalReport =
+      report.status === "COMPLETED"
+        ? mapLegalAuditToDTO(extractLegalAuditFromRawTrace(report.rawTrace))
+        : null;
+
     return Response.json({
       reportId: report.id,
       sessionId: report.id,
@@ -66,6 +80,7 @@ export async function GET(request: Request) {
         ? { error: report.notes }
         : {}),
       reportData: report.status === "COMPLETED" ? buildReportDataFromSession(report) : null,
+      legalReport,
     });
   } catch (error) {
     routeLogger.error("Report status lookup failed", { error });

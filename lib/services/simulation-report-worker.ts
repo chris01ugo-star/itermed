@@ -6,7 +6,10 @@ import type { AnalyticalEvaluation, EvaluationResult } from "@/lib/services/eval
 import { ragService } from "@/lib/services/rag-service";
 import { getExamValuesCatalog } from "@/lib/exam-values-service";
 import {
+  extractMandatoryFirstLevelExams,
+  normalizeExamSlug,
   resolveExamBudgetEuro,
+  resolveExamCostsFromCatalog,
   type DimensionScores,
 } from "@/lib/services/evaluation-scoring";
 import {
@@ -22,7 +25,13 @@ import {
 } from "@/lib/services/simulation-report-data";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
 import { runLegalAudit, type LegalAuditResult } from "@/lib/services/legal-audit-service";
+import {
+  runEconomicAudit,
+  type EconomicAuditResult,
+} from "@/lib/services/economic-audit-service";
 import type { GuidelineChunk } from "@/lib/services/rag-service";
+import type { ExamClinicalMeta } from "@/lib/exam-default-values";
+import { flattenCatalogExams } from "@/lib/exam-catalog-structure";
 import {
   fetchSessionMilestones,
   parseHelpTelemetryFromMilestones,
@@ -30,6 +39,7 @@ import {
 import { asStringArray } from "@/lib/simulator/session-id";
 import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
 import { getCaseById } from "@/lib/data/cases/registry";
+import type { ClinicalCase } from "@/lib/data/cases/types";
 
 function mapLegalChunksForAudit(
   chunks: GuidelineChunk[] | null | undefined,
@@ -96,6 +106,135 @@ async function safeRunLegalAudit(params: {
       uncoveredAreas: [
         "Audit legale non completato: errore durante la generazione del giudizio LLM.",
       ],
+    };
+  }
+}
+
+const EXAM_NAME_BY_ID = new Map(
+  flattenCatalogExams().map((row) => [row.id, row.name] as const),
+);
+
+function resolveExamCostEuro(
+  examId: string,
+  catalog: Record<string, ExamClinicalMeta>,
+  fallbackCost?: number,
+): number {
+  const fromCatalog = catalog[examId]?.price;
+  if (typeof fromCatalog === "number" && Number.isFinite(fromCatalog)) return fromCatalog;
+  const n = Number(fallbackCost);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function buildGoldPathExamsForAudit(params: {
+  registeredCase: ClinicalCase | undefined;
+  goldStandardPath: string[];
+  examCatalog: Record<string, ExamClinicalMeta>;
+}): Array<{ id: string; name: string; costEuro: number }> {
+  const { registeredCase, goldStandardPath, examCatalog } = params;
+  const mandatory = registeredCase?.mandatoryExams;
+  if (Array.isArray(mandatory) && mandatory.length > 0) {
+    return mandatory.map((exam) => ({
+      id: exam.examId,
+      name: exam.name || EXAM_NAME_BY_ID.get(exam.examId) || exam.examId,
+      costEuro: resolveExamCostEuro(exam.examId, examCatalog),
+    }));
+  }
+
+  const path =
+    registeredCase?.goldStandardPath?.length
+      ? registeredCase.goldStandardPath
+      : goldStandardPath;
+  const goldIds = extractMandatoryFirstLevelExams(path);
+  return goldIds.map((id) => ({
+    id,
+    name: EXAM_NAME_BY_ID.get(id) || id,
+    costEuro: resolveExamCostEuro(id, examCatalog),
+  }));
+}
+
+function buildRequestedExamsForAudit(params: {
+  exams: ExamPayload[];
+  requestedExamIds: string[];
+  goldPathExams: Array<{ id: string; name: string; costEuro: number }>;
+  examCatalog: Record<string, ExamClinicalMeta>;
+}): Array<{ id: string; name: string; costEuro: number; isGoldPath: boolean }> {
+  const { exams, requestedExamIds, goldPathExams, examCatalog } = params;
+  const { exams: resolved } = resolveExamCostsFromCatalog(exams, examCatalog);
+  const byId = new Map(resolved.map((e) => [e.id, e]));
+
+  for (const id of requestedExamIds) {
+    if (!id || byId.has(id)) continue;
+    byId.set(id, {
+      id,
+      name: EXAM_NAME_BY_ID.get(id) || id,
+      cost: resolveExamCostEuro(id, examCatalog),
+      timeMinutes: examCatalog[id]?.routineMinutes ?? 60,
+    });
+  }
+
+  const goldIdSet = new Set(goldPathExams.map((g) => g.id));
+  const goldSlugSet = new Set(goldPathExams.map((g) => normalizeExamSlug(g.id)));
+
+  return [...byId.values()].map((exam) => {
+    const slug = normalizeExamSlug(exam.id);
+    const isGoldPath =
+      goldIdSet.has(exam.id) ||
+      goldSlugSet.has(slug) ||
+      [...goldSlugSet].some((g) => slug.includes(g) || g.includes(slug));
+    return {
+      id: exam.id,
+      name: exam.name || EXAM_NAME_BY_ID.get(exam.id) || exam.id,
+      costEuro: resolveExamCostEuro(exam.id, examCatalog, exam.cost),
+      isGoldPath,
+    };
+  });
+}
+
+function mapProtocolChunksForEconomicAudit(
+  chunks: GuidelineChunk[] | null | undefined,
+): Array<{ title: string; text: string }> {
+  if (!Array.isArray(chunks)) return [];
+  return chunks
+    .filter((c) => typeof c.content === "string" && c.content.trim().length > 0)
+    .map((c) => ({
+      title: c.title || "Protocollo clinico",
+      text: c.content,
+    }));
+}
+
+async function safeRunEconomicAudit(params: {
+  requestedExams: ReturnType<typeof buildRequestedExamsForAudit>;
+  goldPathExams: ReturnType<typeof buildGoldPathExamsForAudit>;
+  clinicalContext: string;
+  economicGuidelineChunks: Array<{ title: string; text: string }>;
+  log: Logger;
+}): Promise<EconomicAuditResult> {
+  try {
+    return await runEconomicAudit({
+      requestedExams: params.requestedExams,
+      goldPathExams: params.goldPathExams,
+      clinicalContext: params.clinicalContext,
+      economicGuidelineChunks: params.economicGuidelineChunks,
+    });
+  } catch (error) {
+    params.log.warn("Economic audit LLM failed — persisting NOT_EVALUABLE fallback", {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    const totalSpentEuro = params.requestedExams.reduce((acc, e) => acc + (e.costEuro || 0), 0);
+    const idealCostEuro = params.goldPathExams.reduce((acc, e) => acc + (e.costEuro || 0), 0);
+    return {
+      status: "NOT_EVALUABLE",
+      overallVerdict: "MODERATE_OVERTESTING",
+      efficiencyScore: 0,
+      financialSummary: {
+        totalSpentEuro: Number(totalSpentEuro.toFixed(2)),
+        idealCostEuro: Number(idealCostEuro.toFixed(2)),
+        deltaEuro: Number((totalSpentEuro - idealCostEuro).toFixed(2)),
+        inappropriateSpendEuro: 0,
+      },
+      inappropriateExams: [],
+      omittedEssentialExams: [],
+      appropriateExamsCount: 0,
     };
   }
 }
@@ -450,6 +589,65 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     await prisma.sessionReport.update({
       where: { id: input.reportId },
       data: {
+        progress: 88,
+        progressMessage: "Audit appropriatezza prescrittiva / economia SSN...",
+      },
+    });
+
+    const goldPathExams = buildGoldPathExamsForAudit({
+      registeredCase,
+      goldStandardPath,
+      examCatalog: examCatalog ?? {},
+    });
+    const requestedExamsForAudit = buildRequestedExamsForAudit({
+      exams: Array.isArray(evaluation.resolvedExams) && evaluation.resolvedExams.length > 0
+        ? evaluation.resolvedExams
+        : Array.isArray(input.exams)
+          ? input.exams
+          : [],
+      requestedExamIds: sessionRequestedExamIds,
+      goldPathExams,
+      examCatalog: examCatalog ?? {},
+    });
+    const economicGuidelineChunks = mapProtocolChunksForEconomicAudit(
+      guidelines.protocol?.chunks,
+    );
+    const clinicalContext = [
+      registeredCase?.title ? `Caso: ${registeredCase.title}` : null,
+      specialtyName ? `Specialità: ${specialtyName}` : null,
+      input.caseContext?.trim() || null,
+      input.finalDiagnosis?.trim()
+        ? `Diagnosi finale: ${input.finalDiagnosis.trim()}`
+        : null,
+      input.normalizedReportText?.trim()
+        ? `Referto:\n${input.normalizedReportText.trim().slice(0, 2500)}`
+        : null,
+    ]
+      .filter(Boolean)
+      .join("\n\n");
+
+    const economicAuditResult = await safeRunEconomicAudit({
+      requestedExams: requestedExamsForAudit,
+      goldPathExams,
+      clinicalContext: clinicalContext || "Contesto clinico non disponibile.",
+      economicGuidelineChunks,
+      log,
+    });
+
+    log.info("Economic audit completed", {
+      status: economicAuditResult.status,
+      overallVerdict: economicAuditResult.overallVerdict,
+      efficiencyScore: economicAuditResult.efficiencyScore,
+      requestedExamCount: requestedExamsForAudit.length,
+      goldPathExamCount: goldPathExams.length,
+      protocolChunkCount: economicGuidelineChunks.length,
+      totalSpentEuro: economicAuditResult.financialSummary.totalSpentEuro,
+      idealCostEuro: economicAuditResult.financialSummary.idealCostEuro,
+    });
+
+    await prisma.sessionReport.update({
+      where: { id: input.reportId },
+      data: {
         progress: 90,
         progressMessage: killerSwitchApplied
           ? "Applicazione Killer-Switch clinico..."
@@ -481,6 +679,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
             cap: KILLER_SWITCH_CAP,
           },
           legalAudit: legalAuditResult,
+          economicAudit: economicAuditResult,
         }),
         ...(liveSession ? { startedAt: liveSession.createdAt } : {}),
       },

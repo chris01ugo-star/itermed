@@ -2,6 +2,7 @@ import type { CaseDifficulty, Prisma } from "@prisma/client";
 import type { RelevantGuidelines } from "@/lib/services/rag-service";
 import type { EvaluationResult } from "@/lib/services/evaluation-service";
 import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
+import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
 import type {
   ClinicalDeltaRow,
   CoachingFeedback,
@@ -47,6 +48,8 @@ export function buildSessionReportData(params: {
   killerSwitch?: KillerSwitchTrace;
   /** Dedicated LLM legal audit (Gelli-Bianco corpus-bound). */
   legalAudit?: LegalAuditResult;
+  /** Dedicated LLM economic / prescribing appropriateness audit. */
+  economicAudit?: EconomicAuditResult;
 }): Prisma.SessionReportUncheckedUpdateInput {
   const {
     userId,
@@ -62,6 +65,7 @@ export function buildSessionReportData(params: {
     fatalErrors = [],
     killerSwitch,
     legalAudit,
+    economicAudit,
   } = params;
 
   const scores = evaluation.scores ?? {
@@ -196,6 +200,7 @@ export function buildSessionReportData(params: {
         retrievedSources: guidelineProtocolSources,
       },
       ...(legalAudit ? { legalAudit } : {}),
+      ...(economicAudit ? { economicAudit } : {}),
     },
     notes: typeof feedback.legalComplianceNote === "string" ? feedback.legalComplianceNote : "",
   };
