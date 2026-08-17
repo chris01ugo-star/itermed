@@ -7,6 +7,7 @@
  * Usage:
  *   npx tsx scripts/ingest-specialty-docs.ts --specialty=cardiologia
  *   npx tsx scripts/ingest-specialty-docs.ts --specialty=cardiologia --update
+ *   npx tsx scripts/ingest-specialty-docs.ts --specialty=cardiologia --dry-run
  */
 import { openai } from "@ai-sdk/openai";
 import { embedMany } from "ai";
@@ -42,6 +43,7 @@ type Pillar = "LEGAL" | "ECONOMIC" | "CLINICAL";
 type CliArgs = {
   specialty: string;
   update: boolean;
+  dryRun: boolean;
 };
 
 type PillarConfig = {
@@ -81,11 +83,16 @@ type IngestStats = Record<Pillar, { files: number; chunks: number; skipped: numb
 function parseArgs(argv: string[]): CliArgs {
   let specialty = "";
   let update = false;
+  let dryRun = false;
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === "--update") {
       update = true;
+      continue;
+    }
+    if (arg === "--dry-run") {
+      dryRun = true;
       continue;
     }
     if (arg.startsWith("--specialty=")) {
@@ -100,13 +107,13 @@ function parseArgs(argv: string[]): CliArgs {
 
   if (!specialty) {
     console.error(
-      "Usage: npx tsx scripts/ingest-specialty-docs.ts --specialty=<nome> [--update]\n" +
-        "Example: npx tsx scripts/ingest-specialty-docs.ts --specialty=cardiologia --update",
+      "Usage: npx tsx scripts/ingest-specialty-docs.ts --specialty=<nome> [--update] [--dry-run]\n" +
+        "Example: npx tsx scripts/ingest-specialty-docs.ts --specialty=cardiologia --dry-run",
     );
     process.exit(1);
   }
 
-  return { specialty, update };
+  return { specialty, update, dryRun };
 }
 
 function chunkText(text: string, size = CHUNK_SIZE, overlap = CHUNK_OVERLAP): string[] {
@@ -454,11 +461,23 @@ async function main() {
   const knowledgeRoot = resolve(process.cwd(), "knowledge_base", specialtySlug);
 
   console.log("----------------------------------------------------");
-  console.log("📥 INGEST SPECIALTY DOCS → Pinecone + Prisma");
+  console.log(
+    args.dryRun
+      ? "🧪 DRY-RUN SPECIALTY DOCS (IO + parsing, no Pinecone/Prisma)"
+      : "📥 INGEST SPECIALTY DOCS → Pinecone + Prisma",
+  );
   console.log("----------------------------------------------------");
   console.log(`Specialty : ${specialtySlug}`);
   console.log(`Root      : ${knowledgeRoot}`);
-  console.log(`Mode      : ${args.update ? "UPDATE (replace by source)" : "CREATE (skip existing)"}`);
+  console.log(
+    `Mode      : ${
+      args.dryRun
+        ? "DRY-RUN"
+        : args.update
+          ? "UPDATE (replace by source)"
+          : "CREATE (skip existing)"
+    }`,
+  );
   console.log(
     `RAG soglie: LEGAL=${SIMILARITY_THRESHOLD_LEGAL} | ECONOMIC=${SIMILARITY_THRESHOLD_ECONOMIC} | CLINICAL=${SIMILARITY_THRESHOLD_PROTOCOL}`,
   );
@@ -469,6 +488,63 @@ async function main() {
       `Cartella non trovata: ${knowledgeRoot}\n` +
         `Crea knowledge_base/${specialtySlug}/{legal,economic,clinical}/ e inserisci i documenti.`,
     );
+  }
+
+  for (const pillarCfg of PILLARS) {
+    const pillarDir = join(knowledgeRoot, pillarCfg.folder);
+    if (!existsSync(pillarDir)) {
+      throw new Error(
+        `Pilastro mancante: ${pillarDir}\n` +
+          `Atteso: knowledge_base/${specialtySlug}/{legal,economic,clinical}/`,
+      );
+    }
+  }
+
+  if (args.dryRun) {
+    const stats = emptyStats();
+
+    for (const pillarCfg of PILLARS) {
+      const pillarDir = join(knowledgeRoot, pillarCfg.folder);
+      const files = await listDocuments(pillarDir);
+      console.log(`▶ ${pillarCfg.pillar} (${pillarDir}) — ${files.length} file`);
+
+      if (files.length === 0) {
+        console.log("  (nessun documento ingestibile)\n");
+        continue;
+      }
+
+      for (const filePath of files) {
+        const relativeSource = relative(knowledgeRoot, filePath).replace(/\\/g, "/");
+        // eslint-disable-next-line no-await-in-loop
+        const { text, sourceType } = await extractDocumentText(filePath);
+        const chunks = text.length >= 20 ? chunkText(text).length : 0;
+        stats[pillarCfg.pillar].files += 1;
+        stats[pillarCfg.pillar].chunks += chunks;
+        if (chunks === 0) {
+          stats[pillarCfg.pillar].skipped += 1;
+          console.log(`  ⚠ ${relativeSource} (${sourceType}) — testo insufficiente`);
+        } else {
+          console.log(
+            `  ✓ ${relativeSource} (${sourceType}) — ${text.length} chars → ~${chunks} chunk`,
+          );
+        }
+      }
+      console.log("");
+    }
+
+    console.log("----------------------------------------------------");
+    console.log("📊 REPORT DRY-RUN");
+    console.log("----------------------------------------------------");
+    for (const pillar of ["LEGAL", "ECONOMIC", "CLINICAL"] as Pillar[]) {
+      const s = stats[pillar];
+      console.log(
+        `${pillar.padEnd(9)} file=${s.files}  chunk≈${s.chunks}  skipped=${s.skipped}`,
+      );
+    }
+    console.log("----------------------------------------------------");
+    console.log("🎉 DRY-RUN COMPLETATO (nessuna scrittura su Pinecone/Prisma)");
+    console.log("----------------------------------------------------");
+    return;
   }
 
   if (!process.env.OPENAI_API_KEY && !process.env.OPENAI_KEY) {
