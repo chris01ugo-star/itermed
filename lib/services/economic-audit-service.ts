@@ -126,15 +126,38 @@ ${economicCorpus || "Nessuna linea guida specifica fornita. Valuta sulla base de
     schema: EconomicAuditResultSchema,
   });
 
-  // Enforce server-side euro totals (zero hallucination on tariffs).
+  // Enforce server-side euro totals and rebind SSN tariffs (no LLM zero/hallucination).
+  const goldCostById = new Map(goldPathExams.map((g) => [g.id, g.costEuro] as const));
+  const requestedCostById = new Map(requestedExams.map((e) => [e.id, e.costEuro] as const));
+
+  const pickTariff = (examId: string, llmCost: number, prefer: "gold" | "requested") => {
+    if (Number.isFinite(llmCost) && llmCost > 0) return llmCost;
+    if (prefer === "gold") {
+      return goldCostById.get(examId) ?? requestedCostById.get(examId) ?? 0;
+    }
+    return requestedCostById.get(examId) ?? goldCostById.get(examId) ?? 0;
+  };
+
+  const inappropriateExams = object.inappropriateExams.map((e) => ({
+    ...e,
+    costEuro: pickTariff(e.examId, Number(e.costEuro) || 0, "requested"),
+  }));
+
+  const omittedEssentialExams = object.omittedEssentialExams.map((o) => ({
+    ...o,
+    costEuro: pickTariff(o.examId, Number(o.costEuro) || 0, "gold"),
+  }));
+
   const inappropriateSpendEuro = Number(
-    object.inappropriateExams
+    inappropriateExams
       .reduce((acc, e) => acc + (Number(e.costEuro) || 0), 0)
       .toFixed(2),
   );
 
   return {
     ...object,
+    inappropriateExams,
+    omittedEssentialExams,
     financialSummary: {
       totalSpentEuro: Number(totalSpentEuro.toFixed(2)),
       idealCostEuro: Number(idealCostEuro.toFixed(2)),

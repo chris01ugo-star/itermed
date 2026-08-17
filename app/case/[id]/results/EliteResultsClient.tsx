@@ -256,6 +256,14 @@ function statusMeta(status: ClinicalDeltaRow["status"]) {
   }
 }
 
+function coherentDeltaUserAction(row: ClinicalDeltaRow): string {
+  const text = row.userAction?.trim() || "";
+  if (row.status === "MET" && (!text || /non evidenziato/i.test(text))) {
+    return "Azione/Esame verificato nella simulazione";
+  }
+  return text || "—";
+}
+
 export function EliteResultsClient({
   totalScore,
   radarData,
@@ -544,7 +552,7 @@ export function EliteResultsClient({
                       </span>
                     </div>
                     <p className="text-xs leading-relaxed text-slate-500">
-                      <SafeLlmText as="span">{row.userAction}</SafeLlmText>
+                      <SafeLlmText as="span">{coherentDeltaUserAction(row)}</SafeLlmText>
                     </p>
                   </li>
                 );

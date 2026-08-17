@@ -40,6 +40,7 @@ import {
 import type { GuidelineChunk } from "@/lib/services/rag-service";
 import type { ExamClinicalMeta } from "@/lib/exam-default-values";
 import { flattenCatalogExams } from "@/lib/exam-catalog-structure";
+import { resolveSsnTariffEuro } from "@/lib/services/exam-ssn-tariff-resolver";
 import {
   fetchSessionMilestones,
   parseHelpTelemetryFromMilestones,
@@ -127,11 +128,14 @@ function resolveExamCostEuro(
   examId: string,
   catalog: Record<string, ExamClinicalMeta>,
   fallbackCost?: number,
+  authoredPriceEuro?: number,
 ): number {
-  const fromCatalog = catalog[examId]?.price;
-  if (typeof fromCatalog === "number" && Number.isFinite(fromCatalog)) return fromCatalog;
-  const n = Number(fallbackCost);
-  return Number.isFinite(n) ? n : 0;
+  return resolveSsnTariffEuro({
+    examId,
+    catalog,
+    authoredPriceEuro,
+    fallbackCost,
+  });
 }
 
 function buildGoldPathExamsForAudit(params: {
@@ -145,7 +149,12 @@ function buildGoldPathExamsForAudit(params: {
     return mandatory.map((exam) => ({
       id: exam.examId,
       name: exam.name || EXAM_NAME_BY_ID.get(exam.examId) || exam.examId,
-      costEuro: resolveExamCostEuro(exam.examId, examCatalog),
+      costEuro: resolveExamCostEuro(
+        exam.examId,
+        examCatalog,
+        undefined,
+        exam.priceEuro,
+      ),
     }));
   }
 
