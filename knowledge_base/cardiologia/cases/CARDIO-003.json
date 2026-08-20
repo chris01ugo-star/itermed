@@ -1,0 +1,334 @@
+{
+  "title": "STEMI inferiore complicato da BAV di alto grado",
+  "description": "Giovanni è un uomo di 62 anni che si presenta al pronto soccorso con dolore toracico acuto, irradiato al braccio sinistro, accompagnato da sudorazione profusa e nausea. Riferisce di sentirsi molto debole e di avere difficoltà a respirare. La sua storia medica include ipertensione e diabete mellito di tipo 2, entrambi mal controllati. Non ha mai subito interventi chirurgici e non ha allergie note. È un fumatore da molti anni.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "ecg",
+    "troponina-hs",
+    "elettroliti",
+    "ega",
+    "ecocardio",
+    "pacing",
+    "consenso-informato",
+    "coronarografia"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "90/60",
+      "spo2": 85,
+      "temperature": 37.5,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 160,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "troponina-hs": {
+          "finding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+          "normalFinding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "elettroliti": {
+          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "ecocardio": {
+          "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+          "normalFinding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+          "isAbnormal": true,
+          "price": 43.9
+        },
+        "coronarografia": {
+          "finding": "Coronarografia (Invasiva) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+          "normalFinding": "Coronarografia (Invasiva) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+          "isAbnormal": true,
+          "price": 1800
+        },
+        "angio": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        }
+      }
+    },
+    "demographics": {
+      "age": 62,
+      "sex": "M",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Il paziente presenta tachicardia, ipotensione, sudorazione profusa e dispnea. All'auscultazione cardiaca, si nota un ritmo irregolare. La saturazione di ossigeno è bassa e la frequenza respiratoria è elevata.",
+      "killipClass": "III"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+      "isAbnormal": true
+    },
+    "troponina-hs": {
+      "finding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+      "isAbnormal": true
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+      "isAbnormal": true
+    },
+    "ecocardio": {
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+      "isAbnormal": true
+    },
+    "coronarografia": {
+      "finding": "Coronarografia (Invasiva) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+      "isAbnormal": true
+    },
+    "angio": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Procedere con ECG, dosaggio della troponina-hs, elettroliti, gasometria arteriosa, ecocardiogramma e preparazione per pacing.",
+  "patientPrompt": "Mi chiamo Giovanni e ho 62 anni. Sono qui perché ho un dolore al petto che si irradia al braccio sinistro, è molto forte e mi sento debole. Ho anche sudore freddo e mi sembra di non riuscire a respirare bene. Ho una storia di pressione alta e diabete, ma non ho mai avuto problemi cardiaci prima d'ora.",
+  "id": "CARDIO-003",
+  "code": "CARDIO-003",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESC_2023_ACS_Guidelines.pdf",
+  "diagnosis": "STEMI inferiore complicato da BAV di alto grado",
+  "pastMedicalHistory": "Ipertensione, diabete mellito di tipo 2, fumatore.",
+  "presentation": "Giovanni si presenta al pronto soccorso con un forte dolore toracico, sudorazione e dispnea. I parametri vitali mostrano tachicardia e ipotensione. All'esame obiettivo, il paziente appare ansioso e in evidente difficoltà respiratoria. La sua saturazione di ossigeno è bassa e la frequenza respiratoria è elevata.",
+  "redHerrings": [
+    "Il paziente ha una storia di reflusso gastroesofageo, e inizialmente si sospetta un episodio di dispepsia.",
+    "Giovanni ha recentemente iniziato un nuovo farmaco per il controllo della pressione sanguigna, che potrebbe causare effetti collaterali.",
+    "Il paziente riferisce di avere avuto un episodio simile qualche mese fa, ma era stato attribuito a stress."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ecg": 8,
+    "troponina-hs": 35,
+    "elettroliti": 30,
+    "ega": 10,
+    "ecocardio": 20,
+    "coronarografia": 25,
+    "angio": 45,
+    "tc": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-003_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-003_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-003_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-003_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-003_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-003_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "III",
+    "summary": "Il paziente presenta tachicardia, ipotensione, sudorazione profusa e dispnea. All'auscultazione cardiaca, si nota un ritmo irregolare. La saturazione di ossigeno è bassa e la frequenza respiratoria è elevata."
+  },
+  "goldPathNarrative": "Giovanni viene sottoposto a un elettrocardiogramma che mostra un'infiammazione del segmento ST. I test di laboratorio rivelano elevati livelli di troponina-hs, confermando un infarto miocardico acuto. Viene eseguita una gasometria arteriosa che mostra una compromissione dell'ossigenazione. L'ecocardiogramma evidenzia disfunzione ventricolare sinistra. Dato il blocco atrioventricolare di alto grado, si decide di procedere con il pacing temporaneo. Dopo la stabilizzazione, Giovanni viene trasferito per una coronarografia.",
+  "escCitations": [
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-333",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "ST-elevation acute coronary syndrome; PCI, percutaneous coronary inter- vention; STEMI, ST-elevation myocardial infarction; TIMI, Thrombolysis In Myocardial Infarction.aIn patients presenting with STEMI and MVD without CS, complete revascularization either during the index PCI procedure or within 45 days, with PCI of non-IRA based on angiographic severity, is recommended. bIn patients presenting with NSTE-ACS and MVD, complete revascularization, preferably during the index procedure should be co"
+    },
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-310",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "echocardiography is suboptimal/inconclusive, CMR imaging may be considered. IIb C © ESC 2023 ACS, acute coronary syndrome; CCU, cardiac care unit; CMR, cardiac magnetic resonance; ECG, electrocardiogram; ICCU, intensive cardiac care unit; LV, left ventricular; NSTE-ACS, non-ST-segment elevation acute coronary syndrome; PCI, percutaneous coronary intervention; STEMI, ST-elevation myocardial infarction. aClass of recommendation. bLevel of evidence. 3766 ESC Guidelines Downloaded from https://acade"
+    },
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-332",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "timal Acute Treatment of Patients with ST-Segment Elevation Myocardial Infarction—Primary PCI in Multivessel Disease), COMPARE-ACUTE (ComparisonCardiogenic shock STEMI Patient with ACS undergoing PCI of IRA with an angiographically significant stenosis in ≥ 1 non-IRA Complete revascularization, either during the index procedure or within 45 daysa (Class I) NSTE-ACS Immediate PCI of IRA only (Class I) Staged complete revascularization (Class IIa) Complete revascularizationb (Class IIa) Functional"
+    },
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-313",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "ambiguous culprit lesions (Class llb) Coronary angiography SCAD No lesion Figure 13 A practical algorithm to guide intravascular imaging in acute coronary syndrome patients. ACS, acute coronary syndrome; IVUS, intravascular ultrasound; MRI, magnetic resonance imaging; OCT, optical coherence tomography; PCI, percutaneous coronary intervention; SCAD, spontaneous coronary artery dissection. ESC Guidelines 3767 Downloaded from https://academic.oup.com/eurheartj/article/44/38/3720/7243210 by guest on"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → troponina-hs → elettroliti → ega → ecocardio → pacing → consenso-informato → coronarografia.",
+      "Non prescrivere di prima intenzione: angio, tc (ESC_2023_ACS_Guidelines.pdf).",
+      "Budget SSN di riferimento: €160."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alla L. 24/2017 Art. 5 seguendo il gold path ESC. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "troponina-hs",
+      "name": "Troponina (alta sensibilità)",
+      "finding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "ecocardio",
+      "name": "Ecocardiografia (Transtoracica/Transesofagea)",
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+      "isAbnormal": true,
+      "priceEuro": 43.9
+    },
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia (Invasiva)",
+      "finding": "Coronarografia (Invasiva) nel contesto di Sindrome coronarica acuta — STEMI inferiore con disturbo di conduzione (CARDIO-003). ECG: elevazione del segmento ST; Troponina-hs: elevata; Elettroliti: alterati; EGA: compromissione dell'ossigenazione; Ecocardiogramma: disfunzione ventricolare sinistra; Blocco atrioventricolare di alto grado.",
+      "isAbnormal": true,
+      "priceEuro": 1800
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "angio",
+      "name": "Angio-TC e Angio-RM",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf."
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf."
+    }
+  ]
+}

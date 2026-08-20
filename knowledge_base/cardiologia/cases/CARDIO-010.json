@@ -1,0 +1,294 @@
+{
+  "title": "FA e avvio della terapia anticoagulante orale",
+  "description": "Giovanna è una donna di 72 anni che si presenta all'ambulatorio di cardiologia per un controllo di routine. Ha una storia di fibrillazione atriale diagnosticata circa un anno fa e ha già ricevuto informazioni sulla terapia anticoagulante. Tuttavia, è preoccupata per la sua salute e desidera sapere di più sulla prevenzione del rischio di ictus.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "ecg",
+    "pt-ptt-inr",
+    "creat-urea-gfr",
+    "emocromo"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "130/80",
+      "spo2": 92,
+      "temperature": 36.5,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 70,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "pt-ptt-inr": {
+          "finding": "Coagulazione (PT, PTT, INR) nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+          "normalFinding": "Coagulazione (PT, PTT, INR) nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+          "isAbnormal": true,
+          "price": 9
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+          "normalFinding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "angio": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        }
+      }
+    },
+    "demographics": {
+      "age": 72,
+      "sex": "F",
+      "context": "Ambulatorio di Cardiologia"
+    },
+    "physicalExam": {
+      "finding": "All'esame obiettivo, Giovanna appare in buone condizioni generali. La pressione arteriosa è controllata, il ritmo cardiaco è regolare e non ci sono segni di insufficienza cardiaca. I polsi periferici sono presenti e simmetrici.",
+      "killipClass": "I"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+      "isAbnormal": true
+    },
+    "pt-ptt-inr": {
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+      "isAbnormal": true
+    },
+    "creat-urea-gfr": {
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "angio": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un ECG, esami di laboratorio per PT, PTT, INR, creatinina, urea, GFR ed emocromo per valutare il rischio tromboembolico e decidere sulla terapia anticoagulante.",
+  "patientPrompt": "Mi chiamo Giovanna e ho 72 anni. Sono qui per un controllo della mia fibrillazione atriale. Ho sentito parlare della terapia anticoagulante, ma ho alcune domande e preoccupazioni. Ho avvertito delle palpitazioni e mi sento un po' più stanca del solito. Vorrei sapere come posso prevenire un ictus.",
+  "id": "CARDIO-010",
+  "code": "CARDIO-010",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Fibrillazione atriale — prevenzione tromboembolica",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
+  "diagnosis": "Fibrillazione atriale",
+  "pastMedicalHistory": "Ipertensione e diabete di tipo 2, entrambi controllati con farmaci. Non ha mai avuto infarti o ictus in passato. Non fuma e consuma alcol in modo moderato.",
+  "presentation": "Durante la visita, Giovanna riferisce di aver avvertito occasionali palpitazioni e una sensazione di affaticamento. Non ha avuto episodi di sincope o dolore toracico. La sua anamnesi medica include ipertensione e diabete di tipo 2, entrambi ben controllati. Non ha familiarità con eventi tromboembolici.",
+  "redHerrings": [
+    "Giovanna ha un dolore al ginocchio che la preoccupa, ma non sembra correlato alla sua condizione cardiaca.",
+    "Riferisce di aver avuto un episodio di tosse secca, ma non ha febbre o difficoltà respiratorie.",
+    "Ha recentemente cambiato il suo regime alimentare, ma non ha notato cambiamenti significativi nel suo stato di salute generale."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ecg": 8,
+    "pt-ptt-inr": 30,
+    "creat-urea-gfr": 30,
+    "emocromo": 30,
+    "tc": 40,
+    "angio": 45
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-010_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Fibrillazione atriale — prevenzione tromboembolica)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-010_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-010_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-010_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-010_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-010_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Cardiologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "I",
+    "summary": "All'esame obiettivo, Giovanna appare in buone condizioni generali. La pressione arteriosa è controllata, il ritmo cardiaco è regolare e non ci sono segni di insufficienza cardiaca. I polsi periferici sono presenti e simmetrici."
+  },
+  "goldPathNarrative": "Iniziare con un ECG per valutare la fibrillazione atriale e quindi eseguire esami di laboratorio per determinare il profilo emostatico e la funzionalità renale. Questi dati aiuteranno a stabilire se Giovanna è idonea a iniziare una terapia anticoagulante orale e a quale tipo di farmaco potrebbe rispondere meglio.",
+  "escCitations": [
+    {
+      "chunkId": "614c32b3-6007-482b-bcec-d60b2d4af3ae-627",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
+      "quote": "4 522. Klein AL, Grimm RA, Murray RD, Apperson-Hansen C, Asinger RW, Black IW, et al. Use of transesophageal echocardiography to guide cardioversion in patients with atrial fibrillation. N Engl J Med 2001;344:1411–20. https://doi.org/10.1056/NEJM200105 [REDACTED]. Brunetti ND, Tarantino N, De Gennaro L, Correale M, Santoro F, Di Biase M. Direct oral anti-coagulants compared to vitamin-K antagonists in cardioversion of atrial fibril- lation: an updated meta-analysis. J Thromb Thrombolysis 2018;45"
+    },
+    {
+      "chunkId": "614c32b3-6007-482b-bcec-d60b2d4af3ae-542",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
+      "quote": "https://doi.org/ 10.1111/eci.[REDACTED]. Fauchier L, Bodin A, Bisson A, Herbert J, Spiesser P, Clementy N, et al. Incident co- morbidities, aging and the risk of stroke in 608,108 patients with atrial fibrillation: a na- tionwide analysis. J Clin Med 2020;9:1234. https://doi.org/10.3390/jcm9041234 3390 ESC Guidelines 281. Kirchhof P, Toennis T, Goette A, Camm AJ, Diener HC, Becher N, et al. Anticoagulation with edoxaban in patients with atrial high-rate episodes. N Engl J Med 2023;389:1167–79. h"
+    },
+    {
+      "chunkId": "614c32b3-6007-482b-bcec-d60b2d4af3ae-528",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
+      "quote": "fibrillation as an independent risk factor for stroke: the Framingham study. Stroke 1991;22:983–8. https://doi.org/10.1161/01.STR. 22.8.983 ESC Guidelines 3389 239. Hart RG, Pearce LA, Aguilar MI. Meta-analysis: antithrombotic therapy to prevent stroke in patients who have nonvalvular atrial fibrillation. Ann Intern Med 2007;146: 857–67. https://doi.org/10.7326/[REDACTED]-[REDACTED] 240. Ruff CT, Giugliano RP, Braunwald E, Hoffman EB, Deenadayalu N, Ezekowitz MD, et al. Comparison of the efficac"
+    },
+    {
+      "chunkId": "614c32b3-6007-482b-bcec-d60b2d4af3ae-207",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
+      "quote": "stroke and thromboembolism.372,376,386,387 IIb C © ESC 2024 AF, atrial fibrillation; LAA, left atrial appendage. aClass of recommendation. bLevel of evidence. ESC Guidelines 3347 6.7. Bleeding risk 6.7.1. Assessment of bleeding risk When initiating antithrombotic therapy, modifiable bleeding risk factors should be managed to improve safety (Figure 10).414–418 This includes strict control of hypertension, advice to reduce excess alcohol intake, avoidance of unnecessary antiplatelet or anti-inflam"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → pt-ptt-inr → creat-urea-gfr → emocromo.",
+      "Non prescrivere di prima intenzione: tc, angio (ESC_2024_Atrial_Fibrillation_Guidelines.pdf).",
+      "Budget SSN di riferimento: €70."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alla L. 24/2017 Art. 5 se si seguono le linee guida ESC per la gestione della fibrillazione atriale. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Cardiologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT, INR)",
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+      "isAbnormal": true,
+      "priceEuro": 9
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina e Urea (Azotemia) con stima GFR",
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Fibrillazione atriale — prevenzione tromboembolica (CARDIO-010). ECG mostra fibrillazione atriale, PT e PTT sono nella norma, INR da valutare. Creatinina e urea nella norma, GFR adeguato, emocromo regolare.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf."
+    },
+    {
+      "examId": "angio",
+      "name": "Angio-TC e Angio-RM",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf."
+    }
+  ]
+}

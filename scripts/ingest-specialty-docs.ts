@@ -29,6 +29,8 @@ const PINECONE_NAMESPACE = "guidelines";
 const CHUNK_SIZE = 1000;
 const CHUNK_OVERLAP = 200;
 const EMBED_BATCH = 64;
+/** OpenAI embeddings: max 300k tokens/request. ~128×1000-char chunks stay well under. */
+const EMBED_INPUT_BATCH = 128;
 const DELETE_BATCH = 200;
 const SUPPORTED_EXTENSIONS = new Set([".pdf", ".md", ".txt", ".json", ".csv"]);
 
@@ -294,6 +296,48 @@ async function resolveSpecialty(specialtySlug: string) {
   return match;
 }
 
+async function embedManyWithRetry(values: string[]): Promise<number[][]> {
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      const { embeddings } = await embedMany({
+        model: openai.embedding("text-embedding-3-small"),
+        values,
+      });
+      return embeddings;
+    } catch (error) {
+      lastError = error;
+      const message = error instanceof Error ? error.message : String(error);
+      const retryable = /timeout|429|rate|temporar|ECONNRESET|503|overloaded/i.test(message);
+      if (!retryable || attempt === 3) throw error;
+      const waitMs = attempt * 2000;
+      console.warn(`    ⚠ embedding retry ${attempt}/3 tra ${waitMs}ms: ${message}`);
+      await new Promise((resolve) => setTimeout(resolve, waitMs));
+    }
+  }
+
+  throw lastError;
+}
+
+async function embedChunks(chunks: string[]): Promise<number[][]> {
+  const embeddings: number[][] = [];
+
+  for (let i = 0; i < chunks.length; i += EMBED_INPUT_BATCH) {
+    const batch = chunks.slice(i, i + EMBED_INPUT_BATCH);
+    const batchNo = Math.floor(i / EMBED_INPUT_BATCH) + 1;
+    const batchTotal = Math.ceil(chunks.length / EMBED_INPUT_BATCH);
+    if (batchTotal > 1) {
+      console.log(`    embedding ${batchNo}/${batchTotal} (${batch.length} chunk)`);
+    }
+    // eslint-disable-next-line no-await-in-loop
+    const batchEmbeddings = await embedManyWithRetry(batch);
+    embeddings.push(...batchEmbeddings);
+  }
+
+  return embeddings;
+}
+
 async function deleteVectors(vectorIds: string[]): Promise<void> {
   const index = getPineconeIndex();
   if (!index || vectorIds.length === 0) return;
@@ -312,27 +356,27 @@ async function removeExistingSource(params: {
   sourceName: string;
   medicalSpecialtyId: string;
   update: boolean;
-}): Promise<"skip" | "create" | "replaced"> {
+}): Promise<{ action: "skip" | "create" | "replaced"; existingChunks: number }> {
   const existing = await prisma.guidelineDocument.findFirst({
     where: {
       sourceName: params.sourceName,
       medicalSpecialtyId: params.medicalSpecialtyId,
     },
-    select: { id: true, vectorIds: true, title: true },
+    select: { id: true, vectorIds: true, title: true, chunkCount: true },
   });
 
-  if (!existing) return "create";
+  if (!existing) return { action: "create", existingChunks: 0 };
 
   if (!params.update) {
     console.log(`  ↷ skip (già presente, usa --update): ${existing.title}`);
-    return "skip";
+    return { action: "skip", existingChunks: existing.chunkCount };
   }
 
   const ids = Array.isArray(existing.vectorIds) ? (existing.vectorIds as string[]) : [];
   await deleteVectors(ids);
   await prisma.guidelineDocument.delete({ where: { id: existing.id } });
   console.log(`  ♻️  rimossi chunk obsoleti: ${existing.title} (${ids.length} vettori)`);
-  return "replaced";
+  return { action: "replaced", existingChunks: existing.chunkCount };
 }
 
 async function upsertDocument(params: {
@@ -348,12 +392,12 @@ async function upsertDocument(params: {
   const sourceTitle = basename(params.filePath, extname(params.filePath));
   const sourceName = `knowledge_base/${params.specialtySlug}/${relativeSource}`;
 
-  const action = await removeExistingSource({
+  const { action, existingChunks } = await removeExistingSource({
     sourceName,
     medicalSpecialtyId: params.specialtyId,
     update: params.update,
   });
-  if (action === "skip") return { chunks: 0, action };
+  if (action === "skip") return { chunks: existingChunks, action };
 
   const { text: rawText, sourceType } = await extractDocumentText(params.filePath);
   if (!rawText || rawText.length < 20) {
@@ -382,10 +426,7 @@ async function upsertDocument(params: {
   const year = extractYear(sourceName, rawText);
   const tags = [...params.pillarCfg.tags, params.specialtySlug.toLowerCase()];
 
-  const { embeddings } = await embedMany({
-    model: openai.embedding("text-embedding-3-small"),
-    values: chunks,
-  });
+  const embeddings = await embedChunks(chunks);
 
   const vectorIds = embeddings.map((_, i) => `${docId}-${i}`);
 
@@ -559,6 +600,7 @@ async function main() {
   console.log(`DB specialty match: ${specialty.name} (${specialty.id})\n`);
 
   const stats = emptyStats();
+  const fileRows: Array<{ pillar: Pillar; file: string; chunks: number; action: string }> = [];
 
   for (const pillarCfg of PILLARS) {
     const pillarDir = join(knowledgeRoot, pillarCfg.folder);
@@ -572,6 +614,7 @@ async function main() {
     }
 
     for (const filePath of files) {
+      const relativeSource = relative(knowledgeRoot, filePath).replace(/\\/g, "/");
       // eslint-disable-next-line no-await-in-loop
       const result = await upsertDocument({
         specialtySlug,
@@ -584,9 +627,18 @@ async function main() {
       });
 
       stats[pillarCfg.pillar].files += 1;
-      stats[pillarCfg.pillar].chunks += result.chunks;
-      if (result.action === "skip") stats[pillarCfg.pillar].skipped += 1;
+      if (result.action === "skip") {
+        stats[pillarCfg.pillar].skipped += 1;
+      } else {
+        stats[pillarCfg.pillar].chunks += result.chunks;
+      }
       if (result.action === "replaced") stats[pillarCfg.pillar].updated += 1;
+      fileRows.push({
+        pillar: pillarCfg.pillar,
+        file: relativeSource,
+        chunks: result.chunks,
+        action: result.action,
+      });
     }
 
     console.log("");
@@ -603,6 +655,17 @@ async function main() {
   }
   const totalChunks = Object.values(stats).reduce((acc, s) => acc + s.chunks, 0);
   console.log("----------------------------------------------------");
+  console.log("📄 CHUNK PER FILE (CLINICAL)");
+  console.log("----------------------------------------------------");
+  const clinicalRows = fileRows.filter((r) => r.pillar === "CLINICAL");
+  const nameWidth = Math.max(24, ...clinicalRows.map((r) => r.file.length));
+  console.log(`${"File".padEnd(nameWidth)}  Chunks  Azione`);
+  for (const row of clinicalRows) {
+    console.log(`${row.file.padEnd(nameWidth)}  ${String(row.chunks).padStart(6)}  ${row.action}`);
+  }
+  const clinicalTotal = clinicalRows.reduce((acc, r) => acc + r.chunks, 0);
+  console.log("----------------------------------------------------");
+  console.log(`Totale chunk CLINICAL: ${clinicalTotal}`);
   console.log(`Totale chunk indicizzati in questa run: ${totalChunks}`);
   console.log("🎉 INGEST COMPLETATO");
   console.log("----------------------------------------------------");

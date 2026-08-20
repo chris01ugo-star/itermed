@@ -1,0 +1,312 @@
+{
+  "title": "Cardiopatia valvolare meccanica in gravidanza",
+  "description": "Chiara è una donna di 30 anni in gravidanza, alla 24esima settimana, con una storia di protesi valvolare meccanica per stenosi aortica. Si presenta con dispnea da sforzo, affaticamento e palpitazioni. Riferisce di aver avuto un episodio di edema alle caviglie negli ultimi giorni. La sua terapia attuale include anticoagulanti e beta-bloccanti. È preoccupata per il suo stato di salute e per quello del suo bambino.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "ecg",
+    "ecocardio",
+    "pt-ptt-inr",
+    "beta-hcg",
+    "emocromo"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "90/60",
+      "spo2": 85,
+      "temperature": 37.5,
+      "respiratoryRate": 25
+    },
+    "examBudgetEuro": 110,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "ecocardio": {
+          "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+          "normalFinding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+          "isAbnormal": true,
+          "price": 43.9
+        },
+        "pt-ptt-inr": {
+          "finding": "Coagulazione (PT, PTT, INR) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+          "normalFinding": "Coagulazione (PT, PTT, INR) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+          "isAbnormal": true,
+          "price": 9
+        },
+        "beta-hcg": {
+          "finding": "Beta-HCG (sierica/urinaria) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+          "normalFinding": "Beta-HCG (sierica/urinaria) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "rx-torace": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 15.5
+        }
+      }
+    },
+    "demographics": {
+      "age": 30,
+      "sex": "F",
+      "context": "Ambulatorio di Cardiologia"
+    },
+    "physicalExam": {
+      "finding": "All'esame obiettivo, Chiara presenta tachicardia, ipotensione e saturazione di ossigeno ridotta. L'auscultazione cardiaca rivela un soffio sistolico e un ritmo irregolare. La palpazione dell'addome mostra un leggero ingrossamento uterino. Edema bilaterale alle caviglie.",
+      "killipClass": "III"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+      "isAbnormal": true
+    },
+    "ecocardio": {
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+      "isAbnormal": true
+    },
+    "pt-ptt-inr": {
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+      "isAbnormal": true
+    },
+    "beta-hcg": {
+      "finding": "Beta-HCG (sierica/urinaria) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "rx-torace": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire ECG, ecocardiogramma, esami di laboratorio (PT, PTT, INR), beta-hCG ed emocromo per monitorare la situazione e gestire il rischio.",
+  "patientPrompt": "Mi chiamo Chiara e ho 30 anni. Sono incinta di 24 settimane e ho una protesi valvolare meccanica. Ultimamente ho avuto difficoltà a respirare e mi sento molto stanca. Ho anche notato che le mie caviglie si gonfiano. Sono preoccupata per la mia salute e quella del mio bambino.",
+  "id": "CARDIO-028",
+  "code": "CARDIO-028",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Cardiopatia in gravidanza — protesi valvolare meccanica",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf",
+  "diagnosis": "Cardiopatia valvolare meccanica in gravidanza con rischio di complicanze",
+  "pastMedicalHistory": "Chiara ha una storia di stenosi aortica che ha richiesto la sostituzione valvolare meccanica cinque anni fa. Non ha altre patologie note e non ha mai subito interventi chirurgici oltre a quello cardiaco. Non fuma e consuma alcol occasionalmente.",
+  "presentation": "Durante la visita, Chiara appare ansiosa. I segni vitali mostrano tachicardia e ipotensione. L'auscultazione cardiaca rivela un soffio sistolico e un ritmo irregolare. La saturazione di ossigeno è bassa e la frequenza respiratoria è elevata. La paziente riporta che i sintomi sono peggiorati negli ultimi giorni e chiede se ci sono rischi per il suo bambino.",
+  "redHerrings": [
+    "Chiara ha anche riferito di avere un po' di reflusso gastroesofageo, ma non sembra correlato ai suoi sintomi attuali.",
+    "Ha avuto un'infezione virale leggera qualche settimana fa e ha paura che possa influenzare la gravidanza.",
+    "Chiara ha recentemente iniziato a seguire una dieta vegetariana, ma non ha notato cambiamenti significativi nel suo stato di salute."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ecg": 8,
+    "ecocardio": 20,
+    "pt-ptt-inr": 30,
+    "emocromo": 30,
+    "tc": 40,
+    "rx-torace": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-028_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Cardiopatia in gravidanza — protesi valvolare meccanica)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-028_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-028_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-028_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-028_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-028_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Cardiologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "III",
+    "summary": "All'esame obiettivo, Chiara presenta tachicardia, ipotensione e saturazione di ossigeno ridotta. L'auscultazione cardiaca rivela un soffio sistolico e un ritmo irregolare. La palpazione dell'addome mostra un leggero ingrossamento uterino. Edema bilaterale alle caviglie."
+  },
+  "goldPathNarrative": "La paziente deve essere monitorata attentamente a causa della sua protesi valvolare meccanica e della gravidanza. È fondamentale eseguire un ECG per valutare il ritmo cardiaco e possibili aritmie. L'ecocardiogramma aiuterà a valutare la funzione cardiaca e la situazione della valvola. Gli esami di laboratorio sono essenziali per controllare i parametri di coagulazione, dato che la paziente è in terapia anticoagulante. È importante anche monitorare i livelli di beta-hCG e l'emocromo per valutare eventuali complicanze legate alla gravidanza.",
+  "escCitations": [
+    {
+      "chunkId": "a63fbbb6-fc91-4658-bdae-6bc7efbf480e-385",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf",
+      "quote": "diac condition should be optimized. This may include pre-pregnancy intervention or surgery for those with symptoms or severe disease (Figure 20), in keeping with the 2021 ESC/EACTS Guidelines for the management of valvular heart disease.698 Dedicated tools for risk strati- fication may be needed in the setting of rheumatic heart disease.697 12.5.1. Stenotic native valve lesions Stenotic valve lesions limit the ability to increase CO during pregnancy. The result of this may be presentation with s"
+    },
+    {
+      "chunkId": "a63fbbb6-fc91-4658-bdae-6bc7efbf480e-480",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf",
+      "quote": "cardiac anatomy and function, a narrow QRS complex, and ventricular rate (>50 b.p.m.), a prophylactic temporary pacemaker during delivery is not recommended. III C Native valve disease and pregnancy Intervention is recommended before pregnancy in symptomatic patients with severe aortic stenosis. I C Intervention is recommended before pregnancy in women with mitral stenosis and a valve area <1.5 cm2. I C Continued ESC Guidelines 4547 In pregnant women with symptomatic mitral stenosis or pulmonary"
+    },
+    {
+      "chunkId": "a63fbbb6-fc91-4658-bdae-6bc7efbf480e-387",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf",
+      "quote": "achieved in the mother after 4 min of resuscitative efforts and if the foetus is viable, taking gestational age, comorbidities, and the available level of medical care into account.614,688,689 IIa C © ESC 2025 CPR, cardiopulmonary resuscitation; i.v, intravenous; ROSC, return of spontaneous circulation. aClass of recommendation. bLevel of evidence. Recommendation Table 17 — Recommendation for congenital atrioventricular block and pregnancy Recommendation Classa Levelb In pregnant women with asym"
+    },
+    {
+      "chunkId": "a63fbbb6-fc91-4658-bdae-6bc7efbf480e-718",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf",
+      "quote": "1016/0003- 4975(95)00818-7 709. Minhas AS, Rahman F, Gavin N, Cedars A, Vaught AJ, Zakaria S, et al. Cardiovascular and obstetric delivery complications in pregnant women with valvular heart disease. Am J Cardiol 2021;158:90–7. https://doi.org/10.1016/j.amjcard.2021.[REDACTED]. Ducas RA, Javier DA, D’Souza R, Silversides CK, Tsang W. Pregnancy outcomes in wo- men with significant valve disease: a systematic review and meta-analysis. Heart 2020; 106:512–9. https://doi.org/10.1136/heartjnl-[REDACT"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → ecocardio → pt-ptt-inr → beta-hcg → emocromo.",
+      "Non prescrivere di prima intenzione: tc, rx-torace (ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf).",
+      "Budget SSN di riferimento: €110."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alla L. 24/2017 Art. 5 seguendo il gold path ESC. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Cardiologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "ecocardio",
+      "name": "Ecocardiografia (Transtoracica/Transesofagea)",
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+      "isAbnormal": true,
+      "priceEuro": 43.9
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT, INR)",
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+      "isAbnormal": true,
+      "priceEuro": 9
+    },
+    {
+      "examId": "beta-hcg",
+      "name": "Beta-HCG (sierica/urinaria)",
+      "finding": "Beta-HCG (sierica/urinaria) nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Cardiopatia in gravidanza — protesi valvolare meccanica (CARDIO-028). ECG: segni di tachicardia e aritmia; Ecocardiogramma: valutazione della funzione valvolare; Laboratorio: PT, PTT, INR; Beta-hCG: monitoraggio della gravidanza; Emocromo: per valutare anemia o altre complicanze.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf."
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 15.5,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf."
+    }
+  ]
+}

@@ -1,0 +1,328 @@
+{
+  "title": "STEMI anteriore acuto in uomo di 58 anni",
+  "description": "Marco si presenta al pronto soccorso lamentando dolore toracico acuto, che descrive come una sensazione di oppressione. Il dolore è insorto circa un'ora prima dell'arrivo e si irradia al braccio sinistro. Riferisce anche una leggera dispnea e sudorazione. Non ha una storia di malattie cardiache, ma è iperteso e fuma occasionalmente. Durante l'esame obiettivo, il paziente appare ansioso, ma è cosciente e orientato. I segni vitali mostrano una frequenza cardiaca di 98 bpm e una pressione arteriosa di 130/85 mmHg. L'auscultazione cardiaca non rivela soffi anomali, ma si nota un lieve respiro affannoso.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "ecg",
+    "troponina-hs",
+    "elettroliti",
+    "creat-urea-gfr",
+    "pt-ptt-inr",
+    "ecocardio",
+    "consenso-informato",
+    "coronarografia"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 98,
+      "bloodPressure": "130/85",
+      "spo2": 95,
+      "temperature": 36.8,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 120,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG mostra elevazione del segmento ST in V2-V4.",
+          "normalFinding": "ECG mostra elevazione del segmento ST in V2-V4.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "troponina-hs": {
+          "finding": "Troponina alta sensibilità positiva, indicativa di infarto miocardico.",
+          "normalFinding": "Troponina alta sensibilità positiva, indicativa di infarto miocardico.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "elettroliti": {
+          "finding": "Elettroliti nella norma, senza alterazioni significative.",
+          "normalFinding": "Elettroliti nella norma, senza alterazioni significative.",
+          "isAbnormal": false,
+          "price": 8
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina e urea nella norma, GFR stimato >60 ml/min.",
+          "normalFinding": "Creatinina e urea nella norma, GFR stimato >60 ml/min.",
+          "isAbnormal": false,
+          "price": 8
+        },
+        "pt-ptt-inr": {
+          "finding": "PT e PTT nella norma, INR 1.0.",
+          "normalFinding": "PT e PTT nella norma, INR 1.0.",
+          "isAbnormal": false,
+          "price": 9
+        },
+        "ecocardio": {
+          "finding": "Ecocardiogramma mostra disfunzione sistolica del ventricolo sinistro con aree di ipocinesia anteriore.",
+          "normalFinding": "Ecocardiogramma mostra disfunzione sistolica del ventricolo sinistro con aree di ipocinesia anteriore.",
+          "isAbnormal": true,
+          "price": 43.9
+        },
+        "coronarografia": {
+          "finding": "Coronarografia mostra occlusione della coronaria anteriore discendente.",
+          "normalFinding": "Coronarografia mostra occlusione della coronaria anteriore discendente.",
+          "isAbnormal": true,
+          "price": 1800
+        },
+        "angio": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        }
+      }
+    },
+    "demographics": {
+      "age": 58,
+      "sex": "M",
+      "context": "Uomo di 58 anni, presenta sintomi di angina e dispnea al pronto soccorso."
+    },
+    "physicalExam": {
+      "finding": "All'esame fisico, Marco appare ansioso ma vigile. La frequenza cardiaca è di 98 bpm, la pressione arteriosa è di 130/85 mmHg e la saturazione di ossigeno è al 95%. L'auscultazione polmonare non evidenzia crepitii, ma si nota un lieve respiro affannoso. Non ci sono segni di edema periferico e l'addome è morbido e non dolente.",
+      "killipClass": "I"
+    },
+    "ecg": {
+      "finding": "ECG mostra elevazione del segmento ST in V2-V4.",
+      "isAbnormal": true
+    },
+    "troponina-hs": {
+      "finding": "Troponina alta sensibilità positiva, indicativa di infarto miocardico.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti nella norma, senza alterazioni significative.",
+      "isAbnormal": false
+    },
+    "creat-urea-gfr": {
+      "finding": "Creatinina e urea nella norma, GFR stimato >60 ml/min.",
+      "isAbnormal": false
+    },
+    "pt-ptt-inr": {
+      "finding": "PT e PTT nella norma, INR 1.0.",
+      "isAbnormal": false
+    },
+    "ecocardio": {
+      "finding": "Ecocardiogramma mostra disfunzione sistolica del ventricolo sinistro con aree di ipocinesia anteriore.",
+      "isAbnormal": true
+    },
+    "coronarografia": {
+      "finding": "Coronarografia mostra occlusione della coronaria anteriore discendente.",
+      "isAbnormal": true
+    },
+    "angio": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Dopo aver eseguito un ECG che mostra elevazione del segmento ST, si procede con il prelievo di troponina-hs, elettroliti, creatinina e urea, e si ottiene il consenso informato per la coronarografia. La coronarografia rivela un occlusione della coronaria anteriore discendente, per cui si esegue un'angioplastica con stenting.",
+  "patientPrompt": "Mi chiamo Marco e ho 58 anni. Sono venuto al pronto soccorso perché ho un dolore toracico che non riesco a tollerare. Sento come se qualcuno mi stesse stringendo il petto e ho anche un po' di difficoltà a respirare. Ho avuto episodi di dolore in passato, ma mai così intensi. Ho paura che ci sia qualcosa di serio.",
+  "id": "CARDIO-001",
+  "code": "CARDIO-001",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Sindrome coronarica acuta — STEMI anteriore",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESC_2023_ACS_Guidelines.pdf",
+  "diagnosis": "Sindrome coronarica acuta — STEMI anteriore",
+  "pastMedicalHistory": "Marco ha una storia di ipertensione, gestita con farmaci. Non ha mai avuto eventi cardiaci precedenti e non è stato diagnosticato con diabete o dislipidemia. Non ha mai subito interventi chirurgici e non ha allergie note. Fuma occasionalmente, ma ha smesso di bere alcolici da diversi anni.",
+  "presentation": "Al pronto soccorso, Marco riferisce di aver avvertito un dolore toracico intenso e persistente, accompagnato da sudorazione e nausea. Il dolore è localizzato al centro del torace e si irradia verso il braccio sinistro. Riferisce di aver avuto episodi simili in passato, ma mai così gravi. Non ha mai ricevuto diagnosi di malattia cardiaca e non è in trattamento per patologie croniche. La sua storia familiare è positiva per malattie cardiovascolari, con il padre che ha avuto un infarto a 60 anni.",
+  "redHerrings": [
+    "Marco ha una storia di reflusso gastroesofageo, che ha scambiato per dolore toracico in passato.",
+    "Riferisce di aver preso un antidolorifico prima di arrivare in ospedale, pensando che il dolore fosse causato da un problema muscolare.",
+    "Ha recentemente iniziato a prendere un nuovo farmaco per l'ipertensione, ma non ricorda il nome.",
+    "Durante l'esame fisico, la palpazione dell'addome risulta normale, ma Marco accenna a un leggero fastidio addominale che lo preoccupa."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "ecg": 8,
+    "troponina-hs": 35,
+    "elettroliti": 30,
+    "creat-urea-gfr": 30,
+    "pt-ptt-inr": 30,
+    "ecocardio": 20,
+    "coronarografia": 25,
+    "angio": 45,
+    "tc": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-001_1",
+      "prompt": "Hai mai avuto problemi cardiaci in passato?",
+      "critical": true,
+      "expectedKeywords": [
+        "infarto",
+        "angina",
+        "aritmie"
+      ],
+      "rationale": "Questa domanda aiuta a identificare eventuali patologie cardiache preesistenti che possono influenzare la diagnosi."
+    },
+    {
+      "id": "aq_cardio-001_2",
+      "prompt": "Hai mai fatto uso di farmaci per la pressione alta o il colesterolo?",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "ipertensione",
+        "colesterolo"
+      ],
+      "rationale": "Conoscere la storia farmacologica del paziente è fondamentale per valutare i fattori di rischio."
+    },
+    {
+      "id": "aq_cardio-001_3",
+      "prompt": "Hai sintomi associati come nausea o sudorazione?",
+      "critical": true,
+      "expectedKeywords": [
+        "nausea",
+        "sudorazione",
+        "vertigini"
+      ],
+      "rationale": "I sintomi associati possono fornire indizi sulla gravità della condizione."
+    },
+    {
+      "id": "aq_cardio-001_4",
+      "prompt": "C'è una storia familiare di malattie cardiache?",
+      "critical": true,
+      "expectedKeywords": [
+        "famiglia",
+        "malattie cardiache",
+        "storia familiare"
+      ],
+      "rationale": "La storia familiare è un importante fattore di rischio per le malattie cardiovascolari."
+    },
+    {
+      "id": "aq_cardio-001_5",
+      "prompt": "Hai mai avuto episodi simili in passato?",
+      "critical": true,
+      "expectedKeywords": [
+        "episodi",
+        "simili",
+        "precedenti"
+      ],
+      "rationale": "Questa informazione può aiutare a capire se il paziente ha una predisposizione a problemi cardiaci."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "I",
+    "summary": "All'esame fisico, Marco appare ansioso ma vigile. La frequenza cardiaca è di 98 bpm, la pressione arteriosa è di 130/85 mmHg e la saturazione di ossigeno è al 95%. L'auscultazione polmonare non evidenzia crepitii, ma si nota un lieve respiro affannoso. Non ci sono segni di edema periferico e l'addome è morbido e non dolente."
+  },
+  "goldPathNarrative": "Il percorso diagnostico e terapeutico seguito per Marco è stato conforme alle linee guida ESC per la gestione dell'ACS. L'ECG è stato eseguito tempestivamente, entro 10 minuti dall'arrivo, e ha mostrato segni di STEMI. La troponina-hs è stata prelevata e ha confermato l'infarto. Gli elettroliti e la funzione renale sono stati monitorati, e il consenso informato per la coronarografia è stato ottenuto. Questo approccio ha garantito un intervento tempestivo e appropriato, riducendo il rischio di complicazioni e migliorando l'esito clinico.",
+  "escCitations": [
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-81",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "È raccomandato che i pazienti con sospetta STEMI siano immediatamente triage per una strategia di riperfusione d'emergenza."
+    },
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-497",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "La registrazione e l'interpretazione dell'ECG sono raccomandate il prima possibile al punto di primo contatto, con un obiettivo di <10 minuti."
+    },
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-175",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "Si raccomanda che la gestione iniziale dei pazienti con sindrome coronarica acuta si basi su una combinazione di storia clinica, sintomi, segni vitali, ECG e hs-cTn."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "ECG eseguito entro 10 minuti dall'arrivo al pronto soccorso.",
+      "Troponina-hs prelevata in modo tempestivo per confermare l'infarto.",
+      "Consenso informato ottenuto prima della coronarografia.",
+      "Appropriatezza della terapia antitrombotica e della gestione del dolore."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "L'adesione al gold path e alle linee guida ESC per la gestione dell'ACS costituisce uno scudo secondo la Legge 24/2017 Art. 5. Seguendo il percorso diagnostico e terapeutico raccomandato, si garantisce una gestione appropriata e tempestiva del paziente, riducendo il rischio di complicazioni e migliorando gli esiti clinici. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "ECG eseguito tempestivamente secondo le linee guida.",
+        "Consenso informato documentato e firmato dal paziente.",
+        "Appropriatezza prescrittiva dei farmaci antitrombotici e analgesici.",
+        "Documentazione completa e accurata di tutti gli esami e le valutazioni effettuate."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG mostra elevazione del segmento ST in V2-V4.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "troponina-hs",
+      "name": "Troponina (alta sensibilità)",
+      "finding": "Troponina alta sensibilità positiva, indicativa di infarto miocardico.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti nella norma, senza alterazioni significative.",
+      "isAbnormal": false,
+      "priceEuro": 8
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina e Urea (Azotemia) con stima GFR",
+      "finding": "Creatinina e urea nella norma, GFR stimato >60 ml/min.",
+      "isAbnormal": false,
+      "priceEuro": 8
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT, INR)",
+      "finding": "PT e PTT nella norma, INR 1.0.",
+      "isAbnormal": false,
+      "priceEuro": 9
+    },
+    {
+      "examId": "ecocardio",
+      "name": "Ecocardiografia (Transtoracica/Transesofagea)",
+      "finding": "Ecocardiogramma mostra disfunzione sistolica del ventricolo sinistro con aree di ipocinesia anteriore.",
+      "isAbnormal": true,
+      "priceEuro": 43.9
+    },
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia (Invasiva)",
+      "finding": "Coronarografia mostra occlusione della coronaria anteriore discendente.",
+      "isAbnormal": true,
+      "priceEuro": 1800
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "angio",
+      "name": "Angio-TC e Angio-RM",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf."
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf."
+    }
+  ]
+}

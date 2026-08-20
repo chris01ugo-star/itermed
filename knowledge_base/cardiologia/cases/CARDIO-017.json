@@ -1,0 +1,273 @@
+{
+  "title": "Sincope riflessa vasovagale in Guardia Medica",
+  "description": "Giulia si presenta in Guardia Medica dopo aver avuto un episodio di sincope mentre si trovava in fila al supermercato. Ha riferito di sentirsi debole e di aver visto tutto offuscato prima di perdere conoscenza per alcuni secondi. Non ricorda di essersi fatto male durante la caduta. Dopo il risveglio, si è sentita confusa ma ha recuperato rapidamente. Non ha avuto precedenti di sincope e non assume farmaci.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "ecg",
+    "glicemia",
+    "elettroliti"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 85,
+      "bloodPressure": "110/70",
+      "spo2": 92,
+      "temperature": 36.5,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 60,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sincope riflessa (CARDIO-017). ECG: ritmi normali, senza anomalie; Glicemia: nella norma; Elettroliti: nella norma.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Sincope riflessa (CARDIO-017). ECG: ritmi normali, senza anomalie; Glicemia: nella norma; Elettroliti: nella norma.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "glicemia": {
+          "finding": "Glicemia basale nel contesto di Sincope riflessa (CARDIO-017). ECG: ritmi normali, senza anomalie; Glicemia: nella norma; Elettroliti: nella norma.",
+          "normalFinding": "Glicemia basale nel contesto di Sincope riflessa (CARDIO-017). ECG: ritmi normali, senza anomalie; Glicemia: nella norma; Elettroliti: nella norma.",
+          "isAbnormal": true,
+          "price": 3.5
+        },
+        "elettroliti": {
+          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sincope riflessa (CARDIO-017). ECG: ritmi normali, senza anomalie; Glicemia: nella norma; Elettroliti: nella norma.",
+          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sincope riflessa (CARDIO-017). ECG: ritmi normali, senza anomalie; Glicemia: nella norma; Elettroliti: nella norma.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Syncope_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Syncope_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "eeg": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Syncope_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Syncope_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 0
+        }
+      }
+    },
+    "demographics": {
+      "age": 28,
+      "sex": "F",
+      "context": "Guardia Medica"
+    },
+    "physicalExam": {
+      "finding": "All'esame obiettivo, Giulia appare in buone condizioni generali, è vigile e reattiva. La pressione arteriosa è nella norma, il polso è regolare e non presenta segni di disidratazione. Non ci sono soffi cardiaci o segni di insufficienza cardiaca. La palpazione addominale non rivela anomalie. Non ci sono segni neurologici evidenti.",
+      "killipClass": "I"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sincope riflessa (CARDIO-017). ECG: ritmi normali, senza anomalie; Glicemia: nella norma; Elettroliti: nella norma.",
+      "isAbnormal": true
+    },
+    "glicemia": {
+      "finding": "Glicemia basale nel contesto di Sincope riflessa (CARDIO-017). ECG: ritmi normali, senza anomalie; Glicemia: nella norma; Elettroliti: nella norma.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sincope riflessa (CARDIO-017). ECG: ritmi normali, senza anomalie; Glicemia: nella norma; Elettroliti: nella norma.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Syncope_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "eeg": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Syncope_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire ECG, glicemia e elettroliti per escludere cause organiche della sincope.",
+  "patientPrompt": "Ho 28 anni e sono venuta in Guardia Medica perché ho svenuto mentre ero in fila al supermercato. Ho sentito che tutto diventava offuscato e poi non ricordo più nulla. Mi sono ripresa rapidamente, ma sono preoccupata per quello che è successo.",
+  "id": "CARDIO-017",
+  "code": "CARDIO-017",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Sincope riflessa",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "GUARDIA_MEDICA",
+  "guidelineRef": "ESC_2018_Syncope_Guidelines.pdf",
+  "diagnosis": "Sincope riflessa vasovagale",
+  "pastMedicalHistory": "Giulia non ha patologie pregresse significative. Non ha mai avuto episodi di sincope in passato e non ha una storia familiare di malattie cardiache. Non è allergica a farmaci e non assume alcun medicinale.",
+  "presentation": "Giulia è una giovane donna di 28 anni che si presenta in Guardia Medica con un episodio di sincope. Durante l'anamnesi, riferisce di aver avvertito una sensazione di debolezza e visione offuscata prima di svenire. Non ha avuto traumi e si sente ora relativamente bene, anche se è un po' ansiosa per l'accaduto. Non ha sintomi cardiaci associati come dolore toracico o palpitazioni.",
+  "redHerrings": [
+    "Giulia ha recentemente iniziato a seguire una dieta ipocalorica per perdere peso.",
+    "Riferisce di aver avuto un'infezione virale leggera alcune settimane fa.",
+    "Ha un gatto che ha recentemente avuto un'infezione parassitaria."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "ecg": 8,
+    "elettroliti": 30,
+    "tc": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-017_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Sincope riflessa)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-017_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-017_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-017_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-017_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-017_6",
+      "prompt": "Contesto di presentazione: Guardia Medica territoriale",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "I",
+    "summary": "All'esame obiettivo, Giulia appare in buone condizioni generali, è vigile e reattiva. La pressione arteriosa è nella norma, il polso è regolare e non presenta segni di disidratazione. Non ci sono soffi cardiaci o segni di insufficienza cardiaca. La palpazione addominale non rivela anomalie. Non ci sono segni neurologici evidenti."
+  },
+  "goldPathNarrative": "Iniziare con un ECG per valutare il ritmo cardiaco e la presenza di anomalie. Successivamente, controllare la glicemia per escludere ipoglicemia. Infine, eseguire un'analisi degli elettroliti per verificare eventuali squilibri che potrebbero contribuire alla sincope. È importante escludere cause cardiache e metaboliche prima di considerare la sincope come riflessa.",
+  "escCitations": [
+    {
+      "chunkId": "9727a773-2fbd-469b-b7d3-2e5f4fbfe187-334",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2018_Syncope_Guidelines.pdf",
+      "quote": "paola F, Costantino G, Perego F, Borella M, Galli A, Cantoni G, Barbic F, Casella F, Duca PG, Furlan R, STePS investigators. San Francisco Syncope Rule, Osservatorio Epidemiologico sulla Sincope nel Lazio risk score, and clinical judgment in the assessment of short-term outcome of syncope. Am J Emerg Med 2010;28:432–439. 80. Sheldon RS, Morillo CA, Krahn AD, O’Neill B, Thiruganasambandamoorthy V, Parkash R, Talajic M, Tu JV, Seifer C, Johnstone D, Leather R. Standardized approaches to the invest"
+    },
+    {
+      "chunkId": "9727a773-2fbd-469b-b7d3-2e5f4fbfe187-331",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2018_Syncope_Guidelines.pdf",
+      "quote": ": critical issues in the evaluation and management of adult patients presenting to the emergency department with syncope. Ann Emerg Med 2007;49:431–444. 70. Thiruganasambandamoorthy V, Hess EP, Alreesi A, Perry JJ, Wells GA, Stiell IG. External validation of the San Francisco Syncope Rule in the Canadian setting. Ann Emerg Med 2010;55:464–472. 71. Brignole M, Menozzi C, Bartoletti A, Giada F, Lagi A, Ungar A, Ponassi I, Mussi C, Maggi R, Re G, Furlan R, Rovelli G, Ponzi P, Scivales A. A new mana"
+    },
+    {
+      "chunkId": "9727a773-2fbd-469b-b7d3-2e5f4fbfe187-338",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2018_Syncope_Guidelines.pdf",
+      "quote": "tid sinus syndrome diagnosed by means of the ‘method of symptoms’. Europace 2014;16:928–934. 93. Solari D, Maggi R, Oddone D, Solano A, Croci F, Donateo P, Wieling W, Brignole M. Assessment of the vasodepressor reflex in carotid sinus syndrome. Circ Arrhythm Electrophysiol 2014;7:505–510. 94. Brignole M, Ungar A, Casagranda I, Gulizia M, Lunati M, Ammirati F, Del Rosso A, Sasdelli M, Santini M, Maggi R, Vitale E, Morrione A, Francese GM, Vecchi MR, Giada F, Syncope Unit Project (SUP) investigato"
+    },
+    {
+      "chunkId": "9727a773-2fbd-469b-b7d3-2e5f4fbfe187-185",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2018_Syncope_Guidelines.pdf",
+      "quote": "drugs and the administration of fludrocortisone or midodrine. The algorithm shown in Figure 11 has recently been prospectively validated in a multicentre pragmatic study, which showed a low recurrence rate of syncope with pacing of 9% at 1 year and 15% at 2 years, significantly lower than the 22% and 37%, respectively, observed in unpaced controls.186 ESC Guidelines 1917 Treatment of reflex syncope Recommendations Classa Levelb Education and lifestyle modifications Explanation of the diagnosis, "
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → glicemia → elettroliti.",
+      "Non prescrivere di prima intenzione: tc, eeg (ESC_2018_Syncope_Guidelines.pdf).",
+      "Budget SSN di riferimento: €60."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alla L. 24/2017 Art. 5 se si seguono le linee guida ESC. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Guardia Medica territoriale."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sincope riflessa (CARDIO-017). ECG: ritmi normali, senza anomalie; Glicemia: nella norma; Elettroliti: nella norma.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "glicemia",
+      "name": "Glicemia basale",
+      "finding": "Glicemia basale nel contesto di Sincope riflessa (CARDIO-017). ECG: ritmi normali, senza anomalie; Glicemia: nella norma; Elettroliti: nella norma.",
+      "isAbnormal": true,
+      "priceEuro": 3.5
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sincope riflessa (CARDIO-017). ECG: ritmi normali, senza anomalie; Glicemia: nella norma; Elettroliti: nella norma.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Syncope_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Syncope_Guidelines.pdf."
+    },
+    {
+      "examId": "eeg",
+      "name": "Elettroencefalogramma (EEG)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Syncope_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 0,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Syncope_Guidelines.pdf."
+    }
+  ]
+}

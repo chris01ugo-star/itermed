@@ -1,0 +1,349 @@
+{
+  "title": "NSTEMI atipico in paziente diabetico",
+  "description": "Giovanni è un uomo di 62 anni, diabetico da 10 anni, che si presenta al pronto soccorso per dolore toracico persistente da circa 2 ore. Descrive il dolore come una sensazione di oppressione al centro del petto, che si irradia verso il braccio sinistro e la mandibola. Ha anche difficoltà a respirare e si sente ansioso. Riferisce di aver avuto episodi simili in passato, ma mai così intensi. Non ha mai avuto un infarto in precedenza e non è in trattamento con anticoagulanti.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "ecg",
+    "troponina-hs",
+    "elettroliti",
+    "creat-urea-gfr",
+    "pt-ptt-inr",
+    "nt-probnp",
+    "ecocardio"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "130/85",
+      "spo2": 92,
+      "temperature": 37.5,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 140,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "troponina-hs": {
+          "finding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "normalFinding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "elettroliti": {
+          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "normalFinding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "pt-ptt-inr": {
+          "finding": "Coagulazione (PT, PTT, INR) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "normalFinding": "Coagulazione (PT, PTT, INR) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "isAbnormal": true,
+          "price": 9
+        },
+        "nt-probnp": {
+          "finding": "NT-proBNP (o BNP) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "normalFinding": "NT-proBNP (o BNP) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "isAbnormal": true,
+          "price": 18
+        },
+        "ecocardio": {
+          "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "normalFinding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+          "isAbnormal": true,
+          "price": 43.9
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "rm": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 220
+        }
+      }
+    },
+    "demographics": {
+      "age": 62,
+      "sex": "M",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "All'esame fisico, Giovanni presenta tachicardia, sudorazione, pallore e segni di distress respiratorio. La pressione arteriosa è stabile, ma la frequenza respiratoria è elevata. Non ci sono soffi cardiaci apprezzabili e i polmoni presentano un respiro affannoso.",
+      "killipClass": "III"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true
+    },
+    "troponina-hs": {
+      "finding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true
+    },
+    "creat-urea-gfr": {
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true
+    },
+    "pt-ptt-inr": {
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true
+    },
+    "nt-probnp": {
+      "finding": "NT-proBNP (o BNP) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true
+    },
+    "ecocardio": {
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "rm": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Seguire il gold path ESC per la gestione del NSTEMI: ECG, troponina-hs, elettroliti, creat-urea-gfr, pt-ptt-inr, nt-probnp, ecocardio.",
+  "patientPrompt": "Mi chiamo Giovanni e ho 62 anni. Sono diabetico da dieci anni. Oggi sono venuto al pronto soccorso perché ho un forte dolore al petto che dura da circa due ore. Il dolore è oppressivo e si irradia al braccio sinistro. Ho anche difficoltà a respirare e mi sento molto ansioso. Ho avuto episodi simili in passato, ma mai così intensi. Non ho mai avuto un infarto prima d'ora.",
+  "id": "CARDIO-002",
+  "code": "CARDIO-002",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Sindrome coronarica acuta — NSTEMI",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESC_2023_ACS_Guidelines.pdf",
+  "diagnosis": "Sindrome coronarica acuta — NSTEMI",
+  "pastMedicalHistory": "Diabete mellito di tipo 2, ipertensione, dislipidemia. Non fuma e non ha mai avuto interventi chirurgici significativi. Non ha allergie note.",
+  "presentation": "Giovanni si presenta al pronto soccorso con un dolore toracico acuto e difficoltà respiratorie. È visibilmente ansioso e sembra in sofferenza. Durante l'esame fisico, mostra segni di sudorazione e pallore. La sua frequenza cardiaca è elevata e la saturazione di ossigeno è al di sotto della norma.",
+  "redHerrings": [
+    "Giovanni ha una storia di reflusso gastroesofageo, che potrebbe spiegare il dolore toracico.",
+    "Riferisce di aver mangiato un pasto abbondante poco prima dell'insorgenza del dolore, il che potrebbe far pensare a una causa gastrointestinale.",
+    "Ha una storia di ansia e attacchi di panico, che potrebbe contribuire alla sua presentazione attuale."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ecg": 8,
+    "troponina-hs": 35,
+    "elettroliti": 30,
+    "creat-urea-gfr": 30,
+    "pt-ptt-inr": 30,
+    "nt-probnp": 40,
+    "ecocardio": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-002_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Sindrome coronarica acuta — NSTEMI)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-002_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-002_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-002_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-002_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-002_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "III",
+    "summary": "All'esame fisico, Giovanni presenta tachicardia, sudorazione, pallore e segni di distress respiratorio. La pressione arteriosa è stabile, ma la frequenza respiratoria è elevata. Non ci sono soffi cardiaci apprezzabili e i polmoni presentano un respiro affannoso."
+  },
+  "goldPathNarrative": "Iniziare con un ECG per valutare eventuali anomalie ischemiche. Procedere con il dosaggio della troponina ad alta sensibilità per confermare la diagnosi di NSTEMI. Monitorare gli elettroliti e la funzionalità renale. Valutare i parametri di coagulazione. Infine, eseguire un ecocardiogramma per valutare la funzione cardiaca e identificare eventuali complicanze. È fondamentale gestire il paziente secondo le linee guida ESC per garantire un trattamento adeguato e tempestivo.",
+  "escCitations": [
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-198",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "namic instability or cardiogenic shock • Recurrent or refractory chest pain despite medical treatment • In-hospital life-threatening arrhythmias • Mechanical complications of MI • Acute heart failure presumed secondary to ongoing myocardial ischaemia • Recurrent dynamic ST-segment or T wave changes, particularly intermittent ST-segment elevation. I C An early invasive strategy within 24 h should be considered in patients with at least one of the following high-risk criteria: • Confirmed diagnosi"
+    },
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-199",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "of Acute Coronary Events; hs-cTn, high-sensitivity cardiac troponin; IRA, infarct-related artery; MI, myocardial infarction; NSTE-ACS, non-ST-elevation acute coronary syndrome; NSTEMI, non-ST-elevation myocardial infarction; PPCI, primary percutaneous coronary intervention; STEMI, ST-elevation myocardial infarction. aClass of recommendation. bLevel of evidence. cST-segment elevation equivalents are presented in Supplementary data online, Figure S2. 3750 ESC Guidelines Downloaded from https://aca"
+    },
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-175",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "should be managed in the same way as patients with chronic total occlusion according to the ESC Guidelines for the diagnosis and manage- ment of chronic coronary syndromes (CCS).195 5.2.2. Immediate invasive strategy for non-ST elevation acute coronary syndrome An immediate invasive strategy refers to emergency (i.e. as soon as pos- sible) angiography and PCI if indicated. This is recommended for pa- tients with a working diagnosis of NSTE-ACS and any of the following very high-risk criteria: • "
+    },
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-123",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "B It is recommended to use an ESC algorithmic approach with serial hs-cTn measurements (0 h/1 h or 0 h/2 h) to rule in and rule out NSTEMI.28–44 I B Additional testing after 3 h is recommended if the first two hs-cTn measurements of the 0 h/1 h algorithm are inconclusive and no alternative diagnoses explaining the condition have been made.45,46 I B The use of established risk scores (e.g. GRACE risk score) for prognosis estimation should be considered.47–49 IIa B Triage for emergency reperfusion"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → troponina-hs → elettroliti → creat-urea-gfr → pt-ptt-inr → nt-probnp → ecocardio.",
+      "Non prescrivere di prima intenzione: pet-tc, rm (ESC_2023_ACS_Guidelines.pdf).",
+      "Budget SSN di riferimento: €140."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alla L. 24/2017 Art. 5 seguendo il gold path ESC. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "troponina-hs",
+      "name": "Troponina (alta sensibilità)",
+      "finding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina e Urea (Azotemia) con stima GFR",
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT, INR)",
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true,
+      "priceEuro": 9
+    },
+    {
+      "examId": "nt-probnp",
+      "name": "NT-proBNP (o BNP)",
+      "finding": "NT-proBNP (o BNP) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true,
+      "priceEuro": 18
+    },
+    {
+      "examId": "ecocardio",
+      "name": "Ecocardiografia (Transtoracica/Transesofagea)",
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica acuta — NSTEMI (CARDIO-002). ECG: possibile ischemia miocardica; Troponina-hs: elevata; Elettroliti: da valutare; Creatinina e urea: da valutare; PT, PTT, INR: da valutare; NT-proBNP: da valutare; Ecocardiogramma: da eseguire.",
+      "isAbnormal": true,
+      "priceEuro": 43.9
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf."
+    },
+    {
+      "examId": "rm",
+      "name": "RM Addome/Pelvi/Encefalo/Colonna/Articolare",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf."
+    }
+  ]
+}

@@ -1,0 +1,291 @@
+{
+  "title": "Angina da sforzo in sindrome coronarica cronica",
+  "description": "Mi sono presentato in ambulatorio per un dolore al petto che avverto durante sforzi fisici, come salire le scale o camminare velocemente. Il dolore è localizzato al centro del petto e si irradia verso il braccio sinistro. Ho notato che il dolore si allevia con il riposo. Inoltre, ho avuto episodi di mancanza di respiro durante l'attività fisica, ma non ho mai avuto sintomi a riposo.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "ecg",
+    "assetto-lipidico",
+    "glicemia",
+    "ecocardio"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 80,
+      "bloodPressure": "130/85",
+      "spo2": 95,
+      "temperature": 36.5,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 90,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "assetto-lipidico": {
+          "finding": "Assetto lipidico (Col Tot, HDL, LDL, TG) nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+          "normalFinding": "Assetto lipidico (Col Tot, HDL, LDL, TG) nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "glicemia": {
+          "finding": "Glicemia basale nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+          "normalFinding": "Glicemia basale nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+          "isAbnormal": true,
+          "price": 3.5
+        },
+        "ecocardio": {
+          "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+          "normalFinding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+          "isAbnormal": true,
+          "price": 43.9
+        },
+        "coronarografia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 1800
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        }
+      }
+    },
+    "demographics": {
+      "age": 62,
+      "sex": "M",
+      "context": "Ambulatorio di Cardiologia"
+    },
+    "physicalExam": {
+      "finding": "All'esame obiettivo, il paziente presenta una pressione arteriosa di 130/85 mmHg e un battito cardiaco regolare. Non ci sono segni di insufficienza cardiaca. L'auscultazione cardiaca è normale, senza soffi. Non ci sono edemi periferici.",
+      "killipClass": "I"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+      "isAbnormal": true
+    },
+    "assetto-lipidico": {
+      "finding": "Assetto lipidico (Col Tot, HDL, LDL, TG) nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+      "isAbnormal": true
+    },
+    "glicemia": {
+      "finding": "Glicemia basale nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+      "isAbnormal": true
+    },
+    "ecocardio": {
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+      "isAbnormal": true
+    },
+    "coronarografia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Seguire il gold path: ECG, assetto lipidico, glicemia, ecocardiogramma.",
+  "patientPrompt": "Da qualche mese ho iniziato a sentire un dolore al petto che si presenta quando faccio sforzi. È un dolore che mi preoccupa e vorrei sapere cosa potrebbe essere.",
+  "id": "CARDIO-014",
+  "code": "CARDIO-014",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Sindrome coronarica cronica — angina stabile",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+  "diagnosis": "Sindrome coronarica cronica — angina stabile",
+  "pastMedicalHistory": "Ho una storia di ipertensione e dislipidemia, ma non ho mai avuto interventi chirurgici. Non ho mai avuto infarti o altre malattie cardiache in passato.",
+  "presentation": "Il dolore toracico è presente da circa sei mesi, inizialmente sporadico, ma negli ultimi mesi è diventato più frequente. Ho notato che il dolore si manifesta soprattutto quando sono sotto stress o faccio sforzi fisici. Non ho avuto episodi di dolore a riposo. Ho una storia familiare di malattie cardiache e sono iperteso.",
+  "redHerrings": [
+    "Ho anche avuto un episodio di reflusso gastroesofageo che potrebbe essere confuso con il dolore toracico.",
+    "Ho recentemente iniziato a fumare di nuovo dopo aver smesso per alcuni anni.",
+    "Ho avuto un'influenza leggera qualche settimana fa, ma ora mi sento bene."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "ecg": 8,
+    "ecocardio": 20,
+    "coronarografia": 25
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-014_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Sindrome coronarica cronica — angina stabile)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-014_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-014_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-014_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-014_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-014_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Cardiologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "I",
+    "summary": "All'esame obiettivo, il paziente presenta una pressione arteriosa di 130/85 mmHg e un battito cardiaco regolare. Non ci sono segni di insufficienza cardiaca. L'auscultazione cardiaca è normale, senza soffi. Non ci sono edemi periferici."
+  },
+  "goldPathNarrative": "Iniziare con un elettrocardiogramma per valutare eventuali anomalie ischemiche. Successivamente, eseguire un profilo lipidico per valutare i livelli di colesterolo e trigliceridi, seguito da un test della glicemia per escludere il diabete. Infine, un ecocardiogramma per valutare la funzione cardiaca e la presenza di eventuali anomalie strutturali.",
+  "escCitations": [
+    {
+      "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-138",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+      "quote": "at rest No exertion is needed to trigger angina © ESC 2024 Recommendation Table 1 — Recommendations for his- tory taking, risk factor assessment, and resting electro- cardiogram in individuals with suspected chronic coronary syndrome (see also Evidence Table 1) Recommendations Classa Levelb History taking and risk factor assessment In individuals reporting symptoms of suspected myocardial ischaemic origin, a detailed assessment of cardiovascular risk factors, medical history, and symptom charact"
+    },
+    {
+      "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-133",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+      "quote": "al dyspnoea. CCS, chronic coronary syndrome. ESC Guidelines 3435 Recent-onset anginal symptoms with changing frequency or intensity should raise the suspicion that a coronary atherosclerotic plaque may be destabilizing. In these patients, the diagnostic algorithm recom- mended by the 2023 ESC Guidelines for the management of patients with acute coronary syndromes should be used to rule out an acute event.65 When investigating suspected CCS, it is important to perform a thorough physical examinat"
+    },
+    {
+      "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-129",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+      "quote": "n individuals with moderate and high (>15–85%) clinical likelihood Consider ANOCA/INOCAFigure 2 Stepwise approach to the initial management of individuals with suspected chronic coronary syndrome. ANOCA, angina with non- obstructive coronary arteries; CAD, coronary artery disease; CCS, chronic coronary syndrome; CCTA, coronary computed tomography angiography; ECG, electrocardiogram; ED, emergency department; GDMT, guideline-directed medical therapy; INOCA, ischaemia with non-obstructive coronary"
+    },
+    {
+      "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-76",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+      "quote": "in patients with symptoms suspected of CCS (Section 3) and their treatment (Section 4), special subgroups of CCS patients (Section 5) and finally, long-term follow-up and care (Section 6). 3424 ESC Guidelines Asymptomatic with abnormal coronary anatomical or functional test Angina or equivalent with no obstructive CAD (ANOCA/INOCA) Stabilized phase after ACS, PCI, or CABG Stress-induced angina, or equivalent, with obstructive CAD A B LV dysfunction or heart failure of ischaemic origin Structural"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → assetto-lipidico → glicemia → ecocardio.",
+      "Non prescrivere di prima intenzione: coronarografia, pet-tc (ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf).",
+      "Budget SSN di riferimento: €90."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alla L. 24/2017 Art. 5 seguendo il gold path ESC. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Cardiologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "assetto-lipidico",
+      "name": "Assetto lipidico (Col Tot, HDL, LDL, TG)",
+      "finding": "Assetto lipidico (Col Tot, HDL, LDL, TG) nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "glicemia",
+      "name": "Glicemia basale",
+      "finding": "Glicemia basale nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+      "isAbnormal": true,
+      "priceEuro": 3.5
+    },
+    {
+      "examId": "ecocardio",
+      "name": "Ecocardiografia (Transtoracica/Transesofagea)",
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica cronica — angina stabile (CARDIO-014). ECG: possibile ischemia; Lipid profile: dislipidemia attesa; Glicemia: valutare per diabete; Ecocardiogramma: valutare funzione ventricolare sinistra.",
+      "isAbnormal": true,
+      "priceEuro": 43.9
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia (Invasiva)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 1800,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf."
+    }
+  ]
+}

@@ -1,0 +1,290 @@
+{
+  "title": "CCS e scelta tra terapia medica ottimale e rivascolarizzazione",
+  "description": "Giovanni si presenta all'ambulatorio con una storia di angina stabile che si è aggravata negli ultimi mesi. Riferisce episodi di dolore toracico durante sforzi moderati, che si risolvono con il riposo. Ha una storia di ipertensione e dislipidemia, trattata con farmaci.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "ecg",
+    "ecocardio",
+    "scintigrafia",
+    "assetto-lipidico"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 80,
+      "bloodPressure": "130/80",
+      "spo2": 92,
+      "temperature": 36.5,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 220,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "ecocardio": {
+          "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+          "normalFinding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+          "isAbnormal": true,
+          "price": 43.9
+        },
+        "scintigrafia": {
+          "finding": "Scintigrafia (ossea/miocardica/polmonare/tiroidea) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+          "normalFinding": "Scintigrafia (ossea/miocardica/polmonare/tiroidea) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+          "isAbnormal": true,
+          "price": 160
+        },
+        "assetto-lipidico": {
+          "finding": "Assetto lipidico (Col Tot, HDL, LDL, TG) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+          "normalFinding": "Assetto lipidico (Col Tot, HDL, LDL, TG) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 0
+        }
+      }
+    },
+    "demographics": {
+      "age": 65,
+      "sex": "M",
+      "context": "Ambulatorio di Cardiologia"
+    },
+    "physicalExam": {
+      "finding": "Il paziente è vigile, orientato e in buone condizioni generali. Auscultazione cardiaca regolare, senza soffi. Pressione arteriosa normale. Leggero sovrappeso.",
+      "killipClass": "I"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+      "isAbnormal": true
+    },
+    "ecocardio": {
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+      "isAbnormal": true
+    },
+    "scintigrafia": {
+      "finding": "Scintigrafia (ossea/miocardica/polmonare/tiroidea) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+      "isAbnormal": true
+    },
+    "assetto-lipidico": {
+      "finding": "Assetto lipidico (Col Tot, HDL, LDL, TG) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un ECG, seguito da un ecocardiogramma e una scintigrafia. Valutare l'assetto lipidico e discutere le opzioni terapeutiche.",
+  "patientPrompt": "Ho 65 anni e sono preoccupato per il mio cuore. Ultimamente ho avuto più episodi di dolore toracico durante l'attività fisica. Cosa posso fare?",
+  "id": "CARDIO-015",
+  "code": "CARDIO-015",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Sindrome coronarica cronica — stratificazione del rischio",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+  "diagnosis": "Sindrome coronarica cronica",
+  "pastMedicalHistory": "Giovanni ha una storia di ipertensione e dislipidemia. Ha subito un intervento di angioplastica coronarica 5 anni fa e ha un familiare con storia di malattie cardiache.",
+  "presentation": "Il paziente è un uomo di 65 anni, con una storia di sindrome coronarica cronica, che lamenta un aumento della frequenza e dell'intensità degli episodi di angina. È ansioso riguardo alla sua condizione e desidera discutere le opzioni di trattamento.",
+  "redHerrings": [
+    "Il paziente ha anche un dolore lombare che lo preoccupa.",
+    "Riferisce di avere un leggero mal di testa che attribuisce alla tensione.",
+    "Ha recentemente iniziato a prendere un nuovo integratore vitaminico."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ecg": 8,
+    "ecocardio": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-015_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Sindrome coronarica cronica — stratificazione del rischio)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-015_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-015_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-015_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-015_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-015_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Cardiologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "I",
+    "summary": "Il paziente è vigile, orientato e in buone condizioni generali. Auscultazione cardiaca regolare, senza soffi. Pressione arteriosa normale. Leggero sovrappeso."
+  },
+  "goldPathNarrative": "Iniziare con un ECG per valutare l'attività elettrica del cuore. Successivamente, un ecocardiogramma per valutare la funzione cardiaca e la presenza di eventuali anomalie strutturali. Infine, una scintigrafia per valutare la perfusione miocardica. È importante anche eseguire un'analisi lipidica per gestire il rischio cardiovascolare.",
+  "escCitations": [
+    {
+      "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-115",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+      "quote": "sis of disease progression in patients with established chronic coronary syndrome—Section 6 Risk stratification is recommended in patients with new or worsening symptom levels, preferably using stress imaging or, alternatively, exercise stress ECG. I B Risk stratification is recommended in patients with new or worsening symptoms, preferably using stress imaging. I C 2018 ESC/EACTS Guidelines on myocardial revascularization Classa Levelb Recommendations in 2024 version Classa Levelb Recommendatio"
+    },
+    {
+      "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-511",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+      "quote": "osclerotic disease and to improve risk classification around treatment decision thresholds.1111 IIb B © ESC 2024 CACS, coronary artery calcium scoring; CT, computed tomography; SCORE2, Systematic Coronary Risk Estimation 2; SCORE-OP, Systematic Coronary Risk Estimation 2–Older Persons. aClass of recommendation. bLevel of evidence. 3488 ESC Guidelines 6. Long-term follow-up and care 6.1. Voice of the patient A diagnosis of CCS can have an impact on self-identity, lifestyle, employ- ment, and caus"
+    },
+    {
+      "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-553",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+      "quote": "ended in patients with new or worsening symptoms, preferably using stress imaging. I C In patients with symptoms refractory to medical treatment or at high risk of adverse events, invasive coronary angiography (with FFR/iFR when necessary) is recommended for risk stratification and for possible revascularization aimed at improving symptoms and prognosis. I C In CCS patients with symptoms refractory to medical treatment, and who have had previous coronary revascularization, CCTA should be conside"
+    },
+    {
+      "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-262",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+      "quote": "CT ≤0.8. I B In individuals at high risk of adverse events (regardless of symptoms), ICA—complemented by invasive coronary pressure (FFR/iFR) when appropriate—is recommended, with the aim of refining risk stratification and improving symptoms and cardiovascular outcomes by revascularization.318,319 I A © ESC 2024 CCTA, coronary computed tomography angiography; CKD, chronic kidney disease; CMR, cardiac magnetic resonance; CT, computed tomography; ECG, electrocardiogram; FFR, fractional flow reser"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → ecocardio → scintigrafia → assetto-lipidico.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf).",
+      "Budget SSN di riferimento: €220."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alla L. 24/2017 Art. 5 seguendo il gold path ESC. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Cardiologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "ecocardio",
+      "name": "Ecocardiografia (Transtoracica/Transesofagea)",
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+      "isAbnormal": true,
+      "priceEuro": 43.9
+    },
+    {
+      "examId": "scintigrafia",
+      "name": "Scintigrafia (ossea/miocardica/polmonare/tiroidea)",
+      "finding": "Scintigrafia (ossea/miocardica/polmonare/tiroidea) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+      "isAbnormal": true,
+      "priceEuro": 160
+    },
+    {
+      "examId": "assetto-lipidico",
+      "name": "Assetto lipidico (Col Tot, HDL, LDL, TG)",
+      "finding": "Assetto lipidico (Col Tot, HDL, LDL, TG) nel contesto di Sindrome coronarica cronica — stratificazione del rischio (CARDIO-015). ECG: possibile ischemiamiocardica; ecocardiogramma: funzione ventricolare sinistra conservata; scintigrafia: ridotta perfusione in corrispondenza delle aree ischemiche.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 0,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf."
+    }
+  ]
+}

@@ -1,0 +1,311 @@
+{
+  "title": "Embolia polmonare ad alto rischio con instabilità emodinamica",
+  "description": "Claudia è una donna di 62 anni che si presenta al pronto soccorso con una grave difficoltà respiratoria. Riferisce di aver iniziato a sentirsi molto affaticata e di avere un dolore toracico acuto, che si è accentuato negli ultimi 30 minuti. Ha una storia di fibrillazione atriale e ipertensione arteriosa, ma non ha mai avuto problemi polmonari in precedenza. È visibilmente ansiosa e presenta una colorazione bluastro delle labbra.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "ega",
+    "ecg",
+    "ecocardio",
+    "lattati",
+    "angio"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "85/55",
+      "spo2": 88,
+      "temperature": 37.5,
+      "respiratoryRate": 30
+    },
+    "examBudgetEuro": 280,
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "ecocardio": {
+          "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+          "normalFinding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+          "isAbnormal": true,
+          "price": 43.9
+        },
+        "lattati": {
+          "finding": "Acido lattico (Lattati) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+          "normalFinding": "Acido lattico (Lattati) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+          "isAbnormal": true,
+          "price": 7
+        },
+        "angio": {
+          "finding": "Angio-TC e Angio-RM nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+          "normalFinding": "Angio-TC e Angio-RM nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "ddimero": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2019_Pulmonary_Embolism_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2019_Pulmonary_Embolism_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 9
+        },
+        "scintigrafia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2019_Pulmonary_Embolism_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2019_Pulmonary_Embolism_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 160
+        }
+      }
+    },
+    "demographics": {
+      "age": 62,
+      "sex": "F",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Claudia presenta un respiro affannoso, cianosi periorale, tachicardia e segni di ipotensione. All'auscultazione, si notano crepitii bilaterali e un suono cardiaco irregolare.",
+      "killipClass": "III"
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+      "isAbnormal": true
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+      "isAbnormal": true
+    },
+    "ecocardio": {
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+      "isAbnormal": true
+    },
+    "lattati": {
+      "finding": "Acido lattico (Lattati) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+      "isAbnormal": true
+    },
+    "angio": {
+      "finding": "Angio-TC e Angio-RM nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+      "isAbnormal": true
+    },
+    "ddimero": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2019_Pulmonary_Embolism_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "scintigrafia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2019_Pulmonary_Embolism_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un'ecografia cardiaca, un ECG e dosare i lattati. Successivamente, eseguire un'angiografia polmonare.",
+  "patientPrompt": "Mi chiamo Claudia e ho 62 anni. Sono venuta qui perché non riesco a respirare e ho un dolore al petto molto forte. Ho iniziato a sentirmi male circa un'ora fa, e ora mi sento molto debole e confusa.",
+  "id": "CARDIO-020",
+  "code": "CARDIO-020",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Embolia polmonare acuta ad alto rischio",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESC_2019_Pulmonary_Embolism_Guidelines.pdf",
+  "diagnosis": "Embolia polmonare acuta ad alto rischio",
+  "pastMedicalHistory": "Fibrillazione atriale, ipertensione arteriosa, ansia.",
+  "presentation": "Al momento dell'esame, Claudia mostra segni evidenti di distress respiratorio. La sua frequenza cardiaca è elevata e la pressione arteriosa è bassa. È in stato di confusione e ha difficoltà a mantenere la conversazione. La saturazione di ossigeno è bassa, nonostante l'ossigenoterapia.",
+  "redHerrings": [
+    "Claudia ha recentemente iniziato un nuovo farmaco per la pressione alta.",
+    "Riferisce di aver avuto un episodio di tosse secca nelle ultime settimane.",
+    "Ha una storia di ansia che ha portato a crisi di panico in passato."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ega": 10,
+    "ecg": 8,
+    "ecocardio": 20,
+    "angio": 45,
+    "ddimero": 30
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-020_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Embolia polmonare acuta ad alto rischio)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-020_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-020_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-020_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-020_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-020_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "III",
+    "summary": "Claudia presenta un respiro affannoso, cianosi periorale, tachicardia e segni di ipotensione. All'auscultazione, si notano crepitii bilaterali e un suono cardiaco irregolare."
+  },
+  "goldPathNarrative": "Dopo aver valutato la situazione clinica di Claudia, ho deciso di seguire il gold path per la gestione dell'embolia polmonare. Ho iniziato con un'ecografia cardiaca per valutare la funzione ventricolare e la presenza di segni di sovraccarico. Ho poi proceduto con un ECG per escludere altre cause di dolore toracico e ho dosato i lattati per valutare la gravità dell'ipossia. Infine, ho richiesto un'angiografia polmonare per confermare la diagnosi di embolia polmonare.",
+  "escCitations": [
+    {
+      "chunkId": "09e07aae-7f8d-402d-83de-e79ad4a693af-9",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2019_Pulmonary_Embolism_Guidelines.pdf",
+      "quote": "diagnosis and management of acute pulmonary embolism developed in collaboration with the European Respiratory Society (ERS) - Task Force Members For ESC Guidelines: The report below lists declarations of interest as reported to the ESC by the experts during the yearly call for declaration conducted every January covering the previous calendar year. The calls for declaration are conducted during the period of development of these guidelines up to and including 2018.4/62 Jimenez David - Leo Pharma"
+    },
+    {
+      "chunkId": "09e07aae-7f8d-402d-83de-e79ad4a693af-111",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2019_Pulmonary_Embolism_Guidelines.pdf",
+      "quote": "2019 ESC Guidelines for the diagnosis and management of acute pulmonary embolism developed in collaboration with the European Respiratory Society (ERS) - Reviewers Expert Type of Relationship with Industry For ESC Guidelines: The report below lists declarations of interest as reported to the ESC by the experts during the yearly call for declaration conducted every January covering the previous calendar year. The calls for declaration are conducted during the period of development of these guidel"
+    },
+    {
+      "chunkId": "09e07aae-7f8d-402d-83de-e79ad4a693af-63",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2019_Pulmonary_Embolism_Guidelines.pdf",
+      "quote": "elines for the diagnosis and management of acute pulmonary embolism developed in collaboration with the European Respiratory Society (ERS) - Reviewers Expert Type of Relationship with Industry For ESC Guidelines: The report below lists declarations of interest as reported to the ESC by the experts during the yearly call for declaration conducted every January covering the previous calendar year. The calls for declaration are conducted during the period of development of these guidelines up to an"
+    },
+    {
+      "chunkId": "09e07aae-7f8d-402d-83de-e79ad4a693af-34",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2019_Pulmonary_Embolism_Guidelines.pdf",
+      "quote": "elines for the diagnosis and management of acute pulmonary embolism developed in collaboration with the European Respiratory Society (ERS) - Task Force Members For ESC Guidelines: The report below lists declarations of interest as reported to the ESC by the experts during the yearly call for declaration conducted every January covering the previous calendar year. The calls for declaration are conducted during the period of development of these guidelines up to and including 2018.14/62 Abdelghany"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ega → ecg → ecocardio → lattati → angio.",
+      "Non prescrivere di prima intenzione: ddimero, scintigrafia (ESC_2019_Pulmonary_Embolism_Guidelines.pdf).",
+      "Budget SSN di riferimento: €280."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alla L. 24/2017 Art. 5 Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "ecocardio",
+      "name": "Ecocardiografia (Transtoracica/Transesofagea)",
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+      "isAbnormal": true,
+      "priceEuro": 43.9
+    },
+    {
+      "examId": "lattati",
+      "name": "Acido lattico (Lattati)",
+      "finding": "Acido lattico (Lattati) nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+      "isAbnormal": true,
+      "priceEuro": 7
+    },
+    {
+      "examId": "angio",
+      "name": "Angio-TC e Angio-RM",
+      "finding": "Angio-TC e Angio-RM nel contesto di Embolia polmonare acuta ad alto rischio (CARDIO-020). ECG: segni di sovraccarico destro; ecocardio: disfunzione ventricolare destra; lattati: elevati; angiografia: embolia polmonare confermata.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ddimero",
+      "name": "D-Dimero",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2019_Pulmonary_Embolism_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 9,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2019_Pulmonary_Embolism_Guidelines.pdf."
+    },
+    {
+      "examId": "scintigrafia",
+      "name": "Scintigrafia (ossea/miocardica/polmonare/tiroidea)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2019_Pulmonary_Embolism_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 160,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2019_Pulmonary_Embolism_Guidelines.pdf."
+    }
+  ]
+}

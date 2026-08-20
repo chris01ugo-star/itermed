@@ -1,0 +1,331 @@
+{
+  "title": "Scompenso HFpEF scompensato in reparto",
+  "description": "Giulia è una donna di 75 anni che si presenta in reparto di cardiologia con un quadro di scompenso cardiaco. Riferisce di aver avuto un aumento della difficoltà respiratoria, specialmente durante gli sforzi, e di sentirsi molto affaticata. Ha notato un aumento di peso negli ultimi giorni e presenta edema agli arti inferiori. La sua storia clinica è caratterizzata da ipertensione e diabete di tipo 2, entrambi trattati con farmaci. Non ha mai avuto episodi di infarto o angina, ma ha una storia familiare di malattie cardiovascolari.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "ecg",
+    "nt-probnp",
+    "rx-torace",
+    "ecocardio",
+    "elettroliti",
+    "creat-urea-gfr"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 90,
+      "bloodPressure": "130/80",
+      "spo2": 88,
+      "temperature": 37.5,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 140,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "nt-probnp": {
+          "finding": "NT-proBNP (o BNP) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+          "normalFinding": "NT-proBNP (o BNP) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+          "isAbnormal": true,
+          "price": 18
+        },
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "ecocardio": {
+          "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+          "normalFinding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+          "isAbnormal": true,
+          "price": 43.9
+        },
+        "elettroliti": {
+          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+          "normalFinding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "coronarografia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 1800
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        }
+      }
+    },
+    "demographics": {
+      "age": 75,
+      "sex": "F",
+      "context": "Reparto di Cardiologia"
+    },
+    "physicalExam": {
+      "finding": "All'esame fisico, Giulia presenta segni di congestione polmonare con crepitii bilaterali, edema agli arti inferiori e tachicardia. La pressione arteriosa è stabile, ma la saturazione di ossigeno è bassa. È ansiosa e mostra segni di affaticamento.",
+      "killipClass": "III"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+      "isAbnormal": true
+    },
+    "nt-probnp": {
+      "finding": "NT-proBNP (o BNP) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+      "isAbnormal": true
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+      "isAbnormal": true
+    },
+    "ecocardio": {
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+      "isAbnormal": true
+    },
+    "creat-urea-gfr": {
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+      "isAbnormal": true
+    },
+    "coronarografia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Iniziare il trattamento con diuretici per alleviare i sintomi di congestione e procedere con la valutazione diagnostica secondo il gold path ESC.",
+  "patientPrompt": "Mi chiamo Giulia e ho 75 anni. Sono venuta in ospedale perché ho avuto difficoltà a respirare e mi sento molto stanca. Ho notato che il mio peso è aumentato e ho gonfiore alle gambe. Non ho mai avuto problemi di cuore gravi prima d'ora, ma ho una storia di pressione alta e diabete. Ho avuto un raffreddore di recente, ma non penso che sia la causa dei miei sintomi.",
+  "id": "CARDIO-013",
+  "code": "CARDIO-013",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Scompenso cardiaco a frazione d'eiezione conservata (HFpEF)",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "ESC_2021_Heart_Failure_Guidelines.pdf",
+  "diagnosis": "Scompenso cardiaco a frazione d'eiezione conservata (HFpEF)",
+  "pastMedicalHistory": "Giulia ha una storia di ipertensione e diabete di tipo 2. Non ha mai avuto eventi cardiaci acuti e non ha mai subito interventi chirurgici significativi. Ha una storia di anemia, ma non ha mai ricevuto trasfusioni. Non fuma e consuma alcol con moderazione.",
+  "presentation": "Giulia si presenta in reparto con dispnea a riposo e segni di congestione polmonare. Durante l'esame obiettivo, si notano crepitii bilaterali all'auscultazione polmonare e un edema marcato agli arti inferiori. È ansiosa e mostra segni di affaticamento. La saturazione di ossigeno è bassa e la frequenza respiratoria è elevata.",
+  "redHerrings": [
+    "Giulia ha avuto un recente raffreddore e pensa che possa essere la causa della sua difficoltà respiratoria.",
+    "Riferisce di aver mangiato cibi salati negli ultimi giorni, il che potrebbe aver contribuito al suo edema.",
+    "Giulia ha anche una storia di anemia, ma non ha mai avuto trasfusioni di sangue."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ecg": 8,
+    "nt-probnp": 40,
+    "rx-torace": 20,
+    "ecocardio": 20,
+    "elettroliti": 30,
+    "creat-urea-gfr": 30,
+    "coronarografia": 25
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-013_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Scompenso cardiaco a frazione d'eiezione conservata (HFpEF))",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-013_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-013_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-013_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-013_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-013_6",
+      "prompt": "Contesto di presentazione: Reparto di Cardiologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "III",
+    "summary": "All'esame fisico, Giulia presenta segni di congestione polmonare con crepitii bilaterali, edema agli arti inferiori e tachicardia. La pressione arteriosa è stabile, ma la saturazione di ossigeno è bassa. È ansiosa e mostra segni di affaticamento."
+  },
+  "goldPathNarrative": "Dopo aver stabilito la diagnosi di scompenso cardiaco a frazione d'eiezione conservata, si procede con un ECG per valutare eventuali anomalie cardiache, seguito da un dosaggio di NT-proBNP per confermare la diagnosi. Successivamente, si esegue una radiografia del torace per valutare la congestione polmonare e un ecocardiogramma per analizzare la funzione cardiaca. Infine, si eseguono esami di laboratorio per controllare gli elettroliti e la funzione renale.",
+  "escCitations": [
+    {
+      "chunkId": "18335d3c-f44d-49b1-83ba-ccdd43716688-232",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2021_Heart_Failure_Guidelines.pdf",
+      "quote": "ing for, and treatment of, aetiologies, and cardiovascular and non-cardiovascular comor- bidities is recommended in patients with HFpEF (see relevant sections of this document). I C Diuretics are recommended in congested patients with HFpEF in order to alleviate symp- toms and signs.137 I C HFpEF = heart failure with preserved ejection fraction. aClass of recommendation. bLevel of evidence. ESC 2021 ESC 2021 Table 10 Risk factors for the development of heart failure and potential corrective acti"
+    },
+    {
+      "chunkId": "18335d3c-f44d-49b1-83ba-ccdd43716688-716",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2021_Heart_Failure_Guidelines.pdf",
+      "quote": "Lam CSP, Lancellotti P, Melenovsky V, Morris DA, Nagel E, Pieske-Kraigher E, Ponikowski P, Solomon SD, Vasan RS, Rutten FH, Voors AA, Ruschitzka F, Paulus WJ, Seferovic P, Filippatos G. How to diagnose heart failure with preserved ejection fraction: the HFA-PEFF diagnostic algo- rithm: a consensus recommendation from the Heart Failure Association (HFA) of the European Society of Cardiology (ESC). Eur Heart J 2019;40:32973317. 260. Ho JE, Zern EK, Wooster L, Bailey CS, Cunningham T, Eisman AS, Ha"
+    },
+    {
+      "chunkId": "18335d3c-f44d-49b1-83ba-ccdd43716688-218",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2021_Heart_Failure_Guidelines.pdf",
+      "quote": "l syndrome, low voltage on ECG and echocardiographic features such as thickening of the septum, posterior wall, or RV wall, enlarged atria, a small pericardial effusion, or valve thickening [for more details see the section on CMP (section 14.2)]. Furthermore, it is important to exclude other conditions that might mimic the HFpEF syndrome (e.g. lung disease, anaemia, obesity, and deconditioning). For a more comprehensive overview on HFpEF, see the ESC/HFA position statement.259 8.3 The diagnosis"
+    },
+    {
+      "chunkId": "18335d3c-f44d-49b1-83ba-ccdd43716688-268",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2021_Heart_Failure_Guidelines.pdf",
+      "quote": "CV = cardiovascular; HF = heart failure; HFrEF = heart failure with reduced ejec- tion fraction; HTM = home telemonitoring; LVEF = left ventricular ejection fraction. aClass of recommendation. bLevel of evidence. ESC 2021 ............................................................................................................................................................ ESC Guidelines 39 Downloaded from https://academic.oup.com/eurheartj/advance-article/doi/10.1093/eurheartj/ehab368/635804"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → nt-probnp → rx-torace → ecocardio → elettroliti → creat-urea-gfr.",
+      "Non prescrivere di prima intenzione: coronarografia, pet-tc (ESC_2021_Heart_Failure_Guidelines.pdf).",
+      "Budget SSN di riferimento: €140."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Se si segue il gold path ESC, si è in conformità con la L. 24/2017 Art. 5. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Reparto di Cardiologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "nt-probnp",
+      "name": "NT-proBNP (o BNP)",
+      "finding": "NT-proBNP (o BNP) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 18
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "ecocardio",
+      "name": "Ecocardiografia (Transtoracica/Transesofagea)",
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 43.9
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina e Urea (Azotemia) con stima GFR",
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Scompenso cardiaco a frazione d'eiezione conservata (HFpEF) (CARDIO-013). ECG: segni di sovraccarico ventricolare; NT-proBNP: elevato; RX torace: congestione polmonare; Ecocardiogramma: frazione d'eiezione conservata; Elettroliti: da valutare; Creatinina: da valutare; GFR: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia (Invasiva)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 1800,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf."
+    }
+  ]
+}

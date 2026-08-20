@@ -1,0 +1,347 @@
+{
+  "title": "Ipertensione arteriosa non controllata in follow-up ambulatoriale",
+  "description": "Giovanni si presenta in ambulatorio per un follow-up della sua ipertensione arteriosa. Ha riferito di avere frequentemente mal di testa e di sentirsi stanco. Nonostante le terapie in corso, la sua pressione arteriosa rimane elevata. Ha anche notato un aumento della frequenza urinaria, specialmente di notte.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "ecg",
+    "creat-urea-gfr",
+    "elettroliti",
+    "assetto-lipidico",
+    "hba1c",
+    "urine-sed",
+    "fundus"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 85,
+      "bloodPressure": "160/100",
+      "spo2": 92,
+      "temperature": 36.8,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 90,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "normalFinding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "elettroliti": {
+          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "assetto-lipidico": {
+          "finding": "Assetto lipidico (Col Tot, HDL, LDL, TG) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "normalFinding": "Assetto lipidico (Col Tot, HDL, LDL, TG) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "hba1c": {
+          "finding": "Emoglobina Glicata (HbA1c) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "normalFinding": "Emoglobina Glicata (HbA1c) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "isAbnormal": true,
+          "price": 6
+        },
+        "urine-sed": {
+          "finding": "Esame urine chimico-fisico e sedimento nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "normalFinding": "Esame urine chimico-fisico e sedimento nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "isAbnormal": true,
+          "price": 3.5
+        },
+        "fundus": {
+          "finding": "Fundus Oculi nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "normalFinding": "Fundus Oculi nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "angio": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        }
+      }
+    },
+    "demographics": {
+      "age": 55,
+      "sex": "M",
+      "context": "Ambulatorio di Cardiologia"
+    },
+    "physicalExam": {
+      "finding": "All'esame obiettivo, Giovanni presenta una pressione arteriosa di 160/100 mmHg. Non ci sono segni di edema periferico e il cuore è auscultato senza soffi. La respirazione è regolare, ma la saturazione di ossigeno è al 92%.",
+      "killipClass": "I"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true
+    },
+    "creat-urea-gfr": {
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true
+    },
+    "assetto-lipidico": {
+      "finding": "Assetto lipidico (Col Tot, HDL, LDL, TG) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true
+    },
+    "hba1c": {
+      "finding": "Emoglobina Glicata (HbA1c) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true
+    },
+    "urine-sed": {
+      "finding": "Esame urine chimico-fisico e sedimento nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true
+    },
+    "fundus": {
+      "finding": "Fundus Oculi nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true
+    },
+    "angio": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire ECG, creatinina, urea, GFR, elettroliti, assetto lipidico, HbA1c, analisi delle urine, esame del fondo oculare.",
+  "patientPrompt": "Ho 55 anni e sono qui per il follow-up della mia ipertensione. Anche se prendo i farmaci, la mia pressione continua a essere alta e ho mal di testa frequenti. Mi sento stanco e ho notato che devo alzarmi di notte per andare in bagno.",
+  "id": "CARDIO-005",
+  "code": "CARDIO-005",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Ipertensione arteriosa essenziale",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ESC_2024_Hypertension_Guidelines.pdf",
+  "diagnosis": "Ipertensione arteriosa non controllata",
+  "pastMedicalHistory": "Giovanni ha una storia di ipertensione arteriosa essenziale da diversi anni. Non ha mai avuto eventi cardiovascolari significativi e non è diabetico. Non fuma e consuma alcol moderatamente.",
+  "presentation": "Giovanni è un uomo di 55 anni che si presenta per un controllo della pressione arteriosa. Ha una storia di ipertensione non controllata e lamenta sintomi di mal di testa e affaticamento. Durante la visita, la pressione arteriosa è risultata elevata e ha riferito di frequenti episodi di minzione notturna.",
+  "redHerrings": [
+    "Giovanni ha recentemente iniziato una nuova dieta per perdere peso.",
+    "Ha un familiare con diabete, ma non ha mai avuto problemi di glicemia.",
+    "Riferisce di aver avuto un episodio di reflusso gastrico."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "ecg": 8,
+    "creat-urea-gfr": 30,
+    "elettroliti": 30,
+    "angio": 45,
+    "tc": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-005_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Ipertensione arteriosa essenziale)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-005_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-005_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-005_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-005_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-005_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Cardiologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "I",
+    "summary": "All'esame obiettivo, Giovanni presenta una pressione arteriosa di 160/100 mmHg. Non ci sono segni di edema periferico e il cuore è auscultato senza soffi. La respirazione è regolare, ma la saturazione di ossigeno è al 92%."
+  },
+  "goldPathNarrative": "Nel follow-up di Giovanni, è fondamentale eseguire una serie di esami per valutare il controllo della sua ipertensione e identificare eventuali complicanze. L'ECG aiuterà a escludere anomalie cardiache, mentre i test di laboratorio forniranno informazioni sulla funzione renale e sul metabolismo. L'analisi delle urine e l'esame del fondo oculare sono essenziali per valutare eventuali danni agli organi target legati all'ipertensione.",
+  "escCitations": [
+    {
+      "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-291",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "angiotensin-converting enzyme inhibitor; ARB, angiotensin recep- tor blocker; BP, blood pressure; CCB, calcium channel blocker; FU, follow-up. 3960 ESC Guidelines N Patient centred care Normal Abnormal ≥10%<5% 5% – <10% Age <40 years, resistant hypertension, suggestive signs and/or symptoms Targeted secondary hypertension treatment Screen for secondary hypertension (Class I) Calculate SCORE2/ SCORE2-OP (Class I) Assess risk modifiers (Class IIa) Consider risk tools (Class IIb) Age ≥85 years, mod"
+    },
+    {
+      "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-788",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "ents with left ventricular dysfunction and heart failure after myocardial infarc- tion: insights from the EPHESUS trial. Eur Heart J 2020;41:1673–83. https://doi.org/ 10.1093/eurheartj/ehaa132 787. McEvoy JW, Chen Y, Rawlings A, Hoogeveen RC, Ballantyne CM, Blumenthal RS, et al. Diastolic blood pressure, subclinical myocardial damage, and cardiac events: implica- tions for blood pressure control. J Am Coll Cardiol 2016;68:1713–22. https://doi.org/ 10.1016/j.jacc.2016.[REDACTED]. Mancia G, Kreutz"
+    },
+    {
+      "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-410",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "s with hypertension and microalbuminuria or proteinuria.780–782 IIa B © ESC 2024 ACE, angiotensin-converting enzyme; ARB, angiotensin receptor blocker; BP, blood pressure; CKD, chronic kidney disease, eGFR, estimated glomerular filtration rate; SGLT2, sodium–glucose co-transporter 2. aClass of recommendation. bLevel of evidence. 3976 ESC Guidelines task force considers patients with both severe valvular heart disease and symptomatic heart failure to also be at sufficiently high risk. We also not"
+    },
+    {
+      "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-791",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "gh TA, Metra M, Adamo M, Gardner RS, Baumbach A, Böhm M, et al. 2021 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure. Eur Heart J 2021;42:3599–726. https://doi.org/10.1093/eurheartj/ehab368 796. Mancusi C, de Simone G, Brguljan Hitij J, Sudano I, Mahfoud F, Parati G, et al. Management of patients with combined arterial hypertension and aortic valve stenosis: a consensus document from the Council on Hypertension and Council on Valvular Heart Disease of the Europe"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → creat-urea-gfr → elettroliti → assetto-lipidico → hba1c → urine-sed → fundus.",
+      "Non prescrivere di prima intenzione: angio, tc (ESC_2024_Hypertension_Guidelines.pdf).",
+      "Budget SSN di riferimento: €90."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Seguendo il gold path ESC, si garantisce l'aderenza alla L. 24/2017 Art. 5. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Cardiologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina e Urea (Azotemia) con stima GFR",
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "assetto-lipidico",
+      "name": "Assetto lipidico (Col Tot, HDL, LDL, TG)",
+      "finding": "Assetto lipidico (Col Tot, HDL, LDL, TG) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "hba1c",
+      "name": "Emoglobina Glicata (HbA1c)",
+      "finding": "Emoglobina Glicata (HbA1c) nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true,
+      "priceEuro": 6
+    },
+    {
+      "examId": "urine-sed",
+      "name": "Esame urine chimico-fisico e sedimento",
+      "finding": "Esame urine chimico-fisico e sedimento nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true,
+      "priceEuro": 3.5
+    },
+    {
+      "examId": "fundus",
+      "name": "Fundus Oculi",
+      "finding": "Fundus Oculi nel contesto di Ipertensione arteriosa essenziale (CARDIO-005). ECG: possibile ipertrofia ventricolare sinistra; lab: creatinina elevata, elettroliti nella norma; imaging: fondo oculare con segni di retinopatia ipertensiva.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "angio",
+      "name": "Angio-TC e Angio-RM",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf."
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf."
+    }
+  ]
+}

@@ -1,0 +1,274 @@
+{
+  "title": "Cardiomiopatia ipertrofica in ambulatorio di screening",
+  "description": "Luca è un uomo di 35 anni che si presenta all'ambulatorio di cardiologia per un controllo di routine. Ha una storia familiare di cardiomiopatia e ha recentemente iniziato a notare un affaticamento e una lieve dispnea durante sforzi moderati. Non ha mai avuto episodi di sincope o dolore toracico. Durante la visita, riferisce anche di avere occasionalmente palpitazioni, ma non ha mai cercato assistenza per questo problema. Non ha patologie pregresse significative e non assume farmaci.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "ecg",
+    "ecocardio",
+    "elettroliti"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 85,
+      "bloodPressure": "130/80",
+      "spo2": 92,
+      "temperature": 36.8,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 90,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Cardiomiopatia ipertrofica (CARDIO-023). ECG: possibile segno di ipertrofia ventricolare sinistra. Ecocardiogramma: ipertrofia del ventricolo sinistro. Elettroliti: da verificare.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Cardiomiopatia ipertrofica (CARDIO-023). ECG: possibile segno di ipertrofia ventricolare sinistra. Ecocardiogramma: ipertrofia del ventricolo sinistro. Elettroliti: da verificare.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "ecocardio": {
+          "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Cardiomiopatia ipertrofica (CARDIO-023). ECG: possibile segno di ipertrofia ventricolare sinistra. Ecocardiogramma: ipertrofia del ventricolo sinistro. Elettroliti: da verificare.",
+          "normalFinding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Cardiomiopatia ipertrofica (CARDIO-023). ECG: possibile segno di ipertrofia ventricolare sinistra. Ecocardiogramma: ipertrofia del ventricolo sinistro. Elettroliti: da verificare.",
+          "isAbnormal": true,
+          "price": 43.9
+        },
+        "elettroliti": {
+          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Cardiomiopatia ipertrofica (CARDIO-023). ECG: possibile segno di ipertrofia ventricolare sinistra. Ecocardiogramma: ipertrofia del ventricolo sinistro. Elettroliti: da verificare.",
+          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Cardiomiopatia ipertrofica (CARDIO-023). ECG: possibile segno di ipertrofia ventricolare sinistra. Ecocardiogramma: ipertrofia del ventricolo sinistro. Elettroliti: da verificare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "coronarografia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Cardiomyopathies_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Cardiomyopathies_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 1800
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Cardiomyopathies_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Cardiomyopathies_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        }
+      }
+    },
+    "demographics": {
+      "age": 35,
+      "sex": "M",
+      "context": "Ambulatorio di Cardiologia"
+    },
+    "physicalExam": {
+      "finding": "All'esame obiettivo, Luca appare in buone condizioni generali. I suoni cardiaci sono regolari, senza soffi. Non si osservano segni di congestione venosa o edema periferico. La pressione arteriosa è nella norma. La frequenza respiratoria è regolare.",
+      "killipClass": "I"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Cardiomiopatia ipertrofica (CARDIO-023). ECG: possibile segno di ipertrofia ventricolare sinistra. Ecocardiogramma: ipertrofia del ventricolo sinistro. Elettroliti: da verificare.",
+      "isAbnormal": true
+    },
+    "ecocardio": {
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Cardiomiopatia ipertrofica (CARDIO-023). ECG: possibile segno di ipertrofia ventricolare sinistra. Ecocardiogramma: ipertrofia del ventricolo sinistro. Elettroliti: da verificare.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Cardiomiopatia ipertrofica (CARDIO-023). ECG: possibile segno di ipertrofia ventricolare sinistra. Ecocardiogramma: ipertrofia del ventricolo sinistro. Elettroliti: da verificare.",
+      "isAbnormal": true
+    },
+    "coronarografia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Cardiomyopathies_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Cardiomyopathies_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un ECG, seguito da un ecocardiogramma e analisi degli elettroliti per valutare la presenza di cardiomiopatia ipertrofica.",
+  "patientPrompt": "Ho 35 anni e sono qui per un controllo di routine. Ho una storia familiare di cardiomiopatia e ho iniziato a sentirmi più affaticato ultimamente. A volte ho anche palpitazioni, ma non ho mai avuto dolori al petto o svenimenti.",
+  "id": "CARDIO-023",
+  "code": "CARDIO-023",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Cardiomiopatia ipertrofica",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ESC_2023_Cardiomyopathies_Guidelines.pdf",
+  "diagnosis": "Cardiomiopatia ipertrofica",
+  "pastMedicalHistory": "Nessuna patologia pregressa significativa. Storia familiare di cardiomiopatia (padre).",
+  "presentation": "Luca si presenta in ambulatorio per un controllo di screening per cardiomiopatia, a causa della sua storia familiare. Riferisce affaticamento e dispnea durante sforzi moderati, oltre a palpitazioni occasionali. Non ha sintomi acuti al momento della visita.",
+  "redHerrings": [
+    "Luca ha un'ernia iatale che gli causa occasionalmente bruciore di stomaco.",
+    "Riferisce di avere un lavoro stressante, che potrebbe contribuire alla sua sensazione di affaticamento.",
+    "Ha recentemente iniziato a praticare sport, il che potrebbe spiegare la sua dispnea durante sforzi moderati."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ecg": 8,
+    "ecocardio": 20,
+    "elettroliti": 30,
+    "coronarografia": 25
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-023_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Cardiomiopatia ipertrofica)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-023_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-023_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-023_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-023_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-023_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Cardiologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "I",
+    "summary": "All'esame obiettivo, Luca appare in buone condizioni generali. I suoni cardiaci sono regolari, senza soffi. Non si osservano segni di congestione venosa o edema periferico. La pressione arteriosa è nella norma. La frequenza respiratoria è regolare."
+  },
+  "goldPathNarrative": "Luca, un uomo di 35 anni con storia familiare di cardiomiopatia, si presenta per screening. Si procede con un ECG per valutare la funzione cardiaca e identificare eventuali anomalie. Successivamente, si esegue un ecocardiogramma per valutare la morfologia e la funzione ventricolare. Infine, si eseguono analisi degli elettroliti per escludere altre cause di sintomi.",
+  "escCitations": [
+    {
+      "chunkId": "0fcd2244-c075-46b2-86dd-6d345c04e920-278",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_Cardiomyopathies_Guidelines.pdf",
+      "quote": "antable cardioverter defibrillator; SCD, sudden cardiac death. 3548 ESC Guidelines 6.13. The patient pathway The systematic, multiparametric approach to diagnosis and evaluation of patients with suspected cardiomyopathy described in this section al- lows clinicians to establish the presence of a cardiomyopathy and iden- tify its aetiology and guides the management of symptoms and prevention of disease-related complications. While many of the aspects of clinical care and the accompanying recommen"
+    },
+    {
+      "chunkId": "0fcd2244-c075-46b2-86dd-6d345c04e920-536",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_Cardiomyopathies_Guidelines.pdf",
+      "quote": "omyopathy Recommendation Classa Levelb Identification and management of risk factors and concomitant diseases is recommended as an integral part of the management of cardiomyopathy patients. I C © ESC 2023 aClass of recommendation. bLevel of evidence. Table 25 Modulators of the phenotypic expression of cardiomyopathies Condition HCM DCM ARVC Expression Hypertension +++ ++ ? Hypertrophy, dilatation, dysfunction, AF Diabetes ++ + ? Hypertrophy, dysfunction, AF Obesity ++ + ? Hypertrophy, LVOTO, AF"
+    },
+    {
+      "chunkId": "0fcd2244-c075-46b2-86dd-6d345c04e920-69",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_Cardiomyopathies_Guidelines.pdf",
+      "quote": "ines, with the exception of the section on hypertrophic cardiomyopathy (HCM), in which we have provided a focused update to the 2014 ESC Guidelines on diagnosis and management of hypertrophic cardiomyopathy.1 As such, most of the recommendations in this guideline are new. It is beyond the scope of this guideline to provide detailed descriptions and recommendations for each individual cardiomyopathy phenotype; in- stead, the aim is to provide a guide to the diagnostic approach to car- diomyopathi"
+    },
+    {
+      "chunkId": "0fcd2244-c075-46b2-86dd-6d345c04e920-593",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_Cardiomyopathies_Guidelines.pdf",
+      "quote": "rggrefe M, Cecchi F, et al. 2014 ESC Guidelines on diagnosis and management of hypertrophic cardiomyopathy: the Task Force for the Diagnosis and Management of Hypertrophic Cardiomyopathy of the European Society of Cardiology (ESC). Eur Heart J 2014;35:2733–2779. https://doi.org/10.1093/eurheartj/ehu284 2. Elliott P, Andersson B, Arbustini E, Bilinska Z, Cecchi F, Charron P, et al. Classification of the cardiomyopathies: a position statement from the European Society of Cardiology Working Group o"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → ecocardio → elettroliti.",
+      "Non prescrivere di prima intenzione: coronarografia, pet-tc (ESC_2023_Cardiomyopathies_Guidelines.pdf).",
+      "Budget SSN di riferimento: €90."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione all'art. 5 L. 24/2017 se si seguono le linee guida ESC. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Cardiologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Cardiomiopatia ipertrofica (CARDIO-023). ECG: possibile segno di ipertrofia ventricolare sinistra. Ecocardiogramma: ipertrofia del ventricolo sinistro. Elettroliti: da verificare.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "ecocardio",
+      "name": "Ecocardiografia (Transtoracica/Transesofagea)",
+      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Cardiomiopatia ipertrofica (CARDIO-023). ECG: possibile segno di ipertrofia ventricolare sinistra. Ecocardiogramma: ipertrofia del ventricolo sinistro. Elettroliti: da verificare.",
+      "isAbnormal": true,
+      "priceEuro": 43.9
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Cardiomiopatia ipertrofica (CARDIO-023). ECG: possibile segno di ipertrofia ventricolare sinistra. Ecocardiogramma: ipertrofia del ventricolo sinistro. Elettroliti: da verificare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia (Invasiva)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Cardiomyopathies_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 1800,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Cardiomyopathies_Guidelines.pdf."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Cardiomyopathies_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Cardiomyopathies_Guidelines.pdf."
+    }
+  ]
+}

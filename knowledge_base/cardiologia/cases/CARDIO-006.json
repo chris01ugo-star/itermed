@@ -1,0 +1,312 @@
+{
+  "title": "Crisi ipertensiva senza danno d'organo acuto",
+  "description": "Sono stata portata qui perché ho avuto un forte mal di testa e mi sento molto ansiosa. Ho anche la vista offuscata e un forte dolore al petto che si irradia alla schiena. Non riesco a respirare bene e mi sento debole.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "ecg",
+    "creat-urea-gfr",
+    "elettroliti",
+    "urine-sed",
+    "troponina-hs"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "220/120",
+      "spo2": 92,
+      "temperature": 37.8,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 85,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+          "normalFinding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "elettroliti": {
+          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "urine-sed": {
+          "finding": "Esame urine chimico-fisico e sedimento nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+          "normalFinding": "Esame urine chimico-fisico e sedimento nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+          "isAbnormal": true,
+          "price": 3.5
+        },
+        "troponina-hs": {
+          "finding": "Troponina (alta sensibilità) nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+          "normalFinding": "Troponina (alta sensibilità) nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "abpm": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 28
+        },
+        "angio": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        }
+      }
+    },
+    "demographics": {
+      "age": 54,
+      "sex": "F",
+      "context": "Guardia Medica territoriale"
+    },
+    "physicalExam": {
+      "finding": "Paziente in stato ansioso, pallida e sudata. Frequenza cardiaca elevata, respiro affannoso e pressione arteriosa molto alta. Non presenta segni di edema o alterazioni neurologiche evidenti.",
+      "killipClass": "I"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+      "isAbnormal": true
+    },
+    "creat-urea-gfr": {
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+      "isAbnormal": true
+    },
+    "urine-sed": {
+      "finding": "Esame urine chimico-fisico e sedimento nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+      "isAbnormal": true
+    },
+    "troponina-hs": {
+      "finding": "Troponina (alta sensibilità) nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+      "isAbnormal": true
+    },
+    "abpm": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "angio": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Iniziare il trattamento con labetalolo per via endovenosa per ridurre la pressione arteriosa in modo controllato e monitorare i segni vitali della paziente.",
+  "patientPrompt": "Mi chiamo Laura e ho 54 anni. Sono qui perché ho avuto un forte mal di testa e mi sento molto ansiosa. Ho anche la vista offuscata e un forte dolore al petto che si irradia alla schiena. Non riesco a respirare bene e mi sento debole. Cosa mi sta succedendo?",
+  "id": "CARDIO-006",
+  "code": "CARDIO-006",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Urgenza ipertensiva",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "GUARDIA_MEDICA",
+  "guidelineRef": "ESC_2024_Hypertension_Guidelines.pdf",
+  "diagnosis": "Urgenza ipertensiva senza danno d'organo acuto.",
+  "pastMedicalHistory": "Nessuna patologia pregressa nota. Non sono in trattamento per ipertensione e non ho mai avuto problemi cardiaci.",
+  "presentation": "La paziente si presenta con un evidente stato ansioso, pallore e sudorazione. Riferisce di aver avuto un episodio di mal di testa intenso e di sentirsi debole. Durante la visita, mostra segni di difficoltà respiratoria e tachicardia.",
+  "redHerrings": [
+    "Ho mangiato molto sale negli ultimi giorni e credo che questo possa aver influito.",
+    "Ho avuto un episodio simile qualche mese fa, ma pensavo fosse solo stress.",
+    "Ho anche un dolore alla schiena, ma non credo sia grave."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "ecg": 8,
+    "creat-urea-gfr": 30,
+    "elettroliti": 30,
+    "troponina-hs": 35,
+    "abpm": 1440,
+    "angio": 45
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-006_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Urgenza ipertensiva)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-006_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-006_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-006_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-006_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-006_6",
+      "prompt": "Contesto di presentazione: Guardia Medica territoriale",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "I",
+    "summary": "Paziente in stato ansioso, pallida e sudata. Frequenza cardiaca elevata, respiro affannoso e pressione arteriosa molto alta. Non presenta segni di edema o alterazioni neurologiche evidenti."
+  },
+  "goldPathNarrative": "La paziente presenta una crisi ipertensiva con valori di pressione arteriosa molto elevati. È necessario eseguire un ECG per escludere ischemie miocardiche, segnalare i livelli di creatinina e urea per valutare la funzionalità renale, controllare gli elettroliti e analizzare le urine per escludere eventuali danni renali. La troponina deve essere monitorata per escludere un infarto miocardico acuto.",
+  "escCitations": [
+    {
+      "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-477",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "A, transient ischaemic attack. aClass of recommendation. bLevel of evidence. Recommendation Table 33 — Recommendations for acutely managing blood pressure in patients with severe hypertension in pregnancy and pre-eclampsia (see Evidence Table 46) Recommendation Classa Levelb In pre-eclampsia or eclampsia with hypertensive crisis, drug treatment with i.v. labetalol or nicardipine and magnesium is recommended.971 I C In pre-eclampsia or eclampsia associated with pulmonary oedema, nitroglycerin giv"
+    },
+    {
+      "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-464",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "tervention to lower BP. A diagnostic work-up is necessary for patients with a suspected hypertensive emergency (see Supplementary data online, Table S12). 10.1.2. Acute management of hypertensive emergencies Key considerations in defining treatment are: (1) Establishing the affected target organ(s) and whether they require any specific interventions other than BP lowering. (2) Determining whether there is a precipitating cause for the acute rise in BP and/or another concomitant health condition "
+    },
+    {
+      "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-461",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "s of organ damage are relevant for management. Acute manifestations of organ damage include: • Patients with severe acute hypertension associated with other clinical conditions likely to require urgent reduction in BP, e.g. acute onset of aortic dissection, myocardial ischaemia, eclampsia, or heart failure. In patients with an indication to renal artery revascularization and technically unfeasible, or failed, renal artery angioplasty and stenting, open surgical revascularization may be considere"
+    },
+    {
+      "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-291",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "angiotensin-converting enzyme inhibitor; ARB, angiotensin recep- tor blocker; BP, blood pressure; CCB, calcium channel blocker; FU, follow-up. 3960 ESC Guidelines N Patient centred care Normal Abnormal ≥10%<5% 5% – <10% Age <40 years, resistant hypertension, suggestive signs and/or symptoms Targeted secondary hypertension treatment Screen for secondary hypertension (Class I) Calculate SCORE2/ SCORE2-OP (Class I) Assess risk modifiers (Class IIa) Consider risk tools (Class IIb) Age ≥85 years, mod"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → creat-urea-gfr → elettroliti → urine-sed → troponina-hs.",
+      "Non prescrivere di prima intenzione: abpm, angio (ESC_2024_Hypertension_Guidelines.pdf).",
+      "Budget SSN di riferimento: €85."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alla L. 24/2017 Art. 5 seguendo il gold path ESC. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Guardia Medica territoriale."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina e Urea (Azotemia) con stima GFR",
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "urine-sed",
+      "name": "Esame urine chimico-fisico e sedimento",
+      "finding": "Esame urine chimico-fisico e sedimento nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+      "isAbnormal": true,
+      "priceEuro": 3.5
+    },
+    {
+      "examId": "troponina-hs",
+      "name": "Troponina (alta sensibilità)",
+      "finding": "Troponina (alta sensibilità) nel contesto di Urgenza ipertensiva (CARDIO-006). ECG: possibile ischemia; Creatinina: elevata; Elettroliti: alterazioni; Urine: presenza di proteine; Troponina: da monitorare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "abpm",
+      "name": "Monitoraggio pressorio 24h (ABPM)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 28,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf."
+    },
+    {
+      "examId": "angio",
+      "name": "Angio-TC e Angio-RM",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf."
+    }
+  ]
+}
