@@ -1,0 +1,303 @@
+{
+  "title": "Tubercolosi polmonare in adulto giovane",
+  "description": "Andrea è un uomo di 38 anni che si presenta in ambulatorio con sintomi respiratori. Riferisce di avere una tosse persistente da alcune settimane, accompagnata da una leggera febbre e sudorazioni notturne. Si mostra ansioso e difensivo riguardo alla possibilità di una diagnosi di tubercolosi, temendo lo stigma sociale. Ha una rete sociale limitata e non si sente supportato. La sua aderenza alle cure è scarsa, e ha difficoltà a comprendere appieno le informazioni mediche.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "rx-torace",
+    "quantiferon",
+    "emocromo",
+    "tamponi"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 90,
+      "bloodPressure": "122/78",
+      "spo2": 95,
+      "temperature": 37.8,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 90,
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "quantiferon": {
+          "finding": "Quantiferon nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+          "normalFinding": "Quantiferon nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+          "isAbnormal": true,
+          "price": 35
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "tamponi": {
+          "finding": "Specie microbiche da tampone nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+          "normalFinding": "Specie microbiche da tampone nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 38,
+      "sex": "M",
+      "context": "Ambulatorio di Pneumologia"
+    },
+    "physicalExam": {
+      "finding": "Tachipnea, uso dei muscoli accessori, auscultazione con crepitii e ronchi, segni di ipossiemia."
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+      "isAbnormal": true
+    },
+    "quantiferon": {
+      "finding": "Quantiferon nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+      "isAbnormal": true
+    },
+    "tamponi": {
+      "finding": "Specie microbiche da tampone nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Seguire il gold path: rx-torace → quantiferon → emocromo → tamponi",
+  "patientPrompt": "Ho 38 anni e da alcune settimane ho una tosse che non va via. A volte ho anche febbre e sudo molto di notte. Sono preoccupato perché ho sentito parlare di tubercolosi e temo che le persone possano giudicarmi se scoprissero che ho questa malattia. Non ho molti amici e mi sento solo in questo momento. Non riesco a capire bene le informazioni che mi danno i medici e ho difficoltà a seguire le cure.",
+  "id": "PNEUMO-021",
+  "code": "PNEUMO-021",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Tubercolosi polmonare attiva",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "WHO_2022_Tuberculosis_Guidelines.pdf",
+  "diagnosis": "Tubercolosi polmonare attiva",
+  "pastMedicalHistory": "Non presenta patologie pregresse significative, ma ha una storia di ansia e stress elevato.",
+  "presentation": "Andrea, un uomo di 38 anni, si presenta in ambulatorio lamentando tosse persistente, febbre leggera e sudorazioni notturne. Si mostra ansioso e difensivo, temendo il giudizio degli altri riguardo alla possibilità di avere la tubercolosi. Riferisce di sentirsi isolato e di avere difficoltà a seguire le indicazioni mediche. La sua literacy è bassa, il che complica ulteriormente la sua comprensione della situazione.",
+  "redHerrings": [
+    "Andrea ha recentemente viaggiato in un'area con alta incidenza di COVID-19, ma non presenta sintomi tipici di infezione da SARS-CoV-2.",
+    "Ha una storia di allergie respiratorie, ma non ha mai avuto episodi significativi in passato che possano giustificare i sintomi attuali.",
+    "Riferisce di aver fumato occasionalmente in passato, ma ha smesso da diversi anni e non ha mai avuto problemi polmonari significativi."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "rx-torace": 20,
+    "quantiferon": 120,
+    "emocromo": 30,
+    "tamponi": 20,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-021_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Tubercolosi polmonare attiva)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-021_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-021_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-021_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-021_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-021_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Tachipnea, uso dei muscoli accessori, auscultazione con crepitii e ronchi, segni di ipossiemia."
+  },
+  "goldPathNarrative": "Iniziare con una radiografia del torace per valutare la presenza di lesioni polmonari. Successivamente, eseguire un test Quantiferon per valutare l'esposizione alla tubercolosi. Un emocromo sarà utile per escludere altre condizioni e monitorare la salute generale. Infine, raccogliere tamponi per confermare la diagnosi.",
+  "escCitations": [
+    {
+      "chunkId": "717b823b-ee00-43f0-a5a4-03ae337d6064-900",
+      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
+      "quote": "Curatola A, Ynga W, Franco J et al. The Innovative Socio-economic Interventions Against Tuberculosis (ISIAT) project: an operational assessment. Int J Tuberc Lung Dis. 2011;15 Suppl 2:50–7 (https://doi.org/10.5588/ijtld.10.0447). 160. Latent tuberculosis infection: updated and consolidated guidelines for programmatic management (WHO/CDS/TB/2018.4). Geneva: World Health Organization; 2018 (https://www.who.int/publications/i/ item/[REDACTED]). 161. Global tuberculosis report 2020. Geneva: World He"
+    },
+    {
+      "chunkId": "717b823b-ee00-43f0-a5a4-03ae337d6064-129",
+      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
+      "quote": "he treatment of tuberculosis undertaken by the British Medical Research Council tuberculosis units, 1946–1986, with relevant subsequent publications. Int J Tuberc Lung Dis. 1999;3:S231–79 (https://www.ncbi.nlm.nih.gov/pubmed/[REDACTED]). 4. WHO consolidated guidelines on tuberculosis. Module 5: Management of tuberculosis in children and adolescents. Geneva: World Health Organization; 2022 (https://www.who.int/publications/i/ item/[REDACTED]). Licence: CC BY-NC-SA 3.0 IGO. 5. The End TB Strategy."
+    },
+    {
+      "chunkId": "717b823b-ee00-43f0-a5a4-03ae337d6064-927",
+      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
+      "quote": "levant to children and adolescents, are featured in the guidelines on childhood TB treatment that are published in the module on management of tuberculosis in children and adolescents of this series of consolidated guidelines. (Recommendation 9) Children with suspected or confirmed pulmonary TB or tuberculous peripheral lymphadenitis who live in settings with low HIV prevalence or low prevalence of isoniazid resistance and children who are HIV-negative can be treated with a three- drug regimen ("
+    },
+    {
+      "chunkId": "717b823b-ee00-43f0-a5a4-03ae337d6064-731",
+      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
+      "quote": "is. Int J Tuberc Lung Dis. 2016;20:1099–104 (https://doi.org/10.5588/ijtld.15.0864). 108. Blumberg HM, Burman WJ, Chaisson RE, Daley CL, Etkind S, LN F et al. American Thoracic Society/Centers for Disease Control and Prevention/Infectious Diseases Society of America: treatment of tuberculosis. Am J Respir Crit Care Med. 2003;167:603–62 (https://doi.org/10.1164/rccm.167.4.603). 109. Ahmad Khan F, Minion J, Al-Motairi A, Benedetti A, Harries AD, Menzies D. An updated systematic review and meta-ana"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: rx-torace → quantiferon → emocromo → tamponi.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (WHO_2022_Tuberculosis_Guidelines.pdf).",
+      "Budget SSN di riferimento: €90."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente potrebbe beneficiare di un approccio che tenga conto della sua ansia e della sua scarsa aderenza, fornendo supporto e informazioni chiare.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "quantiferon",
+      "name": "Quantiferon",
+      "finding": "Quantiferon nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+      "isAbnormal": true,
+      "priceEuro": 35
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "tamponi",
+      "name": "Specie microbiche da tampone",
+      "finding": "Specie microbiche da tampone nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ISOLATED"
+    },
+    "communicationStyle": "Teme lo stigma della tubercolosi e il contatto dei servizi. Nega i sintomi se percepisce giudizio. Il tono non colpevolizzante e la spiegazione della contagiosità trattabile aprono il dialogo."
+  }
+}

@@ -1,0 +1,285 @@
+{
+  "title": "BPCO stabile in follow-up ambulatoriale",
+  "description": "Luigi presenta segni di ipossiemia e tachipnea. È ansioso riguardo alla sua condizione e ha difficoltà a comprendere le istruzioni ricevute.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "spirometria",
+    "rx-torace",
+    "6mwt"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 82,
+      "bloodPressure": "138/82",
+      "spo2": 93,
+      "temperature": 36.5,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 70,
+    "advancedExams": {
+      "values": {
+        "spirometria": {
+          "finding": "Spirometria (semplice/globale) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+          "normalFinding": "Spirometria (semplice/globale) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "6mwt": {
+          "finding": "Test del cammino (6MWT) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+          "normalFinding": "Test del cammino (6MWT) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "broncoscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        }
+      }
+    },
+    "demographics": {
+      "age": 72,
+      "sex": "M",
+      "context": "Luigi è un paziente di 72 anni con BPCO stabile in follow-up ambulatoriale. Si presenta per un controllo della sua terapia inalatoria. Ha una storia di difficoltà respiratorie e ha ricevuto diagnosi di BPCO in passato. La sua aderenza alla "
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo con segni di difficoltà respiratoria, auscultazione con ronchi e rantoli, lieve edema periferico."
+    },
+    "spirometria": {
+      "finding": "Spirometria (semplice/globale) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+      "isAbnormal": true
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+      "isAbnormal": true
+    },
+    "6mwt": {
+      "finding": "Test del cammino (6MWT) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "broncoscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Ottimizzazione della terapia inalatoria e supporto educativo per migliorare l'aderenza.",
+  "patientPrompt": "Ho 72 anni e ho la BPCO. Ogni volta che vengo qui, mi sento un po' confuso e non capisco sempre cosa mi dicono. Ho difficoltà a respirare e mi preoccupo di non sapere come usare bene gli inalatori. A volte mi sento solo e non ho nessuno con cui parlare di queste cose. Cerco di rimanere attivo, ma mi stanco facilmente e non riesco a fare molto. Vorrei sapere come posso migliorare la mia situazione, ma non so da dove cominciare.",
+  "id": "PNEUMO-002",
+  "code": "PNEUMO-002",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "BPCO stabile — ottimizzazione terapia inalatoria GOLD",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "GOLD_2024_COPD_Guidelines.pdf",
+  "diagnosis": "BPCO stabile",
+  "pastMedicalHistory": "Storia di BPCO, ipertensione, e lieve insufficienza cardiaca.",
+  "presentation": "Luigi si presenta in ambulatorio per un follow-up della sua BPCO. Riferisce di sentirsi affaticato e di avere difficoltà a respirare, specialmente durante sforzi leggeri. È preoccupato per la sua salute e sembra confuso riguardo alla corretta modalità di utilizzo degli inalatori. Non ha chiesto chiarimenti sulle istruzioni precedenti e mostra segni di ansia. La sua rete sociale è limitata e si sente spesso solo.",
+  "redHerrings": [
+    "Riflesso bronchiale accentuato durante l'esame obiettivo.",
+    "Rumore di fondo di un ventilatore in funzione nell'ambulatorio.",
+    "Presenza di un leggero edema periferico."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "spirometria": 25,
+    "rx-torace": 20,
+    "6mwt": 30,
+    "tc": 40,
+    "broncoscopia": 60
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-002_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (BPCO stabile — ottimizzazione terapia inalatoria GOLD)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-002_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-002_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-002_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-002_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-002_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo con segni di difficoltà respiratoria, auscultazione con ronchi e rantoli, lieve edema periferico."
+  },
+  "goldPathNarrative": "Si procederà con una spirometria per valutare la funzione polmonare attuale di Luigi, seguita da una radiografia del torace per escludere complicanze. Infine, si eseguirà un test di cammino di 6 minuti per valutare la tolleranza all'esercizio e fornire indicazioni su un programma di riabilitazione polmonare.",
+  "escCitations": [
+    {
+      "chunkId": "cc086550-97a3-496b-a099-89a5239acbb2-269",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "ological treatment and should form part of the comprehensive management of COPD. After receiving a diagnosis of COPD a patient should be given further information about the condition. Physicians should emphasize the importance of a smoke free environment, empower adherence to prescribed medication, ensure proper inhaler technique, promote physical activity, prescribe vaccinations, and refer patients to pulmonary rehabilitation. Algorithms for the initiation and follow-up of non- pharmacological "
+    },
+    {
+      "chunkId": "cc086550-97a3-496b-a099-89a5239acbb2-44",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "HARMACOLOGICAL TREATMENT OF STABLE COPD ..........................................................................................................................................47 ALGORITHMS FOR THE INITIATION AND FOLLOW-UP OF PHARMACOLOGICAL TREATMENT ...........................................................................................................49 Managing inhaled therapy ..............................................................................................................."
+    },
+    {
+      "chunkId": "cc086550-97a3-496b-a099-89a5239acbb2-243",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "m randomized controlled trials. However, as these recommendations are intended to support clinician decision-making, they also incorporate expert advice based on clinical experience.COPYRIGHT MATERIAL - DO NOT DISTRIBUTE Be sure to read and understand the paragraph entitled Important Purpose & Liability Disclaimer 48 Initial pharmacotherapy should be based on the patient’s GOLD group (Figure 3.7). Patients should be offered guidance and follow up on self-management of breathlessness, and stress "
+    },
+    {
+      "chunkId": "cc086550-97a3-496b-a099-89a5239acbb2-742",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "terol monotherapies in symptomatic patients with COPD not receiving inhaled corticosteroids: the EMAX randomised trial. Respir Res 2019; 20(1): 238 https://pubmed.ncbi.nlm.nih.gov/[REDACTED]. 563. Lange P, Marott JL, Vestbo J, et al. Prediction of the clinical course of chronic obstructive pulmonary disease, using the new GOLD classification: a study of the general population. Am J Respir Crit Care Med 2012; 186(10): 975-81 https://pubmed.ncbi.nlm.nih.gov/[REDACTED]. 564. Agusti A, Edwards LD, C"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: spirometria → rx-torace → 6mwt.",
+      "Non prescrivere di prima intenzione: tc, broncoscopia (GOLD_2024_COPD_Guidelines.pdf).",
+      "Budget SSN di riferimento: €70."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente necessita di supporto per migliorare l'aderenza alla terapia.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "spirometria",
+      "name": "Spirometria (semplice/globale)",
+      "finding": "Spirometria (semplice/globale) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "6mwt",
+      "name": "Test del cammino (6MWT)",
+      "finding": "Test del cammino (6MWT) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf."
+    },
+    {
+      "examId": "broncoscopia",
+      "name": "Broncoscopia (e BAL)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ISOLATED"
+    },
+    "communicationStyle": "Annuisce senza capire. Se il linguaggio è tecnico, non chiede spiegazioni e poi non usa gli inalatori. Risponde meglio a istruzioni concrete e dimostrazioni pratiche."
+  }
+}

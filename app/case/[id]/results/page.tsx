@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { prisma } from "../../../../lib/prisma";
 import { getSessionUserId } from "../../../../lib/api-session";
 import { isDevAuthBypass } from "../../../../lib/require-user";
+import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 import type {
   ClinicalDeltaRow,
   CoachingFeedback,
@@ -18,6 +19,7 @@ import type {
 } from "@/lib/services/evaluation-scoring";
 import { AequanLogo } from "@/components/AequanLogo";
 import { EliteResultsClient } from "./EliteResultsClient";
+import { OfflineResultsGate } from "./OfflineResultsGate";
 
 type ResultsPageProps = {
   params: Promise<{ id: string }> | { id: string };
@@ -68,28 +70,64 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
     const resolvedSearch =
       searchParams && "then" in searchParams ? await searchParams : searchParams;
 
-    const sessionId = resolvedSearch?.sessionId;
+    const sessionId = resolvedSearch?.sessionId?.trim() || "";
     const caseId = resolvedParams.id;
-
-    if (!sessionId) {
-      return notFound();
-    }
+    const registered = getCaseById(caseId);
+    const caseKey = normalizeCaseLookupKey(caseId);
 
     const userId = await getSessionUserId();
-    if (!userId) {
-      return notFound();
+
+    let session: Awaited<ReturnType<typeof prisma.sessionReport.findUnique>> | null = null;
+    if (sessionId && !sessionId.startsWith("local-")) {
+      try {
+        session = await prisma.sessionReport.findUnique({
+          where: { id: sessionId },
+        });
+      } catch (err) {
+        console.error("[CaseResultsPage] Prisma SessionReport lookup failed — using local fallback", err);
+        session = null;
+      }
     }
 
-    const session = await prisma.sessionReport.findUnique({
-      where: { id: sessionId },
-    });
+    const caseMatches =
+      Boolean(session) &&
+      normalizeCaseLookupKey(session!.caseId) === caseKey;
 
-    if (!session || session.caseId !== caseId) {
-      return notFound();
-    }
+    const ownerOk =
+      Boolean(session) && (isDevAuthBypass() || !userId || session!.userId === userId);
 
-    if (!isDevAuthBypass() && session.userId !== userId) {
-      return notFound();
+    if (!session || !caseMatches || !ownerOk) {
+      if (!registered && !sessionId) {
+        return notFound();
+      }
+      return (
+        <div className="min-h-screen bg-[#EEF1F5] text-slate-800">
+          <div
+            className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(52,88,132,0.11),transparent_42%),radial-gradient(ellipse_at_bottom_right,rgba(30,50,78,0.08),transparent_40%)]"
+            aria-hidden
+          />
+          <div className="relative mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
+            <div className="mb-5 flex items-center justify-between gap-3">
+              <Link
+                href="/dashboard/prassi"
+                className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80 transition hover:text-[#345884]"
+              >
+                <ArrowLeft className="h-3.5 w-3.5" />
+                Prassi Clinica
+              </Link>
+              <Link href="/dashboard" aria-label="Vai alla dashboard">
+                <AequanLogo height={28} />
+              </Link>
+            </div>
+            <OfflineResultsGate
+              caseId={caseId}
+              sessionId={sessionId}
+              correctSolution={registered?.correctSolution}
+              legalSources={registered?.legalConformity.ragReferences.map((r) => r.sourceRef)}
+            />
+          </div>
+        </div>
+      );
     }
 
     const trace = (session.rawTrace ?? {}) as SessionTrace;

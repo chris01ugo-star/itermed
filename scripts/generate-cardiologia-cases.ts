@@ -5,7 +5,7 @@
  *   npx tsx scripts/generate-cardiologia-cases.ts
  *   npx tsx scripts/generate-cardiologia-cases.ts --resume
  *   npx tsx scripts/generate-cardiologia-cases.ts --only=CARDIO-001
- *   npx tsx scripts/generate-cardiologia-cases.ts --validate-only
+ *   npx tsx scripts/generate-cardiologia-cases.ts --patch-ages
  */
 import { openai } from "@ai-sdk/openai";
 import { embed, generateObject } from "ai";
@@ -125,6 +125,40 @@ const SETTING_LABEL: Record<MatrixRow["setting"], string> = {
   PRONTO_SOCCORSO: "Pronto Soccorso",
   AMBULATORIO: "Ambulatorio di Cardiologia",
   REPARTO: "Reparto di Cardiologia",
+};
+
+/** Epidemiology-aware age/sex (24–86). Used at generate-time and `--patch-ages`. */
+const PATIENT_PROFILES: Record<string, { age: number; sex: "M" | "F" }> = {
+  "CARDIO-001": { age: 67, sex: "M" }, // STEMI
+  "CARDIO-002": { age: 74, sex: "F" }, // NSTEMI diabetico
+  "CARDIO-003": { age: 79, sex: "M" }, // STEMI + BAV
+  "CARDIO-004": { age: 61, sex: "M" }, // UA
+  "CARDIO-005": { age: 52, sex: "F" }, // HTN ambulatorio
+  "CARDIO-006": { age: 48, sex: "M" }, // urgenza ipertensiva
+  "CARDIO-007": { age: 71, sex: "F" }, // emergenza ipertensiva
+  "CARDIO-008": { age: 64, sex: "F" }, // FA nuova
+  "CARDIO-009": { age: 78, sex: "M" }, // FA RVR
+  "CARDIO-010": { age: 82, sex: "M" }, // FA + TAO
+  "CARDIO-011": { age: 69, sex: "M" }, // HFrEF
+  "CARDIO-012": { age: 76, sex: "F" }, // EPA
+  "CARDIO-013": { age: 84, sex: "F" }, // HFpEF
+  "CARDIO-014": { age: 63, sex: "M" }, // CCS angina
+  "CARDIO-015": { age: 70, sex: "M" }, // CCS rivascolarizzazione
+  "CARDIO-016": { age: 66, sex: "F" }, // CCS post-PCI
+  "CARDIO-017": { age: 24, sex: "F" }, // sincope vasovagale giovane
+  "CARDIO-018": { age: 81, sex: "M" }, // sincope cardiogena
+  "CARDIO-019": { age: 57, sex: "F" }, // EP intermedia
+  "CARDIO-020": { age: 73, sex: "M" }, // EP alto rischio
+  "CARDIO-021": { age: 68, sex: "M" }, // TVNS
+  "CARDIO-022": { age: 72, sex: "M" }, // TV sostenuta
+  "CARDIO-023": { age: 31, sex: "M" }, // HCM screening giovane
+  "CARDIO-024": { age: 38, sex: "F" }, // DCM genetica
+  "CARDIO-025": { age: 59, sex: "M" }, // AOP
+  "CARDIO-026": { age: 77, sex: "M" }, // AAA
+  "CARDIO-027": { age: 80, sex: "F" }, // ischemia acuta arto
+  "CARDIO-028": { age: 29, sex: "F" }, // gravidanza
+  "CARDIO-029": { age: 46, sex: "M" }, // endocardite
+  "CARDIO-030": { age: 86, sex: "M" }, // dissezione tipo A (picco età avanzata)
 };
 
 const SCAFFOLDS: Record<string, Scaffold> = {
@@ -317,13 +351,15 @@ const SCAFFOLDS: Record<string, Scaffold> = {
 function parseArgs(argv: string[]) {
   let resume = false;
   let validateOnly = false;
+  let patchAges = false;
   let only: string | null = null;
   for (const arg of argv) {
     if (arg === "--resume") resume = true;
     if (arg === "--validate-only") validateOnly = true;
+    if (arg === "--patch-ages") patchAges = true;
     if (arg.startsWith("--only=")) only = arg.slice("--only=".length).trim();
   }
-  return { resume, validateOnly, only };
+  return { resume, validateOnly, patchAges, only };
 }
 
 function sourceNameFor(pdf: string): string {
@@ -611,8 +647,8 @@ function assembleCase(params: {
     },
     examBudgetEuro: scaffold.examBudgetEuro,
     demographics: {
-      age: clamp(Number(narrative.age), 16, 95),
-      sex: narrative.sex,
+      age: PATIENT_PROFILES[matrix.id]?.age ?? clamp(Number(narrative.age), 24, 86),
+      sex: PATIENT_PROFILES[matrix.id]?.sex ?? narrative.sex,
       context: ensureLen(narrative.context, 8, 240, SETTING_LABEL[matrix.setting]),
     },
     physicalExam: {
@@ -694,6 +730,7 @@ REGOLE:
 - patientPrompt: prima persona; niente diagnosi e niente valori numerici.
 - Nome proprio coerente col sesso.
 - Vitali e Killip coerenti (EPA: FR alta, SpO2 bassa, Killip III; STEMI stabile: Killip I).
+- Età/sesso fissati dal profilo epidemiologico: ${PATIENT_PROFILES[params.matrix.id]?.age ?? 58} anni, ${PATIENT_PROFILES[params.matrix.id]?.sex ?? "M"}. Non usare 58 anni se non è il profilo.
 - redHerring1/2/3: rumore clinico che NON è la diagnosi.
 - examAbnormalitiesSummary: elenco sintetico dei reperti attesi (ECG, lab, imaging).
 - gelliArt5Adherence: scudo L. 24/2017 Art. 5 se si segue il gold path ESC.
@@ -715,6 +752,78 @@ ${formatRagCorpus(params.ragHits)}
   });
 
   return object;
+}
+
+function replaceAgeMentions(text: string, age: number): string {
+  return text
+    .replace(/\b\d{1,3}\s*anni\b/gi, `${age} anni`)
+    .replace(/\bho\s+\d{1,3}\b/gi, `Ho ${age}`);
+}
+
+function applyAgeToUnknown(value: unknown, age: number): unknown {
+  if (typeof value === "string") return replaceAgeMentions(value, age);
+  if (Array.isArray(value)) return value.map((item) => applyAgeToUnknown(item, age));
+  if (value && typeof value === "object") {
+    const next: Record<string, unknown> = {};
+    for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
+      if (key === "age" && (typeof child === "number" || typeof child === "string")) {
+        next[key] = age;
+      } else {
+        next[key] = applyAgeToUnknown(child, age);
+      }
+    }
+    return next;
+  }
+  return value;
+}
+
+async function patchCaseAges(ids: string[]): Promise<boolean> {
+  let okAll = true;
+  const ages = new Set<number>();
+  for (const id of ids) {
+    const profile = PATIENT_PROFILES[id];
+    const file = casePath(id);
+    if (!profile) {
+      console.error(`  ✗ ${id}: profilo età mancante`);
+      okAll = false;
+      continue;
+    }
+    if (!existsSync(file)) {
+      console.error(`  ✗ ${id}: file mancante`);
+      okAll = false;
+      continue;
+    }
+    const raw = JSON.parse(await readFile(file, "utf8")) as Record<string, unknown>;
+    const patched = applyAgeToUnknown(raw, profile.age) as Record<string, unknown>;
+    const baseline =
+      patched.baselineExamFindings && typeof patched.baselineExamFindings === "object"
+        ? { ...(patched.baselineExamFindings as Record<string, unknown>) }
+        : {};
+    const demographics =
+      baseline.demographics && typeof baseline.demographics === "object"
+        ? { ...(baseline.demographics as Record<string, unknown>) }
+        : {};
+    demographics.age = profile.age;
+    baseline.demographics = demographics;
+    patched.baselineExamFindings = baseline;
+    if (typeof patched.title === "string" && !/\d{1,3}\s*anni/i.test(patched.title)) {
+      const who = profile.sex === "F" ? "donna" : "uomo";
+      patched.title = `${String(patched.title).replace(/\s+$/, "")} (${who} ${profile.age} anni)`;
+    }
+    const check = validateCaseFile(patched);
+    if (!check.ok) {
+      console.error(`  ✗ ${id} patch non valida`);
+      for (const issue of check.issues.slice(0, 6)) console.error(`      ${issue}`);
+      okAll = false;
+      continue;
+    }
+    await writeFile(file, `${JSON.stringify(patched, null, 2)}\n`, "utf8");
+    ages.add(profile.age);
+    console.log(`  ✓ ${id} age=${profile.age} sex=${profile.sex}`);
+  }
+  console.log(`----------------------------------------------------`);
+  console.log(`Età uniche: ${ages.size} (min ${Math.min(...ages)} max ${Math.max(...ages)})`);
+  return okAll;
 }
 
 function casePath(id: string): string {
@@ -783,6 +892,12 @@ async function main() {
   console.log("----------------------------------------------------");
   console.log(args.validateOnly ? "🔎 VALIDAZIONE CASI CARDIOLOGIA KB" : "🧬 GENERAZIONE CASI CARDIOLOGIA DA MATRICE + RAG");
   console.log("----------------------------------------------------");
+
+  if (args.patchAges) {
+    const ok = await patchCaseAges(selected.map((r) => r.id));
+    if (!ok) process.exitCode = 1;
+    return;
+  }
 
   if (args.validateOnly) {
     const ok = await validateAll(selected.map((r) => r.id));

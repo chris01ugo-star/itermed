@@ -1,7 +1,10 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import { DAILY_SIMULATION_LIMIT } from "@/lib/billing/plans";
+import { config, isUsableDatabase } from "@/lib/config";
+import { createLogger } from "@/lib/logger";
 
+const log = createLogger("daily-sim-quota");
 const ROME_TZ = "Europe/Rome";
 
 /** Calendar day key in Europe/Rome (YYYY-MM-DD). */
@@ -32,12 +35,25 @@ export function startOfTodayRome(now: Date = new Date()): Date {
 }
 
 export async function countSimulationsStartedToday(userId: string): Promise<number> {
-  return prisma.caseSession.count({
-    where: {
+  if (!userId || !isUsableDatabase(config.DATABASE_URL)) {
+    return 0;
+  }
+
+  try {
+    return await prisma.caseSession.count({
+      where: {
+        userId,
+        createdAt: { gte: startOfTodayRome() },
+      },
+    });
+  } catch (error) {
+    log.warn("caseSession.count unavailable; treating daily usage as 0 (offline / DB down)", {
       userId,
-      createdAt: { gte: startOfTodayRome() },
-    },
-  });
+      errorName: error instanceof Error ? error.name : undefined,
+      errorMessage: error instanceof Error ? error.message.slice(0, 240) : String(error).slice(0, 240),
+    });
+    return 0;
+  }
 }
 
 export type DailySimulationQuota = {

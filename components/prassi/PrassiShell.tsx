@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { type ReactNode } from "react";
 import {
@@ -87,15 +86,6 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
     return true;
   });
 
-  const filterQuery = [
-    specialtyId ? `specialtyId=${encodeURIComponent(specialtyId)}` : "",
-    specialtyName ? `specialty=${encodeURIComponent(specialtyName)}` : "",
-    difficulty ? `difficulty=${encodeURIComponent(difficulty)}` : "",
-    searchQuery ? `q=${encodeURIComponent(searchQuery)}` : "",
-  ]
-    .filter(Boolean)
-    .join("&");
-
   const renderCaseList = (list: ClinicalCaseRow[]) => (
     <div className="scrollbar-aequan min-h-0 flex-1 space-y-4 overflow-y-auto overflow-x-hidden p-3 pt-4 pb-6">
       {list.length === 0 ? (
@@ -112,12 +102,8 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
           const difficultyLabel =
             DIFFICULTY_LABELS[difficultyKey] ?? String(caseRow.difficulty ?? "Media");
           const patientName = patientDisplayName(caseRow.id, caseRow.title, caseRow.sex);
-          const patientAge = estimateAgeFromTitle(caseRow.title);
-          const href = isPlaying
-            ? `/dashboard/prassi/play/${encodeURIComponent(caseRow.id)}`
-            : `/dashboard/prassi?caseId=${encodeURIComponent(caseRow.id)}${
-                filterQuery ? `&${filterQuery}` : ""
-              }`;
+          const patientAge = caseRow.age ?? estimateAgeFromTitle(caseRow.title);
+          const href = `/dashboard/prassi/play/${encodeURIComponent(caseRow.id)}`;
           const inProgress = isActive && isPlaying;
           const condition = conditionFromTitle(caseRow.title);
           const dept = specialtyStyle(specialty);
@@ -129,8 +115,13 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
                 style={{ backgroundColor: dept.fill }}
                 aria-hidden
               />
-              <Link
+              <a
                 href={href}
+                onClick={(event) => {
+                  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                  event.preventDefault();
+                  window.location.assign(href);
+                }}
                 style={{ backgroundColor: dept.fill, borderColor: isActive ? "#1E324E" : dept.border }}
                 className={cn(
                   "relative flex min-w-0 flex-col gap-2 overflow-hidden rounded-b-xl rounded-tr-xl border px-3.5 py-3 transition-all duration-200 hover:brightness-[0.98]",
@@ -155,7 +146,7 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
                     {difficultyLabel}
                   </span>
                 </div>
-              </Link>
+              </a>
             </div>
           );
         })

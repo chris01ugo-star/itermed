@@ -1,0 +1,284 @@
+{
+  "title": "NSCLC in stadiazione iniziale",
+  "description": "Marco è un uomo di 67 anni che si presenta in ambulatorio per una valutazione della sua condizione polmonare. Riferisce di aver notato una tosse persistente e una leggera difficoltà respiratoria negli ultimi mesi. È preoccupato per la sua salute e desidera comprendere meglio la situazione. Ha una buona rete di supporto familiare, ma si sente ansioso riguardo alla possibilità di una malattia grave. La sua literacy è media, e preferisce ricevere informazioni in modo diretto e chiaro.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "tc",
+    "pet-tc",
+    "biopsia",
+    "consenso-informato"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 80,
+      "bloodPressure": "138/84",
+      "spo2": 95,
+      "temperature": 36.5,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 1200,
+    "advancedExams": {
+      "values": {
+        "tc": {
+          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Carcinoma polmonare non a piccole cellule — stadiazione (PNEUMO-018). Tosse persistente, leggera difficoltà respiratoria, auscultazione con ronchi e crepitii bilaterali, ansia evidente.",
+          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Carcinoma polmonare non a piccole cellule — stadiazione (PNEUMO-018). Tosse persistente, leggera difficoltà respiratoria, auscultazione con ronchi e crepitii bilaterali, ansia evidente.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "pet-tc": {
+          "finding": "PET-TC nel contesto di Carcinoma polmonare non a piccole cellule — stadiazione (PNEUMO-018). Tosse persistente, leggera difficoltà respiratoria, auscultazione con ronchi e crepitii bilaterali, ansia evidente.",
+          "normalFinding": "PET-TC nel contesto di Carcinoma polmonare non a piccole cellule — stadiazione (PNEUMO-018). Tosse persistente, leggera difficoltà respiratoria, auscultazione con ronchi e crepitii bilaterali, ansia evidente.",
+          "isAbnormal": true,
+          "price": 900
+        },
+        "biopsia": {
+          "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Carcinoma polmonare non a piccole cellule — stadiazione (PNEUMO-018). Tosse persistente, leggera difficoltà respiratoria, auscultazione con ronchi e crepitii bilaterali, ansia evidente.",
+          "normalFinding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Carcinoma polmonare non a piccole cellule — stadiazione (PNEUMO-018). Tosse persistente, leggera difficoltà respiratoria, auscultazione con ronchi e crepitii bilaterali, ansia evidente.",
+          "isAbnormal": true,
+          "price": 80
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        },
+        "moc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 40
+        }
+      }
+    },
+    "demographics": {
+      "age": 67,
+      "sex": "M",
+      "context": "Ambulatorio di Pneumologia"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo mostra respiro regolare, ma con leggera difficoltà respiratoria. Non ci sono segni di cianosi o edema periferico. Auscultazione polmonare con ronchi e crepitii bilaterali."
+    },
+    "tc": {
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Carcinoma polmonare non a piccole cellule — stadiazione (PNEUMO-018). Tosse persistente, leggera difficoltà respiratoria, auscultazione con ronchi e crepitii bilaterali, ansia evidente.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "PET-TC nel contesto di Carcinoma polmonare non a piccole cellule — stadiazione (PNEUMO-018). Tosse persistente, leggera difficoltà respiratoria, auscultazione con ronchi e crepitii bilaterali, ansia evidente.",
+      "isAbnormal": true
+    },
+    "biopsia": {
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Carcinoma polmonare non a piccole cellule — stadiazione (PNEUMO-018). Tosse persistente, leggera difficoltà respiratoria, auscultazione con ronchi e crepitii bilaterali, ansia evidente.",
+      "isAbnormal": true
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "moc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Seguire il gold path: TC → PET-TC → biopsia → consenso informato.",
+  "patientPrompt": "Ho 67 anni e sono preoccupato per la mia salute polmonare. Ho notato una tosse persistente e un po' di difficoltà a respirare. Vorrei sapere cosa sta succedendo e quali esami devo fare. Non mi piacciono le parole complicate o gli eufemismi, voglio sapere la verità. Ho un buon supporto dalla mia famiglia, ma l'idea di avere una malattia seria mi rende ansioso. Mi piacerebbe che mi spiegaste il percorso che dovrò seguire, come la TC, il PET e la biopsia, in modo chiaro e rispettoso.",
+  "id": "PNEUMO-018",
+  "code": "PNEUMO-018",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Carcinoma polmonare non a piccole cellule — stadiazione",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf",
+  "diagnosis": "Carcinoma polmonare non a piccole cellule — stadiazione",
+  "pastMedicalHistory": "Non ha patologie croniche note, ma ha una storia di fumo in passato. Ha smesso di fumare da diversi anni.",
+  "presentation": "Marco si presenta con una tosse persistente e una leggera difficoltà respiratoria. È visibilmente ansioso e desidera avere informazioni dettagliate sulla sua condizione. Riferisce di avere un buon supporto familiare, ma è preoccupato per la possibilità di una diagnosi grave. Ha una literacy media e preferisce un linguaggio diretto e chiaro, senza eufemismi.",
+  "redHerrings": [
+    "Riflette su un recente episodio di bronchite acuta che ha avuto qualche mese fa.",
+    "Ha sentito parlare di un amico che ha avuto una polmonite e teme di avere la stessa condizione.",
+    "Riferisce di aver fumato in passato, ma ha smesso da anni e non è sicuro se questo possa influenzare la sua situazione attuale."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "tc": 40,
+    "pet-tc": 180,
+    "biopsia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-018_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Carcinoma polmonare non a piccole cellule — stadiazione)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-018_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-018_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-018_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-018_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-018_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo mostra respiro regolare, ma con leggera difficoltà respiratoria. Non ci sono segni di cianosi o edema periferico. Auscultazione polmonare con ronchi e crepitii bilaterali."
+  },
+  "goldPathNarrative": "Per procedere con la stadiazione del carcinoma polmonare non a piccole cellule, inizieremo con una tomografia computerizzata (TC) per valutare la presenza e l'estensione della malattia. Successivamente, se necessario, eseguiremo una PET-TC per ottenere informazioni più dettagliate sulle aree di attività metabolica. Infine, sarà fondamentale eseguire una biopsia per confermare la diagnosi e determinare il tipo specifico di carcinoma. Prima di qualsiasi procedura, sarà richiesto il consenso informato.",
+  "escCitations": [
+    {
+      "chunkId": "def44206-1a78-4e28-9542-d83e76034b9c-2",
+      "source": "knowledge_base/pneumologia/clinical/ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf",
+      "quote": "tific Institute, Milan, Italy; 15Department of Thoracic Oncology, Airway Research Center North, German Center for Lung Research, Lung Clinic, Grosshansdorf, Germany Available online 23 January 2023 Key words: ESCAT, ESMO Clinical Practice Guideline (CPG), ESMO-MCBS, oncogene-addicted metastatic non-small-cell lung cancer (mNSCLC), treatment, targeted therapy INCIDENCE AND EPIDEMIOLOGY Details on incidence and epidemiology are covered in the Supplementary Material Section 1, available at https://"
+    },
+    {
+      "chunkId": "def44206-1a78-4e28-9542-d83e76034b9c-125",
+      "source": "knowledge_base/pneumologia/clinical/ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf",
+      "quote": "2:41-46. 105. Blake-Cerda M, Lozano-Ruiz F, Maldonado-Magos F, et al. Con- solidative stereotactic ablative radiotherapy (SABR) to intra- pulmonary lesions is associated with prolonged progression-free survival and overall survival in oligometastatic NSCLC patients: a prospective phase 2 study. Lung Cancer. 2021;152:119-126. 106. Gomez DR, Tang C, Zhang J, et al. Local consolidative therapy vs. maintenance therapy or observation for patients with oligometa- static non-small-cell lung cancer: lon"
+    },
+    {
+      "chunkId": "def44206-1a78-4e28-9542-d83e76034b9c-122",
+      "source": "knowledge_base/pneumologia/clinical/ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf",
+      "quote": "use. Available at https://www.accessdata.fda.gov/drugsatfda_ docs/label/2021/215310s000lbl.pdf. Accessed January 4, 2023. 95. Carmichael JA, Wing-San Mak D, O’Brien M. A review of recent ad- vances in the treatment of elderly and poor performance NSCLC. Cancers (Basel). 2018;10(7). 96. Inoue A, Kobayashi K, Usui K, et al. First-line gefitinib for patients with advanced non-small-cell lung cancer harboring epidermal growth factor receptor mutations without indication for chemotherapy. J Clin Onco"
+    },
+    {
+      "chunkId": "def44206-1a78-4e28-9542-d83e76034b9c-99",
+      "source": "knowledge_base/pneumologia/clinical/ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf",
+      "quote": "l. 2019;14(4):737-741. 8. Skoulidis F, Heymach JV. Co-occurring genomic alterations in non- small-cell lung cancer biology and therapy. Nat Rev Cancer. 2019;19(9):495-509. 9. Yaghmaie M, Yeung CC. Molecular mechanisms of resistance to tyro- sine kinase inhibitors. Curr Hematol Malig Rep. 2019;14(5):395-404. 10. Hendriks LE, Kerr KM, Menis J, et al. Non-oncogene-addicted met- astatic non-small-cell lung cancer: ESMO Clinical Practice Guideline for diagnosis, treatment and follow-up. Ann Oncol. 20"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: tc → pet-tc → biopsia → consenso-informato.",
+      "Non prescrivere di prima intenzione: colonscopia, moc (ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf).",
+      "Budget SSN di riferimento: €1200."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione piena al percorso terapeutico previsto.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Carcinoma polmonare non a piccole cellule — stadiazione (PNEUMO-018). Tosse persistente, leggera difficoltà respiratoria, auscultazione con ronchi e crepitii bilaterali, ansia evidente.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET-TC nel contesto di Carcinoma polmonare non a piccole cellule — stadiazione (PNEUMO-018). Tosse persistente, leggera difficoltà respiratoria, auscultazione con ronchi e crepitii bilaterali, ansia evidente.",
+      "isAbnormal": true,
+      "priceEuro": 900
+    },
+    {
+      "examId": "biopsia",
+      "name": "Biopsia (osteomidollare o tissutale mirata)",
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Carcinoma polmonare non a piccole cellule — stadiazione (PNEUMO-018). Tosse persistente, leggera difficoltà respiratoria, auscultazione con ronchi e crepitii bilaterali, ansia evidente.",
+      "isAbnormal": true,
+      "priceEuro": 80
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf."
+    },
+    {
+      "examId": "moc",
+      "name": "MOC (DEXA)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 40,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Vuole sapersi la verità sulla stadiazione. Il linguaggio eufemistico lo irrita. Preferisce mappe ESMO (TC, PET, biopsia, consenso) dette con chiarezza e rispetto."
+  }
+}

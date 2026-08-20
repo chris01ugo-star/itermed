@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Activity, HeartPulse, Thermometer } from "lucide-react";
 import { StartCaseButtons } from "@/components/cases/StartCaseButtons";
 import type { ClinicalCaseRow } from "@/components/dashboard/ClinicalCaseCard";
@@ -12,17 +11,10 @@ type PrassiCaseBriefingProps = {
 };
 
 export function PrassiCaseBriefing({ caseRow }: PrassiCaseBriefingProps) {
-  const router = useRouter();
   const specialty = displaySpecialtyName(caseRow);
   const difficulty = DIFFICULTY_LABELS[caseRow.difficulty] ?? caseRow.difficulty;
   const vitals = deriveDemoVitals(caseRow.id);
   const name = patientDisplayName(caseRow.id, caseRow.title, caseRow.sex);
-
-  const handleSessionStart = (caseId: string, sessionId: string) => {
-    router.push(
-      `/dashboard/prassi/play/${encodeURIComponent(caseId)}?sessionId=${encodeURIComponent(sessionId)}`,
-    );
-  };
 
   return (
     <div className="flex h-full min-h-[480px] flex-col">
@@ -108,7 +100,7 @@ export function PrassiCaseBriefing({ caseRow }: PrassiCaseBriefingProps) {
 
         <div className="mt-auto border-t border-slate-100 pt-5">
           <p className="mb-3 text-xs font-medium text-slate-500">Avvia esercitazione</p>
-          <StartCaseButtons caseId={caseRow.id} onSessionStart={handleSessionStart} />
+          <StartCaseButtons caseId={caseRow.id} />
         </div>
       </div>
     </div>

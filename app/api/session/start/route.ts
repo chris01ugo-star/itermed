@@ -126,6 +126,12 @@ export async function POST(req: Request) {
 
   const { caseId: rawCaseId, mode, devBypass } = parsed.data;
   const caseId = normalizeCaseLookupKey(rawCaseId);
+  const registered = getCaseById(rawCaseId) ?? getCaseById(caseId);
+
+  // Registry originals never wait on Prisma/Neon — client navigates immediately.
+  if (registered && mode === "original") {
+    return createRegistryOfflineSessionResponse(registered.id, false);
+  }
 
   const rateLimited = await enforceRateLimit(req, {
     namespace: mode === "variant" ? "api-session-start-variant" : "api-session-start",
@@ -166,7 +172,19 @@ export async function POST(req: Request) {
     });
   }
 
-  await ensureRegisteredCaseInDb(caseId, userId);
+  try {
+    await Promise.race([
+      ensureRegisteredCaseInDb(caseId, userId),
+      new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error("ensureRegisteredCaseInDb timed out after 1500ms")), 1_500);
+      }),
+    ]);
+  } catch (err) {
+    console.error("[POST /api/session/start] ensureRegisteredCaseInDb skipped", {
+      caseId,
+      error: err instanceof Error ? err.message : String(err),
+    });
+  }
 
   let clinicalCase: {
     id: string;
@@ -179,18 +197,23 @@ export async function POST(req: Request) {
   } | null = null;
 
   try {
-    clinicalCase = await prisma.clinicalCase.findUnique({
-      where: { id: caseId },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        isActive: true,
-        caseBundleId: true,
-        goldStandardPath: true,
-        nodes: { orderBy: { order: "asc" }, take: 1, select: { content: true } },
-      },
-    });
+    clinicalCase = await Promise.race([
+      prisma.clinicalCase.findUnique({
+        where: { id: caseId },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          isActive: true,
+          caseBundleId: true,
+          goldStandardPath: true,
+          nodes: { orderBy: { order: "asc" }, take: 1, select: { content: true } },
+        },
+      }),
+      new Promise<null>((_, reject) => {
+        setTimeout(() => reject(new Error("clinicalCase.findUnique timed out after 1500ms")), 1_500);
+      }),
+    ]);
   } catch {
     if (isRegisteredCaseId(caseId)) {
       return createRegistryOfflineSessionResponse(caseId, false);

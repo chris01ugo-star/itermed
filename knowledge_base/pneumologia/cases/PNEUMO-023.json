@@ -1,0 +1,284 @@
+{
+  "title": "Sarcoidosi polmonare in donna di 36 anni",
+  "description": "Sara è una donna di 36 anni che si presenta con sintomi respiratori e un forte stato d'ansia. Ha una buona rete di supporto, ma la sua ansia influisce sulla sua capacità di aderire alle raccomandazioni mediche. La sua storia clinica è caratterizzata da un'insonnia persistente e da un'auto-riflessione eccessiva sui suoi sintomi, che ha approfondito tramite ricerche online. Recentemente ha anche manifestato un certo grado di affaticamento e tosse.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "rx-torace",
+    "tc",
+    "emocromo"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 82,
+      "bloodPressure": "118/72",
+      "spo2": 96,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 220,
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Sarcoidosi polmonare (stadio radiologico II) (PNEUMO-023). Tachipnea, ronchi all'auscultazione, segni di affaticamento, linfoadenopatie palpabili.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Sarcoidosi polmonare (stadio radiologico II) (PNEUMO-023). Tachipnea, ronchi all'auscultazione, segni di affaticamento, linfoadenopatie palpabili.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "tc": {
+          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Sarcoidosi polmonare (stadio radiologico II) (PNEUMO-023). Tachipnea, ronchi all'auscultazione, segni di affaticamento, linfoadenopatie palpabili.",
+          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Sarcoidosi polmonare (stadio radiologico II) (PNEUMO-023). Tachipnea, ronchi all'auscultazione, segni di affaticamento, linfoadenopatie palpabili.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Sarcoidosi polmonare (stadio radiologico II) (PNEUMO-023). Tachipnea, ronchi all'auscultazione, segni di affaticamento, linfoadenopatie palpabili.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Sarcoidosi polmonare (stadio radiologico II) (PNEUMO-023). Tachipnea, ronchi all'auscultazione, segni di affaticamento, linfoadenopatie palpabili.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2021_Sarcoidosis_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2021_Sarcoidosis_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2021_Sarcoidosis_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2021_Sarcoidosis_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 36,
+      "sex": "F",
+      "context": "Sara si presenta in ambulatorio di pneumologia per una valutazione delle sue condizioni respiratorie. Ha recentemente notato un aumento della tosse e una sensazione di affaticamento persistente. È preoccupata per la sua salute e ha cercato "
+    },
+    "physicalExam": {
+      "finding": "Tachipnea, auscultazione polmonare con ronchi, segni di affaticamento."
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Sarcoidosi polmonare (stadio radiologico II) (PNEUMO-023). Tachipnea, ronchi all'auscultazione, segni di affaticamento, linfoadenopatie palpabili.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Sarcoidosi polmonare (stadio radiologico II) (PNEUMO-023). Tachipnea, ronchi all'auscultazione, segni di affaticamento, linfoadenopatie palpabili.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Sarcoidosi polmonare (stadio radiologico II) (PNEUMO-023). Tachipnea, ronchi all'auscultazione, segni di affaticamento, linfoadenopatie palpabili.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2021_Sarcoidosis_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2021_Sarcoidosis_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Seguire il gold path: rx-torace → tc → emocromo",
+  "patientPrompt": "Ho 36 anni e da qualche tempo ho notato un aumento della tosse e una sensazione di affaticamento. Sono molto preoccupata per la mia salute e ho cercato informazioni online. Ho confrontato i miei sintomi con quelli di altre persone e ho letto che potrei avere una malattia grave. Ho difficoltà a dormire perché continuo a pensare alla mia situazione. Ho anche un po' di dolore al petto, ma credo sia dovuto all'ansia. Vorrei sapere se è necessario fare subito una PET o una biopsia, perché non voglio perdere tempo.",
+  "id": "PNEUMO-023",
+  "code": "PNEUMO-023",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Sarcoidosi polmonare (stadio radiologico II)",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ERS_2021_Sarcoidosis_Guidelines.pdf",
+  "diagnosis": "Sarcoidosi polmonare (stadio radiologico II)",
+  "pastMedicalHistory": "Non ci sono patologie pregresse significative. Non è in terapia farmacologica cronica e non ha allergie note.",
+  "presentation": "Sara riferisce di avere tosse persistente e affaticamento. È molto ansiosa riguardo alla sua salute e ha cercato informazioni online, confrontando i suoi sintomi con quelli di altre persone. Ha difficoltà a dormire a causa della sua ansia e tende a rimuginare sui suoi sintomi, il che aumenta il suo stress. Nonostante ciò, ha una rete di supporto forte, composta da amici e familiari, che la incoraggiano a seguire il percorso di cura proposto.",
+  "redHerrings": [
+    "Sara ha anche notato un leggero dolore al petto, che attribuisce alla sua ansia e alla tensione accumulata.",
+    "Ha recentemente avuto un episodio di rinite allergica, che pensa possa influenzare i suoi sintomi respiratori.",
+    "Sara ha una storia di reflusso gastroesofageo, che a volte le provoca tosse."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "rx-torace": 20,
+    "tc": 40,
+    "emocromo": 30,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-023_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Sarcoidosi polmonare (stadio radiologico II))",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-023_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-023_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-023_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-023_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-023_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Tachipnea, auscultazione polmonare con ronchi, segni di affaticamento."
+  },
+  "goldPathNarrative": "La paziente è stata indirizzata a eseguire una radiografia del torace per valutare la presenza di linfoadenopatie o infiltrati polmonari. Successivamente, in base ai risultati, è stata programmata una tomografia computerizzata per un'analisi più dettagliata. Infine, è stato richiesto un emocromo per escludere altre patologie e valutare lo stato generale della paziente.",
+  "escCitations": [
+    {
+      "chunkId": "7ce50958-f96d-4bec-90d4-cd00514e6d90-131",
+      "source": "knowledge_base/pneumologia/clinical/ERS_2021_Sarcoidosis_Guidelines.pdf",
+      "quote": "SL, Wells AU, Sverzellati N, et al. An integrated clinicoradiological staging system for pulmonary sarcoidosis: a case-cohort study. Lancet Respir Med 2014; 2: 123–130. 14 de Vries J, Lower EE, Drent M. Quality of life in sarcoidosis: assessment and management. Semin Respir Crit Care Med 2010; 31: 485–493. 15 de Kleijn WP, de Vries J, Lower EE, et al. Fatigue in sarcoidosis: a systematic review. Curr Opin Pulm Med 2009; 15: 499–506. 16 Hoitsma E, de Vries J, Drent M. The small fiber neuropathy s"
+    },
+    {
+      "chunkId": "7ce50958-f96d-4bec-90d4-cd00514e6d90-129",
+      "source": "knowledge_base/pneumologia/clinical/ERS_2021_Sarcoidosis_Guidelines.pdf",
+      "quote": "and other Granulomatous Disorders. Sarcoidosis Vasc Diffuse Lung Dis 1999; 16: 149–173. 3 Crouser ED, Maier LA, Wilson KC, et al. Diagnosis and detection of sarcoidosis. An official American Thoracic Society clinical practice guideline. Am J Respir Crit Care Med 2020; 201: e26–e51. 4 Rahaghi FF, Baughman RP, Saketkoo LA, et al. Delphi consensus recommendations for a treatment algorithm in pulmonary sarcoidosis. Eur Respir Rev 2020; 29: 190146. 5 Baughman RP, Scholand MB, Rahaghi FF. Clinical phe"
+    },
+    {
+      "chunkId": "7ce50958-f96d-4bec-90d4-cd00514e6d90-153",
+      "source": "knowledge_base/pneumologia/clinical/ERS_2021_Sarcoidosis_Guidelines.pdf",
+      "quote": "ssociated JAK2-mutated polycythemia. Eur Respir J 2018; 52: 1801482. 113 Sharp M, Donnelly SC, Moller DR. Tocilizumab in sarcoidosis patients failing steroid sparing therapies and anti-TNF agents. Respir Med X 2019; 1: 100004. 114 Flaherty KR, Wells AU, Cottin V, et al. Nintedanib in progressive fibrosing interstitial lung diseases. N Engl J Med 2019; 381: 1718–1727. 115 Newman LS, Rose CS, Maier LA. Sarcoidosis. N Engl J Med 1997; 336: 1224–1234. 116 Wilson NJ, King CM. Cutaneous sarcoidosis. P"
+    },
+    {
+      "chunkId": "7ce50958-f96d-4bec-90d4-cd00514e6d90-151",
+      "source": "knowledge_base/pneumologia/clinical/ERS_2021_Sarcoidosis_Guidelines.pdf",
+      "quote": "ith intrathoracic and cutaneous sarcoidosis. Acta Med Scand 1964; 425: 302S–308S. 105 Minnis PA, Poland M, Keane MP, et al. Adalimumab for refractory pulmonary sarcoidosis. Ir J Med Sci 2016; 185: 969–971. https://doi.org/10.1183/[REDACTED]-2020 26 EUROPEAN RESPIRATORY JOURNAL ERS GUIDELINES | R.P. BAUGHMAN ET AL. on August 20, 2026 by guest. Please see licensing information on first page for reuse rights.https://publications.ersnet.orgDownloaded from 106 Sweiss NJ, Lower EE, Mirsaeidi M, et al."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: rx-torace → tc → emocromo.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ERS_2021_Sarcoidosis_Guidelines.pdf).",
+      "Budget SSN di riferimento: €220."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso proposto rispetta le linee guida e garantisce la protezione prevista dalla legge 24/2017.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Sarcoidosi polmonare (stadio radiologico II) (PNEUMO-023). Tachipnea, ronchi all'auscultazione, segni di affaticamento, linfoadenopatie palpabili.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Sarcoidosi polmonare (stadio radiologico II) (PNEUMO-023). Tachipnea, ronchi all'auscultazione, segni di affaticamento, linfoadenopatie palpabili.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Sarcoidosi polmonare (stadio radiologico II) (PNEUMO-023). Tachipnea, ronchi all'auscultazione, segni di affaticamento, linfoadenopatie palpabili.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2021_Sarcoidosis_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2021_Sarcoidosis_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2021_Sarcoidosis_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2021_Sarcoidosis_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Ha confrontato i linfoadenopatie con linforma su un LLM. Insonnia da scrolling. Se si sminuisce, insiste per PET e biopsia immediate. Accetta il percorso ERS se si nomina la diagnosi differenziale con rispetto."
+  }
+}

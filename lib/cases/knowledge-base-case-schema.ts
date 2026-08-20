@@ -11,6 +11,43 @@ export const CaseSettingSchema = z.enum([
   "REPARTO",
 ]);
 
+/** Health literacy, including Google/AI-driven cyberchondria bias. */
+export const HealthLiteracySchema = z.enum(["LOW", "MEDIUM", "HIGH", "CYBERCHONDRIA_AI"]);
+export const PatientEmotionalStateSchema = z.enum([
+  "ANXIOUS",
+  "DEFENSIVE",
+  "OPPOSITIONAL",
+  "COLLABORATIVE",
+  "PASSIVE",
+]);
+export const PatientAdherenceSchema = z.enum([
+  "FULL",
+  "PARTIAL",
+  "NON_COMPLIANT",
+  "SELF_MEDICATED",
+]);
+export const SleepQualitySchema = z.enum(["POOR", "FAIR", "GOOD"]);
+export const StressLevelSchema = z.enum(["LOW", "MEDIUM", "HIGH"]);
+export const SocialSupportSchema = z.enum(["ISOLATED", "LIMITED", "ADEQUATE", "STRONG"]);
+
+export const PatientLifestyleAndSocialSchema = z.object({
+  sleepQuality: SleepQualitySchema,
+  stressLevel: StressLevelSchema,
+  socialSupport: SocialSupportSchema,
+});
+
+/**
+ * Hyper-realistic patient psychology module (optional for backward compatibility
+ * with already generated Cardiology cases).
+ */
+export const PatientProfileSchema = z.object({
+  healthLiteracy: HealthLiteracySchema,
+  emotionalState: PatientEmotionalStateSchema,
+  adherence: PatientAdherenceSchema,
+  lifestyleAndSocial: PatientLifestyleAndSocialSchema,
+  communicationStyle: z.string().min(20).max(1500),
+});
+
 export const KbAnamnesisQuestionSchema = z.object({
   id: z.string().min(2).max(80),
   prompt: z.string().min(8).max(400),
@@ -65,14 +102,15 @@ const KbBaselineExamFindingsSchema = z
   .passthrough();
 
 /**
- * Structured cardiology case authored from `knowledge_base/cardiologia/matrix.json`.
+ * Structured specialty case authored from `knowledge_base/<specialty>/matrix.json`.
  * Compatible with `CaseImportSchema` / `assertPlayableCase` (playable baseline).
+ * Cardiology cases omit `patientProfile`; Pneumology cases must include it.
  */
 export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
-  id: z.string().regex(/^CARDIO-\d{3}$/),
-  code: z.string().regex(/^CARDIO-\d{3}$/),
-  specialty: z.literal("cardiologia"),
-  specialtyLabel: z.literal("Cardiologia"),
+  id: z.string().regex(/^(CARDIO|PNEUMO)-\d{3}$/),
+  code: z.string().regex(/^(CARDIO|PNEUMO)-\d{3}$/),
+  specialty: z.enum(["cardiologia", "pneumologia"]),
+  specialtyLabel: z.enum(["Cardiologia", "Pneumologia"]),
   condition: z.string().min(3).max(240),
   frequencyCategory: MatrixFrequencySchema,
   matrixDifficulty: MatrixDifficultySchema,
@@ -87,7 +125,8 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
   examLatencies: z.record(z.string().min(1).max(80), z.number().int().min(0).max(10_000)),
   anamnesisQuestions: z.array(KbAnamnesisQuestionSchema).min(4).max(10),
   physicalExam: z.object({
-    killipClass: z.enum(["I", "II", "III", "IV"]),
+    /** Killip is cardiology-specific; omitted or unused on Pneumology cases. */
+    killipClass: z.enum(["I", "II", "III", "IV"]).optional(),
     summary: z.string().min(20).max(1500),
   }),
   goldPathNarrative: z.string().min(40).max(2500),
@@ -102,8 +141,18 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
   mandatoryExams: z.array(KbExamFindingSchema).min(2).max(12),
   inappropriateExams: z.array(KbExamFindingSchema).min(1).max(6),
   baselineExamFindings: KbBaselineExamFindingsSchema,
+  /** Optional — omitted on the 30 generated Cardiology cases. */
+  patientProfile: PatientProfileSchema.optional(),
 });
 
+export type HealthLiteracy = z.infer<typeof HealthLiteracySchema>;
+export type PatientEmotionalState = z.infer<typeof PatientEmotionalStateSchema>;
+export type PatientAdherence = z.infer<typeof PatientAdherenceSchema>;
+export type SleepQuality = z.infer<typeof SleepQualitySchema>;
+export type StressLevel = z.infer<typeof StressLevelSchema>;
+export type SocialSupport = z.infer<typeof SocialSupportSchema>;
+export type PatientLifestyleAndSocial = z.infer<typeof PatientLifestyleAndSocialSchema>;
+export type PatientProfile = z.infer<typeof PatientProfileSchema>;
 export type KnowledgeBaseCase = z.infer<typeof KnowledgeBaseCaseSchema>;
 
 /** Flat LLM payload — nested arrays break OpenAI structured output too often. */
@@ -129,7 +178,7 @@ export const GeneratedCaseNarrativeSchema = z.object({
   goldPathNarrative: z.string(),
   physicalExamSummary: z.string(),
   examAbnormalitiesSummary: z.string(),
-  killipClass: z.enum(["I", "II", "III", "IV"]),
+  killipClass: z.enum(["I", "II", "III", "IV"]).optional().default("I"),
   gelliArt5Adherence: z.string(),
 });
 

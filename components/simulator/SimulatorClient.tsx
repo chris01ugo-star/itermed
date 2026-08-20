@@ -138,6 +138,7 @@ type SimulatorClientProps = {
 };
 
 import type { EliteReportData } from "@/lib/services/simulation-report-data";
+import { writeOfflineReportCache } from "@/lib/reports/offline-report-cache";
 
 type SimulationReportData = EliteReportData;
 
@@ -170,6 +171,51 @@ function syncSessionIdInUrl(sessionId: string): void {
   }
 }
 
+
+function buildLocalEliteReport(params: {
+  caseId: string;
+  goldStandardPath: string[] | undefined;
+  requestedExamIds: string[];
+  examCount: number;
+  examCost: number;
+  chatTurns: number;
+}): EliteReportData {
+  const gold = params.goldStandardPath?.filter(Boolean) ?? [];
+  const requested = new Set(params.requestedExamIds.map((id) => id.toLowerCase()));
+  const hit = gold.filter((id) => requested.has(id.toLowerCase())).length;
+  const exams = gold.length > 0 ? Math.round((hit / gold.length) * 100) : params.examCount > 0 ? 55 : 20;
+  const clinical = Math.max(15, Math.min(95, exams - 5 + Math.min(params.chatTurns, 8) * 3));
+  const legal = params.requestedExamIds.some((id) => id.toLowerCase().includes("consenso"))
+    ? Math.min(90, 55 + hit * 4)
+    : Math.max(20, exams - 15);
+  const empathy = params.chatTurns >= 4 ? 70 : params.chatTurns >= 1 ? 45 : 20;
+  const economy =
+    params.examCost <= 0 ? 50 : params.examCost < 150 ? 75 : params.examCost < 400 ? 55 : 35;
+  const totalScore =
+    Math.round(((clinical * 0.4 + legal * 0.2 + exams * 0.2 + empathy * 0.2) / 100) * 30 * 10) / 10;
+
+  return {
+    sessionId: `local-${params.caseId}-${Date.now()}`,
+    scores: { clinical, legal, exams, empathy, economy },
+    totalScore,
+    feedback: {
+      strengths:
+        params.chatTurns > 0
+          ? ["Interazione clinica avviata con il paziente virtuale."]
+          : [],
+      weaknesses: [
+        "Report generato in modalità locale (registry) — il database remoto non ha restituito la sessione.",
+      ],
+      clinicalNote: "Valutazione locale sul gold path del caso in knowledge base.",
+      legalComplianceNote: "Scudo L. 24/2017 Art. 5: adesione alle linee guida del caso (modalità offline).",
+      prescribingNote: `Esami prescritti: ${params.examCount}. Costo stimato €${params.examCost.toFixed(0)}.`,
+      empathyNote: "Empatia stimata dai turni di colloquio in sessione locale.",
+      economyNote: `Spesa esami €${params.examCost.toFixed(0)}.`,
+      correctSolution: gold.length > 0 ? gold.slice(0, 8).join(" → ") : "",
+    },
+    evidence: { legalSources: [], protocolSources: [] },
+  };
+}
 
 type PollReportResult = {
   reportId: string;
@@ -971,7 +1017,7 @@ export function SimulatorClient({
         setReportProgressMessage(data.progressMessage);
       }
 
-      const { reportId: completedReportId } = await pollReportUntilComplete(
+      const { reportId: completedReportId, reportData: completedReport } = await pollReportUntilComplete(
         reportId,
         (progress, message) => {
           setReportProgress(progress);
@@ -980,15 +1026,27 @@ export function SimulatorClient({
         { signal: abortController.signal },
       );
 
+      writeOfflineReportCache(completedReportId, completedReport);
       router.push(`/case/${initialCaseData.id}/results?sessionId=${completedReportId}`);
       router.refresh();
     } catch (e) {
       if (abortController.signal.aborted) {
         return;
       }
-      const message =
-        e instanceof Error ? e.message : "Errore nella generazione del report.";
-      setReportError(message);
+      const localReport = buildLocalEliteReport({
+        caseId: initialCaseData.id,
+        goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
+        requestedExamIds: selectedExamIdsRef.current ?? [],
+        examCount: selectedExams.length,
+        examCost: selectedExams.reduce((sum, exam) => sum + exam.cost, 0),
+        chatTurns: messages.filter((m) => m.role === "user").length,
+      });
+      writeOfflineReportCache(localReport.sessionId, localReport);
+      router.push(`/case/${initialCaseData.id}/results?sessionId=${localReport.sessionId}`);
+      router.refresh();
+      if (process.env.NODE_ENV === "development") {
+        console.warn("[SimulatorClient] remote report failed — opened local registry report", e);
+      }
     } finally {
       if (reportGenerationAbortRef.current === abortController) {
         setReportLoading(false);
@@ -998,6 +1056,7 @@ export function SimulatorClient({
   }, [
     finalDiagnosis,
     initialCaseData.id,
+    initialCaseData.goldStandardPath,
     initialCaseData.patientPrompt,
     messages,
     reportSections,

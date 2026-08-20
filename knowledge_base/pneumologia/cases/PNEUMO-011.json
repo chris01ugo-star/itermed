@@ -1,0 +1,285 @@
+{
+  "title": "OSAS grave con scarsa aderenza alla CPAP",
+  "description": "Francesco presenta segni di ipossiemia e tachipnea, con una storia di sonnolenza diurna e difficoltà di concentrazione. Riferisce anche un sonno di scarsa qualità e un livello di stress elevato.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "polisonnografia",
+    "ega",
+    "spirometria"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 84,
+      "bloodPressure": "150/92",
+      "spo2": 93,
+      "temperature": 36.6,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 150,
+    "advancedExams": {
+      "values": {
+        "polisonnografia": {
+          "finding": "Polisonnografia nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+          "normalFinding": "Polisonnografia nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+          "isAbnormal": true,
+          "price": 80
+        },
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "spirometria": {
+          "finding": "Spirometria (semplice/globale) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+          "normalFinding": "Spirometria (semplice/globale) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "angio": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        }
+      }
+    },
+    "demographics": {
+      "age": 55,
+      "sex": "M",
+      "context": "Francesco si presenta all'ambulatorio di pneumologia lamentando sonnolenza diurna e difficoltà a mantenere la concentrazione. Ha ricevuto una diagnosi di OSAS grave e gli è stata prescritta una CPAP, ma non riesce ad adattarsi all'apparecch"
+    },
+    "physicalExam": {
+      "finding": "Francesco presenta segni di ipossiemia, tachipnea e un aumento della pressione arteriosa. È visibilmente ansioso durante l'esame."
+    },
+    "polisonnografia": {
+      "finding": "Polisonnografia nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+      "isAbnormal": true
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+      "isAbnormal": true
+    },
+    "spirometria": {
+      "finding": "Spirometria (semplice/globale) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+      "isAbnormal": true
+    },
+    "angio": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Iniziare un programma di supporto per migliorare l'aderenza alla CPAP e gestire l'ansia. Considerare una rivalutazione della terapia e l'educazione sul rischio di incidenti legati alla sonnolenza diurna.",
+  "patientPrompt": "Ho 55 anni e da tempo ho problemi di sonno. Mi sento sempre stanco durante il giorno e ho difficoltà a concentrarmi. Ho ricevuto una diagnosi di OSAS grave e mi è stata prescritta una CPAP, ma non riesco ad abituarmi. Ogni volta che la indosso, mi sento come se fossi un astronauta e mi dà fastidio. Ho anche notato che il mio sonno è molto disturbato e mi sveglio spesso. Sono molto ansioso riguardo alla mia salute e ho paura di non essere in grado di guidare in sicurezza. Non ho molto supporto da parte della mia famiglia e questo mi fa sentire ancora più stressato.",
+  "id": "PNEUMO-011",
+  "code": "PNEUMO-011",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "OSAS grave con non aderenza alla ventilazione notturna",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
+  "diagnosis": "OSAS grave con scarsa aderenza alla CPAP.",
+  "pastMedicalHistory": "Francesco ha una storia di ipertensione, ma non ha mai avuto ricoveri ospedalieri significativi. Non ha patologie respiratorie note oltre all'OSAS.",
+  "presentation": "Francesco, 55 anni, si presenta con una storia di OSAS grave. Riferisce di non utilizzare la CPAP a causa di una sensazione di disagio e di ansia. Il suo sonno è frequentemente interrotto e non si sente riposato al mattino. È preoccupato per i rischi legati alla guida e per la sua salute generale.",
+  "redHerrings": [
+    "Francesco ha un lieve sovrappeso, ma non è obeso.",
+    "Riferisce di avere episodi occasionali di reflusso gastroesofageo.",
+    "Ha avuto un recente aumento della pressione arteriosa, ma non ha mai avuto problemi cardiaci precedenti."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "polisonnografia": 720,
+    "ega": 10,
+    "spirometria": 25,
+    "angio": 45,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-011_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (OSAS grave con non aderenza alla ventilazione notturna)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-011_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-011_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-011_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-011_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-011_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Francesco presenta segni di ipossiemia, tachipnea e un aumento della pressione arteriosa. È visibilmente ansioso durante l'esame."
+  },
+  "goldPathNarrative": "Il percorso diagnostico per Francesco prevede una polisonnografia per confermare la gravità dell'OSAS, seguita da un'analisi dei gas ematici (ega) e una spirometria per valutare eventuali comorbidità respiratorie. È fondamentale affrontare le sue preoccupazioni riguardo alla CPAP e fornire supporto psicologico per migliorare l'aderenza al trattamento.",
+  "escCitations": [
+    {
+      "chunkId": "f4f8165e-158b-4b14-b66c-b7686ca421d2-325",
+      "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
+      "quote": "est standard sul sonno. La diagnosi di OSAS non può prescindere da una valutazione strumentale per l’intera durata della notte; prima di avviare un paziente con sospetto OSAS al percorso diagnostico strumentale, de- vono essere ricercati i segni e i sintomi di sospetto (russamento abituale, pause respiratorie, risvegli con senso di soffocamento, BMI, circonferenza collo > 43 cm ecc.). Nell’attuazione del percorso diagnostico andranno inoltre valutati i livelli di priorità. In particolare, il liv"
+    },
+    {
+      "chunkId": "3d7cbcef-fe97-4929-82a0-6772457a420e-325",
+      "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
+      "quote": "est standard sul sonno. La diagnosi di OSAS non può prescindere da una valutazione strumentale per l’intera durata della notte; prima di avviare un paziente con sospetto OSAS al percorso diagnostico strumentale, de- vono essere ricercati i segni e i sintomi di sospetto (russamento abituale, pause respiratorie, risvegli con senso di soffocamento, BMI, circonferenza collo > 43 cm ecc.). Nell’attuazione del percorso diagnostico andranno inoltre valutati i livelli di priorità. In particolare, il liv"
+    },
+    {
+      "chunkId": "3d7cbcef-fe97-4929-82a0-6772457a420e-324",
+      "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
+      "quote": "plicanze di OSAS e di intraprendere una te- rapia adeguata. È ormai provato che l’OSAS si associa e/o è un importante fattore di rischio e aggravamento per insufficienza respiratoria ipos- siemica-ipercapnica, ipertensione arteriosa siste- mica (mancanza del “dipping” notturno e dello scarso controllo farmacologico), cardiopatia ische- mica e scompenso cardiaco, aritmie cardiache, patologie cerebrovascolari, sindrome metabolica. Recenti studi eseguiti su pazienti OSAS hanno inoltre dimostrato un"
+    },
+    {
+      "chunkId": "f4f8165e-158b-4b14-b66c-b7686ca421d2-324",
+      "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
+      "quote": "plicanze di OSAS e di intraprendere una te- rapia adeguata. È ormai provato che l’OSAS si associa e/o è un importante fattore di rischio e aggravamento per insufficienza respiratoria ipos- siemica-ipercapnica, ipertensione arteriosa siste- mica (mancanza del “dipping” notturno e dello scarso controllo farmacologico), cardiopatia ische- mica e scompenso cardiaco, aritmie cardiache, patologie cerebrovascolari, sindrome metabolica. Recenti studi eseguiti su pazienti OSAS hanno inoltre dimostrato un"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: polisonnografia → ega → spirometria.",
+      "Non prescrivere di prima intenzione: angio, pet-tc (MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf).",
+      "Budget SSN di riferimento: €150."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione non conforme secondo la L. 24/2017 Art. 5.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "polisonnografia",
+      "name": "Polisonnografia",
+      "finding": "Polisonnografia nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+      "isAbnormal": true,
+      "priceEuro": 80
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "spirometria",
+      "name": "Spirometria (semplice/globale)",
+      "finding": "Spirometria (semplice/globale) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "angio",
+      "name": "Angio-TC e Angio-RM",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Minimizza il russamento e rifiuta la CPAP ('sembro un astronauta'). Il paternalismo irrigidisce. Funziona il confronto sui sintomi diurni e sul rischio alla guida."
+  }
+}

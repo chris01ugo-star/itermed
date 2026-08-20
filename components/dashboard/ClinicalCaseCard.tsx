@@ -19,6 +19,8 @@ export type ClinicalCaseRow = {
   medicalSpecialty?: { name: string } | null;
   /** Demographics sex from baseline when available (M | F). */
   sex?: string | null;
+  /** Demographics age from baseline when available. */
+  age?: number | null;
 };
 
 type ClinicalCaseCardProps = {

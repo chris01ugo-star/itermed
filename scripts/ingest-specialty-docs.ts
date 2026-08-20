@@ -399,14 +399,15 @@ async function upsertDocument(params: {
   });
   if (action === "skip") return { chunks: existingChunks, action };
 
-  const { text: rawText, sourceType } = await extractDocumentText(params.filePath);
+  const { text: extractedText, sourceType } = await extractDocumentText(params.filePath);
+  const rawText = extractedText.replace(/\u0000/g, "");
   if (!rawText || rawText.length < 20) {
     console.warn(`  ⚠ testo insufficiente, salto: ${relativeSource}`);
     return { chunks: 0, action: "skip" };
   }
 
   const chunks = chunkText(rawText)
-    .map((c) => sanitizeForExternalAI(c))
+    .map((c) => sanitizeForExternalAI(c).replace(/\u0000/g, ""))
     .filter((c) => c.length > 0);
 
   if (chunks.length === 0) {

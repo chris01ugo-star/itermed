@@ -15,6 +15,8 @@ import { CAR_D01 } from "@/lib/data/cases/cardiologia/car-d01";
 import { CAR_D02 } from "@/lib/data/cases/cardiologia/car-d02";
 import { CAR_D03 } from "@/lib/data/cases/cardiologia/car-d03";
 import { CAR_D04 } from "@/lib/data/cases/cardiologia/car-d04";
+import { CARDIO_KB_CASES } from "@/lib/data/cases/cardiologia/from-knowledge-base";
+import { PNEUMO_KB_CASES } from "@/lib/data/cases/pneumologia/from-knowledge-base";
 
 /** Shape mirrored by `FallbackClinicalCase` — kept local to avoid circular imports. */
 export type RegistryFallbackCase = {
@@ -47,6 +49,8 @@ export const CASE_REGISTRY: readonly ClinicalCase[] = Object.freeze([
   CAR_D02,
   CAR_D03,
   CAR_D04,
+  ...CARDIO_KB_CASES,
+  ...PNEUMO_KB_CASES,
 ]);
 
 /** @deprecated Prefer CASE_REGISTRY — alias kept for earlier imports. */
@@ -144,8 +148,9 @@ export function toClinicalCaseRow(
   opts?: { createdById?: string; isGlobal?: boolean },
 ): ClinicalCaseRow {
   const demographics = c.baselineExamFindings.demographics as
-    | { sex?: string | null }
+    | { sex?: string | null; age?: number | string | null }
     | undefined;
+  const ageNum = Number(demographics?.age);
   return {
     id: c.id,
     title: c.title,
@@ -155,6 +160,7 @@ export function toClinicalCaseRow(
     isGlobal: opts?.isGlobal ?? true,
     medicalSpecialty: { name: c.specialtyLabel },
     sex: demographics?.sex ?? null,
+    age: Number.isFinite(ageNum) && ageNum >= 1 && ageNum <= 120 ? Math.round(ageNum) : null,
   };
 }
 

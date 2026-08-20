@@ -24,7 +24,7 @@ type PlayPageProps = {
   searchParams?: Promise<{ sessionId?: string }> | { sessionId?: string };
 };
 
-const DB_LOOKUP_TIMEOUT_MS = 4_000;
+const DB_LOOKUP_TIMEOUT_MS = 1_200;
 
 function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
   return new Promise<T>((resolve, reject) => {
@@ -107,7 +107,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
 
     if (!hasDatabase) {
       return (
-        renderFallbackPlay(rawId, liveSessionId, { persistReports: false }) ??
+        renderFallbackPlay(rawId, liveSessionId, { persistReports: isUsableDatabase(config.DATABASE_URL) }) ??
         (
           <PlayLoadError
             caseId={rawId}
@@ -131,7 +131,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     });
     if (!canPlay) {
       const offline = renderFallbackPlay(rawId, liveSessionId, {
-        persistReports: false,
+        persistReports: isUsableDatabase(config.DATABASE_URL),
         isAdmin: user.role === "ADMIN",
       });
       if (offline) return offline;
@@ -174,15 +174,20 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     }
 
     if (!caseData || !caseData.isActive) {
-      // Retry ensure once, then fall back to authored registry payload.
+      const offline = renderFallbackPlay(rawId, liveSessionId, {
+        persistReports: isUsableDatabase(config.DATABASE_URL),
+        isAdmin: user.role === "ADMIN",
+      });
+      if (offline) return offline;
+
       try {
-        await withTimeout(ensureRegisteredCaseInDb(rawId, userId), 2_500, "ensureRegisteredCaseInDb");
+        await withTimeout(ensureRegisteredCaseInDb(rawId, userId), 1_200, "ensureRegisteredCaseInDb");
         caseData = await withTimeout(
           prisma.clinicalCase.findUnique({
             where: { id: idNormalized },
             include: { nodes: { orderBy: { order: "asc" }, take: 1 } },
           }),
-          2_500,
+          1_200,
           "clinicalCase.findUnique.retry",
         );
       } catch (err) {
@@ -193,7 +198,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
 
     if (!caseData || !caseData.isActive) {
       const offline = renderFallbackPlay(rawId, liveSessionId, {
-        persistReports: false,
+        persistReports: isUsableDatabase(config.DATABASE_URL),
         isAdmin: user.role === "ADMIN",
       });
       if (offline) return offline;
@@ -298,7 +303,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       caseId: rawId,
       error: err instanceof Error ? err.message : String(err),
     });
-    const offline = renderFallbackPlay(rawId, undefined, { persistReports: false });
+    const offline = renderFallbackPlay(rawId, undefined, { persistReports: isUsableDatabase(config.DATABASE_URL) });
     if (offline) return offline;
     return (
       <PlayLoadError
