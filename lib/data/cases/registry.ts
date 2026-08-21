@@ -17,6 +17,7 @@ import { CAR_D03 } from "@/lib/data/cases/cardiologia/car-d03";
 import { CAR_D04 } from "@/lib/data/cases/cardiologia/car-d04";
 import { CARDIO_KB_CASES } from "@/lib/data/cases/cardiologia/from-knowledge-base";
 import { PNEUMO_KB_CASES } from "@/lib/data/cases/pneumologia/from-knowledge-base";
+import { GASTRO_KB_CASES } from "@/lib/data/cases/gastroenterologia/from-knowledge-base";
 
 /** Shape mirrored by `FallbackClinicalCase` — kept local to avoid circular imports. */
 export type RegistryFallbackCase = {
@@ -51,6 +52,7 @@ export const CASE_REGISTRY: readonly ClinicalCase[] = Object.freeze([
   CAR_D04,
   ...CARDIO_KB_CASES,
   ...PNEUMO_KB_CASES,
+  ...GASTRO_KB_CASES,
 ]);
 
 /** @deprecated Prefer CASE_REGISTRY — alias kept for earlier imports. */

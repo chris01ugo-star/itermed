@@ -30,6 +30,7 @@ export { CAR_D03 } from "@/lib/data/cases/cardiologia/car-d03";
 export { CAR_D04 } from "@/lib/data/cases/cardiologia/car-d04";
 export { CARDIO_KB_CASES } from "@/lib/data/cases/cardiologia/from-knowledge-base";
 export { PNEUMO_KB_CASES } from "@/lib/data/cases/pneumologia/from-knowledge-base";
+export { GASTRO_KB_CASES } from "@/lib/data/cases/gastroenterologia/from-knowledge-base";
 
 export {
   CASE_REGISTRY,

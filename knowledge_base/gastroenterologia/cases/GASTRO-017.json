@@ -1,0 +1,287 @@
+{
+  "title": "Ipertensione portale in degenza (Baveno VII)",
+  "description": "Paziente in degenza con storia di epatopatia cronica, presenta segni di ipertensione portale.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "emocromo",
+    "enzimi-epatici",
+    "egds",
+    "consenso-informato"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "112/70",
+      "spo2": 95,
+      "temperature": 36.6,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 160,
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Ipertensione portale — screening varici e profilassi Baveno VII (GASTRO-017). Ascite, varici esofagee sospette, epatomegalia.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Ipertensione portale — screening varici e profilassi Baveno VII (GASTRO-017). Ascite, varici esofagee sospette, epatomegalia.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "enzimi-epatici": {
+          "finding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Ipertensione portale — screening varici e profilassi Baveno VII (GASTRO-017). Ascite, varici esofagee sospette, epatomegalia.",
+          "normalFinding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Ipertensione portale — screening varici e profilassi Baveno VII (GASTRO-017). Ascite, varici esofagee sospette, epatomegalia.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "egds": {
+          "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Ipertensione portale — screening varici e profilassi Baveno VII (GASTRO-017). Ascite, varici esofagee sospette, epatomegalia.",
+          "normalFinding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Ipertensione portale — screening varici e profilassi Baveno VII (GASTRO-017). Ascite, varici esofagee sospette, epatomegalia.",
+          "isAbnormal": true,
+          "price": 90
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 63,
+      "sex": "M",
+      "context": "Reparto di Gastroenterologia"
+    },
+    "physicalExam": {
+      "finding": "Addome disteso, segni di ascite, palpazione dolorosa dell'addome superiore, non segni di ittero."
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Ipertensione portale — screening varici e profilassi Baveno VII (GASTRO-017). Ascite, varici esofagee sospette, epatomegalia.",
+      "isAbnormal": true
+    },
+    "enzimi-epatici": {
+      "finding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Ipertensione portale — screening varici e profilassi Baveno VII (GASTRO-017). Ascite, varici esofagee sospette, epatomegalia.",
+      "isAbnormal": true
+    },
+    "egds": {
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Ipertensione portale — screening varici e profilassi Baveno VII (GASTRO-017). Ascite, varici esofagee sospette, epatomegalia.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire emocromo, enzimi epatici e gastroscopia per valutare la presenza di varici esofagee.",
+  "patientPrompt": "Mi chiamo Nicola e ho 63 anni. Sono stato ricoverato qui per problemi al fegato e ho notato che la mia pancia è più grande del solito. Sono un po' preoccupato e non riesco a dormire bene. A volte mi sento ansioso e ho difficoltà a seguire le indicazioni dei medici, anche se ci provo. Non ho molti amici o familiari che possano supportarmi in questo momento, e questo mi fa sentire un po' solo.",
+  "id": "GASTRO-017",
+  "code": "GASTRO-017",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Ipertensione portale — screening varici e profilassi Baveno VII",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "EASL_Baveno_VII_Portal_Hypertension.pdf",
+  "diagnosis": "Ipertensione portale",
+  "pastMedicalHistory": "Epatopatia cronica, ipertensione arteriosa controllata con farmaci, storia di alcolismo moderato in passato.",
+  "presentation": "Nicola, un uomo di 63 anni, è stato ricoverato in reparto per una valutazione della sua condizione epatica. Da qualche tempo, ha notato un aumento della circonferenza addominale e una certa difficoltà nella digestione. È ansioso riguardo alla sua salute e ha difficoltà a seguire le indicazioni mediche, nonostante cerchi di fare del suo meglio. La sua rete sociale è limitata e spesso si sente solo, il che amplifica il suo stress. Recentemente ha avuto problemi di sonno, che contribuiscono alla sua ansia.",
+  "redHerrings": [
+    "Dolore toracico occasionale, non correlato a sforzi fisici.",
+    "Leggera dispnea durante gli sforzi, ma non in stato di riposo.",
+    "Stanchezza generale, senza segni di anemia."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "emocromo": 30,
+    "enzimi-epatici": 30,
+    "egds": 60,
+    "consenso-informato": 10,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-017_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Ipertensione portale — screening varici e profilassi Baveno VII)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-017_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-017_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-017_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-017_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-017_6",
+      "prompt": "Contesto di presentazione: Reparto di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Addome disteso, segni di ascite, palpazione dolorosa dell'addome superiore, non segni di ittero."
+  },
+  "goldPathNarrative": "Iniziamo con un emocromo per valutare la situazione ematologica, seguito da un'analisi degli enzimi epatici per comprendere meglio la funzionalità del fegato. Sarà poi necessaria una gastroscopia per verificare la presenza di varici esofagee, in modo da poter pianificare un'adeguata profilassi.",
+  "escCitations": [
+    {
+      "chunkId": "12805924-951f-49bd-80b4-e7b731430d00-3",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_Baveno_VII_Portal_Hypertension.pdf",
+      "quote": "s in 200711; in Stresa in 2010 (Baveno V)12,13; and in Baveno in 2015 (Baveno VI).14,15 The aims of these meetings were to develop definitions of key events in portal hypertension, to review the existing evidence on the natural history, the diagnosis, and the therapeutic modalities of portal hypertension, and to issue evidence-based recommendations for the conduct of clinical trials and the management of patients. All these meet- ings were successful and produced consensus rec- ommendations that"
+    },
+    {
+      "chunkId": "12805924-951f-49bd-80b4-e7b731430d00-99",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_Baveno_VII_Portal_Hypertension.pdf",
+      "quote": "–974 Seminar Develop improved non-invasive methods to screen for PSVD (e.g., cross-sectional imaging, SSM). Evaluate the prophylaxis for PVT in patients with PSVD and signs of portal hypertension. Evaluate the incidence and predictors of development of PVT in patients with PSVD and assess the efficacy of anti- coagulation in this setting. Other issues Besides the supporting data and consensus recommendations for the 9 Baveno sessions, 7 lectures were given at Baveno VII. The topics of these lect"
+    },
+    {
+      "chunkId": "12805924-951f-49bd-80b4-e7b731430d00-112",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_Baveno_VII_Portal_Hypertension.pdf",
+      "quote": "e Study of the Liver single-topic conference. Hepatology 2008;47:1764–1772. [12] de Franchis R, on behalf of the Baveno V Faculty. Revising consensus in portal hypertension: report of the Baveno V consensus workshop on methodology of diagnosis and therapy in portal hypertension. J Hepatol 2010;53:762–768. [13] de Franchis R, editor. Portal Hypertension V. Proceedings of the Vth Baveno international consensus workshop. Oxford, UK: Wiley-Black- well; 2011. [14] de Franchis R, on behalf of the Bave"
+    },
+    {
+      "chunkId": "12805924-951f-49bd-80b4-e7b731430d00-8",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_Baveno_VII_Portal_Hypertension.pdf",
+      "quote": "refore patients in different stages have different diagnostic and therapeutic needs. Accordingly, the Baveno VII workshop was entitled “Personalized Care for Portal Hypertension”. The main fields of discussion were the relevance and indications for measuring the hepatic venous pressure gradient (HVPG) as a gold standard, the use of non-invasive tools for the diagnosis of cACLD and CSPH, the impact of aetiological and non-aetiological therapies on the course of cirrhosis, the prevention of the fi"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: emocromo → enzimi-epatici → egds → consenso-informato.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (EASL_Baveno_VII_Portal_Hypertension.pdf).",
+      "Budget SSN di riferimento: €160."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alle indicazioni mediche se seguite con chiarezza.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Reparto di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Ipertensione portale — screening varici e profilassi Baveno VII (GASTRO-017). Ascite, varici esofagee sospette, epatomegalia.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "enzimi-epatici",
+      "name": "Indici di citolisi e colestasi (AST, ALT, GGT, FA)",
+      "finding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Ipertensione portale — screening varici e profilassi Baveno VII (GASTRO-017). Ascite, varici esofagee sospette, epatomegalia.",
+      "isAbnormal": true,
+      "priceEuro": 10
+    },
+    {
+      "examId": "egds",
+      "name": "Esofagogastroduodenoscopia (EGDS)",
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Ipertensione portale — screening varici e profilassi Baveno VII (GASTRO-017). Ascite, varici esofagee sospette, epatomegalia.",
+      "isAbnormal": true,
+      "priceEuro": 90
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "In degenza, accetta le procedure se spiegate in una frase. Il gergo Baveno/HVPG lo spaventa senza migliorare la comprensione."
+  }
+}

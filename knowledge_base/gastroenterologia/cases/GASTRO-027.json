@@ -1,0 +1,266 @@
+{
+  "title": "H. pylori resistente dopo fallimento eradicazione",
+  "description": "Elisa si presenta con sintomi gastrointestinali persistenti e una storia di fallimento della terapia per H. pylori. È ansiosa riguardo alla sua condizione e ha dubbi sulla competenza del medico.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "egds",
+    "biopsia"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 74,
+      "bloodPressure": "120/76",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 180,
+    "advancedExams": {
+      "values": {
+        "egds": {
+          "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di H. pylori after failed eradication — Maastricht VI rescue (GASTRO-027). Nessuna anomalia significativa all'esame fisico, ma sintomi gastrointestinali persistenti.",
+          "normalFinding": "Esofagogastroduodenoscopia (EGDS) nel contesto di H. pylori after failed eradication — Maastricht VI rescue (GASTRO-027). Nessuna anomalia significativa all'esame fisico, ma sintomi gastrointestinali persistenti.",
+          "isAbnormal": true,
+          "price": 90
+        },
+        "biopsia": {
+          "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di H. pylori after failed eradication — Maastricht VI rescue (GASTRO-027). Nessuna anomalia significativa all'esame fisico, ma sintomi gastrointestinali persistenti.",
+          "normalFinding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di H. pylori after failed eradication — Maastricht VI rescue (GASTRO-027). Nessuna anomalia significativa all'esame fisico, ma sintomi gastrointestinali persistenti.",
+          "isAbnormal": true,
+          "price": 80
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 46,
+      "sex": "F",
+      "context": "Ambulatorio di Gastroenterologia"
+    },
+    "physicalExam": {
+      "finding": "Esame fisico nei limiti della norma, senza segni di anemia o disidratazione."
+    },
+    "egds": {
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di H. pylori after failed eradication — Maastricht VI rescue (GASTRO-027). Nessuna anomalia significativa all'esame fisico, ma sintomi gastrointestinali persistenti.",
+      "isAbnormal": true
+    },
+    "biopsia": {
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di H. pylori after failed eradication — Maastricht VI rescue (GASTRO-027). Nessuna anomalia significativa all'esame fisico, ma sintomi gastrointestinali persistenti.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Piano di trattamento di salvataggio secondo le linee guida Maastricht VI.",
+  "patientPrompt": "Ho 46 anni e mi chiamo Elisa. Ho già provato due volte a curare l'infezione da H. pylori, ma senza successo. Sono preoccupata e non so se posso fidarmi del medico. Ho sintomi come bruciore di stomaco e nausea che non migliorano. Ho paura che ci sia qualcosa di più grave e non so cosa fare.",
+  "id": "GASTRO-027",
+  "code": "GASTRO-027",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "H. pylori after failed eradication — Maastricht VI rescue",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Maastricht_VI_H_Pylori_Guidelines.pdf",
+  "diagnosis": "H. pylori resistente dopo fallimento eradicazione",
+  "pastMedicalHistory": "Storia di gastrite e due cicli di terapia antibiotica per H. pylori falliti.",
+  "presentation": "Elisa, una donna di 46 anni, si presenta in ambulatorio per una valutazione dopo aver completato due cicli di terapia per H. pylori senza successo. Riferisce di avere sintomi come bruciore di stomaco e nausea, che non sono migliorati nonostante i trattamenti. È visibilmente ansiosa e difensiva, esprimendo preoccupazione per la sua salute e dubitando della diagnosi e del trattamento ricevuto finora. Ha una rete sociale adeguata, ma si sente spesso stressata e ha una parziale aderenza alle indicazioni mediche.",
+  "redHerrings": [
+    "Difficoltà digestive che potrebbero essere attribuite a stress.",
+    "Un recente viaggio all'estero che ha comportato cambiamenti nella dieta.",
+    "Un episodio di reflusso acido che ha avuto in passato."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "egds": 60,
+    "biopsia": 90,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-027_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (H. pylori after failed eradication — Maastricht VI rescue)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-027_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-027_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-027_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-027_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-027_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame fisico nei limiti della norma, senza segni di anemia o disidratazione."
+  },
+  "goldPathNarrative": "Dopo aver esaminato la mia storia clinica e i sintomi, il medico ha spiegato che esiste un piano di trattamento di salvataggio basato su evidenze, che può essere utilizzato dopo i fallimenti precedenti. Questo approccio mira a garantire che l'infezione venga finalmente eradicata, senza attribuire colpe a me come paziente.",
+  "escCitations": [
+    {
+      "chunkId": "36c13be7-8906-48b9-8ec2-bc71bf9dc29c-329",
+      "source": "knowledge_base/gastroenterologia/clinical/Maastricht_VI_H_Pylori_Guidelines.pdf",
+      "quote": "Rokkas T, Sechopoulos P, Robotis I, et al. Cumulative H. pylori eradication rates in clinical practice by adopting first and second-line regimens proposed by the Maastricht III consensus and a third- line empirical regimen. Am J Gastroenterol 2009;104:21–5. 279 Gisbert JP, H. pylori Study Group of the Spanish Gastroenterology Association. Letter: third-line rescue therapy with levofloxacin after failure of two treatments to eradicate Helicobacter pylori infection. Aliment Pharmacol Ther 2012;35:"
+    },
+    {
+      "chunkId": "36c13be7-8906-48b9-8ec2-bc71bf9dc29c-2",
+      "source": "knowledge_base/gastroenterologia/clinical/Maastricht_VI_H_Pylori_Guidelines.pdf",
+      "quote": "e identification of distinct clinical scenarios, proper testing and adoption of effective strategies for prevention of gastric cancer and other complications are addressed. H. pylori treatment is challenged by the continuously rising antibiotic resistance and demands for susceptibility testing with consideration of novel molecular technologies and careful selection of first line and rescue therapies. The role of H. pylori and antibiotic therapies and their impact on the gut microbiota are also c"
+    },
+    {
+      "chunkId": "36c13be7-8906-48b9-8ec2-bc71bf9dc29c-321",
+      "source": "knowledge_base/gastroenterologia/clinical/Maastricht_VI_H_Pylori_Guidelines.pdf",
+      "quote": "second-line regimens for Helicobacter pylori eradication treatment: a systemic review and network meta-analysis. BMJ Open Gastroenterol 2020;7:e000472. 249 Gao CP, Zhou Z, Wang JZ, et al. Efficacy and safety of high-dose dual therapy for Helicobacter pylori rescue therapy: a systematic review and meta-analysis. J Dig Dis 2016;17:811–9. 250 Zhu Y-J, Zhang Y, Wang T-Y, et al. High dose PPI-amoxicillin dual therapy for the treatment of Helicobacter pylori infection: a systematic review with meta-an"
+    },
+    {
+      "chunkId": "36c13be7-8906-48b9-8ec2-bc71bf9dc29c-330",
+      "source": "knowledge_base/gastroenterologia/clinical/Maastricht_VI_H_Pylori_Guidelines.pdf",
+      "quote": "1,782 empirical rescue therapies on third and subsequent lines. United European Gastroenterology Journal 2020;8:38. 282 Malfertheiner P, Link A, Selgrad M. Helicobacter pylori: perspectives and time trends. Nat Rev Gastroenterol Hepatol 2014;11:628–38. 283 Nyssen OP, Perez-Aisa A, Rodrigo L, et al. Bismuth quadruple regimen with tetracycline or doxycycline versus three-in- one single capsule as third- line rescue therapy for Helicobacter pylori infection: Spanish data of the European Helicobacte"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: egds → biopsia.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (Maastricht_VI_H_Pylori_Guidelines.pdf).",
+      "Budget SSN di riferimento: €180."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il piano di trattamento proposto segue il gold path e rispetta le normative L. 24/2017 Art. 5.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Ambulatorio di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "egds",
+      "name": "Esofagogastroduodenoscopia (EGDS)",
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di H. pylori after failed eradication — Maastricht VI rescue (GASTRO-027). Nessuna anomalia significativa all'esame fisico, ma sintomi gastrointestinali persistenti.",
+      "isAbnormal": true,
+      "priceEuro": 90
+    },
+    {
+      "examId": "biopsia",
+      "name": "Biopsia (osteomidollare o tissutale mirata)",
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di H. pylori after failed eradication — Maastricht VI rescue (GASTRO-027). Nessuna anomalia significativa all'esame fisico, ma sintomi gastrointestinali persistenti.",
+      "isAbnormal": true,
+      "priceEuro": 80
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "GOOD",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ha già fallito una terapia e dubita del medico. Maastricht rescue va spiegato come piano B evidence-based, non come colpa della paziente."
+  }
+}

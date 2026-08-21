@@ -1,0 +1,285 @@
+{
+  "title": "Pancreatite acuta severa in reparto",
+  "description": "Rocco si presenta in pronto soccorso con un forte dolore addominale, descritto come lancinante e localizzato nella parte superiore dell'addome. Ha una storia di alti livelli di stress e riferisce di aver mangiato cibi grassi nei giorni precedenti. Si mostra ansioso e riluttante a rimanere in ospedale, insistendo sul fatto che si tratta solo di una colica. I suoi familiari non sono presenti, e lui si sente isolato.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "amilasi-lipasi",
+    "lattati",
+    "tc"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 124,
+      "bloodPressure": "96/58",
+      "spo2": 94,
+      "temperature": 38.2,
+      "respiratoryRate": 26
+    },
+    "examBudgetEuro": 220,
+    "advancedExams": {
+      "values": {
+        "amilasi-lipasi": {
+          "finding": "Amilasemia e Lipasemia nel contesto di Pancreatite acuta severa — imaging tardivo e supporto IAP/APA (GASTRO-018). Tachicardia, febbre, dolore addominale severo, sensibilità addominale, segni di stress.",
+          "normalFinding": "Amilasemia e Lipasemia nel contesto di Pancreatite acuta severa — imaging tardivo e supporto IAP/APA (GASTRO-018). Tachicardia, febbre, dolore addominale severo, sensibilità addominale, segni di stress.",
+          "isAbnormal": true,
+          "price": 9
+        },
+        "lattati": {
+          "finding": "Acido lattico (Lattati) nel contesto di Pancreatite acuta severa — imaging tardivo e supporto IAP/APA (GASTRO-018). Tachicardia, febbre, dolore addominale severo, sensibilità addominale, segni di stress.",
+          "normalFinding": "Acido lattico (Lattati) nel contesto di Pancreatite acuta severa — imaging tardivo e supporto IAP/APA (GASTRO-018). Tachicardia, febbre, dolore addominale severo, sensibilità addominale, segni di stress.",
+          "isAbnormal": true,
+          "price": 7
+        },
+        "tc": {
+          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Pancreatite acuta severa — imaging tardivo e supporto IAP/APA (GASTRO-018). Tachicardia, febbre, dolore addominale severo, sensibilità addominale, segni di stress.",
+          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Pancreatite acuta severa — imaging tardivo e supporto IAP/APA (GASTRO-018). Tachicardia, febbre, dolore addominale severo, sensibilità addominale, segni di stress.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 51,
+      "sex": "M",
+      "context": "Reparto di Gastroenterologia"
+    },
+    "physicalExam": {
+      "finding": "Rocco presenta dolore addominale severo, segni di tachicardia e febbre. L'esame fisico rivela una sensibilità addominale diffusa, specialmente nella regione epigastrica."
+    },
+    "amilasi-lipasi": {
+      "finding": "Amilasemia e Lipasemia nel contesto di Pancreatite acuta severa — imaging tardivo e supporto IAP/APA (GASTRO-018). Tachicardia, febbre, dolore addominale severo, sensibilità addominale, segni di stress.",
+      "isAbnormal": true
+    },
+    "lattati": {
+      "finding": "Acido lattico (Lattati) nel contesto di Pancreatite acuta severa — imaging tardivo e supporto IAP/APA (GASTRO-018). Tachicardia, febbre, dolore addominale severo, sensibilità addominale, segni di stress.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Pancreatite acuta severa — imaging tardivo e supporto IAP/APA (GASTRO-018). Tachicardia, febbre, dolore addominale severo, sensibilità addominale, segni di stress.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire amilasi-lipasi, valutare i lattati e pianificare una TC addominale.",
+  "patientPrompt": "Mi chiamo Rocco, ho 51 anni e oggi sono venuto qui per un forte dolore all'addome. Ho pensato fosse solo una colica, ma il dolore è davvero intenso. Ho mangiato cibi grassi recentemente e mi sento molto ansioso. Non voglio rimanere in ospedale, penso che sia esagerato. Non ho nessuno qui con me e mi sento un po' perso. A volte ho difficoltà a capire cosa mi dicono i medici, e questo mi fa sentire ancora più stressato.",
+  "id": "GASTRO-018",
+  "code": "GASTRO-018",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Pancreatite acuta severa — imaging tardivo e supporto IAP/APA",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+  "diagnosis": "Pancreatite acuta severa",
+  "pastMedicalHistory": "Rocco ha una storia di gastrite e occasionali episodi di indigestione, ma non ha mai avuto problemi gravi di salute. Non segue regolarmente controlli medici e tende a trascurare i sintomi.",
+  "presentation": "Rocco, un uomo di 51 anni, si presenta con dolore addominale severo, tachicardia e febbre. Nonostante il quadro clinico preoccupante, rifiuta il ricovero e sottolinea che è solo una colica. Mostra segni di ansia e stress, e la sua rete sociale è limitata. Rocco ha difficoltà a comprendere l'importanza della diagnosi e del trattamento tempestivo.",
+  "redHerrings": [
+    "Rocco ha recentemente avuto un episodio di indigestione.",
+    "Rocco riferisce di aver avuto una leggera febbre nei giorni precedenti, ma non la considera significativa.",
+    "Rocco ha una storia di gastrite, che pensa possa essere la causa del dolore."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "amilasi-lipasi": 30,
+    "lattati": 15,
+    "tc": 45,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-018_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Pancreatite acuta severa — imaging tardivo e supporto IAP/APA)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-018_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-018_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-018_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-018_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-018_6",
+      "prompt": "Contesto di presentazione: Reparto di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Rocco presenta dolore addominale severo, segni di tachicardia e febbre. L'esame fisico rivela una sensibilità addominale diffusa, specialmente nella regione epigastrica."
+  },
+  "goldPathNarrative": "Dopo aver eseguito i test iniziali di amilasi e lipasi, i risultati indicano un'elevata probabilità di pancreatite acuta. Si procede quindi con la valutazione dei lattati per escludere la presenza di shock e si programma una TC addominale per valutare la gravità della condizione. Durante questa fase, è fondamentale rassicurare Rocco e spiegargli l'importanza di un intervento tempestivo.",
+  "escCitations": [
+    {
+      "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-23",
+      "source": "knowledge_base/gastroenterologia/clinical/IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+      "quote": "c, or surgical intervention.(GRADE 1C, strong agreement) 13. A specialist center in the management of acute pancreatitis is defined as a high volume center with up-to-date intensive care facilities including options for organ replacement therapy, and with daily (i.e. 7 days per week) access to interventional radiology, interventional endoscopy with EUS and ERCP assistance as well as surgical expertise in managing necrotizing pancreatitis. Patients should be enrolled in prospective audits for qua"
+    },
+    {
+      "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-2",
+      "source": "knowledge_base/gastroenterologia/clinical/IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+      "quote": "te pancreatitis and etiology, B) prognostication/predicting severity, C) imaging, D) fluid therapy, E) intensive care management, F) preventing infectious complications, G) nutritional support, H) biliary tract management, I) indications for intervention in necrotizing pancre- atitis, J) timing of intervention in necrotizing pancreatitis, K) intervention strategies in necrotizing pancreatitis, and L) timing of cholecystectomy. Using the GRADE system, 21 of the 38 (55%) recom- mendations, were ra"
+    },
+    {
+      "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-92",
+      "source": "knowledge_base/gastroenterologia/clinical/IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+      "quote": "adder dis- ease, i.e. biliary colic and cholecystitis. (GRADE 2B, strong agreement). Remarks: one meta-analysis reported a 10% readmission rate after ERCP for mild biliary pancreatitis because of biliary colic and acute cholecystitis [85]. Studies on this topic in severe biliary pancreatitis are lacking. In severe biliary pancreatitis, cholecystectomy should be postponed for 6 weeks. 4. Conclusion The IAP/APA guidelines on the management of acute pancreatitis are the result of an international, "
+    },
+    {
+      "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-0",
+      "source": "knowledge_base/gastroenterologia/clinical/IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+      "quote": "Original article IAP/APA evidence-based guidelines for the management of acute pancreatitis Working Group IAP/APA Acute Pancreatitis Guidelinesa,b,*,1 a International Association of Pancreatology, UNSW Clinical School Locked Bag 7103, Liverpool, BC NSW 1871, Australia b American Pancreatic Association, PO Box 14906, Minneapolis, MN 55414, USA a r t i c l e i n f o Article history: Received 5 June 2013 Received in revised form 1 July 2013 Accepted 5 July 2013 Keywords: Acute pancreatitis Pancreas"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: amilasi-lipasi → lattati → tc.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (IAP_APA_Acute_Pancreatitis_Guidelines.pdf).",
+      "Budget SSN di riferimento: €220."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Seguendo il gold path, Rocco ha diritto alla protezione prevista dalla L. 24/2017 Art. 5.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Reparto di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "amilasi-lipasi",
+      "name": "Amilasemia e Lipasemia",
+      "finding": "Amilasemia e Lipasemia nel contesto di Pancreatite acuta severa — imaging tardivo e supporto IAP/APA (GASTRO-018). Tachicardia, febbre, dolore addominale severo, sensibilità addominale, segni di stress.",
+      "isAbnormal": true,
+      "priceEuro": 9
+    },
+    {
+      "examId": "lattati",
+      "name": "Acido lattico (Lattati)",
+      "finding": "Acido lattico (Lattati) nel contesto di Pancreatite acuta severa — imaging tardivo e supporto IAP/APA (GASTRO-018). Tachicardia, febbre, dolore addominale severo, sensibilità addominale, segni di stress.",
+      "isAbnormal": true,
+      "priceEuro": 7
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Pancreatite acuta severa — imaging tardivo e supporto IAP/APA (GASTRO-018). Tachicardia, febbre, dolore addominale severo, sensibilità addominale, segni di stress.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ISOLATED"
+    },
+    "communicationStyle": "Rifiuta il ricovero ('è solo una colica'). Il paternalismo aumenta la fuga. Serve micro-rassicurazione e spiegare perché la TC non è immediata (IAP/APA)."
+  }
+}

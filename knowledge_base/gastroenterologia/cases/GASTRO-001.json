@@ -1,0 +1,306 @@
+{
+  "title": "Emorragia digestiva alta in uomo di 58 anni",
+  "description": "Marco è un uomo di 58 anni che si presenta al pronto soccorso con segni evidenti di emorragia digestiva alta. Ha vomitato sangue e si mostra molto ansioso, temendo per la sua vita. La sua pressione sanguigna è bassa e il battito cardiaco è accelerato. La sua situazione è critica e richiede un intervento immediato.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "emocromo",
+    "pt-ptt-inr",
+    "gruppo-rh",
+    "egds",
+    "consenso-informato"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 112,
+      "bloodPressure": "98/58",
+      "spo2": 96,
+      "temperature": 36.6,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 180,
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pt-ptt-inr": {
+          "finding": "Coagulazione (PT, PTT, INR) nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+          "normalFinding": "Coagulazione (PT, PTT, INR) nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "gruppo-rh": {
+          "finding": "Gruppo sanguigno e fattore Rh nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+          "normalFinding": "Gruppo sanguigno e fattore Rh nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "egds": {
+          "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+          "normalFinding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+          "isAbnormal": true,
+          "price": 90
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESGE_2022_Upper_GI_Bleeding.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESGE_2022_Upper_GI_Bleeding.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESGE_2022_Upper_GI_Bleeding.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESGE_2022_Upper_GI_Bleeding.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 58,
+      "sex": "M",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Marco presenta segni di emorragia attiva, tachicardia, ipotensione e pallore."
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+      "isAbnormal": true
+    },
+    "pt-ptt-inr": {
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+      "isAbnormal": true
+    },
+    "gruppo-rh": {
+      "finding": "Gruppo sanguigno e fattore Rh nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+      "isAbnormal": true
+    },
+    "egds": {
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESGE_2022_Upper_GI_Bleeding.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESGE_2022_Upper_GI_Bleeding.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un emocromo, PT-PTT-INR, gruppo-rh, e poi procedere con EGDS urgente.",
+  "patientPrompt": "Mi chiamo Marco e ho 58 anni. Sono venuto qui perché ho vomitato sangue e ho una paura terribile. Non riesco a pensare ad altro che a cosa possa essere. Ho paura che sia un tumore. Mi sento debole e non riesco a respirare bene. Ho bisogno di aiuto e di sapere cosa sta succedendo.",
+  "id": "GASTRO-001",
+  "code": "GASTRO-001",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESGE_2022_Upper_GI_Bleeding.pdf",
+  "diagnosis": "Emorragia digestiva alta acuta",
+  "pastMedicalHistory": "Nessuna storia medica significativa, ma ansia preesistente e sonno disturbato.",
+  "presentation": "Mi chiamo Marco e ho 58 anni. Sono venuto qui perché ho vomitato sangue e ho una paura terribile. Non riesco a pensare ad altro che a cosa possa essere. Ho paura che sia un tumore. Mi sento debole e non riesco a respirare bene. Ho bisogno di aiuto e di sapere cosa sta succedendo.",
+  "redHerrings": [
+    "Dolore addominale acuto, ma non è il problema principale.",
+    "Storia di gastrite, che non spiega l'emorragia attuale.",
+    "Uso di farmaci anticoagulanti, ma non sono la causa diretta dell'emorragia."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "emocromo": 30,
+    "pt-ptt-inr": 30,
+    "gruppo-rh": 25,
+    "egds": 60,
+    "consenso-informato": 10,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-001_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-001_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-001_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-001_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-001_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-001_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Marco presenta segni di emorragia attiva, tachicardia, ipotensione e pallore."
+  },
+  "goldPathNarrative": "Iniziamo con un emocromo per valutare il livello di emoglobina e la presenza di anemia. Procediamo con PT-PTT-INR per valutare la coagulazione. Dobbiamo anche determinare il gruppo sanguigno e il fattore Rh nel caso fosse necessario un intervento trasfusionale. Infine, programmeremo un'EGDS urgente per identificare la fonte dell'emorragia e trattarla.",
+  "escCitations": [
+    {
+      "chunkId": "dc15bb7a-174b-4b63-b765-6cbf18d75cd5-1",
+      "source": "knowledge_base/gastroenterologia/clinical/ESGE_2022_Upper_GI_Bleeding.pdf",
+      "quote": "-726X Corresponding author Ian M. Gralnek, MD, MSHS Institute of Gastroenterology and Liver Diseases, Ha'Emek Medical Center Rappaport Faculty of Medicine, Technion-Israel Institute of Technology Afula, Israel 18101 Fax: +972-4-6495314 [REDACTED] Guideline a1 Gralnek Ian M et al. Nonvariceal upper gastrointestinal hemorrhage: ESGE Guideline … Endoscopy 2015; 47: a1–a46 This Guideline is an official statement of the European Society of Gastrointestinal Endoscopy (ESGE). It addresses the diagnosis"
+    },
+    {
+      "chunkId": "dc15bb7a-174b-4b63-b765-6cbf18d75cd5-22",
+      "source": "knowledge_base/gastroenterologia/clinical/ESGE_2022_Upper_GI_Bleeding.pdf",
+      "quote": "s been proposed for most patients, with a target of 10 × 109/L for patients in whom platelet dysfunction is suspected [16]. Gralnek Ian M et al. Nonvariceal upper gastrointestinal hemorrhage: ESGE Guideline … Endoscopy 2015; 47: a1–a46 Guideline a3 Table 1 Summary of Guideline statements and recommendations. Diagnosis and management of nonvariceal upper gastrointestinal hemorrhage: European Society of Gastrointestinal Endoscopy (ESGE) Guideline. Initial patient evaluation and hemodynamic resusci"
+    },
+    {
+      "chunkId": "dc15bb7a-174b-4b63-b765-6cbf18d75cd5-0",
+      "source": "knowledge_base/gastroenterologia/clinical/ESGE_2022_Upper_GI_Bleeding.pdf",
+      "quote": "Diagnosis and management of nonvariceal upper gastrointestinal hemorrhage: European Society of Gastrointestinal Endoscopy (ESGE) Guideline Authors Ian M. Gralnek1, 2, Jean-Marc Dumonceau3, Ernst J. Kuipers4, Angel Lanas5, David S. Sanders6, Matthew Kurien6, Gianluca Rotondano7, Tomas Hucl8, Mario Dinis-Ribeiro9, Riccardo Marmo10, Istvan Racz11, Alberto Arezzo12, Ralf-Thorsten Hoffmann13, Gilles Lesur14, Roberto de Franchis15, Lars Aabakken16, Andrew Veitch17, Franco Radaelli18, Paulo Salgueiro19"
+    },
+    {
+      "chunkId": "dc15bb7a-174b-4b63-b765-6cbf18d75cd5-16",
+      "source": "knowledge_base/gastroenterologia/clinical/ESGE_2022_Upper_GI_Bleeding.pdf",
+      "quote": "ll be considered for review and updat- ing in 2020, or sooner if new relevant evidence becomes avail- able. Any updates to this guideline in the interim will be noted on the ESGE website: http://www.esge.com/esge-guidelines. html. Statements and recommendations ! See●\" Table 1. Initial patient evaluation and hemodynamic resuscitation ESGE recommends immediate assessment of hemodynamic status in patients who present with acute upper gastrointestinal hemorrhage (UGIH), with prompt intravascular vo"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: emocromo → pt-ptt-inr → gruppo-rh → egds → consenso-informato.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ESGE_2022_Upper_GI_Bleeding.pdf).",
+      "Budget SSN di riferimento: €180."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Scudo L. 24/2017 Art. 5 L'adesione alle linee guida (ESGE_2022_Upper_GI_Bleeding.pdf) e al gold path costituisce parametro di conformità alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT, INR)",
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "gruppo-rh",
+      "name": "Gruppo sanguigno e fattore Rh",
+      "finding": "Gruppo sanguigno e fattore Rh nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "egds",
+      "name": "Esofagogastroduodenoscopia (EGDS)",
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Emorragia digestiva alta acuta (UGIB) — stratificazione e EGDS urgente ESGE (GASTRO-001). Tachicardia, ipotensione, pallore, segni di emorragia attiva.",
+      "isAbnormal": true,
+      "priceEuro": 90
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESGE_2022_Upper_GI_Bleeding.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESGE_2022_Upper_GI_Bleeding.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESGE_2022_Upper_GI_Bleeding.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESGE_2022_Upper_GI_Bleeding.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vomita sangue e teme di morire. Chiede se 'è un tumore'. Il tono sbrigativo aumenta il panico; serve validazione e spiegazione dell'EGDS senza gergo Forrest."
+  }
+}

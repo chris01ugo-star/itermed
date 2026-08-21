@@ -1,0 +1,285 @@
+{
+  "title": "Peritonite batterica spontanea su ascite",
+  "description": "Assunta si presenta con confusione, febbre e tachicardia, segni che possono indicare un'infezione grave. È ansiosa e ha difficoltà a comprendere la gravità della sua condizione. La figlia chiede chiarimenti sulla situazione.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "liquidi",
+    "pcr-pct",
+    "emocolture"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 112,
+      "bloodPressure": "100/60",
+      "spo2": 93,
+      "temperature": 38.6,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 90,
+    "advancedExams": {
+      "values": {
+        "liquidi": {
+          "finding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di SBP su ascite cirrotica — paracentesi diagnostica EASL 2018 (GASTRO-019). Confusione mentale, febbre, battito cardiaco accelerato, bassa pressione arteriosa, segni di ascite, ansia elevata.",
+          "normalFinding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di SBP su ascite cirrotica — paracentesi diagnostica EASL 2018 (GASTRO-019). Confusione mentale, febbre, battito cardiaco accelerato, bassa pressione arteriosa, segni di ascite, ansia elevata.",
+          "isAbnormal": true,
+          "price": 40
+        },
+        "pcr-pct": {
+          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di SBP su ascite cirrotica — paracentesi diagnostica EASL 2018 (GASTRO-019). Confusione mentale, febbre, battito cardiaco accelerato, bassa pressione arteriosa, segni di ascite, ansia elevata.",
+          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di SBP su ascite cirrotica — paracentesi diagnostica EASL 2018 (GASTRO-019). Confusione mentale, febbre, battito cardiaco accelerato, bassa pressione arteriosa, segni di ascite, ansia elevata.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "emocolture": {
+          "finding": "Emocoltura (da due o più siti) nel contesto di SBP su ascite cirrotica — paracentesi diagnostica EASL 2018 (GASTRO-019). Confusione mentale, febbre, battito cardiaco accelerato, bassa pressione arteriosa, segni di ascite, ansia elevata.",
+          "normalFinding": "Emocoltura (da due o più siti) nel contesto di SBP su ascite cirrotica — paracentesi diagnostica EASL 2018 (GASTRO-019). Confusione mentale, febbre, battito cardiaco accelerato, bassa pressione arteriosa, segni di ascite, ansia elevata.",
+          "isAbnormal": true,
+          "price": 22
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_2018_Decompensated_Cirrhosis.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_2018_Decompensated_Cirrhosis.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_2018_Decompensated_Cirrhosis.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_2018_Decompensated_Cirrhosis.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 70,
+      "sex": "F",
+      "context": "Assunta è una donna di 70 anni, con una storia di cirrosi epatica e ascite. Attualmente è ricoverata in reparto di gastroenterologia a causa di un quadro clinico preoccupante. Si presenta confusa e febbrile, con una temperatura di 38.6 grad"
+    },
+    "physicalExam": {
+      "finding": "Confusione, febbre, tachicardia, ipotensione, segni di ascite."
+    },
+    "liquidi": {
+      "finding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di SBP su ascite cirrotica — paracentesi diagnostica EASL 2018 (GASTRO-019). Confusione mentale, febbre, battito cardiaco accelerato, bassa pressione arteriosa, segni di ascite, ansia elevata.",
+      "isAbnormal": true
+    },
+    "pcr-pct": {
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di SBP su ascite cirrotica — paracentesi diagnostica EASL 2018 (GASTRO-019). Confusione mentale, febbre, battito cardiaco accelerato, bassa pressione arteriosa, segni di ascite, ansia elevata.",
+      "isAbnormal": true
+    },
+    "emocolture": {
+      "finding": "Emocoltura (da due o più siti) nel contesto di SBP su ascite cirrotica — paracentesi diagnostica EASL 2018 (GASTRO-019). Confusione mentale, febbre, battito cardiaco accelerato, bassa pressione arteriosa, segni di ascite, ansia elevata.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_2018_Decompensated_Cirrhosis.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_2018_Decompensated_Cirrhosis.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire una paracentesi diagnostica per analizzare il liquido ascitico e avviare un trattamento antibiotico empirico.",
+  "patientPrompt": "Mi chiamo Assunta e ho 70 anni. Sono molto confusa e ho caldo. Sento il cuore che batte forte e ho paura di non capire cosa mi sta succedendo. Ho sentito che potrei avere un'infezione, ma non so cosa significhi. Ho bisogno di aiuto, ma mi sento anche molto ansiosa. La mia famiglia è preoccupata e non so come spiegare loro quello che sento.",
+  "id": "GASTRO-019",
+  "code": "GASTRO-019",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "SBP su ascite cirrotica — paracentesi diagnostica EASL 2018",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "EASL_2018_Decompensated_Cirrhosis.pdf",
+  "diagnosis": "Peritonite batterica spontanea",
+  "pastMedicalHistory": "Cirrosi epatica con ascite, ipertensione portale, diabete di tipo 2.",
+  "presentation": "Assunta è confusa e febbrile, con un battito cardiaco accelerato e bassa pressione arteriosa. Mostra segni di ansia e ha difficoltà a seguire le spiegazioni. La figlia chiede se si tratta di peritonite, evidenziando la preoccupazione per la salute di Assunta.",
+  "redHerrings": [
+    "Assunta ha recentemente avuto un episodio di diarrea, che potrebbe essere interpretato come causa della febbre.",
+    "È stata in contatto con un familiare che ha avuto un'infezione respiratoria, aumentando la preoccupazione per una possibile infezione virale.",
+    "Assunta ha riferito di aver mangiato cibi poco freschi nei giorni precedenti, il che potrebbe suggerire un'intossicazione alimentare."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "liquidi": 40,
+    "pcr-pct": 35,
+    "emocolture": 20,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-019_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (SBP su ascite cirrotica — paracentesi diagnostica EASL 2018)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-019_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-019_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-019_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-019_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-019_6",
+      "prompt": "Contesto di presentazione: Reparto di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Confusione, febbre, tachicardia, ipotensione, segni di ascite."
+  },
+  "goldPathNarrative": "Dopo aver valutato le condizioni di Assunta e la sua storia clinica, è stata decisa l'esecuzione di una paracentesi diagnostica. Questo intervento è stato spiegato come un'urgenza per identificare la causa della febbre e della confusione, piuttosto che un'invasività inutile. I risultati della paracentesi saranno fondamentali per confermare o escludere la peritonite batterica spontanea e avviare il trattamento appropriato.",
+  "escCitations": [
+    {
+      "chunkId": "75024bca-c88c-429a-b9c1-bc3294199456-151",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_2018_Decompensated_Cirrhosis.pdf",
+      "quote": "Secondary bacterial peritonitis should be suspected in case of multiple organisms on ascitic culture, very high ascitic neutrophil count and/or high ascitic protein con- centration, or in those patients with an inadequate response to therapy. Patients with suspected secondary bacterial peritonitis should undergo prompt CT scanning and early considerations for surgery (III,1). JOURNAL OF HEPATOLOGY Journal of Hepatology 2018 vol. xxx j xxx–xxx 19 Please cite this article in press as: The European"
+    },
+    {
+      "chunkId": "75024bca-c88c-429a-b9c1-bc3294199456-141",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_2018_Decompensated_Cirrhosis.pdf",
+      "quote": "igher risk of SBP and a reduced survival time.240 Spontaneous bacterial peritonitis Definition Spontaneous bacterial peritonitis has been defined as a bacterial infection of ascitic fluid without any intra-abdominal surgically treatable source of infection. SBP is very common in patients with cirrhosis and ascites.241,242 When first described, its mor- tality exceeded 90% but it has been reduced to approximately 20% with early diagnosis and treatment.243 Diagnosis The diagnosis of SBP is based o"
+    },
+    {
+      "chunkId": "75024bca-c88c-429a-b9c1-bc3294199456-338",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_2018_Decompensated_Cirrhosis.pdf",
+      "quote": "a-Tsao G, Navasa M, Piddock LJ, Planas R, Bernard B, et al. Diagnosis, treatment and prophylaxis of spontaneous bacterial peritonitis: a consensus document. International Ascites Club. J Hepatol 2000;32:142–153. [34] Bruns T, Lutz P, Stallmach A. Nischalke HD Low ascitic fluid protein does not indicate an increased risk for spontaneous bacterial peritonitis in current cohorts. J Hepatol 2015;63:527–528. [35] Runyon BA, Canawati HN, Akriviadis EA. Optimization of ascitic fluid culture technique. "
+    },
+    {
+      "chunkId": "75024bca-c88c-429a-b9c1-bc3294199456-396",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_2018_Decompensated_Cirrhosis.pdf",
+      "quote": "F, et al. The empirical antibiotic treatment of nosocomial spontaneous bacterial peritonitis: Results of a randomized, controlled clinical trial. Hepatol- ogy 2016;63:1299–1309. [244] Runyon BA. The evolution of ascitic fluid analysis in the diagnosis of spontaneous bacterial peritonitis. Runyon BA. Am J Gastroenterol 2003;98:1675–1677. [245] Evans LT, Kim WR, Poterucha JJ, Kamath PS. Spontaneous bacterial peritonitis in asymptomatic outpatients with cirrhotic ascites. Hepa- tology 2003;37:897–9"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: liquidi → pcr-pct → emocolture.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (EASL_2018_Decompensated_Cirrhosis.pdf).",
+      "Budget SSN di riferimento: €90."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione garantita seguendo il gold path.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Reparto di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "liquidi",
+      "name": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale)",
+      "finding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di SBP su ascite cirrotica — paracentesi diagnostica EASL 2018 (GASTRO-019). Confusione mentale, febbre, battito cardiaco accelerato, bassa pressione arteriosa, segni di ascite, ansia elevata.",
+      "isAbnormal": true,
+      "priceEuro": 40
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di SBP su ascite cirrotica — paracentesi diagnostica EASL 2018 (GASTRO-019). Confusione mentale, febbre, battito cardiaco accelerato, bassa pressione arteriosa, segni di ascite, ansia elevata.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "emocolture",
+      "name": "Emocoltura (da due o più siti)",
+      "finding": "Emocoltura (da due o più siti) nel contesto di SBP su ascite cirrotica — paracentesi diagnostica EASL 2018 (GASTRO-019). Confusione mentale, febbre, battito cardiaco accelerato, bassa pressione arteriosa, segni di ascite, ansia elevata.",
+      "isAbnormal": true,
+      "priceEuro": 22
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_2018_Decompensated_Cirrhosis.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_2018_Decompensated_Cirrhosis.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_2018_Decompensated_Cirrhosis.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_2018_Decompensated_Cirrhosis.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Confusa, febbrile. Il caregiver chiede 'è peritonite?'. Serve spiegare la paracentesi diagnostica come urgenza, non come invasività inutile."
+  }
+}

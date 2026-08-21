@@ -1,0 +1,285 @@
+{
+  "title": "Sospetto K gastrico in uomo di 71 anni",
+  "description": "Alfonso si presenta con dispepsia e un calo di peso significativo negli ultimi mesi. Riferisce di avere difficoltà a mangiare e di sentirsi spesso nauseato. Non ha mai avuto problemi gastrici in passato, ma ora sembra preoccupato per la sua salute. Ha una rete sociale limitata e accetta di sottoporsi all'EGDS solo se il figlio è presente.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "egds",
+    "biopsia",
+    "cea"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 82,
+      "bloodPressure": "132/80",
+      "spo2": 96,
+      "temperature": 36.4,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 200,
+    "advancedExams": {
+      "values": {
+        "egds": {
+          "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO (GASTRO-024). Dolore epigastrico alla palpazione, segni di dispepsia, calo ponderale significativo.",
+          "normalFinding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO (GASTRO-024). Dolore epigastrico alla palpazione, segni di dispepsia, calo ponderale significativo.",
+          "isAbnormal": true,
+          "price": 90
+        },
+        "biopsia": {
+          "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO (GASTRO-024). Dolore epigastrico alla palpazione, segni di dispepsia, calo ponderale significativo.",
+          "normalFinding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO (GASTRO-024). Dolore epigastrico alla palpazione, segni di dispepsia, calo ponderale significativo.",
+          "isAbnormal": true,
+          "price": 80
+        },
+        "cea": {
+          "finding": "CEA nel contesto di Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO (GASTRO-024). Dolore epigastrico alla palpazione, segni di dispepsia, calo ponderale significativo.",
+          "normalFinding": "CEA nel contesto di Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO (GASTRO-024). Dolore epigastrico alla palpazione, segni di dispepsia, calo ponderale significativo.",
+          "isAbnormal": true,
+          "price": 18
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "coronarografia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 800
+        }
+      }
+    },
+    "demographics": {
+      "age": 71,
+      "sex": "M",
+      "context": "Ambulatorio di Gastroenterologia"
+    },
+    "physicalExam": {
+      "finding": "Esame addominale con dolore moderato alla palpazione epigastrica, segni di dispepsia, ma senza segni di addome acuto."
+    },
+    "egds": {
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO (GASTRO-024). Dolore epigastrico alla palpazione, segni di dispepsia, calo ponderale significativo.",
+      "isAbnormal": true
+    },
+    "biopsia": {
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO (GASTRO-024). Dolore epigastrico alla palpazione, segni di dispepsia, calo ponderale significativo.",
+      "isAbnormal": true
+    },
+    "cea": {
+      "finding": "CEA nel contesto di Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO (GASTRO-024). Dolore epigastrico alla palpazione, segni di dispepsia, calo ponderale significativo.",
+      "isAbnormal": true
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "coronarografia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "EGDS, biopsia e staging ESMO Gold path: egds → biopsia → cea. Linea guida: ESMO_Gastric_Cancer_Guidelines.pdf.",
+  "patientPrompt": "Salve, sono Alfonso, ho 71 anni. Da un po' di tempo ho problemi di stomaco, mi sento spesso gonfio e ho perso peso senza volerlo. Non ho mai avuto problemi simili prima. Sono un po' preoccupato e spero che il mio medico possa aiutarmi. Posso fare l'esame solo se mio figlio è qui con me, perché ho bisogno del suo supporto. Non riesco a dormire bene e mi sento stressato per tutto questo.",
+  "id": "GASTRO-024",
+  "code": "GASTRO-024",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ESMO_Gastric_Cancer_Guidelines.pdf",
+  "diagnosis": "Adenocarcinoma gastrico",
+  "pastMedicalHistory": "Nessuna storia medica significativa, non fumatore, consumo moderato di alcol.",
+  "presentation": "Alfonso, un uomo di 71 anni, si presenta in ambulatorio con sintomi di dispepsia e un calo ponderale che ha notato negli ultimi mesi. Riferisce di avere difficoltà a mangiare e di sentirsi nauseato. Non ha mai avuto problemi gastrici in passato, ma ora sembra preoccupato per la sua salute. Ha una rete sociale limitata e accetta di sottoporsi all'EGDS solo se il figlio è presente. La sua literacy è bassa e mostra segni di ansia riguardo alla sua condizione. Durante la visita, appare ansioso e ha difficoltà a mantenere la concentrazione, il che potrebbe influenzare la sua aderenza alle indicazioni mediche. Il suo sonno è scarso e riferisce di sentirsi stressato per la situazione attuale.",
+  "redHerrings": [
+    "Riflesso gastroesofageo occasionale",
+    "Storia di gastrite cronica",
+    "Uso occasionale di FANS per dolori articolari"
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "egds": 60,
+    "biopsia": 90,
+    "cea": 40,
+    "colonscopia": 90,
+    "coronarografia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-024_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-024_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-024_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-024_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-024_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-024_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame addominale con dolore moderato alla palpazione epigastrica, segni di dispepsia, ma senza segni di addome acuto."
+  },
+  "goldPathNarrative": "Dopo la valutazione iniziale, si decide di procedere con un'EGDS per esaminare il tratto gastrointestinale superiore. Durante l'EGDS, vengono prelevate biopsie per l'analisi istologica e per la valutazione di eventuali marcatori tumorali come il CEA. Questo percorso è fondamentale per una diagnosi accurata e per pianificare il trattamento.",
+  "escCitations": [
+    {
+      "chunkId": "74e642d6-96c7-49ca-9b64-d42a993cd756-80",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Gastric_Cancer_Guidelines.pdf",
+      "quote": "ines on the diagnosis and management of patients at risk of gastric adenocarcinoma. Gut. 2019;68(9):[REDACTED]. 17. Cubiella J, Pérez Aisa Á, Cuatrecasas M, et al. Gastric cancer screening in low incidence populations: position statement of AEG, SEED and SEAP. Gastroenterol Hepatol. 2021;44(1):67-86. 18. Allum W, Lordick F, Alsina M, et al. ECCO essential requirements for quality cancer care: oesophageal and gastric cancer. Crit Rev Oncol Hematol. 2018;122:179-193. 19. Gullo I, Grillo F, Molinar"
+    },
+    {
+      "chunkId": "74e642d6-96c7-49ca-9b64-d42a993cd756-81",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Gastric_Cancer_Guidelines.pdf",
+      "quote": "cancer. Gastric Cancer. 2016;19(2):553-560. 21. Hamada K, Itoh T, Kawaura K, et al. Examination of endoscopic ul- trasonographic diagnosis for the depth of early gastric cancer. J Clin Med Res. 2021;13(4):222-229. 22. Ono H, Yao K, Fujishiro M, et al. Guidelines for endoscopic submu- cosal dissection and endoscopic mucosal resection for early gastric cancer (second edition). Dig Endosc. 2021;33(1):4-20. 23. Endoscopic Classification Review Group. Update on the Paris classi- fication of superfici"
+    },
+    {
+      "chunkId": "74e642d6-96c7-49ca-9b64-d42a993cd756-11",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Gastric_Cancer_Guidelines.pdf",
+      "quote": "ool to identify infiltrated regions of the gastric wall.21 Endoscopic mucosal resection (EMR) and endoscopic submucosal dissection (ESD) may also be used for diagnosis. Both procedures can deliver reliable staging information and can also be used to treat superficial lesions such as dysplasia or intramucosal carcinoma.22 Pathology Approximately 90% of gastric cancers are adenocarcinomas (ACs). This Clinical Practice Guideline (CPG) does not apply to rarer gastric malignancies such as gastrointes"
+    },
+    {
+      "chunkId": "74e642d6-96c7-49ca-9b64-d42a993cd756-90",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Gastric_Cancer_Guidelines.pdf",
+      "quote": "tions-dpd-testing-prior-treatment- fluorouracil-capecitabine-tegafur-flucytosine_en.pdf. Published 2020. Accessed June 20, 2022. 56. Pimentel-Nunes P, Dinis-Ribeiro M, Ponchon T, et al. Endoscopic submucosal dissection: European Society of Gastrointestinal Endos- copy (ESGE) Guideline. Endoscopy. 2015;47(9):829-854. 57. Probst A, Schneider A, Schaller T, et al. Endoscopic submucosal dissection for early gastric cancer: are expanded resection criteria safe for Western patients? Endoscopy. 2017;49"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: egds → biopsia → cea.",
+      "Non prescrivere di prima intenzione: colonscopia, coronarografia (ESMO_Gastric_Cancer_Guidelines.pdf).",
+      "Budget SSN di riferimento: €200."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione parziale alle indicazioni mediche.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Ambulatorio di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "egds",
+      "name": "Esofagogastroduodenoscopia (EGDS)",
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO (GASTRO-024). Dolore epigastrico alla palpazione, segni di dispepsia, calo ponderale significativo.",
+      "isAbnormal": true,
+      "priceEuro": 90
+    },
+    {
+      "examId": "biopsia",
+      "name": "Biopsia (osteomidollare o tissutale mirata)",
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO (GASTRO-024). Dolore epigastrico alla palpazione, segni di dispepsia, calo ponderale significativo.",
+      "isAbnormal": true,
+      "priceEuro": 80
+    },
+    {
+      "examId": "cea",
+      "name": "CEA",
+      "finding": "CEA nel contesto di Adenocarcinoma gastrico — EGDS, biopsia e staging ESMO (GASTRO-024). Dolore epigastrico alla palpazione, segni di dispepsia, calo ponderale significativo.",
+      "isAbnormal": true,
+      "priceEuro": 18
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf."
+    },
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia (Invasiva)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 800,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Dispepsia e calo ponderale minimizzati. Accetta l'EGDS se il figlio è presente. Frasi corte, niente acronimi ESMO."
+  }
+}

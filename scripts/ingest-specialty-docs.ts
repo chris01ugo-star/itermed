@@ -28,7 +28,7 @@ const prisma = new PrismaClient();
 const PINECONE_NAMESPACE = "guidelines";
 const CHUNK_SIZE = 1000;
 const CHUNK_OVERLAP = 200;
-const EMBED_BATCH = 64;
+const EMBED_BATCH = 32;
 /** OpenAI embeddings: max 300k tokens/request. ~128×1000-char chunks stay well under. */
 const EMBED_INPUT_BATCH = 128;
 const DELETE_BATCH = 200;
@@ -118,8 +118,13 @@ function parseArgs(argv: string[]): CliArgs {
   return { specialty, update, dryRun };
 }
 
+/** Prisma / Postgres / Pinecone reject NULs; PDF extractors also emit other C0 controls. */
+function stripNullBytes(text: string): string {
+  return text.replace(/\u0000/g, "").replace(/\0/g, "").replace(/[\u0001-\u0008\u000B\u000C\u000E-\u001F]/g, " ");
+}
+
 function chunkText(text: string, size = CHUNK_SIZE, overlap = CHUNK_OVERLAP): string[] {
-  const normalized = text.replace(/\r\n/g, "\n").trim();
+  const normalized = stripNullBytes(text.replace(/\r\n/g, "\n")).trim();
   const chunks: string[] = [];
   let start = 0;
 
@@ -238,7 +243,7 @@ async function extractDocumentText(filePath: string): Promise<{ text: string; so
 
   if (ext === ".pdf") {
     const { text } = await extractText(new Uint8Array(buffer), { mergePages: true });
-    return { text: (text ?? "").trim(), sourceType: "PDF" };
+    return { text: stripNullBytes(text ?? "").trim(), sourceType: "PDF" };
   }
 
   const raw = buffer.toString("utf8");
@@ -379,6 +384,40 @@ async function removeExistingSource(params: {
   return { action: "replaced", existingChunks: existing.chunkCount };
 }
 
+async function upsertVectors(
+  records: Array<{
+    id: string;
+    values: number[];
+    metadata: Record<string, string | number | boolean | string[]>;
+  }>,
+): Promise<void> {
+  const index = getPineconeIndex();
+  if (!index) {
+    throw new Error(
+      "Pinecone non configurato. Imposta PINECONE_API_KEY e PINECONE_INDEX prima dell'ingestione.",
+    );
+  }
+
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= 4; attempt += 1) {
+    try {
+      await index.namespace(PINECONE_NAMESPACE).upsert({ records });
+      return;
+    } catch (error) {
+      lastError = error;
+      const message = error instanceof Error ? error.message : String(error);
+      const retryable = /timeout|temporar|ECONNRESET|503|network|reach Pinecone|fetch failed|UND_ERR/i.test(
+        message,
+      );
+      if (!retryable || attempt === 4) throw error;
+      const waitMs = attempt * 3000;
+      console.warn(`    ⚠ Pinecone upsert retry ${attempt}/4 tra ${waitMs}ms: ${message.slice(0, 180)}`);
+      await new Promise((resolveWait) => setTimeout(resolveWait, waitMs));
+    }
+  }
+  throw lastError;
+}
+
 async function upsertDocument(params: {
   specialtySlug: string;
   specialtyId: string;
@@ -400,14 +439,14 @@ async function upsertDocument(params: {
   if (action === "skip") return { chunks: existingChunks, action };
 
   const { text: extractedText, sourceType } = await extractDocumentText(params.filePath);
-  const rawText = extractedText.replace(/\u0000/g, "");
+  const rawText = stripNullBytes(extractedText);
   if (!rawText || rawText.length < 20) {
     console.warn(`  ⚠ testo insufficiente, salto: ${relativeSource}`);
     return { chunks: 0, action: "skip" };
   }
 
   const chunks = chunkText(rawText)
-    .map((c) => sanitizeForExternalAI(c).replace(/\u0000/g, ""))
+    .map((c) => stripNullBytes(sanitizeForExternalAI(c)))
     .filter((c) => c.length > 0);
 
   if (chunks.length === 0) {
@@ -463,7 +502,7 @@ async function upsertDocument(params: {
     });
 
     // eslint-disable-next-line no-await-in-loop
-    await index.namespace(PINECONE_NAMESPACE).upsert({ records: batchRecords });
+    await upsertVectors(batchRecords);
   }
 
   await prisma.guidelineDocument.create({
@@ -616,30 +655,42 @@ async function main() {
 
     for (const filePath of files) {
       const relativeSource = relative(knowledgeRoot, filePath).replace(/\\/g, "/");
-      // eslint-disable-next-line no-await-in-loop
-      const result = await upsertDocument({
-        specialtySlug,
-        specialtyId: specialty.id,
-        specialtyName: specialty.name,
-        pillarCfg,
-        filePath,
-        knowledgeRoot,
-        update: args.update,
-      });
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const result = await upsertDocument({
+          specialtySlug,
+          specialtyId: specialty.id,
+          specialtyName: specialty.name,
+          pillarCfg,
+          filePath,
+          knowledgeRoot,
+          update: args.update,
+        });
 
-      stats[pillarCfg.pillar].files += 1;
-      if (result.action === "skip") {
+        stats[pillarCfg.pillar].files += 1;
+        if (result.action === "skip") {
+          stats[pillarCfg.pillar].skipped += 1;
+        } else {
+          stats[pillarCfg.pillar].chunks += result.chunks;
+        }
+        if (result.action === "replaced") stats[pillarCfg.pillar].updated += 1;
+        fileRows.push({
+          pillar: pillarCfg.pillar,
+          file: relativeSource,
+          chunks: result.chunks,
+          action: result.action,
+        });
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error(`  ✗ ${relativeSource}: ${message}`);
         stats[pillarCfg.pillar].skipped += 1;
-      } else {
-        stats[pillarCfg.pillar].chunks += result.chunks;
+        fileRows.push({
+          pillar: pillarCfg.pillar,
+          file: relativeSource,
+          chunks: 0,
+          action: `error: ${message.slice(0, 80)}`,
+        });
       }
-      if (result.action === "replaced") stats[pillarCfg.pillar].updated += 1;
-      fileRows.push({
-        pillar: pillarCfg.pillar,
-        file: relativeSource,
-        chunks: result.chunks,
-        action: result.action,
-      });
     }
 
     console.log("");
@@ -668,7 +719,13 @@ async function main() {
   console.log("----------------------------------------------------");
   console.log(`Totale chunk CLINICAL: ${clinicalTotal}`);
   console.log(`Totale chunk indicizzati in questa run: ${totalChunks}`);
-  console.log("🎉 INGEST COMPLETATO");
+  const errors = fileRows.filter((r) => r.action.startsWith("error"));
+  if (errors.length > 0) {
+    console.log(`⚠ ${errors.length} file non ingestiti`);
+    process.exitCode = 1;
+  } else {
+    console.log("🎉 INGEST COMPLETATO");
+  }
   console.log("----------------------------------------------------");
 }
 

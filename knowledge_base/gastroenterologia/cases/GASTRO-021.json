@@ -1,0 +1,268 @@
+{
+  "title": "Sorveglianza endoscopica in colite ulcerosa",
+  "description": "Ilaria è una donna di 44 anni con una storia di colite ulcerosa in remissione. È qui per discutere della sorveglianza endoscopica e del rischio di displasia. È ben informata e desidera dati concreti sulle linee guida ECCO.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "colonscopia",
+    "biopsia",
+    "consenso-informato"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 74,
+      "bloodPressure": "118/72",
+      "spo2": 98,
+      "temperature": 36.4,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 220,
+    "advancedExams": {
+      "values": {
+        "colonscopia": {
+          "finding": "Colonscopia nel contesto di Colite ulcerosa in remissione — sorveglianza displasia ECCO (GASTRO-021). Nessuna anomalia evidente all'esame obiettivo, segni vitali stabili.",
+          "normalFinding": "Colonscopia nel contesto di Colite ulcerosa in remissione — sorveglianza displasia ECCO (GASTRO-021). Nessuna anomalia evidente all'esame obiettivo, segni vitali stabili.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "biopsia": {
+          "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Colite ulcerosa in remissione — sorveglianza displasia ECCO (GASTRO-021). Nessuna anomalia evidente all'esame obiettivo, segni vitali stabili.",
+          "normalFinding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Colite ulcerosa in remissione — sorveglianza displasia ECCO (GASTRO-021). Nessuna anomalia evidente all'esame obiettivo, segni vitali stabili.",
+          "isAbnormal": true,
+          "price": 80
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "coronarografia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 800
+        }
+      }
+    },
+    "demographics": {
+      "age": 44,
+      "sex": "F",
+      "context": "Ambulatorio di Gastroenterologia"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo nella norma, senza segni di dolore acuto o distensione addominale."
+    },
+    "colonscopia": {
+      "finding": "Colonscopia nel contesto di Colite ulcerosa in remissione — sorveglianza displasia ECCO (GASTRO-021). Nessuna anomalia evidente all'esame obiettivo, segni vitali stabili.",
+      "isAbnormal": true
+    },
+    "biopsia": {
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Colite ulcerosa in remissione — sorveglianza displasia ECCO (GASTRO-021). Nessuna anomalia evidente all'esame obiettivo, segni vitali stabili.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "coronarografia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Colonscopia per sorveglianza displasia secondo le linee guida ECCO.",
+  "patientPrompt": "Ho 44 anni e sono qui per discutere della mia colite ulcerosa. Sono in remissione, ma ho letto che ci sono rischi di displasia. Vorrei sapere quanto spesso dovrei fare la colonscopia e quali sono i dati delle linee guida ECCO a riguardo. Non mi piace quando mi dicono di stare tranquilla senza fornirmi informazioni concrete.",
+  "id": "GASTRO-021",
+  "code": "GASTRO-021",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Colite ulcerosa in remissione — sorveglianza displasia ECCO",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ECCO_2023_IBD_Guidelines.pdf",
+  "diagnosis": "Colite ulcerosa in remissione con necessità di sorveglianza endoscopica.",
+  "pastMedicalHistory": "Colite ulcerosa in remissione, senza altre patologie significative.",
+  "presentation": "Ilaria si presenta in ambulatorio per una visita di controllo. È ansiosa riguardo alla sua condizione e chiede informazioni dettagliate sulla frequenza delle colonscopie e sui rischi associati alla displasia. Ha una buona rete di supporto familiare e sociale, ma è preoccupata per la sua salute e desidera essere coinvolta nel processo decisionale.",
+  "redHerrings": [
+    "Ilaria ha recentemente avuto un episodio di diarrea, ma non è preoccupata per questo.",
+    "Ha anche accennato a un leggero dolore addominale occasionale, che attribuisce allo stress.",
+    "Inoltre, ha menzionato di aver letto online di possibili complicazioni legate alla colite ulcerosa, il che ha aumentato la sua ansia."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "colonscopia": 90,
+    "biopsia": 90,
+    "consenso-informato": 10,
+    "pet-tc": 180,
+    "coronarografia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-021_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Colite ulcerosa in remissione — sorveglianza displasia ECCO)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-021_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-021_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-021_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-021_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-021_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo nella norma, senza segni di dolore acuto o distensione addominale."
+  },
+  "goldPathNarrative": "Si procede con una colonscopia seguita da biopsia per valutare eventuali segni di displasia, ottenendo il consenso informato della paziente.",
+  "escCitations": [
+    {
+      "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-69",
+      "source": "knowledge_base/gastroenterologia/clinical/ECCO_2023_IBD_Guidelines.pdf",
+      "quote": "erapy [EL2]. Statement 6.5. ECCO CD Treatment GL [2019] Stapled small-bowel or ileocolic side-to-side anasto- moses are associated with lower rates of postoperative complications than end-to-end anastomoses, in Crohn’s disease [EL3]. Statement 6.6. ECCO CD Treatment GL [2019] Segmental colectomy is appropriate for patients with a single involved colonic segment in Crohn’s disease [EL3]. ECCO Guidelines on Therapeutics in Crohn’s Disease: Surgical Treatment 163 Downloaded from https://academic.ou"
+    },
+    {
+      "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-60",
+      "source": "knowledge_base/gastroenterologia/clinical/ECCO_2023_IBD_Guidelines.pdf",
+      "quote": "to resection of long segments of bowel, with potential reduction in surgical recurrence rates [EL3]. Statement 6.1. ECCO CD Treatment GL [2019] Laparoscopic surgery should be offered as the first-line approach in surgery for Crohn’s disease, dependent on appropriate expertise [EL2]. Statement 6.2. ECCO CD Treatment GL [2019] A temporary stoma should be considered if steroids cannot be withdrawn or significantly reduced prior to sur- gery [EL5]. Statement 6.3. ECCO CD Treatment GL [2019] Primary "
+    },
+    {
+      "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-77",
+      "source": "knowledge_base/gastroenterologia/clinical/ECCO_2023_IBD_Guidelines.pdf",
+      "quote": "ps://www. ecco-ibd.eu/about-ecco/ecco-disclosures.html], providing a comprehensive overview of potential conflicts of interest of authors. Statement 6.7. ECCO CD Treatment GL [2019] A defunctioning stoma for non-acute refractory Crohn’s colitis may delay or avoid the need for colectomy [EL5]. Statement 6.8. ECCO CD Treatment GL [2019] Restorative proctocolectomy with ileal pouch-anal anas- tomosis can be considered in selected patients with re- fractory pancolonic Crohn’s disease without history"
+    },
+    {
+      "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-85",
+      "source": "knowledge_base/gastroenterologia/clinical/ECCO_2023_IBD_Guidelines.pdf",
+      "quote": "l.; European Crohn’s and Colitis Organisation [ECCO] and the European Society of Gastrointestinal and Abdominal Radiology [ESGAR]. ECCO-ESGAR Guideline for Diagnostic Assessment in IBD Part 2: IBD scores and general principles and technical aspects. J Crohns Colitis 2019;13:273–84. 16. Sturm A, Maaser C, Mendall M, et al. European Crohn’s and Colitis Organisation topical review on IBD in the elderly. J Crohns Colitis 2017;11:263–73. 17. Gomollón F, Dignass A, Annese V, et al.; ECCO. Third Europe"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: colonscopia → biopsia → consenso-informato.",
+      "Non prescrivere di prima intenzione: pet-tc, coronarografia (ECCO_2023_IBD_Guidelines.pdf).",
+      "Budget SSN di riferimento: €220."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione garantita seguendo il gold path.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Ambulatorio di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Colonscopia nel contesto di Colite ulcerosa in remissione — sorveglianza displasia ECCO (GASTRO-021). Nessuna anomalia evidente all'esame obiettivo, segni vitali stabili.",
+      "isAbnormal": true,
+      "priceEuro": 120
+    },
+    {
+      "examId": "biopsia",
+      "name": "Biopsia (osteomidollare o tissutale mirata)",
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Colite ulcerosa in remissione — sorveglianza displasia ECCO (GASTRO-021). Nessuna anomalia evidente all'esame obiettivo, segni vitali stabili.",
+      "isAbnormal": true,
+      "priceEuro": 80
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf."
+    },
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia (Invasiva)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 800,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "GOOD",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Chiede intervalli di sorveglianza e rischio displasia. Apprezza numeri e linee guida ECCO; odia il 'stia tranquilla' senza dati."
+  }
+}

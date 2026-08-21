@@ -104,13 +104,13 @@ const KbBaselineExamFindingsSchema = z
 /**
  * Structured specialty case authored from `knowledge_base/<specialty>/matrix.json`.
  * Compatible with `CaseImportSchema` / `assertPlayableCase` (playable baseline).
- * Cardiology cases omit `patientProfile`; Pneumology cases must include it.
+ * Cardiology cases omit `patientProfile`; Pneumology and Gastroenterology cases must include it.
  */
 export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
-  id: z.string().regex(/^(CARDIO|PNEUMO)-\d{3}$/),
-  code: z.string().regex(/^(CARDIO|PNEUMO)-\d{3}$/),
-  specialty: z.enum(["cardiologia", "pneumologia"]),
-  specialtyLabel: z.enum(["Cardiologia", "Pneumologia"]),
+  id: z.string().regex(/^(CARDIO|PNEUMO|GASTRO)-\d{3}$/),
+  code: z.string().regex(/^(CARDIO|PNEUMO|GASTRO)-\d{3}$/),
+  specialty: z.enum(["cardiologia", "pneumologia", "gastroenterologia"]),
+  specialtyLabel: z.enum(["Cardiologia", "Pneumologia", "Gastroenterologia"]),
   condition: z.string().min(3).max(240),
   frequencyCategory: MatrixFrequencySchema,
   matrixDifficulty: MatrixDifficultySchema,
