@@ -159,7 +159,7 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
         score: safeNum(session.economicSustainability),
       },
       {
-        metric: "Empatia",
+        metric: "Comunicazione",
         key: "empathy",
         score: safeNum(session.empathy),
       },

@@ -139,6 +139,11 @@ type SimulatorClientProps = {
 
 import type { EliteReportData } from "@/lib/services/simulation-report-data";
 import { writeOfflineReportCache } from "@/lib/reports/offline-report-cache";
+import {
+  evaluateInteractionTrajectory,
+  parsePatientProfile,
+} from "@/lib/reports/d-rime-engine";
+import type { AnamnesisQuestion } from "@/lib/data/cases/types";
 
 type SimulationReportData = EliteReportData;
 
@@ -179,6 +184,9 @@ function buildLocalEliteReport(params: {
   examCount: number;
   examCost: number;
   chatTurns: number;
+  chatHistory: Array<{ role: "user" | "assistant"; content: string }>;
+  patientProfile?: unknown;
+  anamnesisQuestions?: unknown;
 }): EliteReportData {
   const gold = params.goldStandardPath?.filter(Boolean) ?? [];
   const requested = new Set(params.requestedExamIds.map((id) => id.toLowerCase()));
@@ -188,7 +196,12 @@ function buildLocalEliteReport(params: {
   const legal = params.requestedExamIds.some((id) => id.toLowerCase().includes("consenso"))
     ? Math.min(90, 55 + hit * 4)
     : Math.max(20, exams - 15);
-  const empathy = params.chatTurns >= 4 ? 70 : params.chatTurns >= 1 ? 45 : 20;
+  const profile = parsePatientProfile(params.patientProfile);
+  const questions = Array.isArray(params.anamnesisQuestions)
+    ? (params.anamnesisQuestions as AnamnesisQuestion[])
+    : [];
+  const dRime = evaluateInteractionTrajectory(params.chatHistory, profile, questions);
+  const empathy = dRime.score;
   const economy =
     params.examCost <= 0 ? 50 : params.examCost < 150 ? 75 : params.examCost < 400 ? 55 : 35;
   const totalScore =
@@ -209,11 +222,36 @@ function buildLocalEliteReport(params: {
       clinicalNote: "Valutazione locale sul gold path del caso in knowledge base.",
       legalComplianceNote: "Scudo L. 24/2017 Art. 5: adesione alle linee guida del caso (modalità offline).",
       prescribingNote: `Esami prescritti: ${params.examCount}. Costo stimato €${params.examCost.toFixed(0)}.`,
-      empathyNote: "Empatia stimata dai turni di colloquio in sessione locale.",
+      empathyNote: dRime.qualitativeLabel,
       economyNote: `Spesa esami €${params.examCost.toFixed(0)}.`,
       correctSolution: gold.length > 0 ? gold.slice(0, 8).join(" → ") : "",
     },
     evidence: { legalSources: [], protocolSources: [] },
+    empathyBreakdown: {
+      baseline: dRime.initialState.trust,
+      validationBonus: 0,
+      transparencyBonus: 0,
+      allianceBonus: Math.max(0, dRime.finalState.trust - dRime.initialState.trust),
+      dismissalPenalty: 0,
+      finalScore: dRime.score,
+      final: dRime.score,
+      qualitativeLabel: dRime.qualitativeLabel,
+      motivations: [],
+      expertAnalysis: dRime.expertAnalysis,
+      framework: "d-rime",
+      dRime: {
+        spikesEmpathyScore: dRime.spikesEmpathyScore,
+        riasAlignmentScore: dRime.riasAlignmentScore,
+        careTrustScore: dRime.careTrustScore,
+        allianceScore: dRime.allianceScore,
+        biasManagementScore: dRime.biasManagementScore,
+        defensiveMedicineScore: dRime.defensiveMedicineScore,
+        initialState: dRime.initialState,
+        finalState: dRime.finalState,
+        trajectory: dRime.trajectory,
+        relationalInsights: dRime.relationalInsights,
+      },
+    },
   };
 }
 
@@ -1040,6 +1078,16 @@ export function SimulatorClient({
         examCount: selectedExams.length,
         examCost: selectedExams.reduce((sum, exam) => sum + exam.cost, 0),
         chatTurns: messages.filter((m) => m.role === "user").length,
+        chatHistory: messages
+          .filter((m) => m.role === "user" || m.role === "assistant")
+          .map((m) => ({
+            role: m.role as "user" | "assistant",
+            content: getChatMessageText(m),
+          })),
+        patientProfile: (initialCaseData.baselineExamFindings as Record<string, unknown> | undefined)
+          ?.patientProfile,
+        anamnesisQuestions: (initialCaseData.baselineExamFindings as Record<string, unknown> | undefined)
+          ?.anamnesisQuestions,
       });
       writeOfflineReportCache(localReport.sessionId, localReport);
       router.push(`/case/${initialCaseData.id}/results?sessionId=${localReport.sessionId}`);
@@ -1058,6 +1106,7 @@ export function SimulatorClient({
     initialCaseData.id,
     initialCaseData.goldStandardPath,
     initialCaseData.patientPrompt,
+    initialCaseData.baselineExamFindings,
     messages,
     reportSections,
     router,
@@ -1280,7 +1329,7 @@ export function SimulatorClient({
                     { id: "clinical", label: "Accuratezza clinica" },
                     { id: "legal", label: "Legal compliance" },
                     { id: "prescribing", label: "Appropriatezza prescrittiva" },
-                    { id: "empathy", label: "Empatia" },
+                    { id: "empathy", label: "Comunicazione" },
                     { id: "economy", label: "Sostenibilità economica" },
                   ] as const
                 ).map((t) => {
@@ -1325,7 +1374,7 @@ export function SimulatorClient({
                       <MetricBar label="Accuratezza clinica" score={reportData.scores.clinical} />
                       <MetricBar label="Tutela medico-legale" score={reportData.scores.legal} />
                       <MetricBar label="Appropriatezza esami" score={reportData.scores.exams} />
-                      <MetricBar label="Empatia" score={reportData.scores.empathy} />
+                      <MetricBar label="Comunicazione" score={reportData.scores.empathy} />
                       <MetricBar label="Sostenibilità economica" score={reportData.scores.economy} />
                     </div>
                     {activeReportTab === "clinical" && (
@@ -1373,7 +1422,7 @@ export function SimulatorClient({
                     {activeReportTab === "empathy" && (
                       <div className="rounded-xl border border-slate-100 border-l-4 border-l-[#345884] bg-slate-50 p-4">
                         <p className="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">
-                          Feedback empatia
+                          Feedback comunicazione (D-RIME)
                         </p>
                         <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">
                           {reportData.feedback?.empathyNote ?? "—"}

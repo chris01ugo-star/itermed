@@ -49,7 +49,7 @@ function eliteToClientProps(
       score: safeNum(data.scores.economy),
     },
     {
-      metric: "Empatia",
+      metric: "Comunicazione",
       key: "empathy",
       score: safeNum(data.scores.empathy),
     },
@@ -148,7 +148,7 @@ export function OfflineResultsGate({
         legalComplianceNote:
           "Scudo L. 24/2017 Art. 5: riferimento alle linee guida del caso in knowledge base.",
         prescribingNote: "Appropriatezza prescrittiva non calcolata in assenza di sessione remota.",
-        empathyNote: "Audit relazionale non disponibile offline senza snapshot locale.",
+        empathyNote: "Audit D-RIME non disponibile offline senza snapshot locale.",
         economyNote: "Sostenibilità economica non calcolata in assenza di sessione remota.",
         correctSolution: correctSolution ?? "",
       },

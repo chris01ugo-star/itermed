@@ -138,6 +138,7 @@ export function toFallbackClinicalCase(c: ClinicalCase): RegistryFallbackCase {
       mandatoryExams: c.mandatoryExams,
       inappropriateExams: c.inappropriateExams,
       legalConformity: c.legalConformity,
+      ...(c.patientProfile ? { patientProfile: c.patientProfile } : {}),
     },
   };
 }

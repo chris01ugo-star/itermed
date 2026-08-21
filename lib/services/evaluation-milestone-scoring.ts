@@ -425,7 +425,7 @@ export function deriveMilestoneDimensionScores(
       dismissalPenalty: 0,
       finalScore: empathy.score,
       final: empathy.score,
-      qualitativeLabel: "Telemetria milestone (non usata per il voto comportamentale)",
+      qualitativeLabel: "Telemetria milestone (non usata per il voto D-RIME)",
       motivations: [
         motivation(
           "neutral",

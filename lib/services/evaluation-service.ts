@@ -393,7 +393,7 @@ export function buildDeterministicAnalyticalFallback(params: {
       {
         parameter: "Ascolto e comunicazione professionale",
         met: hasDoctorTurns,
-        feedback: "Telemetria fallback — il voto empatia usa il modello comportamentale sulla chat.",
+        feedback: "Telemetria fallback — il voto comunicazione usa D-RIME sulla chat.",
       },
       {
         parameter: "Spiegazione trasparente di manovre/esami",
@@ -436,7 +436,7 @@ export function buildDeterministicAnalyticalFallback(params: {
         : "Nessun corpus legale RAG disponibile (soft-fail).",
       prescribingNote: `Esami prescritti: ${exams.length}. Costo stimato €${params.totalCostEuro.toFixed(2)} su budget €${params.examBudgetEuro}.`,
       empathyNote:
-        "Empatia calcolata con Framework Calgary-Cambridge (ascolto, validazione Art. 20, adeguatezza d'urgenza) sulla chat.",
+        "Comunicazione calcolata con motore D-RIME (traiettoria Trust/Anxiety/Defensiveness, SPIKES / RIAS / CARE) sulla chat.",
       economyNote: `Spesa esami €${params.totalCostEuro.toFixed(2)} / budget €${params.examBudgetEuro}.`,
       correctSolution: gold.length > 0 ? gold.slice(0, 6).join(" → ") : "",
     },
@@ -614,7 +614,7 @@ export function buildDeterministicEvaluation(
     ragSourcesCount?: number;
     sessionMilestones?: SessionMilestoneSnapshot[];
     goldStandardPath?: string[];
-    /** Doctor↔patient transcript for behavioral empathy. */
+    /** Doctor↔patient transcript for D-RIME communication scoring. */
     chatHistory?: ChatMessage[];
     caseId?: string;
     caseContext?: string;
@@ -663,6 +663,7 @@ export function buildDeterministicEvaluation(
     caseContext: params.caseContext,
     caseTitle: params.caseTitle ?? registered?.title,
     anamnesisQuestions: registered?.anamnesisQuestions,
+    patientProfile: registered?.patientProfile,
     executedActionIds,
     requestedExamIds: params.requestedExamIds,
     mandatoryExams: registered?.mandatoryExams,
@@ -677,7 +678,7 @@ export function buildDeterministicEvaluation(
   // Blend deterministic milestone evidence so real chat/exam events cannot be erased by a sparse LLM checklist.
   // Legal is RAG Strict binary (0/100) — never blend mid-scores.
   // Clinical is scored exclusively by ESC/AHA matrix × executedActionIds — do not blend with milestones.
-  // Empathy is scored exclusively by the behavioral chat model — do not blend with milestones.
+  // Empathy is scored exclusively by D-RIME (transactional Trust/Anxiety/Defensiveness) — do not blend with milestones.
   // Economy is recomputed in severity gates with the asymmetric fork.
   if (milestones.length > 0) {
     const milestoneDerived = deriveMilestoneDimensionScores({
@@ -850,7 +851,7 @@ ISTRUZIONI ANALITICHE (OBBLIGATORIE):
 
 1) criticalActions / inappropriateActions / empathyChecklist / legalInstrumentReviews — checklist oggettive ancorate al trascritto.
    - criticalActions: TELEMETRIA qualitativa (HIGH/MEDIUM). Il voto numerico di Accuratezza Clinica è calcolato deterministicamente dalla matrice ESC/AHA (Classe I/III) sul registro immutabile executedActionIds — non inventare performed=true senza evidenza di esame/azione nel trascritto o negli esami prescritti.
-   - empathyChecklist: ≥4 parametri (ascolto, rassicurazione, spiegazione, gestione stress) come TELEMETRIA qualitativa. Il voto numerico di empatia è calcolato deterministicamente dal trascritto con Framework Calgary-Cambridge (ascolto attivo vs quesiti anamnestici + validazione emotiva Art. 20 + adeguatezza all'urgenza clinica; Art. 24 per informazione). Imposta met=true SOLO con evidenza in <<<CHAT_TRANSCRIPT>>>; non inventare checklist tutta falsa.
+   - empathyChecklist: ≥4 parametri (ascolto, rassicurazione, spiegazione, gestione stress) come TELEMETRIA qualitativa. Il voto numerico di Comunicazione e Relazione Clinica è calcolato deterministicamente dal motore D-RIME (traiettoria Trust/Anxiety/Defensiveness ancorata a SPIKES, RIAS e CARE). Imposta met=true SOLO con evidenza in <<<CHAT_TRANSCRIPT>>>; non inventare checklist tutta falsa.
    - legalInstrumentReviews: se in chat compare consenso / allergie / spiegazione rischi, NON marcare "violato" senza motivazione testuale; usa "rispettato" o "parziale" coerente con le evidenze.
 
 2) legalProtectionStatus:
