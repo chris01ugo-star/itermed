@@ -9,7 +9,7 @@ import type {
   ClinicalCase,
   RagLegalReference,
 } from "@/lib/data/cases/types";
-import { getCaseById } from "@/lib/data/cases/registry";
+import { getCachedCaseById } from "@/lib/data/cases/registry-store";
 
 export type ClinicalScoreMotivation = {
   id: string;
@@ -618,7 +618,7 @@ export function computeEscAhaClinicalAccuracy(params: {
   goldStandardPath?: string[] | null;
   ragReferences?: RagLegalReference[] | null;
 }): EscClinicalResult {
-  const registered = params.caseId ? getCaseById(params.caseId) : undefined;
+  const registered = params.caseId ? getCachedCaseById(params.caseId) : undefined;
 
   type CaseMatrix = Pick<
     ClinicalCase,

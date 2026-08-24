@@ -15,8 +15,8 @@ import {
   buildSimulatorCasePayload,
   extractPatientPromptFromNode,
 } from "@/lib/cases/case-payload";
-import { ensureRegisteredCaseInDb } from "@/lib/cases/ensure-registered-case";
-import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import { ensureRegisteredCaseInDb, findClinicalCaseForSimulation } from "@/lib/cases/ensure-registered-case";
+import { decodeCaseParam, getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 
 type PlayPageProps = {
@@ -58,12 +58,12 @@ function PlayLoadError({ caseId, message }: { caseId: string; message: string })
   );
 }
 
-function renderFallbackPlay(
+async function renderFallbackPlay(
   rawId: string,
   sessionId?: string,
   opts?: { persistReports?: boolean; isAdmin?: boolean },
 ) {
-  const fallback = getFallbackCase(rawId);
+  const fallback = await getFallbackCase(rawId);
   if (!fallback) return null;
 
   const initialCaseData = toSimulatorFallbackPayload(fallback);
@@ -100,14 +100,14 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
         ? await props.searchParams
         : props.searchParams;
 
-    rawId = params.id || "";
+    rawId = decodeCaseParam(params.id || "");
     const idNormalized = normalizeCaseLookupKey(rawId);
     const hasDatabase = isUsableDatabase(config.DATABASE_URL);
     const liveSessionId = sanitizeLiveSessionId(searchParams?.sessionId);
 
     if (!hasDatabase) {
       return (
-        renderFallbackPlay(rawId, liveSessionId, { persistReports: isUsableDatabase(config.DATABASE_URL) }) ??
+        (await renderFallbackPlay(rawId, liveSessionId, { persistReports: isUsableDatabase(config.DATABASE_URL) })) ??
         (
           <PlayLoadError
             caseId={rawId}
@@ -125,12 +125,12 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       console.error("[PrassiPlayPage] ensureRegisteredCaseInDb failed", rawId, err);
     });
 
-    const canPlay = await userCanPlayCase(userId, idNormalized).catch((err) => {
+    const canPlay = await userCanPlayCase(userId, rawId).catch(async (err) => {
       console.error("[PrassiPlayPage] userCanPlayCase failed", idNormalized, err);
-      return Boolean(getCaseById(rawId) || getFallbackCase(rawId));
+      return Boolean((await getCaseById(rawId)) || (await getFallbackCase(rawId)));
     });
     if (!canPlay) {
-      const offline = renderFallbackPlay(rawId, liveSessionId, {
+      const offline = await renderFallbackPlay(rawId, liveSessionId, {
         persistReports: isUsableDatabase(config.DATABASE_URL),
         isAdmin: user.role === "ADMIN",
       });
@@ -146,11 +146,9 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       difficulty: string;
       estimatedDurationMinutes: number | null;
       isActive: boolean;
-      correctSolution: string | null;
       baselineExamFindings: unknown;
       timeLimitMinutes: number | null;
       examLatencies: unknown;
-      goldStandardPath: unknown;
       patientDeteriorationThreshold: number | null;
       nodes: { content: unknown }[];
     };
@@ -158,12 +156,9 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     let caseData: CaseRow | null = null;
     try {
       caseData = await withTimeout(
-        prisma.clinicalCase.findUnique({
-          where: { id: idNormalized },
-          include: { nodes: { orderBy: { order: "asc" }, take: 1 } },
-        }),
+        findClinicalCaseForSimulation(rawId),
         DB_LOOKUP_TIMEOUT_MS,
-        "clinicalCase.findUnique",
+        "clinicalCase.findFirst",
       );
     } catch (err) {
       console.error("[PrassiPlayPage] DB case lookup failed — using registry fallback", {
@@ -174,7 +169,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     }
 
     if (!caseData || !caseData.isActive) {
-      const offline = renderFallbackPlay(rawId, liveSessionId, {
+      const offline = await renderFallbackPlay(rawId, liveSessionId, {
         persistReports: isUsableDatabase(config.DATABASE_URL),
         isAdmin: user.role === "ADMIN",
       });
@@ -183,12 +178,9 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       try {
         await withTimeout(ensureRegisteredCaseInDb(rawId, userId), 1_200, "ensureRegisteredCaseInDb");
         caseData = await withTimeout(
-          prisma.clinicalCase.findUnique({
-            where: { id: idNormalized },
-            include: { nodes: { orderBy: { order: "asc" }, take: 1 } },
-          }),
+          findClinicalCaseForSimulation(rawId),
           1_200,
-          "clinicalCase.findUnique.retry",
+          "clinicalCase.findFirst.retry",
         );
       } catch (err) {
         console.error("[PrassiPlayPage] ensure+retry failed", idNormalized, err);
@@ -197,7 +189,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     }
 
     if (!caseData || !caseData.isActive) {
-      const offline = renderFallbackPlay(rawId, liveSessionId, {
+      const offline = await renderFallbackPlay(rawId, liveSessionId, {
         persistReports: isUsableDatabase(config.DATABASE_URL),
         isAdmin: user.role === "ADMIN",
       });
@@ -239,9 +231,10 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     const effectiveSessionId = session?.id ?? (isDevAuthBypass() ? undefined : liveSessionId);
 
     const firstNode = caseData.nodes?.[0];
+    const fallbackPrompt = (await getFallbackCase(caseData.id))?.patientPrompt;
     const basePatientPrompt = extractPatientPromptFromNode(
       firstNode?.content,
-      getFallbackCase(caseData.id)?.patientPrompt,
+      fallbackPrompt,
     );
     const isVariant = Boolean(session?.isVariant);
     const effectivePrompt =
@@ -257,9 +250,6 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       patientPrompt: effectivePrompt,
       baselineExamFindings: caseData.baselineExamFindings,
       timeLimitMinutes: caseData.timeLimitMinutes ?? null,
-      examLatencies: caseData.examLatencies,
-      goldStandardPath: caseData.goldStandardPath,
-      patientDeteriorationThreshold: caseData.patientDeteriorationThreshold ?? null,
     });
 
     return (
@@ -303,7 +293,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       caseId: rawId,
       error: err instanceof Error ? err.message : String(err),
     });
-    const offline = renderFallbackPlay(rawId, undefined, { persistReports: isUsableDatabase(config.DATABASE_URL) });
+    const offline = await renderFallbackPlay(rawId, undefined, { persistReports: isUsableDatabase(config.DATABASE_URL) });
     if (offline) return offline;
     return (
       <PlayLoadError

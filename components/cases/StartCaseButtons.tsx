@@ -147,6 +147,7 @@ export function StartCaseButtons({
   };
 
   const isBusy = isStartingOriginal || isStartingVariant;
+  const isDev = process.env.NODE_ENV === "development";
 
   return (
     <div className="space-y-2">
@@ -205,25 +206,27 @@ export function StartCaseButtons({
             >
               Chiudi
             </Button>
-            <Button
-              type="button"
-              className="rounded-lg bg-[#1E324E] text-white hover:bg-[#2A486D]"
-              disabled={isBusy || !limitDialog}
-              onClick={() => {
-                if (!limitDialog) return;
-                if (limitDialog.mode === "original") {
-                  window.location.assign(directPlayHref);
-                  return;
-                }
-                try {
-                  void startVariant({ devBypass: true });
-                } catch {
-                  window.location.assign(directPlayHref);
-                }
-              }}
-            >
-              {isBusy ? "Avvio..." : "Sono un dev"}
-            </Button>
+            {isDev ? (
+              <Button
+                type="button"
+                className="rounded-lg bg-[#1E324E] text-white hover:bg-[#2A486D]"
+                disabled={isBusy || !limitDialog}
+                onClick={() => {
+                  if (!limitDialog) return;
+                  if (limitDialog.mode === "original") {
+                    window.location.assign(directPlayHref);
+                    return;
+                  }
+                  try {
+                    void startVariant({ devBypass: true });
+                  } catch {
+                    window.location.assign(directPlayHref);
+                  }
+                }}
+              >
+                {isBusy ? "Avvio..." : "Sono un dev"}
+              </Button>
+            ) : null}
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -82,6 +82,7 @@ import {
   formatAbnormalExamsFromBaseline,
   formatVitalSignsFromBaseline,
 } from "../../lib/simulator/patientCaseContext";
+import type { SimulatorPlayCasePayload } from "@/lib/cases/case-payload";
 
 type Exam = SimulatorExam;
 
@@ -98,27 +99,7 @@ const RAW_EXAM_CATALOG_STRUCTURE: ExamMacroCategory[] = EXAM_CATALOG_STRUCTURE;
 /** Valori esami salvati in creazione caso (`baselineExamFindings.advancedExams.values`) */
 type CaseExamStoredValues = CaseExamOverride;
 
-type InitialCaseData = {
-  id: string;
-  title: string;
-  description: string;
-  specialty: string | null;
-  difficulty: string;
-  estimatedDurationMinutes: number | null;
-  patientPrompt: string;
-  correctSolution?: string | null;
-  demographics?: {
-    age?: number | string | null;
-    sex?: string | null;
-    context?: string | null;
-  };
-  /** Da DB: include advancedExams.values compilati in creazione caso */
-  baselineExamFindings?: Record<string, unknown>;
-  timeLimitMinutes?: number | null;
-  examLatencies?: Record<string, number> | null;
-  goldStandardPath?: string[] | null;
-  patientDeteriorationThreshold?: number | null;
-};
+type InitialCaseData = SimulatorPlayCasePayload;
 
 type SimulatorClientProps = {
   initialCaseData: InitialCaseData;
@@ -139,11 +120,7 @@ type SimulatorClientProps = {
 
 import type { EliteReportData } from "@/lib/services/simulation-report-data";
 import { writeOfflineReportCache } from "@/lib/reports/offline-report-cache";
-import {
-  evaluateInteractionTrajectory,
-  parsePatientProfile,
-} from "@/lib/reports/d-rime-engine";
-import type { AnamnesisQuestion } from "@/lib/data/cases/types";
+import { evaluateInteractionTrajectory } from "@/lib/reports/d-rime-engine";
 
 type SimulationReportData = EliteReportData;
 
@@ -179,28 +156,18 @@ function syncSessionIdInUrl(sessionId: string): void {
 
 function buildLocalEliteReport(params: {
   caseId: string;
-  goldStandardPath: string[] | undefined;
   requestedExamIds: string[];
   examCount: number;
   examCost: number;
   chatTurns: number;
   chatHistory: Array<{ role: "user" | "assistant"; content: string }>;
-  patientProfile?: unknown;
-  anamnesisQuestions?: unknown;
 }): EliteReportData {
-  const gold = params.goldStandardPath?.filter(Boolean) ?? [];
-  const requested = new Set(params.requestedExamIds.map((id) => id.toLowerCase()));
-  const hit = gold.filter((id) => requested.has(id.toLowerCase())).length;
-  const exams = gold.length > 0 ? Math.round((hit / gold.length) * 100) : params.examCount > 0 ? 55 : 20;
+  const exams = params.examCount > 0 ? Math.min(80, 40 + params.examCount * 8) : 20;
   const clinical = Math.max(15, Math.min(95, exams - 5 + Math.min(params.chatTurns, 8) * 3));
   const legal = params.requestedExamIds.some((id) => id.toLowerCase().includes("consenso"))
-    ? Math.min(90, 55 + hit * 4)
+    ? Math.min(90, 55 + params.examCount * 4)
     : Math.max(20, exams - 15);
-  const profile = parsePatientProfile(params.patientProfile);
-  const questions = Array.isArray(params.anamnesisQuestions)
-    ? (params.anamnesisQuestions as AnamnesisQuestion[])
-    : [];
-  const dRime = evaluateInteractionTrajectory(params.chatHistory, profile, questions);
+  const dRime = evaluateInteractionTrajectory(params.chatHistory, null, []);
   const empathy = dRime.score;
   const economy =
     params.examCost <= 0 ? 50 : params.examCost < 150 ? 75 : params.examCost < 400 ? 55 : 35;
@@ -219,12 +186,12 @@ function buildLocalEliteReport(params: {
       weaknesses: [
         "Report generato in modalità locale (registry) — il database remoto non ha restituito la sessione.",
       ],
-      clinicalNote: "Valutazione locale sul gold path del caso in knowledge base.",
+      clinicalNote: "Valutazione locale — il database remoto non ha restituito la sessione.",
       legalComplianceNote: "Scudo L. 24/2017 Art. 5: adesione alle linee guida del caso (modalità offline).",
       prescribingNote: `Esami prescritti: ${params.examCount}. Costo stimato €${params.examCost.toFixed(0)}.`,
       empathyNote: dRime.qualitativeLabel,
       economyNote: `Spesa esami €${params.examCost.toFixed(0)}.`,
-      correctSolution: gold.length > 0 ? gold.slice(0, 8).join(" → ") : "",
+      correctSolution: "",
     },
     evidence: { legalSources: [], protocolSources: [] },
     empathyBreakdown: {
@@ -536,8 +503,7 @@ export function SimulatorClient({
     if (stressInitializedRef.current) return;
     const profile = resolveCaseStressProfile({
       description: initialCaseData.description,
-      baselineExamFindings: initialCaseData.baselineExamFindings as Record<string, unknown> | undefined,
-      goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
+      baselineExamFindings: initialCaseData.baselineExamFindings,
     });
     stressInitializedRef.current = true;
     setPatientStress(profile.initialStress);
@@ -545,7 +511,6 @@ export function SimulatorClient({
   }, [
     initialCaseData.description,
     initialCaseData.baselineExamFindings,
-    initialCaseData.goldStandardPath,
   ]);
 
   useEffect(() => {
@@ -1073,7 +1038,6 @@ export function SimulatorClient({
       }
       const localReport = buildLocalEliteReport({
         caseId: initialCaseData.id,
-        goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
         requestedExamIds: selectedExamIdsRef.current ?? [],
         examCount: selectedExams.length,
         examCost: selectedExams.reduce((sum, exam) => sum + exam.cost, 0),
@@ -1084,10 +1048,6 @@ export function SimulatorClient({
             role: m.role as "user" | "assistant",
             content: getChatMessageText(m),
           })),
-        patientProfile: (initialCaseData.baselineExamFindings as Record<string, unknown> | undefined)
-          ?.patientProfile,
-        anamnesisQuestions: (initialCaseData.baselineExamFindings as Record<string, unknown> | undefined)
-          ?.anamnesisQuestions,
       });
       writeOfflineReportCache(localReport.sessionId, localReport);
       router.push(`/case/${initialCaseData.id}/results?sessionId=${localReport.sessionId}`);
@@ -1104,7 +1064,6 @@ export function SimulatorClient({
   }, [
     finalDiagnosis,
     initialCaseData.id,
-    initialCaseData.goldStandardPath,
     initialCaseData.patientPrompt,
     initialCaseData.baselineExamFindings,
     messages,
@@ -1144,13 +1103,11 @@ export function SimulatorClient({
       hasAnamnesisDraft: Boolean(reportSections.anamnesisObjective.trim()),
       patientStress,
       vitals,
-      goldStandardPath: initialCaseData.goldStandardPath,
       hasUserInteracted,
     });
   }, [
     activeTab,
     examFindings,
-    initialCaseData.goldStandardPath,
     initialCaseData.id,
     messages,
     patientStress,
@@ -1851,6 +1808,7 @@ export function SimulatorClient({
                       sessionId={effectiveSessionId}
                       patientPrompt={initialCaseData.patientPrompt}
                       caseId={initialCaseData.id}
+                      resolveSessionId={ensureSessionId}
                       onExamResult={handleExamFinding}
                     />
                   </TabsContent>
@@ -2000,6 +1958,7 @@ export function SimulatorClient({
                           sessionId={effectiveSessionId}
                           patientPrompt={initialCaseData.patientPrompt}
                           caseId={initialCaseData.id}
+                          resolveSessionId={ensureSessionId}
                           onExamResult={handleExamFinding}
                         />
                       </TabsContent>

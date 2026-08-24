@@ -3,7 +3,7 @@ import { generateObject } from "ai";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { assertUserCanPlayCase } from "@/lib/access";
-import { getSessionUserId } from "@/lib/api-session";
+import { getSessionUserId, unauthorizedJson } from "@/lib/api-session";
 import {
   assertCanStartSimulation,
   gateToResponse,
@@ -18,13 +18,17 @@ import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { extractPatientPromptFromNode } from "@/lib/cases/case-payload";
 import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
 import { config, isUsableDatabase } from "@/lib/config";
-import { ensureRegisteredCaseInDb } from "@/lib/cases/ensure-registered-case";
+import { ensureRegisteredCaseInDb, findClinicalCaseForSimulation } from "@/lib/cases/ensure-registered-case";
 import { getCaseById, isRegisteredCaseId, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import {
+  canHonorDailyLimitBypass,
+  rejectNonDevelopmentDevBypass,
+} from "@/lib/security/dev-only-gates";
 
 const bodySchema = z.object({
   caseId: z.string().min(1),
   mode: z.enum(["original", "variant"]),
-  /** Soft bypass while payments are not live (UI: "Sono un dev"). */
+  /** Honored only when NODE_ENV === "development"; otherwise 403. */
   devBypass: z.boolean().optional(),
 });
 
@@ -99,12 +103,7 @@ function createRegistryOfflineSessionResponse(caseId: string, isVariant: boolean
 
 export async function POST(req: Request) {
   const userId = await getSessionUserId();
-  if (!userId) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+  if (!userId) return unauthorizedJson();
 
   let json: unknown;
   try {
@@ -125,13 +124,10 @@ export async function POST(req: Request) {
   }
 
   const { caseId: rawCaseId, mode, devBypass } = parsed.data;
-  const caseId = normalizeCaseLookupKey(rawCaseId);
-  const registered = getCaseById(rawCaseId) ?? getCaseById(caseId);
+  const forbiddenBypass = rejectNonDevelopmentDevBypass(devBypass);
+  if (forbiddenBypass) return forbiddenBypass;
 
-  // Registry originals never wait on Prisma/Neon — client navigates immediately.
-  if (registered && mode === "original") {
-    return createRegistryOfflineSessionResponse(registered.id, false);
-  }
+  const caseId = normalizeCaseLookupKey(rawCaseId);
 
   const rateLimited = await enforceRateLimit(req, {
     namespace: mode === "variant" ? "api-session-start-variant" : "api-session-start",
@@ -146,7 +142,7 @@ export async function POST(req: Request) {
 
   // Placeholder DB / offline: allow registry cases without Prisma session FK.
   if (!isUsableDatabase(config.DATABASE_URL)) {
-    if (isRegisteredCaseId(caseId) || getCaseById(caseId)) {
+    if (isRegisteredCaseId(caseId) || (await getCaseById(caseId))) {
       if (mode === "variant") {
         return new Response(
           JSON.stringify({
@@ -174,7 +170,7 @@ export async function POST(req: Request) {
 
   try {
     await Promise.race([
-      ensureRegisteredCaseInDb(caseId, userId),
+      ensureRegisteredCaseInDb(rawCaseId, userId),
       new Promise<never>((_, reject) => {
         setTimeout(() => reject(new Error("ensureRegisteredCaseInDb timed out after 1500ms")), 1_500);
       }),
@@ -198,18 +194,7 @@ export async function POST(req: Request) {
 
   try {
     clinicalCase = await Promise.race([
-      prisma.clinicalCase.findUnique({
-        where: { id: caseId },
-        select: {
-          id: true,
-          title: true,
-          description: true,
-          isActive: true,
-          caseBundleId: true,
-          goldStandardPath: true,
-          nodes: { orderBy: { order: "asc" }, take: 1, select: { content: true } },
-        },
-      }),
+      findClinicalCaseForSimulation(rawCaseId),
       new Promise<null>((_, reject) => {
         setTimeout(() => reject(new Error("clinicalCase.findUnique timed out after 1500ms")), 1_500);
       }),
@@ -241,7 +226,7 @@ export async function POST(req: Request) {
   const accessOptions = {
     caseBundleId: clinicalCase.caseBundleId,
     usedToday,
-    bypassDailyLimit: Boolean(devBypass),
+    bypassDailyLimit: canHonorDailyLimitBypass(devBypass),
   };
   const simGate = assertCanStartSimulation(billingProfile, accessOptions);
   if (!simGate.allowed) {
@@ -271,7 +256,7 @@ export async function POST(req: Request) {
         error: err instanceof Error ? err.message : String(err),
       });
       // Keep navigation unblocked: client can open play with registry/offline token.
-      if (isRegisteredCaseId(clinicalCase.id) || getCaseById(clinicalCase.id)) {
+      if (isRegisteredCaseId(clinicalCase.id) || (await getCaseById(clinicalCase.id))) {
         return createRegistryOfflineSessionResponse(clinicalCase.id, false);
       }
       return new Response(

@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { prisma } from "../../../../lib/prisma";
 import { getSessionUserId } from "../../../../lib/api-session";
 import { isDevAuthBypass } from "../../../../lib/require-user";
-import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import { getCaseById, decodeCaseParam, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 import type {
   ClinicalDeltaRow,
   CoachingFeedback,
@@ -71,8 +71,8 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
       searchParams && "then" in searchParams ? await searchParams : searchParams;
 
     const sessionId = resolvedSearch?.sessionId?.trim() || "";
-    const caseId = resolvedParams.id;
-    const registered = getCaseById(caseId);
+    const caseId = decodeCaseParam(resolvedParams.id);
+    const registered = await getCaseById(caseId);
     const caseKey = normalizeCaseLookupKey(caseId);
 
     const userId = await getSessionUserId();

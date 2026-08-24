@@ -1,4 +1,4 @@
-import { getSessionUserId } from "@/lib/api-session";
+import { getSessionUserId, unauthorizedJson } from "@/lib/api-session";
 import { assertUserCanPlayCase, authorizeSimulationAction } from "@/lib/access";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 import {
@@ -97,12 +97,7 @@ function resolveMaxUserMessagesOverride(body: ChatBody): unknown {
 
 export async function POST(req: Request) {
   const userId = await getSessionUserId();
-  if (!userId) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+  if (!userId) return unauthorizedJson();
 
   // Anti-abuse: max 10 chat messages / authenticated user / minute (Upstash or in-memory).
   const rateLimited = await enforceRateLimit(req, {
@@ -189,22 +184,13 @@ export async function POST(req: Request) {
     sessionId: typeof sessionId === "string" ? sessionId : null,
     caseId: typeof caseId === "string" ? caseId : null,
   });
-  // Soft-fail: if only offline token / missing case, continue with daily gate (legacy chat).
-  if (!access.ok && access.code === "FORBIDDEN_SESSION") {
-    return new Response(JSON.stringify({ error: "Forbidden", code: access.code }), {
-      status: 403,
+  if (!access.ok) {
+    return new Response(JSON.stringify({ error: access.error, code: access.code }), {
+      status: access.status,
       headers: { "Content-Type": "application/json" },
     });
   }
-  if (!access.ok && access.code === "FORBIDDEN_CASE") {
-    return new Response(JSON.stringify({ error: "Forbidden", code: access.code }), {
-      status: 403,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-  const liveSessionId = access.ok
-    ? (sanitizeLiveSessionId(access.liveSessionId) ?? null)
-    : null;
+  const liveSessionId = sanitizeLiveSessionId(access.liveSessionId) ?? null;
   const clientRequestedExams = parseStringArray(requestedExamIds);
   const clientGoldSteps = parseStringArray(completedGoldSteps);
 

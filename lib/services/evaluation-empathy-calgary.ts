@@ -5,7 +5,7 @@
  */
 
 import type { AnamnesisQuestion, PatientProfile } from "@/lib/data/cases/types";
-import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import { getCachedCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry-store";
 import {
   evaluateInteractionTrajectory,
   D_RIME_REFS,
@@ -120,7 +120,7 @@ function resolveAnamnesisQuestions(
 ): AnamnesisQuestion[] {
   if (Array.isArray(explicit) && explicit.length > 0) return explicit;
   if (!caseId) return [];
-  return getCaseById(caseId)?.anamnesisQuestions ?? [];
+  return getCachedCaseById(caseId)?.anamnesisQuestions ?? [];
 }
 
 function resolvePatientProfile(
@@ -129,7 +129,7 @@ function resolvePatientProfile(
 ): PatientProfile | null {
   if (explicit) return explicit;
   if (!caseId) return null;
-  return getCaseById(caseId)?.patientProfile ?? null;
+  return getCachedCaseById(caseId)?.patientProfile ?? null;
 }
 
 /**
@@ -143,20 +143,23 @@ export function computeCalgaryCambridgeEmpathy(params: {
   anamnesisQuestions?: AnamnesisQuestion[] | null;
   sessionMilestones?: Array<{ milestoneKey: string }> | null;
   patientProfile?: PatientProfile | null;
+  classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
 }): CalgaryEmpathyResult {
   const questions = resolveAnamnesisQuestions(params.caseId, params.anamnesisQuestions);
   const profile = resolvePatientProfile(params.caseId, params.patientProfile);
-  const dRime = evaluateInteractionTrajectory(params.chatHistory, profile, questions);
+  const dRime = evaluateInteractionTrajectory(params.chatHistory, profile, questions, {
+    classifiedIntents: params.classifiedIntents,
+  });
   const mode = resolveClinicalUrgencyMode({
     caseId: params.caseId,
     caseContext: params.caseContext,
     caseTitle: params.caseTitle,
   });
 
-  const paternalism = dRime.acts.filter((a) => a.intent === "paternalism_disdain").length;
-  const validations = dRime.acts.filter((a) => a.intent === "validation_deescalation").length;
-  const listening = dRime.acts.filter((a) => a.intent === "open_listening").length;
-  const concessions = dRime.acts.filter((a) => a.intent === "defensive_concession").length;
+  const paternalism = dRime.acts.filter((a) => a.intent === "PATERNALISTIC_COMMAND").length;
+  const validations = dRime.acts.filter((a) => a.intent === "VALIDATION").length;
+  const listening = dRime.acts.filter((a) => a.intent === "EMPATHIC_EXPLORATION").length;
+  const concessions = dRime.acts.filter((a) => a.intent === "DEFENSIVE_REACTION").length;
 
   const A: EmpathyDimensionScore = {
     id: "active_listening",
@@ -164,7 +167,7 @@ export function computeCalgaryCambridgeEmpathy(params: {
     score: dRime.riasAlignmentScore,
     weight: 0.3,
     evidenceQuotes: dRime.acts
-      .filter((a) => a.intent === "open_listening")
+      .filter((a) => a.intent === "EMPATHIC_EXPLORATION")
       .slice(0, 3)
       .map((a) => a.utterance),
     deficits:
@@ -178,7 +181,7 @@ export function computeCalgaryCambridgeEmpathy(params: {
     score: dRime.spikesEmpathyScore,
     weight: 0.4,
     evidenceQuotes: dRime.acts
-      .filter((a) => a.intent === "validation_deescalation")
+      .filter((a) => a.intent === "VALIDATION")
       .slice(0, 3)
       .map((a) => a.utterance),
     deficits:
@@ -253,7 +256,7 @@ export function computeCalgaryCambridgeEmpathy(params: {
     legacy: {
       baseline: dRime.initialState.trust,
       validationBonus: Math.min(55, validations * 18),
-      transparencyBonus: Math.min(25, dRime.acts.filter((a) => a.intent === "information_spikes").length * 12),
+      transparencyBonus: Math.min(25, dRime.acts.filter((a) => a.intent === "CLINICAL_DISCLOSURE").length * 12),
       allianceBonus: Math.min(20, Math.max(0, dRime.finalState.trust - dRime.initialState.trust)),
       dismissalPenalty: paternalism * 18 + concessions * 12,
     },

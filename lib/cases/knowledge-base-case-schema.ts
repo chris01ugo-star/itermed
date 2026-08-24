@@ -155,6 +155,9 @@ export type PatientLifestyleAndSocial = z.infer<typeof PatientLifestyleAndSocial
 export type PatientProfile = z.infer<typeof PatientProfileSchema>;
 export type KnowledgeBaseCase = z.infer<typeof KnowledgeBaseCaseSchema>;
 
+/** Camel-case alias — same runtime schema as `KnowledgeBaseCaseSchema`. */
+export const knowledgeBaseCaseSchema = KnowledgeBaseCaseSchema;
+
 /** Flat LLM payload — nested arrays break OpenAI structured output too often. */
 export const GeneratedCaseNarrativeSchema = z.object({
   age: z.number(),

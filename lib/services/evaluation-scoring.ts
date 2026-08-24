@@ -1038,6 +1038,7 @@ export function computeBehavioralEmpathyScore(params: {
   anamnesisQuestions?: AnamnesisQuestion[] | null;
   sessionMilestones?: Array<{ milestoneKey: string }> | null;
   patientProfile?: import("@/lib/data/cases/types").PatientProfile | null;
+  classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
 }): { score: number; breakdown: EmpathyBehavioralBreakdown } {
   const result = computeCalgaryCambridgeEmpathy({
     chatHistory: params.chatHistory,
@@ -1047,6 +1048,7 @@ export function computeBehavioralEmpathyScore(params: {
     anamnesisQuestions: params.anamnesisQuestions,
     sessionMilestones: params.sessionMilestones,
     patientProfile: params.patientProfile,
+    classifiedIntents: params.classifiedIntents,
   });
   const checklist = Array.isArray(params.empathyChecklist) ? params.empathyChecklist : [];
   const d = result.dRime;
@@ -1131,6 +1133,7 @@ export function deriveDimensionScores(params: {
   inappropriateExams?: CaseExamDefinition[] | null;
   legalChunks?: GuidelineChunk[] | null;
   legalSources?: string[] | null;
+  classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
 }): { scores: DimensionScores; breakdown: ScoreBreakdown } {
   const anamnesis = computeAnamnesisProtocolCoverage({
     chatHistory: params.chatHistory,
@@ -1181,6 +1184,7 @@ export function deriveDimensionScores(params: {
     anamnesisQuestions: params.anamnesisQuestions,
     sessionMilestones: params.sessionMilestones,
     patientProfile: params.patientProfile,
+    classifiedIntents: params.classifiedIntents,
   });
 
   // Attach anamnesis detail to clinical motivations

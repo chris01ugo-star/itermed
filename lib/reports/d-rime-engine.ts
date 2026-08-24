@@ -1,10 +1,9 @@
 /**
  * D-RIME Transazionale — Relational Impact Modeling Engine.
- * Deterministic state-transition model of Trust / Anxiety / Defensiveness.
- * Anchors: SPIKES (Baile), RIAS (Roter), CARE Measure.
  *
- * Intent classification uses compact lexical cues to label communicative *acts*.
- * The official 0–100 score is produced by the trajectory, not by regex hit counts.
+ * Intent labels may come from the LLM (evaluation pipeline) or a lexical fallback
+ * (offline / client). Trust / Anxiety / Defensiveness are NEVER produced by the LLM:
+ * they are stepped exclusively by `lib/services/d-rime-fsm.ts`.
  */
 
 import type {
@@ -12,27 +11,28 @@ import type {
   PatientEmotionalState,
   PatientProfile,
 } from "@/lib/data/cases/types";
+import {
+  INTENT_LABELS,
+  applyIntentSequence,
+  compositeDRimeScore,
+  scoreRelationalFrameworks,
+  selectTurnIntents,
+  type ClassifiedDoctorTurn,
+  type DoctorIntentCategory,
+  type FsmVariant,
+  type PatientAffectState,
+} from "@/lib/services/d-rime-fsm";
 
-export type PatientStateVector = {
-  trust: number;
-  anxiety: number;
-  defensiveness: number;
-};
-
-export type CommunicativeIntent =
-  | "validation_deescalation"
-  | "open_listening"
-  | "paternalism_disdain"
-  | "defensive_concession"
-  | "information_spikes"
-  | "alliance_shared_decision"
-  | "neutral_clinical";
+export type PatientStateVector = PatientAffectState;
+export type CommunicativeIntent = DoctorIntentCategory;
+export type { ClassifiedDoctorTurn, DoctorIntentCategory };
 
 export type CommunicativeAct = {
   turnIndex: number;
   speaker: "doctor";
   utterance: string;
   intent: CommunicativeIntent;
+  intents: CommunicativeIntent[];
   intentLabel: string;
   delta: PatientStateVector;
   stateAfter: PatientStateVector;
@@ -65,16 +65,6 @@ export type DRimeResult = {
   framework: "d-rime";
 };
 
-const INTENT_LABELS: Record<CommunicativeIntent, string> = {
-  validation_deescalation: "Validazione / de-escalation",
-  open_listening: "Ascolto aperto",
-  paternalism_disdain: "Paternalismo / sdegno",
-  defensive_concession: "Concessione difensiva",
-  information_spikes: "Informazione (SPIKES-Knowledge)",
-  alliance_shared_decision: "Alleanza / decisione condivisa",
-  neutral_clinical: "Atto clinico neutro",
-};
-
 const D_RIME_REFS = {
   spikes: "Rif. Protocollo SPIKES (Baile et al.) — Setting, Perception, Invitation, Knowledge, Emotions, Strategy",
   rias: "Rif. RIAS (Roter Interaction Analysis System) — allineamento socio-emotivo vs task-focused",
@@ -82,27 +72,6 @@ const D_RIME_REFS = {
   art20:
     "Rif. CODICE-DEONTOLOGIA-MEDICA-2014.pdf - Art. 20 (Relazione di cura e tempo di comunicazione)",
 } as const;
-
-function clamp100(n: number): number {
-  if (!Number.isFinite(n)) return 0;
-  return Math.max(0, Math.min(100, Math.round(n)));
-}
-
-function clampVector(s: PatientStateVector): PatientStateVector {
-  return {
-    trust: clamp100(s.trust),
-    anxiety: clamp100(s.anxiety),
-    defensiveness: clamp100(s.defensiveness),
-  };
-}
-
-function addVector(a: PatientStateVector, b: PatientStateVector): PatientStateVector {
-  return clampVector({
-    trust: a.trust + b.trust,
-    anxiety: a.anxiety + b.anxiety,
-    defensiveness: a.defensiveness + b.defensiveness,
-  });
-}
 
 function excerpt(s: string, max = 110): string {
   const t = s.replace(/\s+/g, " ").trim();
@@ -114,14 +83,8 @@ function isCyberchondria(profile?: PatientProfile | null): boolean {
   return profile?.healthLiteracy === "CYBERCHONDRIA_AI";
 }
 
-function isBiasSensitive(profile?: PatientProfile | null): boolean {
-  if (!profile) return false;
-  return (
-    isCyberchondria(profile) ||
-    profile.adherence === "SELF_MEDICATED" ||
-    profile.emotionalState === "DEFENSIVE" ||
-    profile.emotionalState === "OPPOSITIONAL"
-  );
+function fsmVariant(profile?: PatientProfile | null): FsmVariant {
+  return isCyberchondria(profile) ? "cyberchondria" : "standard";
 }
 
 /**
@@ -174,7 +137,7 @@ export function parsePatientProfile(raw: unknown): PatientProfile | null {
 
 export function initializePatientState(profile?: PatientProfile | null): PatientStateVector {
   if (profile?.healthLiteracy === "CYBERCHONDRIA_AI") {
-    return clampVector(applyLifestyle({ trust: 25, anxiety: 80, defensiveness: 85 }, profile));
+    return applyLifestyle({ trust: 25, anxiety: 80, defensiveness: 85 }, profile);
   }
 
   let trust = 52;
@@ -245,14 +208,20 @@ export function initializePatientState(profile?: PatientProfile | null): Patient
       break;
   }
 
-  return clampVector(applyLifestyle({ trust, anxiety, defensiveness }, profile));
+  return applyLifestyle({ trust, anxiety, defensiveness }, profile);
 }
 
 function applyLifestyle(
   state: PatientStateVector,
   profile?: PatientProfile | null,
 ): PatientStateVector {
-  if (!profile) return state;
+  if (!profile) {
+    return {
+      trust: Math.max(0, Math.min(100, Math.round(state.trust))),
+      anxiety: Math.max(0, Math.min(100, Math.round(state.anxiety))),
+      defensiveness: Math.max(0, Math.min(100, Math.round(state.defensiveness))),
+    };
+  }
   const next = { ...state };
   if (profile.lifestyleAndSocial.stressLevel === "HIGH") next.anxiety += 12;
   if (profile.lifestyleAndSocial.stressLevel === "LOW") next.anxiety -= 6;
@@ -261,10 +230,12 @@ function applyLifestyle(
     next.trust -= 6;
   }
   if (profile.lifestyleAndSocial.sleepQuality === "POOR") next.anxiety += 6;
-  return next;
+  return {
+    trust: Math.max(0, Math.min(100, Math.round(next.trust))),
+    anxiety: Math.max(0, Math.min(100, Math.round(next.anxiety))),
+    defensiveness: Math.max(0, Math.min(100, Math.round(next.defensiveness))),
+  };
 }
-
-/* ── Intent lexicons (act labels, not score formulas) ─────────────── */
 
 const PATERNALISM_RE =
   /\b(è (solo )?ansia|esagera|non è niente|si inventa|è (tutta )?nella sua testa|ipocondriac|google non (è|serve)|basta con internet|lasci perdere (google|internet|dr\.?\s*google)|non capisce|faccia come dico|deve stare zitt|sbrighi?ati|non mi interessa|non perdiamo tempo|basta cos[iì]|solo s[iì] o no)\b|!{2,}/i;
@@ -287,228 +258,41 @@ const ALLIANCE_RE =
 const PATIENT_DISTRESS_RE =
   /paura|ansios[oa]|ansia|preoccupat[oa]|ho paura|non ce la faccio|sto malissimo|aiuto|terrorizzat|agitato|ho letto su internet|google dice|dr\.?\s*google|chatgpt|l['’]ia dice/i;
 
-const JARGON_RE =
-  /\b(STEMI|NSTEMI|FE\b|LVEF|BNP|NT-proBNP|PCI|FEV1|PaO2|ipossiemia|dissecazione|tamponamento|Killip)\b/;
-
-const SPIKES_SETTING_RE = /buongiorno|buonasera|mi chiamo|sono (il |la )?(dott|dr)/i;
-const SPIKES_PERCEPTION_RE = /cosa (pensa|sa|ha letto|ha capito)|cosa le hanno detto/i;
-const SPIKES_INVITATION_RE = /quanto (ne )?vuole sapere|preferisce (che|sapere)|ha domande/i;
-const SPIKES_STRATEGY_RE = /piano|insieme|prossimo passo|procediamo|follow-?up|controlli/i;
-
-function classifyDoctorIntent(text: string): CommunicativeIntent {
+export function classifyDoctorIntentLexical(
+  text: string,
+  options?: { requireClearMatch?: boolean },
+): DoctorIntentCategory {
   const t = text.trim();
-  if (!t) return "neutral_clinical";
-  if (PATERNALISM_RE.test(t)) return "paternalism_disdain";
-  if (CONCESSION_RE.test(t)) return "defensive_concession";
-  if (VALIDATION_RE.test(t)) return "validation_deescalation";
-  if (OPEN_LISTEN_RE.test(t)) return "open_listening";
-  if (ALLIANCE_RE.test(t)) return "alliance_shared_decision";
-  if (INFORMATION_RE.test(t)) return "information_spikes";
-  if (/\?/.test(t) && t.length > 18) return "open_listening";
-  return "neutral_clinical";
+  if (!t) return "NEUTRAL";
+  if (PATERNALISM_RE.test(t)) return "PATERNALISTIC_COMMAND";
+  if (CONCESSION_RE.test(t)) return "DEFENSIVE_REACTION";
+  if (VALIDATION_RE.test(t)) return "VALIDATION";
+  if (OPEN_LISTEN_RE.test(t) || ALLIANCE_RE.test(t)) return "EMPATHIC_EXPLORATION";
+  if (INFORMATION_RE.test(t)) return "CLINICAL_DISCLOSURE";
+  if (!options?.requireClearMatch && /\?/.test(t) && t.length > 18) return "EMPATHIC_EXPLORATION";
+  return "NEUTRAL";
 }
 
-function matchAnamnesisHits(doctorText: string, questions: AnamnesisQuestion[]): number {
-  if (questions.length === 0) return 0;
-  const lower = doctorText.toLowerCase();
-  let hits = 0;
-  for (const q of questions) {
-    const hit = (q.expectedKeywords ?? []).some((kw) => {
-      const k = kw.trim().toLowerCase();
-      return k.length > 0 && lower.includes(k);
-    });
-    if (hit) hits += 1;
-  }
-  return hits;
+function isSupportiveIntent(intent: DoctorIntentCategory): boolean {
+  return intent === "VALIDATION" || intent === "EMPATHIC_EXPLORATION";
 }
 
-function deltaForIntent(params: {
-  intent: CommunicativeIntent;
-  state: PatientStateVector;
-  profile?: PatientProfile | null;
+function resolveTurnIntents(params: {
+  utterance: string;
+  turnIndex: number;
+  classifiedTurns?: ClassifiedDoctorTurn[] | null;
   pendingDistress: boolean;
-  anamnesisHit: boolean;
-}): PatientStateVector {
-  const cyber = isCyberchondria(params.profile);
-  const highDef = params.state.defensiveness >= 70;
-  const bias = isBiasSensitive(params.profile);
-
-  let d: PatientStateVector = { trust: 0, anxiety: 0, defensiveness: 0 };
-
-  switch (params.intent) {
-    case "validation_deescalation":
-      d = {
-        trust: cyber ? (highDef ? 6 : 10) : 12,
-        anxiety: cyber ? -10 : -14,
-        defensiveness: cyber ? -8 : -11,
-      };
-      break;
-    case "open_listening":
-      d = {
-        trust: cyber ? 7 : 9,
-        anxiety: -5,
-        defensiveness: cyber ? -7 : -6,
-      };
-      if (params.anamnesisHit) d.trust += 3;
-      break;
-    case "information_spikes":
-      d = {
-        trust: cyber ? 8 : 6,
-        anxiety: cyber ? -12 : -8,
-        defensiveness: cyber ? -6 : -3,
-      };
-      break;
-    case "alliance_shared_decision":
-      d = {
-        trust: 10,
-        anxiety: -6,
-        defensiveness: -8,
-      };
-      break;
-    case "paternalism_disdain":
-      d = {
-        trust: cyber ? -26 : -16,
-        anxiety: cyber ? 16 : 9,
-        defensiveness: cyber ? 28 : 18,
-      };
-      break;
-    case "defensive_concession":
-      // Short-term appeasement; in cyberchondria it reinforces the bias.
-      d = cyber
-        ? { trust: 2, anxiety: -4, defensiveness: 8 }
-        : { trust: 5, anxiety: -6, defensiveness: -3 };
-      break;
-    default:
-      d = {
-        trust: params.pendingDistress ? -2 : 1,
-        anxiety: params.pendingDistress ? 3 : 0,
-        defensiveness: params.pendingDistress ? 4 : 0,
-      };
-      break;
+}): DoctorIntentCategory[] {
+  const lexicalFallback = classifyDoctorIntentLexical(params.utterance, { requireClearMatch: true });
+  const classified = params.classifiedTurns?.find((row) => row.turnIndex === params.turnIndex);
+  const fromLlm = classified
+    ? selectTurnIntents(classified.intents, lexicalFallback)
+    : null;
+  const primary = fromLlm ?? [classifyDoctorIntentLexical(params.utterance)];
+  if (params.pendingDistress && !primary.some(isSupportiveIntent) && !primary.includes("DISCORDANCE")) {
+    return ["DISCORDANCE", ...primary];
   }
-
-  if (params.pendingDistress && params.intent !== "validation_deescalation" && params.intent !== "open_listening") {
-    d.anxiety += bias ? 8 : 5;
-    d.defensiveness += bias ? 7 : 4;
-    d.trust -= 3;
-  }
-
-  if (params.pendingDistress && params.intent === "paternalism_disdain") {
-    d.trust -= 8;
-    d.defensiveness += 10;
-  }
-
-  return d;
-}
-
-function spikesScore(acts: CommunicativeAct[], doctorTurns: string[]): number {
-  if (doctorTurns.length === 0) return 0;
-  const blob = doctorTurns.join("\n");
-  const steps = [
-    SPIKES_SETTING_RE.test(blob) || doctorTurns.length > 0,
-    SPIKES_PERCEPTION_RE.test(blob) || acts.some((a) => a.intent === "open_listening"),
-    SPIKES_INVITATION_RE.test(blob),
-    acts.some((a) => a.intent === "information_spikes") || INFORMATION_RE.test(blob),
-    acts.some((a) => a.intent === "validation_deescalation"),
-    SPIKES_STRATEGY_RE.test(blob) || acts.some((a) => a.intent === "alliance_shared_decision"),
-  ];
-  const met = steps.filter(Boolean).length;
-  let score = Math.round((met / 6) * 100);
-  const paternalism = acts.filter((a) => a.intent === "paternalism_disdain").length;
-  score -= paternalism * 18;
-  if (acts.some((a) => a.addressedDistressCue)) score += 8;
-  return clamp100(score);
-}
-
-function riasScore(acts: CommunicativeAct[], doctorTurns: string[]): number {
-  if (doctorTurns.length === 0) return 0;
-  const socio = acts.filter((a) =>
-    a.intent === "validation_deescalation" ||
-    a.intent === "open_listening" ||
-    a.intent === "alliance_shared_decision",
-  ).length;
-  const task = acts.filter((a) => a.intent === "information_spikes" || a.intent === "neutral_clinical").length;
-  const hostile = acts.filter((a) => a.intent === "paternalism_disdain").length;
-  const total = Math.max(1, acts.length);
-  const socioRatio = socio / total;
-  const balance = task === 0 && socio === 0 ? 0 : 1 - Math.abs(socioRatio - 0.45);
-  let score = Math.round(socioRatio * 55 + balance * 35);
-  const jargonBare = doctorTurns.filter((t) => JARGON_RE.test(t) && !INFORMATION_RE.test(t)).length;
-  score -= jargonBare * 8;
-  score -= hostile * 16;
-  return clamp100(score);
-}
-
-function careScore(params: {
-  acts: CommunicativeAct[];
-  final: PatientStateVector;
-  initial: PatientStateVector;
-}): number {
-  const listened = params.acts.some((a) => a.intent === "open_listening") ? 25 : 0;
-  const explained = params.acts.some((a) => a.intent === "information_spikes") ? 22 : 0;
-  const cared = params.acts.some((a) => a.intent === "validation_deescalation") ? 28 : 0;
-  const helped = params.acts.some((a) => a.intent === "alliance_shared_decision") ? 15 : 0;
-  const trustGain = Math.max(0, params.final.trust - params.initial.trust);
-  let score = listened + explained + cared + helped + Math.min(18, Math.round(trustGain * 0.35));
-  if (params.acts.some((a) => a.intent === "paternalism_disdain")) score -= 22;
-  if (params.final.trust < 35) score = Math.min(score, 42);
-  return clamp100(score);
-}
-
-function allianceScore(initial: PatientStateVector, final: PatientStateVector): number {
-  const level = final.trust * 0.5 + (100 - final.defensiveness) * 0.3 + (100 - final.anxiety) * 0.2;
-  const deltaTrust = final.trust - initial.trust;
-  const deltaDef = initial.defensiveness - final.defensiveness;
-  const improvement = Math.max(-20, Math.min(25, (deltaTrust + deltaDef) * 0.35));
-  return clamp100(level + improvement);
-}
-
-function biasManagementScore(params: {
-  profile?: PatientProfile | null;
-  acts: CommunicativeAct[];
-  initial: PatientStateVector;
-  final: PatientStateVector;
-}): number {
-  const bias = isBiasSensitive(params.profile);
-  const cyber = isCyberchondria(params.profile);
-  const validations = params.acts.filter((a) => a.intent === "validation_deescalation").length;
-  const listening = params.acts.filter((a) => a.intent === "open_listening").length;
-  const info = params.acts.filter((a) => a.intent === "information_spikes").length;
-  const paternalism = params.acts.filter((a) => a.intent === "paternalism_disdain").length;
-  const concessions = params.acts.filter((a) => a.intent === "defensive_concession").length;
-
-  if (!bias && !cyber) {
-    let score = 62 + validations * 8 + listening * 5 + info * 4 - paternalism * 18 - concessions * 8;
-    if (params.acts.length === 0) score = 0;
-    return clamp100(score);
-  }
-
-  // Cyberchondria / defensive: de-escalate without arrogance, hold the line on appropriateness.
-  let score = 28;
-  score += Math.min(24, validations * 10);
-  score += Math.min(16, listening * 7);
-  score += Math.min(18, info * 8);
-  score -= paternalism * 22;
-  score -= concessions * 14;
-  const anxietyDrop = params.initial.anxiety - params.final.anxiety;
-  const defDrop = params.initial.defensiveness - params.final.defensiveness;
-  score += Math.min(16, Math.round(Math.max(0, anxietyDrop) * 0.25));
-  score += Math.min(12, Math.round(Math.max(0, defDrop) * 0.2));
-  if (paternalism === 0 && validations > 0 && info > 0) score += 10;
-  if (params.acts.length === 0) score = 0;
-  return clamp100(score);
-}
-
-function defensiveMedicineScore(acts: CommunicativeAct[]): number {
-  if (acts.length === 0) return 0;
-  const concessions = acts.filter((a) => a.intent === "defensive_concession").length;
-  const infoHold = acts.filter((a) => a.intent === "information_spikes").length;
-  const empathicHold = acts.filter(
-    (a) => a.intent === "validation_deescalation" || a.intent === "alliance_shared_decision",
-  ).length;
-  let score = 78 - concessions * 28 + Math.min(12, infoHold * 4) + Math.min(10, empathicHold * 3);
-  if (concessions === 0 && empathicHold > 0) score += 8;
-  return clamp100(score);
+  return primary;
 }
 
 function qualitativeLabel(score: number, profile?: PatientProfile | null): string {
@@ -565,18 +349,24 @@ function buildInsights(params: {
     `Traiettoria: Fiducia ${params.initial.trust}→${params.final.trust} (${dTrust >= 0 ? "+" : ""}${dTrust}) · Ansia ${params.initial.anxiety}→${params.final.anxiety} (${dAnx >= 0 ? "+" : ""}${dAnx}) · Difensività ${params.initial.defensiveness}→${params.final.defensiveness} (${dDef >= 0 ? "+" : ""}${dDef}).`,
   );
 
-  const paternalism = params.acts.filter((a) => a.intent === "paternalism_disdain").length;
-  const concessions = params.acts.filter((a) => a.intent === "defensive_concession").length;
-  const validations = params.acts.filter((a) => a.intent === "validation_deescalation").length;
+  const paternalism = params.acts.filter((a) => a.intent === "PATERNALISTIC_COMMAND").length;
+  const concessions = params.acts.filter((a) => a.intent === "DEFENSIVE_REACTION").length;
+  const validations = params.acts.filter((a) => a.intent === "VALIDATION").length;
+  const discord = params.acts.filter((a) => a.intents.includes("DISCORDANCE")).length;
 
   if (paternalism > 0) {
     insights.push(
-      `Rilevati ${paternalism} atti di paternalismo/sdegno: su profili reattivi aumentano difensività e riducono CARE/RIAS.`,
+      `Rilevati ${paternalism} atti di comando paternalistico: su profili reattivi aumentano difensività e riducono CARE/RIAS.`,
     );
   }
   if (concessions > 0) {
     insights.push(
-      `Rilevate ${concessions} concessioni difensive (medicina difensiva): appeasement a breve, rinforzo del bias e caduta del sotto-punteggio appropriatezza relazionale.`,
+      `Rilevate ${concessions} reazioni difensive (medicina difensiva): appeasement a breve, rinforzo del bias e caduta del sotto-punteggio appropriatezza relazionale.`,
+    );
+  }
+  if (discord > 0) {
+    insights.push(
+      `Rilevate ${discord} discordanze (distress del paziente non raccolto): costo deterministico su Anxiety e Defensiveness.`,
     );
   }
   if (validations === 0 && params.acts.length > 0) {
@@ -587,10 +377,6 @@ function buildInsights(params: {
   if (params.acts.some((a) => a.addressedDistressCue)) {
     insights.push(
       "Distress cue del paziente raccolto nel turno successivo: sequenza RIAS corretta (legittimazione prima del task).",
-    );
-  } else if (params.acts.length > 0 && params.acts.some((a) => !a.addressedDistressCue) && dAnx > 0) {
-    insights.push(
-      "Possibile distress del paziente non validato nel turno successivo — costo su Anxiety e Defensiveness.",
     );
   }
 
@@ -604,19 +390,26 @@ function buildInsights(params: {
   return insights.slice(0, 8);
 }
 
+export type EvaluateTrajectoryOptions = {
+  /** LLM-extracted intents. When omitted, a lexical fallback labels the turn — FSM still owns T/A/D. */
+  classifiedIntents?: ClassifiedDoctorTurn[] | null;
+};
+
 /**
- * Classify doctor acts, step the patient state, and compute the D-RIME score (0–100).
+ * Classify doctor acts (LLM or lexical), step the patient state via the FSM, score CARE/SPIKES/RIAS.
  */
 export function evaluateInteractionTrajectory(
   chatHistory: Array<{ role: string; content: string }> | null | undefined,
   patientProfile?: PatientProfile | null,
-  anamnesisQuestions?: AnamnesisQuestion[] | null,
+  _anamnesisQuestions?: AnamnesisQuestion[] | null,
+  options?: EvaluateTrajectoryOptions,
 ): DRimeResult {
   const chat = Array.isArray(chatHistory) ? chatHistory : [];
-  const questions = Array.isArray(anamnesisQuestions) ? anamnesisQuestions : [];
+  const variant = fsmVariant(patientProfile);
   const initialState = initializePatientState(patientProfile);
   let state = { ...initialState };
   const acts: CommunicativeAct[] = [];
+  const appliedIntents: DoctorIntentCategory[] = [];
   let pendingDistress = false;
   let doctorTurnIndex = 0;
 
@@ -630,65 +423,64 @@ export function evaluateInteractionTrajectory(
     }
     if (message.role !== "user") continue;
 
-    const intent = classifyDoctorIntent(content);
-    const anamnesisHit = matchAnamnesisHits(content, questions) > 0;
-    const addressedDistressCue =
-      pendingDistress &&
-      (intent === "validation_deescalation" || intent === "open_listening" || intent === "alliance_shared_decision");
-    const delta = deltaForIntent({
-      intent,
-      state,
-      profile: patientProfile,
+    const turnIntents = resolveTurnIntents({
+      utterance: content,
+      turnIndex: doctorTurnIndex,
+      classifiedTurns: options?.classifiedIntents,
       pendingDistress,
-      anamnesisHit,
     });
-    state = addVector(state, delta);
+    const addressedDistressCue = pendingDistress && turnIntents.some(isSupportiveIntent);
+    const stepped = applyIntentSequence(state, turnIntents, variant);
+    const netDelta: PatientStateVector = {
+      trust: stepped.final.trust - state.trust,
+      anxiety: stepped.final.anxiety - state.anxiety,
+      defensiveness: stepped.final.defensiveness - state.defensiveness,
+    };
+    state = stepped.final;
     if (addressedDistressCue) pendingDistress = false;
+    appliedIntents.push(...turnIntents);
 
+    const primary = turnIntents[turnIntents.length - 1] ?? "NEUTRAL";
     acts.push({
       turnIndex: doctorTurnIndex,
       speaker: "doctor",
       utterance: content,
-      intent,
-      intentLabel: INTENT_LABELS[intent],
-      delta,
+      intent: primary,
+      intents: turnIntents,
+      intentLabel: INTENT_LABELS[primary],
+      delta: netDelta,
       stateAfter: { ...state },
       addressedDistressCue,
     });
     doctorTurnIndex += 1;
   }
 
-  const doctorTurns = acts.map((a) => a.utterance);
   const engaged = acts.length > 0;
-
-  const alliance = engaged ? allianceScore(initialState, state) : 0;
-  const bias = engaged ? biasManagementScore({ profile: patientProfile, acts, initial: initialState, final: state }) : 0;
-  const defensive = engaged ? defensiveMedicineScore(acts) : 0;
-  const spikes = spikesScore(acts, doctorTurns);
-  const rias = riasScore(acts, doctorTurns);
-  const care = careScore({ acts, final: state, initial: initialState });
-
-  const score = engaged
-    ? clamp100(Math.round(alliance * 0.4 + bias * 0.3 + defensive * 0.3))
-    : 0;
+  const frameworks = scoreRelationalFrameworks({
+    intents: appliedIntents,
+    initial: initialState,
+    final: state,
+    variant,
+  });
+  const score = compositeDRimeScore(frameworks, engaged);
 
   const insights = buildInsights({
     profile: patientProfile,
     initial: initialState,
     final: state,
     acts,
-    alliance,
-    bias,
-    defensive,
-    spikes,
-    rias,
-    care,
+    alliance: frameworks.alliance,
+    bias: frameworks.biasManagement,
+    defensive: frameworks.defensiveMedicine,
+    spikes: frameworks.spikes,
+    rias: frameworks.rias,
+    care: frameworks.care,
   });
 
   const trajectory: DRimeTrajectoryStep[] = [
     {
       turnIndex: -1,
-      intent: "neutral_clinical",
+      intent: "NEUTRAL",
       intentLabel: "Stato iniziale",
       utteranceExcerpt: "",
       state: initialState,
@@ -702,18 +494,16 @@ export function evaluateInteractionTrajectory(
     })),
   ];
 
-  const expertAnalysis = insights.join(" ");
-
   return {
     score,
     qualitativeLabel: qualitativeLabel(score, patientProfile),
-    expertAnalysis,
-    spikesEmpathyScore: spikes,
-    riasAlignmentScore: rias,
-    careTrustScore: care,
-    allianceScore: alliance,
-    biasManagementScore: bias,
-    defensiveMedicineScore: defensive,
+    expertAnalysis: insights.join(" "),
+    spikesEmpathyScore: frameworks.spikes,
+    riasAlignmentScore: frameworks.rias,
+    careTrustScore: frameworks.care,
+    allianceScore: frameworks.alliance,
+    biasManagementScore: frameworks.biasManagement,
+    defensiveMedicineScore: frameworks.defensiveMedicine,
     initialState,
     finalState: state,
     acts,

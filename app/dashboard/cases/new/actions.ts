@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { prisma } from "../../../../lib/prisma";
 import { requireUser } from "../../../../lib/require-user";
+import { isTeacherRole } from "../../../../lib/cases/require-teacher-api";
 import { EXAM_DEFAULT_VALUES, type ExamClinicalMeta } from "../../../../lib/exam-default-values";
 
 function str(v: FormDataEntryValue | null): string | null {
@@ -78,6 +79,9 @@ function randomizeNormalFindingFromStandard(standard: string): string {
 
 export async function createCase(formData: FormData) {
   const user = await requireUser();
+  if (!isTeacherRole(user.role)) {
+    throw new Error("Solo docenti e amministratori possono creare casi.");
+  }
   const canPublishGlobal = user.role === "ADMIN";
   const title = formData.get("title");
   const description = formData.get("description");

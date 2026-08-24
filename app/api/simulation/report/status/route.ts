@@ -1,4 +1,4 @@
-import { getSessionUserId } from "@/lib/api-session";
+import { getSessionUserId, unauthorizedJson } from "@/lib/api-session";
 import { toApiErrorResponse, ValidationError } from "@/lib/errors";
 import { createLogger } from "@/lib/logger";
 import { mapClinicalAuditToDTO } from "@/lib/mappers/clinical-audit-mapper";
@@ -29,16 +29,14 @@ export async function GET(request: Request) {
   const routeLogger = createLogger("simulation-report-status");
 
   try {
+    const userId = await getSessionUserId();
+    if (!userId) return unauthorizedJson();
+
     const params = new URL(request.url).searchParams;
     const reportId = params.get("reportId") ?? params.get("sessionId");
 
     if (!reportId) {
       throw new ValidationError("reportId (or sessionId) query parameter is required.");
-    }
-
-    const userId = await getSessionUserId();
-    if (!userId) {
-      return Response.json({ error: "Unauthorized", code: "UNAUTHORIZED" }, { status: 401 });
     }
 
     await ensureSimulationReportProcessing(reportId, userId);

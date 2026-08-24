@@ -1,24 +1,10 @@
-import { isDevAuthBypass } from "./require-user";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./auth-options";
+import { getSessionUser, unauthorizedJson, forbiddenJson } from "@/lib/api-session";
 
 export async function requireAdminApi(): Promise<Response | null> {
-  if (isDevAuthBypass()) {
-    return null;
-  }
-
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-  if (session.user.role !== "ADMIN") {
-    return new Response(JSON.stringify({ error: "Forbidden" }), {
-      status: 403,
-      headers: { "Content-Type": "application/json" },
-    });
+  const user = await getSessionUser();
+  if (!user) return unauthorizedJson();
+  if (user.role !== "ADMIN") {
+    return forbiddenJson("Forbidden", "FORBIDDEN_ROLE");
   }
   return null;
 }

@@ -34,6 +34,7 @@ import {
   type ClinicalAuditResult,
 } from "@/lib/services/clinical-audit-service";
 import {
+  extractDoctorIntents,
   runRelationalAudit,
   type RelationalAuditResult,
 } from "@/lib/services/relational-audit-service";
@@ -453,12 +454,16 @@ async function safeRunRelationalAudit(params: {
     emotionalState?: string;
     isBadNewsCase?: boolean;
   };
+  clinicalPatientProfile?: import("@/lib/data/cases/types").PatientProfile | null;
+  classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
   log: Logger;
 }): Promise<RelationalAuditResult> {
   try {
     return await runRelationalAudit({
       chatHistory: params.chatHistory,
       patientProfile: params.patientProfile,
+      clinicalPatientProfile: params.clinicalPatientProfile,
+      classifiedIntents: params.classifiedIntents,
     });
   } catch (error) {
     params.log.warn("Relational audit LLM failed — persisting NOT_EVALUABLE fallback", {
@@ -709,7 +714,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       : [];
 
     const goldStandardPath = parseGoldStandardPath(clinicalCase?.goldStandardPath);
-    const registeredCase = getCaseById(input.caseId);
+    const registeredCase = await getCaseById(input.caseId);
 
     let sessionRequestedExamIds = asStringArray(input.requestedExamIds);
     if (input.liveSessionId) {
@@ -745,6 +750,34 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     const helpRequested =
       Boolean(input.helpRequested) || milestoneHelp.helpRequested || helpRequestCount > 0;
 
+    const chatHistoryForAudit = Array.isArray(input.evaluationChatHistory)
+      ? input.evaluationChatHistory.map((m) => ({
+          role: m.role,
+          content: typeof m.content === "string" ? m.content : String(m.content ?? ""),
+        }))
+      : [];
+    const relationalPatientProfile = buildPatientProfileForRelationalAudit({
+      caseId: input.caseId,
+      registeredCase,
+      caseTitle: registeredCase?.title,
+      caseContext: input.caseContext,
+    });
+    let classifiedIntents: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] = [];
+    try {
+      classifiedIntents = await extractDoctorIntents({
+        chatHistory: chatHistoryForAudit,
+        patientProfile: relationalPatientProfile,
+      });
+      log.info("D-RIME intents extracted", {
+        turnCount: classifiedIntents.length,
+        intentCount: classifiedIntents.reduce((n, t) => n + t.intents.length, 0),
+      });
+    } catch (error) {
+      log.warn("D-RIME intent extraction failed — FSM will use lexical fallback", {
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+
     const evaluation = await evaluationService.evaluateSimulation({
       chatHistory: Array.isArray(input.evaluationChatHistory)
         ? input.evaluationChatHistory
@@ -767,6 +800,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       requestedExamIds: sessionRequestedExamIds,
       helpRequested,
       helpRequestCount,
+      classifiedIntents,
     });
     const evaluationDurationMs = Date.now() - evaluationStartedAt;
 
@@ -947,21 +981,13 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       },
     });
 
-    const chatHistory = Array.isArray(input.evaluationChatHistory)
-      ? input.evaluationChatHistory.map((m) => ({
-          role: m.role,
-          content: typeof m.content === "string" ? m.content : String(m.content ?? ""),
-        }))
-      : [];
-    const patientProfile = buildPatientProfileForRelationalAudit({
-      caseId: input.caseId,
-      registeredCase,
-      caseTitle: registeredCase?.title,
-      caseContext: input.caseContext,
-    });
+    const chatHistory = chatHistoryForAudit;
+    const patientProfile = relationalPatientProfile;
     const relationalAuditResult = await safeRunRelationalAudit({
       chatHistory,
       patientProfile,
+      clinicalPatientProfile: registeredCase?.patientProfile ?? null,
+      classifiedIntents,
       log,
     });
 

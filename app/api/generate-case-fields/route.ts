@@ -2,7 +2,7 @@ import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { getSessionUserId } from "@/lib/api-session";
-import { requireAuthApi } from "@/lib/cases/require-teacher-api";
+import { requireTeacherApi } from "@/lib/cases/require-teacher-api";
 import { createLogger } from "@/lib/logger";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
@@ -46,10 +46,13 @@ type RequestBody = {
 };
 
 export async function POST(req: Request) {
-  const authError = await requireAuthApi();
-  if (authError) return authError;
+  const denied = await requireTeacherApi();
+  if (denied) return denied;
 
   const userId = await getSessionUserId();
+  if (!userId) {
+    return Response.json({ error: "Unauthorized", code: "UNAUTHORIZED" }, { status: 401 });
+  }
   const rateLimited = await enforceRateLimit(req, {
     namespace: "api-generate-case-fields",
     limit: AI_RATE_LIMITS.generateCaseFields,

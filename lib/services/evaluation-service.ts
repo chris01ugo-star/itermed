@@ -30,6 +30,7 @@ import {
 import { deriveMilestoneDimensionScores } from "@/lib/services/evaluation-milestone-scoring";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { getCaseById } from "@/lib/data/cases/registry";
+import { getCachedCaseById } from "@/lib/data/cases/registry-store";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 import { EVALUATION_MAX_OUTPUT_TOKENS } from "@/lib/security/ai-rate-limits";
 import { fenceContext, truncateForLlmContext } from "@/lib/security/prompt-context";
@@ -317,7 +318,7 @@ export function buildDeterministicAnalyticalFallback(params: {
     ? params.goldStandardPath.filter((s) => typeof s === "string" && s.trim())
     : [];
   const hasDoctorTurns = chat.some((m) => m.role === "user");
-  const registered = params.caseId ? getCaseById(params.caseId) : undefined;
+  const registered = params.caseId ? getCachedCaseById(params.caseId) : undefined;
   const authoredPriceById = new Map(
     (registered?.mandatoryExams ?? []).map((e) => [e.examId, e.priceEuro] as const),
   );
@@ -436,7 +437,7 @@ export function buildDeterministicAnalyticalFallback(params: {
         : "Nessun corpus legale RAG disponibile (soft-fail).",
       prescribingNote: `Esami prescritti: ${exams.length}. Costo stimato €${params.totalCostEuro.toFixed(2)} su budget €${params.examBudgetEuro}.`,
       empathyNote:
-        "Comunicazione calcolata con motore D-RIME (traiettoria Trust/Anxiety/Defensiveness, SPIKES / RIAS / CARE) sulla chat.",
+        "Comunicazione calcolata dalla FSM D-RIME (Trust/Anxiety/Defensiveness deterministici da categorie di intento; SPIKES / RIAS / CARE).",
       economyNote: `Spesa esami €${params.totalCostEuro.toFixed(2)} / budget €${params.examBudgetEuro}.`,
       correctSolution: gold.length > 0 ? gold.slice(0, 6).join(" → ") : "",
     },
@@ -560,6 +561,8 @@ export type EvaluateSimulationInput = {
   /** User-initiated help/consult requests (Pilastro 5 — autonomy tracking). */
   helpRequested?: boolean;
   helpRequestCount?: number;
+  /** D-RIME intent labels from the relational LLM (FSM owns T/A/D). */
+  classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
 };
 
 export type GenerateObjectFn = typeof generateObject;
@@ -625,6 +628,7 @@ export function buildDeterministicEvaluation(
     /** Legal RAG chunks/sources from getRelevantGuidelines (specialty-scoped). */
     legalChunks?: import("@/lib/services/rag-service").GuidelineChunk[];
     legalSources?: string[];
+    classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
   },
 ): Pick<
   EvaluationResult,
@@ -636,7 +640,7 @@ export function buildDeterministicEvaluation(
   );
 
   const milestones = params.sessionMilestones ?? [];
-  const registered = params.caseId ? getCaseById(params.caseId) : undefined;
+  const registered = params.caseId ? getCachedCaseById(params.caseId) : undefined;
 
   const executedActionIds =
     params.executedActionIds && params.executedActionIds.length > 0
@@ -670,6 +674,7 @@ export function buildDeterministicEvaluation(
     inappropriateExams: registered?.inappropriateExams,
     legalChunks: params.legalChunks,
     legalSources: params.legalSources,
+    classifiedIntents: params.classifiedIntents,
   });
 
   let scores = checklistScores;
@@ -851,7 +856,7 @@ ISTRUZIONI ANALITICHE (OBBLIGATORIE):
 
 1) criticalActions / inappropriateActions / empathyChecklist / legalInstrumentReviews — checklist oggettive ancorate al trascritto.
    - criticalActions: TELEMETRIA qualitativa (HIGH/MEDIUM). Il voto numerico di Accuratezza Clinica è calcolato deterministicamente dalla matrice ESC/AHA (Classe I/III) sul registro immutabile executedActionIds — non inventare performed=true senza evidenza di esame/azione nel trascritto o negli esami prescritti.
-   - empathyChecklist: ≥4 parametri (ascolto, rassicurazione, spiegazione, gestione stress) come TELEMETRIA qualitativa. Il voto numerico di Comunicazione e Relazione Clinica è calcolato deterministicamente dal motore D-RIME (traiettoria Trust/Anxiety/Defensiveness ancorata a SPIKES, RIAS e CARE). Imposta met=true SOLO con evidenza in <<<CHAT_TRANSCRIPT>>>; non inventare checklist tutta falsa.
+   - empathyChecklist: ≥4 parametri (ascolto, rassicurazione, spiegazione, gestione stress) come TELEMETRIA qualitativa. Il voto numerico di Comunicazione e Relazione Clinica è calcolato SOLO dalla FSM D-RIME (Trust/Anxiety/Defensiveness) a partire dalle categorie di intento. NON stimare Trust, Anxiety, Defensiveness, NON inventare delta (ΔT/ΔA/ΔD), NON produrre punteggi CARE/RIAS/SPIKES: il tuo unico contributo D-RIME è la telemetria checklist; la classificazione d'intento è demandata all'auditor relazionale. Imposta met=true SOLO con evidenza in <<<CHAT_TRANSCRIPT>>>; non inventare checklist tutta falsa.
    - legalInstrumentReviews: se in chat compare consenso / allergie / spiegazione rischi, NON marcare "violato" senza motivazione testuale; usa "rispettato" o "parziale" coerente con le evidenze.
 
 2) legalProtectionStatus:
@@ -873,7 +878,7 @@ ISTRUZIONI ANALITICHE (OBBLIGATORIE):
 
 5) coachingFeedback — consigli actionable per pilastro: empatia, tutelaLegale, economicita, accuratezza.
 
-Sii rigoroso: evidenzia errori, ritardi, sprechi economici e gap medico-legali. NON inventare punteggi numerici globali. NON inventare fatti clinici o legali assenti dai dati forniti.
+Sii rigoroso: evidenzia errori, ritardi, sprechi economici e gap medico-legali. NON inventare punteggi numerici globali. NON inventare Trust/Anxiety/Defensiveness né delta relazionali. NON inventare fatti clinici o legali assenti dai dati forniti.
 `.trim();
 }
 
@@ -998,6 +1003,9 @@ export class EvaluationService {
   constructor(private readonly deps: EvaluationServiceDeps) {}
 
   async evaluateSimulation(input: EvaluateSimulationInput): Promise<EvaluationResult> {
+    if (input.caseId) {
+      await getCaseById(input.caseId);
+    }
     const sanitizedChat = sanitizeChatHistory(input.chatHistory);
     const normalizedReport = normalizeReportText(input.reportText);
 
@@ -1131,6 +1139,7 @@ export class EvaluationService {
         requestedExamIds: input.requestedExamIds,
         legalChunks: input.guidelines?.legal?.chunks,
         legalSources: input.guidelines?.legal?.sources,
+        classifiedIntents: input.classifiedIntents,
       });
 
       this.deps.logger.info("Simulation evaluation completed (deterministic scoring)", {

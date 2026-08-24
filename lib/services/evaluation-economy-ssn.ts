@@ -5,7 +5,7 @@
  */
 
 import type { CaseExamDefinition, RagLegalReference } from "@/lib/data/cases/types";
-import { getCaseById } from "@/lib/data/cases/registry";
+import { getCachedCaseById } from "@/lib/data/cases/registry-store";
 import type { ExamClinicalMeta } from "@/lib/exam-default-values";
 import { resolveSsnTariffEuro } from "@/lib/services/exam-ssn-tariff-resolver";
 
@@ -327,7 +327,7 @@ export function computeEconomySsnScore(params: {
   examsAppropriatenessScore?: number | null;
   ragReferences?: RagLegalReference[] | null;
 }): EconomySsnResult {
-  const registered = params.caseId ? getCaseById(params.caseId) : undefined;
+  const registered = params.caseId ? getCachedCaseById(params.caseId) : undefined;
   const ragRefs =
     params.ragReferences ?? registered?.legalConformity?.ragReferences ?? [];
   const idealDefs = resolveIdealCatalog(

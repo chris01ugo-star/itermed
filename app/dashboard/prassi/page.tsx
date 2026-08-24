@@ -35,11 +35,11 @@ function filterDemoCases(cases: ClinicalCaseRow[], filters: CaseFilterParams): C
   });
 }
 
-function mergeRegistryIntoDbCases(
+async function mergeRegistryIntoDbCases(
   dbCases: ClinicalCaseRow[],
   userId: string,
-): ClinicalCaseRow[] {
-  const registry = getPrassiRegistryCaseRows(userId);
+): Promise<ClinicalCaseRow[]> {
+  const registry = await getPrassiRegistryCaseRows(userId);
   const byId = new Map<string, ClinicalCaseRow>();
   for (const row of dbCases) byId.set(row.id, row);
   for (const row of registry) {
@@ -48,11 +48,11 @@ function mergeRegistryIntoDbCases(
   return Array.from(byId.values());
 }
 
-function mergeRegistrySpecialties(
+async function mergeRegistrySpecialties(
   dbSpecialties: { id: string; name: string }[],
-): { id: string; name: string }[] {
+): Promise<{ id: string; name: string }[]> {
   const byId = new Map<string, { id: string; name: string }>();
-  for (const s of [...getPrassiRegistrySpecialties(), ...dbSpecialties]) {
+  for (const s of [...(await getPrassiRegistrySpecialties()), ...dbSpecialties]) {
     byId.set(s.id, s);
   }
   return Array.from(byId.values());
@@ -70,8 +70,8 @@ export default async function PrassiPage({ searchParams }: PrassiPageProps) {
     difficulty: parseCaseDifficulty(resolvedSearch?.difficulty),
   };
 
-  let cases: ClinicalCaseRow[] = getPrassiRegistryCaseRows(user.id);
-  let specialties = getPrassiRegistrySpecialties();
+  let cases: ClinicalCaseRow[] = await getPrassiRegistryCaseRows(user.id);
+  let specialties = await getPrassiRegistrySpecialties();
   let welcomeStats = {
     casesThisWeek: 0,
     averageScore: null as number | null,
@@ -85,8 +85,8 @@ export default async function PrassiPage({ searchParams }: PrassiPageProps) {
         fetchMedicalSpecialtyOptionsCached().catch(() => [] as { id: string; name: string }[]),
         fetchUserOverviewData(user.id).catch(() => null),
       ]);
-      cases = mergeRegistryIntoDbCases(caseRows as ClinicalCaseRow[], user.id);
-      specialties = mergeRegistrySpecialties(specialtyRows);
+      cases = await mergeRegistryIntoDbCases(caseRows as ClinicalCaseRow[], user.id);
+      specialties = await mergeRegistrySpecialties(specialtyRows);
       if (overview) {
         welcomeStats = {
           casesThisWeek: overview.casesThisWeek,
@@ -95,10 +95,10 @@ export default async function PrassiPage({ searchParams }: PrassiPageProps) {
         };
       }
     } catch {
-      cases = filterDemoCases(getPrassiRegistryCaseRows(user.id), filters);
+      cases = filterDemoCases(await getPrassiRegistryCaseRows(user.id), filters);
     }
   } else {
-    cases = filterDemoCases(getPrassiRegistryCaseRows(user.id), filters);
+    cases = filterDemoCases(await getPrassiRegistryCaseRows(user.id), filters);
     welcomeStats = {
       casesThisWeek: 8,
       averageScore: 31,

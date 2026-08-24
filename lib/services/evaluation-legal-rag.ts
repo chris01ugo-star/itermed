@@ -8,7 +8,7 @@ import type {
   LegalConformityCriterion,
   RagLegalReference,
 } from "@/lib/data/cases/types";
-import { getCaseById } from "@/lib/data/cases/registry";
+import { getCachedCaseById } from "@/lib/data/cases/registry-store";
 import type { GuidelineChunk } from "@/lib/services/rag-service";
 
 export type LegalRagMotivation = {
@@ -349,7 +349,7 @@ export function computeLegalRagConformity(params: {
   criteria?: LegalConformityCriterion[] | null;
   ragReferences?: RagLegalReference[] | null;
 }): LegalRagResult {
-  const registered = params.caseId ? getCaseById(params.caseId) : undefined;
+  const registered = params.caseId ? getCachedCaseById(params.caseId) : undefined;
   const criteria =
     (Array.isArray(params.criteria) && params.criteria.length > 0
       ? params.criteria
