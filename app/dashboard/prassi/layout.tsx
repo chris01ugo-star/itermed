@@ -79,7 +79,7 @@ export default async function PrassiLayout({ children }: PrassiLayoutProps) {
   return (
     <Suspense
       fallback={
-        <div className="rounded-xl border border-slate-100 bg-white p-8 text-sm text-slate-500 shadow-sm">
+        <div className="rounded-xl border border-border bg-panel-bg p-8 text-sm text-slate-500 shadow-aequan-panel">
           Caricamento Prassi Clinica…
         </div>
       }
