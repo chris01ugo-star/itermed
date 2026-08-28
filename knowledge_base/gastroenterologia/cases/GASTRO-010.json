@@ -1,0 +1,285 @@
+{
+  "title": "Colite ulcerosa in riacutizzazione",
+  "description": "Matteo si presenta in pronto soccorso con sintomi di colite ulcerosa in riacutizzazione. Riferisce diarrea frequente, dolore addominale e febbre. Ha una storia di colite ulcerosa e ha smesso di assumere gli steroidi autonomamente, il che lo preoccupa. È ansioso riguardo alla sua condizione e ha difficoltà a dormire.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "pcr-pct",
+    "emocromo",
+    "colonscopia"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 106,
+      "bloodPressure": "112/70",
+      "spo2": 97,
+      "temperature": 38.1,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 160,
+    "advancedExams": {
+      "values": {
+        "pcr-pct": {
+          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Colite ulcerosa in flare moderato-grave — ECCO 2023 (GASTRO-010). Diarrea, dolore addominale, febbre, segni di disidratazione, alterazioni nei parametri ematici attesi per la colite ulcerosa in flare.",
+          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Colite ulcerosa in flare moderato-grave — ECCO 2023 (GASTRO-010). Diarrea, dolore addominale, febbre, segni di disidratazione, alterazioni nei parametri ematici attesi per la colite ulcerosa in flare.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Colite ulcerosa in flare moderato-grave — ECCO 2023 (GASTRO-010). Diarrea, dolore addominale, febbre, segni di disidratazione, alterazioni nei parametri ematici attesi per la colite ulcerosa in flare.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Colite ulcerosa in flare moderato-grave — ECCO 2023 (GASTRO-010). Diarrea, dolore addominale, febbre, segni di disidratazione, alterazioni nei parametri ematici attesi per la colite ulcerosa in flare.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "colonscopia": {
+          "finding": "Colonscopia nel contesto di Colite ulcerosa in flare moderato-grave — ECCO 2023 (GASTRO-010). Diarrea, dolore addominale, febbre, segni di disidratazione, alterazioni nei parametri ematici attesi per la colite ulcerosa in flare.",
+          "normalFinding": "Colonscopia nel contesto di Colite ulcerosa in flare moderato-grave — ECCO 2023 (GASTRO-010). Diarrea, dolore addominale, febbre, segni di disidratazione, alterazioni nei parametri ematici attesi per la colite ulcerosa in flare.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "coronarografia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 800
+        }
+      }
+    },
+    "demographics": {
+      "age": 34,
+      "sex": "M",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Addome dolente alla palpazione, segni di disidratazione, febbre moderata."
+    },
+    "pcr-pct": {
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Colite ulcerosa in flare moderato-grave — ECCO 2023 (GASTRO-010). Diarrea, dolore addominale, febbre, segni di disidratazione, alterazioni nei parametri ematici attesi per la colite ulcerosa in flare.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Colite ulcerosa in flare moderato-grave — ECCO 2023 (GASTRO-010). Diarrea, dolore addominale, febbre, segni di disidratazione, alterazioni nei parametri ematici attesi per la colite ulcerosa in flare.",
+      "isAbnormal": true
+    },
+    "colonscopia": {
+      "finding": "Colonscopia nel contesto di Colite ulcerosa in flare moderato-grave — ECCO 2023 (GASTRO-010). Diarrea, dolore addominale, febbre, segni di disidratazione, alterazioni nei parametri ematici attesi per la colite ulcerosa in flare.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "coronarografia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "pcr-pct → emocromo → colonscopia Gold path: pcr-pct → emocromo → colonscopia. Linea guida: ECCO_2023_IBD_Guidelines.pdf.",
+  "patientPrompt": "Mi chiamo Matteo e ho 34 anni. Sono qui perché ho una riacutizzazione della mia colite ulcerosa. Ho diarrea frequente e un dolore addominale che non riesco a tollerare. Ho anche febbre e mi sento molto ansioso. Ho smesso di prendere gli steroidi da solo perché non mi sentivo a mio agio con l'idea di continuare, ma ora ho paura delle conseguenze. Non riesco a dormire bene e mi preoccupa il fatto che potrei avere un megacolon. Ho sentito parlare di questo e mi fa stare male. Ho un buon supporto da parte della mia famiglia, ma mi sento sopraffatto.",
+  "id": "GASTRO-010",
+  "code": "GASTRO-010",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Colite ulcerosa in flare moderato-grave — ECCO 2023",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ECCO_2023_IBD_Guidelines.pdf",
+  "diagnosis": "Colite ulcerosa in flare moderato-grave",
+  "pastMedicalHistory": "Colite ulcerosa diagnosticata 5 anni fa, con episodi di riacutizzazione. Nessuna chirurgia pregressa. Non fuma, non consuma alcol.",
+  "presentation": "Matteo, un uomo di 34 anni, si presenta in pronto soccorso lamentando un riacutizzarsi della sua colite ulcerosa. Riferisce di avere diarrea frequente e dolori addominali intensi. Ha anche febbre e si sente molto ansioso riguardo alla sua condizione. Ha smesso di prendere gli steroidi da solo, il che lo rende preoccupato per possibili complicazioni. Nonostante abbia un buon livello di istruzione, la sua ansia influisce sulla sua capacità di seguire le indicazioni mediche e di gestire la malattia. Ha una rete di supporto adeguata, ma il suo sonno è disturbato a causa dello stress.",
+  "redHerrings": [
+    "Matteo ha recentemente avuto un'infezione virale che ha causato sintomi simili.",
+    "Riferisce di aver mangiato cibi piccanti negli ultimi giorni, il che potrebbe aver aggravato i suoi sintomi.",
+    "Ha una storia di ansia generalizzata che potrebbe influenzare la sua percezione del dolore."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "pcr-pct": 35,
+    "emocromo": 30,
+    "colonscopia": 90,
+    "pet-tc": 180,
+    "coronarografia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-010_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Colite ulcerosa in flare moderato-grave — ECCO 2023)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-010_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-010_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-010_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-010_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-010_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Addome dolente alla palpazione, segni di disidratazione, febbre moderata."
+  },
+  "goldPathNarrative": "Dopo aver eseguito i test PCR e PCT, è stato effettuato un emocromo per valutare lo stato ematologico di Matteo. Successivamente, si è proceduto con una colonscopia per valutare l'estensione e la gravità della riacutizzazione della colite ulcerosa. È stata fornita una spiegazione chiara e non paternalistica riguardo ai rischi associati alla sua condizione e all'importanza di seguire le indicazioni terapeutiche.",
+  "escCitations": [
+    {
+      "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-85",
+      "source": "knowledge_base/gastroenterologia/clinical/ECCO_2023_IBD_Guidelines.pdf",
+      "quote": "l.; European Crohn’s and Colitis Organisation [ECCO] and the European Society of Gastrointestinal and Abdominal Radiology [ESGAR]. ECCO-ESGAR Guideline for Diagnostic Assessment in IBD Part 2: IBD scores and general principles and technical aspects. J Crohns Colitis 2019;13:273–84. 16. Sturm A, Maaser C, Mendall M, et al. European Crohn’s and Colitis Organisation topical review on IBD in the elderly. J Crohns Colitis 2017;11:263–73. 17. Gomollón F, Dignass A, Annese V, et al.; ECCO. Third Europe"
+    },
+    {
+      "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-0",
+      "source": "knowledge_base/gastroenterologia/clinical/ECCO_2023_IBD_Guidelines.pdf",
+      "quote": "155 Journal of Crohn's and Colitis, 2020, 155–168 doi:10.1093/ecco-jcc/jjz187 Advance Access publication November 19, 2019 ECCO Guideline/Consensus Paper Copyright © 2019 European Crohn’s and Colitis Organisation (ECCO). Published by Oxford University Press. All rights reserved. For permissions, please email: [REDACTED] ECCO Guideline/Consensus Paper ECCO Guidelines on Therapeutics in Crohn’s Disease: Surgical Treatment Michel Adamina,a,b Stefanos Bonovas,c,d, Tim Raine,e Antonino Spinelli,f Jan"
+    },
+    {
+      "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-60",
+      "source": "knowledge_base/gastroenterologia/clinical/ECCO_2023_IBD_Guidelines.pdf",
+      "quote": "to resection of long segments of bowel, with potential reduction in surgical recurrence rates [EL3]. Statement 6.1. ECCO CD Treatment GL [2019] Laparoscopic surgery should be offered as the first-line approach in surgery for Crohn’s disease, dependent on appropriate expertise [EL2]. Statement 6.2. ECCO CD Treatment GL [2019] A temporary stoma should be considered if steroids cannot be withdrawn or significantly reduced prior to sur- gery [EL5]. Statement 6.3. ECCO CD Treatment GL [2019] Primary "
+    },
+    {
+      "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-69",
+      "source": "knowledge_base/gastroenterologia/clinical/ECCO_2023_IBD_Guidelines.pdf",
+      "quote": "erapy [EL2]. Statement 6.5. ECCO CD Treatment GL [2019] Stapled small-bowel or ileocolic side-to-side anasto- moses are associated with lower rates of postoperative complications than end-to-end anastomoses, in Crohn’s disease [EL3]. Statement 6.6. ECCO CD Treatment GL [2019] Segmental colectomy is appropriate for patients with a single involved colonic segment in Crohn’s disease [EL3]. ECCO Guidelines on Therapeutics in Crohn’s Disease: Surgical Treatment 163 Downloaded from https://academic.ou"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: pcr-pct → emocromo → colonscopia.",
+      "Non prescrivere di prima intenzione: pet-tc, coronarografia (ECCO_2023_IBD_Guidelines.pdf).",
+      "Budget SSN di riferimento: €160."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alle linee guida L. 24/2017 Art. 5 se si segue il gold path.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "pcr-pct",
+      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Colite ulcerosa in flare moderato-grave — ECCO 2023 (GASTRO-010). Diarrea, dolore addominale, febbre, segni di disidratazione, alterazioni nei parametri ematici attesi per la colite ulcerosa in flare.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Colite ulcerosa in flare moderato-grave — ECCO 2023 (GASTRO-010). Diarrea, dolore addominale, febbre, segni di disidratazione, alterazioni nei parametri ematici attesi per la colite ulcerosa in flare.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Colonscopia nel contesto di Colite ulcerosa in flare moderato-grave — ECCO 2023 (GASTRO-010). Diarrea, dolore addominale, febbre, segni di disidratazione, alterazioni nei parametri ematici attesi per la colite ulcerosa in flare.",
+      "isAbnormal": true,
+      "priceEuro": 120
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf."
+    },
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia (Invasiva)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 800,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ha smesso gli steroidi da solo. Il tono paternalistico irrigidisce. Funziona spiegare il rischio di megacolon senza colpevolizzare."
+  }
+}

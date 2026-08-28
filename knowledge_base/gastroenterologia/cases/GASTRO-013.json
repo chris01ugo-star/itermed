@@ -1,0 +1,280 @@
+{
+  "title": "Celiachia di nuova diagnosi in donna di 26 anni",
+  "description": "Giada si presenta in ambulatorio con sintomi gastrointestinali e preoccupazioni riguardo alla celiachia.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "immunoglobuline",
+    "egds",
+    "biopsia"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 82,
+      "bloodPressure": "108/66",
+      "spo2": 99,
+      "temperature": 36.3,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 200,
+    "advancedExams": {
+      "values": {
+        "immunoglobuline": {
+          "finding": "Immunoglobuline (IgA, IgG, IgM, IgE) nel contesto di Malattia celiaca — sierologia IgA e biopsia duodenale ACG (GASTRO-013). Sierologia positiva per anticorpi anti-transglutaminasi, biopsia duodenale con atrofia villosa.",
+          "normalFinding": "Immunoglobuline (IgA, IgG, IgM, IgE) nel contesto di Malattia celiaca — sierologia IgA e biopsia duodenale ACG (GASTRO-013). Sierologia positiva per anticorpi anti-transglutaminasi, biopsia duodenale con atrofia villosa.",
+          "isAbnormal": true,
+          "price": 18
+        },
+        "egds": {
+          "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Malattia celiaca — sierologia IgA e biopsia duodenale ACG (GASTRO-013). Sierologia positiva per anticorpi anti-transglutaminasi, biopsia duodenale con atrofia villosa.",
+          "normalFinding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Malattia celiaca — sierologia IgA e biopsia duodenale ACG (GASTRO-013). Sierologia positiva per anticorpi anti-transglutaminasi, biopsia duodenale con atrofia villosa.",
+          "isAbnormal": true,
+          "price": 90
+        },
+        "biopsia": {
+          "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Malattia celiaca — sierologia IgA e biopsia duodenale ACG (GASTRO-013). Sierologia positiva per anticorpi anti-transglutaminasi, biopsia duodenale con atrofia villosa.",
+          "normalFinding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Malattia celiaca — sierologia IgA e biopsia duodenale ACG (GASTRO-013). Sierologia positiva per anticorpi anti-transglutaminasi, biopsia duodenale con atrofia villosa.",
+          "isAbnormal": true,
+          "price": 80
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_Celiac_Disease_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_Celiac_Disease_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_Celiac_Disease_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_Celiac_Disease_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 26,
+      "sex": "F",
+      "context": "Ambulatorio di Gastroenterologia"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo senza anomalie significative; addome non dolente, normoressonante."
+    },
+    "immunoglobuline": {
+      "finding": "Immunoglobuline (IgA, IgG, IgM, IgE) nel contesto di Malattia celiaca — sierologia IgA e biopsia duodenale ACG (GASTRO-013). Sierologia positiva per anticorpi anti-transglutaminasi, biopsia duodenale con atrofia villosa.",
+      "isAbnormal": true
+    },
+    "egds": {
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Malattia celiaca — sierologia IgA e biopsia duodenale ACG (GASTRO-013). Sierologia positiva per anticorpi anti-transglutaminasi, biopsia duodenale con atrofia villosa.",
+      "isAbnormal": true
+    },
+    "biopsia": {
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Malattia celiaca — sierologia IgA e biopsia duodenale ACG (GASTRO-013). Sierologia positiva per anticorpi anti-transglutaminasi, biopsia duodenale con atrofia villosa.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_Celiac_Disease_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_Celiac_Disease_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire sierologia per anticorpi anti-transglutaminasi e IgA, seguita da EGDS e biopsia duodenale.",
+  "patientPrompt": "Mi chiamo Giada, ho 26 anni e sono qui perché ho avuto sintomi gastrointestinali come gonfiore e diarrea intermittente. Ho sentito parlare della celiachia e sono preoccupata che potrebbe essere la causa dei miei problemi. Ho letto che una biopsia può essere necessaria e vorrei capire meglio il processo, in particolare riguardo al glutine e alla sierologia.",
+  "id": "GASTRO-013",
+  "code": "GASTRO-013",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Malattia celiaca — sierologia IgA e biopsia duodenale ACG",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ACG_Celiac_Disease_Guidelines.pdf",
+  "diagnosis": "Malattia celiaca",
+  "pastMedicalHistory": "Nessuna patologia nota. Non assumo farmaci regolarmente.",
+  "presentation": "Mi chiamo Giada, ho 26 anni e sono qui perché ho avuto sintomi gastrointestinali come gonfiore e diarrea intermittente. Ho sentito parlare della celiachia e sono preoccupata che potrebbe essere la causa dei miei problemi. Ho letto che una biopsia può essere necessaria e vorrei capire meglio il processo, in particolare riguardo al glutine e alla sierologia.",
+  "redHerrings": [
+    "Ho avuto anche un po' di mal di testa e stanchezza, ma non so se siano collegati.",
+    "Ultimamente ho notato che la mia pelle è un po' secca e ho pensato che potesse essere un problema di idratazione.",
+    "In passato ho avuto qualche episodio di reflusso, ma non so se sia rilevante ora."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "immunoglobuline": 40,
+    "egds": 60,
+    "biopsia": 90,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-013_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Malattia celiaca — sierologia IgA e biopsia duodenale ACG)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-013_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-013_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-013_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-013_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-013_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo senza anomalie significative; addome non dolente, normoressonante."
+  },
+  "goldPathNarrative": "Inizieremo con un prelievo di sangue per verificare i livelli di anticorpi. Se i risultati sono positivi, procederemo con un'EGDS per esaminare il duodeno e prelevare campioni per la biopsia.",
+  "escCitations": [
+    {
+      "chunkId": "d9b195f1-cb64-4289-a77e-05666b371dc2-0",
+      "source": "knowledge_base/gastroenterologia/clinical/ACG_Celiac_Disease_Guidelines.pdf",
+      "quote": "ACG Guideline: Diagnosis and Management of Celiac Disease Khadija H. Chaudrey, MD, Lahey Hospital & Medical Center, Burlington, Massachusetts, USA. Am J Gastroenterol 2023;118:23. https://doi.org/10.14309/ajg.[REDACTED] LEARNING OBJECTIVE After this activity, the participant will be able to understand the diagnostic approach to celiac disease (CD) in patients as well as the monitoring of patients with CD. QUESTION 1 A 32-year-old woman with autoimmune thyroiditis presents with a 5-year history o"
+    },
+    {
+      "chunkId": "d9b195f1-cb64-4289-a77e-05666b371dc2-2",
+      "source": "knowledge_base/gastroenterologia/clinical/ACG_Celiac_Disease_Guidelines.pdf",
+      "quote": "tudies QUESTION 3 In a patient with selective IgA deficiency who is on a normal diet, what is the recommended initial test for the detection of celiac disease? A. HLA-DQ2/DQ8 testing B. IgG-based testing C. Antibodies directed against native gliadin D. Upper endoscopy with duodenal biopsies © 2022 by The American College of Gastroenterology The American Journal of GASTROENTEROLOGY CME QUESTIONS 23 Copyright © 2022 by The American College of Gastroenterology. Unauthorized reproduction of this art"
+    },
+    {
+      "chunkId": "d9b195f1-cb64-4289-a77e-05666b371dc2-1",
+      "source": "knowledge_base/gastroenterologia/clinical/ACG_Celiac_Disease_Guidelines.pdf",
+      "quote": "TTG) antibody test was negative and serum IgA level was normal. She is reluctant to undergo a formal gluten challenge. Which of the following is the next best step? A. Perform HLA-DQ2/DQ8 genotyping B. Obtain duodenal biopsies C. Get a D-xylose test D. Order immunoglobulin G (IgG)-deamidated gliadin peptides (DGPs) QUESTION 2 A 19-year-old man with CD presents to the clinic for a follow-up. He was diagnosed with CD 4 months ago and had a complete resolution of diarrhea and bloating after startin"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: immunoglobuline → egds → biopsia.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ACG_Celiac_Disease_Guidelines.pdf).",
+      "Budget SSN di riferimento: €200."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione piena al percorso diagnostico.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Ambulatorio di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "immunoglobuline",
+      "name": "Immunoglobuline (IgA, IgG, IgM, IgE)",
+      "finding": "Immunoglobuline (IgA, IgG, IgM, IgE) nel contesto di Malattia celiaca — sierologia IgA e biopsia duodenale ACG (GASTRO-013). Sierologia positiva per anticorpi anti-transglutaminasi, biopsia duodenale con atrofia villosa.",
+      "isAbnormal": true,
+      "priceEuro": 18
+    },
+    {
+      "examId": "egds",
+      "name": "Esofagogastroduodenoscopia (EGDS)",
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Malattia celiaca — sierologia IgA e biopsia duodenale ACG (GASTRO-013). Sierologia positiva per anticorpi anti-transglutaminasi, biopsia duodenale con atrofia villosa.",
+      "isAbnormal": true,
+      "priceEuro": 90
+    },
+    {
+      "examId": "biopsia",
+      "name": "Biopsia (osteomidollare o tissutale mirata)",
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Malattia celiaca — sierologia IgA e biopsia duodenale ACG (GASTRO-013). Sierologia positiva per anticorpi anti-transglutaminasi, biopsia duodenale con atrofia villosa.",
+      "isAbnormal": true,
+      "priceEuro": 80
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_Celiac_Disease_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_Celiac_Disease_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_Celiac_Disease_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_Celiac_Disease_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Chiede dati su glutine e biopsia. Il paternalismo la infastidisce; apprezza la condivisione (sierologia prima, poi EGDS)."
+  }
+}

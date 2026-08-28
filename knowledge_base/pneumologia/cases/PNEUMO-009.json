@@ -1,0 +1,322 @@
+{
+  "title": "Polmonite nosocomiale in degenza",
+  "description": "Giuseppe presenta segni di polmonite acquisita in ospedale, con febbre, tachipnea e ipossiemia. È ansioso riguardo alla sua condizione e mostra una comprensione limitata dei termini medici.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "rx-torace",
+    "emocromo",
+    "pcr-pct",
+    "emocolture",
+    "ega"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "128/76",
+      "spo2": 90,
+      "temperature": 38.4,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 120,
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pcr-pct": {
+          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "emocolture": {
+          "finding": "Emocoltura (da due o più siti) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+          "normalFinding": "Emocoltura (da due o più siti) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+          "isAbnormal": true,
+          "price": 22
+        },
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 75,
+      "sex": "M",
+      "context": "Giuseppe è un paziente di 75 anni ricoverato nel reparto di Pneumologia per sospetta polmonite acquisita in ospedale. Presenta segni di ipossiemia, febbre e tachipnea. La sua storia clinica è caratterizzata da una scarsa literacy e un'adegu"
+    },
+    "physicalExam": {
+      "finding": "Paziente con febbre, tachipnea, ipossiemia, e segni di distress respiratorio. Auscultazione polmonare con ronchi e crepitii bilaterali."
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+      "isAbnormal": true
+    },
+    "pcr-pct": {
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+      "isAbnormal": true
+    },
+    "emocolture": {
+      "finding": "Emocoltura (da due o più siti) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+      "isAbnormal": true
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Iniziare il percorso diagnostico GOLD: rx-torace, emocromo, PCR-PCT, emocolture, EGA.",
+  "patientPrompt": "Mi chiamo Giuseppe e ho 75 anni. Sono ricoverato qui da qualche giorno e mi sento molto stanco. Ho la febbre e respiro con difficoltà. Quando i medici parlano, non capisco sempre cosa dicono, e alcune parole mi spaventano. Ho bisogno di sapere cosa mi sta succedendo, ma ho anche paura di quello che potrebbe significare. Ho un po' di sostegno da parte della mia famiglia, ma sono ansioso e non riesco a dormire bene la notte.",
+  "id": "PNEUMO-009",
+  "code": "PNEUMO-009",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Polmonite acquisita in ospedale (HAP)",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+  "diagnosis": "Polmonite acquisita in ospedale (HAP).",
+  "pastMedicalHistory": "Nessuna patologia polmonare pregressa nota, ma storia di ipertensione controllata.",
+  "presentation": "Giuseppe, un paziente di 75 anni, è ricoverato in reparto di Pneumologia. Si presenta stanco e ansioso, con difficoltà a comprendere le spiegazioni mediche. Riferisce di avere febbre e di sentirsi affaticato. La sua saturazione è al 90% e la frequenza respiratoria è elevata. È preoccupato per la sua condizione e ha bisogno di rassicurazioni.",
+  "redHerrings": [
+    "Tosse secca occasionale senza produzione di espettorato.",
+    "Storia di lieve reflusso gastroesofageo, ma senza sintomi attivi al momento.",
+    "Leggera congestione nasale, non correlata alla polmonite."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "rx-torace": 20,
+    "emocromo": 30,
+    "pcr-pct": 35,
+    "emocolture": 15,
+    "ega": 10,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-009_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Polmonite acquisita in ospedale (HAP))",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-009_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-009_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-009_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-009_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-009_6",
+      "prompt": "Contesto di presentazione: Reparto di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Paziente con febbre, tachipnea, ipossiemia, e segni di distress respiratorio. Auscultazione polmonare con ronchi e crepitii bilaterali."
+  },
+  "goldPathNarrative": "Si procede con una radiografia del torace per valutare la presenza di infiltrati polmonari. Si esegue un emocromo per valutare i segni di infezione. La PCR e la PCT vengono richieste per valutare l'infiammazione e la possibile infezione batterica. Si effettuano emocolture per identificare eventuali patogeni. Infine, si esegue un'analisi dei gas ematici per monitorare l'ossigenazione e l'equilibrio acido-base.",
+  "escCitations": [
+    {
+      "chunkId": "d932e601-794d-41a2-b6dc-3c74956b6c0c-4",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "each patient’s individual circumstances. These guidelines are intended for use by healthcare professionals who care for patients at risk for hospital-acquired pneumonia (HAP) and ventilator-associated pneumonia (VAP), including specialists in infectious diseases, pulmonary diseases, critical care, and surgeons, anesthesiologists, hospitalists, and any clinicians and healthcare providers caring for hospitalized patients with nosocomial pneumonia. The panel’s recommendations for the diagnosis and "
+    },
+    {
+      "chunkId": "d932e601-794d-41a2-b6dc-3c74956b6c0c-380",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "; 16:1–9. 230. Kohlenberg A, Schwab F, Behnke M, Geffers C, Gastmeier P. Pneumonia associ- ated with invasive and noninvasive ventilation: an analysis of the German noso- comial infection surveillance system database. Intensive Care Med 2010; 36:971–8. 231. Herer B, Fuhrman C, Demontrond D, Gazevic Z, Housset B, Chouaid C. Diag- nosis of nosocomial pneumonia in medical ward: repeatability of the protected specimen brush. Eur Respir J 2001; 18:157–63. 232. Edis EC, Hatipoglu ON, Yilmam I, Eker A,"
+    },
+    {
+      "chunkId": "d932e601-794d-41a2-b6dc-3c74956b6c0c-378",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "are unit acquired by mechanically ventilated versus nonventilated patients. Am J Respir Crit Care Med 2010; 182:1533–9. 223. Maruyama T, Niederman MS, Kobayashi T, et al. A prospective comparison of nursing home-acquired pneumonia with hospital-acquired pneumonia in non- intubated elderly. Respir Med 2008; 102:1287–95. 224. Barreiro-Lopez B, Tricas JM, Mauri E, Quintana S, Garau J. Risk factors and prognostic factors in nosocomial pneumonia outside the intensive care units set- ting [in Spanish]"
+    },
+    {
+      "chunkId": "d932e601-794d-41a2-b6dc-3c74956b6c0c-54",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "ients at risk for HAP and VAP, including specialists in infectious diseases, pulmonary diseases, critical care, and sur- geons, anesthesiologists, hospitalists, and any clinicians and healthcare providers caring for hospitalized patients with noso- comial pneumonia. This document may also serve as the basis for development and implementation of locally adapted guidelines. To determine the scope of the current guidelines, the panel considered whether or not there were new data that could lead to "
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: rx-torace → emocromo → pcr-pct → emocolture → ega.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (IDSA_ATS_Hospital_Acquired_Pneumonia.pdf).",
+      "Budget SSN di riferimento: €120."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente segue il percorso diagnostico GOLD.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Reparto di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "emocolture",
+      "name": "Emocoltura (da due o più siti)",
+      "finding": "Emocoltura (da due o più siti) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+      "isAbnormal": true,
+      "priceEuro": 22
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "LOW",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Paziente di reparto stanco. Accetta le procedure se spiegate in una frase. Il gergo nosocomiale (HAP, MDR) lo spaventa senza migliorare la comprensione."
+  }
+}

@@ -185,7 +185,7 @@ const PILLARS: Array<{
   },
   {
     key: "empathy",
-    label: "Empatia",
+    label: "Comunicazione",
     icon: HeartHandshake,
     fallbackIndex: 4,
     gradeWeight: MACRO_AREA_WEIGHTS.empathy,
@@ -196,7 +196,7 @@ const COACH_ROWS: Array<{ key: keyof CoachingFeedback; label: string }> = [
   { key: "accuratezza", label: "Clinica" },
   { key: "tutelaLegale", label: "Tutela" },
   { key: "economicita", label: "Economia" },
-  { key: "empatia", label: "Empatia" },
+  { key: "empatia", label: "Comunicazione" },
 ];
 
 function resolvePillarScore(radarData: RadarDatumWithKey[], pillar: (typeof PILLARS)[number]) {
@@ -236,7 +236,7 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
   }
   return {
     label: "Ottimo",
-    detail: "Prestazione di alto livello su clinica, tutela ed empatia.",
+    detail: "Prestazione di alto livello su clinica, tutela e relazione clinica.",
     tone: "ok" as const,
   };
 }
@@ -330,6 +330,60 @@ function Accordion({
   );
 }
 
+function StateMeter({
+  label,
+  initial,
+  final,
+  invert = false,
+}: {
+  label: string;
+  initial: number;
+  final: number;
+  invert?: boolean;
+}) {
+  const delta = final - initial;
+  const better = invert ? delta < 0 : delta > 0;
+  const worse = invert ? delta > 0 : delta < 0;
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{label}</span>
+        <span className="text-[11px] tabular-nums text-slate-600">
+          {initial}
+          <span className="text-slate-400"> → </span>
+          <span className="font-semibold text-[#1E324E]">{final}</span>
+          <span
+            className={cn(
+              "ml-1.5 font-medium",
+              better ? "text-emerald-700" : worse ? "text-rose-700" : "text-slate-400",
+            )}
+          >
+            {delta > 0 ? `+${delta}` : delta}
+          </span>
+        </span>
+      </div>
+      <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+        <div
+          className="h-full rounded-full bg-[#345884]"
+          style={{ width: `${Math.max(0, Math.min(100, final))}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function FrameworkChip({ label, score }: { label: string; score: number }) {
+  return (
+    <div className="rounded-xl bg-[#EEF2F9] px-3 py-2.5 text-center">
+      <p className="text-[10px] font-semibold uppercase tracking-wide text-[#345884]">{label}</p>
+      <p className="mt-0.5 font-display text-lg font-semibold tabular-nums text-[#1E324E]">
+        {Math.round(score)}
+        <span className="text-[10px] font-medium text-slate-400">/100</span>
+      </p>
+    </div>
+  );
+}
+
 function statusMeta(status: ClinicalDeltaRow["status"]) {
   switch (status) {
     case "MET":
@@ -339,6 +393,14 @@ function statusMeta(status: ClinicalDeltaRow["status"]) {
     default:
       return { label: "Mancato", className: "bg-rose-50 text-rose-800" };
   }
+}
+
+function coherentDeltaUserAction(row: ClinicalDeltaRow): string {
+  const text = row.userAction?.trim() || "";
+  if (row.status === "MET" && (!text || /non evidenziato/i.test(text))) {
+    return "Azione/Esame verificato nella simulazione";
+  }
+  return text || "—";
 }
 
 export function EliteResultsClient({
@@ -397,6 +459,7 @@ export function EliteResultsClient({
     empathyBreakdown?.qualitativeLabel ||
     scoreBreakdown?.empathy?.qualitativeLabel ||
     null;
+  const dRime = empathyBreakdown?.dRime ?? scoreBreakdown?.empathy?.dRime ?? null;
 
   return (
     <div className="space-y-5">
@@ -521,7 +584,9 @@ export function EliteResultsClient({
         </div>
         {empathyNote ? (
           <p className="rounded-xl bg-[#EEF2F9]/80 px-3.5 py-2.5 text-xs leading-relaxed text-[#1E324E]/80">
-            <span className="font-semibold text-[#345884]">Empatia · </span>
+            <span className="font-semibold text-[#345884]">
+              Audit Comunicazione e Relazione Clinica (D-RIME) ·{" "}
+            </span>
             {empathyNote}
           </p>
         ) : null}
@@ -612,6 +677,75 @@ export function EliteResultsClient({
       <section className="space-y-2.5">
         <h2 className="px-0.5 font-display text-base font-semibold text-[#1E324E]">Debrief</h2>
 
+        {dRime ? (
+          <Accordion
+            title="Audit Comunicazione e Relazione Clinica (D-RIME: SPIKES / RIAS / CARE)"
+            defaultOpen
+          >
+            <div className="space-y-4">
+              <div className="grid grid-cols-3 gap-2">
+                <FrameworkChip label="SPIKES" score={dRime.spikesEmpathyScore} />
+                <FrameworkChip label="RIAS" score={dRime.riasAlignmentScore} />
+                <FrameworkChip label="CARE" score={dRime.careTrustScore} />
+              </div>
+              <div className="space-y-3 rounded-xl bg-slate-50/90 px-3.5 py-3">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-[#345884]">
+                  Traiettoria psicologica del paziente
+                </p>
+                <StateMeter
+                  label="Fiducia"
+                  initial={dRime.initialState.trust}
+                  final={dRime.finalState.trust}
+                />
+                <StateMeter
+                  label="Ansia"
+                  initial={dRime.initialState.anxiety}
+                  final={dRime.finalState.anxiety}
+                  invert
+                />
+                <StateMeter
+                  label="Difensività"
+                  initial={dRime.initialState.defensiveness}
+                  final={dRime.finalState.defensiveness}
+                  invert
+                />
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-center text-[11px] text-slate-600">
+                <p>
+                  Alleanza{" "}
+                  <span className="font-semibold tabular-nums text-[#1E324E]">
+                    {Math.round(dRime.allianceScore)}
+                  </span>
+                </p>
+                <p>
+                  Bias{" "}
+                  <span className="font-semibold tabular-nums text-[#1E324E]">
+                    {Math.round(dRime.biasManagementScore)}
+                  </span>
+                </p>
+                <p>
+                  No med. difensiva{" "}
+                  <span className="font-semibold tabular-nums text-[#1E324E]">
+                    {Math.round(dRime.defensiveMedicineScore)}
+                  </span>
+                </p>
+              </div>
+              {dRime.relationalInsights.length > 0 ? (
+                <ul className="space-y-2">
+                  {dRime.relationalInsights.map((insight, idx) => (
+                    <li
+                      key={idx}
+                      className="rounded-xl bg-white px-3.5 py-2.5 text-xs leading-relaxed text-slate-600 ring-1 ring-slate-100"
+                    >
+                      {insight}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+          </Accordion>
+        ) : null}
+
         {clinicalDeltaTable.length > 0 ? (
           <Accordion title="Confronto Gold Standard" count={clinicalDeltaTable.length}>
             <ul className="space-y-2.5">
@@ -634,7 +768,7 @@ export function EliteResultsClient({
                       </span>
                     </div>
                     <p className="text-xs leading-relaxed text-slate-500">
-                      <SafeLlmText as="span">{row.userAction}</SafeLlmText>
+                      <SafeLlmText as="span">{coherentDeltaUserAction(row)}</SafeLlmText>
                     </p>
                   </li>
                 );

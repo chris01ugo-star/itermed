@@ -1,0 +1,285 @@
+{
+  "title": "Crohn perianale in ambulatorio",
+  "description": "Lorenzo si presenta in ambulatorio con una storia di dolore e fastidio perianale. Riferisce di avere una fistola che lo preoccupa molto, avendo già sperimentato episodi di infiammazione. È ansioso riguardo alla sua condizione e si vergogna di parlarne. Ha una buona comprensione della sua malattia, ma la sua aderenza alle terapie non è ottimale. Dorme abbastanza, ma spesso si sveglia preoccupato per la sua salute. Ha un supporto sociale adeguato, ma tende a isolarsi a causa della sua condizione.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "pcr-pct",
+    "rm",
+    "colonscopia"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 86,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 37.2,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 360,
+    "advancedExams": {
+      "values": {
+        "pcr-pct": {
+          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Malattia di Crohn con malattia perianale — work-up ECCO 2023 (GASTRO-020). Dolore perianale, segni di infiammazione, assenza di ascessi palpabili.",
+          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Malattia di Crohn con malattia perianale — work-up ECCO 2023 (GASTRO-020). Dolore perianale, segni di infiammazione, assenza di ascessi palpabili.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "rm": {
+          "finding": "RM Addome/Pelvi/Encefalo/Colonna/Articolare nel contesto di Malattia di Crohn con malattia perianale — work-up ECCO 2023 (GASTRO-020). Dolore perianale, segni di infiammazione, assenza di ascessi palpabili.",
+          "normalFinding": "RM Addome/Pelvi/Encefalo/Colonna/Articolare nel contesto di Malattia di Crohn con malattia perianale — work-up ECCO 2023 (GASTRO-020). Dolore perianale, segni di infiammazione, assenza di ascessi palpabili.",
+          "isAbnormal": true,
+          "price": 200
+        },
+        "colonscopia": {
+          "finding": "Colonscopia nel contesto di Malattia di Crohn con malattia perianale — work-up ECCO 2023 (GASTRO-020). Dolore perianale, segni di infiammazione, assenza di ascessi palpabili.",
+          "normalFinding": "Colonscopia nel contesto di Malattia di Crohn con malattia perianale — work-up ECCO 2023 (GASTRO-020). Dolore perianale, segni di infiammazione, assenza di ascessi palpabili.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "moc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 40
+        }
+      }
+    },
+    "demographics": {
+      "age": 31,
+      "sex": "M",
+      "context": "Ambulatorio di Gastroenterologia"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo mostra dolore alla palpazione della regione perianale, segni di infiammazione locale, ma senza evidenza di ascessi evidenti."
+    },
+    "pcr-pct": {
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Malattia di Crohn con malattia perianale — work-up ECCO 2023 (GASTRO-020). Dolore perianale, segni di infiammazione, assenza di ascessi palpabili.",
+      "isAbnormal": true
+    },
+    "rm": {
+      "finding": "RM Addome/Pelvi/Encefalo/Colonna/Articolare nel contesto di Malattia di Crohn con malattia perianale — work-up ECCO 2023 (GASTRO-020). Dolore perianale, segni di infiammazione, assenza di ascessi palpabili.",
+      "isAbnormal": true
+    },
+    "colonscopia": {
+      "finding": "Colonscopia nel contesto di Malattia di Crohn con malattia perianale — work-up ECCO 2023 (GASTRO-020). Dolore perianale, segni di infiammazione, assenza di ascessi palpabili.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "moc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "pcr-pct → rm → colonscopia Gold path: pcr-pct → rm → colonscopia. Linea guida: ECCO_2023_IBD_Guidelines.pdf.",
+  "patientPrompt": "Mi chiamo Lorenzo e ho 31 anni. Da qualche tempo ho notato un fastidio e un dolore nella zona perianale. Ho una fistola che mi preoccupa molto e mi sento imbarazzato a parlarne. Ho già avuto episodi di infiammazione e ho paura che la mia condizione possa peggiorare. Sono ansioso riguardo alla mia salute e, anche se cerco di seguire le terapie, non sempre riesco a farlo come dovrei. A volte mi sveglio nel cuore della notte preoccupato e ho una buona rete di supporto, ma mi sento spesso solo in questo.",
+  "id": "GASTRO-020",
+  "code": "GASTRO-020",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Malattia di Crohn con malattia perianale — work-up ECCO 2023",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ECCO_2023_IBD_Guidelines.pdf",
+  "diagnosis": "Malattia di Crohn con fistola perianale",
+  "pastMedicalHistory": "Storia di malattia di Crohn diagnosticata due anni fa, con episodi di infiammazione e una fistola perianale attualmente attiva.",
+  "presentation": "Lorenzo, un uomo di 31 anni, si presenta in ambulatorio con sintomi di dolore e fastidio perianale. Riferisce di avere una fistola perianale che lo preoccupa e lo fa sentire imbarazzato. Ha già avuto episodi di infiammazione e teme che la sua condizione possa peggiorare. È ansioso riguardo alla sua salute e ha difficoltà ad aderire completamente alle terapie consigliate. Sebbene abbia un buon supporto sociale, tende a isolarsi a causa della vergogna per la sua condizione. Nonostante ciò, ha una buona comprensione della sua malattia e cerca di informarsi.",
+  "redHerrings": [
+    "Lorenzo ha avuto episodi di diarrea, ma non sono stati frequenti negli ultimi tempi.",
+    "Riferisce di avere occasionalmente febbre, ma non in modo costante.",
+    "Ha notato una leggera perdita di peso negli ultimi mesi, ma non è stata significativa."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "pcr-pct": 35,
+    "rm": 50,
+    "colonscopia": 90,
+    "pet-tc": 180,
+    "moc": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-020_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Malattia di Crohn con malattia perianale — work-up ECCO 2023)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-020_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-020_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-020_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-020_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-020_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo mostra dolore alla palpazione della regione perianale, segni di infiammazione locale, ma senza evidenza di ascessi evidenti."
+  },
+  "goldPathNarrative": "Dopo aver eseguito i test PCR e PCT, si procederà con una risonanza magnetica per valutare la fistola perianale e successivamente con una colonscopia per una valutazione completa della malattia di Crohn.",
+  "escCitations": [
+    {
+      "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-85",
+      "source": "knowledge_base/gastroenterologia/clinical/ECCO_2023_IBD_Guidelines.pdf",
+      "quote": "l.; European Crohn’s and Colitis Organisation [ECCO] and the European Society of Gastrointestinal and Abdominal Radiology [ESGAR]. ECCO-ESGAR Guideline for Diagnostic Assessment in IBD Part 2: IBD scores and general principles and technical aspects. J Crohns Colitis 2019;13:273–84. 16. Sturm A, Maaser C, Mendall M, et al. European Crohn’s and Colitis Organisation topical review on IBD in the elderly. J Crohns Colitis 2017;11:263–73. 17. Gomollón F, Dignass A, Annese V, et al.; ECCO. Third Europe"
+    },
+    {
+      "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-19",
+      "source": "knowledge_base/gastroenterologia/clinical/ECCO_2023_IBD_Guidelines.pdf",
+      "quote": "ianal Crohn’s disease fistulae, either in isolation or in combination with both modalities. Observational studies support a combined medical/surgical approach to control sepsis and luminal activity [EL5]. Statement 1.2. ECCO CD Treatment GL [2019] Advancement flaps are a therapeutic option for patients with Crohn´s disease and complex perianal fistulae [EL4]. Statement 1.3. ECCO CD Treatment GL [2019] Fibrin glue may be a potential treatment, with limited ef- ficacy, for patients with complex pe"
+    },
+    {
+      "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-94",
+      "source": "knowledge_base/gastroenterologia/clinical/ECCO_2023_IBD_Guidelines.pdf",
+      "quote": "Crohn’s disease. Colorectal Dis 2001;3:232–7. 48. Singh S, Ding NS, Mathis KL, et al. Systematic review with meta-analysis: faecal diversion for management of perianal Crohn’s disease. Aliment Pharmacol Ther 2015;42:783–92. 49. Martí-Gallostra M, Myrelid P, Mortensen N, Keshav S, Travis SP, George B. The role of a defunctioning stoma for colonic and perianal Crohn’s disease in the biological era. Scand J Gastroenterol 2017;52:251–6. 50. de Groof EJ, Carbonnel F, Buskens CJ, Bemelman WA. Abdomina"
+    },
+    {
+      "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-77",
+      "source": "knowledge_base/gastroenterologia/clinical/ECCO_2023_IBD_Guidelines.pdf",
+      "quote": "ps://www. ecco-ibd.eu/about-ecco/ecco-disclosures.html], providing a comprehensive overview of potential conflicts of interest of authors. Statement 6.7. ECCO CD Treatment GL [2019] A defunctioning stoma for non-acute refractory Crohn’s colitis may delay or avoid the need for colectomy [EL5]. Statement 6.8. ECCO CD Treatment GL [2019] Restorative proctocolectomy with ileal pouch-anal anas- tomosis can be considered in selected patients with re- fractory pancolonic Crohn’s disease without history"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: pcr-pct → rm → colonscopia.",
+      "Non prescrivere di prima intenzione: pet-tc, moc (ECCO_2023_IBD_Guidelines.pdf).",
+      "Budget SSN di riferimento: €360."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione parziale alle terapie.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Ambulatorio di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "pcr-pct",
+      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Malattia di Crohn con malattia perianale — work-up ECCO 2023 (GASTRO-020). Dolore perianale, segni di infiammazione, assenza di ascessi palpabili.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "rm",
+      "name": "RM Addome/Pelvi/Encefalo/Colonna/Articolare",
+      "finding": "RM Addome/Pelvi/Encefalo/Colonna/Articolare nel contesto di Malattia di Crohn con malattia perianale — work-up ECCO 2023 (GASTRO-020). Dolore perianale, segni di infiammazione, assenza di ascessi palpabili.",
+      "isAbnormal": true,
+      "priceEuro": 200
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Colonscopia nel contesto di Malattia di Crohn con malattia perianale — work-up ECCO 2023 (GASTRO-020). Dolore perianale, segni di infiammazione, assenza di ascessi palpabili.",
+      "isAbnormal": true,
+      "priceEuro": 120
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf."
+    },
+    {
+      "examId": "moc",
+      "name": "MOC (DEXA)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 40,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECCO_2023_IBD_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Si vergogna della fistola perianale. Il tono burocratico lo fa rimandare. Funziona riservatezza, RM/colonscopia spiegate e piano ECCO."
+  }
+}

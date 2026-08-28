@@ -1,18 +1,4 @@
 import type { ReactNode } from "react";
-import { Suspense } from "react";
-import { config, isUsableDatabase } from "@/lib/config";
-import { requireUser } from "@/lib/require-user";
-import {
-  fetchFilteredClinicalCases,
-  fetchMedicalSpecialtyOptionsCached,
-  type CaseFilterParams,
-} from "@/lib/dashboard-queries";
-import { PrassiShell } from "@/components/prassi/PrassiShell";
-import type { ClinicalCaseRow } from "@/components/dashboard/ClinicalCaseCard";
-import {
-  getPrassiRegistryCaseRows,
-  getPrassiRegistrySpecialties,
-} from "@/lib/data/cases";
 
 type PrassiLayoutProps = {
   children: ReactNode;

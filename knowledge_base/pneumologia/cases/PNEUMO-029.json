@@ -1,0 +1,284 @@
+{
+  "title": "Pneumopatia professionale da inalanti",
+  "description": "Salvatore presenta segni di ipossiemia, febbre e tachipnea. La sua situazione è complicata da una storia lavorativa in un ambiente con esposizione a polveri, che lo preoccupa molto.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "rx-torace",
+    "spirometria",
+    "tc"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 80,
+      "bloodPressure": "144/88",
+      "spo2": 94,
+      "temperature": 36.5,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 230,
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Pneumoconiosi / patologia polmonare lavoro-correlata (PNEUMO-029). Tachipnea, ipossiemia, crepitii all'auscultazione, segni di distress respiratorio.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Pneumoconiosi / patologia polmonare lavoro-correlata (PNEUMO-029). Tachipnea, ipossiemia, crepitii all'auscultazione, segni di distress respiratorio.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "spirometria": {
+          "finding": "Spirometria (semplice/globale) nel contesto di Pneumoconiosi / patologia polmonare lavoro-correlata (PNEUMO-029). Tachipnea, ipossiemia, crepitii all'auscultazione, segni di distress respiratorio.",
+          "normalFinding": "Spirometria (semplice/globale) nel contesto di Pneumoconiosi / patologia polmonare lavoro-correlata (PNEUMO-029). Tachipnea, ipossiemia, crepitii all'auscultazione, segni di distress respiratorio.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "tc": {
+          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Pneumoconiosi / patologia polmonare lavoro-correlata (PNEUMO-029). Tachipnea, ipossiemia, crepitii all'auscultazione, segni di distress respiratorio.",
+          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Pneumoconiosi / patologia polmonare lavoro-correlata (PNEUMO-029). Tachipnea, ipossiemia, crepitii all'auscultazione, segni di distress respiratorio.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_Work_Related_Lung_Diseases_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_Work_Related_Lung_Diseases_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_Work_Related_Lung_Diseases_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_Work_Related_Lung_Diseases_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 58,
+      "sex": "M",
+      "context": "Salvatore è un operaio di 58 anni che si presenta in ambulatorio pneumologico con sintomi respiratori. Ha una storia di esposizione a polveri e inalanti sul lavoro e teme che una diagnosi possa compromettere il suo impiego. La sua literacy "
+    },
+    "physicalExam": {
+      "finding": "Respiro affannoso, uso dei muscoli accessori, crepitii all'auscultazione, segni di ipossiemia."
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Pneumoconiosi / patologia polmonare lavoro-correlata (PNEUMO-029). Tachipnea, ipossiemia, crepitii all'auscultazione, segni di distress respiratorio.",
+      "isAbnormal": true
+    },
+    "spirometria": {
+      "finding": "Spirometria (semplice/globale) nel contesto di Pneumoconiosi / patologia polmonare lavoro-correlata (PNEUMO-029). Tachipnea, ipossiemia, crepitii all'auscultazione, segni di distress respiratorio.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Pneumoconiosi / patologia polmonare lavoro-correlata (PNEUMO-029). Tachipnea, ipossiemia, crepitii all'auscultazione, segni di distress respiratorio.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_Work_Related_Lung_Diseases_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_Work_Related_Lung_Diseases_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire rx-torace, spirometria e TC per valutare la funzionalità polmonare e l'impatto dell'esposizione.",
+  "patientPrompt": "Ho 58 anni e lavoro come operaio. Da qualche tempo ho difficoltà a respirare, soprattutto quando sono al lavoro. Ho notato che tossisco spesso e sento una pressione al petto. Ho paura che se il medico scopre che ho una malattia legata al lavoro, potrei perdere il mio lavoro. Non sono molto sicuro di cosa stia succedendo e questo mi rende ansioso. A volte non riesco nemmeno a dormire bene, e mi sento stressato per questa situazione. Non ho molti amici o familiari su cui contare in questo momento.",
+  "id": "PNEUMO-029",
+  "code": "PNEUMO-029",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Pneumoconiosi / patologia polmonare lavoro-correlata",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ATS_Work_Related_Lung_Diseases_Guidelines.pdf",
+  "diagnosis": "Pneumopatia professionale da inalanti",
+  "pastMedicalHistory": "Nessuna patologia pregressa significativa nota, non fumatore, esposizione prolungata a polveri sul lavoro.",
+  "presentation": "Salvatore riferisce di avere difficoltà a respirare, tosse persistente e un senso di oppressione al petto. È ansioso riguardo alla possibilità di una diagnosi di malattia professionale, temendo per il suo lavoro. Ha difficoltà a dormire e si sente stressato per la situazione attuale. La sua rete sociale è limitata, il che aumenta il suo senso di isolamento.",
+  "redHerrings": [
+    "Riflette su una possibile allergia a sostanze domestiche.",
+    "Menaziona un recente raffreddore che ha avuto.",
+    "Parla di un familiare con asma, pensando che possa essere simile."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "rx-torace": 20,
+    "spirometria": 25,
+    "tc": 40,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-029_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Pneumoconiosi / patologia polmonare lavoro-correlata)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-029_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-029_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-029_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-029_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-029_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Respiro affannoso, uso dei muscoli accessori, crepitii all'auscultazione, segni di ipossiemia."
+  },
+  "goldPathNarrative": "Iniziare con una radiografia del torace per escludere patologie acute, seguita da una spirometria per valutare la funzionalità respiratoria. Se necessario, eseguire una TC per una valutazione più dettagliata delle strutture polmonari e dell'impatto dell'esposizione a inalanti sul lavoro.",
+  "escCitations": [
+    {
+      "chunkId": "0ef0a11b-e781-4aaa-8d77-bb0463cd9597-99",
+      "source": "knowledge_base/pneumologia/clinical/ATS_Work_Related_Lung_Diseases_Guidelines.pdf",
+      "quote": "function in tunnel workers. Occup Environ Med 2001; 58: 663–669. 24 Weinmann S, Vollmer WM, Breen V, et al. COPD and occupational exposures: a case-control study. J Occup Environ Med 2008; 50: 561–569. 25 Newman Taylor AJ, Cullinan P, et al. BOHRF guidelines for occupational asthma. Thorax 2005; 60: 364–366. 26 Beach J, Rowe BH, Blitz S, et al. Diagnosis and management of work-related asthma. Evidence report/technology assessment no 129. US Department of Health and Human Services, Agency for Hea"
+    },
+    {
+      "chunkId": "0ef0a11b-e781-4aaa-8d77-bb0463cd9597-98",
+      "source": "knowledge_base/pneumologia/clinical/ATS_Work_Related_Lung_Diseases_Guidelines.pdf",
+      "quote": "n update. Int J Tuberc Lung Dis 2007; 11: 251–257. X. BAUR ET AL. ERS TASK FORCE REPORT c EUROPEAN RESPIRATORY JOURNAL VOLUME 39 NUMBER 3 541 on August 20, 2026 by guest. Please see licensing information on first page for reuse rights.https://publications.ersnet.orgDownloaded from 20 Salvi SS, Barnes PJ. Chronic obstructive pulmonary disease in non-smokers. Lancet 2009; 374: 733–743. 21 Behrendt CE. Mild and moderate-to-severe COPD in nonsmo- kers: distinct demographic profiles. Chest 2005; 128:"
+    },
+    {
+      "chunkId": "0ef0a11b-e781-4aaa-8d77-bb0463cd9597-9",
+      "source": "knowledge_base/pneumologia/clinical/ATS_Work_Related_Lung_Diseases_Guidelines.pdf",
+      "quote": "he aforementioned overlapping occupational disorders have not been subjected to detailed scientific investigations, these guidelines will focus on work-related asthma. Objectives and concept of these guidelines Work-related asthma is a preventable disease, similar to other work-related respiratory diseases such occupational COPD. Relevant legal definitions, regulations and measures for preven- tion, diagnosis, compensation and rehabilitation differ consider- ably between countries, some having l"
+    },
+    {
+      "chunkId": "0ef0a11b-e781-4aaa-8d77-bb0463cd9597-37",
+      "source": "knowledge_base/pneumologia/clinical/ATS_Work_Related_Lung_Diseases_Guidelines.pdf",
+      "quote": "en provided by MAESTRELLI et al. [79]. Recommendations The recommendations for key question 2 of these guidelines are presented in table 3. Key question 3: What is the outcome of different management options in subjects who are already affected? Ancillary questions: What are the consequences of persistent exposure to the causal agent? Is it possible to improve symptoms and lung function through pharmacological treatment in affected workers with persistent exposure? How effective is complete avoi"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: rx-torace → spirometria → tc.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ATS_Work_Related_Lung_Diseases_Guidelines.pdf).",
+      "Budget SSN di riferimento: €230."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente mostra un'aderenza parziale al percorso terapeutico, necessitando di supporto per migliorare l'aderenza e la comprensione della sua condizione.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Pneumoconiosi / patologia polmonare lavoro-correlata (PNEUMO-029). Tachipnea, ipossiemia, crepitii all'auscultazione, segni di distress respiratorio.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "spirometria",
+      "name": "Spirometria (semplice/globale)",
+      "finding": "Spirometria (semplice/globale) nel contesto di Pneumoconiosi / patologia polmonare lavoro-correlata (PNEUMO-029). Tachipnea, ipossiemia, crepitii all'auscultazione, segni di distress respiratorio.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Pneumoconiosi / patologia polmonare lavoro-correlata (PNEUMO-029). Tachipnea, ipossiemia, crepitii all'auscultazione, segni di distress respiratorio.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_Work_Related_Lung_Diseases_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_Work_Related_Lung_Diseases_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_Work_Related_Lung_Diseases_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_Work_Related_Lung_Diseases_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Operaio, teme che la diagnosi gli faccia perdere il lavoro. Se il medico parla solo di 'polvere', si irrigidisce. Serve collegare sintomi, esposizione e tutele senza accusarlo."
+  }
+}

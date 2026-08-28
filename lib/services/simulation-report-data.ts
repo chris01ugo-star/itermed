@@ -1,6 +1,10 @@
 import type { CaseDifficulty, Prisma } from "@prisma/client";
 import type { RelevantGuidelines } from "@/lib/services/rag-service";
 import type { EvaluationResult } from "@/lib/services/evaluation-service";
+import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
+import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
+import type { ClinicalAuditResult } from "@/lib/services/clinical-audit-service";
+import type { RelationalAuditResult } from "@/lib/services/relational-audit-service";
 import type {
   ClinicalDeltaRow,
   CoachingFeedback,
@@ -44,6 +48,14 @@ export function buildSessionReportData(params: {
   /** Deterministic fatal errors detected post-evaluation (always persisted). */
   fatalErrors?: FatalError[];
   killerSwitch?: KillerSwitchTrace;
+  /** Dedicated LLM legal audit (Gelli-Bianco corpus-bound). */
+  legalAudit?: LegalAuditResult;
+  /** Dedicated LLM economic / prescribing appropriateness audit. */
+  economicAudit?: EconomicAuditResult;
+  /** Dedicated LLM clinical diagnostic-therapeutic audit. */
+  clinicalAudit?: ClinicalAuditResult;
+  /** Dedicated LLM relational / communication audit (RIAS, CARE, SPIKES). */
+  relationalAudit?: RelationalAuditResult;
 }): Prisma.SessionReportUncheckedUpdateInput {
   const {
     userId,
@@ -58,6 +70,10 @@ export function buildSessionReportData(params: {
     simulationElapsedMinutes,
     fatalErrors = [],
     killerSwitch,
+    legalAudit,
+    economicAudit,
+    clinicalAudit,
+    relationalAudit,
   } = params;
 
   const scores = evaluation.scores ?? {
@@ -191,6 +207,10 @@ export function buildSessionReportData(params: {
           : [],
         retrievedSources: guidelineProtocolSources,
       },
+      ...(legalAudit ? { legalAudit } : {}),
+      ...(economicAudit ? { economicAudit } : {}),
+      ...(clinicalAudit ? { clinicalAudit } : {}),
+      ...(relationalAudit ? { relationalAudit } : {}),
     },
     notes: typeof feedback.legalComplianceNote === "string" ? feedback.legalComplianceNote : "",
   };

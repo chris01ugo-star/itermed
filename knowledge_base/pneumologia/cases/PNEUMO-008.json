@@ -1,0 +1,341 @@
+{
+  "title": "CAP grave in donna di 85 anni",
+  "description": "Maria si presenta al pronto soccorso con segni di grave compromissione respiratoria. È visibilmente affaticata e mostra segni di ansia. La sua saturazione di ossigeno è bassa e presenta febbre. La nipote la accompagna e riferisce che Maria ha avuto tosse e difficoltà a respirare negli ultimi giorni, con un peggioramento improvviso nelle ultime 24 ore.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "rx-torace",
+    "ega",
+    "emocromo",
+    "pcr-pct",
+    "lattati",
+    "creat-urea-gfr"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 112,
+      "bloodPressure": "98/62",
+      "spo2": 87,
+      "temperature": 38.2,
+      "respiratoryRate": 28
+    },
+    "examBudgetEuro": 130,
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pcr-pct": {
+          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "lattati": {
+          "finding": "Acido lattico (Lattati) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+          "normalFinding": "Acido lattico (Lattati) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+          "isAbnormal": true,
+          "price": 7
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+          "normalFinding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 85,
+      "sex": "F",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Maria presenta tachipnea, ipossiemia, febbre e segni di distress respiratorio. All'auscultazione si notano crepitii bilaterali e riduzione del suono respiratorio in alcune aree."
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+      "isAbnormal": true
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+      "isAbnormal": true
+    },
+    "pcr-pct": {
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+      "isAbnormal": true
+    },
+    "lattati": {
+      "finding": "Acido lattico (Lattati) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+      "isAbnormal": true
+    },
+    "creat-urea-gfr": {
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Seguire il gold path per la gestione della polmonite comunitaria, iniziando con RX torace e successivi esami di laboratorio.",
+  "patientPrompt": "Mi sento molto stanca e ho difficoltà a respirare. Ho avuto tosse e febbre, ma non capisco perché mi sento così male. Il mio nipote cerca di aiutarmi, ma a volte non riesco a seguire quello che dice. Ho avuto problemi di respirazione in passato, ma questa volta è diverso. Non riesco a dormire bene e mi sento ansiosa per questa situazione.",
+  "id": "PNEUMO-008",
+  "code": "PNEUMO-008",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Polmonite comunitaria grave ad alto rischio (CURB-65)",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
+  "diagnosis": "Polmonite comunitaria grave ad alto rischio",
+  "pastMedicalHistory": "Storia di bronchite cronica, ma senza episodi di polmonite precedenti. Non ci sono altre patologie significative segnalate.",
+  "presentation": "Maria, un'anziana di 85 anni, è accompagnata al pronto soccorso dal nipote. Riferisce di sentirsi molto stanca e di avere difficoltà a respirare. Ha anche la febbre e tossisce spesso. La nipote spiega che Maria ha avuto episodi simili in passato, ma questa volta sembra molto più grave. Maria appare confusa e fa fatica a seguire la conversazione, mostrando segni di ansia e disagio.",
+  "redHerrings": [
+    "Storia di allergie stagionali, che non sembrano correlate ai sintomi attuali.",
+    "Riferimento a un episodio di bronchite cronica risalente a qualche anno fa, che non è stato confermato da esami recenti.",
+    "Uso di un farmaco per il controllo dell'ansia, che potrebbe influenzare la sua capacità di comunicare."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "rx-torace": 20,
+    "ega": 10,
+    "emocromo": 30,
+    "pcr-pct": 35,
+    "lattati": 15,
+    "creat-urea-gfr": 30,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-008_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Polmonite comunitaria grave ad alto rischio (CURB-65))",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-008_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-008_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-008_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-008_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-008_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Maria presenta tachipnea, ipossiemia, febbre e segni di distress respiratorio. All'auscultazione si notano crepitii bilaterali e riduzione del suono respiratorio in alcune aree."
+  },
+  "goldPathNarrative": "Dopo l'esame obiettivo, si decide di eseguire una radiografia del torace per valutare la presenza di infiltrati polmonari. Si procede quindi con un emocromo e la misurazione dei livelli di procalcitonina per valutare la gravità dell'infezione. Si esegue anche un'analisi dei gas ematici per monitorare l'ossigenazione e la ventilazione. Vengono richiesti anche i lattati e la creatinina per valutare la funzione renale. La gestione della polmonite sarà basata sui risultati di questi esami e sulla gravità clinica della paziente.",
+  "escCitations": [
+    {
+      "chunkId": "8adb8af3-31cc-42bf-9b79-96396620d895-0",
+      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
+      "quote": "Diagnosis and Treatment of Adults with Community-Acquired Pneumonia An Official Clinical Practice Guideline of the American Thoracic Society and Infectious Diseases Society of America ONLINE SUPPLEMENT Joshua P. Metlay, MD, PhD, Grant Waterer, MBBS, PhD, Ann C. Long, MD, MS, Antonio Anzueto, MD, Jan Brozek, MD, PhD, Kristina Crothers, MD, Laura A. Cooley, MD, Nathan C. Dean, MD, Michael J. Fine, MD, MSc, Scott A.Flanders, MD, Marie R. Griffin, MD, MPH, Mark L. Metersky, MD, Daniel M. Musher, MD,"
+    },
+    {
+      "chunkId": "8adb8af3-31cc-42bf-9b79-96396620d895-63",
+      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
+      "quote": "s with CAP, 45/45 in the standard arm received an antibiotic prescription compared to 38/42 in the procalcitonin arm. c. Few eventsE27 Author(s): Date: Question: Clinical prediction rules compared to clinical judgment for determination of treatment location in adults with CAP Setting: Bibliography: Marrie 2000; Yealy 2005 Certainty assessment Impact Certainty Importance № of studies Study design Risk of bias Inconsistency Indirectness Imprecision Other considerations Outpatient treatment 2 rando"
+    },
+    {
+      "chunkId": "8adb8af3-31cc-42bf-9b79-96396620d895-91",
+      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
+      "quote": "more) ⨁⨁⨁◯ MODERATE NOT IMPORTANT CI: Confidence interval; RR: Risk ratio a. CI does not exclude an appreciable increase or reduction in the absolute risk b. Few events c. Not a pre-specified outcome for this group of PICOs d. Very indirect outcome Referenc esE40 Author(s): Date: Question: A respiratory fluoroquinolone compared to a B-lactam + macrolide in adults hospitaliz ed with CAP Setting: Inpatient Bibliography: Frank 2002, Fogarty 2004, Zervos 2004, Portier 2005, Xu 2006, Lin 2007, Lee 20"
+    },
+    {
+      "chunkId": "8adb8af3-31cc-42bf-9b79-96396620d895-68",
+      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
+      "quote": "ion among low-risk outpatients 1 randomised trials g not serious not serious serious g serious f none In Yealy 2005, adjusted odds for subsequent hospitaliz ation of low-risk outpatients was 1.1 (95% CI 0.4-2.7) in the moderate intensity group and 1.0 (95% CI 0.4-2.7) in the high intensity group, compared to the low-intensity group. ⨁⨁◯◯ LOW IMPORTANT CI: Confidence interval Explanations a. Marrie 2000 compared a critical pathway for management of CAP to conventional management. The critical pat"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: rx-torace → ega → emocromo → pcr-pct → lattati → creat-urea-gfr.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf).",
+      "Budget SSN di riferimento: €130."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alla L. 24/2017 Art. 5 seguendo il gold path.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "lattati",
+      "name": "Acido lattico (Lattati)",
+      "finding": "Acido lattico (Lattati) nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+      "isAbnormal": true,
+      "priceEuro": 7
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina e Urea (Azotemia) con stima GFR",
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Polmonite comunitaria grave ad alto rischio (CURB-65) (PNEUMO-008). Tachipnea, ipossiemia, febbre, crepitii bilaterali all'auscultazione, riduzione del suono respiratorio in alcune aree.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Risponde poco, si affida al nipote. Il linguaggio troppo rapido o astratto la fa acconsentire senza comprendere. Serve tempo, volume basso e coinvolgimento del caregiver."
+  }
+}

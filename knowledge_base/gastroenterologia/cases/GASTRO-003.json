@@ -1,0 +1,287 @@
+{
+  "title": "Emorragia digestiva bassa in uomo di 76 anni",
+  "description": "Vincenzo è un uomo di 76 anni che si presenta al pronto soccorso con una storia recente di sanguinamento rettale. Si lamenta di aver notato sangue rosso vivo nelle feci, il che lo ha preoccupato molto. È ansioso e si sente vulnerabile, soprattutto perché teme di essere giudicato per il suo consumo di vino. Nonostante la sua ansia, si mostra disposto a seguire le indicazioni mediche, purché venga spiegato il procedimento della colonscopia e il consenso.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "emocromo",
+    "pt-ptt-inr",
+    "colonscopia",
+    "consenso-informato"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 104,
+      "bloodPressure": "108/64",
+      "spo2": 95,
+      "temperature": 36.5,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 200,
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023 (GASTRO-003). Emocromo con anemia, PT e PTT nella norma, evidenza di sanguinamento attivo alla colonscopia.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023 (GASTRO-003). Emocromo con anemia, PT e PTT nella norma, evidenza di sanguinamento attivo alla colonscopia.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pt-ptt-inr": {
+          "finding": "Coagulazione (PT, PTT, INR) nel contesto di Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023 (GASTRO-003). Emocromo con anemia, PT e PTT nella norma, evidenza di sanguinamento attivo alla colonscopia.",
+          "normalFinding": "Coagulazione (PT, PTT, INR) nel contesto di Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023 (GASTRO-003). Emocromo con anemia, PT e PTT nella norma, evidenza di sanguinamento attivo alla colonscopia.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "colonscopia": {
+          "finding": "Colonscopia nel contesto di Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023 (GASTRO-003). Emocromo con anemia, PT e PTT nella norma, evidenza di sanguinamento attivo alla colonscopia.",
+          "normalFinding": "Colonscopia nel contesto di Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023 (GASTRO-003). Emocromo con anemia, PT e PTT nella norma, evidenza di sanguinamento attivo alla colonscopia.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "egds": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 76,
+      "sex": "M",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Paziente vigile, ma ansioso. Addome morbido, non doloroso alla palpazione. Segni vitali stabili ma con tachicardia. Non evidenti segni di shock."
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023 (GASTRO-003). Emocromo con anemia, PT e PTT nella norma, evidenza di sanguinamento attivo alla colonscopia.",
+      "isAbnormal": true
+    },
+    "pt-ptt-inr": {
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023 (GASTRO-003). Emocromo con anemia, PT e PTT nella norma, evidenza di sanguinamento attivo alla colonscopia.",
+      "isAbnormal": true
+    },
+    "colonscopia": {
+      "finding": "Colonscopia nel contesto di Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023 (GASTRO-003). Emocromo con anemia, PT e PTT nella norma, evidenza di sanguinamento attivo alla colonscopia.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+      "isAbnormal": false
+    },
+    "egds": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un emocromo, PT-PTT-INR, e successivamente una colonscopia con consenso informato.",
+  "patientPrompt": "Mi chiamo Vincenzo, ho 76 anni e oggi sono venuto al pronto soccorso perché ho notato del sangue rosso vivo nelle feci. Questo mi preoccupa molto e mi sento ansioso. Ho anche una storia di gastrite e prendo farmaci per l'ipertensione. Ho paura di cosa possa significare e mi vergogno un po' di parlarne. Se mi spiegate bene cosa devo fare per la colonscopia, sono disposto a seguirvi.",
+  "id": "GASTRO-003",
+  "code": "GASTRO-003",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ACG_2023_Lower_GI_Bleeding.pdf",
+  "diagnosis": "Emorragia gastrointestinale bassa acuta.",
+  "pastMedicalHistory": "Ipertensione controllata con farmaci, storia di gastrite.",
+  "presentation": "Vincenzo è un uomo di 76 anni che si presenta al pronto soccorso con sanguinamento rettale. Riferisce di aver notato sangue rosso vivo nelle feci. È visibilmente ansioso e si vergogna di discutere del suo problema. Ha una rete sociale adeguata, ma il suo sonno è disturbato e la sua aderenza alle terapie è solo parziale. La sua literacy è media, il che significa che ha una comprensione sufficiente delle informazioni mediche, ma potrebbe avere bisogno di ulteriori spiegazioni.",
+  "redHerrings": [
+    "Dolore addominale intermittente che non sembra correlato al sanguinamento.",
+    "Storia di stipsi cronica.",
+    "Uso occasionale di anticoagulanti per la prevenzione di eventi cardiovascolari."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "emocromo": 30,
+    "pt-ptt-inr": 30,
+    "colonscopia": 90,
+    "consenso-informato": 10,
+    "pet-tc": 180,
+    "egds": 60
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-003_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-003_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-003_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-003_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-003_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-003_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Paziente vigile, ma ansioso. Addome morbido, non doloroso alla palpazione. Segni vitali stabili ma con tachicardia. Non evidenti segni di shock."
+  },
+  "goldPathNarrative": "Vincenzo è stato valutato al pronto soccorso. Dopo un'attenta anamnesi e un esame fisico, si è proceduto con un emocromo per valutare la sua emoglobina e il suo stato emodinamico. Sono stati eseguiti anche PT, PTT e INR per escludere anomalie nella coagulazione. Una volta stabilizzato, è stato informato riguardo alla necessità di una colonscopia per identificare la fonte del sanguinamento. È stato ottenuto il consenso informato dopo aver spiegato dettagliatamente la preparazione e il procedimento. La colonscopia ha rivelato la causa del sanguinamento e sono state intraprese le necessarie misure terapeutiche.",
+  "escCitations": [
+    {
+      "chunkId": "e33ffbde-4995-43cc-9ded-bd4451d2ff75-97",
+      "source": "knowledge_base/gastroenterologia/clinical/ACG_2023_Lower_GI_Bleeding.pdf",
+      "quote": "the Massachusetts General Hospital. Weekly clinicopatho- logical exercises. Case 20-1985. A 39-year-old man with melena and a radiologic abnormality of the cecum. N Engl J Med 1985;312:1311–8. 6. Laine L, Shah A. Randomized trial of urgent vs. elective colonoscopy in patients hospitalized with lower GI bleeding. Am J Gastroenterol 2010;105:2636–41 .quiz 2642. 7. Prakash C, Zuckerman GR. Acute small bowel bleeding: a distinct entity with significantly different economic implications compared with"
+    },
+    {
+      "chunkId": "e33ffbde-4995-43cc-9ded-bd4451d2ff75-2",
+      "source": "knowledge_base/gastroenterologia/clinical/ACG_2023_Lower_GI_Bleeding.pdf",
+      "quote": "of patients with acute LGIB including hemody- namic resuscitation, risk stratification, and management of antico- agulant and antiplatelet agents (antithrombotic agents). We then discuss colonoscopy as a diagnostic and therapeutic tool including ACG Clinical Guideline: Management of Patients With Acute Lower Gastrointestinal Bleeding Lisa L. Strate, MD, MPH, FACG1 and Ian M. Gralnek, MD, MSHS2 This guideline provides recommendations for the management of patients with acute overt lower gastroint"
+    },
+    {
+      "chunkId": "e33ffbde-4995-43cc-9ded-bd4451d2ff75-0",
+      "source": "knowledge_base/gastroenterologia/clinical/ACG_2023_Lower_GI_Bleeding.pdf",
+      "quote": "nature publishing group 459 © 2016 by the American College of Gastroenterology The American Journal of GASTROENTEROLOGY PRACTICE GUIDELINES INTRODUCTION Acute overt lower gastrointestinal bleeding (LGIB) accounts for ~20% of all cases of gastrointestinal (GI) bleeding, usually leads to hospital admission with invasive diagnostic evaluations, and consumes significant medical resources (1–3). Although most patients with acute LGIB stop bleeding spontaneously and have favorable outcomes, morbidity "
+    },
+    {
+      "chunkId": "e33ffbde-4995-43cc-9ded-bd4451d2ff75-96",
+      "source": "knowledge_base/gastroenterologia/clinical/ACG_2023_Lower_GI_Bleeding.pdf",
+      "quote": "ular disease) or expected delay in intervention. cEGD if high suspicion, NGT if moderate suspicion of UGIB. dConsider NGT to facilitate colonoscopy preparation in patients who are intolerant to oral intake and low aspiration risk. Resuscitate if needed with IV fluids and blood product transfusionb Manage on regular hospital floor Figure 1. Algorithm for the management of patients presenting with acute LGIB stratified by bleeding severity. CTA, computed tomographic angiography; DAPT, dual antipla"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: emocromo → pt-ptt-inr → colonscopia → consenso-informato.",
+      "Non prescrivere di prima intenzione: pet-tc, egds (ACG_2023_Lower_GI_Bleeding.pdf).",
+      "Budget SSN di riferimento: €200."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente ha seguito il gold path.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023 (GASTRO-003). Emocromo con anemia, PT e PTT nella norma, evidenza di sanguinamento attivo alla colonscopia.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT, INR)",
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023 (GASTRO-003). Emocromo con anemia, PT e PTT nella norma, evidenza di sanguinamento attivo alla colonscopia.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Colonscopia nel contesto di Lower GI bleeding acuta — rianimazione e colonscopia ACG 2023 (GASTRO-003). Emocromo con anemia, PT e PTT nella norma, evidenza di sanguinamento attivo alla colonscopia.",
+      "isAbnormal": true,
+      "priceEuro": 120
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf."
+    },
+    {
+      "examId": "egds",
+      "name": "Esofagogastroduodenoscopia (EGDS)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Si vergogna del sangue nelle feci. Se il medico è giudicante sul vino, si chiude. Accetta la colonscopia se si spiega preparazione e consenso."
+  }
+}

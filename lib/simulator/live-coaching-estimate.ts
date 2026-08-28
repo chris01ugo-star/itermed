@@ -173,7 +173,7 @@ function buildBaselineEstimate(input: LiveCoachingInput): LiveCoachingEstimate {
       },
       {
         id: "empathy",
-        label: "Empatia",
+        label: "Comunicazione",
         value: clampScore(empathy),
         tone: toneFor(empathy),
         statusLabel: "In attesa di anamnesi",
@@ -340,7 +340,7 @@ export function estimateLiveCoaching(input: LiveCoachingInput): LiveCoachingEsti
       },
       {
         id: "empathy",
-        label: "Empatia",
+        label: "Comunicazione",
         value: empathy,
         tone: toneFor(empathy),
       },

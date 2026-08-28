@@ -1,0 +1,266 @@
+{
+  "title": "Asma lieve in donna giovane con cybercondria",
+  "description": "Giulia è una giovane donna di 28 anni che si presenta con sintomi di ansia e preoccupazione per la sua salute respiratoria. Ha una storia di autosomministrazione di farmaci e ha cercato informazioni online, mostrando segni di cybercondria. I suoi segni vitali sono stabili, ma presenta un certo grado di tachipnea e ansia.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "spirometria",
+    "emocromo"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "118/74",
+      "spo2": 97,
+      "temperature": 36.4,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 55,
+    "advancedExams": {
+      "values": {
+        "spirometria": {
+          "finding": "Spirometria (semplice/globale) nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
+          "normalFinding": "Spirometria (semplice/globale) nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "broncoscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        }
+      }
+    },
+    "demographics": {
+      "age": 28,
+      "sex": "F",
+      "context": "Giulia si presenta all'ambulatorio di pneumologia con una certa ansia. Ha portato con sé screenshot di ricerche fatte online riguardo ai sintomi respiratori e alle possibili malattie. È preoccupata per la sua salute e teme di avere un probl"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo con auscultazione polmonare che mostra sibilanti espiratori. Nessun segno di distress respiratorio acuto. Segni vitali stabili."
+    },
+    "spirometria": {
+      "finding": "Spirometria (semplice/globale) nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "broncoscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Iniziare terapia anti-infiammatoria secondo le linee guida GINA.",
+  "patientPrompt": "Ho 28 anni e da qualche tempo ho notato che mi manca il respiro, soprattutto quando faccio attività fisica. Ho cercato informazioni online e ho trovato articoli sull'asma che mi hanno spaventata. Ho portato con me degli screenshot di quello che ho trovato. Ho anche avuto un raffreddore di recente, e ora temo che ci sia qualcosa di grave. A volte prendo farmaci che trovo in casa, ma non ho mai parlato con un medico di questo. Sono ansiosa e ho bisogno di sapere cosa sta succedendo.",
+  "id": "PNEUMO-004",
+  "code": "PNEUMO-004",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "GINA_2024_Asthma_Guidelines.pdf",
+  "diagnosis": "Asma bronchiale lieve",
+  "pastMedicalHistory": "Nessuna patologia cronica nota, ma storia di allergie stagionali e episodi occasionali di ansia.",
+  "presentation": "Giulia si presenta all'ambulatorio lamentando difficoltà respiratorie occasionali, specialmente durante l'attività fisica. Ha portato con sé screenshot di articoli e forum online riguardo all'asma, che ha trovato preoccupanti. È visibilmente ansiosa e chiede conferme sulla sua salute, temendo di avere una malattia grave. Nonostante ciò, ha un buon supporto sociale ma tende a non seguire le indicazioni mediche, autosomministrandosi farmaci per alleviare i sintomi.",
+  "redHerrings": [
+    "Giulia ha recentemente avuto un raffreddore che ha aggravato la sua ansia.",
+    "Ha una storia di allergie stagionali, che crede possano essere collegate ai suoi sintomi attuali.",
+    "Riferisce di aver avuto un episodio di reflusso gastroesofageo, che teme possa influire sulla sua respirazione."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "spirometria": 25,
+    "emocromo": 30,
+    "tc": 40,
+    "broncoscopia": 60
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-004_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-004_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-004_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-004_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-004_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-004_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo con auscultazione polmonare che mostra sibilanti espiratori. Nessun segno di distress respiratorio acuto. Segni vitali stabili."
+  },
+  "goldPathNarrative": "Dopo aver eseguito una spirometria che conferma la diagnosi di asma lieve, si procede con un emocromo per escludere altre patologie. Si discute con Giulia l'importanza di seguire un trattamento regolare e si le forniscono informazioni sui farmaci anti-infiammatori per via inalatoria. Si stabilisce un piano di follow-up per monitorare i sintomi e l'aderenza alla terapia.",
+  "escCitations": [
+    {
+      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-69",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "ferent medication at the same step. If asthma has been well controlled for 2–3 months or more, consider stepping down (page 27). Presenting symptoms Preferred INITIAL treatment (GINA Track 1) Alternative INITIAL treatment (GINA Track 2)COPYRIGHTED MATERIAL - DO NOT COPY OR DISTRIBUTE *AIR: Anti-inflammatory reliever; Ig: immunoglobulin; ICS: inhaled corticosteroids; HDM: house dust mite; IL: interleukin; LABA: long-acting beta2-agonist; LAMA: long-acting muscarinic antagonist; MART: maintenance-"
+    },
+    {
+      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-58",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "gies In addition to medications, other therapies and strategies may help control symptoms and reduce risk (see the full 2026 GINA Report for details). There is consistent, high-quality evidence to support some strategies, for example: • Advice about smoking cessation. At every visit, strongly encourage smokers to quit. Provide access to counselling and resources. Advise parents/caregivers not to smoke in rooms or cars used by children with asthma. • Physical activity. Encourage people with asthm"
+    },
+    {
+      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-43",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "NA Track 1 if available • Check for risk factors such as smoking, beta-blockers, NSAIDs, allergen exposure. Check for and manage conditions such as rhinitis, obesity, GERD, depression/anxiety. Consider short-term step up to next treatment level. Use shared decision-making, and balance potential benefits and risks. If asthma still uncontrolled after 3–6 months on Step 4 treatment, refer for expert advice. Refer earlier if asthma symptoms severe, or doubts about diagnosis. Watch patient using thei"
+    },
+    {
+      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-49",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "ost effective in clinical trials, particularly for reducing exacerbations, and/or are more convenient for patients. To choose the best treatment for an individual patient, also consider their risk factors, their other medical conditions, the type of asthma they have, their personal goals for their asthma treatment, their ability to use different types of inhalers correctly, whether they are likely to adhere to treatment, the cost of medication, and its environmental impact. GINA treatment option"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: spirometria → emocromo.",
+      "Non prescrivere di prima intenzione: tc, broncoscopia (GINA_2024_Asthma_Guidelines.pdf).",
+      "Budget SSN di riferimento: €55."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alle linee guida GINA per il trattamento dell'asma.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "spirometria",
+      "name": "Spirometria (semplice/globale)",
+      "finding": "Spirometria (semplice/globale) nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf."
+    },
+    {
+      "examId": "broncoscopia",
+      "name": "Broncoscopia (e BAL)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "emotionalState": "ANXIOUS",
+    "adherence": "SELF_MEDICATED",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Arriva con screenshot di ChatGPT e forum. Se il medico sminuisce le ricerche, si chiude e aumenta l'autosomministrazione. Collabora se si riconosce l'ansia e si ricentra sulle evidenze GINA."
+  }
+}

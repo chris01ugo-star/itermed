@@ -106,6 +106,15 @@ const envSchema = z
     // Production: zero soft-fallback on auth secrets and public URLs.
     if (data.NODE_ENV !== "production") return;
 
+    const rawAuthBypass = (process.env.DEV_AUTH_BYPASS ?? "").trim().toLowerCase();
+    if (rawAuthBypass === "true" || rawAuthBypass === "1" || rawAuthBypass === "yes") {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "DEV_AUTH_BYPASS cannot be enabled when NODE_ENV is production",
+        path: ["DEV_AUTH_BYPASS"],
+      });
+    }
+
     const authSecret = data.NEXTAUTH_SECRET ?? data.AUTH_SECRET;
     if (!authSecret) {
       ctx.addIssue({
@@ -176,7 +185,7 @@ function buildConfigFromParsed(env: z.infer<typeof envSchema>) {
     GOOGLE_CLIENT_ID: env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: env.GOOGLE_CLIENT_SECRET,
     isGoogleAuthConfigured: Boolean(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET),
-    DEV_AUTH_BYPASS: env.DEV_AUTH_BYPASS,
+    DEV_AUTH_BYPASS: env.NODE_ENV === "development" && env.DEV_AUTH_BYPASS,
     ITERMED_BOOTSTRAP_DEMO: env.ITERMED_BOOTSTRAP_DEMO,
     STRIPE_SECRET_KEY: env.STRIPE_SECRET_KEY,
     STRIPE_WEBHOOK_SECRET: env.STRIPE_WEBHOOK_SECRET,
@@ -253,7 +262,8 @@ function loadDevFallbackConfig(
     isGoogleAuthConfigured: Boolean(
       envInput.GOOGLE_CLIENT_ID?.trim() && envInput.GOOGLE_CLIENT_SECRET?.trim(),
     ),
-    DEV_AUTH_BYPASS: envInput.DEV_AUTH_BYPASS !== "false",
+    DEV_AUTH_BYPASS:
+      process.env.NODE_ENV === "development" && envInput.DEV_AUTH_BYPASS !== "false",
     ITERMED_BOOTSTRAP_DEMO: envInput.ITERMED_BOOTSTRAP_DEMO === "true",
     STRIPE_SECRET_KEY: envInput.STRIPE_SECRET_KEY?.trim() || undefined,
     STRIPE_WEBHOOK_SECRET: envInput.STRIPE_WEBHOOK_SECRET?.trim() || undefined,
@@ -362,6 +372,21 @@ export type AppConfig = ReturnType<typeof loadConfig>;
 
 /** Singleton configuration object — validated once at module load. */
 export const config: AppConfig = loadConfig();
+
+/**
+ * NextAuth v4 reads `process.env.NEXTAUTH_URL` / `NEXTAUTH_SECRET` internally
+ * (CSRF, callback URLs, `/api/auth/session`). Mirror the validated config so a
+ * missing `.env.local` still works in development instead of returning HTML 404.
+ */
+function syncNextAuthProcessEnv(): void {
+  if (!process.env.NEXTAUTH_SECRET?.trim() && !process.env.AUTH_SECRET?.trim()) {
+    process.env.NEXTAUTH_SECRET = config.AUTH_SECRET;
+  }
+  if (!process.env.NEXTAUTH_URL?.trim()) {
+    process.env.NEXTAUTH_URL = config.NEXTAUTH_URL || DEV_APP_URL_FALLBACK;
+  }
+}
+syncNextAuthProcessEnv();
 
 /**
  * True when Prisma should be used for clinical cases / sessions.

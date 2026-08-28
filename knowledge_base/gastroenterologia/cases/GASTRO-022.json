@@ -1,0 +1,285 @@
+{
+  "title": "DILI da integratori in donna di 39 anni",
+  "description": "Martina è visibilmente ansiosa e porta con sé delle stampe riguardanti il DILI. Ha una buona rete sociale che la supporta, ma è molto stressata e tende a cercare informazioni sulla salute online, il che la porta a sentirsi spesso ansiosa. La sua qualità del sonno è discreta, ma non ottimale.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "enzimi-epatici",
+    "bilirubina",
+    "hiv-hcv-hbv"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 80,
+      "bloodPressure": "116/74",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 60,
+    "advancedExams": {
+      "values": {
+        "enzimi-epatici": {
+          "finding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Drug-induced liver injury (DILI) — riconoscimento e gestione EASL (GASTRO-022). Possibile aumento degli enzimi epatici, bilirubina normale o lievemente elevata.",
+          "normalFinding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Drug-induced liver injury (DILI) — riconoscimento e gestione EASL (GASTRO-022). Possibile aumento degli enzimi epatici, bilirubina normale o lievemente elevata.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "bilirubina": {
+          "finding": "Bilirubina (Totale e Frazionata) nel contesto di Drug-induced liver injury (DILI) — riconoscimento e gestione EASL (GASTRO-022). Possibile aumento degli enzimi epatici, bilirubina normale o lievemente elevata.",
+          "normalFinding": "Bilirubina (Totale e Frazionata) nel contesto di Drug-induced liver injury (DILI) — riconoscimento e gestione EASL (GASTRO-022). Possibile aumento degli enzimi epatici, bilirubina normale o lievemente elevata.",
+          "isAbnormal": true,
+          "price": 6
+        },
+        "hiv-hcv-hbv": {
+          "finding": "Ab anti HIV, HCV, HBV nel contesto di Drug-induced liver injury (DILI) — riconoscimento e gestione EASL (GASTRO-022). Possibile aumento degli enzimi epatici, bilirubina normale o lievemente elevata.",
+          "normalFinding": "Ab anti HIV, HCV, HBV nel contesto di Drug-induced liver injury (DILI) — riconoscimento e gestione EASL (GASTRO-022). Possibile aumento degli enzimi epatici, bilirubina normale o lievemente elevata.",
+          "isAbnormal": true,
+          "price": 22
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_DILI_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_DILI_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_DILI_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_DILI_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 39,
+      "sex": "F",
+      "context": "Martina è una donna di 39 anni che si presenta in ambulatorio di gastroenterologia con sintomi di affaticamento e nausea. Ha recentemente iniziato a prendere integratori a base di curcuma e altri prodotti 'detox' suggeriti da influencer sui"
+    },
+    "physicalExam": {
+      "finding": "Martina appare ansiosa, con un buon stato di idratazione. Non presenta ittero né segni di encefalopatia. Addome morbido, non dolente alla palpazione, senza segni di ascite."
+    },
+    "enzimi-epatici": {
+      "finding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Drug-induced liver injury (DILI) — riconoscimento e gestione EASL (GASTRO-022). Possibile aumento degli enzimi epatici, bilirubina normale o lievemente elevata.",
+      "isAbnormal": true
+    },
+    "bilirubina": {
+      "finding": "Bilirubina (Totale e Frazionata) nel contesto di Drug-induced liver injury (DILI) — riconoscimento e gestione EASL (GASTRO-022). Possibile aumento degli enzimi epatici, bilirubina normale o lievemente elevata.",
+      "isAbnormal": true
+    },
+    "hiv-hcv-hbv": {
+      "finding": "Ab anti HIV, HCV, HBV nel contesto di Drug-induced liver injury (DILI) — riconoscimento e gestione EASL (GASTRO-022). Possibile aumento degli enzimi epatici, bilirubina normale o lievemente elevata.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_DILI_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_DILI_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Interrompere immediatamente l'assunzione degli integratori e monitorare i parametri epatici.",
+  "patientPrompt": "Ho 39 anni e da qualche tempo mi sento molto stanca e nauseata. Ho iniziato a prendere degli integratori a base di curcuma e altri prodotti detox che ho visto sui social media. Sono molto preoccupata per la mia salute e ho letto che alcuni integratori possono causare danni al fegato. Ho portato con me delle informazioni sui danni epatici indotti da farmaci perché voglio capire se i miei sintomi possono essere collegati a questi integratori. Sono ansiosa e ho bisogno di chiarimenti.",
+  "id": "GASTRO-022",
+  "code": "GASTRO-022",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Drug-induced liver injury (DILI) — riconoscimento e gestione EASL",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "EASL_DILI_Guidelines.pdf",
+  "diagnosis": "Drug-induced liver injury (DILI)",
+  "pastMedicalHistory": "Nessuna patologia pregressa significativa. Non assume farmaci regolarmente, ma ha una storia di auto-medicazione con integratori.",
+  "presentation": "Martina si presenta in ambulatorio lamentando affaticamento e nausea. Ha iniziato a prendere integratori a base di curcuma e prodotti detox, e si preoccupa dei potenziali effetti collaterali. È ansiosa riguardo alla sua salute e ha portato con sé delle informazioni sui danni epatici indotti da farmaci. È consapevole della sua condizione, ma non è sicura di come procedere e desidera chiarimenti.",
+  "redHerrings": [
+    "Martina ha notato un aumento di peso recente, ma non è sicura se sia correlato agli integratori.",
+    "Ha avuto episodi di mal di testa, ma non li associa direttamente ai nuovi integratori.",
+    "Riferisce di aver avuto una leggera febbre, ma non è persistente e non ha altri sintomi infettivi."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "enzimi-epatici": 30,
+    "bilirubina": 30,
+    "hiv-hcv-hbv": 40,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-022_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Drug-induced liver injury (DILI) — riconoscimento e gestione EASL)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-022_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-022_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-022_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-022_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-022_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Martina appare ansiosa, con un buon stato di idratazione. Non presenta ittero né segni di encefalopatia. Addome morbido, non dolente alla palpazione, senza segni di ascite."
+  },
+  "goldPathNarrative": "Dopo aver esaminato Martina, si decide di eseguire un'analisi degli enzimi epatici e della bilirubina per valutare la funzionalità epatica. Si consiglia di interrompere l'assunzione degli integratori e di monitorare i sintomi. Se i valori degli enzimi epatici risultano elevati, si procederà con ulteriori indagini per escludere altre cause di danno epatico.",
+  "escCitations": [
+    {
+      "chunkId": "8eb70791-e408-4f37-9212-afd90024e23c-205",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_DILI_Guidelines.pdf",
+      "quote": "splantation due to DILI International DILI Expert Working Group160 1 Mild ALT ≥5 or ALP ≥2 and TBL <2 ULN 2 Moderate ALT ≥5 or ALP ≥2 and TBL ≥2 ULN, or symptomatic hepatitis 3 Severe ALT ≥5 or ALP ≥2 and TBL ≥2 ULN, or symptomatic hepatitis and 1 of the following criteria: - INR ≥1.5 - Ascites and/or encephalopathy, disease duration <26 weeks, and absence of underlying cirrhosis - Other organ failure due to DILI 4 Fatal/transplantation Death or liver transplantation due to DILI ALP, alkaline ph"
+    },
+    {
+      "chunkId": "ff741b99-2b2b-49ab-9272-fa699418a1e6-10",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_DILI_Guidelines.pdf",
+      "quote": "vised by Cornberg et al.13 Some further recommendations are based on expert consensus from the panel members, who are experts in the DILI field. To further strengthen its validity both the EASL Governing Board as well as external experts have reviewed the recommenda- tions. All recommendations of this CPG were agreed upon unan- imously (100% consensus). Epidemiology Demography and drugs Determining the true incidence of DILI is difficult. Despite increasing awareness of hepatotoxicity and the av"
+    },
+    {
+      "chunkId": "8eb70791-e408-4f37-9212-afd90024e23c-10",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_DILI_Guidelines.pdf",
+      "quote": "vised by Cornberg et al.13 Some further recommendations are based on expert consensus from the panel members, who are experts in the DILI field. To further strengthen its validity both the EASL Governing Board as well as external experts have reviewed the recommenda- tions. All recommendations of this CPG were agreed upon unan- imously (100% consensus). Epidemiology Demography and drugs Determining the true incidence of DILI is difficult. Despite increasing awareness of hepatotoxicity and the av"
+    },
+    {
+      "chunkId": "8eb70791-e408-4f37-9212-afd90024e23c-1",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_DILI_Guidelines.pdf",
+      "quote": "ariety of acute liver failure for which no effective therapy has yet been developed. These Clinical Practice Guidelines summarize the available evi- dence on risk factors, diagnosis, management and risk mini- mization strategies for drug-induced liver jury. Ó 2019 European Association for the Study of the Liver. Published by Elsevier B.V. All rights reserved. Introduction The focus of these guidelines is idiosyncratic drug-induced liver injury (DILI). However, it is important to recognise that D"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: enzimi-epatici → bilirubina → hiv-hcv-hbv.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (EASL_DILI_Guidelines.pdf).",
+      "Budget SSN di riferimento: €60."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "L. 24/2017 Art. 5 L'adesione alle linee guida (EASL_DILI_Guidelines.pdf) e al gold path costituisce parametro di conformità alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Ambulatorio di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "enzimi-epatici",
+      "name": "Indici di citolisi e colestasi (AST, ALT, GGT, FA)",
+      "finding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Drug-induced liver injury (DILI) — riconoscimento e gestione EASL (GASTRO-022). Possibile aumento degli enzimi epatici, bilirubina normale o lievemente elevata.",
+      "isAbnormal": true,
+      "priceEuro": 10
+    },
+    {
+      "examId": "bilirubina",
+      "name": "Bilirubina (Totale e Frazionata)",
+      "finding": "Bilirubina (Totale e Frazionata) nel contesto di Drug-induced liver injury (DILI) — riconoscimento e gestione EASL (GASTRO-022). Possibile aumento degli enzimi epatici, bilirubina normale o lievemente elevata.",
+      "isAbnormal": true,
+      "priceEuro": 6
+    },
+    {
+      "examId": "hiv-hcv-hbv",
+      "name": "Ab anti HIV, HCV, HBV",
+      "finding": "Ab anti HIV, HCV, HBV nel contesto di Drug-induced liver injury (DILI) — riconoscimento e gestione EASL (GASTRO-022). Possibile aumento degli enzimi epatici, bilirubina normale o lievemente elevata.",
+      "isAbnormal": true,
+      "priceEuro": 22
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_DILI_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_DILI_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_DILI_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_DILI_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "emotionalState": "ANXIOUS",
+    "adherence": "SELF_MEDICATED",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Assume curcuma e 'detox' da influencer. Porta stampe su DILI. Se si deride l'integratore, si chiude. Serve validare e fermare il prodotto secondo EASL, senza PET difensiva."
+  }
+}

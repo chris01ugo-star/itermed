@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
 import { createExamMetadata, listExamMetadata, listDistinctExamCategories } from "@/lib/exams/exam-repository";
 import { ExamListQuerySchema, ExamMetadataCreateSchema } from "@/lib/exams/exam-schemas";
+import { isUnauthorizedResponse, requireUserApi } from "@/lib/api-session";
 import { requireAdminApi } from "@/lib/require-admin-api";
 
 export const runtime = "nodejs";
 
 export async function GET(request: Request) {
+  const auth = await requireUserApi();
+  if (isUnauthorizedResponse(auth)) return auth;
+
   const url = new URL(request.url);
   const parsed = ExamListQuerySchema.safeParse({
     q: url.searchParams.get("q") ?? undefined,

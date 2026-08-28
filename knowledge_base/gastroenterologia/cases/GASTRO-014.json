@@ -1,0 +1,285 @@
+{
+  "title": "Colecistite acuta Tokyo TG18",
+  "description": "Carmine si presenta al pronto soccorso con un forte dolore nell'ipocondrio destro, che descrive come acuto e persistente. È visibilmente ansioso e preoccupato per la possibilità di un infarto, poiché il dolore è intenso e localizzato in una zona che associa a problemi cardiaci. Durante la visita, esprime la sua paura e il desiderio di capire cosa stia succedendo. Ha difficoltà a seguire le spiegazioni mediche e sembra avere una scarsa comprensione delle sue condizioni di salute. La sua rete sociale è adeguata, ma il livello di stress è elevato, il che influisce sul suo sonno. Nonostante ciò, la sua aderenza alle indicazioni mediche è parziale, e tende a cercare informazioni online, il che a volte alimenta la sua ansia.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "emocromo",
+    "enzimi-epatici",
+    "ecografia"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 104,
+      "bloodPressure": "136/84",
+      "spo2": 97,
+      "temperature": 38.4,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 70,
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18 (GASTRO-014). Leucocitosi, aumento degli enzimi epatici, segni ecografici di colecistite (parete ispessita, presenza di calcoli).",
+          "normalFinding": "Emocromo completo con formula nel contesto di Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18 (GASTRO-014). Leucocitosi, aumento degli enzimi epatici, segni ecografici di colecistite (parete ispessita, presenza di calcoli).",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "enzimi-epatici": {
+          "finding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18 (GASTRO-014). Leucocitosi, aumento degli enzimi epatici, segni ecografici di colecistite (parete ispessita, presenza di calcoli).",
+          "normalFinding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18 (GASTRO-014). Leucocitosi, aumento degli enzimi epatici, segni ecografici di colecistite (parete ispessita, presenza di calcoli).",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "ecografia": {
+          "finding": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica) nel contesto di Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18 (GASTRO-014). Leucocitosi, aumento degli enzimi epatici, segni ecografici di colecistite (parete ispessita, presenza di calcoli).",
+          "normalFinding": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica) nel contesto di Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18 (GASTRO-014). Leucocitosi, aumento degli enzimi epatici, segni ecografici di colecistite (parete ispessita, presenza di calcoli).",
+          "isAbnormal": true,
+          "price": 35
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Tokyo_Guidelines_TG18_Cholecystitis.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Tokyo_Guidelines_TG18_Cholecystitis.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Tokyo_Guidelines_TG18_Cholecystitis.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Tokyo_Guidelines_TG18_Cholecystitis.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 55,
+      "sex": "M",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Dolore palpatorio nell'ipocondrio destro, segno di Murphy positivo, lieve rigidità addominale."
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18 (GASTRO-014). Leucocitosi, aumento degli enzimi epatici, segni ecografici di colecistite (parete ispessita, presenza di calcoli).",
+      "isAbnormal": true
+    },
+    "enzimi-epatici": {
+      "finding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18 (GASTRO-014). Leucocitosi, aumento degli enzimi epatici, segni ecografici di colecistite (parete ispessita, presenza di calcoli).",
+      "isAbnormal": true
+    },
+    "ecografia": {
+      "finding": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica) nel contesto di Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18 (GASTRO-014). Leucocitosi, aumento degli enzimi epatici, segni ecografici di colecistite (parete ispessita, presenza di calcoli).",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Tokyo_Guidelines_TG18_Cholecystitis.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Tokyo_Guidelines_TG18_Cholecystitis.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Emocromo, enzimi epatici, ecografia addominale.",
+  "patientPrompt": "Ho 55 anni e sono molto preoccupato per il dolore che ho nell'addome. È un dolore acuto nell'ipocondrio destro e ho paura che possa essere un infarto. Ho avuto un po' di febbre e mi sento nauseato. Non riesco a capire bene cosa stia succedendo e ho letto alcune cose online che mi hanno fatto aumentare l'ansia. Vorrei sapere se è grave e cosa devo fare.",
+  "id": "GASTRO-014",
+  "code": "GASTRO-014",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Tokyo_Guidelines_TG18_Cholecystitis.pdf",
+  "diagnosis": "Colecistite acuta",
+  "pastMedicalHistory": "Nessuna patologia pregressa significativa, occasionali episodi di reflusso gastroesofageo.",
+  "presentation": "Carmine, un uomo di 55 anni, si presenta al pronto soccorso lamentando un dolore acuto nell'ipocondrio destro da circa 24 ore. Riferisce di avere febbre e nausea, e si mostra molto ansioso riguardo alla sua condizione. Ha paura di avere un problema cardiaco, poiché il dolore è intenso e localizzato. Durante la visita, appare agitato e ha difficoltà a seguire le spiegazioni fornite dal personale medico. La sua storia clinica non riporta patologie significative, ma ammette di avere una scarsa comprensione delle sue condizioni di salute e di cercare spesso informazioni online, il che lo rende ancora più ansioso.",
+  "redHerrings": [
+    "Carmine ha riferito di aver avuto un episodio di reflusso gastroesofageo qualche settimana fa, ma non sembra correlato ai sintomi attuali.",
+    "Ha anche menzionato di aver avuto un lieve raffreddore recentemente, che ha portato a pensare che i sintomi potessero essere di origine virale.",
+    "Inoltre, ha avuto un paio di notti insonni, ma non è chiaro se questo possa influenzare il dolore attuale."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "emocromo": 30,
+    "enzimi-epatici": 30,
+    "ecografia": 25,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-014_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-014_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-014_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-014_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-014_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-014_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dolore palpatorio nell'ipocondrio destro, segno di Murphy positivo, lieve rigidità addominale."
+  },
+  "goldPathNarrative": "Per valutare la situazione di Carmine, è fondamentale eseguire un emocromo per verificare segni di infezione e infiammazione. Successivamente, gli enzimi epatici devono essere controllati per escludere anomalie epatiche. Infine, un'ecografia addominale è essenziale per confermare la diagnosi di colecistite acuta e valutare la presenza di calcoli biliari o altre complicazioni.",
+  "escCitations": [
+    {
+      "chunkId": "d215128e-6e46-4995-8f34-afcc7aa134d5-35",
+      "source": "knowledge_base/gastroenterologia/clinical/Tokyo_Guidelines_TG18_Cholecystitis.pdf",
+      "quote": "iary drainage for acute cholangitis in updated Tokyo Guidelines 2018. J Hepatobiliary Pancreat Sci. 2017;24:537–49. 13. Yokoe M, Hata J, Takada T, Strasberg SM, Asbun HJ, Wak- abayashi G, et al. Tokyo Guidelines 2018: diagnostic criteria and severity grading of acute cholecystitis (with videos). J Hepatobiliary Pancreat Sci. 2018;25:41–54. 14. Okamoto K, Suzuki K, Takada T, Strasberg SM, Asbun HJ, Endo I, et al. Tokyo Guidelines 2018: flowchart for the man- agement of acute cholecystitis. J Hepa"
+    },
+    {
+      "chunkId": "d215128e-6e46-4995-8f34-afcc7aa134d5-5",
+      "source": "knowledge_base/gastroenterologia/clinical/Tokyo_Guidelines_TG18_Cholecystitis.pdf",
+      "quote": "efine items or procedures strongly recommended in clinical practice have been used in many guidelines in recent years. Application of these bundles facilitates the adaptation of guidelines and helps improve the prognosis of target diseases. In Tokyo Guidelines 2013 (TG13), we proposed management bundles for acute cholangitis and cholecystitis. Here, in Tokyo Guidelines 2018 (TG18), we redefine the management bundles for acute cholangitis and cholecystitis. Critical parts of the bundles in TG18 i"
+    },
+    {
+      "chunkId": "d215128e-6e46-4995-8f34-afcc7aa134d5-34",
+      "source": "knowledge_base/gastroenterologia/clinical/Tokyo_Guidelines_TG18_Cholecystitis.pdf",
+      "quote": "Sci. 2015;10:119. 9. Miura F, Okamoto K, Takada T, Strasberg SM, Asbun HJ, Pitt HA, et al. Tokyo Guidelines 2018: initial management of acute biliary infection and flowchart for acute cholangitis (with videos). J Hepatobiliary Pancreat Sci. 2018;25:31–40. 10. Kiriyama S, Kozaka K, Takada T, Strasberg SM, Pitt HA, Gabata T, et al. Tokyo Guidelines 2018: diagnostic criteria and severity grading of acute cholangitis (with videos). J Hepatobil- iary Pancreat Sci. 2018;25:17–30. 11. Gomi H, Solomkin "
+    },
+    {
+      "chunkId": "d215128e-6e46-4995-8f34-afcc7aa134d5-23",
+      "source": "knowledge_base/gastroenterologia/clinical/Tokyo_Guidelines_TG18_Cholecystitis.pdf",
+      "quote": "items and procedures for the effective application of TG18. Reports from various facili- ties have demonstrated that improved prognosis can be expected through the use of the Tokyo Guidelines for acute cholangitis and cholecystitis. Future evaluations of the distribution of TG18 bundles and of changes in prognosis will provide evidence for the future construction and revision of TG18. Acknowledgments We are grateful to the following organizations for their support and guidance in the preparation"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: emocromo → enzimi-epatici → ecografia.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (Tokyo_Guidelines_TG18_Cholecystitis.pdf).",
+      "Budget SSN di riferimento: €70."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente deve seguire il gold path per garantire una corretta diagnosi e trattamento.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18 (GASTRO-014). Leucocitosi, aumento degli enzimi epatici, segni ecografici di colecistite (parete ispessita, presenza di calcoli).",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "enzimi-epatici",
+      "name": "Indici di citolisi e colestasi (AST, ALT, GGT, FA)",
+      "finding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18 (GASTRO-014). Leucocitosi, aumento degli enzimi epatici, segni ecografici di colecistite (parete ispessita, presenza di calcoli).",
+      "isAbnormal": true,
+      "priceEuro": 10
+    },
+    {
+      "examId": "ecografia",
+      "name": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica)",
+      "finding": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica) nel contesto di Colecistite acuta — diagnosi e grading Tokyo Guidelines TG18 (GASTRO-014). Leucocitosi, aumento degli enzimi epatici, segni ecografici di colecistite (parete ispessita, presenza di calcoli).",
+      "isAbnormal": true,
+      "priceEuro": 35
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Tokyo_Guidelines_TG18_Cholecystitis.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Tokyo_Guidelines_TG18_Cholecystitis.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Tokyo_Guidelines_TG18_Cholecystitis.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Tokyo_Guidelines_TG18_Cholecystitis.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il dolore ipocondrio destro lo fa pensare all'infarto. Serve distinguere colecistite da cuore in parole semplici e spiegare l'eco addome."
+  }
+}

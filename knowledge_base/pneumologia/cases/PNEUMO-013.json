@@ -1,0 +1,284 @@
+{
+  "title": "Pneumotorace secondario in BPCO",
+  "description": "Paziente con difficoltà respiratorie acute, ansioso e con una storia di BPCO. Presenta segni di ipossiemia e tachipnea.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "rx-torace",
+    "ega",
+    "emocromo"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 116,
+      "bloodPressure": "142/86",
+      "spo2": 86,
+      "temperature": 36.8,
+      "respiratoryRate": 30
+    },
+    "examBudgetEuro": 80,
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Pneumotorace spontaneo secondario su BPCO (PNEUMO-013). Tachicardia, ipossiemia, aumento della frequenza respiratoria, segni di distress respiratorio.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Pneumotorace spontaneo secondario su BPCO (PNEUMO-013). Tachicardia, ipossiemia, aumento della frequenza respiratoria, segni di distress respiratorio.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Pneumotorace spontaneo secondario su BPCO (PNEUMO-013). Tachicardia, ipossiemia, aumento della frequenza respiratoria, segni di distress respiratorio.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Pneumotorace spontaneo secondario su BPCO (PNEUMO-013). Tachicardia, ipossiemia, aumento della frequenza respiratoria, segni di distress respiratorio.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Pneumotorace spontaneo secondario su BPCO (PNEUMO-013). Tachicardia, ipossiemia, aumento della frequenza respiratoria, segni di distress respiratorio.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Pneumotorace spontaneo secondario su BPCO (PNEUMO-013). Tachicardia, ipossiemia, aumento della frequenza respiratoria, segni di distress respiratorio.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "rm": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+          "isAbnormal": false,
+          "price": 220
+        }
+      }
+    },
+    "demographics": {
+      "age": 69,
+      "sex": "M",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Paziente ansioso, ipossiemico, con segni di tachipnea e uso dei muscoli accessori della respirazione."
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Pneumotorace spontaneo secondario su BPCO (PNEUMO-013). Tachicardia, ipossiemia, aumento della frequenza respiratoria, segni di distress respiratorio.",
+      "isAbnormal": true
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Pneumotorace spontaneo secondario su BPCO (PNEUMO-013). Tachicardia, ipossiemia, aumento della frequenza respiratoria, segni di distress respiratorio.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Pneumotorace spontaneo secondario su BPCO (PNEUMO-013). Tachicardia, ipossiemia, aumento della frequenza respiratoria, segni di distress respiratorio.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+      "isAbnormal": false
+    },
+    "rm": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "RX torace, EGA, emocromo Gold path: rx-torace → ega → emocromo. Linea guida: BTS Guideline for Pleural Disease.pdf.",
+  "patientPrompt": "Ho 69 anni e sono qui perché ho difficoltà a respirare. Sono molto preoccupato e ho paura di dover restare in ospedale. Vivo da solo e non ho molte persone che possono aiutarmi. Ultimamente ho avuto difficoltà a respirare e mi sento sempre stanco. Non riesco a dormire bene e questo mi rende ancora più ansioso. Se mi dite che dovrò avere un tubo nel torace, non so se riuscirò a farlo. Potete spiegarmelo in modo semplice?",
+  "id": "PNEUMO-013",
+  "code": "PNEUMO-013",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Pneumotorace spontaneo secondario su BPCO",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "BTS Guideline for Pleural Disease.pdf",
+  "diagnosis": "Pneumotorace spontaneo secondario su BPCO",
+  "pastMedicalHistory": "Storia di BPCO, ipertensione, e lieve depressione.",
+  "presentation": "Enrico, un uomo di 69 anni, si presenta al pronto soccorso con difficoltà respiratorie acute. Riferisce di sentirsi molto ansioso e teme di dover essere ricoverato. Vive solo e ha una rete sociale limitata, il che aumenta il suo stress. Ha notato un aumento della difficoltà respiratoria nelle ultime ore e ha una storia di BPCO, ma non ha mai avuto un episodio simile prima d'ora. Nonostante le sue paure, cerca di seguire le indicazioni mediche, anche se ammette di avere difficoltà a comprendere alcune informazioni. La sua qualità del sonno è scarsa e si sente spesso stanco.",
+  "redHerrings": [
+    "Riflesso di tosse secca e persistente.",
+    "Leggera congestione nasale.",
+    "Storia di allergie stagionali."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "rx-torace": 20,
+    "ega": 10,
+    "emocromo": 30,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-013_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Pneumotorace spontaneo secondario su BPCO)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-013_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-013_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-013_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-013_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-013_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Paziente ansioso, ipossiemico, con segni di tachipnea e uso dei muscoli accessori della respirazione."
+  },
+  "goldPathNarrative": "Iniziare con una radiografia del torace per confermare la presenza di pneumotorace. Successivamente, eseguire un'analisi dei gas ematici per valutare l'ipossiemia e un emocromo per escludere eventuali complicanze. Considerare l'aspirazione con ago o drenaggio toracico a seconda della gravità del pneumotorace e della risposta clinica del paziente.",
+  "escCitations": [
+    {
+      "chunkId": "a6aebe1b-6342-49c1-8143-45284151c90c-2",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "ulatory management should be considered for the initial treatment of primary spontaneous pneumothorax in adults with good support, and in centres with available expertise and follow- up facilities. (Conditional) ► In patients not deemed suitable for conservative or ambulatory management, needle aspiration or tube drainage should be considered for the initial treatment of primary spontaneous pneu- mothorax in adults. (Conditional) ► Chemical pleurodesis can be considered for the prevention of rec"
+    },
+    {
+      "chunkId": "a6aebe1b-6342-49c1-8143-45284151c90c-34",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "ation to manage- ment in the inpatient and outpatient settings and by specialists of all disciplines involved in the care of patients with pleural disease. areas not covered by the guideline Mesothelioma has been excluded from this guideline as this is already covered in the BTS Guideline for the investiga- tion and management of pleural mesothelioma.10 Benign (non-infectious, non-pneumothorax) pleural disease and rare pleural diseases are also excluded. Guidance on pleural inter- ventions are c"
+    },
+    {
+      "chunkId": "a6aebe1b-6342-49c1-8143-45284151c90c-165",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "igation and management of pleural mesothelioma 2018.10 The manage- ment of MPE has developed hugely since the publication of the management of an MPE: British Thoracic Society Pleural Disease Guideline 2010.6 Where previously pleural fluid 23Roberts ME, et al. Thorax 2023;0:1–34. doi:10.1136/thorax-[REDACTED] BTS Guideline cytology and chest tubes with talc pleurodesis were the main- stay of diagnosis and treatment, there are now many evidence- based options available to clinicians. Medical thor"
+    },
+    {
+      "chunkId": "a6aebe1b-6342-49c1-8143-45284151c90c-52",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "on A5) Other areas of clinical importance that are not covered by the guideline questions are discussed in the ‘Other areas of clin- ical importance not covered by the clinical questions’ section, including traumatic and iatrogenic pneumothorax which are not specifically covered in the evidence review. definitions and treatment principles Spontaneous pneumothoraces can be subclassified into primary spontaneous pneumothorax (PSP) in the absence of suspected lung disease or SSP in patients with es"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: rx-torace → ega → emocromo.",
+      "Non prescrivere di prima intenzione: pet-tc, rm (BTS Guideline for Pleural Disease.pdf).",
+      "Budget SSN di riferimento: €80."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione parziale alle raccomandazioni di gestione.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Pneumotorace spontaneo secondario su BPCO (PNEUMO-013). Tachicardia, ipossiemia, aumento della frequenza respiratoria, segni di distress respiratorio.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Pneumotorace spontaneo secondario su BPCO (PNEUMO-013). Tachicardia, ipossiemia, aumento della frequenza respiratoria, segni di distress respiratorio.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Pneumotorace spontaneo secondario su BPCO (PNEUMO-013). Tachicardia, ipossiemia, aumento della frequenza respiratoria, segni di distress respiratorio.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf."
+    },
+    {
+      "examId": "rm",
+      "name": "RM Addome/Pelvi/Encefalo/Colonna/Articolare",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ISOLATED"
+    },
+    "communicationStyle": "Vive solo, teme il ricovero. Se si parla di 'tubo nel torace' senza preparazione, rifiuta. Serve spiegare il drenaggio con analogie semplici e confermare chi avvisare."
+  }
+}

@@ -1,26 +1,42 @@
-import { getSessionUserId } from "@/lib/api-session";
+import { getSessionUserId, unauthorizedJson } from "@/lib/api-session";
 import { toApiErrorResponse, ValidationError } from "@/lib/errors";
 import { createLogger } from "@/lib/logger";
+import { mapClinicalAuditToDTO } from "@/lib/mappers/clinical-audit-mapper";
+import { mapEconomicAuditToDTO } from "@/lib/mappers/economic-audit-mapper";
+import { mapLegalAuditToDTO } from "@/lib/mappers/legal-audit-mapper";
+import { mapRelationalAuditToDTO } from "@/lib/mappers/relational-audit-mapper";
 import { prisma } from "@/lib/prisma";
+import type { ClinicalAuditResult } from "@/lib/services/clinical-audit-service";
+import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
+import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
+import type { RelationalAuditResult } from "@/lib/services/relational-audit-service";
 import { buildReportDataFromSession } from "@/lib/services/simulation-report-data";
 import { ensureSimulationReportProcessing } from "@/lib/services/simulation-report-scheduler";
 
 export const runtime = "nodejs";
 
+function extractAuditFromRawTrace<T extends object>(
+  rawTrace: unknown,
+  key: "legalAudit" | "economicAudit" | "clinicalAudit" | "relationalAudit",
+): T | null {
+  if (!rawTrace || typeof rawTrace !== "object") return null;
+  const value = (rawTrace as Record<string, unknown>)[key];
+  if (!value || typeof value !== "object") return null;
+  return value as T;
+}
+
 export async function GET(request: Request) {
   const routeLogger = createLogger("simulation-report-status");
 
   try {
+    const userId = await getSessionUserId();
+    if (!userId) return unauthorizedJson();
+
     const params = new URL(request.url).searchParams;
     const reportId = params.get("reportId") ?? params.get("sessionId");
 
     if (!reportId) {
       throw new ValidationError("reportId (or sessionId) query parameter is required.");
-    }
-
-    const userId = await getSessionUserId();
-    if (!userId) {
-      return Response.json({ error: "Unauthorized", code: "UNAUTHORIZED" }, { status: 401 });
     }
 
     await ensureSimulationReportProcessing(reportId, userId);
@@ -56,6 +72,28 @@ export async function GET(request: Request) {
       progressMessage: report.progressMessage,
     });
 
+    const isCompleted = report.status === "COMPLETED";
+    const legalReport = isCompleted
+      ? mapLegalAuditToDTO(
+          extractAuditFromRawTrace<LegalAuditResult>(report.rawTrace, "legalAudit"),
+        )
+      : null;
+    const economicReport = isCompleted
+      ? mapEconomicAuditToDTO(
+          extractAuditFromRawTrace<EconomicAuditResult>(report.rawTrace, "economicAudit"),
+        )
+      : null;
+    const clinicalReport = isCompleted
+      ? mapClinicalAuditToDTO(
+          extractAuditFromRawTrace<ClinicalAuditResult>(report.rawTrace, "clinicalAudit"),
+        )
+      : null;
+    const relationalReport = isCompleted
+      ? mapRelationalAuditToDTO(
+          extractAuditFromRawTrace<RelationalAuditResult>(report.rawTrace, "relationalAudit"),
+        )
+      : null;
+
     return Response.json({
       reportId: report.id,
       sessionId: report.id,
@@ -65,7 +103,11 @@ export async function GET(request: Request) {
       ...(report.status === "FAILED" && typeof report.notes === "string" && report.notes
         ? { error: report.notes }
         : {}),
-      reportData: report.status === "COMPLETED" ? buildReportDataFromSession(report) : null,
+      reportData: isCompleted ? buildReportDataFromSession(report) : null,
+      legalReport,
+      economicReport,
+      clinicalReport,
+      relationalReport,
     });
   } catch (error) {
     routeLogger.error("Report status lookup failed", { error });

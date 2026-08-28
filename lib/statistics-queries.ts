@@ -57,9 +57,9 @@ const COACH_PLAYBOOK: Record<
     tags: ["Costi", "Percorsi diagnostici", "Efficienza"],
   },
   empathy: {
-    area: "Empatia e Comunicazione",
+    area: "Comunicazione e Relazione Clinica",
     recommendation:
-      "Usa domande aperte, riassumi quanto riferito dal paziente e verifica comprensione prima di proporre il piano terapeutico.",
+      "De-escala Trust/Anxiety/Defensiveness con validazione (SPIKES-Emotions) e ascolto aperto (RIAS), senza concessioni di medicina difensiva.",
     tags: ["Comunicazione", "Ascolto attivo", "Relazione medico-paziente"],
   },
 };

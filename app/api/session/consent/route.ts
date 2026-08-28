@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { getSessionUserId } from "@/lib/api-session";
+import { getSessionUserId, unauthorizedJson } from "@/lib/api-session";
 import { verifyLiveSessionOwner } from "@/lib/access";
 import { recordConsentInformedRequest } from "@/lib/simulator/milestone-tracker";
-import { isOfflineSessionId, sanitizeLiveSessionId } from "@/lib/simulator/session-id";
+import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 
 export const runtime = "nodejs";
 
@@ -16,9 +16,7 @@ const bodySchema = z.object({
 export async function POST(req: Request) {
   try {
     const userId = await getSessionUserId();
-    if (!userId) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    if (!userId) return unauthorizedJson();
 
     let body: z.infer<typeof bodySchema>;
     try {
@@ -27,40 +25,20 @@ export async function POST(req: Request) {
       return Response.json({ error: "Invalid body" }, { status: 400 });
     }
 
-    if (isOfflineSessionId(body.sessionId)) {
-      return Response.json({
-        consentRequested: true,
-        actionId: "consenso-informato",
-        offline: true,
-      });
-    }
-
     const liveSessionId = sanitizeLiveSessionId(body.sessionId);
     if (!liveSessionId) {
-      return Response.json({ error: "Invalid sessionId" }, { status: 400 });
+      return Response.json({ error: "Forbidden", code: "FORBIDDEN_SESSION" }, { status: 403 });
     }
 
     const owns = await verifyLiveSessionOwner(liveSessionId, userId);
     if (!owns) {
-      // Soft-fail: consent UX must never hard-block the simulation.
-      return Response.json({
-        consentRequested: true,
-        actionId: "consenso-informato",
-        skipped: true,
-      });
+      return Response.json({ error: "Forbidden", code: "FORBIDDEN_SESSION" }, { status: 403 });
     }
 
     const result = await recordConsentInformedRequest({ sessionId: liveSessionId });
     return Response.json(result);
   } catch (err) {
     console.error("[POST /api/session/consent]", err);
-    return Response.json(
-      {
-        consentRequested: true,
-        actionId: "consenso-informato",
-        warning: "Telemetry write failed",
-      },
-      { status: 200 },
-    );
+    return Response.json({ error: "Internal error", code: "CONSENT_FAILED" }, { status: 500 });
   }
 }

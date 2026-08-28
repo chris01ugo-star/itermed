@@ -1,11 +1,16 @@
 /**
- * Pilastro 1 — Empatia & Comunicazione Clinica
- * Framework Calgary-Cambridge + Validazione Emotiva + ponderazione d'urgenza.
- * Citazioni: Codice Deontologia Medica Art. 20 / Art. 24 (rag_knowledge_base).
+ * Pilastro Comunicazione e Relazione Clinica — adapter D-RIME.
+ * Il voto numerico è prodotto da `evaluateInteractionTrajectory` (stato Trust/Anxiety/Defensiveness).
+ * Questo modulo mantiene la shape persistita (`CalgaryEmpathyResult`) per compatibilità del rawTrace.
  */
 
-import type { AnamnesisQuestion } from "@/lib/data/cases/types";
-import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import type { AnamnesisQuestion, PatientProfile } from "@/lib/data/cases/types";
+import { getCachedCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry-store";
+import {
+  evaluateInteractionTrajectory,
+  D_RIME_REFS,
+  type DRimeResult,
+} from "@/lib/reports/d-rime-engine";
 
 export type EmpathyScoreMotivation = {
   id: string;
@@ -15,17 +20,14 @@ export type EmpathyScoreMotivation = {
   scoreImpact: number;
 };
 
-function clampScore(n: number): number {
-  if (!Number.isFinite(n)) return 0;
-  return Math.max(0, Math.min(100, Math.round(n)));
-}
 export const EMPATHY_RAG_REFS = {
-  art20:
-    "Rif. CODICE-DEONTOLOGIA-MEDICA-2014.pdf - Art. 20 (Relazione di cura e tempo di comunicazione)",
+  art20: D_RIME_REFS.art20,
   art24:
     "Rif. CODICE-DEONTOLOGIA-MEDICA-2014.pdf - Art. 24 (Informazione e consenso del paziente)",
-  calgary:
-    "Rif. Framework Calgary-Cambridge — Patient-Centered Communication (ascolto attivo / exploration)",
+  calgary: D_RIME_REFS.care,
+  spikes: D_RIME_REFS.spikes,
+  rias: D_RIME_REFS.rias,
+  care: D_RIME_REFS.care,
 } as const;
 
 export type ClinicalUrgencyMode = "acute_emergency" | "stable_exploratory" | "standard";
@@ -58,22 +60,23 @@ export type CalgaryEmpathyResult = {
     allianceBonus: number;
     dismissalPenalty: number;
   };
+  dRime: DRimeResult;
 };
 
 const ACUTE_CASE_IDS = new Set([
-  "car-f01", // STEMI — time-critical
-  "car-m02", // EPA
-  "car-d01", // Dissezione
-  "car-d02", // TV sostenuta
-  "car-d03", // Tamponamento
+  "car-f01",
+  "car-m02",
+  "car-d01",
+  "car-d02",
+  "car-d03",
 ]);
 
 const STABLE_EXPLORATORY_IDS = new Set([
-  "car-f02", // FA-ARV stabile
-  "car-m01", // NSTEMI atipico diabetico
-  "car-m03", // BAV (urgente ma comunicazione breve + anamnesi mirata)
-  "car-m04", // Pericardite
-  "car-d04", // Intossicazione digitalica — esplorazione anamnestica farmacologica
+  "car-f02",
+  "car-m01",
+  "car-m03",
+  "car-m04",
+  "car-d04",
 ]);
 
 const ACUTE_CONTEXT_RE =
@@ -81,69 +84,6 @@ const ACUTE_CONTEXT_RE =
 
 const STABLE_CONTEXT_RE =
   /pericardite|NSTEMI|atipic|diabetic|FA-ARV|fibrillazione atriale|stabile|palpitaz|equivalente anginoso/i;
-
-/** A) Lived experience / fear / functional impact (Calgary-Cambridge exploration). */
-const LIVED_EXPERIENCE_RE =
-  /cosa (la|le) (spaventa|preoccupa|fa paura)|di cosa ha (paura|timore)|come (sta )?vivendo|impatto (su|sulla|sul)|nella (sua )?vita|al lavoro|a casa|cosa pensa (che sia|di)|ha paura (di|che)|si sente (ansios|terror|agit)|come si sente (emotivamente|ora)|cosa la inquieta|percezione del rischio|quanto (la )?limita/i;
-
-/** B) Emotional validation / reassurance (Art. 20). */
-const VALIDATION_RE =
-  /capisco|comprendo|mi dispiace|la sua (ansia|preoccupazione|paura)|è normale sentirsi|riconosco (che|il)|dev['’]?essere difficil|la capisco|la rassicuro|non è sola|non è solo|ci occupiamo (noi|di lei)|ora siamo qui|stia (tranquill|seren)|la sua preoccupazione (è|è comprensibile)|capisco la preoccupazione/i;
-
-/** Transparency / information (Art. 24) — supports alliance without replacing validation. */
-const TRANSPARENCY_RE =
-  /le spiego|in parole semplic|significa che|faremo (un |una )?|l['’]esame serve|serve a|passo dopo passo|in termini semplici|le dico (cosa|perché)|per capire meglio|senza (dolore|rischio)/i;
-
-const ALLIANCE_RE =
-  /ha domande|domande\s*\?|insieme (a lei|facciamo)|d['’]accordo\s*\?|mi segue|si senta liber|procediamo insieme|posso (aiutarla|rispondere)/i;
-
-const BRUSQUE_RE =
-  /\b(faccia subito|deve stare zitt|non c['’]è tempo|sbrighi?ati|solo s[iì] o no|non interrompa|basta cos[iì]|non mi interessa|non perdiamo tempo)\b|!{2,}/i;
-
-const JUDGMENTAL_RE =
-  /\b(è (solo )?ansia|esagera|non è niente|si inventa|è (tutta )?nella sua testa|è ipocondriac)\b/i;
-
-const BUREAUCRATIC_RE =
-  /\b(compili (il )?modulo|firma qui|prossimo paziente|codice triage|protocollo standard senza|non ho tempo di spiegare)\b/i;
-
-const PATIENT_ANXIETY_RE =
-  /paura|ansios[oa]|ansia|preoccupat[oa]|ho paura|non ce la faccio|sto malissimo|aiuto|terrorizzat|agitato|mi sento male/i;
-
-const LIFESAVING_MILESTONE_HINTS = [
-  "ecg",
-  "cpap",
-  "niv",
-  "furosemide",
-  "angio",
-  "pericardiocentesi",
-  "pacing",
-  "pacemaker",
-  "cardioversione",
-  "amiodarone",
-  "coronarografia",
-  "fluidi",
-  "calcio_gluconato",
-];
-
-function motivation(
-  type: EmpathyScoreMotivation["type"],
-  text: string,
-  extra?: Partial<Pick<EmpathyScoreMotivation, "id" | "scoreImpact" | "sourceRef">>,
-): EmpathyScoreMotivation {
-  return {
-    id: extra?.id ?? `emp_${type}_${Math.random().toString(36).slice(2, 8)}`,
-    type,
-    text,
-    scoreImpact: extra?.scoreImpact ?? 0,
-    sourceRef: extra?.sourceRef,
-  };
-}
-
-function clipQuote(s: string, max = 110): string {
-  const t = s.replace(/\s+/g, " ").trim();
-  if (t.length <= max) return t;
-  return `${t.slice(0, max - 1)}…`;
-}
 
 export function resolveClinicalUrgencyMode(params: {
   caseId?: string | null;
@@ -160,20 +100,18 @@ export function resolveClinicalUrgencyMode(params: {
   return "standard";
 }
 
-function dimensionWeights(mode: ClinicalUrgencyMode): {
-  activeListening: number;
-  emotionalValidation: number;
-  clinicalContext: number;
-} {
-  switch (mode) {
-    case "acute_emergency":
-      // Empatia concisa + priorità salvavita
-      return { activeListening: 0.25, emotionalValidation: 0.25, clinicalContext: 0.5 };
-    case "stable_exploratory":
-      return { activeListening: 0.45, emotionalValidation: 0.35, clinicalContext: 0.2 };
-    default:
-      return { activeListening: 0.4, emotionalValidation: 0.35, clinicalContext: 0.25 };
-  }
+function motivation(
+  type: EmpathyScoreMotivation["type"],
+  text: string,
+  extra?: Partial<Pick<EmpathyScoreMotivation, "id" | "scoreImpact" | "sourceRef">>,
+): EmpathyScoreMotivation {
+  return {
+    id: extra?.id ?? `emp_${type}_${Math.random().toString(36).slice(2, 8)}`,
+    type,
+    text,
+    scoreImpact: extra?.scoreImpact ?? 0,
+    sourceRef: extra?.sourceRef,
+  };
 }
 
 function resolveAnamnesisQuestions(
@@ -182,347 +120,20 @@ function resolveAnamnesisQuestions(
 ): AnamnesisQuestion[] {
   if (Array.isArray(explicit) && explicit.length > 0) return explicit;
   if (!caseId) return [];
-  return getCaseById(caseId)?.anamnesisQuestions ?? [];
+  return getCachedCaseById(caseId)?.anamnesisQuestions ?? [];
 }
 
-function matchAnamnesisCoverage(
-  doctorText: string,
-  questions: AnamnesisQuestion[],
-): { covered: number; expected: number; missing: string[]; hitPrompts: string[] } {
-  if (questions.length === 0) {
-    return { covered: 0, expected: 0, missing: [], hitPrompts: [] };
-  }
-  const lower = doctorText.toLowerCase();
-  const hitPrompts: string[] = [];
-  const missing: string[] = [];
-  for (const q of questions) {
-    const hit = (q.expectedKeywords ?? []).some((kw) => {
-      const k = kw.trim().toLowerCase();
-      return k.length > 0 && lower.includes(k);
-    });
-    if (hit) hitPrompts.push(q.prompt);
-    else if (q.critical) missing.push(q.prompt);
-  }
-  const expected = questions.filter((q) => q.critical).length || questions.length;
-  const covered = hitPrompts.length;
-  return { covered: Math.min(covered, expected), expected, missing, hitPrompts };
-}
-
-function scoreActiveListening(params: {
-  doctorTurns: string[];
-  doctorText: string;
-  anamnesis: ReturnType<typeof matchAnamnesisCoverage>;
-  mode: ClinicalUrgencyMode;
-  weights: ReturnType<typeof dimensionWeights>;
-}): EmpathyDimensionScore {
-  const evidence: string[] = [];
-  const deficits: string[] = [];
-  let livedHits = 0;
-  for (const turn of params.doctorTurns) {
-    if (LIVED_EXPERIENCE_RE.test(turn)) {
-      livedHits += 1;
-      if (evidence.length < 3) evidence.push(clipQuote(turn));
-    }
-  }
-
-  // Exploration of lived experience: 0–50
-  let livedScore = 0;
-  if (livedHits === 0) {
-    livedScore = 0;
-    deficits.push(
-      "Manca esplorazione del vissuto/paura (Calgary-Cambridge: impact & ideas/concerns).",
-    );
-  } else if (livedHits === 1) livedScore = 28;
-  else if (livedHits === 2) livedScore = 40;
-  else livedScore = 50;
-
-  // Anamnesis matrix coverage: 0–50 (proportional — no fictitious floor)
-  let anamScore = 0;
-  if (params.anamnesis.expected > 0) {
-    anamScore = Math.round((params.anamnesis.covered / params.anamnesis.expected) * 50);
-    if (params.anamnesis.covered > 0) {
-      evidence.push(
-        `Quesiti anamnestici chiave affrontati: ${params.anamnesis.covered}/${params.anamnesis.expected}`,
-      );
-    }
-    if (params.anamnesis.missing.length > 0) {
-      deficits.push(
-        `Deficit anamnestici: ${params.anamnesis.missing.slice(0, 3).join("; ")}`,
-      );
-    }
-  } else {
-    // No case matrix: score from open clinical curiosity (questions)
-    const questionTurns = params.doctorTurns.filter((t) => /\?|mi dica|da quanto|dove |come /.test(t));
-    anamScore = Math.min(50, questionTurns.length * 12);
-    if (questionTurns.length === 0) {
-      deficits.push("Scarsa esplorazione anamnestica strutturata.");
-    }
-  }
-
-  // In acute emergency, prolonged pure anamnesis without lived-experience brevity is ok if concise —
-  // but very long chat without lifesaving is handled in dimension C.
-  let score = clampScore(livedScore + anamScore);
-  if (params.mode === "acute_emergency" && params.doctorTurns.length >= 8 && livedHits === 0) {
-    // Prefer concise operational reassurance over long psychosocial interview
-    score = clampScore(score - 10);
-    deficits.push(
-      "In emergenza acuta: anamnesi prolungata senza focus sul vissuto essenziale né rassicurazione operativa.",
-    );
-  }
-  if (params.mode === "stable_exploratory" && livedHits === 0 && params.anamnesis.covered < 3) {
-    score = clampScore(Math.min(score, 35));
-    deficits.push(
-      "Contesto stabile/atipico: richiesta esplorazione approfondita della storia clinica ed emotiva.",
-    );
-  }
-
-  return {
-    id: "active_listening",
-    label: "Ascolto attivo & esplorazione del vissuto",
-    score,
-    weight: params.weights.activeListening,
-    evidenceQuotes: evidence,
-    deficits,
-  };
-}
-
-function scoreEmotionalValidation(params: {
-  doctorTurns: string[];
-  chat: Array<{ role: string; content: string }>;
-  weights: ReturnType<typeof dimensionWeights>;
-}): EmpathyDimensionScore & { dismissalPenalty: number; validationHits: number; transparencyHits: number; allianceHits: number } {
-  const evidence: string[] = [];
-  const deficits: string[] = [];
-  let validationHits = 0;
-  let transparencyHits = 0;
-  let allianceHits = 0;
-  let brusqueHits = 0;
-  let judgmentHits = 0;
-  let bureauHits = 0;
-
-  for (const turn of params.doctorTurns) {
-    if (VALIDATION_RE.test(turn)) {
-      validationHits += 1;
-      if (evidence.length < 4) evidence.push(clipQuote(turn));
-    }
-    if (TRANSPARENCY_RE.test(turn)) transparencyHits += 1;
-    if (ALLIANCE_RE.test(turn)) allianceHits += 1;
-    if (BRUSQUE_RE.test(turn)) brusqueHits += 1;
-    if (JUDGMENTAL_RE.test(turn)) judgmentHits += 1;
-    if (BUREAUCRATIC_RE.test(turn)) bureauHits += 1;
-  }
-
-  // Proportional build (no +60 floor): validation up to 55, transparency 25, alliance 20
-  let score = 0;
-  if (validationHits === 1) score += 30;
-  else if (validationHits === 2) score += 45;
-  else if (validationHits >= 3) score += 55;
-
-  if (transparencyHits === 1) score += 12;
-  else if (transparencyHits >= 2) score += 25;
-
-  if (allianceHits > 0) score += 20;
-
-  let dismissalPenalty = 0;
-  let anxietyIgnored = false;
-  for (let i = 0; i < params.chat.length - 1; i += 1) {
-    const cur = params.chat[i];
-    const next = params.chat[i + 1];
-    if (
-      cur?.role === "assistant" &&
-      next?.role === "user" &&
-      PATIENT_ANXIETY_RE.test(cur.content) &&
-      !VALIDATION_RE.test(next.content) &&
-      !ALLIANCE_RE.test(next.content)
-    ) {
-      anxietyIgnored = true;
-      break;
-    }
-  }
-  if (anxietyIgnored) {
-    dismissalPenalty += 20;
-    deficits.push("Ansia del paziente non validata nel turno successivo (Art. 20).");
-  }
-  if (brusqueHits > 0) {
-    dismissalPenalty += 25;
-    deficits.push("Linguaggio direttivo/sbrigativo rilevato.");
-  }
-  if (judgmentHits > 0) {
-    dismissalPenalty += 20;
-    deficits.push("Linguaggio giudicante rispetto al vissuto del paziente.");
-  }
-  if (bureauHits > 0) {
-    dismissalPenalty += 15;
-    deficits.push("Tono eccessivamente burocratico (riduce alleanza terapeutica).");
-  }
-
-  if (validationHits === 0) {
-    deficits.push("Assenza di atti di validazione emotiva espliciti.");
-  }
-
-  score = clampScore(score - dismissalPenalty);
-
-  return {
-    id: "emotional_validation",
-    label: "Validazione emotiva & tono relazionale",
-    score,
-    weight: params.weights.emotionalValidation,
-    evidenceQuotes: evidence,
-    deficits,
-    dismissalPenalty,
-    validationHits,
-    transparencyHits,
-    allianceHits,
-  };
-}
-
-function scoreClinicalContextAdequacy(params: {
-  doctorTurns: string[];
-  mode: ClinicalUrgencyMode;
-  milestones: Set<string>;
-  weights: ReturnType<typeof dimensionWeights>;
-  validationHits: number;
-}): EmpathyDimensionScore {
-  const evidence: string[] = [];
-  const deficits: string[] = [];
-  const turnCount = params.doctorTurns.length;
-
-  const lifesavingHit = [...params.milestones].some((k) =>
-    LIFESAVING_MILESTONE_HINTS.some((h) => k.includes(h)),
-  );
-
-  let score = 70; // contextual baseline only for this dimension (not global empathy floor)
-
-  if (params.mode === "acute_emergency") {
-    // Reward concise operational reassurance + early lifesaving
-    if (lifesavingHit) {
-      score += 20;
-      evidence.push("Manovre/azioni salvavita documentate in parallelo alla comunicazione.");
-    } else {
-      score -= 35;
-      deficits.push(
-        "Emergenza acuta: comunicazione senza evidenza di priorità a manovre salvavita (errore di priorità clinico-comportamentale).",
-      );
-    }
-    if (turnCount >= 10 && !lifesavingHit) {
-      score -= 25;
-      deficits.push(
-        "Anamnesi/dialogo prolungato in paziente potenzialmente instabile — ritardo comunicativo-operativo.",
-      );
-    }
-    if (params.validationHits > 0 && turnCount <= 6) {
-      score += 10;
-      evidence.push("Rassicurazione operativa concisa appropriata al setting di emergenza.");
-    }
-    if (turnCount <= 2 && params.validationHits === 0) {
-      score -= 10;
-      deficits.push("Anche in emergenza serve una micro-rassicurazione (Art. 20) senza ritardare le cure.");
-    }
-  } else if (params.mode === "stable_exploratory") {
-    if (turnCount < 3) {
-      score -= 30;
-      deficits.push(
-        "Presentazione stabile/atipica: esplorazione troppo superficiale rispetto al bisogno diagnostico-relazionale.",
-      );
-    } else {
-      score += 15;
-      evidence.push("Tempo comunicativo adeguato a presentazione stabile/atipica.");
-    }
-    if (params.validationHits === 0 && turnCount >= 4) {
-      score -= 15;
-      deficits.push("Tempo dialogico presente ma senza validazione del vissuto.");
-    }
-  } else {
-    if (turnCount === 0) {
-      score = 0;
-      deficits.push("Nessuna interazione comunicativa.");
-    } else if (turnCount >= 3) {
-      score += 10;
-    }
-  }
-
-  return {
-    id: "clinical_context",
-    label: "Adeguatezza al contesto clinico-emodinamico",
-    score: clampScore(score),
-    weight: params.weights.clinicalContext,
-    evidenceQuotes: evidence,
-    deficits,
-  };
-}
-
-function qualitativeLabel(final: number, mode: ClinicalUrgencyMode): string {
-  if (final >= 85) {
-    return mode === "acute_emergency"
-      ? "Comunicazione d'emergenza eccellente — rassicurazione operativa e priorità cliniche allineate"
-      : "Eccellente alleanza terapeutica e esplorazione del vissuto (Calgary-Cambridge)";
-  }
-  if (final >= 70) return "Buona comunicazione patient-centered con margini di miglioramento";
-  if (final >= 55) return "Comunicazione professionale parziale — gap di validazione o esplorazione";
-  if (final >= 40) return "Empatia insufficiente — deficit anamnestici/relazionali rilevanti";
-  return "Comunicazione a rischio — tono inadeguato o errore di priorità clinico-comportamentale";
-}
-
-function buildExpertAnalysis(params: {
-  final: number;
-  mode: ClinicalUrgencyMode;
-  A: EmpathyDimensionScore;
-  B: EmpathyDimensionScore;
-  C: EmpathyDimensionScore;
-  doctorTurns: string[];
-}): string {
-  const modeLabel =
-    params.mode === "acute_emergency"
-      ? "setting di emergenza acuta / instabilità"
-      : params.mode === "stable_exploratory"
-        ? "setting stabile o presentazione atipica (esplorazione approfondita attesa)"
-        : "setting clinico standard";
-
-  const virtuous = [
-    ...params.A.evidenceQuotes,
-    ...params.B.evidenceQuotes,
-    ...params.C.evidenceQuotes,
-  ].slice(0, 4);
-
-  const deficits = [...params.A.deficits, ...params.B.deficits, ...params.C.deficits].slice(
-    0,
-    5,
-  );
-
-  const parts: string[] = [];
-  parts.push(
-    `Analisi comportamentale (Framework Calgary-Cambridge × Validazione emotiva) in ${modeLabel}. ` +
-      `Sintesi ponderata delle tre dimensioni: Ascolto/Esplorazione ${params.A.score}/100 (peso ${(params.A.weight * 100).toFixed(0)}%), ` +
-      `Validazione/Tono ${params.B.score}/100 (peso ${(params.B.weight * 100).toFixed(0)}%), ` +
-      `Adeguatezza contestuale ${params.C.score}/100 (peso ${(params.C.weight * 100).toFixed(0)}%) → punteggio complessivo ${params.final}/100.`,
-  );
-
-  if (virtuous.length > 0) {
-    parts.push(
-      `Atti comunicativi virtuosi rilevati: ${virtuous.map((q) => `«${q}»`).join(" · ")}.`,
-    );
-  } else if (params.doctorTurns.length > 0) {
-    parts.push(
-      "Non emergono frasi chiaramente virtuosistiche di esplorazione del vissuto o validazione emotiva nel trascritto analizzato.",
-    );
-  } else {
-    parts.push("Assenza di turni medici valutabili: l'empatia clinica non è dimostrabile.");
-  }
-
-  if (deficits.length > 0) {
-    parts.push(`Deficit anamnestici/relazionali: ${deficits.join(" ")}`);
-  }
-
-  parts.push(
-    `Ancoraggio deontologico: la relazione di cura richiede tempo di comunicazione adeguato al contesto (Art. 20) e informazione comprensibile (Art. 24), senza ritardare le priorità salvavita quando l'emodinamica è instabile.`,
-  );
-
-  return parts.join(" ");
+function resolvePatientProfile(
+  caseId?: string | null,
+  explicit?: PatientProfile | null,
+): PatientProfile | null {
+  if (explicit) return explicit;
+  if (!caseId) return null;
+  return getCachedCaseById(caseId)?.patientProfile ?? null;
 }
 
 /**
- * Calgary-Cambridge + Validazione emotiva + ponderazione d'urgenza.
- * Nessun offset fittizio (+60) sul punteggio globale.
+ * Official communication score: D-RIME transactional trajectory.
  */
 export function computeCalgaryCambridgeEmpathy(params: {
   chatHistory?: Array<{ role: string; content: string }> | null;
@@ -531,157 +142,110 @@ export function computeCalgaryCambridgeEmpathy(params: {
   caseTitle?: string | null;
   anamnesisQuestions?: AnamnesisQuestion[] | null;
   sessionMilestones?: Array<{ milestoneKey: string }> | null;
+  patientProfile?: PatientProfile | null;
+  classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
 }): CalgaryEmpathyResult {
-  const chat = Array.isArray(params.chatHistory) ? params.chatHistory : [];
-  const doctorTurns = chat
-    .filter((m) => m.role === "user" && typeof m.content === "string")
-    .map((m) => m.content.trim())
-    .filter(Boolean);
-  const doctorText = doctorTurns.join("\n");
-  const milestones = new Set(
-    (params.sessionMilestones ?? []).map((m) => m.milestoneKey).filter(Boolean),
-  );
-
+  const questions = resolveAnamnesisQuestions(params.caseId, params.anamnesisQuestions);
+  const profile = resolvePatientProfile(params.caseId, params.patientProfile);
+  const dRime = evaluateInteractionTrajectory(params.chatHistory, profile, questions, {
+    classifiedIntents: params.classifiedIntents,
+  });
   const mode = resolveClinicalUrgencyMode({
     caseId: params.caseId,
     caseContext: params.caseContext,
     caseTitle: params.caseTitle,
   });
-  const weights = dimensionWeights(mode);
-  const questions = resolveAnamnesisQuestions(params.caseId, params.anamnesisQuestions);
-  const anamnesis = matchAnamnesisCoverage(doctorText, questions);
 
-  const A = scoreActiveListening({
-    doctorTurns,
-    doctorText,
-    anamnesis,
-    mode,
-    weights,
-  });
-  const Bfull = scoreEmotionalValidation({
-    doctorTurns,
-    chat,
-    weights,
-  });
-  const { dismissalPenalty, validationHits, transparencyHits, allianceHits, ...B } = Bfull;
-  const C = scoreClinicalContextAdequacy({
-    doctorTurns,
-    mode,
-    milestones,
-    weights,
-    validationHits,
-  });
+  const paternalism = dRime.acts.filter((a) => a.intent === "PATERNALISTIC_COMMAND").length;
+  const validations = dRime.acts.filter((a) => a.intent === "VALIDATION").length;
+  const listening = dRime.acts.filter((a) => a.intent === "EMPATHIC_EXPLORATION").length;
+  const concessions = dRime.acts.filter((a) => a.intent === "DEFENSIVE_REACTION").length;
 
-  const engaged = doctorTurns.length > 0;
-  const final = engaged
-    ? clampScore(
-        Math.round(A.score * A.weight + B.score * B.weight + C.score * C.weight),
-      )
-    : 0;
-
-  const motivations: EmpathyScoreMotivation[] = [];
-
-  motivations.push(
-    motivation(
-      final >= 70 ? "positive" : "negative",
-      `Pilastro 1 (Calgary-Cambridge): Ascolto ${A.score} · Validazione ${B.score} · Contesto ${C.score} → ${final}/100 (${mode})`,
-      {
-        id: "emp_calgary_summary",
-        scoreImpact: final,
-        sourceRef: EMPATHY_RAG_REFS.calgary,
-      },
-    ),
-  );
-
-  for (const q of A.evidenceQuotes.slice(0, 2)) {
-    motivations.push(
-      motivation("positive", `Esplorazione del vissuto: «${q}»`, {
-        id: "emp_a_quote",
-        scoreImpact: Math.round(A.score * A.weight * 0.25),
-        sourceRef: EMPATHY_RAG_REFS.calgary,
-      }),
-    );
-  }
-  for (const d of A.deficits.slice(0, 2)) {
-    motivations.push(
-      motivation("negative", d, {
-        id: "emp_a_def",
-        scoreImpact: -Math.round((100 - A.score) * A.weight * 0.2),
-        sourceRef: EMPATHY_RAG_REFS.calgary,
-      }),
-    );
-  }
-
-  for (const q of B.evidenceQuotes.slice(0, 2)) {
-    motivations.push(
-      motivation("positive", `Validazione emotiva: «${q}»`, {
-        id: "emp_b_quote",
-        scoreImpact: Math.round(B.score * B.weight * 0.25),
-        sourceRef: EMPATHY_RAG_REFS.art20,
-      }),
-    );
-  }
-  for (const d of B.deficits.slice(0, 2)) {
-    motivations.push(
-      motivation("negative", d, {
-        id: "emp_b_def",
-        scoreImpact: -Math.round((100 - B.score) * B.weight * 0.25),
-        sourceRef: EMPATHY_RAG_REFS.art20,
-      }),
-    );
-  }
-
-  if (transparencyHits > 0) {
-    motivations.push(
-      motivation("positive", "Trasparenza informativa su indagini/manovre (Art. 24)", {
-        id: "emp_art24",
-        scoreImpact: Math.min(15, transparencyHits * 8),
-        sourceRef: EMPATHY_RAG_REFS.art24,
-      }),
-    );
-  }
-
-  for (const d of C.deficits.slice(0, 2)) {
-    motivations.push(
-      motivation("negative", d, {
-        id: "emp_c_def",
-        scoreImpact: -Math.round((100 - C.score) * C.weight * 0.3),
-        sourceRef: EMPATHY_RAG_REFS.art20,
-      }),
-    );
-  }
-  for (const e of C.evidenceQuotes.slice(0, 2)) {
-    motivations.push(
-      motivation("positive", e, {
-        id: "emp_c_ev",
-        scoreImpact: Math.round(C.score * C.weight * 0.2),
-        sourceRef: EMPATHY_RAG_REFS.art20,
-      }),
-    );
-  }
-
-  const expertAnalysis = buildExpertAnalysis({
-    final,
-    mode,
-    A,
-    B,
-    C,
-    doctorTurns,
-  });
-
-  // Legacy mapping for older report widgets (no fictitious global +60)
-  const legacy = {
-    baseline: 0,
-    validationBonus: Math.min(55, validationHits === 0 ? 0 : validationHits === 1 ? 30 : validationHits === 2 ? 45 : 55),
-    transparencyBonus: Math.min(25, transparencyHits === 0 ? 0 : transparencyHits === 1 ? 12 : 25),
-    allianceBonus: allianceHits > 0 ? 20 : 0,
-    dismissalPenalty,
+  const A: EmpathyDimensionScore = {
+    id: "active_listening",
+    label: "RIAS — ascolto aperto e allineamento socio-emotivo",
+    score: dRime.riasAlignmentScore,
+    weight: 0.3,
+    evidenceQuotes: dRime.acts
+      .filter((a) => a.intent === "EMPATHIC_EXPLORATION")
+      .slice(0, 3)
+      .map((a) => a.utterance),
+    deficits:
+      listening === 0 && dRime.acts.length > 0
+        ? ["Nessun atto di ascolto aperto (RIAS / SPIKES-Perception)."]
+        : [],
+  };
+  const B: EmpathyDimensionScore = {
+    id: "emotional_validation",
+    label: "SPIKES — validazione emotiva e de-escalation",
+    score: dRime.spikesEmpathyScore,
+    weight: 0.4,
+    evidenceQuotes: dRime.acts
+      .filter((a) => a.intent === "VALIDATION")
+      .slice(0, 3)
+      .map((a) => a.utterance),
+    deficits:
+      validations === 0 && dRime.acts.length > 0
+        ? ["Assenza di validazione emotiva (SPIKES-Emotions)."]
+        : paternalism > 0
+          ? [`${paternalism} atti di paternalismo/sdegno rilevati.`]
+          : [],
+  };
+  const C: EmpathyDimensionScore = {
+    id: "clinical_context",
+    label: "CARE / appropriatezza — fiducia senza medicina difensiva",
+    score: Math.round((dRime.careTrustScore * 0.5 + dRime.defensiveMedicineScore * 0.5)),
+    weight: 0.3,
+    evidenceQuotes: dRime.relationalInsights.slice(0, 2),
+    deficits:
+      concessions > 0
+        ? [`${concessions} concessioni difensive (richieste inappropriate accolte).`]
+        : dRime.finalState.trust < 40
+          ? ["Fiducia finale insufficiente (CARE Trust)."]
+          : [],
   };
 
+  const motivations: EmpathyScoreMotivation[] = [
+    motivation(
+      dRime.score >= 70 ? "positive" : "negative",
+      `D-RIME: Alleanza ${dRime.allianceScore} · Bias ${dRime.biasManagementScore} · Medicina difensiva ${dRime.defensiveMedicineScore} → ${dRime.score}/100`,
+      {
+        id: "emp_drime_summary",
+        scoreImpact: dRime.score,
+        sourceRef: EMPATHY_RAG_REFS.care,
+      },
+    ),
+    motivation("neutral", `SPIKES ${dRime.spikesEmpathyScore}/100`, {
+      id: "emp_spikes",
+      scoreImpact: dRime.spikesEmpathyScore,
+      sourceRef: EMPATHY_RAG_REFS.spikes,
+    }),
+    motivation("neutral", `RIAS ${dRime.riasAlignmentScore}/100`, {
+      id: "emp_rias",
+      scoreImpact: dRime.riasAlignmentScore,
+      sourceRef: EMPATHY_RAG_REFS.rias,
+    }),
+    motivation("neutral", `CARE Trust ${dRime.careTrustScore}/100`, {
+      id: "emp_care",
+      scoreImpact: dRime.careTrustScore,
+      sourceRef: EMPATHY_RAG_REFS.care,
+    }),
+  ];
+
+  for (const insight of dRime.relationalInsights.slice(0, 3)) {
+    motivations.push(
+      motivation(dRime.score >= 70 ? "positive" : "neutral", insight, {
+        id: "emp_insight",
+        scoreImpact: 0,
+        sourceRef: EMPATHY_RAG_REFS.art20,
+      }),
+    );
+  }
+
   return {
-    score: final,
-    qualitativeLabel: qualitativeLabel(final, mode),
-    expertAnalysis,
+    score: dRime.score,
+    qualitativeLabel: dRime.qualitativeLabel,
+    expertAnalysis: dRime.expertAnalysis,
     urgencyMode: mode,
     dimensions: {
       activeListening: A,
@@ -689,6 +253,13 @@ export function computeCalgaryCambridgeEmpathy(params: {
       clinicalContext: C,
     },
     motivations,
-    legacy,
+    legacy: {
+      baseline: dRime.initialState.trust,
+      validationBonus: Math.min(55, validations * 18),
+      transparencyBonus: Math.min(25, dRime.acts.filter((a) => a.intent === "CLINICAL_DISCLOSURE").length * 12),
+      allianceBonus: Math.min(20, Math.max(0, dRime.finalState.trust - dRime.initialState.trust)),
+      dismissalPenalty: paternalism * 18 + concessions * 12,
+    },
+    dRime,
   };
 }

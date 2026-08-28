@@ -37,6 +37,19 @@ enum SessionReportStatus {
   FAILED
 }
 
+/// Authoring-tool background work: PDF ingest / RAG case generation.
+enum IngestionJobKind {
+  INGEST
+  GENERATE
+}
+
+enum IngestionJobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
 /// How a user appears on the public leaderboard.
 enum LeaderboardNameType {
   REAL_NAME
@@ -356,6 +369,46 @@ model ExamMetadata {
 
   @@index([category])
   @@index([name])
+}
+
+/// Authored gold-standard cases (CARDIO/PNEUMO/GASTRO).
+/// Strongly structured persistence replacing static `knowledge_base/**/cases/*.json`.
+/// Distinct from operational `ClinicalCase` (sessions, instructor CRUD, FKs).
+model KnowledgeBaseCase {
+  /// Stable authored id, e.g. "GASTRO-001".
+  id             String   @id
+  specialty      String
+  version        Int      @default(1)
+  title          String
+  patientProfile Json
+  /// Full payload conforming to `knowledgeBaseCaseSchema` / `KnowledgeBaseCaseSchema`.
+  caseData       Json
+  ragSources     Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([specialty])
+  @@index([version])
+  @@index([specialty, version])
+}
+
+/// Async ingest / case-generation job for the Authoring Tool (poll by id).
+model IngestionJob {
+  id              String             @id @default(cuid())
+  kind            IngestionJobKind
+  specialty       String
+  status          IngestionJobStatus @default(PENDING)
+  progress        Int                @default(0)
+  progressMessage String             @default("In coda...")
+  errorMessage    String?
+  result          Json?
+  payload         Json?
+  createdById     String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@index([status])
+  @@index([specialty, kind])
 }
 
 /// Per-case exam result values (simulation instance).

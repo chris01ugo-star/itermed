@@ -1,0 +1,302 @@
+{
+  "title": "Versamento pleurico maligno",
+  "description": "Elisa è una donna di 74 anni che presenta segni di ipossiemia e tachipnea. Ha una storia clinica di ansia e il suo sonno è disturbato. La rete sociale è forte, ma il suo livello di stress è elevato.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "rx-torace",
+    "tc",
+    "liquidi",
+    "cea"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 94,
+      "bloodPressure": "128/76",
+      "spo2": 91,
+      "temperature": 36.7,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 260,
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "tc": {
+          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "liquidi": {
+          "finding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+          "normalFinding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+          "isAbnormal": true,
+          "price": 40
+        },
+        "cea": {
+          "finding": "CEA nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+          "normalFinding": "CEA nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "moc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+          "isAbnormal": false,
+          "price": 40
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 74,
+      "sex": "F",
+      "context": "Reparto di Pneumologia"
+    },
+    "physicalExam": {
+      "finding": "Tachipnea, ipossiemia, ansia marcata, auscultazione con rumori respiratori anomali, segni di distress respiratorio."
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+      "isAbnormal": true
+    },
+    "liquidi": {
+      "finding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+      "isAbnormal": true
+    },
+    "cea": {
+      "finding": "CEA nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+      "isAbnormal": true
+    },
+    "moc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Iniziare il gold path con RX torace, seguito da TC torace e analisi del liquido pleurico per CEA.",
+  "patientPrompt": "Ho 74 anni e mi chiamo Elisa. Ultimamente ho avuto difficoltà a respirare e mi sento molto ansiosa. Ho sentito che il mio versamento pleurico potrebbe essere maligno e voglio sapere cosa significa e quali sono i tempi per avere delle risposte. Non riesco a dormire bene e questo aumenta la mia ansia, soprattutto quando penso a quello che potrebbe essere. Ho una rete di supporto forte, ma mi sento sopraffatta.",
+  "id": "PNEUMO-027",
+  "code": "PNEUMO-027",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Versamento pleurico maligno in neoplasia polmonare",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "BTS Guideline for Pleural Disease.pdf",
+  "diagnosis": "Versamento pleurico maligno in neoplasia polmonare.",
+  "pastMedicalHistory": "Non ha una storia di malattie polmonari croniche, ma ha una storia di ansia e insonnia.",
+  "presentation": "Elisa si presenta al pronto soccorso lamentando difficoltà respiratorie e una sensazione di oppressione al torace. È visibilmente ansiosa e chiede informazioni sui tempi e sulla verità riguardo alla sua condizione. Ha una buona comprensione della situazione, ma il linguaggio elusivo dei medici aumenta la sua ansia, soprattutto di notte.",
+  "redHerrings": [
+    "Tosse secca persistente.",
+    "Rumori respiratori anomali all'auscultazione.",
+    "Storia di reflusso gastroesofageo."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "rx-torace": 20,
+    "tc": 40,
+    "liquidi": 40,
+    "cea": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-027_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Versamento pleurico maligno in neoplasia polmonare)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-027_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-027_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-027_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-027_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-027_6",
+      "prompt": "Contesto di presentazione: Reparto di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Tachipnea, ipossiemia, ansia marcata, auscultazione con rumori respiratori anomali, segni di distress respiratorio."
+  },
+  "goldPathNarrative": "Dopo un'attenta valutazione, si procede con una radiografia del torace per identificare la presenza di versamento pleurico. Successivamente, una tomografia computerizzata del torace viene eseguita per valutare ulteriormente la massa pleurica. Infine, si esegue un'analisi del liquido pleurico per determinare la presenza di marcatori tumorali come il CEA.",
+  "escCitations": [
+    {
+      "chunkId": "a6aebe1b-6342-49c1-8143-45284151c90c-228",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "f a malignant pleural effusion: British Thoracic Society pleural disease guideline 2010. Thorax 2010;65 Suppl 2:ii32–40. 31Roberts ME, et al. Thorax 2023;0:1–34. doi:10.1136/thorax-[REDACTED] BTS Guideline 7 Davies HE, Davies RJO, Davies CWH, et al. Management of pleural infection in adults: British Thoracic Society pleural disease guideline 2010. Thorax 2010;65 Suppl 2:ii41–53. 8 Rahman NM, Ali NJ, Brown G, et al. Local anaesthetic thoracoscopy: British Thoracic Society pleural disease guidelin"
+    },
+    {
+      "chunkId": "a6aebe1b-6342-49c1-8143-45284151c90c-170",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "Statement on Pleural Procedures.1 For patients with complex malignant pleural disease, the management of trapped lung is an important question, and the guideline has addressed this in the ‘Is pleural aspiration, talc slurry pleurodesis, talc poudrage pleurodesis or decortication surgery better than using an indwelling pleural catheter to treat malignant pleural effusion and non-expandable lung?’ section below. The use of fibrinolytics for complex pleural effusions has also been explored in the ‘"
+    },
+    {
+      "chunkId": "a6aebe1b-6342-49c1-8143-45284151c90c-237",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "ffield, European Respiratory Society, 2020: 1–12. 53 Judson M, Sahn S. Pulmonary physiologic abnormalities caused by pleural disease. Semin Respir Crit Care Med 1995;16:346–53. 54 Chernow B, Sahn SA. Carcinomatous involvement of the pleura: an analysis of 96 patients. Am J Med 1977;63:695–702. 55 Rahman NM, Pepperell J, Rehal S, et al. Effect of opioids vs NSAIDs and larger vs smaller chest tube size on pain control and pleurodesis efficacy among patients with malignant pleural effusion: the TIM"
+    },
+    {
+      "chunkId": "a6aebe1b-6342-49c1-8143-45284151c90c-30",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "be routinely used for the treatment of MPE. (Conditional—by consensus) Good practice point ✓ All patients of good performance status with metastatic malignancy should be considered for SACT as standard of care as per national guidelines. Using prognostic or predictive scores to provide prognostic information for patients with malignant pleural effusion Good practice points ✓ Clinicians may consider using a validated risk score for MPE, if the information is of use in planning treatments or in di"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: rx-torace → tc → liquidi → cea.",
+      "Non prescrivere di prima intenzione: moc, colonscopia (BTS Guideline for Pleural Disease.pdf).",
+      "Budget SSN di riferimento: €260."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione piena al percorso diagnostico.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Reparto di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    },
+    {
+      "examId": "liquidi",
+      "name": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale)",
+      "finding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+      "isAbnormal": true,
+      "priceEuro": 40
+    },
+    {
+      "examId": "cea",
+      "name": "CEA",
+      "finding": "CEA nel contesto di Versamento pleurico maligno in neoplasia polmonare (PNEUMO-027). Ipossia, tachipnea, rumori respiratori anomali all'auscultazione, segni di ansia e distress respiratorio.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "moc",
+      "name": "MOC (DEXA)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 40,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Capisce che il versamento può essere maligno. Chiede tempi e verità. Il linguaggio elusivo aumenta l'ansia notturna; SPIKES-like e pause migliorano l'alleanza."
+  }
+}

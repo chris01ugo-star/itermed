@@ -23,6 +23,14 @@
 # misc
 .DS_Store
 *.pem
+*.pdf
+
+# knowledge base: keep structure/placeholders, never track heavy binaries
+knowledge_base/**/*.pdf
+tmp/
+temp/
+uploads/
+storage/
 
 # debug
 npm-debug.log*

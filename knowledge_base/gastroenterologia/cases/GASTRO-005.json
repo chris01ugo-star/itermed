@@ -1,0 +1,287 @@
+{
+  "title": "Sanguinamento da varici in cirrosi (Baveno VII)",
+  "description": "Paziente con segni di emorragia variceale in contesto di cirrosi epatica, presenta tachicardia, ipotensione e segni di shock.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "emocromo",
+    "pt-ptt-inr",
+    "egds",
+    "consenso-informato"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "88/52",
+      "spo2": 93,
+      "temperature": 36.8,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 170,
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Emorragia variceale in ipertensione portale — Baveno VII (GASTRO-005). Tachicardia, ipotensione, segni di emorragia, feci scure, ascite.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Emorragia variceale in ipertensione portale — Baveno VII (GASTRO-005). Tachicardia, ipotensione, segni di emorragia, feci scure, ascite.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pt-ptt-inr": {
+          "finding": "Coagulazione (PT, PTT, INR) nel contesto di Emorragia variceale in ipertensione portale — Baveno VII (GASTRO-005). Tachicardia, ipotensione, segni di emorragia, feci scure, ascite.",
+          "normalFinding": "Coagulazione (PT, PTT, INR) nel contesto di Emorragia variceale in ipertensione portale — Baveno VII (GASTRO-005). Tachicardia, ipotensione, segni di emorragia, feci scure, ascite.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "egds": {
+          "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Emorragia variceale in ipertensione portale — Baveno VII (GASTRO-005). Tachicardia, ipotensione, segni di emorragia, feci scure, ascite.",
+          "normalFinding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Emorragia variceale in ipertensione portale — Baveno VII (GASTRO-005). Tachicardia, ipotensione, segni di emorragia, feci scure, ascite.",
+          "isAbnormal": true,
+          "price": 90
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        }
+      }
+    },
+    "demographics": {
+      "age": 54,
+      "sex": "M",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Paziente in stato di shock, con segni di emorragia. Tachicardia, ipotensione, e pallore evidente. Addome non doloroso alla palpazione, ma con segni di ascite."
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Emorragia variceale in ipertensione portale — Baveno VII (GASTRO-005). Tachicardia, ipotensione, segni di emorragia, feci scure, ascite.",
+      "isAbnormal": true
+    },
+    "pt-ptt-inr": {
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Emorragia variceale in ipertensione portale — Baveno VII (GASTRO-005). Tachicardia, ipotensione, segni di emorragia, feci scure, ascite.",
+      "isAbnormal": true
+    },
+    "egds": {
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Emorragia variceale in ipertensione portale — Baveno VII (GASTRO-005). Tachicardia, ipotensione, segni di emorragia, feci scure, ascite.",
+      "isAbnormal": true
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+      "isAbnormal": false
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un emocromo, PT-PTT-INR e programmare un'EGDS urgente.",
+  "patientPrompt": "Ho 54 anni e sono qui perché mi sento molto debole e ho notato delle feci scure. Non bevo alcol, ma mi sento molto ansioso e stressato. Non riesco a dormire bene da giorni e mi sento isolato. Non capisco perché mi stia succedendo tutto questo.",
+  "id": "GASTRO-005",
+  "code": "GASTRO-005",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Emorragia variceale in ipertensione portale — Baveno VII",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "EASL_Baveno_VII_Portal_Hypertension.pdf",
+  "diagnosis": "Emorragia variceale in cirrosi",
+  "pastMedicalHistory": "Cirrosi epatica nota, ma non segue alcuna terapia regolare. Nessun intervento chirurgico pregresso.",
+  "presentation": "Salvatore, un uomo di 54 anni, si presenta in pronto soccorso con un forte senso di debolezza e vertigini. Riferisce di aver notato feci scure e di sentirsi molto ansioso. Nonostante le sue condizioni, sembra opporsi a qualsiasi discussione riguardo al suo stato di salute, negando di avere problemi di alcolismo. È visibilmente stressato e ha difficoltà a dormire da diversi giorni. La sua rete sociale è limitata, il che lo fa sentire isolato e senza supporto.",
+  "redHerrings": [
+    "Riferisce di avere un'infezione respiratoria recente, ma non presenta segni clinici di polmonite.",
+    "Ha avuto un episodio di gastrite acuta qualche settimana fa, che ora sembra risolto.",
+    "Accenna a un dolore addominale occasionale, ma non lo considera un problema serio."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "emocromo": 30,
+    "pt-ptt-inr": 30,
+    "egds": 60,
+    "consenso-informato": 10,
+    "colonscopia": 90,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-005_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Emorragia variceale in ipertensione portale — Baveno VII)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-005_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-005_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-005_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-005_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-005_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Paziente in stato di shock, con segni di emorragia. Tachicardia, ipotensione, e pallore evidente. Addome non doloroso alla palpazione, ma con segni di ascite."
+  },
+  "goldPathNarrative": "Dopo aver eseguito l'emocromo e i test di coagulazione, si procederà a un'EGDS per valutare e trattare le varici esofagee. È fondamentale ottenere il consenso informato del paziente, spiegando l'importanza dell'intervento.",
+  "escCitations": [
+    {
+      "chunkId": "12805924-951f-49bd-80b4-e7b731430d00-3",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_Baveno_VII_Portal_Hypertension.pdf",
+      "quote": "s in 200711; in Stresa in 2010 (Baveno V)12,13; and in Baveno in 2015 (Baveno VI).14,15 The aims of these meetings were to develop definitions of key events in portal hypertension, to review the existing evidence on the natural history, the diagnosis, and the therapeutic modalities of portal hypertension, and to issue evidence-based recommendations for the conduct of clinical trials and the management of patients. All these meet- ings were successful and produced consensus rec- ommendations that"
+    },
+    {
+      "chunkId": "12805924-951f-49bd-80b4-e7b731430d00-83",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_Baveno_VII_Portal_Hypertension.pdf",
+      "quote": "C.1) (New) Treatment of portal hypertension in extrahepatic portal vein obstruction 8.50 There is insufficient data on whether beta-blockers or endo- scopic therapy should be preferred for primary prophylaxis of portal hypertension-related bleeding in patients with past PVT or cavernoma. Guidelines for cirrhosis should be applied. (C.2) (Changed) 8.51 Oesophageal variceal band ligation can be performed safely without withdrawing vitamin K antagonists. (C.2) (New) 8.52 All patients in whom thromb"
+    },
+    {
+      "chunkId": "12805924-951f-49bd-80b4-e7b731430d00-1",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_Baveno_VII_Portal_Hypertension.pdf",
+      "quote": "he course of cirrhosis, the prevention of the first episode of decompensation, the management of an acute bleeding episode, the prevention of further decompensation, as well as the diagnosis and management of splanchnic vein thrombosis and other vascular disorders of the liver. For each of these 9 topics, a thorough review of the medical literature was performed, and a series of consensus statements/recommendations were dis- cussed and agreed upon. A summary of the most important conclusions/rec"
+    },
+    {
+      "chunkId": "12805924-951f-49bd-80b4-e7b731430d00-111",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_Baveno_VII_Portal_Hypertension.pdf",
+      "quote": "is R, editor. Portal Hypertension III. Proceedings of the IIIrd Baveno International Consensus Workshop on Definitions, Methodology and Therapeutic Strategies. Oxford, UK: Blackwell Science; 2001. [9] de Franchis R. Evolving consensus in portal hypertension. Report of the Baveno IV consensus workshop on methodology of diagnosis and therapy in portal hypertension. J Hepatol 2005;43:167–176. [10] de Franchis R, editor. Portal Hypertension IV. Proceedings of the IVth Baveno international consensus "
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: emocromo → pt-ptt-inr → egds → consenso-informato.",
+      "Non prescrivere di prima intenzione: colonscopia, pet-tc (EASL_Baveno_VII_Portal_Hypertension.pdf).",
+      "Budget SSN di riferimento: €170."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alle linee guida L. 24/2017 Art. 5, seguendo il gold path.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Emorragia variceale in ipertensione portale — Baveno VII (GASTRO-005). Tachicardia, ipotensione, segni di emorragia, feci scure, ascite.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT, INR)",
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Emorragia variceale in ipertensione portale — Baveno VII (GASTRO-005). Tachicardia, ipotensione, segni di emorragia, feci scure, ascite.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "egds",
+      "name": "Esofagogastroduodenoscopia (EGDS)",
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Emorragia variceale in ipertensione portale — Baveno VII (GASTRO-005). Tachicardia, ipotensione, segni di emorragia, feci scure, ascite.",
+      "isAbnormal": true,
+      "priceEuro": 90
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: EASL_Baveno_VII_Portal_Hypertension.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ISOLATED"
+    },
+    "communicationStyle": "Nega l'alcol. Il moralismo innesca ostilità. Funziona il framing sulla varice come 'vena fragile' e sulla necessità dell'EGDS urgente, senza colpa."
+  }
+}

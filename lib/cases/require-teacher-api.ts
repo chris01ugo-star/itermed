@@ -1,30 +1,27 @@
-import { isDevAuthBypass } from "@/lib/require-user";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
+import { getSessionUser, unauthorizedJson, forbiddenJson } from "@/lib/api-session";
 
 const TEACHER_ROLES = new Set(["INSTRUCTOR", "ADMIN"]);
 
-/** Any authenticated user (or dev bypass). Used for case create / AI generation. */
+/** Any authenticated user (JWT present). Does not grant teacher privileges. */
 export async function requireAuthApi(): Promise<Response | null> {
-  if (isDevAuthBypass()) return null;
-
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-
+  const user = await getSessionUser();
+  if (!user) return unauthorizedJson();
   return null;
 }
 
-/** Authenticated session only (role-agnostic). Alias kept for existing imports. */
+/**
+ * Case authoring / AI generation: INSTRUCTOR or ADMIN only.
+ * STUDENT receives 403 — authentication alone is not enough.
+ */
 export async function requireTeacherApi(): Promise<Response | null> {
-  return requireAuthApi();
+  const user = await getSessionUser();
+  if (!user) return unauthorizedJson();
+  if (!TEACHER_ROLES.has(user.role)) {
+    return forbiddenJson("Forbidden", "FORBIDDEN_ROLE");
+  }
+  return null;
 }
 
 export function isTeacherRole(role: string): boolean {
   return TEACHER_ROLES.has(role);
 }
-

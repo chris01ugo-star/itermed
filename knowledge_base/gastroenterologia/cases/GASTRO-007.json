@@ -1,0 +1,285 @@
+{
+  "title": "Pancreatite acuta in uomo di 45 anni",
+  "description": "Andrea si presenta in pronto soccorso con un forte dolore addominale a cintura, accompagnato da nausea e vomito. Riferisce di aver assunto FANS e amari per lo stomaco nei giorni precedenti. È molto ansioso e preoccupato per il dolore, temendo che possa essere qualcosa di grave. Ha una buona rete di supporto, ma il suo sonno è disturbato a causa dello stress.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "amilasi-lipasi",
+    "enzimi-epatici",
+    "ecografia"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "128/82",
+      "spo2": 97,
+      "temperature": 37.4,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 80,
+    "advancedExams": {
+      "values": {
+        "amilasi-lipasi": {
+          "finding": "Amilasemia e Lipasemia nel contesto di Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation (GASTRO-007). Aumento della frequenza cardiaca, dolore all'addome superiore, segni di disidratazione, nausea e vomito.",
+          "normalFinding": "Amilasemia e Lipasemia nel contesto di Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation (GASTRO-007). Aumento della frequenza cardiaca, dolore all'addome superiore, segni di disidratazione, nausea e vomito.",
+          "isAbnormal": true,
+          "price": 9
+        },
+        "enzimi-epatici": {
+          "finding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation (GASTRO-007). Aumento della frequenza cardiaca, dolore all'addome superiore, segni di disidratazione, nausea e vomito.",
+          "normalFinding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation (GASTRO-007). Aumento della frequenza cardiaca, dolore all'addome superiore, segni di disidratazione, nausea e vomito.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "ecografia": {
+          "finding": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica) nel contesto di Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation (GASTRO-007). Aumento della frequenza cardiaca, dolore all'addome superiore, segni di disidratazione, nausea e vomito.",
+          "normalFinding": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica) nel contesto di Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation (GASTRO-007). Aumento della frequenza cardiaca, dolore all'addome superiore, segni di disidratazione, nausea e vomito.",
+          "isAbnormal": true,
+          "price": 35
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 45,
+      "sex": "M",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Dolore addominale diffuso, segni di irritazione peritoneale, tachicardia, respirazione superficiale."
+    },
+    "amilasi-lipasi": {
+      "finding": "Amilasemia e Lipasemia nel contesto di Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation (GASTRO-007). Aumento della frequenza cardiaca, dolore all'addome superiore, segni di disidratazione, nausea e vomito.",
+      "isAbnormal": true
+    },
+    "enzimi-epatici": {
+      "finding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation (GASTRO-007). Aumento della frequenza cardiaca, dolore all'addome superiore, segni di disidratazione, nausea e vomito.",
+      "isAbnormal": true
+    },
+    "ecografia": {
+      "finding": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica) nel contesto di Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation (GASTRO-007). Aumento della frequenza cardiaca, dolore all'addome superiore, segni di disidratazione, nausea e vomito.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Iniziare la fluidoterapia e monitorare i segni vitali, eseguire esami di laboratorio per amilasi e lipasi, e programmare un'ecografia addominale.",
+  "patientPrompt": "Ho 45 anni e sono molto preoccupato. Ho un forte dolore a cintura che non passa, e ho vomitato più volte. Ho preso FANS e amari per lo stomaco, ma non ho avuto sollievo. Questo dolore mi terrorizza e non riesco a pensare ad altro. Ho una buona rete di supporto, ma non riesco a dormire bene da giorni per l'ansia. Cosa potrebbe essere?",
+  "id": "GASTRO-007",
+  "code": "GASTRO-007",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+  "diagnosis": "Pancreatite acuta",
+  "pastMedicalHistory": "Nessuna patologia significativa pregressa, non fumatore, consumo moderato di alcol.",
+  "presentation": "Andrea, un uomo di 45 anni, si presenta in pronto soccorso con un forte dolore addominale a cintura, nausea e vomito. Ha assunto FANS e amari per lo stomaco, ma il dolore persiste. È molto ansioso e teme che la situazione possa essere grave. Ha una buona rete di supporto, ma il suo sonno è disturbato a causa dello stress.",
+  "redHerrings": [
+    "Dolore addominale causato da gastrite.",
+    "Nausea dovuta a intossicazione alimentare.",
+    "Vomito per ansia e stress."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "amilasi-lipasi": 30,
+    "enzimi-epatici": 30,
+    "ecografia": 25,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-007_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-007_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-007_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-007_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-007_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-007_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dolore addominale diffuso, segni di irritazione peritoneale, tachicardia, respirazione superficiale."
+  },
+  "goldPathNarrative": "Iniziare con il prelievo di sangue per la valutazione di amilasi e lipasi, seguiti da esami per gli enzimi epatici. Successivamente, eseguire un'ecografia addominale per valutare eventuali complicazioni.",
+  "escCitations": [
+    {
+      "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-23",
+      "source": "knowledge_base/gastroenterologia/clinical/IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+      "quote": "c, or surgical intervention.(GRADE 1C, strong agreement) 13. A specialist center in the management of acute pancreatitis is defined as a high volume center with up-to-date intensive care facilities including options for organ replacement therapy, and with daily (i.e. 7 days per week) access to interventional radiology, interventional endoscopy with EUS and ERCP assistance as well as surgical expertise in managing necrotizing pancreatitis. Patients should be enrolled in prospective audits for qua"
+    },
+    {
+      "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-0",
+      "source": "knowledge_base/gastroenterologia/clinical/IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+      "quote": "Original article IAP/APA evidence-based guidelines for the management of acute pancreatitis Working Group IAP/APA Acute Pancreatitis Guidelinesa,b,*,1 a International Association of Pancreatology, UNSW Clinical School Locked Bag 7103, Liverpool, BC NSW 1871, Australia b American Pancreatic Association, PO Box 14906, Minneapolis, MN 55414, USA a r t i c l e i n f o Article history: Received 5 June 2013 Received in revised form 1 July 2013 Accepted 5 July 2013 Keywords: Acute pancreatitis Pancreas"
+    },
+    {
+      "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-2",
+      "source": "knowledge_base/gastroenterologia/clinical/IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+      "quote": "te pancreatitis and etiology, B) prognostication/predicting severity, C) imaging, D) fluid therapy, E) intensive care management, F) preventing infectious complications, G) nutritional support, H) biliary tract management, I) indications for intervention in necrotizing pancre- atitis, J) timing of intervention in necrotizing pancreatitis, K) intervention strategies in necrotizing pancreatitis, and L) timing of cholecystectomy. Using the GRADE system, 21 of the 38 (55%) recom- mendations, were ra"
+    },
+    {
+      "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-24",
+      "source": "knowledge_base/gastroenterologia/clinical/IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+      "quote": "t page) Working Group IAP/APA Acute Pancreatitis Guidelines / Pancreatology 13 (2013) e1ee15 e3 3.1. Diagnosis of acute pancreatitis and etiology Q1. What is the definition of acute pancreatitis (regardless of etiology)? The definition of acute pancreatitis is based on the fulfillment of ‘2 out of 3’ of the following criteria: clinical (upper abdominal pain), laboratory (serum amylase or lipase >3 upper limit of normal) and/or imaging (computed tomography, magnetic resonance (MR), ultrasonograph"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: amilasi-lipasi → enzimi-epatici → ecografia.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (IAP_APA_Acute_Pancreatitis_Guidelines.pdf).",
+      "Budget SSN di riferimento: €80."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente ha seguito il gold path.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "amilasi-lipasi",
+      "name": "Amilasemia e Lipasemia",
+      "finding": "Amilasemia e Lipasemia nel contesto di Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation (GASTRO-007). Aumento della frequenza cardiaca, dolore all'addome superiore, segni di disidratazione, nausea e vomito.",
+      "isAbnormal": true,
+      "priceEuro": 9
+    },
+    {
+      "examId": "enzimi-epatici",
+      "name": "Indici di citolisi e colestasi (AST, ALT, GGT, FA)",
+      "finding": "Indici di citolisi e colestasi (AST, ALT, GGT, FA) nel contesto di Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation (GASTRO-007). Aumento della frequenza cardiaca, dolore all'addome superiore, segni di disidratazione, nausea e vomito.",
+      "isAbnormal": true,
+      "priceEuro": 10
+    },
+    {
+      "examId": "ecografia",
+      "name": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica)",
+      "finding": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica) nel contesto di Pancreatite acuta — diagnosi IAP/APA e fluid resuscitation (GASTRO-007). Aumento della frequenza cardiaca, dolore all'addome superiore, segni di disidratazione, nausea e vomito.",
+      "isAbnormal": true,
+      "priceEuro": 35
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "SELF_MEDICATED",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ha preso FANS e amari 'per lo stomaco'. Il dolore a cintura lo terrorizza. Serve de-escalation e spiegare lipasi/eco senza catastrophizzare la necrosi."
+  }
+}

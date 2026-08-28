@@ -1,0 +1,340 @@
+{
+  "title": "Embolia polmonare a rischio intermedio",
+  "description": "Laura si presenta in pronto soccorso lamentando dispnea acuta, ansia e un forte senso di panico. Ha una storia di cybercondria e si preoccupa frequentemente per la sua salute, oscillando tra momenti di iper-compliance e attacchi di panico. La sua rete sociale è forte, ma lo stress è elevato e il sonno è solo discreto.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "ddimero",
+    "ega",
+    "rx-torace",
+    "angio",
+    "troponina-hs",
+    "nt-probnp"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "108/70",
+      "spo2": 90,
+      "temperature": 36.7,
+      "respiratoryRate": 26
+    },
+    "examBudgetEuro": 280,
+    "advancedExams": {
+      "values": {
+        "ddimero": {
+          "finding": "D-Dimero nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+          "normalFinding": "D-Dimero nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+          "isAbnormal": true,
+          "price": 9
+        },
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "angio": {
+          "finding": "Angio-TC e Angio-RM nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+          "normalFinding": "Angio-TC e Angio-RM nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "troponina-hs": {
+          "finding": "Troponina (alta sensibilità) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+          "normalFinding": "Troponina (alta sensibilità) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "nt-probnp": {
+          "finding": "NT-proBNP (o BNP) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+          "normalFinding": "NT-proBNP (o BNP) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+          "isAbnormal": true,
+          "price": 18
+        },
+        "coronarografia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 1800
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 51,
+      "sex": "F",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Dispnea, tachipnea, ansia evidente, saturazione di ossigeno al 90%."
+    },
+    "ddimero": {
+      "finding": "D-Dimero nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+      "isAbnormal": true
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+      "isAbnormal": true
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+      "isAbnormal": true
+    },
+    "angio": {
+      "finding": "Angio-TC e Angio-RM nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+      "isAbnormal": true
+    },
+    "troponina-hs": {
+      "finding": "Troponina (alta sensibilità) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+      "isAbnormal": true
+    },
+    "nt-probnp": {
+      "finding": "NT-proBNP (o BNP) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+      "isAbnormal": true
+    },
+    "coronarografia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "D-dimero, angio-TC, RX torace, troponina-hs, NT-proBNP",
+  "patientPrompt": "Ho 51 anni e sono qui perché ho difficoltà a respirare. Sono molto preoccupata e ho paura che possa essere qualcosa di grave, come un tumore o un'embolia. Ho cercato informazioni online e mi sento sopraffatta. Non so cosa pensare e ho bisogno di aiuto.",
+  "id": "PNEUMO-015",
+  "code": "PNEUMO-015",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Embolia polmonare acuta a rischio intermedio",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
+  "diagnosis": "Embolia polmonare acuta a rischio intermedio",
+  "pastMedicalHistory": "Allergie stagionali, recente infezione virale, ansia generalizzata.",
+  "presentation": "Laura, una donna di 51 anni, si presenta al pronto soccorso con dispnea acuta, tachipnea e ansia. Riferisce di aver avuto un episodio di difficoltà respiratoria nelle ultime 24 ore, che è peggiorato. Ha chiesto a un chatbot se i suoi sintomi potessero essere indicativi di un tumore o di un'embolia polmonare. La sua storia medica è caratterizzata da una forte preoccupazione per la salute, che la porta a cercare frequentemente informazioni online. Si sente sopraffatta e ha difficoltà a mantenere la calma. Nonostante ciò, è molto aderente alle indicazioni mediche e desidera seguire il percorso diagnostico proposto.",
+  "redHerrings": [
+    "Laura ha una storia di allergie stagionali, ma non ha mai avuto problemi respiratori significativi in passato.",
+    "Recentemente ha avuto un'infezione virale, ma ha completato il ciclo di trattamento senza complicazioni.",
+    "Laura ha riferito di aver viaggiato in aereo di recente, ma non ha avuto sintomi durante il volo."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ddimero": 30,
+    "ega": 10,
+    "rx-torace": 20,
+    "angio": 45,
+    "troponina-hs": 35,
+    "nt-probnp": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-015_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Embolia polmonare acuta a rischio intermedio)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-015_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-015_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-015_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-015_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-015_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dispnea, tachipnea, ansia evidente, saturazione di ossigeno al 90%."
+  },
+  "goldPathNarrative": "Iniziamo con un test del D-dimero per valutare la possibilità di un'embolia polmonare. Se il risultato è positivo, procederemo con un'angio-TC per confermare la diagnosi. È importante che tu rimanga calma e segua le indicazioni, poiché stiamo facendo il possibile per comprendere la tua situazione.",
+  "escCitations": [
+    {
+      "chunkId": "ba3c11c3-2557-4381-a25e-ee0fed762104-649",
+      "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
+      "quote": "g/10.1183/[REDACTED]-2022 119 EUROPEAN RESPIRATORY JOURNAL ESC/ERS GUIDELINES | M. HUMBERT ET AL. on August 20, 2026 by guest. Please see licensing information on first page for reuse rights.https://publications.ersnet.orgDownloaded from 203 Sanchez O, Helley D, Couchon S, et al. Perfusion defects after pulmonary embolism: risk factors and clinical significance. J Thromb Haemost 2010; 8: 1248–1255. 204 Wartski M, Collignon MA. Incomplete recovery of lung perfusion after 3 months in patients with"
+    },
+    {
+      "chunkId": "ba3c11c3-2557-4381-a25e-ee0fed762104-722",
+      "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
+      "quote": "n. Eur Respir J 2016; 48: 1668–1681. 485 Rasciti E, Sverzellati N, Silva M, et al. Bronchial artery embolization for the treatment of haemoptysis in pulmonary hypertension. Radiol Med 2017; 122: 257–264. 486 Yang S, Wang J, Kuang T, et al. Efficacy and safety of bronchial artery embolization on hemoptysis in chronic thromboembolic pulmonary hypertension: a pilot prospective cohort study. Crit Care Med 2019; 47: e182–e189. 487 Demerouti EA, Manginas AN, Athanassopoulos GD, et al. Complications le"
+    },
+    {
+      "chunkId": "ba3c11c3-2557-4381-a25e-ee0fed762104-648",
+      "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
+      "quote": "ter pulmonary embolism. N Engl J Med 2004; 350: 2257–2264. 199 Simonneau G, Hoeper MM. Evaluation of the incidence of rare diseases: difficulties and uncertainties, the example of chronic thromboembolic pulmonary hypertension. Eur Respir J 2017; 49: 1602522. 200 Coquoz N, Weilenmann D, Stolz D, et al. Multicentre observational screening survey for the detection of CTEPH following pulmonary embolism. Eur Respir J 2018; 51: 1702505. 201 Valerio LM, Mavromanoli AC, Barco S, et al. Chronic thromboem"
+    },
+    {
+      "chunkId": "ba3c11c3-2557-4381-a25e-ee0fed762104-799",
+      "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
+      "quote": "asty in chronic thromboembolic pulmonary hypertension. Eur Respir Rev 2017; 26: 160119. https://doi.org/10.1183/[REDACTED]-2022 141 EUROPEAN RESPIRATORY JOURNAL ESC/ERS GUIDELINES | M. HUMBERT ET AL. on August 20, 2026 by guest. Please see licensing information on first page for reuse rights.https://publications.ersnet.orgDownloaded from 788 Mahmud E, Behnamfar O, Ang L, et al. Balloon pulmonary angioplasty for chronic thromboembolic pulmonary hypertension. Interv Cardiol Clin 2018; 7: 103–117. "
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ddimero → ega → rx-torace → angio → troponina-hs → nt-probnp.",
+      "Non prescrivere di prima intenzione: coronarografia, colonscopia (ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf).",
+      "Budget SSN di riferimento: €280."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso diagnostico proposto è conforme all'articolo 5 della legge Gelli-Bianco.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ddimero",
+      "name": "D-Dimero",
+      "finding": "D-Dimero nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+      "isAbnormal": true,
+      "priceEuro": 9
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "angio",
+      "name": "Angio-TC e Angio-RM",
+      "finding": "Angio-TC e Angio-RM nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    },
+    {
+      "examId": "troponina-hs",
+      "name": "Troponina (alta sensibilità)",
+      "finding": "Troponina (alta sensibilità) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "nt-probnp",
+      "name": "NT-proBNP (o BNP)",
+      "finding": "NT-proBNP (o BNP) nel contesto di Embolia polmonare acuta a rischio intermedio (PNEUMO-015). Dispnea, tachipnea, saturazione di ossigeno ridotta, segni di ansia.",
+      "isAbnormal": true,
+      "priceEuro": 18
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia (Invasiva)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 1800,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Ha chiesto a un chatbot se la dispnea è 'tumore o embolia'. Oscilla tra panico e iper-compliance. Il medico deve nominare il D-dimero/angio-TC senza alimentarne le diagnosi catastrophiche."
+  }
+}

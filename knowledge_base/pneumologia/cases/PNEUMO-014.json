@@ -1,0 +1,322 @@
+{
+  "title": "Infezione pleurica / empiema",
+  "description": "Paziente presenta segni di infezione pleurica con febbre, tachipnea e ipossiemia.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "rx-torace",
+    "tc",
+    "emocromo",
+    "pcr-pct",
+    "liquidi"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 98,
+      "bloodPressure": "126/78",
+      "spo2": 93,
+      "temperature": 38.1,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 260,
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "tc": {
+          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pcr-pct": {
+          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "liquidi": {
+          "finding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+          "normalFinding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+          "isAbnormal": true,
+          "price": 40
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 64,
+      "sex": "F",
+      "context": "Reparto di Pneumologia"
+    },
+    "physicalExam": {
+      "finding": "Tachipnea, ipossiemia, febbre, dolore toracico alla palpazione, suoni respiratori anomali all'auscultazione."
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+      "isAbnormal": true
+    },
+    "pcr-pct": {
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+      "isAbnormal": true
+    },
+    "liquidi": {
+      "finding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Procedere con rx torace, TC torace, emocromo, PCR e PCT per valutare la situazione e decidere il trattamento.",
+  "patientPrompt": "Ho 64 anni e sono qui perché ho febbre e sento dolore al torace. Ogni volta che respiro profondamente, il dolore aumenta. Sono preoccupata e vorrei capire perché devo fare questi esami. Mi hanno parlato di una toracentesi, ma non so cosa sia e ho un po' paura. Se mi spiegate tutto, forse riuscirò a stare più tranquilla.",
+  "id": "PNEUMO-014",
+  "code": "PNEUMO-014",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Infezione dello spazio pleurico (empiema)",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "BTS_Pleural_Infection_Guidelines.pdf",
+  "diagnosis": "Infezione pleurica / empiema",
+  "pastMedicalHistory": "Non presenta patologie pregresse significative. Non è fumatrice e non ha mai avuto interventi chirurgici.",
+  "presentation": "Paola, una donna di 64 anni, si presenta in reparto con febbre e difficoltà respiratorie. Riferisce di avere dolore al torace che aumenta con la respirazione profonda. È preoccupata per la sua condizione e chiede chiarimenti su ogni esame che le viene proposto. Ha una rete di supporto adeguata, ma si sente ansiosa riguardo alla sua salute e ha difficoltà a dormire bene.",
+  "redHerrings": [
+    "Dolore muscolare",
+    "Storia di reflusso gastroesofageo",
+    "Allergia ai pollini"
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "rx-torace": 20,
+    "tc": 40,
+    "emocromo": 30,
+    "pcr-pct": 35,
+    "liquidi": 40,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-014_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Infezione dello spazio pleurico (empiema))",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-014_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-014_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-014_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-014_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-014_6",
+      "prompt": "Contesto di presentazione: Reparto di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Tachipnea, ipossiemia, febbre, dolore toracico alla palpazione, suoni respiratori anomali all'auscultazione."
+  },
+  "goldPathNarrative": "Iniziare con una radiografia del torace per valutare la presenza di versamento pleurico. Se necessario, eseguire una TC torace per una valutazione più dettagliata. Successivamente, effettuare emocromo, PCR e PCT per confermare l'infezione e valutare la gravità. La toracentesi sarà eseguita per analizzare il liquido pleurico e determinare il trattamento appropriato.",
+  "escCitations": [
+    {
+      "chunkId": "8bd85bf9-348f-4c87-81a5-ff93272d1762-3",
+      "source": "knowledge_base/pneumologia/clinical/BTS_Pleural_Infection_Guidelines.pdf",
+      "quote": "physicians, oncologists, emer- gency physicians, hospital practitioners, inten- sive care physicians, palliative care physicians, radiologists, other allied health professional and patients and carers. areas covered by the guideline The guideline focuses on the investigation and management of pleural disease in adults and covers four broad areas of pleural disease: a. Spontaneous pneumothorax b. Undiagnosed unilateral pleural effusion c. Pleural infection d. Pleural malignancy Adult patients in "
+    },
+    {
+      "chunkId": "8bd85bf9-348f-4c87-81a5-ff93272d1762-55",
+      "source": "knowledge_base/pneumologia/clinical/BTS_Pleural_Infection_Guidelines.pdf",
+      "quote": "n-purulent fluid – initial decision tree CPPE, complex parapneumonic effusion; LDH, lactate dehydrogenase; ICD, intercostal drain. 1154Roberts ME, et al. Thorax 2023;78:1143–1156. doi:10.1136/thorax-[REDACTED] Protected by copyright, including for uses related to text and data mining, AI training, and similar technologies. .by gueston August 20, 2026http://thorax.bmj.com/Downloaded from8 August 2023.10.1136/thorax-[REDACTED] onThorax: first published as Guideline summary Pleural infection treatm"
+    },
+    {
+      "chunkId": "8bd85bf9-348f-4c87-81a5-ff93272d1762-26",
+      "source": "knowledge_base/pneumologia/clinical/BTS_Pleural_Infection_Guidelines.pdf",
+      "quote": "ment of pleural infection. ✓ Due to lack of supporting evidence, medical thoracoscopy should not be considered as initial treatment for pleural infection. Intrapleural therapy for managing pleural infection Recommendations ► Combination tissue plasminogen activator (TPA) and DNAse should be considered for the treatment of pleural infection, where initial chest tube drainage has ceased and leaves a residual pleural collection. (Conditional – by consensus) ► Saline irrigation can be considered for"
+    },
+    {
+      "chunkId": "8bd85bf9-348f-4c87-81a5-ff93272d1762-22",
+      "source": "knowledge_base/pneumologia/clinical/BTS_Pleural_Infection_Guidelines.pdf",
+      "quote": "al biopsies should not be conducted. (Strong – by consensus) Pleural infection Predicting clinical outcomes of pleural infection Recommendation ► RAPID (renal, age, purulence, infection source, dietary factors) scoring should be considered for risk stratifying adults with pleural infection and can be used to inform discussions with patients regarding potential outcome from infection. (Conditional) Pleural fluid, or radiology parameters for determining which patients can be treated with intercost"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: rx-torace → tc → emocromo → pcr-pct → liquidi.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (BTS_Pleural_Infection_Guidelines.pdf).",
+      "Budget SSN di riferimento: €260."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente è collaborativo e aderente alle indicazioni fornite.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Reparto di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "liquidi",
+      "name": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale)",
+      "finding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+      "isAbnormal": true,
+      "priceEuro": 40
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Chiede il perché di ogni prelievo. Accetta la toracentesi se si spiega dolore, consenso e cosa si cerca nel liquido. Il silenzio procedurale la inquieta."
+  }
+}

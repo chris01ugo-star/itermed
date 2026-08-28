@@ -1,0 +1,275 @@
+{
+  "title": "Dolore toracico da angina instabile in Guardia Medica (uomo 61 anni)",
+  "description": "Mi sono presentato in Guardia Medica con un forte dolore toracico che si irradia al braccio sinistro. Ho anche difficoltà a respirare e mi sento molto ansioso.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "ecg",
+    "troponina-hs",
+    "elettroliti",
+    "trasferimento-ps"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "130/85",
+      "spo2": 92,
+      "temperature": 37.5,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 80,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica acuta — angina instabile (CARDIO-004). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica acuta — angina instabile (CARDIO-004). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "troponina-hs": {
+          "finding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica acuta — angina instabile (CARDIO-004). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare.",
+          "normalFinding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica acuta — angina instabile (CARDIO-004). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "elettroliti": {
+          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica acuta — angina instabile (CARDIO-004). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare.",
+          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica acuta — angina instabile (CARDIO-004). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "coronarografia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 1800
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        }
+      }
+    },
+    "demographics": {
+      "age": 61,
+      "sex": "M",
+      "context": "Guardia Medica"
+    },
+    "physicalExam": {
+      "finding": "Il paziente è in stato di ansia, presenta sudorazione profusa e tachicardia. La pressione arteriosa è stabile, ma la frequenza respiratoria è aumentata. Auscultazione cardiaca mostra un ritmo regolare, ma il paziente riferisce dolore toracico durante la palpazione.",
+      "killipClass": "III"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica acuta — angina instabile (CARDIO-004). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true
+    },
+    "troponina-hs": {
+      "finding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica acuta — angina instabile (CARDIO-004). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica acuta — angina instabile (CARDIO-004). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true
+    },
+    "coronarografia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un ECG, dosare la troponina-hs e gli elettroliti, quindi trasferire in pronto soccorso.",
+  "patientPrompt": "Mi chiamo Giovanni e Ho 61 anni. Sono venuto qui perché ho un forte dolore al petto. Sento che il dolore si irradia al braccio sinistro e ho difficoltà a respirare. Ho anche una forte ansia e mi sembra di sudare molto.",
+  "id": "CARDIO-004",
+  "code": "CARDIO-004",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Sindrome coronarica acuta — angina instabile",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "GUARDIA_MEDICA",
+  "guidelineRef": "ESC_2023_ACS_Guidelines.pdf",
+  "diagnosis": "Angina instabile",
+  "pastMedicalHistory": "Ho una storia di ipertensione e colesterolo alto. Non ho mai avuto problemi cardiaci in passato e non ho mai subito interventi chirurgici.",
+  "presentation": "Il dolore è iniziato circa un'ora fa mentre ero a casa. È un dolore opprimente e continuo, che non sembra migliorare con il riposo. Ho anche una sensazione di nausea e sudorazione eccessiva.",
+  "redHerrings": [
+    "Ho recentemente iniziato a prendere un nuovo farmaco per l'ipertensione.",
+    "Ho avuto un episodio simile qualche mese fa, ma si è risolto da solo dopo un paio d'ore.",
+    "Ho un dolore alla schiena che mi preoccupa, ma non è come il dolore toracico."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "ecg": 8,
+    "troponina-hs": 35,
+    "elettroliti": 30,
+    "coronarografia": 25
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-004_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Sindrome coronarica acuta — angina instabile)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-004_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-004_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-004_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-004_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-004_6",
+      "prompt": "Contesto di presentazione: Guardia Medica territoriale",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "III",
+    "summary": "Il paziente è in stato di ansia, presenta sudorazione profusa e tachicardia. La pressione arteriosa è stabile, ma la frequenza respiratoria è aumentata. Auscultazione cardiaca mostra un ritmo regolare, ma il paziente riferisce dolore toracico durante la palpazione."
+  },
+  "goldPathNarrative": "In base alla presentazione clinica e alla storia del paziente, è necessario eseguire un ECG per valutare eventuali anomalie ischemiche. Successivamente, si procederà con il dosaggio della troponina ad alta sensibilità e degli elettroliti per escludere un infarto miocardico. Infine, vista la gravità della situazione, il paziente dovrà essere trasferito in pronto soccorso per ulteriori valutazioni e trattamenti.",
+  "escCitations": [
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-175",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "should be managed in the same way as patients with chronic total occlusion according to the ESC Guidelines for the diagnosis and manage- ment of chronic coronary syndromes (CCS).195 5.2.2. Immediate invasive strategy for non-ST elevation acute coronary syndrome An immediate invasive strategy refers to emergency (i.e. as soon as pos- sible) angiography and PCI if indicated. This is recommended for pa- tients with a working diagnosis of NSTE-ACS and any of the following very high-risk criteria: • "
+    },
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-745",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "l and Pericardial Diseases. Eur Heart J 2013;34:2636–2648,2648a-2648d. https://doi.org/10.1093/eurheartj/eht210 550. Ford TJ, Stanley B, Good R, Rocchiccioli P, McEntegart M, Watkins S, et al. Stratified medical therapy using invasive coronary function testing in angina: the CorMicA trial. J Am Coll Cardiol 2018;72:2841–2855. https://doi.org/10.1016/j.jacc.2018.[REDACTED]. Kunadian V, Chieffo A, Camici PG, Berry C, Escaned J, Maas AHEM, et al. An EAPCI expert consensus document on ischaemia with"
+    },
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-198",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "namic instability or cardiogenic shock • Recurrent or refractory chest pain despite medical treatment • In-hospital life-threatening arrhythmias • Mechanical complications of MI • Acute heart failure presumed secondary to ongoing myocardial ischaemia • Recurrent dynamic ST-segment or T wave changes, particularly intermittent ST-segment elevation. I C An early invasive strategy within 24 h should be considered in patients with at least one of the following high-risk criteria: • Confirmed diagnosi"
+    },
+    {
+      "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-10",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2023_ACS_Guidelines.pdf",
+      "quote": "Secondary prevention • ST-segment elevation myocardial infarction • Unstable angina Table of contents 1. Preamble .............................................................................................................. 3727 2. Introduction ....................................................................................................... 3728 2.1. Definitions | Acute coronary syndromes and myocardial infarction ..........................................................................."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → troponina-hs → elettroliti → trasferimento-ps.",
+      "Non prescrivere di prima intenzione: coronarografia, pet-tc (ESC_2023_ACS_Guidelines.pdf).",
+      "Budget SSN di riferimento: €80."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione al gold path ESC. L'adesione alle linee guida ESC (ESC_2023_ACS_Guidelines.pdf) e al gold path costituisce parametro di conformità alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Guardia Medica territoriale."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica acuta — angina instabile (CARDIO-004). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "troponina-hs",
+      "name": "Troponina (alta sensibilità)",
+      "finding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica acuta — angina instabile (CARDIO-004). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica acuta — angina instabile (CARDIO-004). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia (Invasiva)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 1800,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf."
+    }
+  ]
+}

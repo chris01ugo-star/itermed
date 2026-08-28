@@ -1,0 +1,304 @@
+{
+  "title": "K gastrico avanzato in degenza",
+  "description": "Franco, un uomo di 64 anni, si presenta con un significativo calo ponderale e difficoltà a comunicare. Il caregiver è presente e sembra prendere decisioni per lui. Franco appare ansioso e stressato riguardo alla sua condizione, e la sua rete di supporto è limitata.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "egds",
+    "biopsia",
+    "tc",
+    "ca-markers"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 95,
+      "temperature": 36.6,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 320,
+    "advancedExams": {
+      "values": {
+        "egds": {
+          "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+          "normalFinding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+          "isAbnormal": true,
+          "price": 90
+        },
+        "biopsia": {
+          "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+          "normalFinding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+          "isAbnormal": true,
+          "price": 80
+        },
+        "tc": {
+          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "ca-markers": {
+          "finding": "CA 125, CA 15-3, CA 19-9 nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+          "normalFinding": "CA 125, CA 15-3, CA 19-9 nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+          "isAbnormal": true,
+          "price": 28
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "coronarografia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 800
+        }
+      }
+    },
+    "demographics": {
+      "age": 64,
+      "sex": "M",
+      "context": "Franco è un paziente di 64 anni, ricoverato nel reparto di gastroenterologia per un sospetto carcinoma gastrico avanzato. Presenta un calo ponderale significativo e ha difficoltà a comunicare, lasciando che il caregiver prenda decisioni per"
+    },
+    "physicalExam": {
+      "finding": "Franco presenta un evidente calo ponderale, segni di malnutrizione, e la palpazione addominale rivela una certa sensibilità. La comunicazione è limitata e il caregiver sembra essere la figura principale nel prendere decisioni."
+    },
+    "egds": {
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+      "isAbnormal": true
+    },
+    "biopsia": {
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+      "isAbnormal": true
+    },
+    "ca-markers": {
+      "finding": "CA 125, CA 15-3, CA 19-9 nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+      "isAbnormal": true
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "coronarografia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "egds → biopsia → tc → ca-markers Gold path: egds → biopsia → tc → ca-markers. Linea guida: ESMO_Gastric_Cancer_Guidelines.pdf.",
+  "patientPrompt": "Mi chiamo Franco e ho 64 anni. Ultimamente ho perso molto peso e non riesco a mangiare come prima. Parlo poco e mi sento ansioso riguardo alla mia salute. È difficile per me affrontare questa situazione, e spesso lascio che il mio caregiver prenda le decisioni per me. Ho sentito che ci sono notizie non buone, ma non so cosa aspettarmi. Vorrei sapere cosa sta succedendo, ma ho paura di chiedere.",
+  "id": "GASTRO-029",
+  "code": "GASTRO-029",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Carcinoma gastrico avanzato — staging multimodale ESMO",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ESMO_Gastric_Cancer_Guidelines.pdf",
+  "diagnosis": "Carcinoma gastrico avanzato",
+  "pastMedicalHistory": "Franco ha una storia di gastrite cronica e ha avuto episodi di indigestione in passato.",
+  "presentation": "Franco si presenta in reparto con un evidente calo ponderale e una comunicazione limitata. Il caregiver è presente e sembra essere la figura decisionale. Franco mostra segni di ansia e stress, e la situazione è delicata.",
+  "redHerrings": [
+    "Franco ha anche una storia di gastrite cronica, che potrebbe confondere il quadro clinico.",
+    "Recentemente ha avuto episodi di indigestione, che non sono correlati alla sua attuale condizione.",
+    "Franco ha riferito di avere mal di schiena, che potrebbe essere attribuito a tensione muscolare piuttosto che a un problema gastroenterologico."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "egds": 60,
+    "biopsia": 90,
+    "tc": 45,
+    "ca-markers": 40,
+    "colonscopia": 90,
+    "coronarografia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-029_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Carcinoma gastrico avanzato — staging multimodale ESMO)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-029_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-029_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-029_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-029_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-029_6",
+      "prompt": "Contesto di presentazione: Reparto di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Franco presenta un evidente calo ponderale, segni di malnutrizione, e la palpazione addominale rivela una certa sensibilità. La comunicazione è limitata e il caregiver sembra essere la figura principale nel prendere decisioni."
+  },
+  "goldPathNarrative": "Il percorso diagnostico prevede l'esecuzione di un'EGDS per valutare la mucosa gastrica e ottenere campioni per la biopsia. Successivamente, si procederà con una tomografia computerizzata per valutare l'estensione della malattia e infine si eseguiranno marcatori tumorali per completare la valutazione.",
+  "escCitations": [
+    {
+      "chunkId": "74e642d6-96c7-49ca-9b64-d42a993cd756-0",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Gastric_Cancer_Guidelines.pdf",
+      "quote": "SPECIAL ARTICLE Gastric cancer: ESMO Clinical Practice Guideline for diagnosis, treatment and follow-up5 F. Lordick1, F. Carneiro2,3,4, S. Cascinu5, T. Fleitas6, K. Haustermans7, G. Piessen8,9,10,11, A. Vogel12 & E. C. Smyth13, on behalf of the ESMO Guidelines Committee* 1Department of Medicine II (Oncology, Gastroenterology, Hepatology, Pulmonology and Infectious Diseases), University Cancer Center Leipzig (UCCL), University Medical Center, Leipzig, Germany; 2Department of Pathology, Centro Hos"
+    },
+    {
+      "chunkId": "74e642d6-96c7-49ca-9b64-d42a993cd756-1",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Gastric_Cancer_Guidelines.pdf",
+      "quote": "sive Cancer Center, Università Vita-Salute, IRCCS Ospedale San Raffaele, Milan, Italy; 6Department of Medical Oncology, INCLIVA Biomedical Research Institute, University of Valencia, Valencia, Spain; 7Department of Radiation Oncology, University Hospital Leuven, Leuven, Belgium; 8University of Lille, UMR9020-U1277 - CANTHER - Cancer Heterogeneity Plasticity and Resistance to Therapies, Lille; 9CNRS, UMR9020, Lille; 10Inserm, U1277, Lille; 11CHU Lille, Department of Digestive and Oncological Surg"
+    },
+    {
+      "chunkId": "74e642d6-96c7-49ca-9b64-d42a993cd756-91",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Gastric_Cancer_Guidelines.pdf",
+      "quote": "cchi GL, et al. The Italian Research Group for Gastric Cancer (GIRCG) guidelines for gastric cancer staging and treatment: 2015. Gastric Cancer. 2017;20(1):20-30. 60. Japanese Gastric Cancer Association. Japanese gastric cancer treat- ment guidelines 2018 (5th edition). Gastric Cancer. 2021;24(1):1-21. 61. Mortensen K, Nilsson M, Slim K, et al. Consensus guidelines for enhanced recovery after gastrectomy: Enhanced Recovery After Surgery (ERAS®) Society recommendations. Br J Surg. 2014;101(10): ["
+    },
+    {
+      "chunkId": "74e642d6-96c7-49ca-9b64-d42a993cd756-90",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Gastric_Cancer_Guidelines.pdf",
+      "quote": "tions-dpd-testing-prior-treatment- fluorouracil-capecitabine-tegafur-flucytosine_en.pdf. Published 2020. Accessed June 20, 2022. 56. Pimentel-Nunes P, Dinis-Ribeiro M, Ponchon T, et al. Endoscopic submucosal dissection: European Society of Gastrointestinal Endos- copy (ESGE) Guideline. Endoscopy. 2015;47(9):829-854. 57. Probst A, Schneider A, Schaller T, et al. Endoscopic submucosal dissection for early gastric cancer: are expanded resection criteria safe for Western patients? Endoscopy. 2017;49"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: egds → biopsia → tc → ca-markers.",
+      "Non prescrivere di prima intenzione: colonscopia, coronarografia (ESMO_Gastric_Cancer_Guidelines.pdf).",
+      "Budget SSN di riferimento: €320."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso diagnostico seguito è conforme all'Art. 5 della L. 24/2017, garantendo la protezione del paziente.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Reparto di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "egds",
+      "name": "Esofagogastroduodenoscopia (EGDS)",
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+      "isAbnormal": true,
+      "priceEuro": 90
+    },
+    {
+      "examId": "biopsia",
+      "name": "Biopsia (osteomidollare o tissutale mirata)",
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+      "isAbnormal": true,
+      "priceEuro": 80
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    },
+    {
+      "examId": "ca-markers",
+      "name": "CA 125, CA 15-3, CA 19-9",
+      "finding": "CA 125, CA 15-3, CA 19-9 nel contesto di Carcinoma gastrico avanzato — staging multimodale ESMO (GASTRO-029). Calo ponderale significativo, possibile massa addominale palpabile, segni di malnutrizione, comunicazione limitata.",
+      "isAbnormal": true,
+      "priceEuro": 28
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf."
+    },
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia (Invasiva)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 800,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Gastric_Cancer_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Calo ponderale avanzato, parla poco. Il caregiver decide. Cattive notizie: setting riservato, invita a chiedere quanto vuole sapere (SPIKES)."
+  }
+}
