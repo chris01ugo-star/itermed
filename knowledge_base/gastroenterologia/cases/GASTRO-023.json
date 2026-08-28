@@ -1,0 +1,285 @@
+{
+  "title": "Sospetto K colorettale in uomo di 67 anni",
+  "description": "Giovanni è un uomo di 67 anni che si presenta con una preoccupazione per la presenza di sangue occulto nelle feci. Ha una storia familiare di cancro al colon, avendo perso il padre a causa di questa malattia. È ansioso riguardo alla sua condizione e teme di avere una malattia simile. Nonostante l'ansia, ha dimostrato di seguire le indicazioni mediche in modo adeguato. La sua rete di supporto è buona, ma la preoccupazione per la salute lo tiene sveglio la notte.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "colonscopia",
+    "biopsia",
+    "cea"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "138/84",
+      "spo2": 97,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 230,
+    "advancedExams": {
+      "values": {
+        "colonscopia": {
+          "finding": "Colonscopia nel contesto di Neoplasia del colon-retto — colonscopia e staging ESMO (GASTRO-023). Sangue occulto positivo nelle feci, nessun altro reperto anomalo evidente all'esame obiettivo.",
+          "normalFinding": "Colonscopia nel contesto di Neoplasia del colon-retto — colonscopia e staging ESMO (GASTRO-023). Sangue occulto positivo nelle feci, nessun altro reperto anomalo evidente all'esame obiettivo.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "biopsia": {
+          "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Neoplasia del colon-retto — colonscopia e staging ESMO (GASTRO-023). Sangue occulto positivo nelle feci, nessun altro reperto anomalo evidente all'esame obiettivo.",
+          "normalFinding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Neoplasia del colon-retto — colonscopia e staging ESMO (GASTRO-023). Sangue occulto positivo nelle feci, nessun altro reperto anomalo evidente all'esame obiettivo.",
+          "isAbnormal": true,
+          "price": 80
+        },
+        "cea": {
+          "finding": "CEA nel contesto di Neoplasia del colon-retto — colonscopia e staging ESMO (GASTRO-023). Sangue occulto positivo nelle feci, nessun altro reperto anomalo evidente all'esame obiettivo.",
+          "normalFinding": "CEA nel contesto di Neoplasia del colon-retto — colonscopia e staging ESMO (GASTRO-023). Sangue occulto positivo nelle feci, nessun altro reperto anomalo evidente all'esame obiettivo.",
+          "isAbnormal": true,
+          "price": 18
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "moc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 40
+        }
+      }
+    },
+    "demographics": {
+      "age": 67,
+      "sex": "M",
+      "context": "Ambulatorio di Gastroenterologia"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo addominale senza segni di rigidità o dolore acuto. Nessuna massa palpabile. Segni vitali stabili."
+    },
+    "colonscopia": {
+      "finding": "Colonscopia nel contesto di Neoplasia del colon-retto — colonscopia e staging ESMO (GASTRO-023). Sangue occulto positivo nelle feci, nessun altro reperto anomalo evidente all'esame obiettivo.",
+      "isAbnormal": true
+    },
+    "biopsia": {
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Neoplasia del colon-retto — colonscopia e staging ESMO (GASTRO-023). Sangue occulto positivo nelle feci, nessun altro reperto anomalo evidente all'esame obiettivo.",
+      "isAbnormal": true
+    },
+    "cea": {
+      "finding": "CEA nel contesto di Neoplasia del colon-retto — colonscopia e staging ESMO (GASTRO-023). Sangue occulto positivo nelle feci, nessun altro reperto anomalo evidente all'esame obiettivo.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "moc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Colonscopia → biopsia → CEA Gold path: colonscopia → biopsia → cea. Linea guida: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+  "patientPrompt": "Ho 67 anni e da qualche mese ho notato sangue occulto nelle feci. Mio padre è morto di cancro al colon e questo mi preoccupa molto. Sono ansioso e ho difficoltà a dormire a causa di queste preoccupazioni. Ho cercato informazioni online, ma questo mi ha solo aumentato l'ansia. Voglio sapere cosa succede e se devo fare esami per capire meglio la mia situazione.",
+  "id": "GASTRO-023",
+  "code": "GASTRO-023",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Neoplasia del colon-retto — colonscopia e staging ESMO",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ESMO_Colorectal_Cancer_Guidelines.pdf",
+  "diagnosis": "Sospetto di neoplasia del colon-retto",
+  "pastMedicalHistory": "Nessuna patologia pregressa significativa, non fuma e non consuma alcol.",
+  "presentation": "Giovanni riferisce di aver notato sangue occulto nelle feci negli ultimi mesi. Ha paura di avere un cancro al colon, soprattutto dopo aver perso il padre per la stessa malattia. È molto ansioso e ha difficoltà a dormire, il che aumenta il suo stress. Ha fatto ricerche online, ma questo ha solo aumentato la sua ansia. È determinato a seguire il percorso diagnostico proposto dal medico.",
+  "redHerrings": [
+    "Giovanni ha avuto episodi di stitichezza, che lo preoccupano ma non sono necessariamente indicativi di una neoplasia.",
+    "Ha anche notato un leggero cambiamento nell'appetito, ma non ha perso peso significativo.",
+    "Giovanni ha occasionalmente dolore addominale, ma non è costante e non lo descrive come intenso."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "colonscopia": 90,
+    "biopsia": 90,
+    "cea": 40,
+    "pet-tc": 180,
+    "moc": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-023_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Neoplasia del colon-retto — colonscopia e staging ESMO)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-023_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-023_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-023_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-023_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-023_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo addominale senza segni di rigidità o dolore acuto. Nessuna massa palpabile. Segni vitali stabili."
+  },
+  "goldPathNarrative": "Dopo aver discusso le mie preoccupazioni, il medico mi ha consigliato di sottopormi a una colonscopia per valutare la presenza di eventuali lesioni. Sono d'accordo e mi sento rassicurato dal fatto che ci sia un piano chiaro. Se necessario, procederemo con una biopsia e un esame del CEA per ulteriori informazioni.",
+  "escCitations": [
+    {
+      "chunkId": "1b04c5ce-660a-4a96-be4c-a5dc8e54e272-0",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Colorectal_Cancer_Guidelines.pdf",
+      "quote": "SPECIAL ARTICLE Metastatic colorectal cancer: ESMO Clinical Practice Guideline for diagnosis, treatment and follow-up✫ C. Cremolini1 , M. Chalabi2 , E. Elez3,4 , M. Fassan5,6 , M. Gelli7 , D. Goéré8 , D. P. Modest9 , C. Montagut4,10,11 , P. Osterlund12,13 , J. Ricke14 , J. Seligmann15 , J. Taieb16 , T. Yoshino17 , L. Wyrwicz18 & M. Ducreux19,20 , on behalf of the ESMO Guidelines Committee∗ 1Department of Translational Research and New Technology in Medicine and Surgery, University of Pisa, Pisa,"
+    },
+    {
+      "chunkId": "1b04c5ce-660a-4a96-be4c-a5dc8e54e272-92",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Colorectal_Cancer_Guidelines.pdf",
+      "quote": "):729-741. 3. Primrose J, Falk S, Finch-Jones M, et al. Systemic chemotherapy with or without cetuximab in patients with resectable colorectal liver metastasis: the New EPOC randomised controlled trial. Lancet Oncol. 2014;15(6):601-611. 4. Moretto R, Germani MM, Borelli B, et al. Predicting early recurrence after resection of initially unresectable colorectal liver metastases: the role of baseline and pre-surgery clinical, radiological and molec- ular factors in a real-life multicentre experienc"
+    },
+    {
+      "chunkId": "1b04c5ce-660a-4a96-be4c-a5dc8e54e272-8",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Colorectal_Cancer_Guidelines.pdf",
+      "quote": "fluorouracil (5-FU)-, capecitabine- or tegafur—gimeracil—oteracil (S-1)-based therapies [III, A]. STAGING AND INITIAL ASSESSMENT Key recommendations regarding staging and initial assess- ment for mCRC are provided below. Supporting data for these recommendations are described in Supplementary Material Section 3, available at https://doi.org/10.1016/j. annonc.2026.03.005. Recommendations • Contrast-enhanced (CE) computed tomography (CT) of the thorax, abdomen and pelvis is recommended for staging"
+    },
+    {
+      "chunkId": "1b04c5ce-660a-4a96-be4c-a5dc8e54e272-106",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Colorectal_Cancer_Guidelines.pdf",
+      "quote": "ectal cancer: a phase 2 randomized clinical trial. JAMA Oncol. 2019;5(9):[REDACTED]. 45. Boige V, Blons H, François E, et al. Maintenance therapy with cetux- imab after FOLFIRI plus cetuximab for RAS wild-type metastatic colorectal cancer: a phase 2 randomized clinical trial. JAMA Netw Open. 2023;6(9):e2333533. 46. Raimondi A, Nichetti F, Stahler A, et al. Optimal maintenance strategy following FOLFOX plus anti-EGFR induction therapy in patients with RAS wild type metastatic colorectal cancer: A"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: colonscopia → biopsia → cea.",
+      "Non prescrivere di prima intenzione: pet-tc, moc (ESMO_Colorectal_Cancer_Guidelines.pdf).",
+      "Budget SSN di riferimento: €230."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente ha seguito il gold path.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Ambulatorio di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Colonscopia nel contesto di Neoplasia del colon-retto — colonscopia e staging ESMO (GASTRO-023). Sangue occulto positivo nelle feci, nessun altro reperto anomalo evidente all'esame obiettivo.",
+      "isAbnormal": true,
+      "priceEuro": 120
+    },
+    {
+      "examId": "biopsia",
+      "name": "Biopsia (osteomidollare o tissutale mirata)",
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Neoplasia del colon-retto — colonscopia e staging ESMO (GASTRO-023). Sangue occulto positivo nelle feci, nessun altro reperto anomalo evidente all'esame obiettivo.",
+      "isAbnormal": true,
+      "priceEuro": 80
+    },
+    {
+      "examId": "cea",
+      "name": "CEA",
+      "finding": "CEA nel contesto di Neoplasia del colon-retto — colonscopia e staging ESMO (GASTRO-023). Sangue occulto positivo nelle feci, nessun altro reperto anomalo evidente all'esame obiettivo.",
+      "isAbnormal": true,
+      "priceEuro": 18
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf."
+    },
+    {
+      "examId": "moc",
+      "name": "MOC (DEXA)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 40,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ha notato sangue occulto e pensa al padre morto di K. Serve SPIKES-Perception prima dello staging. Il gergo TNM senza preparazione aumenta l'ansia."
+  }
+}

@@ -1,0 +1,266 @@
+{
+  "title": "IBS in giovane di 18 anni senza red flag",
+  "description": "Samuele è un giovane di 18 anni che si presenta in ambulatorio con sintomi di gonfiore addominale e alterazioni delle abitudini intestinali. È ansioso riguardo alla sua salute e ha cercato informazioni online, temendo che i suoi sintomi possano essere indicativi di malattie gravi come il morbo di Crohn o il cancro. Non ha segni di allerta, ma è molto preoccupato e desidera sottoporsi a esami invasivi come la colonscopia e la risonanza magnetica.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "emocromo",
+    "coprocultura"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 72,
+      "bloodPressure": "118/70",
+      "spo2": 99,
+      "temperature": 36.4,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 35,
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di IBS Roma IV in giovane senza allarmi — evitare colonscopia di prima intenzione (GASTRO-025). Nessuna anomalia significativa riscontrata all'esame obiettivo. Emocromo e coprocultura in attesa di risultati.",
+          "normalFinding": "Emocromo completo con formula nel contesto di IBS Roma IV in giovane senza allarmi — evitare colonscopia di prima intenzione (GASTRO-025). Nessuna anomalia significativa riscontrata all'esame obiettivo. Emocromo e coprocultura in attesa di risultati.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "coprocultura": {
+          "finding": "Coprocultura e ricerca parassiti/uova nel contesto di IBS Roma IV in giovane senza allarmi — evitare colonscopia di prima intenzione (GASTRO-025). Nessuna anomalia significativa riscontrata all'esame obiettivo. Emocromo e coprocultura in attesa di risultati.",
+          "normalFinding": "Coprocultura e ricerca parassiti/uova nel contesto di IBS Roma IV in giovane senza allarmi — evitare colonscopia di prima intenzione (GASTRO-025). Nessuna anomalia significativa riscontrata all'esame obiettivo. Emocromo e coprocultura in attesa di risultati.",
+          "isAbnormal": true,
+          "price": 16
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 18,
+      "sex": "M",
+      "context": "Ambulatorio di Gastroenterologia"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo addominale: addome soffice, non dolente alla palpazione, peristalsi presente. Nessun segno di emorragia o massa palpabile. Nessun segno di ittero o ascite."
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di IBS Roma IV in giovane senza allarmi — evitare colonscopia di prima intenzione (GASTRO-025). Nessuna anomalia significativa riscontrata all'esame obiettivo. Emocromo e coprocultura in attesa di risultati.",
+      "isAbnormal": true
+    },
+    "coprocultura": {
+      "finding": "Coprocultura e ricerca parassiti/uova nel contesto di IBS Roma IV in giovane senza allarmi — evitare colonscopia di prima intenzione (GASTRO-025). Nessuna anomalia significativa riscontrata all'esame obiettivo. Emocromo e coprocultura in attesa di risultati.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un emocromo e una coprocultura per escludere altre patologie, evitando colonscopia di prima intenzione.",
+  "patientPrompt": "Ho 18 anni e da qualche mese ho iniziato a sentire un forte gonfiore addominale. Ho cercato informazioni online e sono molto preoccupato. Ho paura che possa trattarsi di qualcosa di serio come il morbo di Crohn o addirittura un tumore. Vorrei fare una colonscopia o una risonanza magnetica per essere sicuro di non avere nulla di grave. Ho anche notato che i sintomi peggiorano quando sono sotto stress, come durante gli esami. Non ho mai avuto emorragie o perdita di peso, ma sono molto ansioso riguardo alla mia salute.",
+  "id": "GASTRO-025",
+  "code": "GASTRO-025",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "IBS Roma IV in giovane senza allarmi — evitare colonscopia di prima intenzione",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Rome_IV_IBS_Guidelines.pdf",
+  "diagnosis": "Sindrome dell'intestino irritabile (IBS) secondo i criteri di Roma IV.",
+  "pastMedicalHistory": "Nessuna storia medica significativa. Non ha mai subito interventi chirurgici e non assume farmaci.",
+  "presentation": "Samuele riferisce di avvertire gonfiore addominale e occasionali crampi. Ha notato che i suoi sintomi si aggravano in periodi di stress, come durante gli esami scolastici. Non ha mai avuto emorragie, perdita di peso involontaria o cambiamenti significativi nelle sue abitudini intestinali. Ha una rete di supporto forte, ma la sua ansia influisce sulla qualità del sonno e sulla sua aderenza alle raccomandazioni mediche.",
+  "redHerrings": [
+    "Ha recentemente iniziato a seguire una dieta restrittiva per cercare di migliorare i suoi sintomi.",
+    "Riferisce di avere una storia familiare di allergie alimentari, ma non di malattie gastrointestinali.",
+    "Ha letto online che il gonfiore addominale può essere un segno di intolleranza al lattosio, quindi ha smesso di consumare latticini senza consultare un medico."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "emocromo": 30,
+    "coprocultura": 48,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-025_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (IBS Roma IV in giovane senza allarmi — evitare colonscopia di prima intenzione)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-025_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-025_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-025_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-025_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-025_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo addominale: addome soffice, non dolente alla palpazione, peristalsi presente. Nessun segno di emorragia o massa palpabile. Nessun segno di ittero o ascite."
+  },
+  "goldPathNarrative": "Dopo aver ascoltato attentamente le preoccupazioni di Samuele e aver valutato i suoi sintomi, è stato deciso di eseguire un emocromo e una coprocultura. Questo approccio evita l'uso di esami invasivi non necessari, seguendo le linee guida per la gestione dell'IBS nei giovani.",
+  "escCitations": [
+    {
+      "chunkId": "8f2a69b8-b356-4ae9-a1ec-8280566b27dc-51",
+      "source": "knowledge_base/gastroenterologia/clinical/Rome_IV_IBS_Guidelines.pdf",
+      "quote": "criteria since 32.5% of patients with microscopic colitis would meet Rome criteria for IBS-D while others would meet Rome criteria for functional diarrhea (67,68). In summary, based on current evidence, in the absence of alarm features, there seems to be no justification for routine colonoscopy in subjects with IBS younger than 45 years (although beyond the scope of this manuscript, the change in screening to age 45 is controversial, and the reader is referred to recent society guidelines and pu"
+    },
+    {
+      "chunkId": "8f2a69b8-b356-4ae9-a1ec-8280566b27dc-46",
+      "source": "knowledge_base/gastroenterologia/clinical/Rome_IV_IBS_Guidelines.pdf",
+      "quote": "vidence to support performing a colonoscopy in younger patients without warning signs, as described below, is poor. First, it is important to consider key patient features in the decision to conduct a colonoscopy—these are referred to as “alarm features” and include hematochezia, melena, un- intentional weight loss, older age of onset of symptoms, family history of IBD, colon cancer, or other significant GI disease. When present, there is a greater sense of concern about identi- fying a patholog"
+    },
+    {
+      "chunkId": "8f2a69b8-b356-4ae9-a1ec-8280566b27dc-52",
+      "source": "knowledge_base/gastroenterologia/clinical/Rome_IV_IBS_Guidelines.pdf",
+      "quote": "considered to be at high risk of microscopic colitis (older age [.60], female gender, and more intense diarrhea), there may be mounting evidence to support the use of colonoscopy. Recommendation We suggest a positive diagnostic strategy as compared to a diagnostic strategy of exclusion for patients with symptoms of IBS to improve time to initiate appropriate therapy. Consensus recommendation; unable to assess using GRADE methodology. The American Journal of GASTROENTEROLOGY VOLUME 116 | JANUARY "
+    },
+    {
+      "chunkId": "8f2a69b8-b356-4ae9-a1ec-8280566b27dc-47",
+      "source": "knowledge_base/gastroenterologia/clinical/Rome_IV_IBS_Guidelines.pdf",
+      "quote": "endent from their presenting IBS complaints. In other words, if a patient believed to have IBS pre- sents to clinic with symptoms of IBS-D at the age of 52 years having never had a colonoscopy for colon cancer screening, the colono- scopy should be based on the age of the person and considered independent of IBS symptoms. Not uncommonly, the colonoscopy is normal. In a large US study, the rate of colon polyps was lower in patients with IBS compared with healthy controls (61). The reason for this"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: emocromo → coprocultura.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (Rome_IV_IBS_Guidelines.pdf).",
+      "Budget SSN di riferimento: €35."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alle raccomandazioni secondo L. 24/2017 Art. 5, seguendo il gold path.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Ambulatorio di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di IBS Roma IV in giovane senza allarmi — evitare colonscopia di prima intenzione (GASTRO-025). Nessuna anomalia significativa riscontrata all'esame obiettivo. Emocromo e coprocultura in attesa di risultati.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "coprocultura",
+      "name": "Coprocultura e ricerca parassiti/uova",
+      "finding": "Coprocultura e ricerca parassiti/uova nel contesto di IBS Roma IV in giovane senza allarmi — evitare colonscopia di prima intenzione (GASTRO-025). Nessuna anomalia significativa riscontrata all'esame obiettivo. Emocromo e coprocultura in attesa di risultati.",
+      "isAbnormal": true,
+      "priceEuro": 16
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Studente, ha chiesto a un chatbot se il gonfiore è Crohn o tumore. Pretende colonscopia e RM. Roma IV: ascolto aperto, criteri di allarme, no over-testing."
+  }
+}

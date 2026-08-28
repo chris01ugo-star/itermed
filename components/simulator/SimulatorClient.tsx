@@ -82,6 +82,7 @@ import {
   formatAbnormalExamsFromBaseline,
   formatVitalSignsFromBaseline,
 } from "../../lib/simulator/patientCaseContext";
+import type { SimulatorPlayCasePayload } from "@/lib/cases/case-payload";
 
 type Exam = SimulatorExam;
 
@@ -98,27 +99,7 @@ const RAW_EXAM_CATALOG_STRUCTURE: ExamMacroCategory[] = EXAM_CATALOG_STRUCTURE;
 /** Valori esami salvati in creazione caso (`baselineExamFindings.advancedExams.values`) */
 type CaseExamStoredValues = CaseExamOverride;
 
-type InitialCaseData = {
-  id: string;
-  title: string;
-  description: string;
-  specialty: string | null;
-  difficulty: string;
-  estimatedDurationMinutes: number | null;
-  patientPrompt: string;
-  correctSolution?: string | null;
-  demographics?: {
-    age?: number | string | null;
-    sex?: string | null;
-    context?: string | null;
-  };
-  /** Da DB: include advancedExams.values compilati in creazione caso */
-  baselineExamFindings?: Record<string, unknown>;
-  timeLimitMinutes?: number | null;
-  examLatencies?: Record<string, number> | null;
-  goldStandardPath?: string[] | null;
-  patientDeteriorationThreshold?: number | null;
-};
+type InitialCaseData = SimulatorPlayCasePayload;
 
 type SimulatorClientProps = {
   initialCaseData: InitialCaseData;
@@ -138,6 +119,8 @@ type SimulatorClientProps = {
 };
 
 import type { EliteReportData } from "@/lib/services/simulation-report-data";
+import { writeOfflineReportCache } from "@/lib/reports/offline-report-cache";
+import { evaluateInteractionTrajectory } from "@/lib/reports/d-rime-engine";
 
 type SimulationReportData = EliteReportData;
 
@@ -170,6 +153,74 @@ function syncSessionIdInUrl(sessionId: string): void {
   }
 }
 
+
+function buildLocalEliteReport(params: {
+  caseId: string;
+  requestedExamIds: string[];
+  examCount: number;
+  examCost: number;
+  chatTurns: number;
+  chatHistory: Array<{ role: "user" | "assistant"; content: string }>;
+}): EliteReportData {
+  const exams = params.examCount > 0 ? Math.min(80, 40 + params.examCount * 8) : 20;
+  const clinical = Math.max(15, Math.min(95, exams - 5 + Math.min(params.chatTurns, 8) * 3));
+  const legal = params.requestedExamIds.some((id) => id.toLowerCase().includes("consenso"))
+    ? Math.min(90, 55 + params.examCount * 4)
+    : Math.max(20, exams - 15);
+  const dRime = evaluateInteractionTrajectory(params.chatHistory, null, []);
+  const empathy = dRime.score;
+  const economy =
+    params.examCost <= 0 ? 50 : params.examCost < 150 ? 75 : params.examCost < 400 ? 55 : 35;
+  const totalScore =
+    Math.round(((clinical * 0.4 + legal * 0.2 + exams * 0.2 + empathy * 0.2) / 100) * 30 * 10) / 10;
+
+  return {
+    sessionId: `local-${params.caseId}-${Date.now()}`,
+    scores: { clinical, legal, exams, empathy, economy },
+    totalScore,
+    feedback: {
+      strengths:
+        params.chatTurns > 0
+          ? ["Interazione clinica avviata con il paziente virtuale."]
+          : [],
+      weaknesses: [
+        "Report generato in modalità locale (registry) — il database remoto non ha restituito la sessione.",
+      ],
+      clinicalNote: "Valutazione locale — il database remoto non ha restituito la sessione.",
+      legalComplianceNote: "Scudo L. 24/2017 Art. 5: adesione alle linee guida del caso (modalità offline).",
+      prescribingNote: `Esami prescritti: ${params.examCount}. Costo stimato €${params.examCost.toFixed(0)}.`,
+      empathyNote: dRime.qualitativeLabel,
+      economyNote: `Spesa esami €${params.examCost.toFixed(0)}.`,
+      correctSolution: "",
+    },
+    evidence: { legalSources: [], protocolSources: [] },
+    empathyBreakdown: {
+      baseline: dRime.initialState.trust,
+      validationBonus: 0,
+      transparencyBonus: 0,
+      allianceBonus: Math.max(0, dRime.finalState.trust - dRime.initialState.trust),
+      dismissalPenalty: 0,
+      finalScore: dRime.score,
+      final: dRime.score,
+      qualitativeLabel: dRime.qualitativeLabel,
+      motivations: [],
+      expertAnalysis: dRime.expertAnalysis,
+      framework: "d-rime",
+      dRime: {
+        spikesEmpathyScore: dRime.spikesEmpathyScore,
+        riasAlignmentScore: dRime.riasAlignmentScore,
+        careTrustScore: dRime.careTrustScore,
+        allianceScore: dRime.allianceScore,
+        biasManagementScore: dRime.biasManagementScore,
+        defensiveMedicineScore: dRime.defensiveMedicineScore,
+        initialState: dRime.initialState,
+        finalState: dRime.finalState,
+        trajectory: dRime.trajectory,
+        relationalInsights: dRime.relationalInsights,
+      },
+    },
+  };
+}
 
 type PollReportResult = {
   reportId: string;
@@ -455,8 +506,7 @@ export function SimulatorClient({
     if (stressInitializedRef.current) return;
     const profile = resolveCaseStressProfile({
       description: initialCaseData.description,
-      baselineExamFindings: initialCaseData.baselineExamFindings as Record<string, unknown> | undefined,
-      goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
+      baselineExamFindings: initialCaseData.baselineExamFindings,
     });
     stressInitializedRef.current = true;
     setPatientStress(profile.initialStress);
@@ -464,7 +514,6 @@ export function SimulatorClient({
   }, [
     initialCaseData.description,
     initialCaseData.baselineExamFindings,
-    initialCaseData.goldStandardPath,
   ]);
 
   useEffect(() => {
@@ -986,7 +1035,7 @@ export function SimulatorClient({
         setReportProgressMessage(data.progressMessage);
       }
 
-      const { reportId: completedReportId } = await pollReportUntilComplete(
+      const { reportId: completedReportId, reportData: completedReport } = await pollReportUntilComplete(
         reportId,
         (progress, message) => {
           setReportProgress(progress);
@@ -995,15 +1044,32 @@ export function SimulatorClient({
         { signal: abortController.signal },
       );
 
+      writeOfflineReportCache(completedReportId, completedReport);
       router.push(`/case/${initialCaseData.id}/results?sessionId=${completedReportId}`);
       router.refresh();
     } catch (e) {
       if (abortController.signal.aborted) {
         return;
       }
-      const message =
-        e instanceof Error ? e.message : "Errore nella generazione del report.";
-      setReportError(message);
+      const localReport = buildLocalEliteReport({
+        caseId: initialCaseData.id,
+        requestedExamIds: selectedExamIdsRef.current ?? [],
+        examCount: selectedExams.length,
+        examCost: selectedExams.reduce((sum, exam) => sum + exam.cost, 0),
+        chatTurns: messages.filter((m) => m.role === "user").length,
+        chatHistory: messages
+          .filter((m) => m.role === "user" || m.role === "assistant")
+          .map((m) => ({
+            role: m.role as "user" | "assistant",
+            content: getChatMessageText(m),
+          })),
+      });
+      writeOfflineReportCache(localReport.sessionId, localReport);
+      router.push(`/case/${initialCaseData.id}/results?sessionId=${localReport.sessionId}`);
+      router.refresh();
+      if (process.env.NODE_ENV === "development") {
+        console.warn("[SimulatorClient] remote report failed — opened local registry report", e);
+      }
     } finally {
       if (reportGenerationAbortRef.current === abortController) {
         setReportLoading(false);
@@ -1014,6 +1080,7 @@ export function SimulatorClient({
     finalDiagnosis,
     initialCaseData.id,
     initialCaseData.patientPrompt,
+    initialCaseData.baselineExamFindings,
     messages,
     reportSections,
     router,
@@ -1230,7 +1297,7 @@ export function SimulatorClient({
                     { id: "clinical", label: "Accuratezza clinica" },
                     { id: "legal", label: "Legal compliance" },
                     { id: "prescribing", label: "Appropriatezza prescrittiva" },
-                    { id: "empathy", label: "Empatia" },
+                    { id: "empathy", label: "Comunicazione" },
                     { id: "economy", label: "Sostenibilità economica" },
                   ] as const
                 ).map((t) => {
@@ -1275,7 +1342,7 @@ export function SimulatorClient({
                       <MetricBar label="Accuratezza clinica" score={reportData.scores.clinical} />
                       <MetricBar label="Tutela medico-legale" score={reportData.scores.legal} />
                       <MetricBar label="Appropriatezza esami" score={reportData.scores.exams} />
-                      <MetricBar label="Empatia" score={reportData.scores.empathy} />
+                      <MetricBar label="Comunicazione" score={reportData.scores.empathy} />
                       <MetricBar label="Sostenibilità economica" score={reportData.scores.economy} />
                     </div>
                     {activeReportTab === "clinical" && (
@@ -1323,7 +1390,7 @@ export function SimulatorClient({
                     {activeReportTab === "empathy" && (
                       <div className="rounded-xl border border-slate-100 border-l-4 border-l-[#345884] bg-slate-50 p-4">
                         <p className="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">
-                          Feedback empatia
+                          Feedback comunicazione (D-RIME)
                         </p>
                         <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">
                           {reportData.feedback?.empathyNote ?? "—"}
@@ -1393,8 +1460,8 @@ export function SimulatorClient({
                   Pronto Soccorso
                 </span>
               </div>
-              <span className="mt-0.5 inline-flex items-center gap-1.5 text-[11px] font-medium text-[#345884]">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#345884]" />
+              <span className="mt-0.5 inline-flex items-center gap-1.5 text-[11px] font-medium text-[#00B4D8]">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#00B4D8]" />
                 Sessione attiva
               </span>
             </div>
@@ -1762,6 +1829,7 @@ export function SimulatorClient({
                       consentRequested={consentRequested}
                       consentBusy={isConsentBusy}
                       compact={embedded}
+                      showInactivityNudge={showInactivityNudge}
                     />
                   </TabsContent>
                   <TabsContent value="exam" currentValue={activeTab} className="mt-3 w-full min-w-0">
@@ -1769,6 +1837,7 @@ export function SimulatorClient({
                       sessionId={effectiveSessionId}
                       patientPrompt={initialCaseData.patientPrompt}
                       caseId={initialCaseData.id}
+                      resolveSessionId={ensureSessionId}
                       onExamResult={handleExamFinding}
                     />
                   </TabsContent>
@@ -2780,6 +2849,8 @@ type HistoryChatProps = {
   compact?: boolean;
   /** Stretch to fill the parent container height instead of a fixed px height. */
   fill?: boolean;
+  /** Soft tip when the clinician has been idle too long. */
+  showInactivityNudge?: boolean;
 };
 
 function HistoryChat({
@@ -2798,6 +2869,7 @@ function HistoryChat({
   consentBusy = false,
   compact = false,
   fill = false,
+  showInactivityNudge = false,
 }: HistoryChatProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);

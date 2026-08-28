@@ -35,6 +35,7 @@ type PhysicalExamTabProps = {
   sessionId?: string;
   patientPrompt: string;
   caseId?: string;
+  resolveSessionId?: () => Promise<string | null>;
   onExamResult?: (payload: { id: string; label: string; result: ExamResult }) => void;
 };
 
@@ -104,6 +105,7 @@ export function PhysicalExamTab({
   sessionId,
   patientPrompt,
   caseId,
+  resolveSessionId,
   onExamResult,
 }: PhysicalExamTabProps) {
   const [exams, setExams] = useState<Record<string, ExamState>>({});
@@ -119,12 +121,23 @@ export function PhysicalExamTab({
     }));
 
     try {
-      const liveSessionId =
+      let liveSessionId =
         typeof sessionId === "string" &&
         sessionId.trim() &&
         !sessionId.trim().startsWith("registry_")
           ? sessionId.trim()
           : undefined;
+
+      if (!liveSessionId && resolveSessionId) {
+        const resolved = await resolveSessionId();
+        if (resolved && !resolved.startsWith("registry_")) {
+          liveSessionId = resolved.trim();
+        }
+      }
+
+      if (!liveSessionId) {
+        throw new Error("Sessione non disponibile. Riavvia il caso per eseguire l'esame obiettivo.");
+      }
 
       const res = await fetch("/api/examine", {
         method: "POST",

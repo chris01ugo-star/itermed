@@ -1,0 +1,330 @@
+{
+  "title": "Emergenza ipertensiva con encefalopatia e danno d'organo (donna 71 anni)",
+  "description": "Giulia si presenta in pronto soccorso con un forte mal di testa e confusione mentale. Riferisce di avere avuto episodi di visione offuscata nelle ultime ore. Al momento dell'arrivo, è ansiosa e sembra avere difficoltà a mantenere la concentrazione. La sua storia clinica è segnata da ipertensione nota, ma non trattata.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "ecg",
+    "ega",
+    "creat-urea-gfr",
+    "troponina-hs",
+    "tc",
+    "fundus"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "220/130",
+      "spo2": 92,
+      "temperature": 37.5,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 220,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+          "normalFinding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "troponina-hs": {
+          "finding": "Troponina (alta sensibilità) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+          "normalFinding": "Troponina (alta sensibilità) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "tc": {
+          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "fundus": {
+          "finding": "Fundus Oculi nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+          "normalFinding": "Fundus Oculi nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "abpm": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 28
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        }
+      }
+    },
+    "demographics": {
+      "age": 71,
+      "sex": "F",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Giulia presenta segni di ansia, confusione mentale e disorientamento. I segni vitali mostrano tachicardia e ipertensione severa. L'esame neurologico rivela difficoltà di concentrazione e visione offuscata.",
+      "killipClass": "III"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+      "isAbnormal": true
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+      "isAbnormal": true
+    },
+    "creat-urea-gfr": {
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+      "isAbnormal": true
+    },
+    "troponina-hs": {
+      "finding": "Troponina (alta sensibilità) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+      "isAbnormal": true
+    },
+    "fundus": {
+      "finding": "Fundus Oculi nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+      "isAbnormal": true
+    },
+    "abpm": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Inizio immediato di trattamento con labetalolo per via endovenosa e monitoraggio continuo della pressione arteriosa e dei segni vitali.",
+  "patientPrompt": "Mi chiamo Giulia e Ho 71 anni. Sono venuta in pronto soccorso perché ho un mal di testa molto forte e mi sento confusa. Ho avuto anche problemi di vista. Ho una storia di pressione alta, ma non ho mai seguito un trattamento.",
+  "id": "CARDIO-007",
+  "code": "CARDIO-007",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Emergenza ipertensiva",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESC_2024_Hypertension_Guidelines.pdf",
+  "diagnosis": "Emergenza ipertensiva con encefalopatia e danno d'organo",
+  "pastMedicalHistory": "Giulia ha una storia di ipertensione non trattata. Non ha altre patologie note e non assume farmaci regolarmente.",
+  "presentation": "Giulia è una donna di 71 anni che si presenta in pronto soccorso con sintomi di mal di testa intenso e confusione. Riferisce di avere avuto episodi di visione offuscata. Durante l'esame, appare ansiosa e ha difficoltà a rispondere alle domande. La pressione arteriosa è elevata e il battito cardiaco è accelerato.",
+  "redHerrings": [
+    "Riferisce di aver mangiato cibi salati recentemente.",
+    "Ha avuto un episodio di ansia acuta prima dell'insorgenza dei sintomi.",
+    "Riferisce di non aver dormito bene negli ultimi giorni."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ecg": 8,
+    "ega": 10,
+    "creat-urea-gfr": 30,
+    "troponina-hs": 35,
+    "tc": 40,
+    "abpm": 1440
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-007_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Emergenza ipertensiva)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-007_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-007_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-007_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-007_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-007_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "III",
+    "summary": "Giulia presenta segni di ansia, confusione mentale e disorientamento. I segni vitali mostrano tachicardia e ipertensione severa. L'esame neurologico rivela difficoltà di concentrazione e visione offuscata."
+  },
+  "goldPathNarrative": "Dopo aver eseguito un ECG, un'analisi dei gas ematici e test di laboratorio per creatinina, urea e GFR, si procede con il dosaggio della troponina e una TC per escludere eventuali complicanze. Si esegue anche un esame del fondo oculare per valutare segni di danno retinico.",
+  "escCitations": [
+    {
+      "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-477",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "A, transient ischaemic attack. aClass of recommendation. bLevel of evidence. Recommendation Table 33 — Recommendations for acutely managing blood pressure in patients with severe hypertension in pregnancy and pre-eclampsia (see Evidence Table 46) Recommendation Classa Levelb In pre-eclampsia or eclampsia with hypertensive crisis, drug treatment with i.v. labetalol or nicardipine and magnesium is recommended.971 I C In pre-eclampsia or eclampsia associated with pulmonary oedema, nitroglycerin giv"
+    },
+    {
+      "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-520",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": ", Italy. 18. Appendix ESC Scientific Document Group Includes Document Reviewers and ESC National Cardiac Societies. Document Reviewers: Ana Abreu (CPG Review Co-ordinator) (Portugal), Michael Hecht Olsen (CPG Review Co-ordinator) (Denmark), Marco Ambrosetti (Italy), Emmanuel Androulakis (United Kingdom), Lia Evi Bang (Denmark), Jesper Nørgaard Bech (Denmark), Michael A. Borger (Germany), Pierre Boutouyrie (France), Luís Bronze (Portugal), Sergio Buccheri (Sweden), Regina Dalmau (Spain), Maria Ca"
+    },
+    {
+      "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-464",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "tervention to lower BP. A diagnostic work-up is necessary for patients with a suspected hypertensive emergency (see Supplementary data online, Table S12). 10.1.2. Acute management of hypertensive emergencies Key considerations in defining treatment are: (1) Establishing the affected target organ(s) and whether they require any specific interventions other than BP lowering. (2) Determining whether there is a precipitating cause for the acute rise in BP and/or another concomitant health condition "
+    },
+    {
+      "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-788",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "ents with left ventricular dysfunction and heart failure after myocardial infarc- tion: insights from the EPHESUS trial. Eur Heart J 2020;41:1673–83. https://doi.org/ 10.1093/eurheartj/ehaa132 787. McEvoy JW, Chen Y, Rawlings A, Hoogeveen RC, Ballantyne CM, Blumenthal RS, et al. Diastolic blood pressure, subclinical myocardial damage, and cardiac events: implica- tions for blood pressure control. J Am Coll Cardiol 2016;68:1713–22. https://doi.org/ 10.1016/j.jacc.2016.[REDACTED]. Mancia G, Kreutz"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → ega → creat-urea-gfr → troponina-hs → tc → fundus.",
+      "Non prescrivere di prima intenzione: abpm, pet-tc (ESC_2024_Hypertension_Guidelines.pdf).",
+      "Budget SSN di riferimento: €220."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alla L. 24/2017 Art. 5 seguendo il gold path ESC. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina e Urea (Azotemia) con stima GFR",
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "troponina-hs",
+      "name": "Troponina (alta sensibilità)",
+      "finding": "Troponina (alta sensibilità) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    },
+    {
+      "examId": "fundus",
+      "name": "Fundus Oculi",
+      "finding": "Fundus Oculi nel contesto di Emergenza ipertensiva (CARDIO-007). ECG: tachicardia; EGA: possibile acidosi metabolica; Creatinina e Urea: elevate; Troponina: normale; TC: da eseguire per valutare danno cerebrale; Fundus: da valutare per segni di edema retinico.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "abpm",
+      "name": "Monitoraggio pressorio 24h (ABPM)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 28,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf."
+    }
+  ]
+}

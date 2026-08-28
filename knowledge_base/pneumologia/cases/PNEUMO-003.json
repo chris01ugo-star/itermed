@@ -1,0 +1,303 @@
+{
+  "title": "BPCO grave con ipercapnia e indicazione a NIV",
+  "description": "Anna presenta segni di insufficienza respiratoria acuta con ipossiemia e ipercapnia. È ansiosa e ha difficoltà a respirare, mostrando una respirazione accelerata e superficiale.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "ega",
+    "rx-torace",
+    "elettroliti",
+    "lattati"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "156/90",
+      "spo2": 84,
+      "temperature": 36.9,
+      "respiratoryRate": 30
+    },
+    "examBudgetEuro": 110,
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "elettroliti": {
+          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "lattati": {
+          "finding": "Acido lattico (Lattati) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+          "normalFinding": "Acido lattico (Lattati) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+          "isAbnormal": true,
+          "price": 7
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 79,
+      "sex": "F",
+      "context": "Anna è una donna di 79 anni con una storia di BPCO grave, che si presenta in reparto di pneumologia per un'esacerbazione acuta della sua condizione. È ansiosa riguardo alla sua respirazione e ha paura della maschera NIV, ma è molto motivata"
+    },
+    "physicalExam": {
+      "finding": "Tachipnea, ipossiemia, ansia evidente, uso accessorio dei muscoli respiratori."
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+      "isAbnormal": true
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+      "isAbnormal": true
+    },
+    "lattati": {
+      "finding": "Acido lattico (Lattati) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Iniziare la ventilazione non invasiva (NIV) e monitorare i parametri respiratori.",
+  "patientPrompt": "Ho 79 anni e soffro di BPCO da tempo. Ultimamente ho avuto difficoltà a respirare e mi sento molto ansiosa. Quando mi parlano della maschera per aiutarmi a respirare, ho paura, ma so che devo seguire le indicazioni dei medici. Non riesco a dormire bene e mi sento stressata, anche se ho amici e familiari che mi supportano.",
+  "id": "PNEUMO-003",
+  "code": "PNEUMO-003",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
+  "diagnosis": "BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica.",
+  "pastMedicalHistory": "Storia di BPCO grave, bronchite cronica, ipertensione.",
+  "presentation": "Anna si presenta in reparto con difficoltà respiratorie evidenti, tachipnea e un livello di saturazione dell'ossigeno molto basso. È visibilmente ansiosa e manifesta paura riguardo all'uso della maschera NIV, ma mostra anche una buona aderenza alle indicazioni mediche.",
+  "redHerrings": [
+    "Storia di bronchite cronica ricorrente.",
+    "Fumo di sigaretta in passato ma non attuale.",
+    "Uso di broncodilatatori a lungo termine."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ega": 10,
+    "rx-torace": 20,
+    "elettroliti": 30,
+    "lattati": 15,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-003_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-003_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-003_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-003_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-003_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-003_6",
+      "prompt": "Contesto di presentazione: Reparto di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Tachipnea, ipossiemia, ansia evidente, uso accessorio dei muscoli respiratori."
+  },
+  "goldPathNarrative": "Dopo aver eseguito un'analisi dei gas ematici, una radiografia del torace e un'analisi degli elettroliti, si è deciso di avviare la ventilazione non invasiva per gestire l'insufficienza respiratoria di Anna.",
+  "escCitations": [
+    {
+      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-97",
+      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
+      "quote": "nic obstructive lung disease: risk factors and use of guidelines for management. Thorax 1992; 47: 34–40. 9 Brochard L, Isabey D, Piquet J, et al. Reversal of acute exacerbations of chronic obstructive lung disease by inspiratory assistance with a face mask. N Engl J Med 1990; 323: 1523–1530. 10 Nava S, Navalesi P, Conti G. Time of non-invasive ventilation. Intensive Care Med 2006; 32: 361–370. 11 Keenan SP, Powers CE, McCormack DG. Noninvasive positive-pressure ventilation in patients with milde"
+    },
+    {
+      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-31",
+      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
+      "quote": "https://doi.org/10.1183/[REDACTED]-2016 5 ERS/ATS GUIDELINES | B. ROCHWERG ET AL. on August 20, 2026 by guest. Please see licensing information on first page for reuse rights.https://publications.ersnet.orgDownloaded from Based on this evidence review, the committee felt the anticipated desirable effects of bilevel NIV in patients with acute hypercapnic respiratory failure due to a COPD exacerbation definitely outweighed the anticipated undesirable effects. This is true across the severity spect"
+    },
+    {
+      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-29",
+      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
+      "quote": "was associated with more rapid improvement in physiological abnormalities in the first few hours, but was also associated with a longer total duration of ventilation and ICU stay. Mortality was similar in the two groups. Patients receiving bilevel NIV had fewer episodes of ventilator-associated pneumonia and less requirement for tracheostomy. Coma has been described as a contraindication to NIV, but in a large case series DIAZ et al. [39] showed no difference in outcome between patients with and"
+    },
+    {
+      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-21",
+      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
+      "quote": "respiratory failure. Bilevel NIV may be considered in COPD patients with an acute exacerbation in three clinical settings [10]: 1) To prevent acute respiratory acidosis, i.e. when the arterial CO2 tension (PaCO2) is normal or elevated but pH is normal (see Question 1a). 2) To prevent endotracheal intubation and invasive mechanical ventilation in patients with mild to moderate acidosis and respiratory distress, with the aim of preventing deterioration to a point when invasive ventilation would be"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ega → rx-torace → elettroliti → lattati.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf).",
+      "Budget SSN di riferimento: €110."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente mostra un'adeguata aderenza alle indicazioni mediche.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Reparto di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "lattati",
+      "name": "Acido lattico (Lattati)",
+      "finding": "Acido lattico (Lattati) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+      "isAbnormal": true,
+      "priceEuro": 7
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ha paura della maschera NIV. Il tono calmo e le spiegazioni sul 'aiuto a respirare' riducono l'opposizione; il gergo da rianimazione la fa ritirare."
+  }
+}

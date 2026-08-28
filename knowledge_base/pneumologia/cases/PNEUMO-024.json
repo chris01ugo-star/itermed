@@ -1,0 +1,303 @@
+{
+  "title": "Insufficienza respiratoria ipercapnica e NIV",
+  "description": "Pietro è un paziente anziano che presenta segni di insufficienza respiratoria acuta. È affetto da ipercapnia e mostra una certa confusione mentale a causa della sua condizione. È visibilmente ansioso e ha difficoltà a comprendere le istruzioni fornite dal personale medico.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "ega",
+    "rx-torace",
+    "elettroliti",
+    "lattati"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "152/88",
+      "spo2": 85,
+      "temperature": 36.8,
+      "respiratoryRate": 28
+    },
+    "examBudgetEuro": 100,
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "elettroliti": {
+          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "lattati": {
+          "finding": "Acido lattico (Lattati) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+          "normalFinding": "Acido lattico (Lattati) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+          "isAbnormal": true,
+          "price": 7
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 77,
+      "sex": "M",
+      "context": "Pietro è un paziente di 77 anni che presenta segni di insufficienza respiratoria acuta. Si trova nel reparto di pneumologia e mostra un quadro clinico di ipercapnia. È visibilmente sonnolento e non riesce a seguire le indicazioni fornite, f"
+    },
+    "physicalExam": {
+      "finding": "Pietro presenta tachipnea, ipossiemia e segni di affaticamento respiratorio. È sonnolento e ha una comunicazione limitata."
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+      "isAbnormal": true
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+      "isAbnormal": true
+    },
+    "lattati": {
+      "finding": "Acido lattico (Lattati) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Iniziare la ventilazione non invasiva (NIV) e monitorare i parametri vitali.",
+  "patientPrompt": "Ho 77 anni e mi sento molto stanco. È difficile respirare e mi sento un po' confuso. Non riesco a seguire tutto quello che mi dite e mi preoccupa un po' questa macchina che deve aiutarmi a respirare. Non capisco bene come funziona e ho bisogno di qualcuno che mi spieghi meglio. Ho avuto problemi di sonno ultimamente e mi sento ansioso.",
+  "id": "PNEUMO-024",
+  "code": "PNEUMO-024",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Insufficienza respiratoria acuta ipercapnica — NIV",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
+  "diagnosis": "Insufficienza respiratoria acuta ipercapnica.",
+  "pastMedicalHistory": "Bronchite cronica, ipertensione controllata.",
+  "presentation": "Pietro si presenta con tachipnea e ipossiemia. È visibilmente affaticato e mostra segni di ansia. La sua rete sociale è adeguata, ma la sua literacy è bassa, il che rende difficile per lui comprendere le informazioni mediche. Ha un sonno scarso e la sua aderenza alle terapie è parziale.",
+  "redHerrings": [
+    "Pietro ha una storia di bronchite cronica, ma non è in fase acuta al momento.",
+    "Ha avuto un episodio di febbre leggera nei giorni precedenti, ma non è attualmente febbrile.",
+    "È in trattamento per ipertensione, ma i valori attuali della pressione arteriosa sono stabili."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ega": 10,
+    "rx-torace": 20,
+    "elettroliti": 30,
+    "lattati": 15,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-024_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Insufficienza respiratoria acuta ipercapnica — NIV)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-024_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-024_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-024_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-024_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-024_6",
+      "prompt": "Contesto di presentazione: Reparto di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Pietro presenta tachipnea, ipossiemia e segni di affaticamento respiratorio. È sonnolento e ha una comunicazione limitata."
+  },
+  "goldPathNarrative": "Seguire il percorso GOLD: eseguire un'emogasanalisi, una radiografia del torace, controllare gli elettroliti e i lattati per valutare la gravità della condizione di Pietro.",
+  "escCitations": [
+    {
+      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-103",
+      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
+      "quote": "f noninvasive ventilation for acute respiratory failure. Am J Respir Crit Care Med 2000; 161: 807–813. 31 Nava S, Grassi M, Fanfulla F, et al. Non-invasive ventilation in elderly patients with acute hypercapnic respiratory failure: a randomised controlled trial. Age Ageing 2011; 40: 444–450. 32 Plant PK, Owen JL, Elliott MW. Early use of non-invasive ventilation for acute exacerbations of chronic obstructive pulmonary disease on general respiratory wards: a multicentre randomised controlled tria"
+    },
+    {
+      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-92",
+      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
+      "quote": "ult (compared with other indications) and therefore the committee felt more comfortable with a conditional, rather than a strong, recommendation. Centres must have adequate experience using NIV in this setting before considering use. Conclusions Based on a systematic review of the literature, and building upon previous meta-analyses and guidelines, we make recommendations regarding the current use of NIV for various forms of respiratory failure encountered in acute care settings (table 2). Our r"
+    },
+    {
+      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-1",
+      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
+      "quote": "; 50: 1602426 [https://doi. org/10.1183/[REDACTED]-2016]. ABSTRACT Noninvasive mechanical ventilation (NIV) is widely used in the acute care setting for acute respiratory failure (ARF) across a variety of aetiologies. This document provides European Respiratory Society/American Thoracic Society recommendations for the clinical application of NIV based on the most current literature. The guideline committee was composed of clinicians, methodologists and experts in the field of NIV. The committee "
+    },
+    {
+      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-24",
+      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
+      "quote": "a pH >7.35 (n=151) showed a beneficial effect of NIV for patients meeting clinical criteria for intubation versus those that did not (9 out of 80 versus 2 out of 71; p=0.045) but not for mortality. However, NIV was started much later than in other studies (24–48 h after admission) and the number of patients deteriorating to the point at which endotracheal intubation was considered necessary was surprisingly high, considering the mild acidosis. The main focus in hypercapnic patients with COPD who"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ega → rx-torace → elettroliti → lattati.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf).",
+      "Budget SSN di riferimento: €100."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente ha bisogno di supporto e spiegazioni chiare per seguire il trattamento proposto.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Reparto di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "lattati",
+      "name": "Acido lattico (Lattati)",
+      "finding": "Acido lattico (Lattati) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+      "isAbnormal": true,
+      "priceEuro": 7
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Sonnolento per ipercapnia. Non discute. Se si parla in fretta firma senza capire la NIV. Serve check-back con il familiare e frasi su 'macchina che aiuta i polmoni'."
+  }
+}

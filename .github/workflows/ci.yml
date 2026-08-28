@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Typecheck, lint, D-RIME, case audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NODE_ENV: test
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_POOL_URL: ${{ secrets.DATABASE_POOL_URL }}
+      POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY || 'sk-ci-placeholder' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        # Pre-existing ESLint debt in the repo — report-only until the backlog is cleared.
+        # Blocking gates remain: tsc, D-RIME tests, KnowledgeBaseCase audit.
+        continue-on-error: true
+        run: npm run lint
+
+      - name: D-RIME FSM unit tests
+        run: npx tsx --test lib/services/d-rime-fsm.test.ts
+
+      - name: Dev-bypass production invariant
+        run: npx tsx --test lib/security/dev-only-gates.test.ts
+
+      - name: Play-session payload leak check
+        run: npx tsx --test lib/cases/case-payload.test.ts
+
+      - name: API auth guards (401 / teacher role / IDOR tokens)
+        run: npx tsx --test lib/security/api-auth-guards.test.ts
+
+      - name: D-RIME FSM determinism check
+        run: npx tsx scripts/verify-d-rime-fsm.ts
+
+      - name: Audit KnowledgeBaseCase catalog (Zod + playable + D-RIME + RAG)
+        run: npx tsx scripts/ci-audit-all-cases.ts

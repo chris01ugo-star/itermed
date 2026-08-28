@@ -2,8 +2,8 @@ import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
-import { getSessionUserId } from "../../../lib/api-session";
-import { authorizeSimulationAction } from "../../../lib/access";
+import { requireUserApi, isUnauthorizedResponse } from "../../../lib/api-session";
+import { authorizeOwnedLiveSession } from "../../../lib/access";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
@@ -11,7 +11,7 @@ import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 
 const bodySchema = z.object({
-  sessionId: z.string().optional(),
+  sessionId: z.string().min(1),
   caseId: z.string().optional(),
   examId: z.string().optional(),
   examType: z.string().min(1),
@@ -136,13 +136,9 @@ function findingFromBaseline(
 }
 
 export async function POST(req: Request) {
-  const userId = await getSessionUserId();
-  if (!userId) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+  const auth = await requireUserApi();
+  if (isUnauthorizedResponse(auth)) return auth;
+  const userId = auth.id;
 
   const rateLimited = await enforceRateLimit(req, {
     namespace: "api-examine",
@@ -164,33 +160,20 @@ export async function POST(req: Request) {
   const { sessionId, caseId, examId, examType, patientPrompt } = parsed;
   const sanitizedPatientPrompt = sanitizeForExternalAI(patientPrompt);
 
-  // Soft-allow: esame obiettivo is driven by client case payload. Never hard-block a
-  // logged-in clinician on stale/offline session tokens (common with registry cases).
-  let liveSessionId: string | undefined;
-  let resolvedCaseId = caseId;
-  try {
-    const access = await authorizeSimulationAction({ userId, sessionId, caseId });
-    if (access.ok) {
-      liveSessionId = access.liveSessionId;
-      resolvedCaseId = access.caseId ?? caseId;
-    } else {
-      console.warn("[POST /api/examine] soft-allow after access denial", {
-        code: access.code,
-        caseId,
-        hasSession: Boolean(sessionId),
-        userId,
-      });
-    }
-  } catch (err) {
-    console.error("[POST /api/examine] authorizeSimulationAction failed — soft-allow", err);
+  const access = await authorizeOwnedLiveSession({
+    userId,
+    sessionId,
+    expectedCaseId: caseId,
+  });
+  if (!access.ok) {
+    return new Response(JSON.stringify({ error: access.error, code: access.code }), {
+      status: access.status,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
-  if (!resolvedCaseId && !sanitizedPatientPrompt.trim()) {
-    return new Response(
-      JSON.stringify({ error: "caseId or patientPrompt required", code: "EXAMINE_CONTEXT_REQUIRED" }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
-  }
+  const liveSessionId = access.liveSessionId;
+  const resolvedCaseId = access.caseId;
 
   // 0) Se esiste una sessione con overrides (Parte 2 / Variante), usali prima di tutto
   if (liveSessionId && examId) {
@@ -224,7 +207,7 @@ export async function POST(req: Request) {
     }
 
     if (!baseline) {
-      const registered = getCaseById(resolvedCaseId);
+      const registered = await getCaseById(resolvedCaseId);
       if (registered?.baselineExamFindings) {
         baseline = registered.baselineExamFindings as Record<string, unknown>;
       }

@@ -5,7 +5,9 @@
  */
 
 import type { CaseExamDefinition, RagLegalReference } from "@/lib/data/cases/types";
-import { getCaseById } from "@/lib/data/cases/registry";
+import { getCachedCaseById } from "@/lib/data/cases/registry-store";
+import type { ExamClinicalMeta } from "@/lib/exam-default-values";
+import { resolveSsnTariffEuro } from "@/lib/services/exam-ssn-tariff-resolver";
 
 export type EconomyScoreMotivation = {
   id: string;
@@ -154,6 +156,7 @@ function resolveIdealCatalog(
   mandatoryExams?: CaseExamDefinition[] | null,
   inappropriateExams?: CaseExamDefinition[] | null,
   goldStandardPath?: string[] | null,
+  examCatalog?: Record<string, ExamClinicalMeta> | null,
 ): CaseExamDefinition[] {
   const mandatory = mandatoryExams ?? registered?.mandatoryExams ?? [];
   const inappropriate = inappropriateExams ?? registered?.inappropriateExams ?? [];
@@ -161,7 +164,12 @@ function resolveIdealCatalog(
   const byId = new Map<string, CaseExamDefinition>();
 
   for (const exam of mandatory) {
-    byId.set(exam.examId, exam);
+    const priceEuro = resolveSsnTariffEuro({
+      examId: exam.examId,
+      catalog: examCatalog,
+      authoredPriceEuro: exam.priceEuro,
+    });
+    byId.set(exam.examId, { ...exam, priceEuro });
   }
 
   for (const step of gold) {
@@ -176,7 +184,10 @@ function resolveIdealCatalog(
       level: "I",
       mandatory: true,
       finding: "",
-      priceEuro: 0,
+      priceEuro: resolveSsnTariffEuro({
+        examId: id,
+        catalog: examCatalog,
+      }),
     });
   }
 
@@ -316,7 +327,7 @@ export function computeEconomySsnScore(params: {
   examsAppropriatenessScore?: number | null;
   ragReferences?: RagLegalReference[] | null;
 }): EconomySsnResult {
-  const registered = params.caseId ? getCaseById(params.caseId) : undefined;
+  const registered = params.caseId ? getCachedCaseById(params.caseId) : undefined;
   const ragRefs =
     params.ragReferences ?? registered?.legalConformity?.ragReferences ?? [];
   const idealDefs = resolveIdealCatalog(
@@ -398,7 +409,10 @@ export function computeEconomySsnScore(params: {
 
   for (const def of idealDefs) {
     if (isExecuted(def.examId, executed, catalog)) continue;
-    const cost = safeEuro(def.priceEuro);
+    const cost = resolveSsnTariffEuro({
+      examId: def.examId,
+      authoredPriceEuro: def.priceEuro,
+    });
     omissions.push({
       examId: def.examId,
       name: def.name || def.examId,

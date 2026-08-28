@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { Gauge, Stethoscope, Thermometer, Brain, FileText, FlaskConical } from "lucide-react";
 import { prisma } from "../../../../lib/prisma";
+import { knowledgeBaseIdCandidates } from "@/lib/data/cases/registry-store";
 import { userCanManageCase } from "../../../../lib/access";
 import { requireUser } from "../../../../lib/require-user";
 import { EXAM_DEFAULT_VALUES } from "../../../../lib/exam-default-values";
@@ -127,20 +128,22 @@ export default async function EditCasePage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id: caseId } = await params;
+  const { id: caseIdRaw } = await params;
+  const caseId = caseIdRaw?.trim() ?? "";
   if (!caseId) return notFound();
 
   const user = await requireUser();
 
-  const clinicalCase = await prisma.clinicalCase.findUnique({
-    where: { id: caseId },
+  const ids = knowledgeBaseIdCandidates(caseId);
+  const clinicalCase = await prisma.clinicalCase.findFirst({
+    where: { id: { in: ids.length ? ids : [caseId] } },
   });
 
   if (!clinicalCase) {
     return notFound();
   }
 
-  const canEdit = await userCanManageCase(user.id, caseId);
+  const canEdit = await userCanManageCase(user.id, clinicalCase.id);
   if (!canEdit) {
     return notFound();
   }

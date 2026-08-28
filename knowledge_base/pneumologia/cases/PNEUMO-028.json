@@ -1,0 +1,303 @@
+{
+  "title": "Fibrosi cistica dell'adulto",
+  "description": "Ilaria è una giovane donna con fibrosi cistica che ha recentemente iniziato a sperimentare un aumento della difficoltà respiratoria e una maggiore stanchezza. È preoccupata per la sua condizione e per come possa influenzare il suo futuro. Si sente frustrata per la gestione della sua malattia e cerca un approccio più collaborativo al suo trattamento.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "spirometria",
+    "emocromo",
+    "pcr-pct",
+    "rx-torace"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 92,
+      "bloodPressure": "112/70",
+      "spo2": 95,
+      "temperature": 36.8,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 90,
+    "advancedExams": {
+      "values": {
+        "spirometria": {
+          "finding": "Spirometria (semplice/globale) nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+          "normalFinding": "Spirometria (semplice/globale) nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pcr-pct": {
+          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECFS_Cystic_Fibrosis_Standards_of_Care.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECFS_Cystic_Fibrosis_Standards_of_Care.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECFS_Cystic_Fibrosis_Standards_of_Care.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECFS_Cystic_Fibrosis_Standards_of_Care.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 26,
+      "sex": "F",
+      "context": "Ambulatorio di Pneumologia"
+    },
+    "physicalExam": {
+      "finding": "Tachipnea, uso dei muscoli accessori della respirazione, presenza di rantoli bronchiali."
+    },
+    "spirometria": {
+      "finding": "Spirometria (semplice/globale) nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+      "isAbnormal": true
+    },
+    "pcr-pct": {
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+      "isAbnormal": true
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECFS_Cystic_Fibrosis_Standards_of_Care.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECFS_Cystic_Fibrosis_Standards_of_Care.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire spirometria, emocromo, PCR e PCT, e radiografia del torace per valutare la situazione polmonare di Ilaria.",
+  "patientPrompt": "Ho 26 anni e convivo con la fibrosi cistica. Negli ultimi mesi ho notato che la mia respirazione è diventata più difficile e mi sento costantemente stanca. La fisioterapia serale che faccio per aiutare i miei polmoni mi tiene sveglia tutta la notte, il che mi rende irritabile e ansiosa. Ho bisogno di un approccio che mi faccia sentire più coinvolta nella gestione della mia condizione, non voglio solo ricevere istruzioni, ma voglio collaborare per trovare soluzioni pratiche.",
+  "id": "PNEUMO-028",
+  "code": "PNEUMO-028",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Fibrosi cistica in transizione all'età adulta",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ECFS_Cystic_Fibrosis_Standards_of_Care.pdf",
+  "diagnosis": "Fibrosi cistica in fase di transizione all'età adulta con peggioramento della funzione polmonare.",
+  "pastMedicalHistory": "Fibrosi cistica diagnosticata in età infantile, con storia di infezioni polmonari ricorrenti.",
+  "presentation": "Ilaria si presenta all'ambulatorio lamentando un aumento della tosse produttiva e una sensazione di affaticamento. Riferisce di avere difficoltà a mantenere una routine di fisioterapia serale a causa dell'insonnia, che la rende irritabile. È consapevole della sua condizione e desidera discutere strategie pratiche per migliorare la sua qualità della vita.",
+  "redHerrings": [
+    "Ilaria ha recentemente cambiato il suo regime alimentare, ma non sembra correlato ai suoi sintomi attuali.",
+    "Ha avuto un'infezione virale leggera qualche settimana fa, che si è risolta senza complicazioni.",
+    "Riferisce di aver avuto un aumento dello stress lavorativo, ma non crede che questo influisca sulla sua salute polmonare."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "spirometria": 25,
+    "emocromo": 30,
+    "pcr-pct": 35,
+    "rx-torace": 20,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-028_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Fibrosi cistica in transizione all'età adulta)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-028_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-028_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-028_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-028_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-028_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Tachipnea, uso dei muscoli accessori della respirazione, presenza di rantoli bronchiali."
+  },
+  "goldPathNarrative": "Iniziare con la spirometria per valutare la funzione polmonare, seguita da un emocromo per escludere infezioni o anemia. Procedere con la PCR e PCT per valutare la presenza di infiammazione o infezione attiva. Infine, eseguire una radiografia del torace per identificare eventuali anomalie polmonari.",
+  "escCitations": [
+    {
+      "chunkId": "742376b0-12a8-4422-8ba6-5eadfa1d752e-4",
+      "source": "knowledge_base/pneumologia/clinical/ECFS_Cystic_Fibrosis_Standards_of_Care.pdf",
+      "quote": "upporting increased treatment demands 5.1.1 Supporting complex care needs and treatment burden 5.1.2 Maintaining nutritional status and optimising nutritional support 5.2 Supporting breathing 5.2.1 Detecting and treating respiratory failure 5.2.2 Delivering oxygen and non-invasive ventilatory (NIV) support 5.3 Solid organ transplantation 5.4 Planning for end of life 6 Conclusion Planning for a longer life doi.org/10.1016/j.jcf.2024.05.007 1. Introduction 1.1 Methods 2. Navigating life 2.1. Issue"
+    },
+    {
+      "chunkId": "742376b0-12a8-4422-8ba6-5eadfa1d752e-0",
+      "source": "knowledge_base/pneumologia/clinical/ECFS_Cystic_Fibrosis_Standards_of_Care.pdf",
+      "quote": "ECFS Standards for the care of people with cystic fibrosis (3rd Ed., [REDACTED]) A timely and accurate diagnosis doi: 10.1016/j.jcf.2023.09.008 1 Introduction 2 Methods 3 Standards of care for timely and accurate diagnosis 3.1 Diagnostic definitions and principles 3.2 Screening approaches 3.3 Diagnostic standards 3.3.1 Sweat test standards 3.3.2 Genetic testing standards 3.3.3 Further electrophysiological measures 3.4 Clarifying unclear situations 3.4.1 CRMS/CFSPID designation; definition, evalu"
+    },
+    {
+      "chunkId": "742376b0-12a8-4422-8ba6-5eadfa1d752e-1",
+      "source": "knowledge_base/pneumologia/clinical/ECFS_Cystic_Fibrosis_Standards_of_Care.pdf",
+      "quote": "l 2.1 Infant feeding 2.2 Supporting good eating; content and behaviours 2.3 Pancreatic enzyme replacement therapy 2.4 Monitoring nutritional progress 3 Towards optimal lung health; staying ahead of the curve 3.1 Physiotherapy for airway clearance 3.1.1 Working with the family from diagnosis through transition to adult life 3.1.2 Adapting airway clearance in older children and adults 3.1.3 Airway clearance approaches for the productive patient 3.1.4 The upper airways; problems and solutions 3.2 C"
+    },
+    {
+      "chunkId": "742376b0-12a8-4422-8ba6-5eadfa1d752e-5",
+      "source": "knowledge_base/pneumologia/clinical/ECFS_Cystic_Fibrosis_Standards_of_Care.pdf",
+      "quote": "porting pregnancy 3.4. Raising children and grandchildren 3.5. Variant-specific therapy (CFTR modulator therapy) during and after pregnancy 3.5.1. Impact of variant-specific therapy (VST) on fertility in people with CF 3.5.2. Advice to women with CF considering pregnancy 3.5.3. The potential implications of VST exposure in utero 4. Growing older with CF 4.1. The changing CF demographic 4.2. Specific health issues arising in older age for people with CF 4.3. Maintaining health in older age with C"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: spirometria → emocromo → pcr-pct → rx-torace.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ECFS_Cystic_Fibrosis_Standards_of_Care.pdf).",
+      "Budget SSN di riferimento: €90."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il caso di Ilaria segue il percorso GOLD, garantendo la protezione prevista dalla L. 24/2017 Art. 5.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "spirometria",
+      "name": "Spirometria (semplice/globale)",
+      "finding": "Spirometria (semplice/globale) nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Fibrosi cistica in transizione all'età adulta (PNEUMO-028). Diminuzione del flusso espiratorio, segni di infezione polmonare, possibile sovraccarico di muco nei polmoni.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECFS_Cystic_Fibrosis_Standards_of_Care.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECFS_Cystic_Fibrosis_Standards_of_Care.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECFS_Cystic_Fibrosis_Standards_of_Care.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ECFS_Cystic_Fibrosis_Standards_of_Care.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Esperta della propria CF. Non tollera spiegazioni da manuale pediatrico. L'insonnia da fisioterapia serale la rende irritabile: chiede partnership da adulto (ECFS) e obiettivi concreti."
+  }
+}

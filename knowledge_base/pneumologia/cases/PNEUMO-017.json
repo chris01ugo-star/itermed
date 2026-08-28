@@ -1,0 +1,264 @@
+{
+  "title": "Nodulo polmonare solitario in ex fumatore",
+  "description": "Davide è un ex fumatore che si presenta con un nodulo polmonare solitario. Ha un'ansia elevata riguardo alla possibilità di cancro ai polmoni, influenzata dalla sua ricerca online. È preoccupato per la salute e desidera un'indagine immediata.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "rx-torace",
+    "tc"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "134/82",
+      "spo2": 96,
+      "temperature": 36.4,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 200,
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "tc": {
+          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
+          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        },
+        "rm": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 220
+        }
+      }
+    },
+    "demographics": {
+      "age": 61,
+      "sex": "M",
+      "context": "Ambulatorio di Pneumologia"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo: respiro regolare, auscultazione polmonare senza crepitii, segni vitali stabili."
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
+      "isAbnormal": true
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "rm": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Seguire il gold path con RX torace e TC per la stratificazione del rischio.",
+  "patientPrompt": "Ho 61 anni e sono un ex fumatore. Ho scoperto di avere un nodulo polmonare e, dopo aver cercato informazioni online, sono molto preoccupato che possa essere cancro. Non riesco a smettere di pensare a questo e voglio fare una PET subito. Quando mi dite che devo aspettare tre mesi, mi sento ansioso e non so come affrontare questa situazione. Vorrei sapere esattamente qual è il rischio e quando posso fare il controllo.",
+  "id": "PNEUMO-017",
+  "code": "PNEUMO-017",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Nodulo polmonare solitario — stratificazione del rischio",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "BTS_Pulmonary_Nodules_Guidelines.pdf",
+  "diagnosis": "Nodulo polmonare solitario",
+  "pastMedicalHistory": "Ex fumatore, storia di bronchite cronica, senza altre patologie significative.",
+  "presentation": "Davide, un uomo di 61 anni, si presenta in ambulatorio per un controllo dopo aver scoperto un nodulo polmonare. È un ex fumatore e ha una forte ansia riguardo alla possibilità che il nodulo possa essere canceroso. Ha cercato informazioni online e teme il peggio. Chiede insistentemente di sottoporsi a una PET immediata e reagisce negativamente quando gli viene detto di attendere tre mesi per ulteriori accertamenti. Tuttavia, accetta di seguire il piano proposto, a condizione che venga quantificato il rischio e fissato un controllo.",
+  "redHerrings": [
+    "Storia di bronchite cronica",
+    "Riflessi allergici occasionali",
+    "Recenti episodi di tosse secca"
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "rx-torace": 20,
+    "tc": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-017_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Nodulo polmonare solitario — stratificazione del rischio)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-017_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-017_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-017_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-017_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-017_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo: respiro regolare, auscultazione polmonare senza crepitii, segni vitali stabili."
+  },
+  "goldPathNarrative": "Iniziamo con una radiografia del torace seguita da una tomografia computerizzata per valutare il nodulo. Questo ci aiuterà a capire meglio il rischio di malignità e a decidere i passi successivi.",
+  "escCitations": [
+    {
+      "chunkId": "d323b6c5-3e18-4e68-99b6-5f37da9b048a-13",
+      "source": "knowledge_base/pneumologia/clinical/BTS_Pulmonary_Nodules_Guidelines.pdf",
+      "quote": ": Callister MEJ, Baldwin DR, Akram AR, et al. Thorax 2015;70: ii1–ii54. SUMMARY OF RECOMMENDATIONS This guideline is based on a comprehensive review of the literature on pulmonary nodules and expert opinion. Although the management pathway for the majority of nodules detected is straightforward it is sometimes more complex and this is helped by the inclusion of detailed and specific recommenda- tions and the 4 management algorithms below. The Guideline Development Group (GDG) wanted to highlight"
+    },
+    {
+      "chunkId": "d323b6c5-3e18-4e68-99b6-5f37da9b048a-16",
+      "source": "knowledge_base/pneumologia/clinical/BTS_Pulmonary_Nodules_Guidelines.pdf",
+      "quote": "person with a pulmonary nodule and a comprehen- sive reference text. RECOMMENDATIONS Route of detection of pulmonary nodules ▸ Use the same diagnostic approach for nodules detected incidentally as those detected through screening. Grade D ▸ Consider using the presence of previous malig- nancy as a factor in the risk assessment for further investigation. Grade D ▸ Do not prioritise management of pulmonary nodules according to the route of presentation. Grade D ▸ Evaluate coexistent lung nodules d"
+    },
+    {
+      "chunkId": "d323b6c5-3e18-4e68-99b6-5f37da9b048a-379",
+      "source": "knowledge_base/pneumologia/clinical/BTS_Pulmonary_Nodules_Guidelines.pdf",
+      "quote": "m Med 2012;12:2. 210 Heo EY, Lee KW, Jheon S, et al. Surgical resection of highly suspicious pulmonary nodules without a tissue diagnosis. Jpn J Clin Oncol 2011;41:1017–22. 211 Sihoe AD, Hiranandani R, Wong H, et al. Operating on a suspicious lung mass without a preoperative tissue diagnosis: pros and cons. Eur J Cardiothorac Surg 2013;44:231–7; discussion 237. 212 Mitruka S, Landreneau RJ, Mack MJ, et al. Diagnosing the indeterminate pulmonary nodule: percutaneous biopsy versus thoracoscopy. Su"
+    },
+    {
+      "chunkId": "d323b6c5-3e18-4e68-99b6-5f37da9b048a-39",
+      "source": "knowledge_base/pneumologia/clinical/BTS_Pulmonary_Nodules_Guidelines.pdf",
+      "quote": "ent of pulmonary nodules in the UK according to the definitions given above. The recommendations will apply to the UK healthcare system making clear where evidence may have limited applicability. Target audience The BTS guideline for the investigation and management of soli- tary and multiple pulmonary nodules is aimed primarily at practi- tioners within the UK. This will include physicians, general practitioners, nurses, radiologists, surgeons and other healthcare professionals. It may be of re"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: rx-torace → tc.",
+      "Non prescrivere di prima intenzione: colonscopia, rm (BTS_Pulmonary_Nodules_Guidelines.pdf).",
+      "Budget SSN di riferimento: €200."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Scudo L. 24/2017 Art. 5 L'adesione alle linee guida (BTS_Pulmonary_Nodules_Guidelines.pdf) e al gold path costituisce parametro di conformità alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf."
+    },
+    {
+      "examId": "rm",
+      "name": "RM Addome/Pelvi/Encefalo/Colonna/Articolare",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ex fumatore, ha googlato 'nodulo = cancro'. Chiede PET immediata. Reagisce male al 'aspettiamo tre mesi'; accetta il piano BTS se si quantifica il rischio e si fissa il controllo."
+  }
+}

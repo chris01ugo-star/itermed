@@ -1,0 +1,311 @@
+{
+  "title": "Ischemia acuta di arto su arteriopatia periferica (donna 80 anni)",
+  "description": "Giuseppe è un uomo di 80 anni, con una storia di arteriopatia periferica e ipertensione. Si presenta in pronto soccorso lamentando dolore intenso alla gamba sinistra, che ha iniziato improvvisamente mentre camminava. La gamba appare fredda e pallida, e il paziente riferisce di non riuscire a muoverla. Ha una storia di fumo e di diabete mellito tipo 2.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "ecocolordoppler",
+    "emocromo",
+    "pt-ptt-inr",
+    "creat-urea-gfr",
+    "elettroliti"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "90/60",
+      "spo2": 88,
+      "temperature": 37.5,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 130,
+    "advancedExams": {
+      "values": {
+        "ecocolordoppler": {
+          "finding": "Ecocolordoppler (TSA, venoso/arterioso arti, aorta) nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+          "normalFinding": "Ecocolordoppler (TSA, venoso/arterioso arti, aorta) nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+          "isAbnormal": true,
+          "price": 42
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pt-ptt-inr": {
+          "finding": "Coagulazione (PT, PTT, INR) nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+          "normalFinding": "Coagulazione (PT, PTT, INR) nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+          "isAbnormal": true,
+          "price": 9
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+          "normalFinding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "elettroliti": {
+          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "moc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 0
+        },
+        "mammografia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 0
+        }
+      }
+    },
+    "demographics": {
+      "age": 80,
+      "sex": "M",
+      "context": "Reparto di Cardiologia"
+    },
+    "physicalExam": {
+      "finding": "All'esame fisico, Giuseppe presenta una gamba sinistra pallida, fredda al tatto e con assente riempimento capillare. La frequenza cardiaca è elevata e la pressione arteriosa è bassa. La saturazione di ossigeno è ridotta. Non ci sono segni di edema o lesioni cutanee visibili.",
+      "killipClass": "III"
+    },
+    "ecocolordoppler": {
+      "finding": "Ecocolordoppler (TSA, venoso/arterioso arti, aorta) nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true
+    },
+    "pt-ptt-inr": {
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true
+    },
+    "creat-urea-gfr": {
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true
+    },
+    "moc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "mammografia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Ecocolordoppler per valutare il flusso sanguigno, seguito da emocromo, PT-PTT-INR, creatinina, urea, GFR ed elettroliti.",
+  "patientPrompt": "Ho 80 anni e sono stato portato qui perché ho un dolore molto forte alla gamba sinistra. È iniziato all'improvviso mentre camminavo. La gamba è fredda e non riesco a muoverla. Ho anche il respiro affannoso e mi sento debole.",
+  "id": "CARDIO-027",
+  "code": "CARDIO-027",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Ischemia acuta di arto",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf",
+  "diagnosis": "Ischemia acuta di arto",
+  "pastMedicalHistory": "Giuseppe ha una storia di arteriopatia periferica, ipertensione e diabete mellito tipo 2. È un fumatore cronico e ha avuto episodi precedenti di claudicatio intermittens.",
+  "presentation": "Giuseppe, un uomo di 80 anni, è stato portato in pronto soccorso a causa di un dolore acuto alla gamba sinistra, iniziato improvvisamente. La gamba è fredda al tatto e presenta un colorito pallido. Giuseppe ha difficoltà a muovere l'arto e riferisce una sensazione di intorpidimento. Ha una storia medica di arteriopatia periferica, ipertensione e diabete mellito. Al momento dell'esame, la frequenza cardiaca è elevata e la pressione arteriosa è bassa, con una saturazione di ossigeno ridotta.",
+  "redHerrings": [
+    "Giuseppe ha un'infezione del tratto urinario, diagnosticata recentemente.",
+    "Il paziente ha un'ernia inguinale che provoca dolore addominale.",
+    "Giuseppe ha una storia di gastrite che potrebbe contribuire al suo malessere."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ecocolordoppler": 30,
+    "emocromo": 30,
+    "pt-ptt-inr": 30,
+    "creat-urea-gfr": 30,
+    "elettroliti": 30
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-027_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Ischemia acuta di arto)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-027_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-027_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-027_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-027_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-027_6",
+      "prompt": "Contesto di presentazione: Reparto di Cardiologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "III",
+    "summary": "All'esame fisico, Giuseppe presenta una gamba sinistra pallida, fredda al tatto e con assente riempimento capillare. La frequenza cardiaca è elevata e la pressione arteriosa è bassa. La saturazione di ossigeno è ridotta. Non ci sono segni di edema o lesioni cutanee visibili."
+  },
+  "goldPathNarrative": "Iniziare con un ecocolordoppler per valutare la perfusione dell'arto. Successivamente, eseguire un emocromo per verificare eventuali segni di anemia o infezione, e controllare i parametri di coagulazione (PT, PTT, INR) per escludere anomalie emorragiche. Valutare la funzionalità renale con creatinina e urea, e controllare gli elettroliti per eventuali squilibri. Questi passaggi sono cruciali per una gestione appropriata dell'ischemia acuta di arto.",
+  "escCitations": [
+    {
+      "chunkId": "a1cab4a0-1edc-4326-a3cb-3f022eef61ea-303",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf",
+      "quote": "tion Capillary refill Intact Slow-intact Slow-absent Absent Arterial Doppler Audible Inaudible Venous Doppler Audible I:Viable IIA: Marginally threatened IIB: Immediately threatened III: Irreversible Inaudible Muscle biomarkers Elevated Suspected ALI Acutely cold and painful leg Pain management Medical management and follow-up Imaging (DUS, CTA, DSA, MRA) Imaginga (DUS, CTA, DSA, MRA) Urgent revascularization AND anticoagulation unless contraindicated Emergency revascularization AND anticoagulat"
+    },
+    {
+      "chunkId": "a1cab4a0-1edc-4326-a3cb-3f022eef61ea-904",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf",
+      "quote": "ZS, Mills JL, Chung J. Safety and efficacy of an endovascular-first approach to acute limb ischemia. J Vasc Surg 2021;73:1741–9. https://doi.org/10.1016/j.jvs.2020.[REDACTED]. Hawkins KE, Valentine RJ, Duke JM, Wang Q, Reed AB. Ankle-brachial index use in peripheral vascular interventions for claudication. J Vasc Surg 2022;76:196–201. https://doi.org/10.1016/j.jvs.2022.[REDACTED]. Armstrong EJ, Chen DC, Westin GG, Singh S, McCoach CE, Bang H, et al. Adherence to guideline-recommended therapy is "
+    },
+    {
+      "chunkId": "a1cab4a0-1edc-4326-a3cb-3f022eef61ea-976",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf",
+      "quote": "/ doi.org/10.1583/09-2935.1 3682 ESC Guidelines 849. Huber TS, Björck M, Chandra A, Clouse WD, Dalsing MC, Oderich GS, et al. Chronic mesenteric ischemia: clinical practice guidelines from the society for vascular surgery. J Vasc Surg 2021;73:87s–115s. https://doi.org/10.1016/j.jvs.2020.[REDACTED]. Fernández-Friera L, Fuster V, López-Melgar B, Oliva B, Sánchez-González J, Macías A, et al. Vascular inflammation in subclinical atherosclerosis detected by hybrid PET/MRI. J Am Coll Cardiol 2019;73:1"
+    },
+    {
+      "chunkId": "a1cab4a0-1edc-4326-a3cb-3f022eef61ea-246",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf",
+      "quote": "aorto-iliac or multisegmental/complex disease, CTA and/or MRA are recommended as adjuvant imaging techniques for preparation of revascularization procedures.448,449 I C Analysis of anatomical imaging tests in conjunction with symptoms and haemodynamic tests prior to an invasive procedure is recommended.426 I C © ESC 2024 CTA, computed tomography angiography; DUS, duplex ultrasound; MRA, magnetic resonance angiography; PAD, peripheral arterial disease. aClass of recommendation. bLevel of evidence"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecocolordoppler → emocromo → pt-ptt-inr → creat-urea-gfr → elettroliti.",
+      "Non prescrivere di prima intenzione: moc, mammografia (ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf).",
+      "Budget SSN di riferimento: €130."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alle linee guida L. 24/2017 Art. 5. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Reparto di Cardiologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecocolordoppler",
+      "name": "Ecocolordoppler (TSA, venoso/arterioso arti, aorta)",
+      "finding": "Ecocolordoppler (TSA, venoso/arterioso arti, aorta) nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 42
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT, INR)",
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 9
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina e Urea (Azotemia) con stima GFR",
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Ischemia acuta di arto (CARDIO-027). ECG: possibile ischemia; Emocromo: anemia; PT-PTT-INR: da valutare; Creatinina e urea: da valutare; Elettroliti: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "moc",
+      "name": "MOC (DEXA)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 0,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf."
+    },
+    {
+      "examId": "mammografia",
+      "name": "Mammografia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 0,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf."
+    }
+  ]
+}

@@ -48,6 +48,10 @@ export function guardEvaluationAgainstFalseOmissions(
     (item) => !examIsPrescribed(item.examName, prescribed, milestones),
   );
 
+  const VERIFIED_USER_ACTION = "Azione/Esame verificato nella simulazione";
+  const staleOmissionText = (text: string | undefined) =>
+    /non evidenziato/i.test(text ?? "") || !(text ?? "").trim();
+
   const fixedDelta = analytical.clinicalDeltaTable.map((row) => {
     if (row.status !== "MISSED" && row.status !== "DELAYED") return row;
     const combined = `${row.protocolAction} ${row.userAction}`;
@@ -55,7 +59,9 @@ export function guardEvaluationAgainstFalseOmissions(
       return {
         ...row,
         status: "MET" as const,
-        userAction: row.userAction || "Evidenza: esame prescritto (registro deterministico).",
+        userAction: staleOmissionText(row.userAction)
+          ? VERIFIED_USER_ACTION
+          : row.userAction,
         penaltyOrBonusReason: `${row.penaltyOrBonusReason} [Corretto: esame risulta prescritto.]`,
       };
     }

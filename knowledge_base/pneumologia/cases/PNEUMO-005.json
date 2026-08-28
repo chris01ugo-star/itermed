@@ -1,0 +1,285 @@
+{
+  "title": "Crisi asmatica in Pronto Soccorso",
+  "description": "Elena si presenta in pronto soccorso con dispnea acuta e ansia. Parla a scatti, esprimendo preoccupazione per la sua condizione. Ha difficoltà a respirare e sembra agitata, con un tono di voce tremante. La sua storia di asma è nota, e riferisce di aver avuto un episodio simile in passato, ma questa volta è più intensa. Durante l'esame fisico, si nota l'uso dei muscoli accessori per respirare e un respiro affannoso. La sua saturazione di ossigeno è bassa, e il medico decide di procedere con il trattamento appropriato.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "ega",
+    "rx-torace",
+    "emocromo"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 122,
+      "bloodPressure": "132/80",
+      "spo2": 91,
+      "temperature": 36.8,
+      "respiratoryRate": 32
+    },
+    "examBudgetEuro": 80,
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Esacerbazione asmatica moderata-grave (PNEUMO-005). Saturazione di ossigeno 91%, frequenza respiratoria 32 atti/min, tachicardia, ansia marcata, uso di muscoli accessori per la respirazione.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Esacerbazione asmatica moderata-grave (PNEUMO-005). Saturazione di ossigeno 91%, frequenza respiratoria 32 atti/min, tachicardia, ansia marcata, uso di muscoli accessori per la respirazione.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Esacerbazione asmatica moderata-grave (PNEUMO-005). Saturazione di ossigeno 91%, frequenza respiratoria 32 atti/min, tachicardia, ansia marcata, uso di muscoli accessori per la respirazione.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Esacerbazione asmatica moderata-grave (PNEUMO-005). Saturazione di ossigeno 91%, frequenza respiratoria 32 atti/min, tachicardia, ansia marcata, uso di muscoli accessori per la respirazione.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Esacerbazione asmatica moderata-grave (PNEUMO-005). Saturazione di ossigeno 91%, frequenza respiratoria 32 atti/min, tachicardia, ansia marcata, uso di muscoli accessori per la respirazione.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Esacerbazione asmatica moderata-grave (PNEUMO-005). Saturazione di ossigeno 91%, frequenza respiratoria 32 atti/min, tachicardia, ansia marcata, uso di muscoli accessori per la respirazione.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        }
+      }
+    },
+    "demographics": {
+      "age": 34,
+      "sex": "F",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Dispnea evidente, uso di muscoli accessori, respiro affannoso, saturazione di ossigeno ridotta, agitazione."
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Esacerbazione asmatica moderata-grave (PNEUMO-005). Saturazione di ossigeno 91%, frequenza respiratoria 32 atti/min, tachicardia, ansia marcata, uso di muscoli accessori per la respirazione.",
+      "isAbnormal": true
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Esacerbazione asmatica moderata-grave (PNEUMO-005). Saturazione di ossigeno 91%, frequenza respiratoria 32 atti/min, tachicardia, ansia marcata, uso di muscoli accessori per la respirazione.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Esacerbazione asmatica moderata-grave (PNEUMO-005). Saturazione di ossigeno 91%, frequenza respiratoria 32 atti/min, tachicardia, ansia marcata, uso di muscoli accessori per la respirazione.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Somministrare broncodilatatori a breve durata d'azione, corticosteroidi sistemici e ossigeno supplementare. Monitorare i segni vitali e la risposta al trattamento.",
+  "patientPrompt": "Mi chiamo Elena e ho 34 anni. Sono qui perché ho difficoltà a respirare e mi sento molto ansiosa. Ho avuto episodi simili in passato, ma questa volta è peggio. Non riesco a parlare bene perché mi manca il respiro. Ho passato una notte insonne e questo mi ha fatto sentire ancora più nervosa. A volte non prendo i farmaci come dovrei, e mi rendo conto che questo non aiuta. Ho bisogno di aiuto, mi sento sola e preoccupata.",
+  "id": "PNEUMO-005",
+  "code": "PNEUMO-005",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Esacerbazione asmatica moderata-grave",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "GINA_2024_Asthma_Guidelines.pdf",
+  "diagnosis": "Esacerbazione asmatica moderata-grave",
+  "pastMedicalHistory": "Asma bronchiale diagnosticata all'età di 15 anni, con episodi di esacerbazione in passato. Non ci sono altre patologie significative segnalate.",
+  "presentation": "Elena, 34 anni, si presenta in pronto soccorso con una crisi asmatica. Riferisce di avere difficoltà a respirare e di sentirsi molto ansiosa. La sua voce è tremante e parla a scatti, esprimendo preoccupazione per la sua salute. Ha avuto episodi simili in passato, ma questa volta è molto più intensa. Elena ha difficoltà a mantenere la calma e sembra agitata. Riferisce anche di avere avuto una notte insonne, il che ha aumentato la sua ansia. È consapevole della sua condizione asmatica, ma ammette di non seguire sempre il trattamento come prescritto. La sua rete sociale è limitata, e si sente spesso sola nella gestione della sua malattia.",
+  "redHerrings": [
+    "Riflesso faringeo esagerato durante l'esame fisico.",
+    "Leggera congestione nasale che potrebbe suggerire un'infezione virale.",
+    "Rumore respiratorio bilaterale che non è correlato alla crisi asmatica."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ega": 10,
+    "rx-torace": 20,
+    "emocromo": 30,
+    "tc": 40,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-005_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Esacerbazione asmatica moderata-grave)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-005_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-005_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-005_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-005_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-005_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dispnea evidente, uso di muscoli accessori, respiro affannoso, saturazione di ossigeno ridotta, agitazione."
+  },
+  "goldPathNarrative": "Il percorso d'oro prevede l'esecuzione di un'emogasanalisi, una radiografia del torace e un emocromo per valutare la gravità dell'esacerbazione asmatica e identificare eventuali complicazioni. È fondamentale monitorare attentamente Elena durante il trattamento e fornire supporto psicologico per gestire la sua ansia.",
+  "escCitations": [
+    {
+      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-123",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "knows what treatment to take in the next few days. Arrange follow-up: (in person, if feasible) within 2–7 days (2–5 days for children) to assess progress and adherence. Consider early referral for specialist advice after hospitalization, or for patients with repeated emergency visits for asthma.COPYRIGHTED MATERIAL - DO NOT COPY OR DISTRIBUTE 36Summary Guide for Asthma Management and Prevention © GINA 2026 www.ginasthma.org FIGURE 9. Management of asthma exacerbations in primary care ED: emergen"
+    },
+    {
+      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-119",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "e, upper airway dysfunction, inhaled foreign body, pulmonary embolism). Arrange immediate transfer to an acute care facility if there are signs of severe exacerbation (see Figure 9). Immediately give inhaled SABA, inhaled ipratropium bromide, oxygen and systemic corticosteroids. Transfer to intensive care if the patient is drowsy, confused, or has a silent chest. If the patient has anaphylaxis and asthma, give epinephrine (IM or nasal) first. For mild or moderate exacerbations, start bronchodila"
+    },
+    {
+      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-82",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "evere asthma in adults and adolescents If a patient has uncontrolled symptoms and/or exacerbations despite Step 4 treatment (Track 1 or Track 2), assess causes and optimize treatment, including inhaler technique and adherence. Refer the patient for expert assessment, including assessment of severe asthma inflammatory phenotype, comorbidities, risk factors, and for potential add-on treatment. If sputum eosinophil count is available, this test may be useful to guide treatment in patients with mode"
+    },
+    {
+      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-124",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "doses are for salbutamol [albuterol] 100 mcg/actuation). Box numbers refer to the full GINA 2026 report IMPROVING MILD presentation All of: Talks in sentences, can lie down, not agitated Respiratory rate normal or mildly increased No (or mild) accessory muscle use No (or mild) expiratory wheeze Normal air entry O2 saturation (room air) ≥94%* PEF >70% personal best or predicted [If <18 years old, PRAM 1–3] PRIMARY CARE Adult, adolescent or child ≥6 years presents to primary care with asthma exace"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ega → rx-torace → emocromo.",
+      "Non prescrivere di prima intenzione: tc, pet-tc (GINA_2024_Asthma_Guidelines.pdf).",
+      "Budget SSN di riferimento: €80."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Scudo L. 24/2017 Art. 5 L'adesione alle linee guida (GINA_2024_Asthma_Guidelines.pdf) e al gold path costituisce parametro di conformità alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Esacerbazione asmatica moderata-grave (PNEUMO-005). Saturazione di ossigeno 91%, frequenza respiratoria 32 atti/min, tachicardia, ansia marcata, uso di muscoli accessori per la respirazione.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Esacerbazione asmatica moderata-grave (PNEUMO-005). Saturazione di ossigeno 91%, frequenza respiratoria 32 atti/min, tachicardia, ansia marcata, uso di muscoli accessori per la respirazione.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Esacerbazione asmatica moderata-grave (PNEUMO-005). Saturazione di ossigeno 91%, frequenza respiratoria 32 atti/min, tachicardia, ansia marcata, uso di muscoli accessori per la respirazione.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Parla a scatti per la dispnea. L'insonnia amplifica l'ansia: frasi lunghe e allarmistiche peggiorano l'iperpnea. Serve linguaggio breve e rassicurante."
+  }
+}

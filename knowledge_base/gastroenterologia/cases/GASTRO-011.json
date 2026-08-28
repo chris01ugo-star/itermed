@@ -1,0 +1,268 @@
+{
+  "title": "MRGE con cybercondria (Lyon Consensus)",
+  "description": "Valentina si presenta in ambulatorio con un forte senso di ansia. Ha portato con sé uno screenshot di una conversazione con un chatbot, dove ha letto informazioni sul Barrett e chiede insistentemente una pH-impedenzometria. È evidente che ha fatto ricerche online e ha sviluppato una certa cybercondria, temendo il peggio per la sua salute. La sua rete sociale è forte, ma la sua ansia la porta a auto-medicarsi e a non seguire sempre le indicazioni mediche. Il sonno è scarso e lo stress è elevato.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "emocromo",
+    "egds",
+    "consenso-informato"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "118/74",
+      "spo2": 98,
+      "temperature": 36.4,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 120,
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Malattia da reflusso gastroesofageo — diagnosi Lyon Consensus (GASTRO-011). Nessuna anomalia significativa all'esame obiettivo; si richiede emocromo ed EGDS per ulteriori valutazioni.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Malattia da reflusso gastroesofageo — diagnosi Lyon Consensus (GASTRO-011). Nessuna anomalia significativa all'esame obiettivo; si richiede emocromo ed EGDS per ulteriori valutazioni.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "egds": {
+          "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Malattia da reflusso gastroesofageo — diagnosi Lyon Consensus (GASTRO-011). Nessuna anomalia significativa all'esame obiettivo; si richiede emocromo ed EGDS per ulteriori valutazioni.",
+          "normalFinding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Malattia da reflusso gastroesofageo — diagnosi Lyon Consensus (GASTRO-011). Nessuna anomalia significativa all'esame obiettivo; si richiede emocromo ed EGDS per ulteriori valutazioni.",
+          "isAbnormal": true,
+          "price": 90
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 41,
+      "sex": "F",
+      "context": "Ambulatorio di Gastroenterologia"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo nella norma, nessun segno di malattia acuta evidente."
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Malattia da reflusso gastroesofageo — diagnosi Lyon Consensus (GASTRO-011). Nessuna anomalia significativa all'esame obiettivo; si richiede emocromo ed EGDS per ulteriori valutazioni.",
+      "isAbnormal": true
+    },
+    "egds": {
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Malattia da reflusso gastroesofageo — diagnosi Lyon Consensus (GASTRO-011). Nessuna anomalia significativa all'esame obiettivo; si richiede emocromo ed EGDS per ulteriori valutazioni.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Esame obiettivo, emocromo, EGDS, consenso informato",
+  "patientPrompt": "Salve, sono Valentina e ho 41 anni. Da qualche mese soffro di bruciore di stomaco e rigurgito acido. Ho cercato informazioni online e ho letto di una possibile malattia di Barrett, quindi sono molto preoccupata. Ho portato con me uno screenshot di una conversazione con un chatbot che parlava di questo. Vorrei sapere se posso fare una pH-impedenzometria, perché ho paura di avere qualcosa di grave. Ho provato a seguire alcune diete, ma non sembrano funzionare e mi sento molto ansiosa. Ho anche difficoltà a dormire e mi sento stressata.",
+  "id": "GASTRO-011",
+  "code": "GASTRO-011",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Malattia da reflusso gastroesofageo — diagnosi Lyon Consensus",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Lyon_Consensus_GERD_Guidelines.pdf",
+  "diagnosis": "Malattia da reflusso gastroesofageo",
+  "pastMedicalHistory": "Nessuna patologia pregressa significativa, ma ha una storia di allergie alimentari. Non ha mai subito interventi chirurgici e non assume farmaci regolarmente, se non occasionalmente per alleviare i sintomi di reflusso.",
+  "presentation": "Valentina, una donna di 41 anni, si presenta in ambulatorio lamentando bruciore retrosternale e rigurgito acido, che ha iniziato a manifestare da alcuni mesi. Ha cercato informazioni online e ha sviluppato una certa preoccupazione per la sua salute, portando con sé uno screenshot di un'interazione con un chatbot che parlava della malattia di Barrett. È molto ansiosa riguardo alla sua condizione e chiede subito una pH-impedenzometria, rifiutando di considerare altre opzioni. Ha una rete di supporto forte, ma la sua ansia la porta a prendere decisioni impulsive riguardo alla sua salute. La qualità del suo sonno è scarsa e il suo livello di stress è alto.",
+  "redHerrings": [
+    "Valentina ha recentemente iniziato a seguire una dieta restrittiva, pensando che potesse migliorare i suoi sintomi.",
+    "Ha anche accusato occasionali dolori addominali, ma non sono correlati ai sintomi di reflusso.",
+    "Valentina ha una storia di allergie alimentari, che teme possano influenzare la sua condizione."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "emocromo": 30,
+    "egds": 60,
+    "consenso-informato": 10,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-011_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Malattia da reflusso gastroesofageo — diagnosi Lyon Consensus)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-011_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-011_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-011_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-011_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-011_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo nella norma, nessun segno di malattia acuta evidente."
+  },
+  "goldPathNarrative": "Dopo aver ascoltato le preoccupazioni di Valentina e aver validato la sua ansia, si procede con un esame obiettivo accurato. Si richiede un emocromo per escludere eventuali complicanze e si programma un'EGDS per valutare la mucosa esofagea. Prima di procedere con l'EGDS, si discute con Valentina riguardo al consenso informato, assicurandosi che comprenda il processo e le opzioni disponibili.",
+  "escCitations": [
+    {
+      "chunkId": "518e9efc-ed72-4bf4-a8b6-7b6f69b6a1a5-1",
+      "source": "knowledge_base/gastroenterologia/clinical/Lyon_Consensus_GERD_Guidelines.pdf",
+      "quote": "uis, St Louis, Missouri, USA; [REDACTED] Received 4 July 2023 Accepted 30 August 2023 © Author(s) (or their employer(s)) 2023. Re-use permitted under CC BY-NC. No commercial re-use. See rights and permissions. Published by BMJ. ABSTRACT The Lyon Consensus provides conclusive criteria for and against the diagnosis of gastro-oesophageal reflux disease (GERD), and adjunctive metrics that consolidate or refute GERD diagnosis when primary criteria are borderline or inconclusive. An international core"
+    },
+    {
+      "chunkId": "518e9efc-ed72-4bf4-a8b6-7b6f69b6a1a5-5",
+      "source": "knowledge_base/gastroenterologia/clinical/Lyon_Consensus_GERD_Guidelines.pdf",
+      "quote": "rom oesophageal testing supports revising, escalating or personalising GERD manage- ment, and identifies symptoms that have a high versus low likelihood of pathophysiological rela- tionship to reflux episodes. METHODS The Lyon Consensus steering committee devel- oped a strategy for this update in October 2022, and a core group reviewed recent literature. Five topics were identified as key areas in need of update (table 1), and statements were developed to address these (table 2). An internationa"
+    },
+    {
+      "chunkId": "518e9efc-ed72-4bf4-a8b6-7b6f69b6a1a5-65",
+      "source": "knowledge_base/gastroenterologia/clinical/Lyon_Consensus_GERD_Guidelines.pdf",
+      "quote": "ion of reflux monitoring. Personalisation of management to each patient’s unique presentation will help further optimise GERD diagnosis and management. Future iterations of the Lyon Consensus will attempt to keep pace with new research. Author affiliations 1Division of Gastroenterology, Washington University School of Medicine, St Louis, Missouri, USA 2Division of Gastroenterology, University of California in San Diego, La Jolla, California, USA 3Medicine/Section of Gastroenterology, Case Wester"
+    },
+    {
+      "chunkId": "518e9efc-ed72-4bf4-a8b6-7b6f69b6a1a5-92",
+      "source": "knowledge_base/gastroenterologia/clinical/Lyon_Consensus_GERD_Guidelines.pdf",
+      "quote": "ethod. J Neurogastroenterol Motil 2020;26:241–7. 80 Frazzoni L, Frazzoni M, De Bortoli N, et al. Application of lyon consensus criteria for GORD diagnosis: evaluation of conventional and new impedance-pH parameters. Gut 2022;71:1062–7. 81 Savarino E, Zentilin P, Mastracci L, et al. Microscopic esophagitis distinguishes patients with non-erosive reflux disease from those with functional heartburn. J Gastroenterol 2013;48:473–82. 82 Vela MF, Craft BM, Sharma N, et al. Refractory heartburn: compari"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: emocromo → egds → consenso-informato.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (Lyon_Consensus_GERD_Guidelines.pdf).",
+      "Budget SSN di riferimento: €120."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso seguito è conforme all'Art. 5 della L. 24/2017.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Ambulatorio di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Malattia da reflusso gastroesofageo — diagnosi Lyon Consensus (GASTRO-011). Nessuna anomalia significativa all'esame obiettivo; si richiede emocromo ed EGDS per ulteriori valutazioni.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "egds",
+      "name": "Esofagogastroduodenoscopia (EGDS)",
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Malattia da reflusso gastroesofageo — diagnosi Lyon Consensus (GASTRO-011). Nessuna anomalia significativa all'esame obiettivo; si richiede emocromo ed EGDS per ulteriori valutazioni.",
+      "isAbnormal": true,
+      "priceEuro": 90
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "emotionalState": "ANXIOUS",
+    "adherence": "SELF_MEDICATED",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Arriva con screenshot ChatGPT sul Barrett e chiede subito una pH-impedenzometria. Se si sminuisce Google, si chiude. Serve validare l'ansia e ancorare al Lyon Consensus senza concessioni difensive."
+  }
+}

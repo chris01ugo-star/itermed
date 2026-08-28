@@ -1,0 +1,285 @@
+{
+  "title": "OSAS sospetta in uomo di 48 anni",
+  "description": "Roberto è un uomo di 48 anni che si presenta in ambulatorio con sintomi di sonno disturbato e preoccupazioni legate alla sua salute. Riferisce di avere difficoltà a dormire, di sentirsi stanco durante il giorno e di avere episodi di risveglio notturno con sensazione di soffocamento. È ansioso riguardo alla possibilità di avere un problema serio, come un infarto notturno, e ha cercato informazioni online che lo hanno ulteriormente preoccupato.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "polisonnografia",
+    "emocromo",
+    "spirometria"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "142/90",
+      "spo2": 94,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 140,
+    "advancedExams": {
+      "values": {
+        "polisonnografia": {
+          "finding": "Polisonnografia nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+          "normalFinding": "Polisonnografia nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+          "isAbnormal": true,
+          "price": 80
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "spirometria": {
+          "finding": "Spirometria (semplice/globale) nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+          "normalFinding": "Spirometria (semplice/globale) nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        }
+      }
+    },
+    "demographics": {
+      "age": 48,
+      "sex": "M",
+      "context": "Ambulatorio di Pneumologia"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo nei limiti della norma, con particolare attenzione alla valutazione della respirazione e della saturazione di ossigeno."
+    },
+    "polisonnografia": {
+      "finding": "Polisonnografia nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+      "isAbnormal": true
+    },
+    "spirometria": {
+      "finding": "Spirometria (semplice/globale) nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Polisonnografia per confermare la diagnosi di OSAS.",
+  "patientPrompt": "Ho 48 anni e mi chiamo Roberto. Ultimamente ho avuto problemi a dormire, mi sveglio spesso durante la notte e ho la sensazione di soffocare. Ho letto che l'OSAS può causare infarti notturni e sono molto preoccupato. Ho cercato informazioni online e sono ansioso riguardo alla mia salute. A volte mi sento stanco durante il giorno e mi chiedo se ci sia qualcosa di serio. Vorrei sapere se posso fare qualcosa per capire meglio la mia situazione e se una polisonnografia potrebbe essere utile.",
+  "id": "PNEUMO-010",
+  "code": "PNEUMO-010",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Sindrome delle apnee ostruttive del sonno — sospetto diagnostico",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
+  "diagnosis": "Sindrome delle apnee ostruttive del sonno - sospetto diagnostico",
+  "pastMedicalHistory": "Nessuna patologia pregressa significativa, non fuma e non consuma alcol.",
+  "presentation": "Roberto, un uomo di 48 anni, si presenta in ambulatorio lamentando disturbi del sonno. Riferisce di russare frequentemente e di svegliarsi durante la notte con la sensazione di non riuscire a respirare. Ha anche notato una crescente stanchezza durante il giorno. È molto ansioso riguardo alla sua salute e ha letto online che l'OSAS può portare a gravi complicazioni, come infarti notturni. La sua rete sociale è forte, ma la sua aderenza alle raccomandazioni mediche è parziale, a causa della sua ansia e della mancanza di sonno.",
+  "redHerrings": [
+    "Roberto ha un BMI nella norma e non è obeso, quindi non si considera un fattore di rischio primario per l'OSAS.",
+    "Non ha una storia di apnee notturne segnalate dai familiari, il che potrebbe far pensare a un'altra causa dei suoi sintomi.",
+    "Riferisce di avere episodi di reflusso gastroesofageo, che potrebbero spiegare alcuni dei suoi risvegli notturni."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "polisonnografia": 720,
+    "emocromo": 30,
+    "spirometria": 25,
+    "tc": 40,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-010_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Sindrome delle apnee ostruttive del sonno — sospetto diagnostico)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-010_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-010_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-010_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-010_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-010_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo nei limiti della norma, con particolare attenzione alla valutazione della respirazione e della saturazione di ossigeno."
+  },
+  "goldPathNarrative": "Dopo aver ascoltato le preoccupazioni di Roberto e aver validato i suoi timori, propongo di eseguire una polisonnografia per valutare la qualità del suo sonno e identificare eventuali apnee notturne. Questo esame ci permetterà di avere un quadro chiaro della sua situazione e di decidere il trattamento più adeguato.",
+  "escCitations": [
+    {
+      "chunkId": "f4f8165e-158b-4b14-b66c-b7686ca421d2-325",
+      "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
+      "quote": "est standard sul sonno. La diagnosi di OSAS non può prescindere da una valutazione strumentale per l’intera durata della notte; prima di avviare un paziente con sospetto OSAS al percorso diagnostico strumentale, de- vono essere ricercati i segni e i sintomi di sospetto (russamento abituale, pause respiratorie, risvegli con senso di soffocamento, BMI, circonferenza collo > 43 cm ecc.). Nell’attuazione del percorso diagnostico andranno inoltre valutati i livelli di priorità. In particolare, il liv"
+    },
+    {
+      "chunkId": "3d7cbcef-fe97-4929-82a0-6772457a420e-325",
+      "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
+      "quote": "est standard sul sonno. La diagnosi di OSAS non può prescindere da una valutazione strumentale per l’intera durata della notte; prima di avviare un paziente con sospetto OSAS al percorso diagnostico strumentale, de- vono essere ricercati i segni e i sintomi di sospetto (russamento abituale, pause respiratorie, risvegli con senso di soffocamento, BMI, circonferenza collo > 43 cm ecc.). Nell’attuazione del percorso diagnostico andranno inoltre valutati i livelli di priorità. In particolare, il liv"
+    },
+    {
+      "chunkId": "3d7cbcef-fe97-4929-82a0-6772457a420e-324",
+      "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
+      "quote": "plicanze di OSAS e di intraprendere una te- rapia adeguata. È ormai provato che l’OSAS si associa e/o è un importante fattore di rischio e aggravamento per insufficienza respiratoria ipos- siemica-ipercapnica, ipertensione arteriosa siste- mica (mancanza del “dipping” notturno e dello scarso controllo farmacologico), cardiopatia ische- mica e scompenso cardiaco, aritmie cardiache, patologie cerebrovascolari, sindrome metabolica. Recenti studi eseguiti su pazienti OSAS hanno inoltre dimostrato un"
+    },
+    {
+      "chunkId": "f4f8165e-158b-4b14-b66c-b7686ca421d2-324",
+      "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
+      "quote": "plicanze di OSAS e di intraprendere una te- rapia adeguata. È ormai provato che l’OSAS si associa e/o è un importante fattore di rischio e aggravamento per insufficienza respiratoria ipos- siemica-ipercapnica, ipertensione arteriosa siste- mica (mancanza del “dipping” notturno e dello scarso controllo farmacologico), cardiopatia ische- mica e scompenso cardiaco, aritmie cardiache, patologie cerebrovascolari, sindrome metabolica. Recenti studi eseguiti su pazienti OSAS hanno inoltre dimostrato un"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: polisonnografia → emocromo → spirometria.",
+      "Non prescrivere di prima intenzione: tc, pet-tc (MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf).",
+      "Budget SSN di riferimento: €140."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Scudo L. 24/2017 Art. 5 L'adesione alle linee guida (MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf) e al gold path costituisce parametro di conformità alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "polisonnografia",
+      "name": "Polisonnografia",
+      "finding": "Polisonnografia nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+      "isAbnormal": true,
+      "priceEuro": 80
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "spirometria",
+      "name": "Spirometria (semplice/globale)",
+      "finding": "Spirometria (semplice/globale) nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Ha letto che l'OSAS 'provoca infarto notturno'. Interrompe con citazioni da Google. Se si convalida la preoccupazione e si propone la polisonnografia come passo concreto, collabora."
+  }
+}

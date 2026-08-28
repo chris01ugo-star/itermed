@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth-options";
 import { config } from "@/lib/config";
+import { isRuntimeDevelopment } from "@/lib/security/dev-only-gates";
 
 export type SessionUser = {
   id: string;
@@ -21,7 +22,9 @@ const DEV_MOCK_USER: SessionUser = {
 export const SANDBOX_TEST_USER_ID = "cl-tester-999";
 
 export function isDevAuthBypass(): boolean {
-  return config.isDevelopment && config.DEV_AUTH_BYPASS;
+  // Hard stop: never mock-admin outside `next dev`, even if config/env is mis-set.
+  if (!isRuntimeDevelopment()) return false;
+  return config.DEV_AUTH_BYPASS;
 }
 
 export function getDevMockUser(): SessionUser {

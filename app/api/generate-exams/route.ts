@@ -1,6 +1,7 @@
 import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { getSessionUserId } from "@/lib/api-session";
+import { requireTeacherApi } from "@/lib/cases/require-teacher-api";
 import { EXAM_DEFAULT_VALUES } from "@/lib/exam-default-values";
 import { createLogger } from "@/lib/logger";
 import { mergeExamProfile, parseLlmExamJson } from "@/lib/merge-exam-profile";
@@ -155,6 +156,9 @@ function normalizeBody(body: GenerateExamsBody) {
 }
 
 export async function POST(req: Request) {
+  const denied = await requireTeacherApi();
+  if (denied) return denied;
+
   const userId = await getSessionUserId();
   if (!userId) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });

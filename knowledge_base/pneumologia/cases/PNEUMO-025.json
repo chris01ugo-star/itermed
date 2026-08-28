@@ -1,0 +1,341 @@
+{
+  "title": "Polmonite associata a ventilazione (VAP)",
+  "description": "Alberto presenta segni di polmonite associata alla ventilazione meccanica, con un quadro clinico caratterizzato da febbre, tachipnea e ipossiemia. È intubato e in terapia intensiva, dove riceve supporto respiratorio.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "rx-torace",
+    "ega",
+    "emocromo",
+    "pcr-pct",
+    "emocolture",
+    "tamponi"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 108,
+      "bloodPressure": "118/70",
+      "spo2": 89,
+      "temperature": 38.6,
+      "respiratoryRate": 26
+    },
+    "examBudgetEuro": 140,
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pcr-pct": {
+          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "emocolture": {
+          "finding": "Emocoltura (da due o più siti) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+          "normalFinding": "Emocoltura (da due o più siti) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+          "isAbnormal": true,
+          "price": 22
+        },
+        "tamponi": {
+          "finding": "Specie microbiche da tampone nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+          "normalFinding": "Specie microbiche da tampone nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 70,
+      "sex": "M",
+      "context": "Alberto è un paziente di 70 anni, intubato da alcuni giorni a causa di una grave insufficienza respiratoria. È stato trasferito nel reparto di Pneumologia dopo un intervento chirurgico. Durante la degenza, ha sviluppato una polmonite associ"
+    },
+    "physicalExam": {
+      "finding": "Alberto presenta febbre, tachipnea, e segni di ipossiemia. È intubato e non in grado di comunicare verbalmente."
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+      "isAbnormal": true
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+      "isAbnormal": true
+    },
+    "pcr-pct": {
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+      "isAbnormal": true
+    },
+    "emocolture": {
+      "finding": "Emocoltura (da due o più siti) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+      "isAbnormal": true
+    },
+    "tamponi": {
+      "finding": "Specie microbiche da tampone nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Iniziare il protocollo diagnostico per la polmonite associata alla ventilazione meccanica, inclusi RX torace, EGA, emocromo, PCR, PCT, emocolture e tamponi.",
+  "patientPrompt": "Mi chiamo Alberto e ho 70 anni. Sono stato intubato dopo un intervento chirurgico e ora mi dicono che ho una polmonite. Non riesco a capire bene cosa significhi e sono molto preoccupato. I miei familiari sono ansiosi e non so come comunicare con loro. Ho difficoltà a dormire e mi sento stressato. Vorrei sapere cosa sta succedendo e se ci sono speranze per la mia guarigione.",
+  "id": "PNEUMO-025",
+  "code": "PNEUMO-025",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Polmonite associata a ventilazione meccanica (VAP/HAP)",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+  "diagnosis": "Polmonite associata a ventilazione meccanica (VAP)",
+  "pastMedicalHistory": "Bronchite cronica, infezione del tratto urinario recente, anemia lieve.",
+  "presentation": "Alberto è un uomo di 70 anni, intubato e con una storia recente di insufficienza respiratoria. È stato trasferito in Pneumologia dopo un intervento chirurgico e ha sviluppato una polmonite associata alla ventilazione meccanica. I familiari sono molto preoccupati e ansiosi per la sua condizione. Alberto ha difficoltà a comunicare a causa dell'intubazione e si sente frustrato per la sua incapacità di esprimere i suoi pensieri e sentimenti. La sua ansia è palpabile e il sonno è scarso, contribuendo al suo stato di stress. La rete sociale è limitata, il che lo rende più vulnerabile.",
+  "redHerrings": [
+    "Alberto ha una storia di bronchite cronica, ma non è in fase acuta.",
+    "Recentemente ha avuto un'infezione del tratto urinario, ma è stata trattata con successo.",
+    "Ha anche una leggera anemia, ma non è significativa per la sua attuale condizione respiratoria."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "rx-torace": 20,
+    "ega": 10,
+    "emocromo": 30,
+    "pcr-pct": 35,
+    "emocolture": 15,
+    "tamponi": 20,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-025_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Polmonite associata a ventilazione meccanica (VAP/HAP))",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-025_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-025_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-025_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-025_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-025_6",
+      "prompt": "Contesto di presentazione: Reparto di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Alberto presenta febbre, tachipnea, e segni di ipossiemia. È intubato e non in grado di comunicare verbalmente."
+  },
+  "goldPathNarrative": "Seguire il protocollo HAP/VAP per la diagnosi e il trattamento della polmonite associata alla ventilazione meccanica. Iniziare con RX torace per valutare la presenza di infiltrati polmonari, seguito da EGA per monitorare l'ossigenazione. Eseguire un emocromo per valutare la risposta infiammatoria e testare PCR e PCT per identificare l'infezione. Effettuare emocolture e tamponi per identificare eventuali patogeni. Assicurarsi di comunicare in modo chiaro e trasparente con il paziente e la famiglia riguardo alla situazione e al trattamento.",
+  "escCitations": [
+    {
+      "chunkId": "d932e601-794d-41a2-b6dc-3c74956b6c0c-4",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "each patient’s individual circumstances. These guidelines are intended for use by healthcare professionals who care for patients at risk for hospital-acquired pneumonia (HAP) and ventilator-associated pneumonia (VAP), including specialists in infectious diseases, pulmonary diseases, critical care, and surgeons, anesthesiologists, hospitalists, and any clinicians and healthcare providers caring for hospitalized patients with nosocomial pneumonia. The panel’s recommendations for the diagnosis and "
+    },
+    {
+      "chunkId": "d932e601-794d-41a2-b6dc-3c74956b6c0c-59",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "VAP from the HAP designation. In this document, the term “HAP” will denote episodes of pneumonia not associ- ated with mechanical ventilation. Thus, HAP and VAP patients will belong to 2 mutually exclusive groups. In using this de- finition, we can avoid the use of the cumbersome term “non- ventilator-associated HAP,” with occasional exceptions in the interest of clarity (eg, section headings or key tables). We note the new entities of ventilator-associated events (in- cluding ventilator-associa"
+    },
+    {
+      "chunkId": "d932e601-794d-41a2-b6dc-3c74956b6c0c-5",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "d ventilator-associated pneumonia (VAP) belong to 2 distinct groups. The major differences between this guideline and the 2005 version [1] include the following: the use of the Grading of Recommendations Assessment, Development and Evaluation (GRADE) methodology for the evaluation of all available evidence (Table 1) [2]; the removal of the concept of healthcare-associated pneumonia (HCAP); and the recom- mendation that each hospital generate antibiograms to guide healthcare professionals with re"
+    },
+    {
+      "chunkId": "d932e601-794d-41a2-b6dc-3c74956b6c0c-58",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "nia was defined in the 2005 document as the presence of “new lung infiltrate plus clinical evidence that the infiltrate is of an infectious origin, which include the new onset of fever, purulent sputum, leukocytosis, and decline in oxygenation.” Nonetheless, the panel recognizes that there is no gold standard for the diagnosis of HAP or VAP. Further- more, in the 2005 document and this update, HAP is defined as a pneumonia not incubating at the time of hospital admis- sion and occurring 48 hours"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: rx-torace → ega → emocromo → pcr-pct → emocolture → tamponi.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (IDSA_ATS_Hospital_Acquired_Pneumonia.pdf).",
+      "Budget SSN di riferimento: €140."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente segue il protocollo di trattamento previsto dalla L. 24/2017 Art. 5.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Reparto di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "emocolture",
+      "name": "Emocoltura (da due o più siti)",
+      "finding": "Emocoltura (da due o più siti) nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+      "isAbnormal": true,
+      "priceEuro": 22
+    },
+    {
+      "examId": "tamponi",
+      "name": "Specie microbiche da tampone",
+      "finding": "Specie microbiche da tampone nel contesto di Polmonite associata a ventilazione meccanica (VAP/HAP) (PNEUMO-025). Febbre (T 38.6), tachipnea (FR 26), ipossiemia (SpO2 89), segni di infezione (leucocitosi), infiltrati polmonari alla RX torace.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Intubato o appena estubato: comunicazione mediata. I familiari reagiscono al termine 'polmonite da macchina'. Serve trasparenza senza colpe, citando il protocollo HAP/VAP."
+  }
+}

@@ -1,7 +1,7 @@
 import { after } from "next/server";
 import { z } from "zod";
-import { authorizeSimulationAction, userCanPlayCase } from "@/lib/access";
-import { getSessionUserId } from "@/lib/api-session";
+import { authorizeSimulationAction } from "@/lib/access";
+import { getSessionUserId, unauthorizedJson } from "@/lib/api-session";
 import { assertCanStartSimulation, gateToResponse } from "@/lib/billing/access-gate";
 import { countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
@@ -67,6 +67,9 @@ export async function POST(req: Request) {
   const routeLogger = createLogger("simulation-report");
 
   try {
+    const userId = await getSessionUserId();
+    if (!userId) return unauthorizedJson();
+
     let rawBody: unknown;
     try {
       rawBody = await req.json();
@@ -96,11 +99,6 @@ export async function POST(req: Request) {
     const caseId = normalizeCaseLookupKey(rawCaseId);
     const log = routeLogger.child({ caseId });
 
-    const userId = await getSessionUserId();
-    if (!userId) {
-      return jsonResponse({ error: "Unauthorized", code: "UNAUTHORIZED" }, 401);
-    }
-
     const rateLimited = await enforceRateLimit(req, {
       namespace: "api-simulation-report",
       limit: 3,
@@ -114,32 +112,15 @@ export async function POST(req: Request) {
     }
 
     let liveSessionId: string | undefined;
-    try {
-      const access = await authorizeSimulationAction({
-        userId,
-        sessionId: rawSessionId,
-        caseId,
-      });
-      if (access.ok) {
-        liveSessionId = access.liveSessionId;
-      } else {
-        // Soft-allow report generation for playable/registry cases even with stale session tokens.
-        const canPlay = await userCanPlayCase(userId, caseId);
-        if (!canPlay) {
-          return jsonResponse({ error: access.error, code: access.code }, access.status);
-        }
-        log.warn("Report soft-allow after session access denial", {
-          code: access.code,
-          caseId,
-          userId,
-        });
-      }
-    } catch (err) {
-      log.error("authorizeSimulationAction failed — attempting case soft-allow", { error: err });
-      if (!(await userCanPlayCase(userId, caseId))) {
-        return jsonResponse({ error: "Forbidden", code: "FORBIDDEN" }, 403);
-      }
+    const access = await authorizeSimulationAction({
+      userId,
+      sessionId: rawSessionId,
+      caseId,
+    });
+    if (!access.ok) {
+      return jsonResponse({ error: access.error, code: access.code }, access.status);
     }
+    liveSessionId = access.liveSessionId;
 
     if (!liveSessionId) {
       const usedToday = await countSimulationsStartedToday(userId);

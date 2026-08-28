@@ -8,6 +8,10 @@ import {
   resolveClinicalUrgencyMode,
   type ClinicalUrgencyMode,
 } from "@/lib/services/evaluation-empathy-calgary";
+import type {
+  DRimeTrajectoryStep,
+  PatientStateVector,
+} from "@/lib/reports/d-rime-engine";
 import {
   buildExecutedActionIds,
   computeEscAhaClinicalAccuracy,
@@ -80,7 +84,7 @@ export type DimensionScores = {
   exams: number;
   /** Sostenibilità economica / budget SSN (0–100) — analitica / radar. */
   economy: number;
-  /** Comunicazione ed empatia (0–100). Weight 20% → max 6/30. */
+  /** Comunicazione e relazione clinica D-RIME (0–100). Weight 20% → max 6/30. */
   empathy: number;
 };
 
@@ -123,12 +127,25 @@ export type EmpathyBehavioralBreakdown = {
   metParameters?: number;
   /** Analisi esperta (registro psicologo comportamentale / docente). */
   expertAnalysis?: string;
-  framework?: "calgary-cambridge";
+  framework?: "calgary-cambridge" | "d-rime";
   urgencyMode?: "acute_emergency" | "stable_exploratory" | "standard";
   dimensions?: {
     activeListening: { score: number; weight: number; label: string };
     emotionalValidation: { score: number; weight: number; label: string };
     clinicalContext: { score: number; weight: number; label: string };
+  };
+  /** Audit transazionale D-RIME (SPIKES / RIAS / CARE). */
+  dRime?: {
+    spikesEmpathyScore: number;
+    riasAlignmentScore: number;
+    careTrustScore: number;
+    allianceScore: number;
+    biasManagementScore: number;
+    defensiveMedicineScore: number;
+    initialState: PatientStateVector;
+    finalState: PatientStateVector;
+    trajectory: DRimeTrajectoryStep[];
+    relationalInsights: string[];
   };
 };
 
@@ -986,7 +1003,7 @@ export function computeLegalComplianceScore(
   };
 }
 
-/* ── Empathy — Calgary-Cambridge × Validazione × Urgenza ─────────── */
+/* ── Empathy — D-RIME Transazionale (SPIKES / RIAS / CARE) ─────────── */
 
 export function qualitativeEmpathyLabel(breakdown: {
   finalScore: number;
@@ -1002,7 +1019,7 @@ export function qualitativeEmpathyLabel(breakdown: {
     return "Comunicazione a rischio — tono brusco o disattenzione all'ansia";
   }
   if (finalScore >= 85) {
-    return "Eccellente alleanza terapeutica e esplorazione del vissuto (Calgary-Cambridge)";
+    return "Eccellente alleanza terapeutica (D-RIME: SPIKES / RIAS / CARE)";
   }
   if (finalScore >= 70) return "Buona comunicazione patient-centered";
   if (finalScore >= 55) {
@@ -1020,6 +1037,8 @@ export function computeBehavioralEmpathyScore(params: {
   caseTitle?: string | null;
   anamnesisQuestions?: AnamnesisQuestion[] | null;
   sessionMilestones?: Array<{ milestoneKey: string }> | null;
+  patientProfile?: import("@/lib/data/cases/types").PatientProfile | null;
+  classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
 }): { score: number; breakdown: EmpathyBehavioralBreakdown } {
   const result = computeCalgaryCambridgeEmpathy({
     chatHistory: params.chatHistory,
@@ -1028,8 +1047,11 @@ export function computeBehavioralEmpathyScore(params: {
     caseTitle: params.caseTitle,
     anamnesisQuestions: params.anamnesisQuestions,
     sessionMilestones: params.sessionMilestones,
+    patientProfile: params.patientProfile,
+    classifiedIntents: params.classifiedIntents,
   });
   const checklist = Array.isArray(params.empathyChecklist) ? params.empathyChecklist : [];
+  const d = result.dRime;
   return {
     score: result.score,
     breakdown: {
@@ -1045,7 +1067,7 @@ export function computeBehavioralEmpathyScore(params: {
       totalParameters: checklist.length,
       metParameters: checklist.filter((i) => i.met).length,
       expertAnalysis: result.expertAnalysis,
-      framework: "calgary-cambridge",
+      framework: "d-rime",
       urgencyMode: result.urgencyMode,
       dimensions: {
         activeListening: {
@@ -1063,6 +1085,18 @@ export function computeBehavioralEmpathyScore(params: {
           weight: result.dimensions.clinicalContext.weight,
           label: result.dimensions.clinicalContext.label,
         },
+      },
+      dRime: {
+        spikesEmpathyScore: d.spikesEmpathyScore,
+        riasAlignmentScore: d.riasAlignmentScore,
+        careTrustScore: d.careTrustScore,
+        allianceScore: d.allianceScore,
+        biasManagementScore: d.biasManagementScore,
+        defensiveMedicineScore: d.defensiveMedicineScore,
+        initialState: d.initialState,
+        finalState: d.finalState,
+        trajectory: d.trajectory,
+        relationalInsights: d.relationalInsights,
       },
     },
   };
@@ -1092,12 +1126,14 @@ export function deriveDimensionScores(params: {
   caseContext?: string | null;
   caseTitle?: string | null;
   anamnesisQuestions?: AnamnesisQuestion[] | null;
+  patientProfile?: import("@/lib/data/cases/types").PatientProfile | null;
   executedActionIds?: string[] | null;
   requestedExamIds?: string[] | null;
   mandatoryExams?: CaseExamDefinition[] | null;
   inappropriateExams?: CaseExamDefinition[] | null;
   legalChunks?: GuidelineChunk[] | null;
   legalSources?: string[] | null;
+  classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
 }): { scores: DimensionScores; breakdown: ScoreBreakdown } {
   const anamnesis = computeAnamnesisProtocolCoverage({
     chatHistory: params.chatHistory,
@@ -1147,6 +1183,8 @@ export function deriveDimensionScores(params: {
     caseTitle: params.caseTitle,
     anamnesisQuestions: params.anamnesisQuestions,
     sessionMilestones: params.sessionMilestones,
+    patientProfile: params.patientProfile,
+    classifiedIntents: params.classifiedIntents,
   });
 
   // Attach anamnesis detail to clinical motivations

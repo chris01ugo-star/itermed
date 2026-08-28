@@ -1,0 +1,322 @@
+{
+  "title": "ARDS ipossiemica grave",
+  "description": "Silvia si presenta in pronto soccorso con grave difficoltà respiratoria, accompagnata da un caregiver che la supporta. È visibilmente ansiosa e ha difficoltà a comunicare a causa dell'ipossiemia. La sua pelle appare pallida e sudata, e il respiro è affannoso. La saturazione di ossigeno è molto bassa, e la temperatura corporea è elevata, suggerendo una possibile infezione. Il caregiver riferisce che Silvia ha avuto febbre e tosse nei giorni precedenti, ma non ha cercato assistenza medica fino a questo momento.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "ega",
+    "rx-torace",
+    "lattati",
+    "emocromo",
+    "pcr-pct"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 126,
+      "bloodPressure": "96/58",
+      "spo2": 82,
+      "temperature": 38.9,
+      "respiratoryRate": 36
+    },
+    "examBudgetEuro": 120,
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "lattati": {
+          "finding": "Acido lattico (Lattati) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+          "normalFinding": "Acido lattico (Lattati) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+          "isAbnormal": true,
+          "price": 7
+        },
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pcr-pct": {
+          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 54,
+      "sex": "F",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Paziente con segni di distress respiratorio, tachicardia, ipotensione, febbre, e ipossiemia. Respiro affannoso e uso dei muscoli accessori per la respirazione."
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+      "isAbnormal": true
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+      "isAbnormal": true
+    },
+    "lattati": {
+      "finding": "Acido lattico (Lattati) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+      "isAbnormal": true
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+      "isAbnormal": true
+    },
+    "pcr-pct": {
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un'analisi dei gas ematici arteriosi (ega), una radiografia del torace, e valutare i lattati, l'emocromo e i marcatori infiammatori come PCR e PCT per la gestione dell'ARDS.",
+  "patientPrompt": "Non riesco a respirare bene e mi sento molto ansiosa. Ho avuto febbre e tosse negli ultimi giorni, ma non pensavo fosse così grave. Ho difficoltà a parlare e mi sento debole. Il rumore in sala mi mette ancora più ansia e ho bisogno che qualcuno mi parli a bassa voce. Ho sempre avuto una buona rete di supporto, ma ora mi sento sopraffatta.",
+  "id": "PNEUMO-020",
+  "code": "PNEUMO-020",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Sindrome da distress respiratorio acuto (ARDS)",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "TS_ERS_ARDS_Guidelines.pdf",
+  "diagnosis": "Sindrome da distress respiratorio acuto (ARDS)",
+  "pastMedicalHistory": "Nessuna patologia pregressa significativa, non fuma e non ha allergie conosciute.",
+  "presentation": "Silvia, 54 anni, si presenta in pronto soccorso con grave difficoltà respiratoria. È accompagnata da un caregiver, che la aiuta a comunicare. Silvia sembra molto ansiosa e ha difficoltà a parlare. La sua saturazione di ossigeno è bassa e presenta segni di distress respiratorio. Il caregiver riferisce che ha avuto febbre e tosse nei giorni precedenti, e che la sua condizione è peggiorata rapidamente. Silvia ha un'adeguata rete sociale, ma il suo sonno è stato disturbato a causa della difficoltà respiratoria e dell'ansia.",
+  "redHerrings": [
+    "Tosse persistente",
+    "Febbre alta",
+    "Affaticamento generale"
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ega": 10,
+    "rx-torace": 20,
+    "lattati": 15,
+    "emocromo": 30,
+    "pcr-pct": 35,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-020_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Sindrome da distress respiratorio acuto (ARDS))",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-020_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-020_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-020_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-020_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-020_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Paziente con segni di distress respiratorio, tachicardia, ipotensione, febbre, e ipossiemia. Respiro affannoso e uso dei muscoli accessori per la respirazione."
+  },
+  "goldPathNarrative": "Iniziare con un'analisi dei gas ematici per valutare l'ipossiemia e l'eventuale acidosi. Procedere con una radiografia del torace per escludere altre cause di distress respiratorio. Monitorare i lattati per valutare la perfusione tissutale e completare l'emocromo e i marcatori infiammatori per identificare possibili infezioni. La gestione deve essere tempestiva e mirata a stabilizzare la paziente.",
+  "escCitations": [
+    {
+      "chunkId": "9630b63f-724c-43b8-a151-bce233d6b0f2-159",
+      "source": "knowledge_base/pneumologia/clinical/TS_ERS_ARDS_Guidelines.pdf",
+      "quote": "https:// doi. org/ 10. 1007/ s00063‑ 017‑ 0371‑0 13. Fan E, Del Sorbo L, Goligher EC et al (2017) An Official American Thoracic Society/European Society of Intensive Care Medicine/Society of critical care medicine clinical practice guideline: mechanical ventila‑ tion in adult patients with acute respiratory distress syndrome. Am J Respir Crit Care Med 195:1253–1263. https:// doi. org/ 10. 1164/ rccm. 201703‑ 0548ST 14. Murray JF, Matthay MA, Luce JM, Flick MR (1988) An expanded defini‑ tion of t"
+    },
+    {
+      "chunkId": "9630b63f-724c-43b8-a151-bce233d6b0f2-2",
+      "source": "knowledge_base/pneumologia/clinical/TS_ERS_ARDS_Guidelines.pdf",
+      "quote": "ntensive Care Medicine Taskforce on ARDS © 2023 The Author(s) Abstract The aim of these guidelines is to update the 2017 clinical practice guideline (CPG) of the European Society of Inten‑ sive Care Medicine (ESICM). The scope of this CPG is limited to adult patients and to non‑pharmacological respiratory support strategies across different aspects of acute respiratory distress syndrome (ARDS), including ARDS due to coronavirus disease 2019 (COVID‑19). These guidelines were formulated by an inte"
+    },
+    {
+      "chunkId": "9630b63f-724c-43b8-a151-bce233d6b0f2-164",
+      "source": "knowledge_base/pneumologia/clinical/TS_ERS_ARDS_Guidelines.pdf",
+      "quote": "cute respiratory distress syndrome: a randomized, controlled trial. Crit Care Med 34:1311–1318. https:// doi. org/ 10. 1097/ 01. CCM. [REDACTED]. 84885. 01 29. Villar J, Pérez‑Méndez L, López J et al (2007) An early PEEP/FIO2 trial identifies different degrees of lung injury in patients with acute respira‑ tory distress syndrome. Am J Respir Crit Care Med 176:795–804. https:// doi. org/ 10. 1164/ rccm. 200610‑ 1534OC 30. Ranieri VM, Rubenfeld G, Slutsky AS (2022) Rethinking ARDS after COVID‑19. "
+    },
+    {
+      "chunkId": "9630b63f-724c-43b8-a151-bce233d6b0f2-130",
+      "source": "knowledge_base/pneumologia/clinical/TS_ERS_ARDS_Guidelines.pdf",
+      "quote": "mes for patients and families and ascertain ECCO2R specific morbidity. The views of patients and carers should be central to determining future research questions and outcomes. Conclusions In conclusion, these guidelines present 21 evidence-based recommendations (summarized in Table 2) including def- inition, phenotyping and the respiratory management of ARDS. A summary table comparing the changes in scope and recommendations compared with the 2017 ARDS guidelines are presented in Table 3. Final"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ega → rx-torace → lattati → emocromo → pcr-pct.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (TS_ERS_ARDS_Guidelines.pdf).",
+      "Budget SSN di riferimento: €120."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Scudo L. 24/2017 Art. 5 L'adesione alle linee guida (TS_ERS_ARDS_Guidelines.pdf) e al gold path costituisce parametro di conformità alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "lattati",
+      "name": "Acido lattico (Lattati)",
+      "finding": "Acido lattico (Lattati) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+      "isAbnormal": true,
+      "priceEuro": 7
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
+      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Poco in grado di parlare per l'ipossiemia. Il caregiver interpreta. Qualsiasi allarme urlato in sala peggiora il distress; serve comunicazione al team a bassa voce e aggiornamenti brevi ai familiari."
+  }
+}

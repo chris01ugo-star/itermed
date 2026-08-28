@@ -1,0 +1,268 @@
+{
+  "title": "Sanguinamento diverticolare in donna di 81 anni",
+  "description": "Teresa si presenta in pronto soccorso con una storia di sanguinamento rettale. È visibilmente ansiosa e ha difficoltà a comunicare a causa della sua paura della preparazione intestinale. Il suo caregiver, presente, parla per lei e cerca di rassicurarla. Teresa ha un forte supporto sociale, ma la sua literacy è bassa e ha difficoltà a comprendere le informazioni mediche. Ha dormito male nelle ultime notti, aumentando il suo livello di stress.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "emocromo",
+    "colonscopia",
+    "consenso-informato"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "118/70",
+      "spo2": 94,
+      "temperature": 36.3,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 160,
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Emorragia diverticolare del colon — gestione ACG lower GI bleeding (GASTRO-004). Emocromo da eseguire per valutare la gravità dell'emorragia, colonscopia programmata per identificare la fonte del sanguinamento.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Emorragia diverticolare del colon — gestione ACG lower GI bleeding (GASTRO-004). Emocromo da eseguire per valutare la gravità dell'emorragia, colonscopia programmata per identificare la fonte del sanguinamento.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "colonscopia": {
+          "finding": "Colonscopia nel contesto di Emorragia diverticolare del colon — gestione ACG lower GI bleeding (GASTRO-004). Emocromo da eseguire per valutare la gravità dell'emorragia, colonscopia programmata per identificare la fonte del sanguinamento.",
+          "normalFinding": "Colonscopia nel contesto di Emorragia diverticolare del colon — gestione ACG lower GI bleeding (GASTRO-004). Emocromo da eseguire per valutare la gravità dell'emorragia, colonscopia programmata per identificare la fonte del sanguinamento.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "moc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+          "isAbnormal": false,
+          "price": 40
+        }
+      }
+    },
+    "demographics": {
+      "age": 81,
+      "sex": "F",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Paziente ansiosa, in buone condizioni generali, con addome morbido e non doloroso alla palpazione, segni vitali stabili."
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Emorragia diverticolare del colon — gestione ACG lower GI bleeding (GASTRO-004). Emocromo da eseguire per valutare la gravità dell'emorragia, colonscopia programmata per identificare la fonte del sanguinamento.",
+      "isAbnormal": true
+    },
+    "colonscopia": {
+      "finding": "Colonscopia nel contesto di Emorragia diverticolare del colon — gestione ACG lower GI bleeding (GASTRO-004). Emocromo da eseguire per valutare la gravità dell'emorragia, colonscopia programmata per identificare la fonte del sanguinamento.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+      "isAbnormal": false
+    },
+    "moc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Procedere con emocromo e successiva colonscopia dopo consenso informato.",
+  "patientPrompt": "Mi chiamo Teresa e ho 81 anni. Sono qui perché ho avuto un episodio di sanguinamento rettale. Sono molto preoccupata per la preparazione intestinale, non so se riuscirò a farcela. Ho difficoltà a capire le istruzioni e ho paura di cosa potrebbe succedere. Ho dormito male ultimamente e mi sento molto ansiosa. Il mio caregiver è qui con me e parla per me, ma vorrei sentirmi più sicura. Ho bisogno di sapere chi rimarrà con me in sala d'attesa mentre faccio gli esami.",
+  "id": "GASTRO-004",
+  "code": "GASTRO-004",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Emorragia diverticolare del colon — gestione ACG lower GI bleeding",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ACG_2023_Lower_GI_Bleeding.pdf",
+  "diagnosis": "Emorragia diverticolare del colon",
+  "pastMedicalHistory": "Storia di diverticolosi del colon, ipertensione controllata, e lieve depressione.",
+  "presentation": "Teresa è un'anziana di 81 anni, che si presenta in pronto soccorso con un episodio di sanguinamento rettale. È accompagnata dal suo caregiver, che la aiuta a comunicare. Teresa appare ansiosa e preoccupata per la preparazione intestinale necessaria per gli esami. Ha una rete di supporto forte, ma la sua comprensione delle informazioni mediche è limitata. Ha riferito di avere difficoltà a dormire e di sentirsi stressata. La sua pressione arteriosa è 118/70, la frequenza cardiaca è 96 bpm, la saturazione di ossigeno è 94%, la temperatura è 36.3°C e la frequenza respiratoria è 18 atti al minuto.",
+  "redHerrings": [
+    "Dolore addominale acuto non localizzato.",
+    "Storia di reflusso gastroesofageo.",
+    "Fame e disidratazione."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "emocromo": 30,
+    "colonscopia": 90,
+    "consenso-informato": 10,
+    "pet-tc": 180,
+    "moc": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-004_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Emorragia diverticolare del colon — gestione ACG lower GI bleeding)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-004_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-004_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-004_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-004_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-004_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Paziente ansiosa, in buone condizioni generali, con addome morbido e non doloroso alla palpazione, segni vitali stabili."
+  },
+  "goldPathNarrative": "Dopo un'attenta valutazione, si è deciso di eseguire un emocromo per monitorare i livelli di emoglobina e pianificare una colonscopia urgente per valutare la fonte del sanguinamento. È stato ottenuto il consenso informato da parte di Teresa e del suo caregiver, assicurando che comprendessero il processo e le procedure necessarie.",
+  "escCitations": [
+    {
+      "chunkId": "e33ffbde-4995-43cc-9ded-bd4451d2ff75-116",
+      "source": "knowledge_base/gastroenterologia/clinical/ACG_2023_Lower_GI_Bleeding.pdf",
+      "quote": "severe lower GI bleeding: a feasibility study. Gastro- intest Endosc 2012;76:367–73. 65. Schmulewitz N, Fisher DA, Rockey DC. Early colonoscopy for acute lower GI bleeding predicts shorter hospital stay: a retrospective study of experi- ence in a single center. Gastrointest Endosc 2003;58:841–6. 66. Jensen DM, Ohning GV, Kovacs TO et al. Natural history of definitive diverticular hemorrhage based on stigmata of recent hemorrhage and colonoscopic Doppler blood flow monitoring for risk stratificat"
+    },
+    {
+      "chunkId": "e33ffbde-4995-43cc-9ded-bd4451d2ff75-108",
+      "source": "knowledge_base/gastroenterologia/clinical/ACG_2023_Lower_GI_Bleeding.pdf",
+      "quote": "nal Bleeding © 2016 by the American College of Gastroenterology The American Journal of GASTROENTEROLOGY 473 83. Shibata S, Shigeno T, Fujimori K et al. Colonic diverticular hemorrhage: the hood method for detecting responsible diverticula and endoscopic band ligation for hemostasis. Endoscopy 2014;46:66–9. 84. Barker KB, Arnold HL, Fillman EP et al. Safety of band ligator use in the small bowel and the colon. Gastrointest Endosc 2005;62:224–7. 85. Campo R, Brullet E, Montane JM et al. Elastic b"
+    },
+    {
+      "chunkId": "e33ffbde-4995-43cc-9ded-bd4451d2ff75-56",
+      "source": "knowledge_base/gastroenterologia/clinical/ACG_2023_Lower_GI_Bleeding.pdf",
+      "quote": "uced rebleeding and need for surgery Green et al. ( 11 ) RCT 100 Colonoscopy <8 h after rapid PEG preparation Elective colonoscopy within 96 h; if ongoing bleeding tech- netium scan followed by angiography, if positive More defi nite diagnoses in urgent colonoscopy arm; no difference in other outcomes Laine et al. ( 6 ) RCT 72 Colonoscopy <12 h after rapid PEG preparation Elective colonoscopy 36–60 h after admission No difference in clinical outcomes or costs LGIB, lower gastrointestinal bleedin"
+    },
+    {
+      "chunkId": "e33ffbde-4995-43cc-9ded-bd4451d2ff75-77",
+      "source": "knowledge_base/gastroenterologia/clinical/ACG_2023_Lower_GI_Bleeding.pdf",
+      "quote": "apy ranged from 37 to 45% at 1 year and 58 to 64% at 2 years (128). The authors rated the bleeding, more diagnoses and therapeutic interventions were made in the urgent colonoscopy arm (11). Retrospective stud- ies also suggest the superior diagnostic and therapeutic yield of colonoscopy over radiographic algorithms ( 101,102 ). In contrast to radiographic modalities, colonoscopy can provide a definitive diagnosis and treatment in the absence of active bleeding at the time of the exam. Nonethele"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: emocromo → colonscopia → consenso-informato.",
+      "Non prescrivere di prima intenzione: pet-tc, moc (ACG_2023_Lower_GI_Bleeding.pdf).",
+      "Budget SSN di riferimento: €160."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione garantita seguendo il gold path.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Emorragia diverticolare del colon — gestione ACG lower GI bleeding (GASTRO-004). Emocromo da eseguire per valutare la gravità dell'emorragia, colonscopia programmata per identificare la fonte del sanguinamento.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Colonscopia nel contesto di Emorragia diverticolare del colon — gestione ACG lower GI bleeding (GASTRO-004). Emocromo da eseguire per valutare la gravità dell'emorragia, colonscopia programmata per identificare la fonte del sanguinamento.",
+      "isAbnormal": true,
+      "priceEuro": 120
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf."
+    },
+    {
+      "examId": "moc",
+      "name": "MOC (DEXA)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 40,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ACG_2023_Lower_GI_Bleeding.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Ha paura della preparazione intestinale. Il caregiver parla per lei. Serve tempo, volume basso e conferma di chi resta in sala d'attesa."
+  }
+}

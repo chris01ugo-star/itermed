@@ -1,0 +1,265 @@
+{
+  "title": "Pneumotorace spontaneo primario in giovane di 22 anni",
+  "description": "Giovane alto e magro, presenta segni di ipossiemia e tachipnea. Lamenta dolore toracico e difficoltà respiratorie, ma appare collaborativo e desideroso di comprendere la sua condizione.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "rx-torace",
+    "ega"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 104,
+      "bloodPressure": "124/76",
+      "spo2": 93,
+      "temperature": 36.6,
+      "respiratoryRate": 26
+    },
+    "examBudgetEuro": 50,
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Pneumotorace spontaneo primario (PNEUMO-012). Ipossia, tachipnea, dolore toracico, diminuzione dei suoni respiratori in auscultazione, segni di distress respiratorio.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Pneumotorace spontaneo primario (PNEUMO-012). Ipossia, tachipnea, dolore toracico, diminuzione dei suoni respiratori in auscultazione, segni di distress respiratorio.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "ega": {
+          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Pneumotorace spontaneo primario (PNEUMO-012). Ipossia, tachipnea, dolore toracico, diminuzione dei suoni respiratori in auscultazione, segni di distress respiratorio.",
+          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Pneumotorace spontaneo primario (PNEUMO-012). Ipossia, tachipnea, dolore toracico, diminuzione dei suoni respiratori in auscultazione, segni di distress respiratorio.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 22,
+      "sex": "M",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo con segni di ipossiemia, tachipnea, e dolore toracico all'auscultazione. Respiro affannoso e diminuzione dei suoni respiratori sul lato interessato."
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Pneumotorace spontaneo primario (PNEUMO-012). Ipossia, tachipnea, dolore toracico, diminuzione dei suoni respiratori in auscultazione, segni di distress respiratorio.",
+      "isAbnormal": true
+    },
+    "ega": {
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Pneumotorace spontaneo primario (PNEUMO-012). Ipossia, tachipnea, dolore toracico, diminuzione dei suoni respiratori in auscultazione, segni di distress respiratorio.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Gestione conservativa o drenaggio toracico a seconda della gravità dei sintomi e delle condizioni cliniche.",
+  "patientPrompt": "Ho 22 anni e mi chiamo Luca. Ho iniziato a sentire un forte dolore al petto mentre stavo facendo sport. È un dolore acuto e mi sento anche un po' affannato. Ho notato che respiro più velocemente e mi sento un po' ansioso. Vorrei sapere quali sono le opzioni per il mio trattamento e se è necessario un intervento. Non mi piacciono le decisioni prese senza il mio coinvolgimento.",
+  "id": "PNEUMO-012",
+  "code": "PNEUMO-012",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Pneumotorace spontaneo primario",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "BTS Guideline for Pleural Disease.pdf",
+  "diagnosis": "Pneumotorace spontaneo primario",
+  "pastMedicalHistory": "Nessuna storia medica significativa, non fuma e non assume farmaci regolarmente.",
+  "presentation": "Luca, un giovane di 22 anni, si presenta al pronto soccorso con dolore toracico acuto e difficoltà respiratorie. Riferisce che i sintomi sono iniziati improvvisamente mentre stava praticando sport. È ansioso ma desidera essere coinvolto nelle decisioni riguardanti il suo trattamento. Ha una buona rete di supporto e si è sempre dimostrato aderente alle indicazioni mediche.",
+  "redHerrings": [
+    "Luca riferisce di aver avuto un episodio di tosse secca nelle ultime settimane, ma non sembra correlato alla sua attuale condizione.",
+    "Ha un passato di allergie stagionali, ma non ha mai avuto problemi respiratori significativi in precedenza.",
+    "Riferisce di aver avuto un'influenza leggera qualche mese fa, ma non ha avuto complicazioni respiratorie."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "rx-torace": 20,
+    "ega": 10,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-012_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Pneumotorace spontaneo primario)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-012_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-012_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-012_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-012_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-012_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo con segni di ipossiemia, tachipnea, e dolore toracico all'auscultazione. Respiro affannoso e diminuzione dei suoni respiratori sul lato interessato."
+  },
+  "goldPathNarrative": "Dopo un'attenta valutazione clinica, si procede con una radiografia del torace per confermare la diagnosi di pneumotorace. In base ai risultati, si decide se optare per un trattamento conservativo o per un drenaggio toracico.",
+  "escCitations": [
+    {
+      "chunkId": "a6aebe1b-6342-49c1-8143-45284151c90c-1",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "136/ thorax- 2022- 219784). For numbered affiliations see end of article. Correspondence to Dr Mark Roberts, Department Of Respiratory Medicine, King’s Mill Hospital, Sutton-in-Ashfield NG17 4JL, UK; [REDACTED] ► http:// dx. doi. org/ 10. 1136/ thorax- 2022- 219371 © Author(s) (or their employer(s)) 2022. No commercial re-use. See rights and permissions. Published by BMJ. Summary of reCommendaTionS and Good praCTiCe poinTS Spontaneous pneumothorax Acute management for spontaneous pneumothorax Re"
+    },
+    {
+      "chunkId": "a6aebe1b-6342-49c1-8143-45284151c90c-2",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "ulatory management should be considered for the initial treatment of primary spontaneous pneumothorax in adults with good support, and in centres with available expertise and follow- up facilities. (Conditional) ► In patients not deemed suitable for conservative or ambulatory management, needle aspiration or tube drainage should be considered for the initial treatment of primary spontaneous pneu- mothorax in adults. (Conditional) ► Chemical pleurodesis can be considered for the prevention of rec"
+    },
+    {
+      "chunkId": "a6aebe1b-6342-49c1-8143-45284151c90c-230",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": ";2:71. 15 Bobbio A, Dechartres A, Bouam S, et al. Epidemiology of spontaneous pneumothorax: gender- related differences. Thorax 2015;70:653–8. 16 Hallifax RJ, Goldacre R, Landray MJ, et al. Trends in the incidence and recurrence of inpatient-treated spontaneous pneumothorax, [REDACTED]. JAMA 2018;320:1471–80. 17 Brown SGA, Ball EL, Perrin K, et al. Study protocol for a randomised controlled trial of invasive versus conservative management of primary spontaneous pneumothorax. BMJ Open 2016;6:e011"
+    },
+    {
+      "chunkId": "a6aebe1b-6342-49c1-8143-45284151c90c-51",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "16 Since the last version of the BTS pneumothorax guideline, published in 2010,5 there have been several large high-quality clinical trials exam- ining the management of SP.17–20 This guideline seeks to consolidate and update the pneumo- thorax guidelines in the light of this subsequent research using GRADE methodology and addresses the following clinical ques- tions addressing adults with pneumothorax: • What is the best acute management for SP? (Question A1) • What is the optimal management of"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: rx-torace → ega.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (BTS Guideline for Pleural Disease.pdf).",
+      "Budget SSN di riferimento: €50."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente mostra una buona aderenza al trattamento proposto e una chiara comprensione della sua condizione.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Pneumotorace spontaneo primario (PNEUMO-012). Ipossia, tachipnea, dolore toracico, diminuzione dei suoni respiratori in auscultazione, segni di distress respiratorio.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa (EGA)",
+      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Pneumotorace spontaneo primario (PNEUMO-012). Ipossia, tachipnea, dolore toracico, diminuzione dei suoni respiratori in auscultazione, segni di distress respiratorio.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS Guideline for Pleural Disease.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "GOOD",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Giovane alto e magro, capisce in fretta. Chiede dati e opzioni (osservazione vs drenaggio). Il tono paternalistico lo infastidisce; apprezza la condivisione decisionale."
+  }
+}

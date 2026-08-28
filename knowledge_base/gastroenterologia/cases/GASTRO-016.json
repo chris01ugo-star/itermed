@@ -1,0 +1,266 @@
+{
+  "title": "PPI a lungo termine e Nota AIFA N01",
+  "description": "Paziente in buone condizioni generali, ma ansiosa riguardo alla sua condizione e al trattamento.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "emocromo",
+    "egds"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 72,
+      "bloodPressure": "122/76",
+      "spo2": 98,
+      "temperature": 36.4,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 110,
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di MRGE con uso prolungato di IPP — appropriatezza Nota AIFA N01 e Lyon (GASTRO-016). Nessuna anomalia evidente all'esame fisico, ma necessità di esami strumentali per una valutazione completa.",
+          "normalFinding": "Emocromo completo con formula nel contesto di MRGE con uso prolungato di IPP — appropriatezza Nota AIFA N01 e Lyon (GASTRO-016). Nessuna anomalia evidente all'esame fisico, ma necessità di esami strumentali per una valutazione completa.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "egds": {
+          "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di MRGE con uso prolungato di IPP — appropriatezza Nota AIFA N01 e Lyon (GASTRO-016). Nessuna anomalia evidente all'esame fisico, ma necessità di esami strumentali per una valutazione completa.",
+          "normalFinding": "Esofagogastroduodenoscopia (EGDS) nel contesto di MRGE con uso prolungato di IPP — appropriatezza Nota AIFA N01 e Lyon (GASTRO-016). Nessuna anomalia evidente all'esame fisico, ma necessità di esami strumentali per una valutazione completa.",
+          "isAbnormal": true,
+          "price": 90
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 50,
+      "sex": "F",
+      "context": "Monica è una paziente di 50 anni che si presenta in ambulatorio di gastroenterologia. Da tre anni assume in modo autonomo un inibitore della pompa protonica (IPP) per una presunta gastrite cronica, basandosi su informazioni trovate su Googl"
+    },
+    "physicalExam": {
+      "finding": "Paziente in buone condizioni generali, senza segni di distress respiratorio o addominale acuto."
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di MRGE con uso prolungato di IPP — appropriatezza Nota AIFA N01 e Lyon (GASTRO-016). Nessuna anomalia evidente all'esame fisico, ma necessità di esami strumentali per una valutazione completa.",
+      "isAbnormal": true
+    },
+    "egds": {
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di MRGE con uso prolungato di IPP — appropriatezza Nota AIFA N01 e Lyon (GASTRO-016). Nessuna anomalia evidente all'esame fisico, ma necessità di esami strumentali per una valutazione completa.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un emocromo e una EGDS per valutare la situazione attuale e decidere sul trattamento.",
+  "patientPrompt": "Ho 50 anni e da tre anni prendo un inibitore della pompa protonica perché ho trovato su Google che avevo una gastrite cronica. Non mi sento a mio agio a smettere di prenderlo, anche se il medico mi ha detto che dovremmo valutare se è davvero necessario. Ho sintomi di reflusso, ma non ho mai fatto esami per confermare la diagnosi. Sono preoccupata per gli effetti collaterali a lungo termine e voglio capire meglio la Nota AIFA N01.",
+  "id": "GASTRO-016",
+  "code": "GASTRO-016",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "MRGE con uso prolungato di IPP — appropriatezza Nota AIFA N01 e Lyon",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Lyon_Consensus_GERD_Guidelines.pdf",
+  "diagnosis": "MRGE con uso prolungato di IPP",
+  "pastMedicalHistory": "Nessuna patologia pregressa significativa, non fuma e consuma alcol occasionalmente.",
+  "presentation": "Monica riferisce di avere sintomi di reflusso gastroesofageo, ma non ha mai effettuato esami specifici per confermare la diagnosi. È preoccupata per gli effetti a lungo termine dell'uso degli IPP e desidera sapere se è necessario continuare il trattamento. Inoltre, è difensiva riguardo alla sua decisione di auto-medicarsi e ha bisogno di rassicurazioni.",
+  "redHerrings": [
+    "Monica ha avuto episodi di reflusso acido, ma non ha mai avuto difficoltà a deglutire.",
+    "Riferisce di avere occasionali dolori addominali, ma non sono mai stati associati a nausea o vomito.",
+    "Monica ha una storia di ansia, ma non ha mai cercato aiuto professionale per questo problema."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "emocromo": 30,
+    "egds": 60,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-016_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (MRGE con uso prolungato di IPP — appropriatezza Nota AIFA N01 e Lyon)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-016_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-016_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-016_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-016_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-016_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Paziente in buone condizioni generali, senza segni di distress respiratorio o addominale acuto."
+  },
+  "goldPathNarrative": "Iniziare con un emocromo per escludere anemia o altre complicazioni, seguito da un'EGDS per valutare la mucosa esofagea e confermare la diagnosi di MRGE. Discutere i risultati con la paziente e spiegare la Nota AIFA N01 riguardo all'uso degli IPP.",
+  "escCitations": [
+    {
+      "chunkId": "518e9efc-ed72-4bf4-a8b6-7b6f69b6a1a5-35",
+      "source": "knowledge_base/gastroenterologia/clinical/Lyon_Consensus_GERD_Guidelines.pdf",
+      "quote": "ive adjunctive metrics according to the Lyon Consensus (figure 3) serve to provide evidence of GERD. In contrast, when symptoms persist despite adequate therapy of previously proven GERD, pH-impedance monitoring is performed on therapy to look for evidence for treatment refractory GERD necessitating management escalation. AET, acid exposure time; GERD, gastro-oesophageal reflux disease; LA, Los Angeles; MNBI, mean nocturnal baseline impedance. Protected by copyright, including for uses related t"
+    },
+    {
+      "chunkId": "518e9efc-ed72-4bf4-a8b6-7b6f69b6a1a5-85",
+      "source": "knowledge_base/gastroenterologia/clinical/Lyon_Consensus_GERD_Guidelines.pdf",
+      "quote": "n patients with persistent symptoms despite proton pump inhibitors. Gut 2008;57:156–60. 52 Frazzoni L, Frazzoni M, de Bortoli N, et al. Postreflux swallow-induced peristaltic wave index and nocturnal baseline impedance can link PPI-responsive heartburn to reflux better than acid exposure time. Neurogastroenterol Motil 2017;29:11. 53 Frazzoni M, Frazzoni L, Ribolsi M, et al. Applying lyon consensus criteria in the work- up of patients with proton pump inhibitory-refractory heartburn. Aliment Phar"
+    },
+    {
+      "chunkId": "518e9efc-ed72-4bf4-a8b6-7b6f69b6a1a5-42",
+      "source": "knowledge_base/gastroenterologia/clinical/Lyon_Consensus_GERD_Guidelines.pdf",
+      "quote": "ymptoms and abnormal pH-impedance metrics on maximal PPI therapy benefited from ARS on retrospective analysis.70 Thus, in patients with proven GERD and persisting symp- toms, pH-impedance monitoring on therapy can help phenotype patients and identify ongoing reflux burden that may respond to ARS, irrespective of how GERD was previously proven3 71 (figure 2). Metrics and thresholds useful in ambulatory reflux monitoring Wireless pH monitoring AET<4.0% on all days of wireless pH monitoring with ne"
+    },
+    {
+      "chunkId": "518e9efc-ed72-4bf4-a8b6-7b6f69b6a1a5-7",
+      "source": "knowledge_base/gastroenterologia/clinical/Lyon_Consensus_GERD_Guidelines.pdf",
+      "quote": "tjnl-[REDACTED] onGut: first published as 2 Gyawali CP, et al. Gut 2023;0:1–11. doi:10.1136/gutjnl-[REDACTED] Recent advances in clinical practice physician at an average facility, without considering cost impli- cations, insurance reimbursement or feasibility at their indi- vidual centre. Each statement was ranked on a 9-point scale, where median scores of 1–3 were considered inappropriate, 4–6 were of uncertain appropriateness and 7–9 were considered appropriate and meeting agreement. Panel me"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: emocromo → egds.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (Lyon_Consensus_GERD_Guidelines.pdf).",
+      "Budget SSN di riferimento: €110."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Se il percorso diagnostico viene seguito, si applica la protezione prevista dalla L. 24/2017 Art. 5.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Ambulatorio di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di MRGE con uso prolungato di IPP — appropriatezza Nota AIFA N01 e Lyon (GASTRO-016). Nessuna anomalia evidente all'esame fisico, ma necessità di esami strumentali per una valutazione completa.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "egds",
+      "name": "Esofagogastroduodenoscopia (EGDS)",
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di MRGE con uso prolungato di IPP — appropriatezza Nota AIFA N01 e Lyon (GASTRO-016). Nessuna anomalia evidente all'esame fisico, ma necessità di esami strumentali per una valutazione completa.",
+      "isAbnormal": true,
+      "priceEuro": 90
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Lyon_Consensus_GERD_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "SELF_MEDICATED",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Assume IPP da tre anni 'perché Google dice gastrite cronica'. Resiste alla deprescrizione. Serve Nota AIFA N01 spiegata senza sdegno, con criterio Lyon."
+  }
+}

@@ -1,0 +1,266 @@
+{
+  "title": "IBS Roma IV in donna di 38 anni",
+  "description": "Federica si presenta con sintomi di dolore addominale ricorrente e alterazioni nella frequenza e forma delle feci. Ha una storia di ansia e cybercondria, che la portano a temere che i suoi sintomi possano nascondere condizioni gravi come un tumore. Nonostante le rassicurazioni, esprime il desiderio di esami invasivi come RM e colonscopia.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "emocromo",
+    "coprocultura"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "116/72",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 40,
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Emocromo completo con formula nel contesto di Sindrome dell'intestino irritabile — criteri Roma IV, no over-testing (GASTRO-012). Dolore addominale alla palpazione, assenza di segni di allerta, esami ematici normali previsti.",
+          "normalFinding": "Emocromo completo con formula nel contesto di Sindrome dell'intestino irritabile — criteri Roma IV, no over-testing (GASTRO-012). Dolore addominale alla palpazione, assenza di segni di allerta, esami ematici normali previsti.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "coprocultura": {
+          "finding": "Coprocultura e ricerca parassiti/uova nel contesto di Sindrome dell'intestino irritabile — criteri Roma IV, no over-testing (GASTRO-012). Dolore addominale alla palpazione, assenza di segni di allerta, esami ematici normali previsti.",
+          "normalFinding": "Coprocultura e ricerca parassiti/uova nel contesto di Sindrome dell'intestino irritabile — criteri Roma IV, no over-testing (GASTRO-012). Dolore addominale alla palpazione, assenza di segni di allerta, esami ematici normali previsti.",
+          "isAbnormal": true,
+          "price": 16
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 38,
+      "sex": "F",
+      "context": "Ambulatorio di Gastroenterologia"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo addominale con dolore localizzato, ma senza segni di difesa o rigidità. Nessun segno di anemia o disidratazione evidente."
+    },
+    "emocromo": {
+      "finding": "Emocromo completo con formula nel contesto di Sindrome dell'intestino irritabile — criteri Roma IV, no over-testing (GASTRO-012). Dolore addominale alla palpazione, assenza di segni di allerta, esami ematici normali previsti.",
+      "isAbnormal": true
+    },
+    "coprocultura": {
+      "finding": "Coprocultura e ricerca parassiti/uova nel contesto di Sindrome dell'intestino irritabile — criteri Roma IV, no over-testing (GASTRO-012). Dolore addominale alla palpazione, assenza di segni di allerta, esami ematici normali previsti.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un emocromo e una coprocultura per escludere altre patologie e confermare la diagnosi di IBS.",
+  "patientPrompt": "Ho 38 anni e da qualche mese soffro di dolore addominale ricorrente e cambiamenti nelle mie abitudini intestinali. Sono molto preoccupata perché ho letto che l'IBS può nascondere un tumore. Ho paura di non essere ascoltata e vorrei esami approfonditi come una colonscopia o una RM. Non riesco a dormire bene e mi sento spesso ansiosa. Ho provato a seguire una dieta, ma non sembra funzionare. La mia rete di supporto è limitata e mi sento spesso sola in questo.",
+  "id": "GASTRO-012",
+  "code": "GASTRO-012",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Sindrome dell'intestino irritabile — criteri Roma IV, no over-testing",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Rome_IV_IBS_Guidelines.pdf",
+  "diagnosis": "Sindrome dell'intestino irritabile (IBS) secondo i criteri Roma IV.",
+  "pastMedicalHistory": "Nessuna patologia medica significativa nota. Storia di ansia e stress elevato.",
+  "presentation": "Federica, una donna di 38 anni, si presenta in ambulatorio lamentando dolore addominale ricorrente associato a cambiamenti nelle abitudini intestinali. Ha difficoltà a gestire l'ansia legata ai suoi sintomi e ricerca costantemente informazioni online, il che alimenta la sua preoccupazione. Nonostante le rassicurazioni ricevute in precedenti consulti, è convinta che i suoi sintomi possano nascondere una patologia grave e richiede esami invasivi.",
+  "redHerrings": [
+    "Dolore addominale acuto che si è risolto spontaneamente.",
+    "Storia di intolleranze alimentari non confermate.",
+    "Episodi occasionali di diarrea che non si verificano più frequentemente di una volta alla settimana."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "emocromo": 30,
+    "coprocultura": 48,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-012_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Sindrome dell'intestino irritabile — criteri Roma IV, no over-testing)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-012_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-012_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-012_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-012_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-012_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo addominale con dolore localizzato, ma senza segni di difesa o rigidità. Nessun segno di anemia o disidratazione evidente."
+  },
+  "goldPathNarrative": "Dopo aver ascoltato le preoccupazioni di Federica e averle spiegato che i suoi sintomi sono compatibili con la sindrome dell'intestino irritabile, le ho consigliato di eseguire un emocromo e una coprocultura per escludere altre patologie. Ho sottolineato l'importanza di non ricorrere a esami invasivi non necessari e di adottare un approccio di gestione dei sintomi. Ho anche discusso con lei strategie per affrontare l'ansia e migliorare la qualità del sonno.",
+  "escCitations": [
+    {
+      "chunkId": "8f2a69b8-b356-4ae9-a1ec-8280566b27dc-54",
+      "source": "knowledge_base/gastroenterologia/clinical/Rome_IV_IBS_Guidelines.pdf",
+      "quote": "satisfaction. Indeed, extensive testing is unlikely to uncover new information and, de- spite best intentions, does not actually reassure a patient of their IBS diagnosis. In a retrospective evaluation of nearly 500 patients with IBS aged between 18 and 49 years undergoing a “peace of mind” colonoscopy, the procedure had no impact on patient reassurance, quality of life, or psychological symptoms (69). A systematic review and meta-analysis of more than 1,000 pa- tients compared a range of diagno"
+    },
+    {
+      "chunkId": "8f2a69b8-b356-4ae9-a1ec-8280566b27dc-3",
+      "source": "knowledge_base/gastroenterologia/clinical/Rome_IV_IBS_Guidelines.pdf",
+      "quote": "trointestinal [GI] disorders) (1,2). In clinical practice, IBS is characterized by symptoms of recurrent abdominal pain and disordered defecation (1,3). The Rome IV criteria, derived by con- sensus from a multinational group of experts in the field of disorders of gut-brain interaction, can be used to diagnose IBS for both clinical and research purposes (4). Patients with IBS should report symp- toms of abdominal pain at least once weekly (on average) in asso- ciation with a change in stool freq"
+    },
+    {
+      "chunkId": "8f2a69b8-b356-4ae9-a1ec-8280566b27dc-55",
+      "source": "knowledge_base/gastroenterologia/clinical/Rome_IV_IBS_Guidelines.pdf",
+      "quote": "al passage of stool plus high level of somatization, hospital anxiety and depression score .8 plus normal hemoglobin and CRP. Overall, the accuracy of the Rome III criteria plus clinical and lab- oratory enhancements increased to 95% specificity among patients referred for endoscopy for lower GI symptoms (70). In another study, 300 primary care patients believed by their doctors to have IBS and no alarm signs were randomized to either a diagnostic strategy of exclusion, which included invasive t"
+    },
+    {
+      "chunkId": "8f2a69b8-b356-4ae9-a1ec-8280566b27dc-51",
+      "source": "knowledge_base/gastroenterologia/clinical/Rome_IV_IBS_Guidelines.pdf",
+      "quote": "criteria since 32.5% of patients with microscopic colitis would meet Rome criteria for IBS-D while others would meet Rome criteria for functional diarrhea (67,68). In summary, based on current evidence, in the absence of alarm features, there seems to be no justification for routine colonoscopy in subjects with IBS younger than 45 years (although beyond the scope of this manuscript, the change in screening to age 45 is controversial, and the reader is referred to recent society guidelines and pu"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: emocromo → coprocultura.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (Rome_IV_IBS_Guidelines.pdf).",
+      "Budget SSN di riferimento: €40."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione garantita seguendo il gold path.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Ambulatorio di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Emocromo completo con formula nel contesto di Sindrome dell'intestino irritabile — criteri Roma IV, no over-testing (GASTRO-012). Dolore addominale alla palpazione, assenza di segni di allerta, esami ematici normali previsti.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "coprocultura",
+      "name": "Coprocultura e ricerca parassiti/uova",
+      "finding": "Coprocultura e ricerca parassiti/uova nel contesto di Sindrome dell'intestino irritabile — criteri Roma IV, no over-testing (GASTRO-012). Dolore addominale alla palpazione, assenza di segni di allerta, esami ematici normali previsti.",
+      "isAbnormal": true,
+      "priceEuro": 16
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Rome_IV_IBS_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Ha letto che l'IBS 'nasconde un tumore'. Pretende RM e colonscopia. La de-escalation Roma IV funziona solo se si riconosce la paura e si tengono gli allarmi, senza over-testing."
+  }
+}

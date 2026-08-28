@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState, type MouseEvent } from "react";
-import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import {
   Dialog,
@@ -23,7 +22,7 @@ type StartCaseButtonsProps = {
   emphasis?: "original" | "variant";
 };
 
-/** Hard timeout: never wait longer than this for /api/session/start. */
+/** Hard timeout: never wait longer than this for /api/session/start (varianti). */
 const SESSION_START_DEADLINE_MS = 1_500;
 
 function playHref(playBasePath: string, caseId: string, sessionId?: string) {
@@ -63,44 +62,25 @@ export function StartCaseButtons({
 
   const directPlayHref = playHref(playBasePath, caseId);
 
-  /** Native hard navigation — never depends on Next soft routing. */
   const forceNavigate = (sessionId?: string) => {
     if (navigatedRef.current) return;
     navigatedRef.current = true;
     const href = playHref(playBasePath, caseId, sessionId);
     try {
       onSessionStart?.(caseId, sessionId?.trim() || `registry_${caseId}`);
-    } catch (err) {
-      console.error("[DEBUG CLICK] onSessionStart threw", err);
+    } catch {
+      // Ignore analytics/router hooks — hard nav below is the source of truth.
     }
-    try {
-      console.log("[DEBUG CLICK] forceNavigate", { caseId, href });
-      window.location.href = href;
-    } catch (err) {
-      console.error("[DEBUG CLICK] window.location.href failed", err);
-      window.location.assign(href);
-    }
+    window.location.assign(href);
   };
 
-  const start = async (mode: "original" | "variant", opts?: { devBypass?: boolean }) => {
-    console.log("[DEBUG CLICK]", caseId, { mode });
+  const startVariant = async (opts?: { devBypass?: boolean }) => {
     setError(null);
     navigatedRef.current = false;
+    setIsStartingVariant(true);
 
-    if (mode === "original") {
-      setIsStartingOriginal(true);
-    } else {
-      setIsStartingVariant(true);
-    }
-
-    // Emergency: if anything stalls, open play anyway within 1.5s.
     const emergencyTimer = window.setTimeout(() => {
-      console.warn("[DEBUG CLICK] emergency deadline — hard redirect", {
-        caseId,
-        href: directPlayHref,
-      });
       forceNavigate();
-      setIsStartingOriginal(false);
       setIsStartingVariant(false);
     }, SESSION_START_DEADLINE_MS);
 
@@ -112,7 +92,7 @@ export function StartCaseButtons({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             caseId,
-            mode,
+            mode: "variant",
             ...(opts?.devBypass ? { devBypass: true } : {}),
           }),
         },
@@ -123,7 +103,6 @@ export function StartCaseButtons({
         sessionId?: string;
         error?: string;
         code?: string;
-        offline?: boolean;
       } | null;
 
       if (!res.ok) {
@@ -136,72 +115,42 @@ export function StartCaseButtons({
 
         if (code === "DAILY_LIMIT" || code === "TRIAL_EXHAUSTED") {
           window.clearTimeout(emergencyTimer);
-          setLimitDialog({ mode, message });
+          setLimitDialog({ mode: "variant", message });
           return;
         }
 
-        console.warn("[DEBUG CLICK] session API error — redirecting anyway", {
-          caseId,
-          status: res.status,
-          code,
-          message,
-        });
         forceNavigate();
         return;
       }
 
-      const sessionId = data?.sessionId?.trim();
-      setLimitDialog(null);
-      forceNavigate(sessionId);
-    } catch (err) {
-      console.error("[DEBUG CLICK] exception — forcing play redirect", {
-        caseId,
-        mode,
-        err,
-      });
-      setError(
-        err instanceof Error
-          ? `${err.message} Apertura diretta della simulazione…`
-          : "Errore nell'avvio. Apertura diretta…",
-      );
+      forceNavigate(data?.sessionId?.trim());
+    } catch {
+      setError("Variante non disponibile. Apertura del caso originale…");
       forceNavigate();
     } finally {
       window.clearTimeout(emergencyTimer);
-      setIsStartingOriginal(false);
       setIsStartingVariant(false);
     }
   };
 
   const handleOriginalClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    console.log("[DEBUG CLICK]", caseId);
-    // Allow open-in-new-tab / modified clicks to use the native Link href.
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
-      return;
-    }
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
-    try {
-      void start("original");
-    } catch (err) {
-      console.error("[DEBUG CLICK] sync throw — forcing redirect", err);
-      window.location.href = directPlayHref;
-    }
+    setIsStartingOriginal(true);
+    window.location.assign(directPlayHref);
   };
 
-  const handleVariantClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    console.log("[DEBUG CLICK]", caseId, { mode: "variant" });
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
-      return;
-    }
+  const handleVariantClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
-      void start("variant");
-    } catch (err) {
-      console.error("[DEBUG CLICK] variant sync throw — forcing redirect", err);
-      window.location.href = directPlayHref;
+      void startVariant();
+    } catch {
+      window.location.assign(directPlayHref);
     }
   };
 
   const isBusy = isStartingOriginal || isStartingVariant;
+  const isDev = process.env.NODE_ENV === "development";
 
   const primaryClass =
     "inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-[#1E324E] px-4 py-2.5 text-center font-display text-sm font-semibold text-white transition-colors hover:bg-[#2A486D]";
@@ -211,11 +160,8 @@ export function StartCaseButtons({
   return (
     <div className="space-y-2">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-        {/* Native HTML fallback: works without JS; JS enhances with session create (≤1.5s). */}
-        <Link
+        <a
           href={directPlayHref}
-          prefetch
-          onClick={handleOriginalClick}
           aria-busy={isStartingOriginal}
           className={emphasis === "original" ? primaryClass : secondaryClass}
         >
@@ -236,7 +182,7 @@ export function StartCaseButtons({
               Genera variante IA
             </>
           )}
-        </Link>
+        </button>
       </div>
       {error ? (
         <p
@@ -268,23 +214,27 @@ export function StartCaseButtons({
             >
               Chiudi
             </Button>
-            <Button
-              type="button"
-              className="rounded-lg bg-[#1E324E] text-white hover:bg-[#2A486D]"
-              disabled={isBusy || !limitDialog}
-              onClick={() => {
-                if (!limitDialog) return;
-                console.log("[DEBUG CLICK]", caseId, { mode: limitDialog.mode, devBypass: true });
-                try {
-                  void start(limitDialog.mode, { devBypass: true });
-                } catch (err) {
-                  console.error("[DEBUG CLICK] dev bypass throw", err);
-                  window.location.href = directPlayHref;
-                }
-              }}
-            >
-              {isBusy ? "Avvio..." : "Sono un dev"}
-            </Button>
+            {isDev ? (
+              <Button
+                type="button"
+                className="rounded-lg bg-[#1E324E] text-white hover:bg-[#2A486D]"
+                disabled={isBusy || !limitDialog}
+                onClick={() => {
+                  if (!limitDialog) return;
+                  if (limitDialog.mode === "original") {
+                    window.location.assign(directPlayHref);
+                    return;
+                  }
+                  try {
+                    void startVariant({ devBypass: true });
+                  } catch {
+                    window.location.assign(directPlayHref);
+                  }
+                }}
+              >
+                {isBusy ? "Avvio..." : "Sono un dev"}
+              </Button>
+            ) : null}
           </DialogFooter>
         </DialogContent>
       </Dialog>

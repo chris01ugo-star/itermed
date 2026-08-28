@@ -1,0 +1,303 @@
+{
+  "title": "Fibrosi polmonare idiopatica di nuova diagnosi",
+  "description": "Vincenzo si presenta con difficoltà respiratorie, tosse secca persistente e una sensazione di oppressione toracica. Riferisce di sentirsi ansioso riguardo alla sua condizione e ha difficoltà a dormire. La sua rete sociale è limitata e fatica a comprendere le informazioni mediche.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "rx-torace",
+    "tc",
+    "spirometria",
+    "6mwt"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "140/86",
+      "spo2": 91,
+      "temperature": 36.6,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 250,
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "RX Torace (2 proiezioni) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "tc": {
+          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "spirometria": {
+          "finding": "Spirometria (semplice/globale) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+          "normalFinding": "Spirometria (semplice/globale) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "6mwt": {
+          "finding": "Test del cammino (6MWT) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+          "normalFinding": "Test del cammino (6MWT) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf.",
+          "isAbnormal": false,
+          "price": 90
+        }
+      }
+    },
+    "demographics": {
+      "age": 71,
+      "sex": "M",
+      "context": "Ambulatorio di Pneumologia"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo con evidenza di ipossiemia, aumento della frequenza respiratoria e ansia marcata."
+    },
+    "rx-torace": {
+      "finding": "RX Torace (2 proiezioni) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+      "isAbnormal": true
+    },
+    "spirometria": {
+      "finding": "Spirometria (semplice/globale) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+      "isAbnormal": true
+    },
+    "6mwt": {
+      "finding": "Test del cammino (6MWT) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Iniziare il percorso diagnostico con RX torace, seguito da TC torace, spirometria e valutazione per riabilitazione polmonare.",
+  "patientPrompt": "Ho 71 anni e da qualche mese ho difficoltà a respirare. Ho una tosse secca che non va via e sento un peso sul petto. Sono molto preoccupato perché non capisco se questa condizione possa essere grave. Ho sentito parlare di fibrosi e cancro, e non so cosa pensare. Non riesco a dormire bene e mi sento ansioso. Ho pochi amici e questo mi fa sentire solo.",
+  "id": "PNEUMO-019",
+  "code": "PNEUMO-019",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Fibrosi polmonare idiopatica (IPF)",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf",
+  "diagnosis": "Fibrosi polmonare idiopatica (IPF) di nuova diagnosi.",
+  "pastMedicalHistory": "Non presenta patologie pregresse significative, tranne per allergie stagionali.",
+  "presentation": "Vincenzo, un uomo di 71 anni, è in visita per valutazione di difficoltà respiratorie progressive. Negli ultimi mesi ha notato un aumento della tosse secca e una sensazione di oppressione toracica. Si mostra ansioso e confuso riguardo alla sua diagnosi, temendo che possa trattarsi di un cancro. Ha difficoltà a dormire e la sua aderenza alle terapie è parziale. Riferisce di avere un supporto sociale limitato, il che aumenta il suo livello di stress.",
+  "redHerrings": [
+    "Riflette frequentemente su possibili malattie gravi, confondendo fibrosi con cancro.",
+    "Riferisce di avere avuto un episodio di bronchite l'anno scorso, ma non è attualmente in corso.",
+    "Ha una storia di allergie stagionali che lo preoccupano."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "rx-torace": 20,
+    "tc": 40,
+    "spirometria": 25,
+    "6mwt": 30,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_pneumo-019_1",
+      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Fibrosi polmonare idiopatica (IPF))",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dispnea",
+        "tosse"
+      ],
+      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+    },
+    {
+      "id": "aq_pneumo-019_2",
+      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "sangue",
+        "sibili",
+        "dolore",
+        "ortopnea"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
+    },
+    {
+      "id": "aq_pneumo-019_3",
+      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
+      "critical": true,
+      "expectedKeywords": [
+        "fum",
+        "lavoro",
+        "polvere",
+        "allergia",
+        "asbesto"
+      ],
+      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
+    },
+    {
+      "id": "aq_pneumo-019_4",
+      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
+      "critical": true,
+      "expectedKeywords": [
+        "inalator",
+        "ossigeno",
+        "cpap",
+        "antibiot",
+        "aderenza"
+      ],
+      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
+    },
+    {
+      "id": "aq_pneumo-019_5",
+      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
+      "critical": true,
+      "expectedKeywords": [
+        "saturazione",
+        "confusione",
+        "emottisi",
+        "febbre",
+        "trauma"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+    },
+    {
+      "id": "aq_pneumo-019_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo con evidenza di ipossiemia, aumento della frequenza respiratoria e ansia marcata."
+  },
+  "goldPathNarrative": "Dopo una valutazione iniziale, si procederà con un RX torace per escludere altre patologie. Successivamente, una TC torace aiuterà a confermare la diagnosi di fibrosi polmonare idiopatica. Infine, la spirometria e il test di cammino di sei minuti saranno utili per valutare la funzionalità polmonare e la capacità di esercizio di Vincenzo. Sarà importante anche discutere un piano di riabilitazione polmonare e terapie antifibrotiche.",
+  "escCitations": [
+    {
+      "chunkId": "66f71ae5-7250-4d62-abb2-073625b1732e-13",
+      "source": "knowledge_base/pneumologia/clinical/ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf",
+      "quote": "of IPF with corticosteroids, oxygen supplementation, mechanical ventilation, pulmonary rehabilitation, and lung transplantation in general) were not prioritized for an update in this guideline An evidence synthesis was also performed for a new question about single versus bilateral lung transplantation, but decisions regarding a recommendation were deferred until the next version of the guideline to gather additional information that was felt necessary before formulating a recommendation. Questi"
+    },
+    {
+      "chunkId": "66f71ae5-7250-4d62-abb2-073625b1732e-14",
+      "source": "knowledge_base/pneumologia/clinical/ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf",
+      "quote": "gic and/or histopathologic patterns are consistent with usual interstitial pneumonia (1). Although the first guideline on management of IPF, published in 2000, was based on the consensus of a group of international experts in the field (2), the 2011 guideline represented a rigorous joint effort by the American Thoracic Society (ATS), European Respiratory Society (ERS), Japanese Respiratory Society (JRS), and Latin American Thoracic Society (ALAT). It reviewed all available evidence, clarified th"
+    },
+    {
+      "chunkId": "66f71ae5-7250-4d62-abb2-073625b1732e-15",
+      "source": "knowledge_base/pneumologia/clinical/ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf",
+      "quote": "lear recommendations for several specific treatment regimens, new, important evidence for the treatment of IPF has become available since 2011. This document updates the treatment guideline with the reappraisal of previously assessed treatment options and new recommendations for novel agents. Evidence surrounding the clinical management of IPF is rapidly evolving, and Table 2. Comparison of Recommendations in the 2015 and 2011 Idiopathic Pulmonary Fibrosis Guidelines Agent 2015 Guideline 2011 Gu"
+    },
+    {
+      "chunkId": "66f71ae5-7250-4d62-abb2-073625b1732e-5",
+      "source": "knowledge_base/pneumologia/clinical/ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf",
+      "quote": "eated with Antiacid Medication? Question 8: Should Patients with IPF Be Treated with Sildenafil, a Phosphodiesterase-5 Inhibitor? Question 9: Should Patients with IPF Be Treated with Bosentan or Macitentan, Dual ERAs (ER-A and ER-B)? Question 10: Should Patients with IPF Be Treated with N-Acetylcysteine Monotherapy? Question 11: Should Patients with IPF Be Treated with Bilateral Lung Transplantation versus Single-Lung Transplantation? Question 12: Should PH Be Treated in Patients with IPF? Concl"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: rx-torace → tc → spirometria → 6mwt.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf).",
+      "Budget SSN di riferimento: €250."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il paziente è seguito secondo il percorso GOLD, con un piano di trattamento chiaro e comunicato in modo comprensibile.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX Torace (2 proiezioni)",
+      "finding": "RX Torace (2 proiezioni) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+      "isAbnormal": true,
+      "priceEuro": 15.5
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    },
+    {
+      "examId": "spirometria",
+      "name": "Spirometria (semplice/globale)",
+      "finding": "Spirometria (semplice/globale) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "6mwt",
+      "name": "Test del cammino (6MWT)",
+      "finding": "Test del cammino (6MWT) nel contesto di Fibrosi polmonare idiopatica (IPF) (PNEUMO-019). Ipossia (SpO2 91%), tachipnea (FR 22), segni di ansia, tosse secca, oppressione toracica.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Confonde 'fibrosi' con 'cancro'. L'insonnia peggiora la ruminazione. Serve ripetere con parole povere e scrivere il piano antifibrotico / riabilitazione."
+  }
+}

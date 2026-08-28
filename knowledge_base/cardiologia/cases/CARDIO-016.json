@@ -1,0 +1,313 @@
+{
+  "title": "CCS post-PCI con rivascolarizzazione incompleta (donna 66 anni)",
+  "description": "Giovanni, un uomo di 66 anni, si presenta al reparto di cardiologia per un follow-up dopo un intervento di rivascolarizzazione coronarica percutanea (PCI) effettuato sei mesi fa. Negli ultimi giorni ha avvertito un aumento della dispnea durante sforzi leggeri e una sensazione di oppressione toracica intermittente, che si manifesta soprattutto dopo sforzi fisici. Non ha avuto episodi di angina severa, ma è preoccupato per i suoi sintomi. Ha una storia di ipertensione e dislipidemia, trattata con farmaci.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "ecg",
+    "troponina-hs",
+    "elettroliti",
+    "creat-urea-gfr",
+    "pt-ptt-inr"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 85,
+      "bloodPressure": "130/80",
+      "spo2": 92,
+      "temperature": 36.5,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 100,
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+          "normalFinding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+          "isAbnormal": true,
+          "price": 11.6
+        },
+        "troponina-hs": {
+          "finding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+          "normalFinding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "elettroliti": {
+          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+          "normalFinding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "pt-ptt-inr": {
+          "finding": "Coagulazione (PT, PTT, INR) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+          "normalFinding": "Coagulazione (PT, PTT, INR) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+          "isAbnormal": true,
+          "price": 9
+        },
+        "angio": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 180
+        }
+      }
+    },
+    "demographics": {
+      "age": 66,
+      "sex": "M",
+      "context": "Reparto di Cardiologia"
+    },
+    "physicalExam": {
+      "finding": "Giovanni presenta segni di ansia, sudorazione e dispnea. La frequenza cardiaca è regolare, con una saturazione di ossigeno al 92%. Si notano rantoli polmonari e un soffio sistolico. Non ci sono segni di edema periferico.",
+      "killipClass": "III"
+    },
+    "ecg": {
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+      "isAbnormal": true
+    },
+    "troponina-hs": {
+      "finding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+      "isAbnormal": true
+    },
+    "elettroliti": {
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+      "isAbnormal": true
+    },
+    "creat-urea-gfr": {
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+      "isAbnormal": true
+    },
+    "pt-ptt-inr": {
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+      "isAbnormal": true
+    },
+    "angio": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire un ECG, dosare la troponina-hs, controllare gli elettroliti e la creatinina, e monitorare il GFR.",
+  "patientPrompt": "Ho 66 anni e sono qui per un controllo dopo l'intervento di rivascolarizzazione coronarica. Ultimamente ho notato che mi manca il respiro anche solo camminando e ho avuto qualche episodio di oppressione al petto. Non so se dovrei preoccuparmi.",
+  "id": "CARDIO-016",
+  "code": "CARDIO-016",
+  "specialty": "cardiologia",
+  "specialtyLabel": "Cardiologia",
+  "condition": "Sindrome coronarica cronica — follow-up post-rivascolarizzazione",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+  "diagnosis": "Sindrome coronarica cronica con rivascolarizzazione incompleta.",
+  "pastMedicalHistory": "Ipertensione e dislipidemia, con storia di infarto miocardico acuto trattato con PCI sei mesi fa. Non riferisce allergie note e non ha mai subito interventi chirurgici precedenti.",
+  "presentation": "Durante l'esame obiettivo, Giovanni appare ansioso e presenta una leggera sudorazione. La sua frequenza cardiaca è regolare, ma la saturazione di ossigeno è al 92%. I polmoni mostrano un leggero rantolo, e il cuore presenta un soffio sistolico. Non ci sono segni di edema periferico.",
+  "redHerrings": [
+    "Giovanni ha recentemente iniziato un nuovo farmaco per la pressione sanguigna.",
+    "Ha un'infezione delle vie respiratorie superiore che ha trattato con un antibiotico.",
+    "È stato in viaggio all'estero e ha mangiato cibi diversi dal solito."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "ecg": 8,
+    "troponina-hs": 35,
+    "elettroliti": 30,
+    "creat-urea-gfr": 30,
+    "pt-ptt-inr": 30,
+    "angio": 45,
+    "tc": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_cardio-016_1",
+      "prompt": "Tempo e modalità di insorgenza dei sintomi (Sindrome coronarica cronica — follow-up post-rivascolarizzazione)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "inizio"
+      ],
+      "rationale": "Definisce urgenza e finestra terapeutica."
+    },
+    {
+      "id": "aq_cardio-016_2",
+      "prompt": "Caratteristiche dei sintomi (sede, qualità, irradiazione, fattori scatenanti)",
+      "critical": true,
+      "expectedKeywords": [
+        "dove",
+        "come",
+        "irradia",
+        "sforzo",
+        "riposo"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale cardiologica."
+    },
+    {
+      "id": "aq_cardio-016_3",
+      "prompt": "Fattori di rischio cardiovascolare (ipertensione, diabete, fumo, dislipidemia, familiarità)",
+      "critical": true,
+      "expectedKeywords": [
+        "ipertens",
+        "diabet",
+        "fum",
+        "colesterolo",
+        "familiar"
+      ],
+      "rationale": "Profilo di rischio e contesto epidemiologico."
+    },
+    {
+      "id": "aq_cardio-016_4",
+      "prompt": "Terapie in atto, allergie e precedenti cardiologici / procedure",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "terapia",
+        "allergia",
+        "stent",
+        "bypass"
+      ],
+      "rationale": "Baseline prescrittiva e sicurezza (Gelli-Bianco / appropriatezza)."
+    },
+    {
+      "id": "aq_cardio-016_5",
+      "prompt": "Sintomi di allarme (sincope, dispnea, dolore, deficit neurologico, sanguinamento)",
+      "critical": true,
+      "expectedKeywords": [
+        "sincope",
+        "dispnea",
+        "dolore",
+        "sangue",
+        "deficit"
+      ],
+      "rationale": "Identifica instabilità e red flag tempo-dipendenti."
+    },
+    {
+      "id": "aq_cardio-016_6",
+      "prompt": "Contesto di presentazione: Reparto di Cardiologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "III",
+    "summary": "Giovanni presenta segni di ansia, sudorazione e dispnea. La frequenza cardiaca è regolare, con una saturazione di ossigeno al 92%. Si notano rantoli polmonari e un soffio sistolico. Non ci sono segni di edema periferico."
+  },
+  "goldPathNarrative": "Il paziente deve essere sottoposto a un ECG per valutare eventuali anomalie ischemiche. Successivamente, si procederà con il dosaggio della troponina-hs per escludere un'infiammazione miocardica acuta. Gli elettroliti e la creatinina saranno monitorati per valutare la funzione renale e il bilancio elettrolitico. Infine, si valuterà il GFR per un'analisi più approfondita della funzione renale.",
+  "escCitations": [
+    {
+      "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-115",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+      "quote": "sis of disease progression in patients with established chronic coronary syndrome—Section 6 Risk stratification is recommended in patients with new or worsening symptom levels, preferably using stress imaging or, alternatively, exercise stress ECG. I B Risk stratification is recommended in patients with new or worsening symptoms, preferably using stress imaging. I C 2018 ESC/EACTS Guidelines on myocardial revascularization Classa Levelb Recommendations in 2024 version Classa Levelb Recommendatio"
+    },
+    {
+      "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-76",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+      "quote": "in patients with symptoms suspected of CCS (Section 3) and their treatment (Section 4), special subgroups of CCS patients (Section 5) and finally, long-term follow-up and care (Section 6). 3424 ESC Guidelines Asymptomatic with abnormal coronary anatomical or functional test Angina or equivalent with no obstructive CAD (ANOCA/INOCA) Stabilized phase after ACS, PCI, or CABG Stress-induced angina, or equivalent, with obstructive CAD A B LV dysfunction or heart failure of ischaemic origin Structural"
+    },
+    {
+      "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-570",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+      "quote": "ll survival after CABG than PCI. • Among patients who are clinically and anatomically suitable for both revascularization modalities, a greater need for repeat revasculariza- tion after PCI than surgery, independently of multivessel CAD ana- tomical severity, has been consistently reported with current surgical and stent technology. • Lifestyle and risk-factor modification combined with disease- modifying and antianginal medications are cornerstones in the man- agement of CCS. ESC Guidelines 349"
+    },
+    {
+      "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-546",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf",
+      "quote": "ic coronary syndrome; CKD, chronic kidney disease; ECG, electro- cardiogram; LV, left ventricle; PAD, peripheral artery disease; PCI, percutaneous coronary intervention; RV, right ventricle. 3494 ESC Guidelines 6.4. Treatment of myocardial revascularization failure One in five revascularized patients needs a repeat revascularization within the first 5 years after myocardial revascularization, with higher risk after PCI compared with CABG.1182 Revascularization failure can manifest either shortly"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: ecg → troponina-hs → elettroliti → creat-urea-gfr → pt-ptt-inr.",
+      "Non prescrivere di prima intenzione: angio, tc (ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf).",
+      "Budget SSN di riferimento: €100."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alla L. 24/2017 Art. 5 seguendo il gold path ESC. Scudo medico-legale: adesione alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida ESC accreditate (L. 24/2017 Art. 5).",
+        "Raccogliere consenso informato prima di procedure invasive.",
+        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
+        "Registrare tempi critici nel setting Reparto di Cardiologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG (riposo/sforzo/Holter)",
+      "finding": "ECG (riposo/sforzo/Holter) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 11.6
+    },
+    {
+      "examId": "troponina-hs",
+      "name": "Troponina (alta sensibilità)",
+      "finding": "Troponina (alta sensibilità) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
+      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina e Urea (Azotemia) con stima GFR",
+      "finding": "Creatinina e Urea (Azotemia) con stima GFR nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT, INR)",
+      "finding": "Coagulazione (PT, PTT, INR) nel contesto di Sindrome coronarica cronica — follow-up post-rivascolarizzazione (CARDIO-016). ECG: possibile ischemia; Troponina-hs: da valutare; Elettroliti: da valutare; Creatinina e GFR: da valutare.",
+      "isAbnormal": true,
+      "priceEuro": 9
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "angio",
+      "name": "Angio-TC e Angio-RM",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf."
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf."
+    }
+  ]
+}

@@ -1,101 +1,159 @@
 /**
  * Aequan Case Registry — single source of truth for Prassi Clinica / gold cases.
- * Import this module (not individual specialty files) from app routes & seeds.
+ * Knowledge-base cases (CARDIO/PNEUMO/GASTRO) are read from PostgreSQL.
+ * Import this module (not individual specialty JSON files) from app routes & seeds.
+ *
+ * Process-level in-memory catalog (O(1) after first Prisma load) + React `cache()`
+ * for per-request dedup. Invalidate with `clearCasesCache()` after authoring writes.
  */
 
+import "server-only";
+
+import { cache } from "react";
+import { config, isUsableDatabase } from "@/lib/config";
+import { KnowledgeBaseCaseValidationError } from "@/lib/errors";
+import { prisma } from "@/lib/prisma";
+import { clinicalCaseFromKnowledgeBaseRow } from "@/lib/data/cases/kb-mapper";
 import type { ClinicalCaseRow } from "@/components/dashboard/ClinicalCaseCard";
 import type { ClinicalCase, CaseCategory, PrassiDifficultyLabel } from "@/lib/data/cases/types";
-import { CAR_F01 } from "@/lib/data/cases/cardiologia/car-f01";
-import { CAR_F02 } from "@/lib/data/cases/cardiologia/car-f02";
-import { CAR_M01 } from "@/lib/data/cases/cardiologia/car-m01";
-import { CAR_M02 } from "@/lib/data/cases/cardiologia/car-m02";
-import { CAR_M03 } from "@/lib/data/cases/cardiologia/car-m03";
-import { CAR_M04 } from "@/lib/data/cases/cardiologia/car-m04";
-import { CAR_D01 } from "@/lib/data/cases/cardiologia/car-d01";
-import { CAR_D02 } from "@/lib/data/cases/cardiologia/car-d02";
-import { CAR_D03 } from "@/lib/data/cases/cardiologia/car-d03";
-import { CAR_D04 } from "@/lib/data/cases/cardiologia/car-d04";
+import {
+  AUTHORED_CASE_REGISTRY,
+  CASE_REGISTRY,
+  GOLD_STANDARD_CASES,
+  buildAuthoredFallbackMap,
+  buildFallbackMapFromRegistry,
+  clearCasesCache,
+  decodeCaseParam,
+  filterRegisteredCases,
+  findAuthoredCase,
+  getCachedCaseById,
+  getCachedKbCatalog,
+  isKbCatalogLoaded,
+  isRegisteredCaseId,
+  knowledgeBaseIdCandidates,
+  listCachedRegisteredCases,
+  normalizeCaseLookupKey,
+  rememberKbCase,
+  setKbCatalog,
+  toClinicalCaseRow,
+  toFallbackClinicalCase,
+  type RegistryFallbackCase,
+} from "@/lib/data/cases/registry-store";
 
-/** Shape mirrored by `FallbackClinicalCase` — kept local to avoid circular imports. */
-export type RegistryFallbackCase = {
-  id: string;
-  title: string;
-  description: string;
-  specialty: string;
-  medicalSpecialtyKey: string;
-  difficulty: ClinicalCase["difficulty"];
-  estimatedDurationMinutes: number;
-  timeLimitMinutes: number;
-  patientDeteriorationThreshold: number;
-  patientPrompt: string;
-  pastMedicalHistory: string;
-  correctSolution: string;
-  goldStandardPath: string[];
-  examLatencies: Record<string, number>;
-  baselineExamFindings: Record<string, unknown>;
+export type { RegistryFallbackCase };
+export {
+  AUTHORED_CASE_REGISTRY,
+  CASE_REGISTRY,
+  GOLD_STANDARD_CASES,
+  buildAuthoredFallbackMap,
+  buildFallbackMapFromRegistry,
+  clearCasesCache,
+  decodeCaseParam,
+  getCachedCaseById,
+  isRegisteredCaseId,
+  normalizeCaseLookupKey,
+  toClinicalCaseRow,
+  toFallbackClinicalCase,
 };
 
-/** Canonical ordered registry of authored cases. */
-export const CASE_REGISTRY: readonly ClinicalCase[] = Object.freeze([
-  CAR_F01,
-  CAR_F02,
-  CAR_M01,
-  CAR_M02,
-  CAR_M03,
-  CAR_M04,
-  CAR_D01,
-  CAR_D02,
-  CAR_D03,
-  CAR_D04,
-]);
+async function loadKbCasesFromDb(): Promise<ClinicalCase[]> {
+  if (!isUsableDatabase(config.DATABASE_URL)) return [];
 
-/** @deprecated Prefer CASE_REGISTRY — alias kept for earlier imports. */
-export const GOLD_STANDARD_CASES = CASE_REGISTRY;
-
-/** Normalize ids/codes: trim, lower-case, kebab-case (`CAR_F01` → `car-f01`). */
-export function normalizeCaseLookupKey(raw: string): string {
-  return raw.trim().toLowerCase().replace(/_/g, "-");
+  try {
+    const rows = await prisma.knowledgeBaseCase.findMany({
+      orderBy: [{ specialty: "asc" }, { id: "asc" }],
+    });
+    const mapped = rows.map((row) =>
+      clinicalCaseFromKnowledgeBaseRow({
+        id: row.id,
+        caseData: row.caseData,
+        patientProfile: row.patientProfile,
+        ragSources: row.ragSources,
+      }),
+    );
+    setKbCatalog(mapped);
+    return mapped;
+  } catch (err) {
+    if (err instanceof KnowledgeBaseCaseValidationError) throw err;
+    console.error("[registry] loadKbCasesFromDb failed", err);
+    return [];
+  }
 }
 
-function compactCaseKey(raw: string): string {
-  return normalizeCaseLookupKey(raw).replace(/-/g, "");
+/** Warm the process catalog from PostgreSQL once; subsequent calls are O(1) RAM. */
+async function ensureKbCatalogLoaded(): Promise<ClinicalCase[]> {
+  const cached = getCachedKbCatalog();
+  if (cached) return cached;
+  return loadKbCasesFromDb();
+}
+
+async function getCaseRegistryImpl(): Promise<ClinicalCase[]> {
+  const kb = await ensureKbCatalogLoaded();
+  return [...AUTHORED_CASE_REGISTRY, ...kb];
+}
+
+/** Request-deduped catalog. Process cache serves RAM after the first Prisma read. */
+export const getCaseRegistry = cache(getCaseRegistryImpl);
+
+async function loadKbCaseByIdFromDb(codeOrId: string): Promise<ClinicalCase | undefined> {
+  if (!isUsableDatabase(config.DATABASE_URL)) return undefined;
+  const candidates = knowledgeBaseIdCandidates(codeOrId);
+  if (candidates.length === 0) return undefined;
+
+  try {
+    const row = await prisma.knowledgeBaseCase.findFirst({
+      where: { id: { in: candidates } },
+    });
+    if (!row) return undefined;
+    const mapped = clinicalCaseFromKnowledgeBaseRow({
+      id: row.id,
+      caseData: row.caseData,
+      patientProfile: row.patientProfile,
+      ragSources: row.ragSources,
+    });
+    rememberKbCase(mapped);
+    return mapped;
+  } catch (err) {
+    if (err instanceof KnowledgeBaseCaseValidationError) throw err;
+    console.error("[registry] loadKbCaseByIdFromDb failed", codeOrId, err);
+    return undefined;
+  }
+}
+
+async function getCaseByIdImpl(codeOrId: string): Promise<ClinicalCase | undefined> {
+  const authored = findAuthoredCase(codeOrId);
+  if (authored) return authored;
+
+  const cached = getCachedCaseById(codeOrId);
+  if (cached) return cached;
+
+  const fromDb = await loadKbCaseByIdFromDb(codeOrId);
+  if (fromDb) return fromDb;
+
+  if (!isKbCatalogLoaded() && isUsableDatabase(config.DATABASE_URL)) {
+    await ensureKbCatalogLoaded();
+    return getCachedCaseById(codeOrId);
+  }
+
+  return undefined;
 }
 
 /**
- * Resolve a gold-standard case by id or code.
- * Accepts `car-f01`, `CAR-F01`, `car_f01`, `CAR_F01`.
+ * Resolve a gold-standard case by id or code (O(1) after catalog warm).
+ * Accepts `car-f01`, `CAR-F01`, `GASTRO-001`, `gastro-001`.
  */
-export function getCaseById(codeOrId: string): ClinicalCase | undefined {
-  const key = normalizeCaseLookupKey(codeOrId);
-  if (!key) return undefined;
-  const compact = compactCaseKey(key);
+export const getCaseById = cache(getCaseByIdImpl);
 
-  return CASE_REGISTRY.find((c) => {
-    const id = normalizeCaseLookupKey(c.id);
-    const code = normalizeCaseLookupKey(c.code);
-    return (
-      id === key ||
-      code === key ||
-      compactCaseKey(id) === compact ||
-      compactCaseKey(code) === compact
-    );
-  });
-}
-
-export function listRegisteredCases(filters?: {
+async function listRegisteredCasesImpl(filters?: {
   category?: CaseCategory;
   specialty?: string;
   difficultyLabel?: PrassiDifficultyLabel;
-}): ClinicalCase[] {
-  return CASE_REGISTRY.filter((c) => {
-    if (filters?.category && c.category !== filters.category) return false;
-    if (filters?.specialty && c.specialty.toLowerCase() !== filters.specialty.toLowerCase()) {
-      return false;
-    }
-    if (filters?.difficultyLabel && c.difficultyLabel !== filters.difficultyLabel) return false;
-    return true;
-  });
+}): Promise<ClinicalCase[]> {
+  const all = await getCaseRegistry();
+  return filterRegisteredCases(all, filters);
 }
+
+export const listRegisteredCases = cache(listRegisteredCasesImpl);
 
 /** @deprecated Prefer getCaseById */
 export const getRegisteredCase = getCaseById;
@@ -103,67 +161,12 @@ export const getRegisteredCase = getCaseById;
 /** @deprecated Prefer getCaseById */
 export const getGoldStandardCase = getCaseById;
 
-/** True when the id belongs to an authored gold-standard registry case. */
-export function isRegisteredCaseId(codeOrId: string): boolean {
-  return Boolean(getCaseById(codeOrId));
-}
-
-/** Adapt ClinicalCase → offline FallbackClinicalCase shape. */
-export function toFallbackClinicalCase(c: ClinicalCase): RegistryFallbackCase {
-  return {
-    id: c.id,
-    title: c.title,
-    description: c.description,
-    specialty: c.specialtyLabel,
-    medicalSpecialtyKey: c.medicalSpecialtyKey,
-    difficulty: c.difficulty,
-    estimatedDurationMinutes: c.estimatedTimeMinutes ?? c.estimatedDurationMinutes,
-    timeLimitMinutes: c.timeLimitMinutes,
-    patientDeteriorationThreshold: c.patientDeteriorationThreshold,
-    patientPrompt: c.patientPrompt,
-    pastMedicalHistory: c.pastMedicalHistory,
-    correctSolution: c.correctSolution,
-    goldStandardPath: c.goldStandardPath,
-    examLatencies: c.examLatencies,
-    baselineExamFindings: {
-      ...c.baselineExamFindings,
-      examBudgetEuro:
-        (c.baselineExamFindings.examBudgetEuro as number | undefined) ?? c.examBudgetEuro,
-      anamnesisQuestions: c.anamnesisQuestions,
-      physicalExam: c.physicalExam,
-      mandatoryExams: c.mandatoryExams,
-      inappropriateExams: c.inappropriateExams,
-      legalConformity: c.legalConformity,
-    },
-  };
-}
-
-/** Adapt ClinicalCase → Prassi / dashboard ClinicalCaseRow. */
-export function toClinicalCaseRow(
-  c: ClinicalCase,
-  opts?: { createdById?: string; isGlobal?: boolean },
-): ClinicalCaseRow {
-  const demographics = c.baselineExamFindings.demographics as
-    | { sex?: string | null }
-    | undefined;
-  return {
-    id: c.id,
-    title: c.title,
-    specialty: c.specialtyLabel,
-    difficulty: c.difficulty,
-    createdById: opts?.createdById ?? "gold-standard",
-    isGlobal: opts?.isGlobal ?? true,
-    medicalSpecialty: { name: c.specialtyLabel },
-    sex: demographics?.sex ?? null,
-  };
-}
-
 /**
  * Cases exposed to Prassi Clinica (demo / offline + registry merge).
  * Always includes gold-standard registry entries for the requested section.
  */
-export function getPrassiRegistryCaseRows(userId: string): ClinicalCaseRow[] {
-  const goldRows = listRegisteredCases({ category: "prassi-clinica" }).map((c) =>
+export async function getPrassiRegistryCaseRows(userId: string): Promise<ClinicalCaseRow[]> {
+  const goldRows = (await listRegisteredCases({ category: "prassi-clinica" })).map((c) =>
     toClinicalCaseRow(c, { createdById: "gold-standard", isGlobal: true }),
   );
 
@@ -196,8 +199,8 @@ export function getPrassiRegistryCaseRows(userId: string): ClinicalCaseRow[] {
 }
 
 /** Specialties derived from registry (+ legacy demos) for Prassi filters. */
-export function getPrassiRegistrySpecialties(): { id: string; name: string }[] {
-  const fromRegistry = listRegisteredCases({ category: "prassi-clinica" }).map((c) => ({
+export async function getPrassiRegistrySpecialties(): Promise<{ id: string; name: string }[]> {
+  const fromRegistry = (await listRegisteredCases({ category: "prassi-clinica" })).map((c) => ({
     id: `sp_${c.specialty}`,
     name: c.specialtyLabel,
   }));
@@ -210,19 +213,13 @@ export function getPrassiRegistrySpecialties(): { id: string; name: string }[] {
   return Array.from(byId.values());
 }
 
-/** Fallback map keyed by case id / code / underscore aliases for offline simulator lookup. */
-export function buildFallbackMapFromRegistry(): Record<string, RegistryFallbackCase> {
-  const map: Record<string, RegistryFallbackCase> = {};
-  for (const c of CASE_REGISTRY) {
-    const fb = toFallbackClinicalCase(c);
-    const idKey = normalizeCaseLookupKey(c.id);
-    const codeKey = normalizeCaseLookupKey(c.code);
-    map[idKey] = fb;
-    map[codeKey] = fb;
-    map[idKey.replace(/-/g, "_")] = fb;
-    map[codeKey.replace(/-/g, "_")] = fb;
-    map[c.code] = fb;
-    map[c.code.toUpperCase()] = fb;
+/** Hydrate the in-memory KB cache (used by sync evaluation fallbacks). */
+export async function hydrateRegisteredCaseCache(codeOrId?: string): Promise<void> {
+  if (codeOrId) {
+    await getCaseById(codeOrId);
+    return;
   }
-  return map;
+  await ensureKbCatalogLoaded();
 }
+
+export { knowledgeBaseIdCandidates, listCachedRegisteredCases };

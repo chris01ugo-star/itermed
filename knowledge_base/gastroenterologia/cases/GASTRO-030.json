@@ -1,0 +1,285 @@
+{
+  "title": "K colorettale metastatico in donna di 85 anni",
+  "description": "Giuseppina presenta dolore addominale diffuso, con particolare sensibilità nella parte superiore dell'addome. Ha perso peso negli ultimi mesi e riferisce di sentirsi stanca e debole. La valutazione clinica evidenzia segni di disidratazione e affaticamento. Non ci sono segni di ittero, ma la palpazione dell'addome rivela una massa palpabile nella regione epigastrica. I suoi esami del sangue mostrano un aumento dei marcatori infiammatori.",
+  "difficulty": "HARD",
+  "goldStandardPath": [
+    "colonscopia",
+    "cea",
+    "tc"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 86,
+      "bloodPressure": "142/78",
+      "spo2": 94,
+      "temperature": 36.3,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 330,
+    "advancedExams": {
+      "values": {
+        "colonscopia": {
+          "finding": "Colonscopia nel contesto di Carcinoma colorettale metastatico — bilancio geriatrico e ESMO (GASTRO-030). Dolore addominale diffuso, massa palpabile, segni di disidratazione, aumento dei marcatori infiammatori.",
+          "normalFinding": "Colonscopia nel contesto di Carcinoma colorettale metastatico — bilancio geriatrico e ESMO (GASTRO-030). Dolore addominale diffuso, massa palpabile, segni di disidratazione, aumento dei marcatori infiammatori.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "cea": {
+          "finding": "CEA nel contesto di Carcinoma colorettale metastatico — bilancio geriatrico e ESMO (GASTRO-030). Dolore addominale diffuso, massa palpabile, segni di disidratazione, aumento dei marcatori infiammatori.",
+          "normalFinding": "CEA nel contesto di Carcinoma colorettale metastatico — bilancio geriatrico e ESMO (GASTRO-030). Dolore addominale diffuso, massa palpabile, segni di disidratazione, aumento dei marcatori infiammatori.",
+          "isAbnormal": true,
+          "price": 18
+        },
+        "tc": {
+          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Carcinoma colorettale metastatico — bilancio geriatrico e ESMO (GASTRO-030). Dolore addominale diffuso, massa palpabile, segni di disidratazione, aumento dei marcatori infiammatori.",
+          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Carcinoma colorettale metastatico — bilancio geriatrico e ESMO (GASTRO-030). Dolore addominale diffuso, massa palpabile, segni di disidratazione, aumento dei marcatori infiammatori.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "moc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 40
+        }
+      }
+    },
+    "demographics": {
+      "age": 85,
+      "sex": "F",
+      "context": "Giuseppina è una donna di 85 anni che si presenta al pronto soccorso con lamentele di dolore addominale e perdita di peso. È accompagnata dalla nipote, che la sostiene e la aiuta a comunicare. Giuseppina ha una storia di ansia e ha difficol"
+    },
+    "physicalExam": {
+      "finding": "Addome disteso e dolente, massa palpabile in epigastrio, segni di disidratazione, affaticamento evidente."
+    },
+    "colonscopia": {
+      "finding": "Colonscopia nel contesto di Carcinoma colorettale metastatico — bilancio geriatrico e ESMO (GASTRO-030). Dolore addominale diffuso, massa palpabile, segni di disidratazione, aumento dei marcatori infiammatori.",
+      "isAbnormal": true
+    },
+    "cea": {
+      "finding": "CEA nel contesto di Carcinoma colorettale metastatico — bilancio geriatrico e ESMO (GASTRO-030). Dolore addominale diffuso, massa palpabile, segni di disidratazione, aumento dei marcatori infiammatori.",
+      "isAbnormal": true
+    },
+    "tc": {
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Carcinoma colorettale metastatico — bilancio geriatrico e ESMO (GASTRO-030). Dolore addominale diffuso, massa palpabile, segni di disidratazione, aumento dei marcatori infiammatori.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "moc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Colonscopia, dosaggio del CEA e TC addome per valutare l'estensione della malattia.",
+  "patientPrompt": "Mi chiamo Giuseppina e ho 85 anni. Ultimamente ho avuto dolore addominale e ho perso peso. Non riesco a dormire bene e mi sento sempre più stanca. La mia nipote è qui con me e cerca di aiutarmi, ma a volte mi sento sopraffatta dalle informazioni che ricevo dai medici. Ho sempre avuto un po' di ansia riguardo alla mia salute, e ora mi preoccupa ancora di più. Non capisco bene cosa stia succedendo e ho bisogno di aiuto per capire le mie condizioni.",
+  "id": "GASTRO-030",
+  "code": "GASTRO-030",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Carcinoma colorettale metastatico — bilancio geriatrico e ESMO",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ESMO_Colorectal_Cancer_Guidelines.pdf",
+  "diagnosis": "Carcinoma colorettale metastatico.",
+  "pastMedicalHistory": "Storia di ipertensione e diabete di tipo 2, trattati con farmaci orali. Non ha mai avuto interventi chirurgici significativi. Non fuma e consuma alcol in modo molto limitato.",
+  "presentation": "Giuseppina, una donna di 85 anni, si presenta con dolore addominale e perdita di peso. È visibilmente ansiosa e si affida alla nipote per ricevere supporto. Riferisce che il dolore è iniziato circa due settimane fa e che ha notato un aumento della fatica e una diminuzione dell'appetito. La nipote spiega che Giuseppina ha avuto difficoltà a dormire e si preoccupa frequentemente della sua salute. Giuseppina sembra confusa riguardo alla sua condizione e fa fatica a comprendere le spiegazioni mediche.",
+  "redHerrings": [
+    "Lieve ingrossamento della milza.",
+    "Anemia microcitica.",
+    "Storia di reflusso gastroesofageo."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "colonscopia": 90,
+    "cea": 40,
+    "tc": 45,
+    "pet-tc": 180,
+    "moc": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-030_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Carcinoma colorettale metastatico — bilancio geriatrico e ESMO)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-030_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-030_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-030_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-030_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-030_6",
+      "prompt": "Contesto di presentazione: Reparto di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Addome disteso e dolente, massa palpabile in epigastrio, segni di disidratazione, affaticamento evidente."
+  },
+  "goldPathNarrative": "Iniziare con una colonscopia per valutare eventuali lesioni colorettali, seguita dal dosaggio del CEA per monitorare i marcatori tumorali. Infine, eseguire una TC addome per valutare l'estensione della malattia e le eventuali metastasi. È fondamentale considerare un bilancio geriatrico prima di intraprendere trattamenti aggressivi.",
+  "escCitations": [
+    {
+      "chunkId": "1b04c5ce-660a-4a96-be4c-a5dc8e54e272-0",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Colorectal_Cancer_Guidelines.pdf",
+      "quote": "SPECIAL ARTICLE Metastatic colorectal cancer: ESMO Clinical Practice Guideline for diagnosis, treatment and follow-up✫ C. Cremolini1 , M. Chalabi2 , E. Elez3,4 , M. Fassan5,6 , M. Gelli7 , D. Goéré8 , D. P. Modest9 , C. Montagut4,10,11 , P. Osterlund12,13 , J. Ricke14 , J. Seligmann15 , J. Taieb16 , T. Yoshino17 , L. Wyrwicz18 & M. Ducreux19,20 , on behalf of the ESMO Guidelines Committee∗ 1Department of Translational Research and New Technology in Medicine and Surgery, University of Pisa, Pisa,"
+    },
+    {
+      "chunkId": "1b04c5ce-660a-4a96-be4c-a5dc8e54e272-27",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Colorectal_Cancer_Guidelines.pdf",
+      "quote": "atus; wt, wild-type. aESCAT scores apply to alterations from genomic-driven analyses only. These scores have been defined by the authors, assisted if needed by the ESMO Precision Oncology Task Force.94 bESMO-MCBS v2.095 was used to calculate scores for therapies/indications approved by the EMA or FDA. The scores have been calculated and validated by the ESMO-MCBS Working Group and reviewed by the authors (https://www.esmo.org/guidelines/esmo-mcbs/esmo-mcbs-evaluation-forms). cIf ICI doublet ther"
+    },
+    {
+      "chunkId": "1b04c5ce-660a-4a96-be4c-a5dc8e54e272-42",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Colorectal_Cancer_Guidelines.pdf",
+      "quote": "duction treatment can be recommended, especially following maintenance with fluoropyrimidine—bevacizumab or treatment breaks [III, B]. bESCAT scores apply to alterations from genomic-driven analyses only. These scores have been defined by the authors, assisted if needed by the ESMO Precision Oncology Task Force.94 cESMO-MCBS v2.095 was used to calculate scores for therapies/indications approved by the EMA or FDA. The scores have been calculated and validated by the ESMO-MCBS Working Group and re"
+    },
+    {
+      "chunkId": "1b04c5ce-660a-4a96-be4c-a5dc8e54e272-92",
+      "source": "knowledge_base/gastroenterologia/clinical/ESMO_Colorectal_Cancer_Guidelines.pdf",
+      "quote": "):729-741. 3. Primrose J, Falk S, Finch-Jones M, et al. Systemic chemotherapy with or without cetuximab in patients with resectable colorectal liver metastasis: the New EPOC randomised controlled trial. Lancet Oncol. 2014;15(6):601-611. 4. Moretto R, Germani MM, Borelli B, et al. Predicting early recurrence after resection of initially unresectable colorectal liver metastases: the role of baseline and pre-surgery clinical, radiological and molec- ular factors in a real-life multicentre experienc"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: colonscopia → cea → tc.",
+      "Non prescrivere di prima intenzione: pet-tc, moc (ESMO_Colorectal_Cancer_Guidelines.pdf).",
+      "Budget SSN di riferimento: €330."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alle linee guida L. 24/2017 Art. 5.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Reparto di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Colonscopia nel contesto di Carcinoma colorettale metastatico — bilancio geriatrico e ESMO (GASTRO-030). Dolore addominale diffuso, massa palpabile, segni di disidratazione, aumento dei marcatori infiammatori.",
+      "isAbnormal": true,
+      "priceEuro": 120
+    },
+    {
+      "examId": "cea",
+      "name": "CEA",
+      "finding": "CEA nel contesto di Carcinoma colorettale metastatico — bilancio geriatrico e ESMO (GASTRO-030). Dolore addominale diffuso, massa palpabile, segni di disidratazione, aumento dei marcatori infiammatori.",
+      "isAbnormal": true,
+      "priceEuro": 18
+    },
+    {
+      "examId": "tc",
+      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
+      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Carcinoma colorettale metastatico — bilancio geriatrico e ESMO (GASTRO-030). Dolore addominale diffuso, massa palpabile, segni di disidratazione, aumento dei marcatori infiammatori.",
+      "isAbnormal": true,
+      "priceEuro": 180
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf."
+    },
+    {
+      "examId": "moc",
+      "name": "MOC (DEXA)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 40,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESMO_Colorectal_Cancer_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "LOW",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Grande anziana, si affida alla nipote. Evitare aggressività diagnostica (PET, colonscopia ripetuta) senza bilancio geriatrico. Linguaggio lento e rispettoso."
+  }
+}

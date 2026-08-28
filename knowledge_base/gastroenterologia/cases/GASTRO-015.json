@@ -1,0 +1,266 @@
+{
+  "title": "Dispepsia e Helicobacter pylori (Maastricht VI)",
+  "description": "Daniele è un uomo di 48 anni che si presenta in ambulatorio con sintomi di dispepsia da diversi mesi. Ha una literacy media e si mostra collaborativo, ma ha una certa ansia riguardo alla sua condizione. Chiede chiarimenti sul test per l'H. pylori e perché non è necessario eseguire subito una PET. Ha un sonno buono e un livello di stress medio, con una rete di supporto adeguata.",
+  "difficulty": "EASY",
+  "goldStandardPath": [
+    "egds",
+    "biopsia"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 74,
+      "bloodPressure": "128/80",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 180,
+    "advancedExams": {
+      "values": {
+        "egds": {
+          "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Infezione da H. pylori — test and treat Maastricht VI (GASTRO-015). Assenza di segni clinici di allerta, esame obiettivo nella norma.",
+          "normalFinding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Infezione da H. pylori — test and treat Maastricht VI (GASTRO-015). Assenza di segni clinici di allerta, esame obiettivo nella norma.",
+          "isAbnormal": true,
+          "price": 90
+        },
+        "biopsia": {
+          "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Infezione da H. pylori — test and treat Maastricht VI (GASTRO-015). Assenza di segni clinici di allerta, esame obiettivo nella norma.",
+          "normalFinding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Infezione da H. pylori — test and treat Maastricht VI (GASTRO-015). Assenza di segni clinici di allerta, esame obiettivo nella norma.",
+          "isAbnormal": true,
+          "price": 80
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "colonscopia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "demographics": {
+      "age": 48,
+      "sex": "M",
+      "context": "Ambulatorio di Gastroenterologia"
+    },
+    "physicalExam": {
+      "finding": "Esame obiettivo nella norma, nessun segno di anemia o ittero, addome non dolente alla palpazione."
+    },
+    "egds": {
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Infezione da H. pylori — test and treat Maastricht VI (GASTRO-015). Assenza di segni clinici di allerta, esame obiettivo nella norma.",
+      "isAbnormal": true
+    },
+    "biopsia": {
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Infezione da H. pylori — test and treat Maastricht VI (GASTRO-015). Assenza di segni clinici di allerta, esame obiettivo nella norma.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "colonscopia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Eseguire il test per H. pylori e, se positivo, avviare il trattamento di eradicazione.",
+  "patientPrompt": "Ho 48 anni e da mesi soffro di dispepsia. Ho provato a seguire una dieta sana, ma i sintomi non migliorano. Vorrei sapere perché non è necessario un test PET subito e se il test per l'H. pylori è davvero utile. Vorrei anche un piano scritto per l'eradicazione, se necessario.",
+  "id": "GASTRO-015",
+  "code": "GASTRO-015",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Infezione da H. pylori — test and treat Maastricht VI",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Maastricht_VI_H_Pylori_Guidelines.pdf",
+  "diagnosis": "Infezione da Helicobacter pylori.",
+  "pastMedicalHistory": "Nessuna patologia pregressa significativa, non fumatore.",
+  "presentation": "Daniele riferisce di avere disturbi digestivi, come bruciore di stomaco e sensazione di gonfiore, che lo infastidiscono da mesi. È preoccupato per la sua salute e desidera un piano scritto per l'eradicazione dell'H. pylori, se necessario. È aperto a seguire le indicazioni mediche, ma desidera comprendere il motivo per cui non è indicata una PET in questa fase.",
+  "redHerrings": [
+    "Storia di reflusso gastroesofageo.",
+    "Uso occasionale di farmaci anti-infiammatori non steroidei.",
+    "Consumo regolare di alcol in quantità moderata."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 10,
+  "examLatencies": {
+    "egds": 60,
+    "biopsia": 90,
+    "pet-tc": 180,
+    "colonscopia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-015_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Infezione da H. pylori — test and treat Maastricht VI)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-015_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-015_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-015_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-015_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-015_6",
+      "prompt": "Contesto di presentazione: Ambulatorio di Gastroenterologia",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame obiettivo nella norma, nessun segno di anemia o ittero, addome non dolente alla palpazione."
+  },
+  "goldPathNarrative": "Dopo aver discusso i sintomi e l'importanza del test per H. pylori, Daniele accetta di sottoporsi al test. Se il test risulta positivo, gli sarà fornito un piano dettagliato per l'eradicazione dell'infezione, seguendo le linee guida di Maastricht VI.",
+  "escCitations": [
+    {
+      "chunkId": "36c13be7-8906-48b9-8ec2-bc71bf9dc29c-2",
+      "source": "knowledge_base/gastroenterologia/clinical/Maastricht_VI_H_Pylori_Guidelines.pdf",
+      "quote": "e identification of distinct clinical scenarios, proper testing and adoption of effective strategies for prevention of gastric cancer and other complications are addressed. H. pylori treatment is challenged by the continuously rising antibiotic resistance and demands for susceptibility testing with consideration of novel molecular technologies and careful selection of first line and rescue therapies. The role of H. pylori and antibiotic therapies and their impact on the gut microbiota are also c"
+    },
+    {
+      "chunkId": "36c13be7-8906-48b9-8ec2-bc71bf9dc29c-0",
+      "source": "knowledge_base/gastroenterologia/clinical/Maastricht_VI_H_Pylori_Guidelines.pdf",
+      "quote": "1724Malfertheiner P, et al. Gut 2022;71:1724–1762. doi:10.1136/gutjnl-[REDACTED] Guidelines Management of Helicobacter pylori infection: the Maastricht VI/Florence consensus report Peter Malfertheiner ,1,2 Francis Megraud ,3 Theodore Rokkas ,4,5 Javier P Gisbert ,6,7 Jyh-Ming Liou ,8 Christian Schulz ,1,9 Antonio Gasbarrini,10 Richard H Hunt,11,12 Marcis Leja ,13,14 Colm O’Morain,15 Massimo Rugge ,16,17 Sebastian Suerbaum,9,18 Herbert Tilg ,19 Kentaro Sugano ,20 Emad M El- Omar ,21 On behalf of "
+    },
+    {
+      "chunkId": "36c13be7-8906-48b9-8ec2-bc71bf9dc29c-15",
+      "source": "knowledge_base/gastroenterologia/clinical/Maastricht_VI_H_Pylori_Guidelines.pdf",
+      "quote": "36/gutjnl-[REDACTED] onGut: first published as 1726 Malfertheiner P, et al. Gut 2022;71:1724–1762. doi:10.1136/gutjnl-[REDACTED] Guidelines Table 1 Statements, Level of evidence, Strenght of recommendation Grading Agreement WG1: Indications/Associations Statement 1 A1 100.00% H. pylori infection always causes gastritis, irrespective of symptoms or complications. Statement 2 A1 94.00% H. pylori is a gastric pathogen. H. pylori gastritis is an infectious disease. Statement 3 A1 94.00% Test-and-tre"
+    },
+    {
+      "chunkId": "36c13be7-8906-48b9-8ec2-bc71bf9dc29c-14",
+      "source": "knowledge_base/gastroenterologia/clinical/Maastricht_VI_H_Pylori_Guidelines.pdf",
+      "quote": "r GI- endoscopy followed by treatment) which is mandatory in defined clinical settings outlined below. The test-and- treat strategy will cure most cases of underlying peptic ulcer disease and prevent serious consequences of gastro- duodenal diseases associated with H. pylori gastritis. Eradication therapy will also benefit a subset of patients with H. pylori infec- tion associated dyspepsia in the absence of gross mucosal lesions, (ie, FD).15 16 Several prospective studies and decision analyses "
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: egds → biopsia.",
+      "Non prescrivere di prima intenzione: pet-tc, colonscopia (Maastricht_VI_H_Pylori_Guidelines.pdf).",
+      "Budget SSN di riferimento: €180."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione garantita se segue il gold path.",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Ambulatorio di Gastroenterologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "egds",
+      "name": "Esofagogastroduodenoscopia (EGDS)",
+      "finding": "Esofagogastroduodenoscopia (EGDS) nel contesto di Infezione da H. pylori — test and treat Maastricht VI (GASTRO-015). Assenza di segni clinici di allerta, esame obiettivo nella norma.",
+      "isAbnormal": true,
+      "priceEuro": 90
+    },
+    {
+      "examId": "biopsia",
+      "name": "Biopsia (osteomidollare o tissutale mirata)",
+      "finding": "Biopsia (osteomidollare o tissutale mirata) nel contesto di Infezione da H. pylori — test and treat Maastricht VI (GASTRO-015). Assenza di segni clinici di allerta, esame obiettivo nella norma.",
+      "isAbnormal": true,
+      "priceEuro": 80
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf."
+    },
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: Maastricht_VI_H_Pylori_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "GOOD",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Dispepsia da mesi. Accetta il test H. pylori se si spiega perché non serve subito la PET. Chiede un piano scritto di eradicazione."
+  }
+}

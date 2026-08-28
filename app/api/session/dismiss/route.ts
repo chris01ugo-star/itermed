@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { prisma } from "../../../../lib/prisma";
-import { getSessionUserId } from "../../../../lib/api-session";
+import { getSessionUserId, unauthorizedJson } from "../../../../lib/api-session";
 import { userCanPlayCase, verifyLiveSessionOwner } from "../../../../lib/access";
 
 const bodySchema = z.object({
@@ -10,9 +10,7 @@ const bodySchema = z.object({
 
 export async function POST(req: Request) {
   const userId = await getSessionUserId();
-  if (!userId) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  if (!userId) return unauthorizedJson();
 
   let json: unknown;
   try {

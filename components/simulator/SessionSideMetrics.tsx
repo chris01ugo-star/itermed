@@ -109,11 +109,11 @@ export function SessionSideMetrics({
           }}
         >
           <div className="flex items-center justify-between gap-2">
-            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
               Chiusura caso
             </p>
             <ArrowUpRight
-              className="h-4 w-4 text-slate-500 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#1E324E]"
+              className="h-4 w-4 text-slate-500 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#0e3b68]"
               strokeWidth={1.75}
             />
           </div>
@@ -129,7 +129,7 @@ export function SessionSideMetrics({
             </p>
           </div>
 
-          <p className="text-[11px] font-semibold text-[#345884] underline-offset-2 group-hover:underline">
+          <p className="text-[11px] font-semibold text-[#00B4D8] underline-offset-2 group-hover:underline">
             {reportReady ? "Apri referto" : "Inizia compilazione"}
           </p>
         </button>

@@ -1,0 +1,285 @@
+{
+  "title": "Pancreatite biliare in donna di 68 anni",
+  "description": "Lucia si presenta al pronto soccorso con dolore addominale acuto e nausea. Riferisce che il dolore è localizzato nella parte superiore dell'addome e si irradia verso la schiena. È ansiosa riguardo alla possibilità di dover subire un intervento chirurgico alla cistifellea e chiede chiarimenti sul piano diagnostico e terapeutico.",
+  "difficulty": "MEDIUM",
+  "goldStandardPath": [
+    "amilasi-lipasi",
+    "ecografia",
+    "colangio-rm"
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "142/86",
+      "spo2": 96,
+      "temperature": 37.8,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 280,
+    "advancedExams": {
+      "values": {
+        "amilasi-lipasi": {
+          "finding": "Amilasemia e Lipasemia nel contesto di Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP (GASTRO-008). Aumento di amilasi e lipasi, ecografia con calcoli biliari, colangio-RM con ostruzione del dotto biliare comune.",
+          "normalFinding": "Amilasemia e Lipasemia nel contesto di Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP (GASTRO-008). Aumento di amilasi e lipasi, ecografia con calcoli biliari, colangio-RM con ostruzione del dotto biliare comune.",
+          "isAbnormal": true,
+          "price": 9
+        },
+        "ecografia": {
+          "finding": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica) nel contesto di Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP (GASTRO-008). Aumento di amilasi e lipasi, ecografia con calcoli biliari, colangio-RM con ostruzione del dotto biliare comune.",
+          "normalFinding": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica) nel contesto di Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP (GASTRO-008). Aumento di amilasi e lipasi, ecografia con calcoli biliari, colangio-RM con ostruzione del dotto biliare comune.",
+          "isAbnormal": true,
+          "price": 35
+        },
+        "colangio-rm": {
+          "finding": "Colangio-RM nel contesto di Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP (GASTRO-008). Aumento di amilasi e lipasi, ecografia con calcoli biliari, colangio-RM con ostruzione del dotto biliare comune.",
+          "normalFinding": "Colangio-RM nel contesto di Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP (GASTRO-008). Aumento di amilasi e lipasi, ecografia con calcoli biliari, colangio-RM con ostruzione del dotto biliare comune.",
+          "isAbnormal": true,
+          "price": 220
+        },
+        "pet-tc": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "coronarografia": {
+          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+          "isAbnormal": false,
+          "price": 800
+        }
+      }
+    },
+    "demographics": {
+      "age": 68,
+      "sex": "F",
+      "context": "Pronto Soccorso"
+    },
+    "physicalExam": {
+      "finding": "Addome dolente alla palpazione, segni di difesa addominale, febbre, tachicardia."
+    },
+    "amilasi-lipasi": {
+      "finding": "Amilasemia e Lipasemia nel contesto di Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP (GASTRO-008). Aumento di amilasi e lipasi, ecografia con calcoli biliari, colangio-RM con ostruzione del dotto biliare comune.",
+      "isAbnormal": true
+    },
+    "ecografia": {
+      "finding": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica) nel contesto di Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP (GASTRO-008). Aumento di amilasi e lipasi, ecografia con calcoli biliari, colangio-RM con ostruzione del dotto biliare comune.",
+      "isAbnormal": true
+    },
+    "colangio-rm": {
+      "finding": "Colangio-RM nel contesto di Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP (GASTRO-008). Aumento di amilasi e lipasi, ecografia con calcoli biliari, colangio-RM con ostruzione del dotto biliare comune.",
+      "isAbnormal": true
+    },
+    "pet-tc": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+      "isAbnormal": false
+    },
+    "coronarografia": {
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+      "isAbnormal": false
+    }
+  },
+  "correctSolution": "Amilasi-lipasi → ecografia → colangio-RM",
+  "patientPrompt": "Mi chiamo Lucia e ho 68 anni. Sono qui perché ho un forte dolore all'addome e mi sento molto nauseata. Questo dolore è iniziato all'improvviso e sembra peggiorare. Sono un po' ansiosa e mi chiedo se dovrò operare la cistifellea. Vorrei sapere cosa mi aspetta, quali esami farete e se ci sarà bisogno di un intervento. Non mi piace il silenzio mentre aspetto, preferisco avere un piano chiaro.",
+  "id": "GASTRO-008",
+  "code": "GASTRO-008",
+  "specialty": "gastroenterologia",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+  "diagnosis": "Pancreatite acuta biliare",
+  "pastMedicalHistory": "Nessuna patologia pregressa significativa, non fumatore, consumo moderato di alcol.",
+  "presentation": "Lucia, una donna di 68 anni, si presenta al pronto soccorso con un quadro di dolore addominale acuto, nausea e febbre. Riferisce che il dolore è insorto improvvisamente e ha un'intensità crescente. È preoccupata e chiede se dovrà operare la cistifellea. Ha una buona rete di supporto familiare, ma il silenzio durante le attese la rende ansiosa. La sua literacy è media, quindi cerca di comprendere il piano diagnostico che le viene proposto, preferendo un approccio chiaro e dettagliato.",
+  "redHerrings": [
+    "Storia di gastrite cronica, che non è correlata al quadro attuale.",
+    "Recenti episodi di reflusso gastroesofageo, che non spiegano il dolore addominale.",
+    "Uso occasionale di farmaci antinfiammatori non steroidei, che non sono la causa del problema."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "examLatencies": {
+    "amilasi-lipasi": 30,
+    "ecografia": 25,
+    "colangio-rm": 60,
+    "pet-tc": 180,
+    "coronarografia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq_gastro-008_1",
+      "prompt": "Tempo e modalità di insorgenza di dolore addominale, sanguinamento o ittero (Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP)",
+      "critical": true,
+      "expectedKeywords": [
+        "da quanto",
+        "quando",
+        "insorgenza",
+        "dolore",
+        "sangue"
+      ],
+      "rationale": "Definisce urgenza gastroenterologica e finestra endoscopica."
+    },
+    {
+      "id": "aq_gastro-008_2",
+      "prompt": "Caratteristiche (ematemesi, melena, rettorragia, vomito, diarrea, prurito, calo ponderale)",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "melena",
+        "feci",
+        "diarrea",
+        "peso"
+      ],
+      "rationale": "Fenotipo clinico per diagnosi differenziale digestiva."
+    },
+    {
+      "id": "aq_gastro-008_3",
+      "prompt": "Farmaci (FANS, anticoagulanti, IPP, antibiotici, integratori) e alcol",
+      "critical": true,
+      "expectedKeywords": [
+        "fans",
+        "anticoag",
+        "ipp",
+        "integratori",
+        "alcol"
+      ],
+      "rationale": "Fattori di rischio UGIB, DILI, pancreatite e appropriatezza IPP (Nota AIFA N01)."
+    },
+    {
+      "id": "aq_gastro-008_4",
+      "prompt": "Terapie in atto, allergie, precedenti chirurgici / endoscopie",
+      "critical": true,
+      "expectedKeywords": [
+        "farmaci",
+        "allergia",
+        "intervento",
+        "gastroscopia",
+        "colonscopia"
+      ],
+      "rationale": "Baseline prescrittiva, consenso e scudo Gelli-Bianco (L. 24/2017 Art. 5)."
+    },
+    {
+      "id": "aq_gastro-008_5",
+      "prompt": "Red flag (ipotensione, febbre, confusione, massa, disfagia, anemia)",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "febbre",
+        "confusione",
+        "peso",
+        "disfagia"
+      ],
+      "rationale": "Identifica instabilità e indicazioni a trasferimento/EGDS urgente."
+    },
+    {
+      "id": "aq_gastro-008_6",
+      "prompt": "Contesto di presentazione: Pronto Soccorso",
+      "critical": false,
+      "expectedKeywords": [
+        "dove si trova",
+        "arrivato",
+        "ambulanza",
+        "visita"
+      ],
+      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Addome dolente alla palpazione, segni di difesa addominale, febbre, tachicardia."
+  },
+  "goldPathNarrative": "Dopo aver eseguito le analisi di laboratorio, sono state riscontrate elevate concentrazioni di amilasi e lipasi, suggerendo pancreatite. Successivamente, è stata effettuata un'ecografia addominale che ha evidenziato la presenza di calcoli biliari. Infine, una colangio-RM ha confermato l'ostruzione del dotto biliare comune. Si è quindi deciso di programmare una colecistectomia in un secondo momento, dopo la stabilizzazione clinica.",
+  "escCitations": [
+    {
+      "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-70",
+      "source": "knowledge_base/gastroenterologia/clinical/IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+      "quote": "e noted that predicting the pres- ence of CBD stones in the early stages of biliary pancreatitis with laboratory findings, transabdominal ultrasonography or CT is unreliable [62]. The individual trials, and even the pooled data in the meta-analyses, did not include enough patients with ‘pre- dicted severe biliary pancreatitis without cholangitis’ to study Working Group IAP/APA Acute Pancreatitis Guidelines / Pancreatology 13 (2013) e1ee15e8 the hard clinical endpoints such as mortality (possible"
+    },
+    {
+      "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-37",
+      "source": "knowledge_base/gastroenterologia/clinical/IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+      "quote": "ive value exceeding 85% [11e13]. Q3. What further investigations are indicated in patients after a first or second attack of idiopathic acute pancreatitis? In patients considered to have idiopathic acute pancreatitis, af- ter negative routine work-up for biliary etiology (e.g. repeated right upper quadrant ultrasonography), endoscopic ultraso- nography (EUS) is recommended as the first step to assess for occult microlithiasis, neoplasms and chronic pancreatitis. If EUS is negative, (secretin-sti"
+    },
+    {
+      "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-35",
+      "source": "knowledge_base/gastroenterologia/clinical/IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+      "quote": "tis but not gallstone related gallbladder disease, i.e. biliary colic and cholecystitis.(GRADE 2B, strong agreement) Working Group IAP/APA Acute Pancreatitis Guidelines / Pancreatology 13 (2013) e1ee15e4 test with adequate accuracy confirmed in a recent meta-analysis (pooled sensitivity 82% and specificity 94%), it was not included because of its presumed limited availability [9]. Q2. On admission, what should be done to determine the etiology of acute pancreatitis? On admission, the etiology of"
+    },
+    {
+      "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-92",
+      "source": "knowledge_base/gastroenterologia/clinical/IAP_APA_Acute_Pancreatitis_Guidelines.pdf",
+      "quote": "adder dis- ease, i.e. biliary colic and cholecystitis. (GRADE 2B, strong agreement). Remarks: one meta-analysis reported a 10% readmission rate after ERCP for mild biliary pancreatitis because of biliary colic and acute cholecystitis [85]. Studies on this topic in severe biliary pancreatitis are lacking. In severe biliary pancreatitis, cholecystectomy should be postponed for 6 weeks. 4. Conclusion The IAP/APA guidelines on the management of acute pancreatitis are the result of an international, "
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire in sequenza il gold path: amilasi-lipasi → ecografia → colangio-rm.",
+      "Non prescrivere di prima intenzione: pet-tc, coronarografia (IAP_APA_Acute_Pancreatitis_Guidelines.pdf).",
+      "Budget SSN di riferimento: €280."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Adesione alle linee guida L. 24/2017 Art. 5",
+      "legalCriteria": [
+        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
+        "Raccogliere consenso informato prima di procedure invasive (EGDS/colonscopia/paracentesi).",
+        "Evitare esami inappropriati e IPP senza indicazione (Codice deontologico, Nota AIFA N01).",
+        "Registrare tempi critici nel setting Pronto Soccorso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "amilasi-lipasi",
+      "name": "Amilasemia e Lipasemia",
+      "finding": "Amilasemia e Lipasemia nel contesto di Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP (GASTRO-008). Aumento di amilasi e lipasi, ecografia con calcoli biliari, colangio-RM con ostruzione del dotto biliare comune.",
+      "isAbnormal": true,
+      "priceEuro": 9
+    },
+    {
+      "examId": "ecografia",
+      "name": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica)",
+      "finding": "Ecografia (addome, tiroide, mammella, muscolotendinea, pelvica) nel contesto di Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP (GASTRO-008). Aumento di amilasi e lipasi, ecografia con calcoli biliari, colangio-RM con ostruzione del dotto biliare comune.",
+      "isAbnormal": true,
+      "priceEuro": 35
+    },
+    {
+      "examId": "colangio-rm",
+      "name": "Colangio-RM",
+      "finding": "Colangio-RM nel contesto di Pancreatite acuta biliare — ecografia, colangio-RM, timing colecistectomia TG18/IAP (GASTRO-008). Aumento di amilasi e lipasi, ecografia con calcoli biliari, colangio-RM con ostruzione del dotto biliare comune.",
+      "isAbnormal": true,
+      "priceEuro": 220
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf."
+    },
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia (Invasiva)",
+      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf.",
+      "isAbnormal": false,
+      "priceEuro": 800,
+      "inappropriate": true,
+      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IAP_APA_Acute_Pancreatitis_Guidelines.pdf."
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Chiede se dovrà operare la cistifellea. Preferisce un piano (eco, colangio-RM, timing). Il silenzio procedurale la inquieta."
+  }
+}

@@ -5,6 +5,7 @@ import {
   isSubscriptionPlan,
 } from "@/lib/billing/plans";
 import type { UserBillingProfile } from "@/lib/billing/user-billing";
+import { canHonorDailyLimitBypass } from "@/lib/security/dev-only-gates";
 
 /** Patient chat always uses gpt-4o-mini. gpt-4o is reserved for evaluation/RAG. */
 export type ChatModelId = "gpt-4o-mini";
@@ -60,7 +61,10 @@ export type SimulationAccessOptions = {
   caseBundleId?: string | null;
   /** Simulations already started today (Europe/Rome). */
   usedToday?: number;
-  /** Temporary soft bypass while payments are not live ("Sono un dev"). */
+  /**
+   * Client-supplied quota skip. Honored ONLY when `NODE_ENV === "development"`.
+   * Production / staging / test ignore this flag even if set to true.
+   */
   bypassDailyLimit?: boolean;
 };
 
@@ -69,7 +73,7 @@ export function shouldCountAgainstDailyQuota(
   profile: UserBillingProfile,
   options?: SimulationAccessOptions,
 ): boolean {
-  if (options?.bypassDailyLimit) return false;
+  if (canHonorDailyLimitBypass(options?.bypassDailyLimit)) return false;
   if (isActiveOrBetaLearner(profile)) return false;
   const bundleId = options?.caseBundleId?.trim();
   if (bundleId && profile.purchasedBundleIds.includes(bundleId)) return false;
@@ -83,7 +87,7 @@ export function assertCanStartSimulation(
   profile: UserBillingProfile,
   options?: SimulationAccessOptions,
 ): GateResult {
-  if (options?.bypassDailyLimit) {
+  if (canHonorDailyLimitBypass(options?.bypassDailyLimit)) {
     return { allowed: true };
   }
 

@@ -14,7 +14,12 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
 
   let ssmSpecialties = buildSsmSpecialtyLinks([]);
   try {
-    const dbSpecialties = await fetchMedicalSpecialtyOptionsCached();
+    const dbSpecialties = await Promise.race([
+      fetchMedicalSpecialtyOptionsCached(),
+      new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error("specialty lookup timed out")), 800);
+      }),
+    ]);
     ssmSpecialties = buildSsmSpecialtyLinks(dbSpecialties);
   } catch {
     // Fallback to canonical SSM list without DB ids.

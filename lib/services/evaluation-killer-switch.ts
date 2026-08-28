@@ -161,7 +161,7 @@ export function buildMacroAreaRationales(
         : `Appropriatezza prescrittiva (scores.exams): ${breakdown.exams.final}/100. Economia HTA efficienza ${breakdown.economy.efficiencyPercent ?? breakdown.economy.final}% (esclusa dal /30).`,
     },
     {
-      label: "Comunicazione ed Empatia",
+      label: "Comunicazione e Relazione Clinica",
       weightPercent: MACRO_AREA_WEIGHTS.empathy * 100,
       scorePercent: scores.empathy,
       contributionTrentesimi: dimensionContributionTrentesimi(
@@ -171,9 +171,11 @@ export function buildMacroAreaRationales(
       rationale: (() => {
         const emp = breakdown.empathy;
         const dims = emp.dimensions;
-        const dimLine = dims
-          ? `A ascolto ${dims.activeListening.score}/100 · B validazione ${dims.emotionalValidation.score}/100 · C contesto ${dims.clinicalContext.score}/100 (Calgary-Cambridge)`
-          : emp.qualitativeLabel || `Empatia ${emp.final}/100`;
+        const dimLine = emp.dRime
+          ? `D-RIME: SPIKES ${emp.dRime.spikesEmpathyScore} · RIAS ${emp.dRime.riasAlignmentScore} · CARE ${emp.dRime.careTrustScore} · Alleanza ${emp.dRime.allianceScore}`
+          : dims
+            ? `A ascolto ${dims.activeListening.score}/100 · B validazione ${dims.emotionalValidation.score}/100 · C contesto ${dims.clinicalContext.score}/100 (D-RIME)`
+            : emp.qualitativeLabel || `Comunicazione ${emp.final}/100`;
         const mil = mb
           ? ` · milestone telemetria ${mb.empathy.met}/${mb.empathy.expected}`
           : "";
