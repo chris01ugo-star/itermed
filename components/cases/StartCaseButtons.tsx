@@ -162,14 +162,14 @@ export function StartCaseButtons({
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <a
           href={directPlayHref}
+          onClick={handleOriginalClick}
           aria-busy={isStartingOriginal}
           className={emphasis === "original" ? primaryClass : secondaryClass}
         >
           {isStartingOriginal ? "Avvio..." : "Avvia caso originale"}
-        </Link>
-        <Link
-          href={directPlayHref}
-          prefetch={false}
+        </a>
+        <button
+          type="button"
           onClick={handleVariantClick}
           aria-busy={isStartingVariant}
           className={emphasis === "variant" ? primaryClass : secondaryClass}

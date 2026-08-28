@@ -65,8 +65,9 @@ import { ScoreProgressRing } from "@/app/case/[id]/results/ScoreProgressRing";
 import { deriveDemoVitals, patientDisplayName } from "@/lib/prassi/demo-vitals";
 import { classifyVitals, maxVitalStatus } from "@/lib/clinical/vital-status";
 import { resolveCaseStressProfile } from "@/lib/simulator/patient-stress-engine";
-import { estimateLiveCoaching } from "@/lib/simulator/live-coaching-estimate";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
+import { resolveExamBudgetEuro } from "@/lib/services/evaluation-scoring";
+import type { CaseDifficulty } from "@prisma/client";
 import { EXAM_DEFAULT_VALUES, type ExamClinicalMeta } from "../../lib/exam-default-values";
 import { EXAM_CATALOG_STRUCTURE } from "@/lib/exam-catalog-structure";
 import {
@@ -82,7 +83,6 @@ import {
   formatAbnormalExamsFromBaseline,
   formatVitalSignsFromBaseline,
 } from "../../lib/simulator/patientCaseContext";
-import type { SimulatorPlayCasePayload } from "@/lib/cases/case-payload";
 
 type Exam = SimulatorExam;
 
@@ -99,7 +99,27 @@ const RAW_EXAM_CATALOG_STRUCTURE: ExamMacroCategory[] = EXAM_CATALOG_STRUCTURE;
 /** Valori esami salvati in creazione caso (`baselineExamFindings.advancedExams.values`) */
 type CaseExamStoredValues = CaseExamOverride;
 
-type InitialCaseData = SimulatorPlayCasePayload;
+type InitialCaseData = {
+  id: string;
+  title: string;
+  description: string;
+  specialty: string | null;
+  difficulty: string;
+  estimatedDurationMinutes: number | null;
+  patientPrompt: string;
+  correctSolution?: string | null;
+  demographics?: {
+    age?: number | string | null;
+    sex?: string | null;
+    context?: string | null;
+  };
+  /** Da DB: include advancedExams.values compilati in creazione caso */
+  baselineExamFindings?: Record<string, unknown>;
+  timeLimitMinutes?: number | null;
+  examLatencies?: Record<string, number> | null;
+  goldStandardPath?: string[] | null;
+  patientDeteriorationThreshold?: number | null;
+};
 
 type SimulatorClientProps = {
   initialCaseData: InitialCaseData;
@@ -119,8 +139,6 @@ type SimulatorClientProps = {
 };
 
 import type { EliteReportData } from "@/lib/services/simulation-report-data";
-import { writeOfflineReportCache } from "@/lib/reports/offline-report-cache";
-import { evaluateInteractionTrajectory } from "@/lib/reports/d-rime-engine";
 
 type SimulationReportData = EliteReportData;
 
@@ -153,74 +171,6 @@ function syncSessionIdInUrl(sessionId: string): void {
   }
 }
 
-
-function buildLocalEliteReport(params: {
-  caseId: string;
-  requestedExamIds: string[];
-  examCount: number;
-  examCost: number;
-  chatTurns: number;
-  chatHistory: Array<{ role: "user" | "assistant"; content: string }>;
-}): EliteReportData {
-  const exams = params.examCount > 0 ? Math.min(80, 40 + params.examCount * 8) : 20;
-  const clinical = Math.max(15, Math.min(95, exams - 5 + Math.min(params.chatTurns, 8) * 3));
-  const legal = params.requestedExamIds.some((id) => id.toLowerCase().includes("consenso"))
-    ? Math.min(90, 55 + params.examCount * 4)
-    : Math.max(20, exams - 15);
-  const dRime = evaluateInteractionTrajectory(params.chatHistory, null, []);
-  const empathy = dRime.score;
-  const economy =
-    params.examCost <= 0 ? 50 : params.examCost < 150 ? 75 : params.examCost < 400 ? 55 : 35;
-  const totalScore =
-    Math.round(((clinical * 0.4 + legal * 0.2 + exams * 0.2 + empathy * 0.2) / 100) * 30 * 10) / 10;
-
-  return {
-    sessionId: `local-${params.caseId}-${Date.now()}`,
-    scores: { clinical, legal, exams, empathy, economy },
-    totalScore,
-    feedback: {
-      strengths:
-        params.chatTurns > 0
-          ? ["Interazione clinica avviata con il paziente virtuale."]
-          : [],
-      weaknesses: [
-        "Report generato in modalità locale (registry) — il database remoto non ha restituito la sessione.",
-      ],
-      clinicalNote: "Valutazione locale — il database remoto non ha restituito la sessione.",
-      legalComplianceNote: "Scudo L. 24/2017 Art. 5: adesione alle linee guida del caso (modalità offline).",
-      prescribingNote: `Esami prescritti: ${params.examCount}. Costo stimato €${params.examCost.toFixed(0)}.`,
-      empathyNote: dRime.qualitativeLabel,
-      economyNote: `Spesa esami €${params.examCost.toFixed(0)}.`,
-      correctSolution: "",
-    },
-    evidence: { legalSources: [], protocolSources: [] },
-    empathyBreakdown: {
-      baseline: dRime.initialState.trust,
-      validationBonus: 0,
-      transparencyBonus: 0,
-      allianceBonus: Math.max(0, dRime.finalState.trust - dRime.initialState.trust),
-      dismissalPenalty: 0,
-      finalScore: dRime.score,
-      final: dRime.score,
-      qualitativeLabel: dRime.qualitativeLabel,
-      motivations: [],
-      expertAnalysis: dRime.expertAnalysis,
-      framework: "d-rime",
-      dRime: {
-        spikesEmpathyScore: dRime.spikesEmpathyScore,
-        riasAlignmentScore: dRime.riasAlignmentScore,
-        careTrustScore: dRime.careTrustScore,
-        allianceScore: dRime.allianceScore,
-        biasManagementScore: dRime.biasManagementScore,
-        defensiveMedicineScore: dRime.defensiveMedicineScore,
-        initialState: dRime.initialState,
-        finalState: dRime.finalState,
-        trajectory: dRime.trajectory,
-        relationalInsights: dRime.relationalInsights,
-      },
-    },
-  };
-}
 
 type PollReportResult = {
   reportId: string;
@@ -462,8 +412,9 @@ export function SimulatorClient({
   const [reportProgressMessage, setReportProgressMessage] = useState("");
   const [reportData, setReportData] = useState<SimulationReportData | null>(null);
 
+  const sanitizedIncomingSessionId = sanitizeLiveSessionId(sessionId);
   const [effectiveSessionId, setEffectiveSessionId] = useState<string | undefined>(
-    sanitizeLiveSessionId(sessionId),
+    sanitizedIncomingSessionId,
   );
   const [isStartingEmergency, setIsStartingEmergency] = useState(false);
   const [dismissLoading, setDismissLoading] = useState(false);
@@ -506,7 +457,8 @@ export function SimulatorClient({
     if (stressInitializedRef.current) return;
     const profile = resolveCaseStressProfile({
       description: initialCaseData.description,
-      baselineExamFindings: initialCaseData.baselineExamFindings,
+      baselineExamFindings: initialCaseData.baselineExamFindings as Record<string, unknown> | undefined,
+      goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
     });
     stressInitializedRef.current = true;
     setPatientStress(profile.initialStress);
@@ -514,6 +466,7 @@ export function SimulatorClient({
   }, [
     initialCaseData.description,
     initialCaseData.baselineExamFindings,
+    initialCaseData.goldStandardPath,
   ]);
 
   useEffect(() => {
@@ -627,8 +580,7 @@ export function SimulatorClient({
     },
     experimental_prepareRequestBody: ({ messages: chatMessages, requestBody }) => ({
       ...(requestBody ?? {}),
-      sessionId: sanitizeLiveSessionId(effectiveSessionIdRef.current),
-      caseId: initialCaseData.id,
+      sessionId: effectiveSessionIdRef.current,
       patientStress: patientStressRef.current,
       requestedExamIds: selectedExamIdsRef.current,
       messages: chatMessages.map((m) => ({
@@ -672,10 +624,6 @@ export function SimulatorClient({
   useEffect(() => {
     markUserActivity();
   }, [userMessageCount, selectedExamIds.length, markUserActivity]);
-
-  const ensureSessionId = useCallback(async (): Promise<string | null> => {
-    if (effectiveSessionIdRef.current) return effectiveSessionIdRef.current;
-    if (sessionStartPromiseRef.current) return sessionStartPromiseRef.current;
 
   const ensureSessionId = useCallback(async (): Promise<string | null> => {
     if (effectiveSessionIdRef.current) return effectiveSessionIdRef.current;
@@ -741,6 +689,7 @@ export function SimulatorClient({
   }, [ensureSessionId, markUserActivity]);
 
   const requestInformedConsent = useCallback(() => {
+    console.log("[DEBUG CLICK] consenso-informato", initialCaseData.id);
     markUserActivity();
     if (consentRequested || isConsentBusy) return;
     setIsConsentBusy(true);
@@ -782,6 +731,7 @@ export function SimulatorClient({
     append,
     consentRequested,
     ensureSessionId,
+    initialCaseData.id,
     isConsentBusy,
     markUserActivity,
   ]);
@@ -822,38 +772,10 @@ export function SimulatorClient({
 
   // Single-flight session start — only after clinical disclaimer (avoid orphan sessions).
   useEffect(() => {
-    if (effectiveSessionId) return;
-    let cancelled = false;
-
-    (async () => {
-      try {
-        const res = await fetch("/api/session/start", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            caseId: initialCaseData.id,
-            mode: "original",
-          }),
-        });
-        const data = await res.json().catch(() => null);
-        const newSessionId = sanitizeLiveSessionId(
-          typeof data?.sessionId === "string" ? data.sessionId : undefined,
-        );
-        if (!cancelled && newSessionId) {
-          setEffectiveSessionId(newSessionId);
-          effectiveSessionIdRef.current = newSessionId;
-          // Prefer history sync over router.replace to avoid remounting the play page.
-          syncSessionIdInUrl(newSessionId);
-        }
-      } catch {
-        // ignore
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [effectiveSessionId, initialCaseData.id]);
+    if (!disclaimerAccepted || !persistReports) return;
+    if (effectiveSessionIdRef.current) return;
+    void ensureSessionId();
+  }, [disclaimerAccepted, persistReports, ensureSessionId]);
 
   useEffect(() => {
     if (!isAdmin || !effectiveSessionId) return;
@@ -1035,7 +957,7 @@ export function SimulatorClient({
         setReportProgressMessage(data.progressMessage);
       }
 
-      const { reportId: completedReportId, reportData: completedReport } = await pollReportUntilComplete(
+      const { reportId: completedReportId } = await pollReportUntilComplete(
         reportId,
         (progress, message) => {
           setReportProgress(progress);
@@ -1044,32 +966,15 @@ export function SimulatorClient({
         { signal: abortController.signal },
       );
 
-      writeOfflineReportCache(completedReportId, completedReport);
       router.push(`/case/${initialCaseData.id}/results?sessionId=${completedReportId}`);
       router.refresh();
     } catch (e) {
       if (abortController.signal.aborted) {
         return;
       }
-      const localReport = buildLocalEliteReport({
-        caseId: initialCaseData.id,
-        requestedExamIds: selectedExamIdsRef.current ?? [],
-        examCount: selectedExams.length,
-        examCost: selectedExams.reduce((sum, exam) => sum + exam.cost, 0),
-        chatTurns: messages.filter((m) => m.role === "user").length,
-        chatHistory: messages
-          .filter((m) => m.role === "user" || m.role === "assistant")
-          .map((m) => ({
-            role: m.role as "user" | "assistant",
-            content: getChatMessageText(m),
-          })),
-      });
-      writeOfflineReportCache(localReport.sessionId, localReport);
-      router.push(`/case/${initialCaseData.id}/results?sessionId=${localReport.sessionId}`);
-      router.refresh();
-      if (process.env.NODE_ENV === "development") {
-        console.warn("[SimulatorClient] remote report failed — opened local registry report", e);
-      }
+      const message =
+        e instanceof Error ? e.message : "Errore nella generazione del report.";
+      setReportError(message);
     } finally {
       if (reportGenerationAbortRef.current === abortController) {
         setReportLoading(false);
@@ -1080,7 +985,6 @@ export function SimulatorClient({
     finalDiagnosis,
     initialCaseData.id,
     initialCaseData.patientPrompt,
-    initialCaseData.baselineExamFindings,
     messages,
     reportSections,
     router,
@@ -1297,7 +1201,7 @@ export function SimulatorClient({
                     { id: "clinical", label: "Accuratezza clinica" },
                     { id: "legal", label: "Legal compliance" },
                     { id: "prescribing", label: "Appropriatezza prescrittiva" },
-                    { id: "empathy", label: "Comunicazione" },
+                    { id: "empathy", label: "Empatia" },
                     { id: "economy", label: "Sostenibilità economica" },
                   ] as const
                 ).map((t) => {
@@ -1342,7 +1246,7 @@ export function SimulatorClient({
                       <MetricBar label="Accuratezza clinica" score={reportData.scores.clinical} />
                       <MetricBar label="Tutela medico-legale" score={reportData.scores.legal} />
                       <MetricBar label="Appropriatezza esami" score={reportData.scores.exams} />
-                      <MetricBar label="Comunicazione" score={reportData.scores.empathy} />
+                      <MetricBar label="Empatia" score={reportData.scores.empathy} />
                       <MetricBar label="Sostenibilità economica" score={reportData.scores.economy} />
                     </div>
                     {activeReportTab === "clinical" && (
@@ -1390,7 +1294,7 @@ export function SimulatorClient({
                     {activeReportTab === "empathy" && (
                       <div className="rounded-xl border border-slate-100 border-l-4 border-l-[#345884] bg-slate-50 p-4">
                         <p className="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">
-                          Feedback comunicazione (D-RIME)
+                          Feedback empatia
                         </p>
                         <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">
                           {reportData.feedback?.empathyNote ?? "—"}
@@ -1460,8 +1364,8 @@ export function SimulatorClient({
                   Pronto Soccorso
                 </span>
               </div>
-              <span className="mt-0.5 inline-flex items-center gap-1.5 text-[11px] font-medium text-[#00B4D8]">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#00B4D8]" />
+              <span className="mt-0.5 inline-flex items-center gap-1.5 text-[11px] font-medium text-[#345884]">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#345884]" />
                 Sessione attiva
               </span>
             </div>
@@ -1592,7 +1496,7 @@ export function SimulatorClient({
                   onClick={openHelpConsult}
                   aria-label="Aiuto / Richiesta consulto"
                   title="Aiuto / Richiesta consulto"
-                  className="inline-flex items-center justify-center rounded-xl border border-border bg-panel-bg p-2 text-slate-500 shadow-sm transition hover:bg-ui-bg hover:text-[#345884]"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-[#345884]/30 bg-[#EEF2F9] px-2.5 py-2 text-xs font-medium text-[#345884] shadow-sm transition hover:bg-[#345884] hover:text-white"
                 >
                   <HelpCircle className="h-4 w-4" strokeWidth={1.75} />
                   <span className="hidden sm:inline">Aiuto</span>
@@ -1690,22 +1594,6 @@ export function SimulatorClient({
                         Anamnesi con il paziente
                       </p>
                     </div>
-                    <AiTransparencyBadge variant="workspace" />
-                  </div>
-                  <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-3">
-                    <HistoryChat
-                      messages={messages}
-                      input={input}
-                      onInputChange={handleInputChange}
-                      onSubmit={handleSubmit}
-                      onRequestConsent={requestInformedConsent}
-                      consentRequested={consentRequested}
-                      consentBusy={isConsentBusy}
-                      isLoading={isChatLoading}
-                      compact
-                      fill
-                      showInactivityNudge={showInactivityNudge}
-                    />
                   </div>
                   <AiTransparencyBadge variant="workspace" />
                 </div>
@@ -1819,9 +1707,6 @@ export function SimulatorClient({
                       input={input}
                       onInputChange={handleInputChange}
                       onSubmit={handleSubmit}
-                      onRequestConsent={requestInformedConsent}
-                      consentRequested={consentRequested}
-                      consentBusy={isConsentBusy}
                       isLoading={isChatLoading}
                       chatError={chatError}
                       onRetryChat={() => void reloadChat()}
@@ -1829,7 +1714,6 @@ export function SimulatorClient({
                       consentRequested={consentRequested}
                       consentBusy={isConsentBusy}
                       compact={embedded}
-                      showInactivityNudge={showInactivityNudge}
                     />
                   </TabsContent>
                   <TabsContent value="exam" currentValue={activeTab} className="mt-3 w-full min-w-0">
@@ -1837,7 +1721,6 @@ export function SimulatorClient({
                       sessionId={effectiveSessionId}
                       patientPrompt={initialCaseData.patientPrompt}
                       caseId={initialCaseData.id}
-                      resolveSessionId={ensureSessionId}
                       onExamResult={handleExamFinding}
                     />
                   </TabsContent>
@@ -2358,35 +2241,24 @@ export function SimulatorClient({
         </div>
 
         {embedded ? (
-          <footer className="flex w-full min-w-0 flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-4 lg:px-5">
-            <div className="min-w-0">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">
-                Obiettivo del caso
-              </p>
-              <p className="mt-1.5 max-w-3xl text-[13px] leading-relaxed text-slate-700">
-                {initialCaseData.description ||
-                  "Gestisci il paziente in PS con appropriatezza clinica e medico-legale."}
-              </p>
-            </div>
-            <div className="flex shrink-0 items-center gap-1">
-              <Link
-                href="/dashboard/guidelines"
-                className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
-              >
-                <BookOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
-                Linee guida correlate
-              </Link>
-              <span className="mx-0.5 hidden h-4 w-px bg-slate-200 sm:block" aria-hidden />
-              <button
-                type="button"
-                onClick={openHelpConsult}
-                aria-label="Aiuto / Richiesta consulto"
-                title="Aiuto / Richiesta consulto"
-                className="inline-flex items-center justify-center rounded-md p-1.5 text-slate-500 transition hover:bg-slate-50 hover:text-[#345884]"
-              >
-                <HelpCircle className="h-4 w-4" strokeWidth={1.75} />
-              </button>
-            </div>
+          <footer className="flex w-full shrink-0 items-center justify-between gap-3 rounded-xl border border-slate-200/80 bg-white/90 px-3.5 py-2 shadow-sm">
+            <Link
+              href="/dashboard/guidelines"
+              className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[12px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
+            >
+              <BookOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
+              Linee guida correlate
+            </Link>
+            <button
+              type="button"
+              onClick={openHelpConsult}
+              aria-label="Aiuto / Richiesta consulto"
+              title="Aiuto / Richiesta consulto"
+              className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/25 bg-[#EEF2F9] px-2.5 py-1 text-[12px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white"
+            >
+              <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+              Aiuto
+            </button>
           </footer>
         ) : null}
       </div>
@@ -2832,10 +2704,6 @@ type HistoryChatProps = {
   input: string;
   onInputChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  /** Informed-consent module — logs telemetry + sends explanation to the patient. */
-  onRequestConsent?: () => void;
-  consentRequested?: boolean;
-  consentBusy?: boolean;
   isLoading: boolean;
   /** Streaming / network failure from useChat. */
   chatError?: Error | undefined;
@@ -2849,8 +2717,6 @@ type HistoryChatProps = {
   compact?: boolean;
   /** Stretch to fill the parent container height instead of a fixed px height. */
   fill?: boolean;
-  /** Soft tip when the clinician has been idle too long. */
-  showInactivityNudge?: boolean;
 };
 
 function HistoryChat({
@@ -2858,9 +2724,6 @@ function HistoryChat({
   input,
   onInputChange,
   onSubmit,
-  onRequestConsent,
-  consentRequested = false,
-  consentBusy = false,
   isLoading,
   chatError,
   onRetryChat,
@@ -2869,7 +2732,6 @@ function HistoryChat({
   consentBusy = false,
   compact = false,
   fill = false,
-  showInactivityNudge = false,
 }: HistoryChatProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -3016,22 +2878,26 @@ function HistoryChat({
           </div>
         ) : null}
         {onRequestConsent ? (
-          <div className="flex flex-wrap items-center gap-1.5 px-0.5">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
-              disabled={isLoading || consentBusy || consentRequested}
               onClick={onRequestConsent}
+              disabled={isLoading || consentBusy || consentRequested}
               aria-label="Richiesta Modulo Consenso Informato"
               title="Richiesta Modulo Consenso Informato"
               className={cn(
-                "inline-flex items-center rounded-full border px-2.5 py-1 text-[11px] font-medium transition disabled:cursor-not-allowed",
+                "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition",
                 consentRequested
                   ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-                  : "border-slate-200 bg-white text-slate-600 hover:border-[#345884]/40 hover:bg-[#EEF2F9] hover:text-[#345884] disabled:opacity-50",
+                  : "border-[#345884]/25 bg-[#EEF2F9] text-[#345884] hover:bg-[#345884] hover:text-white disabled:opacity-50",
               )}
             >
+              <FileText className="h-3.5 w-3.5" strokeWidth={1.75} />
               {consentRequested ? "Consenso registrato" : "Modulo consenso"}
             </button>
+            <span className="text-[10px] leading-snug text-slate-400">
+              Spiega rischi/benefici e acquisisci il consenso prima di procedure invasive.
+            </span>
           </div>
         ) : null}
         <div className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-1.5 pl-3 transition focus-within:border-[#345884] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#345884]/20">
