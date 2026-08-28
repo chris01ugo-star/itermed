@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { type ReactNode } from "react";
+import { ChevronRight, FolderOpen } from "lucide-react";
 import {
   DIFFICULTY_LABELS,
   displaySpecialtyName,
   isCaseDifficulty,
+  type CaseDifficulty,
 } from "@/lib/dashboard-case-utils";
 import { cn } from "@/app/utils/cn";
 import type { ClinicalCaseRow } from "@/components/dashboard/ClinicalCaseCard";
@@ -41,6 +43,12 @@ function specialtyStyle(label: string) {
   }
   return PRASSI_PASTELS[hash % PRASSI_PASTELS.length];
 }
+
+const DIFFICULTY_TONE: Record<CaseDifficulty, string> = {
+  EASY: "text-emerald-700",
+  MEDIUM: "text-amber-800",
+  HARD: "text-rose-700",
+};
 
 export function PrassiShell({ cases, specialties = [], children }: PrassiShellProps) {
   const pathname = usePathname() ?? "";
@@ -78,6 +86,7 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
         c.specialty,
         c.medicalSpecialty?.name,
         displaySpecialtyName(c),
+        patientDisplayName(c.id, c.title, c.sex),
       ]
         .filter(Boolean)
         .join(" ")
@@ -97,11 +106,15 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
     .join("&");
 
   const renderCaseList = (list: ClinicalCaseRow[]) => (
-    <div className="scrollbar-aequan min-h-0 flex-1 space-y-4 overflow-y-auto overflow-x-hidden p-3 pt-4 pb-6">
+    <div className="scrollbar-aequan min-h-0 flex-1 space-y-3.5 overflow-y-auto overflow-x-hidden px-3 pb-5 pt-4">
       {list.length === 0 ? (
-        <p className="px-2 py-8 text-center text-sm text-slate-400">
-          Nessun caso disponibile con i filtri attivi.
-        </p>
+        <div className="mx-1 rounded-xl border border-dashed border-border bg-ui-bg/60 px-3 py-8 text-center">
+          <FolderOpen className="mx-auto h-5 w-5 text-slate-400" aria-hidden />
+          <p className="mt-2 text-sm font-medium text-slate-600">Nessuna cartella</p>
+          <p className="mt-1 text-xs leading-relaxed text-slate-400">
+            Prova a togliere un filtro o a cambiare la ricerca.
+          </p>
+        </div>
       ) : (
         list.map((caseRow) => {
           const isActive = activeCaseId === caseRow.id;
@@ -123,38 +136,59 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
           const dept = specialtyStyle(specialty);
           return (
             <div key={caseRow.id} className="relative">
-              {/* Folder notch: same pastel fill as the body, fused flush on top — real folder silhouette. */}
+              {/* Folder notch — keep the silhouette users like */}
               <span
-                className="absolute left-3 top-0 z-10 h-2.5 w-10 -translate-y-[calc(100%-1px)] rounded-t-md"
+                className="absolute left-3 top-0 z-10 h-2.5 w-11 -translate-y-[calc(100%-1px)] rounded-t-md"
                 style={{ backgroundColor: dept.fill }}
                 aria-hidden
               />
               <Link
                 href={href}
-                style={{ backgroundColor: dept.fill, borderColor: isActive ? "#1E324E" : dept.border }}
+                aria-current={isActive ? "page" : undefined}
+                style={{
+                  backgroundColor: dept.fill,
+                  borderColor: isActive ? "#1E324E" : dept.border,
+                }}
                 className={cn(
-                  "relative flex min-w-0 flex-col gap-2 overflow-hidden rounded-b-xl rounded-tr-xl border px-3.5 py-3 transition-all duration-200 hover:brightness-[0.98]",
-                  isActive ? "shadow-sm ring-1 ring-[#1E324E]/20" : "",
+                  "group relative flex min-w-0 items-stretch gap-2 overflow-hidden rounded-b-xl rounded-tr-xl border px-3.5 py-3 transition duration-200",
+                  "hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
+                  isActive ? "shadow-aequan-panel ring-1 ring-brand-primary/25" : "",
                 )}
               >
-                {inProgress ? (
-                  <span className="absolute right-3 top-3 text-[9px] font-bold uppercase tracking-wide text-[#1E324E]">
-                    In corso
-                  </span>
-                ) : null}
-
-                <p className="truncate pr-14 text-sm font-bold text-slate-800">
-                  {patientName}
-                  <span className="font-medium text-slate-500"> · {patientAge} anni</span>
-                </p>
-                <p className="line-clamp-1 text-xs leading-snug text-slate-600">{condition}</p>
-
-                <div className="flex items-center justify-between gap-2">
-                  <span className="min-w-0 truncate text-xs text-slate-600">{specialty}</span>
-                  <span className="shrink-0 text-xs font-medium text-slate-700">
-                    {difficultyLabel}
-                  </span>
+                <div className="min-w-0 flex-1 space-y-1.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="truncate text-sm font-bold text-slate-800">
+                      {patientName}
+                      <span className="font-medium text-slate-500"> · {patientAge} anni</span>
+                    </p>
+                    {inProgress ? (
+                      <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide text-brand-primary">
+                        In corso
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className="line-clamp-2 text-xs leading-snug text-slate-600">{condition}</p>
+                  <div className="flex items-center justify-between gap-2 pt-0.5">
+                    <span className="min-w-0 truncate text-[11px] text-slate-500">{specialty}</span>
+                    <span
+                      className={cn(
+                        "shrink-0 text-[11px] font-semibold",
+                        DIFFICULTY_TONE[difficultyKey],
+                      )}
+                    >
+                      {difficultyLabel}
+                    </span>
+                  </div>
                 </div>
+                <span
+                  className={cn(
+                    "flex shrink-0 items-center self-center text-slate-400 transition group-hover:text-brand-primary",
+                    isActive && "text-brand-primary",
+                  )}
+                  aria-hidden
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </span>
               </Link>
             </div>
           );
@@ -175,33 +209,43 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
   }
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-col gap-3 px-4 pb-4 pt-2.5 md:px-6 md:pb-6 md:pt-3">
-      {safeSpecialties.length > 0 ? (
-        <CaseFilters specialties={safeSpecialties} resultCount={visibleCases.length} />
-      ) : (
-        <div className="flex h-14 shrink-0 items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 shadow-sm">
-          <p className="text-sm text-slate-500">Filtri non disponibili</p>
-          <span className="text-xs tabular-nums text-slate-500">
-            {visibleCases.length} {visibleCases.length === 1 ? "risultato" : "risultati"}
-          </span>
-        </div>
-      )}
+    <div className="flex h-full min-h-0 w-full flex-col gap-4 bg-[#F4F6F8] px-4 pb-4 pt-3 md:px-6 md:pb-6 md:pt-4">
+      <header className="shrink-0 space-y-1">
+        <h1 className="font-display text-[1.55rem] font-bold tracking-tight text-text-primary md:text-[1.7rem]">
+          Prassi Clinica
+        </h1>
+        <p className="max-w-2xl text-sm leading-relaxed text-slate-500">
+          Apri una cartella paziente, leggi il brief e avvia la simulazione.
+        </p>
+      </header>
+
+      <CaseFilters
+        specialties={safeSpecialties}
+        resultCount={visibleCases.length}
+        variant="prassi"
+      />
 
       <div className="grid min-h-0 flex-1 grid-cols-12 gap-4">
-        <aside className="col-span-12 flex h-full min-h-0 min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm md:col-span-4 lg:col-span-3">
-          <div className="shrink-0 border-b border-slate-100 px-4 py-3">
-            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">
-              I miei casi
-            </p>
-            <p className="mt-0.5 text-xs text-slate-400">
-              {visibleCases.length}{" "}
-              {visibleCases.length === 1 ? "caso disponibile" : "casi disponibili"}
+        <aside className="col-span-12 flex h-full min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border border-border bg-panel-bg shadow-aequan-panel md:col-span-4 lg:col-span-3">
+          <div className="shrink-0 border-b border-border-subtle px-4 py-3.5">
+            <div className="flex items-center gap-2">
+              <FolderOpen className="h-4 w-4 text-brand-secondary" aria-hidden />
+              <p className="font-display text-sm font-semibold text-brand-primary">
+                Cartelle pazienti
+              </p>
+            </div>
+            <p className="mt-1 text-xs text-slate-500">
+              {visibleCases.length === 0
+                ? "Nessun caso con i filtri attivi"
+                : visibleCases.length === 1
+                  ? "1 cartella — tocca per aprire il brief"
+                  : `${visibleCases.length} cartelle — tocca per aprire il brief`}
             </p>
           </div>
           {renderCaseList(visibleCases)}
         </aside>
 
-        <section className="scrollbar-aequan col-span-12 h-full min-h-0 min-w-0 overflow-y-auto rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:col-span-8 lg:col-span-9">
+        <section className="scrollbar-aequan col-span-12 h-full min-h-0 min-w-0 overflow-y-auto rounded-xl border border-border bg-panel-bg p-5 shadow-aequan-panel md:col-span-8 md:p-6 lg:col-span-9">
           {children}
         </section>
       </div>

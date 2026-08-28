@@ -1,10 +1,9 @@
 import type { ElementType } from "react";
 import {
   ClipboardCheck,
-  Euro,
-  HeartHandshake,
+  FolderOpen,
+  MessageSquare,
   Pill,
-  Scale,
   Stethoscope,
   Target,
 } from "lucide-react";
@@ -19,47 +18,45 @@ type PrassiWelcomeDashboardProps = {
   stats?: PrassiWelcomeStats;
 };
 
-function InfoTile({
-  icon: Icon,
-  children,
-}: {
-  icon: ElementType;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col items-center gap-1.5 rounded-xl bg-slate-50 px-3 py-2.5 text-center">
-      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white text-[#345884] shadow-sm">
-        <Icon className="h-3.5 w-3.5" />
-      </div>
-      <p className="text-[11px] leading-snug text-slate-600">{children}</p>
-    </div>
-  );
-}
-
-function StatTile({
+function StatChip({
   icon: Icon,
   label,
   value,
-  caption,
 }: {
   icon: ElementType;
   label: string;
   value: string;
-  caption: string;
 }) {
   return (
-    <div className="flex min-w-0 items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-3 py-2">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
-        <Icon className="h-3.5 w-3.5" />
+    <div className="flex min-w-0 items-center gap-3 rounded-xl border border-border bg-ui-bg/60 px-3.5 py-3">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-panel-bg text-brand-secondary shadow-sm ring-1 ring-border-subtle">
+        <Icon className="h-4 w-4" />
       </div>
       <div className="min-w-0">
-        <p className="text-[10px] font-medium uppercase tracking-wide text-slate-400">{label}</p>
-        <p className="truncate text-sm font-semibold tabular-nums text-slate-900">{value}</p>
-        <p className="truncate text-[10px] text-slate-400">{caption}</p>
+        <p className="text-[11px] text-slate-500">{label}</p>
+        <p className="truncate text-sm font-semibold tabular-nums text-text-primary">{value}</p>
       </div>
     </div>
   );
 }
+
+const STEPS = [
+  {
+    icon: FolderOpen,
+    title: "Apri una cartella",
+    body: "Scegli un paziente nella lista a sinistra.",
+  },
+  {
+    icon: Stethoscope,
+    title: "Leggi il brief",
+    body: "Controlla specialità, difficoltà e parametri vitali.",
+  },
+  {
+    icon: MessageSquare,
+    title: "Avvia e dialoga",
+    body: "Parla col paziente, richiedi esami e chiudi il caso.",
+  },
+] as const;
 
 export function PrassiWelcomeDashboard({ stats }: PrassiWelcomeDashboardProps) {
   const casesThisWeek = stats?.casesThisWeek ?? 0;
@@ -68,59 +65,56 @@ export function PrassiWelcomeDashboard({ stats }: PrassiWelcomeDashboardProps) {
   const focusShort = stats?.focusShort?.trim() || "Appropriatezza prescrittiva";
 
   return (
-    <div className="flex h-full min-h-0 flex-col justify-center gap-5 py-1">
-      <div className="mx-auto w-full max-w-2xl space-y-3.5 text-center">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#1E324E]/8">
-          <Stethoscope className="h-6 w-6 text-[#1E324E]" strokeWidth={1.75} />
-        </div>
-        <div className="space-y-1">
-          <h2 className="font-display text-lg font-semibold tracking-tight text-slate-900">
-            Seleziona un caso clinico a sinistra
-          </h2>
-          <p className="mx-auto max-w-lg text-xs leading-relaxed text-slate-500">
-            La Prassi Clinica è il tuo ambiente di esercitazione medico-legale: dialoga con il
-            paziente, richiedi esami e chiudi il caso rispettando linee guida e sostenibilità SSN.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-          <InfoTile icon={Euro}>
-            Ogni prescrizione consuma budget SSN e tempo clinico simulato.
-          </InfoTile>
-          <InfoTile icon={HeartHandshake}>
-            L&apos;empatia con il paziente influenza il punteggio finale.
-          </InfoTile>
-          <InfoTile icon={Scale}>
-            Documentazione e linee guida proteggono la tutela medico-legale.
-          </InfoTile>
-        </div>
-
-        <p className="mx-auto max-w-lg text-[11px] italic leading-snug text-slate-400">
-          &ldquo;La tutela legale del medico si fonda sull&apos;aderenza rigorosa alle buone
-          pratiche clinico-assistenziali e alle linee guida ufficiali&rdquo; — Art. 5, Legge
-          24/2017 (Gelli-Bianco)
+    <div className="flex h-full min-h-0 flex-col justify-center gap-8 py-2">
+      <div className="mx-auto w-full max-w-xl space-y-3 text-center">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-secondary">
+          Pronto a esercitarti
+        </p>
+        <h2 className="font-display text-[1.55rem] font-bold tracking-tight text-text-primary md:text-[1.7rem]">
+          Scegli una cartella a sinistra
+        </h2>
+        <p className="mx-auto max-w-md text-sm leading-relaxed text-slate-500">
+          Ogni cartella è un caso clinico completo: anamnesi, esami, tutela
+          medico-legale e budget SSN. Tocca una cartella per vedere il brief e
+          partire.
         </p>
       </div>
 
-      <div className="mx-auto grid w-full max-w-2xl grid-cols-1 gap-2.5 border-t border-slate-100 pt-3.5 sm:grid-cols-3">
-        <StatTile
+      <ol className="mx-auto grid w-full max-w-xl grid-cols-1 gap-3 sm:grid-cols-3">
+        {STEPS.map((step, index) => {
+          const Icon = step.icon;
+          return (
+            <li
+              key={step.title}
+              className="relative rounded-xl border border-border bg-ui-bg/50 px-3.5 py-4 text-left"
+            >
+              <span className="mb-3 inline-flex h-7 w-7 items-center justify-center rounded-lg bg-brand-primary text-[11px] font-bold text-white">
+                {index + 1}
+              </span>
+              <div className="mb-2 flex items-center gap-1.5 text-brand-secondary">
+                <Icon className="h-3.5 w-3.5" aria-hidden />
+                <p className="text-xs font-semibold text-text-primary">{step.title}</p>
+              </div>
+              <p className="text-[11px] leading-relaxed text-slate-500">{step.body}</p>
+            </li>
+          );
+        })}
+      </ol>
+
+      <div className="mx-auto grid w-full max-w-xl grid-cols-1 gap-2.5 sm:grid-cols-3">
+        <StatChip
           icon={ClipboardCheck}
           label="Questa settimana"
-          value={String(casesThisWeek)}
-          caption={casesThisWeek === 1 ? "caso completato" : "casi completati"}
+          value={
+            casesThisWeek === 1 ? "1 caso completato" : `${casesThisWeek} casi completati`
+          }
         />
-        <StatTile
+        <StatChip
           icon={Target}
           label="Punteggio medio"
-          value={averageScore != null ? `${averageScore}/100` : "—"}
-          caption="Media sessioni completate"
+          value={averageScore != null ? `${averageScore}/100` : "Ancora nessun score"}
         />
-        <StatTile
-          icon={Pill}
-          label="Focus consigliato"
-          value={focusShort}
-          caption="Dimensione da rafforzare"
-        />
+        <StatChip icon={Pill} label="Focus consigliato" value={focusShort} />
       </div>
     </div>
   );
