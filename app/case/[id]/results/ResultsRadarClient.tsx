@@ -17,10 +17,19 @@ export type RadarDatum = {
 };
 
 export function ResultsRadarClient({ data }: { data: RadarDatum[] }) {
-  const chartData = data.map((d) => ({
+  const chartData = (Array.isArray(data) ? data : []).map((d) => ({
     ...d,
+    score: Number.isFinite(d?.score) ? d.score : 0,
     target: d.target ?? 100,
   }));
+
+  if (chartData.length === 0) {
+    return (
+      <div className="flex h-full min-h-0 w-full items-center justify-center text-xs text-slate-400">
+        Dati radar non disponibili
+      </div>
+    );
+  }
 
   return (
     <div className="h-full min-h-0 w-full">
