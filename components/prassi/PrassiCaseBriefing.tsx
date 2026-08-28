@@ -40,11 +40,6 @@ export function PrassiCaseBriefing({ caseRow }: PrassiCaseBriefingProps) {
         className="relative overflow-hidden rounded-xl border px-5 py-4 md:px-6 md:py-5"
         style={{ backgroundColor: dept.fill, borderColor: dept.border }}
       >
-        <span
-          className="absolute left-5 top-0 h-2.5 w-12 -translate-y-[calc(100%-1px)] rounded-t-md"
-          style={{ backgroundColor: dept.fill }}
-          aria-hidden
-        />
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0 space-y-1.5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
