@@ -150,12 +150,12 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
                   borderColor: isActive ? "#1E324E" : dept.border,
                 }}
                 className={cn(
-                  "group relative flex min-w-0 items-stretch gap-2 overflow-hidden rounded-b-xl rounded-tr-xl border px-3.5 py-3 transition duration-200",
+                  "group relative flex h-[6.25rem] min-w-0 items-stretch gap-2 overflow-hidden rounded-b-xl rounded-tr-xl border px-3.5 py-3 transition duration-200",
                   "hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
                   isActive ? "shadow-aequan-panel ring-1 ring-brand-primary/25" : "",
                 )}
               >
-                <div className="min-w-0 flex-1 space-y-1.5">
+                <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-between gap-1.5">
                   <div className="flex items-start justify-between gap-2">
                     <p className="truncate text-sm font-bold text-slate-800">
                       {patientName}
@@ -167,8 +167,11 @@ export function PrassiShell({ cases, specialties = [], children }: PrassiShellPr
                       </span>
                     ) : null}
                   </div>
-                  <p className="line-clamp-2 text-xs leading-snug text-slate-600">{condition}</p>
-                  <div className="flex items-center justify-between gap-2 pt-0.5">
+                  {/* Fixed 2-line slot so short titles don't shrink the folder */}
+                  <p className="h-8 overflow-hidden text-xs leading-4 text-slate-600 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
+                    {condition}
+                  </p>
+                  <div className="flex items-center justify-between gap-2">
                     <span className="min-w-0 truncate text-[11px] text-slate-500">{specialty}</span>
                     <span
                       className={cn(
