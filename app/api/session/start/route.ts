@@ -41,6 +41,7 @@ async function createSession(params: {
   variantSolution?: string;
   enforceDailyCap: boolean;
 }): Promise<Response> {
+  // Persist caseId + empty milestone/exam arrays so sync-milestones can merge safely.
   const session = await prisma.caseSession.create({
     data: {
       userId: params.userId,

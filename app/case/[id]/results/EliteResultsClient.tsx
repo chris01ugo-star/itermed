@@ -375,6 +375,12 @@ export function EliteResultsClient({
     showKillerSwitchBanner || killerSwitch?.applied === true,
   );
 
+  const normalizedScore = safeDisplayTrentesimi(totalScore);
+  const showKillerSwitchBanner =
+    killerSwitch?.applied === true ||
+    (normalizedScore < CLINICAL_PASS_TRENTESIMI && fatalErrors.length > 0);
+  const killerCap = killerSwitch?.cap ?? 17.9;
+
   const wastedEuro = economicAnalysis
     ? economicAnalysis.unnecessaryExpenses.reduce((sum, item) => sum + (item.cost ?? 0), 0)
     : 0;

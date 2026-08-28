@@ -633,6 +633,40 @@ export function buildDeterministicEvaluation(
     inappropriateExams: registered?.inappropriateExams,
   });
 
+  const milestones = params.sessionMilestones ?? [];
+  let scores = checklistScores;
+  let breakdown = checklistBreakdown;
+
+  // Blend deterministic milestone evidence so real chat/exam events cannot be erased by a sparse LLM checklist.
+  if (milestones.length > 0) {
+    const milestoneDerived = deriveMilestoneDimensionScores({
+      milestones,
+      goldStandardPath: params.goldStandardPath,
+      inappropriateActions: analytical.inappropriateActions,
+      exams: resolvedExams,
+      totalCostEuro,
+      budgetEuro: params.examBudgetEuro,
+    });
+    const blend = (checklist: number, milestone: number, milestoneWeight = 0.45): number => {
+      const w = Math.max(0, Math.min(1, milestoneWeight));
+      return Math.round(checklist * (1 - w) + milestone * w);
+    };
+    scores = {
+      clinical: blend(checklistScores.clinical, milestoneDerived.scores.clinical, 0.4),
+      legal: blend(checklistScores.legal, milestoneDerived.scores.legal, 0.5),
+      exams: blend(checklistScores.exams, milestoneDerived.scores.exams, 0.35),
+      economy: checklistScores.economy,
+      empathy: blend(checklistScores.empathy, milestoneDerived.scores.empathy, 0.55),
+    } satisfies DimensionScores;
+    breakdown = {
+      ...checklistBreakdown,
+      clinical: { ...checklistBreakdown.clinical, final: scores.clinical },
+      legal: { ...checklistBreakdown.legal, final: scores.legal },
+      exams: { ...checklistBreakdown.exams, final: scores.exams },
+      empathy: { ...checklistBreakdown.empathy, final: scores.empathy },
+    };
+  }
+
   return {
     scores: gated.scores,
     scoreBreakdown: gated.breakdown,

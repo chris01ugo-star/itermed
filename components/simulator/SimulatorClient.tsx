@@ -1393,8 +1393,8 @@ export function SimulatorClient({
                   Pronto Soccorso
                 </span>
               </div>
-              <span className="mt-0.5 inline-flex items-center gap-1.5 text-[11px] font-medium text-[#345884]">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#345884]" />
+              <span className="mt-0.5 inline-flex items-center gap-1.5 text-[11px] font-medium text-[#00B4D8]">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#00B4D8]" />
                 Sessione attiva
               </span>
             </div>
@@ -1762,6 +1762,7 @@ export function SimulatorClient({
                       consentRequested={consentRequested}
                       consentBusy={isConsentBusy}
                       compact={embedded}
+                      showInactivityNudge={showInactivityNudge}
                     />
                   </TabsContent>
                   <TabsContent value="exam" currentValue={activeTab} className="mt-3 w-full min-w-0">
@@ -2780,6 +2781,8 @@ type HistoryChatProps = {
   compact?: boolean;
   /** Stretch to fill the parent container height instead of a fixed px height. */
   fill?: boolean;
+  /** Soft tip when the clinician has been idle too long. */
+  showInactivityNudge?: boolean;
 };
 
 function HistoryChat({
@@ -2798,6 +2801,7 @@ function HistoryChat({
   consentBusy = false,
   compact = false,
   fill = false,
+  showInactivityNudge = false,
 }: HistoryChatProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);

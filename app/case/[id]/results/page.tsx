@@ -24,6 +24,7 @@ type ResultsPageProps = {
   searchParams: Promise<{ sessionId?: string }> | { sessionId?: string };
 };
 
+/** Trace shape persisted by simulation-report-worker → buildSessionReportData. */
 type SessionTrace = {
   feedback?: {
     strengths?: string[];
