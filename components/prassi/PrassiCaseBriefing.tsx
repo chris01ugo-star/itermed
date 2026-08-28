@@ -1,41 +1,44 @@
 "use client";
 
+import { useEffect } from "react";
 import {
   Activity,
   HeartPulse,
   Thermometer,
   Droplets,
   Play,
+  X,
 } from "lucide-react";
 import { StartCaseButtons } from "@/components/cases/StartCaseButtons";
 import type { ClinicalCaseRow } from "@/components/dashboard/ClinicalCaseCard";
 import { DIFFICULTY_LABELS, displaySpecialtyName } from "@/lib/dashboard-case-utils";
 import { deriveDemoVitals, patientDisplayName, estimateAgeFromTitle } from "@/lib/prassi/demo-vitals";
-import { PRASSI_PASTELS } from "@/lib/ui/prassi-pastels";
+import type { PrassiPastel } from "@/lib/ui/prassi-pastels";
+import { specialtyPastel } from "@/lib/ui/prassi-pastels";
 
 type PrassiCaseBriefingProps = {
   caseRow: ClinicalCaseRow;
+  /** When set, renders as a modal dialog. */
+  open?: boolean;
+  onClose?: () => void;
+  pastel?: PrassiPastel;
 };
 
-function specialtyStyle(label: string) {
-  let hash = 0;
-  for (let i = 0; i < label.length; i += 1) {
-    hash = (hash * 31 + label.charCodeAt(i)) >>> 0;
-  }
-  return PRASSI_PASTELS[hash % PRASSI_PASTELS.length];
-}
-
-export function PrassiCaseBriefing({ caseRow }: PrassiCaseBriefingProps) {
+function BriefingBody({
+  caseRow,
+  dept,
+}: {
+  caseRow: ClinicalCaseRow;
+  dept: PrassiPastel;
+}) {
   const specialty = displaySpecialtyName(caseRow);
   const difficulty = DIFFICULTY_LABELS[caseRow.difficulty] ?? caseRow.difficulty;
   const vitals = deriveDemoVitals(caseRow.id);
   const name = patientDisplayName(caseRow.id, caseRow.title, caseRow.sex);
-  const age = estimateAgeFromTitle(caseRow.title);
-  const dept = specialtyStyle(specialty);
+  const age = caseRow.age ?? estimateAgeFromTitle(caseRow.title);
 
   return (
-    <div className="flex h-full min-h-[480px] flex-col">
-      {/* Patient identity — folder-colored header */}
+    <div className="flex flex-col">
       <div
         className="relative overflow-hidden rounded-xl border px-5 py-4 md:px-6 md:py-5"
         style={{ backgroundColor: dept.fill, borderColor: dept.border }}
@@ -65,8 +68,7 @@ export function PrassiCaseBriefing({ caseRow }: PrassiCaseBriefingProps) {
         </div>
       </div>
 
-      <div className="mt-5 flex flex-1 flex-col gap-6">
-        {/* Vitals strip */}
+      <div className="mt-5 flex flex-col gap-5">
         <div>
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
             Parametri all&apos;ingresso
@@ -99,7 +101,6 @@ export function PrassiCaseBriefing({ caseRow }: PrassiCaseBriefingProps) {
           </div>
         </div>
 
-        {/* What happens */}
         <div className="rounded-xl border border-border border-l-[3px] border-l-brand-primary bg-ui-bg/40 px-4 py-3.5">
           <p className="text-xs font-semibold text-brand-primary">Cosa farai in sessione</p>
           <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-slate-600">
@@ -109,8 +110,7 @@ export function PrassiCaseBriefing({ caseRow }: PrassiCaseBriefingProps) {
           </ul>
         </div>
 
-        {/* CTA */}
-        <div className="mt-auto border-t border-border-subtle pt-5">
+        <div className="border-t border-border-subtle pt-5">
           <div className="mb-3 flex items-center gap-2">
             <Play className="h-3.5 w-3.5 text-brand-secondary" aria-hidden />
             <p className="text-xs font-semibold text-slate-600">Avvia esercitazione</p>
@@ -118,6 +118,68 @@ export function PrassiCaseBriefing({ caseRow }: PrassiCaseBriefingProps) {
           <StartCaseButtons caseId={caseRow.id} emphasis="original" />
         </div>
       </div>
+    </div>
+  );
+}
+
+/** Inline briefing (legacy) or modal when `open` / `onClose` are provided. */
+export function PrassiCaseBriefing({
+  caseRow,
+  open,
+  onClose,
+  pastel,
+}: PrassiCaseBriefingProps) {
+  const specialty = displaySpecialtyName(caseRow);
+  const dept = pastel ?? specialtyPastel(specialty);
+  const name = patientDisplayName(caseRow.id, caseRow.title, caseRow.sex);
+  const isModal = open !== undefined || Boolean(onClose);
+
+  useEffect(() => {
+    if (!isModal || !open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose?.();
+    };
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [isModal, open, onClose]);
+
+  if (isModal) {
+    if (!open) return null;
+    return (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/55 p-4 sm:p-6"
+        role="presentation"
+        onClick={onClose}
+      >
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Brief — ${name}`}
+          className="relative my-auto w-full max-w-2xl max-h-[min(90dvh,720px)] overflow-y-auto rounded-xl border border-border bg-panel-bg p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)] sm:p-6"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute right-4 top-4 z-10 rounded-lg p-1.5 text-slate-400 transition hover:bg-ui-bg hover:text-slate-700"
+            aria-label="Chiudi"
+          >
+            <X className="h-4 w-4" />
+          </button>
+          <BriefingBody caseRow={caseRow} dept={dept} />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-full min-h-[480px] flex-col">
+      <BriefingBody caseRow={caseRow} dept={dept} />
     </div>
   );
 }
