@@ -136,6 +136,9 @@ const REPORT_POLL_INTERVAL_MS = 500;
 const REPORT_POLL_TIMEOUT_MS = 3 * 60 * 1000;
 /** Canonical gold / ESC action id for informed consent (must match registry paths). */
 const CONSENT_INFORMED_ACTION_ID = "consenso-informato";
+/** Mid-simulation adrenaline: visual deterioration when stress crosses this value. */
+const CRITICAL_STRESS_THRESHOLD = 80;
+const TIME_PENALTY_FEEDBACK_MS = 1_600;
 
 /**
  * Keep `sessionId` in the address bar without Next.js navigation.
@@ -466,6 +469,12 @@ export function SimulatorClient({
   /** 0–100: pressione temporale e carico simulato (chat, esami, errori, tempo). */
   const [patientStress, setPatientStress] = useState(0);
   const patientStressRef = useRef(patientStress);
+  /** True while patientStress exceeds the critical deterioration threshold. */
+  const [isCriticalDeterioration, setIsCriticalDeterioration] = useState(false);
+  /** Brief exam-latency toast: "Tempo clinico trascorso..." */
+  const [timePenaltyToast, setTimePenaltyToast] = useState<string | null>(null);
+  const [workspaceShake, setWorkspaceShake] = useState(false);
+  const timePenaltyClearRef = useRef<number | null>(null);
   /** Minuti clinici trascorsi (timer simulato + interazioni), esclusi i tempi degli esami. */
   const [clockMinutes, setClockMinutes] = useState(0);
   /** Wall-clock session elapsed seconds for MM:SS display. */
@@ -480,6 +489,31 @@ export function SimulatorClient({
   useEffect(() => {
     patientStressRef.current = patientStress;
   }, [patientStress]);
+
+  useEffect(() => {
+    setIsCriticalDeterioration(patientStress > CRITICAL_STRESS_THRESHOLD);
+  }, [patientStress]);
+
+  useEffect(() => {
+    return () => {
+      if (timePenaltyClearRef.current != null) {
+        window.clearTimeout(timePenaltyClearRef.current);
+      }
+    };
+  }, []);
+
+  const flashTimePenaltyFeedback = useCallback(() => {
+    setWorkspaceShake(true);
+    setTimePenaltyToast("Tempo clinico trascorso...");
+    if (timePenaltyClearRef.current != null) {
+      window.clearTimeout(timePenaltyClearRef.current);
+    }
+    timePenaltyClearRef.current = window.setTimeout(() => {
+      setWorkspaceShake(false);
+      setTimePenaltyToast(null);
+      timePenaltyClearRef.current = null;
+    }, TIME_PENALTY_FEEDBACK_MS);
+  }, []);
 
   // SSR-safe: read tutorial completion only after mount.
   useEffect(() => {
@@ -1144,6 +1178,7 @@ export function SimulatorClient({
         charged.add(examId);
         bumpPatientStress(2);
         advanceClock(1);
+        flashTimePenaltyFeedback();
       }
       const next = [...current, examId];
       void (async () => {
@@ -1411,12 +1446,52 @@ export function SimulatorClient({
 
   return (
     <div
-      className={
+      className={cn(
         embedded
           ? "flex w-full min-w-0 flex-col bg-transparent text-text-primary"
-          : "flex min-h-screen w-full items-stretch justify-center overflow-x-hidden bg-ui-bg px-4 pb-10 pt-16 text-text-primary"
-      }
+          : "flex min-h-screen w-full items-stretch justify-center overflow-x-hidden bg-ui-bg px-4 pb-10 pt-16 text-text-primary",
+        workspaceShake && "sim-workspace-shake",
+      )}
     >
+      <style>{`
+        @keyframes sim-workspace-shake {
+          0%, 100% { transform: translateX(0); }
+          20% { transform: translateX(-4px); }
+          40% { transform: translateX(4px); }
+          60% { transform: translateX(-3px); }
+          80% { transform: translateX(3px); }
+        }
+        .sim-workspace-shake {
+          animation: sim-workspace-shake 0.45s ease-in-out;
+        }
+        @keyframes sim-deterioration-vignette {
+          0%, 100% {
+            box-shadow: inset 0 0 0 0 rgba(220, 38, 38, 0), 0 0 0 1px rgba(220, 38, 38, 0.28);
+          }
+          50% {
+            box-shadow: inset 0 0 52px 10px rgba(220, 38, 38, 0.2), 0 0 0 2px rgba(239, 68, 68, 0.65);
+          }
+        }
+        .sim-deterioration-vignette {
+          animation: sim-deterioration-vignette 1.15s ease-in-out infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .sim-workspace-shake { animation: none; }
+          .sim-deterioration-vignette {
+            animation: none;
+            box-shadow: inset 0 0 28px 6px rgba(220, 38, 38, 0.16), 0 0 0 2px rgba(220, 38, 38, 0.5);
+          }
+        }
+      `}</style>
+      {timePenaltyToast ? (
+        <div
+          role="status"
+          aria-live="polite"
+          className="pointer-events-none fixed bottom-6 left-1/2 z-[110] -translate-x-1/2 rounded-xl border border-red-500/40 bg-[#1E324E] px-4 py-2.5 text-sm font-semibold text-white shadow-lg"
+        >
+          {timePenaltyToast}
+        </div>
+      ) : null}
       {!embedded ? (
         <SimulatorNavBar
           backHref={backHref}
@@ -1555,6 +1630,7 @@ export function SimulatorClient({
               sex={patient.sex}
               stress={patientStress}
               className="w-full shrink-0 overflow-x-hidden rounded-xl shadow-md"
+              deteriorating={isCriticalDeterioration}
             />
             <header className="flex w-full items-center justify-between gap-4 overflow-x-hidden px-0.5">
               <div className="min-w-0 space-y-1">
@@ -1605,7 +1681,10 @@ export function SimulatorClient({
           {embedded ? (
             <div
               id="aequan-sim-chat"
-              className="col-span-1 flex min-w-0 flex-col gap-3 lg:col-span-8"
+              className={cn(
+                "col-span-1 flex min-w-0 flex-col gap-3 lg:col-span-8",
+                isCriticalDeterioration && "sim-deterioration-vignette rounded-xl",
+              )}
             >
               <div className="flex w-full min-w-0 flex-col gap-3 rounded-xl border border-slate-200 bg-slate-50 px-5 py-4">
                 <div className="flex min-w-0 items-start justify-between gap-3">
@@ -1649,6 +1728,7 @@ export function SimulatorClient({
                   stress={patientStress}
                   showHeader={false}
                   className="w-full shrink-0"
+                  deteriorating={isCriticalDeterioration}
                 />
               </div>
 
@@ -1706,7 +1786,10 @@ export function SimulatorClient({
           ) : (
           <div
             id="aequan-sim-chat"
-            className="flex min-w-0 flex-col gap-4 overflow-x-hidden lg:col-span-8"
+            className={cn(
+              "flex min-w-0 flex-col gap-4 overflow-x-hidden lg:col-span-8",
+              isCriticalDeterioration && "sim-deterioration-vignette rounded-xl",
+            )}
           >
             {/* Compact patient banner (no duplicate Cartella Clinica Attiva card) */}
             <div className="flex w-full min-w-0 shrink-0 items-start justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
@@ -2069,7 +2152,7 @@ export function SimulatorClient({
                 <p className="mb-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
                   Stress paziente
                 </p>
-                <PatientStressBar value={patientStress} />
+                <PatientStressBar value={patientStress} critical={isCriticalDeterioration} />
               </div>
             </div>
 

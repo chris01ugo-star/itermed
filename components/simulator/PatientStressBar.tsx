@@ -1,15 +1,18 @@
 "use client";
 
 import { AlertTriangle, Gauge } from "lucide-react";
+import { cn } from "@/app/utils/cn";
 import { PRASSI_TONE } from "@/lib/ui/prassi-pastels";
 
 type PatientStressBarProps = {
   value: number;
   className?: string;
+  /** High-urgency pulse when patientStress is past the critical threshold. */
+  critical?: boolean;
 };
 
 /** Barra 0–100: palette cartelle Prassi (blue / peach / blush). */
-export function PatientStressBar({ value, className }: PatientStressBarProps) {
+export function PatientStressBar({ value, className, critical = false }: PatientStressBarProps) {
   const v = Math.max(0, Math.min(100, Math.round(value)));
   const tier = v >= 80 ? "danger" : v >= 50 ? "warning" : "calm";
   const tone =
@@ -26,7 +29,13 @@ export function PatientStressBar({ value, className }: PatientStressBarProps) {
           <Gauge className="h-3.5 w-3.5 shrink-0 text-slate-500" />
           Stress / urgenza
         </span>
-        <span className="text-[11px] font-semibold tabular-nums" style={{ color: tone.accent }}>
+        <span
+          className={cn(
+            "text-[11px] font-semibold tabular-nums",
+            (critical || tier === "danger") && "animate-pulse motion-reduce:animate-none",
+          )}
+          style={{ color: tone.accent }}
+        >
           {v}%
         </span>
       </div>

@@ -30,6 +30,8 @@ type VitalSignsBoardProps = {
   stress?: number;
   className?: string;
   showHeader?: boolean;
+  /** High-urgency flash when patientStress crosses the critical threshold. */
+  deteriorating?: boolean;
 };
 
 const VITAL_ICONS: Record<string, LucideIcon> = {
@@ -56,6 +58,7 @@ export function VitalSignsBoard({
   stress = 0,
   className,
   showHeader = true,
+  deteriorating = false,
 }: VitalSignsBoardProps) {
   const vitals = deriveDemoVitals(caseId, stress);
   const classified = classifyVitals(vitals);
@@ -70,11 +73,12 @@ export function VitalSignsBoard({
     <div
       className={cn(
         "w-full min-w-0 overflow-hidden rounded-xl border bg-white",
-        critical
+        (critical || deteriorating)
           ? "border-red-500/40 shadow-[inset_0_0_0_1px_rgba(239,68,68,0.12)]"
           : unstable
             ? "border-amber-500/40"
             : "border-slate-200",
+        deteriorating && "ring-2 ring-red-500/50",
         className,
       )}
       role="region"
@@ -140,7 +144,8 @@ export function VitalSignsBoard({
               <p
                 className={cn(
                   "text-2xl font-bold tabular-nums leading-none md:text-[1.75rem]",
-                  isCriticalVital ? "text-red-600" : "text-slate-900",
+                  isCriticalVital || deteriorating ? "text-red-600" : "text-slate-900",
+                  deteriorating && "animate-pulse motion-reduce:animate-none",
                 )}
               >
                 {vital.value}

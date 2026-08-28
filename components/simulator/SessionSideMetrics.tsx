@@ -75,7 +75,14 @@ export function SessionSideMetrics({
               <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500">
                 Stress paziente
               </p>
-              <p className="text-2xl font-bold tabular-nums leading-none text-slate-800">
+              <p
+                className={cn(
+                  "text-2xl font-bold tabular-nums leading-none",
+                  stressTier === "danger"
+                    ? "animate-pulse text-red-600 motion-reduce:animate-none"
+                    : "text-slate-800",
+                )}
+              >
                 {stress}%
               </p>
             </div>
