@@ -65,4 +65,5 @@ jobs:
         run: npx tsx scripts/verify-d-rime-fsm.ts
 
       - name: Audit KnowledgeBaseCase catalog (Zod + playable + D-RIME + RAG)
+        # Uses DATABASE_URL when the secret is set; otherwise audits knowledge_base/**/cases/*.json.
         run: npx tsx scripts/ci-audit-all-cases.ts
