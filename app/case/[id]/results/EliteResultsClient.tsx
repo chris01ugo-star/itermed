@@ -24,6 +24,7 @@ import type {
 import { cn } from "@/app/utils/cn";
 import { SafeLlmText } from "@/components/ui/safe-llm-content";
 import { ResultsRadarClient, type RadarDatum } from "./ResultsRadarClient";
+import { NextPatientModal } from "./NextPatientModal";
 import { AiTransparencyBadge } from "@/components/legal/AiTransparencyBadge";
 import {
   CLINICAL_PASS_TRENTESIMI,
@@ -373,6 +374,7 @@ export function EliteResultsClient({
 
   return (
     <div className="space-y-5">
+      <NextPatientModal />
       {/* Verdict board */}
       <section
         className={cn(
