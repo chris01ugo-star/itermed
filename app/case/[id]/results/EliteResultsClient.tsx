@@ -38,6 +38,92 @@ import {
 } from "@/lib/services/evaluation-scoring";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 
+/* ═══════════════════════════════════════════════════════════════════
+ * AEQUAN CLINICAL-TECH — Design System tokens (report surface)
+ * Palette desaturata: ardesia · salvia · ossido · zaffiro sordo
+ * ═══════════════════════════════════════════════════════════════════ */
+
+const AQ = {
+  ink: "text-[#1C2430]",
+  muted: "text-[#5C6570]",
+  faint: "text-[#7A8494]",
+  sage: "text-[#3F5A4C]",
+  sageBg: "bg-[#4F6B5C]/[0.10]",
+  sageBorder: "border-[#4F6B5C]/35",
+  oxide: "text-[#7A4A38]",
+  oxideBg: "bg-[#8B5A45]/[0.10]",
+  oxideBorder: "border-[#8B5A45]/35",
+  sapphire: "text-[#2F4A62]",
+  sapphireBg: "bg-[#3D5A73]/[0.08]",
+  sapphireBorder: "border-[#3D5A73]/30",
+  amber: "text-[#8A5A28]",
+  amberBg: "bg-[#C9893A]/[0.12]",
+  amberBorder: "border-[#C9893A]/40",
+  plate:
+    "rounded-2xl border border-neutral-200/70 bg-[#FCFCFD] shadow-[0_1px_0_rgba(28,36,48,0.05)]",
+  platePad: "p-7 md:p-9",
+  hairline: "border-neutral-200/60",
+  microLabel:
+    "text-xs font-semibold uppercase tracking-[0.14em] text-[#7A8494]",
+  body: "text-base leading-relaxed",
+  bodySm: "text-sm leading-relaxed",
+  title: "font-display text-xl font-bold tracking-tight md:text-2xl",
+  subtitle: "font-display text-lg font-semibold tracking-tight md:text-xl",
+} as const;
+
+/** Coerce legacy string[] / partial objects into ScoreMotivation[]. Never throws. */
+function normalizeMotivations(raw: unknown): ScoreMotivation[] {
+  if (!Array.isArray(raw) || raw.length === 0) return [];
+  return raw
+    .map((item, index): ScoreMotivation | null => {
+      if (typeof item === "string") {
+        const text = item.trim();
+        if (!text) return null;
+        return {
+          id: `legacy_${index}`,
+          type: text.startsWith("−") || text.startsWith("-") ? "negative" : "neutral",
+          text,
+          scoreImpact: 0,
+        };
+      }
+      if (!item || typeof item !== "object") return null;
+      const rec = item as Record<string, unknown>;
+      const text =
+        typeof rec.text === "string"
+          ? rec.text
+          : typeof rec.message === "string"
+            ? rec.message
+            : "";
+      if (!text.trim()) return null;
+      const typeRaw = rec.type;
+      const type: ScoreMotivation["type"] =
+        typeRaw === "positive" || typeRaw === "negative" || typeRaw === "neutral"
+          ? typeRaw
+          : "neutral";
+      const scoreImpact =
+        typeof rec.scoreImpact === "number" && Number.isFinite(rec.scoreImpact)
+          ? rec.scoreImpact
+          : typeof rec.impactPoints === "number" && Number.isFinite(rec.impactPoints)
+            ? rec.impactPoints
+            : 0;
+      const id =
+        typeof rec.id === "string" && rec.id.trim()
+          ? rec.id
+          : `mot_${index}_${text.slice(0, 16)}`;
+      const sourceRef =
+        typeof rec.sourceRef === "string" && rec.sourceRef.trim()
+          ? rec.sourceRef
+          : undefined;
+      return { id, type, text, scoreImpact, ...(sourceRef ? { sourceRef } : {}) };
+    })
+    .filter((m): m is ScoreMotivation => m != null);
+}
+
+function safeScore(value: unknown, fallback = 0): number {
+  const n = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(n) ? n : fallback;
+}
+
 type RadarDatumWithKey = RadarDatum & { key?: string };
 
 type FatalErrorUi = {
@@ -66,7 +152,6 @@ type EliteResultsClientProps = {
 const PILLARS: Array<{
   key: string;
   label: string;
-  icon: LucideIcon;
   fallbackIndex: number;
   gradeWeight: number | null;
 }> = [
@@ -273,12 +358,11 @@ export function EliteResultsClient({
   empathyBreakdown = null,
   scoreBreakdown = null,
 }: EliteResultsClientProps) {
-  const shield = legalProtectionStatus
-    ? legalShieldConfig(legalProtectionStatus.status)
+  const legalMeta = legalProtectionStatus
+    ? legalStatusMeta(legalProtectionStatus?.status ?? "HIGHLY_EXPOSED")
     : null;
-  const ShieldIcon = shield?.icon ?? Shield;
 
-  const normalizedScore = safeDisplayTrentesimi(totalScore);
+  const normalizedScore = safeDisplayTrentesimi(safeScore(totalScore, 0));
   const showKillerSwitchBanner =
     killerSwitch?.applied === true ||
     (!dismissed &&
