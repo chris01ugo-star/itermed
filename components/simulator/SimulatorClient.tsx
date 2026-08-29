@@ -560,9 +560,10 @@ export function SimulatorClient({
     messages,
     input,
     handleInputChange,
-    handleSubmit: submitChatMessage,
     isLoading: isChatLoading,
     setMessages,
+    setInput,
+    append,
     error: chatError,
     reload: reloadChat,
   } = useChat({
@@ -582,7 +583,8 @@ export function SimulatorClient({
     },
     experimental_prepareRequestBody: ({ messages: chatMessages, requestBody }) => ({
       ...(requestBody ?? {}),
-      sessionId: effectiveSessionIdRef.current,
+      // Never send offline/registry tokens — they 403'd chat before soft-allow.
+      sessionId: sanitizeLiveSessionId(effectiveSessionIdRef.current),
       patientStress: patientStressRef.current,
       requestedExamIds: selectedExamIdsRef.current,
       messages: chatMessages.map((m) => ({
@@ -810,12 +812,27 @@ export function SimulatorClient({
     const trimmed = input.trim();
     if (!trimmed || isChatLoading) return;
 
+    markUserActivity();
     const stressForRequest = Math.min(100, patientStress + 2);
     setPatientStress(stressForRequest);
     patientStressRef.current = stressForRequest;
     advanceClock(1);
 
-    submitChatMessage(event);
+    // Capture text before clearing; ensure live session when possible (soft-fail OK).
+    setInput("");
+    void (async () => {
+      try {
+        await ensureSessionId();
+      } catch {
+        // Chat can proceed with caseId-only auth.
+      }
+      try {
+        await append({ role: "user", content: trimmed });
+      } catch (err) {
+        console.error("[SimulatorClient] chat append failed", err);
+        setInput(trimmed);
+      }
+    })();
   };
 
   const caseAdvancedExamValues = useMemo((): Record<string, CaseExamStoredValues> => {
@@ -1752,6 +1769,7 @@ export function SimulatorClient({
                   <TabsContent value="exam" currentValue={activeTab} className="mt-3 w-full min-w-0">
                     <PhysicalExamTab
                       sessionId={effectiveSessionId}
+                      resolveSessionId={ensureSessionId}
                       patientPrompt={initialCaseData.patientPrompt}
                       caseId={initialCaseData.id}
                       onExamResult={handleExamFinding}
@@ -1928,6 +1946,7 @@ export function SimulatorClient({
                         <TabsContent value="exam" currentValue={activeTab} className="mt-0">
                           <PhysicalExamTab
                             sessionId={effectiveSessionId}
+                            resolveSessionId={ensureSessionId}
                             patientPrompt={initialCaseData.patientPrompt}
                             caseId={initialCaseData.id}
                             onExamResult={handleExamFinding}

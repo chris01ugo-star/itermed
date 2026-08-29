@@ -3,7 +3,7 @@ import { generateObject } from "ai";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
 import { requireUserApi, isUnauthorizedResponse } from "../../../lib/api-session";
-import { authorizeOwnedLiveSession } from "../../../lib/access";
+import { authorizeSimulationAction } from "../../../lib/access";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
@@ -11,7 +11,8 @@ import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 
 const bodySchema = z.object({
-  sessionId: z.string().min(1),
+  /** Optional: live Prisma session. Offline `registry_*` tokens are ignored. */
+  sessionId: z.string().optional(),
   caseId: z.string().optional(),
   examId: z.string().optional(),
   examType: z.string().min(1),
@@ -130,6 +131,20 @@ function findingFromBaseline(
       if (v != null) finding = String(v);
       break;
     }
+    case "general-appearance":
+    case "skin-mucosa":
+    case "cardiovascular": {
+      const physical = (baseline.physicalExam ?? {}) as Record<string, unknown>;
+      const peripheral = (baseline.peripheral ?? {}) as Record<string, unknown>;
+      if (examId === "cardiovascular" && peripheral.finding != null) {
+        finding = String(peripheral.finding);
+      } else if (physical.finding != null) {
+        finding = String(physical.finding);
+      } else if (peripheral.finding != null) {
+        finding = String(peripheral.finding);
+      }
+      break;
+    }
   }
 
   return finding != null ? { finding, numericValue } : null;
@@ -160,10 +175,12 @@ export async function POST(req: Request) {
   const { sessionId, caseId, examId, examType, patientPrompt } = parsed;
   const sanitizedPatientPrompt = sanitizeForExternalAI(patientPrompt);
 
-  const access = await authorizeOwnedLiveSession({
+  // Soft-allow authenticated play: live session when available, otherwise caseId
+  // (registry/offline tokens are ignored by authorizeSimulationAction).
+  const access = await authorizeSimulationAction({
     userId,
     sessionId,
-    expectedCaseId: caseId,
+    caseId,
   });
   if (!access.ok) {
     return new Response(JSON.stringify({ error: access.error, code: access.code }), {
@@ -173,7 +190,17 @@ export async function POST(req: Request) {
   }
 
   const liveSessionId = access.liveSessionId;
-  const resolvedCaseId = access.caseId;
+  const resolvedCaseId = access.caseId ?? caseId;
+
+  if (!resolvedCaseId && !sanitizedPatientPrompt.trim()) {
+    return new Response(
+      JSON.stringify({
+        error: "caseId or patientPrompt required",
+        code: "EXAMINE_CONTEXT_REQUIRED",
+      }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
 
   // 0) Se esiste una sessione con overrides (Parte 2 / Variante), usali prima di tutto
   if (liveSessionId && examId) {

@@ -180,8 +180,9 @@ export type SimulationAccessResult =
 
 /**
  * Authorize examine / report / chat against an optional live session and/or case.
- * - `registry_*` offline tokens are never treated as owned sessions.
- * - A foreign or stale sessionId is always 403 (no case-level fallback — IDOR).
+ * - `registry_*` offline tokens are ignored (treated as no session) so play can
+ *   continue via caseId when Prisma CaseSession creation falls back offline.
+ * - A foreign or stale *live* sessionId is always 403 (no case-level fallback — IDOR).
  */
 export async function authorizeSimulationAction(params: {
   userId: string;
@@ -196,10 +197,13 @@ export async function authorizeSimulationAction(params: {
     };
   }
 
-  const liveSessionId = sanitizeLiveSessionId(params.sessionId);
+  const rawSession = params.sessionId?.trim() ?? "";
+  const liveSessionId = sanitizeLiveSessionId(rawSession);
   const caseIdRaw = params.caseId?.trim() || undefined;
 
-  if (params.sessionId?.trim() && !liveSessionId) {
+  // Offline/registry tokens are not Prisma sessions — fall through to case auth.
+  // Only reject non-empty ids that are neither live nor offline (malformed).
+  if (rawSession && !liveSessionId && !isOfflineSessionId(rawSession)) {
     return {
       ok: false,
       status: 403,

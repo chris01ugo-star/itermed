@@ -29,6 +29,7 @@ type ExamResult = {
 type ExamState = {
   loading: boolean;
   result?: ExamResult;
+  error?: string;
 };
 
 type PhysicalExamTabProps = {
@@ -101,6 +102,13 @@ const SECTIONS: ExamSection[] = [
   },
 ];
 
+function asLiveSessionId(raw: string | null | undefined): string | undefined {
+  if (typeof raw !== "string") return undefined;
+  const id = raw.trim();
+  if (!id || id.startsWith("registry_")) return undefined;
+  return id;
+}
+
 export function PhysicalExamTab({
   sessionId,
   patientPrompt,
@@ -117,33 +125,28 @@ export function PhysicalExamTab({
 
     setExams((prev) => ({
       ...prev,
-      [id]: { ...prev[id], loading: true },
+      [id]: { loading: true, result: prev[id]?.result, error: undefined },
     }));
 
     try {
-      let liveSessionId =
-        typeof sessionId === "string" &&
-        sessionId.trim() &&
-        !sessionId.trim().startsWith("registry_")
-          ? sessionId.trim()
-          : undefined;
+      let liveSessionId = asLiveSessionId(sessionId);
 
       if (!liveSessionId && resolveSessionId) {
-        const resolved = await resolveSessionId();
-        if (resolved && !resolved.startsWith("registry_")) {
-          liveSessionId = resolved.trim();
-        }
+        liveSessionId = asLiveSessionId(await resolveSessionId());
       }
 
-      if (!liveSessionId) {
-        throw new Error("Sessione non disponibile. Riavvia il caso per eseguire l'esame obiettivo.");
+      // Live session preferred; caseId-only is allowed for offline/registry play.
+      if (!liveSessionId && !caseId?.trim()) {
+        throw new Error(
+          "Sessione non disponibile. Accetta il disclaimer e riprova, oppure riavvia il caso.",
+        );
       }
 
       const res = await fetch("/api/examine", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          sessionId: liveSessionId,
+          ...(liveSessionId ? { sessionId: liveSessionId } : {}),
           caseId,
           examId: id,
           examType: label,
@@ -156,11 +159,14 @@ export function PhysicalExamTab({
         | null;
 
       if (!res.ok) {
-        const detail = payload?.code || payload?.error || `HTTP ${res.status}`;
-        throw new Error(`Errore nell'esecuzione dell'esame (${detail}).`);
+        const detail = payload?.error || payload?.code || `HTTP ${res.status}`;
+        throw new Error(String(detail));
       }
 
       const data = payload as ExamResult;
+      if (!data?.finding) {
+        throw new Error("Risposta esame non valida.");
+      }
 
       setExams((prev) => ({
         ...prev,
@@ -170,9 +176,13 @@ export function PhysicalExamTab({
       onExamResult?.({ id, label, result: data });
     } catch (err) {
       console.error(err);
+      const message =
+        err instanceof Error && err.message.trim()
+          ? err.message.trim()
+          : "Errore nell'esecuzione dell'esame.";
       setExams((prev) => ({
         ...prev,
-        [id]: { loading: false, result: prev[id]?.result },
+        [id]: { loading: false, result: prev[id]?.result, error: message },
       }));
     }
   };
@@ -231,7 +241,7 @@ export function PhysicalExamTab({
       </div>
 
       <Dialog open={Boolean(activeSection)}>
-        <DialogContent className="flex max-h-[min(88dvh,640px)] max-w-xl flex-col overflow-hidden p-0">
+        <DialogContent className="relative z-[60] flex max-h-[min(88dvh,640px)] max-w-xl flex-col overflow-hidden p-0">
           <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-5 py-4">
             <DialogHeader className="mb-0 min-w-0">
               <DialogTitle>{activeSection?.title ?? "Esame obiettivo"}</DialogTitle>
@@ -273,12 +283,17 @@ export function PhysicalExamTab({
                 const state = exams[item.id];
                 const loading = Boolean(state?.loading);
                 const result = state?.result;
+                const error = state?.error;
                 return (
                   <div
                     key={item.id}
                     className={cn(
                       "rounded-xl border px-3.5 py-3",
-                      result ? "border-emerald-200 bg-emerald-50/50" : "border-slate-200 bg-white",
+                      result
+                        ? "border-emerald-200 bg-emerald-50/50"
+                        : error
+                          ? "border-rose-200 bg-rose-50/40"
+                          : "border-slate-200 bg-white",
                     )}
                   >
                     <div className="flex items-start justify-between gap-3">
@@ -307,6 +322,9 @@ export function PhysicalExamTab({
                         )}
                       </button>
                     </div>
+                    {error ? (
+                      <p className="mt-2 text-sm leading-relaxed text-rose-800">{error}</p>
+                    ) : null}
                     {result ? (
                       <p className="mt-2 text-sm leading-relaxed text-slate-700">
                         {result.finding}
