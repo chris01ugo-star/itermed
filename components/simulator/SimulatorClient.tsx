@@ -700,12 +700,23 @@ export function SimulatorClient({
     const consentMessage =
       "Le spiego ora la procedura proposta, i benefici attesi, i rischi principali e le alternative cliniche. " +
       "Le chiedo di confermare di aver compreso le informazioni e di prestare il consenso informato prima di procedere.";
+    const consentPatientReply =
+      "Ho capito i benefici, rischi e confermo di aver compreso le informazioni dando il consenso";
 
-    try {
-      void append({ role: "user", content: consentMessage });
-    } catch (err) {
-      console.error("[SimulatorClient] consent append failed", err);
-    }
+    const stamp = Date.now();
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: `consent-user-${stamp}`,
+        role: "user" as const,
+        content: consentMessage,
+      },
+      {
+        id: `consent-assistant-${stamp}`,
+        role: "assistant" as const,
+        content: consentPatientReply,
+      },
+    ]);
 
     setExtraExecutedActionIds((prev) => {
       if (prev.includes(CONSENT_INFORMED_ACTION_ID)) return prev;
@@ -731,12 +742,12 @@ export function SimulatorClient({
       }
     })();
   }, [
-    append,
     consentRequested,
     ensureSessionId,
     initialCaseData.id,
     isConsentBusy,
     markUserActivity,
+    setMessages,
   ]);
 
   const handleDismissCase = async () => {
@@ -2986,9 +2997,15 @@ function HistoryChat({
           </Button>
         </div>
         <ClinicalSimulationDisclaimer />
-        <p className="px-1 text-[11px] text-slate-400">
-          Invio per inviare · Shift+Invio per andare a capo · l&apos;IA risponde solo come paziente
-        </p>
+        <ul className="flex flex-wrap gap-x-3 gap-y-1 px-1 text-[10px] leading-snug text-slate-400 sm:text-[11px]">
+          <li>
+            <span className="font-medium text-slate-500">Invio</span> per inviare
+          </li>
+          <li>
+            <span className="font-medium text-slate-500">Shift+Invio</span> per andare a capo
+          </li>
+          <li>L&apos;IA risponde solo come paziente</li>
+        </ul>
       </form>
     </div>
   );
