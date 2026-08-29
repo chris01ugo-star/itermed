@@ -1510,11 +1510,11 @@ export function SimulatorClient({
           </>
         ) : null}
 
-        {/* Embedded: immersive 2-col full-height. Standalone: EHR 8 | diagnostic 4. */}
+        {/* Embedded: chat | recap | cartella. Standalone: EHR 8 | diagnostic 4. */}
         <div
           className={
             embedded
-              ? "grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 gap-2.5 overflow-hidden lg:grid-cols-[minmax(0,0.9fr)_minmax(24rem,1.4fr)] lg:items-stretch"
+              ? "grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 gap-2.5 overflow-hidden lg:grid-cols-[minmax(0,1.05fr)_minmax(15rem,0.9fr)_minmax(17rem,1.05fr)] lg:items-stretch"
               : "grid w-full min-w-0 grid-cols-1 gap-6 overflow-x-hidden lg:grid-cols-12 lg:items-start"
           }
         >
@@ -1615,7 +1615,25 @@ export function SimulatorClient({
                 </div>
               </div>
             </div>
-          ) : (
+          ) : null}
+
+          {embedded ? (
+            <aside
+              id="aequan-sim-recap"
+              className="flex min-h-0 min-w-0 flex-col overflow-hidden"
+            >
+              <ExamReportRecap
+                exams={selectedExamsRecentFirst}
+                objectiveFindings={objectiveFindingsRecentFirst}
+                examCatalog={examCatalog}
+                caseExamValues={caseAdvancedExamValues}
+                examMacroCatalog={examMacroCatalog}
+                className="min-h-0 flex-1"
+              />
+            </aside>
+          ) : null}
+
+          {embedded ? null : (
           <div
             id="aequan-sim-chat"
             className="flex min-w-0 flex-col gap-4 overflow-x-hidden lg:col-span-8"
@@ -1909,16 +1927,6 @@ export function SimulatorClient({
                           />
                         </TabsContent>
                       </Tabs>
-
-                      <div className="mt-3 border-t border-slate-100 pt-3">
-                        <ExamReportRecap
-                          exams={selectedExamsRecentFirst}
-                          objectiveFindings={objectiveFindingsRecentFirst}
-                          examCatalog={examCatalog}
-                          caseExamValues={caseAdvancedExamValues}
-                          examMacroCatalog={examMacroCatalog}
-                        />
-                      </div>
                     </div>
                   </CardContent>
                 </Card>
