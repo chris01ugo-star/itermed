@@ -99,9 +99,9 @@ function FolderCard({
   const abnormalCount = folder.entries.filter((e) => e.abnormal).length;
 
   return (
-    <div className="relative shrink-0 pt-2.5">
+    <div className="relative w-full pt-2">
       <span
-        className="absolute left-3 top-2.5 z-10 h-2.5 w-10 -translate-y-[calc(100%-1px)] rounded-t-md"
+        className="absolute left-3 top-2 z-10 h-2 w-9 -translate-y-[calc(100%-1px)] rounded-t-md"
         style={{ backgroundColor: folder.fill }}
         aria-hidden
       />
@@ -113,32 +113,34 @@ function FolderCard({
           borderColor: active ? "#1E324E" : folder.border,
         }}
         className={cn(
-          "relative flex w-[9.5rem] flex-col gap-1.5 overflow-hidden rounded-b-xl rounded-tr-xl border px-3 py-2.5 text-left transition-all duration-200 hover:brightness-[0.98] sm:w-[10.5rem]",
+          "relative flex w-full items-center gap-3 overflow-hidden rounded-b-xl rounded-tr-xl border px-3 py-2 text-left transition-all duration-200 hover:brightness-[0.98]",
           active && "shadow-sm ring-1 ring-[#1E324E]/20",
         )}
       >
-        <div className="flex items-start justify-between gap-1.5">
-          <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-500" strokeWidth={1.75} />
+        <Icon className="h-3.5 w-3.5 shrink-0 text-slate-500" strokeWidth={1.75} />
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-bold text-slate-800">{folder.title}</p>
+          <p className="truncate text-[11px] text-slate-500">{folder.kindLabel}</p>
+        </div>
+        <div className="flex shrink-0 flex-col items-end gap-0.5">
           <span className="rounded-md bg-white/55 px-1.5 py-0.5 text-[10px] font-semibold tabular-nums text-slate-600">
             {folder.entries.length}
           </span>
+          {abnormalCount > 0 ? (
+            <span
+              className="text-[10px] font-semibold"
+              style={{ color: PRASSI_TONE.blush.accent }}
+            >
+              {abnormalCount} patologic{abnormalCount === 1 ? "o" : "i"}
+            </span>
+          ) : folder.totalCost > 0 ? (
+            <span className="text-[10px] font-medium text-slate-500">
+              €{folder.totalCost.toFixed(0)}
+            </span>
+          ) : (
+            <span className="text-[10px] text-slate-400">Apri</span>
+          )}
         </div>
-        <p className="truncate text-sm font-bold text-slate-800">{folder.title}</p>
-        <p className="truncate text-[11px] text-slate-500">{folder.kindLabel}</p>
-        {abnormalCount > 0 ? (
-          <span
-            className="text-[10px] font-semibold"
-            style={{ color: PRASSI_TONE.blush.accent }}
-          >
-            {abnormalCount} patologic{abnormalCount === 1 ? "o" : "i"}
-          </span>
-        ) : folder.totalCost > 0 ? (
-          <span className="text-[10px] font-medium text-slate-500">
-            €{folder.totalCost.toFixed(0)}
-          </span>
-        ) : (
-          <span className="text-[10px] text-slate-400">Apri referti</span>
-        )}
       </button>
     </div>
   );
@@ -146,7 +148,7 @@ function FolderCard({
 
 /**
  * Live recap of objective findings + prescribed exams, grouped by clinical category.
- * Folders sit in a horizontal row (Prassi style); click opens a popup with all reports.
+ * Compact vertical folder list; click opens a popup with all reports.
  */
 export function ExamReportRecap({
   exams,
@@ -255,7 +257,7 @@ export function ExamReportRecap({
           <div>
             <p className="text-sm font-semibold text-slate-800">Recap esami e referti</p>
             <p className="text-[11px] text-slate-500">
-              Cartelle in fila — clicca per aprire i referti
+              Cartelle compatte — clicca per aprire i referti
             </p>
           </div>
         </div>
@@ -277,7 +279,7 @@ export function ExamReportRecap({
             </p>
           </div>
         ) : (
-          <div className="scrollbar-aequan flex gap-2.5 overflow-x-auto pb-1">
+          <div className="flex flex-col gap-1.5">
             {folders.map((folder) => (
               <FolderCard
                 key={folder.id}

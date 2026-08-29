@@ -1514,7 +1514,7 @@ export function SimulatorClient({
         <div
           className={
             embedded
-              ? "grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 gap-2.5 overflow-hidden lg:grid-cols-[minmax(0,1.55fr)_minmax(19rem,1fr)] lg:items-stretch"
+              ? "grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 gap-2.5 overflow-hidden lg:grid-cols-[minmax(0,0.9fr)_minmax(24rem,1.4fr)] lg:items-stretch"
               : "grid w-full min-w-0 grid-cols-1 gap-6 overflow-x-hidden lg:grid-cols-12 lg:items-start"
           }
         >
@@ -1918,16 +1918,6 @@ export function SimulatorClient({
                           caseExamValues={caseAdvancedExamValues}
                           examMacroCatalog={examMacroCatalog}
                         />
-                      </div>
-
-                      <div className="mt-3 rounded-xl border border-slate-100 bg-slate-50/80 px-3.5 py-3">
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">
-                          Obiettivo del caso
-                        </p>
-                        <p className="mt-1.5 text-[13px] leading-relaxed text-slate-700">
-                          {initialCaseData.description ||
-                            "Gestisci il paziente in PS con appropriatezza clinica e medico-legale."}
-                        </p>
                       </div>
                     </div>
                   </CardContent>
