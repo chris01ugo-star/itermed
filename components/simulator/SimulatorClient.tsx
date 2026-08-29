@@ -563,7 +563,6 @@ export function SimulatorClient({
     handleSubmit: submitChatMessage,
     isLoading: isChatLoading,
     setMessages,
-    append,
     error: chatError,
     reload: reloadChat,
   } = useChat({
