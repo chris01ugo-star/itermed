@@ -215,7 +215,7 @@ export function SessionSideMetrics({
             </p>
           </div>
 
-          <p className="text-[11px] font-semibold text-[#00B4D8] underline-offset-2 group-hover:underline">
+          <p className="text-[11px] font-semibold text-[#345884] underline-offset-2 group-hover:underline">
             {reportReady ? "Apri referto" : "Inizia compilazione"}
           </p>
         </button>

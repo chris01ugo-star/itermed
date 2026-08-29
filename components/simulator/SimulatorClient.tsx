@@ -1517,7 +1517,7 @@ export function SimulatorClient({
         <div
           className={
             embedded
-              ? "grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 gap-2.5 overflow-hidden lg:grid-cols-[minmax(0,1.05fr)_minmax(15rem,0.9fr)_minmax(17rem,1.05fr)] lg:grid-rows-[auto_minmax(0,1fr)] lg:items-stretch"
+              ? "grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 gap-2.5 overflow-hidden lg:grid-cols-[minmax(0,1.45fr)_minmax(13rem,0.7fr)_minmax(17rem,1fr)] lg:grid-rows-[auto_minmax(0,1fr)] lg:items-stretch"
               : "grid w-full min-w-0 grid-cols-1 gap-6 overflow-x-hidden lg:grid-cols-12 lg:items-start"
           }
         >

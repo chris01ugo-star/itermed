@@ -101,7 +101,7 @@ function FolderCard({
   return (
     <div className="relative w-full pt-2">
       <span
-        className="absolute left-3 top-2 z-10 h-2 w-9 -translate-y-[calc(100%-1px)] rounded-t-md"
+        className="absolute left-2.5 top-2 z-10 h-2 w-8 -translate-y-[calc(100%-1px)] rounded-t-md"
         style={{ backgroundColor: folder.fill }}
         aria-hidden
       />
@@ -113,34 +113,34 @@ function FolderCard({
           borderColor: active ? "#1E324E" : folder.border,
         }}
         className={cn(
-          "relative flex w-full items-center gap-3 overflow-hidden rounded-b-xl rounded-tr-xl border px-3 py-2 text-left transition-all duration-200 hover:brightness-[0.98]",
+          "relative flex h-full w-full flex-col gap-1 overflow-hidden rounded-b-xl rounded-tr-xl border px-2.5 py-2 text-left transition-all duration-200 hover:brightness-[0.98]",
           active && "shadow-sm ring-1 ring-[#1E324E]/20",
         )}
       >
-        <Icon className="h-3.5 w-3.5 shrink-0 text-slate-500" strokeWidth={1.75} />
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-bold text-slate-800">{folder.title}</p>
-          <p className="truncate text-[11px] text-slate-500">{folder.kindLabel}</p>
-        </div>
-        <div className="flex shrink-0 flex-col items-end gap-0.5">
+        <div className="flex items-start justify-between gap-1.5">
+          <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-500" strokeWidth={1.75} />
           <span className="rounded-md bg-white/55 px-1.5 py-0.5 text-[10px] font-semibold tabular-nums text-slate-600">
             {folder.entries.length}
           </span>
-          {abnormalCount > 0 ? (
-            <span
-              className="text-[10px] font-semibold"
-              style={{ color: PRASSI_TONE.blush.accent }}
-            >
-              {abnormalCount} patologic{abnormalCount === 1 ? "o" : "i"}
-            </span>
-          ) : folder.totalCost > 0 ? (
-            <span className="text-[10px] font-medium text-slate-500">
-              €{folder.totalCost.toFixed(0)}
-            </span>
-          ) : (
-            <span className="text-[10px] text-slate-400">Apri</span>
-          )}
         </div>
+        <p className="line-clamp-2 text-xs font-bold leading-snug text-slate-800">
+          {folder.title}
+        </p>
+        <p className="truncate text-[10px] text-slate-500">{folder.kindLabel}</p>
+        {abnormalCount > 0 ? (
+          <span
+            className="text-[10px] font-semibold"
+            style={{ color: PRASSI_TONE.blush.accent }}
+          >
+            {abnormalCount} patologic{abnormalCount === 1 ? "o" : "i"}
+          </span>
+        ) : folder.totalCost > 0 ? (
+          <span className="text-[10px] font-medium text-slate-500">
+            €{folder.totalCost.toFixed(0)}
+          </span>
+        ) : (
+          <span className="text-[10px] text-slate-400">Apri</span>
+        )}
       </button>
     </div>
   );
@@ -148,7 +148,7 @@ function FolderCard({
 
 /**
  * Live recap of objective findings + prescribed exams, grouped by clinical category.
- * Compact vertical folder list; click opens a popup with all reports.
+ * Two-column folder grid; empty state fills the panel.
  */
 export function ExamReportRecap({
   exams,
@@ -269,17 +269,17 @@ export function ExamReportRecap({
         ) : null}
       </div>
 
-      <div className="scrollbar-aequan min-h-0 flex-1 overflow-y-auto px-3 py-3 sm:px-4">
+      <div className="scrollbar-aequan flex min-h-0 flex-1 flex-col overflow-y-auto px-3 py-3 sm:px-4">
         {folders.length === 0 ? (
-          <div className="flex min-h-[12rem] flex-1 flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-slate-200 bg-slate-50/70 px-4 py-6 text-center">
-            <FolderClosed className="h-5 w-5 text-slate-300" />
+          <div className="flex h-full min-h-0 flex-1 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-slate-200 bg-slate-50/70 px-4 py-8 text-center">
+            <FolderClosed className="h-6 w-6 text-slate-300" />
             <p className="text-sm font-medium text-slate-600">Nessun esame ancora richiesto</p>
-            <p className="max-w-sm text-[11px] leading-relaxed text-slate-400">
+            <p className="max-w-[16rem] text-[11px] leading-relaxed text-slate-400">
               Quando esegui manovre o prescrivi esami, le cartelle di categoria compaiono qui.
             </p>
           </div>
         ) : (
-          <div className="flex flex-col gap-1.5">
+          <div className="grid grid-cols-2 gap-x-2 gap-y-1 content-start">
             {folders.map((folder) => (
               <FolderCard
                 key={folder.id}
