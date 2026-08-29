@@ -1513,76 +1513,7 @@ export function SimulatorClient({
           </>
         ) : null}
 
-        {embedded ? (
-          <div className="flex w-full min-w-0 shrink-0 flex-col gap-2.5 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 shadow-sm">
-            <div className="flex min-w-0 items-start justify-between gap-3">
-              <div className="min-w-0">
-                <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
-                  Caso clinico attivo
-                </p>
-                <h1 className="mt-0.5 truncate font-display text-base font-bold tracking-tight text-[#345884] sm:text-lg">
-                  {initialCaseData.title}
-                </h1>
-                <p className="mt-1 truncate text-xs text-slate-500">
-                  {initialCaseData.specialty?.trim() || "Pronto Soccorso"}
-                  <span className="mx-1.5 text-slate-300">·</span>
-                  Paziente {patient.age} anni ({patient.sex})
-                  <span className="mx-1.5 text-slate-300">·</span>
-                  ID: {patient.id}
-                </p>
-              </div>
-              <div className="flex shrink-0 items-center gap-2">
-                {maxVitalStatus(
-                  classifyVitals(deriveDemoVitals(initialCaseData.id, patientStress)).map(
-                    (v) => v.status,
-                  ),
-                ) !== "stable" ? (
-                  <span className="inline-flex items-center gap-1.5 rounded-md border border-red-500/40 bg-red-500/10 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-red-600">
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
-                    Instabile
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#345884]" />
-                    Stabile
-                  </span>
-                )}
-                <button
-                  type="button"
-                  onClick={openHelpConsult}
-                  aria-label="Aiuto / Richiesta consulto"
-                  title="Aiuto / Richiesta consulto"
-                  className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/30 bg-[#EEF2F9] px-2.5 py-1.5 text-[11px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white"
-                >
-                  <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
-                  Aiuto
-                </button>
-              </div>
-            </div>
-
-            <VitalSignsBoard
-              caseId={initialCaseData.id}
-              title={initialCaseData.title}
-              age={patient.age}
-              sex={patient.sex}
-              stress={patientStress}
-              showHeader={false}
-              className="w-full shrink-0"
-            />
-
-            <SessionSideMetrics
-              variant="rail"
-              totalCost={totalCost}
-              budget={examBudgetEuro}
-              patientStress={patientStress}
-              reportReady={isClinicalReportComplete(reportSections)}
-              onOpenDischarge={() => setIsDischargeOpen(true)}
-              className="min-h-0"
-            />
-          </div>
-        ) : null}
-
-        {/* Embedded: chat | recap | cartella (equal height). Standalone: EHR 8 | diagnostic 4. */}
+        {/* Embedded: chat | recap | cartella. Standalone: EHR 8 | diagnostic 4. */}
         <div
           className={
             embedded
@@ -1593,8 +1524,65 @@ export function SimulatorClient({
           {embedded ? (
             <div
               id="aequan-sim-chat"
-              className="flex min-h-0 min-w-0 flex-col overflow-hidden"
+              className="flex min-h-0 min-w-0 flex-col gap-2.5 overflow-hidden"
             >
+              <div className="flex w-full min-w-0 shrink-0 flex-col gap-2.5 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 shadow-sm">
+                <div className="flex min-w-0 items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                      Caso clinico attivo
+                    </p>
+                    <h1 className="mt-0.5 truncate font-display text-base font-bold tracking-tight text-[#345884] sm:text-lg">
+                      {initialCaseData.title}
+                    </h1>
+                    <p className="mt-1 truncate text-xs text-slate-500">
+                      {initialCaseData.specialty?.trim() || "Pronto Soccorso"}
+                      <span className="mx-1.5 text-slate-300">·</span>
+                      Paziente {patient.age} anni ({patient.sex})
+                      <span className="mx-1.5 text-slate-300">·</span>
+                      ID: {patient.id}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-2">
+                    {maxVitalStatus(
+                      classifyVitals(deriveDemoVitals(initialCaseData.id, patientStress)).map(
+                        (v) => v.status,
+                      ),
+                    ) !== "stable" ? (
+                      <span className="inline-flex items-center gap-1.5 rounded-md border border-red-500/40 bg-red-500/10 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-red-600">
+                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
+                        Instabile
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#345884]" />
+                        Stabile
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={openHelpConsult}
+                      aria-label="Aiuto / Richiesta consulto"
+                      title="Aiuto / Richiesta consulto"
+                      className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/30 bg-[#EEF2F9] px-2.5 py-1.5 text-[11px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white"
+                    >
+                      <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                      Aiuto
+                    </button>
+                  </div>
+                </div>
+
+                <VitalSignsBoard
+                  caseId={initialCaseData.id}
+                  title={initialCaseData.title}
+                  age={patient.age}
+                  sex={patient.sex}
+                  stress={patientStress}
+                  showHeader={false}
+                  className="w-full shrink-0"
+                />
+              </div>
+
               <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
                 <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-100 bg-slate-50/90 px-4 py-2.5">
                   <div className="flex min-w-0 items-center gap-2.5">
@@ -1788,12 +1776,23 @@ export function SimulatorClient({
             id="aequan-sim-exams"
             className={
               embedded
-                ? "flex h-full min-h-0 min-w-0 flex-col overflow-hidden"
+                ? "flex h-full min-h-0 min-w-0 flex-col gap-2.5 overflow-hidden"
                 : "flex min-w-0 flex-col gap-4 overflow-x-hidden pb-8 lg:col-span-4"
             }
           >
             {embedded ? (
               <>
+                <div className="grid shrink-0 grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
+                  <SessionSideMetrics
+                    totalCost={totalCost}
+                    budget={examBudgetEuro}
+                    patientStress={patientStress}
+                    reportReady={isClinicalReportComplete(reportSections)}
+                    onOpenDischarge={() => setIsDischargeOpen(true)}
+                    className="min-h-0"
+                  />
+                </div>
+
                 <Card className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border-slate-200/80 shadow-sm">
                   <CardHeader className="shrink-0 border-b border-slate-100 py-3 pb-2.5">
                     <CardTitle className="text-sm font-semibold text-slate-800">
