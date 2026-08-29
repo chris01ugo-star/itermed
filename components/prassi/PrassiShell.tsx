@@ -135,7 +135,7 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
     <div className="flex h-full min-h-0 w-full flex-col gap-4 bg-[#F4F6F8] px-4 pb-4 pt-3 md:px-6 md:pb-6 md:pt-4">
       <header className="shrink-0 space-y-1">
         <h1 className="font-display text-[1.55rem] font-bold tracking-tight text-text-primary md:text-[1.7rem]">
-          Prassi Clinica
+          Casi Clinici
         </h1>
         <p className="max-w-2xl text-sm leading-relaxed text-slate-500">
           {activeBucket

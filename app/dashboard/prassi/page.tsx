@@ -59,7 +59,7 @@ export default async function PrassiPage() {
     <Suspense
       fallback={
         <div className="rounded-xl border border-slate-100 bg-white p-8 text-sm text-slate-500 shadow-sm">
-          Caricamento Prassi Clinica…
+          Caricamento Casi Clinici…
         </div>
       }
     >

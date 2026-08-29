@@ -16,7 +16,7 @@ export default async function AnalyticsPage() {
         <div className="rounded-2xl border border-dashed border-slate-200 bg-white px-5 py-5 text-sm text-slate-600 shadow-sm">
           <p className="text-base font-medium text-slate-800">Nessuna simulazione completata</p>
           <p className="mt-1 text-sm text-slate-500">
-            Completa il primo caso in Prassi Clinica per vedere classifiche e trend.
+            Completa il primo caso in Casi Clinici per vedere classifiche e trend.
           </p>
         </div>
       ) : null}

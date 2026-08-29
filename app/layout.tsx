@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import { SiteFooter } from "@/components/legal/SiteFooter";
+import { ConditionalSiteFooter } from "@/components/legal/ConditionalSiteFooter";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -43,7 +43,7 @@ export default function RootLayout({
         <Providers>
           <div className="flex min-h-screen flex-col">
             <div className="flex-1">{children}</div>
-            <SiteFooter />
+            <ConditionalSiteFooter />
           </div>
         </Providers>
       </body>

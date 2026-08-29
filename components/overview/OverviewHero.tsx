@@ -29,7 +29,7 @@ export function OverviewHero({
             consigliato: <span className="font-medium text-slate-700">{focusLabel}</span>.
           </>
         ) : (
-          <>Inizia dalla Prassi Clinica: scegli un caso e avvia la simulazione.</>
+          <>Inizia da Casi Clinici: scegli un caso e avvia la simulazione.</>
         )}
       </p>
     </header>

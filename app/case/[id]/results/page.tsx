@@ -114,7 +114,7 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
                 className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80 transition hover:text-[#345884]"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
-                Prassi Clinica
+                Casi Clinici
               </Link>
               <Link href="/dashboard" aria-label="Vai alla dashboard">
                 <AequanLogo height={28} />

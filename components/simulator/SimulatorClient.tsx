@@ -2241,14 +2241,46 @@ export function SimulatorClient({
         </div>
 
         {embedded ? (
-          <footer className="flex w-full shrink-0 items-center justify-between gap-3 rounded-xl border border-slate-200/80 bg-white/90 px-3.5 py-2 shadow-sm">
-            <Link
-              href="/dashboard/guidelines"
-              className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[12px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
+          <footer className="flex w-full shrink-0 flex-wrap items-center justify-between gap-x-3 gap-y-2 rounded-xl border border-slate-200/80 bg-white/90 px-3.5 py-2 shadow-sm">
+            <nav
+              className="flex min-w-0 flex-wrap items-center gap-x-1 gap-y-1"
+              aria-label="Risorse e documenti"
             >
-              <BookOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
-              Linee guida correlate
-            </Link>
+              <Link
+                href="/dashboard/guidelines"
+                className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[12px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
+              >
+                <BookOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
+                Linee guida correlate
+              </Link>
+              <span className="hidden text-slate-300 sm:inline" aria-hidden>
+                ·
+              </span>
+              <Link
+                href="/terms"
+                className="rounded-md px-2 py-1 text-[12px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
+              >
+                Termini di servizio
+              </Link>
+              <Link
+                href="/privacy"
+                className="rounded-md px-2 py-1 text-[12px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/cookies"
+                className="rounded-md px-2 py-1 text-[12px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
+              >
+                Cookie Policy
+              </Link>
+              <Link
+                href="/ai-transparency"
+                className="rounded-md px-2 py-1 text-[12px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
+              >
+                Trasparenza AI
+              </Link>
+            </nav>
             <button
               type="button"
               onClick={openHelpConsult}

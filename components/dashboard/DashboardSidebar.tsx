@@ -39,7 +39,7 @@ type DashboardSidebarProps = {
 
 const CREATE_CASE_HREF = "/dashboard/cases/create";
 
-/** Case-creation routes — highlight Crea Caso, not Prassi Clinica. */
+/** Case-creation routes — highlight Crea Caso, not Casi Clinici. */
 function isCaseCreationPath(pathname: string): boolean {
   return (
     pathname === CREATE_CASE_HREF ||
@@ -55,7 +55,7 @@ const primaryNavItems: NavItem[] = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
   {
     href: "/dashboard/prassi",
-    label: "Prassi Clinica",
+    label: "Casi Clinici",
     icon: Activity,
     matchPrefixes: ["/dashboard/prassi", "/dashboard/cases", "/dashboard/simulator"],
     excludePathPrefixes: [
