@@ -6,14 +6,17 @@ import { useRouter } from "next/navigation";
 import { useChat } from "ai/react";
 import {
   Activity,
+  AlertTriangle,
   ArrowLeft,
   BookOpen,
   CheckCheck,
+  ClipboardList,
   FlaskConical,
   Clock,
   EuroIcon,
   FolderOpen,
   HelpCircle,
+  HeartPulse,
   MessageCircle,
   FileText,
   Pause,
@@ -1510,7 +1513,76 @@ export function SimulatorClient({
           </>
         ) : null}
 
-        {/* Embedded: chat | recap | cartella. Standalone: EHR 8 | diagnostic 4. */}
+        {embedded ? (
+          <div className="flex w-full min-w-0 shrink-0 flex-col gap-2.5 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 shadow-sm">
+            <div className="flex min-w-0 items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                  Caso clinico attivo
+                </p>
+                <h1 className="mt-0.5 truncate font-display text-base font-bold tracking-tight text-[#345884] sm:text-lg">
+                  {initialCaseData.title}
+                </h1>
+                <p className="mt-1 truncate text-xs text-slate-500">
+                  {initialCaseData.specialty?.trim() || "Pronto Soccorso"}
+                  <span className="mx-1.5 text-slate-300">·</span>
+                  Paziente {patient.age} anni ({patient.sex})
+                  <span className="mx-1.5 text-slate-300">·</span>
+                  ID: {patient.id}
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                {maxVitalStatus(
+                  classifyVitals(deriveDemoVitals(initialCaseData.id, patientStress)).map(
+                    (v) => v.status,
+                  ),
+                ) !== "stable" ? (
+                  <span className="inline-flex items-center gap-1.5 rounded-md border border-red-500/40 bg-red-500/10 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-red-600">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
+                    Instabile
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#345884]" />
+                    Stabile
+                  </span>
+                )}
+                <button
+                  type="button"
+                  onClick={openHelpConsult}
+                  aria-label="Aiuto / Richiesta consulto"
+                  title="Aiuto / Richiesta consulto"
+                  className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/30 bg-[#EEF2F9] px-2.5 py-1.5 text-[11px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white"
+                >
+                  <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                  Aiuto
+                </button>
+              </div>
+            </div>
+
+            <VitalSignsBoard
+              caseId={initialCaseData.id}
+              title={initialCaseData.title}
+              age={patient.age}
+              sex={patient.sex}
+              stress={patientStress}
+              showHeader={false}
+              className="w-full shrink-0"
+            />
+
+            <SessionSideMetrics
+              variant="rail"
+              totalCost={totalCost}
+              budget={examBudgetEuro}
+              patientStress={patientStress}
+              reportReady={isClinicalReportComplete(reportSections)}
+              onOpenDischarge={() => setIsDischargeOpen(true)}
+              className="min-h-0"
+            />
+          </div>
+        ) : null}
+
+        {/* Embedded: chat | recap | cartella (equal height). Standalone: EHR 8 | diagnostic 4. */}
         <div
           className={
             embedded
@@ -1521,65 +1593,8 @@ export function SimulatorClient({
           {embedded ? (
             <div
               id="aequan-sim-chat"
-              className="flex min-h-0 min-w-0 flex-col gap-2.5 overflow-hidden"
+              className="flex min-h-0 min-w-0 flex-col overflow-hidden"
             >
-              <div className="flex w-full min-w-0 shrink-0 flex-col gap-2.5 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 shadow-sm">
-                <div className="flex min-w-0 items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
-                      Caso clinico attivo
-                    </p>
-                    <h1 className="mt-0.5 truncate font-display text-base font-bold tracking-tight text-[#345884] sm:text-lg">
-                      {initialCaseData.title}
-                    </h1>
-                    <p className="mt-1 truncate text-xs text-slate-500">
-                      {initialCaseData.specialty?.trim() || "Pronto Soccorso"}
-                      <span className="mx-1.5 text-slate-300">·</span>
-                      Paziente {patient.age} anni ({patient.sex})
-                      <span className="mx-1.5 text-slate-300">·</span>
-                      ID: {patient.id}
-                    </p>
-                  </div>
-                  <div className="flex shrink-0 items-center gap-2">
-                    {maxVitalStatus(
-                      classifyVitals(deriveDemoVitals(initialCaseData.id, patientStress)).map(
-                        (v) => v.status,
-                      ),
-                    ) !== "stable" ? (
-                      <span className="inline-flex items-center gap-1.5 rounded-md border border-red-500/40 bg-red-500/10 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-red-600">
-                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
-                        Instabile
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#345884]" />
-                        Stabile
-                      </span>
-                    )}
-                    <button
-                      type="button"
-                      onClick={openHelpConsult}
-                      aria-label="Aiuto / Richiesta consulto"
-                      title="Aiuto / Richiesta consulto"
-                      className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/30 bg-[#EEF2F9] px-2.5 py-1.5 text-[11px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white"
-                    >
-                      <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
-                      Aiuto
-                    </button>
-                  </div>
-                </div>
-
-                <VitalSignsBoard
-                  caseId={initialCaseData.id}
-                  title={initialCaseData.title}
-                  age={patient.age}
-                  sex={patient.sex}
-                  stress={patientStress}
-                  showHeader={false}
-                  className="w-full shrink-0"
-                />
-              </div>
-
               <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm">
                 <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-100 bg-slate-50/90 px-4 py-2.5">
                   <div className="flex min-w-0 items-center gap-2.5">
@@ -1620,7 +1635,7 @@ export function SimulatorClient({
           {embedded ? (
             <aside
               id="aequan-sim-recap"
-              className="flex min-h-0 min-w-0 flex-col overflow-hidden"
+              className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden"
             >
               <ExamReportRecap
                 exams={selectedExamsRecentFirst}
@@ -1628,7 +1643,7 @@ export function SimulatorClient({
                 examCatalog={examCatalog}
                 caseExamValues={caseAdvancedExamValues}
                 examMacroCatalog={examMacroCatalog}
-                className="min-h-0 flex-1"
+                className="h-full min-h-0 flex-1"
               />
             </aside>
           ) : null}
@@ -1773,23 +1788,12 @@ export function SimulatorClient({
             id="aequan-sim-exams"
             className={
               embedded
-                ? "flex min-h-0 min-w-0 flex-col gap-2.5 overflow-hidden"
+                ? "flex h-full min-h-0 min-w-0 flex-col overflow-hidden"
                 : "flex min-w-0 flex-col gap-4 overflow-x-hidden pb-8 lg:col-span-4"
             }
           >
             {embedded ? (
               <>
-                <div className="grid shrink-0 grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
-                  <SessionSideMetrics
-                    totalCost={totalCost}
-                    budget={examBudgetEuro}
-                    patientStress={patientStress}
-                    reportReady={isClinicalReportComplete(reportSections)}
-                    onOpenDischarge={() => setIsDischargeOpen(true)}
-                    className="min-h-0"
-                  />
-                </div>
-
                 <Card className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border-slate-200/80 shadow-sm">
                   <CardHeader className="shrink-0 border-b border-slate-100 py-3 pb-2.5">
                     <CardTitle className="text-sm font-semibold text-slate-800">
@@ -1845,49 +1849,70 @@ export function SimulatorClient({
                         onValueChange={(value) => setActiveTab(value as typeof activeTab)}
                       >
                         <TabsContent value="history" currentValue={activeTab} className="mt-0">
-                          <div className="space-y-2">
-                            <div className="rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-3">
-                              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                                Anamnesi iniziale
-                              </p>
-                              <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
+                          <div className="flex flex-col gap-3">
+                            <section className="overflow-hidden rounded-2xl border border-slate-200/90 bg-gradient-to-b from-[#F7F9FC] to-white">
+                              <div className="flex items-center gap-2.5 border-b border-slate-100 px-3.5 py-2.5">
+                                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#345884]/10 text-[#345884]">
+                                  <ClipboardList className="h-4 w-4" strokeWidth={1.75} />
+                                </span>
+                                <div className="min-w-0">
+                                  <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
+                                    Ingresso
+                                  </p>
+                                  <p className="text-sm font-semibold text-slate-900">
+                                    Anamnesi iniziale
+                                  </p>
+                                </div>
+                              </div>
+                              <p className="px-3.5 py-3 text-sm leading-relaxed text-slate-700">
                                 {reportSections.anamnesisObjective?.trim() ||
                                   patient.mainComplaint ||
-                                  "Usa il dialogo al centro per raccogliere l'anamnesi."}
+                                  "Usa il dialogo a sinistra per raccogliere l'anamnesi."}
                               </p>
-                            </div>
-                            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                              <div className="rounded-xl border border-slate-200 bg-white px-3.5 py-3">
-                                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                                  Storia clinica
-                                </p>
-                                <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
+                            </section>
+
+                            <div className="grid grid-cols-1 gap-2.5">
+                              <section className="rounded-2xl border border-slate-200/90 bg-white px-3.5 py-3 shadow-[0_1px_0_rgba(15,23,42,0.03)]">
+                                <div className="flex items-center gap-2">
+                                  <span className="flex h-7 w-7 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                                    <HeartPulse className="h-3.5 w-3.5" strokeWidth={1.75} />
+                                  </span>
+                                  <p className="text-xs font-semibold text-slate-800">
+                                    Storia clinica
+                                  </p>
+                                </div>
+                                <p className="mt-2 text-sm leading-relaxed text-slate-600">
                                   {expectedConditionText && isAdmin
                                     ? expectedConditionText
                                     : "Nessuna patologia nota."}
                                 </p>
-                              </div>
-                              <div className="rounded-xl border border-slate-200 bg-white px-3.5 py-3">
-                                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                                  Allergie
-                                </p>
-                                <p className="mt-1.5 text-sm leading-relaxed text-slate-700">
+                              </section>
+
+                              <section className="rounded-2xl border border-slate-200/90 bg-white px-3.5 py-3 shadow-[0_1px_0_rgba(15,23,42,0.03)]">
+                                <div className="flex items-center gap-2">
+                                  <span className="flex h-7 w-7 items-center justify-center rounded-md bg-slate-100 text-slate-600">
+                                    <AlertTriangle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                                  </span>
+                                  <p className="text-xs font-semibold text-slate-800">Allergie</p>
+                                </div>
+                                <p className="mt-2 text-sm leading-relaxed text-slate-600">
                                   Nessuna allergia nota.
                                 </p>
-                              </div>
+                              </section>
                             </div>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setPatientChartTab("base");
+                                setIsPatientChartOpen(true);
+                              }}
+                              className="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#1E324E] px-3.5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#345884]"
+                            >
+                              <FolderOpen className="h-4 w-4" strokeWidth={1.75} />
+                              Visualizza cartella completa
+                            </button>
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setPatientChartTab("base");
-                              setIsPatientChartOpen(true);
-                            }}
-                            className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-                          >
-                            <FolderOpen className="h-4 w-4" />
-                            Visualizza cartella completa
-                          </button>
                         </TabsContent>
                         <TabsContent value="exam" currentValue={activeTab} className="mt-0">
                           <PhysicalExamTab
