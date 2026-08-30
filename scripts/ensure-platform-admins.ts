@@ -15,8 +15,10 @@ loadEnv({ path: resolve(process.cwd(), ".env.local") });
 loadEnv({ path: resolve(process.cwd(), ".env") });
 
 const NAMES: Record<string, string> = {
+  "dariobarbagallo46@gmail.com": "Dario Barbagallo",
   "dario.barbagallo46@gmail.com": "Dario Barbagallo",
   "chris01.ugo@gmail.com": "Christopher Uguzzoni",
+  "chris01ugo@gmail.com": "Christopher Uguzzoni",
 };
 
 async function main() {
