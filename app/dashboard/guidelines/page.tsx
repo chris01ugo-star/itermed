@@ -6,7 +6,7 @@ import { requireUser } from "@/lib/require-user";
 const log = createLogger("guidelines-page");
 
 type PageProps = {
-  searchParams?: Promise<{ tab?: string }> | { tab?: string };
+  searchParams?: Promise<{ tab?: string; q?: string }> | { tab?: string; q?: string };
 };
 
 export default async function DashboardGuidelinesPage(props: PageProps) {
@@ -18,6 +18,7 @@ export default async function DashboardGuidelinesPage(props: PageProps) {
       ? await props.searchParams
       : props.searchParams;
   const initialTab = searchParams?.tab === "ingest" ? "ingest" : "browse";
+  const initialQuery = typeof searchParams?.q === "string" ? searchParams.q : "";
 
   let docs: Awaited<ReturnType<typeof fetchGuidelineDocumentsWithExcerpt>> = [];
   let loadError: string | null = null;
@@ -49,6 +50,7 @@ export default async function DashboardGuidelinesPage(props: PageProps) {
         isAdmin={isAdmin}
         loadError={loadError}
         initialTab={initialTab}
+        initialQuery={initialQuery}
       />
     </div>
   );

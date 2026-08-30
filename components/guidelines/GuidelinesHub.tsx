@@ -48,6 +48,7 @@ type GuidelinesHubProps = {
   isAdmin: boolean;
   loadError: string | null;
   initialTab?: "browse" | "ingest";
+  initialQuery?: string;
 };
 
 /** First readable sentence / line — short lead for a guideline card. */
@@ -234,11 +235,12 @@ export function GuidelinesHub({
   isAdmin,
   loadError,
   initialTab = "browse",
+  initialQuery = "",
 }: GuidelinesHubProps) {
   const [tab, setTab] = useState<"browse" | "ingest">(
     initialTab === "ingest" ? "ingest" : "browse",
   );
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
