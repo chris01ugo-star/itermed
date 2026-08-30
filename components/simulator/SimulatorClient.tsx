@@ -2992,19 +2992,19 @@ function HistoryChat({
               })
             }
           />
-          <Button
+          <button
             type="submit"
             disabled={isLoading || !input.trim()}
-            size="icon"
             aria-label="Invia domanda"
-            className="mb-0.5 h-9 w-9 shrink-0 rounded-full bg-gradient-to-br from-[#1E324E] to-[#345884] text-white shadow-sm transition-all duration-300 hover:opacity-95 hover:shadow-md disabled:opacity-40"
+            className="mb-0.5 inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-[#1E324E] px-3.5 text-xs font-semibold text-white transition hover:bg-[#2A486D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#345884]/35 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
           >
             {isLoading ? (
-              <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/35 border-t-white" />
             ) : (
-              <Send className="h-4 w-4" />
+              <Send className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
             )}
-          </Button>
+            Invia
+          </button>
         </div>
         <ClinicalSimulationDisclaimer />
         <ul className="flex flex-wrap gap-x-3 gap-y-1 px-1 text-[10px] leading-snug text-slate-400 sm:text-[11px]">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Sparkles } from "lucide-react";
 import { cn } from "@/app/utils/cn";
 
 type AiTransparencyBadgeProps = {
@@ -41,11 +42,21 @@ export function AiTransparencyBadge({
       role="note"
       aria-label="Avviso di trasparenza AI — Regolamento UE 2024/1689 Articolo 50"
       className={cn(
-        "rounded-lg border border-slate-200/90 bg-slate-50 px-2.5 py-1.5 text-[11px] font-medium leading-snug text-slate-700",
+        "inline-flex max-w-[15.5rem] items-start gap-2 text-left sm:max-w-[18rem]",
         className,
       )}
     >
-      Stai interagendo con un sistema di Intelligenza Artificiale basato su modelli generativi.
+      <span
+        className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[#345884]/10 text-[#345884]"
+        aria-hidden
+      >
+        <Sparkles className="h-3 w-3" strokeWidth={1.75} />
+      </span>
+      <span className="min-w-0 text-[10px] leading-relaxed text-slate-500 sm:text-[11px]">
+        Stai interagendo con un sistema di{" "}
+        <span className="font-semibold text-slate-700">Intelligenza Artificiale</span>{" "}
+        basato su modelli generativi.
+      </span>
     </p>
   );
 }
