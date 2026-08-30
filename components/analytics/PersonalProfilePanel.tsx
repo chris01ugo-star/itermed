@@ -222,12 +222,12 @@ export function PersonalProfilePanel({
                 {prefs.leaderboardOptIn ? (
                   <>
                     <Eye className="h-3.5 w-3.5" strokeWidth={1.75} />
-                    On
+                    Visibile
                   </>
                 ) : (
                   <>
                     <EyeOff className="h-3.5 w-3.5" strokeWidth={1.75} />
-                    Off
+                    Nascosto
                   </>
                 )}
               </button>
