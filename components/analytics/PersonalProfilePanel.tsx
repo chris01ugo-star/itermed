@@ -125,7 +125,7 @@ export function PersonalProfilePanel({
         {prefs.leaderboardOptIn && metrics.percentileTop != null ? (
           <p className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1 text-[11px] font-medium text-white/90">
             <Target className="h-3.5 w-3.5" strokeWidth={1.75} />
-            Top {metrics.percentileTop}% dei medici in gara
+            Top {metrics.percentileTop}% dei medici
           </p>
         ) : null}
       </div>
