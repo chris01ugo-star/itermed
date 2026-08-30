@@ -153,12 +153,12 @@ export function DashboardSidebar({ userLabel, isAdmin }: DashboardSidebarProps) 
         type="button"
         onClick={() => setCollapsed((v) => !v)}
         aria-label={collapsed ? "Espandi barra laterale" : "Comprimi barra laterale"}
-        className="absolute -right-3 top-20 z-20 flex h-7 w-7 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 shadow-sm transition hover:border-[#345884]/30 hover:text-[#345884]"
+        className="absolute -right-3.5 top-1/2 z-30 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border-2 border-[#345884]/25 bg-white text-[#345884] shadow-[0_2px_10px_rgba(30,50,78,0.18)] transition hover:scale-105 hover:border-[#345884] hover:bg-[#EEF2F9] hover:shadow-[0_4px_14px_rgba(30,50,78,0.22)]"
       >
         {collapsed ? (
-          <ChevronRight className="h-3.5 w-3.5" strokeWidth={2} />
+          <ChevronRight className="h-4 w-4" strokeWidth={2.25} />
         ) : (
-          <ChevronLeft className="h-3.5 w-3.5" strokeWidth={2} />
+          <ChevronLeft className="h-4 w-4" strokeWidth={2.25} />
         )}
       </button>
 
