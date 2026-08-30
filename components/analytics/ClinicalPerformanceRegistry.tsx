@@ -40,14 +40,14 @@ export function ClinicalPerformanceRegistry({
           </span>
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#345884]">
-              Competizione formativa
+              Classifica formativa
             </p>
             <h2 className="font-display text-lg font-bold tracking-tight text-[#1E324E]">
               Classifica nazionale
             </h2>
             <p className="mt-0.5 text-xs text-slate-500">
               Top 50 per punteggio medio (/30)
-              {totalParticipants > 0 ? ` · ${totalParticipants} medici in gara` : ""}.
+              {totalParticipants > 0 ? ` · ${totalParticipants} medici` : ""}.
             </p>
           </div>
         </div>
