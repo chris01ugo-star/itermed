@@ -14,6 +14,7 @@ import {
   Trophy,
   Users,
   TestTubeDiagonal,
+  BarChart3,
   type LucideIcon,
 } from "lucide-react";
 import { SignOutButton } from "@/components/auth/SignOutButton";
@@ -33,6 +34,8 @@ type NavItem = {
 type DashboardSidebarProps = {
   userLabel: string;
   isAdmin: boolean;
+  /** Dario / Chris only — platform ops nav. */
+  isPlatformAdmin?: boolean;
   /** @deprecated Kept for call-site compatibility; Reparti SSM removed from UI. */
   ssmSpecialties?: SsmSpecialtyLink[];
 };
@@ -81,6 +84,10 @@ const primaryNavItems: NavItem[] = [
 const adminNavItems: NavItem[] = [
   { href: "/admin/users", label: "Utenti", icon: Users },
   { href: "/admin/exams", label: "Valori esami", icon: TestTubeDiagonal },
+];
+
+const platformAdminNavItems: NavItem[] = [
+  { href: "/admin/platform", label: "Piattaforma", icon: BarChart3 },
 ];
 
 function isNavItemActive(item: NavItem, pathname: string): boolean {
@@ -137,7 +144,11 @@ function NavLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
   );
 }
 
-export function DashboardSidebar({ userLabel, isAdmin }: DashboardSidebarProps) {
+export function DashboardSidebar({
+  userLabel,
+  isAdmin,
+  isPlatformAdmin = false,
+}: DashboardSidebarProps) {
   const pathname = usePathname();
   const isCreateActive = isCaseCreationPath(pathname);
   const [collapsed, setCollapsed] = useState(true);
@@ -200,9 +211,11 @@ export function DashboardSidebar({ userLabel, isAdmin }: DashboardSidebarProps) 
                 </p>
               ) : null}
               <nav className="space-y-1" aria-label="Navigazione amministratore">
-                {adminNavItems.map((item) => (
-                  <NavLink key={item.href} item={item} collapsed={collapsed} />
-                ))}
+                {(isPlatformAdmin ? platformAdminNavItems : [])
+                  .concat(adminNavItems)
+                  .map((item) => (
+                    <NavLink key={item.href} item={item} collapsed={collapsed} />
+                  ))}
               </nav>
             </>
           ) : null}

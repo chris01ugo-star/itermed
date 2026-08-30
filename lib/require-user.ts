@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth-options";
+import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
 import { config } from "@/lib/config";
 import { getBetaEmailAllowlistFromEnv, isBetaAuthorized } from "@/lib/beta/access";
 import { prisma } from "@/lib/prisma";
@@ -49,6 +50,19 @@ export async function requireAdmin(): Promise<SessionUser> {
     name: session.user.name ?? null,
     role: session.user.role ?? "STUDENT",
   };
+}
+
+/** Only Dario / Chris (hard-coded platform operators). */
+export async function requirePlatformAdmin(): Promise<SessionUser> {
+  if (isDevAuthBypass()) {
+    return getDevMockUser();
+  }
+
+  const user = await requireAdmin();
+  if (!isPlatformAdminEmail(user.email)) {
+    redirect("/dashboard");
+  }
+  return user;
 }
 
 export async function requireUser(): Promise<SessionUser> {
