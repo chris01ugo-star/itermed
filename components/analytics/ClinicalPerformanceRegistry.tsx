@@ -40,7 +40,7 @@ export function ClinicalPerformanceRegistry({
           </span>
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#345884]">
-              Classifica formativa
+              Confronto formativo
             </p>
             <h2 className="font-display text-lg font-bold tracking-tight text-[#1E324E]">
               Classifica nazionale
