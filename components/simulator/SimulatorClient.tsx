@@ -2897,23 +2897,16 @@ function HistoryChat({
         }}
       >
         {visibleMessages.length === 0 && (
-          <div className="mt-6 flex min-h-[180px] flex-col items-center justify-center gap-2.5 px-6 py-8 text-center opacity-70">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E4EAF3] text-[#345884]">
-              <MessageCircle className="h-4 w-4" strokeWidth={1.75} />
+          <div className="mt-8 flex min-h-[140px] flex-col items-center justify-center gap-2 px-6 py-6 text-center opacity-65">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#E4EAF3] text-[#345884]">
+              <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
             </div>
             <div className="space-y-1">
-              <p className="text-sm font-semibold text-slate-800">
-                Inizia l&apos;anamnesi
-              </p>
-              <p className="mx-auto max-w-sm text-xs leading-relaxed text-slate-500">
-                Fai una domanda aperta al paziente. Esempio: &quot;Mi racconti cosa è successo da
-                quando sono iniziati i sintomi?&quot;
+              <p className="text-sm font-semibold text-slate-800">Inizia l&apos;anamnesi</p>
+              <p className="mx-auto max-w-xs text-xs leading-relaxed text-slate-500">
+                Fai una domanda aperta al paziente.
               </p>
             </div>
-            <p className="max-w-sm border-l-2 border-[#345884]/30 pl-2.5 text-left text-[11px] leading-relaxed text-slate-500">
-              Oppure usa il pulsante <span className="font-medium text-slate-700">Modulo consenso</span>{" "}
-              sotto, quando serve spiegare una procedura.
-            </p>
           </div>
         )}
         {visibleMessages.map((message) => {
@@ -2980,13 +2973,13 @@ function HistoryChat({
           </div>
         ) : null}
         {onRequestConsent ? (
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center">
             <button
               type="button"
               onClick={onRequestConsent}
               disabled={isLoading || consentBusy || consentRequested}
               aria-label="Richiesta Modulo Consenso Informato"
-              title="Richiesta Modulo Consenso Informato"
+              title="Spiega rischi/benefici e acquisisci il consenso prima di procedure invasive"
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition",
                 consentRequested
@@ -2997,16 +2990,13 @@ function HistoryChat({
               <FileText className="h-3.5 w-3.5" strokeWidth={1.75} />
               {consentRequested ? "Consenso registrato" : "Modulo consenso"}
             </button>
-            <span className="text-[10px] leading-snug text-slate-400">
-              Spiega rischi/benefici e acquisisci il consenso prima di procedure invasive.
-            </span>
           </div>
         ) : null}
         <div className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-1.5 pl-3 transition focus-within:border-[#345884] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#345884]/20">
           <Textarea
             className="min-h-[2.25rem] flex-1 resize-none border-0 bg-transparent p-1.5 text-xs text-slate-800 shadow-none outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
             rows={2}
-            placeholder="Scrivi la prossima domanda al paziente…"
+            placeholder="Scrivi la domanda al paziente…"
             value={input}
             onChange={onInputChange}
             onKeyDown={(event) =>
@@ -3031,16 +3021,13 @@ function HistoryChat({
             Invia
           </button>
         </div>
-        <ClinicalSimulationDisclaimer />
-        <ul className="flex flex-wrap gap-x-3 gap-y-1 px-1 text-[10px] leading-snug text-slate-400 sm:text-[11px]">
-          <li>
-            <span className="font-medium text-slate-500">Invio</span> per inviare
-          </li>
-          <li>
-            <span className="font-medium text-slate-500">Shift+Invio</span> per andare a capo
-          </li>
-          <li>L&apos;IA risponde solo come paziente</li>
-        </ul>
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-0.5">
+          <ClinicalSimulationDisclaimer />
+          <p className="text-[10px] leading-snug text-slate-400 sm:text-[11px]">
+            <span className="font-medium text-slate-500">Invio</span> invia ·{" "}
+            <span className="font-medium text-slate-500">Shift+Invio</span> a capo
+          </p>
+        </div>
       </form>
     </div>
   );
