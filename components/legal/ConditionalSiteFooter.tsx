@@ -9,7 +9,6 @@ export function ConditionalSiteFooter() {
   const hide =
     /\/dashboard\/prassi\/play\//.test(pathname) ||
     pathname.startsWith("/dashboard/simulator") ||
-    pathname === "/" ||
     pathname === "/chi-siamo";
 
   if (hide) return null;
