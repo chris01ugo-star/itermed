@@ -2,19 +2,34 @@
 
 import { useState, useTransition } from "react";
 import { signOut } from "next-auth/react";
+import { Download, Shield, Trophy, Trash2 } from "lucide-react";
 import { Button } from "@/app/ui/button";
 import type { LeaderboardNameType } from "@prisma/client";
+import { cn } from "@/app/utils/cn";
 
 type AccountPrivacySettingsProps = {
   initialLeaderboardOptIn: boolean;
   initialLeaderboardNameType: LeaderboardNameType;
   initialNickname: string | null;
+  termsAcceptedAt?: string | null;
+  privacyAcceptedAt?: string | null;
 };
+
+function formatAcceptedAt(value: string | null | undefined): string {
+  if (!value) return "non registrato";
+  try {
+    return new Date(value).toLocaleString("it-IT");
+  } catch {
+    return "non registrato";
+  }
+}
 
 export function AccountPrivacySettings({
   initialLeaderboardOptIn,
   initialLeaderboardNameType,
   initialNickname,
+  termsAcceptedAt = null,
+  privacyAcceptedAt = null,
 }: AccountPrivacySettingsProps) {
   const [leaderboardOptIn, setLeaderboardOptIn] = useState(initialLeaderboardOptIn);
   const [isPending, startTransition] = useTransition();
@@ -99,92 +114,117 @@ export function AccountPrivacySettings({
   }
 
   return (
-    <div className="space-y-6">
-      <section className="space-y-3 rounded-2xl border border-zinc-200/80 bg-white px-4 py-4">
-        <div>
-          <h2 className="text-sm font-semibold text-zinc-950">Classifica pubblica</h2>
-          <p className="mt-1 text-xs leading-relaxed text-zinc-600">
-            Privacy by Default: la tua posizione e il tuo nome non sono pubblici finché non
-            attivi esplicitamente questa opzione. Tipo nome attuale:{" "}
-            <span className="font-mono">{initialLeaderboardNameType}</span>
-            {initialNickname ? ` (${initialNickname})` : ""}. Puoi cambiare il formato del
-            nome anche dalla dashboard analitica.
-          </p>
-        </div>
-        <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-zinc-200 bg-zinc-50/80 px-3 py-3">
-          <input
-            type="checkbox"
-            className="mt-0.5 h-4 w-4 rounded border-zinc-300 text-[#345884] focus:ring-[#345884]"
-            checked={leaderboardOptIn}
-            disabled={isPending}
-            onChange={(e) => {
-              const next = e.target.checked;
-              startTransition(() => {
-                void patchLeaderboardOptIn(next);
-              });
-            }}
-          />
-          <span className="text-xs leading-relaxed text-zinc-700">
-            <span className="font-medium text-zinc-900">
-              Mostra il mio profilo in classifica
-            </span>
-            <br />
-            Consenso facoltativo alla pubblicazione del risultato comparativo (nome reale,
-            nickname o anonimo secondo le tue preferenze).
+    <div className="space-y-4">
+      <section className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)]">
+        <div className="flex items-start gap-3 border-b border-slate-100 px-5 py-4">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
+            <Trophy className="h-4 w-4" strokeWidth={1.75} />
           </span>
-        </label>
+          <div className="min-w-0">
+            <h2 className="text-sm font-semibold text-[#1E324E]">Classifica pubblica</h2>
+            <p className="mt-1 text-xs leading-relaxed text-slate-500">
+              Privacy by Default: la tua posizione non è pubblica finché non attivi questa
+              opzione. Tipo nome:{" "}
+              <span className="font-medium text-slate-700">{initialLeaderboardNameType}</span>
+              {initialNickname ? ` (${initialNickname})` : ""}.
+            </p>
+          </div>
+        </div>
+        <div className="px-5 py-4">
+          <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-3 transition hover:border-[#345884]/25">
+            <input
+              type="checkbox"
+              className="mt-0.5 h-4 w-4 rounded border-slate-300 text-[#345884] focus:ring-[#345884]"
+              checked={leaderboardOptIn}
+              disabled={isPending}
+              onChange={(e) => {
+                const next = e.target.checked;
+                startTransition(() => {
+                  void patchLeaderboardOptIn(next);
+                });
+              }}
+            />
+            <span className="text-xs leading-relaxed text-slate-600">
+              <span className="font-semibold text-slate-800">
+                Mostra il mio profilo in classifica
+              </span>
+              <br />
+              Consenso facoltativo alla pubblicazione del risultato comparativo.
+            </span>
+          </label>
+        </div>
       </section>
 
-      <section className="space-y-3 rounded-2xl border border-zinc-200/80 bg-white px-4 py-4">
-        <div>
-          <h2 className="text-sm font-semibold text-zinc-950">
-            Portabilità dei dati (Art. 20 GDPR)
-          </h2>
-          <p className="mt-1 text-xs leading-relaxed text-zinc-600">
-            Scarica profilo, sessioni live (incluso chatHistory), report di valutazione e
-            preferenze in un file JSON strutturato.
-          </p>
+      <section className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)]">
+        <div className="flex items-start gap-3 border-b border-slate-100 px-5 py-4">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
+            <Download className="h-4 w-4" strokeWidth={1.75} />
+          </span>
+          <div className="min-w-0">
+            <h2 className="text-sm font-semibold text-[#1E324E]">
+              Portabilità dei dati (Art. 20 GDPR)
+            </h2>
+            <p className="mt-1 text-xs leading-relaxed text-slate-500">
+              Scarica profilo, sessioni, report e preferenze in un file JSON strutturato.
+            </p>
+          </div>
         </div>
-        <Button
-          type="button"
-          variant="secondary"
-          size="sm"
-          disabled={exporting}
-          onClick={() => void downloadExport()}
-        >
-          {exporting ? "Preparazione…" : "Scarica i miei dati (JSON)"}
-        </Button>
+        <div className="px-5 py-4">
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            className="rounded-xl"
+            disabled={exporting}
+            onClick={() => void downloadExport()}
+          >
+            {exporting ? "Preparazione…" : "Scarica i miei dati (JSON)"}
+          </Button>
+        </div>
       </section>
 
-      <section className="space-y-3 rounded-2xl border border-red-200/80 bg-red-50/40 px-4 py-4">
-        <div>
-          <h2 className="text-sm font-semibold text-red-900">
-            Diritto all&apos;oblio (Art. 17 GDPR)
-          </h2>
-          <p className="mt-1 text-xs leading-relaxed text-red-800/90">
-            Elimina definitivamente account, chat, report e preferenze. Gli abbonamenti
-            Stripe attivi vengono annullati. I casi clinici che hai creato restano nel
-            sistema ma vengono dissociati dalla tua identità. L&apos;operazione non è
-            reversibile.
-          </p>
+      <section className="overflow-hidden rounded-2xl border border-rose-200/80 bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)]">
+        <div className="flex items-start gap-3 border-b border-rose-100 bg-rose-50/40 px-5 py-4">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-rose-600 ring-1 ring-rose-100">
+            <Trash2 className="h-4 w-4" strokeWidth={1.75} />
+          </span>
+          <div className="min-w-0">
+            <h2 className="text-sm font-semibold text-rose-900">
+              Diritto all&apos;oblio (Art. 17 GDPR)
+            </h2>
+            <p className="mt-1 text-xs leading-relaxed text-rose-800/90">
+              Elimina definitivamente account, chat, report e preferenze. L&apos;operazione non
+              è reversibile.
+            </p>
+          </div>
         </div>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          className="border-red-300 text-red-800 hover:bg-red-100"
-          onClick={() => {
-            setConfirmOpen(true);
-            setConfirmText("");
-          }}
-        >
-          Elimina account e dati personali
-        </Button>
+        <div className="px-5 py-4">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="rounded-xl border-rose-300 text-rose-800 hover:bg-rose-50"
+            onClick={() => {
+              setConfirmOpen(true);
+              setConfirmText("");
+            }}
+          >
+            Elimina account e dati personali
+          </Button>
+        </div>
       </section>
+
+      <div className="flex items-start gap-2.5 rounded-xl border border-slate-100 bg-slate-50/80 px-3.5 py-3">
+        <Shield className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400" strokeWidth={1.75} />
+        <p className="text-[11px] leading-relaxed text-slate-500">
+          Termini accettati: {formatAcceptedAt(termsAcceptedAt)} · Privacy accettata:{" "}
+          {formatAcceptedAt(privacyAcceptedAt)}
+        </p>
+      </div>
 
       {(error || info) && (
         <p
-          className={`text-xs ${error ? "text-red-700" : "text-emerald-700"}`}
+          className={cn("text-xs", error ? "text-rose-700" : "text-emerald-700")}
           role="status"
         >
           {error ?? info}
@@ -193,24 +233,27 @@ export function AccountPrivacySettings({
 
       {confirmOpen ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="delete-account-title"
         >
-          <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-5 shadow-lg">
-            <h3 id="delete-account-title" className="text-base font-semibold text-zinc-950">
+          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-xl">
+            <h3
+              id="delete-account-title"
+              className="font-display text-base font-semibold text-[#1E324E]"
+            >
               Conferma eliminazione account
             </h3>
-            <p className="mt-2 text-xs leading-relaxed text-zinc-600">
-              Questa azione cancella in modo permanente i tuoi dati personali. Per
-              confermare digita <span className="font-mono font-semibold">ELIMINA</span>.
+            <p className="mt-2 text-xs leading-relaxed text-slate-600">
+              Questa azione cancella in modo permanente i tuoi dati personali. Per confermare
+              digita <span className="font-mono font-semibold">ELIMINA</span>.
             </p>
             <input
               type="text"
               value={confirmText}
               onChange={(e) => setConfirmText(e.target.value)}
-              className="mt-3 w-full rounded-xl border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-[#345884] focus:ring-2 focus:ring-[#345884]/20"
+              className="mt-3 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm outline-none focus:border-[#345884] focus:ring-2 focus:ring-[#345884]/20"
               placeholder="ELIMINA"
               autoComplete="off"
               disabled={deleting}
@@ -220,6 +263,7 @@ export function AccountPrivacySettings({
                 type="button"
                 variant="ghost"
                 size="sm"
+                className="rounded-xl"
                 disabled={deleting}
                 onClick={() => setConfirmOpen(false)}
               >
@@ -228,7 +272,7 @@ export function AccountPrivacySettings({
               <Button
                 type="button"
                 size="sm"
-                className="bg-red-700 text-white hover:bg-red-800"
+                className="rounded-xl bg-rose-700 text-white hover:bg-rose-800"
                 disabled={deleting || confirmText.trim().toUpperCase() !== "ELIMINA"}
                 onClick={() => void deleteAccount()}
               >

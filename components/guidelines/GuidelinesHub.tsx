@@ -1,8 +1,10 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 import {
   ArrowLeft,
+  BookOpen,
   ChevronDown,
   FileText,
   FileUp,
@@ -14,11 +16,21 @@ import {
 import { Badge } from "@/app/ui/badge";
 import { Input } from "@/app/ui/input";
 import { cn } from "@/app/utils/cn";
-import { GuidelineIngestPanel } from "@/components/guidelines/GuidelineIngestPanel";
 import {
   deleteGuidelineDocument,
   toggleGuidelineDocument,
 } from "@/app/dashboard/guidelines/actions";
+
+const GuidelineIngestPanel = dynamic(
+  () =>
+    import("@/components/guidelines/GuidelineIngestPanel").then((m) => m.GuidelineIngestPanel),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-64 animate-pulse rounded-2xl border border-slate-100 bg-white" />
+    ),
+  },
+);
 
 export type GuidelinesHubDoc = {
   id: string;
@@ -29,7 +41,8 @@ export type GuidelinesHubDoc = {
   chunkCount: number;
   isActive: boolean;
   createdAt: string;
-  text?: string;
+  /** Short body excerpt (not full document text). */
+  excerpt?: string;
 };
 
 type GuidelinesHubProps = {
@@ -39,7 +52,7 @@ type GuidelinesHubProps = {
   initialTab?: "browse" | "ingest";
 };
 
-/** First readable sentence / line — short lead for a guideline card, not a wall of text. */
+/** First readable sentence / line — short lead for a guideline card. */
 function leadSentence(text: string, max = 140): string | null {
   const cleaned = text
     .replace(/\r\n/g, "\n")
@@ -72,8 +85,9 @@ function GuidelineCard({
   expanded: boolean;
   onToggleExpand: () => void;
 }) {
-  const lead = doc.text ? leadSentence(doc.text) : null;
-  const hasPreview = Boolean(doc.text?.trim());
+  const body = doc.excerpt?.trim() ?? "";
+  const lead = body ? leadSentence(body) : null;
+  const hasPreview = Boolean(body);
   const dateLabel = new Date(doc.createdAt).toLocaleDateString("it-IT", {
     day: "2-digit",
     month: "short",
@@ -83,15 +97,15 @@ function GuidelineCard({
   return (
     <article
       className={cn(
-        "relative overflow-hidden rounded-2xl border bg-white transition-shadow",
+        "group relative overflow-hidden rounded-2xl border bg-white transition",
         doc.isActive
-          ? "border-slate-200 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-md"
-          : "border-slate-200/80 bg-slate-50/60 opacity-80",
+          ? "border-slate-200/90 hover:border-[#345884]/25 hover:shadow-[0_8px_24px_rgba(30,50,78,0.06)]"
+          : "border-slate-200/70 bg-slate-50/50 opacity-75",
       )}
     >
       <span
         className={cn(
-          "absolute inset-y-0 left-0 w-1",
+          "absolute inset-y-0 left-0 w-[3px]",
           doc.isActive ? "bg-[#345884]" : "bg-slate-300",
         )}
         aria-hidden
@@ -99,13 +113,13 @@ function GuidelineCard({
 
       <div className="space-y-3 py-4 pl-5 pr-4 sm:pl-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
-          <div className="min-w-0 flex-1 space-y-1">
-            <h2 className="font-display text-[15px] font-semibold leading-snug tracking-tight text-slate-900">
+          <div className="min-w-0 flex-1 space-y-1.5">
+            <h2 className="font-display text-[15px] font-semibold leading-snug tracking-tight text-[#1E324E]">
               {doc.title}
             </h2>
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-slate-500">
               <span className="inline-flex items-center gap-1 rounded-md bg-slate-100 px-1.5 py-0.5 font-medium text-slate-600">
-                <FileText className="h-3 w-3" />
+                <FileText className="h-3 w-3" strokeWidth={1.75} />
                 {formatSourceType(doc.sourceType)}
               </span>
               {doc.sourceName ? (
@@ -120,7 +134,7 @@ function GuidelineCard({
                 ·
               </span>
               <span className="inline-flex items-center gap-1">
-                <Layers className="h-3 w-3 text-slate-400" />
+                <Layers className="h-3 w-3 text-slate-400" strokeWidth={1.75} />
                 {doc.chunkCount} {doc.chunkCount === 1 ? "sezione" : "sezioni"}
               </span>
               <span className="text-slate-300" aria-hidden>
@@ -143,7 +157,7 @@ function GuidelineCard({
                     className={cn(
                       "relative inline-flex h-6 w-11 items-center rounded-full border transition-colors",
                       doc.isActive
-                        ? "border-brand-secondary bg-brand-secondary"
+                        ? "border-[#345884] bg-[#345884]"
                         : "border-slate-200 bg-slate-100",
                     )}
                     aria-pressed={doc.isActive}
@@ -165,7 +179,7 @@ function GuidelineCard({
                     title="Elimina documento"
                     aria-label="Elimina documento"
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-4 w-4" strokeWidth={1.75} />
                   </button>
                 </form>
               </>
@@ -178,7 +192,7 @@ function GuidelineCard({
             {doc.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-[#345884]/15 bg-[#345884]/[0.06] px-2.5 py-0.5 text-[11px] font-medium text-[#2A486D]"
+                className="rounded-md bg-[#345884]/[0.07] px-2 py-0.5 text-[11px] font-medium text-[#2A486D]"
               >
                 {tag}
               </span>
@@ -207,8 +221,8 @@ function GuidelineCard({
             {expanded ? (
               <div className="mt-2.5 max-h-48 overflow-y-auto rounded-xl border border-slate-100 bg-slate-50/80 px-3.5 py-3 scrollbar-aequan">
                 <pre className="whitespace-pre-wrap font-sans text-[12px] leading-relaxed text-slate-600">
-                  {doc.text!.trim().slice(0, 900)}
-                  {doc.text!.trim().length > 900 ? "…" : ""}
+                  {body}
+                  {body.length >= 900 ? "…" : ""}
                 </pre>
               </div>
             ) : null}
@@ -235,7 +249,7 @@ export function GuidelinesHub({
     const q = query.trim().toLowerCase();
     if (!q) return docs;
     return docs.filter((doc) => {
-      const haystack = [doc.title, doc.sourceName ?? "", doc.tags.join(" "), doc.text ?? ""]
+      const haystack = [doc.title, doc.sourceName ?? "", doc.tags.join(" "), doc.excerpt ?? ""]
         .join(" ")
         .toLowerCase();
       return haystack.includes(q);
@@ -247,51 +261,74 @@ export function GuidelinesHub({
   if (tab === "ingest") {
     return (
       <div className="flex w-full flex-col gap-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <header className="space-y-1">
           <button
             type="button"
             onClick={() => setTab("browse")}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 transition-colors hover:text-[#1E324E]"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 transition hover:text-[#345884]"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-4 w-4" strokeWidth={1.75} />
             Torna all&apos;archivio
           </button>
-        </div>
+          <h1 className="font-display text-2xl font-bold tracking-tight text-[#1E324E]">
+            Carica documento
+          </h1>
+          <p className="text-sm text-slate-500">
+            Indicizza PDF o testo nel corpus RAG delle linee guida.
+          </p>
+        </header>
         <GuidelineIngestPanel />
       </div>
     );
   }
 
   return (
-    <div className="flex w-full flex-col gap-4">
-      <div className="flex flex-wrap items-center gap-2.5 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 shadow-sm sm:px-4">
+    <div className="flex w-full flex-col gap-5">
+      <header className="flex flex-wrap items-end justify-between gap-4">
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-2 text-[#345884]">
+            <BookOpen className="h-4 w-4" strokeWidth={1.75} />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.14em]">
+              Knowledge base
+            </span>
+          </div>
+          <h1 className="font-display text-2xl font-bold tracking-tight text-[#1E324E] md:text-[28px]">
+            Linee guida
+          </h1>
+          <p className="max-w-xl text-sm leading-relaxed text-slate-500">
+            Archivio normativo e clinico usato dal motore RAG per valutare le simulazioni.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => setTab("ingest")}
+          className="inline-flex h-10 shrink-0 items-center gap-2 rounded-xl bg-[#1E324E] px-4 text-sm font-semibold text-white transition hover:bg-[#345884]"
+        >
+          <FileUp className="h-4 w-4" strokeWidth={1.75} />
+          Carica documento
+        </button>
+      </header>
+
+      <div className="flex flex-wrap items-center gap-2.5 rounded-2xl border border-slate-200/80 bg-white px-3 py-2.5 shadow-[0_1px_0_rgba(15,23,42,0.03)] sm:px-4">
         <div className="relative min-w-[200px] flex-1">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Cerca per titolo, tag o contenuto…"
-            className="h-10 rounded-full border-slate-200 bg-slate-50 pl-9 text-sm shadow-none"
+            placeholder="Cerca per titolo, tag o estratto…"
+            className="h-10 rounded-xl border-slate-200 bg-slate-50 pl-9 text-sm shadow-none"
           />
         </div>
-        <span className="shrink-0 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium tabular-nums text-slate-600">
+        <span className="shrink-0 rounded-lg bg-slate-50 px-3 py-1.5 text-xs font-medium tabular-nums text-slate-600">
           {loadError
             ? "Archivio non disponibile"
             : query.trim()
               ? `${filtered.length} risultati`
               : `${docs.length} documenti · ${activeCount} attivi`}
         </span>
-        <button
-          type="button"
-          onClick={() => setTab("ingest")}
-          className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-[#1E324E] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#2A486D]"
-        >
-          <FileUp className="h-4 w-4" />
-          Carica documento
-        </button>
       </div>
 
-      <section className="space-y-3" aria-label="Elenco linee guida">
+      <section className="space-y-2.5" aria-label="Elenco linee guida">
         {loadError ? (
           <div className="flex flex-col items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50/80 px-5 py-6">
             <div className="flex items-center gap-2 text-rose-800">
@@ -301,14 +338,17 @@ export function GuidelinesHub({
             <button
               type="button"
               onClick={() => setTab("ingest")}
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-primary px-3 py-2 text-xs font-medium text-white hover:bg-brand-primary-hover"
+              className="inline-flex items-center gap-2 rounded-xl bg-[#1E324E] px-3 py-2 text-xs font-medium text-white hover:bg-[#345884]"
             >
               <FileUp className="h-3.5 w-3.5" />
               Carica documento
             </button>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-slate-200 bg-white px-6 py-12 text-center">
+          <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-slate-200 bg-white px-6 py-14 text-center">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
+              <BookOpen className="h-5 w-5" strokeWidth={1.75} />
+            </span>
             <p className="text-sm font-semibold text-slate-800">
               {docs.length === 0 ? "Nessuna linea guida caricata" : "Nessun risultato"}
             </p>
@@ -321,7 +361,7 @@ export function GuidelinesHub({
               <button
                 type="button"
                 onClick={() => setTab("ingest")}
-                className="inline-flex items-center gap-2 rounded-full bg-[#1E324E] px-4 py-2 text-sm font-semibold text-white hover:bg-[#2A486D]"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#1E324E] px-4 py-2 text-sm font-semibold text-white hover:bg-[#345884]"
               >
                 <FileUp className="h-4 w-4" />
                 Carica documento
@@ -335,9 +375,7 @@ export function GuidelinesHub({
               doc={doc}
               isAdmin={isAdmin}
               expanded={expandedId === doc.id}
-              onToggleExpand={() =>
-                setExpandedId((id) => (id === doc.id ? null : doc.id))
-              }
+              onToggleExpand={() => setExpandedId((id) => (id === doc.id ? null : doc.id))}
             />
           ))
         )}
