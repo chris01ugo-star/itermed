@@ -2,7 +2,13 @@
 
 import { useMemo, useCallback, type ReactNode } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, ChevronRight, FolderOpen } from "lucide-react";
+import {
+  ArrowLeft,
+  ChevronRight,
+  FolderOpen,
+  MessageSquare,
+  Stethoscope,
+} from "lucide-react";
 import {
   DIFFICULTY_LABELS,
   displaySpecialtyName,
@@ -51,6 +57,23 @@ type SpecialtyBucket = {
   pastel: PrassiPastel;
 };
 
+function difficultyMix(cases: ClinicalCaseRow[]): string {
+  let easy = 0;
+  let medium = 0;
+  let hard = 0;
+  for (const c of cases) {
+    const d = isCaseDifficulty(c.difficulty) ? c.difficulty : "MEDIUM";
+    if (d === "EASY") easy += 1;
+    else if (d === "HARD") hard += 1;
+    else medium += 1;
+  }
+  const parts: string[] = [];
+  if (easy) parts.push(`${easy} facil${easy === 1 ? "e" : "i"}`);
+  if (medium) parts.push(`${medium} medi`);
+  if (hard) parts.push(`${hard} difficil${hard === 1 ? "e" : "i"}`);
+  return parts.join(" · ") || "Mix difficoltà";
+}
+
 function FolderNotch({ fill }: { fill: string }) {
   return (
     <span
@@ -60,6 +83,24 @@ function FolderNotch({ fill }: { fill: string }) {
     />
   );
 }
+
+const HOW_STEPS = [
+  {
+    icon: FolderOpen,
+    title: "Apri una cartella",
+    body: "Scegli la specialità da esercitare.",
+  },
+  {
+    icon: Stethoscope,
+    title: "Leggi il brief",
+    body: "Controlla paziente, difficoltà e contesto.",
+  },
+  {
+    icon: MessageSquare,
+    title: "Avvia la simulazione",
+    body: "Dialoga, richiedi esami e chiudi il caso.",
+  },
+] as const;
 
 export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
   const router = useRouter();
@@ -82,7 +123,6 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
       byName.set(name, list);
     }
 
-    // Include specialty catalog entries even if empty (rare).
     for (const s of specialties) {
       if (s?.name && !byName.has(s.name)) byName.set(s.name, []);
     }
@@ -132,21 +172,76 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
   );
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-col gap-4 bg-[#F4F6F8] px-4 pb-4 pt-3 md:px-6 md:pb-6 md:pt-4">
-      <header className="shrink-0 space-y-1">
-        <h1 className="font-display text-[1.55rem] font-bold tracking-tight text-text-primary md:text-[1.7rem]">
-          Casi Clinici
-        </h1>
-        <p className="max-w-2xl text-sm leading-relaxed text-slate-500">
-          {activeBucket
-            ? "Scegli un caso e apri la cartella per avviare la simulazione."
-            : "Apri una specialità, poi scegli il caso clinico da esercitare."}
-        </p>
+    <div className="flex h-full min-h-0 w-full flex-col gap-3 bg-[#F4F6F8] px-4 pb-4 pt-3 md:gap-4 md:px-6 md:pb-6 md:pt-4">
+      <header className="shrink-0 space-y-3">
+        <div className="space-y-1">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#345884]">
+            Libreria casi
+          </p>
+          <h1 className="font-display text-[1.55rem] font-bold tracking-tight text-text-primary md:text-[1.7rem]">
+            Casi Clinici
+          </h1>
+          <p className="max-w-2xl text-sm leading-relaxed text-slate-500">
+            {activeBucket
+              ? "Scegli un caso e apri la cartella per avviare la simulazione."
+              : "Apri una specialità, poi scegli il caso clinico da esercitare."}
+          </p>
+        </div>
+
+        {!activeBucket && buckets.length > 0 ? (
+          <>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              <div className="rounded-xl border border-slate-200/90 bg-white px-3.5 py-2.5">
+                <p className="text-[11px] text-slate-500">Specialità</p>
+                <p className="mt-0.5 text-sm font-semibold tabular-nums text-[#1E324E]">
+                  {buckets.length}
+                </p>
+              </div>
+              <div className="rounded-xl border border-slate-200/90 bg-white px-3.5 py-2.5">
+                <p className="text-[11px] text-slate-500">Casi totali</p>
+                <p className="mt-0.5 text-sm font-semibold tabular-nums text-[#1E324E]">
+                  {safeCases.length}
+                </p>
+              </div>
+              <div className="col-span-2 rounded-xl border border-slate-200/90 bg-white px-3.5 py-2.5 sm:col-span-2">
+                <p className="text-[11px] text-slate-500">Come funziona</p>
+                <p className="mt-0.5 text-sm font-medium text-slate-700">
+                  Cartella → brief → simulazione
+                </p>
+              </div>
+            </div>
+
+            <ol className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+              {HOW_STEPS.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <li
+                    key={step.title}
+                    className="flex items-start gap-3 rounded-xl border border-slate-200/80 bg-white/80 px-3.5 py-3"
+                  >
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#1E324E] text-[11px] font-bold text-white">
+                      {index + 1}
+                    </span>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-1.5 text-[#345884]">
+                        <Icon className="h-3.5 w-3.5" aria-hidden />
+                        <p className="text-xs font-semibold text-slate-800">{step.title}</p>
+                      </div>
+                      <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500">
+                        {step.body}
+                      </p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          </>
+        ) : null}
       </header>
 
-      <div className="scrollbar-aequan min-h-0 flex-1 overflow-y-auto rounded-xl border border-border bg-panel-bg p-4 shadow-aequan-panel sm:p-5 md:p-6">
+      <div className="scrollbar-aequan min-h-0 flex-1 overflow-y-auto rounded-xl border border-border bg-panel-bg p-3.5 shadow-aequan-panel sm:p-4 md:p-5">
         {activeBucket ? (
-          <div className="space-y-5">
+          <div className="space-y-4">
             <div className="flex flex-wrap items-center gap-3">
               <button
                 type="button"
@@ -164,11 +259,13 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
                   {activeBucket.cases.length === 1
                     ? "1 caso"
                     : `${activeBucket.cases.length} casi`}
+                  {" · "}
+                  {difficultyMix(activeBucket.cases)}
                 </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {activeBucket.cases.map((caseRow) => {
                 const difficultyKey = isCaseDifficulty(caseRow.difficulty)
                   ? caseRow.difficulty
@@ -202,7 +299,7 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
                         borderColor: isSelected ? "#1E324E" : dept.border,
                       }}
                       className={cn(
-                        "group relative flex h-[7.25rem] w-full min-w-0 items-stretch gap-2 overflow-hidden rounded-b-xl rounded-tr-xl border px-3.5 py-3 text-left transition duration-200",
+                        "group relative flex h-[6.75rem] w-full min-w-0 items-stretch gap-2 overflow-hidden rounded-b-xl rounded-tr-xl border px-3.5 py-3 text-left transition duration-200",
                         "hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
                         isSelected ? "shadow-aequan-panel ring-1 ring-brand-primary/25" : "",
                       )}
@@ -240,7 +337,7 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
             </div>
           </div>
         ) : buckets.length === 0 ? (
-          <div className="flex min-h-[280px] flex-col items-center justify-center px-4 py-12 text-center">
+          <div className="flex min-h-[240px] flex-col items-center justify-center px-4 py-12 text-center">
             <FolderOpen className="h-8 w-8 text-slate-300" aria-hidden />
             <p className="mt-3 text-sm font-semibold text-slate-600">Nessuna cartella</p>
             <p className="mt-1 max-w-sm text-xs leading-relaxed text-slate-400">
@@ -248,18 +345,18 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
             </p>
           </div>
         ) : (
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
+          <div className="space-y-3.5">
+            <div className="flex flex-wrap items-center gap-2">
               <FolderOpen className="h-4 w-4 text-brand-secondary" aria-hidden />
               <p className="font-display text-sm font-semibold text-brand-primary">
                 Cartelle principali
               </p>
-              <span className="text-xs text-slate-400">
-                {buckets.length} specialità
+              <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-500">
+                {buckets.length} specialità · {safeCases.length} casi
               </span>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {buckets.map((bucket) => (
                 <div key={bucket.name} className="relative pt-2.5">
                   <FolderNotch fill={bucket.pastel.fill} />
@@ -273,7 +370,7 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
                       borderColor: bucket.pastel.border,
                     }}
                     className={cn(
-                      "group relative flex h-[9.5rem] w-full min-w-0 flex-col justify-between overflow-hidden rounded-b-xl rounded-tr-xl border px-4 py-4 text-left transition duration-200",
+                      "group relative flex h-[8.25rem] w-full min-w-0 flex-col justify-between overflow-hidden rounded-b-xl rounded-tr-xl border px-3.5 py-3.5 text-left transition duration-200",
                       "hover:-translate-y-0.5 hover:brightness-[0.97] hover:shadow-aequan-panel",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
                     )}
@@ -285,12 +382,15 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
                       >
                         Specialità
                       </p>
-                      <p className="font-display text-lg font-bold leading-snug tracking-tight text-slate-800">
+                      <p className="font-display text-[1.05rem] font-bold leading-snug tracking-tight text-slate-800">
                         {bucket.name}
+                      </p>
+                      <p className="text-[11px] leading-snug text-slate-500">
+                        {difficultyMix(bucket.cases)}
                       </p>
                     </div>
                     <div className="flex items-center justify-between gap-2">
-                      <p className="text-xs text-slate-600">
+                      <p className="text-xs font-medium text-slate-600">
                         {bucket.cases.length === 1
                           ? "1 caso clinico"
                           : `${bucket.cases.length} casi clinici`}
