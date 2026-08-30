@@ -2282,10 +2282,10 @@ export function SimulatorClient({
         </div>
 
         {embedded ? (
-          <footer className="flex w-full shrink-0 flex-wrap items-center justify-between gap-x-3 gap-y-2 rounded-xl border border-slate-200/80 bg-white/90 px-3.5 py-2 shadow-sm">
+          <footer className="grid w-full shrink-0 grid-cols-1 items-center gap-y-2 rounded-xl border border-slate-200/80 bg-white/90 px-3.5 py-2 shadow-sm sm:grid-cols-[1fr_auto_1fr]">
             <nav
-              className="flex min-w-0 flex-wrap items-center gap-x-1 gap-y-1"
-              aria-label="Risorse e documenti"
+              className="flex min-w-0 flex-wrap items-center justify-center gap-x-1 gap-y-1 sm:justify-start"
+              aria-label="Linee guida"
             >
               <Link
                 href="/dashboard/guidelines"
@@ -2294,9 +2294,11 @@ export function SimulatorClient({
                 <BookOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
                 Linee guida correlate
               </Link>
-              <span className="hidden text-slate-300 sm:inline" aria-hidden>
-                ·
-              </span>
+            </nav>
+            <nav
+              className="flex min-w-0 flex-wrap items-center justify-center gap-x-1 gap-y-1"
+              aria-label="Documenti legali"
+            >
               <Link
                 href="/terms"
                 className="rounded-md px-2 py-1 text-[12px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
@@ -2322,16 +2324,18 @@ export function SimulatorClient({
                 Trasparenza AI
               </Link>
             </nav>
-            <button
-              type="button"
-              onClick={openHelpConsult}
-              aria-label="Aiuto / Richiesta consulto"
-              title="Aiuto / Richiesta consulto"
-              className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/25 bg-[#EEF2F9] px-2.5 py-1 text-[12px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white"
-            >
-              <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
-              Aiuto
-            </button>
+            <div className="flex justify-center sm:justify-end">
+              <button
+                type="button"
+                onClick={openHelpConsult}
+                aria-label="Aiuto / Richiesta consulto"
+                title="Aiuto / Richiesta consulto"
+                className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/25 bg-[#EEF2F9] px-2.5 py-1 text-[12px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white"
+              >
+                <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                Aiuto
+              </button>
+            </div>
           </footer>
         ) : null}
       </div>
