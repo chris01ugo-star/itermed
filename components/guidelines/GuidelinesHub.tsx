@@ -8,12 +8,10 @@ import {
   ChevronDown,
   FileText,
   FileUp,
-  Layers,
   Search,
   ShieldAlert,
   Trash2,
 } from "lucide-react";
-import { Badge } from "@/app/ui/badge";
 import { Input } from "@/app/ui/input";
 import { cn } from "@/app/utils/cn";
 import {
@@ -86,7 +84,7 @@ function GuidelineCard({
   onToggleExpand: () => void;
 }) {
   const body = doc.excerpt?.trim() ?? "";
-  const lead = body ? leadSentence(body) : null;
+  const lead = body ? leadSentence(body, 180) : null;
   const hasPreview = Boolean(body);
   const dateLabel = new Date(doc.createdAt).toLocaleDateString("it-IT", {
     day: "2-digit",
@@ -97,137 +95,135 @@ function GuidelineCard({
   return (
     <article
       className={cn(
-        "group relative overflow-hidden rounded-2xl border bg-white transition",
-        doc.isActive
-          ? "border-slate-200/90 hover:border-[#345884]/25 hover:shadow-[0_8px_24px_rgba(30,50,78,0.06)]"
-          : "border-slate-200/70 bg-slate-50/50 opacity-75",
+        "bg-white transition-colors",
+        doc.isActive ? "hover:bg-[#FAFBFC]" : "bg-slate-50/50 opacity-80",
       )}
     >
-      <span
-        className={cn(
-          "absolute inset-y-0 left-0 w-[3px]",
-          doc.isActive ? "bg-[#345884]" : "bg-slate-300",
-        )}
-        aria-hidden
-      />
+      <div className="flex gap-0">
+        <div
+          className={cn(
+            "flex w-14 shrink-0 flex-col items-center justify-start border-r border-slate-100 py-4",
+            doc.isActive ? "bg-[#F7F9FC]" : "bg-slate-50",
+          )}
+        >
+          <span
+            className={cn(
+              "flex h-9 w-9 items-center justify-center rounded-md border text-[10px] font-bold uppercase tracking-wide",
+              doc.isActive
+                ? "border-[#345884]/20 bg-white text-[#345884]"
+                : "border-slate-200 bg-white text-slate-400",
+            )}
+            title={formatSourceType(doc.sourceType)}
+          >
+            {formatSourceType(doc.sourceType) === "PDF" ? (
+              <FileText className="h-4 w-4" strokeWidth={1.5} />
+            ) : (
+              formatSourceType(doc.sourceType).slice(0, 3)
+            )}
+          </span>
+        </div>
 
-      <div className="space-y-3 py-4 pl-5 pr-4 sm:pl-6">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div className="min-w-0 flex-1 space-y-1.5">
-            <h2 className="font-display text-[15px] font-semibold leading-snug tracking-tight text-[#1E324E]">
-              {doc.title}
-            </h2>
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-slate-500">
-              <span className="inline-flex items-center gap-1 rounded-md bg-slate-100 px-1.5 py-0.5 font-medium text-slate-600">
-                <FileText className="h-3 w-3" strokeWidth={1.75} />
-                {formatSourceType(doc.sourceType)}
-              </span>
-              {doc.sourceName ? (
-                <>
-                  <span className="text-slate-300" aria-hidden>
-                    ·
-                  </span>
-                  <span className="truncate">{doc.sourceName}</span>
-                </>
+        <div className="min-w-0 flex-1 px-4 py-4 sm:px-5">
+          <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+            <div className="min-w-0 flex-1 space-y-1.5">
+              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                <h2 className="font-display text-[15px] font-semibold leading-snug tracking-tight text-[#152437]">
+                  {doc.title}
+                </h2>
+                <span
+                  className={cn(
+                    "inline-flex items-center text-[10px] font-semibold uppercase tracking-[0.12em]",
+                    doc.isActive ? "text-emerald-700" : "text-slate-400",
+                  )}
+                >
+                  {doc.isActive ? "Attiva" : "Disabilitata"}
+                </span>
+              </div>
+
+              <p className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] leading-relaxed text-slate-500">
+                {doc.sourceName ? <span className="truncate font-medium text-slate-600">{doc.sourceName}</span> : null}
+                {doc.sourceName ? <span className="text-slate-300">|</span> : null}
+                <span>
+                  {doc.chunkCount} {doc.chunkCount === 1 ? "sezione" : "sezioni"}
+                </span>
+                <span className="text-slate-300">|</span>
+                <span>Caricato {dateLabel}</span>
+              </p>
+
+              {doc.tags.length > 0 ? (
+                <p className="text-[11px] leading-relaxed text-slate-500">
+                  <span className="font-medium text-slate-600">Classificazione:</span>{" "}
+                  {doc.tags.join(" · ")}
+                </p>
               ) : null}
-              <span className="text-slate-300" aria-hidden>
-                ·
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <Layers className="h-3 w-3 text-slate-400" strokeWidth={1.75} />
-                {doc.chunkCount} {doc.chunkCount === 1 ? "sezione" : "sezioni"}
-              </span>
-              <span className="text-slate-300" aria-hidden>
-                ·
-              </span>
-              <span>{dateLabel}</span>
             </div>
-          </div>
 
-          <div className="flex shrink-0 items-center gap-2">
-            <Badge variant={doc.isActive ? "success" : "default"}>
-              {doc.isActive ? "Attiva" : "Disabilitata"}
-            </Badge>
             {isAdmin ? (
-              <>
+              <div className="flex shrink-0 items-center gap-1.5">
                 <form action={toggleGuidelineDocument}>
                   <input type="hidden" name="id" value={doc.id} />
                   <button
                     type="submit"
                     className={cn(
-                      "relative inline-flex h-6 w-11 items-center rounded-full border transition-colors",
+                      "h-8 rounded-md border px-2.5 text-[11px] font-medium transition",
                       doc.isActive
-                        ? "border-[#345884] bg-[#345884]"
-                        : "border-slate-200 bg-slate-100",
+                        ? "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                        : "border-[#345884]/25 bg-[#EEF2F9] text-[#345884] hover:bg-[#345884] hover:text-white",
                     )}
                     aria-pressed={doc.isActive}
                     title={doc.isActive ? "Disabilita" : "Abilita"}
                   >
-                    <span
-                      className={cn(
-                        "inline-block h-5 w-5 transform rounded-full bg-white shadow-sm transition-transform",
-                        doc.isActive ? "translate-x-5" : "translate-x-1",
-                      )}
-                    />
+                    {doc.isActive ? "Disabilita" : "Abilita"}
                   </button>
                 </form>
                 <form action={deleteGuidelineDocument}>
                   <input type="hidden" name="id" value={doc.id} />
                   <button
                     type="submit"
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-400 transition-colors hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-400 transition hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700"
                     title="Elimina documento"
                     aria-label="Elimina documento"
                   >
-                    <Trash2 className="h-4 w-4" strokeWidth={1.75} />
+                    <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} />
                   </button>
                 </form>
-              </>
-            ) : null}
-          </div>
-        </div>
-
-        {doc.tags.length > 0 ? (
-          <div className="flex flex-wrap gap-1.5">
-            {doc.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-md bg-[#345884]/[0.07] px-2 py-0.5 text-[11px] font-medium text-[#2A486D]"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        ) : null}
-
-        {lead ? <p className="text-sm leading-relaxed text-slate-600">{lead}</p> : null}
-
-        {hasPreview ? (
-          <div className="border-t border-slate-100 pt-2">
-            <button
-              type="button"
-              onClick={onToggleExpand}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#345884] transition-colors hover:text-[#1E324E]"
-              aria-expanded={expanded}
-            >
-              <ChevronDown
-                className={cn(
-                  "h-3.5 w-3.5 transition-transform",
-                  expanded ? "rotate-180" : "rotate-0",
-                )}
-              />
-              {expanded ? "Nascondi estratto" : "Mostra estratto"}
-            </button>
-            {expanded ? (
-              <div className="mt-2.5 max-h-48 overflow-y-auto rounded-xl border border-slate-100 bg-slate-50/80 px-3.5 py-3 scrollbar-aequan">
-                <pre className="whitespace-pre-wrap font-sans text-[12px] leading-relaxed text-slate-600">
-                  {body}
-                  {body.length >= 900 ? "…" : ""}
-                </pre>
               </div>
             ) : null}
           </div>
-        ) : null}
+
+          {lead ? (
+            <p className="mt-3 border-l border-slate-200 pl-3 text-[13px] leading-relaxed text-slate-600">
+              {lead}
+            </p>
+          ) : null}
+
+          {hasPreview ? (
+            <div className="mt-3">
+              <button
+                type="button"
+                onClick={onToggleExpand}
+                className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#345884] transition hover:text-[#1E324E]"
+                aria-expanded={expanded}
+              >
+                <ChevronDown
+                  className={cn(
+                    "h-3.5 w-3.5 transition-transform",
+                    expanded ? "rotate-180" : "rotate-0",
+                  )}
+                />
+                {expanded ? "Chiudi estratto" : "Apri estratto"}
+              </button>
+              {expanded ? (
+                <div className="mt-2 max-h-52 overflow-y-auto border border-slate-200 bg-[#FAFBFC] px-3.5 py-3 scrollbar-aequan">
+                  <pre className="whitespace-pre-wrap font-sans text-[12px] leading-relaxed text-slate-600">
+                    {body}
+                    {body.length >= 900 ? "…" : ""}
+                  </pre>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
       </div>
     </article>
   );
@@ -328,9 +324,9 @@ export function GuidelinesHub({
         </span>
       </div>
 
-      <section className="space-y-2.5" aria-label="Elenco linee guida">
+      <section className="divide-y divide-slate-200 overflow-hidden rounded-lg border border-slate-200 bg-white" aria-label="Elenco linee guida">
         {loadError ? (
-          <div className="flex flex-col items-start gap-3 rounded-2xl border border-rose-200 bg-rose-50/80 px-5 py-6">
+          <div className="flex flex-col items-start gap-3 px-5 py-6">
             <div className="flex items-center gap-2 text-rose-800">
               <ShieldAlert className="h-4 w-4" />
               <p className="text-sm font-medium">{loadError}</p>
@@ -345,8 +341,8 @@ export function GuidelinesHub({
             </button>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-slate-200 bg-white px-6 py-14 text-center">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
+          <div className="flex flex-col items-center gap-3 px-6 py-14 text-center">
+            <span className="flex h-11 w-11 items-center justify-center rounded-md border border-slate-200 bg-slate-50 text-[#345884]">
               <BookOpen className="h-5 w-5" strokeWidth={1.75} />
             </span>
             <p className="text-sm font-semibold text-slate-800">
