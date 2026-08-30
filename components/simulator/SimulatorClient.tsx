@@ -1412,16 +1412,6 @@ export function SimulatorClient({
             <div className="flex flex-wrap items-center gap-1 lg:justify-self-end">
               <button
                 type="button"
-                onClick={() => {
-                  document.getElementById("aequan-sim-chat")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-[#345884]"
-              >
-                <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
-                Dialogo guidato
-              </button>
-              <button
-                type="button"
                 onClick={() => setIsPaused((v) => !v)}
                 aria-pressed={isPaused}
                 className={cn(
@@ -2689,35 +2679,70 @@ export function SimulatorClient({
       </Dialog>
 
       <Dialog open={isHelpOpen}>
-        <DialogContent className="max-w-lg bg-white">
-          <DialogHeader>
-            <DialogTitle>Aiuto / Richiesta consulto</DialogTitle>
-            <DialogDescription>
-              <p className="mb-3 text-sm leading-relaxed text-slate-600">
-                Supporto disponibile su tua iniziativa. Questa richiesta viene registrata nella
-                sessione ({helpRequestCount}{" "}
-                {helpRequestCount === 1 ? "volta" : "volte"}) per il tracciamento dell&apos;autonomia
-                clinica nel report — senza interrompere la simulazione.
+        <DialogContent className="max-w-lg overflow-hidden bg-white p-0">
+          <div className="border-b border-slate-100 bg-gradient-to-b from-[#F5F8FC] to-white px-5 pb-4 pt-5">
+            <div className="flex items-start gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#345884]/10 text-[#345884]">
+                <HelpCircle className="h-5 w-5" strokeWidth={1.75} />
+              </span>
+              <DialogHeader className="mb-0 min-w-0 space-y-1 text-left">
+                <DialogTitle className="text-base text-[#1E324E]">
+                  Aiuto / Richiesta consulto
+                </DialogTitle>
+                <DialogDescription className="text-[12px] leading-relaxed text-slate-500">
+                  Supporto disponibile su tua iniziativa. Questa richiesta viene registrata nella
+                  sessione ({helpRequestCount}{" "}
+                  {helpRequestCount === 1 ? "volta" : "volte"}) per il tracciamento
+                  dell&apos;autonomia clinica nel report — senza interrompere la simulazione.
+                </DialogDescription>
+              </DialogHeader>
+            </div>
+          </div>
+
+          <div className="space-y-2.5 px-5 py-4">
+            <div className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3">
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#345884] shadow-sm ring-1 ring-slate-100">
+                <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+              </span>
+              <p className="text-sm leading-relaxed text-slate-600">
+                Usa il dialogo per raccogliere l&apos;anamnesi ponendo domande aperte.
               </p>
-              <ul className="list-disc space-y-1.5 pl-4 text-sm leading-relaxed text-slate-600">
-                <li>Usa il dialogo per raccogliere l&apos;anamnesi ponendo domande aperte.</li>
-                <li>
-                  Consulta la <span className="font-medium text-slate-800">Cartella clinica</span> a
-                  destra per anamnesi, esame obiettivo, esami e imaging.
-                </li>
-                <li>
-                  I suggerimenti clinici non vengono proposti automaticamente: usa questo pulsante
-                  Aiuto quando ti serve un consulto.
-                </li>
-                <li>Al termine, compila il referto di dimissione per chiudere il caso.</li>
-              </ul>
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
+            </div>
+            <div className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3">
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#345884] shadow-sm ring-1 ring-slate-100">
+                <FolderOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
+              </span>
+              <p className="text-sm leading-relaxed text-slate-600">
+                Consulta la{" "}
+                <span className="font-semibold text-slate-800">Cartella clinica</span> a destra per
+                anamnesi, esame obiettivo, esami e imaging.
+              </p>
+            </div>
+            <div className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3">
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#345884] shadow-sm ring-1 ring-slate-100">
+                <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+              </span>
+              <p className="text-sm leading-relaxed text-slate-600">
+                I suggerimenti clinici non vengono proposti automaticamente: usa questo pulsante
+                Aiuto quando ti serve un consulto.
+              </p>
+            </div>
+            <div className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3">
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#345884] shadow-sm ring-1 ring-slate-100">
+                <FileText className="h-3.5 w-3.5" strokeWidth={1.75} />
+              </span>
+              <p className="text-sm leading-relaxed text-slate-600">
+                Al termine, compila il referto di dimissione per chiudere il caso.
+              </p>
+            </div>
+          </div>
+
+          <DialogFooter className="gap-2 border-t border-slate-100 bg-slate-50/50 px-5 py-3.5 sm:justify-end">
             <Button
               type="button"
               size="sm"
               variant="outline"
+              className="rounded-xl"
               onClick={() => {
                 markUserActivity();
                 setIsHelpOpen(false);
@@ -2726,7 +2751,12 @@ export function SimulatorClient({
             >
               Rivedi Tutorial
             </Button>
-            <Button type="button" size="sm" onClick={() => setIsHelpOpen(false)}>
+            <Button
+              type="button"
+              size="sm"
+              className="rounded-xl bg-[#1E324E] hover:bg-[#345884]"
+              onClick={() => setIsHelpOpen(false)}
+            >
               Continua la simulazione
             </Button>
           </DialogFooter>
