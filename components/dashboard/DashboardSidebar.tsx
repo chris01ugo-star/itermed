@@ -6,7 +6,6 @@ import { useState } from "react";
 import {
   Activity,
   BookOpen,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
   FilePlus,
@@ -19,7 +18,7 @@ import {
 } from "lucide-react";
 import { SignOutButton } from "@/components/auth/SignOutButton";
 import { initialsFromLabel } from "@/lib/avatar-initials";
-import { specialtyFilterHref, type SsmSpecialtyLink } from "@/lib/ssm-specialties";
+import type { SsmSpecialtyLink } from "@/lib/ssm-specialties";
 import { cn } from "@/app/utils/cn";
 
 type NavItem = {
@@ -34,6 +33,7 @@ type NavItem = {
 type DashboardSidebarProps = {
   userLabel: string;
   isAdmin: boolean;
+  /** @deprecated Kept for call-site compatibility; Reparti SSM removed from UI. */
   ssmSpecialties?: SsmSpecialtyLink[];
 };
 
@@ -111,37 +111,41 @@ function NavLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
       href={item.href}
       title={collapsed ? item.label : undefined}
       className={cn(
-        "group relative flex items-center gap-3 rounded-xl text-sm font-medium transition-all",
+        "group relative flex items-center gap-3 rounded-xl text-[13px] font-medium transition-colors",
         collapsed ? "justify-center px-0 py-2.5" : "px-3 py-2.5",
         isActive
-          ? "bg-white text-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.06)] ring-1 ring-slate-100"
-          : "text-slate-500 hover:bg-white/70 hover:text-slate-800",
+          ? "bg-[#345884]/[0.1] text-[#1E324E]"
+          : "text-slate-500 hover:bg-slate-100/80 hover:text-slate-800",
       )}
       aria-current={isActive ? "page" : undefined}
     >
+      {isActive && !collapsed ? (
+        <span
+          className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-[#345884]"
+          aria-hidden
+        />
+      ) : null}
       <Icon
         className={cn(
-          "h-[18px] w-[18px] shrink-0",
-          isActive ? "text-slate-900" : "text-slate-400 group-hover:text-slate-600",
+          "h-[18px] w-[18px] shrink-0 transition-colors",
+          isActive ? "text-[#345884]" : "text-slate-400 group-hover:text-slate-600",
         )}
+        strokeWidth={1.75}
       />
-      {collapsed ? null : (
-        <span className="min-w-0 truncate">{item.label}</span>
-      )}
+      {collapsed ? null : <span className="min-w-0 truncate">{item.label}</span>}
     </Link>
   );
 }
 
-export function DashboardSidebar({ userLabel, isAdmin, ssmSpecialties = [] }: DashboardSidebarProps) {
+export function DashboardSidebar({ userLabel, isAdmin }: DashboardSidebarProps) {
   const pathname = usePathname();
   const isCreateActive = isCaseCreationPath(pathname);
-  const [ssmOpen, setSsmOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
 
   return (
     <aside
       className={cn(
-        "relative flex h-full shrink-0 flex-col justify-between border-r border-slate-100 bg-ui-bg transition-[width] duration-200",
+        "relative flex h-full shrink-0 flex-col border-r border-slate-200/80 bg-white transition-[width] duration-200",
         collapsed ? "w-[4.75rem]" : "w-60",
       )}
     >
@@ -149,30 +153,39 @@ export function DashboardSidebar({ userLabel, isAdmin, ssmSpecialties = [] }: Da
         type="button"
         onClick={() => setCollapsed((v) => !v)}
         aria-label={collapsed ? "Espandi barra laterale" : "Comprimi barra laterale"}
-        className="absolute -right-3.5 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 shadow-sm transition-colors hover:border-slate-300 hover:text-slate-700"
+        className="absolute -right-3 top-20 z-20 flex h-7 w-7 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 shadow-sm transition hover:border-[#345884]/30 hover:text-[#345884]"
       >
-        {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+        {collapsed ? (
+          <ChevronRight className="h-3.5 w-3.5" strokeWidth={2} />
+        ) : (
+          <ChevronLeft className="h-3.5 w-3.5" strokeWidth={2} />
+        )}
       </button>
 
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-        {/* Header strip — same height/background as the TopBar so both read as one continuous bar. */}
-        <div className="flex h-16 shrink-0 items-center border-b border-slate-100 bg-white px-3">
+        <div className="flex h-16 shrink-0 items-center border-b border-slate-100 px-3">
           <Link
             href={CREATE_CASE_HREF}
             title={collapsed ? "Crea Caso" : undefined}
             aria-current={isCreateActive ? "page" : undefined}
             className={cn(
-              "flex items-center justify-center gap-2 rounded-xl bg-brand-primary text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-primary-hover",
-              collapsed ? "h-10 w-10 px-0" : "w-full px-3 py-2.5",
+              "inline-flex items-center justify-center gap-2 rounded-xl bg-[#1E324E] text-[13px] font-semibold text-white transition hover:bg-[#345884]",
+              collapsed ? "h-10 w-10 px-0" : "h-10 w-full px-3",
+              isCreateActive && "ring-2 ring-[#345884]/25 ring-offset-2 ring-offset-white",
             )}
           >
-            <FilePlus className="h-4 w-4 shrink-0" />
+            <FilePlus className="h-4 w-4 shrink-0" strokeWidth={1.75} />
             {collapsed ? null : <span>Crea Caso</span>}
           </Link>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-3 pb-2 pt-3">
-          <nav className="space-y-2" aria-label="Navigazione principale">
+        <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-2.5 py-4">
+          {!collapsed ? (
+            <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+              Menu
+            </p>
+          ) : null}
+          <nav className="space-y-1" aria-label="Navigazione principale">
             {primaryNavItems.map((item) => (
               <NavLink key={item.href} item={item} collapsed={collapsed} />
             ))}
@@ -180,52 +193,27 @@ export function DashboardSidebar({ userLabel, isAdmin, ssmSpecialties = [] }: Da
 
           {isAdmin ? (
             <>
-              <div className={cn("h-px bg-slate-200/70", collapsed ? "my-3" : "my-4")} />
-              <nav className="space-y-2" aria-label="Navigazione amministratore">
+              <div className={cn("mx-2 border-t border-slate-100", collapsed ? "my-3" : "my-4")} />
+              {!collapsed ? (
+                <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                  Admin
+                </p>
+              ) : null}
+              <nav className="space-y-1" aria-label="Navigazione amministratore">
                 {adminNavItems.map((item) => (
                   <NavLink key={item.href} item={item} collapsed={collapsed} />
                 ))}
               </nav>
             </>
           ) : null}
-
-          {ssmSpecialties.length > 0 && !collapsed ? (
-            <div className="mt-4">
-              <button
-                type="button"
-                onClick={() => setSsmOpen((open) => !open)}
-                className="flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2 text-[11px] font-medium uppercase tracking-wider text-slate-400 transition-colors hover:bg-white/70 hover:text-slate-600"
-                aria-expanded={ssmOpen}
-              >
-                <span className="truncate">Reparti (SSM)</span>
-                <ChevronDown
-                  className={cn("h-3.5 w-3.5 shrink-0 transition-transform", ssmOpen ? "rotate-180" : "rotate-0")}
-                />
-              </button>
-              {ssmOpen ? (
-                <nav className="mt-1 space-y-0.5" aria-label="Reparti SSM">
-                  {ssmSpecialties.map((specialty) => (
-                    <Link
-                      key={specialty.name}
-                      href={specialtyFilterHref(specialty)}
-                      className="block truncate rounded-lg px-3 py-1.5 text-sm text-slate-500 transition-colors hover:bg-white/70 hover:text-slate-800"
-                      title={specialty.name}
-                    >
-                      {specialty.name}
-                    </Link>
-                  ))}
-                </nav>
-              ) : null}
-            </div>
-          ) : null}
         </div>
       </div>
 
-      <div className="shrink-0 border-t border-slate-200/70 p-3">
+      <div className="shrink-0 border-t border-slate-100 p-2.5">
         {collapsed ? (
           <div className="flex flex-col items-center gap-1.5">
             <span
-              className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-sm font-semibold text-slate-600 shadow-sm ring-1 ring-slate-100"
+              className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#EEF2F9] text-[12px] font-semibold text-[#345884]"
               title={userLabel}
             >
               {initialsFromLabel(userLabel)}
@@ -234,47 +222,50 @@ export function DashboardSidebar({ userLabel, isAdmin, ssmSpecialties = [] }: Da
             <Link
               href="/dashboard/settings"
               title="Impostazioni"
-              className="inline-flex items-center justify-center rounded-lg p-2 text-slate-400 transition-colors hover:bg-white/70 hover:text-slate-600"
+              className="inline-flex items-center justify-center rounded-lg p-2 text-slate-400 transition hover:bg-slate-50 hover:text-[#345884]"
             >
-              <Settings className="h-4 w-4" />
+              <Settings className="h-4 w-4" strokeWidth={1.75} />
             </Link>
             <SignOutButton iconOnly />
           </div>
         ) : (
-          <>
-            <div className="flex items-center gap-2.5 rounded-lg px-2 py-2">
-              <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-sm font-semibold text-slate-600 shadow-sm ring-1 ring-slate-100">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2.5 rounded-xl bg-slate-50/80 px-2.5 py-2.5">
+              <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#EEF2F9] text-[12px] font-semibold text-[#345884]">
                 {initialsFromLabel(userLabel)}
                 <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-500" />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-slate-800" title={userLabel}>
+                <p className="truncate text-[13px] font-semibold text-slate-800" title={userLabel}>
                   {userLabel}
                 </p>
-                <Link href="/dashboard/profile" className="text-xs text-slate-400 hover:text-slate-600">
+                <Link
+                  href="/dashboard/profile"
+                  className="text-[11px] text-slate-400 transition hover:text-[#345884]"
+                >
                   Profilo
                 </Link>
               </div>
               <Link
                 href="/dashboard/settings"
-                className="inline-flex shrink-0 items-center justify-center rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-white/70 hover:text-slate-600"
+                className="inline-flex shrink-0 items-center justify-center rounded-lg p-1.5 text-slate-400 transition hover:bg-white hover:text-[#345884]"
                 aria-label="Impostazioni"
               >
-                <Settings className="h-4 w-4" />
+                <Settings className="h-4 w-4" strokeWidth={1.75} />
               </Link>
             </div>
-            <div className="mt-1 flex items-center justify-between px-2">
-              <nav className="flex gap-x-3 text-xs text-slate-400" aria-label="Documenti legali">
-                <Link href="/terms" className="hover:text-slate-600 hover:underline">
+            <div className="flex items-center justify-between px-1">
+              <nav className="flex gap-x-3 text-[11px] text-slate-400" aria-label="Documenti legali">
+                <Link href="/terms" className="transition hover:text-[#345884]">
                   Termini
                 </Link>
-                <Link href="/privacy" className="hover:text-slate-600 hover:underline">
+                <Link href="/privacy" className="transition hover:text-[#345884]">
                   Privacy
                 </Link>
               </nav>
               <SignOutButton />
             </div>
-          </>
+          </div>
         )}
       </div>
     </aside>
