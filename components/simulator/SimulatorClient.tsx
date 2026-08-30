@@ -2868,7 +2868,7 @@ function HistoryChat({
         }}
       >
         {visibleMessages.length === 0 && (
-          <div className="flex min-h-[180px] flex-col items-center justify-center gap-2.5 px-6 py-8 text-center">
+          <div className="mt-6 flex min-h-[180px] flex-col items-center justify-center gap-2.5 px-6 py-8 text-center opacity-70">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E4EAF3] text-[#345884]">
               <MessageCircle className="h-4 w-4" strokeWidth={1.75} />
             </div>
