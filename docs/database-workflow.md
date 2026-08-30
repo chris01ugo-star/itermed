@@ -33,6 +33,7 @@ Procedura standard per modificare lo schema PostgreSQL in modo tracciato e deplo
 ## Produzione
 
 - Le migrazioni vanno applicate **prima** o **durante** il deploy dell'app, con `DATABASE_URL` puntato al database di produzione.
+- Su Vercel il comando `npm run build` esegue automaticamente `prisma migrate deploy` (usa `DATABASE_URL` delle env Vercel).
 - In CI/CD tipico: `npm run db:deploy && npm run build`.
 - Controllare sempre lo stato prima del deploy:
   ```bash
@@ -43,6 +44,7 @@ Procedura standard per modificare lo schema PostgreSQL in modo tracciato e deplo
 
 - Baseline completata: 9 migrazioni storiche + `sync_app_config` marcate come applied.
 - Migrazione feature: `20260714110258_add_specialties_difficulty_and_scores` applicata su Neon.
+- Waitlist beta: `20260830120000_beta_waitlist` (tabella `BetaWaitlistEntry`) — applicata al prossimo deploy Vercel via `migrate deploy`.
 - Verifica: `npm run db:status` → **Database schema is up to date!**
 
 
