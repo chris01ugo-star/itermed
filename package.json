@@ -18,6 +18,7 @@
     "db:seed:guidelines": "npx tsx prisma/seed-guidelines.ts",
     "db:fix:gender-names": "npx tsx scripts/fix-gender-name-consistency.ts",
     "db:promote-admins": "npx tsx scripts/promote-admins.ts",
+    "db:ensure-platform-admins": "npx tsx scripts/ensure-platform-admins.ts",
     "db:set-dev-password": "npx tsx scripts/set-dev-password.ts"
   },
   "prisma": {

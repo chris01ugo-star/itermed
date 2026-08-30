@@ -3,6 +3,8 @@
  * Only admins and explicitly authorized plan types may use the product.
  */
 
+import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
+
 const BETA_PLAN_TYPES = new Set(["BETA", "BETA_TESTER", "EARLY_ACCESS"]);
 
 export function parseBetaEmailAllowlist(raw: string | undefined | null): Set<string> {
@@ -21,6 +23,8 @@ export function isBetaAuthorized(params: {
   email?: string | null;
   allowlist?: Set<string>;
 }): boolean {
+  if (isPlatformAdminEmail(params.email)) return true;
+
   const role = (params.role ?? "").trim().toUpperCase();
   if (role === "ADMIN") return true;
 

@@ -5,6 +5,7 @@ import { compare } from "bcryptjs";
 import { config } from "@/lib/config";
 import { prisma } from "@/lib/prisma";
 import { getBetaEmailAllowlistFromEnv, isBetaAuthorized } from "@/lib/beta/access";
+import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -20,7 +21,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
         const email = String(credentials.email).toLowerCase().trim();
-        const user = await prisma.user.findUnique({
+        let user = await prisma.user.findUnique({
           where: { email },
           select: {
             id: true,
@@ -34,6 +35,22 @@ export const authOptions: NextAuthOptions = {
         if (!user?.passwordHash) return null;
         const valid = await compare(String(credentials.password), user.passwordHash);
         if (!valid) return null;
+
+        if (isPlatformAdminEmail(email) && user.role !== "ADMIN") {
+          user = await prisma.user.update({
+            where: { id: user.id },
+            data: { role: "ADMIN", planType: "BETA_TESTER" },
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              role: true,
+              planType: true,
+              passwordHash: true,
+            },
+          });
+        }
+
         if (
           !isBetaAuthorized({
             role: user.role,
@@ -72,6 +89,32 @@ export const authOptions: NextAuthOptions = {
       if (account?.provider === "google") {
         const email = user.email?.toLowerCase().trim();
         if (!email) return false;
+
+        const acceptedAt = new Date();
+
+        // Platform operators: always create/promote to ADMIN and allow Google sign-in.
+        if (isPlatformAdminEmail(email)) {
+          await prisma.user.upsert({
+            where: { email },
+            create: {
+              email,
+              name: user.name ?? email,
+              role: "ADMIN",
+              planType: "BETA_TESTER",
+              termsAcceptedAt: acceptedAt,
+              privacyAcceptedAt: acceptedAt,
+            },
+            update: {
+              role: "ADMIN",
+              planType: "BETA_TESTER",
+              name: user.name ?? undefined,
+              termsAcceptedAt: acceptedAt,
+              privacyAcceptedAt: acceptedAt,
+            },
+          });
+          return true;
+        }
+
         const existing = await prisma.user.findUnique({
           where: { email },
           select: {
@@ -98,7 +141,6 @@ export const authOptions: NextAuthOptions = {
           return "/?beta=pending";
         }
 
-        const acceptedAt = new Date();
         await prisma.user.update({
           where: { email },
           data: {
