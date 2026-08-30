@@ -157,230 +157,237 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
   );
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-col bg-[#F4F6F8] px-4 pb-4 pt-3 md:px-6 md:pb-6 md:pt-4">
-      <div className="scrollbar-aequan flex min-h-0 flex-1 flex-col overflow-y-auto rounded-xl border border-border bg-panel-bg p-4 shadow-aequan-panel sm:p-5 md:p-6">
-        <header className="shrink-0 space-y-1">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#345884]">
-            Libreria casi
-          </p>
-          <h1 className="font-display text-[1.55rem] font-bold tracking-tight text-text-primary md:text-[1.7rem]">
+    <div className="mx-auto flex h-full min-h-0 w-full max-w-7xl flex-col gap-5 overflow-y-auto p-6 md:p-8">
+      <header className="flex shrink-0 flex-wrap items-end justify-between gap-4">
+        <div className="min-w-0 space-y-1.5">
+          <div className="inline-flex items-center gap-2 text-[#345884]">
+            <FolderOpen className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.14em]">
+              Libreria casi
+            </span>
+          </div>
+          <h1 className="font-display text-2xl font-bold tracking-tight text-[#1E324E] md:text-[28px]">
             Casi Clinici
           </h1>
-          <p className="max-w-2xl text-sm leading-relaxed text-slate-500">
+          <p className="max-w-xl text-sm leading-relaxed text-slate-500">
             {activeBucket
               ? "Scegli un caso e apri la cartella per avviare la simulazione."
               : "Apri una specialità, poi scegli il caso clinico da esercitare."}
           </p>
-        </header>
+        </div>
+        <Link
+          href="/dashboard/guidelines"
+          className="inline-flex h-10 shrink-0 items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-[#1E324E] transition hover:border-[#345884]/35 hover:bg-[#F7F9FC]"
+        >
+          <BookOpen className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+          Linee guida
+        </Link>
+      </header>
 
-        {!activeBucket ? (
-          <div className="mt-5 shrink-0">
-            <div className="mb-2.5 flex items-center gap-2">
-              <BookOpen className="h-3.5 w-3.5 text-[#345884]" aria-hidden />
-              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-                Linee guida di riferimento
-              </p>
+      {!activeBucket ? (
+        <div className="flex shrink-0 flex-col gap-2.5 rounded-2xl border border-slate-200/80 bg-white px-3.5 py-3 shadow-[0_1px_0_rgba(15,23,42,0.03)] sm:flex-row sm:items-center sm:px-4">
+          <p className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400 sm:pr-1">
+            Riferimenti
+          </p>
+          <div className="flex min-w-0 flex-1 flex-wrap gap-2">
+            {FEATURED_GUIDELINES.map((item) => {
+              const href =
+                "href" in item && item.href
+                  ? item.href
+                  : item.query
+                    ? `/dashboard/guidelines?q=${encodeURIComponent(item.query)}`
+                    : "/dashboard/guidelines";
+              const isPrimary = "href" in item && Boolean(item.href);
+              return (
+                <Link
+                  key={item.label}
+                  href={href}
+                  className={cn(
+                    "inline-flex items-center rounded-lg border px-3 py-1.5 text-xs font-semibold transition",
+                    isPrimary
+                      ? "border-[#1E324E] bg-[#1E324E] text-white hover:bg-[#2A486D]"
+                      : "border-slate-200 bg-slate-50 text-[#1E324E] hover:border-[#345884]/35 hover:bg-white",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+
+      <div className="min-h-0 flex-1 rounded-xl border border-border bg-panel-bg p-4 shadow-aequan-panel sm:p-5 md:p-6">
+        {activeBucket ? (
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setParams({ specialty: null, caseId: null })}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-ui-bg/70 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-brand-primary/30 hover:text-brand-primary"
+              >
+                <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
+                Tutte le specialità
+              </button>
+              <div className="min-w-0">
+                <p className="font-display text-lg font-bold tracking-tight text-text-primary">
+                  {activeBucket.name}
+                </p>
+                <p className="text-xs text-slate-500">
+                  {activeBucket.cases.length === 1
+                    ? "1 caso"
+                    : `${activeBucket.cases.length} casi`}
+                  {" · "}
+                  {difficultyMix(activeBucket.cases)}
+                </p>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {FEATURED_GUIDELINES.map((item) => {
-                const href =
-                  "href" in item && item.href
-                    ? item.href
-                    : item.query
-                      ? `/dashboard/guidelines?q=${encodeURIComponent(item.query)}`
-                      : "/dashboard/guidelines";
-                const isPrimary = "href" in item && Boolean(item.href);
+
+            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 xl:grid-cols-3">
+              {activeBucket.cases.map((caseRow) => {
+                const difficultyKey = isCaseDifficulty(caseRow.difficulty)
+                  ? caseRow.difficulty
+                  : "MEDIUM";
+                const difficultyLabel =
+                  DIFFICULTY_LABELS[difficultyKey] ??
+                  String(caseRow.difficulty ?? "Media");
+                const patientName = patientDisplayName(
+                  caseRow.id,
+                  caseRow.title,
+                  caseRow.sex,
+                );
+                const patientAge = caseRow.age ?? estimateAgeFromTitle(caseRow.title);
+                const condition = conditionFromTitle(caseRow.title);
+                const dept = nestPastel(activeBucket.pastel);
+                const isSelected = openCaseId === caseRow.id;
+
                 return (
-                  <Link
-                    key={item.label}
-                    href={href}
-                    className={cn(
-                      "inline-flex items-center rounded-lg border px-3 py-2 text-xs font-semibold transition",
-                      isPrimary
-                        ? "border-[#1E324E] bg-[#1E324E] text-white hover:bg-[#2A486D]"
-                        : "border-slate-200 bg-white text-[#1E324E] hover:border-[#345884]/35 hover:bg-[#F7F9FC]",
-                    )}
-                  >
-                    {item.label}
-                  </Link>
+                  <div key={caseRow.id} className="relative pt-2.5">
+                    <FolderNotch fill={dept.fill} />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setParams({
+                          specialty: activeBucket.name,
+                          caseId: caseRow.id,
+                        })
+                      }
+                      style={{
+                        backgroundColor: dept.fill,
+                        borderColor: isSelected ? "#1E324E" : dept.border,
+                      }}
+                      className={cn(
+                        "group relative flex h-[7.25rem] w-full min-w-0 items-stretch gap-2 overflow-hidden rounded-b-xl rounded-tr-xl border px-3.5 py-3 text-left transition duration-200",
+                        "hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
+                        isSelected
+                          ? "shadow-aequan-panel ring-1 ring-brand-primary/25"
+                          : "",
+                      )}
+                    >
+                      <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-between gap-1.5">
+                        <p className="truncate text-sm font-bold text-slate-800">
+                          {patientName}
+                          <span className="font-medium text-slate-500">
+                            {" "}
+                            · {patientAge} anni
+                          </span>
+                        </p>
+                        <p className="h-10 overflow-hidden text-xs leading-5 text-slate-600 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
+                          {condition}
+                        </p>
+                        <span
+                          className={cn(
+                            "text-[11px] font-semibold",
+                            DIFFICULTY_TONE[difficultyKey],
+                          )}
+                        >
+                          {difficultyLabel}
+                        </span>
+                      </div>
+                      <span
+                        className="flex shrink-0 items-center self-center text-slate-400 transition group-hover:text-brand-primary"
+                        aria-hidden
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </span>
+                    </button>
+                  </div>
                 );
               })}
             </div>
           </div>
-        ) : null}
-
-        <div className="mt-6 min-h-0 flex-1">
-          {activeBucket ? (
-            <div className="space-y-4">
-              <div className="flex flex-wrap items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => setParams({ specialty: null, caseId: null })}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-ui-bg/70 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-brand-primary/30 hover:text-brand-primary"
-                >
-                  <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
-                  Tutte le specialità
-                </button>
-                <div className="min-w-0">
-                  <p className="font-display text-lg font-bold tracking-tight text-text-primary">
-                    {activeBucket.name}
-                  </p>
-                  <p className="text-xs text-slate-500">
-                    {activeBucket.cases.length === 1
-                      ? "1 caso"
-                      : `${activeBucket.cases.length} casi`}
-                    {" · "}
-                    {difficultyMix(activeBucket.cases)}
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 xl:grid-cols-3">
-                {activeBucket.cases.map((caseRow) => {
-                  const difficultyKey = isCaseDifficulty(caseRow.difficulty)
-                    ? caseRow.difficulty
-                    : "MEDIUM";
-                  const difficultyLabel =
-                    DIFFICULTY_LABELS[difficultyKey] ??
-                    String(caseRow.difficulty ?? "Media");
-                  const patientName = patientDisplayName(
-                    caseRow.id,
-                    caseRow.title,
-                    caseRow.sex,
-                  );
-                  const patientAge = caseRow.age ?? estimateAgeFromTitle(caseRow.title);
-                  const condition = conditionFromTitle(caseRow.title);
-                  const dept = nestPastel(activeBucket.pastel);
-                  const isSelected = openCaseId === caseRow.id;
-
-                  return (
-                    <div key={caseRow.id} className="relative pt-2.5">
-                      <FolderNotch fill={dept.fill} />
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setParams({
-                            specialty: activeBucket.name,
-                            caseId: caseRow.id,
-                          })
-                        }
-                        style={{
-                          backgroundColor: dept.fill,
-                          borderColor: isSelected ? "#1E324E" : dept.border,
-                        }}
-                        className={cn(
-                          "group relative flex h-[7.25rem] w-full min-w-0 items-stretch gap-2 overflow-hidden rounded-b-xl rounded-tr-xl border px-3.5 py-3 text-left transition duration-200",
-                          "hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
-                          isSelected
-                            ? "shadow-aequan-panel ring-1 ring-brand-primary/25"
-                            : "",
-                        )}
-                      >
-                        <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-between gap-1.5">
-                          <p className="truncate text-sm font-bold text-slate-800">
-                            {patientName}
-                            <span className="font-medium text-slate-500">
-                              {" "}
-                              · {patientAge} anni
-                            </span>
-                          </p>
-                          <p className="h-10 overflow-hidden text-xs leading-5 text-slate-600 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
-                            {condition}
-                          </p>
-                          <span
-                            className={cn(
-                              "text-[11px] font-semibold",
-                              DIFFICULTY_TONE[difficultyKey],
-                            )}
-                          >
-                            {difficultyLabel}
-                          </span>
-                        </div>
-                        <span
-                          className="flex shrink-0 items-center self-center text-slate-400 transition group-hover:text-brand-primary"
-                          aria-hidden
-                        >
-                          <ChevronRight className="h-4 w-4" />
-                        </span>
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          ) : buckets.length === 0 ? (
-            <div className="flex min-h-[240px] flex-col items-center justify-center px-4 py-12 text-center">
-              <FolderOpen className="h-8 w-8 text-slate-300" aria-hidden />
-              <p className="mt-3 text-sm font-semibold text-slate-600">Nessuna cartella</p>
-              <p className="mt-1 max-w-sm text-xs leading-relaxed text-slate-400">
-                Non ci sono ancora casi clinici disponibili.
+        ) : buckets.length === 0 ? (
+          <div className="flex min-h-[240px] flex-col items-center justify-center px-4 py-12 text-center">
+            <FolderOpen className="h-8 w-8 text-slate-300" aria-hidden />
+            <p className="mt-3 text-sm font-semibold text-slate-600">Nessuna cartella</p>
+            <p className="mt-1 max-w-sm text-xs leading-relaxed text-slate-400">
+              Non ci sono ancora casi clinici disponibili.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <FolderOpen className="h-4 w-4 text-brand-secondary" aria-hidden />
+              <p className="font-display text-sm font-semibold text-brand-primary">
+                Cartelle principali
               </p>
+              <span className="text-xs text-slate-400">
+                {buckets.length} specialità
+              </span>
             </div>
-          ) : (
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <FolderOpen className="h-4 w-4 text-brand-secondary" aria-hidden />
-                <p className="font-display text-sm font-semibold text-brand-primary">
-                  Cartelle principali
-                </p>
-                <span className="text-xs text-slate-400">
-                  {buckets.length} specialità
-                </span>
-              </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {buckets.map((bucket) => (
-                  <div key={bucket.name} className="relative pt-2.5">
-                    <FolderNotch fill={bucket.pastel.fill} />
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setParams({ specialty: bucket.name, caseId: null })
-                      }
-                      style={{
-                        backgroundColor: bucket.pastel.fill,
-                        borderColor: bucket.pastel.border,
-                      }}
-                      className={cn(
-                        "group relative flex h-[9rem] w-full min-w-0 flex-col justify-between overflow-hidden rounded-b-xl rounded-tr-xl border px-4 py-4 text-left transition duration-200",
-                        "hover:-translate-y-0.5 hover:brightness-[0.97] hover:shadow-aequan-panel",
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
-                      )}
-                    >
-                      <div className="min-w-0 space-y-1">
-                        <p
-                          className="text-[11px] font-semibold uppercase tracking-[0.12em]"
-                          style={{ color: bucket.pastel.accent }}
-                        >
-                          Specialità
-                        </p>
-                        <p className="font-display text-lg font-bold leading-snug tracking-tight text-slate-800">
-                          {bucket.name}
-                        </p>
-                        <p className="text-[11px] leading-snug text-slate-500">
-                          {difficultyMix(bucket.cases)}
-                        </p>
-                      </div>
-                      <div className="flex items-center justify-between gap-2">
-                        <p className="text-xs text-slate-600">
-                          {bucket.cases.length === 1
-                            ? "1 caso clinico"
-                            : `${bucket.cases.length} casi clinici`}
-                        </p>
-                        <span
-                          className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/55 text-slate-500 transition group-hover:text-brand-primary"
-                          aria-hidden
-                        >
-                          <ChevronRight className="h-4 w-4" />
-                        </span>
-                      </div>
-                    </button>
-                  </div>
-                ))}
-              </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {buckets.map((bucket) => (
+                <div key={bucket.name} className="relative pt-2.5">
+                  <FolderNotch fill={bucket.pastel.fill} />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setParams({ specialty: bucket.name, caseId: null })
+                    }
+                    style={{
+                      backgroundColor: bucket.pastel.fill,
+                      borderColor: bucket.pastel.border,
+                    }}
+                    className={cn(
+                      "group relative flex h-[9rem] w-full min-w-0 flex-col justify-between overflow-hidden rounded-b-xl rounded-tr-xl border px-4 py-4 text-left transition duration-200",
+                      "hover:-translate-y-0.5 hover:brightness-[0.97] hover:shadow-aequan-panel",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
+                    )}
+                  >
+                    <div className="min-w-0 space-y-1">
+                      <p
+                        className="text-[11px] font-semibold uppercase tracking-[0.12em]"
+                        style={{ color: bucket.pastel.accent }}
+                      >
+                        Specialità
+                      </p>
+                      <p className="font-display text-lg font-bold leading-snug tracking-tight text-slate-800">
+                        {bucket.name}
+                      </p>
+                      <p className="text-[11px] leading-snug text-slate-500">
+                        {difficultyMix(bucket.cases)}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-xs text-slate-600">
+                        {bucket.cases.length === 1
+                          ? "1 caso clinico"
+                          : `${bucket.cases.length} casi clinici`}
+                      </p>
+                      <span
+                        className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/55 text-slate-500 transition group-hover:text-brand-primary"
+                        aria-hidden
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </span>
+                    </div>
+                  </button>
+                </div>
+              ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {selectedCase ? (
