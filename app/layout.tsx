@@ -17,9 +17,9 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "AEQUAN · Medical-Legal Training Simulator",
+  title: "Aequan · Beta · Simulatore clinico e medico-legale",
   description:
-    "AEQUAN è una piattaforma di simulazione clinica e medico-legale per studenti e specialisti, con valutazione Gelli-Bianco, appropriatezza prescrittiva, sostenibilità SSN ed empatia.",
+    "Aequan è la piattaforma di simulazione clinica e medico-legale per medici in formazione. Iscriviti alla lista d'attesa della beta chiusa.",
   // Explicit icons so browsers that hard-request /favicon.ico (and cache it) pick Aequan, not a stale default.
   icons: {
     icon: [

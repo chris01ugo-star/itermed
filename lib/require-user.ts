@@ -2,6 +2,8 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth-options";
 import { config } from "@/lib/config";
+import { getBetaEmailAllowlistFromEnv, isBetaAuthorized } from "@/lib/beta/access";
+import { prisma } from "@/lib/prisma";
 import { isRuntimeDevelopment } from "@/lib/security/dev-only-gates";
 
 export type SessionUser = {
@@ -57,6 +59,37 @@ export async function requireUser(): Promise<SessionUser> {
   const session = await getServerSession(authOptions);
   const id = session?.user?.id;
   if (!id) redirect("/login");
+
+  try {
+    const dbUser = await prisma.user.findUnique({
+      where: { id },
+      select: { role: true, planType: true, email: true },
+    });
+    if (
+      !dbUser ||
+      !isBetaAuthorized({
+        role: dbUser.role,
+        planType: dbUser.planType,
+        email: dbUser.email,
+        allowlist: getBetaEmailAllowlistFromEnv(),
+      })
+    ) {
+      redirect("/?beta=pending#lista-attesa");
+    }
+  } catch (err) {
+    // `redirect()` throws a special Next.js error — rethrow it.
+    if (
+      err &&
+      typeof err === "object" &&
+      "digest" in err &&
+      typeof (err as { digest?: unknown }).digest === "string" &&
+      String((err as { digest: string }).digest).startsWith("NEXT_REDIRECT")
+    ) {
+      throw err;
+    }
+    // Transient DB errors: fall through with session (middleware already gated).
+  }
+
   return {
     id,
     email: session.user.email ?? null,

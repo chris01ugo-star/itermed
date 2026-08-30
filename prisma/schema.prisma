@@ -91,6 +91,18 @@ model User {
   @@index([leaderboardOptIn])
 }
 
+/// Public beta waitlist leads collected from the marketing landing.
+model BetaWaitlistEntry {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  roleHint  String?
+  source    String   @default("landing")
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
 /// Canonical medical specialty taxonomy (Cardiologia, Emergenza, …).
 /// Central pillar linking clinical cases and specialty-scoped guideline documents (RAG).
 model MedicalSpecialty {
