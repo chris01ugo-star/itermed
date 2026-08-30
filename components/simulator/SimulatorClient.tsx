@@ -2897,16 +2897,22 @@ function HistoryChat({
         }}
       >
         {visibleMessages.length === 0 && (
-          <div className="mt-8 flex min-h-[140px] flex-col items-center justify-center gap-2 px-6 py-6 text-center opacity-65">
+          <div className="mt-14 flex min-h-[160px] flex-col items-center justify-start gap-2.5 px-6 pb-6 pt-2 text-center opacity-70">
             <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#E4EAF3] text-[#345884]">
               <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
             </div>
             <div className="space-y-1">
               <p className="text-sm font-semibold text-slate-800">Inizia l&apos;anamnesi</p>
-              <p className="mx-auto max-w-xs text-xs leading-relaxed text-slate-500">
-                Fai una domanda aperta al paziente.
+              <p className="mx-auto max-w-sm text-xs leading-relaxed text-slate-500">
+                Fai una domanda aperta al paziente. Esempio: &quot;Mi racconti cosa è successo da
+                quando sono iniziati i sintomi?&quot;
               </p>
             </div>
+            <p className="max-w-sm border-l-2 border-[#345884]/30 pl-2.5 text-left text-[11px] leading-relaxed text-slate-500">
+              Oppure usa il pulsante{" "}
+              <span className="font-medium text-slate-700">Modulo consenso</span> sotto, quando serve
+              spiegare una procedura.
+            </p>
           </div>
         )}
         {visibleMessages.map((message) => {
@@ -2973,7 +2979,7 @@ function HistoryChat({
           </div>
         ) : null}
         {onRequestConsent ? (
-          <div className="flex items-center">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
               onClick={onRequestConsent}
@@ -2990,6 +2996,9 @@ function HistoryChat({
               <FileText className="h-3.5 w-3.5" strokeWidth={1.75} />
               {consentRequested ? "Consenso registrato" : "Modulo consenso"}
             </button>
+            <span className="text-[10px] leading-snug text-slate-400 sm:text-[11px]">
+              Spiega rischi/benefici e acquisisci il consenso prima di procedure invasive.
+            </span>
           </div>
         ) : null}
         <div className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-1.5 pl-3 transition focus-within:border-[#345884] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#345884]/20">
