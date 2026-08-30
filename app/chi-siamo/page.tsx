@@ -39,8 +39,9 @@ const TEAM = [
     initials: "DB",
     tone: "from-[#15263C] via-[#1E324E] to-[#2A486D]",
     bio: "Architettura, piattaforma e intelligenza artificiale. Traduce il metodo in prodotto affidabile e scalabile.",
+    photoSrc: "/team/dario-barbagallo.png",
   },
-] as const;
+];
 
 function ChiSiamoHeader() {
   return (
