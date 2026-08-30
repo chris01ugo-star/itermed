@@ -1400,18 +1400,13 @@ export function SimulatorClient({
               </span>
             </div>
 
-            <div className="flex shrink-0 items-center justify-center gap-2.5 justify-self-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-[#345884] shadow-sm">
-                <Clock className="h-4 w-4" strokeWidth={1.75} />
-              </span>
-              <div className="leading-tight">
-                <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
-                  Tempo simulazione
-                </p>
-                <p className="text-base font-bold tabular-nums text-slate-900">
-                  {formatElapsedClock(elapsedSeconds)}
-                </p>
-              </div>
+            <div className="flex shrink-0 flex-col items-center justify-center justify-self-center rounded-2xl border border-slate-200/80 bg-white px-5 py-2 shadow-[0_1px_0_rgba(15,23,42,0.04)]">
+              <p className="text-[11px] font-medium text-slate-500">
+                Tempo simulazione
+              </p>
+              <p className="mt-0.5 text-lg font-semibold tabular-nums tracking-tight text-[#1E324E]">
+                {formatElapsedClock(elapsedSeconds)}
+              </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-1 lg:justify-self-end">
