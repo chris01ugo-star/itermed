@@ -96,6 +96,7 @@ function TeamCard({
   initials,
   tone,
   bio,
+  photoSrc,
   featured,
 }: {
   name: string;
@@ -103,35 +104,47 @@ function TeamCard({
   initials: string;
   tone: string;
   bio: string;
+  photoSrc?: string;
   featured?: boolean;
 }) {
   return (
     <article
       className={
         featured
-          ? "group relative mx-auto w-full max-w-[280px] overflow-hidden rounded-[1.75rem] bg-white shadow-[0_28px_50px_-28px_rgba(30,50,78,0.45)] ring-1 ring-[#1E324E]/10 sm:max-w-none"
-          : "group relative mx-auto w-full max-w-[260px] overflow-hidden rounded-[1.75rem] bg-white shadow-[0_18px_40px_-28px_rgba(30,50,78,0.35)] ring-1 ring-slate-200/80 sm:max-w-none"
+          ? "group relative mx-auto w-full max-w-[220px] overflow-hidden rounded-2xl bg-white shadow-[0_20px_40px_-24px_rgba(30,50,78,0.4)] ring-1 ring-[#1E324E]/10"
+          : "group relative mx-auto w-full max-w-[200px] overflow-hidden rounded-2xl bg-white shadow-[0_14px_32px_-22px_rgba(30,50,78,0.32)] ring-1 ring-slate-200/80"
       }
     >
-      <div className={`relative aspect-[3/4] bg-gradient-to-br ${tone}`}>
-        <div
-          className="pointer-events-none absolute inset-0 opacity-30"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.35), transparent 45%), radial-gradient(circle at 80% 80%, rgba(0,0,0,0.25), transparent 50%)",
-          }}
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="font-display text-5xl font-semibold tracking-tight text-white/90 sm:text-6xl">
-            {initials}
-          </span>
-        </div>
-        <div className="absolute inset-x-3 bottom-3 rounded-2xl bg-white/95 px-4 py-3 shadow-sm backdrop-blur-sm">
-          <p className="text-[15px] font-semibold tracking-tight text-slate-900">{name}</p>
-          <p className="mt-0.5 text-sm text-slate-500">{role}</p>
+      <div className={`relative aspect-square overflow-hidden bg-gradient-to-br ${tone}`}>
+        {photoSrc ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={photoSrc}
+            alt={name}
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+        ) : (
+          <>
+            <div
+              className="pointer-events-none absolute inset-0 opacity-30"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.35), transparent 45%), radial-gradient(circle at 80% 80%, rgba(0,0,0,0.25), transparent 50%)",
+              }}
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="font-display text-4xl font-semibold tracking-tight text-white/90 sm:text-5xl">
+                {initials}
+              </span>
+            </div>
+          </>
+        )}
+        <div className="absolute inset-x-2.5 bottom-2.5 rounded-xl bg-white/95 px-3 py-2 shadow-sm backdrop-blur-sm">
+          <p className="text-[13px] font-semibold tracking-tight text-slate-900">{name}</p>
+          <p className="mt-0.5 text-[12px] text-slate-500">{role}</p>
         </div>
       </div>
-      <p className="px-4 py-3.5 text-[13px] leading-relaxed text-slate-500">{bio}</p>
+      <p className="px-3.5 py-3 text-[12px] leading-relaxed text-slate-500">{bio}</p>
     </article>
   );
 }
@@ -181,7 +194,7 @@ export default function ChiSiamoPage() {
 
         {/* Team */}
         <section className="px-4 pb-6 sm:px-6">
-          <div className="mx-auto grid max-w-3xl gap-6 sm:grid-cols-2 sm:gap-8">
+          <div className="mx-auto flex max-w-xl flex-wrap items-start justify-center gap-5 sm:gap-7">
             {TEAM.map((member, i) => (
               <TeamCard key={member.name} {...member} featured={i === 0} />
             ))}
