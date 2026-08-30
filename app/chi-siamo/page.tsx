@@ -46,7 +46,7 @@ function TeamMember({
 }) {
   return (
     <article className="min-w-0 w-full">
-      <div className="relative aspect-square w-full overflow-hidden bg-neutral-200">
+      <div className="relative aspect-square w-full max-w-[140px] overflow-hidden bg-neutral-200 sm:max-w-[160px]">
         {photoSrc ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -56,7 +56,7 @@ function TeamMember({
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-neutral-300">
-            <span className="font-display text-3xl font-semibold tracking-tight text-neutral-600 sm:text-4xl">
+            <span className="font-display text-2xl font-semibold tracking-tight text-neutral-600 sm:text-3xl">
               {initials}
             </span>
           </div>
@@ -68,7 +68,7 @@ function TeamMember({
       <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500 sm:text-[12px]">
         {role}
       </p>
-      <p className="mt-2.5 text-[13px] leading-relaxed text-neutral-600 sm:mt-3 sm:text-[14px]">
+      <p className="mt-2.5 max-w-xs text-[13px] leading-relaxed text-neutral-600 sm:mt-3 sm:text-[14px]">
         {bio}
       </p>
     </article>
