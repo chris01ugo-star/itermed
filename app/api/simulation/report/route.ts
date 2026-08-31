@@ -200,7 +200,11 @@ export async function POST(req: Request) {
 
     jobInput.reportId = report.id;
 
-    log.info("Simulation report queued", { userId, reportId: report.id });
+    log.info("Simulation report queued", {
+      userId,
+      reportId: report.id,
+      persistCaseId,
+    });
 
     const runJob = () => scheduleSimulationReportJob(jobInput);
 
