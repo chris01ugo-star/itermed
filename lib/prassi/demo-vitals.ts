@@ -19,15 +19,17 @@ export type DemoVitals = {
 
 export function deriveDemoVitals(caseId: string, stress = 0): DemoVitals {
   const seed = hashSeed(caseId || "demo");
+  // Behavioral stress may nudge HR/RR slightly; SpO₂ must NOT collapse from stress alone.
+  // Prefer resolveMonitorVitals() for the live clinical monitor.
   const stressClamped = Math.max(0, Math.min(100, stress));
   const stressFactor = stressClamped / 100;
 
-  const systolic = Math.round(110 + (seed % 25) + stressFactor * 28);
-  const diastolic = Math.round(68 + (seed % 18) + stressFactor * 12);
-  const hr = Math.round(62 + (seed % 28) + stressFactor * 42);
-  const spo2 = Math.max(82, Math.round(97 - (seed % 3) - stressFactor * 12));
-  const temp = (36.1 + ((seed % 12) / 10) + stressFactor * 0.6).toFixed(1);
-  const rr = Math.round(14 + (seed % 7) + stressFactor * 10);
+  const systolic = Math.round(110 + (seed % 25) + stressFactor * 8);
+  const diastolic = Math.round(68 + (seed % 18) + stressFactor * 4);
+  const hr = Math.round(62 + (seed % 28) + stressFactor * 10);
+  const spo2 = Math.max(92, Math.round(97 - (seed % 3) - stressFactor * 1.5));
+  const temp = (36.1 + ((seed % 12) / 10) + stressFactor * 0.15).toFixed(1);
+  const rr = Math.round(14 + (seed % 7) + stressFactor * 3);
 
   return {
     bp: `${systolic}/${diastolic}`,

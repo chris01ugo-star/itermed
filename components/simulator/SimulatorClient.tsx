@@ -65,9 +65,20 @@ import {
 } from "./ClinicalDischargeReportPanel";
 import { MetricBar } from "@/app/case/[id]/results/MetricBar";
 import { ScoreProgressRing } from "@/app/case/[id]/results/ScoreProgressRing";
-import { deriveDemoVitals, patientDisplayName } from "@/lib/prassi/demo-vitals";
+import { patientDisplayName } from "@/lib/prassi/demo-vitals";
 import { classifyVitals, maxVitalStatus } from "@/lib/clinical/vital-status";
-import { resolveCaseStressProfile } from "@/lib/simulator/patient-stress-engine";
+import {
+  detectEcgAction,
+  detectOxygenSupport,
+  formatMonitorVitalsLine,
+  goldPathProgress,
+  resolveMonitorVitals,
+} from "@/lib/clinical/case-vitals";
+import {
+  computePatientStress,
+  resolveCaseStressProfile,
+} from "@/lib/simulator/patient-stress-engine";
+import { isInvasiveExam } from "@/lib/simulator/exam-canonical-registry";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 import { resolveExamBudgetEuro } from "@/lib/services/evaluation-scoring";
 import type { CaseDifficulty } from "@prisma/client";
@@ -82,10 +93,7 @@ import {
   type SimulatorExam,
 } from "../../lib/simulator/exam-catalog";
 import type { CaseExamOverride } from "../../lib/exam-values-meta";
-import {
-  formatAbnormalExamsFromBaseline,
-  formatVitalSignsFromBaseline,
-} from "../../lib/simulator/patientCaseContext";
+import { formatAbnormalExamsFromBaseline } from "../../lib/simulator/patientCaseContext";
 
 type Exam = SimulatorExam;
 
@@ -507,13 +515,14 @@ export function SimulatorClient({
     setPatientStress((s) => Math.min(100, s + delta));
   }, []);
 
-  // Timer clinico: +1 minuto simulato ogni 15s reali mentre il caso è in corso.
+  // Timer clinico: +1 minuto simulato ogni 20s reali mentre il caso è in corso.
+  // Stress comportamentale sale lentamente (inerzia), non perché i vitali siano "stress-driven".
   useEffect(() => {
     if (!disclaimerAccepted || gameStatus !== "playing" || isPaused) return;
     const id = window.setInterval(() => {
       setClockMinutes((m) => m + 1);
       bumpPatientStress(1);
-    }, 15_000);
+    }, 20_000);
     return () => window.clearInterval(id);
   }, [disclaimerAccepted, gameStatus, isPaused, bumpPatientStress]);
 
@@ -526,12 +535,12 @@ export function SimulatorClient({
     return () => window.clearInterval(id);
   }, [disclaimerAccepted, gameStatus, isPaused]);
 
-  // Pressione temporale aggiuntiva (più lenta).
+  // Pressione temporale aggiuntiva (più lenta) — solo stress comportamentale.
   useEffect(() => {
     if (!disclaimerAccepted || gameStatus !== "playing" || isPaused) return;
     const id = window.setInterval(() => {
-      bumpPatientStress(2);
-    }, 45_000);
+      bumpPatientStress(1);
+    }, 60_000);
     return () => window.clearInterval(id);
   }, [disclaimerAccepted, gameStatus, isPaused, bumpPatientStress]);
 
@@ -540,12 +549,55 @@ export function SimulatorClient({
   const patientSexForChat =
     demoChat.sex === "F" || demoChat.sex === "M" ? demoChat.sex : "M";
 
-  const vitalSignsForChat = useMemo(
+  const monitorStabilization = useMemo(() => {
+    const examIds = selectedExamIds;
+    const findingIds = Object.keys(examFindings);
+    const allKeys = [...examIds, ...findingIds];
+    const gold = initialCaseData.goldStandardPath ?? [];
+    return {
+      hasOxygen: detectOxygenSupport(allKeys),
+      hasEcg: detectEcgAction(allKeys),
+      goldProgress: goldPathProgress(gold, allKeys),
+      invasiveCount: examIds.filter((id) => isInvasiveExam(id)).length,
+      wrongTherapy: gameStatus === "wrong_diagnosis",
+    };
+  }, [
+    selectedExamIds,
+    examFindings,
+    initialCaseData.goldStandardPath,
+    gameStatus,
+  ]);
+
+  const monitorVitals = useMemo(
     () =>
-      formatVitalSignsFromBaseline(
-        initialCaseData.baselineExamFindings as Record<string, unknown> | undefined,
-      ),
-    [initialCaseData.baselineExamFindings],
+      resolveMonitorVitals({
+        caseId: initialCaseData.id,
+        baselineExamFindings: initialCaseData.baselineExamFindings as
+          | Record<string, unknown>
+          | undefined,
+        clockMinutes,
+        deteriorationThresholdMinutes: initialCaseData.patientDeteriorationThreshold,
+        caseContext: `${initialCaseData.title} ${initialCaseData.description}`,
+        specialty: initialCaseData.specialty,
+        stabilization: monitorStabilization,
+        behavioralStress: patientStress,
+      }),
+    [
+      initialCaseData.id,
+      initialCaseData.baselineExamFindings,
+      initialCaseData.patientDeteriorationThreshold,
+      initialCaseData.title,
+      initialCaseData.description,
+      initialCaseData.specialty,
+      clockMinutes,
+      monitorStabilization,
+      patientStress,
+    ],
+  );
+
+  const vitalSignsForChat = useMemo(
+    () => formatMonitorVitalsLine(monitorVitals),
+    [monitorVitals],
   );
 
   const abnormalExamsForChat = useMemo(
@@ -813,7 +865,7 @@ export function SimulatorClient({
     if (!trimmed || isChatLoading) return;
 
     markUserActivity();
-    const stressForRequest = Math.min(100, patientStress + 2);
+    const stressForRequest = Math.min(100, patientStress + 1);
     setPatientStress(stressForRequest);
     patientStressRef.current = stressForRequest;
     advanceClock(1);
@@ -1048,8 +1100,9 @@ export function SimulatorClient({
         numericValue: payload.result.numericValue,
       },
     }));
-    bumpPatientStress(3);
-    advanceClock(2);
+    // Esame obiettivo non invasivo: micro-stress, niente crash SpO₂.
+    bumpPatientStress(1);
+    advanceClock(1);
   };
 
   const toggleExam = (examId: string) => {
@@ -1061,8 +1114,35 @@ export function SimulatorClient({
       const charged = examIdsChargedForStressRef.current;
       if (!charged.has(examId)) {
         charged.add(examId);
-        bumpPatientStress(2);
-        advanceClock(1);
+        const examName = availableExams.find((e) => e.id === examId)?.name;
+        const invasive = isInvasiveExam(examId, examName);
+        const profile = resolveCaseStressProfile({
+          description: initialCaseData.description,
+          baselineExamFindings: initialCaseData.baselineExamFindings as
+            | Record<string, unknown>
+            | undefined,
+          goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
+        });
+        const nextStress = computePatientStress({
+          currentStress: patientStressRef.current,
+          profile,
+          newExamId: examId,
+          newExamName: examName,
+          goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
+          riskyPrescription: false,
+        });
+        // Prefer engine delta; invasive always costs more arousal, EO-like labs stay mild.
+        if (invasive) {
+          const next = Math.max(nextStress, Math.min(100, patientStressRef.current + 6));
+          patientStressRef.current = next;
+          setPatientStress(next);
+        } else if (nextStress < patientStressRef.current) {
+          patientStressRef.current = nextStress;
+          setPatientStress(nextStress); // relieving exam (ECG, O₂-linked path, etc.)
+        } else {
+          bumpPatientStress(1);
+        }
+        advanceClock(invasive ? 3 : 1);
       }
       const next = [...current, examId];
       void (async () => {
@@ -1483,7 +1563,7 @@ export function SimulatorClient({
               title={initialCaseData.title}
               age={patient.age}
               sex={patient.sex}
-              stress={patientStress}
+              vitals={monitorVitals}
               className="w-full shrink-0 overflow-x-hidden rounded-xl shadow-md"
             />
             <header className="flex w-full items-center justify-between gap-4 overflow-x-hidden px-0.5">
@@ -1552,11 +1632,8 @@ export function SimulatorClient({
                   </p>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
-                  {maxVitalStatus(
-                    classifyVitals(deriveDemoVitals(initialCaseData.id, patientStress)).map(
-                      (v) => v.status,
-                    ),
-                  ) !== "stable" ? (
+                  {maxVitalStatus(classifyVitals(monitorVitals).map((v) => v.status)) !==
+                  "stable" ? (
                     <span className="inline-flex items-center gap-1.5 rounded-md border border-red-500/40 bg-red-500/10 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-red-600">
                       <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
                       Instabile
@@ -1585,7 +1662,7 @@ export function SimulatorClient({
                 title={initialCaseData.title}
                 age={patient.age}
                 sex={patient.sex}
-                stress={patientStress}
+                vitals={monitorVitals}
                 showHeader={false}
                 className="w-full shrink-0"
               />

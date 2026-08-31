@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  deriveDemoVitals,
   estimateAgeFromTitle,
   patientDisplayName,
+  type DemoVitals,
 } from "@/lib/prassi/demo-vitals";
 import {
   classifyVitals,
@@ -27,7 +27,8 @@ type VitalSignsBoardProps = {
   title?: string | null;
   age?: number | string | null;
   sex?: string | null;
-  stress?: number;
+  /** Live monitor vitals (baseline + clinical drift). Required for realistic physiology. */
+  vitals: DemoVitals;
   className?: string;
   showHeader?: boolean;
 };
@@ -53,11 +54,10 @@ export function VitalSignsBoard({
   title,
   age,
   sex,
-  stress = 0,
+  vitals,
   className,
   showHeader = true,
 }: VitalSignsBoardProps) {
-  const vitals = deriveDemoVitals(caseId, stress);
   const classified = classifyVitals(vitals);
   const overall = maxVitalStatus(classified.map((v) => v.status));
   const resolvedAge = typeof age === "number" ? age : estimateAgeFromTitle(title, Number(age) || 58);
