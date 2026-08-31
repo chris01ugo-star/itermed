@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { AequanLogo } from "@/components/AequanLogo";
+import { cn } from "@/app/utils/cn";
 import {
   AEQUAN_CONTACT_EMAIL,
   AEQUAN_CONTACT_MAILTO,
@@ -20,8 +21,8 @@ const FOUNDERS = [
     role: "CEO",
     initials: "CU",
     photoSrc: "/team/christopher-uguzzoni.png",
-    // Already shot in B&W — skip CSS grayscale.
-    photoGrayscale: false,
+    // Native B&W portrait — never apply CSS grayscale.
+    photoGrayscale: false as const,
     linkedInUrl: "https://it.linkedin.com/in/christopher-uguzzoni-a74446249",
     bio: "Fondatore di Aequan. Guida visione di prodotto e standard formativo, con focus su accuratezza clinica e tutela medico-legale.",
   },
@@ -30,7 +31,7 @@ const FOUNDERS = [
     role: "CTO",
     initials: "DB",
     photoSrc: "/team/dario-barbagallo.png",
-    photoGrayscale: true,
+    photoGrayscale: true as const,
     linkedInUrl: "https://it.linkedin.com/in/dario-barbagallo-3ab691240",
     bio: "CTO di Aequan. Responsabile di architettura, piattaforma e intelligenza artificiale: dal motore clinico al prodotto in produzione.",
   },
@@ -41,7 +42,7 @@ function TeamMember({
   role,
   initials,
   photoSrc,
-  photoGrayscale = true,
+  photoGrayscale = false,
   linkedInUrl,
   bio,
 }: {
@@ -61,9 +62,11 @@ function TeamMember({
           <img
             src={photoSrc}
             alt={name}
-            className={`absolute inset-0 h-full w-full object-cover object-center${
-              photoGrayscale ? " grayscale" : ""
-            }`}
+            className={cn(
+              "absolute inset-0 h-full w-full object-cover object-center",
+              photoGrayscale ? "grayscale" : "grayscale-0",
+            )}
+            style={photoGrayscale ? undefined : { filter: "none" }}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-neutral-300">
