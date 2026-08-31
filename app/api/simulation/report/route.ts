@@ -19,7 +19,10 @@ import {
   buildJobQueueRawTrace,
   scheduleSimulationReportJob,
 } from "@/lib/services/simulation-report-scheduler";
-import { ensureRegisteredCaseInDb } from "@/lib/cases/ensure-registered-case";
+import {
+  ensureRegisteredCaseInDb,
+  findClinicalCaseForSimulation,
+} from "@/lib/cases/ensure-registered-case";
 import { normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 
 export const runtime = "nodejs";
@@ -131,7 +134,17 @@ export async function POST(req: Request) {
     }
 
     // Materialize registry cases so SessionReport.caseId FK succeeds.
-    await ensureRegisteredCaseInDb(caseId, userId);
+    // Persist the *canonical* ClinicalCase.id (e.g. CARDIO-001), not the
+    // lowercased lookup key — otherwise Postgres FK fails with P2003 and the
+    // client only sees "An unexpected error occurred."
+    const materialized = await ensureRegisteredCaseInDb(caseId, userId);
+    const persistCaseId =
+      materialized?.id ??
+      (await findClinicalCaseForSimulation(caseId))?.id ??
+      null;
+    if (!persistCaseId) {
+      throw new ValidationError("Caso clinico non disponibile per il report.");
+    }
 
     const normalizedReportText = normalizeReportText(
       sanitizeForExternalAI(reportText),
@@ -143,7 +156,7 @@ export async function POST(req: Request) {
     const jobInput = {
       reportId: "" as string,
       userId,
-      caseId,
+      caseId: persistCaseId,
       liveSessionId,
       evaluationChatHistory,
       exams,
@@ -159,7 +172,7 @@ export async function POST(req: Request) {
     const report = await prisma.sessionReport.create({
       data: {
         userId,
-        caseId,
+        caseId: persistCaseId,
         status: "PENDING",
         progress: 10,
         progressMessage: "Inizializzazione report...",
