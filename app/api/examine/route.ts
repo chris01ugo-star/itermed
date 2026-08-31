@@ -24,6 +24,27 @@ const examResultSchema = z.object({
   numericValue: z.number().nullable(),
 });
 
+function asFindingText(value: unknown): string | null {
+  if (value == null) return null;
+  const text = String(value).trim();
+  return text.length > 0 ? text : null;
+}
+
+function districtFinding(
+  physical: Record<string, unknown>,
+  district: string,
+): string | null {
+  const raw = physical.districts;
+  if (!Array.isArray(raw)) return null;
+  for (const entry of raw) {
+    if (!entry || typeof entry !== "object") continue;
+    const row = entry as Record<string, unknown>;
+    if (String(row.district ?? "") !== district) continue;
+    return asFindingText(row.finding);
+  }
+  return null;
+}
+
 function findingFromBaseline(
   baseline: Record<string, unknown> | null | undefined,
   examId: string,
@@ -33,6 +54,8 @@ function findingFromBaseline(
   const thorax = (baseline.thorax ?? {}) as Record<string, unknown>;
   const abdomen = (baseline.abdomen ?? {}) as Record<string, unknown>;
   const neuro = (baseline.neuro ?? {}) as Record<string, unknown>;
+  const physical = (baseline.physicalExam ?? {}) as Record<string, unknown>;
+  const peripheral = (baseline.peripheral ?? {}) as Record<string, unknown>;
 
   let finding: string | null = null;
   let numericValue: number | null = null;
@@ -131,18 +154,49 @@ function findingFromBaseline(
       if (v != null) finding = String(v);
       break;
     }
-    case "general-appearance":
-    case "skin-mucosa":
+    case "general-appearance": {
+      // Only the general district / summary — do not reuse for other manovre.
+      finding =
+        districtFinding(physical, "generale") ??
+        asFindingText(physical.generalAppearance) ??
+        asFindingText(physical.finding) ??
+        asFindingText(physical.summary);
+      break;
+    }
+    case "skin-mucosa": {
+      // Prefer dedicated skin fields; never fall back to the shared general summary
+      // (that made Generale / Cute / CV return the same text).
+      finding =
+        asFindingText(physical.skinMucosa) ??
+        asFindingText(physical.skin) ??
+        asFindingText(physical.mucosa) ??
+        asFindingText(peripheral.skin) ??
+        asFindingText(peripheral.skinMucosa);
+      break;
+    }
     case "cardiovascular": {
-      const physical = (baseline.physicalExam ?? {}) as Record<string, unknown>;
-      const peripheral = (baseline.peripheral ?? {}) as Record<string, unknown>;
-      if (examId === "cardiovascular" && peripheral.finding != null) {
-        finding = String(peripheral.finding);
-      } else if (physical.finding != null) {
-        finding = String(physical.finding);
-      } else if (peripheral.finding != null) {
-        finding = String(peripheral.finding);
-      }
+      const general = districtFinding(physical, "generale");
+      const cardioDistrict = districtFinding(physical, "cardiovascolare");
+      const distinctCardio =
+        cardioDistrict && cardioDistrict !== general ? cardioDistrict : null;
+      const murmur = asFindingText(physical.aorticDiastolicMurmur);
+      const leftPulse = asFindingText(physical.leftRadialPulse);
+      const composedBits = [murmur, leftPulse].filter(Boolean);
+      const composed =
+        composedBits.length > 0
+          ? [
+              murmur ? `Soffio: ${murmur}` : null,
+              leftPulse ? `Polso radiale sx: ${leftPulse}` : null,
+            ]
+              .filter(Boolean)
+              .join(". ")
+          : null;
+
+      finding =
+        distinctCardio ??
+        asFindingText(peripheral.finding) ??
+        composed ??
+        asFindingText(physical.cardiovascular);
       break;
     }
   }
@@ -251,9 +305,10 @@ export async function POST(req: Request) {
 
   const systemPrompt = `
 Sei il corpo del paziente descritto nel prompt seguente. Non sei un medico e non devi formulare diagnosi.
-Il medico sta eseguendo la manovra di esame obiettivo: "${examType}".
+Il medico sta eseguendo SOLO questa manovra di esame obiettivo: "${examType}" (id: ${examId ?? "n/d"}).
+Descrivi esclusivamente i reperti rilevabili con QUESTA manovra — non ripetere un esame obiettivo generale completo se la manovra è distrettuale (cute, cardiovascolare, ecc.).
 Devi restituire SOLO un JSON con i campi:
-- "finding": descrizione testuale breve e realistica del reperto (massimo 15 parole, in italiano).
+- "finding": descrizione testuale breve e realistica del reperto (massimo 20 parole, in italiano).
 - "numericValue": se la manovra corrisponde a un parametro vitale (es. BPM, pressione arteriosa, temperatura, frequenza respiratoria, SpO2) restituisci il numero esatto; altrimenti usa null.
 `.trim();
 
