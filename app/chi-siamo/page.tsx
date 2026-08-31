@@ -22,6 +22,7 @@ const FOUNDERS = [
     photoSrc: "/team/christopher-uguzzoni.png",
     // Already shot in B&W — skip CSS grayscale.
     photoGrayscale: false,
+    linkedInUrl: "https://it.linkedin.com/in/christopher-uguzzoni-a74446249",
     bio: "Fondatore di Aequan. Guida visione di prodotto e standard formativo, con focus su accuratezza clinica e tutela medico-legale.",
   },
   {
@@ -30,6 +31,7 @@ const FOUNDERS = [
     initials: "DB",
     photoSrc: "/team/dario-barbagallo.png",
     photoGrayscale: true,
+    linkedInUrl: "https://it.linkedin.com/in/dario-barbagallo-3ab691240",
     bio: "CTO di Aequan. Responsabile di architettura, piattaforma e intelligenza artificiale: dal motore clinico al prodotto in produzione.",
   },
 ];
@@ -40,6 +42,7 @@ function TeamMember({
   initials,
   photoSrc,
   photoGrayscale = true,
+  linkedInUrl,
   bio,
 }: {
   name: string;
@@ -47,6 +50,7 @@ function TeamMember({
   initials: string;
   photoSrc?: string;
   photoGrayscale?: boolean;
+  linkedInUrl?: string;
   bio: string;
 }) {
   return (
@@ -78,6 +82,16 @@ function TeamMember({
       <p className="mt-2.5 max-w-xs text-[13px] leading-relaxed text-neutral-600 sm:mt-3 sm:text-[14px]">
         {bio}
       </p>
+      {linkedInUrl ? (
+        <a
+          href={linkedInUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-2.5 inline-block text-[12px] font-medium text-neutral-950 underline-offset-4 hover:underline sm:mt-3 sm:text-[13px]"
+        >
+          LinkedIn
+        </a>
+      ) : null}
     </article>
   );
 }
