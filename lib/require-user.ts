@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth-options";
+import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 import { config } from "@/lib/config";
 import { isRuntimeDevelopment } from "@/lib/security/dev-only-gates";
 
@@ -39,13 +40,15 @@ export async function requireAdmin(): Promise<SessionUser> {
   const session = await getServerSession(authOptions);
   const id = session?.user?.id;
   if (!id) redirect("/login?callbackUrl=/dashboard/guidelines");
-  if (session.user.role !== "ADMIN") redirect("/dashboard");
+  const email = session.user.email ?? null;
+  const role = session.user.role ?? "STUDENT";
+  if (!hasUnlimitedCaseAccess({ role, email })) redirect("/dashboard");
 
   return {
     id,
-    email: session.user.email ?? null,
+    email,
     name: session.user.name ?? null,
-    role: session.user.role ?? "STUDENT",
+    role,
   };
 }
 

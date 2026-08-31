@@ -21,6 +21,7 @@ export function forbiddenJson(message = "Forbidden", code = "FORBIDDEN"): Respon
 export type ApiSessionUser = {
   id: string;
   role: string;
+  email?: string | null;
 };
 
 /**
@@ -35,13 +36,17 @@ export async function getSessionUserId(): Promise<string | null> {
 export async function getSessionUser(): Promise<ApiSessionUser | null> {
   if (isDevAuthBypass()) {
     const mock = getDevMockUser();
-    return { id: mock.id, role: mock.role };
+    return { id: mock.id, role: mock.role, email: mock.email };
   }
 
   const session = await getServerSession(authOptions);
   const id = session?.user?.id?.trim();
   if (!session?.user || !id) return null;
-  return { id, role: session.user.role?.trim() || "STUDENT" };
+  return {
+    id,
+    role: session.user.role?.trim() || "STUDENT",
+    email: session.user.email ?? null,
+  };
 }
 
 /**

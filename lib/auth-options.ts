@@ -2,6 +2,7 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { compare } from "bcryptjs";
+import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 import { config } from "@/lib/config";
 import { prisma } from "@/lib/prisma";
 
@@ -117,7 +118,7 @@ export const authOptions: NextAuthOptions = {
         try {
           const dbUser = await prisma.user.findUnique({
             where: { id: userId },
-            select: { role: true },
+            select: { role: true, email: true },
           });
           if (!dbUser) {
             return {};
@@ -125,9 +126,17 @@ export const authOptions: NextAuthOptions = {
           if (dbUser.role) {
             token.role = dbUser.role;
           }
+          if (dbUser.email) {
+            token.email = dbUser.email;
+          }
         } catch {
           // Keep token.role if DB is temporarily unavailable.
         }
+      }
+
+      const tokenEmail = typeof token.email === "string" ? token.email : null;
+      if (hasUnlimitedCaseAccess({ role: token.role as string | undefined, email: tokenEmail })) {
+        token.role = "ADMIN";
       }
 
       return token;

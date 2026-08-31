@@ -5,6 +5,7 @@ import {
   isSubscriptionPlan,
 } from "@/lib/billing/plans";
 import type { UserBillingProfile } from "@/lib/billing/user-billing";
+import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 import { canHonorDailyLimitBypass } from "@/lib/security/dev-only-gates";
 
 /** Patient chat always uses gpt-4o-mini. gpt-4o is reserved for evaluation/RAG. */
@@ -29,7 +30,7 @@ export const ANAMNESIS_COMPLETE_MESSAGE =
   "Anamnesi completata. Hai raccolto tutti gli elementi anamnestici necessari per questo caso: procedi ora con gli esami di laboratorio/strumentali o con la diagnosi finale.";
 
 function isAdmin(profile: UserBillingProfile): boolean {
-  return profile.role === "ADMIN";
+  return hasUnlimitedCaseAccess(profile);
 }
 
 /** Beta / early-access plans must never be blocked from running simulations. */

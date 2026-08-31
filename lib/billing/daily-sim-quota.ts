@@ -1,6 +1,7 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import { DAILY_SIMULATION_LIMIT } from "@/lib/billing/plans";
+import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 import { config, isUsableDatabase } from "@/lib/config";
 import { createLogger } from "@/lib/logger";
 
@@ -61,11 +62,30 @@ export type DailySimulationQuota = {
   limit: number;
   remaining: number;
   exhausted: boolean;
+  unlimited: boolean;
   dayKey: string;
 };
 
-export async function getDailySimulationQuota(userId: string): Promise<DailySimulationQuota> {
+export async function getDailySimulationQuota(
+  userId: string,
+  actor?: { role?: string | null; email?: string | null },
+): Promise<DailySimulationQuota> {
   const used = await countSimulationsStartedToday(userId);
+  const privileged = actor
+    ? hasUnlimitedCaseAccess(actor)
+    : await isUnlimitedCaseUser(userId);
+
+  if (privileged) {
+    return {
+      used,
+      limit: DAILY_SIMULATION_LIMIT,
+      remaining: DAILY_SIMULATION_LIMIT,
+      exhausted: false,
+      unlimited: true,
+      dayKey: romeDayKey(),
+    };
+  }
+
   const limit = DAILY_SIMULATION_LIMIT;
   const remaining = Math.max(0, limit - used);
   return {
@@ -73,6 +93,24 @@ export async function getDailySimulationQuota(userId: string): Promise<DailySimu
     limit,
     remaining,
     exhausted: remaining <= 0,
+    unlimited: false,
     dayKey: romeDayKey(),
   };
+}
+
+async function isUnlimitedCaseUser(userId: string): Promise<boolean> {
+  if (!userId || !isUsableDatabase(config.DATABASE_URL)) return false;
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { role: true, email: true },
+    });
+    return hasUnlimitedCaseAccess(user);
+  } catch (error) {
+    log.warn("user lookup for quota bypass failed; applying standard daily limit", {
+      userId,
+      errorName: error instanceof Error ? error.name : undefined,
+    });
+    return false;
+  }
 }
