@@ -19,7 +19,7 @@ const FOUNDERS = [
     name: "Christopher Uguzzoni",
     role: "CEO",
     initials: "CU",
-    photoSrc: undefined as string | undefined,
+    photoSrc: "/team/christopher-uguzzoni.png",
     bio: "Fondatore di Aequan. Guida visione di prodotto e standard formativo, con focus su accuratezza clinica e tutela medico-legale.",
   },
   {
