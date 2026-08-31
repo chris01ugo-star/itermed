@@ -20,6 +20,8 @@ const FOUNDERS = [
     role: "CEO",
     initials: "CU",
     photoSrc: "/team/christopher-uguzzoni.png",
+    // Already shot in B&W — skip CSS grayscale.
+    photoGrayscale: false,
     bio: "Fondatore di Aequan. Guida visione di prodotto e standard formativo, con focus su accuratezza clinica e tutela medico-legale.",
   },
   {
@@ -27,6 +29,7 @@ const FOUNDERS = [
     role: "CTO",
     initials: "DB",
     photoSrc: "/team/dario-barbagallo.png",
+    photoGrayscale: true,
     bio: "CTO di Aequan. Responsabile di architettura, piattaforma e intelligenza artificiale: dal motore clinico al prodotto in produzione.",
   },
 ];
@@ -36,12 +39,14 @@ function TeamMember({
   role,
   initials,
   photoSrc,
+  photoGrayscale = true,
   bio,
 }: {
   name: string;
   role: string;
   initials: string;
   photoSrc?: string;
+  photoGrayscale?: boolean;
   bio: string;
 }) {
   return (
@@ -52,7 +57,9 @@ function TeamMember({
           <img
             src={photoSrc}
             alt={name}
-            className="absolute inset-0 h-full w-full object-cover object-center grayscale"
+            className={`absolute inset-0 h-full w-full object-cover object-center${
+              photoGrayscale ? " grayscale" : ""
+            }`}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-neutral-300">
