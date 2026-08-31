@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   Activity,
   AlertTriangle,
@@ -35,6 +35,7 @@ import {
   dimensionContributionTrentesimi,
   type EmpathyBehavioralBreakdown,
   type ScoreBreakdown,
+  type ScoreMotivation,
 } from "@/lib/services/evaluation-scoring";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 
@@ -69,6 +70,11 @@ const PILLARS: Array<{
   icon: LucideIcon;
   fallbackIndex: number;
   gradeWeight: number | null;
+  coachKey?: keyof CoachingFeedback;
+  breakdownKey?: keyof Pick<
+    ScoreBreakdown,
+    "clinical" | "legal" | "exams" | "economy" | "empathy"
+  >;
 }> = [
   {
     key: "clinicalAccuracy",
@@ -76,6 +82,8 @@ const PILLARS: Array<{
     icon: Stethoscope,
     fallbackIndex: 0,
     gradeWeight: MACRO_AREA_WEIGHTS.clinicalDiagnostic,
+    coachKey: "accuratezza",
+    breakdownKey: "clinical",
   },
   {
     key: "legalComplianceGelliBianco",
@@ -83,6 +91,8 @@ const PILLARS: Array<{
     icon: Scale,
     fallbackIndex: 1,
     gradeWeight: MACRO_AREA_WEIGHTS.legalCompliance,
+    coachKey: "tutelaLegale",
+    breakdownKey: "legal",
   },
   {
     key: "prescribingAppropriateness",
@@ -90,6 +100,7 @@ const PILLARS: Array<{
     icon: Activity,
     fallbackIndex: 2,
     gradeWeight: MACRO_AREA_WEIGHTS.examAppropriateness,
+    breakdownKey: "exams",
   },
   {
     key: "economicSustainability",
@@ -97,6 +108,8 @@ const PILLARS: Array<{
     icon: Euro,
     fallbackIndex: 3,
     gradeWeight: null,
+    coachKey: "economicita",
+    breakdownKey: "economy",
   },
   {
     key: "empathy",
@@ -104,6 +117,8 @@ const PILLARS: Array<{
     icon: HeartHandshake,
     fallbackIndex: 4,
     gradeWeight: MACRO_AREA_WEIGHTS.empathy,
+    coachKey: "empatia",
+    breakdownKey: "empathy",
   },
 ];
 
@@ -113,6 +128,49 @@ const COACH_ROWS: Array<{ key: keyof CoachingFeedback; label: string }> = [
   { key: "economicita", label: "Economia" },
   { key: "empatia", label: "Empatia" },
 ];
+
+function pickMotivationText(motivations: ScoreMotivation[] | undefined): string | null {
+  if (!motivations?.length) return null;
+  const negative = motivations.find((m) => m.type === "negative" && m.text?.trim());
+  if (negative?.text?.trim()) return negative.text.trim();
+  const any = motivations.find((m) => m.text?.trim());
+  return any?.text?.trim() || null;
+}
+
+function resolvePillarInsight(
+  pillar: (typeof PILLARS)[number],
+  coachingFeedback: CoachingFeedback | undefined,
+  scoreBreakdown: ScoreBreakdown | null | undefined,
+  empathyNote: string | null,
+  legalJustification: string | undefined,
+): string | null {
+  if (pillar.coachKey) {
+    const coach = coachingFeedback?.[pillar.coachKey]?.trim();
+    if (coach) return coach;
+  }
+
+  const slice = pillar.breakdownKey ? scoreBreakdown?.[pillar.breakdownKey] : null;
+  if (slice && "expertAnalysis" in slice) {
+    const expert = (slice as { expertAnalysis?: string }).expertAnalysis?.trim();
+    if (expert) return expert;
+  }
+  if (slice && "qualitativeLabel" in slice) {
+    const label = (slice as { qualitativeLabel?: string }).qualitativeLabel?.trim();
+    if (label) return label;
+  }
+  const fromMotivations = pickMotivationText(
+    slice && "motivations" in slice
+      ? (slice as { motivations?: ScoreMotivation[] }).motivations
+      : undefined,
+  );
+  if (fromMotivations) return fromMotivations;
+
+  if (pillar.key === "empathy" && empathyNote?.trim()) return empathyNote.trim();
+  if (pillar.key === "legalComplianceGelliBianco" && legalJustification?.trim()) {
+    return legalJustification.trim();
+  }
+  return null;
+}
 
 function resolvePillarScore(radarData: RadarDatumWithKey[], pillar: (typeof PILLARS)[number]) {
   const byKey = radarData.find((d) => d.key === pillar.key);
@@ -217,16 +275,19 @@ function Accordion({
   title,
   count,
   children,
-  defaultOpen = false,
+  defaultOpen = true,
 }: {
   title: string;
   count?: number;
   children: ReactNode;
   defaultOpen?: boolean;
 }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
   return (
     <details
-      open={defaultOpen || undefined}
+      open={isOpen}
+      onToggle={(event) => setIsOpen(event.currentTarget.open)}
       className="group overflow-hidden rounded-2xl border border-slate-200/90 bg-white"
     >
       <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3.5 marker:content-none [&::-webkit-details-marker]:hidden sm:px-5">
@@ -386,7 +447,7 @@ export function EliteResultsClient({
             <p className="mt-0.5 text-xs text-slate-500">Pesi sul voto: 30 · 30 · 20 · 20</p>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {PILLARS.map((pillar) => {
             const score = resolvePillarScore(radarData, pillar);
             const contribution =
@@ -394,47 +455,59 @@ export function EliteResultsClient({
                 ? dimensionContributionTrentesimi(score, pillar.gradeWeight)
                 : null;
             const Icon = pillar.icon;
+            const insight = resolvePillarInsight(
+              pillar,
+              coachingFeedback,
+              scoreBreakdown,
+              empathyNote,
+              legalProtectionStatus?.justification,
+            );
             return (
-              <article
-                key={pillar.key}
-                className="rounded-2xl border border-slate-200/90 bg-white p-3.5 shadow-[0_1px_0_rgba(30,50,78,0.04)]"
-              >
-                <div className="mb-3 flex items-center justify-between gap-2">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
-                    <Icon className="h-4 w-4" strokeWidth={1.75} />
-                  </span>
-                  <span className="text-right">
-                    <span className="block font-display text-lg font-semibold tabular-nums leading-none text-[#1E324E]">
-                      {Math.round(score)}
+              <div key={pillar.key} className="flex min-w-0 flex-col gap-2">
+                {insight ? (
+                  <p className="px-0.5 text-[11px] leading-snug text-slate-600 sm:min-h-[2.6rem]">
+                    <span className="font-semibold text-[#345884]">{pillar.label} · </span>
+                    <SafeLlmText as="span" className="whitespace-pre-line">
+                      {insight}
+                    </SafeLlmText>
+                  </p>
+                ) : (
+                  <p className="hidden px-0.5 text-[11px] sm:block sm:min-h-[2.6rem]" aria-hidden>
+                    &nbsp;
+                  </p>
+                )}
+                <article className="flex-1 rounded-2xl border border-slate-200/90 bg-white p-3.5 shadow-[0_1px_0_rgba(30,50,78,0.04)]">
+                  <div className="mb-3 flex items-center justify-between gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
+                      <Icon className="h-4 w-4" strokeWidth={1.75} />
                     </span>
-                    <span className="text-[10px] text-slate-400">/100</span>
-                  </span>
-                </div>
-                <p className="text-[13px] font-semibold text-slate-800">{pillar.label}</p>
-                <p className="mt-0.5 text-[10px] tabular-nums text-slate-400">
-                  {contribution != null ? `${contribution}/30` : "solo radar"}
-                </p>
-                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100">
-                  <div
-                    className="h-full rounded-full bg-[#345884] transition-[width] duration-700 ease-out"
-                    style={{ width: `${score}%` }}
-                    role="progressbar"
-                    aria-valuenow={Math.round(score)}
-                    aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-label={`${pillar.label}: ${Math.round(score)} su 100`}
-                  />
-                </div>
-              </article>
+                    <span className="text-right">
+                      <span className="block font-display text-lg font-semibold tabular-nums leading-none text-[#1E324E]">
+                        {Math.round(score)}
+                      </span>
+                      <span className="text-[10px] text-slate-400">/100</span>
+                    </span>
+                  </div>
+                  <p className="text-[13px] font-semibold text-slate-800">{pillar.label}</p>
+                  <p className="mt-0.5 text-[10px] tabular-nums text-slate-400">
+                    {contribution != null ? `${contribution}/30` : "solo radar"}
+                  </p>
+                  <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100">
+                    <div
+                      className="h-full rounded-full bg-[#345884] transition-[width] duration-700 ease-out"
+                      style={{ width: `${score}%` }}
+                      role="progressbar"
+                      aria-valuenow={Math.round(score)}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-label={`${pillar.label}: ${Math.round(score)} su 100`}
+                    />
+                  </div>
+                </article>
+              </div>
             );
           })}
         </div>
-        {empathyNote ? (
-          <p className="rounded-xl bg-[#EEF2F9]/80 px-3.5 py-2.5 text-xs leading-relaxed text-[#1E324E]/80">
-            <span className="font-semibold text-[#345884]">Empatia · </span>
-            {empathyNote}
-          </p>
-        ) : null}
       </section>
 
       {/* Economy + Legal */}
@@ -523,7 +596,7 @@ export function EliteResultsClient({
         <h2 className="px-0.5 font-display text-base font-semibold text-[#1E324E]">Debrief</h2>
 
         {clinicalDeltaTable.length > 0 ? (
-          <Accordion title="Confronto Gold Standard" count={clinicalDeltaTable.length}>
+          <Accordion title="Confronto Gold Standard" count={clinicalDeltaTable.length} defaultOpen>
             <ul className="space-y-2.5">
               {clinicalDeltaTable.map((row, idx) => {
                 const meta = statusMeta(row.status);
@@ -562,6 +635,7 @@ export function EliteResultsClient({
               economicAnalysis.unnecessaryExpenses.length +
               economicAnalysis.missedRequiredExams.length
             }
+            defaultOpen
           >
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
@@ -609,7 +683,7 @@ export function EliteResultsClient({
         ) : null}
 
         {coachingFeedback ? (
-          <Accordion title="Coaching clinico">
+          <Accordion title="Coaching clinico" defaultOpen>
             <dl className="space-y-3">
               {COACH_ROWS.map(({ key, label }) => {
                 const text = coachingFeedback[key];
@@ -678,7 +752,7 @@ export function EliteResultsClient({
         )}
 
         {correctSolution ? (
-          <Accordion title="Gestione esperta di riferimento">
+          <Accordion title="Gestione esperta di riferimento" defaultOpen>
             <p className="text-sm leading-relaxed text-slate-600">
               <SafeLlmText as="span" className="whitespace-pre-line">
                 {correctSolution}
