@@ -97,13 +97,6 @@ export default function ChiSiamoPage() {
           </Link>
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
             <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 rounded-full border border-neutral-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-neutral-800 transition hover:border-neutral-400 hover:bg-neutral-50 sm:px-3.5 sm:py-2 sm:text-sm"
-            >
-              <ArrowLeft className="h-3.5 w-3.5 shrink-0" strokeWidth={2} />
-              Home
-            </Link>
-            <Link
               href="/login"
               className="hidden px-2 py-1.5 text-sm font-medium text-neutral-600 transition hover:text-neutral-950 sm:inline"
             >
