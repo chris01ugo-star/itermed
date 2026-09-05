@@ -6,6 +6,7 @@ export type CaseExamOverride = {
   urgencyTiming?: string | null;
   routineTiming?: string | null;
   normalFinding?: string | null;
+  finding?: string | null;
   routineMinutes?: number | null;
   value?: number | null;
   isAbnormal?: boolean;

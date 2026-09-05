@@ -75,7 +75,15 @@ export async function getCaseExamOverrides(
     // DB unavailable — legacy only.
   }
 
-  return { ...legacy, ...dbOverrides };
+  const merged: Record<string, CaseExamOverride> = { ...legacy };
+  for (const [examId, dbRow] of Object.entries(dbOverrides)) {
+    const previous = merged[examId];
+    const dbHasText = Boolean(dbRow.normalFinding?.trim()) || dbRow.value != null;
+    merged[examId] = dbHasText
+      ? { ...previous, ...dbRow }
+      : { ...dbRow, ...previous, normalFinding: previous?.normalFinding };
+  }
+  return merged;
 }
 
 function extractLegacyCaseOverrides(

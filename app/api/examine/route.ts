@@ -11,6 +11,10 @@ import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 import { deriveDemoVitals } from "@/lib/prassi/demo-vitals";
 import { formatBloodPressureFinding } from "@/lib/clinical/case-vitals";
+import {
+  derivePhysicalExamFromSummary,
+  type KillipClass,
+} from "@/lib/clinical/physical-exam-from-summary";
 
 const bodySchema = z.object({
   /** Optional: live Prisma session. Offline `registry_*` tokens are ignored. */
@@ -58,6 +62,16 @@ function findingFromBaseline(
   const neuro = (baseline.neuro ?? {}) as Record<string, unknown>;
   const physical = (baseline.physicalExam ?? {}) as Record<string, unknown>;
   const peripheral = (baseline.peripheral ?? {}) as Record<string, unknown>;
+  const killipRaw = physical.killipClass;
+  const derived = derivePhysicalExamFromSummary({
+    summary:
+      asFindingText(physical.summary) ?? asFindingText(physical.finding),
+    killipClass:
+      killipRaw === "I" || killipRaw === "II" || killipRaw === "III" || killipRaw === "IV"
+        ? (killipRaw as KillipClass)
+        : null,
+    heartRate: typeof vitals.heartRate === "number" ? vitals.heartRate : null,
+  });
 
   let finding: string | null = null;
   let numericValue: number | null = null;
@@ -120,28 +134,44 @@ function findingFromBaseline(
       break;
     }
     case "cardiac-auscultation": {
-      const v = thorax.cardiacAuscultation;
-      if (v != null) finding = String(v);
+      finding =
+        asFindingText(thorax.cardiacAuscultation) ??
+        districtFinding(physical, "cardiovascolare") ??
+        derived.cardiovascolare;
+      if (finding && finding === districtFinding(physical, "generale")) {
+        finding = derived.cardiovascolare;
+      }
       break;
     }
     case "lung-auscultation": {
-      const v = thorax.lungAuscultation;
-      if (v != null) finding = String(v);
+      finding =
+        asFindingText(thorax.lungAuscultation) ??
+        districtFinding(physical, "torace_polmonare") ??
+        derived.torace;
+      if (finding && finding === districtFinding(physical, "generale")) {
+        finding = derived.torace;
+      }
       break;
     }
     case "abdomen-inspection": {
-      const v = abdomen.inspection;
-      if (v != null) finding = String(v);
+      finding =
+        asFindingText(abdomen.inspection) ??
+        districtFinding(physical, "addome") ??
+        derived.addomeInspection;
       break;
     }
     case "abdomen-palpation": {
-      const v = abdomen.palpation;
-      if (v != null) finding = String(v);
+      finding =
+        asFindingText(abdomen.palpation) ??
+        districtFinding(physical, "addome") ??
+        derived.addomePalpation;
       break;
     }
     case "abdomen-percussion": {
-      const v = abdomen.percussion;
-      if (v != null) finding = String(v);
+      finding =
+        asFindingText(abdomen.percussion) ??
+        districtFinding(physical, "addome") ??
+        derived.addomePercussion;
       break;
     }
     case "pupils": {
@@ -160,12 +190,15 @@ function findingFromBaseline(
       break;
     }
     case "general-appearance": {
-      // Only the general district / summary — do not reuse for other manovre.
-      finding =
+      const raw =
         districtFinding(physical, "generale") ??
         asFindingText(physical.generalAppearance) ??
         asFindingText(physical.finding) ??
         asFindingText(physical.summary);
+      finding =
+        raw && raw !== derived.addomePalpation && raw !== derived.torace
+          ? raw
+          : derived.generale;
       break;
     }
     case "skin-mucosa": {
@@ -201,7 +234,8 @@ function findingFromBaseline(
         distinctCardio ??
         asFindingText(peripheral.finding) ??
         composed ??
-        asFindingText(physical.cardiovascular);
+        asFindingText(physical.cardiovascular) ??
+        derived.cardiovascolare;
       break;
     }
   }

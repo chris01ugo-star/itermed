@@ -8,7 +8,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test lib/services/d-rime-fsm.test.ts lib/security/dev-only-gates.test.ts lib/security/api-auth-guards.test.ts lib/cases/case-payload.test.ts lib/clinical/case-vitals.test.ts",
+    "test": "tsx --test lib/services/d-rime-fsm.test.ts lib/security/dev-only-gates.test.ts lib/security/api-auth-guards.test.ts lib/cases/case-payload.test.ts lib/clinical/case-vitals.test.ts lib/simulator/exam-finding-text.test.ts lib/clinical/physical-exam-from-summary.test.ts",
     "ci:audit": "tsx scripts/ci-audit-all-cases.ts",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",

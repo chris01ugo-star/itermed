@@ -17,19 +17,13 @@ import type {
   PhysicalExamDistrict,
   PrassiDifficultyLabel,
 } from "@/lib/data/cases/types";
+import { derivePhysicalExamFromSummary } from "@/lib/clinical/physical-exam-from-summary";
 
 const DIFFICULTY_LABEL: Record<ClinicalCase["difficulty"], PrassiDifficultyLabel> = {
   EASY: "facile",
   MEDIUM: "medio",
   HARD: "difficile",
 };
-
-const SPECIALTY_DISTRICT: Record<KnowledgeBaseCase["specialty"], PhysicalExamDistrict["district"]> =
-  {
-    cardiologia: "cardiovascolare",
-    pneumologia: "torace_polmonare",
-    gastroenterologia: "addome",
-  };
 
 const RagSourcesColumnSchema = z.array(KbEscCitationSchema);
 
@@ -131,9 +125,20 @@ export function knowledgeBaseCaseToClinicalCase(kb: KnowledgeBaseCase): Clinical
   const mandatoryExams = kb.mandatoryExams.map(toMandatoryExam);
   const inappropriateExams = kb.inappropriateExams.map(toInappropriateExam);
   const physicalSummary = kb.physicalExam.summary;
+  const derivedPhysical = derivePhysicalExamFromSummary({
+    summary: physicalSummary,
+    killipClass: kb.physicalExam.killipClass,
+    heartRate:
+      typeof kb.baselineExamFindings.vitals?.heartRate === "number"
+        ? kb.baselineExamFindings.vitals.heartRate
+        : null,
+    context: `${kb.title} ${kb.description} ${kb.presentation}`,
+  });
   const districts: PhysicalExamDistrict[] = [
-    { district: "generale", finding: physicalSummary },
-    { district: SPECIALTY_DISTRICT[kb.specialty], finding: physicalSummary },
+    { district: "generale", finding: derivedPhysical.generale },
+    { district: "cardiovascolare", finding: derivedPhysical.cardiovascolare },
+    { district: "torace_polmonare", finding: derivedPhysical.torace },
+    { district: "addome", finding: derivedPhysical.addomePalpation },
   ];
   const patientPrompt = kb.patientPrompt?.trim() || kb.presentation;
   const correctSolution = kb.correctSolution?.trim() || kb.diagnosis;
@@ -192,6 +197,15 @@ export function knowledgeBaseCaseToClinicalCase(kb: KnowledgeBaseCase): Clinical
         summary: physicalSummary,
         finding: physicalSummary,
         districts,
+      },
+      thorax: {
+        cardiacAuscultation: derivedPhysical.cardiovascolare,
+        lungAuscultation: derivedPhysical.torace,
+      },
+      abdomen: {
+        inspection: derivedPhysical.addomeInspection,
+        palpation: derivedPhysical.addomePalpation,
+        percussion: derivedPhysical.addomePercussion,
       },
       mandatoryExams,
       inappropriateExams,

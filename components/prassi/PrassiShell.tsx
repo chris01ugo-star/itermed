@@ -169,7 +169,7 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
   );
 
   return (
-    <div className="mx-auto flex h-full min-h-0 w-full max-w-7xl flex-col gap-5 overflow-y-auto p-6 md:p-8">
+    <div className="mx-auto flex min-h-full w-full max-w-7xl flex-col gap-5 p-6 md:p-8">
       <header className="flex shrink-0 flex-wrap items-end justify-between gap-4">
         <div className="min-w-0 space-y-1.5">
           <div className="inline-flex items-center gap-2 text-[#345884]">
@@ -229,7 +229,7 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
         </div>
       ) : null}
 
-      <div className="min-h-0 flex-1 rounded-xl border border-border bg-panel-bg p-4 shadow-aequan-panel sm:p-5 md:p-6">
+      <div className="w-full rounded-xl border border-border bg-panel-bg p-4 shadow-aequan-panel sm:p-5 md:p-6">
         {activeBucket ? (
           <div className="space-y-4">
             <div className="flex flex-wrap items-center gap-3">
