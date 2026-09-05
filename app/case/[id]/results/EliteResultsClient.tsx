@@ -325,23 +325,11 @@ function Accordion({
 function statusMeta(status: ClinicalDeltaRow["status"]) {
   switch (status) {
     case "MET":
-      return {
-        label: "Allineato",
-        className:
-          "border-[color-mix(in_srgb,var(--aequan-status-safe)_30%,white)] bg-[color-mix(in_srgb,var(--aequan-status-safe)_12%,white)] text-[var(--aequan-status-safe)]",
-      };
+      return { label: "Allineato", className: STATUS_WASH.safe };
     case "DELAYED":
-      return {
-        label: "Ritardato",
-        className:
-          "border-[color-mix(in_srgb,var(--aequan-status-warn)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-warn)_10%,white)] text-[var(--aequan-status-warn)]",
-      };
+      return { label: "Ritardato", className: STATUS_WASH.warn };
     default:
-      return {
-        label: "Mancato",
-        className:
-          "border-[color-mix(in_srgb,var(--aequan-status-risk)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-risk)_10%,white)] text-[var(--aequan-status-risk)]",
-      };
+      return { label: "Mancato", className: STATUS_WASH.risk };
   }
 }
 
