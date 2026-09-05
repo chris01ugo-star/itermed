@@ -182,11 +182,9 @@ function resolvePillarScore(radarData: RadarDatumWithKey[], pillar: (typeof PILL
 
 const STATUS_WASH = {
   safe:
-    "border-[color-mix(in_srgb,var(--aequan-status-safe)_30%,white)] bg-[color-mix(in_srgb,var(--aequan-status-safe)_12%,white)] text-[var(--aequan-status-safe)]",
-  warn:
-    "border-[color-mix(in_srgb,var(--aequan-status-warn)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-warn)_10%,white)] text-[var(--aequan-status-warn)]",
-  risk:
-    "border-[color-mix(in_srgb,var(--aequan-status-risk)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-risk)_10%,white)] text-[var(--aequan-status-risk)]",
+    "border-[color-mix(in_srgb,var(--aequan-status-safe)_30%,white)] bg-[color-mix(in_srgb,var(--aequan-brand-secondary)_12%,white)] text-[var(--aequan-status-safe)]",
+  warn: "border-[#FFE08A] bg-[#FFF8E1] text-[#D97706]",
+  risk: "border-[#FFC0CD] bg-[#FFEBEF] text-[#E11D48]",
   brand:
     "border-[color-mix(in_srgb,var(--aequan-brand-primary)_30%,white)] bg-[color-mix(in_srgb,var(--aequan-brand-primary)_10%,white)] text-[var(--aequan-brand-primary)]",
 } as const;
@@ -197,9 +195,9 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
       label: "Interrotto",
       detail: "Simulazione interrotta dall'utente prima del completamento.",
       tone: "warn" as const,
-      scoreClass: "text-[var(--aequan-status-warn)]",
+      scoreClass: "text-[#D97706]",
       badgeClass: STATUS_WASH.warn,
-      barClass: "bg-[color-mix(in_srgb,var(--aequan-status-warn)_45%,white)]",
+      barClass: "bg-[#FFE08A]",
     };
   }
   if (killer || score < CLINICAL_PASS_TRENTESIMI) {
@@ -207,9 +205,9 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
       label: "Non sufficiente",
       detail: "Sotto la soglia di idoneità clinica (18/30).",
       tone: "risk" as const,
-      scoreClass: "text-[var(--aequan-status-risk)]",
+      scoreClass: "text-[#E11D48]",
       badgeClass: STATUS_WASH.risk,
-      barClass: "bg-[color-mix(in_srgb,var(--aequan-status-risk)_45%,white)]",
+      barClass: "bg-[#FFC0CD]",
     };
   }
   if (score < 22) {
@@ -246,14 +244,14 @@ function pillarFlag(score: number) {
   if (score < 50) {
     return {
       label: "Critico",
-      tone: "text-[var(--aequan-status-risk)]",
+      tone: "text-[#E11D48]",
       badge: STATUS_WASH.risk,
     };
   }
   if (score < 70) {
     return {
       label: "Alterato",
-      tone: "text-[var(--aequan-status-warn)]",
+      tone: "text-[#D97706]",
       badge: STATUS_WASH.warn,
     };
   }
@@ -532,7 +530,7 @@ export function EliteResultsClient({
             <div className={cn("h-full", verdict.barClass)} style={{ width: `${barPct}%` }} />
           </div>
           {dismissed ? (
-            <p className="mt-3 inline-flex items-center gap-2 border border-[color-mix(in_srgb,var(--aequan-status-warn)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-warn)_10%,white)] px-3 py-1.5 text-[11px] font-semibold text-[var(--aequan-status-warn)]">
+            <p className={cn("mt-3 inline-flex items-center gap-2 border px-3 py-1.5 text-[11px] font-semibold", STATUS_WASH.warn)}>
               <AlertTriangle className="h-3.5 w-3.5" />
               Simulazione interrotta dall&apos;utente prima del completamento
             </p>
@@ -540,14 +538,14 @@ export function EliteResultsClient({
         </section>
 
         {showKillerSwitchBanner ? (
-          <section className="border-b border-[color-mix(in_srgb,var(--aequan-status-risk)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-risk)_10%,white)] px-5 py-4 sm:px-7">
+          <section className="border-b border-[#FFC0CD] bg-[#FFEBEF] px-5 py-4 sm:px-7">
             <div className="flex items-start gap-2.5">
-              <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-[var(--aequan-status-risk)]" />
+              <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#E11D48]" />
               <div className="min-w-0 space-y-1.5">
-                <p className="text-xs font-extrabold uppercase tracking-wider text-[var(--aequan-status-risk)]">
+                <p className="text-xs font-extrabold uppercase tracking-wider text-[#E11D48]">
                   Valore critico · Bocciatura d&apos;ufficio · tetto {killerCap}/30
                 </p>
-                <p className="text-xs leading-relaxed text-[var(--aequan-status-risk)]">
+                <p className="text-xs leading-relaxed text-[#E11D48]">
                   Rilevati errori clinici o legali fatali.
                   {killerSwitch?.applied &&
                   typeof killerSwitch.rawTotalTrentesimi === "number" &&
@@ -558,7 +556,7 @@ export function EliteResultsClient({
                 {fatalErrors.length > 0 ? (
                   <ul className="space-y-1 pt-1">
                     {fatalErrors.map((error) => (
-                      <li key={error.code} className="text-xs leading-relaxed text-[var(--aequan-status-risk)]">
+                      <li key={error.code} className="text-xs leading-relaxed text-[#E11D48]">
                         · {error.description}
                       </li>
                     ))}
@@ -678,7 +676,7 @@ export function EliteResultsClient({
                         <p
                           className={cn(
                             "font-display text-2xl font-semibold tabular-nums",
-                            overspend > 0 ? "text-[var(--aequan-status-risk)]" : "text-[var(--aequan-brand-primary)]",
+                            overspend > 0 ? "text-[#E11D48]" : "text-[var(--aequan-brand-primary)]",
                           )}
                         >
                           €{economicAnalysis.actualSpent.toFixed(0)}
@@ -688,7 +686,7 @@ export function EliteResultsClient({
                         </p>
                         <div className="mt-2 h-1.5 overflow-hidden bg-[var(--aequan-border)]">
                           <div
-                            className={cn("h-full", overspend > 0 ? "bg-[var(--aequan-status-risk)]" : "bg-[var(--aequan-brand-primary)]")}
+                            className={cn("h-full", overspend > 0 ? "bg-[#FFC0CD]" : "bg-[var(--aequan-brand-primary)]")}
                             style={{ width: `${budgetRatio}%` }}
                           />
                         </div>
@@ -797,17 +795,17 @@ export function EliteResultsClient({
               >
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <p className="text-[11px] font-bold uppercase tracking-wide text-[var(--aequan-status-risk)]">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-[#E11D48]">
                       Superflue
                     </p>
                     {economicAnalysis.unnecessaryExpenses.length === 0 ? (
                       <p className="text-xs text-[var(--aequan-text-secondary)]">Nessuna.</p>
                     ) : (
                       economicAnalysis.unnecessaryExpenses.map((item, i) => (
-                        <div key={i} className="border border-[color-mix(in_srgb,var(--aequan-status-risk)_30%,white)] bg-[color-mix(in_srgb,var(--aequan-status-risk)_10%,white)] px-3 py-2.5">
+                        <div key={i} className="border border-[#FFC0CD] bg-[#FFEBEF] px-3 py-2.5">
                           <div className="flex justify-between gap-2 text-[13px]">
                             <span className="font-medium text-[var(--aequan-brand-primary)]">{item.examName}</span>
-                            <span className="font-semibold tabular-nums text-[var(--aequan-status-risk)]">
+                            <span className="font-semibold tabular-nums text-[#E11D48]">
                               €{item.cost.toFixed(0)}
                             </span>
                           </div>
@@ -817,17 +815,17 @@ export function EliteResultsClient({
                     )}
                   </div>
                   <div className="space-y-2">
-                    <p className="text-[11px] font-bold uppercase tracking-wide text-[var(--aequan-status-warn)]">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-[#D97706]">
                       Mancati
                     </p>
                     {economicAnalysis.missedRequiredExams.length === 0 ? (
                       <p className="text-xs text-[var(--aequan-text-secondary)]">Nessuno.</p>
                     ) : (
                       economicAnalysis.missedRequiredExams.map((item, i) => (
-                        <div key={i} className="border border-[color-mix(in_srgb,var(--aequan-status-warn)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-warn)_10%,white)] px-3 py-2.5">
+                        <div key={i} className="border border-[#FFE08A] bg-[#FFF8E1] px-3 py-2.5">
                           <div className="flex justify-between gap-2 text-[13px]">
                             <span className="font-medium text-[var(--aequan-brand-primary)]">{item.examName}</span>
-                            <span className="font-semibold tabular-nums text-[var(--aequan-status-warn)]">
+                            <span className="font-semibold tabular-nums text-[#D97706]">
                               €{item.cost.toFixed(0)}
                             </span>
                           </div>
@@ -889,8 +887,8 @@ export function EliteResultsClient({
                       </ul>
                     )}
                   </div>
-                  <div className="border border-[color-mix(in_srgb,var(--aequan-status-warn)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-warn)_10%,white)] p-3.5">
-                    <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-[var(--aequan-status-warn)]">
+                  <div className="border border-[#FFE08A] bg-[#FFF8E1] p-3.5">
+                    <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-[#D97706]">
                       Miglioramenti
                     </p>
                     {weaknesses.length === 0 ? (

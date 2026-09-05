@@ -40,6 +40,16 @@ export const PRASSI_TONE = {
   sand: PRASSI_PASTELS[6],
 } as const;
 
+/** Simulator chrome: Termina caso (blush) + vital BORDERLINE/TACHIPNEA (peach + amber-600). */
+export const PRASSI_STATUS = {
+  warn: {
+    fill: PRASSI_TONE.peach.fill,
+    border: PRASSI_TONE.peach.border,
+    accent: "#D97706",
+  },
+  risk: PRASSI_TONE.blush,
+} as const;
+
 export function prassiPastel(index: number): PrassiPastel {
   return PRASSI_PASTELS[Math.abs(index) % PRASSI_PASTELS.length];
 }
