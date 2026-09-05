@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 import {
   detectEcgAction,
   detectOxygenSupport,
+  formatBloodPressureFinding,
   goldPathProgress,
   parseBaselineVitals,
   resolveMonitorVitals,
@@ -80,5 +81,24 @@ describe("case-vitals", () => {
     assert.equal(detectOxygenSupport(["ossigenoterapia", "ecg"]), true);
     assert.equal(detectEcgAction(["troponina", "ecg"]), true);
     assert.equal(goldPathProgress(["ecg", "troponina"], ["ecg"]), 0.5);
+  });
+
+  it("formats NIBP from baseline including arm asymmetry", () => {
+    const simple = formatBloodPressureFinding({
+      vitals: { bloodPressure: "130 / 80" },
+    });
+    assert.equal(simple?.finding, "Pressione arteriosa 130/80 mmHg");
+
+    const asymmetric = formatBloodPressureFinding({
+      vitals: {
+        bloodPressure: "170/95 (Dx) · 125/70 (Sx)",
+        bloodPressureRight: "170/95",
+        bloodPressureLeft: "125/70",
+      },
+    });
+    assert.equal(
+      asymmetric?.finding,
+      "Pressione arteriosa Dx 170/95 mmHg · Sx 125/70 mmHg",
+    );
   });
 });

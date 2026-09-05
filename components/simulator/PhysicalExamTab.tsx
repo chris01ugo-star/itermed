@@ -38,6 +38,7 @@ type PhysicalExamTabProps = {
   caseId?: string;
   resolveSessionId?: () => Promise<string | null>;
   onExamResult?: (payload: { id: string; label: string; result: ExamResult }) => void;
+  disabled?: boolean;
 };
 
 type ExamItem = { id: string; label: string };
@@ -56,10 +57,11 @@ const SECTIONS: ExamSection[] = [
   {
     id: "general",
     title: "Generale",
-    description: "Aspetto, cute, cardiovascolare",
+    description: "Pressione, aspetto, cute, cardiovascolare",
     Icon: UserRound,
     tone: "bg-sky-50 text-sky-600",
     exams: [
+      { id: "blood-pressure", label: "Pressione arteriosa" },
       { id: "general-appearance", label: "Esame obiettivo generale" },
       { id: "skin-mucosa", label: "Cute e mucose" },
       { id: "cardiovascular", label: "Apparato cardiovascolare" },
@@ -115,13 +117,14 @@ export function PhysicalExamTab({
   caseId,
   resolveSessionId,
   onExamResult,
+  disabled = false,
 }: PhysicalExamTabProps) {
   const [exams, setExams] = useState<Record<string, ExamState>>({});
   const [activeSection, setActiveSection] = useState<ExamSection | null>(null);
   const [query, setQuery] = useState("");
 
   const runExam = async (id: string, label: string) => {
-    if (exams[id]?.loading) return;
+    if (disabled || exams[id]?.loading) return;
 
     setExams((prev) => ({
       ...prev,
@@ -200,8 +203,8 @@ export function PhysicalExamTab({
   return (
     <div className="space-y-2.5">
       <p className="text-xs leading-relaxed text-slate-500">
-        I vitali sono sul monitor. Qui registri i reperti sistemici — apri una sezione per
-        eseguire le manovre.
+        Misura la pressione dal riquadro PA del monitor o da Generale. Le altre sezioni
+        registrano i reperti sistemici.
       </p>
 
       <div className="grid auto-rows-fr grid-cols-1 gap-2 sm:grid-cols-2">
@@ -212,11 +215,13 @@ export function PhysicalExamTab({
             <button
               key={section.id}
               type="button"
+              disabled={disabled}
               onClick={() => {
+                if (disabled) return;
                 setQuery("");
                 setActiveSection(section);
               }}
-              className="group flex h-full min-h-[4.75rem] items-center gap-3 rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-left shadow-sm transition hover:border-[#345884]/35 hover:bg-slate-50/60"
+              className="group flex h-full min-h-[4.75rem] items-center gap-3 rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-left shadow-sm transition hover:border-[#345884]/35 hover:bg-slate-50/60 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <span
                 className={cn(
@@ -300,7 +305,7 @@ export function PhysicalExamTab({
                       <p className="text-sm font-medium text-slate-900">{item.label}</p>
                       <button
                         type="button"
-                        disabled={loading}
+                        disabled={loading || disabled}
                         onClick={() => runExam(item.id, item.label)}
                         className={cn(
                           "inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition",

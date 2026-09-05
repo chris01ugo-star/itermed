@@ -92,6 +92,52 @@ export function parseBaselineVitals(
   };
 }
 
+/** NIBP finding from case baseline — never invents a value when no vitals exist. */
+export function formatBloodPressureFinding(
+  baseline: Record<string, unknown> | null | undefined,
+): { finding: string; numericValue: number | null } | null {
+  if (!baseline || typeof baseline !== "object") return null;
+  const vitals = (baseline.vitals ?? {}) as Record<string, unknown>;
+  const right = asFindingish(vitals.bloodPressureRight);
+  const left = asFindingish(vitals.bloodPressureLeft);
+  if (right && left && right !== left) {
+    return {
+      finding: `Pressione arteriosa Dx ${right} mmHg · Sx ${left} mmHg`,
+      numericValue: null,
+    };
+  }
+
+  const raw = vitals.bloodPressure ?? vitals.bp;
+  if (raw != null) {
+    const text = String(raw).trim();
+    if (!text) {
+      /* fall through */
+    } else if (/^\d{2,3}\s*\/\s*\d{2,3}/.test(text)) {
+      return {
+        finding: `Pressione arteriosa ${text.replace(/\s+/g, "")} mmHg`,
+        numericValue: null,
+      };
+    } else if (/^pressione/i.test(text)) {
+      return { finding: text, numericValue: null };
+    } else {
+      return { finding: `Pressione arteriosa ${text}`, numericValue: null };
+    }
+  }
+
+  const parsed = parseBaselineVitals(baseline);
+  if (!parsed?.bp) return null;
+  return {
+    finding: `Pressione arteriosa ${parsed.bp} mmHg`,
+    numericValue: null,
+  };
+}
+
+function asFindingish(value: unknown): string | null {
+  if (value == null) return null;
+  const text = String(value).trim();
+  return text.length > 0 ? text : null;
+}
+
 export function isTimeDependentCase(caseContext?: string, specialty?: string | null): boolean {
   return TIME_DEPENDENT_PATTERN.test(`${caseContext ?? ""} ${specialty ?? ""}`);
 }

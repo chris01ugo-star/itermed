@@ -438,6 +438,7 @@ export function SimulatorClient({
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   /** User-triggered pause ("Interruzione") — freezes clocks without ending the session. */
   const [isPaused, setIsPaused] = useState(false);
+  const [bpMeasured, setBpMeasured] = useState(false);
   const effectiveSessionIdRef = useRef(effectiveSessionId);
   const sessionStartPromiseRef = useRef<Promise<string | null> | null>(null);
   const examIdsChargedForStressRef = useRef<Set<string>>(new Set());
@@ -596,8 +597,11 @@ export function SimulatorClient({
   );
 
   const vitalSignsForChat = useMemo(
-    () => formatMonitorVitalsLine(monitorVitals),
-    [monitorVitals],
+    () =>
+      bpMeasured
+        ? formatMonitorVitalsLine(monitorVitals)
+        : `FC ${monitorVitals.hr}; PA non misurata; SpO₂ ${monitorVitals.spo2}%; T ${monitorVitals.temp} °C; FR ${monitorVitals.rr}`,
+    [bpMeasured, monitorVitals],
   );
 
   const abnormalExamsForChat = useMemo(
@@ -719,6 +723,7 @@ export function SimulatorClient({
   }, [initialCaseData.id]);
 
   const openHelpConsult = useCallback(() => {
+    if (isPaused) return;
     markUserActivity();
     const nextCount = helpRequestCountRef.current + 1;
     helpRequestCountRef.current = nextCount;
@@ -742,10 +747,11 @@ export function SimulatorClient({
         // Telemetry best-effort — never block the help dialog.
       }
     })();
-  }, [ensureSessionId, markUserActivity]);
+  }, [isPaused, ensureSessionId, markUserActivity]);
 
   const requestInformedConsent = useCallback(() => {
     console.log("[DEBUG CLICK] consenso-informato", initialCaseData.id);
+    if (isPaused) return;
     markUserActivity();
     if (consentRequested || isConsentBusy) return;
     setIsConsentBusy(true);
@@ -799,6 +805,7 @@ export function SimulatorClient({
     ensureSessionId,
     initialCaseData.id,
     isConsentBusy,
+    isPaused,
     markUserActivity,
     setMessages,
   ]);
@@ -861,6 +868,7 @@ export function SimulatorClient({
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isPaused) return;
     const trimmed = input.trim();
     if (!trimmed || isChatLoading) return;
 
@@ -1091,6 +1099,8 @@ export function SimulatorClient({
     label: string;
     result: { finding: string; numericValue: number | null };
   }) => {
+    if (isPaused) return;
+    if (payload.id === "blood-pressure") setBpMeasured(true);
     setExamFindings((prev) => ({
       ...prev,
       [payload.id]: {
@@ -1105,7 +1115,20 @@ export function SimulatorClient({
     advanceClock(1);
   };
 
+  const measureBloodPressureFromMonitor = () => {
+    if (isPaused || bpMeasured) return;
+    handleExamFinding({
+      id: "blood-pressure",
+      label: "Pressione arteriosa",
+      result: {
+        finding: `Pressione arteriosa ${monitorVitals.bp} mmHg`,
+        numericValue: null,
+      },
+    });
+  };
+
   const toggleExam = (examId: string) => {
+    if (isPaused) return;
     markUserActivity();
     setSelectedExamIds((current) => {
       if (current.includes(examId)) {
@@ -1543,7 +1566,7 @@ export function SimulatorClient({
             </div>
           </header>
         ) : null}
-        {embedded && isPaused ? (
+        {isPaused ? (
           <div
             className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium"
             style={{
@@ -1552,7 +1575,7 @@ export function SimulatorClient({
             }}
           >
             <Pause className="h-4 w-4" strokeWidth={1.75} />
-            Simulazione in pausa — i timer sono fermi. Premi &quot;Riprendi&quot; per continuare.
+            Simulazione in pausa — chat, esami e consulto sono bloccati. Premi &quot;Riprendi&quot; per continuare.
           </div>
         ) : null}
 
@@ -1564,6 +1587,9 @@ export function SimulatorClient({
               age={patient.age}
               sex={patient.sex}
               vitals={monitorVitals}
+              bpMeasured={bpMeasured}
+              onMeasureBp={measureBloodPressureFromMonitor}
+              measureDisabled={isPaused}
               className="w-full shrink-0 overflow-x-hidden rounded-xl shadow-md"
             />
             <header className="flex w-full items-center justify-between gap-4 overflow-x-hidden px-0.5">
@@ -1589,9 +1615,10 @@ export function SimulatorClient({
                 <button
                   type="button"
                   onClick={openHelpConsult}
+                  disabled={isPaused}
                   aria-label="Aiuto / Richiesta consulto"
-                  title="Aiuto / Richiesta consulto"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-[#345884]/30 bg-[#EEF2F9] px-2.5 py-2 text-xs font-medium text-[#345884] shadow-sm transition hover:bg-[#345884] hover:text-white"
+                  title={isPaused ? "Simulazione in pausa" : "Aiuto / Richiesta consulto"}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-[#345884]/30 bg-[#EEF2F9] px-2.5 py-2 text-xs font-medium text-[#345884] shadow-sm transition hover:bg-[#345884] hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <HelpCircle className="h-4 w-4" strokeWidth={1.75} />
                   <span className="hidden sm:inline">Aiuto</span>
@@ -1609,8 +1636,8 @@ export function SimulatorClient({
         <div
           className={
             embedded
-              ? "grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 gap-2.5 overflow-hidden lg:grid-cols-[minmax(0,1.45fr)_minmax(13rem,0.7fr)_minmax(17rem,1fr)] lg:grid-rows-[auto_minmax(0,1fr)] lg:items-stretch"
-              : "grid w-full min-w-0 grid-cols-1 gap-6 overflow-x-hidden lg:grid-cols-12 lg:items-start"
+              ? `grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 gap-2.5 overflow-hidden lg:grid-cols-[minmax(0,1.45fr)_minmax(13rem,0.7fr)_minmax(17rem,1fr)] lg:grid-rows-[auto_minmax(0,1fr)] lg:items-stretch${isPaused ? " pointer-events-none select-none opacity-60" : ""}`
+              : `grid w-full min-w-0 grid-cols-1 gap-6 overflow-x-hidden lg:grid-cols-12 lg:items-start${isPaused ? " pointer-events-none select-none opacity-60" : ""}`
           }
         >
           {embedded ? (
@@ -1632,8 +1659,11 @@ export function SimulatorClient({
                   </p>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
-                  {maxVitalStatus(classifyVitals(monitorVitals).map((v) => v.status)) !==
-                  "stable" ? (
+                  {maxVitalStatus(
+                    classifyVitals(monitorVitals)
+                      .filter((v) => bpMeasured || v.id !== "bp")
+                      .map((v) => v.status),
+                  ) !== "stable" ? (
                     <span className="inline-flex items-center gap-1.5 rounded-md border border-red-500/40 bg-red-500/10 px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-wider text-red-600">
                       <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
                       Instabile
@@ -1647,9 +1677,10 @@ export function SimulatorClient({
                   <button
                     type="button"
                     onClick={openHelpConsult}
+                    disabled={isPaused}
                     aria-label="Aiuto / Richiesta consulto"
-                    title="Aiuto / Richiesta consulto"
-                    className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/30 bg-[#EEF2F9] px-2.5 py-1.5 text-[11px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white"
+                    title={isPaused ? "Simulazione in pausa" : "Aiuto / Richiesta consulto"}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/30 bg-[#EEF2F9] px-2.5 py-1.5 text-[11px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
                     Aiuto
@@ -1664,6 +1695,9 @@ export function SimulatorClient({
                 sex={patient.sex}
                 vitals={monitorVitals}
                 showHeader={false}
+                bpMeasured={bpMeasured}
+                onMeasureBp={measureBloodPressureFromMonitor}
+                measureDisabled={isPaused}
                 className="w-full shrink-0"
               />
             </div>
@@ -1705,6 +1739,7 @@ export function SimulatorClient({
                     consentBusy={isConsentBusy}
                     compact
                     fill
+                    disabled={isPaused}
                   />
                 </div>
               </div>
@@ -1826,6 +1861,7 @@ export function SimulatorClient({
                       consentRequested={consentRequested}
                       consentBusy={isConsentBusy}
                       compact={embedded}
+                      disabled={isPaused}
                     />
                   </TabsContent>
                   <TabsContent value="exam" currentValue={activeTab} className="mt-3 w-full min-w-0">
@@ -1835,6 +1871,7 @@ export function SimulatorClient({
                       patientPrompt={initialCaseData.patientPrompt}
                       caseId={initialCaseData.id}
                       onExamResult={handleExamFinding}
+                      disabled={isPaused}
                     />
                   </TabsContent>
                   <TabsContent value="labs" currentValue={activeTab} className="mt-3 w-full min-w-0">
@@ -1845,6 +1882,7 @@ export function SimulatorClient({
                       examCatalog={examCatalog}
                       examMacroCatalog={examMacroCatalog}
                       macroFilter={["lab"]}
+                      disabled={isPaused}
                     />
                   </TabsContent>
                   <TabsContent value="imaging" currentValue={activeTab} className="mt-3 w-full min-w-0">
@@ -1855,6 +1893,7 @@ export function SimulatorClient({
                       examCatalog={examCatalog}
                       examMacroCatalog={examMacroCatalog}
                       macroFilter={["img", "strum", "endo"]}
+                      disabled={isPaused}
                     />
                   </TabsContent>
                 </Tabs>
@@ -2000,6 +2039,7 @@ export function SimulatorClient({
                             patientPrompt={initialCaseData.patientPrompt}
                             caseId={initialCaseData.id}
                             onExamResult={handleExamFinding}
+                            disabled={isPaused}
                           />
                         </TabsContent>
                         <TabsContent value="labs" currentValue={activeTab} className="mt-0">
@@ -2010,6 +2050,7 @@ export function SimulatorClient({
                             examCatalog={examCatalog}
                             examMacroCatalog={examMacroCatalog}
                             macroFilter={["lab"]}
+                            disabled={isPaused}
                           />
                         </TabsContent>
                         <TabsContent value="imaging" currentValue={activeTab} className="mt-0">
@@ -2020,15 +2061,17 @@ export function SimulatorClient({
                             examCatalog={examCatalog}
                             examMacroCatalog={examMacroCatalog}
                             macroFilter={["img", "strum", "endo"]}
+                            disabled={isPaused}
                           />
                         </TabsContent>
                         <TabsContent value="notes" currentValue={activeTab} className="mt-0">
                           <Textarea
                             rows={6}
                             value={sessionNotes}
+                            disabled={isPaused}
                             onChange={(e) => setSessionNotes(e.target.value)}
                             placeholder="Appunti personali sulla sessione (non salvati nel referto)…"
-                            className="rounded-xl border-slate-200 text-sm shadow-none focus:border-[#345884] focus:ring-2 focus:ring-[#345884]/20"
+                            className="rounded-xl border-slate-200 text-sm shadow-none focus:border-[#345884] focus:ring-2 focus:ring-[#345884]/20 disabled:cursor-not-allowed disabled:opacity-60"
                           />
                         </TabsContent>
                       </Tabs>
@@ -2390,9 +2433,10 @@ export function SimulatorClient({
               <button
                 type="button"
                 onClick={openHelpConsult}
+                disabled={isPaused}
                 aria-label="Aiuto / Richiesta consulto"
-                title="Aiuto / Richiesta consulto"
-                className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/25 bg-[#EEF2F9] px-2.5 py-1 text-[12px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white"
+                title={isPaused ? "Simulazione in pausa" : "Aiuto / Richiesta consulto"}
+                className="inline-flex items-center gap-1.5 rounded-md border border-[#345884]/25 bg-[#EEF2F9] px-2.5 py-1 text-[12px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
                 Aiuto
@@ -2896,6 +2940,7 @@ type HistoryChatProps = {
   compact?: boolean;
   /** Stretch to fill the parent container height instead of a fixed px height. */
   fill?: boolean;
+  disabled?: boolean;
 };
 
 function HistoryChat({
@@ -2911,6 +2956,7 @@ function HistoryChat({
   consentBusy = false,
   compact = false,
   fill = false,
+  disabled = false,
 }: HistoryChatProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -3048,7 +3094,7 @@ function HistoryChat({
                 variant="outline"
                 className="shrink-0 border-rose-300 bg-white text-xs text-rose-900 hover:bg-rose-100"
                 onClick={onRetryChat}
-                disabled={isLoading}
+                disabled={isLoading || disabled}
               >
                 Riprova invio
               </Button>
@@ -3060,7 +3106,7 @@ function HistoryChat({
             <button
               type="button"
               onClick={onRequestConsent}
-              disabled={isLoading || consentBusy || consentRequested}
+              disabled={isLoading || consentBusy || consentRequested || disabled}
               aria-label="Richiesta Modulo Consenso Informato"
               title="Spiega rischi/benefici e acquisisci il consenso prima di procedure invasive"
               className={cn(
@@ -3082,20 +3128,21 @@ function HistoryChat({
           <Textarea
             className="min-h-[2.25rem] flex-1 resize-none border-0 bg-transparent p-1.5 text-xs text-slate-800 shadow-none outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
             rows={2}
-            placeholder="Scrivi la domanda al paziente…"
+            placeholder={disabled ? "Simulazione in pausa" : "Scrivi la domanda al paziente…"}
             value={input}
+            disabled={disabled}
             onChange={onInputChange}
             onKeyDown={(event) =>
               handleTextareaEnterSubmit(event, {
                 getValue: () => input,
-                isDisabled: isLoading,
+                isDisabled: isLoading || disabled,
                 onSubmit: () => formRef.current?.requestSubmit(),
               })
             }
           />
           <button
             type="submit"
-            disabled={isLoading || !input.trim()}
+            disabled={isLoading || disabled || !input.trim()}
             aria-label="Invia domanda"
             className="mb-0.5 inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-[#1E324E] px-3.5 text-xs font-semibold text-white transition hover:bg-[#2A486D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#345884]/35 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
           >

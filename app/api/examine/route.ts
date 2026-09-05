@@ -9,6 +9,8 @@ import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import { deriveDemoVitals } from "@/lib/prassi/demo-vitals";
+import { formatBloodPressureFinding } from "@/lib/clinical/case-vitals";
 
 const bodySchema = z.object({
   /** Optional: live Prisma session. Offline `registry_*` tokens are ignored. */
@@ -74,8 +76,11 @@ function findingFromBaseline(
       break;
     }
     case "blood-pressure": {
-      const v = vitals.bloodPressure;
-      if (v != null) finding = String(v);
+      const fromHelper = formatBloodPressureFinding(baseline);
+      if (fromHelper) {
+        finding = fromHelper.finding;
+        numericValue = fromHelper.numericValue;
+      }
       break;
     }
     case "spo2": {
@@ -301,6 +306,17 @@ export async function POST(req: Request) {
         headers: { "Content-Type": "application/json" },
       });
     }
+  }
+
+  if (examId === "blood-pressure") {
+    const synthesized = {
+      finding: `Pressione arteriosa ${deriveDemoVitals(resolvedCaseId ?? "demo").bp} mmHg`,
+      numericValue: null,
+    };
+    return new Response(JSON.stringify(synthesized), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   const systemPrompt = `
