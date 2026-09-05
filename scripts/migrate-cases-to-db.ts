@@ -13,6 +13,7 @@ import { join, resolve } from "node:path";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { knowledgeBaseCaseSchema } from "@/lib/cases/knowledge-base-case-schema";
 import { clearCasesCache } from "@/lib/data/cases/registry-store";
+import { syncClinicalCaseDisplay } from "./sync-clinical-case-display";
 
 loadEnv({ path: resolve(process.cwd(), ".env.local") });
 loadEnv({ path: resolve(process.cwd(), ".env") });
@@ -100,6 +101,9 @@ async function main(): Promise<void> {
       upserted += 1;
       console.log(`[migrate-cases] upserted ${kb.id} (${kb.specialty})`);
     }
+
+    const synced = await syncClinicalCaseDisplay(prisma);
+    console.log(`[migrate-cases] synced ${synced} ClinicalCase display row(s)`);
   } finally {
     await prisma.$disconnect();
   }
