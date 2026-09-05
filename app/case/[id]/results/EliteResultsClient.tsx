@@ -49,6 +49,8 @@ type FatalErrorUi = {
 type EliteResultsClientProps = {
   totalScore: number;
   radarData: RadarDatumWithKey[];
+  caseTitle?: string | null;
+  sessionId?: string | null;
   dismissed?: boolean;
   strengths?: string[];
   weaknesses?: string[];
@@ -181,16 +183,22 @@ function resolvePillarScore(radarData: RadarDatumWithKey[], pillar: (typeof PILL
 function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
   if (dismissed) {
     return {
-      label: "Caso abbandonato",
-      detail: "La sessione è stata interrotta senza completare la valutazione.",
+      label: "Abbandonato",
+      detail: "Sessione interrotta: valutazione non completata.",
       tone: "warn" as const,
+      scoreClass: "text-[#B54708]",
+      badgeClass: "bg-[#B54708] text-white",
+      barClass: "bg-[#B54708]",
     };
   }
   if (killer || score < CLINICAL_PASS_TRENTESIMI) {
     return {
       label: "Non sufficiente",
-      detail: "Il percorso non raggiunge la soglia di idoneità clinica.",
+      detail: "Sotto la soglia di idoneità clinica (18/30).",
       tone: "risk" as const,
+      scoreClass: "text-[#B42318]",
+      badgeClass: "bg-[#B42318] text-white",
+      barClass: "bg-[#B42318]",
     };
   }
   if (score < 22) {
@@ -198,6 +206,9 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
       label: "Sufficiente",
       detail: "Idoneità raggiunta, con margini di miglioramento.",
       tone: "ok" as const,
+      scoreClass: "text-[#1E324E]",
+      badgeClass: "bg-[#1E324E] text-white",
+      barClass: "bg-[#1E324E]",
     };
   }
   if (score < 26) {
@@ -205,12 +216,40 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
       label: "Buono",
       detail: "Gestione solida e allineata ai pilastri AEQUAN.",
       tone: "ok" as const,
+      scoreClass: "text-[#1E324E]",
+      badgeClass: "bg-[#1E324E] text-white",
+      barClass: "bg-[#345884]",
     };
   }
   return {
     label: "Ottimo",
     detail: "Prestazione di alto livello su clinica, tutela ed empatia.",
     tone: "ok" as const,
+    scoreClass: "text-[#027A48]",
+    badgeClass: "bg-[#027A48] text-white",
+    barClass: "bg-[#027A48]",
+  };
+}
+
+function pillarFlag(score: number) {
+  if (score < 50) {
+    return {
+      label: "Critico",
+      tone: "text-[#B42318]",
+      badge: "border-[#B42318] bg-[#B42318] text-white",
+    };
+  }
+  if (score < 70) {
+    return {
+      label: "Alterato",
+      tone: "text-[#B54708]",
+      badge: "border-[#B54708] bg-[#B54708] text-white",
+    };
+  }
+  return {
+    label: "Nei limiti",
+    tone: "text-[#027A48]",
+    badge: "border-[#027A48] bg-[#027A48] text-white",
   };
 }
 
@@ -220,55 +259,21 @@ function legalShieldConfig(status: LegalProtectionStatus["status"]) {
       return {
         label: "Protetto",
         icon: ShieldCheck,
-        chip: "bg-[#E4EAF3] text-[#1E324E]",
+        chip: "border-[#027A48] bg-[#027A48] text-white",
       };
     case "PARTIALLY_EXPOSED":
       return {
         label: "Parzialmente esposto",
         icon: Shield,
-        chip: "bg-amber-100 text-amber-950",
+        chip: "border-[#B54708] bg-[#B54708] text-white",
       };
     default:
       return {
         label: "Esposto",
         icon: ShieldAlert,
-        chip: "bg-rose-100 text-rose-900",
+        chip: "border-[#B42318] bg-[#B42318] text-white",
       };
   }
-}
-
-function ScoreRing({ score, max = 30 }: { score: number; max?: number }) {
-  const clamped = Math.max(0, Math.min(max, score));
-  const pct = max > 0 ? clamped / max : 0;
-  const r = 54;
-  const c = 2 * Math.PI * r;
-  const offset = c * (1 - pct);
-
-  return (
-    <div className="relative h-[8.5rem] w-[8.5rem] shrink-0">
-      <svg className="h-full w-full -rotate-90" viewBox="0 0 128 128" aria-hidden>
-        <circle cx="64" cy="64" r={r} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="8" />
-        <circle
-          cx="64"
-          cy="64"
-          r={r}
-          fill="none"
-          stroke="#A8C0DE"
-          strokeWidth="8"
-          strokeLinecap="round"
-          strokeDasharray={c}
-          strokeDashoffset={offset}
-          className="transition-[stroke-dashoffset] duration-700 ease-out"
-        />
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-        <span className="font-display text-[2.35rem] font-semibold leading-none tabular-nums text-white">
-          {Math.round(clamped * 10) / 10}
-        </span>
-        <span className="mt-1 text-[11px] font-medium tracking-wide text-white/55">/{max}</span>
-      </div>
-    </div>
-  );
 }
 
 function Accordion({
@@ -288,20 +293,20 @@ function Accordion({
     <details
       open={isOpen}
       onToggle={(event) => setIsOpen(event.currentTarget.open)}
-      className="group overflow-hidden rounded-2xl border border-slate-200/90 bg-white"
+      className="group bg-white"
     >
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3.5 marker:content-none [&::-webkit-details-marker]:hidden sm:px-5">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-3.5 marker:content-none [&::-webkit-details-marker]:hidden sm:px-7">
         <span className="flex items-center gap-2.5">
-          <span className="font-display text-sm font-semibold text-[#1E324E]">{title}</span>
+          <span className="text-[13px] font-semibold text-[#1E324E]">{title}</span>
           {typeof count === "number" ? (
-            <span className="rounded-full bg-[#EEF2F9] px-2 py-0.5 text-[10px] font-semibold tabular-nums text-[#345884]">
+            <span className="border border-[#1E324E]/20 bg-[#F4F6F8] px-1.5 py-0.5 text-[10px] font-bold tabular-nums text-[#1E324E]">
               {count}
             </span>
           ) : null}
         </span>
-        <ChevronDown className="h-4 w-4 shrink-0 text-slate-400 transition duration-200 group-open:rotate-180" />
+        <ChevronDown className="h-4 w-4 shrink-0 text-[#1E324E]/40 transition duration-200 group-open:rotate-180" />
       </summary>
-      <div className="border-t border-slate-100 px-4 py-4 sm:px-5">{children}</div>
+      <div className="border-t border-[#1E324E]/10 px-5 py-4 sm:px-7">{children}</div>
     </details>
   );
 }
@@ -320,6 +325,8 @@ function statusMeta(status: ClinicalDeltaRow["status"]) {
 export function EliteResultsClient({
   totalScore,
   radarData,
+  caseTitle,
+  sessionId,
   dismissed,
   strengths = [],
   weaknesses = [],
@@ -369,49 +376,141 @@ export function EliteResultsClient({
     scoreBreakdown?.empathy?.qualitativeLabel ||
     null;
 
+  const dateLabel = new Intl.DateTimeFormat("it-IT", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date());
+  const scoreDisplay = normalizedScore.toFixed(1).replace(".", ",");
+  const barPct = Math.min(100, Math.max(0, (normalizedScore / 30) * 100));
+
   return (
-    <div className="space-y-5">
-      {/* Verdict board */}
-      <section
-        className={cn(
-          "relative overflow-hidden rounded-[1.35rem] text-white shadow-[0_20px_50px_-28px_rgba(30,50,78,0.65)]",
-          "bg-[linear-gradient(145deg,#1E324E_0%,#2A486D_48%,#345884_100%)]",
-        )}
-      >
-        <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_85%_20%,rgba(168,192,222,0.22),transparent_42%)]"
-          aria-hidden
-        />
-        <div className="relative flex flex-col gap-6 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7">
-          <div className="min-w-0 space-y-3">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] !text-white/70">
-              Aequan · Verdetto
-            </p>
-            <div className="space-y-1.5">
-              <h1 className="font-display text-[1.85rem] font-semibold tracking-tight !text-white sm:text-[2.1rem]">
-                {verdict.label}
-              </h1>
-              <p className="max-w-md text-sm leading-relaxed !text-white/75">{verdict.detail}</p>
-            </div>
-            {dismissed ? (
-              <p className="inline-flex items-center gap-2 rounded-full bg-amber-400/15 px-3 py-1.5 text-[11px] font-medium text-amber-100 ring-1 ring-amber-200/25">
-                <AlertTriangle className="h-3.5 w-3.5" />
-                Punteggi azzerati su tutti gli assi
+    <div className="space-y-3">
+      <article className="overflow-hidden border border-[#1E324E]/20 bg-white shadow-[0_14px_40px_-20px_rgba(15,23,42,0.4)]">
+        <header className="border-b-[6px] border-[#1E324E] bg-[#F4F6F8] px-5 py-4 sm:px-7">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#1E324E]/55">
+                AEQUAN · Simulazione clinica
               </p>
-            ) : null}
+              <h1 className="mt-1 font-display text-[1.65rem] font-semibold tracking-tight text-[#1E324E] sm:text-[1.85rem]">
+                Referto di valutazione
+              </h1>
+            </div>
+            <p className="text-right text-[11px] tabular-nums text-[#1E324E]/70">
+              Emesso {dateLabel}
+              {sessionId ? (
+                <>
+                  <br />
+                  Sessione {sessionId.slice(0, 8).toUpperCase()}
+                </>
+              ) : null}
+            </p>
           </div>
-          <ScoreRing score={normalizedScore} />
-        </div>
+          <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-[#1E324E]/15 pt-3 text-[12px] sm:grid-cols-4">
+            <div>
+              <dt className="text-[9px] font-bold uppercase tracking-wider text-[#1E324E]/45">Caso</dt>
+              <dd className="mt-0.5 font-semibold leading-snug text-[#1E324E]">
+                {caseTitle?.trim() || "Sessione valutata"}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-[9px] font-bold uppercase tracking-wider text-[#1E324E]/45">Scala</dt>
+              <dd className="mt-0.5 font-semibold tabular-nums text-[#1E324E]">Trentesimi (0–30)</dd>
+            </div>
+            <div>
+              <dt className="text-[9px] font-bold uppercase tracking-wider text-[#1E324E]/45">
+                Soglia idoneità
+              </dt>
+              <dd className="mt-0.5 font-semibold tabular-nums text-[#1E324E]">
+                {CLINICAL_PASS_TRENTESIMI}/30
+              </dd>
+            </div>
+            <div>
+              <dt className="text-[9px] font-bold uppercase tracking-wider text-[#1E324E]/45">Esito</dt>
+              <dd className={cn("mt-0.5 font-bold uppercase tracking-wide", verdict.scoreClass)}>
+                {verdict.label}
+              </dd>
+            </div>
+          </dl>
+        </header>
+
+        <section className="border-b border-[#1E324E]/12 px-5 py-6 sm:px-7">
+          <p className="text-center text-[10px] font-bold uppercase tracking-[0.22em] text-[#1E324E]/50">
+            Punteggio complessivo
+          </p>
+          <div className="mt-3 overflow-hidden border border-[#1E324E]/15">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-[#1E324E] text-[10px] font-bold uppercase tracking-wider text-white">
+                <tr>
+                  <th className="px-4 py-2.5 font-semibold">Indagine</th>
+                  <th className="px-4 py-2.5 font-semibold">Risultato</th>
+                  <th className="hidden px-4 py-2.5 font-semibold sm:table-cell">Valore di riferimento</th>
+                  <th className="px-4 py-2.5 font-semibold">Valutazione</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="align-middle">
+                  <td className="border-t border-[#1E324E]/10 px-4 py-5">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#1E324E]/50">
+                      Performance clinica
+                    </p>
+                    <p className="mt-0.5 font-display text-lg font-semibold text-[#1E324E]">Voto finale</p>
+                  </td>
+                  <td className="border-t border-[#1E324E]/10 px-4 py-5">
+                    <p
+                      className={cn(
+                        "font-display text-[2.75rem] font-semibold leading-none tabular-nums sm:text-5xl",
+                        verdict.scoreClass,
+                      )}
+                    >
+                      {scoreDisplay}
+                      <span className="ml-1 align-baseline text-lg font-medium text-[#1E324E]/40">/30</span>
+                    </p>
+                  </td>
+                  <td className="hidden border-t border-[#1E324E]/10 px-4 py-5 sm:table-cell">
+                    <p className="text-sm font-medium tabular-nums text-[#1E324E]">
+                      Idoneità ≥ {CLINICAL_PASS_TRENTESIMI},00 / 30
+                    </p>
+                    <p className="mt-1 text-xs leading-snug text-[#1E324E]/55">{verdict.detail}</p>
+                  </td>
+                  <td className="border-t border-[#1E324E]/10 px-4 py-5">
+                    <span
+                      className={cn(
+                        "inline-block border-2 px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.14em]",
+                        verdict.badgeClass,
+                      )}
+                    >
+                      {verdict.label}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-2 text-xs leading-snug text-[#1E324E]/55 sm:hidden">
+            {verdict.detail} · Idoneità ≥ {CLINICAL_PASS_TRENTESIMI}/30
+          </p>
+          <div className="mt-4 h-2.5 overflow-hidden bg-[#E8ECF0]">
+            <div className={cn("h-full", verdict.barClass)} style={{ width: `${barPct}%` }} />
+          </div>
+          {dismissed ? (
+            <p className="mt-3 inline-flex items-center gap-2 border border-[#B54708]/30 bg-[#FFF7ED] px-3 py-1.5 text-[11px] font-semibold text-[#B54708]">
+              <AlertTriangle className="h-3.5 w-3.5" />
+              Sessione abbandonata · punteggi azzerati su tutti gli assi
+            </p>
+          ) : null}
+        </section>
 
         {showKillerSwitchBanner ? (
-          <div className="relative border-t border-white/10 bg-black/20 px-5 py-3.5 sm:px-7">
+          <section className="border-b border-[#B42318]/25 bg-[#FEF3F2] px-5 py-4 sm:px-7">
             <div className="flex items-start gap-2.5">
-              <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-rose-300" />
+              <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#B42318]" />
               <div className="min-w-0 space-y-1.5">
-                <p className="text-xs font-semibold text-rose-100">
-                  Bocciatura d&apos;ufficio · tetto {killerCap}/30
+                <p className="text-xs font-extrabold uppercase tracking-wider text-[#B42318]">
+                  Valore critico · Bocciatura d&apos;ufficio · tetto {killerCap}/30
                 </p>
-                <p className="text-xs leading-relaxed text-white/70">
+                <p className="text-xs leading-relaxed text-[#7A271A]">
                   Rilevati errori clinici o legali fatali.
                   {killerSwitch?.applied &&
                   typeof killerSwitch.rawTotalTrentesimi === "number" &&
@@ -422,7 +521,7 @@ export function EliteResultsClient({
                 {fatalErrors.length > 0 ? (
                   <ul className="space-y-1 pt-1">
                     {fatalErrors.map((error) => (
-                      <li key={error.code} className="text-xs leading-relaxed text-white/65">
+                      <li key={error.code} className="text-xs leading-relaxed text-[#7A271A]">
                         · {error.description}
                       </li>
                     ))}
@@ -430,346 +529,378 @@ export function EliteResultsClient({
                 ) : null}
               </div>
             </div>
-          </div>
+          </section>
         ) : null}
-      </section>
+
+        <section className="border-b border-[#1E324E]/12 px-5 py-6 sm:px-7">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#1E324E]/50">
+            Cinque pilastri · contribuzione al voto
+          </h2>
+          <div className="mt-3 overflow-x-auto border border-[#1E324E]/15">
+            <table className="w-full min-w-[40rem] text-left text-sm">
+              <thead className="bg-[#1E324E] text-[10px] font-bold uppercase tracking-wider text-white">
+                <tr>
+                  <th className="px-3 py-2.5 font-semibold">Pilastro</th>
+                  <th className="px-3 py-2.5 font-semibold">Risultato</th>
+                  <th className="px-3 py-2.5 font-semibold">Contributo</th>
+                  <th className="px-3 py-2.5 font-semibold">Riferimento</th>
+                  <th className="px-3 py-2.5 font-semibold">Esito</th>
+                </tr>
+              </thead>
+              <tbody>
+                {PILLARS.map((pillar, i) => {
+                  const score = resolvePillarScore(radarData, pillar);
+                  const maxPts =
+                    pillar.gradeWeight != null
+                      ? Math.round(pillar.gradeWeight * 30)
+                      : null;
+                  const contribution =
+                    pillar.gradeWeight != null
+                      ? dimensionContributionTrentesimi(score, pillar.gradeWeight)
+                      : null;
+                  const insight = resolvePillarInsight(
+                    pillar,
+                    coachingFeedback,
+                    scoreBreakdown,
+                    empathyNote,
+                    legalProtectionStatus?.justification,
+                  );
+                  const flag = pillarFlag(score);
+                  const Icon = pillar.icon;
+                  return (
+                    <tr key={pillar.key} className={i % 2 === 0 ? "bg-white" : "bg-[#F7F8FA]"}>
+                      <td className="border-t border-[#1E324E]/10 px-3 py-3 align-top">
+                        <p className="flex items-center gap-2 font-semibold text-[#1E324E]">
+                          <Icon className="h-3.5 w-3.5 shrink-0 text-[#1E324E]/55" strokeWidth={1.75} />
+                          {pillar.label}
+                        </p>
+                        {insight ? (
+                          <p className="mt-1 max-w-sm text-[12px] leading-snug text-[#1E324E]/65">
+                            <SafeLlmText as="span" className="whitespace-pre-line">
+                              {insight}
+                            </SafeLlmText>
+                          </p>
+                        ) : null}
+                      </td>
+                      <td
+                        className={cn(
+                          "border-t border-[#1E324E]/10 px-3 py-3 align-top font-display text-2xl font-semibold tabular-nums",
+                          flag.tone,
+                        )}
+                      >
+                        {Math.round(score)}
+                        <span className="ml-0.5 text-sm font-medium text-[#1E324E]/35">/100</span>
+                      </td>
+                      <td className="border-t border-[#1E324E]/10 px-3 py-3 align-top text-[13px] tabular-nums text-[#1E324E]">
+                        {contribution != null && maxPts != null
+                          ? `${String(contribution).replace(".", ",")}/${maxPts}`
+                          : "solo radar"}
+                      </td>
+                      <td className="border-t border-[#1E324E]/10 px-3 py-3 align-top text-[12px] text-[#1E324E]/60">
+                        {pillar.gradeWeight != null ? "≥ 70/100 nei limiti" : "Indicatore accessorio"}
+                      </td>
+                      <td className="border-t border-[#1E324E]/10 px-3 py-3 align-top">
+                        <span
+                          className={cn(
+                            "inline-block border px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider",
+                            flag.badge,
+                          )}
+                        >
+                          {flag.label}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section className="border-b border-[#1E324E]/12 px-5 py-6 sm:px-7">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#1E324E]/50">
+            Indicatori accessori
+          </h2>
+          <div className="mt-3 overflow-hidden border border-[#1E324E]/15">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-[#F0F3F6] text-[10px] font-bold uppercase tracking-wider text-[#1E324E]/70">
+                <tr>
+                  <th className="px-4 py-2 font-semibold">Indicatore</th>
+                  <th className="px-4 py-2 font-semibold">Risultato</th>
+                  <th className="px-4 py-2 font-semibold">Note</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border-t border-[#1E324E]/10 px-4 py-3 font-semibold text-[#1E324E]">
+                    Bilancio SSN
+                  </td>
+                  <td className="border-t border-[#1E324E]/10 px-4 py-3">
+                    {economicAnalysis ? (
+                      <>
+                        <p
+                          className={cn(
+                            "font-display text-2xl font-semibold tabular-nums",
+                            overspend > 0 ? "text-[#B42318]" : "text-[#1E324E]",
+                          )}
+                        >
+                          €{economicAnalysis.actualSpent.toFixed(0)}
+                          <span className="ml-1 text-sm font-medium text-[#1E324E]/40">
+                            / €{economicAnalysis.targetBudget.toFixed(0)}
+                          </span>
+                        </p>
+                        <div className="mt-2 h-1.5 overflow-hidden bg-[#E8ECF0]">
+                          <div
+                            className={cn("h-full", overspend > 0 ? "bg-[#B42318]" : "bg-[#1E324E]")}
+                            style={{ width: `${budgetRatio}%` }}
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <span className="text-xs text-[#1E324E]/50">Non disponibile</span>
+                    )}
+                  </td>
+                  <td className="border-t border-[#1E324E]/10 px-4 py-3 text-[13px] leading-snug text-[#1E324E]/70">
+                    {economicAnalysis
+                      ? `${overspend > 0 ? `Sforamento +€${overspend.toFixed(0)}` : "Budget entro soglia di appropriatezza"}${
+                          wastedEuro > 0 ? ` · sprechi €${wastedEuro.toFixed(0)}` : ""
+                        }`
+                      : "Bilancio non calcolato per questa sessione."}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border-t border-[#1E324E]/10 px-4 py-3 font-semibold text-[#1E324E]">
+                    Scudo legale
+                  </td>
+                  <td className="border-t border-[#1E324E]/10 px-4 py-3">
+                    {legalProtectionStatus && shield ? (
+                      <span
+                        className={cn(
+                          "inline-flex items-center gap-1.5 border px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider",
+                          shield.chip,
+                        )}
+                      >
+                        <ShieldIcon className="h-3.5 w-3.5" strokeWidth={1.75} />
+                        {shield.label}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-[#1E324E]/50">Non disponibile</span>
+                    )}
+                  </td>
+                  <td className="border-t border-[#1E324E]/10 px-4 py-3 text-[13px] leading-snug text-[#1E324E]/70">
+                    {legalProtectionStatus ? (
+                      <>
+                        <SafeLlmText as="span" className="whitespace-pre-line">
+                          {legalProtectionStatus.justification}
+                        </SafeLlmText>
+                        {legalSources.length > 0 ? (
+                          <p className="mt-1 text-[11px] text-[#1E324E]/45">
+                            Fonti · {legalSources.join(" · ")}
+                          </p>
+                        ) : null}
+                      </>
+                    ) : (
+                      "Stato tutela non disponibile."
+                    )}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <div className="border-b border-[#1E324E]/12 bg-[#F4F6F8] px-5 py-3 sm:px-7">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#1E324E]/50">
+              Debrief clinico
+            </p>
+          </div>
+          <div className="divide-y divide-[#1E324E]/10">
+            {clinicalDeltaTable.length > 0 ? (
+              <Accordion title="Confronto Gold Standard" count={clinicalDeltaTable.length} defaultOpen>
+                <ul className="space-y-2.5">
+                  {clinicalDeltaTable.map((row, idx) => {
+                    const meta = statusMeta(row.status);
+                    return (
+                      <li
+                        key={`${row.protocolAction}-${idx}`}
+                        className="border border-[#1E324E]/10 bg-[#F7F8FA] px-3.5 py-3"
+                      >
+                        <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
+                          <p className="text-[13px] font-semibold text-[#1E324E]">{row.protocolAction}</p>
+                          <span
+                            className={cn(
+                              "border px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider",
+                              meta.className,
+                            )}
+                          >
+                            {meta.label}
+                          </span>
+                        </div>
+                        <p className="text-xs leading-relaxed text-[#1E324E]/65">
+                          <SafeLlmText as="span">{row.userAction}</SafeLlmText>
+                        </p>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </Accordion>
+            ) : null}
+
+            {economicAnalysis &&
+            (economicAnalysis.unnecessaryExpenses.length > 0 ||
+              economicAnalysis.missedRequiredExams.length > 0) ? (
+              <Accordion
+                title="Spese e omissioni"
+                count={
+                  economicAnalysis.unnecessaryExpenses.length +
+                  economicAnalysis.missedRequiredExams.length
+                }
+                defaultOpen
+              >
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-[#B42318]">
+                      Superflue
+                    </p>
+                    {economicAnalysis.unnecessaryExpenses.length === 0 ? (
+                      <p className="text-xs text-[#1E324E]/55">Nessuna.</p>
+                    ) : (
+                      economicAnalysis.unnecessaryExpenses.map((item, i) => (
+                        <div key={i} className="border border-[#B42318]/20 bg-[#FEF3F2] px-3 py-2.5">
+                          <div className="flex justify-between gap-2 text-[13px]">
+                            <span className="font-medium text-[#1E324E]">{item.examName}</span>
+                            <span className="font-semibold tabular-nums text-[#B42318]">
+                              €{item.cost.toFixed(0)}
+                            </span>
+                          </div>
+                          <p className="mt-1 text-[11px] leading-relaxed text-[#1E324E]/60">{item.reason}</p>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-[#B54708]">
+                      Mancati
+                    </p>
+                    {economicAnalysis.missedRequiredExams.length === 0 ? (
+                      <p className="text-xs text-[#1E324E]/55">Nessuno.</p>
+                    ) : (
+                      economicAnalysis.missedRequiredExams.map((item, i) => (
+                        <div key={i} className="border border-[#B54708]/20 bg-[#FFF7ED] px-3 py-2.5">
+                          <div className="flex justify-between gap-2 text-[13px]">
+                            <span className="font-medium text-[#1E324E]">{item.examName}</span>
+                            <span className="font-semibold tabular-nums text-[#B54708]">
+                              €{item.cost.toFixed(0)}
+                            </span>
+                          </div>
+                          <p className="mt-1 text-[11px] leading-relaxed text-[#1E324E]/60">{item.reason}</p>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </Accordion>
+            ) : null}
+
+            {coachingFeedback ? (
+              <Accordion title="Coaching clinico" defaultOpen>
+                <dl className="space-y-3">
+                  {COACH_ROWS.map(({ key, label }) => {
+                    const text = coachingFeedback[key];
+                    if (!text?.trim()) return null;
+                    return (
+                      <div
+                        key={key}
+                        className="border border-[#1E324E]/10 bg-[#F7F8FA] px-3.5 py-3 sm:grid sm:grid-cols-[6rem_1fr] sm:gap-3"
+                      >
+                        <dt className="text-[11px] font-bold uppercase tracking-wide text-[#1E324E]">
+                          {label}
+                        </dt>
+                        <dd className="mt-1 text-sm leading-relaxed text-[#1E324E]/75 sm:mt-0">
+                          <SafeLlmText as="span" className="whitespace-pre-line">
+                            {text}
+                          </SafeLlmText>
+                        </dd>
+                      </div>
+                    );
+                  })}
+                </dl>
+              </Accordion>
+            ) : null}
+
+            {strengths.length > 0 || weaknesses.length > 0 ? (
+              <Accordion
+                title="Forze e miglioramenti"
+                count={strengths.length + weaknesses.length}
+                defaultOpen
+              >
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="border border-[#1E324E]/10 bg-[#EEF2F9] p-3.5">
+                    <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-[#1E324E]">
+                      Forze
+                    </p>
+                    {strengths.length === 0 ? (
+                      <p className="text-xs text-[#1E324E]/55">Nessun punto evidenziato.</p>
+                    ) : (
+                      <ul className="space-y-2">
+                        {strengths.map((item, idx) => (
+                          <li key={idx} className="text-sm leading-relaxed text-[#1E324E]/85">
+                            <SafeLlmText as="span">{item}</SafeLlmText>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <div className="border border-[#B54708]/20 bg-[#FFF7ED] p-3.5">
+                    <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-[#B54708]">
+                      Miglioramenti
+                    </p>
+                    {weaknesses.length === 0 ? (
+                      <p className="text-xs text-[#1E324E]/55">Nessuna criticità evidenziata.</p>
+                    ) : (
+                      <ul className="space-y-2">
+                        {weaknesses.map((item, idx) => (
+                          <li key={idx} className="text-sm leading-relaxed text-[#1E324E]/85">
+                            <SafeLlmText as="span">{item}</SafeLlmText>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              </Accordion>
+            ) : null}
+
+            {correctSolution ? (
+              <Accordion title="Gestione esperta di riferimento" defaultOpen>
+                <p className="text-sm leading-relaxed text-[#1E324E]/75">
+                  <SafeLlmText as="span" className="whitespace-pre-line">
+                    {correctSolution}
+                  </SafeLlmText>
+                </p>
+              </Accordion>
+            ) : null}
+
+            <div>
+              <div className="border-b border-[#1E324E]/10 px-5 py-3.5 sm:px-7">
+                <h2 className="text-[13px] font-semibold text-[#1E324E]">Radar competenze</h2>
+              </div>
+              <div className="h-72 w-full bg-[#F7F8FA] p-3 sm:p-4">
+                <ResultsRadarClient data={radarData} />
+              </div>
+            </div>
+          </div>
+          <footer className="border-t-4 border-[#1E324E] bg-[#F4F6F8] px-5 py-3 text-center text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1E324E]/45 sm:px-7">
+            Fine referto
+          </footer>
+        </section>
+      </article>
 
       <AiTransparencyBadge
         variant="report"
-        className="rounded-xl border-slate-200/80 bg-white/70 px-3.5 py-2 text-[11px] text-slate-500"
+        className="border border-[#1E324E]/15 bg-white px-3.5 py-2 text-[11px] text-[#1E324E]/55"
       />
-
-      {/* Pillars grid */}
-      <section className="space-y-3">
-        <div className="flex items-end justify-between gap-3 px-0.5">
-          <div>
-            <h2 className="font-display text-base font-semibold text-[#1E324E]">I cinque pilastri</h2>
-            <p className="mt-0.5 text-xs text-slate-500">Pesi sul voto: 30 · 30 · 20 · 20</p>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {PILLARS.map((pillar) => {
-            const score = resolvePillarScore(radarData, pillar);
-            const contribution =
-              pillar.gradeWeight != null
-                ? dimensionContributionTrentesimi(score, pillar.gradeWeight)
-                : null;
-            const Icon = pillar.icon;
-            const insight = resolvePillarInsight(
-              pillar,
-              coachingFeedback,
-              scoreBreakdown,
-              empathyNote,
-              legalProtectionStatus?.justification,
-            );
-            return (
-              <div key={pillar.key} className="flex min-w-0 flex-col gap-2">
-                {insight ? (
-                  <p className="px-0.5 text-[11px] leading-snug text-slate-600 sm:min-h-[2.6rem]">
-                    <span className="font-semibold text-[#345884]">{pillar.label} · </span>
-                    <SafeLlmText as="span" className="whitespace-pre-line">
-                      {insight}
-                    </SafeLlmText>
-                  </p>
-                ) : (
-                  <p className="hidden px-0.5 text-[11px] sm:block sm:min-h-[2.6rem]" aria-hidden>
-                    &nbsp;
-                  </p>
-                )}
-                <article className="flex-1 rounded-2xl border border-slate-200/90 bg-white p-3.5 shadow-[0_1px_0_rgba(30,50,78,0.04)]">
-                  <div className="mb-3 flex items-center justify-between gap-2">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
-                      <Icon className="h-4 w-4" strokeWidth={1.75} />
-                    </span>
-                    <span className="text-right">
-                      <span className="block font-display text-lg font-semibold tabular-nums leading-none text-[#1E324E]">
-                        {Math.round(score)}
-                      </span>
-                      <span className="text-[10px] text-slate-400">/100</span>
-                    </span>
-                  </div>
-                  <p className="text-[13px] font-semibold text-slate-800">{pillar.label}</p>
-                  <p className="mt-0.5 text-[10px] tabular-nums text-slate-400">
-                    {contribution != null ? `${contribution}/30` : "solo radar"}
-                  </p>
-                  <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100">
-                    <div
-                      className="h-full rounded-full bg-[#345884] transition-[width] duration-700 ease-out"
-                      style={{ width: `${score}%` }}
-                      role="progressbar"
-                      aria-valuenow={Math.round(score)}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      aria-label={`${pillar.label}: ${Math.round(score)} su 100`}
-                    />
-                  </div>
-                </article>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Economy + Legal */}
-      <section className="grid grid-cols-1 gap-3 md:grid-cols-2">
-        <article className="rounded-2xl border border-slate-200/90 bg-white p-4 shadow-[0_1px_0_rgba(30,50,78,0.04)] sm:p-5">
-          <div className="mb-4 flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
-              <Euro className="h-4 w-4" strokeWidth={1.75} />
-            </span>
-            <div>
-              <h2 className="font-display text-sm font-semibold text-[#1E324E]">Bilancio SSN</h2>
-              <p className="text-[11px] text-slate-500">Spesa esami vs budget del caso</p>
-            </div>
-          </div>
-          {economicAnalysis ? (
-            <div className="space-y-3">
-              <p className="font-display text-2xl font-semibold tabular-nums text-[#1E324E]">
-                €{economicAnalysis.actualSpent.toFixed(0)}
-                <span className="ml-1 text-sm font-medium text-slate-400">
-                  / €{economicAnalysis.targetBudget.toFixed(0)}
-                </span>
-              </p>
-              <div className="h-2 overflow-hidden rounded-full bg-slate-100">
-                <div
-                  className={cn(
-                    "h-full rounded-full transition-[width] duration-700",
-                    overspend > 0 ? "bg-[#C0392B]" : "bg-[#345884]",
-                  )}
-                  style={{ width: `${budgetRatio}%` }}
-                />
-              </div>
-              <p className="text-xs text-slate-500">
-                {overspend > 0
-                  ? `Sforamento +€${overspend.toFixed(0)}`
-                  : "Budget entro soglia di appropriatezza"}
-                {wastedEuro > 0 ? ` · sprechi €${wastedEuro.toFixed(0)}` : null}
-              </p>
-            </div>
-          ) : (
-            <div className="rounded-xl bg-slate-50 px-3.5 py-6 text-center text-xs text-slate-500">
-              Bilancio non disponibile per questa sessione.
-            </div>
-          )}
-        </article>
-
-        <article className="rounded-2xl border border-slate-200/90 bg-white p-4 shadow-[0_1px_0_rgba(30,50,78,0.04)] sm:p-5">
-          <div className="mb-4 flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
-              <Shield className="h-4 w-4" strokeWidth={1.75} />
-            </span>
-            <div>
-              <h2 className="font-display text-sm font-semibold text-[#1E324E]">Scudo legale</h2>
-              <p className="text-[11px] text-slate-500">Tutela medico-legale della condotta</p>
-            </div>
-          </div>
-          {legalProtectionStatus && shield ? (
-            <div className="space-y-3">
-              <span
-                className={cn(
-                  "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold",
-                  shield.chip,
-                )}
-              >
-                <ShieldIcon className="h-3.5 w-3.5" strokeWidth={1.75} />
-                {shield.label}
-              </span>
-              <p className="text-sm leading-relaxed text-slate-600">
-                <SafeLlmText as="span" className="whitespace-pre-line">
-                  {legalProtectionStatus.justification}
-                </SafeLlmText>
-              </p>
-              {legalSources.length > 0 ? (
-                <p className="text-[11px] text-slate-400">Fonti · {legalSources.join(" · ")}</p>
-              ) : null}
-            </div>
-          ) : (
-            <div className="rounded-xl bg-slate-50 px-3.5 py-6 text-center text-xs text-slate-500">
-              Stato tutela non disponibile.
-            </div>
-          )}
-        </article>
-      </section>
-
-      {/* Debrief */}
-      <section className="space-y-2.5">
-        <h2 className="px-0.5 font-display text-base font-semibold text-[#1E324E]">Debrief</h2>
-
-        {clinicalDeltaTable.length > 0 ? (
-          <Accordion title="Confronto Gold Standard" count={clinicalDeltaTable.length} defaultOpen>
-            <ul className="space-y-2.5">
-              {clinicalDeltaTable.map((row, idx) => {
-                const meta = statusMeta(row.status);
-                return (
-                  <li
-                    key={`${row.protocolAction}-${idx}`}
-                    className="rounded-xl bg-slate-50/90 px-3.5 py-3"
-                  >
-                    <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
-                      <p className="text-[13px] font-semibold text-slate-800">{row.protocolAction}</p>
-                      <span
-                        className={cn(
-                          "rounded-full px-2 py-0.5 text-[10px] font-semibold",
-                          meta.className,
-                        )}
-                      >
-                        {meta.label}
-                      </span>
-                    </div>
-                    <p className="text-xs leading-relaxed text-slate-500">
-                      <SafeLlmText as="span">{row.userAction}</SafeLlmText>
-                    </p>
-                  </li>
-                );
-              })}
-            </ul>
-          </Accordion>
-        ) : null}
-
-        {economicAnalysis &&
-        (economicAnalysis.unnecessaryExpenses.length > 0 ||
-          economicAnalysis.missedRequiredExams.length > 0) ? (
-          <Accordion
-            title="Spese e omissioni"
-            count={
-              economicAnalysis.unnecessaryExpenses.length +
-              economicAnalysis.missedRequiredExams.length
-            }
-            defaultOpen
-          >
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-rose-700">
-                  Superflue
-                </p>
-                {economicAnalysis.unnecessaryExpenses.length === 0 ? (
-                  <p className="text-xs text-slate-500">Nessuna.</p>
-                ) : (
-                  economicAnalysis.unnecessaryExpenses.map((item, i) => (
-                    <div key={i} className="rounded-xl bg-rose-50/60 px-3 py-2.5">
-                      <div className="flex justify-between gap-2 text-[13px]">
-                        <span className="font-medium text-slate-800">{item.examName}</span>
-                        <span className="font-semibold tabular-nums text-rose-700">
-                          €{item.cost.toFixed(0)}
-                        </span>
-                      </div>
-                      <p className="mt-1 text-[11px] leading-relaxed text-slate-500">{item.reason}</p>
-                    </div>
-                  ))
-                )}
-              </div>
-              <div className="space-y-2">
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-amber-800">
-                  Mancati
-                </p>
-                {economicAnalysis.missedRequiredExams.length === 0 ? (
-                  <p className="text-xs text-slate-500">Nessuno.</p>
-                ) : (
-                  economicAnalysis.missedRequiredExams.map((item, i) => (
-                    <div key={i} className="rounded-xl bg-amber-50/70 px-3 py-2.5">
-                      <div className="flex justify-between gap-2 text-[13px]">
-                        <span className="font-medium text-slate-800">{item.examName}</span>
-                        <span className="font-semibold tabular-nums text-amber-800">
-                          €{item.cost.toFixed(0)}
-                        </span>
-                      </div>
-                      <p className="mt-1 text-[11px] leading-relaxed text-slate-500">{item.reason}</p>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-          </Accordion>
-        ) : null}
-
-        {coachingFeedback ? (
-          <Accordion title="Coaching clinico" defaultOpen>
-            <dl className="space-y-3">
-              {COACH_ROWS.map(({ key, label }) => {
-                const text = coachingFeedback[key];
-                if (!text?.trim()) return null;
-                return (
-                  <div
-                    key={key}
-                    className="rounded-xl bg-slate-50/90 px-3.5 py-3 sm:grid sm:grid-cols-[6rem_1fr] sm:gap-3"
-                  >
-                    <dt className="text-[11px] font-semibold uppercase tracking-wide text-[#345884]">
-                      {label}
-                    </dt>
-                    <dd className="mt-1 text-sm leading-relaxed text-slate-600 sm:mt-0">
-                      <SafeLlmText as="span" className="whitespace-pre-line">
-                        {text}
-                      </SafeLlmText>
-                    </dd>
-                  </div>
-                );
-              })}
-            </dl>
-          </Accordion>
-        ) : null}
-
-        {(strengths.length > 0 || weaknesses.length > 0) && (
-          <Accordion
-            title="Forze e miglioramenti"
-            count={strengths.length + weaknesses.length}
-            defaultOpen
-          >
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-xl bg-[#EEF2F9]/70 p-3.5">
-                <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-[#345884]">
-                  Forze
-                </p>
-                {strengths.length === 0 ? (
-                  <p className="text-xs text-slate-500">Nessun punto evidenziato.</p>
-                ) : (
-                  <ul className="space-y-2">
-                    {strengths.map((item, idx) => (
-                      <li key={idx} className="text-sm leading-relaxed text-slate-700">
-                        <SafeLlmText as="span">{item}</SafeLlmText>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-              <div className="rounded-xl bg-amber-50/80 p-3.5">
-                <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-amber-900">
-                  Miglioramenti
-                </p>
-                {weaknesses.length === 0 ? (
-                  <p className="text-xs text-slate-500">Nessuna criticità evidenziata.</p>
-                ) : (
-                  <ul className="space-y-2">
-                    {weaknesses.map((item, idx) => (
-                      <li key={idx} className="text-sm leading-relaxed text-slate-700">
-                        <SafeLlmText as="span">{item}</SafeLlmText>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
-          </Accordion>
-        )}
-
-        {correctSolution ? (
-          <Accordion title="Gestione esperta di riferimento" defaultOpen>
-            <p className="text-sm leading-relaxed text-slate-600">
-              <SafeLlmText as="span" className="whitespace-pre-line">
-                {correctSolution}
-              </SafeLlmText>
-            </p>
-          </Accordion>
-        ) : null}
-
-        <div className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white">
-          <div className="border-b border-slate-100 px-4 py-3.5 sm:px-5">
-            <h2 className="font-display text-sm font-semibold text-[#1E324E]">Radar competenze</h2>
-          </div>
-          <div className="h-72 w-full bg-slate-50/80 p-3 sm:p-4">
-            <ResultsRadarClient data={radarData} />
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

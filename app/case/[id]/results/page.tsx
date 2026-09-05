@@ -102,11 +102,8 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
         return notFound();
       }
       return (
-        <div className="min-h-screen bg-[#EEF1F5] text-slate-800">
-          <div
-            className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(52,88,132,0.11),transparent_42%),radial-gradient(ellipse_at_bottom_right,rgba(30,50,78,0.08),transparent_40%)]"
-            aria-hidden
-          />
+        <div className="min-h-screen bg-[#E4E8EE] text-[#1E324E]">
+          <div className="pointer-events-none fixed inset-0 bg-[#E4E8EE]" aria-hidden />
           <div className="relative mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
             <div className="mb-5 flex items-center justify-between gap-3">
               <Link
@@ -123,6 +120,7 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
             <OfflineResultsGate
               caseId={caseId}
               sessionId={sessionId}
+              caseTitle={registered?.title}
               correctSolution={registered?.correctSolution}
               legalSources={registered?.legalConformity.ragReferences.map((r) => r.sourceRef)}
             />
@@ -173,11 +171,8 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
       : [];
 
     return (
-      <div className="min-h-screen bg-[#EEF1F5] text-slate-800">
-        <div
-          className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(52,88,132,0.11),transparent_42%),radial-gradient(ellipse_at_bottom_right,rgba(30,50,78,0.08),transparent_40%)]"
-          aria-hidden
-        />
+      <div className="min-h-screen bg-[#E4E8EE] text-[#1E324E]">
+        <div className="pointer-events-none fixed inset-0 bg-[#E4E8EE]" aria-hidden />
         <div className="relative mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
           <div className="mb-5 flex items-center justify-between gap-3">
             <Link
@@ -195,6 +190,8 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
           <EliteResultsClient
             totalScore={safeNum(session.totalScore)}
             radarData={radarData}
+            caseTitle={registered?.title}
+            sessionId={session.id}
             dismissed={Boolean(trace.dismissed)}
             strengths={
               Array.isArray(trace.feedback?.strengths) ? trace.feedback!.strengths! : []
