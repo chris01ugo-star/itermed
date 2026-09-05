@@ -439,13 +439,42 @@ export function EliteResultsClient({
           <p className="text-center text-[10px] font-bold uppercase tracking-[0.22em] text-[#1E324E]/50">
             Punteggio complessivo
           </p>
-          <div className="mt-3 overflow-hidden border border-[#1E324E]/15">
+          <div className="mt-3 border border-[#1E324E]/15 sm:hidden">
+            <div className="bg-[#1E324E] px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-white">
+              Voto finale
+            </div>
+            <div className="px-4 py-5">
+              <div className="flex flex-wrap items-end justify-between gap-3">
+                <p
+                  className={cn(
+                    "font-display text-[2.75rem] font-semibold leading-none tabular-nums",
+                    verdict.scoreClass,
+                  )}
+                >
+                  {scoreDisplay}
+                  <span className="ml-1 align-baseline text-lg font-medium text-[#1E324E]/40">/30</span>
+                </p>
+                <span
+                  className={cn(
+                    "inline-block border-2 px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.14em]",
+                    verdict.badgeClass,
+                  )}
+                >
+                  {verdict.label}
+                </span>
+              </div>
+              <p className="mt-3 text-xs leading-snug text-[#1E324E]/60">
+                {verdict.detail} · Idoneità ≥ {CLINICAL_PASS_TRENTESIMI}/30
+              </p>
+            </div>
+          </div>
+          <div className="mt-3 hidden overflow-hidden border border-[#1E324E]/15 sm:block">
             <table className="w-full text-left text-sm">
               <thead className="bg-[#1E324E] text-[10px] font-bold uppercase tracking-wider text-white">
                 <tr>
                   <th className="px-4 py-2.5 font-semibold">Indagine</th>
                   <th className="px-4 py-2.5 font-semibold">Risultato</th>
-                  <th className="hidden px-4 py-2.5 font-semibold sm:table-cell">Valore di riferimento</th>
+                  <th className="px-4 py-2.5 font-semibold">Valore di riferimento</th>
                   <th className="px-4 py-2.5 font-semibold">Valutazione</th>
                 </tr>
               </thead>
@@ -460,7 +489,7 @@ export function EliteResultsClient({
                   <td className="border-t border-[#1E324E]/10 px-4 py-5">
                     <p
                       className={cn(
-                        "font-display text-[2.75rem] font-semibold leading-none tabular-nums sm:text-5xl",
+                        "font-display text-5xl font-semibold leading-none tabular-nums",
                         verdict.scoreClass,
                       )}
                     >
@@ -468,7 +497,7 @@ export function EliteResultsClient({
                       <span className="ml-1 align-baseline text-lg font-medium text-[#1E324E]/40">/30</span>
                     </p>
                   </td>
-                  <td className="hidden border-t border-[#1E324E]/10 px-4 py-5 sm:table-cell">
+                  <td className="border-t border-[#1E324E]/10 px-4 py-5">
                     <p className="text-sm font-medium tabular-nums text-[#1E324E]">
                       Idoneità ≥ {CLINICAL_PASS_TRENTESIMI},00 / 30
                     </p>
@@ -488,9 +517,6 @@ export function EliteResultsClient({
               </tbody>
             </table>
           </div>
-          <p className="mt-2 text-xs leading-snug text-[#1E324E]/55 sm:hidden">
-            {verdict.detail} · Idoneità ≥ {CLINICAL_PASS_TRENTESIMI}/30
-          </p>
           <div className="mt-4 h-2.5 overflow-hidden bg-[#E8ECF0]">
             <div className={cn("h-full", verdict.barClass)} style={{ width: `${barPct}%` }} />
           </div>
