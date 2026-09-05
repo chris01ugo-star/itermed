@@ -180,15 +180,26 @@ function resolvePillarScore(radarData: RadarDatumWithKey[], pillar: (typeof PILL
   return clampPercentScore(raw);
 }
 
+const STATUS_WASH = {
+  safe:
+    "border-[color-mix(in_srgb,var(--aequan-status-safe)_30%,white)] bg-[color-mix(in_srgb,var(--aequan-status-safe)_12%,white)] text-[var(--aequan-status-safe)]",
+  warn:
+    "border-[color-mix(in_srgb,var(--aequan-status-warn)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-warn)_10%,white)] text-[var(--aequan-status-warn)]",
+  risk:
+    "border-[color-mix(in_srgb,var(--aequan-status-risk)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-risk)_10%,white)] text-[var(--aequan-status-risk)]",
+  brand:
+    "border-[color-mix(in_srgb,var(--aequan-brand-primary)_30%,white)] bg-[color-mix(in_srgb,var(--aequan-brand-primary)_10%,white)] text-[var(--aequan-brand-primary)]",
+} as const;
+
 function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
   if (dismissed) {
     return {
-      label: "Abbandonato",
-      detail: "Sessione interrotta: valutazione non completata.",
+      label: "Interrotto",
+      detail: "Simulazione interrotta dall'utente prima del completamento.",
       tone: "warn" as const,
       scoreClass: "text-[var(--aequan-status-warn)]",
-      badgeClass: "bg-[var(--aequan-status-warn)] text-white",
-      barClass: "bg-[var(--aequan-status-warn)]",
+      badgeClass: STATUS_WASH.warn,
+      barClass: "bg-[color-mix(in_srgb,var(--aequan-status-warn)_45%,white)]",
     };
   }
   if (killer || score < CLINICAL_PASS_TRENTESIMI) {
@@ -197,8 +208,8 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
       detail: "Sotto la soglia di idoneità clinica (18/30).",
       tone: "risk" as const,
       scoreClass: "text-[var(--aequan-status-risk)]",
-      badgeClass: "bg-[var(--aequan-status-risk)] text-white",
-      barClass: "bg-[var(--aequan-status-risk)]",
+      badgeClass: STATUS_WASH.risk,
+      barClass: "bg-[color-mix(in_srgb,var(--aequan-status-risk)_45%,white)]",
     };
   }
   if (score < 22) {
@@ -207,8 +218,8 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
       detail: "Idoneità raggiunta, con margini di miglioramento.",
       tone: "ok" as const,
       scoreClass: "text-[var(--aequan-brand-primary)]",
-      badgeClass: "bg-[var(--aequan-brand-primary)] text-white",
-      barClass: "bg-[var(--aequan-brand-primary)]",
+      badgeClass: STATUS_WASH.brand,
+      barClass: "bg-[color-mix(in_srgb,var(--aequan-brand-primary)_45%,white)]",
     };
   }
   if (score < 26) {
@@ -217,8 +228,8 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
       detail: "Gestione solida e allineata ai pilastri AEQUAN.",
       tone: "ok" as const,
       scoreClass: "text-[var(--aequan-brand-primary)]",
-      badgeClass: "bg-[var(--aequan-brand-primary)] text-white",
-      barClass: "bg-[var(--aequan-brand-secondary)]",
+      badgeClass: STATUS_WASH.brand,
+      barClass: "bg-[color-mix(in_srgb,var(--aequan-brand-secondary)_50%,white)]",
     };
   }
   return {
@@ -226,8 +237,8 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
     detail: "Prestazione di alto livello su clinica, tutela ed empatia.",
     tone: "ok" as const,
     scoreClass: "text-[var(--aequan-status-safe)]",
-    badgeClass: "bg-[var(--aequan-status-safe)] text-white",
-    barClass: "bg-[var(--aequan-status-safe)]",
+    badgeClass: STATUS_WASH.safe,
+    barClass: "bg-[color-mix(in_srgb,var(--aequan-status-safe)_50%,white)]",
   };
 }
 
@@ -236,20 +247,20 @@ function pillarFlag(score: number) {
     return {
       label: "Critico",
       tone: "text-[var(--aequan-status-risk)]",
-      badge: "border-[var(--aequan-status-risk)] bg-[var(--aequan-status-risk)] text-white",
+      badge: STATUS_WASH.risk,
     };
   }
   if (score < 70) {
     return {
       label: "Alterato",
       tone: "text-[var(--aequan-status-warn)]",
-      badge: "border-[var(--aequan-status-warn)] bg-[var(--aequan-status-warn)] text-white",
+      badge: STATUS_WASH.warn,
     };
   }
   return {
     label: "Nei limiti",
     tone: "text-[var(--aequan-status-safe)]",
-    badge: "border-[var(--aequan-status-safe)] bg-[var(--aequan-status-safe)] text-white",
+    badge: STATUS_WASH.safe,
   };
 }
 
@@ -259,19 +270,19 @@ function legalShieldConfig(status: LegalProtectionStatus["status"]) {
       return {
         label: "Protetto",
         icon: ShieldCheck,
-        chip: "border-[var(--aequan-status-safe)] bg-[var(--aequan-status-safe)] text-white",
+        chip: STATUS_WASH.safe,
       };
     case "PARTIALLY_EXPOSED":
       return {
         label: "Parzialmente esposto",
         icon: Shield,
-        chip: "border-[var(--aequan-status-warn)] bg-[var(--aequan-status-warn)] text-white",
+        chip: STATUS_WASH.warn,
       };
     default:
       return {
         label: "Esposto",
         icon: ShieldAlert,
-        chip: "border-[var(--aequan-status-risk)] bg-[var(--aequan-status-risk)] text-white",
+        chip: STATUS_WASH.risk,
       };
   }
 }
@@ -535,7 +546,7 @@ export function EliteResultsClient({
           {dismissed ? (
             <p className="mt-3 inline-flex items-center gap-2 border border-[color-mix(in_srgb,var(--aequan-status-warn)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-warn)_10%,white)] px-3 py-1.5 text-[11px] font-semibold text-[var(--aequan-status-warn)]">
               <AlertTriangle className="h-3.5 w-3.5" />
-              Sessione abbandonata · punteggi azzerati su tutti gli assi
+              Simulazione interrotta dall&apos;utente prima del completamento
             </p>
           ) : null}
         </section>
