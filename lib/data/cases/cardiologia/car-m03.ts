@@ -44,7 +44,7 @@ const EXAM_BUDGET_EURO = 200;
 export const CAR_M03: ClinicalCase = {
   code: "CAR-M03",
   id: "car-m03",
-  title: "Sincope Aritmica da Blocco Atrio-Venticolare (BAV) di III Grado",
+  title: "Paziente con sincope e bradicardia marcata",
   description:
     "Uomo, 79 anni, iperteso con cardiopatia ipertrofica/sclerotica, condotto in PS dopo sincope improvvisa senza prodromi " +
     "(Adams-Stokes) in ortostatismo, con trauma cranico minore da caduta. Caso gold standard Prassi Clinica — Cardiologia — Medio " +

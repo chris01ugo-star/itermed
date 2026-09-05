@@ -182,7 +182,7 @@ export async function getPrassiRegistryCaseRows(userId: string): Promise<Clinica
     },
     {
       id: "cs_003",
-      title: "Uomo 33 anni con idrocefalo e cefalea acuta",
+      title: "Uomo 33 anni con cefalea acuta e nausea",
       specialty: "Neurologia",
       difficulty: "HARD",
       createdById: "seed",

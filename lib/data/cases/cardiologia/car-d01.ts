@@ -47,7 +47,7 @@ const EXAM_BUDGET_EURO = 280;
 export const CAR_D01: ClinicalCase = {
   code: "CAR-D01",
   id: "car-d01",
-  title: "Dissezione Aortica Acuta Tipo A Simulante STEMI Inferiore",
+  title: "Paziente con dolore toracico lacerante irradiato al dorso",
   description:
     "Uomo, 62 anni, iperteso in scarso controllo farmacologico, giunge in PS via 118 per dolore toracico lacerante, " +
     "«a pugnalata», ad esordio iperacuto (10/10), irradiato alla regione interscapolare e al dorso. " +

@@ -45,7 +45,7 @@ const EXAM_BUDGET_EURO = 110;
 export const CAR_M01: ClinicalCase = {
   code: "CAR-M01",
   id: "car-m01",
-  title: "SCA-NSTEMI Atipica e Equivalente Anginoso in Paziente Diabetico",
+  title: "Paziente diabetico con dolore toracico atipico",
   description:
     "Donna, 66 anni, Diabete Mellito Tipo 2 da 15 anni in scarso controllo (HbA1c 8.8%), giunge in PS per " +
     "insorgenza improvvisa di profonda dispnea da sforzo lieve, nausea ed epigastralgia sfumata da circa 3 ore. " +

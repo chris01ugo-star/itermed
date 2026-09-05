@@ -42,7 +42,7 @@ const EXAM_BUDGET_EURO = 120;
 export const CAR_F01: ClinicalCase = {
   code: "CAR-F01",
   id: "car-f01",
-  title: "STEMI Anteriore Acuto in Paziente di 58 anni",
+  title: "Uomo 58 anni con dolore toracico oppressivo e sudorazione",
   description:
     "Uomo, 58 anni, dolore toracico retrosternale oppressivo insorto da 40 minuti, irradiato al braccio sinistro " +
     "e alla mandibola, associato a diaforesi e nausea. Caso gold standard Prassi Clinica — Cardiologia — Facile.",

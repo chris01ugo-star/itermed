@@ -280,7 +280,7 @@ const CASES: SeedCase[] = [
     },
   },
   {
-    title: "Uomo 33 anni con idrocefalo e cefalea acuta",
+    title: "Uomo 33 anni con cefalea acuta e nausea",
     description:
       "Uomo di 33 anni con storia di idrocefalo e shunt VP presenta cefalea improvvisa, vomito e sonnolenza. Arriva in PS.",
     specialtyName: "Neurologia",

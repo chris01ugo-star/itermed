@@ -43,7 +43,7 @@ const EXAM_BUDGET_EURO = 90;
 export const CAR_D04: ClinicalCase = {
   code: "CAR-D04",
   id: "car-d04",
-  title: "Intossicazione Digitalica e Iperkaliemia da Inappropriatezza Prescrittiva",
+  title: "Paziente con tossicità da digossina e iperkaliemia",
   description:
     "Donna, 82 anni, FA cronica, scompenso cardiaco e IRC (eGFR 28), condotta in PS per nausea, vomito, xantopsia, " +
     "confusione e bradicardia da 24 ore. Caso gold standard Prassi Clinica — Cardiologia — Difficile " +

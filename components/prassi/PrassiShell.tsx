@@ -56,6 +56,20 @@ const DIFFICULTY_TONE: Record<CaseDifficulty, string> = {
   HARD: "text-rose-700",
 };
 
+/** Facile → medio → difficile, then title (IT). */
+const DIFFICULTY_SORT_RANK: Record<CaseDifficulty, number> = {
+  EASY: 0,
+  MEDIUM: 1,
+  HARD: 2,
+};
+
+function compareCasesByDifficultyThenTitle(a: ClinicalCaseRow, b: ClinicalCaseRow): number {
+  const rankA = DIFFICULTY_SORT_RANK[isCaseDifficulty(a.difficulty) ? a.difficulty : "MEDIUM"];
+  const rankB = DIFFICULTY_SORT_RANK[isCaseDifficulty(b.difficulty) ? b.difficulty : "MEDIUM"];
+  if (rankA !== rankB) return rankA - rankB;
+  return (a.title ?? "").localeCompare(b.title ?? "", "it");
+}
+
 type SpecialtyBucket = {
   name: string;
   cases: ClinicalCaseRow[];
@@ -120,9 +134,7 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
     return names
       .map((name) => ({
         name,
-        cases: (byName.get(name) ?? []).slice().sort((a, b) =>
-          (a.title ?? "").localeCompare(b.title ?? "", "it"),
-        ),
+        cases: (byName.get(name) ?? []).slice().sort(compareCasesByDifficultyThenTitle),
         pastel: pastelMap.get(name)!,
       }))
       .filter((b) => b.cases.length > 0)

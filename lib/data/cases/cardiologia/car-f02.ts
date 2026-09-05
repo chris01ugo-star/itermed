@@ -37,7 +37,7 @@ const EXAM_BUDGET_EURO = 120;
 export const CAR_F02: ClinicalCase = {
   code: "CAR-F02",
   id: "car-f02",
-  title: "Fibrillazione Atriale ad Alta Risposta Ventricolare (FA-ARV)",
+  title: "Donna con palpitazioni e frequenza ventricolare elevata",
   description:
     "Donna, 71 anni, ipertesa e cardiopatica, giunge in PS per palpitazioni «a battito irregolare», cardiopalmo ed astenia " +
     "comparsi da circa 6 ore. Caso gold standard Prassi Clinica — Cardiologia — Facile (rate control + CHA₂DS₂-VASc + DOAC).",
