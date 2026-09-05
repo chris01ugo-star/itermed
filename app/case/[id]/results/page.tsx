@@ -20,6 +20,8 @@ import type {
 import { AequanLogo } from "@/components/AequanLogo";
 import { EliteResultsClient } from "./EliteResultsClient";
 import { OfflineResultsGate } from "./OfflineResultsGate";
+import { config } from "@/lib/config";
+import { reportAccessionCode, reportShareUrl } from "@/lib/reports/share-link";
 
 type ResultsPageProps = {
   params: Promise<{ id: string }> | { id: string };
@@ -192,6 +194,8 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
             radarData={radarData}
             caseTitle={registered?.title}
             sessionId={session.id}
+            shareUrl={reportShareUrl(session.id, config.APP_URL)}
+            accessionCode={reportAccessionCode(session.id)}
             dismissed={Boolean(trace.dismissed)}
             strengths={
               Array.isArray(trace.feedback?.strengths) ? trace.feedback!.strengths! : []

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   Activity,
   AlertTriangle,
@@ -38,6 +38,8 @@ import {
   type ScoreMotivation,
 } from "@/lib/services/evaluation-scoring";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
+import { ReportShareBarcode } from "@/components/report/ReportShareBarcode";
+import { reportAccessionCode, reportShareUrl } from "@/lib/reports/share-link";
 
 type RadarDatumWithKey = RadarDatum & { key?: string };
 
@@ -51,6 +53,8 @@ type EliteResultsClientProps = {
   radarData: RadarDatumWithKey[];
   caseTitle?: string | null;
   sessionId?: string | null;
+  shareUrl?: string | null;
+  accessionCode?: string | null;
   dismissed?: boolean;
   strengths?: string[];
   weaknesses?: string[];
@@ -336,6 +340,8 @@ export function EliteResultsClient({
   radarData,
   caseTitle,
   sessionId,
+  shareUrl,
+  accessionCode,
   dismissed,
   strengths = [],
   weaknesses = [],
@@ -385,6 +391,17 @@ export function EliteResultsClient({
     scoreBreakdown?.empathy?.qualitativeLabel ||
     null;
 
+  const accession = accessionCode || (sessionId ? reportAccessionCode(sessionId) : "");
+  const [resolvedShareUrl, setResolvedShareUrl] = useState(shareUrl?.trim() || "");
+  useEffect(() => {
+    if (shareUrl?.trim()) {
+      setResolvedShareUrl(shareUrl.trim());
+      return;
+    }
+    if (!sessionId || typeof window === "undefined") return;
+    setResolvedShareUrl(reportShareUrl(sessionId, window.location.origin));
+  }, [shareUrl, sessionId]);
+
   const dateLabel = new Intl.DateTimeFormat("it-IT", {
     day: "2-digit",
     month: "short",
@@ -397,24 +414,22 @@ export function EliteResultsClient({
     <div className="space-y-3">
       <article className="overflow-hidden border border-[var(--aequan-border)] bg-[var(--aequan-panel-bg)] shadow-[0_14px_40px_-20px_rgba(30,50,78,0.28)]">
         <header className="border-b-[6px] border-[var(--aequan-brand-primary)] bg-[var(--aequan-ui-bg)] px-5 py-4 sm:px-7">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="min-w-0 flex-1">
               <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[var(--aequan-text-secondary)]">
                 AEQUAN · Simulazione clinica
               </p>
               <h1 className="mt-1 font-display text-[1.65rem] font-semibold tracking-tight text-[var(--aequan-brand-primary)] sm:text-[1.85rem]">
                 Referto di valutazione
               </h1>
+              <p className="mt-1 text-[11px] tabular-nums text-[var(--aequan-text-secondary)]">
+                Emesso {dateLabel}
+                {sessionId ? ` · Sessione ${sessionId.slice(0, 8).toUpperCase()}` : null}
+              </p>
             </div>
-            <p className="text-right text-[11px] tabular-nums text-[var(--aequan-text-secondary)]">
-              Emesso {dateLabel}
-              {sessionId ? (
-                <>
-                  <br />
-                  Sessione {sessionId.slice(0, 8).toUpperCase()}
-                </>
-              ) : null}
-            </p>
+            {accession && resolvedShareUrl ? (
+              <ReportShareBarcode accession={accession} shareUrl={resolvedShareUrl} />
+            ) : null}
           </div>
           <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-[var(--aequan-border)] pt-3 text-[12px] sm:grid-cols-4">
             <div>
