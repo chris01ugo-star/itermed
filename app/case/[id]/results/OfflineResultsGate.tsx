@@ -132,7 +132,7 @@ export function OfflineResultsGate({
 
   if (!data && !failed) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white px-5 py-8 text-center text-sm text-slate-600 shadow-sm">
+      <div className="border border-[var(--aequan-border)] bg-[var(--aequan-panel-bg)] px-5 py-8 text-center text-sm text-[var(--aequan-text-secondary)] shadow-sm">
         Caricamento report di fine simulazione…
       </div>
     );

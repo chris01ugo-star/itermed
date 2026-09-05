@@ -102,13 +102,13 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
         return notFound();
       }
       return (
-        <div className="min-h-screen bg-[#E4E8EE] text-[#1E324E]">
-          <div className="pointer-events-none fixed inset-0 bg-[#E4E8EE]" aria-hidden />
+        <div className="min-h-screen bg-[var(--aequan-ui-bg)] text-[var(--aequan-text-primary)]">
+          <div className="pointer-events-none fixed inset-0 bg-[var(--aequan-ui-bg)]" aria-hidden />
           <div className="relative mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
             <div className="mb-5 flex items-center justify-between gap-3">
               <Link
                 href="/dashboard/prassi"
-                className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80 transition hover:text-[#345884]"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[var(--aequan-panel-bg)]/80 px-3 py-1.5 text-xs font-medium text-[var(--aequan-text-secondary)] shadow-sm ring-1 ring-[var(--aequan-border)] transition hover:text-[var(--aequan-brand-secondary)]"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 Casi Clinici
@@ -171,13 +171,13 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
       : [];
 
     return (
-      <div className="min-h-screen bg-[#E4E8EE] text-[#1E324E]">
-        <div className="pointer-events-none fixed inset-0 bg-[#E4E8EE]" aria-hidden />
+      <div className="min-h-screen bg-[var(--aequan-ui-bg)] text-[var(--aequan-text-primary)]">
+        <div className="pointer-events-none fixed inset-0 bg-[var(--aequan-ui-bg)]" aria-hidden />
         <div className="relative mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
           <div className="mb-5 flex items-center justify-between gap-3">
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80 transition hover:text-[#345884]"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[var(--aequan-panel-bg)]/80 px-3 py-1.5 text-xs font-medium text-[var(--aequan-text-secondary)] shadow-sm ring-1 ring-[var(--aequan-border)] transition hover:text-[var(--aequan-brand-secondary)]"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               Dashboard

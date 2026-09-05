@@ -186,9 +186,9 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
       label: "Abbandonato",
       detail: "Sessione interrotta: valutazione non completata.",
       tone: "warn" as const,
-      scoreClass: "text-[#B9770E]",
-      badgeClass: "bg-[#F39C12] text-white",
-      barClass: "bg-[#F39C12]",
+      scoreClass: "text-[var(--aequan-status-warn)]",
+      badgeClass: "bg-[var(--aequan-status-warn)] text-white",
+      barClass: "bg-[var(--aequan-status-warn)]",
     };
   }
   if (killer || score < CLINICAL_PASS_TRENTESIMI) {
@@ -196,9 +196,9 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
       label: "Non sufficiente",
       detail: "Sotto la soglia di idoneità clinica (18/30).",
       tone: "risk" as const,
-      scoreClass: "text-[#C0392B]",
-      badgeClass: "bg-[#C0392B] text-white",
-      barClass: "bg-[#C0392B]",
+      scoreClass: "text-[var(--aequan-status-risk)]",
+      badgeClass: "bg-[var(--aequan-status-risk)] text-white",
+      barClass: "bg-[var(--aequan-status-risk)]",
     };
   }
   if (score < 22) {
@@ -206,9 +206,9 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
       label: "Sufficiente",
       detail: "Idoneità raggiunta, con margini di miglioramento.",
       tone: "ok" as const,
-      scoreClass: "text-[#1E324E]",
-      badgeClass: "bg-[#1E324E] text-white",
-      barClass: "bg-[#1E324E]",
+      scoreClass: "text-[var(--aequan-brand-primary)]",
+      badgeClass: "bg-[var(--aequan-brand-primary)] text-white",
+      barClass: "bg-[var(--aequan-brand-primary)]",
     };
   }
   if (score < 26) {
@@ -216,18 +216,18 @@ function verdictForScore(score: number, dismissed?: boolean, killer?: boolean) {
       label: "Buono",
       detail: "Gestione solida e allineata ai pilastri AEQUAN.",
       tone: "ok" as const,
-      scoreClass: "text-[#1E324E]",
-      badgeClass: "bg-[#1E324E] text-white",
-      barClass: "bg-[#345884]",
+      scoreClass: "text-[var(--aequan-brand-primary)]",
+      badgeClass: "bg-[var(--aequan-brand-primary)] text-white",
+      barClass: "bg-[var(--aequan-brand-secondary)]",
     };
   }
   return {
     label: "Ottimo",
     detail: "Prestazione di alto livello su clinica, tutela ed empatia.",
     tone: "ok" as const,
-    scoreClass: "text-[#345884]",
-    badgeClass: "bg-[#345884] text-white",
-    barClass: "bg-[#345884]",
+    scoreClass: "text-[var(--aequan-status-safe)]",
+    badgeClass: "bg-[var(--aequan-status-safe)] text-white",
+    barClass: "bg-[var(--aequan-status-safe)]",
   };
 }
 
@@ -235,21 +235,21 @@ function pillarFlag(score: number) {
   if (score < 50) {
     return {
       label: "Critico",
-      tone: "text-[#C0392B]",
-      badge: "border-[#C0392B] bg-[#C0392B] text-white",
+      tone: "text-[var(--aequan-status-risk)]",
+      badge: "border-[var(--aequan-status-risk)] bg-[var(--aequan-status-risk)] text-white",
     };
   }
   if (score < 70) {
     return {
       label: "Alterato",
-      tone: "text-[#B9770E]",
-      badge: "border-[#F39C12] bg-[#F39C12] text-white",
+      tone: "text-[var(--aequan-status-warn)]",
+      badge: "border-[var(--aequan-status-warn)] bg-[var(--aequan-status-warn)] text-white",
     };
   }
   return {
     label: "Nei limiti",
-    tone: "text-[#345884]",
-    badge: "border-[#345884] bg-[#345884] text-white",
+    tone: "text-[var(--aequan-status-safe)]",
+    badge: "border-[var(--aequan-status-safe)] bg-[var(--aequan-status-safe)] text-white",
   };
 }
 
@@ -259,19 +259,19 @@ function legalShieldConfig(status: LegalProtectionStatus["status"]) {
       return {
         label: "Protetto",
         icon: ShieldCheck,
-        chip: "border-[#345884] bg-[#345884] text-white",
+        chip: "border-[var(--aequan-status-safe)] bg-[var(--aequan-status-safe)] text-white",
       };
     case "PARTIALLY_EXPOSED":
       return {
         label: "Parzialmente esposto",
         icon: Shield,
-        chip: "border-[#F39C12] bg-[#F39C12] text-white",
+        chip: "border-[var(--aequan-status-warn)] bg-[var(--aequan-status-warn)] text-white",
       };
     default:
       return {
         label: "Esposto",
         icon: ShieldAlert,
-        chip: "border-[#C0392B] bg-[#C0392B] text-white",
+        chip: "border-[var(--aequan-status-risk)] bg-[var(--aequan-status-risk)] text-white",
       };
   }
 }
@@ -293,20 +293,20 @@ function Accordion({
     <details
       open={isOpen}
       onToggle={(event) => setIsOpen(event.currentTarget.open)}
-      className="group bg-white"
+      className="group bg-[var(--aequan-panel-bg)]"
     >
       <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-3.5 marker:content-none [&::-webkit-details-marker]:hidden sm:px-7">
         <span className="flex items-center gap-2.5">
-          <span className="text-[13px] font-semibold text-[#1E324E]">{title}</span>
+          <span className="text-[13px] font-semibold text-[var(--aequan-brand-primary)]">{title}</span>
           {typeof count === "number" ? (
-            <span className="border border-[#1E324E]/20 bg-[#F4F6F8] px-1.5 py-0.5 text-[10px] font-bold tabular-nums text-[#1E324E]">
+            <span className="border border-[var(--aequan-border)] bg-[var(--aequan-ui-bg)] px-1.5 py-0.5 text-[10px] font-bold tabular-nums text-[var(--aequan-brand-primary)]">
               {count}
             </span>
           ) : null}
         </span>
-        <ChevronDown className="h-4 w-4 shrink-0 text-[#1E324E]/40 transition duration-200 group-open:rotate-180" />
+        <ChevronDown className="h-4 w-4 shrink-0 text-[var(--aequan-text-secondary)] transition duration-200 group-open:rotate-180" />
       </summary>
-      <div className="border-t border-[#1E324E]/10 px-5 py-4 sm:px-7">{children}</div>
+      <div className="border-t border-[var(--aequan-border)] px-5 py-4 sm:px-7">{children}</div>
     </details>
   );
 }
@@ -314,11 +314,23 @@ function Accordion({
 function statusMeta(status: ClinicalDeltaRow["status"]) {
   switch (status) {
     case "MET":
-      return { label: "Allineato", className: "bg-emerald-50 text-emerald-800" };
+      return {
+        label: "Allineato",
+        className:
+          "border-[color-mix(in_srgb,var(--aequan-status-safe)_30%,white)] bg-[color-mix(in_srgb,var(--aequan-status-safe)_12%,white)] text-[var(--aequan-status-safe)]",
+      };
     case "DELAYED":
-      return { label: "Ritardato", className: "bg-amber-50 text-amber-900" };
+      return {
+        label: "Ritardato",
+        className:
+          "border-[color-mix(in_srgb,var(--aequan-status-warn)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-warn)_10%,white)] text-[var(--aequan-status-warn)]",
+      };
     default:
-      return { label: "Mancato", className: "bg-rose-50 text-rose-800" };
+      return {
+        label: "Mancato",
+        className:
+          "border-[color-mix(in_srgb,var(--aequan-status-risk)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-risk)_10%,white)] text-[var(--aequan-status-risk)]",
+      };
   }
 }
 
@@ -386,18 +398,18 @@ export function EliteResultsClient({
 
   return (
     <div className="space-y-3">
-      <article className="overflow-hidden border border-[#1E324E]/20 bg-white shadow-[0_14px_40px_-20px_rgba(15,23,42,0.4)]">
-        <header className="border-b-[6px] border-[#1E324E] bg-[#F4F6F8] px-5 py-4 sm:px-7">
+      <article className="overflow-hidden border border-[var(--aequan-border)] bg-[var(--aequan-panel-bg)] shadow-[0_14px_40px_-20px_rgba(30,50,78,0.28)]">
+        <header className="border-b-[6px] border-[var(--aequan-brand-primary)] bg-[var(--aequan-ui-bg)] px-5 py-4 sm:px-7">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#1E324E]/55">
+              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[var(--aequan-text-secondary)]">
                 AEQUAN · Simulazione clinica
               </p>
-              <h1 className="mt-1 font-display text-[1.65rem] font-semibold tracking-tight text-[#1E324E] sm:text-[1.85rem]">
+              <h1 className="mt-1 font-display text-[1.65rem] font-semibold tracking-tight text-[var(--aequan-brand-primary)] sm:text-[1.85rem]">
                 Referto di valutazione
               </h1>
             </div>
-            <p className="text-right text-[11px] tabular-nums text-[#1E324E]/70">
+            <p className="text-right text-[11px] tabular-nums text-[var(--aequan-text-secondary)]">
               Emesso {dateLabel}
               {sessionId ? (
                 <>
@@ -407,27 +419,27 @@ export function EliteResultsClient({
               ) : null}
             </p>
           </div>
-          <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-[#1E324E]/15 pt-3 text-[12px] sm:grid-cols-4">
+          <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-[var(--aequan-border)] pt-3 text-[12px] sm:grid-cols-4">
             <div>
-              <dt className="text-[9px] font-bold uppercase tracking-wider text-[#1E324E]/45">Caso</dt>
-              <dd className="mt-0.5 font-semibold leading-snug text-[#1E324E]">
+              <dt className="text-[9px] font-bold uppercase tracking-wider text-[var(--aequan-text-secondary)]">Caso</dt>
+              <dd className="mt-0.5 font-semibold leading-snug text-[var(--aequan-brand-primary)]">
                 {caseTitle?.trim() || "Sessione valutata"}
               </dd>
             </div>
             <div>
-              <dt className="text-[9px] font-bold uppercase tracking-wider text-[#1E324E]/45">Scala</dt>
-              <dd className="mt-0.5 font-semibold tabular-nums text-[#1E324E]">Trentesimi (0–30)</dd>
+              <dt className="text-[9px] font-bold uppercase tracking-wider text-[var(--aequan-text-secondary)]">Scala</dt>
+              <dd className="mt-0.5 font-semibold tabular-nums text-[var(--aequan-brand-primary)]">Trentesimi (0–30)</dd>
             </div>
             <div>
-              <dt className="text-[9px] font-bold uppercase tracking-wider text-[#1E324E]/45">
+              <dt className="text-[9px] font-bold uppercase tracking-wider text-[var(--aequan-text-secondary)]">
                 Soglia idoneità
               </dt>
-              <dd className="mt-0.5 font-semibold tabular-nums text-[#1E324E]">
+              <dd className="mt-0.5 font-semibold tabular-nums text-[var(--aequan-brand-primary)]">
                 {CLINICAL_PASS_TRENTESIMI}/30
               </dd>
             </div>
             <div>
-              <dt className="text-[9px] font-bold uppercase tracking-wider text-[#1E324E]/45">Esito</dt>
+              <dt className="text-[9px] font-bold uppercase tracking-wider text-[var(--aequan-text-secondary)]">Esito</dt>
               <dd className={cn("mt-0.5 font-bold uppercase tracking-wide", verdict.scoreClass)}>
                 {verdict.label}
               </dd>
@@ -435,12 +447,12 @@ export function EliteResultsClient({
           </dl>
         </header>
 
-        <section className="border-b border-[#1E324E]/12 px-5 py-6 sm:px-7">
-          <p className="text-center text-[10px] font-bold uppercase tracking-[0.22em] text-[#1E324E]/50">
+        <section className="border-b border-[var(--aequan-border)] px-5 py-6 sm:px-7">
+          <p className="text-center text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--aequan-text-secondary)]">
             Punteggio complessivo
           </p>
-          <div className="mt-3 border border-[#1E324E]/15 sm:hidden">
-            <div className="bg-[#1E324E] px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-white">
+          <div className="mt-3 border border-[var(--aequan-border)] sm:hidden">
+            <div className="bg-[var(--aequan-brand-primary)] px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-white">
               Voto finale
             </div>
             <div className="px-4 py-5">
@@ -452,7 +464,7 @@ export function EliteResultsClient({
                   )}
                 >
                   {scoreDisplay}
-                  <span className="ml-1 align-baseline text-lg font-medium text-[#1E324E]/40">/30</span>
+                  <span className="ml-1 align-baseline text-lg font-medium text-[var(--aequan-text-secondary)]">/30</span>
                 </p>
                 <span
                   className={cn(
@@ -463,14 +475,14 @@ export function EliteResultsClient({
                   {verdict.label}
                 </span>
               </div>
-              <p className="mt-3 text-xs leading-snug text-[#1E324E]/60">
+              <p className="mt-3 text-xs leading-snug text-[var(--aequan-text-secondary)]">
                 {verdict.detail} · Idoneità ≥ {CLINICAL_PASS_TRENTESIMI}/30
               </p>
             </div>
           </div>
-          <div className="mt-3 hidden overflow-hidden border border-[#1E324E]/15 sm:block">
+          <div className="mt-3 hidden overflow-hidden border border-[var(--aequan-border)] sm:block">
             <table className="w-full text-left text-sm">
-              <thead className="bg-[#1E324E] text-[10px] font-bold uppercase tracking-wider text-white">
+              <thead className="bg-[var(--aequan-brand-primary)] text-[10px] font-bold uppercase tracking-wider text-white">
                 <tr>
                   <th className="px-4 py-2.5 font-semibold">Indagine</th>
                   <th className="px-4 py-2.5 font-semibold">Risultato</th>
@@ -480,13 +492,13 @@ export function EliteResultsClient({
               </thead>
               <tbody>
                 <tr className="align-middle">
-                  <td className="border-t border-[#1E324E]/10 px-4 py-5">
-                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#1E324E]/50">
+                  <td className="border-t border-[var(--aequan-border)] px-4 py-5">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--aequan-text-secondary)]">
                       Performance clinica
                     </p>
-                    <p className="mt-0.5 font-display text-lg font-semibold text-[#1E324E]">Voto finale</p>
+                    <p className="mt-0.5 font-display text-lg font-semibold text-[var(--aequan-brand-primary)]">Voto finale</p>
                   </td>
-                  <td className="border-t border-[#1E324E]/10 px-4 py-5">
+                  <td className="border-t border-[var(--aequan-border)] px-4 py-5">
                     <p
                       className={cn(
                         "font-display text-5xl font-semibold leading-none tabular-nums",
@@ -494,16 +506,16 @@ export function EliteResultsClient({
                       )}
                     >
                       {scoreDisplay}
-                      <span className="ml-1 align-baseline text-lg font-medium text-[#1E324E]/40">/30</span>
+                      <span className="ml-1 align-baseline text-lg font-medium text-[var(--aequan-text-secondary)]">/30</span>
                     </p>
                   </td>
-                  <td className="border-t border-[#1E324E]/10 px-4 py-5">
-                    <p className="text-sm font-medium tabular-nums text-[#1E324E]">
+                  <td className="border-t border-[var(--aequan-border)] px-4 py-5">
+                    <p className="text-sm font-medium tabular-nums text-[var(--aequan-brand-primary)]">
                       Idoneità ≥ {CLINICAL_PASS_TRENTESIMI},00 / 30
                     </p>
-                    <p className="mt-1 text-xs leading-snug text-[#1E324E]/55">{verdict.detail}</p>
+                    <p className="mt-1 text-xs leading-snug text-[var(--aequan-text-secondary)]">{verdict.detail}</p>
                   </td>
-                  <td className="border-t border-[#1E324E]/10 px-4 py-5">
+                  <td className="border-t border-[var(--aequan-border)] px-4 py-5">
                     <span
                       className={cn(
                         "inline-block border-2 px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.14em]",
@@ -517,11 +529,11 @@ export function EliteResultsClient({
               </tbody>
             </table>
           </div>
-          <div className="mt-4 h-2.5 overflow-hidden bg-[#E8ECF0]">
+          <div className="mt-4 h-2.5 overflow-hidden bg-[var(--aequan-border)]">
             <div className={cn("h-full", verdict.barClass)} style={{ width: `${barPct}%` }} />
           </div>
           {dismissed ? (
-            <p className="mt-3 inline-flex items-center gap-2 border border-[#F39C12]/30 bg-[#FEF5E7] px-3 py-1.5 text-[11px] font-semibold text-[#B9770E]">
+            <p className="mt-3 inline-flex items-center gap-2 border border-[color-mix(in_srgb,var(--aequan-status-warn)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-warn)_10%,white)] px-3 py-1.5 text-[11px] font-semibold text-[var(--aequan-status-warn)]">
               <AlertTriangle className="h-3.5 w-3.5" />
               Sessione abbandonata · punteggi azzerati su tutti gli assi
             </p>
@@ -529,14 +541,14 @@ export function EliteResultsClient({
         </section>
 
         {showKillerSwitchBanner ? (
-          <section className="border-b border-[#C0392B]/25 bg-[#F9EBEA] px-5 py-4 sm:px-7">
+          <section className="border-b border-[color-mix(in_srgb,var(--aequan-status-risk)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-risk)_10%,white)] px-5 py-4 sm:px-7">
             <div className="flex items-start gap-2.5">
-              <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#C0392B]" />
+              <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-[var(--aequan-status-risk)]" />
               <div className="min-w-0 space-y-1.5">
-                <p className="text-xs font-extrabold uppercase tracking-wider text-[#C0392B]">
+                <p className="text-xs font-extrabold uppercase tracking-wider text-[var(--aequan-status-risk)]">
                   Valore critico · Bocciatura d&apos;ufficio · tetto {killerCap}/30
                 </p>
-                <p className="text-xs leading-relaxed text-[#A93226]">
+                <p className="text-xs leading-relaxed text-[var(--aequan-status-risk)]">
                   Rilevati errori clinici o legali fatali.
                   {killerSwitch?.applied &&
                   typeof killerSwitch.rawTotalTrentesimi === "number" &&
@@ -547,7 +559,7 @@ export function EliteResultsClient({
                 {fatalErrors.length > 0 ? (
                   <ul className="space-y-1 pt-1">
                     {fatalErrors.map((error) => (
-                      <li key={error.code} className="text-xs leading-relaxed text-[#A93226]">
+                      <li key={error.code} className="text-xs leading-relaxed text-[var(--aequan-status-risk)]">
                         · {error.description}
                       </li>
                     ))}
@@ -558,13 +570,13 @@ export function EliteResultsClient({
           </section>
         ) : null}
 
-        <section className="border-b border-[#1E324E]/12 px-5 py-6 sm:px-7">
-          <h2 className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#1E324E]/50">
+        <section className="border-b border-[var(--aequan-border)] px-5 py-6 sm:px-7">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--aequan-text-secondary)]">
             Cinque pilastri · contribuzione al voto
           </h2>
-          <div className="mt-3 overflow-x-auto border border-[#1E324E]/15">
+          <div className="mt-3 overflow-x-auto border border-[var(--aequan-border)]">
             <table className="w-full min-w-[40rem] text-left text-sm">
-              <thead className="bg-[#1E324E] text-[10px] font-bold uppercase tracking-wider text-white">
+              <thead className="bg-[var(--aequan-brand-primary)] text-[10px] font-bold uppercase tracking-wider text-white">
                 <tr>
                   <th className="px-3 py-2.5 font-semibold">Pilastro</th>
                   <th className="px-3 py-2.5 font-semibold">Risultato</th>
@@ -594,14 +606,14 @@ export function EliteResultsClient({
                   const flag = pillarFlag(score);
                   const Icon = pillar.icon;
                   return (
-                    <tr key={pillar.key} className={i % 2 === 0 ? "bg-white" : "bg-[#F7F8FA]"}>
-                      <td className="border-t border-[#1E324E]/10 px-3 py-3 align-top">
-                        <p className="flex items-center gap-2 font-semibold text-[#1E324E]">
-                          <Icon className="h-3.5 w-3.5 shrink-0 text-[#1E324E]/55" strokeWidth={1.75} />
+                    <tr key={pillar.key} className={i % 2 === 0 ? "bg-[var(--aequan-panel-bg)]" : "bg-[var(--aequan-border-subtle)]"}>
+                      <td className="border-t border-[var(--aequan-border)] px-3 py-3 align-top">
+                        <p className="flex items-center gap-2 font-semibold text-[var(--aequan-brand-primary)]">
+                          <Icon className="h-3.5 w-3.5 shrink-0 text-[var(--aequan-text-secondary)]" strokeWidth={1.75} />
                           {pillar.label}
                         </p>
                         {insight ? (
-                          <p className="mt-1 max-w-sm text-[12px] leading-snug text-[#1E324E]/65">
+                          <p className="mt-1 max-w-sm text-[12px] leading-snug text-[var(--aequan-text-secondary)]">
                             <SafeLlmText as="span" className="whitespace-pre-line">
                               {insight}
                             </SafeLlmText>
@@ -610,22 +622,22 @@ export function EliteResultsClient({
                       </td>
                       <td
                         className={cn(
-                          "border-t border-[#1E324E]/10 px-3 py-3 align-top font-display text-2xl font-semibold tabular-nums",
+                          "border-t border-[var(--aequan-border)] px-3 py-3 align-top font-display text-2xl font-semibold tabular-nums",
                           flag.tone,
                         )}
                       >
                         {Math.round(score)}
-                        <span className="ml-0.5 text-sm font-medium text-[#1E324E]/35">/100</span>
+                        <span className="ml-0.5 text-sm font-medium text-[var(--aequan-text-secondary)]">/100</span>
                       </td>
-                      <td className="border-t border-[#1E324E]/10 px-3 py-3 align-top text-[13px] tabular-nums text-[#1E324E]">
+                      <td className="border-t border-[var(--aequan-border)] px-3 py-3 align-top text-[13px] tabular-nums text-[var(--aequan-brand-primary)]">
                         {contribution != null && maxPts != null
                           ? `${String(contribution).replace(".", ",")}/${maxPts}`
                           : "solo radar"}
                       </td>
-                      <td className="border-t border-[#1E324E]/10 px-3 py-3 align-top text-[12px] text-[#1E324E]/60">
+                      <td className="border-t border-[var(--aequan-border)] px-3 py-3 align-top text-[12px] text-[var(--aequan-text-secondary)]">
                         {pillar.gradeWeight != null ? "≥ 70/100 nei limiti" : "Indicatore accessorio"}
                       </td>
-                      <td className="border-t border-[#1E324E]/10 px-3 py-3 align-top">
+                      <td className="border-t border-[var(--aequan-border)] px-3 py-3 align-top">
                         <span
                           className={cn(
                             "inline-block border px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider",
@@ -643,13 +655,13 @@ export function EliteResultsClient({
           </div>
         </section>
 
-        <section className="border-b border-[#1E324E]/12 px-5 py-6 sm:px-7">
-          <h2 className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#1E324E]/50">
+        <section className="border-b border-[var(--aequan-border)] px-5 py-6 sm:px-7">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--aequan-text-secondary)]">
             Indicatori accessori
           </h2>
-          <div className="mt-3 overflow-hidden border border-[#1E324E]/15">
+          <div className="mt-3 overflow-hidden border border-[var(--aequan-border)]">
             <table className="w-full text-left text-sm">
-              <thead className="bg-[#F0F3F6] text-[10px] font-bold uppercase tracking-wider text-[#1E324E]/70">
+              <thead className="bg-[var(--aequan-ui-bg)] text-[10px] font-bold uppercase tracking-wider text-[var(--aequan-text-secondary)]">
                 <tr>
                   <th className="px-4 py-2 font-semibold">Indicatore</th>
                   <th className="px-4 py-2 font-semibold">Risultato</th>
@@ -658,35 +670,35 @@ export function EliteResultsClient({
               </thead>
               <tbody>
                 <tr>
-                  <td className="border-t border-[#1E324E]/10 px-4 py-3 font-semibold text-[#1E324E]">
+                  <td className="border-t border-[var(--aequan-border)] px-4 py-3 font-semibold text-[var(--aequan-brand-primary)]">
                     Bilancio SSN
                   </td>
-                  <td className="border-t border-[#1E324E]/10 px-4 py-3">
+                  <td className="border-t border-[var(--aequan-border)] px-4 py-3">
                     {economicAnalysis ? (
                       <>
                         <p
                           className={cn(
                             "font-display text-2xl font-semibold tabular-nums",
-                            overspend > 0 ? "text-[#C0392B]" : "text-[#1E324E]",
+                            overspend > 0 ? "text-[var(--aequan-status-risk)]" : "text-[var(--aequan-brand-primary)]",
                           )}
                         >
                           €{economicAnalysis.actualSpent.toFixed(0)}
-                          <span className="ml-1 text-sm font-medium text-[#1E324E]/40">
+                          <span className="ml-1 text-sm font-medium text-[var(--aequan-text-secondary)]">
                             / €{economicAnalysis.targetBudget.toFixed(0)}
                           </span>
                         </p>
-                        <div className="mt-2 h-1.5 overflow-hidden bg-[#E8ECF0]">
+                        <div className="mt-2 h-1.5 overflow-hidden bg-[var(--aequan-border)]">
                           <div
-                            className={cn("h-full", overspend > 0 ? "bg-[#C0392B]" : "bg-[#1E324E]")}
+                            className={cn("h-full", overspend > 0 ? "bg-[var(--aequan-status-risk)]" : "bg-[var(--aequan-brand-primary)]")}
                             style={{ width: `${budgetRatio}%` }}
                           />
                         </div>
                       </>
                     ) : (
-                      <span className="text-xs text-[#1E324E]/50">Non disponibile</span>
+                      <span className="text-xs text-[var(--aequan-text-secondary)]">Non disponibile</span>
                     )}
                   </td>
-                  <td className="border-t border-[#1E324E]/10 px-4 py-3 text-[13px] leading-snug text-[#1E324E]/70">
+                  <td className="border-t border-[var(--aequan-border)] px-4 py-3 text-[13px] leading-snug text-[var(--aequan-text-secondary)]">
                     {economicAnalysis
                       ? `${overspend > 0 ? `Sforamento +€${overspend.toFixed(0)}` : "Budget entro soglia di appropriatezza"}${
                           wastedEuro > 0 ? ` · sprechi €${wastedEuro.toFixed(0)}` : ""
@@ -695,10 +707,10 @@ export function EliteResultsClient({
                   </td>
                 </tr>
                 <tr>
-                  <td className="border-t border-[#1E324E]/10 px-4 py-3 font-semibold text-[#1E324E]">
+                  <td className="border-t border-[var(--aequan-border)] px-4 py-3 font-semibold text-[var(--aequan-brand-primary)]">
                     Scudo legale
                   </td>
-                  <td className="border-t border-[#1E324E]/10 px-4 py-3">
+                  <td className="border-t border-[var(--aequan-border)] px-4 py-3">
                     {legalProtectionStatus && shield ? (
                       <span
                         className={cn(
@@ -710,17 +722,17 @@ export function EliteResultsClient({
                         {shield.label}
                       </span>
                     ) : (
-                      <span className="text-xs text-[#1E324E]/50">Non disponibile</span>
+                      <span className="text-xs text-[var(--aequan-text-secondary)]">Non disponibile</span>
                     )}
                   </td>
-                  <td className="border-t border-[#1E324E]/10 px-4 py-3 text-[13px] leading-snug text-[#1E324E]/70">
+                  <td className="border-t border-[var(--aequan-border)] px-4 py-3 text-[13px] leading-snug text-[var(--aequan-text-secondary)]">
                     {legalProtectionStatus ? (
                       <>
                         <SafeLlmText as="span" className="whitespace-pre-line">
                           {legalProtectionStatus.justification}
                         </SafeLlmText>
                         {legalSources.length > 0 ? (
-                          <p className="mt-1 text-[11px] text-[#1E324E]/45">
+                          <p className="mt-1 text-[11px] text-[var(--aequan-text-secondary)]">
                             Fonti · {legalSources.join(" · ")}
                           </p>
                         ) : null}
@@ -736,12 +748,12 @@ export function EliteResultsClient({
         </section>
 
         <section>
-          <div className="border-b border-[#1E324E]/12 bg-[#F4F6F8] px-5 py-3 sm:px-7">
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#1E324E]/50">
+          <div className="border-b border-[var(--aequan-border)] bg-[var(--aequan-ui-bg)] px-5 py-3 sm:px-7">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--aequan-text-secondary)]">
               Debrief clinico
             </p>
           </div>
-          <div className="divide-y divide-[#1E324E]/10">
+          <div className="divide-y divide-[var(--aequan-border)]">
             {clinicalDeltaTable.length > 0 ? (
               <Accordion title="Confronto Gold Standard" count={clinicalDeltaTable.length} defaultOpen>
                 <ul className="space-y-2.5">
@@ -750,10 +762,10 @@ export function EliteResultsClient({
                     return (
                       <li
                         key={`${row.protocolAction}-${idx}`}
-                        className="border border-[#1E324E]/10 bg-[#F7F8FA] px-3.5 py-3"
+                        className="border border-[var(--aequan-border)] bg-[var(--aequan-border-subtle)] px-3.5 py-3"
                       >
                         <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
-                          <p className="text-[13px] font-semibold text-[#1E324E]">{row.protocolAction}</p>
+                          <p className="text-[13px] font-semibold text-[var(--aequan-brand-primary)]">{row.protocolAction}</p>
                           <span
                             className={cn(
                               "border px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider",
@@ -763,7 +775,7 @@ export function EliteResultsClient({
                             {meta.label}
                           </span>
                         </div>
-                        <p className="text-xs leading-relaxed text-[#1E324E]/65">
+                        <p className="text-xs leading-relaxed text-[var(--aequan-text-secondary)]">
                           <SafeLlmText as="span">{row.userAction}</SafeLlmText>
                         </p>
                       </li>
@@ -786,41 +798,41 @@ export function EliteResultsClient({
               >
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <p className="text-[11px] font-bold uppercase tracking-wide text-[#C0392B]">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-[var(--aequan-status-risk)]">
                       Superflue
                     </p>
                     {economicAnalysis.unnecessaryExpenses.length === 0 ? (
-                      <p className="text-xs text-[#1E324E]/55">Nessuna.</p>
+                      <p className="text-xs text-[var(--aequan-text-secondary)]">Nessuna.</p>
                     ) : (
                       economicAnalysis.unnecessaryExpenses.map((item, i) => (
-                        <div key={i} className="border border-[#C0392B]/20 bg-[#F9EBEA] px-3 py-2.5">
+                        <div key={i} className="border border-[color-mix(in_srgb,var(--aequan-status-risk)_30%,white)] bg-[color-mix(in_srgb,var(--aequan-status-risk)_10%,white)] px-3 py-2.5">
                           <div className="flex justify-between gap-2 text-[13px]">
-                            <span className="font-medium text-[#1E324E]">{item.examName}</span>
-                            <span className="font-semibold tabular-nums text-[#C0392B]">
+                            <span className="font-medium text-[var(--aequan-brand-primary)]">{item.examName}</span>
+                            <span className="font-semibold tabular-nums text-[var(--aequan-status-risk)]">
                               €{item.cost.toFixed(0)}
                             </span>
                           </div>
-                          <p className="mt-1 text-[11px] leading-relaxed text-[#1E324E]/60">{item.reason}</p>
+                          <p className="mt-1 text-[11px] leading-relaxed text-[var(--aequan-text-secondary)]">{item.reason}</p>
                         </div>
                       ))
                     )}
                   </div>
                   <div className="space-y-2">
-                    <p className="text-[11px] font-bold uppercase tracking-wide text-[#B9770E]">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-[var(--aequan-status-warn)]">
                       Mancati
                     </p>
                     {economicAnalysis.missedRequiredExams.length === 0 ? (
-                      <p className="text-xs text-[#1E324E]/55">Nessuno.</p>
+                      <p className="text-xs text-[var(--aequan-text-secondary)]">Nessuno.</p>
                     ) : (
                       economicAnalysis.missedRequiredExams.map((item, i) => (
-                        <div key={i} className="border border-[#F39C12]/25 bg-[#FEF5E7] px-3 py-2.5">
+                        <div key={i} className="border border-[color-mix(in_srgb,var(--aequan-status-warn)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-warn)_10%,white)] px-3 py-2.5">
                           <div className="flex justify-between gap-2 text-[13px]">
-                            <span className="font-medium text-[#1E324E]">{item.examName}</span>
-                            <span className="font-semibold tabular-nums text-[#B9770E]">
+                            <span className="font-medium text-[var(--aequan-brand-primary)]">{item.examName}</span>
+                            <span className="font-semibold tabular-nums text-[var(--aequan-status-warn)]">
                               €{item.cost.toFixed(0)}
                             </span>
                           </div>
-                          <p className="mt-1 text-[11px] leading-relaxed text-[#1E324E]/60">{item.reason}</p>
+                          <p className="mt-1 text-[11px] leading-relaxed text-[var(--aequan-text-secondary)]">{item.reason}</p>
                         </div>
                       ))
                     )}
@@ -838,12 +850,12 @@ export function EliteResultsClient({
                     return (
                       <div
                         key={key}
-                        className="border border-[#1E324E]/10 bg-[#F7F8FA] px-3.5 py-3 sm:grid sm:grid-cols-[6rem_1fr] sm:gap-3"
+                        className="border border-[var(--aequan-border)] bg-[var(--aequan-border-subtle)] px-3.5 py-3 sm:grid sm:grid-cols-[6rem_1fr] sm:gap-3"
                       >
-                        <dt className="text-[11px] font-bold uppercase tracking-wide text-[#1E324E]">
+                        <dt className="text-[11px] font-bold uppercase tracking-wide text-[var(--aequan-brand-primary)]">
                           {label}
                         </dt>
-                        <dd className="mt-1 text-sm leading-relaxed text-[#1E324E]/75 sm:mt-0">
+                        <dd className="mt-1 text-sm leading-relaxed text-[var(--aequan-text-primary)] sm:mt-0">
                           <SafeLlmText as="span" className="whitespace-pre-line">
                             {text}
                           </SafeLlmText>
@@ -862,32 +874,32 @@ export function EliteResultsClient({
                 defaultOpen
               >
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="border border-[#1E324E]/10 bg-[#EEF2F9] p-3.5">
-                    <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-[#1E324E]">
+                  <div className="border border-[var(--aequan-border)] bg-[color-mix(in_srgb,var(--aequan-brand-secondary)_12%,white)] p-3.5">
+                    <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-[var(--aequan-brand-primary)]">
                       Forze
                     </p>
                     {strengths.length === 0 ? (
-                      <p className="text-xs text-[#1E324E]/55">Nessun punto evidenziato.</p>
+                      <p className="text-xs text-[var(--aequan-text-secondary)]">Nessun punto evidenziato.</p>
                     ) : (
                       <ul className="space-y-2">
                         {strengths.map((item, idx) => (
-                          <li key={idx} className="text-sm leading-relaxed text-[#1E324E]/85">
+                          <li key={idx} className="text-sm leading-relaxed text-[var(--aequan-text-primary)]">
                             <SafeLlmText as="span">{item}</SafeLlmText>
                           </li>
                         ))}
                       </ul>
                     )}
                   </div>
-                  <div className="border border-[#F39C12]/25 bg-[#FEF5E7] p-3.5">
-                    <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-[#B9770E]">
+                  <div className="border border-[color-mix(in_srgb,var(--aequan-status-warn)_35%,white)] bg-[color-mix(in_srgb,var(--aequan-status-warn)_10%,white)] p-3.5">
+                    <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-[var(--aequan-status-warn)]">
                       Miglioramenti
                     </p>
                     {weaknesses.length === 0 ? (
-                      <p className="text-xs text-[#1E324E]/55">Nessuna criticità evidenziata.</p>
+                      <p className="text-xs text-[var(--aequan-text-secondary)]">Nessuna criticità evidenziata.</p>
                     ) : (
                       <ul className="space-y-2">
                         {weaknesses.map((item, idx) => (
-                          <li key={idx} className="text-sm leading-relaxed text-[#1E324E]/85">
+                          <li key={idx} className="text-sm leading-relaxed text-[var(--aequan-text-primary)]">
                             <SafeLlmText as="span">{item}</SafeLlmText>
                           </li>
                         ))}
@@ -900,7 +912,7 @@ export function EliteResultsClient({
 
             {correctSolution ? (
               <Accordion title="Gestione esperta di riferimento" defaultOpen>
-                <p className="text-sm leading-relaxed text-[#1E324E]/75">
+                <p className="text-sm leading-relaxed text-[var(--aequan-text-primary)]">
                   <SafeLlmText as="span" className="whitespace-pre-line">
                     {correctSolution}
                   </SafeLlmText>
@@ -909,15 +921,15 @@ export function EliteResultsClient({
             ) : null}
 
             <div>
-              <div className="border-b border-[#1E324E]/10 px-5 py-3.5 sm:px-7">
-                <h2 className="text-[13px] font-semibold text-[#1E324E]">Radar competenze</h2>
+              <div className="border-b border-[var(--aequan-border)] px-5 py-3.5 sm:px-7">
+                <h2 className="text-[13px] font-semibold text-[var(--aequan-brand-primary)]">Radar competenze</h2>
               </div>
-              <div className="h-72 w-full bg-[#F7F8FA] p-3 sm:p-4">
+              <div className="h-72 w-full bg-[var(--aequan-border-subtle)] p-3 sm:p-4">
                 <ResultsRadarClient data={radarData} />
               </div>
             </div>
           </div>
-          <footer className="border-t-4 border-[#1E324E] bg-[#F4F6F8] px-5 py-3 text-center text-[10px] font-semibold uppercase tracking-[0.18em] text-[#1E324E]/45 sm:px-7">
+          <footer className="border-t-4 border-[var(--aequan-brand-primary)] bg-[var(--aequan-ui-bg)] px-5 py-3 text-center text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--aequan-text-secondary)] sm:px-7">
             Fine referto
           </footer>
         </section>
@@ -925,7 +937,7 @@ export function EliteResultsClient({
 
       <AiTransparencyBadge
         variant="report"
-        className="border border-[#1E324E]/15 bg-white px-3.5 py-2 text-[11px] text-[#1E324E]/55"
+        className="border border-[var(--aequan-border)] bg-[var(--aequan-panel-bg)] px-3.5 py-2 text-[11px] text-[var(--aequan-text-secondary)]"
       />
     </div>
   );

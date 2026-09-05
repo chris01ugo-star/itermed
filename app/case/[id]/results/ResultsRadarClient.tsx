@@ -25,7 +25,7 @@ export function ResultsRadarClient({ data }: { data: RadarDatum[] }) {
 
   if (chartData.length === 0) {
     return (
-      <div className="flex h-full min-h-0 w-full items-center justify-center text-xs text-slate-400">
+      <div className="flex h-full min-h-0 w-full items-center justify-center text-xs text-[var(--aequan-text-secondary)]">
         Dati radar non disponibili
       </div>
     );
@@ -35,33 +35,33 @@ export function ResultsRadarClient({ data }: { data: RadarDatum[] }) {
     <div className="h-full min-h-0 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart data={chartData} outerRadius="72%">
-          <PolarGrid radialLines={false} stroke="#E2E8F0" />
-          <PolarAngleAxis dataKey="metric" tick={{ fill: "#64748B", fontSize: 11 }} />
+          <PolarGrid radialLines={false} stroke="var(--aequan-border)" />
+          <PolarAngleAxis dataKey="metric" tick={{ fill: "var(--aequan-text-secondary)", fontSize: 11 }} />
           <PolarRadiusAxis
             angle={90}
             domain={[0, 100]}
-            tick={{ fill: "#94A3B8", fontSize: 10 }}
+            tick={{ fill: "var(--aequan-text-secondary)", fontSize: 10 }}
             tickCount={6}
           />
           <Radar
             name="Target"
             dataKey="target"
-            stroke="#CBD5E1"
-            fill="#E2E8F0"
+            stroke="var(--aequan-border)"
+            fill="var(--aequan-border-subtle)"
             fillOpacity={0.25}
             strokeDasharray="4 4"
           />
           <Radar
             name="Performance"
             dataKey="score"
-            stroke="#345884"
-            fill="#345884"
+            stroke="var(--aequan-brand-secondary)"
+            fill="var(--aequan-brand-secondary)"
             fillOpacity={0.22}
           />
           <Legend
             verticalAlign="bottom"
             height={28}
-            wrapperStyle={{ fontSize: 11, color: "#64748B" }}
+            wrapperStyle={{ fontSize: 11, color: "var(--aequan-text-secondary)" }}
           />
         </RadarChart>
       </ResponsiveContainer>
