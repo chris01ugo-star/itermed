@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { prisma } from "../../../../lib/prisma";
 import { getSessionUserId } from "../../../../lib/api-session";
 import { isDevAuthBypass } from "../../../../lib/require-user";
+import { getCaseById, decodeCaseParam, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 import type {
   ClinicalDeltaRow,
   CoachingFeedback,
@@ -18,12 +19,16 @@ import type {
 } from "@/lib/services/evaluation-scoring";
 import { AequanLogo } from "@/components/AequanLogo";
 import { EliteResultsClient } from "./EliteResultsClient";
+import { OfflineResultsGate } from "./OfflineResultsGate";
+import { config } from "@/lib/config";
+import { reportAccessionCode, reportShareUrl } from "@/lib/reports/share-link";
 
 type ResultsPageProps = {
   params: Promise<{ id: string }> | { id: string };
   searchParams: Promise<{ sessionId?: string }> | { sessionId?: string };
 };
 
+/** Trace shape persisted by simulation-report-worker → buildSessionReportData. */
 type SessionTrace = {
   feedback?: {
     strengths?: string[];
@@ -68,28 +73,62 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
     const resolvedSearch =
       searchParams && "then" in searchParams ? await searchParams : searchParams;
 
-    const sessionId = resolvedSearch?.sessionId;
-    const caseId = resolvedParams.id;
-
-    if (!sessionId) {
-      return notFound();
-    }
+    const sessionId = resolvedSearch?.sessionId?.trim() || "";
+    const caseId = decodeCaseParam(resolvedParams.id);
+    const registered = await getCaseById(caseId);
+    const caseKey = normalizeCaseLookupKey(caseId);
 
     const userId = await getSessionUserId();
-    if (!userId) {
-      return notFound();
+
+    let session: Awaited<ReturnType<typeof prisma.sessionReport.findUnique>> | null = null;
+    if (sessionId && !sessionId.startsWith("local-")) {
+      try {
+        session = await prisma.sessionReport.findUnique({
+          where: { id: sessionId },
+        });
+      } catch (err) {
+        console.error("[CaseResultsPage] Prisma SessionReport lookup failed — using local fallback", err);
+        session = null;
+      }
     }
 
-    const session = await prisma.sessionReport.findUnique({
-      where: { id: sessionId },
-    });
+    const caseMatches =
+      Boolean(session) &&
+      normalizeCaseLookupKey(session!.caseId) === caseKey;
 
-    if (!session || session.caseId !== caseId) {
-      return notFound();
-    }
+    const ownerOk =
+      Boolean(session) && (isDevAuthBypass() || !userId || session!.userId === userId);
 
-    if (!isDevAuthBypass() && session.userId !== userId) {
-      return notFound();
+    if (!session || !caseMatches || !ownerOk) {
+      if (!registered && !sessionId) {
+        return notFound();
+      }
+      return (
+        <div className="min-h-screen bg-[var(--aequan-ui-bg)] text-[var(--aequan-text-primary)]">
+          <div className="pointer-events-none fixed inset-0 bg-[var(--aequan-ui-bg)]" aria-hidden />
+          <div className="relative mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
+            <div className="mb-5 flex items-center justify-between gap-3">
+              <Link
+                href="/dashboard/prassi"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[var(--aequan-panel-bg)]/80 px-3 py-1.5 text-xs font-medium text-[var(--aequan-text-secondary)] shadow-sm ring-1 ring-[var(--aequan-border)] transition hover:text-[var(--aequan-brand-secondary)]"
+              >
+                <ArrowLeft className="h-3.5 w-3.5" />
+                Casi Clinici
+              </Link>
+              <Link href="/dashboard" aria-label="Vai alla dashboard">
+                <AequanLogo height={28} />
+              </Link>
+            </div>
+            <OfflineResultsGate
+              caseId={caseId}
+              sessionId={sessionId}
+              caseTitle={registered?.title}
+              correctSolution={registered?.correctSolution}
+              legalSources={registered?.legalConformity.ragReferences.map((r) => r.sourceRef)}
+            />
+          </div>
+        </div>
+      );
     }
 
     const trace = (session.rawTrace ?? {}) as SessionTrace;
@@ -121,7 +160,7 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
         score: safeNum(session.economicSustainability),
       },
       {
-        metric: "Empatia",
+        metric: "Comunicazione",
         key: "empathy",
         score: safeNum(session.empathy),
       },
@@ -134,16 +173,13 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
       : [];
 
     return (
-      <div className="min-h-screen bg-[#EEF1F5] text-slate-800">
-        <div
-          className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(52,88,132,0.11),transparent_42%),radial-gradient(ellipse_at_bottom_right,rgba(30,50,78,0.08),transparent_40%)]"
-          aria-hidden
-        />
+      <div className="min-h-screen bg-[var(--aequan-ui-bg)] text-[var(--aequan-text-primary)]">
+        <div className="pointer-events-none fixed inset-0 bg-[var(--aequan-ui-bg)]" aria-hidden />
         <div className="relative mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
           <div className="mb-5 flex items-center justify-between gap-3">
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200/80 transition hover:text-[#345884]"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[var(--aequan-panel-bg)]/80 px-3 py-1.5 text-xs font-medium text-[var(--aequan-text-secondary)] shadow-sm ring-1 ring-[var(--aequan-border)] transition hover:text-[var(--aequan-brand-secondary)]"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               Dashboard
@@ -156,6 +192,10 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
           <EliteResultsClient
             totalScore={safeNum(session.totalScore)}
             radarData={radarData}
+            caseTitle={registered?.title}
+            sessionId={session.id}
+            shareUrl={reportShareUrl(session.id, config.APP_URL)}
+            accessionCode={reportAccessionCode(session.id)}
             dismissed={Boolean(trace.dismissed)}
             strengths={
               Array.isArray(trace.feedback?.strengths) ? trace.feedback!.strengths! : []

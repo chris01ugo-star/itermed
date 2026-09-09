@@ -1,38 +1,26 @@
 import { prisma } from "../../../../lib/prisma";
-import { getSessionUserId } from "../../../../lib/api-session";
-import { verifyLiveSessionOwner } from "../../../../lib/access";
+import { getSessionUserId, unauthorizedJson } from "../../../../lib/api-session";
+import { authorizeOwnedLiveSession } from "../../../../lib/access";
 
 export const runtime = "nodejs";
 
 export async function GET(req: Request) {
   const userId = await getSessionUserId();
-  if (!userId) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+  if (!userId) return unauthorizedJson();
 
   const url = new URL(req.url);
   const sessionId = url.searchParams.get("sessionId");
-  if (!sessionId) {
-    return new Response(JSON.stringify({ error: "sessionId missing" }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-
-  const owns = await verifyLiveSessionOwner(sessionId, userId);
-  if (!owns) {
-    return new Response(JSON.stringify({ error: "Forbidden" }), {
-      status: 403,
+  const access = await authorizeOwnedLiveSession({ userId, sessionId });
+  if (!access.ok) {
+    return new Response(JSON.stringify({ error: access.error, code: access.code }), {
+      status: access.status,
       headers: { "Content-Type": "application/json" },
     });
   }
 
   const session = await prisma.caseSession.findUnique({
-    where: { id: sessionId },
-    include: { case: true },
+    where: { id: access.liveSessionId },
+    select: { id: true },
   });
 
   if (!session) {
@@ -42,22 +30,9 @@ export async function GET(req: Request) {
     });
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { role: true },
-  });
-  const isAdmin = user?.role === "ADMIN";
-
-  const target =
-    session.currentTargetCondition ??
-    session.variantSolution ??
-    (session.case as { correctSolution?: string | null })?.correctSolution ??
-    null;
-
   return new Response(
     JSON.stringify({
       sessionId: session.id,
-      ...(isAdmin ? { targetCondition: target } : {}),
     }),
     { status: 200, headers: { "Content-Type": "application/json" } },
   );

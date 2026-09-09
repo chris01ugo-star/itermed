@@ -1,4 +1,3 @@
-import { AlertTriangle } from "lucide-react";
 import { cn } from "@/app/utils/cn";
 
 export const CLINICAL_SIMULATION_DISCLAIMER =
@@ -17,16 +16,11 @@ export function ClinicalSimulationDisclaimer({ className }: ClinicalSimulationDi
       role="note"
       aria-label="Avviso: caso clinico simulato ad uso didattico"
       className={cn(
-        "flex items-start gap-1.5 px-0.5 text-[10px] leading-snug text-slate-400 sm:text-[11px]",
+        "px-1 text-[10px] leading-snug text-slate-400 sm:text-[11px]",
         className,
       )}
     >
-      <AlertTriangle
-        className="mt-0.5 h-3 w-3 shrink-0 text-amber-500/80"
-        strokeWidth={2}
-        aria-hidden
-      />
-      <span className="min-w-0">{CLINICAL_SIMULATION_DISCLAIMER}</span>
+      Caso clinico simulato · solo uso didattico · non per decisioni su pazienti reali
     </p>
   );
 }

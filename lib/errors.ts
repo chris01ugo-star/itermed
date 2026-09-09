@@ -112,6 +112,32 @@ export class RateLimitError extends AppError {
   }
 }
 
+/** Thrown when persisted KnowledgeBaseCase JSONB fails runtime Zod validation. */
+export class KnowledgeBaseCaseValidationError extends AppError {
+  readonly caseId: string;
+  readonly field: string;
+  readonly issues: Array<{ path: string; message: string }>;
+
+  constructor(
+    caseId: string,
+    field: string,
+    issues: Array<{ path: string; message: string }>,
+    cause?: unknown,
+  ) {
+    const preview = issues[0] ? `${issues[0].path}: ${issues[0].message}` : "schema error";
+    super({
+      message: `KnowledgeBaseCase ${caseId} failed Zod parse at ${field} (${preview})`,
+      publicMessage: `Il caso clinico ${caseId} non è valido e non può essere caricato nel simulatore.`,
+      statusCode: 422,
+      code: "KB_CASE_VALIDATION_ERROR",
+      cause,
+    });
+    this.caseId = caseId;
+    this.field = field;
+    this.issues = issues;
+  }
+}
+
 /** Thrown when environment configuration is invalid (usually at startup). */
 export class ConfigurationError extends AppError {
   constructor(message: string, cause?: unknown) {

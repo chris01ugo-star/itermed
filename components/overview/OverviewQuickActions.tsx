@@ -26,7 +26,7 @@ export function OverviewQuickActions({ focusShort, casesThisWeek }: OverviewQuic
           aria-hidden
         />
         <div className="relative min-w-0">
-          <p className="text-sm font-semibold">Prassi Clinica</p>
+          <p className="text-sm font-semibold">Casi Clinici</p>
           <p className="mt-0.5 text-xs text-white/70">Apri la libreria casi e avvia una sessione</p>
         </div>
         <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 transition-all group-hover:bg-white/25 group-hover:translate-x-0.5">

@@ -6,7 +6,14 @@
  * but must never be forwarded to the browser (Art. 32 / anti-cheat).
  */
 
-import { buildFallbackMapFromRegistry, getCaseById, normalizeCaseLookupKey, toFallbackClinicalCase } from "@/lib/data/cases/registry";
+import { getCaseById } from "@/lib/data/cases/registry";
+import {
+  buildAuthoredFallbackMap,
+  getCachedCaseById,
+  normalizeCaseLookupKey,
+  toFallbackClinicalCase,
+} from "@/lib/data/cases/registry-store";
+import { buildSimulatorCasePayload } from "@/lib/cases/case-payload";
 
 export type FallbackCaseDifficulty = "EASY" | "MEDIUM" | "HARD";
 
@@ -40,7 +47,7 @@ const HYDRO_CT =
   "Ventricoli dilatati rispetto a TC precedenti; sospetta malfunzione di shunt.";
 
 export const FALLBACK_CASES: Record<string, FallbackClinicalCase> = {
-  ...buildFallbackMapFromRegistry(),
+  ...buildAuthoredFallbackMap(),
   cs_001: {
     id: "cs_001",
     title: "Uomo 58 anni con dolore toracico in PS",
@@ -265,32 +272,34 @@ export const FALLBACK_CASES: Record<string, FallbackClinicalCase> = {
   },
 };
 
-/** Lookup by case id (case-insensitive). */
-export function getFallbackCase(rawId: string): FallbackClinicalCase | undefined {
+function lookupStaticFallback(rawId: string): FallbackClinicalCase | undefined {
   const key = normalizeCaseLookupKey(rawId);
   if (!key) return undefined;
-
-  const fromMap =
+  return (
     FALLBACK_CASES[key] ??
     FALLBACK_CASES[key.replace(/-/g, "_")] ??
     FALLBACK_CASES[rawId.trim()] ??
-    FALLBACK_CASES[rawId.trim().toUpperCase()];
+    FALLBACK_CASES[rawId.trim().toUpperCase()]
+  );
+}
 
+/** Lookup by case id (case-insensitive). Hydrates KB cases from PostgreSQL when needed. */
+export async function getFallbackCase(rawId: string): Promise<FallbackClinicalCase | undefined> {
+  const fromMap = lookupStaticFallback(rawId);
   if (fromMap) return fromMap;
 
-  const registered = getCaseById(rawId);
+  const cached = getCachedCaseById(rawId);
+  if (cached) return toFallbackClinicalCase(cached);
+
+  const registered = await getCaseById(rawId);
   return registered ? toFallbackClinicalCase(registered) : undefined;
 }
 
 /**
- * Payload safe for SimulatorClient — strips gold answer (Art. 32).
+ * Payload safe for SimulatorClient — strips gold answer, gold path, and scoring metadata.
  */
 export function toSimulatorFallbackPayload(fallback: FallbackClinicalCase) {
-  const demographics = fallback.baselineExamFindings.demographics as
-    | { age?: number | string | null; sex?: string | null; context?: string | null }
-    | undefined;
-
-  return {
+  return buildSimulatorCasePayload({
     id: fallback.id,
     title: fallback.title,
     description: fallback.description,
@@ -298,16 +307,7 @@ export function toSimulatorFallbackPayload(fallback: FallbackClinicalCase) {
     difficulty: fallback.difficulty,
     estimatedDurationMinutes: fallback.estimatedDurationMinutes,
     patientPrompt: fallback.patientPrompt,
-    correctSolution: null as string | null,
-    demographics: {
-      age: demographics?.age ?? null,
-      sex: demographics?.sex ?? null,
-      context: demographics?.context ?? null,
-    },
     baselineExamFindings: fallback.baselineExamFindings,
     timeLimitMinutes: fallback.timeLimitMinutes,
-    examLatencies: fallback.examLatencies,
-    goldStandardPath: fallback.goldStandardPath,
-    patientDeteriorationThreshold: fallback.patientDeteriorationThreshold,
-  };
+  });
 }

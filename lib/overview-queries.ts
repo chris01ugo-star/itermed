@@ -1,15 +1,19 @@
 import type { CaseDifficulty } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { config, isUsableDatabase } from "@/lib/config";
 import { displaySpecialtyName } from "@/lib/dashboard-case-utils";
+import { createLogger } from "@/lib/logger";
 import { normalizeTrentesimiScore } from "@/lib/scoring/trentesimi";
 import { completedPerformanceSessionWhere } from "@/lib/session-report-performance";
+
+const overviewLogger = createLogger("overview-queries");
 
 export const OVERVIEW_RADAR_METRICS = [
   { metric: "Accuratezza Clinica", key: "clinicalAccuracy" as const },
   { metric: "Tutela Legale", key: "legalComplianceGelliBianco" as const },
   { metric: "Appropriatezza", key: "prescribingAppropriateness" as const },
   { metric: "Sostenibilità", key: "economicSustainability" as const },
-  { metric: "Empatia", key: "empathy" as const },
+  { metric: "Comunicazione", key: "empathy" as const },
 ];
 
 export const FOCUS_LABELS: Record<(typeof OVERVIEW_RADAR_METRICS)[number]["key"], string> = {
@@ -17,7 +21,7 @@ export const FOCUS_LABELS: Record<(typeof OVERVIEW_RADAR_METRICS)[number]["key"]
   legalComplianceGelliBianco: "Tutela Medico-Legale",
   prescribingAppropriateness: "Appropriatezza Prescrittiva",
   economicSustainability: "Sostenibilità Economica",
-  empathy: "Empatia e Comunicazione",
+  empathy: "Comunicazione e Relazione Clinica",
 };
 
 export type OverviewRadarPoint = {
@@ -71,8 +75,47 @@ function computeStreakDays(sessionDates: Date[], now: Date): number {
   return streakDays;
 }
 
+/** Safe empty overview for offline / Prisma-unavailable dashboards. */
+export function emptyUserOverviewData(): UserOverviewData {
+  return {
+    completedCount: 0,
+    iterMedScore: null,
+    casesThisWeek: 0,
+    streakDays: 0,
+    focusLabel: "Competenze cliniche",
+    focusShort: "Competenze",
+    radarData: OVERVIEW_RADAR_METRICS.map(({ metric }) => ({ metric, score: 0 })),
+    recentSessions: [],
+  };
+}
+
 /** Loads completed SessionReport aggregates and recent history for the overview dashboard. */
 export async function fetchUserOverviewData(userId: string): Promise<UserOverviewData> {
+  if (!userId || !isUsableDatabase(config.DATABASE_URL)) {
+    return emptyUserOverviewData();
+  }
+
+  try {
+    return await Promise.race([
+      loadUserOverviewData(userId),
+      new Promise<UserOverviewData>((_, reject) => {
+        setTimeout(
+          () => reject(new Error("overview query timed out after 4000ms")),
+          4_000,
+        );
+      }),
+    ]);
+  } catch (error) {
+    overviewLogger.warn("overview query failed; returning empty dashboard data (offline / DB down)", {
+      userId,
+      errorName: error instanceof Error ? error.name : undefined,
+      errorMessage: error instanceof Error ? error.message.slice(0, 240) : String(error).slice(0, 240),
+    });
+    return emptyUserOverviewData();
+  }
+}
+
+async function loadUserOverviewData(userId: string): Promise<UserOverviewData> {
   const now = new Date();
 
   const performanceWhere = completedPerformanceSessionWhere({ userId });

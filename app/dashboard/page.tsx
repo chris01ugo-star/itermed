@@ -26,7 +26,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   const user = await requireUser();
   const [overview, dailyQuota] = await Promise.all([
     fetchUserOverviewData(user.id),
-    getDailySimulationQuota(user.id),
+    getDailySimulationQuota(user.id, { role: user.role, email: user.email }),
   ]);
 
   const bestDimension = overview.radarData.reduce(
@@ -51,6 +51,8 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         remaining={dailyQuota.remaining}
         limit={dailyQuota.limit}
         used={dailyQuota.used}
+        unlimited={dailyQuota.unlimited}
+        kind={dailyQuota.kind}
       />
 
       <OverviewStatsBar

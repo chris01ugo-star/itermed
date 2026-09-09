@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { getSessionUserId } from "@/lib/api-session";
-import { authorizeSimulationAction } from "@/lib/access";
+import { getSessionUserId, unauthorizedJson } from "@/lib/api-session";
+import { authorizeOwnedLiveSession } from "@/lib/access";
 import { detectMilestonesFromTurn } from "@/lib/simulator/milestone-tracker";
 import { prisma } from "@/lib/prisma";
-import { isOfflineSessionId, sanitizeLiveSessionId } from "@/lib/simulator/session-id";
+import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 
 export const runtime = "nodejs";
 
@@ -22,9 +22,7 @@ const bodySchema = z.object({
 /** Atomically syncs session milestones and requested exams before final evaluation. */
 export async function POST(req: Request) {
   const userId = await getSessionUserId();
-  if (!userId) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  if (!userId) return unauthorizedJson();
 
   let body: z.infer<typeof bodySchema>;
   try {
@@ -33,33 +31,18 @@ export async function POST(req: Request) {
     return Response.json({ error: "Invalid body" }, { status: 400 });
   }
 
-  // Offline registry sessions have no Prisma CaseSession — acknowledge without writes.
-  if (isOfflineSessionId(body.sessionId)) {
-    return Response.json({
-      ok: true,
-      offline: true,
-      requestedExamIds: body.requestedExamIds,
-      completedGoldSteps: body.completedGoldSteps,
-    });
-  }
-
   const liveSessionId = sanitizeLiveSessionId(body.sessionId);
   if (!liveSessionId) {
-    return Response.json({ error: "Invalid sessionId" }, { status: 400 });
+    return Response.json({ error: "Forbidden", code: "FORBIDDEN_SESSION" }, { status: 403 });
   }
 
-  const access = await authorizeSimulationAction({
+  const access = await authorizeOwnedLiveSession({
     userId,
     sessionId: liveSessionId,
-    caseId: body.caseId,
+    expectedCaseId: body.caseId,
   });
-  if (!access.ok || !access.liveSessionId) {
-    // Soft-fail: never block the sim UI for telemetry sync.
-    return Response.json({
-      ok: true,
-      skipped: true,
-      reason: access.ok ? "NO_LIVE_SESSION" : access.code,
-    });
+  if (!access.ok) {
+    return Response.json({ error: access.error, code: access.code }, { status: access.status });
   }
 
   const session = await prisma.caseSession.findUnique({
@@ -68,11 +51,11 @@ export async function POST(req: Request) {
   });
 
   if (!session) {
-    return Response.json({ ok: true, skipped: true, reason: "SESSION_NOT_FOUND" });
+    return Response.json({ error: "Forbidden", code: "FORBIDDEN_SESSION" }, { status: 403 });
   }
 
-  if (body.caseId && session.caseId !== body.caseId) {
-    return Response.json({ ok: true, skipped: true, reason: "CASE_MISMATCH" });
+  if (body.caseId && session.caseId !== body.caseId && access.caseId !== body.caseId) {
+    return Response.json({ error: "Forbidden", code: "FORBIDDEN_CASE" }, { status: 403 });
   }
 
   const mergedExamIds = [

@@ -35,9 +35,22 @@ function statusMeta(status: ClinicalDeltaRow["status"]) {
   }
 }
 
+/** Keep badge label and detail text coherent (incl. legacy persisted rows). */
+function coherentUserAction(row: ClinicalDeltaRow): string {
+  const text = row.userAction?.trim() || "";
+  if (row.status === "MET" && (!text || /non evidenziato/i.test(text))) {
+    return "Azione/Esame verificato nella simulazione";
+  }
+  if (row.status === "MISSED" && (!text || /verificat[oa] nella simulazione/i.test(text))) {
+    return "Non evidenziato nel trascritto esami";
+  }
+  return text || "—";
+}
+
 /** Side-by-side Gold Standard vs user actions for debrief. */
 export function GoldStandardCompare({ rows }: GoldStandardCompareProps) {
-  if (rows.length === 0) return null;
+  const safeRows = Array.isArray(rows) ? rows : [];
+  if (safeRows.length === 0) return null;
 
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-panel-bg shadow-aequan-panel">
@@ -60,7 +73,7 @@ export function GoldStandardCompare({ rows }: GoldStandardCompareProps) {
           <span>Protocollo Gold Standard</span>
           <span>Azioni utente</span>
         </div>
-        {rows.map((row, idx) => {
+        {safeRows.map((row, idx) => {
           const meta = statusMeta(row.status);
           const Icon = meta.icon;
           return (
@@ -96,7 +109,7 @@ export function GoldStandardCompare({ rows }: GoldStandardCompareProps) {
                     row.status === "MISSED" && "text-rose-700/90 line-through decoration-rose-300",
                   )}
                 >
-                  {row.userAction?.trim() || "—"}
+                  {coherentUserAction(row)}
                 </p>
                 {row.penaltyOrBonusReason ? (
                   <p className="text-[11px] leading-relaxed text-slate-500">

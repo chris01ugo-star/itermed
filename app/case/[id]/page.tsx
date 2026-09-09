@@ -15,8 +15,8 @@ import {
   buildSimulatorCasePayload,
   extractPatientPromptFromNode,
 } from "@/lib/cases/case-payload";
-import { ensureRegisteredCaseInDb } from "@/lib/cases/ensure-registered-case";
-import { normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import { ensureRegisteredCaseInDb, findClinicalCaseForSimulation } from "@/lib/cases/ensure-registered-case";
+import { decodeCaseParam, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 type CasePageProps = {
   params: Promise<{ id: string }> | { id: string };
   searchParams?:
@@ -35,7 +35,7 @@ export default async function CasePage(props: CasePageProps) {
       ? await props.searchParams
       : props.searchParams;
 
-  const rawId = params.id || "";
+  const rawId = decodeCaseParam(params.id || "");
   const idNormalized = normalizeCaseLookupKey(rawId);
 
   const hasDatabase = isUsableDatabase(config.DATABASE_URL);
@@ -44,7 +44,7 @@ export default async function CasePage(props: CasePageProps) {
 
   // Se il database non è configurato, usiamo direttamente i casi demo / registry.
   if (!hasDatabase) {
-    const fallback = getFallbackCase(rawId);
+    const fallback = await getFallbackCase(rawId);
     if (fallback) {
       const initialCaseData = toSimulatorFallbackPayload(fallback);
       return (
@@ -79,9 +79,9 @@ export default async function CasePage(props: CasePageProps) {
   try {
     await ensureRegisteredCaseInDb(rawId, userId);
 
-    const canPlay = await userCanPlayCase(userId, idNormalized);
+    const canPlay = await userCanPlayCase(userId, rawId);
     if (!canPlay) {
-      const fallback = getFallbackCase(rawId);
+      const fallback = await getFallbackCase(rawId);
       if (fallback) {
         const initialCaseData = toSimulatorFallbackPayload(fallback);
         return (
@@ -110,13 +110,10 @@ export default async function CasePage(props: CasePageProps) {
       return notFound();
     }
 
-    const caseData = await prisma.clinicalCase.findUnique({
-      where: { id: idNormalized },
-      include: { nodes: { orderBy: { order: "asc" }, take: 1 } },
-    });
+    const caseData = await findClinicalCaseForSimulation(rawId);
 
     if (!caseData || !caseData.isActive) {
-      const fallback = getFallbackCase(rawId);
+      const fallback = await getFallbackCase(rawId);
       if (fallback) {
         const initialCaseData = toSimulatorFallbackPayload(fallback);
         return (
@@ -168,9 +165,10 @@ export default async function CasePage(props: CasePageProps) {
     }
 
     const firstNode = caseData.nodes[0];
+    const fallbackPrompt = (await getFallbackCase(caseData.id))?.patientPrompt;
     const basePatientPrompt = extractPatientPromptFromNode(
       firstNode?.content,
-      getFallbackCase(caseData.id)?.patientPrompt,
+      fallbackPrompt,
     );
     const isVariant = Boolean(session?.isVariant);
     const effectivePrompt =
@@ -186,9 +184,6 @@ export default async function CasePage(props: CasePageProps) {
       patientPrompt: effectivePrompt,
       baselineExamFindings: caseData.baselineExamFindings,
       timeLimitMinutes: caseData.timeLimitMinutes ?? null,
-      examLatencies: caseData.examLatencies,
-      goldStandardPath: caseData.goldStandardPath,
-      patientDeteriorationThreshold: caseData.patientDeteriorationThreshold ?? null,
     });
 
     return (
@@ -217,7 +212,7 @@ export default async function CasePage(props: CasePageProps) {
     );
   } catch {
     // DB non pronto — soft-fallback to in-memory cases when id matches.
-    const fallback = getFallbackCase(rawId);
+    const fallback = await getFallbackCase(rawId);
     if (fallback) {
       const initialCaseData = toSimulatorFallbackPayload(fallback);
       return (

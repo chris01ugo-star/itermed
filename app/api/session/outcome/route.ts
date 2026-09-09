@@ -2,8 +2,8 @@ import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { prisma } from "../../../../lib/prisma";
-import { getSessionUserId } from "../../../../lib/api-session";
-import { verifyLiveSessionOwner } from "../../../../lib/access";
+import { getSessionUserId, unauthorizedJson } from "../../../../lib/api-session";
+import { authorizeOwnedLiveSession } from "../../../../lib/access";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
@@ -64,12 +64,7 @@ const outcomeSchema = z.object({
 
 export async function POST(req: Request) {
   const userId = await getSessionUserId();
-  if (!userId) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+  if (!userId) return unauthorizedJson();
 
   const rateLimited = await enforceRateLimit(req, {
     namespace: "api-session-outcome",
@@ -81,16 +76,16 @@ export async function POST(req: Request) {
   const json = await req.json();
   const { sessionId, caseId, basePatientPrompt, outcome } = bodySchema.parse(json);
 
-  const owns = await verifyLiveSessionOwner(sessionId, userId);
-  if (!owns) {
-    return new Response(JSON.stringify({ error: "Forbidden" }), {
-      status: 403,
+  const access = await authorizeOwnedLiveSession({ userId, sessionId, expectedCaseId: caseId });
+  if (!access.ok) {
+    return new Response(JSON.stringify({ error: access.error, code: access.code }), {
+      status: access.status,
       headers: { "Content-Type": "application/json" },
     });
   }
 
-  const session = await prisma.caseSession.findUnique({ where: { id: sessionId } });
-  if (!session || session.caseId !== caseId) {
+  const session = await prisma.caseSession.findUnique({ where: { id: access.liveSessionId } });
+  if (!session) {
     return new Response(JSON.stringify({ error: "Session not found" }), {
       status: 404,
       headers: { "Content-Type": "application/json" },
@@ -128,7 +123,7 @@ ${outcome === "success" ? "Diagnosi corretta e trattamento efficace: miglioramen
   );
 
   await prisma.caseSession.update({
-    where: { id: sessionId },
+    where: { id: access.liveSessionId },
     data: {
       isVariant: true,
       variantPrompt: object.updatedPatientPrompt,

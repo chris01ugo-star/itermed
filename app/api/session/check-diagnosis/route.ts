@@ -2,22 +2,18 @@ import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { prisma } from "../../../../lib/prisma";
-import { getSessionUserId } from "../../../../lib/api-session";
-import { authorizeSimulationAction } from "../../../../lib/access";
-import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
-import { isDevAuthBypass } from "../../../../lib/require-user";
+import { getSessionUserId, unauthorizedJson } from "../../../../lib/api-session";
+import { authorizeOwnedLiveSession } from "../../../../lib/access";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../../../lib/auth-options";
 
 export const runtime = "nodejs";
 
 const bodySchema = z.object({
   caseId: z.string().min(1),
-  sessionId: z.string().optional(),
+  sessionId: z.string().min(1),
   diagnosisText: z.string().min(1),
 });
 
@@ -37,30 +33,14 @@ function normalizeText(input: string): string {
     .trim();
 }
 
-async function isRequestingUserAdmin(): Promise<boolean> {
-  if (isDevAuthBypass()) return true;
-
-  const session = await getServerSession(authOptions);
-  return session?.user?.role === "ADMIN";
-}
-
-function stripExpectedConditionIfNeeded<T extends { expectedCondition?: string }>(
-  payload: T,
-  includeExpected: boolean,
-): T {
-  if (includeExpected) return payload;
+function stripExpectedCondition<T extends { expectedCondition?: string }>(payload: T): Omit<T, "expectedCondition"> {
   const { expectedCondition: _omit, ...rest } = payload;
-  return rest as T;
+  return rest;
 }
 
 export async function POST(req: Request) {
   const userId = await getSessionUserId();
-  if (!userId) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+  if (!userId) return unauthorizedJson();
 
   const rateLimited = await enforceRateLimit(req, {
     namespace: "api-check-diagnosis",
@@ -72,7 +52,7 @@ export async function POST(req: Request) {
   const json = await req.json();
   const { caseId, sessionId, diagnosisText } = bodySchema.parse(json);
 
-  const access = await authorizeSimulationAction({ userId, sessionId, caseId });
+  const access = await authorizeOwnedLiveSession({ userId, sessionId, expectedCaseId: caseId });
   if (!access.ok) {
     return new Response(JSON.stringify({ error: access.error, code: access.code }), {
       status: access.status,
@@ -80,14 +60,12 @@ export async function POST(req: Request) {
     });
   }
 
-  const liveSessionId = sanitizeLiveSessionId(access.liveSessionId);
+  const liveSessionId = access.liveSessionId;
 
-  const session = liveSessionId
-    ? await prisma.caseSession.findUnique({
-        where: { id: liveSessionId },
-        include: { case: true },
-      })
-    : null;
+  const session = await prisma.caseSession.findUnique({
+    where: { id: liveSessionId },
+    include: { case: true },
+  });
 
   const clinicalCase = session?.case
     ? {
@@ -96,7 +74,7 @@ export async function POST(req: Request) {
         correctSolution: (session.case as any).correctSolution as string | null,
       }
     : await prisma.clinicalCase.findUnique({
-        where: { id: caseId },
+        where: { id: access.caseId },
         select: { correctSolution: true, title: true, description: true },
       });
 
@@ -113,7 +91,6 @@ export async function POST(req: Request) {
     (clinicalCase.correctSolution ?? "");
   const expected = String(expectedRaw ?? "").trim();
   const userDx = sanitizeForExternalAI(diagnosisText.trim());
-  const includeExpectedCondition = await isRequestingUserAdmin();
 
   // Heuristic first: if the user diagnosis is a clear substring (or vice versa), treat as correct.
   // This prevents obvious correct diagnoses (e.g. "appendicite") from being marked wrong.
@@ -123,14 +100,11 @@ export async function POST(req: Request) {
     if (nExpected.includes(nUser) || nUser.includes(nExpected)) {
       return new Response(
         JSON.stringify(
-          stripExpectedConditionIfNeeded(
-            {
-              isCorrect: true,
-              rationale: "Match testuale evidente tra diagnosi e soluzione attesa.",
-              expectedCondition: expected ? expected : undefined,
-            },
-            includeExpectedCondition,
-          ),
+          stripExpectedCondition({
+            isCorrect: true,
+            rationale: "Match testuale evidente tra diagnosi e soluzione attesa.",
+            expectedCondition: expected ? expected : undefined,
+          }),
         ),
         { status: 200, headers: { "Content-Type": "application/json" } },
       );
@@ -181,12 +155,9 @@ DIAGNOSI INSERITA DALL'UTENTE:
     }),
   );
 
-  return new Response(
-    JSON.stringify(stripExpectedConditionIfNeeded(object, includeExpectedCondition)),
-    {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    },
-  );
+  return new Response(JSON.stringify(stripExpectedCondition(object)), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
 }
 

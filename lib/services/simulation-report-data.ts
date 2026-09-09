@@ -1,6 +1,10 @@
 import type { CaseDifficulty, Prisma } from "@prisma/client";
 import type { RelevantGuidelines } from "@/lib/services/rag-service";
 import type { EvaluationResult } from "@/lib/services/evaluation-service";
+import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
+import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
+import type { ClinicalAuditResult } from "@/lib/services/clinical-audit-service";
+import type { RelationalAuditResult } from "@/lib/services/relational-audit-service";
 import type {
   ClinicalDeltaRow,
   CoachingFeedback,
@@ -44,6 +48,14 @@ export function buildSessionReportData(params: {
   /** Deterministic fatal errors detected post-evaluation (always persisted). */
   fatalErrors?: FatalError[];
   killerSwitch?: KillerSwitchTrace;
+  /** Dedicated LLM legal audit (Gelli-Bianco corpus-bound). */
+  legalAudit?: LegalAuditResult;
+  /** Dedicated LLM economic / prescribing appropriateness audit. */
+  economicAudit?: EconomicAuditResult;
+  /** Dedicated LLM clinical diagnostic-therapeutic audit. */
+  clinicalAudit?: ClinicalAuditResult;
+  /** Dedicated LLM relational / communication audit (RIAS, CARE, SPIKES). */
+  relationalAudit?: RelationalAuditResult;
 }): Prisma.SessionReportUncheckedUpdateInput {
   const {
     userId,
@@ -58,6 +70,10 @@ export function buildSessionReportData(params: {
     simulationElapsedMinutes,
     fatalErrors = [],
     killerSwitch,
+    legalAudit,
+    economicAudit,
+    clinicalAudit,
+    relationalAudit,
   } = params;
 
   const scores = evaluation.scores ?? {
@@ -71,7 +87,6 @@ export function buildSessionReportData(params: {
     strengths: [] as string[],
     weaknesses: [] as string[],
     clinicalNote: "",
-    legalComplianceNote: "",
     prescribingNote: "",
     empathyNote: "",
     economyNote: "",
@@ -144,7 +159,6 @@ export function buildSessionReportData(params: {
         empathyChecklist: Array.isArray(evaluation.empathyChecklist)
           ? evaluation.empathyChecklist
           : [],
-        legalProtectionStatus: evaluation.legalProtectionStatus,
         clinicalDeltaTable: Array.isArray(evaluation.clinicalDeltaTable)
           ? evaluation.clinicalDeltaTable
           : [],
@@ -180,9 +194,6 @@ export function buildSessionReportData(params: {
         retrievedChunks: Array.isArray(guidelines.legal?.chunks) ? guidelines.legal.chunks : [],
         retrievedSources: guidelineLegalSources,
         overallLegalScore: scores.legal,
-        instrumentReviews: Array.isArray(evaluation.legalInstrumentReviews)
-          ? evaluation.legalInstrumentReviews
-          : [],
       },
       protocolEvaluation: {
         retrievalSource: guidelines.protocol?.source ?? "none",
@@ -191,8 +202,14 @@ export function buildSessionReportData(params: {
           : [],
         retrievedSources: guidelineProtocolSources,
       },
+      ...(legalAudit ? { legalAudit } : {}),
+      ...(economicAudit ? { economicAudit } : {}),
+      ...(clinicalAudit ? { clinicalAudit } : {}),
+      ...(relationalAudit ? { relationalAudit } : {}),
     },
-    notes: typeof feedback.legalComplianceNote === "string" ? feedback.legalComplianceNote : "",
+    notes: legalAudit
+      ? `Audit legale: ${legalAudit.overallVerdict} (${legalAudit.complianceScore}%)`
+      : "",
   };
 }
 
@@ -210,7 +227,12 @@ export type EliteReportData = {
     legalSources?: string[];
     protocolSources?: string[];
   };
-  legalInstrumentReviews?: EvaluationResult["legalInstrumentReviews"];
+  legalInstrumentReviews?: Array<{
+    instrument: string;
+    documentTitle: string;
+    compliance: "rispettato" | "violato" | "parziale" | "non_applicabile";
+    rationale: string;
+  }>;
   legalProtectionStatus?: LegalProtectionStatus;
   clinicalDeltaTable?: ClinicalDeltaRow[];
   economicAnalysis?: EconomicAnalysis;
@@ -236,7 +258,9 @@ export function buildReportDataFromSession(session: {
       legalSources?: string[];
       protocolSources?: string[];
     };
-    legalEvaluation?: { instrumentReviews?: EvaluationResult["legalInstrumentReviews"] };
+    legalEvaluation?: {
+      instrumentReviews?: EliteReportData["legalInstrumentReviews"];
+    };
     analytical?: {
       legalProtectionStatus?: LegalProtectionStatus;
       clinicalDeltaTable?: ClinicalDeltaRow[];

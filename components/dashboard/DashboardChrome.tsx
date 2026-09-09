@@ -11,11 +11,18 @@ import type { SsmSpecialtyLink } from "@/lib/ssm-specialties";
 type DashboardChromeProps = {
   userLabel: string;
   isAdmin: boolean;
+  isPlatformAdmin?: boolean;
   ssmSpecialties?: SsmSpecialtyLink[];
   children: ReactNode;
 };
 
-export function DashboardChrome({ userLabel, isAdmin, ssmSpecialties = [], children }: DashboardChromeProps) {
+export function DashboardChrome({
+  userLabel,
+  isAdmin,
+  isPlatformAdmin = false,
+  ssmSpecialties = [],
+  children,
+}: DashboardChromeProps) {
   const pathname = usePathname() ?? "";
   const isImmersivePlay = /\/dashboard\/prassi\/play\//.test(pathname);
   const hideTopBarSearch =
@@ -36,7 +43,12 @@ export function DashboardChrome({ userLabel, isAdmin, ssmSpecialties = [], child
 
   return (
     <div className="relative flex h-screen w-full overflow-hidden bg-[#F4F6F8] text-text-primary">
-      <DashboardSidebar userLabel={userLabel} isAdmin={isAdmin} ssmSpecialties={ssmSpecialties} />
+      <DashboardSidebar
+        userLabel={userLabel}
+        isAdmin={isAdmin}
+        isPlatformAdmin={isPlatformAdmin}
+        ssmSpecialties={ssmSpecialties}
+      />
       <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <TopBar userLabel={userLabel} showSearch={!hideTopBarSearch} />
         <main className="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto bg-[#F4F6F8]">

@@ -31,6 +31,7 @@ type DiagnosticCategoryPanelProps = {
   examCatalog: Record<string, ExamClinicalMeta>;
   examMacroCatalog: ExamMacroCategory[];
   macroFilter: string[];
+  disabled?: boolean;
 };
 
 type CategoryVisual = {
@@ -127,6 +128,7 @@ export function DiagnosticCategoryPanel({
   examCatalog,
   examMacroCatalog,
   macroFilter,
+  disabled = false,
 }: DiagnosticCategoryPanelProps) {
   const [target, setTarget] = useState<PickerTarget | null>(null);
 
@@ -193,15 +195,17 @@ export function DiagnosticCategoryPanel({
             <button
               key={btn.id}
               type="button"
-              onClick={() =>
+              disabled={disabled}
+              onClick={() => {
+                if (disabled) return;
                 setTarget({
                   id: btn.id,
                   title: btn.title,
                   description: btn.description,
                   exams: btn.exams,
-                })
-              }
-              className="group flex h-full min-h-[4.75rem] items-center gap-3 rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-left shadow-sm transition hover:border-[#345884]/35 hover:bg-slate-50/60"
+                });
+              }}
+              className="group flex h-full min-h-[4.75rem] items-center gap-3 rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-left shadow-sm transition hover:border-[#345884]/35 hover:bg-slate-50/60 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <span
                 className={cn(

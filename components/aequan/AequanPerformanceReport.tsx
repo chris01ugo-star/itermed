@@ -198,7 +198,7 @@ export function AequanPerformanceReport({ report, className }: AequanPerformance
       <article className="rounded-aequan-xl border border-border bg-panel-bg p-6 shadow-aequan-panel">
         <div className="flex items-center gap-3 mb-4">
           <HeartHandshake className="h-6 w-6 text-brand-primary" />
-          <h2 className="text-lg font-semibold text-text-primary">Empatia &amp; Soft Skills</h2>
+          <h2 className="text-lg font-semibold text-text-primary">Comunicazione e Relazione Clinica (D-RIME)</h2>
           <span className="ml-auto text-2xl font-tabular font-semibold text-brand-primary">
             {report.empathy.score}
             <span className="text-sm text-text-secondary">/100</span>

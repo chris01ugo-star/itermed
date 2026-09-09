@@ -81,6 +81,37 @@ export type RagLegalReference = {
   relevance: string;
 };
 
+export type HealthLiteracy = "LOW" | "MEDIUM" | "HIGH" | "CYBERCHONDRIA_AI";
+export type PatientEmotionalState =
+  | "ANXIOUS"
+  | "DEFENSIVE"
+  | "OPPOSITIONAL"
+  | "COLLABORATIVE"
+  | "PASSIVE";
+export type PatientAdherence = "FULL" | "PARTIAL" | "NON_COMPLIANT" | "SELF_MEDICATED";
+export type SleepQuality = "POOR" | "FAIR" | "GOOD";
+export type StressLevel = "LOW" | "MEDIUM" | "HIGH";
+export type SocialSupport = "ISOLATED" | "LIMITED" | "ADEQUATE" | "STRONG";
+
+export type PatientLifestyleAndSocial = {
+  sleepQuality: SleepQuality;
+  stressLevel: StressLevel;
+  socialSupport: SocialSupport;
+};
+
+/**
+ * Hyper-realistic psychological / social profile. Optional so authored cases
+ * without the module remain valid.
+ */
+export type PatientProfile = {
+  healthLiteracy: HealthLiteracy;
+  emotionalState: PatientEmotionalState;
+  adherence: PatientAdherence;
+  lifestyleAndSocial: PatientLifestyleAndSocial;
+  /** How the patient reacts to the physician's language and framing. */
+  communicationStyle: string;
+};
+
 /**
  * Gold-standard clinical case definition (authoring + evaluation SSOT).
  */
@@ -105,6 +136,8 @@ export type ClinicalCase = {
   estimatedDurationMinutes: number;
   timeLimitMinutes: number;
   patientDeteriorationThreshold: number;
+  /** Optional hyper-realistic psychology module (cyberchondria, adherence, sleep, social net). */
+  patientProfile?: PatientProfile;
   patientPrompt: string;
   pastMedicalHistory: string;
   /** Server-only gold management — never send to browser. */

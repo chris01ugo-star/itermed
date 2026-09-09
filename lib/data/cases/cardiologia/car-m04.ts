@@ -42,7 +42,7 @@ const EXAM_BUDGET_EURO = 140;
 export const CAR_M04: ClinicalCase = {
   code: "CAR-M04",
   id: "car-m04",
-  title: "Pericardite Acuta Idiopatica / Post-Virale vs STEMI",
+  title: "Paziente con dolore toracico e diagnosi differenziale acuta",
   description:
     "Uomo, 34 anni, senza fattori di rischio CV noti, dolore toracico acuto pungente accentuato da inspirazione e " +
     "decubito supino, alleviato da posizione seduta col busto flesso in avanti; sindrome simil-influenzale ~10 giorni prima. " +

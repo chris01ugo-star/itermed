@@ -43,7 +43,7 @@ const EXAM_BUDGET_EURO = 100;
 export const CAR_D03: ClinicalCase = {
   code: "CAR-D03",
   id: "car-d03",
-  title: "Tamponamento Cardiaco Acuto e Shock Ostruttivo",
+  title: "Paziente con ipotensione e segni di shock ostruttivo",
   description:
     "Donna, 59 anni, neoplasia mammaria in chemio-radioterapia, giunge in PS via 118 per marcata astenia, " +
     "dispnea grave a riposo, oppressione toracica e agitazione nelle ultime 12 ore. Caso gold standard Prassi Clinica — " +

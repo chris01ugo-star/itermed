@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getExamMetadataById, updateExamMetadata } from "@/lib/exams/exam-repository";
 import { ExamMetadataUpdateSchema } from "@/lib/exams/exam-schemas";
+import { isUnauthorizedResponse, requireUserApi } from "@/lib/api-session";
 import { requireAdminApi } from "@/lib/require-admin-api";
 
 export const runtime = "nodejs";
@@ -45,6 +46,9 @@ export async function PUT(request: Request, context: RouteContext) {
 }
 
 export async function GET(_request: Request, context: RouteContext) {
+  const auth = await requireUserApi();
+  if (isUnauthorizedResponse(auth)) return auth;
+
   const { id } = await context.params;
   const exam = await getExamMetadataById(id);
   if (!exam) {

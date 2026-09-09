@@ -15,10 +15,18 @@ const CHUNK_SIZE = 1000;
 const CHUNK_OVERLAP = 200;
 
 /**
- * Minimum Pinecone cosine similarity to accept a match as "relevant context".
- * Matches below this threshold are treated as soft-fail (no usable RAG context).
+ * Legal RAG: stricter cosine similarity for normative / medico-legal chunks.
+ * Matches below this threshold are discarded (soft-fail when none remain).
  */
-const MIN_PINECONE_SIMILARITY = 0.35;
+export const SIMILARITY_THRESHOLD_LEGAL = 0.70;
+
+/**
+ * Clinical protocol / general guideline retrieval threshold (unchanged baseline).
+ */
+export const SIMILARITY_THRESHOLD_PROTOCOL = 0.35;
+
+/** @deprecated Prefer {@link SIMILARITY_THRESHOLD_PROTOCOL}. */
+const MIN_PINECONE_SIMILARITY = SIMILARITY_THRESHOLD_PROTOCOL;
 
 const PROTOCOL_TAG_HINTS = [
   "protocollo",
@@ -48,10 +56,21 @@ const PROTOCOL_PINECONE_TAGS = ["protocollo", "protocolli", "linee guida", "line
 
 export type GuidelineChunk = {
   content: string;
+  /** Source document title (fonte). */
   title: string;
   tags: string[];
   documentId?: string;
   kind: "legal" | "protocol";
+  /** Unique Pinecone vector / chunk id (e.g. `{documentId}-{index}`). */
+  chunkId?: string;
+  /** Normative section when present in vector metadata or inferred from text. */
+  section?: string;
+  /** Article / comma reference when present in metadata or inferred. */
+  article?: string;
+  /** Publication or normative year when present in metadata or inferred. */
+  year?: number | string;
+  /** Original source label (PDF filename, citation string, …). */
+  sourceName?: string;
 };
 
 export type GuidelineRetrievalSection = {
@@ -117,7 +136,95 @@ type PineconeMetadata = {
   tags?: string | string[];
   documentId?: string;
   medicalSpecialtyId?: string;
+  /** Extended citation metadata (ingested or legacy aliases). */
+  section?: string;
+  sez?: string;
+  article?: string;
+  articolo?: string;
+  year?: string | number;
+  anno?: string | number;
+  source?: string;
+  sourceName?: string;
+  chunkId?: string;
 };
+
+function optionalMetaString(value: unknown): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
+function optionalMetaYear(value: unknown): number | string | undefined {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  if (/^(19|20)\d{2}$/.test(trimmed)) return Number(trimmed);
+  return trimmed;
+}
+
+/** Infer article / section / year from normative text when metadata lacks them. */
+function inferLegalCitationFromText(text: string): {
+  article?: string;
+  section?: string;
+  year?: number;
+} {
+  const articleMatch = text.match(
+    /\b(?:Art\.?|Articolo)\s*(\d+(?:\s*(?:bis|ter|quater))?)/i,
+  );
+  const sectionMatch = text.match(/\bSez(?:ione)?\.?\s*([A-Za-z0-9]+|\d+)/i);
+  const yearMatch = text.match(/\b((?:19|20)\d{2})\b/);
+  return {
+    ...(articleMatch?.[1]
+      ? { article: `Art. ${articleMatch[1].replace(/\s+/g, " ").trim()}` }
+      : {}),
+    ...(sectionMatch?.[1] ? { section: `Sezione ${sectionMatch[1]}` } : {}),
+    ...(yearMatch?.[1] ? { year: Number(yearMatch[1]) } : {}),
+  };
+}
+
+/**
+ * Maps Pinecone match id + metadata into extended {@link GuidelineChunk} citation fields.
+ * Prefers explicit vector metadata; falls back to inference from title/content.
+ */
+function mapPineconeChunkCitation(
+  matchId: string | undefined,
+  metadata: PineconeMetadata,
+  title: string,
+  content: string,
+): Pick<GuidelineChunk, "chunkId" | "section" | "article" | "year" | "sourceName"> {
+  const inferred = inferLegalCitationFromText(`${title}\n${content}`);
+  const chunkId =
+    optionalMetaString(metadata.chunkId) ??
+    (typeof matchId === "string" && matchId.trim() ? matchId.trim() : undefined);
+
+  return {
+    chunkId,
+    section:
+      optionalMetaString(metadata.section) ??
+      optionalMetaString(metadata.sez) ??
+      inferred.section,
+    article:
+      optionalMetaString(metadata.article) ??
+      optionalMetaString(metadata.articolo) ??
+      inferred.article,
+    year:
+      optionalMetaYear(metadata.year) ??
+      optionalMetaYear(metadata.anno) ??
+      inferred.year,
+    sourceName:
+      optionalMetaString(metadata.sourceName) ?? optionalMetaString(metadata.source),
+  };
+}
+
+function formatChunkCitationHeader(chunk: GuidelineChunk): string {
+  const parts = [chunk.title];
+  if (chunk.article) parts.push(chunk.article);
+  if (chunk.section) parts.push(chunk.section);
+  if (chunk.year != null && chunk.year !== "") parts.push(String(chunk.year));
+  if (chunk.chunkId) parts.push(`id=${chunk.chunkId}`);
+  return parts.join(" · ");
+}
 
 /**
  * When a case has a specialty, retrieve only docs tagged with that specialty
@@ -320,7 +427,9 @@ function toSection(
   const safeChunks = Array.isArray(chunks) ? chunks.filter((c) => c?.content?.trim()) : [];
   const sources = [...new Set(safeChunks.map((c) => c.title).filter(Boolean))];
   const hasContext = safeChunks.length > 0 && source !== "none";
-  const rawCombined = safeChunks.map((c) => `[${c.title}]\n${c.content}`).join("\n---\n");
+  const rawCombined = safeChunks
+    .map((c) => `[${formatChunkCitationHeader(c)}]\n${c.content}`)
+    .join("\n---\n");
   return {
     chunks: safeChunks,
     sources,
@@ -477,7 +586,7 @@ export class RagService {
     const ranked: Array<GuidelineChunk & { score: number }> = [];
     for (const match of response.matches ?? []) {
       const pineconeScore = typeof match.score === "number" ? match.score : 0;
-      if (pineconeScore < MIN_PINECONE_SIMILARITY) continue;
+      if (pineconeScore < SIMILARITY_THRESHOLD_LEGAL) continue;
 
       const metadata = (match.metadata ?? {}) as PineconeMetadata;
       const content = typeof metadata.content === "string" ? metadata.content.trim() : "";
@@ -496,12 +605,20 @@ export class RagService {
       const tags = parseMetadataTags(metadata);
       if (!isLegalGuideline(tags)) continue;
 
+      const citation = mapPineconeChunkCitation(
+        typeof match.id === "string" ? match.id : undefined,
+        metadata,
+        title,
+        content,
+      );
+
       ranked.push({
         content,
         title,
         tags,
         documentId: typeof metadata.documentId === "string" ? metadata.documentId : undefined,
         kind: "legal",
+        ...citation,
         score:
           pineconeScore +
           scoreChunkWithSpecialty(query, `${title} ${content}`, tags, specialtyHints) * 0.1,
@@ -557,7 +674,7 @@ export class RagService {
     for (const response of responses) {
       for (const match of response.matches ?? []) {
         const pineconeScore = typeof match.score === "number" ? match.score : 0;
-        if (pineconeScore < MIN_PINECONE_SIMILARITY) continue;
+        if (pineconeScore < SIMILARITY_THRESHOLD_PROTOCOL) continue;
 
         const metadata = (match.metadata ?? {}) as PineconeMetadata;
         const content = typeof metadata.content === "string" ? metadata.content.trim() : "";
@@ -573,6 +690,12 @@ export class RagService {
 
         const title = typeof metadata.title === "string" ? metadata.title : "Protocollo clinico";
         const tags = parseMetadataTags(metadata);
+        const citation = mapPineconeChunkCitation(
+          typeof match.id === "string" ? match.id : undefined,
+          metadata,
+          title,
+          content,
+        );
 
         ranked.push({
           content,
@@ -580,6 +703,7 @@ export class RagService {
           tags,
           documentId: typeof metadata.documentId === "string" ? metadata.documentId : undefined,
           kind: "protocol",
+          ...citation,
           score:
             pineconeScore +
             (chunkMatchesSpecialty(tags, specialtyHints) ? 2 : 0) +
@@ -609,15 +733,20 @@ export class RagService {
     const ranked: Array<GuidelineChunk & { score: number }> = [];
 
     for (const doc of docs) {
+      let chunkIndex = 0;
       for (const content of chunkText(doc.text)) {
+        const citation = inferLegalCitationFromText(`${doc.title}\n${content}`);
         ranked.push({
           content,
           title: doc.title,
           tags: doc.tags,
           documentId: doc.id,
+          chunkId: `${doc.id}-${chunkIndex}`,
           kind: "legal",
+          ...citation,
           score: scoreChunkWithSpecialty(query, `${doc.title} ${content}`, doc.tags, specialtyHints),
         });
+        chunkIndex += 1;
       }
     }
 

@@ -7,7 +7,7 @@ const SHORT_LABELS: Record<MacroAreaScore["key"], string> = {
   clinical: "Accuratezza",
   legal: "Sicurezza",
   economy: "Appropriatezza",
-  empathy: "Empatia",
+  empathy: "Comunicazione",
 };
 
 /** Builds structured JSON for the React Report Dashboard. */

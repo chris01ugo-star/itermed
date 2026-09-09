@@ -3,28 +3,33 @@ import { generateObject } from "ai";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { assertUserCanPlayCase } from "@/lib/access";
-import { getSessionUserId } from "@/lib/api-session";
+import { getSessionUserId, unauthorizedJson } from "@/lib/api-session";
 import {
   assertCanStartSimulation,
   gateToResponse,
   shouldCountAgainstDailyQuota,
 } from "@/lib/billing/access-gate";
 import { DAILY_SIMULATION_LIMIT } from "@/lib/billing/plans";
-import { countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
+import { countSimulationsStartedAllTime, countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
+import { getSponsoredFreeCaseLimit } from "@/lib/billing/unlimited-case-access";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { extractPatientPromptFromNode } from "@/lib/cases/case-payload";
 import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
 import { config, isUsableDatabase } from "@/lib/config";
-import { ensureRegisteredCaseInDb } from "@/lib/cases/ensure-registered-case";
+import { ensureRegisteredCaseInDb, findClinicalCaseForSimulation } from "@/lib/cases/ensure-registered-case";
 import { getCaseById, isRegisteredCaseId, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import {
+  canHonorDailyLimitBypass,
+  rejectNonDevelopmentDevBypass,
+} from "@/lib/security/dev-only-gates";
 
 const bodySchema = z.object({
   caseId: z.string().min(1),
   mode: z.enum(["original", "variant"]),
-  /** Soft bypass while payments are not live (UI: "Sono un dev"). */
+  /** Honored only when NODE_ENV === "development"; otherwise 403. */
   devBypass: z.boolean().optional(),
 });
 
@@ -40,7 +45,9 @@ async function createSession(params: {
   variantPrompt?: string;
   variantSolution?: string;
   enforceDailyCap: boolean;
+  sponsoredLimit?: number | null;
 }): Promise<Response> {
+  // Persist caseId + empty milestone/exam arrays so sync-milestones can merge safely.
   const session = await prisma.caseSession.create({
     data: {
       userId: params.userId,
@@ -63,6 +70,22 @@ async function createSession(params: {
         status: 403,
         message: `Hai esaurito le ${DAILY_SIMULATION_LIMIT} simulazioni di oggi. Il contatore si resetta a mezzanotte.`,
       });
+    }
+  }
+
+  if (params.sponsoredLimit != null) {
+    const lifetimeUsed = await countSimulationsStartedAllTime(params.userId);
+    if (lifetimeUsed > params.sponsoredLimit) {
+      const usedToday = await countSimulationsStartedToday(params.userId);
+      if (usedToday > DAILY_SIMULATION_LIMIT) {
+        await prisma.caseSession.delete({ where: { id: session.id } }).catch(() => undefined);
+        return gateToResponse({
+          allowed: false,
+          code: "DAILY_LIMIT",
+          status: 403,
+          message: `Hai esaurito i ${params.sponsoredLimit} casi in omaggio e le ${DAILY_SIMULATION_LIMIT} simulazioni di oggi.`,
+        });
+      }
     }
   }
 
@@ -99,12 +122,7 @@ function createRegistryOfflineSessionResponse(caseId: string, isVariant: boolean
 
 export async function POST(req: Request) {
   const userId = await getSessionUserId();
-  if (!userId) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+  if (!userId) return unauthorizedJson();
 
   let json: unknown;
   try {
@@ -125,6 +143,9 @@ export async function POST(req: Request) {
   }
 
   const { caseId: rawCaseId, mode, devBypass } = parsed.data;
+  const forbiddenBypass = rejectNonDevelopmentDevBypass(devBypass);
+  if (forbiddenBypass) return forbiddenBypass;
+
   const caseId = normalizeCaseLookupKey(rawCaseId);
 
   const rateLimited = await enforceRateLimit(req, {
@@ -140,7 +161,7 @@ export async function POST(req: Request) {
 
   // Placeholder DB / offline: allow registry cases without Prisma session FK.
   if (!isUsableDatabase(config.DATABASE_URL)) {
-    if (isRegisteredCaseId(caseId) || getCaseById(caseId)) {
+    if (isRegisteredCaseId(caseId) || (await getCaseById(caseId))) {
       if (mode === "variant") {
         return new Response(
           JSON.stringify({
@@ -166,7 +187,19 @@ export async function POST(req: Request) {
     });
   }
 
-  await ensureRegisteredCaseInDb(caseId, userId);
+  try {
+    await Promise.race([
+      ensureRegisteredCaseInDb(rawCaseId, userId),
+      new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error("ensureRegisteredCaseInDb timed out after 1500ms")), 1_500);
+      }),
+    ]);
+  } catch (err) {
+    console.error("[POST /api/session/start] ensureRegisteredCaseInDb skipped", {
+      caseId,
+      error: err instanceof Error ? err.message : String(err),
+    });
+  }
 
   let clinicalCase: {
     id: string;
@@ -179,18 +212,12 @@ export async function POST(req: Request) {
   } | null = null;
 
   try {
-    clinicalCase = await prisma.clinicalCase.findUnique({
-      where: { id: caseId },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        isActive: true,
-        caseBundleId: true,
-        goldStandardPath: true,
-        nodes: { orderBy: { order: "asc" }, take: 1, select: { content: true } },
-      },
-    });
+    clinicalCase = await Promise.race([
+      findClinicalCaseForSimulation(rawCaseId),
+      new Promise<null>((_, reject) => {
+        setTimeout(() => reject(new Error("clinicalCase.findUnique timed out after 1500ms")), 1_500);
+      }),
+    ]);
   } catch {
     if (isRegisteredCaseId(caseId)) {
       return createRegistryOfflineSessionResponse(caseId, false);
@@ -215,10 +242,12 @@ export async function POST(req: Request) {
   }
 
   const usedToday = await countSimulationsStartedToday(userId);
+  const lifetimeUsed = await countSimulationsStartedAllTime(userId);
   const accessOptions = {
     caseBundleId: clinicalCase.caseBundleId,
     usedToday,
-    bypassDailyLimit: Boolean(devBypass),
+    lifetimeUsed,
+    bypassDailyLimit: canHonorDailyLimitBypass(devBypass),
   };
   const simGate = assertCanStartSimulation(billingProfile, accessOptions);
   if (!simGate.allowed) {
@@ -226,6 +255,7 @@ export async function POST(req: Request) {
   }
 
   const enforceDailyCap = shouldCountAgainstDailyQuota(billingProfile, accessOptions);
+  const sponsoredLimit = getSponsoredFreeCaseLimit(billingProfile.email);
 
   const firstNode = clinicalCase.nodes[0];
   const basePrompt = extractPatientPromptFromNode(
@@ -241,6 +271,7 @@ export async function POST(req: Request) {
         caseId: clinicalCase.id,
         isVariant: false,
         enforceDailyCap,
+        sponsoredLimit,
       });
     } catch (err) {
       console.error("[POST /api/session/start] createSession failed", {
@@ -248,7 +279,7 @@ export async function POST(req: Request) {
         error: err instanceof Error ? err.message : String(err),
       });
       // Keep navigation unblocked: client can open play with registry/offline token.
-      if (isRegisteredCaseId(clinicalCase.id) || getCaseById(clinicalCase.id)) {
+      if (isRegisteredCaseId(clinicalCase.id) || (await getCaseById(clinicalCase.id))) {
         return createRegistryOfflineSessionResponse(clinicalCase.id, false);
       }
       return new Response(
@@ -297,6 +328,7 @@ Gold standard steps (non alterare): ${goldPath.length ? goldPath.join(", ") : "n
       variantPrompt: object.newPatientPrompt,
       variantSolution: object.newCorrectSolution,
       enforceDailyCap,
+      sponsoredLimit,
     });
   } catch (err) {
     console.error("[POST /api/session/start] variant session failed", {

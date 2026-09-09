@@ -3,16 +3,30 @@
  */
 
 import { prisma } from "@/lib/prisma";
-import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import { getCaseById, knowledgeBaseIdCandidates } from "@/lib/data/cases/registry";
+
+export async function findClinicalCaseForSimulation(rawId: string) {
+  const ids = knowledgeBaseIdCandidates(rawId);
+  if (ids.length === 0) return null;
+  return prisma.clinicalCase.findFirst({
+    where: { id: { in: ids }, isActive: true },
+    include: { nodes: { orderBy: { order: "asc" as const }, take: 1 } },
+  });
+}
 
 export async function ensureRegisteredCaseInDb(
   caseId: string,
   createdById: string,
 ): Promise<{ id: string } | null> {
-  const registered = getCaseById(caseId);
+  const registered = await getCaseById(caseId);
   if (!registered) return null;
 
-  const id = normalizeCaseLookupKey(registered.id);
+  const candidates = knowledgeBaseIdCandidates(registered.id);
+  const existing = await prisma.clinicalCase.findFirst({
+    where: { id: { in: candidates } },
+    select: { id: true },
+  });
+  const id = existing?.id ?? registered.id;
 
   try {
     const row = await prisma.clinicalCase.upsert({
