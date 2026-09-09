@@ -5,7 +5,7 @@ import {
   isSubscriptionPlan,
 } from "@/lib/billing/plans";
 import type { UserBillingProfile } from "@/lib/billing/user-billing";
-import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
+import { hasUnlimitedCaseAccess, hasActiveSponsoredCaseGrant } from "@/lib/billing/unlimited-case-access";
 import { canHonorDailyLimitBypass } from "@/lib/security/dev-only-gates";
 
 /** Patient chat always uses gpt-4o-mini. gpt-4o is reserved for evaluation/RAG. */
@@ -63,11 +63,22 @@ export type SimulationAccessOptions = {
   /** Simulations already started today (Europe/Rome). */
   usedToday?: number;
   /**
+   * Lifetime CaseSession count — used for sponsored free-case grants (e.g. 20-case bundle).
+   */
+  lifetimeUsed?: number;
+  /**
    * Client-supplied quota skip. Honored ONLY when `NODE_ENV === "development"`.
    * Production / staging / test ignore this flag even if set to true.
    */
   bypassDailyLimit?: boolean;
 };
+
+function hasSponsoredGrantRemaining(
+  profile: UserBillingProfile,
+  options?: SimulationAccessOptions,
+): boolean {
+  return hasActiveSponsoredCaseGrant(profile, options?.lifetimeUsed ?? 0);
+}
 
 /** True when this start should count against the soft daily quota. */
 export function shouldCountAgainstDailyQuota(
@@ -76,6 +87,7 @@ export function shouldCountAgainstDailyQuota(
 ): boolean {
   if (canHonorDailyLimitBypass(options?.bypassDailyLimit)) return false;
   if (isActiveOrBetaLearner(profile)) return false;
+  if (hasSponsoredGrantRemaining(profile, options)) return false;
   const bundleId = options?.caseBundleId?.trim();
   if (bundleId && profile.purchasedBundleIds.includes(bundleId)) return false;
   return true;
@@ -94,6 +106,10 @@ export function assertCanStartSimulation(
 
   // Active / Beta / Admin / Stripe trialing: always allowed.
   if (isActiveOrBetaLearner(profile)) {
+    return { allowed: true };
+  }
+
+  if (hasSponsoredGrantRemaining(profile, options)) {
     return { allowed: true };
   }
 
@@ -118,9 +134,11 @@ export function assertCanStartSimulation(
 export function assertCanAccessBundle(
   profile: UserBillingProfile,
   bundleId: string | null | undefined,
+  options?: Pick<SimulationAccessOptions, "lifetimeUsed">,
 ): GateResult {
   if (!bundleId?.trim()) return { allowed: true };
   if (isActiveOrBetaLearner(profile)) return { allowed: true };
+  if (hasSponsoredGrantRemaining(profile, options)) return { allowed: true };
   if (profile.purchasedBundleIds.includes(bundleId)) return { allowed: true };
 
   return {

@@ -1,5 +1,10 @@
 import type { ExamClinicalMeta } from "@/lib/exam-default-values";
 import { resolveExamClinicalMeta, type CaseExamOverride } from "@/lib/exam-values-meta";
+import {
+  adaptFindingForRequestedExam,
+  pickCaseFindingText,
+  sanitizeExamFinding,
+} from "@/lib/simulator/exam-finding-text";
 
 export type SimulatorExam = {
   id: string;
@@ -59,9 +64,23 @@ export function formatExamFinding(
     const suffix = override.isAbnormal ? " — patologico" : "";
     return `${override.value}${suffix}`;
   }
+
+  const picked = pickCaseFindingText(examId, caseValues);
+  if (picked) {
+    const sanitized = sanitizeExamFinding(examId, picked.text);
+    const adapted = adaptFindingForRequestedExam(
+      examId,
+      picked.sourceId,
+      sanitized || picked.text,
+    );
+    const report = sanitizeExamFinding(examId, adapted);
+    if (report) return report;
+  }
+
   const resolved = resolveExamClinicalMeta(examId, catalog, override);
-  if (resolved?.normalFinding?.trim()) {
-    return resolved.normalFinding.trim();
+  const catalogText = resolved?.normalFinding?.trim() ?? "";
+  if (catalogText && !/da valutare|eseguire |iniziare |si consiglia/i.test(catalogText)) {
+    return catalogText;
   }
   return "Nessun valore definito per questo esame (configura in admin o nel caso clinico).";
 }

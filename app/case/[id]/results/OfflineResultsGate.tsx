@@ -14,6 +14,7 @@ import type {
 type OfflineResultsGateProps = {
   caseId: string;
   sessionId: string;
+  caseTitle?: string;
   correctSolution?: string;
   legalSources?: string[];
 };
@@ -25,7 +26,7 @@ function safeNum(value: unknown, fallback = 0): number {
 
 function eliteToClientProps(
   data: EliteReportData,
-  extras: { correctSolution?: string; legalSources?: string[] },
+  extras: { caseTitle?: string; sessionId?: string; correctSolution?: string; legalSources?: string[] },
 ) {
   const radarData = [
     {
@@ -58,6 +59,8 @@ function eliteToClientProps(
   return {
     totalScore: safeNum(data.totalScore),
     radarData,
+    caseTitle: extras.caseTitle,
+    sessionId: extras.sessionId || data.sessionId,
     strengths: Array.isArray(data.feedback?.strengths) ? data.feedback.strengths : [],
     weaknesses: Array.isArray(data.feedback?.weaknesses) ? data.feedback.weaknesses : [],
     correctSolution: extras.correctSolution || data.feedback?.correctSolution,
@@ -81,6 +84,7 @@ function eliteToClientProps(
 export function OfflineResultsGate({
   caseId,
   sessionId,
+  caseTitle,
   correctSolution,
   legalSources,
 }: OfflineResultsGateProps) {
@@ -128,7 +132,7 @@ export function OfflineResultsGate({
 
   if (!data && !failed) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white px-5 py-8 text-center text-sm text-slate-600 shadow-sm">
+      <div className="border border-[var(--aequan-border)] bg-[var(--aequan-panel-bg)] px-5 py-8 text-center text-sm text-[var(--aequan-text-secondary)] shadow-sm">
         Caricamento report di fine simulazione…
       </div>
     );
@@ -152,10 +156,20 @@ export function OfflineResultsGate({
       },
       evidence: { legalSources: legalSources ?? [], protocolSources: [] },
     };
-    const props = eliteToClientProps(fallback, { correctSolution, legalSources });
+    const props = eliteToClientProps(fallback, {
+      caseTitle: caseTitle || caseId,
+      sessionId,
+      correctSolution,
+      legalSources,
+    });
     return <EliteResultsClient {...props} />;
   }
 
-  const props = eliteToClientProps(data, { correctSolution, legalSources });
+  const props = eliteToClientProps(data, {
+    caseTitle: caseTitle || caseId,
+    sessionId,
+    correctSolution,
+    legalSources,
+  });
   return <EliteResultsClient {...props} />;
 }

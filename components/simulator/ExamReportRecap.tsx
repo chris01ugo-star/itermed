@@ -99,9 +99,9 @@ function FolderCard({
   const abnormalCount = folder.entries.filter((e) => e.abnormal).length;
 
   return (
-    <div className="relative shrink-0 pt-2.5">
+    <div className="relative w-full pt-2">
       <span
-        className="absolute left-3 top-2.5 z-10 h-2.5 w-10 -translate-y-[calc(100%-1px)] rounded-t-md"
+        className="absolute left-2.5 top-2 z-10 h-2 w-8 -translate-y-[calc(100%-1px)] rounded-t-md"
         style={{ backgroundColor: folder.fill }}
         aria-hidden
       />
@@ -113,7 +113,7 @@ function FolderCard({
           borderColor: active ? "#1E324E" : folder.border,
         }}
         className={cn(
-          "relative flex w-[9.5rem] flex-col gap-1.5 overflow-hidden rounded-b-xl rounded-tr-xl border px-3 py-2.5 text-left transition-all duration-200 hover:brightness-[0.98] sm:w-[10.5rem]",
+          "relative flex h-full w-full flex-col gap-1 overflow-hidden rounded-b-xl rounded-tr-xl border px-2.5 py-2 text-left transition-all duration-200 hover:brightness-[0.98]",
           active && "shadow-sm ring-1 ring-[#1E324E]/20",
         )}
       >
@@ -123,8 +123,10 @@ function FolderCard({
             {folder.entries.length}
           </span>
         </div>
-        <p className="truncate text-sm font-bold text-slate-800">{folder.title}</p>
-        <p className="truncate text-[11px] text-slate-500">{folder.kindLabel}</p>
+        <p className="line-clamp-2 text-xs font-bold leading-snug text-slate-800">
+          {folder.title}
+        </p>
+        <p className="truncate text-[10px] text-slate-500">{folder.kindLabel}</p>
         {abnormalCount > 0 ? (
           <span
             className="text-[10px] font-semibold"
@@ -137,7 +139,7 @@ function FolderCard({
             €{folder.totalCost.toFixed(0)}
           </span>
         ) : (
-          <span className="text-[10px] text-slate-400">Apri referti</span>
+          <span className="text-[10px] text-slate-400">Apri</span>
         )}
       </button>
     </div>
@@ -146,7 +148,7 @@ function FolderCard({
 
 /**
  * Live recap of objective findings + prescribed exams, grouped by clinical category.
- * Folders sit in a horizontal row (Prassi style); click opens a popup with all reports.
+ * Two-column folder grid; empty state fills the panel.
  */
 export function ExamReportRecap({
   exams,
@@ -242,12 +244,12 @@ export function ExamReportRecap({
   return (
     <section
       className={cn(
-        "rounded-2xl border border-slate-200 bg-white shadow-sm",
+        "flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm",
         className,
       )}
       aria-label="Recap esami e referti"
     >
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 px-4 py-3">
+      <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-slate-100 px-4 py-3">
         <div className="flex items-center gap-2.5">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#EEF2F9] text-[#345884]">
             <ClipboardList className="h-4 w-4" strokeWidth={1.75} />
@@ -255,7 +257,7 @@ export function ExamReportRecap({
           <div>
             <p className="text-sm font-semibold text-slate-800">Recap esami e referti</p>
             <p className="text-[11px] text-slate-500">
-              Cartelle in fila — clicca per aprire i referti
+              Cartelle compatte — clicca per aprire i referti
             </p>
           </div>
         </div>
@@ -267,17 +269,17 @@ export function ExamReportRecap({
         ) : null}
       </div>
 
-      <div className="px-3 py-3 sm:px-4">
+      <div className="scrollbar-aequan flex min-h-0 flex-1 flex-col overflow-y-auto px-3 py-3 sm:px-4">
         {folders.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-slate-200 bg-slate-50/70 px-4 py-6 text-center">
-            <FolderClosed className="h-5 w-5 text-slate-300" />
+          <div className="flex h-full min-h-0 flex-1 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-slate-200 bg-slate-50/70 px-4 py-8 text-center">
+            <FolderClosed className="h-6 w-6 text-slate-300" />
             <p className="text-sm font-medium text-slate-600">Nessun esame ancora richiesto</p>
-            <p className="max-w-sm text-[11px] leading-relaxed text-slate-400">
+            <p className="max-w-[16rem] text-[11px] leading-relaxed text-slate-400">
               Quando esegui manovre o prescrivi esami, le cartelle di categoria compaiono qui.
             </p>
           </div>
         ) : (
-          <div className="scrollbar-aequan flex gap-2.5 overflow-x-auto pb-1">
+          <div className="grid grid-cols-2 gap-x-2 gap-y-1 content-start">
             {folders.map((folder) => (
               <FolderCard
                 key={folder.id}

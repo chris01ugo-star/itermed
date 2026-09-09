@@ -34,7 +34,14 @@ export function LoginForm({ googleEnabled = false }: LoginFormProps) {
     });
     setLoading(false);
     if (res?.error) {
-      setError("Email o password non validi.");
+      const msg = String(res.error);
+      if (msg.includes("BETA_PENDING")) {
+        setError(
+          "Account non ancora autorizzato per la beta. Iscriviti alla lista d'attesa dalla homepage.",
+        );
+      } else {
+        setError("Email o password non validi, oppure accesso beta non ancora abilitato.");
+      }
       return;
     }
     window.location.href = callbackUrl;
@@ -51,7 +58,7 @@ export function LoginForm({ googleEnabled = false }: LoginFormProps) {
             Bentornato
           </h2>
           <p className="text-sm leading-relaxed text-slate-500">
-            Entra per riprendere i casi e il profilo competenze.
+            Accesso riservato ai beta tester autorizzati.
           </p>
         </div>
 
@@ -120,12 +127,12 @@ export function LoginForm({ googleEnabled = false }: LoginFormProps) {
         </div>
 
         <p className="text-center text-sm text-slate-500">
-          Non hai un account?{" "}
+          Vuoi partecipare alla beta?{" "}
           <Link
-            href="/signup"
+            href="/#lista-attesa"
             className="font-semibold text-[#1E324E] underline-offset-2 hover:underline"
           >
-            Registrati
+            Lista d&apos;attesa
           </Link>
         </p>
       </div>

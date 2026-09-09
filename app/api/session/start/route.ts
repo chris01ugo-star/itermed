@@ -10,8 +10,9 @@ import {
   shouldCountAgainstDailyQuota,
 } from "@/lib/billing/access-gate";
 import { DAILY_SIMULATION_LIMIT } from "@/lib/billing/plans";
-import { countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
+import { countSimulationsStartedAllTime, countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
+import { getSponsoredFreeCaseLimit } from "@/lib/billing/unlimited-case-access";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
@@ -44,7 +45,9 @@ async function createSession(params: {
   variantPrompt?: string;
   variantSolution?: string;
   enforceDailyCap: boolean;
+  sponsoredLimit?: number | null;
 }): Promise<Response> {
+  // Persist caseId + empty milestone/exam arrays so sync-milestones can merge safely.
   const session = await prisma.caseSession.create({
     data: {
       userId: params.userId,
@@ -67,6 +70,22 @@ async function createSession(params: {
         status: 403,
         message: `Hai esaurito le ${DAILY_SIMULATION_LIMIT} simulazioni di oggi. Il contatore si resetta a mezzanotte.`,
       });
+    }
+  }
+
+  if (params.sponsoredLimit != null) {
+    const lifetimeUsed = await countSimulationsStartedAllTime(params.userId);
+    if (lifetimeUsed > params.sponsoredLimit) {
+      const usedToday = await countSimulationsStartedToday(params.userId);
+      if (usedToday > DAILY_SIMULATION_LIMIT) {
+        await prisma.caseSession.delete({ where: { id: session.id } }).catch(() => undefined);
+        return gateToResponse({
+          allowed: false,
+          code: "DAILY_LIMIT",
+          status: 403,
+          message: `Hai esaurito i ${params.sponsoredLimit} casi in omaggio e le ${DAILY_SIMULATION_LIMIT} simulazioni di oggi.`,
+        });
+      }
     }
   }
 
@@ -223,9 +242,11 @@ export async function POST(req: Request) {
   }
 
   const usedToday = await countSimulationsStartedToday(userId);
+  const lifetimeUsed = await countSimulationsStartedAllTime(userId);
   const accessOptions = {
     caseBundleId: clinicalCase.caseBundleId,
     usedToday,
+    lifetimeUsed,
     bypassDailyLimit: canHonorDailyLimitBypass(devBypass),
   };
   const simGate = assertCanStartSimulation(billingProfile, accessOptions);
@@ -234,6 +255,7 @@ export async function POST(req: Request) {
   }
 
   const enforceDailyCap = shouldCountAgainstDailyQuota(billingProfile, accessOptions);
+  const sponsoredLimit = getSponsoredFreeCaseLimit(billingProfile.email);
 
   const firstNode = clinicalCase.nodes[0];
   const basePrompt = extractPatientPromptFromNode(
@@ -249,6 +271,7 @@ export async function POST(req: Request) {
         caseId: clinicalCase.id,
         isVariant: false,
         enforceDailyCap,
+        sponsoredLimit,
       });
     } catch (err) {
       console.error("[POST /api/session/start] createSession failed", {
@@ -305,6 +328,7 @@ Gold standard steps (non alterare): ${goldPath.length ? goldPath.join(", ") : "n
       variantPrompt: object.newPatientPrompt,
       variantSolution: object.newCorrectSolution,
       enforceDailyCap,
+      sponsoredLimit,
     });
   } catch (err) {
     console.error("[POST /api/session/start] variant session failed", {

@@ -17,11 +17,18 @@ type MedicalSpecialtyOption = {
 type CaseFiltersProps = {
   specialties: MedicalSpecialtyOption[];
   resultCount?: number;
+  /** `prassi` uses rounded-xl controls instead of pill selects. */
+  variant?: "default" | "prassi";
 };
 
 const DIFFICULTY_OPTIONS: CaseDifficulty[] = ["EASY", "MEDIUM", "HARD"];
 
-export function CaseFilters({ specialties, resultCount }: CaseFiltersProps) {
+export function CaseFilters({
+  specialties,
+  resultCount,
+  variant = "default",
+}: CaseFiltersProps) {
+  const isPrassi = variant === "prassi";
   const router = useRouter();
   const pathname = usePathname() ?? "/dashboard/prassi";
   const searchParams = useSearchParams();
@@ -66,20 +73,28 @@ export function CaseFilters({ specialties, resultCount }: CaseFiltersProps) {
 
   const selectWrapperClassName = (active: boolean) =>
     cn(
-      "relative flex h-9 shrink-0 items-center rounded-full border pl-8 pr-7 transition",
+      "relative flex h-9 shrink-0 items-center border pl-8 pr-7 transition",
+      isPrassi ? "rounded-xl" : "rounded-full",
       active
-        ? "border-[#1E324E]/30 bg-[#1E324E]/[0.05]"
-        : "border-slate-200 bg-slate-50 hover:border-slate-300",
+        ? "border-brand-primary/30 bg-brand-primary/[0.05]"
+        : "border-border bg-ui-bg hover:border-slate-300",
     );
 
   const selectClassName = (active: boolean) =>
     cn(
       "h-full max-w-[10.5rem] appearance-none truncate bg-transparent text-sm outline-none",
-      active ? "font-medium text-[#1E324E]" : "text-slate-700",
+      active ? "font-medium text-brand-primary" : "text-slate-700",
     );
 
   return (
-    <div className="flex h-14 shrink-0 items-center justify-between gap-3 overflow-x-auto overflow-y-hidden rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50/60 px-4 py-2 shadow-sm">
+    <div
+      className={cn(
+        "flex h-14 shrink-0 items-center justify-between gap-3 overflow-x-auto overflow-y-hidden border px-4 py-2",
+        isPrassi
+          ? "rounded-xl border-border bg-panel-bg shadow-aequan-panel"
+          : "rounded-2xl border-slate-200 bg-gradient-to-b from-white to-slate-50/60 shadow-sm",
+      )}
+    >
       <div className="flex min-w-0 flex-1 items-center gap-2.5">
         <div className="relative w-64 shrink-0 sm:w-72">
           <Search
@@ -90,9 +105,12 @@ export function CaseFilters({ specialties, resultCount }: CaseFiltersProps) {
             type="search"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
-            placeholder="Cerca caso…"
+            placeholder={isPrassi ? "Cerca paziente o diagnosi…" : "Cerca caso…"}
             aria-label="Cerca caso clinico"
-            className="h-9 w-full rounded-full border border-slate-200 bg-slate-50 py-1.5 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-[#1E324E]/30 focus:bg-white focus:ring-2 focus:ring-[#1E324E]/10"
+            className={cn(
+              "h-9 w-full border border-border bg-ui-bg py-1.5 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 outline-none transition focus:border-brand-primary/30 focus:bg-white focus:ring-2 focus:ring-brand-primary/10",
+              isPrassi ? "rounded-xl" : "rounded-full border-slate-200 bg-slate-50",
+            )}
           />
         </div>
 
@@ -169,8 +187,20 @@ export function CaseFilters({ specialties, resultCount }: CaseFiltersProps) {
       </div>
 
       {typeof resultCount === "number" ? (
-        <span className="shrink-0 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium tabular-nums text-slate-600">
-          {resultCount} {resultCount === 1 ? "risultato" : "risultati"}
+        <span
+          className={cn(
+            "shrink-0 px-3 py-1 text-xs font-medium tabular-nums text-slate-600",
+            isPrassi ? "rounded-lg bg-ui-bg" : "rounded-full bg-slate-100",
+          )}
+        >
+          {resultCount}{" "}
+          {isPrassi
+            ? resultCount === 1
+              ? "cartella"
+              : "cartelle"
+            : resultCount === 1
+              ? "risultato"
+              : "risultati"}
         </span>
       ) : null}
     </div>

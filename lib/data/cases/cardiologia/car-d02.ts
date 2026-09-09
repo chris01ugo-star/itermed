@@ -43,7 +43,7 @@ const EXAM_BUDGET_EURO = 120;
 export const CAR_D02: ClinicalCase = {
   code: "CAR-D02",
   id: "car-d02",
-  title: "Tachicardia Ventricolare Monomorfa Sostenuta in Pregresso STEMI",
+  title: "Paziente con tachiaritmia ventricolare e cardiopatia pregressa",
   description:
     "Uomo, 68 anni, cardiopatico ischemico con pregresso infarto anteriore (FE 32%), giunge in PS per cardiopalmo ritmico " +
     "ad esordio improvviso da ~45 minuti, astenia marcata, senso di peso retrosternale e vertigini in ortostatismo. " +

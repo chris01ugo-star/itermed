@@ -3,15 +3,22 @@ import { generateObject } from "ai";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
 import { requireUserApi, isUnauthorizedResponse } from "../../../lib/api-session";
-import { authorizeOwnedLiveSession } from "../../../lib/access";
+import { authorizeSimulationAction } from "../../../lib/access";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import { deriveDemoVitals } from "@/lib/prassi/demo-vitals";
+import { formatBloodPressureFinding } from "@/lib/clinical/case-vitals";
+import {
+  derivePhysicalExamFromSummary,
+  type KillipClass,
+} from "@/lib/clinical/physical-exam-from-summary";
 
 const bodySchema = z.object({
-  sessionId: z.string().min(1),
+  /** Optional: live Prisma session. Offline `registry_*` tokens are ignored. */
+  sessionId: z.string().optional(),
   caseId: z.string().optional(),
   examId: z.string().optional(),
   examType: z.string().min(1),
@@ -23,6 +30,27 @@ const examResultSchema = z.object({
   numericValue: z.number().nullable(),
 });
 
+function asFindingText(value: unknown): string | null {
+  if (value == null) return null;
+  const text = String(value).trim();
+  return text.length > 0 ? text : null;
+}
+
+function districtFinding(
+  physical: Record<string, unknown>,
+  district: string,
+): string | null {
+  const raw = physical.districts;
+  if (!Array.isArray(raw)) return null;
+  for (const entry of raw) {
+    if (!entry || typeof entry !== "object") continue;
+    const row = entry as Record<string, unknown>;
+    if (String(row.district ?? "") !== district) continue;
+    return asFindingText(row.finding);
+  }
+  return null;
+}
+
 function findingFromBaseline(
   baseline: Record<string, unknown> | null | undefined,
   examId: string,
@@ -32,6 +60,18 @@ function findingFromBaseline(
   const thorax = (baseline.thorax ?? {}) as Record<string, unknown>;
   const abdomen = (baseline.abdomen ?? {}) as Record<string, unknown>;
   const neuro = (baseline.neuro ?? {}) as Record<string, unknown>;
+  const physical = (baseline.physicalExam ?? {}) as Record<string, unknown>;
+  const peripheral = (baseline.peripheral ?? {}) as Record<string, unknown>;
+  const killipRaw = physical.killipClass;
+  const derived = derivePhysicalExamFromSummary({
+    summary:
+      asFindingText(physical.summary) ?? asFindingText(physical.finding),
+    killipClass:
+      killipRaw === "I" || killipRaw === "II" || killipRaw === "III" || killipRaw === "IV"
+        ? (killipRaw as KillipClass)
+        : null,
+    heartRate: typeof vitals.heartRate === "number" ? vitals.heartRate : null,
+  });
 
   let finding: string | null = null;
   let numericValue: number | null = null;
@@ -50,8 +90,11 @@ function findingFromBaseline(
       break;
     }
     case "blood-pressure": {
-      const v = vitals.bloodPressure;
-      if (v != null) finding = String(v);
+      const fromHelper = formatBloodPressureFinding(baseline);
+      if (fromHelper) {
+        finding = fromHelper.finding;
+        numericValue = fromHelper.numericValue;
+      }
       break;
     }
     case "spo2": {
@@ -91,28 +134,44 @@ function findingFromBaseline(
       break;
     }
     case "cardiac-auscultation": {
-      const v = thorax.cardiacAuscultation;
-      if (v != null) finding = String(v);
+      finding =
+        asFindingText(thorax.cardiacAuscultation) ??
+        districtFinding(physical, "cardiovascolare") ??
+        derived.cardiovascolare;
+      if (finding && finding === districtFinding(physical, "generale")) {
+        finding = derived.cardiovascolare;
+      }
       break;
     }
     case "lung-auscultation": {
-      const v = thorax.lungAuscultation;
-      if (v != null) finding = String(v);
+      finding =
+        asFindingText(thorax.lungAuscultation) ??
+        districtFinding(physical, "torace_polmonare") ??
+        derived.torace;
+      if (finding && finding === districtFinding(physical, "generale")) {
+        finding = derived.torace;
+      }
       break;
     }
     case "abdomen-inspection": {
-      const v = abdomen.inspection;
-      if (v != null) finding = String(v);
+      finding =
+        asFindingText(abdomen.inspection) ??
+        districtFinding(physical, "addome") ??
+        derived.addomeInspection;
       break;
     }
     case "abdomen-palpation": {
-      const v = abdomen.palpation;
-      if (v != null) finding = String(v);
+      finding =
+        asFindingText(abdomen.palpation) ??
+        districtFinding(physical, "addome") ??
+        derived.addomePalpation;
       break;
     }
     case "abdomen-percussion": {
-      const v = abdomen.percussion;
-      if (v != null) finding = String(v);
+      finding =
+        asFindingText(abdomen.percussion) ??
+        districtFinding(physical, "addome") ??
+        derived.addomePercussion;
       break;
     }
     case "pupils": {
@@ -128,6 +187,55 @@ function findingFromBaseline(
     case "neuro-deficits": {
       const v = neuro.deficits;
       if (v != null) finding = String(v);
+      break;
+    }
+    case "general-appearance": {
+      const raw =
+        districtFinding(physical, "generale") ??
+        asFindingText(physical.generalAppearance) ??
+        asFindingText(physical.finding) ??
+        asFindingText(physical.summary);
+      finding =
+        raw && raw !== derived.addomePalpation && raw !== derived.torace
+          ? raw
+          : derived.generale;
+      break;
+    }
+    case "skin-mucosa": {
+      // Prefer dedicated skin fields; never fall back to the shared general summary
+      // (that made Generale / Cute / CV return the same text).
+      finding =
+        asFindingText(physical.skinMucosa) ??
+        asFindingText(physical.skin) ??
+        asFindingText(physical.mucosa) ??
+        asFindingText(peripheral.skin) ??
+        asFindingText(peripheral.skinMucosa);
+      break;
+    }
+    case "cardiovascular": {
+      const general = districtFinding(physical, "generale");
+      const cardioDistrict = districtFinding(physical, "cardiovascolare");
+      const distinctCardio =
+        cardioDistrict && cardioDistrict !== general ? cardioDistrict : null;
+      const murmur = asFindingText(physical.aorticDiastolicMurmur);
+      const leftPulse = asFindingText(physical.leftRadialPulse);
+      const composedBits = [murmur, leftPulse].filter(Boolean);
+      const composed =
+        composedBits.length > 0
+          ? [
+              murmur ? `Soffio: ${murmur}` : null,
+              leftPulse ? `Polso radiale sx: ${leftPulse}` : null,
+            ]
+              .filter(Boolean)
+              .join(". ")
+          : null;
+
+      finding =
+        distinctCardio ??
+        asFindingText(peripheral.finding) ??
+        composed ??
+        asFindingText(physical.cardiovascular) ??
+        derived.cardiovascolare;
       break;
     }
   }
@@ -160,10 +268,12 @@ export async function POST(req: Request) {
   const { sessionId, caseId, examId, examType, patientPrompt } = parsed;
   const sanitizedPatientPrompt = sanitizeForExternalAI(patientPrompt);
 
-  const access = await authorizeOwnedLiveSession({
+  // Soft-allow authenticated play: live session when available, otherwise caseId
+  // (registry/offline tokens are ignored by authorizeSimulationAction).
+  const access = await authorizeSimulationAction({
     userId,
     sessionId,
-    expectedCaseId: caseId,
+    caseId,
   });
   if (!access.ok) {
     return new Response(JSON.stringify({ error: access.error, code: access.code }), {
@@ -173,7 +283,17 @@ export async function POST(req: Request) {
   }
 
   const liveSessionId = access.liveSessionId;
-  const resolvedCaseId = access.caseId;
+  const resolvedCaseId = access.caseId ?? caseId;
+
+  if (!resolvedCaseId && !sanitizedPatientPrompt.trim()) {
+    return new Response(
+      JSON.stringify({
+        error: "caseId or patientPrompt required",
+        code: "EXAMINE_CONTEXT_REQUIRED",
+      }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
 
   // 0) Se esiste una sessione con overrides (Parte 2 / Variante), usali prima di tutto
   if (liveSessionId && examId) {
@@ -222,11 +342,23 @@ export async function POST(req: Request) {
     }
   }
 
+  if (examId === "blood-pressure") {
+    const synthesized = {
+      finding: `Pressione arteriosa ${deriveDemoVitals(resolvedCaseId ?? "demo").bp} mmHg`,
+      numericValue: null,
+    };
+    return new Response(JSON.stringify(synthesized), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const systemPrompt = `
 Sei il corpo del paziente descritto nel prompt seguente. Non sei un medico e non devi formulare diagnosi.
-Il medico sta eseguendo la manovra di esame obiettivo: "${examType}".
+Il medico sta eseguendo SOLO questa manovra di esame obiettivo: "${examType}" (id: ${examId ?? "n/d"}).
+Descrivi esclusivamente i reperti rilevabili con QUESTA manovra — non ripetere un esame obiettivo generale completo se la manovra è distrettuale (cute, cardiovascolare, ecc.).
 Devi restituire SOLO un JSON con i campi:
-- "finding": descrizione testuale breve e realistica del reperto (massimo 15 parole, in italiano).
+- "finding": descrizione testuale breve e realistica del reperto (massimo 20 parole, in italiano).
 - "numericValue": se la manovra corrisponde a un parametro vitale (es. BPM, pressione arteriosa, temperatura, frequenza respiratoria, SpO2) restituisci il numero esatto; altrimenti usa null.
 `.trim();
 

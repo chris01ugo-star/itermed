@@ -22,6 +22,7 @@ import {
   type KnowledgeBaseCase,
 } from "@/lib/cases/knowledge-base-case-schema";
 import { flattenCatalogExams } from "@/lib/exam-catalog-structure";
+import { sanitizeExamFinding } from "@/lib/simulator/exam-finding-text";
 import { getPineconeIndex } from "@/lib/pinecone";
 
 loadEnv({ path: resolve(process.cwd(), ".env.local") });
@@ -463,14 +464,13 @@ function ensureLen(text: string, min: number, max: number, fallback: string): st
 }
 
 function findingForExam(examId: string, matrix: MatrixRow, summary: string, inappropriate: boolean): string {
-  const name = EXAM_NAMES.get(examId) ?? examId;
   if (inappropriate) return wasteRationale(examId, matrix.guidelineRef);
-  const hint = summary.trim().slice(0, 280);
+  const fromSummary = sanitizeExamFinding(examId, summary);
   return ensureLen(
-    `${name} nel contesto di ${matrix.condition} (${matrix.id}). ${hint}`,
+    fromSummary,
     20,
     900,
-    `Reperto coerente con ${matrix.title}.`,
+    `Reperto strumentale dell'esame richiesto, senza indicazioni di percorso.`,
   );
 }
 

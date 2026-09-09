@@ -52,6 +52,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         limit={dailyQuota.limit}
         used={dailyQuota.used}
         unlimited={dailyQuota.unlimited}
+        kind={dailyQuota.kind}
       />
 
       <OverviewStatsBar

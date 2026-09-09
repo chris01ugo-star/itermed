@@ -41,9 +41,9 @@ const TUTORIAL_STEPS = [
     icon: FolderOpen,
   },
   {
-    id: "coaching",
-    title: "Coaching e chiusura",
-    body: "Il pannello a destra ti mostra come stai andando su clinica, sicurezza, esami ed empatia.",
+    id: "close",
+    title: "Consenso e chiusura",
+    body: "Usa «Aiuto» solo se ti serve supporto, e «Modulo consenso» quando spieghi una procedura invasiva. Nessun suggerimento automatico invade la sessione.",
     tip: "Quando il quadro è chiaro, apri «Referto di dimissione» e chiudi il caso.",
     icon: ClipboardList,
   },

@@ -1,12 +1,12 @@
 import { GuidelinesHub } from "@/components/guidelines/GuidelinesHub";
-import { fetchGuidelineDocuments } from "@/lib/guidelines/queries";
+import { fetchGuidelineDocumentsWithExcerpt } from "@/lib/guidelines/queries";
 import { createLogger } from "@/lib/logger";
 import { requireUser } from "@/lib/require-user";
 
 const log = createLogger("guidelines-page");
 
 type PageProps = {
-  searchParams?: Promise<{ tab?: string }> | { tab?: string };
+  searchParams?: Promise<{ tab?: string; q?: string }> | { tab?: string; q?: string };
 };
 
 export default async function DashboardGuidelinesPage(props: PageProps) {
@@ -18,12 +18,14 @@ export default async function DashboardGuidelinesPage(props: PageProps) {
       ? await props.searchParams
       : props.searchParams;
   const initialTab = searchParams?.tab === "ingest" ? "ingest" : "browse";
+  const initialQuery = typeof searchParams?.q === "string" ? searchParams.q : "";
 
-  let docs: Awaited<ReturnType<typeof fetchGuidelineDocuments>> = [];
+  let docs: Awaited<ReturnType<typeof fetchGuidelineDocumentsWithExcerpt>> = [];
   let loadError: string | null = null;
 
   try {
-    docs = await fetchGuidelineDocuments({ includeText: true });
+    // Metadata + short excerpt only — never ship full PDF text to the client.
+    docs = await fetchGuidelineDocumentsWithExcerpt();
   } catch (error) {
     log.error("Failed to load guideline documents", { error });
     loadError = "Impossibile caricare l'archivio linee guida al momento.";
@@ -38,7 +40,7 @@ export default async function DashboardGuidelinesPage(props: PageProps) {
     chunkCount: doc.chunkCount,
     isActive: doc.isActive,
     createdAt: doc.createdAt.toISOString(),
-    text: "text" in doc ? doc.text : undefined,
+    excerpt: doc.excerpt,
   }));
 
   return (
@@ -48,6 +50,7 @@ export default async function DashboardGuidelinesPage(props: PageProps) {
         isAdmin={isAdmin}
         loadError={loadError}
         initialTab={initialTab}
+        initialQuery={initialQuery}
       />
     </div>
   );

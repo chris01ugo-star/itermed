@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { DashboardChrome } from "../../components/dashboard/DashboardChrome";
+import { isPlatformAdminEmail } from "../../lib/auth/platform-admins";
 import { fetchMedicalSpecialtyOptionsCached } from "../../lib/dashboard-queries";
 import { buildSsmSpecialtyLinks } from "../../lib/ssm-specialties";
 import { requireUser } from "../../lib/require-user";
@@ -26,7 +27,12 @@ export default async function DashboardLayout({ children }: DashboardLayoutProps
   }
 
   return (
-    <DashboardChrome userLabel={label} isAdmin={user.role === "ADMIN"} ssmSpecialties={ssmSpecialties}>
+    <DashboardChrome
+      userLabel={label}
+      isAdmin={user.role === "ADMIN"}
+      isPlatformAdmin={isPlatformAdminEmail(user.email)}
+      ssmSpecialties={ssmSpecialties}
+    >
       {children}
     </DashboardChrome>
   );

@@ -1,7 +1,10 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
 import { DAILY_SIMULATION_LIMIT } from "@/lib/billing/plans";
-import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
+import {
+  getSponsoredFreeCaseLimit,
+  hasUnlimitedCaseAccess,
+} from "@/lib/billing/unlimited-case-access";
 import { config, isUsableDatabase } from "@/lib/config";
 import { createLogger } from "@/lib/logger";
 
@@ -57,6 +60,26 @@ export async function countSimulationsStartedToday(userId: string): Promise<numb
   }
 }
 
+/** Lifetime CaseSession count (sponsored grant tracking). */
+export async function countSimulationsStartedAllTime(userId: string): Promise<number> {
+  if (!userId || !isUsableDatabase(config.DATABASE_URL)) {
+    return 0;
+  }
+
+  try {
+    return await prisma.caseSession.count({
+      where: { userId },
+    });
+  } catch (error) {
+    log.warn("caseSession lifetime count unavailable; treating usage as 0 (offline / DB down)", {
+      userId,
+      errorName: error instanceof Error ? error.name : undefined,
+      errorMessage: error instanceof Error ? error.message.slice(0, 240) : String(error).slice(0, 240),
+    });
+    return 0;
+  }
+}
+
 export type DailySimulationQuota = {
   used: number;
   limit: number;
@@ -64,18 +87,23 @@ export type DailySimulationQuota = {
   exhausted: boolean;
   unlimited: boolean;
   dayKey: string;
+  /** `sponsored` = lifetime complimentary bundle (not the daily cap). */
+  kind: "daily" | "sponsored" | "unlimited";
 };
 
 export async function getDailySimulationQuota(
   userId: string,
   actor?: { role?: string | null; email?: string | null },
 ): Promise<DailySimulationQuota> {
-  const used = await countSimulationsStartedToday(userId);
   const privileged = actor
     ? hasUnlimitedCaseAccess(actor)
     : await isUnlimitedCaseUser(userId);
 
+  const email = actor?.email ?? (await lookupUserEmail(userId));
+  const sponsoredLimit = getSponsoredFreeCaseLimit(email);
+
   if (privileged) {
+    const used = await countSimulationsStartedToday(userId);
     return {
       used,
       limit: DAILY_SIMULATION_LIMIT,
@@ -83,9 +111,27 @@ export async function getDailySimulationQuota(
       exhausted: false,
       unlimited: true,
       dayKey: romeDayKey(),
+      kind: "unlimited",
     };
   }
 
+  if (sponsoredLimit != null) {
+    const used = await countSimulationsStartedAllTime(userId);
+    const remaining = Math.max(0, sponsoredLimit - used);
+    if (remaining > 0) {
+      return {
+        used,
+        limit: sponsoredLimit,
+        remaining,
+        exhausted: false,
+        unlimited: false,
+        dayKey: romeDayKey(),
+        kind: "sponsored",
+      };
+    }
+  }
+
+  const used = await countSimulationsStartedToday(userId);
   const limit = DAILY_SIMULATION_LIMIT;
   const remaining = Math.max(0, limit - used);
   return {
@@ -95,7 +141,21 @@ export async function getDailySimulationQuota(
     exhausted: remaining <= 0,
     unlimited: false,
     dayKey: romeDayKey(),
+    kind: "daily",
   };
+}
+
+async function lookupUserEmail(userId: string): Promise<string | null> {
+  if (!userId || !isUsableDatabase(config.DATABASE_URL)) return null;
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { email: true },
+    });
+    return user?.email ?? null;
+  } catch {
+    return null;
+  }
 }
 
 async function isUnlimitedCaseUser(userId: string): Promise<boolean> {

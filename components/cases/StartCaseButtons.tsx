@@ -18,6 +18,8 @@ type StartCaseButtonsProps = {
   onSessionStart?: (caseId: string, sessionId: string) => void;
   /** Destinazione di fallback se `onSessionStart` non è passato. */
   playBasePath?: string;
+  /** Which action looks primary. Default keeps legacy variant emphasis. */
+  emphasis?: "original" | "variant";
 };
 
 /** Hard timeout: never wait longer than this for /api/session/start (varianti). */
@@ -50,6 +52,7 @@ export function StartCaseButtons({
   caseId,
   onSessionStart,
   playBasePath = "/dashboard/prassi/play",
+  emphasis = "variant",
 }: StartCaseButtonsProps) {
   const [isStartingOriginal, setIsStartingOriginal] = useState(false);
   const [isStartingVariant, setIsStartingVariant] = useState(false);
@@ -149,22 +152,27 @@ export function StartCaseButtons({
   const isBusy = isStartingOriginal || isStartingVariant;
   const isDev = process.env.NODE_ENV === "development";
 
+  const primaryClass =
+    "inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-[#1E324E] px-4 py-2.5 text-center font-display text-sm font-semibold text-white transition-colors hover:bg-[#2A486D]";
+  const secondaryClass =
+    "inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-border bg-panel-bg px-4 py-2.5 text-center text-sm font-medium text-slate-700 transition-colors hover:border-brand-secondary/30 hover:bg-brand-secondary/[0.04]";
+
   return (
     <div className="space-y-2">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <a
           href={directPlayHref}
-          aria-busy={isStartingOriginal}
           onClick={handleOriginalClick}
-          className="inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-center text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-800"
+          aria-busy={isStartingOriginal}
+          className={emphasis === "original" ? primaryClass : secondaryClass}
         >
-          {isStartingOriginal ? "Avvio..." : "Gioca caso originale"}
+          {isStartingOriginal ? "Avvio..." : "Avvia caso originale"}
         </a>
         <button
           type="button"
           onClick={handleVariantClick}
           aria-busy={isStartingVariant}
-          className="inline-flex min-h-10 w-full items-center justify-center gap-1.5 rounded-lg bg-[#1E324E] px-4 py-2 text-center font-display text-sm font-medium text-white transition-colors hover:bg-[#2A486D]"
+          className={emphasis === "variant" ? primaryClass : secondaryClass}
         >
           {isStartingVariant ? (
             "Generazione variante..."

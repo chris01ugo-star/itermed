@@ -8,7 +8,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test lib/services/d-rime-fsm.test.ts lib/security/dev-only-gates.test.ts lib/security/api-auth-guards.test.ts lib/cases/case-payload.test.ts",
+    "test": "tsx --test lib/services/d-rime-fsm.test.ts lib/security/dev-only-gates.test.ts lib/security/api-auth-guards.test.ts lib/cases/case-payload.test.ts lib/clinical/case-vitals.test.ts lib/simulator/exam-finding-text.test.ts lib/clinical/physical-exam-from-summary.test.ts lib/billing/unlimited-case-access.test.ts",
     "ci:audit": "tsx scripts/ci-audit-all-cases.ts",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
@@ -18,6 +18,7 @@
     "db:seed:guidelines": "npx tsx prisma/seed-guidelines.ts",
     "db:fix:gender-names": "npx tsx scripts/fix-gender-name-consistency.ts",
     "db:promote-admins": "npx tsx scripts/promote-admins.ts",
+    "db:ensure-platform-admins": "npx tsx scripts/ensure-platform-admins.ts",
     "db:set-dev-password": "npx tsx scripts/set-dev-password.ts"
   },
   "prisma": {

@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  deriveDemoVitals,
   estimateAgeFromTitle,
   patientDisplayName,
+  type DemoVitals,
 } from "@/lib/prassi/demo-vitals";
 import {
   classifyVitals,
@@ -27,11 +27,16 @@ type VitalSignsBoardProps = {
   title?: string | null;
   age?: number | string | null;
   sex?: string | null;
-  stress?: number;
+  /** Live monitor vitals (baseline + clinical drift). Required for realistic physiology. */
+  vitals: DemoVitals;
   className?: string;
   showHeader?: boolean;
   /** High-urgency flash when patientStress crosses the critical threshold. */
   deteriorating?: boolean;
+  /** NIBP is intermittent — hidden until the user measures it. */
+  bpMeasured?: boolean;
+  onMeasureBp?: () => void;
+  measureDisabled?: boolean;
 };
 
 const VITAL_ICONS: Record<string, LucideIcon> = {
@@ -55,14 +60,18 @@ export function VitalSignsBoard({
   title,
   age,
   sex,
-  stress = 0,
+  vitals,
   className,
   showHeader = true,
   deteriorating = false,
+  bpMeasured = false,
+  onMeasureBp,
+  measureDisabled = false,
 }: VitalSignsBoardProps) {
-  const vitals = deriveDemoVitals(caseId, stress);
   const classified = classifyVitals(vitals);
-  const overall = maxVitalStatus(classified.map((v) => v.status));
+  const classifiedForStatus =
+    bpMeasured || !onMeasureBp ? classified : classified.filter((v) => v.id !== "bp");
+  const overall = maxVitalStatus(classifiedForStatus.map((v) => v.status));
   const resolvedAge = typeof age === "number" ? age : estimateAgeFromTitle(title, Number(age) || 58);
   const name = patientDisplayName(caseId, title, sex);
   const sexLabel = sex === "F" ? "F" : sex === "M" ? "M" : null;
@@ -115,19 +124,19 @@ export function VitalSignsBoard({
       <div className="grid grid-cols-2 divide-y divide-slate-200/80 sm:grid-cols-3 sm:divide-y-0 sm:divide-x lg:grid-cols-5">
         {classified.map((vital) => {
           const Icon = VITAL_ICONS[vital.id] ?? Activity;
-          const finding = vitalFindingLabel(vital).toUpperCase();
-          const alert = vital.status !== "stable";
-          const isCriticalVital = vital.status === "critical";
-          return (
-            <div
-              key={vital.id}
-              className={cn(
-                "flex min-w-0 flex-col gap-1 px-4 py-3.5 transition-colors",
-                isCriticalVital && "bg-red-500/10",
-                alert && !isCriticalVital && "bg-amber-500/5",
-              )}
-              title={`${vital.fullLabel}: ${vital.value} ${vital.unit}`}
-            >
+          const needsBpMeasure = vital.id === "bp" && Boolean(onMeasureBp) && !bpMeasured;
+          const finding = needsBpMeasure ? "Misura" : vitalFindingLabel(vital).toUpperCase();
+          const alert = !needsBpMeasure && vital.status !== "stable";
+          const isCriticalVital = !needsBpMeasure && vital.status === "critical";
+          const tileClass = cn(
+            "flex min-w-0 flex-col gap-1 px-4 py-3.5 text-left transition-colors",
+            isCriticalVital && "bg-red-500/10",
+            alert && !isCriticalVital && "bg-amber-500/5",
+            needsBpMeasure &&
+              "cursor-pointer hover:bg-[#345884]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#345884]/30 disabled:cursor-not-allowed disabled:opacity-60",
+          );
+          const body = (
+            <>
               <div className="flex items-center gap-1.5">
                 <Icon
                   className={cn(
@@ -144,22 +153,51 @@ export function VitalSignsBoard({
               <p
                 className={cn(
                   "text-2xl font-bold tabular-nums leading-none md:text-[1.75rem]",
-                  isCriticalVital || deteriorating ? "text-red-600" : "text-slate-900",
-                  deteriorating && "animate-pulse motion-reduce:animate-none",
+                  needsBpMeasure
+                    ? "text-slate-400"
+                    : isCriticalVital || deteriorating
+                      ? "text-red-600"
+                      : "text-slate-900",
+                  deteriorating && !needsBpMeasure && "animate-pulse motion-reduce:animate-none",
                 )}
               >
-                {vital.value}
-                {vital.id === "spo2" ? <span className="text-lg">%</span> : null}
+                {needsBpMeasure ? "—/—" : vital.value}
+                {vital.id === "spo2" && !needsBpMeasure ? <span className="text-lg">%</span> : null}
               </p>
               <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
                 {vital.id === "spo2" ? "aria ambiente" : vital.unit}
               </p>
               <p
                 className="text-[10px] font-mono font-semibold uppercase tracking-wider"
-                style={{ color: findingColor(vital.status) }}
+                style={{
+                  color: needsBpMeasure ? MEDICAL_BLUE : findingColor(vital.status),
+                }}
               >
                 {finding}
               </p>
+            </>
+          );
+          if (needsBpMeasure) {
+            return (
+              <button
+                key={vital.id}
+                type="button"
+                disabled={measureDisabled}
+                onClick={onMeasureBp}
+                className={tileClass}
+                title="Misura la pressione arteriosa (NIBP)"
+              >
+                {body}
+              </button>
+            );
+          }
+          return (
+            <div
+              key={vital.id}
+              className={tileClass}
+              title={`${vital.fullLabel}: ${vital.value} ${vital.unit}`}
+            >
+              {body}
             </div>
           );
         })}

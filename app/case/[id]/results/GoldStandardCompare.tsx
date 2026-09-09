@@ -49,7 +49,8 @@ function coherentUserAction(row: ClinicalDeltaRow): string {
 
 /** Side-by-side Gold Standard vs user actions for debrief. */
 export function GoldStandardCompare({ rows }: GoldStandardCompareProps) {
-  if (rows.length === 0) return null;
+  const safeRows = Array.isArray(rows) ? rows : [];
+  if (safeRows.length === 0) return null;
 
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-panel-bg shadow-aequan-panel">
@@ -72,7 +73,7 @@ export function GoldStandardCompare({ rows }: GoldStandardCompareProps) {
           <span>Protocollo Gold Standard</span>
           <span>Azioni utente</span>
         </div>
-        {rows.map((row, idx) => {
+        {safeRows.map((row, idx) => {
           const meta = statusMeta(row.status);
           const Icon = meta.icon;
           return (

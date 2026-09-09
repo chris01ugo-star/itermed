@@ -6,6 +6,7 @@ type DailySimQuotaBannerProps = {
   limit: number;
   used: number;
   unlimited?: boolean;
+  kind?: "daily" | "sponsored" | "unlimited";
   className?: string;
 };
 
@@ -14,12 +15,14 @@ export function DailySimQuotaBanner({
   limit,
   used,
   unlimited = false,
+  kind = "daily",
   className,
 }: DailySimQuotaBannerProps) {
   const exhausted = !unlimited && remaining <= 0;
   const pct = unlimited
     ? 100
     : Math.min(100, Math.round((remaining / Math.max(1, limit)) * 100));
+  const sponsored = kind === "sponsored";
 
   return (
     <div
@@ -44,7 +47,7 @@ export function DailySimQuotaBanner({
         </div>
         <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
-            Simulazioni di oggi
+            {sponsored ? "Pacchetto omaggio" : "Simulazioni di oggi"}
           </p>
           <p className="mt-0.5 font-display text-lg font-semibold tabular-nums text-text-primary">
             {unlimited ? (
@@ -61,9 +64,11 @@ export function DailySimQuotaBanner({
           <p className="mt-0.5 text-xs text-slate-500">
             {unlimited
               ? "Account admin/audit: nessun limite giornaliero né paywall sui casi."
-              : exhausted
-                ? "Il contatore si resetta a mezzanotte (ora italiana)."
-                : `Ne hai avviate ${used} oggi · si resettano ogni giorno a mezzanotte.`}
+              : sponsored
+                ? `Hai avviato ${used} dei ${limit} casi in omaggio. Nessun limite giornaliero né paywall finché il pacchetto non è esaurito.`
+                : exhausted
+                  ? "Il contatore si resetta a mezzanotte (ora italiana)."
+                  : `Ne hai avviate ${used} oggi · si resettano ogni giorno a mezzanotte.`}
           </p>
         </div>
       </div>

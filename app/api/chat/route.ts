@@ -9,7 +9,7 @@ import {
   resolveChatModel,
   resolveClinicalUserMessageLimit,
 } from "@/lib/billing/access-gate";
-import { countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
+import { countSimulationsStartedAllTime, countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
 import { createLogger } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
@@ -201,7 +201,8 @@ export async function POST(req: Request) {
   if (!liveSessionId) {
     // No live session yet — apply the same soft daily gate as session start.
     const usedToday = await countSimulationsStartedToday(userId);
-    const simGate = assertCanStartSimulation(billingProfile, { usedToday });
+    const lifetimeUsed = await countSimulationsStartedAllTime(userId);
+    const simGate = assertCanStartSimulation(billingProfile, { usedToday, lifetimeUsed });
     if (!simGate.allowed) {
       return gateToResponse(simGate);
     }

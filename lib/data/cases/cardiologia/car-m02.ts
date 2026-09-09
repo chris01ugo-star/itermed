@@ -47,7 +47,7 @@ const EXAM_BUDGET_EURO = 160;
 export const CAR_M02: ClinicalCase = {
   code: "CAR-M02",
   id: "car-m02",
-  title: "Edema Polmonare Acuto Cardiogeno (EPA) su Scompenso Riacutizzato",
+  title: "Paziente con dispnea acuta e ortopnea su scompenso noto",
   description:
     "Uomo, 74 anni, cardiopatia ischemico-ipertensiva e HFrEF (FE 35%), condotto in PS via 118 per grave dispnea " +
     "ad esordio iperacuto notturno (ortopnea marcata), fame d'aria, tachipnea (32 atti/min) e tosse con espettorato " +

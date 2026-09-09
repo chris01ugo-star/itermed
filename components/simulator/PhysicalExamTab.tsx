@@ -29,6 +29,7 @@ type ExamResult = {
 type ExamState = {
   loading: boolean;
   result?: ExamResult;
+  error?: string;
 };
 
 type PhysicalExamTabProps = {
@@ -37,6 +38,7 @@ type PhysicalExamTabProps = {
   caseId?: string;
   resolveSessionId?: () => Promise<string | null>;
   onExamResult?: (payload: { id: string; label: string; result: ExamResult }) => void;
+  disabled?: boolean;
 };
 
 type ExamItem = { id: string; label: string };
@@ -55,10 +57,11 @@ const SECTIONS: ExamSection[] = [
   {
     id: "general",
     title: "Generale",
-    description: "Aspetto, cute, cardiovascolare",
+    description: "Pressione, aspetto, cute, cardiovascolare",
     Icon: UserRound,
     tone: "bg-sky-50 text-sky-600",
     exams: [
+      { id: "blood-pressure", label: "Pressione arteriosa" },
       { id: "general-appearance", label: "Esame obiettivo generale" },
       { id: "skin-mucosa", label: "Cute e mucose" },
       { id: "cardiovascular", label: "Apparato cardiovascolare" },
@@ -101,49 +104,52 @@ const SECTIONS: ExamSection[] = [
   },
 ];
 
+function asLiveSessionId(raw: string | null | undefined): string | undefined {
+  if (typeof raw !== "string") return undefined;
+  const id = raw.trim();
+  if (!id || id.startsWith("registry_")) return undefined;
+  return id;
+}
+
 export function PhysicalExamTab({
   sessionId,
   patientPrompt,
   caseId,
   resolveSessionId,
   onExamResult,
+  disabled = false,
 }: PhysicalExamTabProps) {
   const [exams, setExams] = useState<Record<string, ExamState>>({});
   const [activeSection, setActiveSection] = useState<ExamSection | null>(null);
   const [query, setQuery] = useState("");
 
   const runExam = async (id: string, label: string) => {
-    if (exams[id]?.loading) return;
+    if (disabled || exams[id]?.loading) return;
 
     setExams((prev) => ({
       ...prev,
-      [id]: { ...prev[id], loading: true },
+      [id]: { loading: true, result: prev[id]?.result, error: undefined },
     }));
 
     try {
-      let liveSessionId =
-        typeof sessionId === "string" &&
-        sessionId.trim() &&
-        !sessionId.trim().startsWith("registry_")
-          ? sessionId.trim()
-          : undefined;
+      let liveSessionId = asLiveSessionId(sessionId);
 
       if (!liveSessionId && resolveSessionId) {
-        const resolved = await resolveSessionId();
-        if (resolved && !resolved.startsWith("registry_")) {
-          liveSessionId = resolved.trim();
-        }
+        liveSessionId = asLiveSessionId(await resolveSessionId());
       }
 
-      if (!liveSessionId) {
-        throw new Error("Sessione non disponibile. Riavvia il caso per eseguire l'esame obiettivo.");
+      // Live session preferred; caseId-only is allowed for offline/registry play.
+      if (!liveSessionId && !caseId?.trim()) {
+        throw new Error(
+          "Sessione non disponibile. Accetta il disclaimer e riprova, oppure riavvia il caso.",
+        );
       }
 
       const res = await fetch("/api/examine", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          sessionId: liveSessionId,
+          ...(liveSessionId ? { sessionId: liveSessionId } : {}),
           caseId,
           examId: id,
           examType: label,
@@ -156,11 +162,14 @@ export function PhysicalExamTab({
         | null;
 
       if (!res.ok) {
-        const detail = payload?.code || payload?.error || `HTTP ${res.status}`;
-        throw new Error(`Errore nell'esecuzione dell'esame (${detail}).`);
+        const detail = payload?.error || payload?.code || `HTTP ${res.status}`;
+        throw new Error(String(detail));
       }
 
       const data = payload as ExamResult;
+      if (!data?.finding) {
+        throw new Error("Risposta esame non valida.");
+      }
 
       setExams((prev) => ({
         ...prev,
@@ -170,9 +179,13 @@ export function PhysicalExamTab({
       onExamResult?.({ id, label, result: data });
     } catch (err) {
       console.error(err);
+      const message =
+        err instanceof Error && err.message.trim()
+          ? err.message.trim()
+          : "Errore nell'esecuzione dell'esame.";
       setExams((prev) => ({
         ...prev,
-        [id]: { loading: false, result: prev[id]?.result },
+        [id]: { loading: false, result: prev[id]?.result, error: message },
       }));
     }
   };
@@ -190,8 +203,8 @@ export function PhysicalExamTab({
   return (
     <div className="space-y-2.5">
       <p className="text-xs leading-relaxed text-slate-500">
-        I vitali sono sul monitor. Qui registri i reperti sistemici — apri una sezione per
-        eseguire le manovre.
+        Misura la pressione dal riquadro PA del monitor o da Generale. Le altre sezioni
+        registrano i reperti sistemici.
       </p>
 
       <div className="grid auto-rows-fr grid-cols-1 gap-2 sm:grid-cols-2">
@@ -202,11 +215,13 @@ export function PhysicalExamTab({
             <button
               key={section.id}
               type="button"
+              disabled={disabled}
               onClick={() => {
+                if (disabled) return;
                 setQuery("");
                 setActiveSection(section);
               }}
-              className="group flex h-full min-h-[4.75rem] items-center gap-3 rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-left shadow-sm transition hover:border-[#345884]/35 hover:bg-slate-50/60"
+              className="group flex h-full min-h-[4.75rem] items-center gap-3 rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-left shadow-sm transition hover:border-[#345884]/35 hover:bg-slate-50/60 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <span
                 className={cn(
@@ -231,7 +246,7 @@ export function PhysicalExamTab({
       </div>
 
       <Dialog open={Boolean(activeSection)}>
-        <DialogContent className="flex max-h-[min(88dvh,640px)] max-w-xl flex-col overflow-hidden p-0">
+        <DialogContent className="relative z-[60] flex max-h-[min(88dvh,640px)] max-w-xl flex-col overflow-hidden p-0">
           <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-5 py-4">
             <DialogHeader className="mb-0 min-w-0">
               <DialogTitle>{activeSection?.title ?? "Esame obiettivo"}</DialogTitle>
@@ -273,19 +288,24 @@ export function PhysicalExamTab({
                 const state = exams[item.id];
                 const loading = Boolean(state?.loading);
                 const result = state?.result;
+                const error = state?.error;
                 return (
                   <div
                     key={item.id}
                     className={cn(
                       "rounded-xl border px-3.5 py-3",
-                      result ? "border-emerald-200 bg-emerald-50/50" : "border-slate-200 bg-white",
+                      result
+                        ? "border-emerald-200 bg-emerald-50/50"
+                        : error
+                          ? "border-rose-200 bg-rose-50/40"
+                          : "border-slate-200 bg-white",
                     )}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <p className="text-sm font-medium text-slate-900">{item.label}</p>
                       <button
                         type="button"
-                        disabled={loading}
+                        disabled={loading || disabled}
                         onClick={() => runExam(item.id, item.label)}
                         className={cn(
                           "inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition",
@@ -307,6 +327,9 @@ export function PhysicalExamTab({
                         )}
                       </button>
                     </div>
+                    {error ? (
+                      <p className="mt-2 text-sm leading-relaxed text-rose-800">{error}</p>
+                    ) : null}
                     {result ? (
                       <p className="mt-2 text-sm leading-relaxed text-slate-700">
                         {result.finding}

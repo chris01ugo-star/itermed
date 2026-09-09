@@ -5,6 +5,8 @@ import { compare } from "bcryptjs";
 import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 import { config } from "@/lib/config";
 import { prisma } from "@/lib/prisma";
+import { getBetaEmailAllowlistFromEnv, isBetaAuthorized } from "@/lib/beta/access";
+import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -20,15 +22,53 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
         const email = String(credentials.email).toLowerCase().trim();
-        const user = await prisma.user.findUnique({ where: { email } });
+        let user = await prisma.user.findUnique({
+          where: { email },
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            role: true,
+            planType: true,
+            passwordHash: true,
+          },
+        });
         if (!user?.passwordHash) return null;
         const valid = await compare(String(credentials.password), user.passwordHash);
         if (!valid) return null;
+
+        if (isPlatformAdminEmail(email) && user.role !== "ADMIN") {
+          user = await prisma.user.update({
+            where: { id: user.id },
+            data: { role: "ADMIN", planType: "BETA_TESTER" },
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              role: true,
+              planType: true,
+              passwordHash: true,
+            },
+          });
+        }
+
+        if (
+          !isBetaAuthorized({
+            role: user.role,
+            planType: user.planType,
+            email: user.email,
+            allowlist: getBetaEmailAllowlistFromEnv(),
+          })
+        ) {
+          // Closed beta: valid credentials but not yet authorized.
+          throw new Error("BETA_PENDING");
+        }
         return {
           id: user.id,
           email: user.email,
           name: user.name ?? undefined,
           role: user.role,
+          planType: user.planType,
         };
       },
     }),
@@ -50,37 +90,66 @@ export const authOptions: NextAuthOptions = {
       if (account?.provider === "google") {
         const email = user.email?.toLowerCase().trim();
         if (!email) return false;
+
         const acceptedAt = new Date();
+
+        // Platform operators: always create/promote to ADMIN and allow Google sign-in.
+        if (isPlatformAdminEmail(email)) {
+          await prisma.user.upsert({
+            where: { email },
+            create: {
+              email,
+              name: user.name ?? email,
+              role: "ADMIN",
+              planType: "BETA_TESTER",
+              termsAcceptedAt: acceptedAt,
+              privacyAcceptedAt: acceptedAt,
+            },
+            update: {
+              role: "ADMIN",
+              planType: "BETA_TESTER",
+              name: user.name ?? undefined,
+              termsAcceptedAt: acceptedAt,
+              privacyAcceptedAt: acceptedAt,
+            },
+          });
+          return true;
+        }
+
         const existing = await prisma.user.findUnique({
           where: { email },
           select: {
             id: true,
+            role: true,
+            planType: true,
             termsAcceptedAt: true,
             privacyAcceptedAt: true,
           },
         });
 
-        if (existing) {
-          await prisma.user.update({
-            where: { email },
-            data: {
-              name: user.name ?? undefined,
-              // Backfill legal acceptance once for legacy Google accounts.
-              ...(!existing.termsAcceptedAt ? { termsAcceptedAt: acceptedAt } : {}),
-              ...(!existing.privacyAcceptedAt ? { privacyAcceptedAt: acceptedAt } : {}),
-            },
-          });
-        } else {
-          await prisma.user.create({
-            data: {
-              email,
-              name: user.name ?? undefined,
-              leaderboardOptIn: false,
-              termsAcceptedAt: acceptedAt,
-              privacyAcceptedAt: acceptedAt,
-            },
-          });
+        // Closed beta: Google may only sign in existing authorized accounts.
+        if (!existing) {
+          return "/?beta=signup-closed";
         }
+        if (
+          !isBetaAuthorized({
+            role: existing.role,
+            planType: existing.planType,
+            email,
+            allowlist: getBetaEmailAllowlistFromEnv(),
+          })
+        ) {
+          return "/?beta=pending";
+        }
+
+        await prisma.user.update({
+          where: { email },
+          data: {
+            name: user.name ?? undefined,
+            ...(!existing.termsAcceptedAt ? { termsAcceptedAt: acceptedAt } : {}),
+            ...(!existing.privacyAcceptedAt ? { privacyAcceptedAt: acceptedAt } : {}),
+          },
+        });
       }
       return true;
     },
@@ -88,6 +157,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.role = (user as { role?: string }).role;
+        token.planType = (user as { planType?: string }).planType;
       }
 
       // For Google sign-ins, `user.id` is the provider's own id, not our DB id —
@@ -96,11 +166,12 @@ export const authOptions: NextAuthOptions = {
         try {
           const dbUser = await prisma.user.findUnique({
             where: { email: String(token.email).toLowerCase() },
-            select: { id: true, role: true },
+            select: { id: true, role: true, planType: true },
           });
           if (dbUser) {
             token.id = dbUser.id;
             token.role = dbUser.role;
+            token.planType = dbUser.planType;
           }
         } catch {
           // Keep whatever we already have if the DB is temporarily unavailable.
@@ -111,26 +182,23 @@ export const authOptions: NextAuthOptions = {
         token.id = token.sub;
       }
 
-      // Re-read role from DB so promotions (e.g. STUDENT → ADMIN) apply without re-login.
+      // Re-read role/plan from DB so promotions apply without re-login.
       // If the user was erased (Art. 17), invalidate the JWT.
       const userId = typeof token.id === "string" ? token.id : null;
       if (userId) {
         try {
           const dbUser = await prisma.user.findUnique({
             where: { id: userId },
-            select: { role: true, email: true },
+            select: { role: true, email: true, planType: true },
           });
           if (!dbUser) {
             return {};
           }
-          if (dbUser.role) {
-            token.role = dbUser.role;
-          }
-          if (dbUser.email) {
-            token.email = dbUser.email;
-          }
+          if (dbUser.role) token.role = dbUser.role;
+          if (dbUser.email) token.email = dbUser.email;
+          if (dbUser.planType) token.planType = dbUser.planType;
         } catch {
-          // Keep token.role if DB is temporarily unavailable.
+          // Keep token fields if DB is temporarily unavailable.
         }
       }
 
@@ -145,6 +213,8 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = (token.id ?? token.sub) as string;
         session.user.role = (token.role as string) ?? "STUDENT";
+        (session.user as { planType?: string }).planType =
+          (token.planType as string) ?? "FREE";
       }
       return session;
     },

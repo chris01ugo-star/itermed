@@ -1,17 +1,22 @@
 /**
- * Unified CI audit: every `KnowledgeBaseCase` row in PostgreSQL.
+ * Unified CI audit: every KnowledgeBaseCase (PostgreSQL or local JSON catalog).
  *
- * - Zod-parse 100% of `caseData` payloads (`knowledgeBaseCaseSchema`)
+ * - Zod-parse 100% of payloads (`knowledgeBaseCaseSchema`)
  * - Playability gate (`assertPlayableCase`: gold path + vitals)
  * - D-RIME initial vector integrity (T_0, A_0, D_0) in [0, 100]
  * - RAG sources present (`ragSources` and/or `escCitations`)
+ *
+ * Source priority:
+ *   1. DATABASE_URL / DATABASE_POOL_URL / POSTGRES_PRISMA_URL → Prisma catalog
+ *   2. Fallback → `knowledge_base/<specialty>/cases/*.json` (works in CI without secrets)
  *
  * Exit 0 if the full catalog is valid; exit 1 with a per-case report otherwise.
  *
  *   npx tsx scripts/ci-audit-all-cases.ts
  */
+import { readdir, readFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import { config as loadEnv } from "dotenv";
-import { resolve } from "node:path";
 import { assertPlayableCase } from "@/lib/cases/case-import-schema";
 import {
   PatientProfileSchema,
@@ -19,7 +24,6 @@ import {
   type KnowledgeBaseCase,
   type PatientProfile,
 } from "@/lib/cases/knowledge-base-case-schema";
-import { prisma } from "@/lib/prisma";
 import { initializePatientState, parsePatientProfile } from "@/lib/reports/d-rime-engine";
 import { applyIntentSequence, clampAffectState } from "@/lib/services/d-rime-fsm";
 
@@ -33,13 +37,34 @@ const EXPECTED_PER_SPECIALTY: Record<string, number> = {
   gastroenterologia: 30,
 };
 
+const SPECIALTIES = Object.keys(EXPECTED_PER_SPECIALTY);
+const KB_ROOT = resolve(process.cwd(), "knowledge_base");
+
 type AuditFailure = {
   id: string;
   specialty: string;
   issues: string[];
 };
 
-function formatZodIssues(error: { issues: Array<{ path: (string | number)[]; message: string }> }): string[] {
+type AuditRow = {
+  id: string;
+  specialty: string;
+  patientProfile: unknown;
+  caseData: unknown;
+  ragSources: unknown;
+};
+
+function hasDatabaseUrl(): boolean {
+  return Boolean(
+    process.env.DATABASE_URL?.trim() ||
+      process.env.DATABASE_POOL_URL?.trim() ||
+      process.env.POSTGRES_PRISMA_URL?.trim(),
+  );
+}
+
+function formatZodIssues(error: {
+  issues: Array<{ path: (string | number)[]; message: string }>;
+}): string[] {
   return error.issues.slice(0, 6).map((issue) => {
     const path = issue.path.length > 0 ? issue.path.join(".") : "root";
     return `zod.${path}: ${issue.message}`;
@@ -80,7 +105,9 @@ function dRimeInitialIssues(parsed: KnowledgeBaseCase, storedProfile: unknown): 
   if (parsed.patientProfile) {
     const checked = PatientProfileSchema.safeParse(parsed.patientProfile);
     if (!checked.success) {
-      issues.push(...formatZodIssues(checked.error).map((s) => s.replace(/^zod\./, "D-RIME.patientProfile.")));
+      issues.push(
+        ...formatZodIssues(checked.error).map((s) => s.replace(/^zod\./, "D-RIME.patientProfile.")),
+      );
       return issues;
     }
   }
@@ -99,7 +126,11 @@ function dRimeInitialIssues(parsed: KnowledgeBaseCase, storedProfile: unknown): 
     }
 
     const stepped = applyIntentSequence(initial, ["NEUTRAL"], "standard");
-    if (!isUnitInterval(stepped.final.trust) || !isUnitInterval(stepped.final.anxiety) || !isUnitInterval(stepped.final.defensiveness)) {
+    if (
+      !isUnitInterval(stepped.final.trust) ||
+      !isUnitInterval(stepped.final.anxiety) ||
+      !isUnitInterval(stepped.final.defensiveness)
+    ) {
       issues.push("D-RIME: FSM NEUTRAL da (T_0,A_0,D_0) ha prodotto valori fuori [0,100]");
     }
   } catch (error) {
@@ -140,30 +171,74 @@ function playableIssues(parsed: KnowledgeBaseCase): string[] {
   return result.issues.map((issue) => `playable.${issue.path}: ${issue.message}`);
 }
 
-async function main(): Promise<void> {
-  if (!process.env.DATABASE_URL && !process.env.DATABASE_POOL_URL && !process.env.POSTGRES_PRISMA_URL) {
-    console.error("[ci-audit] FAIL: DATABASE_URL (o DATABASE_POOL_URL) è obbligatorio.");
-    console.error("  Locale: imposta .env.local");
-    console.error("  GitHub Actions: secret DATABASE_URL (Neon pooled).");
-    process.exit(1);
+async function loadRowsFromDatabase(): Promise<AuditRow[]> {
+  const { prisma } = await import("@/lib/prisma");
+  try {
+    const rows = await prisma.knowledgeBaseCase.findMany({
+      orderBy: [{ specialty: "asc" }, { id: "asc" }],
+      select: {
+        id: true,
+        specialty: true,
+        patientProfile: true,
+        caseData: true,
+        ragSources: true,
+      },
+    });
+    return rows;
+  } finally {
+    await prisma.$disconnect();
   }
+}
 
-  const rows = await prisma.knowledgeBaseCase.findMany({
-    orderBy: [{ specialty: "asc" }, { id: "asc" }],
-    select: {
-      id: true,
-      specialty: true,
-      title: true,
-      patientProfile: true,
-      caseData: true,
-      ragSources: true,
-    },
-  });
+async function loadRowsFromFilesystem(): Promise<AuditRow[]> {
+  const rows: AuditRow[] = [];
+  for (const specialty of SPECIALTIES) {
+    const dir = join(KB_ROOT, specialty, "cases");
+    let files: string[] = [];
+    try {
+      files = (await readdir(dir)).filter((name) => name.endsWith(".json")).sort();
+    } catch (error) {
+      throw new Error(
+        `Impossibile leggere ${dir}: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+    for (const file of files) {
+      const raw = await readFile(join(dir, file), "utf8");
+      const caseData = JSON.parse(raw) as Record<string, unknown>;
+      const id =
+        typeof caseData.id === "string" && caseData.id.trim()
+          ? caseData.id
+          : file.replace(/\.json$/i, "");
+      rows.push({
+        id,
+        specialty:
+          typeof caseData.specialty === "string" && caseData.specialty.trim()
+            ? caseData.specialty
+            : specialty,
+        patientProfile: caseData.patientProfile ?? null,
+        caseData,
+        ragSources: caseData.escCitations ?? null,
+      });
+    }
+  }
+  return rows.sort((a, b) => a.specialty.localeCompare(b.specialty) || a.id.localeCompare(b.id));
+}
+
+async function main(): Promise<void> {
+  const useDb = hasDatabaseUrl();
+  const sourceLabel = useDb ? "PostgreSQL KnowledgeBaseCase" : "knowledge_base/**/cases/*.json";
+  const rows = useDb ? await loadRowsFromDatabase() : await loadRowsFromFilesystem();
 
   console.log("----------------------------------------------------");
   console.log("[ci-audit] KnowledgeBaseCase continuous audit");
+  console.log(`Source          : ${sourceLabel}`);
   console.log("----------------------------------------------------");
   console.log(`Rows loaded     : ${rows.length}`);
+  if (!useDb) {
+    console.log(
+      "[ci-audit] Nota: nessun DATABASE_URL — audit sul catalogo JSON in repo (ok per CI senza secret).",
+    );
+  }
 
   const failures: AuditFailure[] = [];
   const bySpecialty = new Map<string, number>();
@@ -194,7 +269,9 @@ async function main(): Promise<void> {
     }
   }
 
-  for (const [specialty, count] of [...bySpecialty.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+  for (const [specialty, count] of [...bySpecialty.entries()].sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
     const expected = EXPECTED_PER_SPECIALTY[specialty];
     const marker = expected != null && count === expected ? "OK" : "MISMATCH";
     console.log(`  ${specialty.padEnd(20)} ${count}${expected != null ? `/${expected}` : ""}  ${marker}`);
@@ -239,11 +316,7 @@ async function main(): Promise<void> {
   console.log("----------------------------------------------------");
 }
 
-main()
-  .catch((error) => {
-    console.error("[ci-audit] FAIL", error instanceof Error ? error.message : error);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+main().catch((error) => {
+  console.error("[ci-audit] FAIL", error instanceof Error ? error.message : error);
+  process.exitCode = 1;
+});
