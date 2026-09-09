@@ -1113,7 +1113,7 @@ export function deriveDimensionScores(params: {
   criticalActions: CriticalActionItem[];
   inappropriateActions: InappropriateActionItem[];
   empathyChecklist: EmpathyChecklistItem[];
-  legalInstrumentReviews: LegalInstrumentReview[];
+    legalInstrumentReviews?: LegalInstrumentReview[];
   totalCostEuro: number;
   budgetEuro: number;
   chatHistory?: Array<{ role: string; content: string }> | null;
@@ -1165,7 +1165,7 @@ export function deriveDimensionScores(params: {
     mandatoryExams: params.mandatoryExams,
     inappropriateExams: params.inappropriateExams,
   });
-  const legal = computeLegalComplianceScore(params.legalInstrumentReviews, {
+  const legal = computeLegalComplianceScore(params.legalInstrumentReviews ?? [], {
     hasLegalContext: params.hasLegalContext,
     ragSourcesCount: params.ragSourcesCount,
     sessionMilestones: params.sessionMilestones,

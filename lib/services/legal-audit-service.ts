@@ -4,41 +4,36 @@ import { openai } from "@ai-sdk/openai";
 
 export const LegalAuditResultSchema = z.object({
   status: z.enum(["EVALUATED", "NOT_EVALUABLE_NO_SOURCES"]),
-  overallVerdict: z.enum([
-    "FULLY_PROTECTED",
-    "PARTIALLY_PROTECTED",
-    "LEGAL_RISK_EXPOSED",
-    "NOT_EVALUABLE",
-  ]),
+  overallVerdict: z.enum(["FULLY_PROTECTED", "PARTIALLY_PROTECTED", "LEGAL_RISK_EXPOSED", "DEFENSIVE_MEDICINE_DETECTED", "NOT_EVALUABLE"]),
   complianceScore: z.number().min(0).max(100),
-  compliantActions: z.array(
-    z.object({
-      performedAction: z.string(),
-      supportingGuidelineRef: z.string(),
-      chunkId: z.string(),
-    }),
-  ),
-  legalOmissionsOrRisks: z.array(
-    z.object({
-      missedOrErroneousAction: z.string(),
-      legalRiskDescription: z.string(),
-      violatedGuidelineRef: z.string(),
-      chunkId: z.string(),
-    }),
-  ),
+  compliantActions: z.array(z.object({
+    performedAction: z.string(),
+    supportingGuidelineRef: z.string(),
+    chunkId: z.string()
+  })),
+  legalOmissionsOrRisks: z.array(z.object({
+    missedOrErroneousAction: z.string(),
+    riskCategory: z.enum(["OMISSIONE_SOCCORSO", "IMPERIZIA", "DIFETTO_DOCUMENTAZIONE", "MEDICINA_DIFENSIVA"]),
+    legalRiskDescription: z.string(),
+    educationalTakeaway: z.string().describe("Spiegazione didattica su come prevenire questo rischio in guardia medica"),
+    violatedGuidelineRef: z.string(),
+    exactQuote: z.string().describe("Citazione testuale esatta dal LEGAL_CORPUS"),
+    chunkId: z.string()
+  })),
   uncoveredAreas: z.array(z.string()),
 });
 
 export type LegalAuditResult = z.infer<typeof LegalAuditResultSchema>;
 
 export const LEGAL_AUDIT_SYSTEM_PROMPT = `
-SEI UN AUDITOR MEDICO-LEGALE SPECIALIZZATO NELLA VALUTAZIONE DELLA RESPONSABILITÀ PROFESSIONALE (LEGGE 24/2017 GELLI-BIANCO).
-IL TUO COMPITO È ANALIZZARE L'OPERATO DEL MEDICO NELLA SIMULAZIONE CONFRONTANDOLO ESCLUSIVAMENTE CON IL CONTESTO NORMATIVO E LE LINEE GUIDA FORNITE IN <<<LEGAL_CORPUS>>>.
-REGOLE TASSATIVE:
-1. SE <<<LEGAL_CORPUS>>> È VUOTO O PRIVO DI CHUNK CON SIMILARITÀ VALIDA, IMPOSTA STATUS="NOT_EVALUABLE_NO_SOURCES", OVERALLVERDICT="NOT_EVALUABLE", COMPLIANCESCORE=0 E NON ESPRIMERE ALCUN GIUDIZIO.
-2. NON INVENTARE O PRESUMERE NORME, ARTICOLI O LINEE GUIDA NON PRESENTI IN <<<LEGAL_CORPUS>>>.
-3. PER OGNI AZIONE GIUDICATA CONFORME O A RISCHIO, DEVI INDICARE OBBLIGATORIAMENTE IL CHUNK_ID ORIGINALE E LA CITAZIONE TESTUALE DEL DOCUMENTO.
-4. OGNI FATTISPECIE CLINICA O SCELTA NON COPERTA DAI DOCUMENTI INVIATI DEVE ESSERE INSERITA NELL'ARRAY 'uncoveredAreas' SENZA ESPRIMERE GIUDIZI DI COLPA O RISCHIO.
+SEI UN MENTORE MEDICO-LEGALE SPIETATO E INFLESSIBILE (LEGGE 24/2017 GELLI-BIANCO).
+IL TUO COMPITO È COSTRUIRE LA FORMA MENTIS DELLO STUDENTE, CONFRONTANDO L'OPERATO ESCLUSIVAMENTE CON <<<LEGAL_CORPUS>>>.
+REGOLE TASSATIVE DI SOPRAVVIVENZA LEGALE:
+1. ZERO ALLUCINAZIONI: Se <<<LEGAL_CORPUS>>> è vuoto o il caso non è coperto, imposta NOT_EVALUABLE_NO_SOURCES. Non inventare giurisprudenza.
+2. CITAZIONI ESATTE: Ogni rischio segnalato in 'legalOmissionsOrRisks' DEVE includere 'exactQuote' con le parole esatte del documento e il 'chunkId'. Se non puoi citarlo testualmente, non è un errore legale.
+3. IL TRAPPOLONE DELLA DOCUMENTAZIONE: Se lo studente compie un'azione corretta ma nel referto o nella chat manca la giustificazione clinica esplicita, segnalalo come "DIFETTO_DOCUMENTAZIONE". In tribunale, ciò che non è scritto non è stato fatto.
+4. MEDICINA DIFENSIVA: Cerca esami o terapie prescritte non richieste dal protocollo in <<<LEGAL_CORPUS>>>. Segnalali come "MEDICINA_DIFENSIVA". Spiega in 'educationalTakeaway' che gli esami inutili espongono a colpa per imperizia.
+5. AZIONE FORMATIVA: In 'educationalTakeaway', usa un tono asciutto e diretto per spiegare come la Legge Gelli-Bianco valuterà questa specifica deviazione.
 `;
 
 export async function runLegalAudit(params: {

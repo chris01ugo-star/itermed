@@ -70,16 +70,6 @@ export function detectFatalErrors(analytical: AnalyticalEvaluation): FatalError[
     push(protocol || "Omissione critica salvavita", row.penaltyOrBonusReason ?? "");
   }
 
-  for (const review of analytical.legalInstrumentReviews ?? []) {
-    // Any explicit violation of a legal duty is fatal — no hardcoded law name list.
-    if (review?.compliance === "violato") {
-      push(
-        `Violazione normativa: ${review.instrument ?? "obbligo medico-legale"}`,
-        review.rationale ?? review.documentTitle ?? "",
-      );
-    }
-  }
-
   for (const fatal of analytical.fatalErrors ?? []) {
     if (!fatal) continue;
     push(fatal.description ?? "Errore fatale", fatal.rationale ?? "");

@@ -87,7 +87,6 @@ export function buildSessionReportData(params: {
     strengths: [] as string[],
     weaknesses: [] as string[],
     clinicalNote: "",
-    legalComplianceNote: "",
     prescribingNote: "",
     empathyNote: "",
     economyNote: "",
@@ -160,7 +159,6 @@ export function buildSessionReportData(params: {
         empathyChecklist: Array.isArray(evaluation.empathyChecklist)
           ? evaluation.empathyChecklist
           : [],
-        legalProtectionStatus: evaluation.legalProtectionStatus,
         clinicalDeltaTable: Array.isArray(evaluation.clinicalDeltaTable)
           ? evaluation.clinicalDeltaTable
           : [],
@@ -196,9 +194,6 @@ export function buildSessionReportData(params: {
         retrievedChunks: Array.isArray(guidelines.legal?.chunks) ? guidelines.legal.chunks : [],
         retrievedSources: guidelineLegalSources,
         overallLegalScore: scores.legal,
-        instrumentReviews: Array.isArray(evaluation.legalInstrumentReviews)
-          ? evaluation.legalInstrumentReviews
-          : [],
       },
       protocolEvaluation: {
         retrievalSource: guidelines.protocol?.source ?? "none",
@@ -212,7 +207,9 @@ export function buildSessionReportData(params: {
       ...(clinicalAudit ? { clinicalAudit } : {}),
       ...(relationalAudit ? { relationalAudit } : {}),
     },
-    notes: typeof feedback.legalComplianceNote === "string" ? feedback.legalComplianceNote : "",
+    notes: legalAudit
+      ? `Audit legale: ${legalAudit.overallVerdict} (${legalAudit.complianceScore}%)`
+      : "",
   };
 }
 
@@ -230,7 +227,12 @@ export type EliteReportData = {
     legalSources?: string[];
     protocolSources?: string[];
   };
-  legalInstrumentReviews?: EvaluationResult["legalInstrumentReviews"];
+  legalInstrumentReviews?: Array<{
+    instrument: string;
+    documentTitle: string;
+    compliance: "rispettato" | "violato" | "parziale" | "non_applicabile";
+    rationale: string;
+  }>;
   legalProtectionStatus?: LegalProtectionStatus;
   clinicalDeltaTable?: ClinicalDeltaRow[];
   economicAnalysis?: EconomicAnalysis;
@@ -256,7 +258,9 @@ export function buildReportDataFromSession(session: {
       legalSources?: string[];
       protocolSources?: string[];
     };
-    legalEvaluation?: { instrumentReviews?: EvaluationResult["legalInstrumentReviews"] };
+    legalEvaluation?: {
+      instrumentReviews?: EliteReportData["legalInstrumentReviews"];
+    };
     analytical?: {
       legalProtectionStatus?: LegalProtectionStatus;
       clinicalDeltaTable?: ClinicalDeltaRow[];

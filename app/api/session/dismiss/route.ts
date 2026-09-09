@@ -50,8 +50,6 @@ export async function POST(req: Request) {
     weaknesses: ["Simulazione interrotta dall'utente prima del completamento."],
     clinicalNote:
       "Caso abbandonato: nessuna valutazione clinica applicata. Punteggio registrato come 0.",
-    legalComplianceNote:
-      "Caso abbandonato: nessuna valutazione medico-legale applicata. Punteggio registrato come 0.",
     prescribingNote:
       "Caso abbandonato: nessuna valutazione sull'appropriatezza prescrittiva. Punteggio registrato come 0.",
     empathyNote:

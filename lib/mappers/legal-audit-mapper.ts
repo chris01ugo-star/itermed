@@ -1,9 +1,20 @@
 import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
 
+export type LegalRiskCategory =
+  | "OMISSIONE_SOCCORSO"
+  | "IMPERIZIA"
+  | "DIFETTO_DOCUMENTAZIONE"
+  | "MEDICINA_DIFENSIVA";
+
 export interface FormattedLegalReportDTO {
   isEvaluated: boolean;
   verdictBadge: {
-    code: "FULLY_PROTECTED" | "PARTIALLY_PROTECTED" | "LEGAL_RISK_EXPOSED" | "NOT_EVALUABLE";
+    code:
+      | "FULLY_PROTECTED"
+      | "PARTIALLY_PROTECTED"
+      | "LEGAL_RISK_EXPOSED"
+      | "DEFENSIVE_MEDICINE_DETECTED"
+      | "NOT_EVALUABLE";
     label: string;
     severity: "success" | "warning" | "danger" | "info";
   };
@@ -16,7 +27,10 @@ export interface FormattedLegalReportDTO {
   }>;
   criticalOmissions: Array<{
     action: string;
+    riskCategory: LegalRiskCategory;
     riskDescription: string;
+    educationalTakeaway: string;
+    exactQuote: string;
     violatedCitation: string;
     chunkId: string;
   }>;
@@ -58,6 +72,9 @@ export function mapLegalAuditToDTO(
   } else if (legalAudit.overallVerdict === "LEGAL_RISK_EXPOSED") {
     badgeLabel = "ESPOSTO A RISCHIO LEGALE";
     severity = "danger";
+  } else if (legalAudit.overallVerdict === "DEFENSIVE_MEDICINE_DETECTED") {
+    badgeLabel = "MEDICINA DIFENSIVA RILEVATA";
+    severity = "warning";
   }
 
   return {
@@ -76,7 +93,10 @@ export function mapLegalAuditToDTO(
     })),
     criticalOmissions: legalAudit.legalOmissionsOrRisks.map((o) => ({
       action: o.missedOrErroneousAction,
+      riskCategory: o.riskCategory ?? "IMPERIZIA",
       riskDescription: o.legalRiskDescription,
+      educationalTakeaway: o.educationalTakeaway ?? "",
+      exactQuote: o.exactQuote ?? "",
       violatedCitation: o.violatedGuidelineRef,
       chunkId: o.chunkId,
     })),

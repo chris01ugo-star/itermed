@@ -534,10 +534,6 @@ function toAnalyticalSnapshot(evaluation: EvaluationResult): AnalyticalEvaluatio
       : [],
     feedback: evaluation.feedback,
     evidence: evaluation.evidence ?? { legalSources: [], protocolSources: [] },
-    legalInstrumentReviews: Array.isArray(evaluation.legalInstrumentReviews)
-      ? evaluation.legalInstrumentReviews
-      : [],
-    legalProtectionStatus: evaluation.legalProtectionStatus,
     clinicalDeltaTable: Array.isArray(evaluation.clinicalDeltaTable)
       ? evaluation.clinicalDeltaTable
       : [],

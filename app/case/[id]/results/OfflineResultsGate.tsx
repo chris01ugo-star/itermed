@@ -145,8 +145,6 @@ export function OfflineResultsGate({
           "Report non trovato sul database remoto. Mostrata la scheda locale del caso (registry).",
         ],
         clinicalNote: "Punteggi non disponibili: sessione non persistita su Prisma.",
-        legalComplianceNote:
-          "Scudo L. 24/2017 Art. 5: riferimento alle linee guida del caso in knowledge base.",
         prescribingNote: "Appropriatezza prescrittiva non calcolata in assenza di sessione remota.",
         empathyNote: "Audit D-RIME non disponibile offline senza snapshot locale.",
         economyNote: "Sostenibilità economica non calcolata in assenza di sessione remota.",

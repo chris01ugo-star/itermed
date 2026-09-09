@@ -6,6 +6,10 @@ import { z } from "zod";
  * `required`, and OpenAI then rejects the tool schema.
  */
 
+/**
+ * Legacy shield payload from older SessionReport traces.
+ * Live medical-legal evaluation is exclusive to `legal-audit-service`.
+ */
 export const LegalProtectionStatusSchema = z.object({
   status: z.enum(["PROTECTED", "PARTIALLY_EXPOSED", "HIGHLY_EXPOSED"]),
   justification: z.string().max(1200).nullable(),
@@ -39,6 +43,7 @@ export const CoachingFeedbackSchema = z.object({
   accuratezza: z.string().max(600).nullable(),
 });
 
+/** @deprecated Use `LegalAuditResult` from legal-audit-service for new reports. */
 export type LegalProtectionStatus = {
   status: "PROTECTED" | "PARTIALLY_EXPOSED" | "HIGHLY_EXPOSED";
   justification: string;

@@ -190,7 +190,6 @@ function buildLocalEliteReport(params: {
         "Report generato in modalità locale (registry) — il database remoto non ha restituito la sessione.",
       ],
       clinicalNote: "Valutazione locale — il database remoto non ha restituito la sessione.",
-      legalComplianceNote: "Scudo L. 24/2017 Art. 5: adesione alle linee guida del caso (modalità offline).",
       prescribingNote: `Esami prescritti: ${params.examCount}. Costo stimato €${params.examCost.toFixed(0)}.`,
       empathyNote: dRime.qualitativeLabel,
       economyNote: `Spesa esami €${params.examCost.toFixed(0)}.`,
@@ -1385,7 +1384,8 @@ export function SimulatorClient({
                           Feedback medico-legale
                         </p>
                         <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">
-                          {reportData.feedback?.legalComplianceNote ?? "—"}
+                          {reportData.coachingFeedback?.tutelaLegale ||
+                            "La tutela medico-legale è valutata esclusivamente dall'audit Gelli-Bianco dedicato (citazioni dal corpus RAG)."}
                         </p>
                         {reportData.evidence?.legalSources?.length ? (
                           <div className="mt-3 text-xs text-slate-600">
