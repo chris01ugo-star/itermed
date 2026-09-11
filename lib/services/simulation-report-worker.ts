@@ -24,7 +24,7 @@ import {
   type ClinicalCaseSnapshot,
 } from "@/lib/services/simulation-report-data";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
-import { runLegalAudit, type LegalAuditResult } from "@/lib/services/legal-audit-service";
+import { runLegalAudit, createLegalAuditTechnicalFallback, type LegalAuditResult } from "@/lib/services/legal-audit-service";
 import {
   runEconomicAudit,
   type EconomicAuditResult,
@@ -105,19 +105,10 @@ async function safeRunLegalAudit(params: {
       legalChunks: params.legalChunks,
     });
   } catch (error) {
-    params.log.warn("Legal audit LLM failed — persisting NOT_EVALUABLE fallback", {
+    params.log.warn("Legal audit LLM failed — persisting NOT_EVALUABLE technical fallback", {
       error: error instanceof Error ? error.message : String(error),
     });
-    return {
-      status: "NOT_EVALUABLE_NO_SOURCES",
-      overallVerdict: "NOT_EVALUABLE",
-      complianceScore: 0,
-      compliantActions: [],
-      legalOmissionsOrRisks: [],
-      uncoveredAreas: [
-        "Audit legale non completato: errore durante la generazione del giudizio LLM.",
-      ],
-    };
+    return createLegalAuditTechnicalFallback();
   }
 }
 
@@ -803,18 +794,18 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     // --- Killer-Switch (deterministic, post-AI) ---
     const {
       fatalErrors,
-      rawTotalTrentesimi,
-      finalTotalTrentesimi,
-      killerSwitchApplied,
+      rawTotalTrentesimi: rawTotalInitial,
+      finalTotalTrentesimi: finalTotalInitial,
+      killerSwitchApplied: killerAppliedInitial,
       scoresForPersist,
     } = applyKillerSwitchToEvaluation(evaluation);
 
-    const evaluationForPersist: EvaluationResult = {
-      ...evaluation,
-      scores: scoresForPersist,
-    };
+    let scoresForGrade = sanitizeDimensionScores(scoresForPersist);
+    let finalTotalTrentesimi = Number.isFinite(finalTotalInitial) ? finalTotalInitial : 0;
+    let totalScore = finalTotalTrentesimi;
+    let rawTotalTrentesimi = Number.isFinite(rawTotalInitial) ? rawTotalInitial : 0;
+    let killerSwitchApplied = killerAppliedInitial;
 
-    const totalScore = finalTotalTrentesimi;
     const completedAt = new Date();
 
     const liveSession = input.liveSessionId
@@ -851,17 +842,47 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     });
 
     // Legal RAG chunks already filtered at SIMILARITY_THRESHOLD_LEGAL (0.70) in rag-service.
-    const legalChunks = mapLegalChunksForAudit(guidelines.legal?.chunks);
-    const simulationLog = {
-      chatHistory: Array.isArray(input.evaluationChatHistory) ? input.evaluationChatHistory : [],
-      requestedExams: Array.isArray(input.exams) ? input.exams : [],
-      ...(input.finalDiagnosis ? { finalDiagnosis: input.finalDiagnosis } : {}),
+    let legalAuditResult: LegalAuditResult;
+    let legalChunks: ReturnType<typeof mapLegalChunksForAudit> = [];
+    try {
+      legalChunks = mapLegalChunksForAudit(guidelines.legal?.chunks);
+      const simulationLog = {
+        chatHistory: Array.isArray(input.evaluationChatHistory) ? input.evaluationChatHistory : [],
+        requestedExams: Array.isArray(input.exams) ? input.exams : [],
+        ...(input.finalDiagnosis ? { finalDiagnosis: input.finalDiagnosis } : {}),
+      };
+      legalAuditResult = await safeRunLegalAudit({
+        simulationLog,
+        legalChunks,
+        log,
+      });
+    } catch (error) {
+      log.warn("Legal audit block failed — continuing report with technical fallback", {
+        error: error instanceof Error ? error.message : String(error),
+      });
+      legalAuditResult = createLegalAuditTechnicalFallback();
+    }
+
+    if (legalAuditResult.status === "EVALUATED" && legalAuditResult.overallVerdict !== "NOT_EVALUABLE") {
+      scoresForGrade = sanitizeDimensionScores({
+        ...scoresForGrade,
+        legal: legalAuditResult.complianceScore ?? 0,
+      });
+      const recomputed = computeFinalTrentesimiWithKillerSwitch(scoresForGrade, fatalErrors);
+      rawTotalTrentesimi = Number.isFinite(recomputed.rawTotal) ? recomputed.rawTotal : 0;
+      const capped = applyKillerSwitch(
+        Number.isFinite(recomputed.finalTotal) ? recomputed.finalTotal : 0,
+        fatalErrors,
+      );
+      finalTotalTrentesimi = Number.isFinite(capped) ? capped : 0;
+      totalScore = finalTotalTrentesimi;
+      killerSwitchApplied = Boolean(recomputed.killerSwitchApplied) || totalScore < rawTotalTrentesimi;
+    }
+
+    const evaluationForPersist: EvaluationResult = {
+      ...evaluation,
+      scores: scoresForGrade,
     };
-    const legalAuditResult = await safeRunLegalAudit({
-      simulationLog,
-      legalChunks,
-      log,
-    });
 
     log.info("Legal audit completed", {
       status: legalAuditResult.status,
@@ -1018,14 +1039,14 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           normalizedReportText: input.normalizedReportText,
           evaluation: evaluationForPersist,
           guidelines,
-          totalScore,
+          totalScore: Number.isFinite(totalScore) ? totalScore : 0,
           completedAt,
           simulationElapsedMinutes,
           fatalErrors,
           killerSwitch: {
             applied: killerSwitchApplied,
-            rawTotalTrentesimi,
-            finalTotalTrentesimi,
+            rawTotalTrentesimi: Number.isFinite(rawTotalTrentesimi) ? rawTotalTrentesimi : 0,
+            finalTotalTrentesimi: Number.isFinite(finalTotalTrentesimi) ? finalTotalTrentesimi : 0,
             cap: KILLER_SWITCH_CAP,
           },
           legalAudit: legalAuditResult,

@@ -14,14 +14,15 @@ async function runLocalReportTest() {
       status: "EVALUATED",
       overallVerdict: "FULLY_PROTECTED",
       complianceScore: 95,
-      compliantActions: [
+      comparativeAnalysis: [
         {
-          performedAction: "Somministrazione di Aspirina 300mg",
-          supportingGuidelineRef: "Linee Guida ESC 2023 - Art. 4",
-          chunkId: "chk_123",
+          userAction: "Somministrazione di Aspirina 300mg",
+          requiredAction: "Antiaggregante precoce secondo ESC ACS",
+          isProtected: true,
+          explanation: "Azione allineata al corpus e documentata.",
+          sourceQuote: "Linee Guida ESC 2023 — antiaggregazione in SCA.",
         },
       ],
-      legalOmissionsOrRisks: [],
       uncoveredAreas: [],
     },
     economicAudit: {

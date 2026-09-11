@@ -14,6 +14,7 @@ import type {
 } from "@/lib/services/evaluation-report-types";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
 import type { EmpathyBehavioralBreakdown, ScoreBreakdown } from "@/lib/services/evaluation-scoring";
+import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
 
 export type ClinicalCaseSnapshot = {
   difficulty: CaseDifficulty;
@@ -123,7 +124,12 @@ export function buildSessionReportData(params: {
     userId,
     caseId,
     clinicalAccuracy: scores.clinical,
-    legalComplianceGelliBianco: scores.legal,
+    legalComplianceGelliBianco:
+      legalAudit &&
+      legalAudit.status === "EVALUATED" &&
+      legalAudit.overallVerdict !== "NOT_EVALUABLE"
+        ? Math.max(0, Math.min(100, Number(legalAudit.complianceScore) || 0))
+        : Number(scores.legal) || 0,
     /** Exam appropriateness (0–100) — feeds the 20% weight of the /30 grade. */
     prescribingAppropriateness: scores.exams,
     /**
@@ -239,6 +245,7 @@ export type EliteReportData = {
   coachingFeedback?: CoachingFeedback;
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
+  legalAudit?: LegalAuditResult;
   totalScore: number;
 };
 
@@ -269,6 +276,7 @@ export function buildReportDataFromSession(session: {
     };
     empathyBreakdown?: EmpathyBehavioralBreakdown | null;
     scoreBreakdown?: ScoreBreakdown | null;
+    legalAudit?: LegalAuditResult;
   };
 
   const legalEvidenceSources = trace.evidence?.legalSources ?? [];
@@ -278,7 +286,7 @@ export function buildReportDataFromSession(session: {
     sessionId: session.id,
     scores: {
       clinical: session.clinicalAccuracy,
-      legal: session.legalComplianceGelliBianco,
+      legal: legalCompliancePercentFromAudit(trace.legalAudit) ?? session.legalComplianceGelliBianco,
       exams: session.prescribingAppropriateness,
       empathy: session.empathy,
       economy: session.economicSustainability,
@@ -295,6 +303,7 @@ export function buildReportDataFromSession(session: {
     coachingFeedback: trace.analytical?.coachingFeedback,
     empathyBreakdown: trace.empathyBreakdown ?? trace.scoreBreakdown?.empathy ?? null,
     scoreBreakdown: trace.scoreBreakdown ?? null,
+    legalAudit: trace.legalAudit,
     totalScore: session.totalScore,
   } satisfies EliteReportData;
 }

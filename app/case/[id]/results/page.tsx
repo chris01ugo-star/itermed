@@ -12,7 +12,9 @@ import type {
   FatalError,
   LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
+import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
+import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
 import type {
   EmpathyBehavioralBreakdown,
   ScoreBreakdown,
@@ -48,6 +50,7 @@ type SessionTrace = {
   fatalErrors?: FatalError[];
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
+  legalAudit?: LegalAuditResult;
 };
 
 function normalizeFatalErrorsForUi(
@@ -147,7 +150,9 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
       {
         metric: "Tutela medico-legale",
         key: "legalComplianceGelliBianco",
-        score: safeNum(session.legalComplianceGelliBianco),
+        score:
+          legalCompliancePercentFromAudit(trace.legalAudit) ??
+          safeNum(session.legalComplianceGelliBianco),
       },
       {
         metric: "Appropriatezza esami",
@@ -166,7 +171,6 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
       },
     ];
 
-    const legalProtectionStatus = trace.analytical?.legalProtectionStatus ?? null;
     const economicAnalysis = trace.analytical?.economicAnalysis ?? null;
     const clinicalDeltaTable = Array.isArray(trace.analytical?.clinicalDeltaTable)
       ? trace.analytical!.clinicalDeltaTable!
@@ -204,17 +208,14 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
               Array.isArray(trace.feedback?.weaknesses) ? trace.feedback!.weaknesses! : []
             }
             correctSolution={trace.feedback?.correctSolution}
-            legalProtectionStatus={legalProtectionStatus ?? undefined}
             clinicalDeltaTable={clinicalDeltaTable}
             economicAnalysis={economicAnalysis ?? undefined}
             coachingFeedback={trace.analytical?.coachingFeedback}
-            legalSources={
-              Array.isArray(trace.evidence?.legalSources) ? trace.evidence!.legalSources! : []
-            }
             killerSwitch={killerSwitch}
             fatalErrors={fatalErrors}
             empathyBreakdown={trace.empathyBreakdown ?? trace.scoreBreakdown?.empathy ?? null}
             scoreBreakdown={trace.scoreBreakdown ?? null}
+            legalReport={trace.legalAudit ?? null}
           />
         </div>
       </div>

@@ -2979,26 +2979,42 @@ export function SimulatorClient({
   );
 }
 
-function getChatMessageText(message: ChatMessageLike): string {
-  if (typeof message.content === "string" && message.content.trim()) {
-    return message.content;
+/** Strip leaked speaker labels ([assistant], assistant:, [PAZIENTE], …) from chat text. */
+function stripChatRolePrefix(raw: string): string {
+  let text = raw.trim();
+  for (let i = 0; i < 3; i += 1) {
+    const next = text
+      .replace(
+        /^\s*\[(?:assistant|user|system|function|data|tool|paziente|medico|patient|doctor)\]\s*:?\s*/i,
+        "",
+      )
+      .replace(/^\s*(?:assistant|user|system|paziente|medico|patient|doctor)\s*:\s*/i, "")
+      .trim();
+    if (next === text) break;
+    text = next;
   }
-  if (Array.isArray(message.content)) {
-    return message.content
+  return text;
+}
+
+function getChatMessageText(message: ChatMessageLike): string {
+  let extracted = "";
+  if (typeof message.content === "string" && message.content.trim()) {
+    extracted = message.content;
+  } else if (Array.isArray(message.content)) {
+    extracted = message.content
       .map((part) => {
         if (typeof part === "string") return part;
         if (part && typeof part === "object" && typeof part.text === "string") return part.text;
         return "";
       })
       .join("");
-  }
-  if (Array.isArray(message.parts)) {
-    return message.parts
+  } else if (Array.isArray(message.parts)) {
+    extracted = message.parts
       .filter((part) => part?.type === "text" && typeof part.text === "string")
       .map((part) => part.text as string)
       .join("");
   }
-  return "";
+  return stripChatRolePrefix(extracted);
 }
 
 type HistoryChatProps = {
@@ -3045,29 +3061,8 @@ function HistoryChat({
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
 
-  const messageText = (message: HistoryChatProps["messages"][number]): string => {
-    if (typeof message.content === "string" && message.content.trim()) {
-      return message.content;
-    }
-    if (Array.isArray(message.content)) {
-      const text = message.content
-        .map((part) => {
-          if (typeof part === "string") return part;
-          if (part && typeof part === "object" && typeof part.text === "string") return part.text;
-          return "";
-        })
-        .join("");
-      if (text.trim()) return text;
-    }
-    if (Array.isArray(message.parts)) {
-      const text = message.parts
-        .filter((part) => part?.type === "text" && typeof part.text === "string")
-        .map((part) => part.text as string)
-        .join("");
-      if (text.trim()) return text;
-    }
-    return "";
-  };
+  const messageText = (message: HistoryChatProps["messages"][number]): string =>
+    getChatMessageText(message);
 
   const visibleMessages = messages.filter(
     (m) => m.role === "user" || m.role === "assistant",

@@ -9,6 +9,8 @@ import type {
   FatalError,
   LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
+import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
+import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 import type {
   EmpathyBehavioralBreakdown,
@@ -34,6 +36,7 @@ type SessionTrace = {
   fatalErrors?: FatalError[];
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
+  legalAudit?: LegalAuditResult;
 };
 
 function safeNum(value: unknown, fallback = 0): number {
@@ -72,6 +75,7 @@ export type SharedEliteReport = {
   fatalErrors: Array<{ code: string; description: string }>;
   empathyBreakdown: EmpathyBehavioralBreakdown | null;
   scoreBreakdown: ScoreBreakdown | null;
+  legalAudit?: LegalAuditResult;
 };
 
 export async function loadSharedSessionReport(
@@ -105,7 +109,9 @@ export async function loadSharedSessionReport(
       {
         metric: "Tutela medico-legale",
         key: "legalComplianceGelliBianco",
-        score: safeNum(session.legalComplianceGelliBianco),
+        score:
+          legalCompliancePercentFromAudit(trace.legalAudit) ??
+          safeNum(session.legalComplianceGelliBianco),
       },
       {
         metric: "Appropriatezza esami",
@@ -134,5 +140,6 @@ export async function loadSharedSessionReport(
     fatalErrors: normalizeFatalErrorsForUi(trace.fatalErrors ?? trace.analytical?.fatalErrors),
     empathyBreakdown: trace.empathyBreakdown ?? trace.scoreBreakdown?.empathy ?? null,
     scoreBreakdown: trace.scoreBreakdown ?? null,
+    legalAudit: trace.legalAudit,
   };
 }
