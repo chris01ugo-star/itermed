@@ -303,6 +303,8 @@ model CaseSession {
   completedGoldSteps     String[] @default([])
   /// Diagnostic exams requested so far (for latency accounting).
   requestedExamIds       String[] @default([])
+  /// Structured Medication prescriptions from the Ricettario (audit / pharmacoeconomics).
+  prescribedMedications  Json?
   milestones             SimulationMilestone[]
 
   createdAt DateTime @default(now())
@@ -439,4 +441,29 @@ model CaseExamValue {
 
   @@id([caseId, examId])
   @@index([examId])
+}
+
+/// National formulary pack for pharmacoeconomic scoring (AIFA Class A/H, SSN).
+/// `price` is the pack public / reference tariff in EUR used by the prescription engine.
+model Medication {
+  id               String @id @default(cuid())
+  commercialName   String
+  activeIngredient String
+  /// Pack presentation, e.g. "compresse 25mg".
+  dosageForm       String
+  /// EUR per pack (AIFA prezzo al pubblico or SSN reference where noted).
+  price            Float
+  /// Clinical use pillar: Cardiologia | Pneumologia | Gastroenterologia | Urgenza.
+  category         String
+  /// AIFA reimbursement class: A (SSN), C (out of pocket), H (hospital).
+  aifaBand         String @default("A")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([commercialName, dosageForm])
+  @@index([category])
+  @@index([activeIngredient])
+  @@index([commercialName])
+  @@index([aifaBand])
 }

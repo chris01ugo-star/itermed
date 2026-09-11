@@ -48,6 +48,11 @@ import {
 } from "@/lib/simulator/milestone-tracker";
 import { asStringArray } from "@/lib/simulator/session-id";
 import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
+import {
+  mergePrescriptionTracesIntoChat,
+  parseSessionPrescriptions,
+  type SessionPrescription,
+} from "@/lib/simulator/prescription-trace";
 import { getCaseById } from "@/lib/data/cases/registry";
 import type { ClinicalCase } from "@/lib/data/cases/types";
 import { estimateAgeFromTitle, patientDisplayName } from "@/lib/prassi/demo-vitals";
@@ -704,11 +709,12 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     const registeredCase = await getCaseById(input.caseId);
 
     let sessionRequestedExamIds = asStringArray(input.requestedExamIds);
+    let sessionPrescriptions: SessionPrescription[] = [];
     if (input.liveSessionId) {
       try {
         const liveSession = await prisma.caseSession.findUnique({
           where: { id: input.liveSessionId },
-          select: { requestedExamIds: true },
+          select: { requestedExamIds: true, prescribedMedications: true },
         });
         if (Array.isArray(liveSession?.requestedExamIds)) {
           sessionRequestedExamIds = [
@@ -718,6 +724,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
             ]),
           ];
         }
+        sessionPrescriptions = parseSessionPrescriptions(liveSession?.prescribedMedications);
       } catch (err) {
         console.error("[simulation-report-worker] requestedExamIds merge failed", err);
       }
@@ -737,12 +744,15 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     const helpRequested =
       Boolean(input.helpRequested) || milestoneHelp.helpRequested || helpRequestCount > 0;
 
-    const chatHistoryForAudit = Array.isArray(input.evaluationChatHistory)
-      ? input.evaluationChatHistory.map((m) => ({
-          role: m.role,
-          content: typeof m.content === "string" ? m.content : String(m.content ?? ""),
-        }))
-      : [];
+    const chatHistoryForAudit = mergePrescriptionTracesIntoChat(
+      Array.isArray(input.evaluationChatHistory)
+        ? input.evaluationChatHistory.map((m) => ({
+            role: m.role,
+            content: typeof m.content === "string" ? m.content : String(m.content ?? ""),
+          }))
+        : [],
+      sessionPrescriptions,
+    );
     const relationalPatientProfile = buildPatientProfileForRelationalAudit({
       caseId: input.caseId,
       registeredCase,
@@ -766,9 +776,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     }
 
     const evaluation = await evaluationService.evaluateSimulation({
-      chatHistory: Array.isArray(input.evaluationChatHistory)
-        ? input.evaluationChatHistory
-        : [],
+      chatHistory: chatHistoryForAudit,
       exams: Array.isArray(input.exams) ? input.exams : [],
       reportText: input.normalizedReportText ?? "",
       caseId: input.caseId,
@@ -785,6 +793,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       sessionMilestones: Array.isArray(sessionMilestones) ? sessionMilestones : [],
       executedActionIds,
       requestedExamIds: sessionRequestedExamIds,
+      prescribedMedications: sessionPrescriptions,
       helpRequested,
       helpRequestCount,
       classifiedIntents,
@@ -1034,7 +1043,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           userId: input.userId,
           caseId: input.caseId,
           clinicalCase: clinicalCase as ClinicalCaseSnapshot,
-          evaluationChatHistory: input.evaluationChatHistory,
+          evaluationChatHistory: chatHistoryForAudit,
           exams: input.exams,
           normalizedReportText: input.normalizedReportText,
           evaluation: evaluationForPersist,
@@ -1043,6 +1052,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           completedAt,
           simulationElapsedMinutes,
           fatalErrors,
+          prescribedMedications: sessionPrescriptions,
           killerSwitch: {
             applied: killerSwitchApplied,
             rawTotalTrentesimi: Number.isFinite(rawTotalTrentesimi) ? rawTotalTrentesimi : 0,

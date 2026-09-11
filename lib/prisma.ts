@@ -15,6 +15,7 @@ const prismaLogger = createLogger("prisma");
  */
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
+  prismaDelegateRepairAttempted?: boolean;
 };
 
 const rawRuntimeUrl = resolveRuntimeDatabaseUrl() || config.DATABASE_URL;
@@ -28,14 +29,44 @@ if (!config.isTest && !isNeonPoolerUrl(datasourceUrl)) {
   prismaLogger.info("Prisma datasource using Neon pooled connection");
 }
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
+function createPrismaClient(): PrismaClient {
+  return new PrismaClient({
     datasources: {
       db: { url: datasourceUrl },
     },
     log: config.isDevelopment ? ["warn", "error"] : ["error"],
   });
+}
 
-// Always pin on globalThis (dev HMR + serverless warm reuse).
-globalForPrisma.prisma = prisma;
+/** True when this PrismaClient includes the `Medication` model (`prisma.medication`). */
+function hasMedicationDelegate(client: PrismaClient): boolean {
+  const delegate = (client as unknown as { medication?: { findMany?: unknown } }).medication;
+  return typeof delegate?.findMany === "function";
+}
+
+/**
+ * Returns a PrismaClient that includes current schema delegates.
+ * Recreates the HMR singleton if it was built before `Medication` existed
+ * (`prisma.medication` would otherwise be undefined → findMany crash).
+ */
+export function getPrismaClient(): PrismaClient {
+  const existing = globalForPrisma.prisma;
+  if (existing && hasMedicationDelegate(existing)) {
+    return existing;
+  }
+  if (existing && !hasMedicationDelegate(existing)) {
+    if (globalForPrisma.prismaDelegateRepairAttempted) {
+      return existing;
+    }
+    globalForPrisma.prismaDelegateRepairAttempted = true;
+    prismaLogger.warn(
+      "Stale PrismaClient without Medication delegate — recreating once after prisma generate",
+    );
+    void existing.$disconnect().catch(() => undefined);
+  }
+  const created = createPrismaClient();
+  globalForPrisma.prisma = created;
+  return created;
+}
+
+export const prisma = getPrismaClient();

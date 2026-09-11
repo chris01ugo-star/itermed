@@ -19,6 +19,7 @@ import {
   HeartPulse,
   MessageCircle,
   FileText,
+  Pill,
   Pause,
   Play,
   Send,
@@ -54,6 +55,7 @@ import { SkeletonChatBubble } from "@/components/ui/Skeleton";
 import { VitalSignsBoard } from "./VitalSignsBoard";
 import { ExamReportRecap } from "./ExamReportRecap";
 import { DiagnosticCategoryPanel } from "./DiagnosticCategoryPanel";
+import { PrescriptionPad, type ConfirmedPrescription } from "./PrescriptionPad";
 import { SessionSideMetrics } from "./SessionSideMetrics";
 import { PRASSI_TONE } from "@/lib/ui/prassi-pastels";
 import {
@@ -80,6 +82,12 @@ import {
 } from "@/lib/simulator/patient-stress-engine";
 import { isInvasiveExam } from "@/lib/simulator/exam-canonical-registry";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
+import {
+  formatPrescriptionTrace,
+  formatSsnPrice,
+  isPrescriptionTrace,
+  type SessionPrescription,
+} from "@/lib/simulator/prescription-trace";
 import { resolveExamBudgetEuro } from "@/lib/services/evaluation-scoring";
 import type { CaseDifficulty } from "@prisma/client";
 import { EXAM_DEFAULT_VALUES, type ExamClinicalMeta } from "../../lib/exam-default-values";
@@ -389,6 +397,9 @@ export function SimulatorClient({
   const extraExecutedActionIdsRef = useRef<string[]>([]);
   const [consentRequested, setConsentRequested] = useState(false);
   const [isConsentBusy, setIsConsentBusy] = useState(false);
+  const [isPrescriptionPadOpen, setIsPrescriptionPadOpen] = useState(false);
+  const [isPrescribeBusy, setIsPrescribeBusy] = useState(false);
+  const [prescribedMedications, setPrescribedMedications] = useState<SessionPrescription[]>([]);
   const [isDischargeOpen, setIsDischargeOpen] = useState(false);
   const [patientChartTab, setPatientChartTab] = useState<"base" | "referto">("base");
 
@@ -844,6 +855,131 @@ export function SimulatorClient({
     setMessages,
   ]);
 
+  const confirmPrescription = useCallback(
+    async ({ medication, route, posology }: ConfirmedPrescription) => {
+      if (isPaused) return;
+      markUserActivity();
+      setIsPrescribeBusy(true);
+      try {
+        const sid = effectiveSessionIdRef.current ?? (await ensureSessionId());
+        let saved: SessionPrescription | null = null;
+
+        if (sid) {
+          const res = await fetch("/api/session/prescribe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              sessionId: sid,
+              caseId: initialCaseData.id,
+              medicationId: medication.id,
+              route,
+              posology,
+            }),
+          });
+          const data = await res.json().catch(() => null);
+          if (!res.ok) {
+            throw new Error(
+              typeof data?.error === "string" ? data.error : "Prescrizione non registrata.",
+            );
+          }
+          if (Array.isArray(data?.prescribedMedications)) {
+            setPrescribedMedications(data.prescribedMedications as SessionPrescription[]);
+          }
+          saved = (data?.prescription as SessionPrescription | undefined) ?? null;
+        }
+
+        const trace =
+          saved?.trace ??
+          formatPrescriptionTrace({
+            commercialName: medication.commercialName,
+            activeIngredient: medication.activeIngredient,
+            dosageForm: medication.dosageForm,
+            price: medication.price,
+            route,
+            posology,
+          });
+
+        if (!saved) {
+          const local: SessionPrescription = {
+            id: medication.id,
+            commercialName: medication.commercialName,
+            activeIngredient: medication.activeIngredient,
+            dosageForm: medication.dosageForm,
+            price: medication.price,
+            category: medication.category,
+            aifaBand: medication.aifaBand,
+            route,
+            posology,
+            trace,
+            prescribedAt: new Date().toISOString(),
+          };
+          setPrescribedMedications((prev) =>
+            prev.some(
+              (row) =>
+                row.id === local.id &&
+                row.route === local.route &&
+                row.posology === local.posology,
+            )
+              ? prev
+              : [...prev, local],
+          );
+        }
+
+        setMessages((prev) => {
+          const last = prev[prev.length - 1];
+          if (last?.role === "user" && getChatMessageText(last) === trace) return prev;
+          return [
+            ...prev,
+            {
+              id: `rx-user-${Date.now()}`,
+              role: "user" as const,
+              content: trace,
+            },
+          ];
+        });
+
+        const profile = resolveCaseStressProfile({
+          description: initialCaseData.description,
+          baselineExamFindings: initialCaseData.baselineExamFindings as
+            | Record<string, unknown>
+            | undefined,
+          goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
+        });
+        const nextStress = computePatientStress({
+          currentStress: patientStressRef.current,
+          profile,
+          lastUserMessage: `${trace} ${route} ${posology}`,
+          goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
+          riskyPrescription: false,
+        });
+        if (nextStress !== patientStressRef.current) {
+          patientStressRef.current = nextStress;
+          setPatientStress(nextStress);
+        } else {
+          bumpPatientStress(1);
+        }
+        advanceClock(1);
+        setIsPrescriptionPadOpen(false);
+      } catch (err) {
+        console.error("[SimulatorClient] prescription failed", err);
+      } finally {
+        setIsPrescribeBusy(false);
+      }
+    },
+    [
+      advanceClock,
+      bumpPatientStress,
+      ensureSessionId,
+      initialCaseData.baselineExamFindings,
+      initialCaseData.description,
+      initialCaseData.goldStandardPath,
+      initialCaseData.id,
+      isPaused,
+      markUserActivity,
+      setMessages,
+    ],
+  );
+
   const handleDismissCase = async () => {
     const confirmed = window.confirm(
       "Abbandonare il caso (Dismiss case)? Verrà registrato un punteggio di 0 su tutti gli assi di valutazione.",
@@ -963,7 +1099,8 @@ export function SimulatorClient({
     [examFindings],
   );
 
-  const totalCost = selectedExams.reduce((sum, exam) => sum + exam.cost, 0);
+  const medicationCost = prescribedMedications.reduce((sum, rx) => sum + rx.price, 0);
+  const totalCost = selectedExams.reduce((sum, exam) => sum + exam.cost, 0) + medicationCost;
   const examBudgetEuro = useMemo(
     () =>
       resolveExamBudgetEuro(
@@ -1818,6 +1955,11 @@ export function SimulatorClient({
                     onRequestConsent={requestInformedConsent}
                     consentRequested={consentRequested}
                     consentBusy={isConsentBusy}
+                    onOpenPrescriptionPad={() => {
+                      if (isPaused) return;
+                      setIsPrescriptionPadOpen(true);
+                    }}
+                    prescriptionBusy={isPrescribeBusy}
                     compact
                     fill
                     disabled={isPaused}
@@ -1944,6 +2086,11 @@ export function SimulatorClient({
                       onRequestConsent={requestInformedConsent}
                       consentRequested={consentRequested}
                       consentBusy={isConsentBusy}
+                      onOpenPrescriptionPad={() => {
+                        if (isPaused) return;
+                        setIsPrescriptionPadOpen(true);
+                      }}
+                      prescriptionBusy={isPrescribeBusy}
                       compact={embedded}
                       disabled={isPaused}
                     />
@@ -2192,6 +2339,40 @@ export function SimulatorClient({
                 ) : (
                   <p className="text-xs leading-relaxed text-slate-500">
                     Nessun esame diagnostico richiesto.
+                  </p>
+                )}
+              </section>
+
+              <section className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <Pill className="h-3.5 w-3.5 text-[#345884]" />
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                    Ricettario
+                  </p>
+                </div>
+                {prescribedMedications.length > 0 ? (
+                  <ul className="space-y-1.5 text-xs">
+                    {prescribedMedications.map((rx) => (
+                      <li
+                        key={`${rx.id}-${rx.route}-${rx.posology}-${rx.prescribedAt}`}
+                        className="flex items-start justify-between gap-2 rounded-xl border border-slate-100 bg-slate-50/50 px-3 py-1.5"
+                      >
+                        <span className="min-w-0 text-slate-800">
+                          <span className="block truncate font-medium">{rx.commercialName}</span>
+                          <span className="block text-[10px] text-slate-400">
+                            {rx.route}
+                            {rx.posology ? ` · ${rx.posology}` : ""}
+                          </span>
+                        </span>
+                        <span className="shrink-0 font-mono text-[11px] tabular-nums text-slate-500">
+                          €{formatSsnPrice(rx.price)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-xs leading-relaxed text-slate-500">
+                    Nessun farmaco prescritto.
                   </p>
                 )}
               </section>
@@ -2883,6 +3064,17 @@ export function SimulatorClient({
         </DialogContent>
       </Dialog>
 
+      <PrescriptionPad
+        open={isPrescriptionPadOpen}
+        onClose={() => {
+          if (isPrescribeBusy) return;
+          setIsPrescriptionPadOpen(false);
+        }}
+        onConfirm={confirmPrescription}
+        busy={isPrescribeBusy}
+        alreadyPrescribedIds={prescribedMedications.map((rx) => rx.id)}
+      />
+
       <Dialog open={isHelpOpen}>
         <DialogContent className="max-w-lg overflow-hidden bg-white p-0">
           <div className="border-b border-slate-100 bg-gradient-to-b from-[#F5F8FC] to-white px-5 pb-4 pt-5">
@@ -3036,6 +3228,9 @@ type HistoryChatProps = {
   onRequestConsent?: () => void;
   consentRequested?: boolean;
   consentBusy?: boolean;
+  /** Open the Ricettario (Medication formulary). */
+  onOpenPrescriptionPad?: () => void;
+  prescriptionBusy?: boolean;
   /** Bound height for embedded Prassi grid — avoids fixed 460px blowing layout. */
   compact?: boolean;
   /** Stretch to fill the parent container height instead of a fixed px height. */
@@ -3054,6 +3249,8 @@ function HistoryChat({
   onRequestConsent,
   consentRequested = false,
   consentBusy = false,
+  onOpenPrescriptionPad,
+  prescriptionBusy = false,
   compact = false,
   fill = false,
   disabled = false,
@@ -3121,12 +3318,24 @@ function HistoryChat({
           const isDoctor = message.role === "user";
           const text = messageText(message);
           if (!text) return null;
+          const isRx = isDoctor && isPrescriptionTrace(text);
           return (
             <div
               key={message.id}
               className={`flex ${isDoctor ? "justify-end" : "justify-start"}`}
             >
-              {isDoctor ? (
+              {isRx ? (
+                <div className="flex max-w-[85%] flex-col items-end gap-1">
+                  <div className="w-full rounded-2xl rounded-br-md border border-[#345884]/25 bg-[#EEF2F9] p-3.5 text-left shadow-sm">
+                    <p className="mb-1 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-[#345884]">
+                      <Pill className="h-3 w-3" />
+                      Ricettario SSN
+                    </p>
+                    <p className="text-sm font-medium leading-relaxed text-slate-800">{text}</p>
+                  </div>
+                  <CheckCheck className="h-3.5 w-3.5 shrink-0 text-slate-400" aria-label="Prescrizione registrata" />
+                </div>
+              ) : isDoctor ? (
                 <div className="flex max-w-[78%] flex-col items-end gap-1">
                   <div className="rounded-2xl rounded-br-md bg-[#1E324E] p-4 text-sm font-medium leading-relaxed text-white shadow-sm">
                     {text}
@@ -3180,26 +3389,41 @@ function HistoryChat({
             ) : null}
           </div>
         ) : null}
-        {onRequestConsent ? (
+        {onRequestConsent || onOpenPrescriptionPad ? (
           <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={onRequestConsent}
-              disabled={isLoading || consentBusy || consentRequested || disabled}
-              aria-label="Richiesta Modulo Consenso Informato"
-              title="Spiega rischi/benefici e acquisisci il consenso prima di procedure invasive"
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition",
-                consentRequested
-                  ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-                  : "border-[#345884]/25 bg-[#EEF2F9] text-[#345884] hover:bg-[#345884] hover:text-white disabled:opacity-50",
-              )}
-            >
-              <FileText className="h-3.5 w-3.5" strokeWidth={1.75} />
-              {consentRequested ? "Consenso registrato" : "Modulo consenso"}
-            </button>
+            {onRequestConsent ? (
+              <button
+                type="button"
+                onClick={onRequestConsent}
+                disabled={isLoading || consentBusy || consentRequested || disabled}
+                aria-label="Richiesta Modulo Consenso Informato"
+                title="Spiega rischi/benefici e acquisisci il consenso prima di procedure invasive"
+                className={cn(
+                  "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition",
+                  consentRequested
+                    ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                    : "border-[#345884]/25 bg-[#EEF2F9] text-[#345884] hover:bg-[#345884] hover:text-white disabled:opacity-50",
+                )}
+              >
+                <FileText className="h-3.5 w-3.5" strokeWidth={1.75} />
+                {consentRequested ? "Consenso registrato" : "Modulo consenso"}
+              </button>
+            ) : null}
+            {onOpenPrescriptionPad ? (
+              <button
+                type="button"
+                onClick={onOpenPrescriptionPad}
+                disabled={isLoading || prescriptionBusy || disabled}
+                aria-label="Apri ricettario SSN"
+                title="Prescrivi un farmaco dal prontuario AIFA/SSN"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-[#345884]/25 bg-[#EEF2F9] px-2.5 py-1.5 text-[11px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white disabled:opacity-50"
+              >
+                <Pill className="h-3.5 w-3.5" strokeWidth={1.75} />
+                Ricettario
+              </button>
+            ) : null}
             <span className="text-[10px] leading-snug text-slate-400 sm:text-[11px]">
-              Spiega rischi/benefici e acquisisci il consenso prima di procedure invasive.
+              Consenso prima delle procedure invasive · Ricettario per la terapia SSN.
             </span>
           </div>
         ) : null}

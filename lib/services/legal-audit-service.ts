@@ -81,6 +81,7 @@ CALCOLO DEL PUNTEGGIO (Parti da 100):
 Omissione grave / Negligenza (es. mancato soccorso, diagnosi errata fatale): -40 a -60 punti.
 Mancato consenso informato (L. 219/2017) prima di esami a rischio: -30 punti.
 Imperizia / Medicina difensiva (esami inutili o non giustificati): -20 punti.
+Farmaco-economia / medicina difensiva prescrittiva (farmaci ad alto costo o inutili in prima linea, spreco SSN): -10 a -15 punti.
 Difetto di documentazione (azione corretta ma non trascritta a referto): -15 punti.
 Se l'utente fa azioni a caso o non fa nulla, il punteggio MASSIMO è 15.
 Scrivi un executiveSummary di 2-3 righe che riassuma spietatamente il livello di tutela del medico.
@@ -97,6 +98,7 @@ REGOLE TASSATIVE:
 7. ANALISI CRONOLOGICA E TEMPESTIVITÀ: Esamina la sequenza temporale dei turni di chat e delle azioni. Se un intervento salvavita o un esame urgente viene eseguito con un ritardo ingiustificato rispetto agli standard clinici del <<<LEGAL_CORPUS>>>, qualificalo esplicitamente come 'RITARDO DIAGNOSTICO/TERAPEUTICO' e applica una pesante penalità temporale. Compila temporalRelevance su ogni riga rilevante.
 8. QUALIFICAZIONE DELLA COLPA (Art. 5 e 6 L. 24/2017): Distingui nettamente tra Imperizia Lieve (scostamento veniale da linee guida in casi complessi, protetto dall'Art. 5 se si seguono buone pratiche) e Negligenza Grave / Imperizia Grossolana (azioni casuali, omissioni di protocolli di base, farmaci controindicati in anamnesi). La colpa grave azzera la tutela e fa crollare il punteggio a 0-10. Imposta faultCategory: OTTIMALE | IMPERIZIA_LIEVE | NEGLIGENZA_GRAVE | DIFETTO_CONSENSO. NEGLIGENZA_GRAVE ⇒ isProtected = false.
 9. PROFONDITÀ DEL CONSENSO (Legge 219/2017): Non verificare solo se è stato 'ottenuto' un consenso generico, ma se l'utente ha informato il paziente sui rischi specifici prima di procedure invasive. Consenso generico o assente ⇒ faultCategory DIFETTO_CONSENSO e isProtected = false.
+10. FARMACO-ECONOMIA E MEDICINA DIFENSIVA: Analizza le righe di trace contrassegnate come '[AZIONE_MEDICA: PRESCRIZIONE]'. Se il medico prescrive farmaci ad alto costo (es. DOAC, antibiotici di ultima linea) in prima istanza ignorando alternative economiche raccomandate dal <<<LEGAL_CORPUS>>> / linee guida, oppure effettua prescrizioni difensive inutili, qualifica l'azione come faultCategory IMPERIZIA_LIEVE (spreco SSN) e applica una penalità di -10 a -15 punti. In requiredAction ("Cosa avresti dovuto fare") menziona esplicitamente il costo sprecato, es. "Hai prescritto X al costo di 60€, ma le linee guida impongono Y a 5€ come prima linea". Estrai i costi dalle righe di trace (Costo SSN impattato). Non confondere questo scostamento economico con NEGLIGENZA_GRAVE (riservata a farmaci controindicati, omissioni salvavita o protocolli di base ignorati).
 `;
 
 const EMPTY_LEGAL_AUDIT: LegalAuditResult = {

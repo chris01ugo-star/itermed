@@ -74,7 +74,15 @@ export function inferCompletedGoldSteps(params: {
     if (norm.includes("anamnesi") && /fum|anamnes|chied|stor/i.test(msg)) completed.add(norm);
     if (norm.includes("obiettivo") && /auscult|palp|obiettiv|esamin/i.test(msg)) completed.add(norm);
     if (norm.includes("ossigeno") && /ossigen|o2|mascher/i.test(msg)) completed.add(norm);
-    if (norm.includes("terapia") && /somministr|terapia|farmaco|fluid/i.test(msg)) completed.add(norm);
+    if (
+      norm.includes("terapia") &&
+      /somministr|terapia|farmaco|fluid|prescritt|azione_medica/i.test(msg)
+    ) {
+      completed.add(norm);
+    }
+    if (msg.includes("[azione_medica: prescrizione]") && /farmac|prescri|terap/i.test(norm)) {
+      completed.add(norm);
+    }
   }
 
   return Array.from(completed);

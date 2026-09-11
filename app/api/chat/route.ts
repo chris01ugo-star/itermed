@@ -24,6 +24,7 @@ import { applyPatientChatWindow } from "@/lib/simulator/chat-context-window";
 import { buildPatientSimulatorCaseInput } from "@/lib/simulator/patientCaseContext";
 import { generatePatientResponse } from "@/lib/simulator/generatePatientResponse";
 import { persistChatTurn } from "@/lib/simulator/persist-chat-turn";
+import { isPrescriptionTrace } from "@/lib/simulator/prescription-trace";
 import {
   buildDeteriorationInstruction,
   computeElapsedMinutesFromExams,
@@ -140,7 +141,11 @@ export async function POST(req: Request) {
   }
 
   const lastRawUserMessage = getLastUserMessage(chatMessagesPreview);
-  if (lastRawUserMessage && shouldRejectUserChatInput(lastRawUserMessage)) {
+  if (
+    lastRawUserMessage &&
+    !isPrescriptionTrace(lastRawUserMessage) &&
+    shouldRejectUserChatInput(lastRawUserMessage)
+  ) {
     chatLogger.warn("Blocked chat input (injection / malicious payload)", {
       userId,
       length: lastRawUserMessage.length,

@@ -26,7 +26,7 @@ export type PersistedChatTurn = {
   createdAt: string;
 };
 
-function parseChatHistory(raw: unknown): PersistedChatTurn[] {
+export function parseChatHistory(raw: unknown): PersistedChatTurn[] {
   if (!Array.isArray(raw)) return [];
 
   return raw

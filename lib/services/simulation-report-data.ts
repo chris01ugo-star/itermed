@@ -15,6 +15,7 @@ import type {
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
 import type { EmpathyBehavioralBreakdown, ScoreBreakdown } from "@/lib/services/evaluation-scoring";
 import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
+import type { SessionPrescription } from "@/lib/simulator/prescription-trace";
 
 export type ClinicalCaseSnapshot = {
   difficulty: CaseDifficulty;
@@ -57,6 +58,8 @@ export function buildSessionReportData(params: {
   clinicalAudit?: ClinicalAuditResult;
   /** Dedicated LLM relational / communication audit (RIAS, CARE, SPIKES). */
   relationalAudit?: RelationalAuditResult;
+  /** Structured Ricettario prescriptions (AIFA/SSN pack tariffs). */
+  prescribedMedications?: SessionPrescription[];
 }): Prisma.SessionReportUncheckedUpdateInput {
   const {
     userId,
@@ -75,6 +78,7 @@ export function buildSessionReportData(params: {
     economicAudit,
     clinicalAudit,
     relationalAudit,
+    prescribedMedications = [],
   } = params;
 
   const scores = evaluation.scores ?? {
@@ -181,7 +185,9 @@ export function buildSessionReportData(params: {
       examEconomics: {
         budgetEuro: evaluation.examBudgetEuro ?? null,
         totalCostEuro: evaluation.totalExamCostEuro ?? null,
+        medicationCostEuro: prescribedMedications.reduce((sum, rx) => sum + rx.price, 0),
       },
+      medications: prescribedMedications,
       helpTelemetry: evaluation.helpTelemetry ?? {
         helpRequested: false,
         helpRequestCount: 0,
