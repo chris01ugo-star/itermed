@@ -414,9 +414,9 @@ export function EliteResultsClient({
   const barPct = Math.min(100, Math.max(0, (normalizedScore / 30) * 100));
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-8">
+      <NextPatientModal currentCaseId={currentCaseId} />
       <article className="overflow-hidden border border-[var(--aequan-border)] bg-[var(--aequan-panel-bg)] shadow-[0_14px_40px_-20px_rgba(30,50,78,0.28)]">
-        <NextPatientModal currentCaseId={currentCaseId} />
         <header className="border-b-[6px] border-[var(--aequan-brand-primary)] bg-[var(--aequan-ui-bg)] px-5 py-4 sm:px-7">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="min-w-0 flex-1">

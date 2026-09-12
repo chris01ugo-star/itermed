@@ -24,29 +24,31 @@ export function NextPatientModal({ currentCaseId }: { currentCaseId?: string | n
 
   return (
     <div
-      className="flex flex-wrap items-center justify-between gap-3 border-b border-[#FFC0CD] bg-[#FFEBEF] px-5 py-2.5 sm:px-7"
+      className="rounded-2xl border border-[#FFC0CD] bg-[#FFEBEF] px-4 py-3.5 shadow-[0_10px_28px_-16px_rgba(225,29,72,0.4)] sm:px-5"
       role="status"
     >
-      <div className="flex min-w-0 items-start gap-2.5">
-        <span
-          className="mt-1.5 h-2 w-2 shrink-0 animate-pulse rounded-full bg-[#E11D48]"
-          aria-hidden
-        />
-        <div className="min-w-0">
-          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#E11D48]">
-            Accesso in arrivo
-          </p>
-          <p className="truncate text-[13px] font-semibold leading-snug text-[var(--aequan-brand-primary)]">
-            {next.label}
-          </p>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex min-w-0 items-start gap-2.5">
+          <span
+            className="mt-1.5 h-2 w-2 shrink-0 animate-pulse rounded-full bg-[#E11D48]"
+            aria-hidden
+          />
+          <div className="min-w-0">
+            <p className="text-[15px] font-semibold leading-none text-[var(--aequan-brand-primary)]">
+              Prossimo caso?
+            </p>
+            <p className="mt-1.5 truncate text-[12px] leading-snug text-[#E11D48]">
+              {next.label}
+            </p>
+          </div>
         </div>
+        <a
+          href={href}
+          className="inline-flex shrink-0 items-center rounded-lg bg-[#E11D48] px-3.5 py-2 text-[11px] font-semibold text-white transition hover:brightness-95"
+        >
+          Prendi in carico
+        </a>
       </div>
-      <a
-        href={href}
-        className="inline-flex shrink-0 items-center bg-[#E11D48] px-3 py-1.5 text-[11px] font-semibold text-white transition hover:brightness-95"
-      >
-        Prendi in carico
-      </a>
     </div>
   );
 }
