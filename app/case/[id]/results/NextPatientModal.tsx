@@ -2,19 +2,19 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Siren } from "lucide-react";
+import { Stethoscope, X } from "lucide-react";
 
 const APPEAR_DELAY_MS = 5_000;
 const COUNTDOWN_SECONDS = 10;
 const NEXT_QUEUE_HREF = "/dashboard/prassi";
 
 const TRIAGE_SNIPPETS = [
-  "Code Yellow: 45M, severe chest pain",
-  "Code Red: 60F, dyspnea",
-  "Code Yellow: 32F, palpitations and diaphoresis",
-  "Code Red: 71M, syncope and hypotension",
-  "Code Yellow: 54M, epigastric pain radiating to the left arm",
-  "Code Red: 28F, acute dyspnea after long-haul flight",
+  "Uomo 45 anni, dolore toracico intenso",
+  "Donna 60 anni, dispnea acuta",
+  "Donna 32 anni, palpitazioni e diaforesi",
+  "Uomo 71 anni, sincope e ipotensione",
+  "Uomo 54 anni, dolore epigastrico irradiato al braccio",
+  "Donna 28 anni, dispnea dopo volo intercontinentale",
 ] as const;
 
 function pickTriageSnippet(): string {
@@ -35,7 +35,7 @@ export function NextPatientModal() {
     router.push(NEXT_QUEUE_HREF);
   }, [router]);
 
-  const passToColleague = useCallback(() => {
+  const dismiss = useCallback(() => {
     navigatingRef.current = true;
     setOpen(false);
   }, []);
@@ -68,72 +68,82 @@ export function NextPatientModal() {
 
   return (
     <div
-      className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/70 p-4"
+      className="fixed inset-0 z-[120] flex items-center justify-center bg-[color-mix(in_srgb,var(--aequan-brand-primary)_28%,transparent)] p-4"
       role="presentation"
     >
-      <style>{`
-        @keyframes next-patient-flash {
-          0%, 100% { box-shadow: 0 0 0 2px #dc2626, 0 0 28px rgba(220, 38, 38, 0.45); }
-          50% { box-shadow: 0 0 0 7px #ef4444, 0 0 42px rgba(239, 68, 68, 0.75); }
-        }
-        .next-patient-flash {
-          animation: next-patient-flash 0.9s ease-in-out infinite;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .next-patient-flash { animation: none; box-shadow: 0 0 0 4px #dc2626; }
-        }
-      `}</style>
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="next-patient-title"
         aria-describedby="next-patient-triage"
-        className="next-patient-flash w-full max-w-md overflow-hidden rounded-2xl border-2 border-red-600 bg-[#14080a] text-white"
+        className="w-full max-w-md overflow-hidden border border-[var(--aequan-border)] bg-[var(--aequan-panel-bg)] shadow-[0_18px_50px_-24px_rgba(30,50,78,0.45)]"
       >
-        <div className="border-b border-red-600/50 bg-red-700 px-5 py-3">
-          <p
-            id="next-patient-title"
-            className="flex items-center justify-center gap-2 text-center text-[11px] font-bold uppercase tracking-[0.22em] text-white"
-          >
-            <Siren className="h-4 w-4" strokeWidth={2.25} aria-hidden />
-            Incoming emergency
-          </p>
-        </div>
-
-        <div className="space-y-5 px-6 py-6">
-          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.16em] text-red-300">
-            Next patient in queue
-          </p>
-          <p
-            id="next-patient-triage"
-            className="text-center font-display text-lg font-semibold leading-snug text-white"
-          >
-            {triageSnippet}
-          </p>
-
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border-2 border-red-500 bg-red-950/80">
-            <span className="font-mono text-3xl font-bold tabular-nums text-red-100" aria-live="polite">
-              {secondsLeft}
-            </span>
+        <header className="flex items-start justify-between gap-3 border-b-4 border-[var(--aequan-brand-primary)] bg-[var(--aequan-ui-bg)] px-5 py-4">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--aequan-text-secondary)]">
+              AEQUAN · Coda clinica
+            </p>
+            <h2
+              id="next-patient-title"
+              className="mt-1 font-display text-lg font-semibold text-[var(--aequan-brand-primary)]"
+            >
+              Prossimo caso disponibile
+            </h2>
           </div>
-          <p className="text-center text-xs text-red-200/80">
-            Auto-accept in {secondsLeft}s — keep the flow going
-          </p>
+          <button
+            type="button"
+            onClick={dismiss}
+            className="inline-flex h-8 w-8 items-center justify-center border border-[var(--aequan-border)] bg-[var(--aequan-panel-bg)] text-[var(--aequan-text-secondary)] transition hover:text-[var(--aequan-brand-primary)]"
+            aria-label="Chiudi"
+          >
+            <X className="h-4 w-4" strokeWidth={1.75} />
+          </button>
+        </header>
 
-          <div className="flex flex-col gap-2.5">
+        <div className="space-y-5 px-5 py-6 sm:px-6">
+          <div className="flex items-start gap-3 border border-[var(--aequan-border)] bg-[var(--aequan-ui-bg)] px-3.5 py-3">
+            <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center bg-[color-mix(in_srgb,var(--aequan-brand-secondary)_12%,white)] text-[var(--aequan-brand-secondary)]">
+              <Stethoscope className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+            </span>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--aequan-text-secondary)]">
+                Presentazione
+              </p>
+              <p
+                id="next-patient-triage"
+                className="mt-0.5 font-display text-[15px] font-semibold leading-snug text-[var(--aequan-brand-primary)]"
+              >
+                {triageSnippet}
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <p
+              className="mx-auto flex h-14 w-14 items-center justify-center border border-[var(--aequan-border)] bg-[var(--aequan-ui-bg)] font-display text-2xl font-semibold tabular-nums text-[var(--aequan-brand-primary)]"
+              aria-live="polite"
+            >
+              {secondsLeft}
+            </p>
+            <p className="mt-2 text-xs text-[var(--aequan-text-secondary)]">
+              Apertura automatica della libreria casi tra {secondsLeft}s
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-2">
             <button
               type="button"
               onClick={acceptCase}
-              className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-red-600 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-red-500"
+              className="inline-flex h-11 w-full items-center justify-center bg-[var(--aequan-brand-primary)] text-sm font-semibold text-white transition hover:bg-[var(--aequan-brand-primary-hover)]"
             >
-              Accept Case
+              Apri il prossimo caso
             </button>
             <button
               type="button"
-              onClick={passToColleague}
-              className="inline-flex h-9 w-full items-center justify-center rounded-lg text-xs font-medium text-red-200/60 underline-offset-4 transition hover:text-red-100 hover:underline"
+              onClick={dismiss}
+              className="inline-flex h-9 w-full items-center justify-center text-xs font-medium text-[var(--aequan-text-secondary)] transition hover:text-[var(--aequan-brand-primary)]"
             >
-              Pass to Colleague
+              Resta sul referto
             </button>
           </div>
         </div>
