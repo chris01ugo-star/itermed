@@ -96,6 +96,7 @@ export default async function SharedRefertoPage({ params }: RefertoPageProps) {
           totalScore={report.totalScore}
           radarData={report.radarData}
           caseTitle={report.caseTitle}
+          currentCaseId={report.caseId}
           sessionId={report.sessionId}
           shareUrl={`${config.APP_URL}${reportSharePath(report.sessionId)}`}
           accessionCode={reportAccessionCode(report.sessionId)}

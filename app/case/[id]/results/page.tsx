@@ -193,6 +193,7 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
             totalScore={safeNum(session.totalScore)}
             radarData={radarData}
             caseTitle={registered?.title}
+            currentCaseId={caseId}
             sessionId={session.id}
             shareUrl={reportShareUrl(session.id, config.APP_URL)}
             accessionCode={reportAccessionCode(session.id)}

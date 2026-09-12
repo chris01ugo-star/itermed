@@ -53,6 +53,7 @@ type EliteResultsClientProps = {
   totalScore: number;
   radarData: RadarDatumWithKey[];
   caseTitle?: string | null;
+  currentCaseId?: string | null;
   sessionId?: string | null;
   shareUrl?: string | null;
   accessionCode?: string | null;
@@ -340,6 +341,7 @@ export function EliteResultsClient({
   totalScore,
   radarData,
   caseTitle,
+  currentCaseId,
   sessionId,
   shareUrl,
   accessionCode,
@@ -413,8 +415,8 @@ export function EliteResultsClient({
 
   return (
     <div className="space-y-3">
-      <NextPatientModal />
       <article className="overflow-hidden border border-[var(--aequan-border)] bg-[var(--aequan-panel-bg)] shadow-[0_14px_40px_-20px_rgba(30,50,78,0.28)]">
+        <NextPatientModal currentCaseId={currentCaseId} />
         <header className="border-b-[6px] border-[var(--aequan-brand-primary)] bg-[var(--aequan-ui-bg)] px-5 py-4 sm:px-7">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="min-w-0 flex-1">

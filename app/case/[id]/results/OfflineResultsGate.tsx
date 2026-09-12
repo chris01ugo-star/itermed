@@ -26,7 +26,13 @@ function safeNum(value: unknown, fallback = 0): number {
 
 function eliteToClientProps(
   data: EliteReportData,
-  extras: { caseTitle?: string; sessionId?: string; correctSolution?: string; legalSources?: string[] },
+  extras: {
+    caseTitle?: string;
+    sessionId?: string;
+    currentCaseId?: string;
+    correctSolution?: string;
+    legalSources?: string[];
+  },
 ) {
   const radarData = [
     {
@@ -60,6 +66,7 @@ function eliteToClientProps(
     totalScore: safeNum(data.totalScore),
     radarData,
     caseTitle: extras.caseTitle,
+    currentCaseId: extras.currentCaseId,
     sessionId: extras.sessionId || data.sessionId,
     strengths: Array.isArray(data.feedback?.strengths) ? data.feedback.strengths : [],
     weaknesses: Array.isArray(data.feedback?.weaknesses) ? data.feedback.weaknesses : [],
@@ -158,6 +165,7 @@ export function OfflineResultsGate({
     };
     const props = eliteToClientProps(fallback, {
       caseTitle: caseTitle || caseId,
+      currentCaseId: caseId,
       sessionId,
       correctSolution,
       legalSources,
@@ -167,6 +175,7 @@ export function OfflineResultsGate({
 
   const props = eliteToClientProps(data, {
     caseTitle: caseTitle || caseId,
+    currentCaseId: caseId,
     sessionId,
     correctSolution,
     legalSources,
