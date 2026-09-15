@@ -123,6 +123,27 @@ export function LoginForm({ googleEnabled = false }: LoginFormProps) {
             >
               {loading ? "Accesso…" : "Entra in AEQUAN"}
             </button>
+            <p className="text-xs leading-relaxed text-gray-500">
+              Accedendo, confermi di aver letto e accettato i nostri{" "}
+              <Link
+                href="/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-[#1E324E] underline-offset-2 hover:underline"
+              >
+                Termini di Servizio
+              </Link>{" "}
+              e la{" "}
+              <Link
+                href="/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-[#1E324E] underline-offset-2 hover:underline"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
           </form>
         </div>
 

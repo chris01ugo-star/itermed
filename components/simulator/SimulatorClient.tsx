@@ -3029,7 +3029,12 @@ export function SimulatorClient({
           <DialogHeader>
             <DialogTitle>Disclaimer medico-legale</DialogTitle>
             <DialogDescription>
-              <p>
+              <p className="rounded-md border border-amber-400 bg-amber-50 px-3 py-2 font-medium text-amber-950">
+                Aequan è una piattaforma di simulazione didattica avanzata. NON è un Dispositivo
+                Medico ai sensi del Regolamento UE 2017/745. Non utilizzare per decisioni cliniche su
+                pazienti reali.
+              </p>
+              <p className="mt-3">
                 Questa piattaforma è destinata esclusivamente a scopi formativi e di simulazione.
                 Le decisioni proposte dall&apos;app, dai modelli di intelligenza artificiale o dai
                 contenuti dei casi non sostituiscono in alcun modo il giudizio clinico,

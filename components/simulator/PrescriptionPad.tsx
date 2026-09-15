@@ -177,7 +177,15 @@ export function PrescriptionPad({
 
   return (
     <Dialog open={open}>
-      <DialogContent className="flex max-h-[min(92dvh,760px)] max-w-[42rem] flex-col overflow-hidden p-0 shadow-2xl">
+      <DialogContent className="relative flex max-h-[min(92dvh,760px)] max-w-[42rem] flex-col overflow-hidden p-0 shadow-2xl">
+        <div
+          role="note"
+          className="shrink-0 border-b-2 border-amber-600 bg-amber-300 px-3 py-2 text-center"
+        >
+          <p className="text-[10px] font-extrabold uppercase leading-snug tracking-[0.08em] text-red-800 sm:text-[11px]">
+            FAC-SIMILE - USO ESCLUSIVAMENTE DIDATTICO - NON VALIDO PER LA DISPENSAZIONE
+          </p>
+        </div>
         <div className="relative overflow-hidden border-b-[6px] border-[#8B1E2D] bg-[#1E324E] px-5 pb-4 pt-4 text-white">
           <div className="pointer-events-none absolute -right-6 -top-8 h-28 w-28 rounded-full border-[10px] border-white/10" />
           <div className="flex items-start justify-between gap-3">
@@ -214,8 +222,18 @@ export function PrescriptionPad({
           </div>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto bg-[#F4EFE4] px-5 py-4">
-          <div className="mb-3 grid grid-cols-2 gap-2 text-[10px] uppercase tracking-[0.12em] text-slate-500">
+        <div className="relative min-h-0 flex-1 overflow-y-auto bg-[#F4EFE4] px-5 py-4">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden"
+          >
+            <p className="rotate-[-28deg] select-none text-center text-[1.35rem] font-black uppercase leading-tight tracking-[0.18em] text-red-700/15 sm:text-2xl">
+              FAC-SIMILE
+              <br />
+              USO DIDATTICO
+            </p>
+          </div>
+          <div className="relative z-[1] mb-3 grid grid-cols-2 gap-2 text-[10px] uppercase tracking-[0.12em] text-slate-500">
             <div className="rounded-sm border border-dashed border-slate-300/80 bg-white/50 px-2.5 py-1.5">
               Reparto <span className="ml-1 font-semibold text-slate-700">Simulazione clinica</span>
             </div>
@@ -224,7 +242,7 @@ export function PrescriptionPad({
             </div>
           </div>
 
-          <div ref={searchWrapRef} className="relative">
+          <div ref={searchWrapRef} className="relative z-[1]">
             <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.16em] text-slate-600">
               Farmaco (nome commerciale / principio attivo)
             </label>
@@ -311,7 +329,7 @@ export function PrescriptionPad({
           </div>
 
           {selected && selectedBand ? (
-            <div className="mt-3 overflow-hidden rounded-sm border border-slate-300 bg-white">
+            <div className="relative z-[1] mt-3 overflow-hidden rounded-sm border border-slate-300 bg-white">
               <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-3 py-1.5">
                 <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
                   Riga di terapia
@@ -349,12 +367,12 @@ export function PrescriptionPad({
               </div>
             </div>
           ) : (
-            <p className="mt-3 border border-dashed border-slate-300 bg-white/40 px-3 py-2 text-[11px] text-slate-500">
+            <p className="relative z-[1] mt-3 border border-dashed border-slate-300 bg-white/40 px-3 py-2 text-[11px] text-slate-500">
               Selezionare un farmaco dal menu a tendina per compilare la riga di terapia.
             </p>
           )}
 
-          <div className="mt-4 space-y-3 rounded-sm border border-slate-300 bg-white p-3">
+          <div className="relative z-[1] mt-4 space-y-3 rounded-sm border border-slate-300 bg-white p-3">
             <label className="block space-y-1.5">
               <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-600">
                 Via di somministrazione
@@ -398,7 +416,7 @@ export function PrescriptionPad({
               </p>
             </div>
             <div className="rounded-full border border-dashed border-[#8B1E2D]/40 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-[#8B1E2D]/80">
-              SSN
+              FAC-SIMILE
             </div>
           </div>
           <DialogFooter className="mt-0">
