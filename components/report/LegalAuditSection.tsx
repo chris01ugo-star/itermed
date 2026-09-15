@@ -109,6 +109,23 @@ export function LegalAuditSection({ legalReport, className }: LegalAuditSectionP
             <SafeLlmText as="span">{report.executiveSummary}</SafeLlmText>
           </p>
         ) : null}
+        {report.cognitiveBiases && report.cognitiveBiases.length > 0 ? (
+          <div
+            role="alert"
+            className="mt-4 max-w-3xl border-2 border-amber-500 bg-amber-50 px-4 py-3"
+          >
+            <p className="mb-2 text-sm font-bold text-amber-950">
+              🧠 Fattori Umani e Bias Cognitivi
+            </p>
+            <ul className="list-disc space-y-1.5 pl-5">
+              {report.cognitiveBiases.map((bias, index) => (
+                <li key={`${bias.slice(0, 40)}-${index}`} className="text-sm leading-relaxed text-amber-950">
+                  <SafeLlmText as="span">{bias}</SafeLlmText>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </CardHeader>
 
       <CardContent className="px-5 py-5 sm:px-6">
