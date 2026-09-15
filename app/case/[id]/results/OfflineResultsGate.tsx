@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { EliteResultsClient } from "./EliteResultsClient";
 import { readOfflineReportCache } from "@/lib/reports/offline-report-cache";
+import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
 import type { EliteReportData } from "@/lib/services/simulation-report-data";
 import type {
   ClinicalDeltaRow,
   CoachingFeedback,
   EconomicAnalysis,
-  LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
 
 type OfflineResultsGateProps = {
@@ -43,7 +43,9 @@ function eliteToClientProps(
     {
       metric: "Tutela medico-legale",
       key: "legalComplianceGelliBianco",
-      score: safeNum(data.scores.legal),
+      score:
+        legalCompliancePercentFromAudit(data.legalAudit) ??
+        safeNum(data.scores.legal),
     },
     {
       metric: "Appropriatezza esami",
@@ -71,20 +73,14 @@ function eliteToClientProps(
     strengths: Array.isArray(data.feedback?.strengths) ? data.feedback.strengths : [],
     weaknesses: Array.isArray(data.feedback?.weaknesses) ? data.feedback.weaknesses : [],
     correctSolution: extras.correctSolution || data.feedback?.correctSolution,
-    legalProtectionStatus: data.legalProtectionStatus as LegalProtectionStatus | undefined,
     clinicalDeltaTable: (Array.isArray(data.clinicalDeltaTable)
       ? data.clinicalDeltaTable
       : []) as ClinicalDeltaRow[],
     economicAnalysis: data.economicAnalysis as EconomicAnalysis | undefined,
     coachingFeedback: data.coachingFeedback as CoachingFeedback | undefined,
-    legalSources:
-      extras.legalSources && extras.legalSources.length > 0
-        ? extras.legalSources
-        : Array.isArray(data.evidence?.legalSources)
-          ? data.evidence.legalSources
-          : [],
     empathyBreakdown: data.empathyBreakdown ?? data.scoreBreakdown?.empathy ?? null,
     scoreBreakdown: data.scoreBreakdown ?? null,
+    legalReport: data.legalAudit ?? null,
   };
 }
 
@@ -120,10 +116,14 @@ export function OfflineResultsGate({
         const payload = (await res.json().catch(() => null)) as {
           status?: string;
           reportData?: EliteReportData | null;
+          legalReport?: EliteReportData["legalAudit"] | null;
         } | null;
         if (cancelled) return;
         if (res.ok && payload?.status === "COMPLETED" && payload.reportData) {
-          setData(payload.reportData);
+          setData({
+            ...payload.reportData,
+            legalAudit: payload.reportData.legalAudit ?? payload.legalReport ?? undefined,
+          });
           return;
         }
       } catch {

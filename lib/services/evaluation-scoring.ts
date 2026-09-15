@@ -1371,10 +1371,10 @@ export function dimensionContributionTrentesimi(
 export function computeTotalScoreTrentesimi(scores: DimensionScores): number {
   const w = MACRO_AREA_WEIGHTS;
   const total =
-    dimensionContributionTrentesimi(scores.clinical, w.clinicalDiagnostic) +
-    dimensionContributionTrentesimi(scores.legal, w.legalCompliance) +
-    dimensionContributionTrentesimi(scores.exams, w.examAppropriateness) +
-    dimensionContributionTrentesimi(scores.empathy, w.empathy);
+    dimensionContributionTrentesimi(scores?.clinical ?? 0, w.clinicalDiagnostic) +
+    dimensionContributionTrentesimi(scores?.legal ?? 0, w.legalCompliance) +
+    dimensionContributionTrentesimi(scores?.exams ?? 0, w.examAppropriateness) +
+    dimensionContributionTrentesimi(scores?.empathy ?? 0, w.empathy);
   if (!Number.isFinite(total)) return 0;
   return Math.min(30, Math.max(0, Math.round(total * 10) / 10));
 }

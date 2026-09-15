@@ -3,13 +3,30 @@ import { createLogger } from "@/lib/logger";
 
 const persistLogger = createLogger("persist-chat-turn");
 
+/** Drop leaked speaker labels so restored bubbles show only the utterance. */
+function stripPersistedChatRolePrefix(raw: string): string {
+  let text = raw.trim();
+  for (let i = 0; i < 3; i += 1) {
+    const next = text
+      .replace(
+        /^\s*\[(?:assistant|user|system|function|data|tool|paziente|medico|patient|doctor)\]\s*:?\s*/i,
+        "",
+      )
+      .replace(/^\s*(?:assistant|user|system|paziente|medico|patient|doctor)\s*:\s*/i, "")
+      .trim();
+    if (next === text) break;
+    text = next;
+  }
+  return text;
+}
+
 export type PersistedChatTurn = {
   role: "user" | "assistant";
   content: string;
   createdAt: string;
 };
 
-function parseChatHistory(raw: unknown): PersistedChatTurn[] {
+export function parseChatHistory(raw: unknown): PersistedChatTurn[] {
   if (!Array.isArray(raw)) return [];
 
   return raw
@@ -25,7 +42,7 @@ function parseChatHistory(raw: unknown): PersistedChatTurn[] {
     )
     .map((entry) => ({
       role: entry.role,
-      content: entry.content.trim(),
+      content: stripPersistedChatRolePrefix(entry.content),
       createdAt: entry.createdAt,
     }))
     .filter((entry) => entry.content.length > 0);
@@ -43,7 +60,7 @@ export type PersistChatTurnParams = {
  */
 export async function persistChatTurn(params: PersistChatTurnParams): Promise<void> {
   const { sessionId, userMessage, assistantMessage } = params;
-  const trimmedAssistant = assistantMessage.trim();
+  const trimmedAssistant = stripPersistedChatRolePrefix(assistantMessage);
   if (!trimmedAssistant) return;
 
   const session = await prisma.caseSession.findUnique({
@@ -60,7 +77,7 @@ export async function persistChatTurn(params: PersistChatTurnParams): Promise<vo
   const now = new Date().toISOString();
   const appended: PersistedChatTurn[] = [];
 
-  const trimmedUser = userMessage?.trim();
+  const trimmedUser = userMessage ? stripPersistedChatRolePrefix(userMessage) : "";
   if (trimmedUser) {
     const last = existing[existing.length - 1];
     const isDuplicateUser = last?.role === "user" && last.content === trimmedUser;

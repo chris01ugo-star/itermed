@@ -488,6 +488,8 @@ export type EvaluateSimulationInput = {
   /** Immutable action registry — exact IDs only (Pilastro 2). */
   executedActionIds?: string[];
   requestedExamIds?: string[];
+  /** Structured prescriptions from the Ricettario (Medication packs). */
+  prescribedMedications?: import("@/lib/simulator/prescription-trace").SessionPrescription[];
   /** User-initiated help/consult requests (Pilastro 5 — autonomy tracking). */
   helpRequested?: boolean;
   helpRequestCount?: number;
@@ -802,6 +804,7 @@ function buildUserPrompt(params: {
   goldStandardPath?: string[];
   sessionMilestones?: SessionMilestoneSnapshot[];
   retrievedProtocolText: string;
+  prescribedMedications?: import("@/lib/simulator/prescription-trace").SessionPrescription[];
 }): string {
   const {
     guidelines,
@@ -817,6 +820,7 @@ function buildUserPrompt(params: {
     goldStandardPath,
     sessionMilestones,
     retrievedProtocolText,
+    prescribedMedications = [],
   } = params;
 
   const hasProtocolContext =
@@ -875,6 +879,19 @@ ${fenceContext(
       .join("\n") || "Nessun esame.",
     `COSTO TOTALE CATALOGO: €${totalExamCostEuro.toFixed(2)} | BUDGET TARGET: €${examBudgetEuro}`,
   ].join("\n"),
+)}
+
+${fenceContext(
+  "PRESCRIBED_MEDICATIONS",
+  prescribedMedications.length > 0
+    ? prescribedMedications
+        .map(
+          (rx) =>
+            rx.trace ||
+            `- ${rx.commercialName} (${rx.activeIngredient}) ${rx.dosageForm} via ${rx.route} — €${Number(rx.price).toFixed(2)}`,
+        )
+        .join("\n")
+    : "Nessuna prescrizione farmacologica dal Ricettario.",
 )}
 
 ${fenceContext("WRITTEN_REPORT", reportText || "N/D")}
@@ -954,6 +971,7 @@ export class EvaluationService {
               goldStandardPath: input.goldStandardPath,
               sessionMilestones: input.sessionMilestones,
               retrievedProtocolText,
+              prescribedMedications: input.prescribedMedications,
             }),
           });
           analytical = normalizeAnalyticalEvaluation(result.object);

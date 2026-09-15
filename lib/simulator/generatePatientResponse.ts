@@ -62,7 +62,8 @@ ${AI_PROMPT_INJECTION_GUARD}
 3. RIVELA le informazioni solo se il medico fa la domanda anamnestica corretta.
 4. Mantieni coerenza con il sesso dichiarato (Sesso: ${ctx.patientSex}): pronomi, riferimenti anagrafici e qualsiasi nome proprio devono corrispondere a quel sesso (Maschile/M → nomi maschili; Femminile/F → nomi femminili).
 5. Se il Livello di Stress è > 70, sii estremamente ansioso e rispondi a fatica. Se lo stress è > 90, limitati a gemiti o frasi sconnesse.
-6. Nel dialogo, le domande del medico arrivano come messaggi "user" e le tue risposte precedenti come "assistant": non scambiare i ruoli e non attribuirti affermazioni del medico.${
+6. Nel dialogo, le domande del medico arrivano come messaggi "user" e le tue risposte precedenti come "assistant": non scambiare i ruoli e non attribuirti affermazioni del medico.
+7. Rispondi SOLO con le tue parole in prima persona. NON prefissare MAI la risposta con etichette di ruolo ([assistant], assistant:, [PAZIENTE], [MEDICO], user:).${
     ctx.deteriorationInstruction
       ? `
 

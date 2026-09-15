@@ -8,9 +8,6 @@ import {
   Euro,
   HeartHandshake,
   Scale,
-  Shield,
-  ShieldAlert,
-  ShieldCheck,
   Stethoscope,
   XCircle,
   type LucideIcon,
@@ -19,7 +16,6 @@ import type {
   ClinicalDeltaRow,
   CoachingFeedback,
   EconomicAnalysis,
-  LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
 import { cn } from "@/app/utils/cn";
 import { SafeLlmText } from "@/components/ui/safe-llm-content";
@@ -40,7 +36,13 @@ import {
 } from "@/lib/services/evaluation-scoring";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 import { ReportShareBarcode } from "@/components/report/ReportShareBarcode";
+import { LegalAuditSection } from "@/components/report/LegalAuditSection";
 import { reportAccessionCode, reportShareUrl } from "@/lib/reports/share-link";
+import {
+  coerceLegalReportDto,
+  type FormattedLegalReportDTO,
+} from "@/lib/mappers/legal-audit-mapper";
+import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
 
 type RadarDatumWithKey = RadarDatum & { key?: string };
 
@@ -61,15 +63,14 @@ type EliteResultsClientProps = {
   strengths?: string[];
   weaknesses?: string[];
   correctSolution?: string;
-  legalProtectionStatus?: LegalProtectionStatus;
   clinicalDeltaTable?: ClinicalDeltaRow[];
   economicAnalysis?: EconomicAnalysis;
   coachingFeedback?: CoachingFeedback;
-  legalSources?: string[];
   killerSwitch?: KillerSwitchTrace;
   fatalErrors?: FatalErrorUi[];
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
+  legalReport?: FormattedLegalReportDTO | LegalAuditResult | null;
 };
 
 const PILLARS: Array<{
@@ -99,7 +100,6 @@ const PILLARS: Array<{
     icon: Scale,
     fallbackIndex: 1,
     gradeWeight: MACRO_AREA_WEIGHTS.legalCompliance,
-    coachKey: "tutelaLegale",
     breakdownKey: "legal",
   },
   {
@@ -132,7 +132,6 @@ const PILLARS: Array<{
 
 const COACH_ROWS: Array<{ key: keyof CoachingFeedback; label: string }> = [
   { key: "accuratezza", label: "Clinica" },
-  { key: "tutelaLegale", label: "Tutela" },
   { key: "economicita", label: "Economia" },
   { key: "empatia", label: "Empatia" },
 ];
@@ -150,8 +149,10 @@ function resolvePillarInsight(
   coachingFeedback: CoachingFeedback | undefined,
   scoreBreakdown: ScoreBreakdown | null | undefined,
   empathyNote: string | null,
-  legalJustification: string | undefined,
 ): string | null {
+  // Tutela narrative is executiveSummary, rendered next to the score — not coaching dumps.
+  if (pillar.key === "legalComplianceGelliBianco") return null;
+
   if (pillar.coachKey) {
     const coach = coachingFeedback?.[pillar.coachKey]?.trim();
     if (coach) return coach;
@@ -174,9 +175,6 @@ function resolvePillarInsight(
   if (fromMotivations) return fromMotivations;
 
   if (pillar.key === "empathy" && empathyNote?.trim()) return empathyNote.trim();
-  if (pillar.key === "legalComplianceGelliBianco" && legalJustification?.trim()) {
-    return legalJustification.trim();
-  }
   return null;
 }
 
@@ -268,29 +266,6 @@ function pillarFlag(score: number) {
   };
 }
 
-function legalShieldConfig(status: LegalProtectionStatus["status"]) {
-  switch (status) {
-    case "PROTECTED":
-      return {
-        label: "Protetto",
-        icon: ShieldCheck,
-        chip: STATUS_WASH.safe,
-      };
-    case "PARTIALLY_EXPOSED":
-      return {
-        label: "Parzialmente esposto",
-        icon: Shield,
-        chip: STATUS_WASH.warn,
-      };
-    default:
-      return {
-        label: "Esposto",
-        icon: ShieldAlert,
-        chip: STATUS_WASH.risk,
-      };
-  }
-}
-
 function Accordion({
   title,
   count,
@@ -349,20 +324,20 @@ export function EliteResultsClient({
   strengths = [],
   weaknesses = [],
   correctSolution,
-  legalProtectionStatus,
   clinicalDeltaTable = [],
   economicAnalysis,
   coachingFeedback,
-  legalSources = [],
   killerSwitch,
   fatalErrors = [],
   empathyBreakdown = null,
   scoreBreakdown = null,
+  legalReport = null,
 }: EliteResultsClientProps) {
-  const shield = legalProtectionStatus
-    ? legalShieldConfig(legalProtectionStatus.status)
-    : null;
-  const ShieldIcon = shield?.icon ?? Shield;
+  const legalDto = coerceLegalReportDto(legalReport);
+  const resolvedRadarData = radarData.map((point) => {
+    if (point.key !== "legalComplianceGelliBianco" || !legalDto) return point;
+    return { ...point, score: legalDto.compliancePercentage };
+  });
 
   const normalizedScore = safeDisplayTrentesimi(totalScore);
   const showKillerSwitchBanner =
@@ -603,7 +578,7 @@ export function EliteResultsClient({
               </thead>
               <tbody>
                 {PILLARS.map((pillar, i) => {
-                  const score = resolvePillarScore(radarData, pillar);
+                  const score = resolvePillarScore(resolvedRadarData, pillar);
                   const maxPts =
                     pillar.gradeWeight != null
                       ? Math.round(pillar.gradeWeight * 30)
@@ -617,8 +592,9 @@ export function EliteResultsClient({
                     coachingFeedback,
                     scoreBreakdown,
                     empathyNote,
-                    legalProtectionStatus?.justification,
                   );
+                  const isTutela = pillar.key === "legalComplianceGelliBianco";
+                  const tutelaSummary = isTutela ? legalDto?.executiveSummary?.trim() : "";
                   const flag = pillarFlag(score);
                   const Icon = pillar.icon;
                   return (
@@ -628,7 +604,11 @@ export function EliteResultsClient({
                           <Icon className="h-3.5 w-3.5 shrink-0 text-[var(--aequan-text-secondary)]" strokeWidth={1.75} />
                           {pillar.label}
                         </p>
-                        {insight ? (
+                        {tutelaSummary ? (
+                          <p className="mt-1.5 max-w-md text-sm leading-relaxed text-muted-foreground text-slate-600">
+                            <SafeLlmText as="span">{tutelaSummary}</SafeLlmText>
+                          </p>
+                        ) : insight ? (
                           <p className="mt-1 max-w-sm text-[12px] leading-snug text-[var(--aequan-text-secondary)]">
                             <SafeLlmText as="span" className="whitespace-pre-line">
                               {insight}
@@ -722,45 +702,13 @@ export function EliteResultsClient({
                       : "Bilancio non calcolato per questa sessione."}
                   </td>
                 </tr>
-                <tr>
-                  <td className="border-t border-[var(--aequan-border)] px-4 py-3 font-semibold text-[var(--aequan-brand-primary)]">
-                    Scudo legale
-                  </td>
-                  <td className="border-t border-[var(--aequan-border)] px-4 py-3">
-                    {legalProtectionStatus && shield ? (
-                      <span
-                        className={cn(
-                          "inline-flex items-center gap-1.5 border px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider",
-                          shield.chip,
-                        )}
-                      >
-                        <ShieldIcon className="h-3.5 w-3.5" strokeWidth={1.75} />
-                        {shield.label}
-                      </span>
-                    ) : (
-                      <span className="text-xs text-[var(--aequan-text-secondary)]">Non disponibile</span>
-                    )}
-                  </td>
-                  <td className="border-t border-[var(--aequan-border)] px-4 py-3 text-[13px] leading-snug text-[var(--aequan-text-secondary)]">
-                    {legalProtectionStatus ? (
-                      <>
-                        <SafeLlmText as="span" className="whitespace-pre-line">
-                          {legalProtectionStatus.justification}
-                        </SafeLlmText>
-                        {legalSources.length > 0 ? (
-                          <p className="mt-1 text-[11px] text-[var(--aequan-text-secondary)]">
-                            Fonti · {legalSources.join(" · ")}
-                          </p>
-                        ) : null}
-                      </>
-                    ) : (
-                      "Stato tutela non disponibile."
-                    )}
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>
+        </section>
+
+        <section className="border-t border-[var(--aequan-border)]">
+          <LegalAuditSection legalReport={legalReport ?? legalDto} className="border-0" />
         </section>
 
         <section>
@@ -941,7 +889,7 @@ export function EliteResultsClient({
                 <h2 className="text-[13px] font-semibold text-[var(--aequan-brand-primary)]">Radar competenze</h2>
               </div>
               <div className="h-72 w-full bg-[var(--aequan-border-subtle)] p-3 sm:p-4">
-                <ResultsRadarClient data={radarData} />
+                <ResultsRadarClient data={resolvedRadarData} />
               </div>
             </div>
           </div>
