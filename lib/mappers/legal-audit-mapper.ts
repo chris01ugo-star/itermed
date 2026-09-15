@@ -30,6 +30,7 @@ export interface FormattedLegalReportDTO {
   compliancePercentage: number;
   summaryText: string;
   executiveSummary: string;
+  cognitiveBiases?: string[];
   comparativeAnalysis: FormattedLegalComparativeRow[];
   uncoveredAreas: string[];
 }
@@ -64,6 +65,15 @@ function isLegalAuditResult(value: object): value is LegalAuditResult {
 function clip(value: unknown, max: number): string {
   const text = typeof value === "string" ? value.trim() : "";
   return text.length > max ? text.slice(0, max) : text;
+}
+
+function normalizeCognitiveBiases(value: unknown): string[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  const items = value
+    .map((item) => clip(item, 300))
+    .filter((item): item is string => Boolean(item))
+    .slice(0, 5);
+  return items.length > 0 ? items : undefined;
 }
 
 const FAULT_CATEGORIES: readonly LegalFaultCategory[] = [
@@ -146,7 +156,13 @@ export function coerceLegalReportDto(
   if (!input || typeof input !== "object") return null;
   if (isFormattedLegalReportDTO(input)) {
     const executiveSummary = resolveExecutiveSummary(input, input.summaryText);
-    return { ...input, executiveSummary, summaryText: executiveSummary || input.summaryText };
+    const cognitiveBiases = normalizeCognitiveBiases(input.cognitiveBiases);
+    return {
+      ...input,
+      executiveSummary,
+      summaryText: executiveSummary || input.summaryText,
+      ...(cognitiveBiases ? { cognitiveBiases } : {}),
+    };
   }
   if (isLegalAuditResult(input)) return mapLegalAuditToDTO(input);
   return null;
@@ -170,6 +186,9 @@ export function mapLegalAuditToDTO(
     legalAudit.status === "NOT_EVALUABLE_NO_SOURCES" ||
     legalAudit.overallVerdict === "NOT_EVALUABLE"
   ) {
+    const cognitiveBiases = normalizeCognitiveBiases(
+      legalAudit && "cognitiveBiases" in legalAudit ? legalAudit.cognitiveBiases : undefined,
+    );
     return {
       isEvaluated: false,
       verdictBadge: {
@@ -188,6 +207,7 @@ export function mapLegalAuditToDTO(
         legalAudit,
         "Perizia non eseguibile: manca il corpus normativo di riferimento. Nessuna tutela Gelli-Bianco può essere certificata.",
       ),
+      ...(cognitiveBiases ? { cognitiveBiases } : {}),
       comparativeAnalysis: Array.isArray(legalAudit?.comparativeAnalysis)
         ? legalAudit.comparativeAnalysis
             .map((row) => normalizeComparativeRow(row))
@@ -224,6 +244,9 @@ export function mapLegalAuditToDTO(
   const protectedCount = comparativeAnalysis.filter((row) => row.isProtected).length;
   const fallbackSummary = `Aderenza ${score}% al corpus Gelli-Bianco (${protectedCount}/${comparativeAnalysis.length || 0} confronti tutelati).`;
   const executiveSummary = resolveExecutiveSummary(legalAudit, fallbackSummary);
+  const cognitiveBiases = normalizeCognitiveBiases(
+    "cognitiveBiases" in legalAudit ? legalAudit.cognitiveBiases : undefined,
+  );
 
   return {
     isEvaluated: true,
@@ -235,6 +258,7 @@ export function mapLegalAuditToDTO(
     compliancePercentage: score,
     summaryText: executiveSummary,
     executiveSummary,
+    ...(cognitiveBiases ? { cognitiveBiases } : {}),
     comparativeAnalysis,
     uncoveredAreas: legalAudit.uncoveredAreas || [],
   };

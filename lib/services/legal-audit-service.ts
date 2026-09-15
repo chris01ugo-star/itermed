@@ -63,6 +63,11 @@ export const LegalAuditResultSchema = z.object({
     .describe(
       "Massimo 3 frasi: sintesi chirurgica del profilo di rischio globale e del livello di tutela.",
     ),
+  cognitiveBiases: z
+    .array(z.string().max(300))
+    .max(5)
+    .optional()
+    .describe("Elenco di Bias Cognitivi rilevati (es. 'Chiusura Prematura: il candidato si è fissato sul sintomo respiratorio ignorando i dati cardiaci')."),
   comparativeAnalysis: z
     .array(LegalComparativeRowSchema)
     .min(1)
@@ -76,29 +81,25 @@ export type LegalComparativeRow = z.infer<typeof LegalComparativeRowSchema>;
 export type LegalAuditResult = z.infer<typeof LegalAuditResultSchema>;
 
 export const LEGAL_AUDIT_SYSTEM_PROMPT = `
-AGISCI COME UN PERITO MEDICO-LEGALE (CTU). Valuta l'operato incrociando la Legge Gelli-Bianco con il Codice Deontologico, la Legge 219/2017 e le Linee Guida cliniche presenti nel <<<LEGAL_CORPUS>>>.
+AGISCI COME UN PERITO MEDICO-LEGALE (CTU) SPIETATO E INTRANSIGENTE. Valuta l'operato incrociando la Legge Gelli-Bianco, il Codice Deontologico, la Legge 219/2017 e le Linee Guida EBM (Evidence Based Medicine) presenti nel <<<LEGAL_CORPUS>>>.
 CALCOLO DEL PUNTEGGIO (Parti da 100):
-Omissione grave / Negligenza (es. mancato soccorso, diagnosi errata fatale): -40 a -60 punti.
-Mancato consenso informato (L. 219/2017) prima di esami a rischio: -30 punti.
-Imperizia / Medicina difensiva (esami inutili o non giustificati): -20 punti.
-Farmaco-economia / medicina difensiva prescrittiva (farmaci ad alto costo o inutili in prima linea, spreco SSN): -10 a -15 punti.
-Difetto di documentazione (azione corretta ma non trascritta a referto): -15 punti.
-Se l'utente fa azioni a caso o non fa nulla, il punteggio MASSIMO è 15.
-Scrivi un executiveSummary di 2-3 righe che riassuma spietatamente il livello di tutela del medico.
-
+- Omissione grave / Mancata Diagnosi Differenziale (es. non aver escluso patologie fatali tempo-dipendenti): -40 a -60 punti.
+- Violazione Propedeuticità EBM (es. prescrivere farmaci senza esami preliminari obbligatori, es. creatinina): -30 punti.
+- Mancato consenso informato esplicito (L. 219/2017) prima di procedure a rischio: -30 punti.
+- Imperizia / Medicina difensiva (esami inutili o non giustificati): -20 punti.
+- Bias Cognitivo (es. arrivare alla diagnosi corretta per caso, chiusura prematura, ancoraggio): -20 punti.
+- Farmaco-economia (farmaci ad alto costo in prima linea senza giustificazione, spreco SSN): -10 a -15 punti.
+- Difetto di documentazione (azione corretta ma non trascritta): -15 punti.
+Se l'utente fa azioni a caso o azzecca la diagnosi finale saltando l'intero processo di esclusione, il punteggio MASSIMO è 15.
 REGOLE TASSATIVE:
-1. ZERO ALLUCINAZIONI: Se <<<LEGAL_CORPUS>>> è vuoto o il caso non è coperto, imposta status NOT_EVALUABLE_NO_SOURCES e overallVerdict NOT_EVALUABLE. Non inventare giurisprudenza.
-2. OUTPUT COMPARATIVO + SINTESI: Compila comparativeAnalysis (userAction, requiredAction, isProtected, explanation, sourceQuote, temporalRelevance, faultCategory) e executiveSummary (massimo 3 frasi). Niente elenchi confusi al posto della sintesi.
-3. CITAZIONI PULITE: sourceQuote deve essere una citazione esatta e breve dal LEGAL_CORPUS. Se non puoi citarlo testualmente, lascia sourceQuote vuoto e isProtected = false.
-4. DOCUMENTAZIONE: Se un'azione è corretta ma non è scritta in chat/referto, isProtected = false (in tribunale ciò che non è scritto non è stato fatto) e applica la penalità da 15 punti.
-5. MEDICINA DIFENSIVA / AZIONI CASUALI: Esami o terapie non richieste dal corpus, o condotta disordinata senza percorso, sono isProtected = false.
-6. SCORING A PENALITÀ:
-   - Parti da 100 e sottrai le voci sopra. Non regalare punti per pietà.
-   - overallVerdict FULLY_PROTECTED solo se quasi ogni riga è tutelata e il punteggio resta alto.
-7. ANALISI CRONOLOGICA E TEMPESTIVITÀ: Esamina la sequenza temporale dei turni di chat e delle azioni. Se un intervento salvavita o un esame urgente viene eseguito con un ritardo ingiustificato rispetto agli standard clinici del <<<LEGAL_CORPUS>>>, qualificalo esplicitamente come 'RITARDO DIAGNOSTICO/TERAPEUTICO' e applica una pesante penalità temporale. Compila temporalRelevance su ogni riga rilevante.
-8. QUALIFICAZIONE DELLA COLPA (Art. 5 e 6 L. 24/2017): Distingui nettamente tra Imperizia Lieve (scostamento veniale da linee guida in casi complessi, protetto dall'Art. 5 se si seguono buone pratiche) e Negligenza Grave / Imperizia Grossolana (azioni casuali, omissioni di protocolli di base, farmaci controindicati in anamnesi). La colpa grave azzera la tutela e fa crollare il punteggio a 0-10. Imposta faultCategory: OTTIMALE | IMPERIZIA_LIEVE | NEGLIGENZA_GRAVE | DIFETTO_CONSENSO. NEGLIGENZA_GRAVE ⇒ isProtected = false.
-9. PROFONDITÀ DEL CONSENSO (Legge 219/2017): Non verificare solo se è stato 'ottenuto' un consenso generico, ma se l'utente ha informato il paziente sui rischi specifici prima di procedure invasive. Consenso generico o assente ⇒ faultCategory DIFETTO_CONSENSO e isProtected = false.
-10. FARMACO-ECONOMIA E MEDICINA DIFENSIVA: Analizza le righe di trace contrassegnate come '[AZIONE_MEDICA: PRESCRIZIONE]'. Se il medico prescrive farmaci ad alto costo (es. DOAC, antibiotici di ultima linea) in prima istanza ignorando alternative economiche raccomandate dal <<<LEGAL_CORPUS>>> / linee guida, oppure effettua prescrizioni difensive inutili, qualifica l'azione come faultCategory IMPERIZIA_LIEVE (spreco SSN) e applica una penalità di -10 a -15 punti. In requiredAction ("Cosa avresti dovuto fare") menziona esplicitamente il costo sprecato, es. "Hai prescritto X al costo di 60€, ma le linee guida impongono Y a 5€ come prima linea". Estrai i costi dalle righe di trace (Costo SSN impattato). Non confondere questo scostamento economico con NEGLIGENZA_GRAVE (riservata a farmaci controindicati, omissioni salvavita o protocolli di base ignorati).
+1. LOGICA DI ESCLUSIONE E OMISSIONI: Cerca attivamente cosa NON è stato fatto. Se l'utente emette una diagnosi senza aver prima escluso attivamente le alternative letali, qualificala come 'Omissione di Diagnosi Differenziale' (NEGLIGENZA_GRAVE). Il risultato fortunato finale NON cancella la colpa del processo clinico errato.
+2. PROPEDEUTICITÀ (EBM): Verifica rigorosamente se l'utente ha richiesto gli esami di sicurezza obbligatori prima di una terapia. Se mancano, è 'Scostamento ingiustificato dalle Linee Guida'.
+3. PROFONDITÀ DEL CONSENSO (L. 219/2017): È vietato presumere il consenso. Se l'utente esegue procedure invasive senza esplicitare l'informativa, imposta faultCategory DIFETTO_CONSENSO e isProtected = false.
+4. FATTORI UMANI E BIAS COGNITIVI: Analizza l'intero transcript per identificare errori cognitivi ('Chiusura Prematura', 'Ancoraggio'). Compila il campo 'cognitiveBiases' elencando spietatamente questi errori.
+5. ANALISI CRONOLOGICA E TEMPESTIVITÀ (GOLDEN HOUR): Il tempo è un parametro forense. Se un'azione salvavita o un esame urgente avviene in ritardo, inserisci 'RITARDO DIAGNOSTICO/TERAPEUTICO INACCETTABILE' in temporalRelevance.
+6. FARMACO-ECONOMIA: Se si prescrivono farmaci ad alto costo ignorando alternative economiche raccomandate, applica faultCategory IMPERIZIA_LIEVE, indica il costo sprecato in requiredAction e applica penalità di -15.
+7. DOCUMENTAZIONE: Ciò che non è scritto non è stato fatto. Azioni corrette ma non espresse ⇒ isProtected = false.
+8. ZERO ALLUCINAZIONI: Niente corpus ⇒ status NOT_EVALUABLE_NO_SOURCES.
 `;
 
 const EMPTY_LEGAL_AUDIT: LegalAuditResult = {
@@ -193,7 +194,7 @@ export async function runLegalAudit(params: {
     .join("\n---\n");
 
   const userPrompt = `
-Compila comparativeAnalysis (almeno 4 righe se il log lo consente) con faultCategory e temporalRelevance, executiveSummary (2–3 frasi) e complianceScore partendo da 100 con le penalità CTU. Analizza l'ordine temporale del log.
+Compila comparativeAnalysis (almeno 4 righe se il log lo consente) con faultCategory e temporalRelevance, executiveSummary (2–3 frasi), cognitiveBiases (errori cognitivi rilevati, max 5) e complianceScore partendo da 100 con le penalità CTU. Analizza l'ordine temporale del log.
 
 <<<SIMULATION_LOG>>>
 ${JSON.stringify(params.simulationLog, null, 2)}
