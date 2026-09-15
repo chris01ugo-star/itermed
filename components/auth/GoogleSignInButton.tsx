@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { cn } from "@/app/utils/cn";
@@ -44,25 +45,48 @@ export function GoogleSignInButton({
   const isInactive = disabled || loading;
 
   return (
-    <button
-      type="button"
-      disabled={isInactive}
-      aria-disabled={isInactive}
-      title={disabled ? "Disponibile a breve" : undefined}
-      onClick={() => {
-        if (disabled) return;
-        setLoading(true);
-        signIn("google", { callbackUrl }).catch(() => setLoading(false));
-      }}
-      className={cn(
-        "inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-xl border border-slate-200 bg-slate-50/80 text-sm font-medium text-slate-700 transition-colors",
-        disabled
-          ? "cursor-not-allowed opacity-55"
-          : "hover:border-slate-300 hover:bg-white disabled:opacity-60",
-      )}
-    >
-      <GoogleGlyph />
-      {loading ? "Reindirizzamento…" : label}
-    </button>
+    <div className="space-y-2">
+      <button
+        type="button"
+        disabled={isInactive}
+        aria-disabled={isInactive}
+        title={disabled ? "Disponibile a breve" : undefined}
+        onClick={() => {
+          if (disabled) return;
+          setLoading(true);
+          signIn("google", { callbackUrl }).catch(() => setLoading(false));
+        }}
+        className={cn(
+          "inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-xl border border-slate-200 bg-slate-50/80 text-sm font-medium text-slate-700 transition-colors",
+          disabled
+            ? "cursor-not-allowed opacity-55"
+            : "hover:border-slate-300 hover:bg-white disabled:opacity-60",
+        )}
+      >
+        <GoogleGlyph />
+        {loading ? "Reindirizzamento…" : label}
+      </button>
+      <p className="text-xs leading-relaxed text-gray-500">
+        Continuando con Google, accetti i nostri{" "}
+        <Link
+          href="/terms"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-[#1E324E] underline-offset-2 hover:underline"
+        >
+          Termini
+        </Link>{" "}
+        e la{" "}
+        <Link
+          href="/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-[#1E324E] underline-offset-2 hover:underline"
+        >
+          Privacy Policy
+        </Link>
+        .
+      </p>
+    </div>
   );
 }

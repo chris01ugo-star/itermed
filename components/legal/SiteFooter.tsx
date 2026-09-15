@@ -9,8 +9,10 @@ export function SiteFooter() {
     <footer className="site-footer border-t border-slate-200/80 bg-white/90">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 py-6 sm:px-6">
         <div className="flex w-full flex-col items-center justify-between gap-4 sm:flex-row sm:items-start">
-          <p className="text-center text-[11px] text-slate-500 sm:text-left">
-            © {year} Aequan · Simulatore formativo medico-legale (solo uso educativo)
+          <p className="max-w-xl text-center text-[11px] leading-relaxed text-slate-500 sm:text-left">
+            © {year} Aequan. Aequan è una piattaforma di simulazione didattica avanzata. NON è un
+            Dispositivo Medico ai sensi del Regolamento UE 2017/745. Non utilizzare per decisioni
+            cliniche su pazienti reali.
           </p>
           <ContactEmail variant="stacked" className="sm:items-end sm:text-right" />
         </div>
