@@ -280,7 +280,8 @@ export function estimateLiveCoaching(input: LiveCoachingInput): LiveCoachingEsti
     clinical * MACRO_AREA_WEIGHTS.clinicalDiagnostic +
       legal * MACRO_AREA_WEIGHTS.legalCompliance +
       exams * MACRO_AREA_WEIGHTS.examAppropriateness +
-      empathy * MACRO_AREA_WEIGHTS.empathy,
+      empathy * MACRO_AREA_WEIGHTS.empathy +
+      scores.economy * MACRO_AREA_WEIGHTS.economicSustainability,
   );
 
   let tip: string;

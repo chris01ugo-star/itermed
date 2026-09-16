@@ -3,10 +3,14 @@ import { describe, it } from "node:test";
 import {
   detectEcgAction,
   detectOxygenSupport,
+  extractCanonicalVitalsJson,
   formatBloodPressureFinding,
   goldPathProgress,
   parseBaselineVitals,
+  resolveCaseVitalsForUi,
   resolveMonitorVitals,
+  serializeCanonicalVitalsJson,
+  UNKNOWN_MONITOR_VITALS,
 } from "@/lib/clinical/case-vitals";
 
 describe("case-vitals", () => {
@@ -23,6 +27,61 @@ describe("case-vitals", () => {
     assert.ok(parsed);
     assert.equal(parsed!.spo2, 96);
     assert.equal(parsed!.hr, 88);
+    assert.equal(parsed!.bp, "130/80");
+  });
+
+  it("maps spO2 / hr / bp aliases onto canonical keys without defaults", () => {
+    const canonical = extractCanonicalVitalsJson({
+      vitals: { hr: 145, bp: "135/80", spO2: 97, temp: 36.5, rr: 18 },
+    });
+    assert.deepEqual(canonical, {
+      heartRate: 145,
+      bloodPressure: "135/80",
+      spo2: 97,
+      temperature: 36.5,
+      respiratoryRate: 18,
+    });
+
+    const parsed = parseBaselineVitals({
+      vitals: { heartRate: 145, spo2: 97 },
+    });
+    assert.ok(parsed);
+    assert.equal(parsed!.hr, 145);
+    assert.equal(parsed!.spo2, 97);
+    assert.equal(parsed!.bp, "");
+    assert.ok(!Number.isFinite(parsed!.rr));
+  });
+
+  it("serializeCanonicalVitalsJson is the prompt SSOT object", () => {
+    const baseline = {
+      vitals: {
+        bloodPressure: "140/90",
+        heartRate: 88,
+        spo2: 96,
+        temperature: 36.6,
+        respiratoryRate: 18,
+      },
+    };
+    assert.equal(
+      serializeCanonicalVitalsJson(baseline),
+      JSON.stringify({
+        heartRate: 88,
+        bloodPressure: "140/90",
+        spo2: 96,
+        temperature: 36.6,
+        respiratoryRate: 18,
+      }),
+    );
+    assert.equal(resolveCaseVitalsForUi(baseline).bp, "140/90");
+    assert.equal(resolveCaseVitalsForUi(baseline).hr, 88);
+  });
+
+  it("does not invent hash/demo vitals when the case has no vitals block", () => {
+    const a = resolveMonitorVitals({ caseId: "aaa", baselineExamFindings: null });
+    const b = resolveMonitorVitals({ caseId: "zzz-different-id", baselineExamFindings: {} });
+    assert.deepEqual(a, UNKNOWN_MONITOR_VITALS);
+    assert.deepEqual(b, UNKNOWN_MONITOR_VITALS);
+    assert.equal(resolveCaseVitalsForUi(null).bp, "");
   });
 
   it("does not crash SpO2 from behavioral stress alone", () => {

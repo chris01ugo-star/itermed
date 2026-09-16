@@ -70,6 +70,9 @@ export async function POST(request: Request) {
   const baselineExamFindings = {
     demographics: data.demographics ?? {},
     vitals: data.vitals ?? {},
+    ...(data.clinicalSigns && data.clinicalSigns.length > 0
+      ? { clinicalSigns: data.clinicalSigns }
+      : {}),
     advancedExams: { notes: null, values: {} },
   };
 

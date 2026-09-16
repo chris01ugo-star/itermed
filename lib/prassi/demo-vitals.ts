@@ -1,4 +1,7 @@
-/** Deterministic demo vitals / display names for immersive Prassi UI (not clinical truth). */
+/** Deterministic demo vitals / display names for immersive Prassi UI (not clinical truth).
+ * Live monitor / NIBP / patient prompt MUST use `baselineExamFindings.vitals`
+ * via `resolveCaseVitalsForUi` / `serializeCanonicalVitalsJson` — never this hash.
+ */
 
 function hashSeed(input: string): number {
   let h = 2166136261;

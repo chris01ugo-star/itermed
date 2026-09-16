@@ -86,9 +86,7 @@ CALCOLO DEL PUNTEGGIO (Parti da 100):
 - Omissione grave / Mancata Diagnosi Differenziale (es. non aver escluso patologie fatali tempo-dipendenti): -40 a -60 punti.
 - Violazione Propedeuticità EBM (es. prescrivere farmaci senza esami preliminari obbligatori, es. creatinina): -30 punti.
 - Mancato consenso informato esplicito (L. 219/2017) prima di procedure a rischio: -30 punti.
-- Imperizia / Medicina difensiva (esami inutili o non giustificati): -20 punti.
 - Bias Cognitivo (es. arrivare alla diagnosi corretta per caso, chiusura prematura, ancoraggio): -20 punti.
-- Farmaco-economia (farmaci ad alto costo in prima linea senza giustificazione, spreco SSN): -10 a -15 punti.
 - Difetto di documentazione (azione corretta ma non trascritta): -15 punti.
 Se l'utente fa azioni a caso o azzecca la diagnosi finale saltando l'intero processo di esclusione, il punteggio MASSIMO è 15.
 REGOLE TASSATIVE:
@@ -97,9 +95,8 @@ REGOLE TASSATIVE:
 3. PROFONDITÀ DEL CONSENSO (L. 219/2017): È vietato presumere il consenso. Se l'utente esegue procedure invasive senza esplicitare l'informativa, imposta faultCategory DIFETTO_CONSENSO e isProtected = false.
 4. FATTORI UMANI E BIAS COGNITIVI: Analizza l'intero transcript per identificare errori cognitivi ('Chiusura Prematura', 'Ancoraggio'). Compila il campo 'cognitiveBiases' elencando spietatamente questi errori.
 5. ANALISI CRONOLOGICA E TEMPESTIVITÀ (GOLDEN HOUR): Il tempo è un parametro forense. Se un'azione salvavita o un esame urgente avviene in ritardo, inserisci 'RITARDO DIAGNOSTICO/TERAPEUTICO INACCETTABILE' in temporalRelevance.
-6. FARMACO-ECONOMIA: Se si prescrivono farmaci ad alto costo ignorando alternative economiche raccomandate, applica faultCategory IMPERIZIA_LIEVE, indica il costo sprecato in requiredAction e applica penalità di -15.
-7. DOCUMENTAZIONE: Ciò che non è scritto non è stato fatto. Azioni corrette ma non espresse ⇒ isProtected = false.
-8. ZERO ALLUCINAZIONI: Niente corpus ⇒ status NOT_EVALUABLE_NO_SOURCES.
+6. DOCUMENTAZIONE: Ciò che non è scritto non è stato fatto. Azioni corrette ma non espresse ⇒ isProtected = false.
+7. ZERO ALLUCINAZIONI: Niente corpus ⇒ status NOT_EVALUABLE_NO_SOURCES.
 `;
 
 const EMPTY_LEGAL_AUDIT: LegalAuditResult = {

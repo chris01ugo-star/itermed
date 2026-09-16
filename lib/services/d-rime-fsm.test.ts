@@ -8,8 +8,10 @@ import { describe, it } from "node:test";
 import {
   LLM_INTENT_CONFIDENCE_THRESHOLD,
   STANDARD_INTENT_DELTAS,
+  applyEmpathyStructuralCap,
   applyIntentSequence,
   clampAffectState,
+  EMPATHY_STRUCTURAL_SCORE_CAP,
   selectTurnIntents,
   transitionAffectState,
   type DoctorIntentCategory,
@@ -176,5 +178,66 @@ describe("d-rime-fsm determinism", () => {
     assert.deepEqual(result.finalState, result.initialState);
     assert.deepEqual(result.acts[0]?.intents, ["NEUTRAL"]);
     assert.deepEqual(STANDARD_INTENT_DELTAS.NEUTRAL, { trust: 0, anxiety: 0, defensiveness: 0 });
+  });
+
+  it("FORMULAIC_EMPATHY lowers Trust and raises Defensiveness (less than DISCORDANCE)", () => {
+    const formulaic = transitionAffectState(INITIAL, "FORMULAIC_EMPATHY");
+    assert.equal(formulaic.next.trust, INITIAL.trust + STANDARD_INTENT_DELTAS.FORMULAIC_EMPATHY.trust);
+    assert.equal(
+      formulaic.next.defensiveness,
+      INITIAL.defensiveness + STANDARD_INTENT_DELTAS.FORMULAIC_EMPATHY.defensiveness,
+    );
+    assert.ok(formulaic.next.trust < INITIAL.trust);
+    assert.ok(formulaic.next.defensiveness > INITIAL.defensiveness);
+    assert.ok(STANDARD_INTENT_DELTAS.FORMULAIC_EMPATHY.trust > STANDARD_INTENT_DELTAS.DISCORDANCE.trust);
+  });
+
+  it("EMOTIONAL_BYPASS collapses Trust and spikes Anxiety more than DISCORDANCE", () => {
+    const bypass = transitionAffectState(INITIAL, "EMOTIONAL_BYPASS");
+    assert.equal(bypass.next.trust, INITIAL.trust + STANDARD_INTENT_DELTAS.EMOTIONAL_BYPASS.trust);
+    assert.equal(bypass.next.anxiety, INITIAL.anxiety + STANDARD_INTENT_DELTAS.EMOTIONAL_BYPASS.anxiety);
+    assert.ok(STANDARD_INTENT_DELTAS.EMOTIONAL_BYPASS.trust < STANDARD_INTENT_DELTAS.DISCORDANCE.trust);
+    assert.ok(STANDARD_INTENT_DELTAS.EMOTIONAL_BYPASS.anxiety > STANDARD_INTENT_DELTAS.DISCORDANCE.anxiety);
+  });
+
+  it("OPTION_ELICITATION raises Trust more than VALIDATION", () => {
+    assert.ok(
+      STANDARD_INTENT_DELTAS.OPTION_ELICITATION.trust > STANDARD_INTENT_DELTAS.VALIDATION.trust,
+    );
+    const option = transitionAffectState(INITIAL, "OPTION_ELICITATION");
+    const validation = transitionAffectState(INITIAL, "VALIDATION");
+    assert.ok(option.next.trust > validation.next.trust);
+  });
+});
+
+describe("d-rime empathy structural cap", () => {
+  it("caps composite score at 75 when FORMULAIC_EMPATHY occurs more than twice", () => {
+    const result = applyEmpathyStructuralCap({
+      score: 92,
+      intents: ["FORMULAIC_EMPATHY", "FORMULAIC_EMPATHY", "FORMULAIC_EMPATHY", "VALIDATION"],
+      therapyDecisionRequired: false,
+    });
+    assert.equal(result.score, EMPATHY_STRUCTURAL_SCORE_CAP);
+    assert.equal(result.capped, true);
+  });
+
+  it("caps at 75 when therapy is required and OPTION_ELICITATION is missing", () => {
+    const result = applyEmpathyStructuralCap({
+      score: 88,
+      intents: ["VALIDATION", "EMPATHIC_EXPLORATION", "CLINICAL_DISCLOSURE"],
+      therapyDecisionRequired: true,
+    });
+    assert.equal(result.score, EMPATHY_STRUCTURAL_SCORE_CAP);
+    assert.equal(result.capped, true);
+  });
+
+  it("does not cap when SDM is present and formulaic count is at most 2", () => {
+    const result = applyEmpathyStructuralCap({
+      score: 88,
+      intents: ["VALIDATION", "FORMULAIC_EMPATHY", "FORMULAIC_EMPATHY", "OPTION_ELICITATION"],
+      therapyDecisionRequired: true,
+    });
+    assert.equal(result.score, 88);
+    assert.equal(result.capped, false);
   });
 });

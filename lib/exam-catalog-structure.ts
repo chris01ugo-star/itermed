@@ -111,6 +111,7 @@ export const EXAM_CATALOG_STRUCTURE: CatalogMacroCategory[] = [
   {
     id: "img",
     label: "Immagini",
+    /** Cartella tab «Imaging»: RX, eco, TC, RM, PET — never ECG/EEG/spirometria. */
     groups: [
       {
         id: "rad-eco",
@@ -146,6 +147,7 @@ export const EXAM_CATALOG_STRUCTURE: CatalogMacroCategory[] = [
   {
     id: "strum",
     label: "Strumentale",
+    /** Cartella tab «Strumentale»: ECG, Holter, EEG, spirometria, prove da sforzo. */
     groups: [
       {
         id: "funzionale",

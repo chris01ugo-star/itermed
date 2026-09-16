@@ -1,8 +1,130 @@
 import type { DemoVitals } from "@/lib/prassi/demo-vitals";
-import { deriveDemoVitals } from "@/lib/prassi/demo-vitals";
 import { normalizeStepId } from "@/lib/cases/simulation-time";
 
 export type CaseBaselineVitals = DemoVitals;
+
+/** Canonical keys stored in `clinicalCase.baselineExamFindings.vitals` (Prisma JSON). */
+export const CANONICAL_VITAL_KEYS = [
+  "heartRate",
+  "bloodPressure",
+  "spo2",
+  "temperature",
+  "respiratoryRate",
+] as const;
+
+export type CanonicalVitalKey = (typeof CANONICAL_VITAL_KEYS)[number];
+
+/** SSOT vitals object shared by UI, examine API, and the patient LLM prompt. */
+export type CanonicalVitalsJson = {
+  heartRate?: number | string;
+  bloodPressure?: string;
+  spo2?: number | string;
+  temperature?: number | string;
+  respiratoryRate?: number | string;
+  [extra: string]: unknown;
+};
+
+const VITAL_KEY_ALIASES: Record<string, CanonicalVitalKey> = {
+  heartrate: "heartRate",
+  heart_rate: "heartRate",
+  hr: "heartRate",
+  bloodpressure: "bloodPressure",
+  blood_pressure: "bloodPressure",
+  bp: "bloodPressure",
+  spo2: "spo2",
+  "spo₂": "spo2",
+  sat: "spo2",
+  saturation: "spo2",
+  sao2: "spo2",
+  sp_o2: "spo2",
+  temp: "temperature",
+  temperature: "temperature",
+  rr: "respiratoryRate",
+  respiratory_rate: "respiratoryRate",
+  respiratoryrate: "respiratoryRate",
+};
+
+function aliasToCanonicalKey(rawKey: string): CanonicalVitalKey | null {
+  const trimmed = rawKey.trim();
+  if ((CANONICAL_VITAL_KEYS as readonly string[]).includes(trimmed)) {
+    return trimmed as CanonicalVitalKey;
+  }
+  const lower = trimmed.toLowerCase();
+  if (lower === "spo2") return "spo2";
+  return VITAL_KEY_ALIASES[lower] ?? null;
+}
+
+function firstPresent(record: Record<string, unknown>, keys: string[]): unknown {
+  for (const key of keys) {
+    if (record[key] != null && record[key] !== "") return record[key];
+  }
+  return undefined;
+}
+
+/**
+ * Extract the case vitals JSON (canonical keys + non-alias extras like rhythm).
+ * Never invents values. `spO2` / `hr` / `bp` aliases map onto the canonical names.
+ */
+export function extractCanonicalVitalsJson(
+  baseline: Record<string, unknown> | null | undefined,
+): CanonicalVitalsJson | null {
+  if (!baseline || typeof baseline !== "object") return null;
+  const raw = baseline.vitals;
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
+  const v = raw as Record<string, unknown>;
+
+  const heartRate = firstPresent(v, ["heartRate", "hr", "heart_rate", "heartRate"]);
+  const bloodPressure = firstPresent(v, [
+    "bloodPressure",
+    "bp",
+    "blood_pressure",
+  ]);
+  const spo2 = firstPresent(v, ["spo2", "spO2", "sat", "saturation", "sao2", "sp_o2"]);
+  const temperature = firstPresent(v, ["temperature", "temp"]);
+  const respiratoryRate = firstPresent(v, [
+    "respiratoryRate",
+    "rr",
+    "respiratory_rate",
+  ]);
+
+  const out: CanonicalVitalsJson = {};
+  if (heartRate != null) out.heartRate = heartRate as number | string;
+  if (bloodPressure != null && String(bloodPressure).trim()) {
+    out.bloodPressure = String(bloodPressure).trim();
+  }
+  if (spo2 != null) out.spo2 = spo2 as number | string;
+  if (temperature != null && temperature !== "") {
+    out.temperature = temperature as number | string;
+  }
+  if (respiratoryRate != null) out.respiratoryRate = respiratoryRate as number | string;
+
+  for (const [key, value] of Object.entries(v)) {
+    if (value == null || value === "") continue;
+    if (aliasToCanonicalKey(key)) continue;
+    out[key] = value;
+  }
+
+  if (Object.keys(out).length === 0) return null;
+  return out;
+}
+
+/** Compact JSON string injected into the patient system prompt and chat body. */
+export function serializeCanonicalVitalsJson(
+  baseline: Record<string, unknown> | null | undefined,
+): string {
+  const canonical = extractCanonicalVitalsJson(baseline);
+  if (!canonical) return "";
+  return JSON.stringify(canonical);
+}
+
+/** Monitor placeholder when the case has no vitals block — never a hash/mock. */
+export const UNKNOWN_MONITOR_VITALS: CaseBaselineVitals = {
+  bp: "",
+  hr: Number.NaN,
+  spo2: Number.NaN,
+  temp: "",
+  rr: Number.NaN,
+};
 
 export type MonitorStabilization = {
   /** O₂ / ventilatory support started */
@@ -60,35 +182,48 @@ function asBp(value: unknown): string | null {
   return null;
 }
 
-/** Parse case baseline vitals; null when the case has no usable vitals block. */
+/** Parse case baseline vitals; null when the case has no usable vitals block. Never invents values. */
 export function parseBaselineVitals(
   baseline: Record<string, unknown> | null | undefined,
 ): CaseBaselineVitals | null {
-  if (!baseline || typeof baseline !== "object") return null;
-  const raw = baseline.vitals;
-  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
-  const v = raw as Record<string, unknown>;
+  const canonical = extractCanonicalVitalsJson(baseline);
+  if (!canonical) return null;
 
-  const hr = asNumber(v.heartRate ?? v.hr);
-  const spo2 = asNumber(v.spo2 ?? v.sat ?? v.saturation);
-  const rr = asNumber(v.respiratoryRate ?? v.rr);
-  const tempNum = asNumber(v.temperature ?? v.temp);
-  const bp =
-    asBp(v.bloodPressure ?? v.bp) ??
-    (asNumber(v.systolic) != null && asNumber(v.diastolic) != null
-      ? `${Math.round(asNumber(v.systolic)!)}/${Math.round(asNumber(v.diastolic)!)}`
-      : null);
+  const rawVitals =
+    baseline && typeof baseline === "object"
+      ? (baseline.vitals as Record<string, unknown> | undefined)
+      : undefined;
+
+  const hr = asNumber(canonical.heartRate);
+  const spo2 = asNumber(canonical.spo2);
+  const rr = asNumber(canonical.respiratoryRate);
+  const tempNum = asNumber(canonical.temperature);
+  const bpFromCanonical = canonical.bloodPressure?.trim() || null;
+  const bpNormalized = bpFromCanonical ? asBp(bpFromCanonical) ?? bpFromCanonical : null;
+  const bpFromSysDia =
+    rawVitals && asNumber(rawVitals.systolic) != null && asNumber(rawVitals.diastolic) != null
+      ? `${Math.round(asNumber(rawVitals.systolic)!)}/${Math.round(asNumber(rawVitals.diastolic)!)}`
+      : null;
+  const bp = bpNormalized ?? bpFromSysDia;
 
   if (hr == null && spo2 == null && rr == null && tempNum == null && !bp) {
     return null;
   }
 
+  const tempRaw = canonical.temperature;
+  const temp =
+    tempRaw != null && String(tempRaw).trim()
+      ? String(tempRaw).trim()
+      : tempNum != null
+        ? tempNum.toFixed(1)
+        : "";
+
   return {
-    bp: bp ?? "120/80",
-    hr: hr != null ? Math.round(hr) : 78,
-    spo2: spo2 != null ? Math.round(spo2) : 97,
-    temp: tempNum != null ? tempNum.toFixed(1) : "36.5",
-    rr: rr != null ? Math.round(rr) : 16,
+    bp: bp ?? "",
+    hr: hr != null ? Math.round(hr) : Number.NaN,
+    spo2: spo2 != null ? Math.round(spo2) : Number.NaN,
+    temp,
+    rr: rr != null ? Math.round(rr) : Number.NaN,
   };
 }
 
@@ -97,6 +232,7 @@ export function formatBloodPressureFinding(
   baseline: Record<string, unknown> | null | undefined,
 ): { finding: string; numericValue: number | null } | null {
   if (!baseline || typeof baseline !== "object") return null;
+  const canonical = extractCanonicalVitalsJson(baseline);
   const vitals = (baseline.vitals ?? {}) as Record<string, unknown>;
   const right = asFindingish(vitals.bloodPressureRight);
   const left = asFindingish(vitals.bloodPressureLeft);
@@ -107,7 +243,7 @@ export function formatBloodPressureFinding(
     };
   }
 
-  const raw = vitals.bloodPressure ?? vitals.bp;
+  const raw = canonical?.bloodPressure ?? vitals.bloodPressure ?? vitals.bp;
   if (raw != null) {
     const text = String(raw).trim();
     if (!text) {
@@ -169,22 +305,29 @@ export function goldPathProgress(
   return Math.max(0, Math.min(1, met / gold.length));
 }
 
-function parseBp(bp: string): { sys: number; dia: number } {
+function parseBp(bp: string): { sys: number; dia: number } | null {
   const match = bp.match(/(\d+)\s*\/\s*(\d+)/);
+  if (!match) return null;
   return {
-    sys: match ? Number(match[1]) : 120,
-    dia: match ? Number(match[2]) : 80,
+    sys: Number(match[1]),
+    dia: Number(match[2]),
   };
+}
+
+/** UI / NIBP / chat: case JSON only — no hash, no mock, no invented defaults. */
+export function resolveCaseVitalsForUi(
+  baseline: Record<string, unknown> | null | undefined,
+): CaseBaselineVitals {
+  return parseBaselineVitals(baseline) ?? UNKNOWN_MONITOR_VITALS;
 }
 
 /**
  * Monitor vitals = case baseline + slow clinical drift.
- * Physical exam does not drive SpO₂; O₂ / ECG / gold path stabilize.
+ * Never falls back to hash-generated demo vitals; missing case JSON → unknown.
  */
 export function resolveMonitorVitals(input: ResolveMonitorVitalsInput): CaseBaselineVitals {
-  const baseline =
-    parseBaselineVitals(input.baselineExamFindings) ??
-    deriveDemoVitals(input.caseId, 0);
+  const baseline = parseBaselineVitals(input.baselineExamFindings);
+  if (!baseline) return UNKNOWN_MONITOR_VITALS;
 
   const clock = Math.max(0, input.clockMinutes ?? 0);
   const threshold =
@@ -244,20 +387,30 @@ export function resolveMonitorVitals(input: ResolveMonitorVitalsInput): CaseBase
   // Cap SpO₂ effect from anxiety alone.
   spo2Delta -= stressFactor * 1.5;
 
-  const { sys, dia } = parseBp(baseline.bp);
+  const parsedBp = parseBp(baseline.bp);
   const tempBase = Number(String(baseline.temp).replace(",", "."));
 
-  const spo2 = Math.max(78, Math.min(100, Math.round(baseline.spo2 + spo2Delta)));
-  const hr = Math.max(35, Math.min(190, Math.round(baseline.hr + hrDelta)));
-  const rr = Math.max(6, Math.min(48, Math.round(baseline.rr + rrDelta)));
-  const sysOut = Math.max(70, Math.min(230, Math.round(sys + sysDelta)));
-  const diaOut = Math.max(40, Math.min(130, Math.round(dia + diaDelta)));
+  const spo2 = Number.isFinite(baseline.spo2)
+    ? Math.max(78, Math.min(100, Math.round(baseline.spo2 + spo2Delta)))
+    : Number.NaN;
+  const hr = Number.isFinite(baseline.hr)
+    ? Math.max(35, Math.min(190, Math.round(baseline.hr + hrDelta)))
+    : Number.NaN;
+  const rr = Number.isFinite(baseline.rr)
+    ? Math.max(6, Math.min(48, Math.round(baseline.rr + rrDelta)))
+    : Number.NaN;
+  const bp = parsedBp
+    ? `${Math.max(70, Math.min(230, Math.round(parsedBp.sys + sysDelta)))}/${Math.max(
+        40,
+        Math.min(130, Math.round(parsedBp.dia + diaDelta)),
+      )}`
+    : baseline.bp;
   const temp = Number.isFinite(tempBase)
     ? Math.max(34, Math.min(41, tempBase + tempDelta)).toFixed(1)
     : baseline.temp;
 
   return {
-    bp: `${sysOut}/${diaOut}`,
+    bp,
     hr,
     spo2,
     temp,

@@ -144,11 +144,16 @@ export function computeCalgaryCambridgeEmpathy(params: {
   sessionMilestones?: Array<{ milestoneKey: string }> | null;
   patientProfile?: PatientProfile | null;
   classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
+  goldStandardPath?: string[] | null;
+  prescribedMedicationCount?: number;
 }): CalgaryEmpathyResult {
   const questions = resolveAnamnesisQuestions(params.caseId, params.anamnesisQuestions);
   const profile = resolvePatientProfile(params.caseId, params.patientProfile);
+  const registered = params.caseId ? getCachedCaseById(params.caseId) : undefined;
   const dRime = evaluateInteractionTrajectory(params.chatHistory, profile, questions, {
     classifiedIntents: params.classifiedIntents,
+    goldStandardPath: params.goldStandardPath ?? registered?.goldStandardPath,
+    prescribedMedicationCount: params.prescribedMedicationCount,
   });
   const mode = resolveClinicalUrgencyMode({
     caseId: params.caseId,

@@ -73,12 +73,17 @@ export function extractDemographics(baseline: Record<string, unknown>): {
       : {};
 
   const age = demographics.age;
-  const sex = demographics.sex;
+  const sexRaw =
+    typeof demographics.sex === "string"
+      ? demographics.sex
+      : typeof demographics.gender === "string"
+        ? demographics.gender
+        : null;
   const context = demographics.context;
 
   return {
     age: typeof age === "number" || typeof age === "string" ? age : null,
-    sex: typeof sex === "string" ? sex : null,
+    sex: sexRaw,
     context: typeof context === "string" ? context : null,
   };
 }

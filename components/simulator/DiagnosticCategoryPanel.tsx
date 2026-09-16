@@ -23,6 +23,10 @@ import {
   type ExamMacroCategory,
   type SimulatorExam,
 } from "@/lib/simulator/exam-catalog";
+import {
+  catalogForChartSection,
+  type ChartDiagnosticSection,
+} from "@/lib/clinical/diagnostic-exam-category";
 
 type DiagnosticCategoryPanelProps = {
   selectedExamIds: string[];
@@ -30,7 +34,10 @@ type DiagnosticCategoryPanelProps = {
   caseExamValues: Record<string, CaseExamOverride>;
   examCatalog: Record<string, ExamClinicalMeta>;
   examMacroCatalog: ExamMacroCategory[];
-  macroFilter: string[];
+  /** Used for Laboratorio (`["lab"]`). Ignored when `chartSection` is set. */
+  macroFilter?: string[];
+  /** Cartella Imaging vs Strumentale — re-buckets mixed catalog rows. */
+  chartSection?: ChartDiagnosticSection;
   disabled?: boolean;
 };
 
@@ -128,14 +135,17 @@ export function DiagnosticCategoryPanel({
   examCatalog,
   examMacroCatalog,
   macroFilter,
+  chartSection,
   disabled = false,
 }: DiagnosticCategoryPanelProps) {
   const [target, setTarget] = useState<PickerTarget | null>(null);
 
-  const macros = useMemo(
-    () => examMacroCatalog.filter((m) => macroFilter.includes(m.id)),
-    [examMacroCatalog, macroFilter],
-  );
+  const macros = useMemo(() => {
+    if (chartSection) {
+      return catalogForChartSection(examMacroCatalog, chartSection);
+    }
+    return examMacroCatalog.filter((m) => (macroFilter ?? []).includes(m.id));
+  }, [chartSection, examMacroCatalog, macroFilter]);
 
   const buttons = useMemo((): CategoryButton[] => {
     if (macros.length === 1 && macros[0].id === "lab") {

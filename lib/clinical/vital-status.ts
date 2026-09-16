@@ -35,24 +35,28 @@ export function maxVitalStatus(statuses: VitalStatus[]): VitalStatus {
 }
 
 function hrStatus(hr: number): VitalStatus {
+  if (!Number.isFinite(hr)) return "stable";
   if (hr < 45 || hr > 130) return "critical";
   if (hr < 55 || hr > 100) return "borderline";
   return "stable";
 }
 
 function spo2Status(spo2: number): VitalStatus {
+  if (!Number.isFinite(spo2)) return "stable";
   if (spo2 < 90) return "critical";
   if (spo2 < 94) return "borderline";
   return "stable";
 }
 
 function rrStatus(rr: number): VitalStatus {
+  if (!Number.isFinite(rr)) return "stable";
   if (rr < 8 || rr > 28) return "critical";
   if (rr < 12 || rr > 20) return "borderline";
   return "stable";
 }
 
 function tempStatus(temp: number): VitalStatus {
+  if (!Number.isFinite(temp)) return "stable";
   if (temp < 35 || temp >= 39) return "critical";
   if (temp < 36 || temp >= 37.8) return "borderline";
   return "stable";
@@ -60,23 +64,28 @@ function tempStatus(temp: number): VitalStatus {
 
 function bpStatus(bp: string): VitalStatus {
   const match = bp.match(/(\d+)\s*\/\s*(\d+)/);
-  if (!match) return "borderline";
+  if (!match) return "stable";
   const sys = Number(match[1]);
   const dia = Number(match[2]);
-  if (!Number.isFinite(sys) || !Number.isFinite(dia)) return "borderline";
+  if (!Number.isFinite(sys) || !Number.isFinite(dia)) return "stable";
   if (sys < 90 || sys > 180 || dia > 110 || dia < 50) return "critical";
   if (sys < 100 || sys > 140 || dia > 90 || dia < 60) return "borderline";
   return "stable";
 }
 
+function displayNumeric(value: number): string {
+  return Number.isFinite(value) ? String(value) : "—";
+}
+
 export function classifyVitals(vitals: DemoVitalsLike): ClassifiedVital[] {
   const tempNum = Number(String(vitals.temp).replace(",", "."));
+  const bpValue = vitals.bp?.trim() ? vitals.bp : "—/—";
   return [
     {
       id: "bp",
       label: "PA",
       fullLabel: "Pressione Arteriosa",
-      value: vitals.bp,
+      value: bpValue,
       unit: "mmHg",
       status: bpStatus(vitals.bp),
     },
@@ -84,7 +93,7 @@ export function classifyVitals(vitals: DemoVitalsLike): ClassifiedVital[] {
       id: "hr",
       label: "FC",
       fullLabel: "Frequenza Cardiaca",
-      value: String(vitals.hr),
+      value: displayNumeric(vitals.hr),
       unit: "bpm",
       status: hrStatus(vitals.hr),
     },
@@ -92,7 +101,7 @@ export function classifyVitals(vitals: DemoVitalsLike): ClassifiedVital[] {
       id: "spo2",
       label: "SpO₂",
       fullLabel: "Saturazione Ossigeno",
-      value: String(vitals.spo2),
+      value: displayNumeric(vitals.spo2),
       unit: "%",
       status: spo2Status(vitals.spo2),
     },
@@ -100,15 +109,15 @@ export function classifyVitals(vitals: DemoVitalsLike): ClassifiedVital[] {
       id: "temp",
       label: "T",
       fullLabel: "Temperatura",
-      value: String(vitals.temp),
+      value: vitals.temp?.trim() ? String(vitals.temp) : "—",
       unit: "°C",
-      status: Number.isFinite(tempNum) ? tempStatus(tempNum) : "borderline",
+      status: Number.isFinite(tempNum) && vitals.temp?.trim() ? tempStatus(tempNum) : "stable",
     },
     {
       id: "rr",
       label: "FR",
       fullLabel: "Frequenza Respiratoria",
-      value: String(vitals.rr),
+      value: displayNumeric(vitals.rr),
       unit: "/min",
       status: rrStatus(vitals.rr),
     },

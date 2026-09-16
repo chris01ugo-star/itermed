@@ -1,13 +1,20 @@
 import type { FatalError, MacroAreaScore, ReportDashboardPayload } from "@/lib/services/evaluation-report-types";
 import type { MacroAreaRationale } from "@/lib/services/evaluation-killer-switch";
 
-const MACRO_KEYS: MacroAreaScore["key"][] = ["clinical", "legal", "economy", "empathy"];
+const MACRO_KEYS: MacroAreaScore["key"][] = [
+  "clinical",
+  "legal",
+  "exams",
+  "empathy",
+  "economy",
+];
 
 const SHORT_LABELS: Record<MacroAreaScore["key"], string> = {
   clinical: "Accuratezza",
   legal: "Sicurezza",
-  economy: "Appropriatezza",
+  exams: "Appropriatezza",
   empathy: "Comunicazione",
+  economy: "Economia",
 };
 
 /** Builds structured JSON for the React Report Dashboard. */

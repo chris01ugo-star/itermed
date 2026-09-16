@@ -9,8 +9,14 @@ import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
-import { deriveDemoVitals } from "@/lib/prassi/demo-vitals";
-import { formatBloodPressureFinding } from "@/lib/clinical/case-vitals";
+import { extractCanonicalVitalsJson, formatBloodPressureFinding } from "@/lib/clinical/case-vitals";
+import {
+  formatClinicalSignFinding,
+  isClinicalSignExamId,
+  matchClinicalSign,
+  NEGATIVE_SEMEIOTIC_FINDING,
+  parseClinicalSigns,
+} from "@/lib/clinical/clinical-signs";
 import {
   derivePhysicalExamFromSummary,
   type KillipClass,
@@ -36,6 +42,29 @@ function asFindingText(value: unknown): string | null {
   return text.length > 0 ? text : null;
 }
 
+function asNumeric(value: unknown): number | null {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string") {
+    const n = Number(value.replace(",", ".").replace(/[^\d.-]/g, ""));
+    return Number.isFinite(n) ? n : null;
+  }
+  return null;
+}
+
+function vitalNumericFinding(
+  value: unknown,
+  label: string,
+  unit: string,
+): { finding: string; numericValue: number | null } | null {
+  if (value == null || value === "") return null;
+  const numericValue = asNumeric(value);
+  if (numericValue != null) {
+    return { finding: `${label} ${numericValue}${unit}`, numericValue };
+  }
+  const text = String(value).trim();
+  return text ? { finding: text, numericValue: null } : null;
+}
+
 function districtFinding(
   physical: Record<string, unknown>,
   district: string,
@@ -51,12 +80,31 @@ function districtFinding(
   return null;
 }
 
+function findingFromClinicalSigns(
+  baseline: Record<string, unknown> | null | undefined,
+  examId: string,
+  examLabel?: string,
+): { finding: string; numericValue: number | null } | null {
+  const signs = parseClinicalSigns(baseline);
+  const matched = matchClinicalSign(signs, { id: examId, label: examLabel });
+  if (matched) {
+    return { finding: formatClinicalSignFinding(matched), numericValue: null };
+  }
+  if (isClinicalSignExamId(examId)) {
+    return { finding: NEGATIVE_SEMEIOTIC_FINDING, numericValue: null };
+  }
+  return null;
+}
+
 function findingFromBaseline(
   baseline: Record<string, unknown> | null | undefined,
   examId: string,
+  examLabel?: string,
 ): { finding: string; numericValue: number | null } | null {
   if (!baseline || typeof baseline !== "object") return null;
-  const vitals = (baseline.vitals ?? {}) as Record<string, unknown>;
+  const fromSign = findingFromClinicalSigns(baseline, examId, examLabel);
+  if (fromSign) return fromSign;
+  const canonical = extractCanonicalVitalsJson(baseline);
   const thorax = (baseline.thorax ?? {}) as Record<string, unknown>;
   const abdomen = (baseline.abdomen ?? {}) as Record<string, unknown>;
   const neuro = (baseline.neuro ?? {}) as Record<string, unknown>;
@@ -70,7 +118,7 @@ function findingFromBaseline(
       killipRaw === "I" || killipRaw === "II" || killipRaw === "III" || killipRaw === "IV"
         ? (killipRaw as KillipClass)
         : null,
-    heartRate: typeof vitals.heartRate === "number" ? vitals.heartRate : null,
+    heartRate: asNumeric(canonical?.heartRate),
   });
 
   let finding: string | null = null;
@@ -78,14 +126,10 @@ function findingFromBaseline(
 
   switch (examId) {
     case "heart-rate": {
-      const v = vitals.heartRate;
-      if (v != null) {
-        if (typeof v === "number") {
-          numericValue = v;
-          finding = `Frequenza cardiaca ${v} bpm`;
-        } else {
-          finding = String(v);
-        }
+      const parsed = vitalNumericFinding(canonical?.heartRate, "Frequenza cardiaca", " bpm");
+      if (parsed) {
+        finding = parsed.finding;
+        numericValue = parsed.numericValue;
       }
       break;
     }
@@ -98,38 +142,30 @@ function findingFromBaseline(
       break;
     }
     case "spo2": {
-      const v = vitals.spo2;
-      if (v != null) {
-        if (typeof v === "number") {
-          numericValue = v;
-          finding = `SpO₂ ${v}%`;
-        } else {
-          finding = String(v);
-        }
+      const parsed = vitalNumericFinding(canonical?.spo2, "SpO₂", "%");
+      if (parsed) {
+        finding = parsed.finding;
+        numericValue = parsed.numericValue;
       }
       break;
     }
     case "temperature": {
-      const v = vitals.temperature;
-      if (v != null) {
-        if (typeof v === "number") {
-          numericValue = v;
-          finding = `Temperatura ${v} °C`;
-        } else {
-          finding = String(v);
-        }
+      const parsed = vitalNumericFinding(canonical?.temperature, "Temperatura", " °C");
+      if (parsed) {
+        finding = parsed.finding;
+        numericValue = parsed.numericValue;
       }
       break;
     }
     case "resp-rate": {
-      const v = vitals.respiratoryRate;
-      if (v != null) {
-        if (typeof v === "number") {
-          numericValue = v;
-          finding = `Frequenza respiratoria ${v} atti/min`;
-        } else {
-          finding = String(v);
-        }
+      const parsed = vitalNumericFinding(
+        canonical?.respiratoryRate,
+        "Frequenza respiratoria",
+        " atti/min",
+      );
+      if (parsed) {
+        finding = parsed.finding;
+        numericValue = parsed.numericValue;
       }
       break;
     }
@@ -300,7 +336,7 @@ export async function POST(req: Request) {
     const session = await prisma.caseSession.findUnique({ where: { id: liveSessionId } });
     const overrides = (session as { examOverrides?: Record<string, unknown> } | null)
       ?.examOverrides;
-    const fromOverrides = findingFromBaseline(overrides, examId);
+    const fromOverrides = findingFromBaseline(overrides, examId, examType);
     if (fromOverrides) {
       return new Response(JSON.stringify(fromOverrides), {
         status: 200,
@@ -333,7 +369,7 @@ export async function POST(req: Request) {
       }
     }
 
-    const fromBaseline = findingFromBaseline(baseline, examId);
+    const fromBaseline = findingFromBaseline(baseline, examId, examType);
     if (fromBaseline) {
       return new Response(JSON.stringify(fromBaseline), {
         status: 200,
@@ -342,15 +378,31 @@ export async function POST(req: Request) {
     }
   }
 
-  if (examId === "blood-pressure") {
-    const synthesized = {
-      finding: `Pressione arteriosa ${deriveDemoVitals(resolvedCaseId ?? "demo").bp} mmHg`,
-      numericValue: null,
-    };
-    return new Response(JSON.stringify(synthesized), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+  if (examId && isClinicalSignExamId(examId)) {
+    return new Response(
+      JSON.stringify({
+        finding: NEGATIVE_SEMEIOTIC_FINDING,
+        numericValue: null,
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
+  // Vital signs must never be invented by the LLM — only baseline JSON.
+  if (
+    examId === "blood-pressure" ||
+    examId === "heart-rate" ||
+    examId === "spo2" ||
+    examId === "temperature" ||
+    examId === "resp-rate"
+  ) {
+    return new Response(
+      JSON.stringify({
+        finding: "Parametro vitale non disponibile nel caso",
+        numericValue: null,
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
   }
 
   const systemPrompt = `

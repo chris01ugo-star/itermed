@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { GoldStandardPathSchema } from "@/lib/cases/case-creator-schemas";
 import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
+import { ClinicalSignsFieldSchema } from "@/lib/clinical/clinical-signs";
 
 /**
  * Canonical vitals required for playable beta cases.
@@ -68,6 +69,8 @@ export const CaseImportBaselineSchema = z.object({
       values: z.record(z.string().min(1), ExamFindingValueSchema).optional(),
     })
     .optional(),
+  clinicalSigns: ClinicalSignsFieldSchema,
+  semeiotics: ClinicalSignsFieldSchema,
 });
 
 export const CaseImportSchema = z.object({
@@ -89,6 +92,8 @@ const VITAL_ALIASES: Record<string, keyof z.infer<typeof CanonicalVitalsSchema>>
   bp: "bloodPressure",
   blood_pressure: "bloodPressure",
   sao2: "spo2",
+  spo2: "spo2",
+  spO2: "spo2",
   sp_o2: "spo2",
   temp: "temperature",
   rr: "respiratoryRate",
@@ -116,6 +121,10 @@ export function normalizeCaseBaselineForImport(
   }
   baseline.vitals = vitalsRaw;
 
+  if (baseline.clinicalSigns == null && baseline.semeiotics != null) {
+    baseline.clinicalSigns = baseline.semeiotics;
+  }
+
   const advanced =
     baseline.advancedExams &&
     typeof baseline.advancedExams === "object" &&
@@ -137,6 +146,8 @@ export function normalizeCaseBaselineForImport(
     "thorax",
     "abdomen",
     "neuro",
+    "clinicalSigns",
+    "semeiotics",
   ]);
 
   for (const [key, value] of Object.entries(baseline)) {

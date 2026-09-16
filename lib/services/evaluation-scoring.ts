@@ -80,11 +80,11 @@ export type DimensionScores = {
    * CONFORME → 100, NON_CONFORME → 0. La UI non mostra questo come voto numerico.
    */
   legal: number;
-  /** Appropriatezza prescrittiva degli esami (0–100). Weight 20% → max 6/30. */
+  /** Appropriatezza prescrittiva degli esami (0–100). Weight 15% → max 4.5/30. */
   exams: number;
-  /** Sostenibilità economica / budget SSN (0–100) — analitica / radar. */
+  /** Sostenibilità economica / budget SSN (0–100). Weight 10% → max 3/30. */
   economy: number;
-  /** Comunicazione e relazione clinica D-RIME (0–100). Weight 20% → max 6/30. */
+  /** Comunicazione e relazione clinica D-RIME (0–100). Weight 15% → max 4.5/30. */
   empathy: number;
 };
 
@@ -1039,6 +1039,8 @@ export function computeBehavioralEmpathyScore(params: {
   sessionMilestones?: Array<{ milestoneKey: string }> | null;
   patientProfile?: import("@/lib/data/cases/types").PatientProfile | null;
   classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
+  goldStandardPath?: string[] | null;
+  prescribedMedicationCount?: number;
 }): { score: number; breakdown: EmpathyBehavioralBreakdown } {
   const result = computeCalgaryCambridgeEmpathy({
     chatHistory: params.chatHistory,
@@ -1049,6 +1051,8 @@ export function computeBehavioralEmpathyScore(params: {
     sessionMilestones: params.sessionMilestones,
     patientProfile: params.patientProfile,
     classifiedIntents: params.classifiedIntents,
+    goldStandardPath: params.goldStandardPath,
+    prescribedMedicationCount: params.prescribedMedicationCount,
   });
   const checklist = Array.isArray(params.empathyChecklist) ? params.empathyChecklist : [];
   const d = result.dRime;
@@ -1185,6 +1189,7 @@ export function deriveDimensionScores(params: {
     sessionMilestones: params.sessionMilestones,
     patientProfile: params.patientProfile,
     classifiedIntents: params.classifiedIntents,
+    goldStandardPath: params.goldStandardPath,
   });
 
   // Attach anamnesis detail to clinical motivations
@@ -1348,15 +1353,17 @@ export function applyPedagogicalSeverityGates(params: {
 export const MACRO_AREA_WEIGHTS = {
   clinicalDiagnostic: 0.3,
   legalCompliance: 0.3,
-  examAppropriateness: 0.2,
-  empathy: 0.2,
+  examAppropriateness: 0.15,
+  empathy: 0.15,
+  economicSustainability: 0.1,
 } as const;
 
 export const MACRO_AREA_MAX_TRENTESIMI = {
   clinicalDiagnostic: 9,
   legalCompliance: 9,
-  examAppropriateness: 6,
-  empathy: 6,
+  examAppropriateness: 4.5,
+  empathy: 4.5,
+  economicSustainability: 3,
 } as const;
 
 export function dimensionContributionTrentesimi(
@@ -1374,7 +1381,8 @@ export function computeTotalScoreTrentesimi(scores: DimensionScores): number {
     dimensionContributionTrentesimi(scores?.clinical ?? 0, w.clinicalDiagnostic) +
     dimensionContributionTrentesimi(scores?.legal ?? 0, w.legalCompliance) +
     dimensionContributionTrentesimi(scores?.exams ?? 0, w.examAppropriateness) +
-    dimensionContributionTrentesimi(scores?.empathy ?? 0, w.empathy);
+    dimensionContributionTrentesimi(scores?.empathy ?? 0, w.empathy) +
+    dimensionContributionTrentesimi(scores?.economy ?? 0, w.economicSustainability);
   if (!Number.isFinite(total)) return 0;
   return Math.min(30, Math.max(0, Math.round(total * 10) / 10));
 }

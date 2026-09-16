@@ -7,6 +7,7 @@ import {
 import type { UserBillingProfile } from "@/lib/billing/user-billing";
 import { hasUnlimitedCaseAccess, hasActiveSponsoredCaseGrant } from "@/lib/billing/unlimited-case-access";
 import { canHonorDailyLimitBypass } from "@/lib/security/dev-only-gates";
+import { PATIENT_MAX_TURNS } from "@/lib/simulator/chat-context-window";
 
 /** Patient chat always uses gpt-4o-mini. gpt-4o is reserved for evaluation/RAG. */
 export type ChatModelId = "gpt-4o-mini";
@@ -16,10 +17,10 @@ export type GateResult =
   | { allowed: false; code: string; message: string; status: number };
 
 /**
- * Default clinical anamnesis cap: 35 user turns ≈ ~70 total chat messages.
+ * Default clinical anamnesis cap: PATIENT_MAX_TURNS user turns ≈ ~70 total chat messages.
  * Complex cases must not be starved mid-history-taking.
  */
-export const DEFAULT_CLINICAL_USER_MESSAGE_LIMIT = 35;
+export const DEFAULT_CLINICAL_USER_MESSAGE_LIMIT = PATIENT_MAX_TURNS;
 
 /** Absolute bounds for per-case overrides (`caseInput.maxUserMessages`). */
 export const MIN_CLINICAL_USER_MESSAGE_LIMIT = 10;

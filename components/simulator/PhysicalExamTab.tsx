@@ -6,6 +6,7 @@ import {
   Brain,
   Check,
   ChevronRight,
+  Hand,
   Search,
   Stethoscope,
   UserRound,
@@ -20,6 +21,10 @@ import {
   DialogTitle,
 } from "@/app/ui/dialog";
 import { cn } from "@/app/utils/cn";
+import {
+  clinicalSignExamId,
+  type ClinicalSign,
+} from "@/lib/clinical/clinical-signs";
 
 type ExamResult = {
   finding: string;
@@ -39,6 +44,8 @@ type PhysicalExamTabProps = {
   resolveSessionId?: () => Promise<string | null>;
   onExamResult?: (payload: { id: string; label: string; result: ExamResult }) => void;
   disabled?: boolean;
+  /** Semeiotics from `baselineExamFindings.clinicalSigns`. */
+  clinicalSigns?: ClinicalSign[];
 };
 
 type ExamItem = { id: string; label: string };
@@ -118,6 +125,7 @@ export function PhysicalExamTab({
   resolveSessionId,
   onExamResult,
   disabled = false,
+  clinicalSigns = [],
 }: PhysicalExamTabProps) {
   const [exams, setExams] = useState<Record<string, ExamState>>({});
   const [activeSection, setActiveSection] = useState<ExamSection | null>(null);
@@ -244,6 +252,75 @@ export function PhysicalExamTab({
           );
         })}
       </div>
+
+      {clinicalSigns.length > 0 ? (
+        <div className="rounded-xl border border-slate-200 bg-white px-3.5 py-3 shadow-sm">
+          <div className="mb-2 flex items-center gap-2">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-teal-50 text-teal-700">
+              <Hand className="h-4 w-4" strokeWidth={1.75} />
+            </span>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-slate-800">Manovre Semeiotiche Chiave</p>
+              <p className="text-[11px] text-slate-500">
+                Esegui la manovra per sbloccare il reperto fisico.
+              </p>
+            </div>
+          </div>
+          <ul className="space-y-2">
+            {clinicalSigns.map((sign) => {
+              const id = clinicalSignExamId(sign);
+              const state = exams[id];
+              const loading = Boolean(state?.loading);
+              const result = state?.result;
+              const error = state?.error;
+              return (
+                <li
+                  key={id}
+                  className={cn(
+                    "rounded-lg border px-3 py-2.5",
+                    result
+                      ? "border-emerald-200 bg-emerald-50/50"
+                      : error
+                        ? "border-rose-200 bg-rose-50/40"
+                        : "border-slate-100 bg-slate-50/70",
+                  )}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="text-sm font-medium text-slate-900">{sign.signName}</p>
+                    <button
+                      type="button"
+                      disabled={loading || disabled}
+                      onClick={() => void runExam(id, sign.signName)}
+                      className={cn(
+                        "inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition",
+                        result
+                          ? "bg-white text-[#345884] ring-1 ring-slate-200 hover:bg-slate-50"
+                          : "bg-[#1E324E] text-white hover:bg-[#2A486D]",
+                        loading && "opacity-60",
+                      )}
+                    >
+                      {loading ? "In corso…" : result ? (
+                        <>
+                          <Check className="h-3.5 w-3.5" />
+                          Ripeti
+                        </>
+                      ) : (
+                        "Esegui"
+                      )}
+                    </button>
+                  </div>
+                  {error ? (
+                    <p className="mt-1.5 text-sm leading-relaxed text-rose-800">{error}</p>
+                  ) : null}
+                  {result ? (
+                    <p className="mt-1.5 text-sm leading-relaxed text-slate-700">{result.finding}</p>
+                  ) : null}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ) : null}
 
       <Dialog open={Boolean(activeSection)}>
         <DialogContent className="relative z-[60] flex max-h-[min(88dvh,640px)] max-w-xl flex-col overflow-hidden p-0">

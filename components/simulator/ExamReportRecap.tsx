@@ -24,6 +24,10 @@ import {
   type ExamMacroCategory,
   type SimulatorExam,
 } from "@/lib/simulator/exam-catalog";
+import {
+  classifyDiagnosticExam,
+  DIAGNOSTIC_CATEGORY_TO_MACRO_ID,
+} from "@/lib/clinical/diagnostic-exam-category";
 import type { ExamClinicalMeta } from "@/lib/exam-default-values";
 import type { CaseExamOverride } from "@/lib/exam-values-meta";
 
@@ -75,11 +79,17 @@ const MACRO_META: Record<
 };
 
 function findMacroForExam(
-  examId: string,
+  exam: SimulatorExam,
   examMacroCatalog: ExamMacroCategory[],
 ): ExamMacroCategory | null {
+  const classified = classifyDiagnosticExam(exam, examMacroCatalog);
+  if (classified !== "OTHER") {
+    const targetId = DIAGNOSTIC_CATEGORY_TO_MACRO_ID[classified];
+    const targeted = examMacroCatalog.find((macro) => macro.id === targetId);
+    if (targeted) return targeted;
+  }
   for (const macro of examMacroCatalog) {
-    if (macro.groups.some((g) => g.exams.some((e) => e.id === examId))) {
+    if (macro.groups.some((g) => g.exams.some((e) => e.id === exam.id))) {
       return macro;
     }
   }
@@ -189,7 +199,7 @@ export function ExamReportRecap({
 
     const byMacro = new Map<string, { macro: ExamMacroCategory; exams: SimulatorExam[] }>();
     for (const exam of exams) {
-      const macro = findMacroForExam(exam.id, examMacroCatalog);
+      const macro = findMacroForExam(exam, examMacroCatalog);
       const key = macro?.id ?? "other";
       const existing = byMacro.get(key);
       if (existing) {

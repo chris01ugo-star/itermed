@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ClinicalSignSchema } from "@/lib/clinical/clinical-signs";
 
 const vitalsSchema = z.object({
   heartRate: z.union([z.number(), z.string()]).optional().nullable(),
@@ -34,6 +35,7 @@ export const AdvancedCaseCreateSchema = z.object({
   isGlobal: z.boolean().optional().default(false),
   demographics: demographicsSchema.optional(),
   vitals: vitalsSchema.optional(),
+  clinicalSigns: z.array(ClinicalSignSchema).max(40).optional(),
   patientPrompt: z.string().max(4000).optional().nullable(),
   timeLimitMinutes: z.number().int().min(5).max(480).optional().nullable(),
   goldStandardPath: GoldStandardPathSchema,

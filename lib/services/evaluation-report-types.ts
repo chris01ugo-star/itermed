@@ -75,7 +75,7 @@ export type FatalError = {
 };
 
 export type MacroAreaScore = {
-  key: "clinical" | "legal" | "economy" | "empathy";
+  key: "clinical" | "legal" | "exams" | "empathy" | "economy";
   label: string;
   shortLabel: string;
   weightPercent: number;

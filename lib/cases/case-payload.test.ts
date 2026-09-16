@@ -16,6 +16,13 @@ const DIRTY_BASELINE = {
   demographics: { age: 58, sex: "M", context: "PS" },
   vitals: { heartRate: 96, bloodPressure: "150/95", spo2: 96, temperature: 36.5, respiratoryRate: 18 },
   physicalExam: { finding: "Paziente inquieto." },
+  clinicalSigns: [
+    {
+      signName: "Segno di Murphy",
+      result: "Positivo, interruzione dell'atto respiratorio",
+      isPositive: true,
+    },
+  ],
   ecg: { finding: "ST underslivellato." },
   goldStandardPath: ["ecg", "troponina"],
   correctSolution: "SCA NSTEMI",
@@ -47,6 +54,7 @@ describe("play-session zero-trust serializer", () => {
     }
     assert.ok(clean.vitals);
     assert.ok(clean.ecg);
+    assert.ok(Array.isArray(clean.clinicalSigns));
     assert.deepEqual(clean.stressProfile, {
       initialStress: 55,
       reactivityType: "hyper",

@@ -28,6 +28,7 @@ import {
   safeDisplayTrentesimi,
 } from "@/lib/scoring/trentesimi";
 import {
+  MACRO_AREA_MAX_TRENTESIMI,
   MACRO_AREA_WEIGHTS,
   dimensionContributionTrentesimi,
   type EmpathyBehavioralBreakdown,
@@ -77,7 +78,8 @@ const PILLARS: Array<{
   label: string;
   icon: LucideIcon;
   fallbackIndex: number;
-  gradeWeight: number | null;
+  gradeWeight: number;
+  maxTrentesimi: number;
   coachKey?: keyof CoachingFeedback;
   breakdownKey?: keyof Pick<
     ScoreBreakdown,
@@ -90,6 +92,7 @@ const PILLARS: Array<{
     icon: Stethoscope,
     fallbackIndex: 0,
     gradeWeight: MACRO_AREA_WEIGHTS.clinicalDiagnostic,
+    maxTrentesimi: MACRO_AREA_MAX_TRENTESIMI.clinicalDiagnostic,
     coachKey: "accuratezza",
     breakdownKey: "clinical",
   },
@@ -99,6 +102,7 @@ const PILLARS: Array<{
     icon: Scale,
     fallbackIndex: 1,
     gradeWeight: MACRO_AREA_WEIGHTS.legalCompliance,
+    maxTrentesimi: MACRO_AREA_MAX_TRENTESIMI.legalCompliance,
     breakdownKey: "legal",
   },
   {
@@ -107,6 +111,7 @@ const PILLARS: Array<{
     icon: Activity,
     fallbackIndex: 2,
     gradeWeight: MACRO_AREA_WEIGHTS.examAppropriateness,
+    maxTrentesimi: MACRO_AREA_MAX_TRENTESIMI.examAppropriateness,
     breakdownKey: "exams",
   },
   {
@@ -114,7 +119,8 @@ const PILLARS: Array<{
     label: "Economia",
     icon: Euro,
     fallbackIndex: 3,
-    gradeWeight: null,
+    gradeWeight: MACRO_AREA_WEIGHTS.economicSustainability,
+    maxTrentesimi: MACRO_AREA_MAX_TRENTESIMI.economicSustainability,
     coachKey: "economicita",
     breakdownKey: "economy",
   },
@@ -124,6 +130,7 @@ const PILLARS: Array<{
     icon: HeartHandshake,
     fallbackIndex: 4,
     gradeWeight: MACRO_AREA_WEIGHTS.empathy,
+    maxTrentesimi: MACRO_AREA_MAX_TRENTESIMI.empathy,
     coachKey: "empatia",
     breakdownKey: "empathy",
   },
@@ -577,14 +584,11 @@ export function EliteResultsClient({
               <tbody>
                 {PILLARS.map((pillar, i) => {
                   const score = resolvePillarScore(resolvedRadarData, pillar);
-                  const maxPts =
-                    pillar.gradeWeight != null
-                      ? Math.round(pillar.gradeWeight * 30)
-                      : null;
-                  const contribution =
-                    pillar.gradeWeight != null
-                      ? dimensionContributionTrentesimi(score, pillar.gradeWeight)
-                      : null;
+                  const maxPts = pillar.maxTrentesimi;
+                  const contribution = dimensionContributionTrentesimi(
+                    score,
+                    pillar.gradeWeight,
+                  );
                   const insight = resolvePillarInsight(
                     pillar,
                     coachingFeedback,
@@ -624,12 +628,10 @@ export function EliteResultsClient({
                         <span className="ml-0.5 text-sm font-medium text-[var(--aequan-text-secondary)]">/100</span>
                       </td>
                       <td className="border-t border-[var(--aequan-border)] px-3 py-3 align-top text-[13px] tabular-nums text-[var(--aequan-brand-primary)]">
-                        {contribution != null && maxPts != null
-                          ? `${String(contribution).replace(".", ",")}/${maxPts}`
-                          : "solo radar"}
+                        {`${String(contribution).replace(".", ",")}/${String(maxPts).replace(".", ",")}`}
                       </td>
                       <td className="border-t border-[var(--aequan-border)] px-3 py-3 align-top text-[12px] text-[var(--aequan-text-secondary)]">
-                        {pillar.gradeWeight != null ? "≥ 70/100 nei limiti" : "Indicatore accessorio"}
+                        ≥ 70/100 nei limiti
                       </td>
                       <td className="border-t border-[var(--aequan-border)] px-3 py-3 align-top">
                         <span

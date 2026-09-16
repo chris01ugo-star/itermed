@@ -70,11 +70,9 @@ import { ScoreProgressRing } from "@/app/case/[id]/results/ScoreProgressRing";
 import { patientDisplayName } from "@/lib/prassi/demo-vitals";
 import { classifyVitals, maxVitalStatus } from "@/lib/clinical/vital-status";
 import {
-  detectEcgAction,
-  detectOxygenSupport,
-  formatMonitorVitalsLine,
-  goldPathProgress,
-  resolveMonitorVitals,
+  formatBloodPressureFinding,
+  resolveCaseVitalsForUi,
+  serializeCanonicalVitalsJson,
 } from "@/lib/clinical/case-vitals";
 import {
   computePatientStress,
@@ -82,6 +80,8 @@ import {
 } from "@/lib/simulator/patient-stress-engine";
 import { isInvasiveExam } from "@/lib/simulator/exam-canonical-registry";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
+import { resolvePatientGrammaticalGender } from "@/lib/simulator/patient-grammatical-gender";
+import { PATIENT_MAX_TURNS } from "@/lib/simulator/chat-context-window";
 import {
   formatPrescriptionTrace,
   formatSsnPrice,
@@ -102,6 +102,8 @@ import {
 } from "../../lib/simulator/exam-catalog";
 import type { CaseExamOverride } from "../../lib/exam-values-meta";
 import { formatAbnormalExamsFromBaseline } from "../../lib/simulator/patientCaseContext";
+import { partitionExamsByChartSection } from "@/lib/clinical/diagnostic-exam-category";
+import { parseClinicalSigns } from "@/lib/clinical/clinical-signs";
 
 type Exam = SimulatorExam;
 
@@ -380,9 +382,9 @@ export function SimulatorClient({
   const [tutorialOpen, setTutorialOpen] = useState(false);
   const [tutorialHydrated, setTutorialHydrated] = useState(false);
   const lastActivityAtRef = useRef<number>(Date.now());
-  const [activeTab, setActiveTab] = useState<"history" | "exam" | "labs" | "imaging" | "notes">(
-    "history",
-  );
+  const [activeTab, setActiveTab] = useState<
+    "history" | "exam" | "labs" | "imaging" | "instrumental" | "notes"
+  >("history");
   const [sessionNotes, setSessionNotes] = useState("");
   const [selectedExamIds, setSelectedExamIds] = useState<string[]>([]);
   const selectedExamIdsRef = useRef<string[]>([]);
@@ -593,60 +595,34 @@ export function SimulatorClient({
   const demoChat = initialCaseData.demographics ?? {};
   const patientAgeForChat = demoChat.age ?? 58;
   const patientSexForChat =
-    demoChat.sex === "F" || demoChat.sex === "M" ? demoChat.sex : "M";
-
-  const monitorStabilization = useMemo(() => {
-    const examIds = selectedExamIds;
-    const findingIds = Object.keys(examFindings);
-    const allKeys = [...examIds, ...findingIds];
-    const gold = initialCaseData.goldStandardPath ?? [];
-    return {
-      hasOxygen: detectOxygenSupport(allKeys),
-      hasEcg: detectEcgAction(allKeys),
-      goldProgress: goldPathProgress(gold, allKeys),
-      invasiveCount: examIds.filter((id) => isInvasiveExam(id)).length,
-      wrongTherapy: gameStatus === "wrong_diagnosis",
-    };
-  }, [
-    selectedExamIds,
-    examFindings,
-    initialCaseData.goldStandardPath,
-    gameStatus,
-  ]);
+    resolvePatientGrammaticalGender(demoChat.sex) ??
+    resolvePatientGrammaticalGender(
+      (demoChat as { gender?: string }).gender,
+    ) ??
+    (typeof demoChat.sex === "string" ? demoChat.sex : "");
 
   const monitorVitals = useMemo(
     () =>
-      resolveMonitorVitals({
-        caseId: initialCaseData.id,
-        baselineExamFindings: initialCaseData.baselineExamFindings as
-          | Record<string, unknown>
-          | undefined,
-        clockMinutes,
-        deteriorationThresholdMinutes: initialCaseData.patientDeteriorationThreshold,
-        caseContext: `${initialCaseData.title} ${initialCaseData.description}`,
-        specialty: initialCaseData.specialty,
-        stabilization: monitorStabilization,
-        behavioralStress: patientStress,
-      }),
-    [
-      initialCaseData.id,
-      initialCaseData.baselineExamFindings,
-      initialCaseData.patientDeteriorationThreshold,
-      initialCaseData.title,
-      initialCaseData.description,
-      initialCaseData.specialty,
-      clockMinutes,
-      monitorStabilization,
-      patientStress,
-    ],
+      resolveCaseVitalsForUi(
+        initialCaseData.baselineExamFindings as Record<string, unknown> | undefined,
+      ),
+    [initialCaseData.baselineExamFindings],
   );
 
   const vitalSignsForChat = useMemo(
     () =>
-      bpMeasured
-        ? formatMonitorVitalsLine(monitorVitals)
-        : `FC ${monitorVitals.hr}; PA non misurata; SpO₂ ${monitorVitals.spo2}%; T ${monitorVitals.temp} °C; FR ${monitorVitals.rr}`,
-    [bpMeasured, monitorVitals],
+      serializeCanonicalVitalsJson(
+        initialCaseData.baselineExamFindings as Record<string, unknown> | undefined,
+      ),
+    [initialCaseData.baselineExamFindings],
+  );
+
+  const clinicalSignsForExam = useMemo(
+    () =>
+      parseClinicalSigns(
+        initialCaseData.baselineExamFindings as Record<string, unknown> | undefined,
+      ),
+    [initialCaseData.baselineExamFindings],
   );
 
   const abnormalExamsForChat = useMemo(
@@ -725,6 +701,7 @@ export function SimulatorClient({
     () => messages.filter((m) => m.role === "user").length,
     [messages],
   );
+  const atTurnLimit = userMessageCount >= PATIENT_MAX_TURNS;
 
   useEffect(() => {
     markUserActivity();
@@ -1094,6 +1071,10 @@ export function SimulatorClient({
     [selectedExamIds, availableExams, resolveExamForSelection],
   );
   const selectedExamsRecentFirst = useMemo(() => [...selectedExams].reverse(), [selectedExams]);
+  const selectedExamsBySection = useMemo(
+    () => partitionExamsByChartSection(selectedExamsRecentFirst, examMacroCatalog),
+    [selectedExamsRecentFirst, examMacroCatalog],
+  );
   const objectiveFindingsRecentFirst = useMemo(
     () => [...Object.values(examFindings)].reverse(),
     [examFindings],
@@ -1288,11 +1269,14 @@ export function SimulatorClient({
 
   const measureBloodPressureFromMonitor = () => {
     if (isPaused || bpMeasured) return;
+    const fromBaseline = formatBloodPressureFinding(
+      initialCaseData.baselineExamFindings as Record<string, unknown> | undefined,
+    );
     handleExamFinding({
       id: "blood-pressure",
       label: "Pressione arteriosa",
-      result: {
-        finding: `Pressione arteriosa ${monitorVitals.bp} mmHg`,
+      result: fromBaseline ?? {
+        finding: "Pressione arteriosa non disponibile nel caso",
         numericValue: null,
       },
     });
@@ -1941,7 +1925,18 @@ export function SimulatorClient({
                       </p>
                     </div>
                   </div>
-                  <AiTransparencyBadge variant="workspace" />
+                  <div className="flex shrink-0 items-center gap-2">
+                    <p
+                      className={cn(
+                        "text-[11px] font-semibold tabular-nums",
+                        atTurnLimit ? "text-rose-700" : userMessageCount >= PATIENT_MAX_TURNS - 5 ? "text-amber-700" : "text-slate-600",
+                      )}
+                      aria-label={`Turno ${Math.min(userMessageCount, PATIENT_MAX_TURNS)} di ${PATIENT_MAX_TURNS}`}
+                    >
+                      Turno {Math.min(userMessageCount, PATIENT_MAX_TURNS)}/{PATIENT_MAX_TURNS}
+                    </p>
+                    <AiTransparencyBadge variant="workspace" />
+                  </div>
                 </div>
                 <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-3">
                   <HistoryChat
@@ -1963,6 +1958,8 @@ export function SimulatorClient({
                     compact
                     fill
                     disabled={isPaused}
+                    userTurnCount={userMessageCount}
+                    maxTurns={PATIENT_MAX_TURNS}
                   />
                 </div>
               </div>
@@ -2035,7 +2032,7 @@ export function SimulatorClient({
                     Cartella clinica elettronica
                   </CardTitle>
                   <CardDescription className="text-xs text-slate-500">
-                    Anamnesi, esame obiettivo, laboratorio e imaging.
+                    Anamnesi, esame obiettivo, laboratorio, imaging e strumentale.
                   </CardDescription>
                 </div>
                 <TabsList className="flex w-full min-w-0 flex-wrap sm:w-auto">
@@ -2067,6 +2064,13 @@ export function SimulatorClient({
                   >
                     Imaging
                   </TabsTrigger>
+                  <TabsTrigger
+                    value="instrumental"
+                    currentValue={activeTab}
+                    onSelect={(value) => setActiveTab(value as typeof activeTab)}
+                  >
+                    Strumentale
+                  </TabsTrigger>
                 </TabsList>
               </CardHeader>
               <CardContent className="min-w-0 w-full pt-0">
@@ -2093,6 +2097,8 @@ export function SimulatorClient({
                       prescriptionBusy={isPrescribeBusy}
                       compact={embedded}
                       disabled={isPaused}
+                      userTurnCount={userMessageCount}
+                      maxTurns={PATIENT_MAX_TURNS}
                     />
                   </TabsContent>
                   <TabsContent value="exam" currentValue={activeTab} className="mt-3 w-full min-w-0">
@@ -2103,6 +2109,7 @@ export function SimulatorClient({
                       caseId={initialCaseData.id}
                       onExamResult={handleExamFinding}
                       disabled={isPaused}
+                      clinicalSigns={clinicalSignsForExam}
                     />
                   </TabsContent>
                   <TabsContent value="labs" currentValue={activeTab} className="mt-3 w-full min-w-0">
@@ -2123,7 +2130,18 @@ export function SimulatorClient({
                       caseExamValues={caseAdvancedExamValues}
                       examCatalog={examCatalog}
                       examMacroCatalog={examMacroCatalog}
-                      macroFilter={["img", "strum", "endo"]}
+                      chartSection="imaging"
+                      disabled={isPaused}
+                    />
+                  </TabsContent>
+                  <TabsContent value="instrumental" currentValue={activeTab} className="mt-3 w-full min-w-0">
+                    <DiagnosticCategoryPanel
+                      selectedExamIds={selectedExamIds}
+                      onToggleExam={toggleExam}
+                      caseExamValues={caseAdvancedExamValues}
+                      examCatalog={examCatalog}
+                      examMacroCatalog={examMacroCatalog}
+                      chartSection="instrumental"
                       disabled={isPaused}
                     />
                   </TabsContent>
@@ -2194,6 +2212,14 @@ export function SimulatorClient({
                         className="shrink-0 whitespace-nowrap"
                       >
                         Imaging
+                      </TabsTrigger>
+                      <TabsTrigger
+                        value="instrumental"
+                        currentValue={activeTab}
+                        onSelect={(value) => setActiveTab(value as typeof activeTab)}
+                        className="shrink-0 whitespace-nowrap"
+                      >
+                        Strumentale
                       </TabsTrigger>
                       <TabsTrigger
                         value="notes"
@@ -2271,6 +2297,7 @@ export function SimulatorClient({
                             caseId={initialCaseData.id}
                             onExamResult={handleExamFinding}
                             disabled={isPaused}
+                            clinicalSigns={clinicalSignsForExam}
                           />
                         </TabsContent>
                         <TabsContent value="labs" currentValue={activeTab} className="mt-0">
@@ -2291,7 +2318,18 @@ export function SimulatorClient({
                             caseExamValues={caseAdvancedExamValues}
                             examCatalog={examCatalog}
                             examMacroCatalog={examMacroCatalog}
-                            macroFilter={["img", "strum", "endo"]}
+                            chartSection="imaging"
+                            disabled={isPaused}
+                          />
+                        </TabsContent>
+                        <TabsContent value="instrumental" currentValue={activeTab} className="mt-0">
+                          <DiagnosticCategoryPanel
+                            selectedExamIds={selectedExamIds}
+                            onToggleExam={toggleExam}
+                            caseExamValues={caseAdvancedExamValues}
+                            examCatalog={examCatalog}
+                            examMacroCatalog={examMacroCatalog}
+                            chartSection="instrumental"
                             disabled={isPaused}
                           />
                         </TabsContent>
@@ -2986,15 +3024,65 @@ export function SimulatorClient({
 
                 <div className="space-y-1.5 border-t border-zinc-200/80 pt-3">
                   <p className="text-[11px] font-medium text-zinc-700">
-                    Esami diagnostici richiesti (valori dal caso)
+                    Laboratorio (valori dal caso)
                   </p>
-                  {selectedExams.length === 0 ? (
+                  {selectedExamsBySection.lab.length === 0 ? (
                     <p className="text-[11px] text-zinc-500">
-                      Nessun esame ancora richiesto in questa sessione.
+                      Nessun esame di laboratorio richiesto.
                     </p>
                   ) : (
-                    <ul className="scrollbar-aequan space-y-2 max-h-[220px] overflow-y-auto pr-1">
-                      {selectedExamsRecentFirst.map((exam) => (
+                    <ul className="scrollbar-aequan space-y-2 max-h-[180px] overflow-y-auto pr-1">
+                      {selectedExamsBySection.lab.map((exam) => (
+                        <li
+                          key={exam.id}
+                          className="rounded-xl border border-zinc-200/80 bg-white px-2.5 py-2 text-[11px]"
+                        >
+                          <p className="text-zinc-800 font-medium">{exam.name}</p>
+                          <p className="text-zinc-600 mt-1 whitespace-pre-line">
+                            {formatExamFinding(exam.id, examCatalog, caseAdvancedExamValues)}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                <div className="space-y-1.5 border-t border-zinc-200/80 pt-3">
+                  <p className="text-[11px] font-medium text-zinc-700">
+                    Imaging (valori dal caso)
+                  </p>
+                  {selectedExamsBySection.imaging.length === 0 ? (
+                    <p className="text-[11px] text-zinc-500">
+                      Nessun esame di imaging richiesto.
+                    </p>
+                  ) : (
+                    <ul className="scrollbar-aequan space-y-2 max-h-[180px] overflow-y-auto pr-1">
+                      {selectedExamsBySection.imaging.map((exam) => (
+                        <li
+                          key={exam.id}
+                          className="rounded-xl border border-zinc-200/80 bg-white px-2.5 py-2 text-[11px]"
+                        >
+                          <p className="text-zinc-800 font-medium">{exam.name}</p>
+                          <p className="text-zinc-600 mt-1 whitespace-pre-line">
+                            {formatExamFinding(exam.id, examCatalog, caseAdvancedExamValues)}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                <div className="space-y-1.5 border-t border-zinc-200/80 pt-3">
+                  <p className="text-[11px] font-medium text-zinc-700">
+                    Esami strumentali (valori dal caso)
+                  </p>
+                  {selectedExamsBySection.instrumental.length === 0 ? (
+                    <p className="text-[11px] text-zinc-500">
+                      Nessun esame strumentale richiesto.
+                    </p>
+                  ) : (
+                    <ul className="scrollbar-aequan space-y-2 max-h-[180px] overflow-y-auto pr-1">
+                      {selectedExamsBySection.instrumental.map((exam) => (
                         <li
                           key={exam.id}
                           className="rounded-xl border border-zinc-200/80 bg-white px-2.5 py-2 text-[11px]"
@@ -3117,7 +3205,7 @@ export function SimulatorClient({
               <p className="text-sm leading-relaxed text-slate-600">
                 Consulta la{" "}
                 <span className="font-semibold text-slate-800">Cartella clinica</span> a destra per
-                anamnesi, esame obiettivo, esami e imaging.
+                anamnesi, esame obiettivo, laboratorio, imaging e strumentale.
               </p>
             </div>
             <div className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3">
@@ -3241,6 +3329,10 @@ type HistoryChatProps = {
   /** Stretch to fill the parent container height instead of a fixed px height. */
   fill?: boolean;
   disabled?: boolean;
+  /** Clinician user turns already sent in this simulation. */
+  userTurnCount?: number;
+  /** Soft-stop budget (must match the chat gate). */
+  maxTurns?: number;
 };
 
 function HistoryChat({
@@ -3259,9 +3351,14 @@ function HistoryChat({
   compact = false,
   fill = false,
   disabled = false,
+  userTurnCount = 0,
+  maxTurns = PATIENT_MAX_TURNS,
 }: HistoryChatProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
+  const atTurnLimit = userTurnCount >= maxTurns;
+  const isAnamnesisComplete =
+    atTurnLimit || /anamnesi completata/i.test(chatError?.message ?? "");
 
   const messageText = (message: HistoryChatProps["messages"][number]): string =>
     getChatMessageText(message);
@@ -3372,7 +3469,15 @@ function HistoryChat({
         ) : null}
       </div>
       <form ref={formRef} onSubmit={onSubmit} className="mt-1 shrink-0 space-y-1.5">
-        {chatError ? (
+        {isAnamnesisComplete ? (
+          <div
+            role="status"
+            className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[12px] leading-snug text-amber-950"
+          >
+            Anamnesi completata. Hai usato i {maxTurns} turni: procedi ora con gli esami
+            di laboratorio/strumentali o con la diagnosi finale.
+          </div>
+        ) : chatError ? (
           <div
             role="alert"
             className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-[12px] text-rose-900"
@@ -3436,21 +3541,27 @@ function HistoryChat({
           <Textarea
             className="min-h-[2.25rem] flex-1 resize-none border-0 bg-transparent p-1.5 text-xs text-slate-800 shadow-none outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
             rows={2}
-            placeholder={disabled ? "Simulazione in pausa" : "Scrivi la domanda al paziente…"}
+            placeholder={
+              atTurnLimit
+                ? `Limite di ${maxTurns} turni raggiunto`
+                : disabled
+                  ? "Simulazione in pausa"
+                  : "Scrivi la domanda al paziente…"
+            }
             value={input}
-            disabled={disabled}
+            disabled={disabled || atTurnLimit}
             onChange={onInputChange}
             onKeyDown={(event) =>
               handleTextareaEnterSubmit(event, {
                 getValue: () => input,
-                isDisabled: isLoading || disabled,
+                isDisabled: isLoading || disabled || atTurnLimit,
                 onSubmit: () => formRef.current?.requestSubmit(),
               })
             }
           />
           <button
             type="submit"
-            disabled={isLoading || disabled || !input.trim()}
+            disabled={isLoading || disabled || atTurnLimit || !input.trim()}
             aria-label="Invia domanda"
             className="mb-0.5 inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-[#1E324E] px-3.5 text-xs font-semibold text-white transition hover:bg-[#2A486D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#345884]/35 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
           >
@@ -3464,9 +3575,22 @@ function HistoryChat({
         </div>
         <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-0.5">
           <ClinicalSimulationDisclaimer />
-          <p className="text-[10px] leading-snug text-slate-400 sm:text-[11px]">
-            <span className="font-medium text-slate-500">Invio</span> invia ·{" "}
-            <span className="font-medium text-slate-500">Shift+Invio</span> a capo
+          <p
+            className={cn(
+              "text-[10px] font-semibold tabular-nums leading-snug sm:text-[11px]",
+              atTurnLimit
+                ? "text-rose-700"
+                : userTurnCount >= maxTurns - 5
+                  ? "text-amber-700"
+                  : "text-slate-500",
+            )}
+            aria-label={`Turno ${Math.min(userTurnCount, maxTurns)} di ${maxTurns}`}
+          >
+            Turno {Math.min(userTurnCount, maxTurns)}/{maxTurns}
+            <span className="ml-2 font-normal text-slate-400">
+              <span className="font-medium text-slate-500">Invio</span> invia ·{" "}
+              <span className="font-medium text-slate-500">Shift+Invio</span> a capo
+            </span>
           </p>
         </div>
       </form>

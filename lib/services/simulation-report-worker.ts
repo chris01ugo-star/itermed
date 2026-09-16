@@ -452,6 +452,8 @@ async function safeRunRelationalAudit(params: {
   };
   clinicalPatientProfile?: import("@/lib/data/cases/types").PatientProfile | null;
   classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
+  goldStandardPath?: string[] | null;
+  prescribedMedicationCount?: number;
   log: Logger;
 }): Promise<RelationalAuditResult> {
   try {
@@ -460,6 +462,8 @@ async function safeRunRelationalAudit(params: {
       patientProfile: params.patientProfile,
       clinicalPatientProfile: params.clinicalPatientProfile,
       classifiedIntents: params.classifiedIntents,
+      goldStandardPath: params.goldStandardPath,
+      prescribedMedicationCount: params.prescribedMedicationCount,
     });
   } catch (error) {
     params.log.warn("Relational audit LLM failed — persisting NOT_EVALUABLE fallback", {
@@ -1014,6 +1018,8 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       patientProfile,
       clinicalPatientProfile: registeredCase?.patientProfile ?? null,
       classifiedIntents,
+      goldStandardPath,
+      prescribedMedicationCount: sessionPrescriptions.length,
       log,
     });
 

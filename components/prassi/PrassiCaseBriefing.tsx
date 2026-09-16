@@ -12,7 +12,7 @@ import {
 import { StartCaseButtons } from "@/components/cases/StartCaseButtons";
 import type { ClinicalCaseRow } from "@/components/dashboard/ClinicalCaseCard";
 import { DIFFICULTY_LABELS, displaySpecialtyName } from "@/lib/dashboard-case-utils";
-import { deriveDemoVitals, patientDisplayName, estimateAgeFromTitle } from "@/lib/prassi/demo-vitals";
+import { patientDisplayName, estimateAgeFromTitle } from "@/lib/prassi/demo-vitals";
 import type { PrassiPastel } from "@/lib/ui/prassi-pastels";
 import { specialtyPastel } from "@/lib/ui/prassi-pastels";
 
@@ -33,7 +33,7 @@ function BriefingBody({
 }) {
   const specialty = displaySpecialtyName(caseRow);
   const difficulty = DIFFICULTY_LABELS[caseRow.difficulty] ?? caseRow.difficulty;
-  const vitals = deriveDemoVitals(caseRow.id);
+  const vitals = caseRow.vitals;
   const name = patientDisplayName(caseRow.id, caseRow.title, caseRow.sex);
   const age = caseRow.age ?? estimateAgeFromTitle(caseRow.title);
 
@@ -75,10 +75,22 @@ function BriefingBody({
           </p>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             {[
-              { icon: Activity, label: "PA", value: vitals.bp },
-              { icon: HeartPulse, label: "FC", value: `${vitals.hr} bpm` },
-              { icon: Droplets, label: "SpO₂", value: `${vitals.spo2}%` },
-              { icon: Thermometer, label: "T", value: `${vitals.temp}°C` },
+              { icon: Activity, label: "PA", value: vitals?.bloodPressure?.trim() || "—" },
+              {
+                icon: HeartPulse,
+                label: "FC",
+                value: vitals?.heartRate != null && vitals.heartRate !== "" ? `${vitals.heartRate} bpm` : "—",
+              },
+              {
+                icon: Droplets,
+                label: "SpO₂",
+                value: vitals?.spo2 != null && vitals.spo2 !== "" ? `${vitals.spo2}%` : "—",
+              },
+              {
+                icon: Thermometer,
+                label: "T",
+                value: vitals?.temperature != null && vitals.temperature !== "" ? `${vitals.temperature}°C` : "—",
+              },
             ].map((item) => {
               const Icon = item.icon;
               return (

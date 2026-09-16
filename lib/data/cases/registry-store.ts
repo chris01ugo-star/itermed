@@ -5,6 +5,7 @@
 
 import { z } from "zod";
 import type { ClinicalCaseRow } from "@/components/dashboard/ClinicalCaseCard";
+import { extractCanonicalVitalsJson } from "@/lib/clinical/case-vitals";
 import type { ClinicalCase, CaseCategory, PrassiDifficultyLabel } from "@/lib/data/cases/types";
 import { CAR_F01 } from "@/lib/data/cases/cardiologia/car-f01";
 import { CAR_F02 } from "@/lib/data/cases/cardiologia/car-f02";
@@ -277,6 +278,16 @@ export function toClinicalCaseRow(
   opts?: { createdById?: string; isGlobal?: boolean },
 ): ClinicalCaseRow {
   const demographics = readDemographics(c.baselineExamFindings);
+  const canonical = extractCanonicalVitalsJson(c.baselineExamFindings);
+  const vitals = canonical
+    ? {
+        heartRate: canonical.heartRate,
+        bloodPressure: canonical.bloodPressure,
+        spo2: canonical.spo2,
+        temperature: canonical.temperature,
+        respiratoryRate: canonical.respiratoryRate,
+      }
+    : null;
   return {
     id: c.id,
     title: c.title,
@@ -287,6 +298,7 @@ export function toClinicalCaseRow(
     medicalSpecialty: { name: c.specialtyLabel },
     sex: demographics.sex,
     age: demographics.age,
+    vitals,
   };
 }
 

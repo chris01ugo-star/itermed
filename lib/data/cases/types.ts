@@ -63,6 +63,11 @@ export type CaseExamDefinition = {
   wasteRationale?: string;
   /** Optional component catalog ids when this row is a panel. */
   componentExamIds?: string[];
+  /**
+   * Cartella section. Prefer this over inferring from mixed Imaging arrays.
+   * `INSTRUMENTAL` = ECG, EEG, spirometria, prove da sforzo; `IMAGING` = RX/TC/RM/eco.
+   */
+  diagnosticCategory?: "IMAGING" | "INSTRUMENTAL" | "ENDOSCOPY" | "LAB";
 };
 
 export type LegalConformityCriterion = {
@@ -163,6 +168,6 @@ export type ClinicalCase = {
     criteria: LegalConformityCriterion[];
     ragReferences: RagLegalReference[];
   };
-  /** Canonical baseline for simulator vitals / findings / budget / stress. */
+  /** Canonical baseline: vitals, findings, budget, stress, `clinicalSigns` (semeiotics). */
   baselineExamFindings: Record<string, unknown>;
 };

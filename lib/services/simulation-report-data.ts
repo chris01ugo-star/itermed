@@ -134,11 +134,11 @@ export function buildSessionReportData(params: {
       legalAudit.overallVerdict !== "NOT_EVALUABLE"
         ? Math.max(0, Math.min(100, Number(legalAudit.complianceScore) || 0))
         : Number(scores.legal) || 0,
-    /** Exam appropriateness (0–100) — feeds the 20% weight of the /30 grade. */
+    /** Exam appropriateness (0–100) — feeds the 15% weight of the /30 grade. */
     prescribingAppropriateness: scores.exams,
     /**
-     * Economic sustainability indicator (0–100) — radar / bilancio SSN only.
-     * Distinct from prescribingAppropriateness; not used in computeTotalScoreTrentesimi.
+     * Economic sustainability (0–100) — feeds the 10% weight of the /30 grade.
+     * Distinct from prescribingAppropriateness (exam appropriateness).
      */
     economicSustainability: scores.economy,
     empathy: scores.empathy,
