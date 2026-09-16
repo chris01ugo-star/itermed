@@ -116,12 +116,15 @@ SEI UN CLASSIFICATORE DI INTENTI COMUNICATIVI IN CONSULENZA CLINICA (RIAS / SPIK
 IL TUO UNICO COMPITO È ETICHETTARE OGNI TURNO DEL MEDICO (role=user) IN UNA O PIÙ CATEGORIE D-RIME.
 
 CATEGORIE AMMESSE (usa ESATTAMENTE questi identificatori):
-- EMPATHIC_EXPLORATION: ascolto aperto, domande sulla percezione/paura, alleanza, decisione condivisa.
+- EMPATHIC_EXPLORATION: ascolto aperto, domande sulla percezione/paura, alleanza.
 - PATERNALISTIC_COMMAND: tono direttivo, sdegno, minimizzazione, "faccia come dico".
-- VALIDATION: legittimazione emotiva, de-escalation, SPIKES-Emotions.
+- VALIDATION: legittimazione emotiva ANCORATA al vissuto specifico del paziente (SPIKES-Emotions). Esempio: "Capisco la paura dell'infarto dopo quello che è successo a suo padre".
+- FORMULAIC_EMPATHY: Frasi fatte, rassicurazioni meccaniche o copia-incolla non ancorate al vissuto specifico del paziente (es. "Stia tranquillo", "Andrà tutto bene", "Non si preoccupi", "Va tutto bene"). NON è VALIDATION.
+- EMOTIONAL_BYPASS: Ignorare un'emozione forte (paura/rabbia) espressa nel turno precedente, rispondendo immediatamente con una domanda clinica o tecnica.
+- OPTION_ELICITATION: Coinvolgere il paziente nella scelta terapeutica (Shared Decision Making): "Quale opzione preferisce?", "Insieme decidiamo se…", alternative di trattamento esplicitate.
 - DEFENSIVE_REACTION: concessione a richieste inappropriate / medicina difensiva.
 - CLINICAL_DISCLOSURE: spiegazione clinica in linguaggio accessibile (SPIKES-Knowledge).
-- DISCORDANCE: mismatch relazionale, distress del paziente ignorato, conflitto.
+- DISCORDANCE: mismatch relazionale, distress del paziente ignorato, conflitto (senza salto immediato al task clinico).
 - NEUTRAL: atto clinico transazionale senza carico relazionale.
 
 REGOLE TASSATIVE:
@@ -131,6 +134,9 @@ REGOLE TASSATIVE:
 4. Per ogni turno medico: 1–3 intenti, ciascuno con confidence 0–1 e una spiegazione breve ancorata alla citazione.
 5. Se non sei sicuro (confidence < 0.60) etichetta NEUTRAL. Non inventare intenti relazionali marcati.
 6. Se il medico ignora un segnale di distress del paziente nel turno successivo, includi DISCORDANCE.
+7. Distingui VALIDATION (specifica, ancorata) da FORMULAIC_EMPATHY (frase fatta). In dubbio su una rassicurazione generica, usa FORMULAIC_EMPATHY.
+8. Se il turno precedente del paziente esprime paura o rabbia e il medico risponde con una domanda clinica/tecnica senza accogliere l'emozione, etichetta EMOTIONAL_BYPASS (non VALIDATION, non EMPATHIC_EXPLORATION).
+9. OPTION_ELICITATION richiede un coinvolgimento esplicito nella scelta. Non basta dire "procediamo" o "le prescrivo".
 `;
 
 const emptyAudit = (params?: {
@@ -280,6 +286,11 @@ export function mapDRimeToRelationalAudit(params: {
   const paternalism = dRime.acts.filter((a) => a.intents.includes("PATERNALISTIC_COMMAND"));
   const discord = dRime.acts.filter((a) => a.intents.includes("DISCORDANCE"));
   const defensive = dRime.acts.filter((a) => a.intents.includes("DEFENSIVE_REACTION"));
+  const formulaic = dRime.acts.filter((a) => a.intents.includes("FORMULAIC_EMPATHY"));
+  const bypass = dRime.acts.filter((a) => a.intents.includes("EMOTIONAL_BYPASS"));
+  const optionElicitation = dRime.acts.filter((a) =>
+    a.intents.includes("OPTION_ELICITATION"),
+  ).length;
 
   const missedSpikes: string[] = [];
   if (explorationCount === 0) missedSpikes.push("Perception / Invitation");
@@ -307,6 +318,26 @@ export function mapDRimeToRelationalAudit(params: {
         "Nel turno successivo, validare il distress prima di qualsiasi informazione tecnica.",
     });
   }
+  for (const act of bypass) {
+    flaws.push({
+      doctorUtteranceOrOmission: act.utterance.slice(0, 240),
+      psychologicalImpact:
+        "Bypass emotivo: Trust in crollo e Anxiety in picco (FSM: EMOTIONAL_BYPASS).",
+      riasViolationType: "Emotional bypass / task intrusion after affect",
+      suggestedEvidenceBasedAlternative:
+        "Validare paura o rabbia (VALIDATION) prima di qualsiasi domanda clinica.",
+    });
+  }
+  for (const act of formulaic) {
+    flaws.push({
+      doctorUtteranceOrOmission: act.utterance.slice(0, 240),
+      psychologicalImpact:
+        "Rassicurazione meccanica: il paziente legge inautenticità (FSM: FORMULAIC_EMPATHY, Trust− Defensiveness+).",
+      riasViolationType: "Formulaic / non-specific empathy",
+      suggestedEvidenceBasedAlternative:
+        "Ancorare la validazione al contenuto emotivo appena espresso dal paziente, non a una frase fatta.",
+    });
+  }
   for (const act of defensive) {
     flaws.push({
       doctorUtteranceOrOmission: act.utterance.slice(0, 240),
@@ -325,7 +356,10 @@ export function mapDRimeToRelationalAudit(params: {
       empathyValidationCount: validationCount,
       jargonWithoutExplanationCount: paternalism.length,
       activeListeningScore: dRime.riasAlignmentScore,
-      sharedDecisionMakingScore: Math.min(100, explorationCount * 25),
+      sharedDecisionMakingScore: Math.min(
+        100,
+        optionElicitation * 40 + explorationCount * 10,
+      ),
     },
     careMeasureChecklist: [
       {
@@ -348,9 +382,9 @@ export function mapDRimeToRelationalAudit(params: {
       },
       {
         dimension: "Helping to take control",
-        observed: explorationCount > 0,
-        evidenceUtterance: evidenceFor(dRime, "EMPATHIC_EXPLORATION"),
-        clinicalImpactNote: "Alleanza e decisione condivisa.",
+        observed: optionElicitation > 0,
+        evidenceUtterance: evidenceFor(dRime, "OPTION_ELICITATION"),
+        clinicalImpactNote: "Shared decision making (OPTION_ELICITATION).",
       },
     ],
     criticalRelationalFlaws: flaws,
@@ -420,6 +454,9 @@ export async function runRelationalAudit(params: {
   };
   clinicalPatientProfile?: PatientProfile | null;
   classifiedIntents?: ClassifiedDoctorTurn[] | null;
+  goldStandardPath?: string[] | null;
+  prescribedMedicationCount?: number;
+  therapyDecisionRequired?: boolean;
 }): Promise<RelationalAuditResult> {
   const { chatHistory, patientProfile } = params;
 
@@ -447,7 +484,12 @@ export async function runRelationalAudit(params: {
     chatHistory,
     params.clinicalPatientProfile ?? null,
     null,
-    { classifiedIntents: classifiedIntents.length > 0 ? classifiedIntents : null },
+    {
+      classifiedIntents: classifiedIntents.length > 0 ? classifiedIntents : null,
+      goldStandardPath: params.goldStandardPath,
+      prescribedMedicationCount: params.prescribedMedicationCount,
+      therapyDecisionRequired: params.therapyDecisionRequired,
+    },
   );
 
   return mapDRimeToRelationalAudit({

@@ -1,7 +1,16 @@
 type ChatTurn = { role: "user" | "assistant" | "system"; content: string };
 
-/** Last N user/assistant turns sent to the patient LLM — no generative summaries. */
-export const PATIENT_CHAT_WINDOW_SIZE = 8;
+/**
+ * Maximum clinician user turns per simulation (anamnesis + PE + therapy plan).
+ * Shared by the chat gate, the LLM dialogue window, and the simulator UI counter.
+ */
+export const PATIENT_MAX_TURNS = 35;
+
+/**
+ * Dialogue messages retained for the patient LLM (user + assistant).
+ * 35 clinician turns × 2 roles so the model still sees the full encounter.
+ */
+export const PATIENT_CHAT_WINDOW_SIZE = PATIENT_MAX_TURNS * 2;
 
 /**
  * Returns the trailing dialogue window for the virtual patient model.

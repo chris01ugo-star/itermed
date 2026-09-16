@@ -120,7 +120,7 @@ export function assembleEliteReportHtml(params: {
         <tr class="empatia-total-row">
           <td colspan="3"><strong>Voto Finale Complessivo (trentesimi)</strong></td>
           <td class="empatia-num"><strong>${finalScore}/30</strong></td>
-          <td>${killerSwitchApplied ? `Calcolo grezzo ${rawScore}/30 — Killer Switch applicato per errore fatale.` : `Somma ponderata delle quattro macro-aree (30% + 30% + 20% + 20%).`}</td>
+          <td>${killerSwitchApplied ? `Calcolo grezzo ${rawScore}/30 — Killer Switch applicato per errore fatale.` : `Somma ponderata delle cinque macro-aree (30% + 30% + 15% + 15% + 10%).`}</td>
         </tr>
       </tbody>
     </table>

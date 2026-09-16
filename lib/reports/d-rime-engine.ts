@@ -13,6 +13,7 @@ import type {
 } from "@/lib/data/cases/types";
 import {
   INTENT_LABELS,
+  applyEmpathyStructuralCap,
   applyIntentSequence,
   compositeDRimeScore,
   scoreRelationalFrameworks,
@@ -244,7 +245,10 @@ const CONCESSION_RE =
   /\b(va bene facciamo (tutto|tutti|la tac|la rm|la pet)|le prescrivo tutto|facciamo tutti gli esami che (vuole|chiede)|ok facciamo la (risonanza|tac|pet|scintigrafia) se insiste|come vuole lei facciamo|le faccio (la pet|tutti gli esami)|prescrivo quello che chiede)\b/i;
 
 const VALIDATION_RE =
-  /capisco|comprendo|mi dispiace|la sua (ansia|preoccupazione|paura)|è normale sentirsi|è comprensibile|riconosco (che|il)|dev['’]?essere difficil|la capisco|la rassicuro|non è sola|non è solo|stia (tranquill|seren)|la sua preoccupazione|capisco la preoccupazione|ha letto molto|è legittimo (avere paura|preoccuparsi)|prendiamo sul serio/i;
+  /capisco la (sua |la )?(ansia|preoccupazione|paura|rabbia)|comprendo (la|il|quanto)|mi dispiace per|la sua (ansia|preoccupazione|paura|rabbia) è|è normale sentirsi|è comprensibile (che|dopo|dopo quello)|riconosco (che|il|quanto)|dev['’]?essere difficil|la capisco su (questo|quello)|non è sola in questo|la sua preoccupazione per|capisco la preoccupazione per|ha letto molto su|è legittimo (avere paura|preoccuparsi|essere arrabbiat)|prendiamo sul serio (quello|la|il)/i;
+
+const FORMULAIC_EMPATHY_RE =
+  /\b(stia (tranquill[oa]|seren[oa])|non si preoccupi|andr[àa] tutto bene|va tutto bene|non è (niente|nulla) di grave|faccia (un bel |un )?respiro|si rilassi|vedrà che passa|è solo (un po['’] di )?stress|la rassicuro|non c['’]è da preoccuparsi|tutto sotto controllo|non è niente)\b/i;
 
 const OPEN_LISTEN_RE =
   /cosa (la|le) (spaventa|preoccupa|fa paura)|di cosa ha (paura|timore)|come (sta )?vivendo|cosa pensa (che sia|di)|cosa ha (letto|capito|sentito)|mi dica|mi racconti|come si sente|ha domande|quanto (ne )?vuole sapere|cosa (le )interessa sap/i;
@@ -253,10 +257,20 @@ const INFORMATION_RE =
   /le spiego|in parole semplic|significa che|l['’]esame serve|serve a (capire|escludere|valutare)|passo dopo passo|in termini semplici|le dico (cosa|perché)|senza (dolore|rischio)|evidenza|linee guida|non è indicato (ora|adesso)|appropriatezza/i;
 
 const ALLIANCE_RE =
-  /insieme (a lei|facciamo|decidiamo)|d['’]accordo\s*\?|procediamo insieme|piano (di cura|condiviso)|prossimo passo|si senta liber|posso (aiutarla|rispondere)|decidiamo insieme/i;
+  /insieme (a lei|facciamo)|d['’]accordo\s*\?|procediamo insieme|piano (di cura|condiviso)|prossimo passo|si senta liber|posso (aiutarla|rispondere)/i;
+
+const OPTION_ELICITATION_RE =
+  /\b(quale (opzione|alternativa|trattamento|terapia|strada) preferisce|preferisce .{0,48} o |insieme (decidiamo|scegliamo)|decidiamo insieme (se|quale|come|il)|vuole che (le )?(spieghi|discutiamo) le alternative|cosa ne pensa (se|di questa (opzione|terapia|scelta))|ha preferenze (sul|sulla|circa|rispetto)|scelta condivisa|le opzioni (sono|che abbiamo|che le propongo)|vuole (partecipare alla|essere coinvolta nella) (scelta|decisione))\b/i;
+
+const CLINICAL_TASK_RE =
+  /\b(ha (dolore|febbre|tosse|nausea|bruciore)|quando è iniziato|dove le fa male|facciamo (l['’])?(ecg|esame|prelievo|tac|rx)|le prescrivo|che farmaci|allergie|pressione|saturazione|la diagnosi|il referto)\b/i;
 
 const PATIENT_DISTRESS_RE =
-  /paura|ansios[oa]|ansia|preoccupat[oa]|ho paura|non ce la faccio|sto malissimo|aiuto|terrorizzat|agitato|ho letto su internet|google dice|dr\.?\s*google|chatgpt|l['’]ia dice/i;
+  /paura|ansios[oa]|ansia|preoccupat[oa]|ho paura|non ce la faccio|sto malissimo|aiuto|terrorizzat|agitato|rabbia|arrabbiat[oa]|indignat|furios|ho letto su internet|google dice|dr\.?\s*google|chatgpt|l['’]ia dice/i;
+
+const THERAPY_GOLD_RE = /terap|prescr|farmac|trattament|piano_?terapeut|posolog/i;
+const THERAPY_TALK_RE =
+  /prescriv|terapia|farmaco|trattamento|posologia|dosaggio|le do (questa |il )?compres|iniziamo (con |la )?terapia/i;
 
 export function classifyDoctorIntentLexical(
   text: string,
@@ -266,6 +280,8 @@ export function classifyDoctorIntentLexical(
   if (!t) return "NEUTRAL";
   if (PATERNALISM_RE.test(t)) return "PATERNALISTIC_COMMAND";
   if (CONCESSION_RE.test(t)) return "DEFENSIVE_REACTION";
+  if (FORMULAIC_EMPATHY_RE.test(t)) return "FORMULAIC_EMPATHY";
+  if (OPTION_ELICITATION_RE.test(t)) return "OPTION_ELICITATION";
   if (VALIDATION_RE.test(t)) return "VALIDATION";
   if (OPEN_LISTEN_RE.test(t) || ALLIANCE_RE.test(t)) return "EMPATHIC_EXPLORATION";
   if (INFORMATION_RE.test(t)) return "CLINICAL_DISCLOSURE";
@@ -273,8 +289,21 @@ export function classifyDoctorIntentLexical(
   return "NEUTRAL";
 }
 
+function looksLikeClinicalTask(text: string): boolean {
+  if (INFORMATION_RE.test(text) || CLINICAL_TASK_RE.test(text)) return true;
+  if (!/\?/.test(text)) return false;
+  if (OPEN_LISTEN_RE.test(text) || OPTION_ELICITATION_RE.test(text) || VALIDATION_RE.test(text)) {
+    return false;
+  }
+  return true;
+}
+
 function isSupportiveIntent(intent: DoctorIntentCategory): boolean {
-  return intent === "VALIDATION" || intent === "EMPATHIC_EXPLORATION";
+  return (
+    intent === "VALIDATION" ||
+    intent === "EMPATHIC_EXPLORATION" ||
+    intent === "OPTION_ELICITATION"
+  );
 }
 
 function resolveTurnIntents(params: {
@@ -289,7 +318,15 @@ function resolveTurnIntents(params: {
     ? selectTurnIntents(classified.intents, lexicalFallback)
     : null;
   const primary = fromLlm ?? [classifyDoctorIntentLexical(params.utterance)];
-  if (params.pendingDistress && !primary.some(isSupportiveIntent) && !primary.includes("DISCORDANCE")) {
+  if (
+    params.pendingDistress &&
+    !primary.some(isSupportiveIntent) &&
+    !primary.includes("DISCORDANCE") &&
+    !primary.includes("EMOTIONAL_BYPASS")
+  ) {
+    if (looksLikeClinicalTask(params.utterance) || primary.includes("CLINICAL_DISCLOSURE")) {
+      return ["EMOTIONAL_BYPASS", ...primary];
+    }
     return ["DISCORDANCE", ...primary];
   }
   return primary;
@@ -323,6 +360,7 @@ function buildInsights(params: {
   spikes: number;
   rias: number;
   care: number;
+  structuralCap?: { capped: boolean; reasons: string[]; score: number };
 }): string[] {
   const insights: string[] = [];
   const cyber = isCyberchondria(params.profile);
@@ -353,6 +391,11 @@ function buildInsights(params: {
   const concessions = params.acts.filter((a) => a.intent === "DEFENSIVE_REACTION").length;
   const validations = params.acts.filter((a) => a.intent === "VALIDATION").length;
   const discord = params.acts.filter((a) => a.intents.includes("DISCORDANCE")).length;
+  const formulaic = params.acts.filter((a) => a.intents.includes("FORMULAIC_EMPATHY")).length;
+  const bypass = params.acts.filter((a) => a.intents.includes("EMOTIONAL_BYPASS")).length;
+  const optionsElicited = params.acts.filter((a) =>
+    a.intents.includes("OPTION_ELICITATION"),
+  ).length;
 
   if (paternalism > 0) {
     insights.push(
@@ -369,9 +412,29 @@ function buildInsights(params: {
       `Rilevate ${discord} discordanze (distress del paziente non raccolto): costo deterministico su Anxiety e Defensiveness.`,
     );
   }
+  if (formulaic > 0) {
+    insights.push(
+      `Rilevate ${formulaic} rassicurazioni formulaiche (FORMULAIC_EMPATHY): fiducia in calo e difensività in aumento — l'empatia non ancorata al vissuto è percepita come inautentica.`,
+    );
+  }
+  if (bypass > 0) {
+    insights.push(
+      `Rilevati ${bypass} bypass emotivi (EMOTIONAL_BYPASS): dopo paura/rabbia il medico è passato al task clinico senza accogliere l'affetto — crollo deterministico di Trust e picco di Anxiety.`,
+    );
+  }
+  if (optionsElicited === 0 && params.acts.length > 0) {
+    insights.push(
+      "Nessuna elicitazione di opzioni (OPTION_ELICITATION): la decisione condivisa non risulta nel trascritto.",
+    );
+  }
   if (validations === 0 && params.acts.length > 0) {
     insights.push(
       "Nessun atto esplicito di validazione emotiva (SPIKES-Emotions / RIAS socio-emotional). L'alleanza resta fragile.",
+    );
+  }
+  if (params.structuralCap?.capped) {
+    insights.push(
+      `Tetto strutturale Empatia 75/100 applicato: ${params.structuralCap.reasons.join("; ")}.`,
     );
   }
   if (params.acts.some((a) => a.addressedDistressCue)) {
@@ -387,13 +450,33 @@ function buildInsights(params: {
     `${D_RIME_REFS.spikes}. ${D_RIME_REFS.rias}. ${D_RIME_REFS.care}. ${D_RIME_REFS.art20}.`,
   );
 
-  return insights.slice(0, 8);
+  return insights.slice(0, 10);
 }
 
 export type EvaluateTrajectoryOptions = {
   /** LLM-extracted intents. When omitted, a lexical fallback labels the turn — FSM still owns T/A/D. */
   classifiedIntents?: ClassifiedDoctorTurn[] | null;
+  /** Explicit: the case required a prescription / therapy decision (SDM expected). */
+  therapyDecisionRequired?: boolean;
+  goldStandardPath?: string[] | null;
+  prescribedMedicationCount?: number;
 };
+
+export function resolveTherapyDecisionRequired(
+  options?: EvaluateTrajectoryOptions | null,
+  chatHistory?: Array<{ role: string; content: string }> | null,
+): boolean {
+  if (options?.therapyDecisionRequired === true) return true;
+  if ((options?.prescribedMedicationCount ?? 0) > 0) return true;
+  if ((options?.goldStandardPath ?? []).some((step) => THERAPY_GOLD_RE.test(String(step)))) {
+    return true;
+  }
+  const doctorTalk = (chatHistory ?? [])
+    .filter((m) => m.role === "user" && typeof m.content === "string")
+    .map((m) => m.content)
+    .join(" ");
+  return THERAPY_TALK_RE.test(doctorTalk);
+}
 
 /**
  * Classify doctor acts (LLM or lexical), step the patient state via the FSM, score CARE/SPIKES/RIAS.
@@ -462,7 +545,14 @@ export function evaluateInteractionTrajectory(
     final: state,
     variant,
   });
-  const score = compositeDRimeScore(frameworks, engaged);
+  const rawScore = compositeDRimeScore(frameworks, engaged);
+  const therapyDecisionRequired = resolveTherapyDecisionRequired(options, chat);
+  const structural = applyEmpathyStructuralCap({
+    score: rawScore,
+    intents: appliedIntents,
+    therapyDecisionRequired,
+  });
+  const score = structural.score;
 
   const insights = buildInsights({
     profile: patientProfile,
@@ -475,6 +565,7 @@ export function evaluateInteractionTrajectory(
     spikes: frameworks.spikes,
     rias: frameworks.rias,
     care: frameworks.care,
+    structuralCap: structural,
   });
 
   const trajectory: DRimeTrajectoryStep[] = [

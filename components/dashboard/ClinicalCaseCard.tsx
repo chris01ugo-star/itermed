@@ -21,6 +21,14 @@ export type ClinicalCaseRow = {
   sex?: string | null;
   /** Demographics age from baseline when available. */
   age?: number | null;
+  /** Canonical triage vitals from `baselineExamFindings.vitals` (SSOT). */
+  vitals?: {
+    heartRate?: number | string;
+    bloodPressure?: string;
+    spo2?: number | string;
+    temperature?: number | string;
+    respiratoryRate?: number | string;
+  } | null;
 };
 
 type ClinicalCaseCardProps = {

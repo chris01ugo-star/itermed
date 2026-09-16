@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { CaseImportSchema } from "@/lib/cases/case-import-schema";
 import { GoldStandardPathSchema } from "@/lib/cases/case-creator-schemas";
+import { ClinicalSignsFieldSchema } from "@/lib/clinical/clinical-signs";
 
 export const MatrixFrequencySchema = z.enum(["HIGH", "MEDIUM", "LOW"]);
 export const MatrixDifficultySchema = z.enum(["BASE", "INTERMEDIATE", "ADVANCED"]);
@@ -82,6 +83,8 @@ const KbBaselineExamFindingsSchema = z
       respiratoryRate: z.union([z.number(), z.string()]),
     }),
     examBudgetEuro: z.number().positive().optional(),
+    clinicalSigns: ClinicalSignsFieldSchema,
+    semeiotics: ClinicalSignsFieldSchema,
     advancedExams: z
       .object({
         values: z.record(

@@ -2,6 +2,7 @@ import type { Prisma } from "@prisma/client";
 import { unstable_cache } from "next/cache";
 import { visibleCasesWhere } from "@/lib/access-queries";
 import { prisma } from "@/lib/prisma";
+import { extractCanonicalVitalsJson } from "@/lib/clinical/case-vitals";
 import {
   type CaseDifficulty,
   type CaseFilterParams,
@@ -99,8 +100,20 @@ export async function fetchFilteredClinicalCases(
     const ageNum = Number(baseline?.demographics?.age);
     const age =
       Number.isFinite(ageNum) && ageNum >= 1 && ageNum <= 120 ? Math.round(ageNum) : null;
+    const canonical = extractCanonicalVitalsJson(
+      row.baselineExamFindings as Record<string, unknown> | null,
+    );
+    const vitals = canonical
+      ? {
+          heartRate: canonical.heartRate,
+          bloodPressure: canonical.bloodPressure,
+          spo2: canonical.spo2,
+          temperature: canonical.temperature,
+          respiratoryRate: canonical.respiratoryRate,
+        }
+      : null;
     const { baselineExamFindings: _omit, ...rest } = row;
-    return { ...rest, sex, age };
+    return { ...rest, sex, age, vitals };
   });
 }
 

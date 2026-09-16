@@ -162,7 +162,9 @@ export function VitalSignsBoard({
                 )}
               >
                 {needsBpMeasure ? "—/—" : vital.value}
-                {vital.id === "spo2" && !needsBpMeasure ? <span className="text-lg">%</span> : null}
+                {vital.id === "spo2" && !needsBpMeasure && vital.value !== "—" ? (
+                  <span className="text-lg">%</span>
+                ) : null}
               </p>
               <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
                 {vital.id === "spo2" ? "aria ambiente" : vital.unit}

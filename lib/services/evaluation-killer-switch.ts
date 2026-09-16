@@ -147,8 +147,8 @@ export function buildMacroAreaRationales(
         MACRO_AREA_WEIGHTS.examAppropriateness,
       ),
       rationale: mb
-        ? `Base 100% − ${mb.appropriateness.penaltyPercent}% (${mb.appropriateness.inappropriateCount} inappropriate + ${mb.appropriateness.tier3WithoutIndication} esami III livello senza indicazione). Economia HTA: effettiva €${breakdown.economy.totalCostEuro.toFixed(2)} vs ideale €${(breakdown.economy.idealSpendEuro ?? breakdown.economy.budgetEuro).toFixed(2)} · efficienza ${breakdown.economy.efficiencyPercent ?? "n/d"}% (radar, esclusa dal /30).`
-        : `Appropriatezza prescrittiva (scores.exams): ${breakdown.exams.final}/100. Economia HTA efficienza ${breakdown.economy.efficiencyPercent ?? breakdown.economy.final}% (esclusa dal /30).`,
+        ? `Base 100% − ${mb.appropriateness.penaltyPercent}% (${mb.appropriateness.inappropriateCount} inappropriate + ${mb.appropriateness.tier3WithoutIndication} esami III livello senza indicazione).`
+        : `Appropriatezza prescrittiva (scores.exams): ${breakdown.exams.final}/100.`,
     },
     {
       label: "Comunicazione e Relazione Clinica",
@@ -171,6 +171,16 @@ export function buildMacroAreaRationales(
           : "";
         return `${dimLine}${mil}.`;
       })(),
+    },
+    {
+      label: "Sostenibilità Economica (SSN)",
+      weightPercent: MACRO_AREA_WEIGHTS.economicSustainability * 100,
+      scorePercent: scores.economy,
+      contributionTrentesimi: dimensionContributionTrentesimi(
+        scores.economy,
+        MACRO_AREA_WEIGHTS.economicSustainability,
+      ),
+      rationale: `Economia HTA: effettiva €${breakdown.economy.totalCostEuro.toFixed(2)} vs ideale €${(breakdown.economy.idealSpendEuro ?? breakdown.economy.budgetEuro).toFixed(2)} · efficienza ${breakdown.economy.efficiencyPercent ?? breakdown.economy.final}%.`,
     },
   ];
 }

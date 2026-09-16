@@ -1,5 +1,12 @@
 import { z } from "zod";
 
+export const DiagnosticExamCategorySchema = z.enum([
+  "IMAGING",
+  "INSTRUMENTAL",
+  "ENDOSCOPY",
+  "LAB",
+]);
+
 export const ExamMetadataCreateSchema = z.object({
   id: z
     .string()

@@ -3,9 +3,9 @@
  * Older rows sometimes stored a 0–100 weighted composite — normalize those for display/rankings.
  *
  * Partial dimension scores (clinicalAccuracy, legalComplianceGelliBianco,
- * prescribingAppropriateness, empathy) remain on a 0–100 scale in the DB.
- * economicSustainability is also 0–100 but is an analytical radar metric — it does
- * NOT feed `computeTotalScoreTrentesimi` (the 20% exam weight uses prescribingAppropriateness).
+ * prescribingAppropriateness, economicSustainability, empathy) remain on a 0–100
+ * scale in the DB and all five feed `computeTotalScoreTrentesimi`
+ * (30% clinica + 30% tutela + 15% esami + 15% empatia + 10% economia).
  */
 
 /** Passing threshold on the trentesimi scale (Killer-Switch caps below this). */

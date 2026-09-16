@@ -36,7 +36,7 @@ const TUTORIAL_STEPS = [
   {
     id: "chart",
     title: "Cartella ed esami",
-    body: "A destra apri la cartella per esame obiettivo, laboratori e imaging.",
+    body: "A destra apri la cartella per esame obiettivo, laboratorio, imaging e strumentale.",
     tip: "Prescrivi solo ciò che serve: gli esami pesano sul budget SSN e sul voto di appropriatezza.",
     icon: FolderOpen,
   },
