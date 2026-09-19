@@ -91,7 +91,7 @@ export async function requireUser(): Promise<SessionUser> {
         allowlist: getBetaEmailAllowlistFromEnv(),
       })
     ) {
-      redirect("/?beta=pending#lista-attesa");
+      redirect("/login?error=UNAUTHORIZED_PILOT_EMAIL");
     }
   } catch (err) {
     // `redirect()` throws a special Next.js error — rethrow it.

@@ -5,6 +5,7 @@ import {
   getSponsoredFreeCaseLimit,
   hasUnlimitedCaseAccess,
 } from "@/lib/billing/unlimited-case-access";
+import { isPilotAllowedEmail, PILOT_SIMULATION_CAP } from "@/lib/pilot-whitelist";
 import { config, isUsableDatabase } from "@/lib/config";
 import { createLogger } from "@/lib/logger";
 
@@ -87,8 +88,8 @@ export type DailySimulationQuota = {
   exhausted: boolean;
   unlimited: boolean;
   dayKey: string;
-  /** `sponsored` = lifetime complimentary bundle (not the daily cap). */
-  kind: "daily" | "sponsored" | "unlimited";
+  /** `sponsored` = lifetime complimentary bundle; `pilot` = university 3-case cap. */
+  kind: "daily" | "sponsored" | "unlimited" | "pilot";
 };
 
 export async function getDailySimulationQuota(
@@ -112,6 +113,20 @@ export async function getDailySimulationQuota(
       unlimited: true,
       dayKey: romeDayKey(),
       kind: "unlimited",
+    };
+  }
+
+  if (isPilotAllowedEmail(email)) {
+    const used = await countSimulationsStartedAllTime(userId);
+    const remaining = Math.max(0, PILOT_SIMULATION_CAP - used);
+    return {
+      used,
+      limit: PILOT_SIMULATION_CAP,
+      remaining,
+      exhausted: remaining <= 0,
+      unlimited: false,
+      dayKey: romeDayKey(),
+      kind: "pilot",
     };
   }
 

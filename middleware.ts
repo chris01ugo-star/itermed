@@ -56,9 +56,8 @@ export async function middleware(req: NextRequest) {
 
   if (!authorized) {
     const url = req.nextUrl.clone();
-    url.pathname = "/";
-    url.searchParams.set("beta", "pending");
-    url.hash = "lista-attesa";
+    url.pathname = "/login";
+    url.searchParams.set("error", "UNAUTHORIZED_PILOT_EMAIL");
     return NextResponse.redirect(url);
   }
 

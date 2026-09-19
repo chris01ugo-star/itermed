@@ -11,6 +11,12 @@ import {
   DialogTitle,
 } from "@/app/ui/dialog";
 import { Button } from "@/app/ui/button";
+import {
+  PILOT_ACCESS_DENIED_MESSAGE,
+  PILOT_CAP_CODE,
+  PILOT_CAP_MESSAGE,
+  UNAUTHORIZED_PILOT_EMAIL_CODE,
+} from "@/lib/pilot-whitelist";
 
 type StartCaseButtonsProps = {
   caseId: string;
@@ -113,9 +119,18 @@ export function StartCaseButtons({
             ? "Sessione scaduta. Accedi di nuovo."
             : "Errore nell'avvio della sessione.");
 
-        if (code === "DAILY_LIMIT" || code === "TRIAL_EXHAUSTED") {
+        if (code === UNAUTHORIZED_PILOT_EMAIL_CODE) {
           window.clearTimeout(emergencyTimer);
-          setLimitDialog({ mode: "variant", message });
+          setError(PILOT_ACCESS_DENIED_MESSAGE);
+          return;
+        }
+
+        if (code === PILOT_CAP_CODE || code === "DAILY_LIMIT" || code === "TRIAL_EXHAUSTED") {
+          window.clearTimeout(emergencyTimer);
+          setLimitDialog({
+            mode: "variant",
+            message: code === PILOT_CAP_CODE ? PILOT_CAP_MESSAGE : message,
+          });
           return;
         }
 
@@ -187,7 +202,11 @@ export function StartCaseButtons({
       {error ? (
         <p
           role="alert"
-          className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-800"
+          className={
+            error === PILOT_ACCESS_DENIED_MESSAGE
+              ? "rounded-lg border border-[#1E324E]/15 bg-[#F4F6F8] px-3 py-2 text-sm leading-relaxed text-[#1E324E]"
+              : "rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-800"
+          }
         >
           {error}
         </p>
@@ -197,7 +216,9 @@ export function StartCaseButtons({
         <DialogContent className="max-w-md rounded-2xl border-slate-200 p-5 shadow-2xl sm:p-6">
           <DialogHeader>
             <DialogTitle className="text-base text-slate-800">
-              Simulazioni di oggi esaurite
+              {limitDialog?.message === PILOT_CAP_MESSAGE
+                ? "Limite pilota raggiunto"
+                : "Simulazioni di oggi esaurite"}
             </DialogTitle>
             <DialogDescription className="text-sm leading-relaxed text-slate-600">
               {limitDialog?.message ??
