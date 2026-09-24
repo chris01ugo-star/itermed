@@ -1,9 +1,11 @@
 /**
  * Beta-phase access control.
- * Closed university pilot: platform admins + PILOT_ALLOWED_EMAILS (+ optional env extras).
+ * Closed university pilot: platform admins + PILOT_ALLOWED_EMAILS
+ * + sponsored 20-case grant emails + optional env extras.
  */
 
 import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
+import { isSponsoredFreeCaseEmail } from "@/lib/billing/unlimited-case-access";
 import { isPilotAllowedEmail, normalizePilotEmail } from "@/lib/pilot-whitelist";
 
 export function parseBetaEmailAllowlist(raw: string | undefined | null): Set<string> {
@@ -28,6 +30,7 @@ export function isBetaAuthorized(params: {
   if (role === "ADMIN") return true;
 
   if (isPilotAllowedEmail(params.email)) return true;
+  if (isSponsoredFreeCaseEmail(params.email)) return true;
 
   const email = normalizePilotEmail(params.email);
   if (email && params.allowlist?.has(email)) return true;

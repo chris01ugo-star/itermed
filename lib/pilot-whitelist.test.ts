@@ -4,6 +4,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { isBetaAuthorized } from "@/lib/beta/access";
+import { SPONSORED_FREE_CASE_EMAILS } from "@/lib/billing/unlimited-case-access";
 import {
   isPilotAllowedEmail,
   PILOT_ALLOWED_EMAILS,
@@ -23,6 +24,8 @@ describe("pilot whitelist", () => {
     assert.equal(isPilotAllowedEmail("  Pirozzi.Ludmilla@Gmail.com  "), true);
     assert.equal(isPilotAllowedEmail("FERAS.ELBALLOUZ@EDU.UNITO.IT"), true);
     assert.equal(isPilotAllowedEmail("not-a-tester@example.com"), false);
+    assert.equal(isPilotAllowedEmail("federico.frusone@gmail.com"), false);
+    assert.equal(isPilotAllowedEmail("robquellodelfonendo@gmail.com"), false);
     assert.equal(isPilotAllowedEmail(""), false);
     assert.equal(isPilotAllowedEmail(null), false);
   });
@@ -52,6 +55,44 @@ describe("isBetaAuthorized", () => {
         email: "random.student@unito.it",
       }),
       false,
+    );
+  });
+
+  it("still authorizes university testers and env allowlist extras", () => {
+    for (const email of PILOT_ALLOWED_EMAILS) {
+      assert.equal(
+        isBetaAuthorized({ role: "STUDENT", planType: "FREE", email }),
+        true,
+        email,
+      );
+    }
+    assert.equal(
+      isBetaAuthorized({
+        role: "STUDENT",
+        planType: "FREE",
+        email: "extra.allowlist@example.com",
+        allowlist: new Set(["extra.allowlist@example.com"]),
+      }),
+      true,
+    );
+  });
+
+  it("authorizes sponsored grant emails without pilot whitelist or env allowlist", () => {
+    for (const email of SPONSORED_FREE_CASE_EMAILS) {
+      assert.equal(isPilotAllowedEmail(email), false, email);
+      assert.equal(
+        isBetaAuthorized({ role: "STUDENT", planType: "FREE", email }),
+        true,
+        email,
+      );
+    }
+    assert.equal(
+      isBetaAuthorized({
+        role: "STUDENT",
+        planType: "FREE",
+        email: "  Federico.frusone@gmail.com ",
+      }),
+      true,
     );
   });
 });

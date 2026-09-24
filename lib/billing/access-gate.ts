@@ -4,7 +4,11 @@ import {
   isSubscriptionPlan,
 } from "@/lib/billing/plans";
 import type { UserBillingProfile } from "@/lib/billing/user-billing";
-import { hasUnlimitedCaseAccess, hasActiveSponsoredCaseGrant } from "@/lib/billing/unlimited-case-access";
+import {
+  hasUnlimitedCaseAccess,
+  hasActiveSponsoredCaseGrant,
+  isSponsoredFreeCaseEmail,
+} from "@/lib/billing/unlimited-case-access";
 import { canHonorDailyLimitBypass } from "@/lib/security/dev-only-gates";
 import { PATIENT_MAX_TURNS } from "@/lib/simulator/chat-context-window";
 import {
@@ -117,8 +121,9 @@ export function assertCanStartSimulation(
   }
 
   const email = profile.email;
+  const sponsored = isSponsoredFreeCaseEmail(email);
 
-  if (!isPilotAllowedEmail(email)) {
+  if (!sponsored && !isPilotAllowedEmail(email)) {
     return {
       allowed: false,
       code: UNAUTHORIZED_PILOT_EMAIL_CODE,
@@ -128,8 +133,9 @@ export function assertCanStartSimulation(
   }
 
   // University testers: lifetime Pilot Cap of 3 — not skipped by BETA_TESTER plan.
+  // Sponsored grant emails stay STUDENT (not ADMIN) and skip this 3-cap.
   const lifetimeUsed = options?.lifetimeUsed ?? 0;
-  if (lifetimeUsed >= PILOT_SIMULATION_CAP) {
+  if (!sponsored && lifetimeUsed >= PILOT_SIMULATION_CAP) {
     return {
       allowed: false,
       code: PILOT_CAP_CODE,
