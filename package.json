@@ -8,7 +8,7 @@
     "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test lib/services/d-rime-fsm.test.ts lib/security/dev-only-gates.test.ts lib/security/api-auth-guards.test.ts lib/cases/case-payload.test.ts lib/clinical/case-vitals.test.ts lib/simulator/exam-finding-text.test.ts lib/clinical/physical-exam-from-summary.test.ts lib/billing/unlimited-case-access.test.ts lib/simulator/prescription-trace.test.ts lib/simulator/patientCaseContext.test.ts lib/simulator/chat-context-window.test.ts lib/simulator/generatePatientResponse.prompt.test.ts lib/clinical/diagnostic-exam-category.test.ts lib/clinical/clinical-signs.test.ts",
+    "test": "tsx --test lib/services/d-rime-fsm.test.ts lib/security/dev-only-gates.test.ts lib/security/api-auth-guards.test.ts lib/cases/case-payload.test.ts lib/clinical/case-vitals.test.ts lib/simulator/exam-finding-text.test.ts lib/clinical/physical-exam-from-summary.test.ts lib/billing/unlimited-case-access.test.ts lib/simulator/prescription-trace.test.ts lib/simulator/patientCaseContext.test.ts lib/simulator/chat-context-window.test.ts lib/simulator/generatePatientResponse.prompt.test.ts lib/clinical/diagnostic-exam-category.test.ts lib/clinical/clinical-signs.test.ts lib/pilot-whitelist.test.ts",
     "ci:audit": "tsx scripts/ci-audit-all-cases.ts",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",

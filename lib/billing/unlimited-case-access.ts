@@ -6,9 +6,22 @@
 
 export const AUDIT_UNLIMITED_CASE_EMAIL = "chris01.ugo@gmail.com";
 
-/** Sponsored learner: 20 clinical simulations, no daily cap / paywall until exhausted. */
-export const SPONSORED_FREE_CASE_EMAIL = "robquellodelfonendo@gmail.com";
+/**
+ * Sponsored learners: 20 clinical simulations, no daily cap / paywall until exhausted.
+ * Append-only: never remove existing addresses when adding a new grant.
+ */
+export const SPONSORED_FREE_CASE_EMAILS = [
+  "robquellodelfonendo@gmail.com",
+  "federico.frusone@gmail.com",
+] as const;
+
+/** First historical grant — prefer `SPONSORED_FREE_CASE_EMAILS` for membership checks. */
+export const SPONSORED_FREE_CASE_EMAIL = SPONSORED_FREE_CASE_EMAILS[0];
 export const SPONSORED_FREE_CASE_LIMIT = 20;
+
+const SPONSORED_FREE_CASE_EMAIL_SET: ReadonlySet<string> = new Set(
+  SPONSORED_FREE_CASE_EMAILS.map((email) => email.toLowerCase().trim()),
+);
 
 export function normalizeAccountEmail(email: string | null | undefined): string {
   return (email ?? "").toLowerCase().trim();
@@ -24,7 +37,8 @@ export function hasUnlimitedCaseAccess(user: {
 }
 
 export function isSponsoredFreeCaseEmail(email: string | null | undefined): boolean {
-  return normalizeAccountEmail(email) === SPONSORED_FREE_CASE_EMAIL;
+  const normalized = normalizeAccountEmail(email);
+  return normalized.length > 0 && SPONSORED_FREE_CASE_EMAIL_SET.has(normalized);
 }
 
 /** Lifetime CaseSession cap for a sponsored email; `null` if not on the grant list. */

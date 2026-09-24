@@ -6,6 +6,10 @@ import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+import {
+  PILOT_ACCESS_DENIED_MESSAGE,
+  UNAUTHORIZED_PILOT_EMAIL_CODE,
+} from "@/lib/pilot-whitelist";
 
 const fieldClassName =
   "h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#345884]/45 focus:ring-4 focus:ring-[#345884]/10";
@@ -17,10 +21,15 @@ type LoginFormProps = {
 export function LoginForm({ googleEnabled = false }: LoginFormProps) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
+  const deniedFromQuery =
+    searchParams.get("error") === UNAUTHORIZED_PILOT_EMAIL_CODE ||
+    searchParams.get("error")?.includes(UNAUTHORIZED_PILOT_EMAIL_CODE);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(
+    deniedFromQuery ? PILOT_ACCESS_DENIED_MESSAGE : null,
+  );
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
@@ -35,10 +44,8 @@ export function LoginForm({ googleEnabled = false }: LoginFormProps) {
     setLoading(false);
     if (res?.error) {
       const msg = String(res.error);
-      if (msg.includes("BETA_PENDING")) {
-        setError(
-          "Account non ancora autorizzato per la beta. Iscriviti alla lista d'attesa dalla homepage.",
-        );
+      if (msg.includes(UNAUTHORIZED_PILOT_EMAIL_CODE) || msg.includes("BETA_PENDING")) {
+        setError(PILOT_ACCESS_DENIED_MESSAGE);
       } else {
         setError("Email o password non validi, oppure accesso beta non ancora abilitato.");
       }
@@ -79,7 +86,14 @@ export function LoginForm({ googleEnabled = false }: LoginFormProps) {
 
           <form onSubmit={onSubmit} className="space-y-4">
             {error ? (
-              <p className="rounded-xl border border-rose-100 bg-rose-50 px-3.5 py-2.5 text-sm text-rose-700">
+              <p
+                role="alert"
+                className={
+                  error === PILOT_ACCESS_DENIED_MESSAGE
+                    ? "rounded-xl border border-[#1E324E]/15 bg-[#F4F6F8] px-3.5 py-2.5 text-sm leading-relaxed text-[#1E324E]"
+                    : "rounded-xl border border-rose-100 bg-rose-50 px-3.5 py-2.5 text-sm text-rose-700"
+                }
+              >
                 {error}
               </p>
             ) : null}

@@ -7,6 +7,9 @@ import { config } from "@/lib/config";
 import { prisma } from "@/lib/prisma";
 import { getBetaEmailAllowlistFromEnv, isBetaAuthorized } from "@/lib/beta/access";
 import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
+import {
+  UNAUTHORIZED_PILOT_EMAIL_CODE,
+} from "@/lib/pilot-whitelist";
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -60,8 +63,7 @@ export const authOptions: NextAuthOptions = {
             allowlist: getBetaEmailAllowlistFromEnv(),
           })
         ) {
-          // Closed beta: valid credentials but not yet authorized.
-          throw new Error("BETA_PENDING");
+          throw new Error(UNAUTHORIZED_PILOT_EMAIL_CODE);
         }
         return {
           id: user.id,
@@ -127,25 +129,36 @@ export const authOptions: NextAuthOptions = {
           },
         });
 
-        // Closed beta: Google may only sign in existing authorized accounts.
-        if (!existing) {
-          return "/?beta=signup-closed";
+        const authorized = isBetaAuthorized({
+          role: existing?.role,
+          planType: existing?.planType,
+          email,
+          allowlist: getBetaEmailAllowlistFromEnv(),
+        });
+
+        if (!authorized) {
+          return `/login?error=${UNAUTHORIZED_PILOT_EMAIL_CODE}`;
         }
-        if (
-          !isBetaAuthorized({
-            role: existing.role,
-            planType: existing.planType,
-            email,
-            allowlist: getBetaEmailAllowlistFromEnv(),
-          })
-        ) {
-          return "/?beta=pending";
+
+        if (!existing) {
+          await prisma.user.create({
+            data: {
+              email,
+              name: user.name ?? email,
+              role: "STUDENT",
+              planType: "BETA_TESTER",
+              termsAcceptedAt: acceptedAt,
+              privacyAcceptedAt: acceptedAt,
+            },
+          });
+          return true;
         }
 
         await prisma.user.update({
           where: { email },
           data: {
             name: user.name ?? undefined,
+            planType: existing.planType === "FREE" ? "BETA_TESTER" : existing.planType,
             ...(!existing.termsAcceptedAt ? { termsAcceptedAt: acceptedAt } : {}),
             ...(!existing.privacyAcceptedAt ? { privacyAcceptedAt: acceptedAt } : {}),
           },

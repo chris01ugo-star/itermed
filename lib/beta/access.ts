@@ -1,11 +1,12 @@
 /**
  * Beta-phase access control.
- * Only admins and explicitly authorized plan types may use the product.
+ * Closed university pilot: platform admins + PILOT_ALLOWED_EMAILS
+ * + sponsored 20-case grant emails + optional env extras.
  */
 
 import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
-
-const BETA_PLAN_TYPES = new Set(["BETA", "BETA_TESTER", "EARLY_ACCESS"]);
+import { isSponsoredFreeCaseEmail } from "@/lib/billing/unlimited-case-access";
+import { isPilotAllowedEmail, normalizePilotEmail } from "@/lib/pilot-whitelist";
 
 export function parseBetaEmailAllowlist(raw: string | undefined | null): Set<string> {
   const set = new Set<string>();
@@ -28,10 +29,10 @@ export function isBetaAuthorized(params: {
   const role = (params.role ?? "").trim().toUpperCase();
   if (role === "ADMIN") return true;
 
-  const plan = (params.planType ?? "").trim().toUpperCase();
-  if (BETA_PLAN_TYPES.has(plan)) return true;
+  if (isPilotAllowedEmail(params.email)) return true;
+  if (isSponsoredFreeCaseEmail(params.email)) return true;
 
-  const email = (params.email ?? "").trim().toLowerCase();
+  const email = normalizePilotEmail(params.email);
   if (email && params.allowlist?.has(email)) return true;
 
   return false;

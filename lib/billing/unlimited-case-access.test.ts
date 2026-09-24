@@ -6,9 +6,11 @@ import { describe, it } from "node:test";
 import {
   AUDIT_UNLIMITED_CASE_EMAIL,
   SPONSORED_FREE_CASE_EMAIL,
+  SPONSORED_FREE_CASE_EMAILS,
   SPONSORED_FREE_CASE_LIMIT,
   hasActiveSponsoredCaseGrant,
   hasUnlimitedCaseAccess,
+  isSponsoredFreeCaseEmail,
 } from "@/lib/billing/unlimited-case-access";
 
 describe("hasUnlimitedCaseAccess", () => {
@@ -36,6 +38,30 @@ describe("hasUnlimitedCaseAccess", () => {
       hasUnlimitedCaseAccess({ role: "STUDENT", email: SPONSORED_FREE_CASE_EMAIL }),
       false,
     );
+    assert.equal(
+      hasUnlimitedCaseAccess({ role: "STUDENT", email: "federico.frusone@gmail.com" }),
+      false,
+    );
+  });
+});
+
+describe("SPONSORED_FREE_CASE_EMAILS", () => {
+  it("keeps every previously granted email and appends Federico", () => {
+    assert.deepEqual([...SPONSORED_FREE_CASE_EMAILS], [
+      "robquellodelfonendo@gmail.com",
+      "federico.frusone@gmail.com",
+    ]);
+    assert.equal(SPONSORED_FREE_CASE_EMAIL, "robquellodelfonendo@gmail.com");
+    assert.equal(SPONSORED_FREE_CASE_EMAILS.includes(SPONSORED_FREE_CASE_EMAIL), true);
+  });
+
+  it("matches both grant emails case-insensitively and does not treat them as ADMIN", () => {
+    assert.equal(isSponsoredFreeCaseEmail("  Robquellodelfonendo@gmail.com "), true);
+    assert.equal(isSponsoredFreeCaseEmail("  Federico.frusone@gmail.com "), true);
+    assert.equal(isSponsoredFreeCaseEmail("learner@example.com"), false);
+    assert.equal(isSponsoredFreeCaseEmail(AUDIT_UNLIMITED_CASE_EMAIL), false);
+    assert.equal(isSponsoredFreeCaseEmail(""), false);
+    assert.equal(isSponsoredFreeCaseEmail(null), false);
   });
 });
 
@@ -46,6 +72,10 @@ describe("hasActiveSponsoredCaseGrant", () => {
       true,
     );
     assert.equal(hasActiveSponsoredCaseGrant({ email: SPONSORED_FREE_CASE_EMAIL }, 19), true);
+    assert.equal(
+      hasActiveSponsoredCaseGrant({ email: "  Federico.frusone@gmail.com " }, 19),
+      true,
+    );
   });
 
   it("expires after 20 lifetime sessions", () => {
@@ -54,6 +84,10 @@ describe("hasActiveSponsoredCaseGrant", () => {
       false,
     );
     assert.equal(hasActiveSponsoredCaseGrant({ email: SPONSORED_FREE_CASE_EMAIL }, 21), false);
+    assert.equal(
+      hasActiveSponsoredCaseGrant({ email: "federico.frusone@gmail.com" }, SPONSORED_FREE_CASE_LIMIT),
+      false,
+    );
   });
 
   it("does not apply to other accounts", () => {

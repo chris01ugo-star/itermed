@@ -1,13 +1,24 @@
 import "server-only";
 import {
   ACTIVE_SUBSCRIPTION_STATUSES,
-  DAILY_SIMULATION_LIMIT,
   isSubscriptionPlan,
 } from "@/lib/billing/plans";
 import type { UserBillingProfile } from "@/lib/billing/user-billing";
-import { hasUnlimitedCaseAccess, hasActiveSponsoredCaseGrant } from "@/lib/billing/unlimited-case-access";
+import {
+  hasUnlimitedCaseAccess,
+  hasActiveSponsoredCaseGrant,
+  isSponsoredFreeCaseEmail,
+} from "@/lib/billing/unlimited-case-access";
 import { canHonorDailyLimitBypass } from "@/lib/security/dev-only-gates";
 import { PATIENT_MAX_TURNS } from "@/lib/simulator/chat-context-window";
+import {
+  isPilotAllowedEmail,
+  PILOT_ACCESS_DENIED_MESSAGE,
+  PILOT_CAP_CODE,
+  PILOT_CAP_MESSAGE,
+  PILOT_SIMULATION_CAP,
+  UNAUTHORIZED_PILOT_EMAIL_CODE,
+} from "@/lib/pilot-whitelist";
 
 /** Patient chat always uses gpt-4o-mini. gpt-4o is reserved for evaluation/RAG. */
 export type ChatModelId = "gpt-4o-mini";
@@ -105,30 +116,33 @@ export function assertCanStartSimulation(
     return { allowed: true };
   }
 
-  // Active / Beta / Admin / Stripe trialing: always allowed.
-  if (isActiveOrBetaLearner(profile)) {
+  if (isAdmin(profile)) {
     return { allowed: true };
   }
 
-  if (hasSponsoredGrantRemaining(profile, options)) {
-    return { allowed: true };
-  }
+  const email = profile.email;
+  const sponsored = isSponsoredFreeCaseEmail(email);
 
-  const bundleId = options?.caseBundleId?.trim();
-  if (bundleId && profile.purchasedBundleIds.includes(bundleId)) {
-    return { allowed: true };
-  }
-
-  const usedToday = options?.usedToday ?? 0;
-  if (usedToday >= DAILY_SIMULATION_LIMIT) {
+  if (!sponsored && !isPilotAllowedEmail(email)) {
     return {
       allowed: false,
-      code: "DAILY_LIMIT",
+      code: UNAUTHORIZED_PILOT_EMAIL_CODE,
       status: 403,
-      message: `Hai esaurito le ${DAILY_SIMULATION_LIMIT} simulazioni di oggi. Il contatore si resetta a mezzanotte.`,
+      message: PILOT_ACCESS_DENIED_MESSAGE,
     };
   }
 
+  // University testers: lifetime Pilot Cap of 3 — not skipped by BETA_TESTER plan.
+  // Sponsored grant emails stay STUDENT (not ADMIN) and skip this 3-cap.
+  const lifetimeUsed = options?.lifetimeUsed ?? 0;
+  if (!sponsored && lifetimeUsed >= PILOT_SIMULATION_CAP) {
+    return {
+      allowed: false,
+      code: PILOT_CAP_CODE,
+      status: 403,
+      message: PILOT_CAP_MESSAGE,
+    };
+  }
   return { allowed: true };
 }
 
