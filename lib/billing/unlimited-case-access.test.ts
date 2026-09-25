@@ -18,13 +18,29 @@ describe("hasUnlimitedCaseAccess", () => {
     assert.equal(hasUnlimitedCaseAccess({ role: "ADMIN", email: "student@example.com" }), true);
   });
 
-  it("grants the audit email even as STUDENT", () => {
+  it("grants Dario and Chris even as STUDENT", () => {
     assert.equal(
       hasUnlimitedCaseAccess({ role: "STUDENT", email: AUDIT_UNLIMITED_CASE_EMAIL }),
       true,
     );
     assert.equal(
       hasUnlimitedCaseAccess({ role: "STUDENT", email: "  Chris01.Ugo@gmail.com " }),
+      true,
+    );
+    assert.equal(
+      hasUnlimitedCaseAccess({ role: "STUDENT", email: "chris01ugo@gmail.com" }),
+      true,
+    );
+    assert.equal(
+      hasUnlimitedCaseAccess({ role: "STUDENT", email: "dariobarbagallo46@gmail.com" }),
+      true,
+    );
+    assert.equal(
+      hasUnlimitedCaseAccess({ role: "STUDENT", email: "dario.barbagallo46@gmail.com" }),
+      true,
+    );
+    assert.equal(
+      hasUnlimitedCaseAccess({ role: "INSTRUCTOR", email: "  Dario.Barbagallo46@gmail.com " }),
       true,
     );
   });

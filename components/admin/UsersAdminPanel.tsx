@@ -81,7 +81,7 @@ export function UsersAdminPanel({
             const role = roleBadge(user.role);
             const isSelf = currentUserId === user.id;
             const canDeactivate = !isSelf && !user.isPlatformAdmin;
-            const canEditLimit = user.role !== "ADMIN";
+            const canEditLimit = !user.isPlatformAdmin && user.role !== "ADMIN";
             const open = openId === user.id;
 
             return (
@@ -96,6 +96,9 @@ export function UsersAdminPanel({
                         {user.name || "Senza nome"}
                       </p>
                       <Badge variant={role.variant}>{role.label}</Badge>
+                      {user.isPlatformAdmin ? (
+                        <Badge variant="info">Piattaforma · permessi completi</Badge>
+                      ) : null}
                       <Badge variant={user.isActive ? "success" : "danger"}>
                         {user.isActive ? "Attivo" : "Disattivato"}
                       </Badge>
@@ -107,6 +110,12 @@ export function UsersAdminPanel({
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2">
+                    {user.isPlatformAdmin ? (
+                      <p className="text-xs text-zinc-500">
+                        Account protetto: permessi completi, non si disattiva né si limita.
+                      </p>
+                    ) : (
+                      <>
                     <form action={toggleUserActiveAction}>
                       <input type="hidden" name="userId" value={user.id} />
                       <Button
@@ -144,11 +153,13 @@ export function UsersAdminPanel({
                           size="sm"
                           variant="outline"
                           className="text-xs"
-                          disabled={isSelf || user.isPlatformAdmin}
+                          disabled={isSelf}
                         >
                           Rimuovi admin
                         </Button>
                       </form>
+                    )}
+                      </>
                     )}
                   </div>
                 </div>

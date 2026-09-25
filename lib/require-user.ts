@@ -46,7 +46,9 @@ export async function requireAdmin(): Promise<SessionUser> {
   if (!id) redirect("/login?callbackUrl=/dashboard/guidelines");
   const email = session.user.email ?? null;
   const role = session.user.role ?? "STUDENT";
-  if (!hasUnlimitedCaseAccess({ role, email })) redirect("/dashboard");
+  if (!isPlatformAdminEmail(email) && !hasUnlimitedCaseAccess({ role, email })) {
+    redirect("/dashboard");
+  }
 
   return {
     id,
@@ -83,10 +85,15 @@ export async function requireUser(): Promise<SessionUser> {
       where: { id },
       select: { role: true, planType: true, email: true, isActive: true },
     });
-    if (!dbUser || dbUser.isActive === false) {
+    if (!dbUser) {
+      redirect(`/login?error=${ACCOUNT_DISABLED_CODE}`);
+    }
+    const platformAdmin = isPlatformAdminEmail(dbUser.email);
+    if (!platformAdmin && dbUser.isActive === false) {
       redirect(`/login?error=${ACCOUNT_DISABLED_CODE}`);
     }
     if (
+      !platformAdmin &&
       !isBetaAuthorized({
         role: dbUser.role,
         planType: dbUser.planType,

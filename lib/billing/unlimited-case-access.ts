@@ -1,8 +1,10 @@
 /**
- * Privileged clinical-case access: ADMIN role, dedicated audit account,
- * and sponsored free-case grants (lifetime cap, not admin).
+ * Privileged clinical-case access: ADMIN role, platform operators (Dario / Chris),
+ * dedicated audit account, and sponsored free-case grants (lifetime cap, not admin).
  * Regular students / instructors keep daily quotas and bundle paywalls.
  */
+
+import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
 
 export const AUDIT_UNLIMITED_CASE_EMAIL = "chris01.ugo@gmail.com";
 
@@ -32,6 +34,7 @@ export function hasUnlimitedCaseAccess(user: {
   email?: string | null;
 } | null | undefined): boolean {
   if (!user) return false;
+  if (isPlatformAdminEmail(user.email)) return true;
   if (user.role === "ADMIN") return true;
   return normalizeAccountEmail(user.email) === AUDIT_UNLIMITED_CASE_EMAIL;
 }

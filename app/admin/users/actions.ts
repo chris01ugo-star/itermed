@@ -70,6 +70,7 @@ export async function adjustUserLimitAction(formData: FormData) {
 
   const target = await loadTarget(userId);
   if (!target) return;
+  if (isPlatformAdminEmail(target.email)) return;
 
   const current = effectiveEditableLimit(target);
   const next = nextStoredFreeSimulationLimit(current, delta);
@@ -88,6 +89,7 @@ export async function setUserUnlimitedAction(formData: FormData) {
 
   const target = await loadTarget(userId);
   if (!target) return;
+  if (isPlatformAdminEmail(target.email)) return;
 
   const alreadyUnlimited = effectiveEditableLimit(target) === "unlimited";
   await prisma.user.update({

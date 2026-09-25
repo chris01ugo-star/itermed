@@ -44,6 +44,7 @@ async function main() {
         update: {
           role: "ADMIN",
           planType: "BETA_TESTER",
+          isActive: true,
           name: NAMES[normalized] ?? undefined,
         },
         select: { id: true, email: true, role: true, planType: true, name: true },

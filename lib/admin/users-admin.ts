@@ -38,7 +38,9 @@ function formatLimitLabel(row: {
   source: string;
   lifetimeLimit: number | null;
   startedCount: number;
+  isPlatformAdmin?: boolean;
 }): string {
+  if (row.isPlatformAdmin) return "Illimitato · admin piattaforma";
   if (row.unlimited) return "Illimitato";
   if (row.lifetimeLimit != null) {
     const source =
@@ -146,6 +148,7 @@ export async function listAdminUsers(): Promise<AdminUserRow[]> {
         source: entitlement.source,
         lifetimeLimit: entitlement.lifetimeLimit,
         startedCount,
+        isPlatformAdmin: isPlatformAdminEmail(user.email),
       }),
       editableLimit: effectiveEditableLimit(user),
       remaining,

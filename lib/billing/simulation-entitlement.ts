@@ -3,6 +3,7 @@
  * Admin `freeSimulationLimit` overrides hardcoded pilot (3) / sponsored (20) defaults.
  */
 
+import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
 import { DAILY_SIMULATION_LIMIT } from "@/lib/billing/plans";
 import {
   hasUnlimitedCaseAccess,
@@ -46,6 +47,17 @@ function parseLimitOverride(raw: number | null | undefined): "unlimited" | numbe
 export function resolveSimulationEntitlement(
   actor: SimulationEntitlementActor | null | undefined,
 ): SimulationEntitlement {
+  // Dario / Chris keep full access even if a row is marked inactive.
+  if (isPlatformAdminEmail(actor?.email)) {
+    return {
+      isActive: true,
+      unlimited: true,
+      lifetimeLimit: null,
+      kind: "unlimited",
+      source: "admin",
+    };
+  }
+
   if (!actor || actor.isActive === false) {
     return {
       isActive: false,

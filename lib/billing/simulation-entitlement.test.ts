@@ -14,16 +14,29 @@ import { SPONSORED_FREE_CASE_LIMIT } from "@/lib/billing/unlimited-case-access";
 import { PILOT_SIMULATION_CAP } from "@/lib/pilot-whitelist";
 
 describe("resolveSimulationEntitlement", () => {
-  it("disables an inactive account before any other privilege", () => {
-    const entitlement = resolveSimulationEntitlement({
+  it("disables a regular inactive admin, but never locks Dario or Chris", () => {
+    const regular = resolveSimulationEntitlement({
       isActive: false,
       role: "ADMIN",
-      email: "chris01.ugo@gmail.com",
-      freeSimulationLimit: UNLIMITED_SIMULATION_SENTINEL,
+      email: "promoted-admin@example.com",
     });
-    assert.equal(entitlement.isActive, false);
-    assert.equal(entitlement.kind, "disabled");
-    assert.equal(entitlement.lifetimeLimit, 0);
+    assert.equal(regular.isActive, false);
+    assert.equal(regular.kind, "disabled");
+
+    for (const email of [
+      "dariobarbagallo46@gmail.com",
+      "dario.barbagallo46@gmail.com",
+      "chris01.ugo@gmail.com",
+    ]) {
+      const entitlement = resolveSimulationEntitlement({
+        isActive: false,
+        role: "STUDENT",
+        email,
+      });
+      assert.equal(entitlement.isActive, true, email);
+      assert.equal(entitlement.unlimited, true, email);
+      assert.equal(entitlement.source, "admin", email);
+    }
   });
 
   it("keeps ADMIN unlimited when active", () => {

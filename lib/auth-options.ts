@@ -43,14 +43,11 @@ export const authOptions: NextAuthOptions = {
         if (!user?.passwordHash) return null;
         const valid = await compare(String(credentials.password), user.passwordHash);
         if (!valid) return null;
-        if (user.isActive === false) {
-          throw new Error(ACCOUNT_DISABLED_CODE);
-        }
 
-        if (isPlatformAdminEmail(email) && user.role !== "ADMIN") {
+        if (isPlatformAdminEmail(email) && (user.role !== "ADMIN" || user.isActive === false)) {
           user = await prisma.user.update({
             where: { id: user.id },
-            data: { role: "ADMIN", planType: "BETA_TESTER" },
+            data: { role: "ADMIN", planType: "BETA_TESTER", isActive: true },
             select: {
               id: true,
               email: true,
@@ -61,6 +58,8 @@ export const authOptions: NextAuthOptions = {
               isActive: true,
             },
           });
+        } else if (user.isActive === false) {
+          throw new Error(ACCOUNT_DISABLED_CODE);
         }
 
         if (
@@ -118,6 +117,7 @@ export const authOptions: NextAuthOptions = {
             update: {
               role: "ADMIN",
               planType: "BETA_TESTER",
+              isActive: true,
               name: user.name ?? undefined,
               termsAcceptedAt: acceptedAt,
               privacyAcceptedAt: acceptedAt,
@@ -220,12 +220,15 @@ export const authOptions: NextAuthOptions = {
           if (!dbUser) {
             return {};
           }
-          if (dbUser.isActive === false) {
+          if (dbUser.isActive === false && !isPlatformAdminEmail(dbUser.email)) {
             return {};
           }
           if (dbUser.role) token.role = dbUser.role;
           if (dbUser.email) token.email = dbUser.email;
           if (dbUser.planType) token.planType = dbUser.planType;
+          if (isPlatformAdminEmail(dbUser.email)) {
+            token.role = "ADMIN";
+          }
         } catch {
           // Keep token fields if DB is temporarily unavailable.
         }
