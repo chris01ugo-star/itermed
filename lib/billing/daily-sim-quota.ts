@@ -2,10 +2,9 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import { DAILY_SIMULATION_LIMIT } from "@/lib/billing/plans";
 import {
-  getSponsoredFreeCaseLimit,
-  hasUnlimitedCaseAccess,
-} from "@/lib/billing/unlimited-case-access";
-import { isPilotAllowedEmail, PILOT_SIMULATION_CAP } from "@/lib/pilot-whitelist";
+  resolveSimulationEntitlement,
+  type SimulationEntitlementActor,
+} from "@/lib/billing/simulation-entitlement";
 import { config, isUsableDatabase } from "@/lib/config";
 import { createLogger } from "@/lib/logger";
 
@@ -89,21 +88,23 @@ export type DailySimulationQuota = {
   unlimited: boolean;
   dayKey: string;
   /** `sponsored` = lifetime complimentary bundle; `pilot` = university 3-case cap. */
-  kind: "daily" | "sponsored" | "unlimited" | "pilot";
+  kind: "daily" | "sponsored" | "unlimited" | "pilot" | "granted";
 };
 
 export async function getDailySimulationQuota(
   userId: string,
-  actor?: { role?: string | null; email?: string | null },
+  actor?: SimulationEntitlementActor,
 ): Promise<DailySimulationQuota> {
-  const privileged = actor
-    ? hasUnlimitedCaseAccess(actor)
-    : await isUnlimitedCaseUser(userId);
+  const dbFields = await lookupUserEntitlement(userId);
+  const fields: SimulationEntitlementActor = {
+    isActive: dbFields?.isActive ?? actor?.isActive,
+    role: dbFields?.role ?? actor?.role,
+    email: dbFields?.email ?? actor?.email,
+    freeSimulationLimit: dbFields?.freeSimulationLimit ?? actor?.freeSimulationLimit,
+  };
+  const entitlement = resolveSimulationEntitlement(fields);
 
-  const email = actor?.email ?? (await lookupUserEmail(userId));
-  const sponsoredLimit = getSponsoredFreeCaseLimit(email);
-
-  if (privileged) {
+  if (entitlement.unlimited) {
     const used = await countSimulationsStartedToday(userId);
     return {
       used,
@@ -116,34 +117,24 @@ export async function getDailySimulationQuota(
     };
   }
 
-  if (isPilotAllowedEmail(email)) {
+  if (entitlement.kind === "lifetime" && entitlement.lifetimeLimit != null) {
     const used = await countSimulationsStartedAllTime(userId);
-    const remaining = Math.max(0, PILOT_SIMULATION_CAP - used);
+    const remaining = Math.max(0, entitlement.lifetimeLimit - used);
+    const kind =
+      entitlement.source === "sponsored"
+        ? "sponsored"
+        : entitlement.source === "pilot"
+          ? "pilot"
+          : "granted";
     return {
       used,
-      limit: PILOT_SIMULATION_CAP,
+      limit: entitlement.lifetimeLimit,
       remaining,
       exhausted: remaining <= 0,
       unlimited: false,
       dayKey: romeDayKey(),
-      kind: "pilot",
+      kind,
     };
-  }
-
-  if (sponsoredLimit != null) {
-    const used = await countSimulationsStartedAllTime(userId);
-    const remaining = Math.max(0, sponsoredLimit - used);
-    if (remaining > 0) {
-      return {
-        used,
-        limit: sponsoredLimit,
-        remaining,
-        exhausted: false,
-        unlimited: false,
-        dayKey: romeDayKey(),
-        kind: "sponsored",
-      };
-    }
   }
 
   const used = await countSimulationsStartedToday(userId);
@@ -160,32 +151,23 @@ export async function getDailySimulationQuota(
   };
 }
 
-async function lookupUserEmail(userId: string): Promise<string | null> {
+async function lookupUserEntitlement(userId: string): Promise<SimulationEntitlementActor | null> {
   if (!userId || !isUsableDatabase(config.DATABASE_URL)) return null;
   try {
-    const user = await prisma.user.findUnique({
+    return await prisma.user.findUnique({
       where: { id: userId },
-      select: { email: true },
+      select: {
+        role: true,
+        email: true,
+        isActive: true,
+        freeSimulationLimit: true,
+      },
     });
-    return user?.email ?? null;
-  } catch {
-    return null;
-  }
-}
-
-async function isUnlimitedCaseUser(userId: string): Promise<boolean> {
-  if (!userId || !isUsableDatabase(config.DATABASE_URL)) return false;
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { role: true, email: true },
-    });
-    return hasUnlimitedCaseAccess(user);
   } catch (error) {
-    log.warn("user lookup for quota bypass failed; applying standard daily limit", {
+    log.warn("user lookup for quota failed; applying standard daily limit", {
       userId,
       errorName: error instanceof Error ? error.name : undefined,
     });
-    return false;
+    return null;
   }
 }

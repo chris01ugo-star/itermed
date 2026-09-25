@@ -8,6 +8,9 @@ import { prisma } from "@/lib/prisma";
 import { getBetaEmailAllowlistFromEnv, isBetaAuthorized } from "@/lib/beta/access";
 import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
 import {
+  ACCOUNT_DISABLED_CODE,
+} from "@/lib/billing/simulation-entitlement";
+import {
   UNAUTHORIZED_PILOT_EMAIL_CODE,
 } from "@/lib/pilot-whitelist";
 
@@ -34,11 +37,15 @@ export const authOptions: NextAuthOptions = {
             role: true,
             planType: true,
             passwordHash: true,
+            isActive: true,
           },
         });
         if (!user?.passwordHash) return null;
         const valid = await compare(String(credentials.password), user.passwordHash);
         if (!valid) return null;
+        if (user.isActive === false) {
+          throw new Error(ACCOUNT_DISABLED_CODE);
+        }
 
         if (isPlatformAdminEmail(email) && user.role !== "ADMIN") {
           user = await prisma.user.update({
@@ -51,6 +58,7 @@ export const authOptions: NextAuthOptions = {
               role: true,
               planType: true,
               passwordHash: true,
+              isActive: true,
             },
           });
         }
@@ -126,8 +134,13 @@ export const authOptions: NextAuthOptions = {
             planType: true,
             termsAcceptedAt: true,
             privacyAcceptedAt: true,
+            isActive: true,
           },
         });
+
+        if (existing?.isActive === false) {
+          return `/login?error=${ACCOUNT_DISABLED_CODE}`;
+        }
 
         const authorized = isBetaAuthorized({
           role: existing?.role,
@@ -202,9 +215,12 @@ export const authOptions: NextAuthOptions = {
         try {
           const dbUser = await prisma.user.findUnique({
             where: { id: userId },
-            select: { role: true, email: true, planType: true },
+            select: { role: true, email: true, planType: true, isActive: true },
           });
           if (!dbUser) {
+            return {};
+          }
+          if (dbUser.isActive === false) {
             return {};
           }
           if (dbUser.role) token.role = dbUser.role;

@@ -6,7 +6,7 @@ type DailySimQuotaBannerProps = {
   limit: number;
   used: number;
   unlimited?: boolean;
-  kind?: "daily" | "sponsored" | "unlimited" | "pilot";
+  kind?: "daily" | "sponsored" | "unlimited" | "pilot" | "granted";
   className?: string;
 };
 
@@ -24,6 +24,7 @@ export function DailySimQuotaBanner({
     : Math.min(100, Math.round((remaining / Math.max(1, limit)) * 100));
   const sponsored = kind === "sponsored";
   const pilot = kind === "pilot";
+  const granted = kind === "granted";
 
   return (
     <div
@@ -48,7 +49,13 @@ export function DailySimQuotaBanner({
         </div>
         <div className="min-w-0">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
-            {sponsored ? "Pacchetto omaggio" : pilot ? "Pilota universitario" : "Simulazioni di oggi"}
+            {sponsored
+              ? "Pacchetto omaggio"
+              : granted
+                ? "Casi assegnati"
+                : pilot
+                  ? "Pilota universitario"
+                  : "Simulazioni di oggi"}
           </p>
           <p className="mt-0.5 font-display text-lg font-semibold tabular-nums text-text-primary">
             {unlimited ? (
@@ -67,6 +74,8 @@ export function DailySimQuotaBanner({
               ? "Account admin/audit: nessun limite giornaliero né paywall sui casi."
               : sponsored
                 ? `Hai avviato ${used} dei ${limit} casi in omaggio. Nessun limite giornaliero né paywall finché il pacchetto non è esaurito.`
+                : granted
+                  ? `Hai avviato ${used} dei ${limit} casi assegnati al tuo account.`
                 : pilot
                   ? exhausted
                     ? "Hai raggiunto le 3 simulazioni massime del pilota universitario."

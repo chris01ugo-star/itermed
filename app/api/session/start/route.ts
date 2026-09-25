@@ -12,12 +12,10 @@ import {
 import { DAILY_SIMULATION_LIMIT } from "@/lib/billing/plans";
 import { countSimulationsStartedAllTime, countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
-import { getSponsoredFreeCaseLimit } from "@/lib/billing/unlimited-case-access";
+import { resolveSimulationEntitlement } from "@/lib/billing/simulation-entitlement";
 import {
-  isPilotAllowedEmail,
   PILOT_CAP_CODE,
   PILOT_CAP_MESSAGE,
-  PILOT_SIMULATION_CAP,
 } from "@/lib/pilot-whitelist";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
@@ -52,7 +50,7 @@ async function createSession(params: {
   variantSolution?: string;
   enforceDailyCap: boolean;
   sponsoredLimit?: number | null;
-  pilotCap?: number | null;
+  lifetimeCap?: number | null;
 }): Promise<Response> {
   // Persist caseId + empty milestone/exam arrays so sync-milestones can merge safely.
   const session = await prisma.caseSession.create({
@@ -80,9 +78,9 @@ async function createSession(params: {
     }
   }
 
-  if (params.pilotCap != null) {
+  if (params.lifetimeCap != null) {
     const lifetimeUsed = await countSimulationsStartedAllTime(params.userId);
-    if (lifetimeUsed > params.pilotCap) {
+    if (lifetimeUsed > params.lifetimeCap) {
       await prisma.caseSession.delete({ where: { id: session.id } }).catch(() => undefined);
       return gateToResponse({
         allowed: false,
@@ -275,8 +273,9 @@ export async function POST(req: Request) {
   }
 
   const enforceDailyCap = shouldCountAgainstDailyQuota(billingProfile, accessOptions);
-  const sponsoredLimit = getSponsoredFreeCaseLimit(billingProfile.email);
-  const pilotCap = isPilotAllowedEmail(billingProfile.email) ? PILOT_SIMULATION_CAP : null;
+  const entitlement = resolveSimulationEntitlement(billingProfile);
+  const sponsoredLimit = entitlement.source === "sponsored" ? entitlement.lifetimeLimit : null;
+  const lifetimeCap = entitlement.unlimited ? null : entitlement.lifetimeLimit;
 
   const firstNode = clinicalCase.nodes[0];
   const basePrompt = extractPatientPromptFromNode(
@@ -293,7 +292,7 @@ export async function POST(req: Request) {
         isVariant: false,
         enforceDailyCap,
         sponsoredLimit,
-        pilotCap,
+        lifetimeCap,
       });
     } catch (err) {
       console.error("[POST /api/session/start] createSession failed", {
@@ -351,7 +350,7 @@ Gold standard steps (non alterare): ${goldPath.length ? goldPath.join(", ") : "n
       variantSolution: object.newCorrectSolution,
       enforceDailyCap,
       sponsoredLimit,
-      pilotCap,
+      lifetimeCap,
     });
   } catch (err) {
     console.error("[POST /api/session/start] variant session failed", {

@@ -12,11 +12,15 @@ import {
 import { canHonorDailyLimitBypass } from "@/lib/security/dev-only-gates";
 import { PATIENT_MAX_TURNS } from "@/lib/simulator/chat-context-window";
 import {
+  ACCOUNT_DISABLED_CODE,
+  ACCOUNT_DISABLED_MESSAGE,
+  lifetimeCapMessage,
+  resolveSimulationEntitlement,
+} from "@/lib/billing/simulation-entitlement";
+import {
   isPilotAllowedEmail,
   PILOT_ACCESS_DENIED_MESSAGE,
   PILOT_CAP_CODE,
-  PILOT_CAP_MESSAGE,
-  PILOT_SIMULATION_CAP,
   UNAUTHORIZED_PILOT_EMAIL_CODE,
 } from "@/lib/pilot-whitelist";
 
@@ -99,6 +103,8 @@ export function shouldCountAgainstDailyQuota(
 ): boolean {
   if (canHonorDailyLimitBypass(options?.bypassDailyLimit)) return false;
   if (isActiveOrBetaLearner(profile)) return false;
+  const entitlement = resolveSimulationEntitlement(profile);
+  if (entitlement.unlimited || entitlement.kind === "lifetime") return false;
   if (hasSponsoredGrantRemaining(profile, options)) return false;
   const bundleId = options?.caseBundleId?.trim();
   if (bundleId && profile.purchasedBundleIds.includes(bundleId)) return false;
@@ -112,18 +118,29 @@ export function assertCanStartSimulation(
   profile: UserBillingProfile,
   options?: SimulationAccessOptions,
 ): GateResult {
+  const entitlement = resolveSimulationEntitlement(profile);
+  if (!entitlement.isActive) {
+    return {
+      allowed: false,
+      code: ACCOUNT_DISABLED_CODE,
+      status: 403,
+      message: ACCOUNT_DISABLED_MESSAGE,
+    };
+  }
+
   if (canHonorDailyLimitBypass(options?.bypassDailyLimit)) {
     return { allowed: true };
   }
 
-  if (isAdmin(profile)) {
+  if (entitlement.unlimited || isAdmin(profile)) {
     return { allowed: true };
   }
 
   const email = profile.email;
   const sponsored = isSponsoredFreeCaseEmail(email);
+  const hasAdminGrant = entitlement.source === "override";
 
-  if (!sponsored && !isPilotAllowedEmail(email)) {
+  if (!sponsored && !isPilotAllowedEmail(email) && !hasAdminGrant) {
     return {
       allowed: false,
       code: UNAUTHORIZED_PILOT_EMAIL_CODE,
@@ -132,15 +149,13 @@ export function assertCanStartSimulation(
     };
   }
 
-  // University testers: lifetime Pilot Cap of 3 — not skipped by BETA_TESTER plan.
-  // Sponsored grant emails stay STUDENT (not ADMIN) and skip this 3-cap.
   const lifetimeUsed = options?.lifetimeUsed ?? 0;
-  if (!sponsored && lifetimeUsed >= PILOT_SIMULATION_CAP) {
+  if (entitlement.lifetimeLimit != null && lifetimeUsed >= entitlement.lifetimeLimit) {
     return {
       allowed: false,
       code: PILOT_CAP_CODE,
       status: 403,
-      message: PILOT_CAP_MESSAGE,
+      message: lifetimeCapMessage(entitlement.lifetimeLimit),
     };
   }
   return { allowed: true };

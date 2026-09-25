@@ -5,6 +5,7 @@ import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
 import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 import { config } from "@/lib/config";
 import { getBetaEmailAllowlistFromEnv, isBetaAuthorized } from "@/lib/beta/access";
+import { ACCOUNT_DISABLED_CODE } from "@/lib/billing/simulation-entitlement";
 import { prisma } from "@/lib/prisma";
 import { isRuntimeDevelopment } from "@/lib/security/dev-only-gates";
 
@@ -80,10 +81,12 @@ export async function requireUser(): Promise<SessionUser> {
   try {
     const dbUser = await prisma.user.findUnique({
       where: { id },
-      select: { role: true, planType: true, email: true },
+      select: { role: true, planType: true, email: true, isActive: true },
     });
+    if (!dbUser || dbUser.isActive === false) {
+      redirect(`/login?error=${ACCOUNT_DISABLED_CODE}`);
+    }
     if (
-      !dbUser ||
       !isBetaAuthorized({
         role: dbUser.role,
         planType: dbUser.planType,

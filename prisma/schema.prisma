@@ -81,6 +81,12 @@ model User {
   termsAcceptedAt   DateTime?
   privacyAcceptedAt DateTime?
 
+  /// Admin lock: deactivated accounts cannot sign in or start simulations.
+  isActive Boolean @default(true)
+  /// Lifetime free-case cap override. null = default rules (pilot 3 / sponsored 20 / daily).
+  /// -1 = unlimited grant. >= 0 = lifetime CaseSession cap.
+  freeSimulationLimit Int?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

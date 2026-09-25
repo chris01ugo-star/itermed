@@ -12,6 +12,10 @@ import {
 } from "@/app/ui/dialog";
 import { Button } from "@/app/ui/button";
 import {
+  ACCOUNT_DISABLED_CODE,
+  ACCOUNT_DISABLED_MESSAGE,
+} from "@/lib/billing/simulation-entitlement";
+import {
   PILOT_ACCESS_DENIED_MESSAGE,
   PILOT_CAP_CODE,
   PILOT_CAP_MESSAGE,
@@ -118,6 +122,12 @@ export function StartCaseButtons({
           (res.status === 401
             ? "Sessione scaduta. Accedi di nuovo."
             : "Errore nell'avvio della sessione.");
+
+        if (code === ACCOUNT_DISABLED_CODE) {
+          window.clearTimeout(emergencyTimer);
+          setError(ACCOUNT_DISABLED_MESSAGE);
+          return;
+        }
 
         if (code === UNAUTHORIZED_PILOT_EMAIL_CODE) {
           window.clearTimeout(emergencyTimer);

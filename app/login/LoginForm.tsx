@@ -7,6 +7,10 @@ import { useSearchParams } from "next/navigation";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 import {
+  ACCOUNT_DISABLED_CODE,
+  ACCOUNT_DISABLED_MESSAGE,
+} from "@/lib/billing/simulation-entitlement";
+import {
   PILOT_ACCESS_DENIED_MESSAGE,
   UNAUTHORIZED_PILOT_EMAIL_CODE,
 } from "@/lib/pilot-whitelist";
@@ -21,14 +25,21 @@ type LoginFormProps = {
 export function LoginForm({ googleEnabled = false }: LoginFormProps) {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
+  const urlError = searchParams.get("error") ?? "";
   const deniedFromQuery =
-    searchParams.get("error") === UNAUTHORIZED_PILOT_EMAIL_CODE ||
-    searchParams.get("error")?.includes(UNAUTHORIZED_PILOT_EMAIL_CODE);
+    urlError === UNAUTHORIZED_PILOT_EMAIL_CODE ||
+    urlError.includes(UNAUTHORIZED_PILOT_EMAIL_CODE);
+  const disabledFromQuery =
+    urlError === ACCOUNT_DISABLED_CODE || urlError.includes(ACCOUNT_DISABLED_CODE);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(
-    deniedFromQuery ? PILOT_ACCESS_DENIED_MESSAGE : null,
+    disabledFromQuery
+      ? ACCOUNT_DISABLED_MESSAGE
+      : deniedFromQuery
+        ? PILOT_ACCESS_DENIED_MESSAGE
+        : null,
   );
   const [loading, setLoading] = useState(false);
 
@@ -44,7 +55,9 @@ export function LoginForm({ googleEnabled = false }: LoginFormProps) {
     setLoading(false);
     if (res?.error) {
       const msg = String(res.error);
-      if (msg.includes(UNAUTHORIZED_PILOT_EMAIL_CODE) || msg.includes("BETA_PENDING")) {
+      if (msg.includes(ACCOUNT_DISABLED_CODE)) {
+        setError(ACCOUNT_DISABLED_MESSAGE);
+      } else if (msg.includes(UNAUTHORIZED_PILOT_EMAIL_CODE) || msg.includes("BETA_PENDING")) {
         setError(PILOT_ACCESS_DENIED_MESSAGE);
       } else {
         setError("Email o password non validi, oppure accesso beta non ancora abilitato.");

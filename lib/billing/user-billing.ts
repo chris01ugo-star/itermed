@@ -13,6 +13,8 @@ export type UserBillingProfile = {
   planType: PlanType | string;
   freeTrialUsageCount: number;
   purchasedBundleIds: string[];
+  isActive: boolean;
+  freeSimulationLimit: number | null;
 };
 
 const billingSelect = {
@@ -25,6 +27,8 @@ const billingSelect = {
   planType: true,
   freeTrialUsageCount: true,
   purchasedBundleIds: true,
+  isActive: true,
+  freeSimulationLimit: true,
 } as const;
 
 export async function getUserBillingProfile(userId: string): Promise<UserBillingProfile | null> {

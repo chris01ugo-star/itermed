@@ -117,6 +117,8 @@ export async function exportUserData(userId: string) {
       nickname: true,
       termsAcceptedAt: true,
       privacyAcceptedAt: true,
+      isActive: true,
+      freeSimulationLimit: true,
       createdAt: true,
       updatedAt: true,
     },
