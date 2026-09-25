@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { Button } from "@/app/ui/button";
 import { createUserAction, type CreateUserState } from "@/app/admin/users/actions";
+import { ADMIN_ASSIGNABLE_ROLES, userRoleLabel } from "@/lib/admin/user-roles";
 
 const initialState: CreateUserState = { status: "idle" };
 
@@ -11,6 +12,7 @@ const fieldClassName =
 
 export function CreateUserForm() {
   const [state, action, pending] = useActionState(createUserAction, initialState);
+  const [role, setRole] = useState("STUDENT");
 
   return (
     <form
@@ -63,24 +65,38 @@ export function CreateUserForm() {
           <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
             Ruolo
           </span>
-          <select name="role" defaultValue="STUDENT" className={fieldClassName}>
-            <option value="STUDENT">Studente</option>
-            <option value="INSTRUCTOR">Docente</option>
+          <select
+            name="role"
+            value={role}
+            onChange={(event) => setRole(event.target.value)}
+            className={fieldClassName}
+          >
+            {ADMIN_ASSIGNABLE_ROLES.map((value) => (
+              <option key={value} value={value}>
+                {userRoleLabel(value)}
+              </option>
+            ))}
           </select>
         </label>
-        <label className="space-y-1.5 text-sm sm:col-span-2 sm:max-w-xs">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
-            Limite casi gratis
-          </span>
-          <input
-            name="freeSimulationLimit"
-            type="number"
-            min={0}
-            max={500}
-            defaultValue={3}
-            className={fieldClassName}
-          />
-        </label>
+        {role === "ADMIN" ? (
+          <p className="text-xs text-zinc-500 sm:col-span-2">
+            Gli admin non hanno limite casi.
+          </p>
+        ) : (
+          <label className="space-y-1.5 text-sm sm:col-span-2 sm:max-w-xs">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+              Limite casi gratis
+            </span>
+            <input
+              name="freeSimulationLimit"
+              type="number"
+              min={0}
+              max={500}
+              defaultValue={3}
+              className={fieldClassName}
+            />
+          </label>
+        )}
       </div>
 
       {state.status === "error" ? (

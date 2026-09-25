@@ -11,6 +11,7 @@ import {
   setUserUnlimitedAction,
   toggleUserActiveAction,
 } from "@/app/admin/users/actions";
+import { ADMIN_ASSIGNABLE_ROLES, userRoleLabel } from "@/lib/admin/user-roles";
 
 function formatScore(score: number | null): string {
   if (score == null) return "—";
@@ -27,9 +28,8 @@ function formatDate(iso: string | null): string {
 }
 
 function roleBadge(role: string) {
-  if (role === "ADMIN") return { label: "Admin", variant: "info" as const };
-  if (role === "INSTRUCTOR") return { label: "Docente", variant: "default" as const };
-  return { label: "Studente", variant: "default" as const };
+  if (role === "ADMIN") return { label: userRoleLabel(role), variant: "info" as const };
+  return { label: userRoleLabel(role), variant: "default" as const };
 }
 
 export function UsersAdminPanel({
@@ -136,29 +136,26 @@ export function UsersAdminPanel({
                       </Button>
                     </form>
 
-                    {user.role !== "ADMIN" ? (
-                      <form action={setUserRoleAction}>
-                        <input type="hidden" name="userId" value={user.id} />
-                        <input type="hidden" name="role" value="ADMIN" />
-                        <Button type="submit" size="sm" variant="outline" className="text-xs">
-                          Rendi admin
-                        </Button>
-                      </form>
-                    ) : (
-                      <form action={setUserRoleAction}>
-                        <input type="hidden" name="userId" value={user.id} />
-                        <input type="hidden" name="role" value="STUDENT" />
-                        <Button
-                          type="submit"
-                          size="sm"
-                          variant="outline"
-                          className="text-xs"
-                          disabled={isSelf}
-                        >
-                          Rimuovi admin
-                        </Button>
-                      </form>
-                    )}
+                    <form action={setUserRoleAction} className="flex items-center gap-2">
+                      <input type="hidden" name="userId" value={user.id} />
+                      <select
+                        name="role"
+                        defaultValue={
+                          user.role === "INSTRUCTOR" ? "MEDICO" : user.role
+                        }
+                        disabled={isSelf}
+                        className="h-9 rounded-xl border border-slate-200 bg-white px-2 text-xs text-slate-800"
+                      >
+                        {ADMIN_ASSIGNABLE_ROLES.map((value) => (
+                          <option key={value} value={value}>
+                            {userRoleLabel(value)}
+                          </option>
+                        ))}
+                      </select>
+                      <Button type="submit" size="sm" variant="outline" className="text-xs" disabled={isSelf}>
+                        Salva ruolo
+                      </Button>
+                    </form>
                       </>
                     )}
                   </div>

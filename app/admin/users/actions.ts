@@ -9,6 +9,7 @@ import {
   nextStoredFreeSimulationLimit,
   UNLIMITED_SIMULATION_SENTINEL,
 } from "@/lib/billing/simulation-entitlement";
+import { isAdminAssignableRole } from "@/lib/admin/user-roles";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-user";
 
@@ -39,7 +40,7 @@ export async function setUserRoleAction(formData: FormData) {
   const userId = String(formData.get("userId") ?? "");
   const role = String(formData.get("role") ?? "");
   if (!userId) return;
-  if (role !== "ADMIN" && role !== "STUDENT" && role !== "INSTRUCTOR") return;
+  if (!isAdminAssignableRole(role)) return;
   if (userId === actor.id && role !== "ADMIN") return;
 
   const target = await loadTarget(userId);
@@ -129,7 +130,7 @@ export async function createUserAction(
   if (password.length < 8) {
     return { status: "error", message: "La password deve avere almeno 8 caratteri." };
   }
-  if (roleRaw !== "STUDENT" && roleRaw !== "INSTRUCTOR") {
+  if (!isAdminAssignableRole(roleRaw)) {
     return { status: "error", message: "Ruolo non valido." };
   }
   if (isPlatformAdminEmail(email)) {
@@ -165,9 +166,9 @@ export async function createUserAction(
       email,
       passwordHash,
       role: roleRaw,
-      planType: "INVITED",
+      planType: roleRaw === "ADMIN" ? "BETA_TESTER" : "INVITED",
       isActive: true,
-      freeSimulationLimit,
+      freeSimulationLimit: roleRaw === "ADMIN" ? UNLIMITED_SIMULATION_SENTINEL : freeSimulationLimit,
       termsAcceptedAt: acceptedAt,
       privacyAcceptedAt: acceptedAt,
     },

@@ -28,10 +28,12 @@ describe("forbiddenJson", () => {
 });
 
 describe("isTeacherRole", () => {
-  it("allows INSTRUCTOR and ADMIN only", () => {
+  it("allows medico, instructor and admin", () => {
     assert.equal(isTeacherRole("INSTRUCTOR"), true);
+    assert.equal(isTeacherRole("MEDICO"), true);
     assert.equal(isTeacherRole("ADMIN"), true);
     assert.equal(isTeacherRole("STUDENT"), false);
+    assert.equal(isTeacherRole("SPECIALIZZANDO"), false);
     assert.equal(isTeacherRole(""), false);
   });
 });

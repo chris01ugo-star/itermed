@@ -1,6 +1,6 @@
 import { getSessionUser, unauthorizedJson, forbiddenJson } from "@/lib/api-session";
 
-const TEACHER_ROLES = new Set(["INSTRUCTOR", "ADMIN"]);
+const TEACHER_ROLES = new Set(["INSTRUCTOR", "MEDICO", "ADMIN"]);
 
 /** Any authenticated user (JWT present). Does not grant teacher privileges. */
 export async function requireAuthApi(): Promise<Response | null> {
