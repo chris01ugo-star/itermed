@@ -1,14 +1,21 @@
 "use server";
 
+import { hash } from "bcryptjs";
 import { revalidatePath } from "next/cache";
 import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
 import {
   effectiveEditableLimit,
+  MAX_ADMIN_FREE_SIMULATION_LIMIT,
   nextStoredFreeSimulationLimit,
   UNLIMITED_SIMULATION_SENTINEL,
 } from "@/lib/billing/simulation-entitlement";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-user";
+
+export type CreateUserState =
+  | { status: "idle" }
+  | { status: "ok"; email: string }
+  | { status: "error"; message: string };
 
 function revalidateUsers() {
   revalidatePath("/admin/users");
@@ -99,4 +106,73 @@ export async function setUserUnlimitedAction(formData: FormData) {
     },
   });
   revalidateUsers();
+}
+
+export async function createUserAction(
+  _prev: CreateUserState,
+  formData: FormData,
+): Promise<CreateUserState> {
+  await requireAdmin();
+
+  const name = String(formData.get("name") ?? "").trim();
+  const email = String(formData.get("email") ?? "").toLowerCase().trim();
+  const password = String(formData.get("password") ?? "");
+  const roleRaw = String(formData.get("role") ?? "STUDENT").toUpperCase();
+  const limitRaw = String(formData.get("freeSimulationLimit") ?? "3").trim();
+
+  if (!name) {
+    return { status: "error", message: "Inserisci il nome." };
+  }
+  if (!email.includes("@") || email.length < 5) {
+    return { status: "error", message: "Inserisci un'email valida." };
+  }
+  if (password.length < 8) {
+    return { status: "error", message: "La password deve avere almeno 8 caratteri." };
+  }
+  if (roleRaw !== "STUDENT" && roleRaw !== "INSTRUCTOR") {
+    return { status: "error", message: "Ruolo non valido." };
+  }
+  if (isPlatformAdminEmail(email)) {
+    return {
+      status: "error",
+      message: "Questa email è già un admin di piattaforma.",
+    };
+  }
+
+  const parsedLimit = Number(limitRaw);
+  if (!Number.isFinite(parsedLimit)) {
+    return { status: "error", message: "Il limite casi non è valido." };
+  }
+  const freeSimulationLimit = Math.max(
+    0,
+    Math.min(MAX_ADMIN_FREE_SIMULATION_LIMIT, Math.floor(parsedLimit)),
+  );
+
+  const existing = await prisma.user.findUnique({
+    where: { email },
+    select: { id: true },
+  });
+  if (existing) {
+    return { status: "error", message: "Questa email è già registrata." };
+  }
+
+  const passwordHash = await hash(password, 12);
+  const acceptedAt = new Date();
+
+  await prisma.user.create({
+    data: {
+      name,
+      email,
+      passwordHash,
+      role: roleRaw,
+      planType: "INVITED",
+      isActive: true,
+      freeSimulationLimit,
+      termsAcceptedAt: acceptedAt,
+      privacyAcceptedAt: acceptedAt,
+    },
+  });
+
+  revalidateUsers();
+  return { status: "ok", email };
 }

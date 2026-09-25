@@ -139,8 +139,9 @@ export function assertCanStartSimulation(
   const email = profile.email;
   const sponsored = isSponsoredFreeCaseEmail(email);
   const hasAdminGrant = entitlement.source === "override";
+  const invited = (profile.planType ?? "").trim().toUpperCase() === "INVITED";
 
-  if (!sponsored && !isPilotAllowedEmail(email) && !hasAdminGrant) {
+  if (!sponsored && !isPilotAllowedEmail(email) && !hasAdminGrant && !invited) {
     return {
       allowed: false,
       code: UNAUTHORIZED_PILOT_EMAIL_CODE,

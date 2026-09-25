@@ -1,3 +1,4 @@
+import { CreateUserForm } from "@/components/admin/CreateUserForm";
 import { UsersAdminPanel } from "@/components/admin/UsersAdminPanel";
 import { listAdminUsers } from "@/lib/admin/users-admin";
 import { requireAdmin } from "@/lib/require-user";
@@ -15,6 +16,19 @@ export default async function AdminUsersPage() {
           Attiva o disattiva gli account, regola i casi gratis e monitora simulazioni e voti.
         </p>
       </header>
+
+      <Card className="bg-white/80 border-zinc-200/80">
+        <CardHeader>
+          <CardTitle className="text-sm font-medium text-zinc-950">Nuovo utente</CardTitle>
+          <CardDescription>
+            Crea un account con email e password. Potrà accedere subito, anche se non è nella
+            whitelist del pilota.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <CreateUserForm />
+        </CardContent>
+      </Card>
 
       <Card className="bg-white/80 border-zinc-200/80">
         <CardHeader>

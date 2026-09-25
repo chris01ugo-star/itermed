@@ -29,6 +29,9 @@ export function isBetaAuthorized(params: {
   const role = (params.role ?? "").trim().toUpperCase();
   if (role === "ADMIN") return true;
 
+  const plan = (params.planType ?? "").trim().toUpperCase();
+  if (plan === "INVITED") return true;
+
   if (isPilotAllowedEmail(params.email)) return true;
   if (isSponsoredFreeCaseEmail(params.email)) return true;
 

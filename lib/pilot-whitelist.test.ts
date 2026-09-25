@@ -47,6 +47,17 @@ describe("isBetaAuthorized", () => {
     );
   });
 
+  it("authorizes accounts created by an admin (INVITED)", () => {
+    assert.equal(
+      isBetaAuthorized({
+        role: "STUDENT",
+        planType: "INVITED",
+        email: "nuovo.tester@example.com",
+      }),
+      true,
+    );
+  });
+
   it("does not authorize a BETA_TESTER plan that is off the whitelist", () => {
     assert.equal(
       isBetaAuthorized({
