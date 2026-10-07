@@ -59,17 +59,18 @@ const ROUTE_LABELS: Record<AdministrationRoute, string> = {
   topica: "Topica",
 };
 
-const POSOLOGY_PLACEHOLDERS: Record<AdministrationRoute, string> = {
-  orale: "1 cp ogni 12 ore",
-  endovenosa: "1 fiala in bolo lento",
-  intramuscolare: "1 fiala IM",
-  sottocutanea: "1 fiala SC",
-  inalatoria: "2 puff × 3/die",
-  sublinguale: "1 cp SL al bisogno",
-  transdermica: "1 cerotto ogni 72 ore",
-  rettale: "1 supp. al bisogno",
-  topica: "applicazione locale 2/die",
-};
+const POSOLOGY_PRESETS = [
+  "Dose singola (In acuto)",
+  "1 fiala EV",
+  "1 fiala IM",
+  "1 cpr / die",
+  "1 cpr BID (ogni 12h)",
+  "1 cpr TID (ogni 8h)",
+  "In infusione continua",
+  "Al bisogno",
+] as const;
+
+const POSOLOGY_CUSTOM = "Altro (Specifica manuale)";
 
 function AifaBandBadge({ band }: { band: AifaBand }) {
   return (
@@ -97,7 +98,9 @@ export function PrescriptionPad({
   const [loadError, setLoadError] = useState<string | null>(null);
   const [selected, setSelected] = useState<PrescriptionPadMedication | null>(null);
   const [route, setRoute] = useState<AdministrationRoute>("orale");
-  const [posology, setPosology] = useState("");
+  const [posologyPreset, setPosologyPreset] = useState("");
+  const [posologyCustom, setPosologyCustom] = useState("");
+  const posology = posologyPreset === POSOLOGY_CUSTOM ? posologyCustom : posologyPreset;
   const [listOpen, setListOpen] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const searchWrapRef = useRef<HTMLDivElement | null>(null);
@@ -157,7 +160,8 @@ export function PrescriptionPad({
     setQuery("");
     setSelected(null);
     setRoute("orale");
-    setPosology("");
+    setPosologyPreset("");
+    setPosologyCustom("");
     setListOpen(false);
     setLoadError(null);
   }, [open]);
@@ -393,17 +397,34 @@ export function PrescriptionPad({
               <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-600">
                 Posologia
               </span>
-              <input
-                value={posology}
-                onChange={(e) => setPosology(e.target.value)}
-                placeholder={POSOLOGY_PLACEHOLDERS[route]}
-                maxLength={200}
-                className="h-11 w-full rounded-sm border border-slate-300 bg-[#FBF9F4] px-3 text-sm text-slate-800 outline-none placeholder:text-slate-400 focus:border-[#8B1E2D]/45 focus:ring-2 focus:ring-[#8B1E2D]/10"
-              />
-              <span className="block text-[10px] text-slate-400">
-                Es. «1 cp ogni 12 ore», «1 fiala in bolo lento»
-              </span>
+              <select
+                value={posologyPreset}
+                onChange={(e) => setPosologyPreset(e.target.value)}
+                className="h-11 w-full rounded-sm border border-slate-300 bg-[#FBF9F4] px-3 text-sm text-slate-800 outline-none focus:border-[#8B1E2D]/45 focus:ring-2 focus:ring-[#8B1E2D]/10"
+              >
+                <option value="">Seleziona la posologia</option>
+                {POSOLOGY_PRESETS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+                <option value={POSOLOGY_CUSTOM}>{POSOLOGY_CUSTOM}</option>
+              </select>
             </label>
+            {posologyPreset === POSOLOGY_CUSTOM ? (
+              <label className="block space-y-1.5">
+                <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-600">
+                  Posologia personalizzata
+                </span>
+                <input
+                  value={posologyCustom}
+                  onChange={(e) => setPosologyCustom(e.target.value)}
+                  placeholder="Specifica dose, via e frequenza"
+                  maxLength={200}
+                  className="h-11 w-full rounded-sm border border-slate-300 bg-[#FBF9F4] px-3 text-sm text-slate-800 outline-none placeholder:text-slate-400 focus:border-[#8B1E2D]/45 focus:ring-2 focus:ring-[#8B1E2D]/10"
+                />
+              </label>
+            ) : null}
           </div>
         </div>
 

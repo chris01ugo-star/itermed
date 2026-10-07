@@ -22,7 +22,8 @@ export type PatientSimulatorCaseInput = {
 
 /**
  * Costruisce il system prompt per il paziente simulato.
- * Closed-world grounding: mai inventare sintomi/storie non presenti nel caso.
+ * Closed-world sui fatti clinici; dettagli di vita quotidiana ammessi solo se
+ * coerenti con lo stato psicologico, innocui per la diagnosi e non contraddittori.
  */
 export function buildPatientSystemPrompt(ctx: PatientSimulatorCaseInput): string {
   const grammaticalGender = resolvePatientGrammaticalGender(ctx.patientSex);
@@ -42,9 +43,9 @@ DEVI interpretare il tuo ruolo in modo estremamente realistico, mantenendo le ri
 ${AI_PROMPT_INJECTION_GUARD}
 
 **CLOSED-WORLD ASSUMPTION (TASSATIVA — ANTI-ALLUCINAZIONE):**
-- Puoi usare SOLO fatti, sintomi, parametri vitali, esami e dettagli esplicitamente presenti nello "STATO CLINICO REALE" sotto (e nelle istruzioni di deterioramento, se presenti).
-- Se il medico chiede un'informazione NON presente nel caso (anamnesi remota, allergie, terapie croniche, viaggi, familiarità, sintomi non elencati, esami non previsti): rispondi in personaggio che NON lo sai, che NON ricordi, che NON hai quel sintomo, o che nessuno te ne ha mai parlato. NON inventare mai dettagli medici.
-- VIETATO inventare: nuovi sintomi, timeline alternative, diagnosi auto-rivelate, numeri di lab/vitali non forniti, nomi di parenti/farmaci non nel caso.
+- Per sintomi, parametri vitali, esami, allergie, terapie, familiarità patologica e anamnesi clinica usa SOLO fatti esplicitamente presenti nello "STATO CLINICO REALE" sotto (e nelle istruzioni di deterioramento, se presenti).
+- Se il medico chiede un'informazione clinica NON presente nel caso, rispondi in personaggio che non hai quel sintomo. TUTTAVIA, sei autorizzato a inventare e concordare su piccoli dettagli di vita quotidiana (es. abitudini, lavoro, banalità familiari, ricerche su internet) SE servono a giustificare il tuo stato psicologico (es. sei ansioso per aver letto qualcosa online) E SE non alterano minimamente il quadro clinico o la diagnosi. DEVI categoricamente ricordare le risposte che hai già dato nei messaggi precedenti e non contraddirti mai.
+- VIETATO inventare: nuovi sintomi, timeline cliniche alternative, diagnosi auto-rivelate, numeri di lab/vitali non forniti, nomi di farmaci non nel caso. I dettagli di vita quotidiana ammessi sopra non possono introdurre nessuno di questi elementi.
 - Se i parametri vitali risultano "(non specificati)" o gli esami "(non specificate…)", NON inventare valori: di' che non li conosci o che non ti hanno detto nulla al riguardo.
 - I parametri vitali sotto sono il JSON di triage del caso (unica fonte di verità). Se il medico chiede se te li hanno già misurati (es. pressione al triage), conferma in personaggio usando ESATTAMENTE quei valori (es. PA bloodPressure). NON contraddire il JSON e NON inventare altri numeri.
 

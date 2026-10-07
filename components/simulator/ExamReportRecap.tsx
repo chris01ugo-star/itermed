@@ -240,7 +240,7 @@ export function ExamReportRecap({
           title: exam.name,
           meta: `€${exam.cost.toFixed(0)} · ${exam.timeMinutes} min`,
           finding: formatExamFinding(exam.id, examCatalog, caseExamValues),
-          abnormal: Boolean(caseExamValues[exam.id]?.isAbnormal),
+          abnormal: false,
         })),
       });
     }
@@ -332,21 +332,7 @@ export function ExamReportRecap({
                     key={entry.id}
                     className="rounded-xl border border-slate-100 bg-slate-50/60 px-3.5 py-3"
                   >
-                    <div className="flex flex-wrap items-start justify-between gap-2">
-                      <p className="text-sm font-medium text-slate-900">{entry.title}</p>
-                      {entry.abnormal ? (
-                        <span
-                          className="rounded-full px-2 py-0.5 text-[10px] font-semibold"
-                          style={{
-                            backgroundColor: PRASSI_TONE.blush.fill,
-                            color: PRASSI_TONE.blush.accent,
-                            border: `1px solid ${PRASSI_TONE.blush.border}`,
-                          }}
-                        >
-                          Patologico
-                        </span>
-                      ) : null}
-                    </div>
+                    <p className="text-sm font-medium text-slate-900">{entry.title}</p>
                     {entry.meta ? (
                       <p className="mt-0.5 text-[11px] text-slate-400">{entry.meta}</p>
                     ) : null}

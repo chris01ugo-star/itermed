@@ -33,7 +33,7 @@ export function DashboardChrome({
 
   if (isImmersivePlay) {
     return (
-      <div className="flex h-screen w-full overflow-hidden bg-[#F4F6F8] text-text-primary">
+      <div className="flex h-dvh max-h-dvh w-full overflow-hidden bg-[#F4F6F8] text-text-primary">
         <main className="h-full min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto bg-[#F4F6F8] p-0">
           {children}
         </main>
@@ -42,7 +42,7 @@ export function DashboardChrome({
   }
 
   return (
-    <div className="relative flex h-screen w-full overflow-hidden bg-[#F4F6F8] text-text-primary">
+    <div className="relative flex h-dvh max-h-dvh w-full overflow-hidden bg-[#F4F6F8] text-text-primary">
       <DashboardSidebar
         userLabel={userLabel}
         isAdmin={isAdmin}

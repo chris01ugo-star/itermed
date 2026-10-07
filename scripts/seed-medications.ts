@@ -8,6 +8,8 @@
  * Augmentin 7.90, Eliquis ~60.00, Rocefin ~4.50).
  *
  * Idempotent upsert on (commercialName, dosageForm).
+ * `category` is the specialty pillar (Cardiologia, Pneumologia,
+ * Gastroenterologia, Urgenza), not a pharmacological class.
  *
  *   npx tsx scripts/seed-medications.ts
  *   npm run db:seed:medications
@@ -426,6 +428,240 @@ const MEDICATIONS: SeedMedication[] = [
     price: 2.99,
     category: "Urgenza",
     source: "AIFA Classe A AIC 006979037 BUSCOPAN*6 fiale IM EV 20 mg 1 ml",
+  },
+
+  // --- PS / reparto: analgesici (Tachipirina, Brufen, Voltaren). Toradol è già in elenco. ---
+  {
+    commercialName: "Tachipirina",
+    activeIngredient: "Paracetamolo",
+    dosageForm: "compresse 1000mg",
+    price: 4.2,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe A. Analgesico non oppioide, via orale.",
+  },
+  {
+    commercialName: "Tachipirina",
+    activeIngredient: "Paracetamolo",
+    dosageForm: "flacone 1000mg/100ml",
+    price: 3.8,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe H. Analgesico non oppioide, via endovenosa.",
+  },
+  {
+    commercialName: "Brufen",
+    activeIngredient: "Ibuprofene",
+    dosageForm: "compresse 600mg",
+    price: 6.5,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe A. FANS, via orale.",
+  },
+  {
+    commercialName: "Voltaren",
+    activeIngredient: "Diclofenac",
+    dosageForm: "fiale 75mg",
+    price: 4.1,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe A. FANS, via intramuscolare o endovenosa.",
+  },
+
+  // --- Oppiacei e antagonista. Morfina cloridrato è già in elenco. ---
+  {
+    commercialName: "Fentanest",
+    activeIngredient: "Fentanil",
+    dosageForm: "fiale 100mcg",
+    price: 2.8,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe H. Oppiaceo, via endovenosa.",
+  },
+  {
+    commercialName: "Contramal",
+    activeIngredient: "Tramadolo",
+    dosageForm: "fiale 100mg",
+    price: 3.4,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe A. Oppiaceo, via endovenosa o intramuscolare.",
+  },
+  {
+    commercialName: "Narcan",
+    activeIngredient: "Naloxone",
+    dosageForm: "fiale 0.4mg",
+    price: 8.5,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe H. Antagonista oppioide, via endovenosa.",
+  },
+
+  // --- Cardiovascolari di emergenza. Adrenalina, atropina, amiodarone e furosemide sono già in elenco. ---
+  {
+    commercialName: "Adenosina",
+    activeIngredient: "Adenosina",
+    dosageForm: "fiale 6mg",
+    price: 12,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe H. Anti-aritmico, via endovenosa.",
+  },
+  {
+    commercialName: "Venitrin",
+    activeIngredient: "Nitroglicerina",
+    dosageForm: "fiale 5mg",
+    price: 3.9,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe H. Nitrato, via endovenosa.",
+  },
+  {
+    commercialName: "Eparina sodica",
+    activeIngredient: "Eparina sodica",
+    dosageForm: "fiale 5000 UI",
+    price: 2.1,
+    category: "Cardiologia",
+    source: "Tariffa didattica di reparto. Classe H. Anticoagulante, via endovenosa o sottocutanea.",
+  },
+
+  // --- Respiratori. Salbutamolo è già presente come Ventolin. ---
+  {
+    commercialName: "Broncovaleas",
+    activeIngredient: "Salbutamolo",
+    dosageForm: "sospensione inalatoria 100mcg",
+    price: 4.2,
+    category: "Pneumologia",
+    source: "Tariffa didattica di reparto. Classe A. Beta-2 agonista, via inalatoria.",
+  },
+  {
+    commercialName: "Atrovent",
+    activeIngredient: "Ipratropio bromuro",
+    dosageForm: "soluzione per nebulizzazione 250mcg/ml",
+    price: 6.8,
+    category: "Pneumologia",
+    source: "Tariffa didattica di reparto. Classe A. Anticolinergico inalatorio.",
+  },
+
+  // --- Corticosteroidi. Prednisone (Deltacortene) e metilprednisolone 500 mg (Solumedrol) sono già in elenco. ---
+  {
+    commercialName: "Urbason",
+    activeIngredient: "Metilprednisolone",
+    dosageForm: "fiale 40mg",
+    price: 3.6,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe A. Corticosteroide, via endovenosa o intramuscolare.",
+  },
+  {
+    commercialName: "Soldesam",
+    activeIngredient: "Desametasone",
+    dosageForm: "fiale 4mg",
+    price: 2.4,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe A. Corticosteroide, via endovenosa o intramuscolare.",
+  },
+
+  // --- Gastroenterologici. PPI e Plasil sono già in elenco. ---
+  {
+    commercialName: "Zofran",
+    activeIngredient: "Ondansetron",
+    dosageForm: "fiale 8mg",
+    price: 7.5,
+    category: "Gastroenterologia",
+    source: "Tariffa didattica di reparto. Classe H. Antiemetico, via endovenosa.",
+  },
+  {
+    commercialName: "Imodium",
+    activeIngredient: "Loperamide",
+    dosageForm: "compresse 2mg",
+    price: 5.9,
+    category: "Gastroenterologia",
+    source: "Tariffa didattica di reparto. Classe C. Antipropulsivo, via orale.",
+  },
+  {
+    commercialName: "Movicol",
+    activeIngredient: "Macrogol",
+    dosageForm: "bustine",
+    price: 8.4,
+    category: "Gastroenterologia",
+    source: "Tariffa didattica di reparto. Classe C. Lassativo osmotico, via orale.",
+  },
+
+  // --- Sedativi e antagonista benzodiazepinico ---
+  {
+    commercialName: "Valium",
+    activeIngredient: "Diazepam",
+    dosageForm: "fiale 10mg",
+    price: 2.8,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe A. Benzodiazepina, via endovenosa o intramuscolare.",
+  },
+  {
+    commercialName: "Tavor",
+    activeIngredient: "Lorazepam",
+    dosageForm: "compresse 2.5mg",
+    price: 4.5,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe C. Benzodiazepina, via orale.",
+  },
+  {
+    commercialName: "Ipnovel",
+    activeIngredient: "Midazolam",
+    dosageForm: "fiale 5mg",
+    price: 3.2,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe H. Benzodiazepina, via endovenosa.",
+  },
+  {
+    commercialName: "Anexate",
+    activeIngredient: "Flumazenil",
+    dosageForm: "fiale 0.5mg",
+    price: 14,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe H. Antagonista benzodiazepinico, via endovenosa.",
+  },
+
+  // --- Antibiotici. Augmentin, Rocefin, Tavanic, Zitromax e il generico pip/tazo sono già in elenco. ---
+  {
+    commercialName: "Tazocin",
+    activeIngredient: "Piperacillina/Tazobactam",
+    dosageForm: "flaconcino 4g/0.5g",
+    price: 15.5,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe H. Antibiotico, via endovenosa.",
+  },
+
+  // --- Fluidi e metabolici ---
+  {
+    commercialName: "Soluzione Fisiologica 0.9%",
+    activeIngredient: "Sodio cloruro",
+    dosageForm: "flacone 500ml",
+    price: 1.2,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe H. Cristalloide, via endovenosa.",
+  },
+  {
+    commercialName: "Ringer Lattato",
+    activeIngredient: "Ringer lattato",
+    dosageForm: "flacone 500ml",
+    price: 1.4,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe H. Cristalloide, via endovenosa.",
+  },
+  {
+    commercialName: "Glucosata 5%",
+    activeIngredient: "Glucosio",
+    dosageForm: "flacone 500ml",
+    price: 1.2,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe H. Soluzione glucosata, via endovenosa.",
+  },
+  {
+    commercialName: "Actrapid",
+    activeIngredient: "Insulina umana",
+    dosageForm: "flaconcino 100 UI/ml",
+    price: 8.9,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe A. Insulina rapida, via endovenosa o sottocutanea.",
+  },
+  {
+    commercialName: "Potassio cloruro",
+    activeIngredient: "Potassio cloruro",
+    dosageForm: "fiale 20 mEq",
+    price: 1.8,
+    category: "Urgenza",
+    source: "Tariffa didattica di reparto. Classe H. Elettrolita, via endovenosa.",
   },
 ];
 

@@ -10,6 +10,7 @@ import {
   type AdministrationRoute,
   type SessionPrescription,
   formatPrescriptionTrace,
+  formatSystemMedicationAction,
   parseSessionPrescriptions,
 } from "@/lib/simulator/prescription-trace";
 
@@ -88,14 +89,19 @@ export async function recordSessionPrescription(params: {
   });
 
   const existingChat = parseChatHistory(session.chatHistory);
-  const last = existingChat[existingChat.length - 1];
-  const nextChat =
-    last?.role === "user" && last.content === trace
-      ? existingChat
-      : [
-          ...existingChat,
-          { role: "user" as const, content: trace, createdAt: prescription.prescribedAt },
-        ];
+  const systemLine = formatSystemMedicationAction(
+    medication.commercialName,
+    `${medication.dosageForm} ${posology}`.trim(),
+  );
+  const nextChat = [...existingChat];
+  const appendTurn = (content: string) => {
+    const last = nextChat[nextChat.length - 1];
+    if (last?.role === "user" && last.content === content) return;
+    if (nextChat.some((turn) => turn.role === "user" && turn.content === content)) return;
+    nextChat.push({ role: "user", content, createdAt: prescription.prescribedAt });
+  };
+  appendTurn(trace);
+  appendTurn(systemLine);
 
   await prisma.$transaction(async (tx) => {
     await tx.caseSession.update({

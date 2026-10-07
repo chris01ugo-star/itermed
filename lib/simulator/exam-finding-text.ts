@@ -10,7 +10,8 @@ export const RELATED_EXAM_IDS: Record<string, readonly string[]> = {
   ecocolordoppler: ["ecografia"],
   "rx-addome": ["ecografia"],
   angio: ["ecocolordoppler", "ecografia"],
-  tc: ["ecografia"],
+  tc: ["tc-addome", "ecografia"],
+  coprocultura: ["coprocoltura"],
 };
 
 const EXAM_HINTS: Record<string, readonly string[]> = {
@@ -86,11 +87,50 @@ function isWrapperOrAdviceClause(clause: string): boolean {
   return false;
 }
 
-/** Keep only the requested exam's observation; drop other-exam hints and advice. */
+/** Scoring metadata and diagnosis names that must not appear in a live report. */
+function stripInternalChatter(text: string): string {
+  return text
+    .replace(
+      /"?(?:expectedKeywords|diagnosi_attesa|diagnosiAttesa|wasteRationale|isAbnormal|inappropriate)"?\s*:\s*(?:\[[^\]]*\]|"[^"]*"|[^.;\n]*)/gi,
+      "",
+    )
+    .replace(/\brationale\s*:\s*[^.;\n]+/gi, "")
+    .replace(/,?\s*indicativ[oa]\s+di\s+[^.;]+/gi, "")
+    .replace(/,?\s*suggestiv[oa]\s+di\s+(?:una\s+)?(?:diagnosi|patologia)[^.;]*/gi, "")
+    .replace(/\bdiagnosi(?:\s+finale|\s+di\s+dimissione)?\s*[:\-]\s*[^.;]+/gi, "");
+}
+
+/**
+ * Testo anamnestico visibile durante la partita.
+ * Toglie expectedKeywords, rationale e diagnosi_attesa se finiscono nel testo mostrato.
+ * Non tocca il testo che lo studente ha scritto lui.
+ */
+export function toPlayerAnamnesisText(raw: string | null | undefined): string {
+  if (!raw?.trim()) return "";
+  const text = raw
+    .replace(
+      /"?(?:expectedKeywords|diagnosi_attesa|diagnosiAttesa)"?\s*:\s*(?:\[[^\]]*\]|"[^"]*"|[^.;\n]*)/gi,
+      "",
+    )
+    .replace(/\bexpectedKeywords\b[^.\n]*/gi, "")
+    .replace(/\bdiagnosi[_\s-]?attesa\b[^.\n]*/gi, "")
+    .replace(/\brationale\s*:\s*[^\n]+/gi, "");
+  return tidy(text);
+}
+
+/** Setting breve (reparto, PS). I paragrafi clinici non vanno in testata. */
+export function toPlayerCareSetting(raw: string | null | undefined): string | null {
+  const text = toPlayerAnamnesisText(raw);
+  if (!text) return null;
+  if (text.length > 72 || text.split(/\s+/).length > 8) return null;
+  return text;
+}
+
+/** Keep only the requested exam's observation; drop other-exam hints, advice, and diagnosis spoilers. */
 export function sanitizeExamFinding(examId: string, raw: string): string {
   const source = tidy(raw);
   if (!source) return "";
-  if (isWasteFinding(source)) return source;
+  if (isWasteFinding(source)) return "";
 
   let text = source;
   if (isLeakedCompositeFinding(text) || isAdviceFinding(text)) {
@@ -101,7 +141,7 @@ export function sanitizeExamFinding(examId: string, raw: string): string {
     text = useful.length > 0 ? useful.join(". ") : "";
   }
 
-  text = text
+  text = stripInternalChatter(text)
     .replace(/\s*\(\s*(CARDIO|PNEUMO|GASTRO)-\d{3}\s*\)/gi, "")
     .replace(/\s*nel contesto di[^.;]*/gi, "")
     .replace(/\b(eseguire|iniziare|programmare|si consiglia)[^.;]*/gi, "")

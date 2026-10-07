@@ -15,6 +15,7 @@ import type {
 import {
   buildExecutedActionIds,
   computeEscAhaClinicalAccuracy,
+  isActionIdExecuted,
   CLINICAL_RAG_REFS,
 } from "@/lib/services/evaluation-clinical-esc";
 import {
@@ -376,6 +377,55 @@ function clampScore(value: number): number {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 
+const CONFUSIONAL_STATE_OMISSION =
+  "Grave omissione: non è stato indagato lo stato confusionale del paziente";
+
+const NEUROLOGICAL_WORKUP_PENALTY = 20;
+
+/** Esame obiettivo neurologico, GCS o indagine affine presente nel registro azioni. */
+const NEUROLOGICAL_WORKUP_PATTERN =
+  /gcs|glasgow|pupils|pupille|neuro(?:-deficits|log)|deficiti?[-\s]?focal|sensorio|orientament|coscienza|encefal|eeg/;
+
+export function hasNeurologicalWorkup(actionIds: Array<string | null | undefined>): boolean {
+  return actionIds.some((raw) => {
+    const id = (raw ?? "").trim().toLowerCase().replace(/_/g, "-");
+    return id.length > 0 && NEUROLOGICAL_WORKUP_PATTERN.test(id);
+  });
+}
+
+function applyConfusionalStateOmission(params: {
+  score: number;
+  breakdown: ScoreBreakdown["clinical"];
+  neurologicalRedFlagDetected?: boolean;
+  actionIds: Array<string | null | undefined>;
+}): { score: number; breakdown: ScoreBreakdown["clinical"] } {
+  if (!params.neurologicalRedFlagDetected) {
+    return { score: params.score, breakdown: params.breakdown };
+  }
+  if (hasNeurologicalWorkup(params.actionIds)) {
+    return { score: params.score, breakdown: params.breakdown };
+  }
+  const score = clampScore(params.score - NEUROLOGICAL_WORKUP_PENALTY);
+  return {
+    score,
+    breakdown: {
+      ...params.breakdown,
+      final: score,
+      expertAnalysis: params.breakdown.expertAnalysis
+        ? `${params.breakdown.expertAnalysis} ${CONFUSIONAL_STATE_OMISSION}`
+        : CONFUSIONAL_STATE_OMISSION,
+      motivations: [
+        ...(params.breakdown.motivations ?? []),
+        motivation("negative", CONFUSIONAL_STATE_OMISSION, {
+          id: "clin_confusional_state_omission",
+          scoreImpact: -NEUROLOGICAL_WORKUP_PENALTY,
+          sourceRef: LEGAL_SOURCE_REFS.protocollo,
+        }),
+      ],
+    },
+  };
+}
+
 let motivationSeq = 0;
 
 export function motivation(
@@ -403,6 +453,72 @@ function dedupeMotivationsByText(items: ScoreMotivation[]): ScoreMotivation[] {
     out.push(m);
   }
   return out;
+}
+
+export type CaseFatalExamRef = {
+  examId: string;
+  name?: string;
+  finding?: string;
+  isFatal?: boolean;
+  componentExamIds?: string[];
+};
+
+/**
+ * Killer Switch dal JSON del caso. Mandatory + isFatal e non eseguito = omissione salvavita.
+ * Inappropriate + isFatal ed eseguito = azione letale. Senza `executedActionIds` non decide
+ * (il fallback regex in evaluation-killer-switch resta attivo).
+ */
+export function collectCaseFatalErrors(params: {
+  mandatoryExams?: CaseFatalExamRef[] | null;
+  inappropriateExams?: CaseFatalExamRef[] | null;
+  executedActionIds?: readonly string[] | null;
+}): Array<{ description: string; rationale: string }> {
+  if (!Array.isArray(params.executedActionIds)) return [];
+
+  const executed = new Set(params.executedActionIds);
+  const catalog = [
+    ...(params.mandatoryExams ?? []),
+    ...(params.inappropriateExams ?? []),
+  ] as CaseExamDefinition[];
+
+  const wasExecuted = (exam: CaseFatalExamRef): boolean => {
+    if (isActionIdExecuted(exam.examId, executed, catalog)) return true;
+    const id = normalizeExamSlug(exam.examId);
+    const name = normalizeExamSlug(exam.name ?? "");
+    for (const raw of executed) {
+      const slug = normalizeExamSlug(raw);
+      if (!slug) continue;
+      if (slug === id) return true;
+      if (name.length >= 4 && slug === name) return true;
+    }
+    return false;
+  };
+
+  const errors: Array<{ description: string; rationale: string }> = [];
+
+  for (const exam of params.mandatoryExams ?? []) {
+    if (exam?.isFatal !== true || wasExecuted(exam)) continue;
+    const label = exam.name?.trim() || exam.examId;
+    errors.push({
+      description: `Omissione salvavita: ${label}`,
+      rationale:
+        exam.finding?.trim() ||
+        "Azione obbligatoria marcata isFatal nel caso clinico e assente dal registro esecutivo.",
+    });
+  }
+
+  for (const exam of params.inappropriateExams ?? []) {
+    if (exam?.isFatal !== true || !wasExecuted(exam)) continue;
+    const label = exam.name?.trim() || exam.examId;
+    errors.push({
+      description: `Azione letale eseguita: ${label}`,
+      rationale:
+        exam.finding?.trim() ||
+        "Azione inappropriata marcata isFatal nel caso clinico ed eseguita dallo studente.",
+    });
+  }
+
+  return errors;
 }
 
 export function normalizeExamSlug(value: string): string {
@@ -555,6 +671,7 @@ export function computeClinicalAccuracyScore(
     mandatoryExams?: CaseExamDefinition[] | null;
     inappropriateExams?: CaseExamDefinition[] | null;
     goldStandardPath?: string[] | null;
+    neurologicalRedFlagDetected?: boolean;
   },
 ): {
   score: number;
@@ -580,8 +697,14 @@ export function computeClinicalAccuracyScore(
       goldStandardPath: options?.goldStandardPath,
     });
 
-    return {
+    const penalized = applyConfusionalStateOmission({
       score: result.score,
+      neurologicalRedFlagDetected: options?.neurologicalRedFlagDetected,
+      actionIds: [
+        ...(options?.executedActionIds ?? []),
+        ...(options?.requestedExamIds ?? []),
+        ...(options?.orderedExams ?? []).flatMap((exam) => [exam.id, exam.name]),
+      ],
       breakdown: {
         base: 0,
         missedHigh: result.legacy.missedHigh,
@@ -625,6 +748,11 @@ export function computeClinicalAccuracyScore(
           },
         },
       },
+    });
+
+    return {
+      score: penalized.score,
+      breakdown: penalized.breakdown,
     };
   }
 
@@ -693,8 +821,14 @@ export function computeClinicalAccuracyScore(
     );
   }
 
-  return {
+  const legacyPenalized = applyConfusionalStateOmission({
     score: final,
+    neurologicalRedFlagDetected: options?.neurologicalRedFlagDetected,
+    actionIds: [
+      ...(options?.executedActionIds ?? []),
+      ...(options?.requestedExamIds ?? []),
+      ...(options?.orderedExams ?? []).flatMap((exam) => [exam.id, exam.name]),
+    ],
     breakdown: {
       base: 0,
       missedHigh,
@@ -707,6 +841,11 @@ export function computeClinicalAccuracyScore(
       totalWeight,
       anamnesisCoveragePercent: anamnesisPct,
     },
+  });
+
+  return {
+    score: legacyPenalized.score,
+    breakdown: legacyPenalized.breakdown,
   };
 }
 
@@ -1138,6 +1277,7 @@ export function deriveDimensionScores(params: {
   legalChunks?: GuidelineChunk[] | null;
   legalSources?: string[] | null;
   classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
+  neurologicalRedFlagDetected?: boolean;
 }): { scores: DimensionScores; breakdown: ScoreBreakdown } {
   const anamnesis = computeAnamnesisProtocolCoverage({
     chatHistory: params.chatHistory,
@@ -1155,6 +1295,7 @@ export function deriveDimensionScores(params: {
     mandatoryExams: params.mandatoryExams,
     inappropriateExams: params.inappropriateExams,
     goldStandardPath: params.goldStandardPath,
+    neurologicalRedFlagDetected: params.neurologicalRedFlagDetected,
   });
   const exams = computeAppropriatenessScore(params.inappropriateActions, {
     orderedExams: params.orderedExams,

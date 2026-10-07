@@ -24,5 +24,5 @@ type LiveAequanClinicalWorkspaceProps = {
 export function LiveAequanClinicalWorkspace({
   children,
 }: LiveAequanClinicalWorkspaceProps) {
-  return <div className="flex h-full min-h-0 w-full min-w-0 flex-col">{children}</div>;
+  return <div className="flex h-full min-h-0 w-full min-w-0 flex-col overflow-x-hidden">{children}</div>;
 }

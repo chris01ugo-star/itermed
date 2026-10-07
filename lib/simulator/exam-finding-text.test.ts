@@ -4,6 +4,7 @@ import {
   adaptFindingForRequestedExam,
   pickCaseFindingText,
   sanitizeExamFinding,
+  toPlayerAnamnesisText,
 } from "@/lib/simulator/exam-finding-text";
 
 const AAA_BLOB =
@@ -35,6 +36,22 @@ describe("exam-finding-text", () => {
     assert.match(fast, /FAST/i);
     assert.match(fast, /versamento/i);
     assert.match(fast, /aorta/i);
+  });
+
+  it("drops diagnosis chatter and scoring keywords from the live report", () => {
+    const troponin = sanitizeExamFinding(
+      "troponina-hs",
+      "Troponina alta sensibilità positiva, indicativa di infarto miocardico. diagnosi_attesa: STEMI",
+    );
+    assert.match(troponin, /Troponina alta sensibilità positiva/i);
+    assert.doesNotMatch(troponin, /infarto miocardico/i);
+    assert.doesNotMatch(troponin, /diagnosi_attesa|STEMI/i);
+
+    const anamnesis = toPlayerAnamnesisText(
+      'Dolore toracico. expectedKeywords: ["infarto","angina"] rationale: finestra terapeutica.',
+    );
+    assert.match(anamnesis, /Dolore toracico/i);
+    assert.doesNotMatch(anamnesis, /expectedKeywords|infarto|rationale|finestra/i);
   });
 
   it("reuses ecografia when FAST has no override", () => {

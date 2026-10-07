@@ -56,6 +56,7 @@ type TabsTriggerProps = {
   onSelect: (value: string) => void;
   children: ReactNode;
   className?: string;
+  "data-tour"?: string;
 };
 
 export function TabsTrigger({
@@ -64,11 +65,13 @@ export function TabsTrigger({
   onSelect,
   children,
   className,
+  "data-tour": dataTour,
 }: TabsTriggerProps) {
   const isActive = value === currentValue;
   return (
     <button
       type="button"
+      data-tour={dataTour}
       onClick={() => onSelect(value)}
       className={cn(
         "rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors",

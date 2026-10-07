@@ -126,7 +126,7 @@ export function ExamOrderDialog({
                     )}
                   </div>
                   {selected ? (
-                    <p className="text-xs leading-relaxed text-slate-600">
+                    <p className="whitespace-pre-line text-xs leading-relaxed text-slate-600">
                       {formatExamFinding(exam.id, examCatalog, caseExamValues)}
                     </p>
                   ) : null}

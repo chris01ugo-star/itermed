@@ -4,8 +4,11 @@ import type { DimensionScores, ScoreBreakdown } from "@/lib/services/evaluation-
 import type { MilestoneScoreBreakdown } from "@/lib/services/evaluation-milestone-scoring";
 import {
   MACRO_AREA_WEIGHTS,
+  collectCaseFatalErrors,
   computeTotalScoreTrentesimi,
   dimensionContributionTrentesimi,
+  normalizeExamSlug,
+  type CaseFatalExamRef,
 } from "@/lib/services/evaluation-scoring";
 
 const KILLER_SWITCH_CAP = 17.9;
@@ -20,8 +23,27 @@ const FATAL_LIFE_SAVING_ACTION_PATTERN =
 const FATAL_ALLERGY_DRUG_ACTION_PATTERN =
   /allerg|anafil|controindicazion[ei].{0,40}farmac|farmaco.{0,40}controindic/i;
 
-/** Detects clinically fatal errors from structured evaluation checklist. */
-export function detectFatalErrors(analytical: AnalyticalEvaluation): FatalError[] {
+export type KillerSwitchCaseContext = {
+  mandatoryExams?: CaseFatalExamRef[] | null;
+  inappropriateExams?: CaseFatalExamRef[] | null;
+  executedActionIds?: readonly string[] | null;
+};
+
+function textMentionsExam(text: string, exam: CaseFatalExamRef): boolean {
+  const hay = normalizeExamSlug(text);
+  if (!hay) return false;
+  const id = normalizeExamSlug(exam.examId);
+  const name = normalizeExamSlug(exam.name ?? "");
+  if (id.length >= 3 && (hay === id || hay.includes(id))) return true;
+  if (name.length >= 6 && (hay === name || hay.includes(name))) return true;
+  return false;
+}
+
+/** Detects clinically fatal errors from the case flag `isFatal` and the legacy regex. */
+export function detectFatalErrors(
+  analytical: AnalyticalEvaluation,
+  caseContext?: KillerSwitchCaseContext | null,
+): FatalError[] {
   const seen = new Set<string>();
   const errors: FatalError[] = [];
 
@@ -73,6 +95,49 @@ export function detectFatalErrors(analytical: AnalyticalEvaluation): FatalError[
   for (const fatal of analytical.fatalErrors ?? []) {
     if (!fatal) continue;
     push(fatal.description ?? "Errore fatale", fatal.rationale ?? "");
+  }
+
+  const mandatoryExams = caseContext?.mandatoryExams ?? [];
+  const inappropriateExams = caseContext?.inappropriateExams ?? [];
+  for (const flagged of collectCaseFatalErrors({
+    mandatoryExams,
+    inappropriateExams,
+    executedActionIds: caseContext?.executedActionIds,
+  })) {
+    push(flagged.description, flagged.rationale);
+  }
+
+  // Senza registro esecutivo, lo stesso flag si legge sulla checklist analitica.
+  if (!Array.isArray(caseContext?.executedActionIds)) {
+    for (const exam of mandatoryExams) {
+      if (exam?.isFatal !== true) continue;
+      const missed = (analytical.clinicalDeltaTable ?? []).some(
+        (row) =>
+          (row?.status === "MISSED" || row?.status === "DELAYED") &&
+          textMentionsExam(row.protocolAction ?? "", exam),
+      );
+      const omitted = (analytical.criticalActions ?? []).some(
+        (action) =>
+          action?.performed === false && textMentionsExam(action.description ?? "", exam),
+      );
+      if (!missed && !omitted) continue;
+      push(
+        `Omissione salvavita: ${exam.name?.trim() || exam.examId}`,
+        exam.finding?.trim() || "Azione obbligatoria marcata isFatal nel caso clinico.",
+      );
+    }
+
+    for (const exam of inappropriateExams) {
+      if (exam?.isFatal !== true) continue;
+      const performed = (analytical.inappropriateActions ?? []).some(
+        (action) => action?.performed === true && textMentionsExam(action.description ?? "", exam),
+      );
+      if (!performed) continue;
+      push(
+        `Azione letale eseguita: ${exam.name?.trim() || exam.examId}`,
+        exam.finding?.trim() || "Azione inappropriata marcata isFatal nel caso clinico.",
+      );
+    }
   }
 
   return errors;

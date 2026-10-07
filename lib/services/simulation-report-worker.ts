@@ -16,6 +16,7 @@ import {
   applyKillerSwitch,
   computeFinalTrentesimiWithKillerSwitch,
   detectFatalErrors,
+  type KillerSwitchCaseContext,
 } from "@/lib/services/evaluation-killer-switch";
 import { buildExecutedActionIds } from "@/lib/services/evaluation-clinical-esc";
 import type { FatalError } from "@/lib/services/evaluation-report-types";
@@ -47,6 +48,7 @@ import {
   parseHelpTelemetryFromMilestones,
 } from "@/lib/simulator/milestone-tracker";
 import { asStringArray } from "@/lib/simulator/session-id";
+import { parseChatHistory } from "@/lib/simulator/persist-chat-turn";
 import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
 import {
   mergePrescriptionTracesIntoChat,
@@ -539,6 +541,7 @@ function toAnalyticalSnapshot(evaluation: EvaluationResult): AnalyticalEvaluatio
       : [],
     economicAnalysis: evaluation.economicAnalysis,
     coachingFeedback: evaluation.coachingFeedback,
+    neurologicalRedFlagDetected: Boolean(evaluation.neurologicalRedFlagDetected),
     fatalErrors: Array.isArray(evaluation.fatalErrors) ? evaluation.fatalErrors : [],
   };
 }
@@ -564,7 +567,10 @@ function sanitizeDimensionScores(
  * Applies Killer-Switch on the 0–30 trentesimi scale.
  * Guarantees finalTotal ≤ 17.9 whenever any fatal error is present.
  */
-function applyKillerSwitchToEvaluation(evaluation: EvaluationResult): {
+function applyKillerSwitchToEvaluation(
+  evaluation: EvaluationResult,
+  caseContext?: KillerSwitchCaseContext | null,
+): {
   fatalErrors: FatalError[];
   rawTotalTrentesimi: number;
   finalTotalTrentesimi: number;
@@ -574,7 +580,7 @@ function applyKillerSwitchToEvaluation(evaluation: EvaluationResult): {
   const analytical = toAnalyticalSnapshot(evaluation);
   let fatalErrors: FatalError[] = [];
   try {
-    fatalErrors = detectFatalErrors(analytical);
+    fatalErrors = detectFatalErrors(analytical, caseContext);
   } catch {
     // Never abort the job on detector failure — treat as no fatal errors.
     fatalErrors = [];
@@ -714,11 +720,16 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
 
     let sessionRequestedExamIds = asStringArray(input.requestedExamIds);
     let sessionPrescriptions: SessionPrescription[] = [];
+    let trustedChatHistory: Array<{ role: "user" | "assistant"; content: string }> = [];
     if (input.liveSessionId) {
       try {
         const liveSession = await prisma.caseSession.findUnique({
           where: { id: input.liveSessionId },
-          select: { requestedExamIds: true, prescribedMedications: true },
+          select: {
+            requestedExamIds: true,
+            prescribedMedications: true,
+            chatHistory: true,
+          },
         });
         if (Array.isArray(liveSession?.requestedExamIds)) {
           sessionRequestedExamIds = [
@@ -729,9 +740,18 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           ];
         }
         sessionPrescriptions = parseSessionPrescriptions(liveSession?.prescribedMedications);
+        trustedChatHistory = parseChatHistory(liveSession?.chatHistory).map((turn) => ({
+          role: turn.role,
+          content: turn.content,
+        }));
       } catch (err) {
-        console.error("[simulation-report-worker] requestedExamIds merge failed", err);
+        console.error("[simulation-report-worker] CaseSession transcript load failed", err);
       }
+    } else {
+      log.warn("Report evaluation has no liveSessionId — client chatHistory ignored", {
+        reportId: input.reportId,
+        caseId: input.caseId,
+      });
     }
 
     const executedActionIds = buildExecutedActionIds({
@@ -748,13 +768,9 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     const helpRequested =
       Boolean(input.helpRequested) || milestoneHelp.helpRequested || helpRequestCount > 0;
 
+    // Server-side trust: the client POST transcript is never scored.
     const chatHistoryForAudit = mergePrescriptionTracesIntoChat(
-      Array.isArray(input.evaluationChatHistory)
-        ? input.evaluationChatHistory.map((m) => ({
-            role: m.role,
-            content: typeof m.content === "string" ? m.content : String(m.content ?? ""),
-          }))
-        : [],
+      trustedChatHistory,
       sessionPrescriptions,
     );
     const relationalPatientProfile = buildPatientProfileForRelationalAudit({
@@ -811,7 +827,11 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       finalTotalTrentesimi: finalTotalInitial,
       killerSwitchApplied: killerAppliedInitial,
       scoresForPersist,
-    } = applyKillerSwitchToEvaluation(evaluation);
+    } = applyKillerSwitchToEvaluation(evaluation, {
+      mandatoryExams: registeredCase?.mandatoryExams,
+      inappropriateExams: registeredCase?.inappropriateExams,
+      executedActionIds,
+    });
 
     let scoresForGrade = sanitizeDimensionScores(scoresForPersist);
     let finalTotalTrentesimi = Number.isFinite(finalTotalInitial) ? finalTotalInitial : 0;
@@ -860,7 +880,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     try {
       legalChunks = mapLegalChunksForAudit(guidelines.legal?.chunks);
       const simulationLog = {
-        chatHistory: Array.isArray(input.evaluationChatHistory) ? input.evaluationChatHistory : [],
+        chatHistory: chatHistoryForAudit,
         requestedExams: Array.isArray(input.exams) ? input.exams : [],
         ...(input.finalDiagnosis ? { finalDiagnosis: input.finalDiagnosis } : {}),
       };

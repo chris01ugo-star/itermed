@@ -84,6 +84,11 @@ export const AnalyticalEvaluationSchema = z.object({
   clinicalDeltaTable: z.array(ClinicalDeltaRowSchema).min(1).max(20),
   economicAnalysis: EconomicAnalysisSchema,
   coachingFeedback: CoachingFeedbackSchema,
+  neurologicalRedFlagDetected: z
+    .boolean()
+    .describe(
+      "True se nel trascritto della chat il paziente manifesta amnesia, non ricorda il proprio nome, o ha grave disorientamento temporo-spaziale",
+    ),
   /** Always present (may be empty) so the field stays required in strict JSON Schema. */
   fatalErrors: z
     .array(
@@ -166,6 +171,7 @@ export function normalizeAnalyticalEvaluation(
       economicita: clip(raw.coachingFeedback?.economicita, 400),
       accuratezza: clip(raw.coachingFeedback?.accuratezza, 400),
     },
+    neurologicalRedFlagDetected: Boolean(raw.neurologicalRedFlagDetected),
     fatalErrors: (raw.fatalErrors ?? []).slice(0, 8).map((item) => ({
       description: clip(item.description, 200),
       rationale: clip(item.rationale, 320),
@@ -223,6 +229,7 @@ export type AnalyticalEvaluation = {
     economicita: string;
     accuratezza: string;
   };
+  neurologicalRedFlagDetected: boolean;
   fatalErrors: Array<{ description: string; rationale: string }>;
 };
 
@@ -430,6 +437,7 @@ export function buildDeterministicAnalyticalFallback(params: {
       accuratezza:
         "Segui il Gold Standard del caso e stabilizza ABC prima di approfondire.",
     },
+    neurologicalRedFlagDetected: false,
     fatalErrors: [],
   };
 }
@@ -607,6 +615,7 @@ export function buildDeterministicEvaluation(
     legalChunks: params.legalChunks,
     legalSources: params.legalSources,
     classifiedIntents: params.classifiedIntents,
+    neurologicalRedFlagDetected: analytical.neurologicalRedFlagDetected,
   });
 
   let scores = checklistScores;
@@ -785,6 +794,8 @@ ISTRUZIONI ANALITICHE (OBBLIGATORIE):
    - missedRequiredExams: esami necessari NON richiesti con costo stimato e motivazione.
 
 4) coachingFeedback — consigli actionable per empatia, economicita, accuratezza. Il campo tutelaLegale deve essere una stringa vuota (valutazione medico-legale demandata all'audit legale dedicato).
+
+5) VERIFICA DELLO STATO COGNITIVO (Neurological Red Flag): Analizza le risposte del paziente nel trascritto della chat. Se in qualsiasi momento il paziente manifesta incapacità di ricordare la propria identità, disorientamento temporo-spaziale, o grave incoerenza narrativa (amnesia, confusione), DEVI impostare neurologicalRedFlagDetected a true, anche se risponde correttamente ad altre domande.
 
 Sii rigoroso: evidenzia errori clinici, ritardi e sprechi economici. NON inventare punteggi numerici globali. NON inventare Trust/Anxiety/Defensiveness né delta relazionali. NON inventare fatti clinici assenti dai dati forniti. NON esprimere giudizi medico-legali.
 `.trim();

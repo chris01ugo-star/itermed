@@ -65,6 +65,11 @@ export const KbExamFindingSchema = z.object({
   priceEuro: z.number().min(0).optional(),
   inappropriate: z.boolean().optional(),
   wasteRationale: z.string().max(500).optional(),
+  /**
+   * Killer Switch. Su `mandatoryExams`: omissione salvavita.
+   * Su `inappropriateExams`: azione letale se eseguita.
+   */
+  isFatal: z.boolean().optional(),
 });
 
 export const KbEscCitationSchema = z.object({
@@ -110,8 +115,8 @@ const KbBaselineExamFindingsSchema = z
  * Cardiology cases omit `patientProfile`; Pneumology and Gastroenterology cases must include it.
  */
 export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
-  id: z.string().regex(/^(CARDIO|PNEUMO|GASTRO)-\d{3}$/),
-  code: z.string().regex(/^(CARDIO|PNEUMO|GASTRO)-\d{3}$/),
+  id: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL)-\d{3}$/),
+  code: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL)-\d{3}$/),
   specialty: z.enum(["cardiologia", "pneumologia", "gastroenterologia"]),
   specialtyLabel: z.enum(["Cardiologia", "Pneumologia", "Gastroenterologia"]),
   condition: z.string().min(3).max(240),
@@ -122,11 +127,11 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
   diagnosis: z.string().min(5).max(500),
   pastMedicalHistory: z.string().min(20).max(4000),
   presentation: z.string().min(40).max(4000),
-  redHerrings: z.array(z.string().min(8).max(400)).min(2).max(8),
+  redHerrings: z.array(z.string().min(8).max(400)).min(0).max(8),
   timeLimitMinutes: z.number().int().min(5).max(480),
   patientDeteriorationThreshold: z.number().int().min(1).max(480),
   examLatencies: z.record(z.string().min(1).max(80), z.number().int().min(0).max(10_000)),
-  anamnesisQuestions: z.array(KbAnamnesisQuestionSchema).min(4).max(10),
+  anamnesisQuestions: z.array(KbAnamnesisQuestionSchema).min(1).max(10),
   physicalExam: z.object({
     /** Killip is cardiology-specific; omitted or unused on Pneumology cases. */
     killipClass: z.enum(["I", "II", "III", "IV"]).optional(),

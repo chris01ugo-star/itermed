@@ -39,6 +39,11 @@ const EXPECTED_PER_SPECIALTY: Record<string, number> = {
 
 const SPECIALTIES = Object.keys(EXPECTED_PER_SPECIALTY);
 const KB_ROOT = resolve(process.cwd(), "knowledge_base");
+const TUTORIAL_ID_RE = /^TUTORIAL-\d{3}$/i;
+
+function isTutorialCaseId(id: string): boolean {
+  return TUTORIAL_ID_RE.test(id.trim());
+}
 
 type AuditFailure = {
   id: string;
@@ -221,6 +226,38 @@ async function loadRowsFromFilesystem(): Promise<AuditRow[]> {
       });
     }
   }
+  const tutorialDir = join(KB_ROOT, "tutorials");
+  try {
+    const tutorialFiles = (await readdir(tutorialDir))
+      .filter((name) => name.endsWith(".json"))
+      .sort();
+    for (const file of tutorialFiles) {
+      const raw = await readFile(join(tutorialDir, file), "utf8");
+      const caseData = JSON.parse(raw) as Record<string, unknown>;
+      const id =
+        typeof caseData.id === "string" && caseData.id.trim()
+          ? caseData.id
+          : file.replace(/\.json$/i, "");
+      rows.push({
+        id,
+        specialty:
+          typeof caseData.specialty === "string" && caseData.specialty.trim()
+            ? caseData.specialty
+            : "tutorials",
+        patientProfile: caseData.patientProfile ?? null,
+        caseData,
+        ragSources: caseData.escCitations ?? null,
+      });
+    }
+  } catch (error) {
+    const code = error && typeof error === "object" && "code" in error ? error.code : "";
+    if (code !== "ENOENT") {
+      throw new Error(
+        `Impossibile leggere ${tutorialDir}: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
+
   return rows.sort((a, b) => a.specialty.localeCompare(b.specialty) || a.id.localeCompare(b.id));
 }
 
@@ -242,9 +279,12 @@ async function main(): Promise<void> {
 
   const failures: AuditFailure[] = [];
   const bySpecialty = new Map<string, number>();
+  const catalogRows = rows.filter((row) => !isTutorialCaseId(row.id));
 
   for (const row of rows) {
-    bySpecialty.set(row.specialty, (bySpecialty.get(row.specialty) ?? 0) + 1);
+    if (!isTutorialCaseId(row.id)) {
+      bySpecialty.set(row.specialty, (bySpecialty.get(row.specialty) ?? 0) + 1);
+    }
     const issues: string[] = [];
 
     const parsed = knowledgeBaseCaseSchema.safeParse(row.caseData);
@@ -284,11 +324,11 @@ async function main(): Promise<void> {
     }
   }
 
-  if (rows.length !== EXPECTED_TOTAL) {
+  if (catalogRows.length !== EXPECTED_TOTAL) {
     failures.push({
       id: "__catalog__total",
       specialty: "*",
-      issues: [`attesi ${EXPECTED_TOTAL} casi totali, trovati ${rows.length}`],
+      issues: [`attesi ${EXPECTED_TOTAL} casi totali, trovati ${catalogRows.length}`],
     });
   }
 

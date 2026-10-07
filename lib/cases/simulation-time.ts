@@ -1,5 +1,15 @@
 export type ExamLatenciesMap = Record<string, number>;
 
+/**
+ * Catalog ids differ from the authored step id:
+ * coprocultura is the menu id, coprocoltura the clinical spelling;
+ * tc is the single CT order, tc-addome the abdominal study.
+ */
+const GOLD_STEP_ORDER_ALIASES: Record<string, readonly string[]> = {
+  coprocoltura: ["coprocultura"],
+  "tc-addome": ["tc"],
+};
+
 /** Normalizes step/exam ids for fuzzy matching (rx_torace ↔ rx-torace). */
 export function normalizeStepId(id: string): string {
   return id.trim().toLowerCase().replace(/[\s_]+/g, "-");
@@ -66,7 +76,14 @@ export function inferCompletedGoldSteps(params: {
     const norm = normalizeStepId(step);
     if (completed.has(norm)) continue;
 
-    if (params.requestedExamIds.some((e) => normalizeStepId(e) === norm || normalizeStepId(e).includes(norm) || norm.includes(normalizeStepId(e)))) {
+    if (
+      params.requestedExamIds.some((e) => {
+        const exam = normalizeStepId(e);
+        if (exam === norm || exam.includes(norm) || norm.includes(exam)) return true;
+        const aliases = GOLD_STEP_ORDER_ALIASES[norm] ?? [];
+        return aliases.some((alias) => normalizeStepId(alias) === exam);
+      })
+    ) {
       completed.add(norm);
       continue;
     }

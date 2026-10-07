@@ -21,6 +21,7 @@ import {
   DialogTitle,
 } from "@/app/ui/dialog";
 import { cn } from "@/app/utils/cn";
+import { sanitizeExamFinding } from "@/lib/simulator/exam-finding-text";
 import {
   clinicalSignExamId,
   type ClinicalSign,
@@ -273,6 +274,9 @@ export function PhysicalExamTab({
               const loading = Boolean(state?.loading);
               const result = state?.result;
               const error = state?.error;
+              const findingText = result
+                ? sanitizeExamFinding(id, result.finding)
+                : "";
               return (
                 <li
                   key={id}
@@ -312,8 +316,8 @@ export function PhysicalExamTab({
                   {error ? (
                     <p className="mt-1.5 text-sm leading-relaxed text-rose-800">{error}</p>
                   ) : null}
-                  {result ? (
-                    <p className="mt-1.5 text-sm leading-relaxed text-slate-700">{result.finding}</p>
+                  {findingText ? (
+                    <p className="mt-1.5 text-sm leading-relaxed text-slate-700">{findingText}</p>
                   ) : null}
                 </li>
               );
@@ -407,9 +411,9 @@ export function PhysicalExamTab({
                     {error ? (
                       <p className="mt-2 text-sm leading-relaxed text-rose-800">{error}</p>
                     ) : null}
-                    {result ? (
+                    {result && sanitizeExamFinding(item.id, result.finding) ? (
                       <p className="mt-2 text-sm leading-relaxed text-slate-700">
-                        {result.finding}
+                        {sanitizeExamFinding(item.id, result.finding)}
                         {typeof result.numericValue === "number" ? (
                           <span className="text-slate-500"> ({result.numericValue})</span>
                         ) : null}

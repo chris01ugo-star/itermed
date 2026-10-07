@@ -45,7 +45,9 @@ import { Badge } from "../../app/ui/badge";
 import { AiTransparencyBadge } from "@/components/legal/AiTransparencyBadge";
 import { ClinicalSimulationDisclaimer } from "@/components/legal/ClinicalSimulationDisclaimer";
 import { OnboardingTutorialModal } from "@/components/simulator/OnboardingTutorialModal";
+import { isTutorialCaseId, TutorialOverlay } from "@/components/simulator/TutorialOverlay";
 import {
+  readCaseTourCompleted,
   readTutorialCompleted,
 } from "@/lib/simulator/onboarding-storage";
 import { PhysicalExamTab } from "./PhysicalExamTab";
@@ -85,6 +87,8 @@ import { PATIENT_MAX_TURNS } from "@/lib/simulator/chat-context-window";
 import {
   formatPrescriptionTrace,
   formatSsnPrice,
+  formatSystemMedicationAction,
+  isHiddenSystemActionLog,
   isPrescriptionTrace,
   type SessionPrescription,
 } from "@/lib/simulator/prescription-trace";
@@ -102,6 +106,11 @@ import {
 } from "../../lib/simulator/exam-catalog";
 import type { CaseExamOverride } from "../../lib/exam-values-meta";
 import { formatAbnormalExamsFromBaseline } from "../../lib/simulator/patientCaseContext";
+import {
+  sanitizeExamFinding,
+  toPlayerAnamnesisText,
+  toPlayerCareSetting,
+} from "../../lib/simulator/exam-finding-text";
 import { partitionExamsByChartSection } from "@/lib/clinical/diagnostic-exam-category";
 import { parseClinicalSigns } from "@/lib/clinical/clinical-signs";
 
@@ -380,7 +389,9 @@ export function SimulatorClient({
 
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
   const [tutorialOpen, setTutorialOpen] = useState(false);
+  const [caseTourOpen, setCaseTourOpen] = useState(false);
   const [tutorialHydrated, setTutorialHydrated] = useState(false);
+  const tutorialCase = isTutorialCaseId(initialCaseData.id);
   const lastActivityAtRef = useRef<number>(Date.now());
   const [activeTab, setActiveTab] = useState<
     "history" | "exam" | "labs" | "imaging" | "instrumental" | "notes"
@@ -443,6 +454,8 @@ export function SimulatorClient({
   const [effectiveSessionId, setEffectiveSessionId] = useState<string | undefined>(
     sanitizedIncomingSessionId,
   );
+  /** False until the mount lookup of CaseSession finishes (pause/resume). */
+  const [resumeSettled, setResumeSettled] = useState(!persistReports);
   const [isStartingEmergency, setIsStartingEmergency] = useState(false);
   const [dismissLoading, setDismissLoading] = useState(false);
   /** 0–100: pressione temporale e carico simulato (chat, esami, errori, tempo). */
@@ -501,11 +514,16 @@ export function SimulatorClient({
   }, []);
 
   // First-run tutorial — only after disclaimer acceptance + hydrated localStorage check.
+  // TUTORIAL-001 uses the non-blocking coach marks instead of the modal.
   useEffect(() => {
     if (!tutorialHydrated || !disclaimerAccepted) return;
+    if (tutorialCase) {
+      if (!readCaseTourCompleted()) setCaseTourOpen(true);
+      return;
+    }
     if (readTutorialCompleted()) return;
     setTutorialOpen(true);
-  }, [tutorialHydrated, disclaimerAccepted]);
+  }, [tutorialHydrated, disclaimerAccepted, tutorialCase]);
 
   const markUserActivity = useCallback(() => {
     lastActivityAtRef.current = Date.now();
@@ -698,7 +716,10 @@ export function SimulatorClient({
 
   // Activity timestamp for session UX (no passive coaching nudges).
   const userMessageCount = useMemo(
-    () => messages.filter((m) => m.role === "user").length,
+    () =>
+      messages.filter(
+        (m) => m.role === "user" && !isHiddenSystemActionLog(getChatMessageText(m)),
+      ).length,
     [messages],
   );
   const atTurnLimit = userMessageCount >= PATIENT_MAX_TURNS;
@@ -863,6 +884,22 @@ export function SimulatorClient({
             setPrescribedMedications(data.prescribedMedications as SessionPrescription[]);
           }
           saved = (data?.prescription as SessionPrescription | undefined) ?? null;
+          const systemLine = formatSystemMedicationAction(
+            medication.commercialName,
+            `${medication.dosageForm} ${posology}`.trim(),
+          );
+          setMessages((prev) => {
+            const last = prev[prev.length - 1];
+            if (last?.role === "user" && getChatMessageText(last) === systemLine) return prev;
+            return [
+              ...prev,
+              {
+                id: `rx-system-${Date.now()}`,
+                role: "user" as const,
+                content: systemLine,
+              },
+            ];
+          });
         }
 
         const trace =
@@ -991,12 +1028,98 @@ export function SimulatorClient({
     }
   };
 
-  // Single-flight session start — only after clinical disclaimer (avoid orphan sessions).
+  // Pause & resume: hydrate chat, exams and prescriptions from the active CaseSession.
   useEffect(() => {
-    if (!disclaimerAccepted || !persistReports) return;
+    if (!persistReports) return;
+    let cancelled = false;
+
+    const applySnapshot = (data: {
+      sessionId?: string | null;
+      chatHistory?: Array<{ role?: string; content?: string }>;
+      requestedExamIds?: string[];
+      prescribedMedications?: SessionPrescription[];
+      completedGoldSteps?: string[];
+      elapsedMinutes?: number;
+    }) => {
+      const sid = sanitizeLiveSessionId(
+        typeof data.sessionId === "string" ? data.sessionId : undefined,
+      );
+      if (sid) {
+        effectiveSessionIdRef.current = sid;
+        setEffectiveSessionId(sid);
+        syncSessionIdInUrl(sid);
+      }
+      if (Array.isArray(data.requestedExamIds) && data.requestedExamIds.length > 0) {
+        setSelectedExamIds((prev) => {
+          if (prev.length > 0) return prev;
+          selectedExamIdsRef.current = data.requestedExamIds ?? [];
+          return data.requestedExamIds ?? [];
+        });
+      }
+      if (Array.isArray(data.prescribedMedications) && data.prescribedMedications.length > 0) {
+        setPrescribedMedications((prev) => (prev.length > 0 ? prev : data.prescribedMedications ?? []));
+      }
+      if (Array.isArray(data.completedGoldSteps) && data.completedGoldSteps.some((step) => /consenso/i.test(step))) {
+        setConsentRequested(true);
+        setExtraExecutedActionIds((prev) => {
+          if (prev.includes(CONSENT_INFORMED_ACTION_ID)) return prev;
+          const next = [...prev, CONSENT_INFORMED_ACTION_ID];
+          extraExecutedActionIdsRef.current = next;
+          return next;
+        });
+      }
+      if (typeof data.elapsedMinutes === "number" && data.elapsedMinutes > 0) {
+        setClockMinutes((prev) => (prev > 0 ? prev : data.elapsedMinutes ?? 0));
+      }
+      const restored = Array.isArray(data.chatHistory)
+        ? data.chatHistory.filter(
+            (turn) =>
+              (turn.role === "user" || turn.role === "assistant") &&
+              typeof turn.content === "string" &&
+              turn.content.trim().length > 0,
+          )
+        : [];
+      if (restored.length > 0) {
+        setMessages((prev) => {
+          if (prev.length > 0) return prev;
+          return restored.map((turn, index) => ({
+            id: `resume-${index}-${turn.role}`,
+            role: turn.role as "user" | "assistant",
+            content: turn.content as string,
+          }));
+        });
+      }
+    };
+
+    (async () => {
+      try {
+        const explicit = sanitizeLiveSessionId(effectiveSessionIdRef.current);
+        const url = explicit
+          ? `/api/session/state?sessionId=${encodeURIComponent(explicit)}`
+          : `/api/session/current?caseId=${encodeURIComponent(initialCaseData.id)}`;
+        const res = await fetch(url);
+        const data = await res.json().catch(() => null);
+        if (!cancelled && res.ok && data && typeof data === "object") {
+          applySnapshot(data);
+        }
+      } catch (err) {
+        console.error("[SimulatorClient] session resume failed", err);
+      } finally {
+        if (!cancelled) setResumeSettled(true);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [persistReports, initialCaseData.id, setMessages]);
+
+  // Single-flight session start — only after resume lookup and clinical disclaimer.
+  useEffect(() => {
+    if (!disclaimerAccepted || !persistReports || !resumeSettled) return;
     if (effectiveSessionIdRef.current) return;
     void ensureSessionId();
-  }, [disclaimerAccepted, persistReports, ensureSessionId]);
+  }, [disclaimerAccepted, persistReports, resumeSettled, ensureSessionId]);
 
   useEffect(() => {
     if (!isAdmin || !effectiveSessionId) return;
@@ -1253,6 +1376,14 @@ export function SimulatorClient({
   }) => {
     if (isPaused) return;
     if (payload.id === "blood-pressure") setBpMeasured(true);
+    if (payload.id === "gcs" || payload.id === "pupils" || payload.id === "neuro-deficits") {
+      setExtraExecutedActionIds((prev) => {
+        if (prev.includes(payload.id)) return prev;
+        const next = [...prev, payload.id];
+        extraExecutedActionIdsRef.current = next;
+        return next;
+      });
+    }
     setExamFindings((prev) => ({
       ...prev,
       [payload.id]: {
@@ -1618,8 +1749,8 @@ export function SimulatorClient({
     <div
       className={cn(
         embedded
-          ? "flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden bg-transparent text-text-primary"
-          : "flex min-h-screen w-full items-stretch justify-center overflow-x-hidden bg-ui-bg px-4 pb-10 pt-16 text-text-primary",
+          ? "flex h-full min-h-0 w-full min-w-0 flex-col overflow-x-hidden overflow-y-auto bg-transparent text-text-primary"
+          : "flex min-h-dvh w-full items-stretch justify-center overflow-x-hidden bg-ui-bg px-4 pb-10 pt-16 text-text-primary",
         workspaceShake && "sim-workspace-shake",
       )}
     >
@@ -1676,19 +1807,16 @@ export function SimulatorClient({
       <div
         className={
           embedded
-            ? "flex h-full min-h-0 w-full min-w-0 flex-col gap-2.5 overflow-hidden font-[family-name:var(--font-inter)]"
+            ? "flex min-h-full w-full min-w-0 flex-col gap-2.5 font-[family-name:var(--font-inter)]"
             : "flex w-full min-w-0 flex-col gap-3 overflow-x-hidden font-[family-name:var(--font-inter)]"
         }
       >
           {embedded ? (
-          <header className="grid w-full min-w-0 shrink-0 grid-cols-1 gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-sm lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-center lg:gap-3 lg:px-5">
+          <header className="sticky top-0 z-30 grid w-full min-w-0 shrink-0 grid-cols-1 gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-sm lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-center lg:gap-3 lg:px-5">
             <div className="min-w-0">
               <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
                 <p className="truncate text-sm font-semibold text-slate-800">
-                  {patient.context?.trim() &&
-                  patient.context.trim().toLowerCase() !== "pronto soccorso"
-                    ? patient.context.trim()
-                    : "Ospedale San Carlo"}
+                  {toPlayerCareSetting(patient.context) ?? "Ospedale San Carlo"}
                 </p>
               <span className="inline-flex shrink-0 items-center rounded-md bg-[#345884]/10 px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#345884]">
                   Pronto Soccorso
@@ -1740,6 +1868,7 @@ export function SimulatorClient({
               {persistReports && disclaimerAccepted ? (
                 <button
                   type="button"
+                  data-tour="finish"
                   disabled={dismissLoading}
                   onClick={handleDismissCase}
                   className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] font-semibold transition hover:brightness-[0.98] disabled:opacity-60"
@@ -1834,7 +1963,7 @@ export function SimulatorClient({
         <div
           className={
             embedded
-              ? `grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 gap-2.5 overflow-hidden lg:grid-cols-[minmax(0,1.45fr)_minmax(13rem,0.7fr)_minmax(17rem,1fr)] lg:grid-rows-[auto_minmax(0,1fr)] lg:items-stretch${isPaused ? " pointer-events-none select-none opacity-60" : ""}`
+              ? `grid w-full min-w-0 flex-1 grid-cols-1 gap-2.5 min-h-[36rem] lg:min-h-[28rem] lg:grid-cols-[minmax(0,1.45fr)_minmax(13rem,0.7fr)_minmax(17rem,1fr)] lg:grid-rows-[auto_minmax(16rem,1fr)] lg:items-stretch${isPaused ? " pointer-events-none select-none opacity-60" : ""}`
               : `grid w-full min-w-0 grid-cols-1 gap-6 overflow-x-hidden lg:grid-cols-12 lg:items-start${isPaused ? " pointer-events-none select-none opacity-60" : ""}`
           }
         >
@@ -1906,7 +2035,7 @@ export function SimulatorClient({
             <div
               id="aequan-sim-chat"
               className={cn(
-                "flex min-h-0 min-w-0 flex-col overflow-hidden lg:col-start-1 lg:row-start-2",
+                "relative z-0 flex min-h-[24rem] min-w-0 flex-col overflow-hidden lg:col-start-1 lg:row-start-2 lg:min-h-0",
                 isCriticalDeterioration && "sim-deterioration-vignette rounded-xl",
               )}
             >
@@ -1969,7 +2098,7 @@ export function SimulatorClient({
           {embedded ? (
             <aside
               id="aequan-sim-recap"
-              className="flex min-h-0 min-w-0 flex-col overflow-hidden lg:col-start-2 lg:row-start-2"
+              className="relative z-0 flex min-h-[16rem] min-w-0 flex-col overflow-hidden lg:col-start-2 lg:row-start-2 lg:min-h-0"
             >
               <ExamReportRecap
                 exams={selectedExamsRecentFirst}
@@ -2008,7 +2137,7 @@ export function SimulatorClient({
                   </span>
                 </p>
                 <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-slate-600">
-                  {patient.mainComplaint ||
+                  {toPlayerAnamnesisText(patient.mainComplaint) ||
                     "Motivo di accesso da approfondire con il paziente."}
                 </p>
               </div>
@@ -2156,7 +2285,7 @@ export function SimulatorClient({
             id="aequan-sim-exams"
             className={
               embedded
-                ? "flex h-full min-h-0 min-w-0 flex-col gap-2.5 overflow-hidden lg:col-start-3 lg:row-span-2 lg:row-start-1"
+                ? "relative z-0 flex min-h-0 min-w-0 max-w-full flex-col gap-2.5 overflow-x-hidden lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:overflow-y-auto"
                 : "flex min-w-0 flex-col gap-4 overflow-x-hidden pb-8 lg:col-span-4"
             }
           >
@@ -2193,6 +2322,7 @@ export function SimulatorClient({
                         value="exam"
                         currentValue={activeTab}
                         onSelect={(value) => setActiveTab(value as typeof activeTab)}
+                        data-tour="chart"
                         className="shrink-0 whitespace-nowrap"
                       >
                         Esame obiettivo
@@ -2201,6 +2331,7 @@ export function SimulatorClient({
                         value="labs"
                         currentValue={activeTab}
                         onSelect={(value) => setActiveTab(value as typeof activeTab)}
+                        data-tour="exams"
                         className="shrink-0 whitespace-nowrap"
                       >
                         Esami
@@ -2252,8 +2383,8 @@ export function SimulatorClient({
                                 </div>
                               </div>
                               <p className="px-3.5 py-3 text-sm leading-relaxed text-slate-700">
-                                {reportSections.anamnesisObjective?.trim() ||
-                                  patient.mainComplaint ||
+                                {toPlayerAnamnesisText(reportSections.anamnesisObjective) ||
+                                  toPlayerAnamnesisText(patient.mainComplaint) ||
                                   "Usa il dialogo a sinistra per raccogliere l'anamnesi."}
                               </p>
                             </section>
@@ -2983,12 +3114,17 @@ export function SimulatorClient({
 
                 <div className="space-y-1.5">
                   <p className="text-[11px] font-medium text-zinc-700">Sintomo principale</p>
-                  <p className="text-sm text-zinc-900">{patient.mainComplaint}</p>
+                  <p className="text-sm text-zinc-900">
+                    {toPlayerAnamnesisText(patient.mainComplaint) ||
+                      "Motivo di accesso da approfondire con il paziente."}
+                  </p>
                 </div>
 
                 <div className="space-y-1.5">
                   <p className="text-[11px] font-medium text-zinc-700">Contesto</p>
-                  <p className="text-xs text-zinc-700 whitespace-pre-line">{patient.context}</p>
+                  <p className="text-xs text-zinc-700 whitespace-pre-line">
+                    {toPlayerCareSetting(patient.context) ?? "Pronto Soccorso"}
+                  </p>
                 </div>
 
               </>
@@ -3011,7 +3147,7 @@ export function SimulatorClient({
                         >
                           <p className="font-medium text-zinc-800">{exam.label}</p>
                           <p className="text-zinc-700 mt-0.5">
-                            {exam.finding}
+                            {sanitizeExamFinding(exam.id, exam.finding)}
                             {typeof exam.numericValue === "number" && (
                               <span className="ml-1 text-zinc-500">({exam.numericValue})</span>
                             )}
@@ -3236,7 +3372,8 @@ export function SimulatorClient({
               onClick={() => {
                 markUserActivity();
                 setIsHelpOpen(false);
-                setTutorialOpen(true);
+                if (tutorialCase) setCaseTourOpen(true);
+                else setTutorialOpen(true);
               }}
             >
               Rivedi Tutorial
@@ -3254,9 +3391,16 @@ export function SimulatorClient({
       </Dialog>
 
       <OnboardingTutorialModal
-        open={tutorialOpen}
+        open={tutorialOpen && !tutorialCase}
         onComplete={() => {
           setTutorialOpen(false);
+          markUserActivity();
+        }}
+      />
+      <TutorialOverlay
+        open={caseTourOpen}
+        onClose={() => {
+          setCaseTourOpen(false);
           markUserActivity();
         }}
       />
@@ -3363,9 +3507,10 @@ function HistoryChat({
   const messageText = (message: HistoryChatProps["messages"][number]): string =>
     getChatMessageText(message);
 
-  const visibleMessages = messages.filter(
-    (m) => m.role === "user" || m.role === "assistant",
-  );
+  const visibleMessages = messages.filter((m) => {
+    if (m.role !== "user" && m.role !== "assistant") return false;
+    return !isHiddenSystemActionLog(messageText(m));
+  });
 
   const scrollAnchor = visibleMessages
     .map((message) => messageText(message))
@@ -3522,6 +3667,7 @@ function HistoryChat({
             {onOpenPrescriptionPad ? (
               <button
                 type="button"
+                data-tour="prescription"
                 onClick={onOpenPrescriptionPad}
                 disabled={isLoading || prescriptionBusy || disabled}
                 aria-label="Apri ricettario SSN"
@@ -3537,7 +3683,10 @@ function HistoryChat({
             </span>
           </div>
         ) : null}
-        <div className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-1.5 pl-3 transition focus-within:border-[#345884] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#345884]/20">
+        <div
+          data-tour="chat"
+          className="flex items-end gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-1.5 pl-3 transition focus-within:border-[#345884] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#345884]/20"
+        >
           <Textarea
             className="min-h-[2.25rem] flex-1 resize-none border-0 bg-transparent p-1.5 text-xs text-slate-800 shadow-none outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
             rows={2}

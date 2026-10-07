@@ -1,7 +1,9 @@
 import type { ExamClinicalMeta } from "@/lib/exam-default-values";
 import { resolveExamClinicalMeta, type CaseExamOverride } from "@/lib/exam-values-meta";
+import { mergeStandardLabPanel } from "@/lib/clinical/standard-lab-panels";
 import {
   adaptFindingForRequestedExam,
+  isWasteFinding,
   pickCaseFindingText,
   sanitizeExamFinding,
 } from "@/lib/simulator/exam-finding-text";
@@ -59,19 +61,21 @@ export function formatExamFinding(
   catalog: Record<string, ExamClinicalMeta>,
   caseValues: Record<string, CaseExamOverride>,
 ): string {
+  const panelReport = mergeStandardLabPanel(examId, caseValues);
+  if (panelReport) return panelReport;
+
   const override = caseValues[examId];
-  if (override?.value != null) {
-    const suffix = override.isAbnormal ? " — patologico" : "";
-    return `${override.value}${suffix}`;
+  if (override?.value != null && !isWasteFinding(String(override.finding ?? ""))) {
+    return String(override.value);
   }
 
   const picked = pickCaseFindingText(examId, caseValues);
-  if (picked) {
+  if (picked && !isWasteFinding(picked.text)) {
     const sanitized = sanitizeExamFinding(examId, picked.text);
     const adapted = adaptFindingForRequestedExam(
       examId,
       picked.sourceId,
-      sanitized || picked.text,
+      sanitized,
     );
     const report = sanitizeExamFinding(examId, adapted);
     if (report) return report;
@@ -79,8 +83,11 @@ export function formatExamFinding(
 
   const resolved = resolveExamClinicalMeta(examId, catalog, override);
   const catalogText = resolved?.normalFinding?.trim() ?? "";
-  if (catalogText && !/da valutare|eseguire |iniziare |si consiglia/i.test(catalogText)) {
-    return catalogText;
+  if (catalogText && !isWasteFinding(catalogText)) {
+    const report = sanitizeExamFinding(examId, catalogText);
+    if (report && !/da valutare|eseguire |iniziare |si consiglia/i.test(report)) {
+      return report;
+    }
   }
   return "Nessun valore definito per questo esame (configura in admin o nel caso clinico).";
 }

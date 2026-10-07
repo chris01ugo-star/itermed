@@ -3,6 +3,7 @@
  *
  * Reads recursively from:
  *   knowledge_base/{cardiologia,pneumologia,gastroenterologia}/cases/*.json
+ *   knowledge_base/tutorials/TUTORIAL-*.json
  *
  * Usage:
  *   npx tsx scripts/migrate-cases-to-db.ts
@@ -20,7 +21,7 @@ loadEnv({ path: resolve(process.cwd(), ".env") });
 
 const KB_ROOT = resolve(process.cwd(), "knowledge_base");
 const SPECIALTIES = ["cardiologia", "pneumologia", "gastroenterologia"] as const;
-const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO)-\d{3}\.json$/i;
+const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL)-\d{3}\.json$/i;
 
 async function collectCaseFiles(dir: string): Promise<string[]> {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -44,6 +45,7 @@ async function main(): Promise<void> {
   for (const specialty of SPECIALTIES) {
     files.push(...(await collectCaseFiles(join(KB_ROOT, specialty))));
   }
+  files.push(...(await collectCaseFiles(join(KB_ROOT, "tutorials"))));
   files.sort();
 
   console.log(`[migrate-cases] found ${files.length} JSON case files`);
@@ -117,8 +119,8 @@ async function main(): Promise<void> {
   }
 
   console.log(`[migrate-cases] done: ${upserted} upserted, ${failures.length} failed`);
-  if (upserted !== 90 && failures.length === 0) {
-    console.warn(`[migrate-cases] expected 90 cases, upserted ${upserted}`);
+  if (upserted < 90 && failures.length === 0) {
+    console.warn(`[migrate-cases] expected at least 90 specialty cases, upserted ${upserted}`);
   }
   clearCasesCache();
 }

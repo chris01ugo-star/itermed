@@ -1,8 +1,20 @@
 import { prisma } from "../../../../lib/prisma";
 import { getSessionUserId, unauthorizedJson } from "../../../../lib/api-session";
 import { authorizeOwnedLiveSession } from "../../../../lib/access";
+import { toSessionResumeSnapshot } from "@/lib/simulator/session-snapshot";
 
 export const runtime = "nodejs";
+
+const sessionSelect = {
+  id: true,
+  caseId: true,
+  chatHistory: true,
+  requestedExamIds: true,
+  prescribedMedications: true,
+  completedGoldSteps: true,
+  elapsedMinutes: true,
+  currentTargetCondition: true,
+} as const;
 
 export async function GET(req: Request) {
   const userId = await getSessionUserId();
@@ -20,7 +32,7 @@ export async function GET(req: Request) {
 
   const session = await prisma.caseSession.findUnique({
     where: { id: access.liveSessionId },
-    select: { id: true },
+    select: sessionSelect,
   });
 
   if (!session) {
@@ -30,11 +42,8 @@ export async function GET(req: Request) {
     });
   }
 
-  return new Response(
-    JSON.stringify({
-      sessionId: session.id,
-    }),
-    { status: 200, headers: { "Content-Type": "application/json" } },
-  );
+  return new Response(JSON.stringify(toSessionResumeSnapshot(session)), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
 }
-

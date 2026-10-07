@@ -4,6 +4,19 @@
 
 export const PRESCRIPTION_TRACE_PREFIX = "[AZIONE_MEDICA: PRESCRIZIONE]";
 
+/** Hidden clinician-action log. Kept in the chat array for the patient model, not shown in the UI. */
+export const SYSTEM_MEDICATION_ACTION_PREFIX = "[SISTEMA - AZIONE MEDICO]:";
+
+export function formatSystemMedicationAction(drugName: string, dosage: string): string {
+  const name = drugName.trim();
+  const dose = dosage.trim();
+  return `${SYSTEM_MEDICATION_ACTION_PREFIX} Somministrata terapia: ${name}${dose ? ` ${dose}` : ""}`;
+}
+
+export function isHiddenSystemActionLog(content: string | null | undefined): boolean {
+  return typeof content === "string" && content.trim().startsWith(SYSTEM_MEDICATION_ACTION_PREFIX);
+}
+
 export const ADMINISTRATION_ROUTES = [
   "orale",
   "endovenosa",

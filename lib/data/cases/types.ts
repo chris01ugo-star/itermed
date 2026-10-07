@@ -57,6 +57,11 @@ export type CaseExamDefinition = {
   priceEuro: number;
   /** Max latency from triage / request (minutes) when time-critical. */
   maxLatencyMinutes?: number;
+  /**
+   * Killer Switch. Mandatory: omissione salvavita. Inappropriate: azione letale se eseguita.
+   * La regex legacy in `evaluation-killer-switch` resta il fallback se il flag manca.
+   */
+  isFatal?: boolean;
   /** True → −25% appropriatezza prescrittiva se richiesto. */
   inappropriate?: boolean;
   inappropriatePenaltyPercent?: number;

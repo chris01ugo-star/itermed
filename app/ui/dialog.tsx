@@ -12,13 +12,11 @@ export function Dialog({ open, children }: DialogProps) {
   if (!open) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 sm:p-6"
-      role="presentation"
-    >
-      <div className="pointer-events-none absolute inset-0" aria-hidden />
-      <div className="relative z-10 my-auto flex w-full max-w-lg justify-center sm:max-w-xl md:max-w-2xl">
-        {children}
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60" role="presentation">
+      <div className="flex min-h-full justify-center p-4 sm:p-6">
+        <div className="pointer-events-none relative z-10 m-auto flex w-full max-w-lg justify-center sm:max-w-xl md:max-w-2xl">
+          {children}
+        </div>
       </div>
     </div>
   );

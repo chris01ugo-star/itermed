@@ -94,6 +94,7 @@ function toMandatoryExam(row: KnowledgeBaseCase["mandatoryExams"][number]): Case
     mandatory: true,
     finding: row.finding,
     priceEuro: row.priceEuro ?? 0,
+    isFatal: row.isFatal === true ? true : undefined,
   };
 }
 
@@ -110,6 +111,7 @@ function toInappropriateExam(
     inappropriate: true,
     inappropriatePenaltyPercent: 25,
     wasteRationale: row.wasteRationale,
+    isFatal: row.isFatal === true ? true : undefined,
   };
 }
 

@@ -1,0 +1,160 @@
+{
+  "id": "TUTORIAL-001",
+  "code": "TUTORIAL-001",
+  "specialty": "gastroenterologia",
+  "version": 1,
+  "title": "Caso Tutorial - I fondamenti di Aequan",
+  "description": "Giovane adulto si presenta in PS con febbre e diarrea dopo un pasto fuori casa. Caso guidato per imparare a usare l'interfaccia.",
+  "difficulty": "EASY",
+  "specialtyLabel": "Gastroenterologia",
+  "condition": "Gastroenterite acuta da Salmonella",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Tutorial Aequan fondamenti",
+  "diagnosis": "Tossinfezione alimentare (sospetta Salmonella)",
+  "pastMedicalHistory": "Nessuna patologia pregressa. Nessuna allergia farmacologica.",
+  "presentation": "Paziente di 25 anni, lamenta da 24 ore scariche diarroiche e febbre (38.5°C).",
+  "redHerrings": [],
+  "patientPrompt": "Sei un paziente giovane e molto collaborativo. Vuoi farti aiutare dal medico. Se ti chiede cosa hai mangiato, digli che due giorni fa hai mangiato pollo fritto in un fast food e non ti sembrava ben cotto. Ripeti spesso: 'Dottore, è la prima volta che vengo qui, mi dica lei cosa devo cliccare o fare'.",
+  "correctSolution": "Il medico deve indagare l'anamnesi alimentare, prescrivere esami di base (emocromo, coprocoltura) e impostare terapia di supporto (fluidi, paracetamolo).",
+  "goldStandardPath": [
+    "anamnesi_alimentare",
+    "emocromo",
+    "coprocoltura",
+    "terapia_supporto"
+  ],
+  "goldPathNarrative": "Ottima gestione base. Hai raccolto i dati essenziali, richiesto l'esame colturale corretto e stabilizzato il paziente.",
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 120,
+  "examLatencies": {
+    "anamnesi_alimentare": 5,
+    "emocromo": 20,
+    "coprocoltura": 20,
+    "coprocultura": 20,
+    "terapia_supporto": 5,
+    "tc": 30,
+    "tc-addome": 30
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "anamnesi_alimentare",
+      "prompt": "Ha mangiato qualcosa di insolito o fuori casa di recente?",
+      "critical": true,
+      "expectedKeywords": ["pollo", "fast food", "crudo"],
+      "rationale": "Identificare il veicolo dell'infezione alimentare."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Addome trattabile, dolorabile diffusamente. Peristalsi vivace. Segno di Blumberg negativo. Mucose asciutte."
+  },
+  "escCitations": [
+    {
+      "chunkId": "tutorial-001-fondamenti",
+      "source": "Aequan tutorial interno",
+      "quote": "Caso guidato: anamnesi alimentare, emocromo, coprocultura e terapia di supporto."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Indagare l'anamnesi alimentare.",
+      "Prescrivere emocromo e coprocultura e impostare terapia di supporto.",
+      "Non richiedere una TC addome in gastroenterite acuta non complicata."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Caso tutorial: il percorso atteso è anamnesi alimentare, esami di base e terapia di supporto.",
+      "legalCriteria": [
+        "Documentare anamnesi alimentare, esami richiesti e terapia impostata.",
+        "Evitare esami inappropriati per un quadro di gastroenterite non complicata."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Leucocitosi neutrofila (WBC 12.500/mmc).",
+      "isAbnormal": true,
+      "isFatal": false,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "coprocultura",
+      "name": "Coprocoltura",
+      "finding": "In corso di processazione. Si attende sviluppo.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "priceEuro": 25
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC Addome",
+      "finding": "Non alterazioni di rilievo.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Esame radiologico ingiustificato e costoso per un quadro di gastroenterite acuta non complicata.",
+      "priceEuro": 120
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 105,
+      "bloodPressure": "110/70",
+      "spo2": 98,
+      "temperature": 38.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 100,
+    "demographics": {
+      "age": 25,
+      "context": "Pronto Soccorso"
+    },
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Leucocitosi neutrofila (WBC 12.500/mmc).",
+          "isAbnormal": true,
+          "price": 4.8,
+          "parameters": {
+            "wbc": "12.5",
+            "neutrofili": "aumentati"
+          }
+        },
+        "coprocultura": {
+          "finding": "In corso di processazione. Si attende sviluppo.",
+          "isAbnormal": false,
+          "price": 25
+        },
+        "coprocoltura": {
+          "finding": "In corso di processazione. Si attende sviluppo.",
+          "isAbnormal": false,
+          "price": 25
+        },
+        "tc": {
+          "finding": "Non alterazioni di rilievo.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "tc-addome": {
+          "finding": "Non alterazioni di rilievo.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "LOW",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Diretto e collaborativo"
+  }
+}
