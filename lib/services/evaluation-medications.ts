@@ -73,8 +73,12 @@ type ParsedTherapy = {
 
 type PrescriptionLike = Pick<
   SessionPrescription,
-  "id" | "commercialName" | "activeIngredient" | "dosageForm" | "category"
-> & { posology?: string };
+  "id" | "commercialName" | "activeIngredient"
+> & {
+  posology?: string;
+  dosageForm?: string;
+  category?: string;
+};
 
 const STOPWORDS = new Set([
   "ev",
@@ -479,7 +483,7 @@ export function resolveTherapyMatrix(baseline: unknown): ParsedTherapy | null {
 
 function prescriptionHaystack(rx: PrescriptionLike): string {
   return normalizeTherapyText(
-    `${rx.id} ${rx.commercialName} ${rx.activeIngredient} ${rx.dosageForm} ${rx.category}`,
+    `${rx.id} ${rx.commercialName} ${rx.activeIngredient} ${rx.dosageForm ?? ""} ${rx.category ?? ""}`,
   );
 }
 
