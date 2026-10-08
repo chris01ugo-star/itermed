@@ -466,13 +466,13 @@ export function EliteResultsClient({
   const medicationSpendLabel = economy?.medicationSpendEuro;
   const hasDeterministicSpend = examSpendLabel != null && medicationSpendLabel != null;
   const spentEuro = hasDeterministicSpend
-    ? economy.totalCostEuro
+    ? (economy?.totalCostEuro ?? 0)
     : (economicAnalysis?.actualSpent ?? 0);
   const budgetEuro = hasDeterministicSpend
-    ? economy.budgetEuro
+    ? (economy?.budgetEuro ?? 0)
     : (economicAnalysis?.targetBudget ?? 0);
   const wastedEuro = hasDeterministicSpend
-    ? (economy.overPrescriptionWasteEuro ?? 0)
+    ? (economy?.overPrescriptionWasteEuro ?? 0)
     : economicAnalysis
       ? economicAnalysis.unnecessaryExpenses.reduce((sum, item) => sum + (item.cost ?? 0), 0)
       : 0;
