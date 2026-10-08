@@ -3714,32 +3714,34 @@ function HistoryChat({
         {onRequestConsent || onOpenPrescriptionPad ? (
           <div className="flex flex-wrap items-center gap-2">
             {onRequestConsent ? (
-              <button
-                type="button"
-                onClick={onRequestConsent}
-                disabled={isLoading || consentBusy || consentRequested || disabled}
-                aria-label={
-                  consentRequested ? "Consenso informato già acquisito" : "Raccogli Consenso Informato"
-                }
-                title="Spiega rischi e benefici e acquisisci il consenso prima di procedure invasive"
-                className={cn(
-                  "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition",
-                  consentRequested
-                    ? "cursor-default border-emerald-200 bg-emerald-50 text-emerald-800"
-                    : "border-[#345884]/25 bg-[#EEF2F9] text-[#345884] hover:bg-[#345884] hover:text-white disabled:opacity-50",
-                )}
-              >
-                <FileText className="h-3.5 w-3.5" strokeWidth={1.75} />
-                {consentRequested ? "Già acquisito" : "Raccogli Consenso Informato"}
-              </button>
-              {consentRequested ? (
-                <span
-                  role="status"
-                  className="inline-flex items-center rounded-full border border-emerald-300 bg-emerald-50 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-800"
+              <>
+                <button
+                  type="button"
+                  onClick={onRequestConsent}
+                  disabled={isLoading || consentBusy || consentRequested || disabled}
+                  aria-label={
+                    consentRequested ? "Consenso informato già acquisito" : "Raccogli Consenso Informato"
+                  }
+                  title="Spiega rischi e benefici e acquisisci il consenso prima di procedure invasive"
+                  className={cn(
+                    "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition",
+                    consentRequested
+                      ? "cursor-default border-emerald-200 bg-emerald-50 text-emerald-800"
+                      : "border-[#345884]/25 bg-[#EEF2F9] text-[#345884] hover:bg-[#345884] hover:text-white disabled:opacity-50",
+                  )}
                 >
-                  Consenso acquisito
-                </span>
-              ) : null}
+                  <FileText className="h-3.5 w-3.5" strokeWidth={1.75} />
+                  {consentRequested ? "Già acquisito" : "Raccogli Consenso Informato"}
+                </button>
+                {consentRequested ? (
+                  <span
+                    role="status"
+                    className="inline-flex items-center rounded-full border border-emerald-300 bg-emerald-50 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-800"
+                  >
+                    Consenso acquisito
+                  </span>
+                ) : null}
+              </>
             ) : null}
             {onOpenPrescriptionPad ? (
               <button
