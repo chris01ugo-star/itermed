@@ -14,6 +14,8 @@ export type SessionResumeSnapshot = {
   completedGoldSteps: string[];
   elapsedMinutes: number;
   targetCondition: string | null;
+  disclaimerAcceptedAt: string | null;
+  disclaimerVersion: string | null;
 };
 
 type SessionRow = {
@@ -25,6 +27,8 @@ type SessionRow = {
   completedGoldSteps: string[];
   elapsedMinutes: number;
   currentTargetCondition: string | null;
+  disclaimerAcceptedAt?: Date | string | null;
+  disclaimerVersion?: string | null;
 };
 
 export function toSessionResumeSnapshot(row: SessionRow): SessionResumeSnapshot {
@@ -37,7 +41,15 @@ export function toSessionResumeSnapshot(row: SessionRow): SessionResumeSnapshot 
     completedGoldSteps: Array.isArray(row.completedGoldSteps) ? row.completedGoldSteps : [],
     elapsedMinutes: row.elapsedMinutes ?? 0,
     targetCondition: row.currentTargetCondition,
+    disclaimerAcceptedAt: toIsoTimestamp(row.disclaimerAcceptedAt),
+    disclaimerVersion: row.disclaimerVersion?.trim() || null,
   };
+}
+
+function toIsoTimestamp(value: Date | string | null | undefined): string | null {
+  if (!value) return null;
+  const date = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date.toISOString();
 }
 
 function liveSessionIdFromReportTrace(raw: unknown): string | null {

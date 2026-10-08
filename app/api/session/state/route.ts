@@ -14,6 +14,8 @@ const sessionSelect = {
   completedGoldSteps: true,
   elapsedMinutes: true,
   currentTargetCondition: true,
+  disclaimerAcceptedAt: true,
+  disclaimerVersion: true,
 } as const;
 
 export async function GET(req: Request) {

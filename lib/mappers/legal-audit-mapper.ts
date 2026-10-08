@@ -33,6 +33,8 @@ export interface FormattedLegalReportDTO {
   cognitiveBiases?: string[];
   comparativeAnalysis: FormattedLegalComparativeRow[];
   uncoveredAreas: string[];
+  /** Citazioni SNLG/ISS/ESC/AHA e Legge 24/2017 art. 5. */
+  guidelineCitations: string[];
 }
 
 type LegacyLegalAudit = LegalAuditResult & {
@@ -74,6 +76,19 @@ function normalizeCognitiveBiases(value: unknown): string[] | undefined {
     .filter((item): item is string => Boolean(item))
     .slice(0, 5);
   return items.length > 0 ? items : undefined;
+}
+
+function normalizeGuidelineCitations(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  const items: string[] = [];
+  for (const item of value) {
+    const text = clip(item, 280);
+    if (!text) continue;
+    if (items.some((existing) => existing.toLowerCase() === text.toLowerCase())) continue;
+    items.push(text);
+    if (items.length >= 8) break;
+  }
+  return items;
 }
 
 const FAULT_CATEGORIES: readonly LegalFaultCategory[] = [
@@ -162,6 +177,7 @@ export function coerceLegalReportDto(
       executiveSummary,
       summaryText: executiveSummary || input.summaryText,
       ...(cognitiveBiases ? { cognitiveBiases } : {}),
+      guidelineCitations: normalizeGuidelineCitations(input.guidelineCitations),
     };
   }
   if (isLegalAuditResult(input)) return mapLegalAuditToDTO(input);
@@ -216,6 +232,9 @@ export function mapLegalAuditToDTO(
       uncoveredAreas: legalAudit?.uncoveredAreas || [
         "Nessuna fonte di riferimento trovata con soglia di pertinenza >= 0.70.",
       ],
+      guidelineCitations: normalizeGuidelineCitations(
+        legalAudit && "guidelineCitations" in legalAudit ? legalAudit.guidelineCitations : undefined,
+      ),
     };
   }
 
@@ -261,5 +280,8 @@ export function mapLegalAuditToDTO(
     ...(cognitiveBiases ? { cognitiveBiases } : {}),
     comparativeAnalysis,
     uncoveredAreas: legalAudit.uncoveredAreas || [],
+    guidelineCitations: normalizeGuidelineCitations(
+      "guidelineCitations" in legalAudit ? legalAudit.guidelineCitations : undefined,
+    ),
   };
 }

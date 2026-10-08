@@ -9,6 +9,7 @@ export type ClinicalReportSections = {
   anamnesisObjective: string;
   diagnosticFindings: string;
   diagnosisTreatment: string;
+  dischargeNote: string;
 };
 
 export function composeClinicalReport(sections: ClinicalReportSections): string {
@@ -22,6 +23,9 @@ export function composeClinicalReport(sections: ClinicalReportSections): string 
   }
   if (sections.diagnosisTreatment.trim()) {
     parts.push("=== DIAGNOSI & TRATTAMENTO DI DIMISSIONE ===", sections.diagnosisTreatment.trim());
+  }
+  if (sections.dischargeNote.trim()) {
+    parts.push("=== DIARIO CLINICO / RELAZIONE DI DIMISSIONE ===", sections.dischargeNote.trim());
   }
 
   return parts.join("\n\n");
@@ -42,7 +46,8 @@ export function isClinicalReportComplete(sections: ClinicalReportSections): bool
   return (
     sections.anamnesisObjective.trim().length >= 20 &&
     sections.diagnosticFindings.trim().length >= 15 &&
-    sections.diagnosisTreatment.trim().length >= 10
+    sections.diagnosisTreatment.trim().length >= 10 &&
+    sections.dischargeNote.trim().length >= 20
   );
 }
 
@@ -92,6 +97,16 @@ const FIELDS: Array<{
       "Diagnosi finale motivata; terapia effettuata in PS; indicazioni di dimissione o trasferimento; follow-up e red flags…",
     rows: 6,
     minHint: 10,
+  },
+  {
+    key: "dischargeNote",
+    code: "D",
+    label: "Diario Clinico / Relazione di Dimissione",
+    brief: "Razionale, reperti e follow-up. Senza questo testo la tutela documentale resta scoperta.",
+    placeholder:
+      "Sintetizza il razionale clinico, i reperti principali e il follow-up raccomandato per tutelarti legalmente...",
+    rows: 6,
+    minHint: 20,
   },
 ];
 
@@ -151,7 +166,7 @@ export function ClinicalDischargeReportPanel({
 
       <div className="overflow-hidden rounded-lg border border-slate-200 bg-[#FAFAF9]">
         {FIELDS.map((field, index) => {
-          const isLast = field.key === "diagnosisTreatment";
+          const isLast = field.key === "dischargeNote";
           const value = sections[field.key];
           const len = value.trim().length;
           const ok = len >= field.minHint;
@@ -195,7 +210,7 @@ export function ClinicalDischargeReportPanel({
                   isLast
                     ? (event) =>
                         handleTextareaEnterSubmit(event, {
-                          getValue: () => sections.diagnosisTreatment,
+                          getValue: () => sections.dischargeNote,
                           isDisabled: Boolean(confirmDisabled),
                           onSubmit: onConfirm,
                         })

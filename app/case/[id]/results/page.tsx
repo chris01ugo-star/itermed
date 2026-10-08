@@ -51,6 +51,7 @@ type SessionTrace = {
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
   legalAudit?: LegalAuditResult;
+  clinicalSummary?: string | null;
 };
 
 function normalizeFatalErrorsForUi(
@@ -217,6 +218,7 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
             empathyBreakdown={trace.empathyBreakdown ?? trace.scoreBreakdown?.empathy ?? null}
             scoreBreakdown={trace.scoreBreakdown ?? null}
             legalReport={trace.legalAudit ?? null}
+            clinicalSummary={trace.clinicalSummary ?? null}
           />
         </div>
       </div>

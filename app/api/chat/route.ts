@@ -268,6 +268,7 @@ export async function POST(req: Request) {
           elapsedMinutes,
           requestedExamIds: mergedExamIds,
           completedGoldSteps: inferredGold,
+          patientStress: stressClamped,
         },
       });
     }

@@ -10,6 +10,7 @@ import {
   normalizeExamSlug,
   type CaseFatalExamRef,
 } from "@/lib/services/evaluation-scoring";
+import { detectAllergyFatalPrescriptions } from "@/lib/services/evaluation-allergies";
 
 const KILLER_SWITCH_CAP = 17.9;
 
@@ -27,6 +28,13 @@ export type KillerSwitchCaseContext = {
   mandatoryExams?: CaseFatalExamRef[] | null;
   inappropriateExams?: CaseFatalExamRef[] | null;
   executedActionIds?: readonly string[] | null;
+  /** Baseline del caso: `allergies` o `patient.allergies`. */
+  baselineExamFindings?: unknown;
+  prescribedMedications?: ReadonlyArray<{
+    id: string;
+    commercialName: string;
+    activeIngredient: string;
+  }> | null;
 };
 
 function textMentionsExam(text: string, exam: CaseFatalExamRef): boolean {
@@ -180,7 +188,14 @@ export function buildMacroAreaRationales(
         }
         const dims = clin.dimensions;
         if (dims) {
-          return `ESC/AHA: Classe I ${dims.classIAdherence.met}/${dims.classIAdherence.expected} (${dims.classIAdherence.score}/100) · Classe III evitamento ${dims.classIIIAvoidance.score}/100 · Sequenza ${dims.diagnosticSequencing.score}/100.`;
+          const therapy = clin.therapy?.applicable
+            ? ` · Terapia ${clin.therapy.indicatedMet}/${clin.therapy.indicatedExpected} (${clin.therapy.score}/100, peso ${Math.round(clin.therapy.weight * 100)}%${
+                (clin.therapy.wrongDosage?.length ?? 0) > 0
+                  ? `, posologia errata ${clin.therapy.wrongDosage.length}`
+                  : ""
+              }).`
+            : "";
+          return `ESC/AHA: Classe I ${dims.classIAdherence.met}/${dims.classIAdherence.expected} (${dims.classIAdherence.score}/100) · Classe III evitamento ${dims.classIIIAvoidance.score}/100 · Sequenza ${dims.diagnosticSequencing.score}/100${therapy}`;
         }
         return clin.qualitativeLabel
           ? clin.qualitativeLabel

@@ -7,6 +7,7 @@
 import type { CaseExamDefinition, RagLegalReference } from "@/lib/data/cases/types";
 import { getCachedCaseById } from "@/lib/data/cases/registry-store";
 import type { ExamClinicalMeta } from "@/lib/exam-default-values";
+import { summarizeMedicationEconomics } from "@/lib/services/evaluation-medications";
 import { resolveSsnTariffEuro } from "@/lib/services/exam-ssn-tariff-resolver";
 
 export type EconomyScoreMotivation = {
@@ -30,9 +31,13 @@ export type EconomySsnResult = {
   qualitativeLabel: string;
   expertAnalysis: string;
   framework: "economy-ssn-hta";
-  /** Spesa effettiva utente (€). */
+  /** Spesa effettiva utente: esami + farmaci (€). */
   actualSpendEuro: number;
-  /** Spesa ideale Gold Standard (€). */
+  /** Quota esami della spesa effettiva (€). */
+  examSpendEuro: number;
+  /** Quota farmaci della spesa effettiva (€). */
+  medicationSpendEuro: number;
+  /** Spesa ideale Gold Standard: esami + farmaci indicati (€). */
   idealSpendEuro: number;
   /** Delta = effettiva − ideale (€). */
   deltaSpendEuro: number;
@@ -313,7 +318,8 @@ function qualitativeLabel(params: {
 
 /**
  * Valutazione economico-prescrittiva SSN (HTA).
- * Score = efficienza (vs spesa ideale) − penalità spreco − penalità omissioni, clamp [0,100].
+ * Effettiva = esami + farmaci. Ideale = esami Gold Standard + farmaci indicated.
+ * Score = efficienza (vs ideale) − penalità spreco (esami e farmaci non indicati/controindicati) − penalità omissioni.
  */
 export function computeEconomySsnScore(params: {
   caseId?: string | null;
@@ -326,6 +332,13 @@ export function computeEconomySsnScore(params: {
   inappropriateExams?: CaseExamDefinition[] | null;
   examsAppropriatenessScore?: number | null;
   ragReferences?: RagLegalReference[] | null;
+  baselineExamFindings?: unknown;
+  prescribedMedications?: Array<{
+    id: string;
+    commercialName: string;
+    activeIngredient: string;
+    price: number;
+  }> | null;
 }): EconomySsnResult {
   const registered = params.caseId ? getCachedCaseById(params.caseId) : undefined;
   const ragRefs =
@@ -351,19 +364,26 @@ export function computeEconomySsnScore(params: {
   }
   const executed = new Set(executedIds);
 
-  const actualSpendEuro = safeEuro(params.totalCostEuro);
+  const examSpendEuro = safeEuro(params.totalCostEuro);
+  const medications = summarizeMedicationEconomics({
+    baselineExamFindings: params.baselineExamFindings ?? registered?.baselineExamFindings,
+    prescriptions: params.prescribedMedications,
+  });
+  const medicationSpendEuro = medications.medicationSpendEuro;
+  const actualSpendEuro = examSpendEuro + medicationSpendEuro;
   const budgetEuro = safeEuro(params.budgetEuro) || safeEuro(registered?.examBudgetEuro);
 
-  // Spesa ideale = somma tariffe prestazioni Gold / mandatorie
-  let idealSpendEuro = 0;
+  // Spesa ideale = tariffe Gold / mandatorie + farmaci indicated
+  let idealExamEuro = 0;
   const idealItems: Array<{ examId: string; name: string; costEuro: number }> = [];
   for (const def of idealDefs) {
     const cost = priceForExam(def.examId, catalog, orderedCostById) || safeEuro(def.priceEuro);
     // Prefer authored priceEuro as SSOT when > 0
     const tariff = safeEuro(def.priceEuro) > 0 ? safeEuro(def.priceEuro) : cost;
-    idealSpendEuro += tariff;
+    idealExamEuro += tariff;
     idealItems.push({ examId: def.examId, name: def.name || def.examId, costEuro: tariff });
   }
+  const idealSpendEuro = idealExamEuro + medications.idealMedicationEuro;
 
   // If ideal still 0 but we have budget and gold path length, do not invent — keep 0
   const deltaSpendEuro = actualSpendEuro - idealSpendEuro;
@@ -426,6 +446,36 @@ export function computeEconomySsnScore(params: {
     });
   }
 
+  for (const line of medications.lines) {
+    if (line.role !== "inappropriate" && line.role !== "contraindicated") continue;
+    inappropriate.push({
+      examId: line.id,
+      name: line.name,
+      costEuro: line.costEuro,
+      kind: "inappropriate",
+      sourceRef: ECONOMY_RAG_REFS.noteAifa(),
+    });
+  }
+  for (const line of medications.lines) {
+    if (line.role !== "indicated") continue;
+    virtuous.push({
+      examId: line.id,
+      name: line.name,
+      costEuro: line.costEuro,
+      kind: "virtuous",
+      sourceRef: ECONOMY_RAG_REFS.noteAifa(),
+    });
+  }
+  for (const line of medications.omittedIndicated) {
+    omissions.push({
+      examId: line.id,
+      name: line.name,
+      costEuro: line.costEuro,
+      kind: "omission",
+      sourceRef: ECONOMY_RAG_REFS.art13,
+    });
+  }
+
   const wasteEuro = inappropriate.reduce((s, p) => s + p.costEuro, 0);
   const virtuousSpendEuro = virtuous.reduce((s, p) => s + p.costEuro, 0);
   const omissionEuro = omissions.reduce((s, p) => s + p.costEuro, 0);
@@ -444,7 +494,7 @@ export function computeEconomySsnScore(params: {
   motivations.push({
     id: "eco_balance",
     type: "neutral",
-    text: `Bilancio SSN: effettiva €${actualSpendEuro.toFixed(2)} · ideale GS €${idealSpendEuro.toFixed(2)} · Δ €${deltaSpendEuro >= 0 ? "+" : ""}${deltaSpendEuro.toFixed(2)} · scostamento ${scostamentoPercent}% · efficienza ${efficiencyPercent}%`,
+    text: `Bilancio SSN: esami €${examSpendEuro.toFixed(2)} + farmaci €${medicationSpendEuro.toFixed(2)} = effettiva €${actualSpendEuro.toFixed(2)} · ideale GS €${idealSpendEuro.toFixed(2)} (farmaci indicati €${medications.idealMedicationEuro.toFixed(2)}) · Δ €${deltaSpendEuro >= 0 ? "+" : ""}${deltaSpendEuro.toFixed(2)} · scostamento ${scostamentoPercent}% · efficienza ${efficiencyPercent}%`,
     sourceRef: primarySourceRef,
     scoreImpact: 0,
   });
@@ -479,7 +529,7 @@ export function computeEconomySsnScore(params: {
     motivations.push({
       id: "eco_waste",
       type: "negative",
-      text: `Spreco / medicina difensiva: ${inappropriate.length} prestazioni (€${wasteEuro.toFixed(2)})`,
+      text: `Spreco / medicina difensiva: ${inappropriate.length} voci tra esami e farmaci (€${wasteEuro.toFixed(2)})`,
       sourceRef: pickEconomySourceRef({
         examId: inappropriate[0]?.examId ?? "n/d",
         ragRefs,
@@ -581,6 +631,8 @@ export function computeEconomySsnScore(params: {
     expertAnalysis,
     framework: "economy-ssn-hta",
     actualSpendEuro,
+    examSpendEuro,
+    medicationSpendEuro,
     idealSpendEuro,
     deltaSpendEuro,
     budgetEuro,

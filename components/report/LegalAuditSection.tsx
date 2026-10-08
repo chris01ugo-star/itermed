@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, Scale, ShieldAlert, ShieldCheck, ShieldQuestion, XCircle } from "lucide-react";
+import { BookOpen, CheckCircle2, Scale, ShieldAlert, ShieldCheck, ShieldQuestion, XCircle } from "lucide-react";
 import { Badge } from "@/app/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/ui/card";
 import { cn } from "@/app/utils/cn";
@@ -129,6 +129,21 @@ export function LegalAuditSection({ legalReport, className }: LegalAuditSectionP
               {report.cognitiveBiases.map((bias, index) => (
                 <li key={`${bias.slice(0, 40)}-${index}`} className="text-sm leading-relaxed text-amber-950">
                   <SafeLlmText as="span">{bias}</SafeLlmText>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        {report.guidelineCitations.length > 0 ? (
+          <div className="mt-4 max-w-3xl border border-[#1E324E]/15 bg-white px-4 py-3">
+            <p className="mb-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#1E324E]">
+              <BookOpen className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
+              Fonti e Riferimenti Normativi (L. 24/2017)
+            </p>
+            <ul className="list-disc space-y-1.5 pl-5">
+              {report.guidelineCitations.map((citation, index) => (
+                <li key={`${citation.slice(0, 48)}-${index}`} className="text-sm leading-relaxed text-slate-800">
+                  <SafeLlmText as="span">{citation}</SafeLlmText>
                 </li>
               ))}
             </ul>

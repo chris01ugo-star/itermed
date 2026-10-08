@@ -285,18 +285,31 @@ export async function recordConsentInformedRequest(params: {
     create: {
       sessionId: params.sessionId,
       milestoneKey: CONSENT_INFORMED_MILESTONE_KEY,
-      label: "Consenso informato / spiegazione procedura (iniziativa utente)",
+      label: "Consenso informato acquisito (modulo)",
       category: "legal",
       source: "user_action",
-      evidence: CONSENT_INFORMED_ACTION_ID,
+      evidence: "informed_consent",
     },
     update: {
-      evidence: CONSENT_INFORMED_ACTION_ID,
-      label: "Consenso informato / spiegazione procedura (iniziativa utente)",
+      evidence: "informed_consent",
+      label: "Consenso informato acquisito (modulo)",
       source: "user_action",
     },
   });
-  return { consentRequested: true, actionId: CONSENT_INFORMED_ACTION_ID };
+
+  const session = await prisma.caseSession.findUnique({
+    where: { id: params.sessionId },
+    select: { completedGoldSteps: true },
+  });
+  const steps = new Set(session?.completedGoldSteps ?? []);
+  steps.add("informed_consent");
+  steps.add(CONSENT_INFORMED_ACTION_ID);
+  await prisma.caseSession.update({
+    where: { id: params.sessionId },
+    data: { completedGoldSteps: [...steps] },
+  });
+
+  return { consentRequested: true, actionId: "informed_consent" };
 }
 
 /**

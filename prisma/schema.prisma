@@ -313,6 +313,16 @@ model CaseSession {
   requestedExamIds       String[] @default([])
   /// Structured Medication prescriptions from the Ricettario (audit / pharmacoeconomics).
   prescribedMedications  Json?
+  /// Diagnosi finali inviate e giudicate errate prima di quella corretta.
+  failedDiagnosisAttempts Int @default(0)
+  /// Stress del paziente a fine turno (0–100), aggiornato dal clock della simulazione.
+  patientStress           Int @default(0)
+  /// Diario clinico / relazione di dimissione compilata dallo studente.
+  clinicalSummary         String? @db.Text
+  /// Audit trail: momento in cui lo studente ha accettato il disclaimer di questo caso.
+  disclaimerAcceptedAt    DateTime?
+  /// Versione del testo di disclaimer accettato.
+  disclaimerVersion       String?   @default("1.0")
   milestones             SimulationMilestone[]
 
   createdAt DateTime @default(now())

@@ -27,6 +27,18 @@ export function LegalPageShell({
             <Link href="/privacy" className="underline-offset-2 hover:text-[#1E324E] hover:underline">
               Privacy
             </Link>
+            <Link
+              href="/subprocessors"
+              className="underline-offset-2 hover:text-[#1E324E] hover:underline"
+            >
+              Sub-responsabili
+            </Link>
+            <Link href="/dpa" className="underline-offset-2 hover:text-[#1E324E] hover:underline">
+              DPA
+            </Link>
+            <Link href="/b2b-terms" className="underline-offset-2 hover:text-[#1E324E] hover:underline">
+              MSA
+            </Link>
             <Link href="/cookies" className="underline-offset-2 hover:text-[#1E324E] hover:underline">
               Cookie
             </Link>

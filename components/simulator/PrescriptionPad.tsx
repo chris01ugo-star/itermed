@@ -20,6 +20,8 @@ import {
 import {
   ADMINISTRATION_ROUTES,
   formatSsnPrice,
+  POSOLOGY_CUSTOM,
+  POSOLOGY_PRESETS,
   type AdministrationRoute,
 } from "@/lib/simulator/prescription-trace";
 
@@ -58,19 +60,6 @@ const ROUTE_LABELS: Record<AdministrationRoute, string> = {
   rettale: "Rettale",
   topica: "Topica",
 };
-
-const POSOLOGY_PRESETS = [
-  "Dose singola (In acuto)",
-  "1 fiala EV",
-  "1 fiala IM",
-  "1 cpr / die",
-  "1 cpr BID (ogni 12h)",
-  "1 cpr TID (ogni 8h)",
-  "In infusione continua",
-  "Al bisogno",
-] as const;
-
-const POSOLOGY_CUSTOM = "Altro (Specifica manuale)";
 
 function AifaBandBadge({ band }: { band: AifaBand }) {
   return (

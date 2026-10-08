@@ -15,6 +15,7 @@ const bodySchema = z.object({
   caseId: z.string().min(1),
   sessionId: z.string().min(1),
   diagnosisText: z.string().min(1),
+  clinicalSummary: z.string().max(8000).optional(),
 });
 
 const verdictSchema = z.object({
@@ -50,7 +51,7 @@ export async function POST(req: Request) {
   if (rateLimited) return rateLimited;
 
   const json = await req.json();
-  const { caseId, sessionId, diagnosisText } = bodySchema.parse(json);
+  const { caseId, sessionId, diagnosisText, clinicalSummary } = bodySchema.parse(json);
 
   const access = await authorizeOwnedLiveSession({ userId, sessionId, expectedCaseId: caseId });
   if (!access.ok) {
@@ -61,6 +62,13 @@ export async function POST(req: Request) {
   }
 
   const liveSessionId = access.liveSessionId;
+  const summary = clinicalSummary?.trim() ?? "";
+  if (summary) {
+    await prisma.caseSession.update({
+      where: { id: liveSessionId },
+      data: { clinicalSummary: summary },
+    });
+  }
 
   const session = await prisma.caseSession.findUnique({
     where: { id: liveSessionId },
@@ -155,9 +163,20 @@ DIAGNOSI INSERITA DALL'UTENTE:
     }),
   );
 
+  if (!object.isCorrect) {
+    await recordFailedDiagnosis(liveSessionId);
+  }
+
   return new Response(JSON.stringify(stripExpectedCondition(object)), {
     status: 200,
     headers: { "Content-Type": "application/json" },
+  });
+}
+
+async function recordFailedDiagnosis(sessionId: string): Promise<void> {
+  await prisma.caseSession.update({
+    where: { id: sessionId },
+    data: { failedDiagnosisAttempts: { increment: 1 } },
   });
 }
 

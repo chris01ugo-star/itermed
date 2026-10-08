@@ -112,6 +112,7 @@ export default async function SharedRefertoPage({ params }: RefertoPageProps) {
           empathyBreakdown={report.empathyBreakdown}
           scoreBreakdown={report.scoreBreakdown}
           legalReport={report.legalAudit ?? null}
+          clinicalSummary={report.clinicalSummary ?? null}
         />
       </div>
     </div>

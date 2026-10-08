@@ -36,6 +36,7 @@ import {
   type ScoreMotivation,
 } from "@/lib/services/evaluation-scoring";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
+import type { TherapyEvaluation } from "@/lib/services/evaluation-medications";
 import { ReportShareBarcode } from "@/components/report/ReportShareBarcode";
 import { LegalAuditSection } from "@/components/report/LegalAuditSection";
 import { reportAccessionCode, reportShareUrl } from "@/lib/reports/share-link";
@@ -72,6 +73,8 @@ type EliteResultsClientProps = {
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
   legalReport?: FormattedLegalReportDTO | LegalAuditResult | null;
+  /** Diario clinico / relazione di dimissione scritta dallo studente. */
+  clinicalSummary?: string | null;
 };
 
 const PILLARS: Array<{
@@ -273,6 +276,104 @@ function pillarFlag(score: number) {
   };
 }
 
+function TherapyRow({
+  title,
+  tone,
+  items,
+  empty,
+}: {
+  title: string;
+  tone: string;
+  items: Array<{
+    id: string;
+    label: string;
+    matchedPrescription?: string;
+    prescribedPosology?: string;
+    validDosages?: string[];
+  }>;
+  empty: string;
+}) {
+  return (
+    <div>
+      <p className={`text-[11px] font-bold uppercase tracking-wide ${tone}`}>{title}</p>
+      {items.length === 0 ? (
+        <p className="mt-1 text-xs text-[var(--aequan-text-secondary)]">{empty}</p>
+      ) : (
+        <ul className="mt-1.5 space-y-1.5">
+          {items.map((item) => (
+            <li key={`${title}-${item.id}`} className="text-[13px] leading-snug text-[var(--aequan-brand-primary)]">
+              <span className="font-medium">{item.label}</span>
+              {item.matchedPrescription ? (
+                <span className="text-[var(--aequan-text-secondary)]"> · {item.matchedPrescription}</span>
+              ) : null}
+              {item.prescribedPosology ? (
+                <span className="block text-[12px] text-[var(--aequan-text-secondary)]">
+                  Prescritto: {item.prescribedPosology}
+                  {item.validDosages && item.validDosages.length > 0
+                    ? ` · Atteso: ${item.validDosages.join(" · ")}`
+                    : ""}
+                </span>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function TherapyFeedback({ therapy }: { therapy: TherapyEvaluation }) {
+  const wrongDosage = therapy.wrongDosage ?? [];
+  const issues =
+    therapy.omitted.length +
+    wrongDosage.length +
+    therapy.inappropriate.length +
+    therapy.contraindicated.length;
+  return (
+    <Accordion title="Appropriatezza terapeutica" count={issues} defaultOpen>
+      <p className="text-sm leading-relaxed text-[var(--aequan-text-secondary)]">{therapy.summary}</p>
+      <p className="mt-2 text-[11px] leading-relaxed text-[var(--aequan-text-secondary)]">{therapy.formula}</p>
+      {wrongDosage.length > 0 ? (
+        <p className="mt-3 border border-[#FFE08A] bg-[#FFF8E1] px-3 py-2 text-[13px] font-medium text-[#92400E]">
+          Farmaco corretto ma posologia errata/inefficace
+        </p>
+      ) : null}
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <TherapyRow
+          title="Farmaci corretti"
+          tone="text-[var(--aequan-status-safe)]"
+          items={therapy.correct}
+          empty="Nessun farmaco di prima linea con posologia accettata."
+        />
+        <TherapyRow
+          title="Farmaco corretto ma posologia errata/inefficace"
+          tone="text-[#D97706]"
+          items={wrongDosage}
+          empty="Nessuna posologia fuori schema."
+        />
+        <TherapyRow
+          title="Terapia essenziale omessa"
+          tone="text-[#D97706]"
+          items={therapy.omitted}
+          empty="Nessuna omissione."
+        />
+        <TherapyRow
+          title="Farmaci non indicati"
+          tone="text-[#E11D48]"
+          items={therapy.inappropriate}
+          empty="Nessun over-treatment."
+        />
+        <TherapyRow
+          title="Controindicati non letali"
+          tone="text-[#E11D48]"
+          items={therapy.contraindicated}
+          empty="Nessuna controindicazione violata."
+        />
+      </div>
+    </Accordion>
+  );
+}
+
 function Accordion({
   title,
   count,
@@ -339,6 +440,7 @@ export function EliteResultsClient({
   empathyBreakdown = null,
   scoreBreakdown = null,
   legalReport = null,
+  clinicalSummary = null,
 }: EliteResultsClientProps) {
   const legalDto = coerceLegalReportDto(legalReport);
   const resolvedRadarData = radarData.map((point) => {
@@ -359,17 +461,24 @@ export function EliteResultsClient({
     showKillerSwitchBanner || killerSwitch?.applied === true,
   );
 
-  const wastedEuro = economicAnalysis
-    ? economicAnalysis.unnecessaryExpenses.reduce((sum, item) => sum + (item.cost ?? 0), 0)
-    : 0;
-  const overspend =
-    economicAnalysis && economicAnalysis.actualSpent > economicAnalysis.targetBudget
-      ? economicAnalysis.actualSpent - economicAnalysis.targetBudget
+  const economy = scoreBreakdown?.economy;
+  const examSpendLabel = economy?.examSpendEuro;
+  const medicationSpendLabel = economy?.medicationSpendEuro;
+  const hasDeterministicSpend = examSpendLabel != null && medicationSpendLabel != null;
+  const spentEuro = hasDeterministicSpend
+    ? economy.totalCostEuro
+    : (economicAnalysis?.actualSpent ?? 0);
+  const budgetEuro = hasDeterministicSpend
+    ? economy.budgetEuro
+    : (economicAnalysis?.targetBudget ?? 0);
+  const wastedEuro = hasDeterministicSpend
+    ? (economy.overPrescriptionWasteEuro ?? 0)
+    : economicAnalysis
+      ? economicAnalysis.unnecessaryExpenses.reduce((sum, item) => sum + (item.cost ?? 0), 0)
       : 0;
-  const budgetRatio =
-    economicAnalysis && economicAnalysis.targetBudget > 0
-      ? Math.min(100, (economicAnalysis.actualSpent / economicAnalysis.targetBudget) * 100)
-      : 0;
+  const overspend = budgetEuro > 0 && spentEuro > budgetEuro ? spentEuro - budgetEuro : 0;
+  const budgetRatio = budgetEuro > 0 ? Math.min(100, (spentEuro / budgetEuro) * 100) : 0;
+  const showBudget = hasDeterministicSpend || economicAnalysis != null;
 
   const empathyNote =
     empathyBreakdown?.qualitativeLabel ||
@@ -536,6 +645,16 @@ export function EliteResultsClient({
               Simulazione interrotta dall&apos;utente prima del completamento
             </p>
           ) : null}
+          {clinicalSummary?.trim() ? (
+            <div className="mt-4 border border-[var(--aequan-border)] bg-[var(--aequan-panel-bg)] px-4 py-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--aequan-text-secondary)]">
+                Diario clinico / Relazione di dimissione
+              </p>
+              <p className="mt-2 whitespace-pre-wrap text-[13px] leading-relaxed text-[var(--aequan-brand-primary)]">
+                {clinicalSummary.trim()}
+              </p>
+            </div>
+          ) : null}
         </section>
 
         {showKillerSwitchBanner ? (
@@ -619,6 +738,19 @@ export function EliteResultsClient({
                             </SafeLlmText>
                           </p>
                         ) : null}
+                        {pillar.key === "empathy" && (scoreBreakdown?.communication?.stressPenalty ?? 0) > 0 ? (
+                          <p
+                            className={cn(
+                              "mt-1.5 max-w-sm text-[12px] font-semibold leading-snug",
+                              scoreBreakdown?.communication?.criticalPatientStress
+                                ? "text-[#E11D48]"
+                                : "text-[#D97706]",
+                            )}
+                          >
+                            Penalità per stress: il paziente ha terminato la visita in stato di agitazione (-
+                            {scoreBreakdown?.communication?.stressPenalty} punti)
+                          </p>
+                        ) : null}
                       </td>
                       <td
                         className={cn(
@@ -672,7 +804,7 @@ export function EliteResultsClient({
                     Bilancio SSN
                   </td>
                   <td className="border-t border-[var(--aequan-border)] px-4 py-3">
-                    {economicAnalysis ? (
+                    {showBudget ? (
                       <>
                         <p
                           className={cn(
@@ -680,9 +812,9 @@ export function EliteResultsClient({
                             overspend > 0 ? "text-[#E11D48]" : "text-[var(--aequan-brand-primary)]",
                           )}
                         >
-                          €{economicAnalysis.actualSpent.toFixed(0)}
+                          €{spentEuro.toFixed(0)}
                           <span className="ml-1 text-sm font-medium text-[var(--aequan-text-secondary)]">
-                            / €{economicAnalysis.targetBudget.toFixed(0)}
+                            / €{budgetEuro.toFixed(0)}
                           </span>
                         </p>
                         <div className="mt-2 h-1.5 overflow-hidden bg-[var(--aequan-border)]">
@@ -691,13 +823,20 @@ export function EliteResultsClient({
                             style={{ width: `${budgetRatio}%` }}
                           />
                         </div>
+                        {hasDeterministicSpend ? (
+                          <p className="mt-2 text-[12px] leading-snug text-[var(--aequan-text-secondary)]">
+                            Spesa Esami: {(examSpendLabel ?? 0).toFixed(0)} € | Spesa Farmaci:{" "}
+                            {(medicationSpendLabel ?? 0).toFixed(0)} € | Spreco Totale:{" "}
+                            {wastedEuro.toFixed(0)} €
+                          </p>
+                        ) : null}
                       </>
                     ) : (
                       <span className="text-xs text-[var(--aequan-text-secondary)]">Non disponibile</span>
                     )}
                   </td>
                   <td className="border-t border-[var(--aequan-border)] px-4 py-3 text-[13px] leading-snug text-[var(--aequan-text-secondary)]">
-                    {economicAnalysis
+                    {showBudget
                       ? `${overspend > 0 ? `Sforamento +€${overspend.toFixed(0)}` : "Budget entro soglia di appropriatezza"}${
                           wastedEuro > 0 ? ` · sprechi €${wastedEuro.toFixed(0)}` : ""
                         }`
@@ -720,6 +859,32 @@ export function EliteResultsClient({
             </p>
           </div>
           <div className="divide-y divide-[var(--aequan-border)]">
+            {scoreBreakdown?.clinical?.criticalTimeDelay ? (
+              <div className="bg-[#FFF8E1] px-5 py-4 sm:px-7">
+                <div className="flex items-start gap-2.5">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#D97706]" />
+                  <p className="text-xs font-semibold leading-relaxed text-[#D97706]">
+                    Gestione del tempo critica: il grave ritardo diagnostico-terapeutico ha compromesso la sicurezza del paziente.
+                  </p>
+                </div>
+              </div>
+            ) : null}
+            {(scoreBreakdown?.clinical?.failedDiagnosisCount ?? 0) > 0 ? (
+              <div className="bg-[#FFF8E1] px-5 py-4 sm:px-7">
+                <div className="flex items-start gap-2.5">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-[#D97706]" />
+                  <p className="text-xs font-semibold leading-relaxed text-[#D97706]">
+                    Penalità per errori diagnostici: {scoreBreakdown?.clinical?.failedDiagnosisCount}{" "}
+                    {(scoreBreakdown?.clinical?.failedDiagnosisCount ?? 0) === 1
+                      ? "tentativo fallito"
+                      : "tentativi falliti"}
+                  </p>
+                </div>
+              </div>
+            ) : null}
+            {scoreBreakdown?.clinical?.therapy?.applicable ? (
+              <TherapyFeedback therapy={scoreBreakdown.clinical.therapy} />
+            ) : null}
             {clinicalDeltaTable.length > 0 ? (
               <Accordion title="Confronto Gold Standard" count={clinicalDeltaTable.length} defaultOpen>
                 <ul className="space-y-2.5">

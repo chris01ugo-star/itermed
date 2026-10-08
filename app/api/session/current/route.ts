@@ -18,6 +18,8 @@ const sessionSelect = {
   completedGoldSteps: true,
   elapsedMinutes: true,
   currentTargetCondition: true,
+  disclaimerAcceptedAt: true,
+  disclaimerVersion: true,
 } as const;
 
 /**

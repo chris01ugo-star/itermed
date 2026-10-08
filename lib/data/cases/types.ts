@@ -75,6 +75,43 @@ export type CaseExamDefinition = {
   diagnosticCategory?: "IMAGING" | "INSTRUMENTAL" | "ENDOSCOPY" | "LAB";
 };
 
+/**
+ * Farmaco (o classe) atteso dal ricettario.
+ * `aliases` sono principi attivi, commerciali o classi che soddisfano il target
+ * (es. DOAC → apixaban, rivaroxaban).
+ */
+export type TherapyDrugSpec = {
+  id: string;
+  label: string;
+  aliases: string[];
+  /**
+   * Posologie accettate, allineate a `POSOLOGY_PRESETS` del ricettario
+   * (`lib/simulator/prescription-trace.ts`). Se assente o vuoto, la dose non è giudicata.
+   * Vale solo per i farmaci `indicated`.
+   */
+  validDosages?: string[];
+  /**
+   * Tariffa SSN di riferimento (€) per il bilancio ideale.
+   * Se assente, l'ideale usa il prezzo del pack effettivamente prescritto.
+   */
+  priceEuro?: number;
+};
+
+/**
+ * Matrice terapeutica canonica.
+ * Si scrive in `baselineExamFindings.therapyMatrix`.
+ * `goldTherapy` legacy (immediate / contraindicated / rateControl / …) resta valida:
+ * il motore la normalizza in questa forma.
+ */
+export type TherapyMatrix = {
+  /** Prima linea obbligatoria. Un oggetto `{ anyOf }` è soddisfatto da una sola alternativa. */
+  indicated: Array<TherapyDrugSpec | { label?: string; anyOf: TherapyDrugSpec[] }>;
+  /** Over-treatment non letale (es. antibiotico in patologia virale). */
+  inappropriate?: TherapyDrugSpec[];
+  /** Controindicati non letali: penalità clinica, senza killer switch. */
+  contraindicated?: TherapyDrugSpec[];
+};
+
 export type LegalConformityCriterion = {
   id: string;
   description: string;
@@ -136,6 +173,11 @@ export type ClinicalCase = {
   specialty: string;
   /** Display name for UI (`Cardiologia`). */
   specialtyLabel: string;
+  /**
+   * Linee guida ufficiali che la CTU deve citare (art. 5 L. 24/2017).
+   * Se assente, si usano `legalConformity.ragReferences` e, in mancanza, la specialità.
+   */
+  referenceGuidelines?: string[];
   medicalSpecialtyKey: string;
   /** Canonical engine difficulty (Prisma CaseDifficulty). */
   difficulty: ClinicalCaseDifficulty;
@@ -173,6 +215,10 @@ export type ClinicalCase = {
     criteria: LegalConformityCriterion[];
     ragReferences: RagLegalReference[];
   };
-  /** Canonical baseline: vitals, findings, budget, stress, `clinicalSigns` (semeiotics). */
+  /**
+   * Canonical baseline: vitals, findings, budget, stress, `clinicalSigns`.
+   * Terapia: `therapyMatrix` (canonica) oppure `goldTherapy` (legacy).
+   * Allergie: `allergies` o `patient.allergies` (stringhe: classe o principio attivo).
+   */
   baselineExamFindings: Record<string, unknown>;
 };

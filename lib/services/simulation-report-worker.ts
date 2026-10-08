@@ -25,7 +25,7 @@ import {
   type ClinicalCaseSnapshot,
 } from "@/lib/services/simulation-report-data";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
-import { runLegalAudit, createLegalAuditTechnicalFallback, type LegalAuditResult } from "@/lib/services/legal-audit-service";
+import { runLegalAudit, createLegalAuditTechnicalFallback, resolveReferenceGuidelines, withInformedConsentAction, type LegalAuditResult } from "@/lib/services/legal-audit-service";
 import {
   runEconomicAudit,
   type EconomicAuditResult,
@@ -102,14 +102,18 @@ async function safeRunLegalAudit(params: {
     chatHistory: ChatMessage[];
     requestedExams: ExamPayload[];
     finalDiagnosis?: string;
+    performedActions?: Array<{ id: string; type: "ACTION" | "DOCUMENT"; name: string }>;
+    clinicalSummary?: string;
   };
   legalChunks: ReturnType<typeof mapLegalChunksForAudit>;
+  referenceGuidelines?: string[];
   log: Logger;
 }): Promise<LegalAuditResult> {
   try {
     return await runLegalAudit({
       simulationLog: params.simulationLog,
       legalChunks: params.legalChunks,
+      referenceGuidelines: params.referenceGuidelines,
     });
   } catch (error) {
     params.log.warn("Legal audit LLM failed — persisting NOT_EVALUABLE technical fallback", {
@@ -587,11 +591,13 @@ function applyKillerSwitchToEvaluation(
   }
 
   // ESC Class III iatrogenic critical from deterministic clinical matrix.
+  // Le reazioni allergiche usano già la dicitura completa nel nome evento.
   const clinical = evaluation.scoreBreakdown?.clinical;
   if (clinical?.iatrogenicCritical) {
     for (const ev of clinical.iatrogenicEvents ?? []) {
+      const allergySentence = ev.name.startsWith("Reazione allergica iatrogena grave");
       fatalErrors.push({
-        description: `Danno Iatrogeno Critico (Classe III): ${ev.name}`,
+        description: allergySentence ? ev.name : `Danno Iatrogeno Critico (Classe III): ${ev.name}`,
         rationale: ev.rationale,
       });
     }
@@ -605,7 +611,19 @@ function applyKillerSwitchToEvaluation(
     }
   }
 
+  const allergyHits = detectAllergyFatalPrescriptions({
+    baselineExamFindings: caseContext?.baselineExamFindings,
+    prescriptions: caseContext?.prescribedMedications,
+  });
+  for (const hit of allergyHits) {
+    if (fatalErrors.some((error) => error.description === hit.description)) continue;
+    fatalErrors.push({ description: hit.description, rationale: hit.rationale });
+  }
+
   const safeScores = sanitizeDimensionScores(evaluation.scores);
+  if (allergyHits.length > 0 || fatalErrors.some((error) => error.description.startsWith("Reazione allergica iatrogena grave"))) {
+    safeScores.clinical = 0;
+  }
   const { rawTotal, finalTotal, killerSwitchApplied, scoresForPersist } =
     computeFinalTrentesimiWithKillerSwitch(safeScores, fatalErrors);
 
@@ -721,6 +739,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     let sessionRequestedExamIds = asStringArray(input.requestedExamIds);
     let sessionPrescriptions: SessionPrescription[] = [];
     let trustedChatHistory: Array<{ role: "user" | "assistant"; content: string }> = [];
+    let sessionClinicalSummary = "";
     if (input.liveSessionId) {
       try {
         const liveSession = await prisma.caseSession.findUnique({
@@ -729,6 +748,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
             requestedExamIds: true,
             prescribedMedications: true,
             chatHistory: true,
+            clinicalSummary: true,
           },
         });
         if (Array.isArray(liveSession?.requestedExamIds)) {
@@ -744,6 +764,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           role: turn.role,
           content: turn.content,
         }));
+        sessionClinicalSummary = liveSession?.clinicalSummary?.trim() ?? "";
       } catch (err) {
         console.error("[simulation-report-worker] CaseSession transcript load failed", err);
       }
@@ -759,6 +780,14 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       requestedExamIds: sessionRequestedExamIds,
       exams: Array.isArray(input.exams) ? input.exams : [],
     });
+    const consentCollected =
+      sessionMilestones.some((milestone) => milestone.milestoneKey === "consenso_informato") ||
+      executedActionIds.some((id) => id === "informed_consent" || id === "consenso-informato");
+    if (consentCollected) {
+      for (const id of ["informed_consent", "consenso-informato"]) {
+        if (!executedActionIds.includes(id)) executedActionIds.push(id);
+      }
+    }
 
     const milestoneHelp = parseHelpTelemetryFromMilestones(sessionMilestones);
     const helpRequestCount = Math.max(
@@ -795,6 +824,23 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       });
     }
 
+    const completedAt = new Date();
+    const liveSession = input.liveSessionId
+      ? await prisma.caseSession.findUnique({
+          where: { id: input.liveSessionId },
+          select: { elapsedMinutes: true, createdAt: true, failedDiagnosisAttempts: true, patientStress: true },
+        })
+      : null;
+    const simulationElapsedMinutes =
+      liveSession && liveSession.elapsedMinutes > 0
+        ? liveSession.elapsedMinutes
+        : liveSession
+          ? Math.max(
+              1,
+              Math.round((completedAt.getTime() - liveSession.createdAt.getTime()) / 60_000),
+            )
+          : null;
+
     const evaluation = await evaluationService.evaluateSimulation({
       chatHistory: chatHistoryForAudit,
       exams: Array.isArray(input.exams) ? input.exams : [],
@@ -817,6 +863,10 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       helpRequested,
       helpRequestCount,
       classifiedIntents,
+      elapsedMinutes: simulationElapsedMinutes,
+      timeLimitMinutes: registeredCase?.timeLimitMinutes,
+      failedDiagnosisAttempts: liveSession?.failedDiagnosisAttempts ?? 0,
+      finalPatientStress: liveSession?.patientStress ?? null,
     });
     const evaluationDurationMs = Date.now() - evaluationStartedAt;
 
@@ -831,6 +881,9 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       mandatoryExams: registeredCase?.mandatoryExams,
       inappropriateExams: registeredCase?.inappropriateExams,
       executedActionIds,
+      baselineExamFindings:
+        registeredCase?.baselineExamFindings ?? clinicalCase?.baselineExamFindings,
+      prescribedMedications: sessionPrescriptions,
     });
 
     let scoresForGrade = sanitizeDimensionScores(scoresForPersist);
@@ -838,25 +891,6 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     let totalScore = finalTotalTrentesimi;
     let rawTotalTrentesimi = Number.isFinite(rawTotalInitial) ? rawTotalInitial : 0;
     let killerSwitchApplied = killerAppliedInitial;
-
-    const completedAt = new Date();
-
-    const liveSession = input.liveSessionId
-      ? await prisma.caseSession.findUnique({
-          where: { id: input.liveSessionId },
-          select: { elapsedMinutes: true, createdAt: true },
-        })
-      : null;
-
-    const simulationElapsedMinutes =
-      liveSession && liveSession.elapsedMinutes > 0
-        ? liveSession.elapsedMinutes
-        : liveSession
-          ? Math.max(
-              1,
-              Math.round((completedAt.getTime() - liveSession.createdAt.getTime()) / 60_000),
-            )
-          : null;
 
     log.info("Killer-Switch evaluation", {
       fatalErrorCount: fatalErrors.length,
@@ -879,14 +913,28 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     let legalChunks: ReturnType<typeof mapLegalChunksForAudit> = [];
     try {
       legalChunks = mapLegalChunksForAudit(guidelines.legal?.chunks);
+      const examActions = (Array.isArray(input.exams) ? input.exams : []).map((exam) => ({
+        id: exam.id,
+        type: "ACTION" as const,
+        name: exam.name,
+      }));
       const simulationLog = {
         chatHistory: chatHistoryForAudit,
         requestedExams: Array.isArray(input.exams) ? input.exams : [],
+        performedActions: withInformedConsentAction(examActions, consentCollected),
+        ...(sessionClinicalSummary ? { clinicalSummary: sessionClinicalSummary } : {}),
         ...(input.finalDiagnosis ? { finalDiagnosis: input.finalDiagnosis } : {}),
       };
       legalAuditResult = await safeRunLegalAudit({
         simulationLog,
         legalChunks,
+        referenceGuidelines: resolveReferenceGuidelines({
+          referenceGuidelines: registeredCase?.referenceGuidelines,
+          ragSourceRefs: registeredCase?.legalConformity?.ragReferences?.map(
+            (reference) => reference.sourceRef,
+          ),
+          specialty: registeredCase?.specialty ?? specialtyName,
+        }),
         log,
       });
     } catch (error) {
@@ -1072,6 +1120,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           evaluationChatHistory: chatHistoryForAudit,
           exams: input.exams,
           normalizedReportText: input.normalizedReportText,
+          clinicalSummary: sessionClinicalSummary,
           evaluation: evaluationForPersist,
           guidelines,
           totalScore: Number.isFinite(totalScore) ? totalScore : 0,

@@ -60,6 +60,8 @@ export function buildSessionReportData(params: {
   relationalAudit?: RelationalAuditResult;
   /** Structured Ricettario prescriptions (AIFA/SSN pack tariffs). */
   prescribedMedications?: SessionPrescription[];
+  /** Diario clinico / relazione di dimissione persistita sulla sessione. */
+  clinicalSummary?: string | null;
 }): Prisma.SessionReportUncheckedUpdateInput {
   const {
     userId,
@@ -79,6 +81,7 @@ export function buildSessionReportData(params: {
     clinicalAudit,
     relationalAudit,
     prescribedMedications = [],
+    clinicalSummary,
   } = params;
 
   const scores = evaluation.scores ?? {
@@ -158,6 +161,7 @@ export function buildSessionReportData(params: {
       exams: Array.isArray(evaluation.resolvedExams) ? evaluation.resolvedExams : [],
       resolvedExams: Array.isArray(evaluation.resolvedExams) ? evaluation.resolvedExams : [],
       reportText: normalizedReportText ?? "",
+      clinicalSummary: clinicalSummary?.trim() || null,
       feedback,
       analytical: {
         criticalActions: Array.isArray(evaluation.criticalActions)
@@ -188,6 +192,12 @@ export function buildSessionReportData(params: {
         medicationCostEuro: prescribedMedications.reduce((sum, rx) => sum + rx.price, 0),
       },
       medications: prescribedMedications,
+      therapyEvaluation: evaluation.scoreBreakdown?.clinical?.therapy ?? null,
+      failedDiagnosisCount: evaluation.scoreBreakdown?.clinical?.failedDiagnosisCount ?? 0,
+      diagnosisPenalty: evaluation.scoreBreakdown?.clinical?.diagnosisPenalty ?? 0,
+      finalStressLevel: evaluation.scoreBreakdown?.communication?.finalStressLevel ?? null,
+      stressPenalty: evaluation.scoreBreakdown?.communication?.stressPenalty ?? 0,
+      criticalPatientStress: evaluation.scoreBreakdown?.communication?.criticalPatientStress === true,
       helpTelemetry: evaluation.helpTelemetry ?? {
         helpRequested: false,
         helpRequestCount: 0,

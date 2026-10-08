@@ -57,6 +57,10 @@ const SimulationReportBodySchema = z.object({
   executedActionIds: z.array(z.string()).default([]),
   helpRequested: z.boolean().optional(),
   helpRequestCount: z.coerce.number().int().min(0).max(500).optional(),
+  /** Stress del paziente al momento della chiusura (0–100). */
+  patientStress: z.coerce.number().finite().min(0).max(100).optional(),
+  /** Diario clinico / relazione di dimissione. */
+  clinicalSummary: z.string().max(8000).optional(),
 });
 
 function jsonResponse(payload: unknown, status = 200): Response {
@@ -98,6 +102,8 @@ export async function POST(req: Request) {
       executedActionIds,
       helpRequested,
       helpRequestCount,
+      patientStress,
+      clinicalSummary,
     } = parsed.data;
     const caseId = normalizeCaseLookupKey(rawCaseId);
     const log = routeLogger.child({ caseId });
@@ -124,6 +130,16 @@ export async function POST(req: Request) {
       return jsonResponse({ error: access.error, code: access.code }, access.status);
     }
     liveSessionId = access.liveSessionId;
+
+    if (liveSessionId && (patientStress != null || clinicalSummary?.trim())) {
+      await prisma.caseSession.update({
+        where: { id: liveSessionId },
+        data: {
+          ...(patientStress != null ? { patientStress: Math.round(patientStress) } : {}),
+          ...(clinicalSummary?.trim() ? { clinicalSummary: clinicalSummary.trim() } : {}),
+        },
+      });
+    }
 
     if (!liveSessionId) {
       const usedToday = await countSimulationsStartedToday(userId);

@@ -37,6 +37,7 @@ type SessionTrace = {
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
   legalAudit?: LegalAuditResult;
+  clinicalSummary?: string | null;
 };
 
 function safeNum(value: unknown, fallback = 0): number {
@@ -76,6 +77,7 @@ export type SharedEliteReport = {
   empathyBreakdown: EmpathyBehavioralBreakdown | null;
   scoreBreakdown: ScoreBreakdown | null;
   legalAudit?: LegalAuditResult;
+  clinicalSummary?: string | null;
 };
 
 export async function loadSharedSessionReport(
@@ -141,5 +143,6 @@ export async function loadSharedSessionReport(
     empathyBreakdown: trace.empathyBreakdown ?? trace.scoreBreakdown?.empathy ?? null,
     scoreBreakdown: trace.scoreBreakdown ?? null,
     legalAudit: trace.legalAudit,
+    clinicalSummary: trace.clinicalSummary ?? null,
   };
 }

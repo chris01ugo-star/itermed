@@ -6,6 +6,7 @@ import { userCanPlayCase, verifyLiveSessionOwner } from "../../../../lib/access"
 const bodySchema = z.object({
   caseId: z.string().min(1),
   liveSessionId: z.string().optional(),
+  clinicalSummary: z.string().max(8000).optional(),
 });
 
 export async function POST(req: Request) {
@@ -24,7 +25,8 @@ export async function POST(req: Request) {
     return Response.json({ error: "Invalid body" }, { status: 400 });
   }
 
-  const { caseId, liveSessionId } = parsed.data;
+  const { caseId, liveSessionId, clinicalSummary } = parsed.data;
+  const summary = clinicalSummary?.trim() ?? "";
 
   const allowed = await userCanPlayCase(userId, caseId);
   if (!allowed) {
@@ -42,6 +44,12 @@ export async function POST(req: Request) {
     });
     if (live && live.caseId !== caseId) {
       return Response.json({ error: "Session mismatch" }, { status: 400 });
+    }
+    if (summary) {
+      await prisma.caseSession.update({
+        where: { id: liveSessionId },
+        data: { clinicalSummary: summary },
+      });
     }
   }
 
@@ -78,6 +86,7 @@ export async function POST(req: Request) {
       rawTrace: {
         dismissed: true,
         liveSessionId: liveSessionId ?? null,
+        clinicalSummary: summary || null,
         chatHistory: [],
         exams: [],
         reportText: "",

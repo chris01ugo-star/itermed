@@ -30,6 +30,12 @@ import {
   ECONOMY_RAG_REFS,
 } from "@/lib/services/evaluation-economy-ssn";
 import type { GuidelineChunk } from "@/lib/services/rag-service";
+import type { SessionPrescription } from "@/lib/simulator/prescription-trace";
+import {
+  applyTherapyToClinicalScore,
+  type TherapyEvaluation,
+} from "@/lib/services/evaluation-medications";
+import { detectAllergyFatalPrescriptions } from "@/lib/services/evaluation-allergies";
 
 export {
   EMPATHY_RAG_REFS,
@@ -148,6 +154,10 @@ export type EmpathyBehavioralBreakdown = {
     trajectory: DRimeTrajectoryStep[];
     relationalInsights: string[];
   };
+  /** Stress finale del paziente e malus applicato al D-RIME. */
+  finalStressLevel?: number | null;
+  stressPenalty?: number;
+  criticalPatientStress?: boolean;
 };
 
 export type ScoreBreakdown = {
@@ -184,7 +194,29 @@ export type ScoreBreakdown = {
         met: number;
         expected: number;
       };
+      therapeuticAppropriateness?: {
+        score: number;
+        weight: number;
+        label: string;
+        met: number;
+        expected: number;
+      };
     };
+    /** Appropriatezza del ricettario. Assente se il caso non ha una matrice terapeutica. */
+    therapy?: TherapyEvaluation;
+    /** Minuti simulati della sessione, se il caso ha un timeLimitMinutes. */
+    elapsedMinutes?: number;
+    timeLimitMinutes?: number;
+    /** (elapsed − limite) / limite. Negativo o zero = dentro il tempo. */
+    timeOverrunRatio?: number;
+    /** Frazione sottratta al punteggio clinico: 0, lineare fino a 0.15, oppure 0.25. */
+    timeMalusFraction?: number;
+    /** Sforamento oltre il 50% del tempo limite. */
+    criticalTimeDelay?: boolean;
+    /** Diagnosi finali giudicate errate prima di quella corretta. */
+    failedDiagnosisCount?: number;
+    /** Punti sottratti al clinico: 10 per tentativo, prima del clamp a 0. */
+    diagnosisPenalty?: number;
   };
   exams: {
     base: number;
@@ -198,7 +230,12 @@ export type ScoreBreakdown = {
   };
   economy: {
     budgetEuro: number;
+    /** Spesa effettiva combinata: esami + farmaci (€). */
     totalCostEuro: number;
+    /** Quota esami della spesa effettiva (€). */
+    examSpendEuro?: number;
+    /** Quota farmaci della spesa effettiva (€). */
+    medicationSpendEuro?: number;
     formula: string;
     final: number;
     motivations: ScoreMotivation[];
@@ -254,6 +291,15 @@ export type ScoreBreakdown = {
     }>;
   };
   empathy: EmpathyBehavioralBreakdown;
+  /**
+   * Stress finale e malus sul D-RIME. Stesso voto di `empathy`, con i campi di tracciamento.
+   */
+  communication?: {
+    finalStressLevel: number | null;
+    stressPenalty: number;
+    criticalPatientStress: boolean;
+    final: number;
+  };
 };
 
 /** @deprecated Calgary model — no fictitious +60 floor. */
@@ -375,6 +421,85 @@ const ANAMNESIS_PROTOCOL_KEYS: Array<{
 function clampScore(value: number): number {
   if (!Number.isFinite(value)) return 0;
   return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+/** Soglia oltre la quale il malus diventa fisso e scatta `criticalTimeDelay`. */
+export const CLINICAL_TIME_LINEAR_CAP = 0.5;
+/** Malus massimo nella fascia lineare (+1% … +50% del limite). */
+export const CLINICAL_TIME_LINEAR_MAX_MALUS = 0.15;
+/** Malus fisso oltre +50% del tempo limite. */
+export const CLINICAL_TIME_CRITICAL_MALUS = 0.25;
+/** Punti clinici sottratti per ogni diagnosi finale errata. */
+export const DIAGNOSIS_ATTEMPT_PENALTY_POINTS = 10;
+/** Sotto questa soglia lo stress del paziente non tocca la comunicazione. */
+export const PATIENT_STRESS_FREE_BELOW = 50;
+/** Da questa soglia lo stress è critico per la comunicazione. */
+export const PATIENT_STRESS_CRITICAL_FROM = 80;
+export const PATIENT_STRESS_MODERATE_PENALTY = 15;
+export const PATIENT_STRESS_CRITICAL_PENALTY = 30;
+
+/**
+ * Malus sul D-RIME in funzione dello stress finale (0–100).
+ * < 50 → 0; 50–79 → −15; ≥ 80 → −30 e criticalPatientStress.
+ * Punteggio = max(0, arrotonda(D-RIME − penalità)).
+ */
+export function communicationStressPenalty(finalPatientStress: number | null | undefined): {
+  finalStressLevel: number | null;
+  stressPenalty: number;
+  criticalPatientStress: boolean;
+} {
+  if (finalPatientStress == null || !Number.isFinite(finalPatientStress)) {
+    return { finalStressLevel: null, stressPenalty: 0, criticalPatientStress: false };
+  }
+  const finalStressLevel = Math.max(0, Math.min(100, Math.round(finalPatientStress)));
+  if (finalStressLevel < PATIENT_STRESS_FREE_BELOW) {
+    return { finalStressLevel, stressPenalty: 0, criticalPatientStress: false };
+  }
+  if (finalStressLevel >= PATIENT_STRESS_CRITICAL_FROM) {
+    return {
+      finalStressLevel,
+      stressPenalty: PATIENT_STRESS_CRITICAL_PENALTY,
+      criticalPatientStress: true,
+    };
+  }
+  return {
+    finalStressLevel,
+    stressPenalty: PATIENT_STRESS_MODERATE_PENALTY,
+    criticalPatientStress: false,
+  };
+}
+
+/**
+ * Malus sul punteggio clinico in funzione dello sforamento.
+ * r = (elapsed − limite) / limite
+ * malus = 0                         se r ≤ 0
+ *       = 0.15 × (r / 0.50)         se 0 < r ≤ 0.50
+ *       = 0.25                       se r > 0.50
+ * Punteggio finale = arrotonda(punteggio × (1 − malus)).
+ */
+export function clinicalTimeMalusFraction(
+  elapsedMinutes: number,
+  timeLimitMinutes: number,
+): { overrunRatio: number; malusFraction: number; criticalTimeDelay: boolean } {
+  if (!(timeLimitMinutes > 0) || !Number.isFinite(elapsedMinutes) || elapsedMinutes < 0) {
+    return { overrunRatio: 0, malusFraction: 0, criticalTimeDelay: false };
+  }
+  const overrunRatio = (elapsedMinutes - timeLimitMinutes) / timeLimitMinutes;
+  if (overrunRatio <= 0) {
+    return { overrunRatio, malusFraction: 0, criticalTimeDelay: false };
+  }
+  if (overrunRatio > CLINICAL_TIME_LINEAR_CAP) {
+    return {
+      overrunRatio,
+      malusFraction: CLINICAL_TIME_CRITICAL_MALUS,
+      criticalTimeDelay: true,
+    };
+  }
+  return {
+    overrunRatio,
+    malusFraction: (overrunRatio / CLINICAL_TIME_LINEAR_CAP) * CLINICAL_TIME_LINEAR_MAX_MALUS,
+    criticalTimeDelay: false,
+  };
 }
 
 const CONFUSIONAL_STATE_OMISSION =
@@ -672,6 +797,15 @@ export function computeClinicalAccuracyScore(
     inappropriateExams?: CaseExamDefinition[] | null;
     goldStandardPath?: string[] | null;
     neurologicalRedFlagDetected?: boolean;
+    /** `baselineExamFindings` del caso: `therapyMatrix` canonica o `goldTherapy` legacy. */
+    baselineExamFindings?: unknown;
+    prescribedMedications?: SessionPrescription[] | null;
+    /** Clock simulato della sessione (`CaseSession.elapsedMinutes`). */
+    elapsedMinutes?: number | null;
+    /** `timeLimitMinutes` del caso. Assente o ≤ 0: nessuna penalità. */
+    timeLimitMinutes?: number | null;
+    /** Tentativi di diagnosi finale giudicati errati (`CaseSession.failedDiagnosisAttempts`). */
+    failedDiagnosisAttempts?: number | null;
   },
 ): {
   score: number;
@@ -750,10 +884,16 @@ export function computeClinicalAccuracyScore(
       },
     });
 
-    return {
-      score: penalized.score,
-      breakdown: penalized.breakdown,
-    };
+    return applyFailedDiagnosisPenalty(
+      applyClinicalTimePenalty(
+        withTherapeuticBlend(
+          { score: penalized.score, breakdown: penalized.breakdown },
+          options,
+        ),
+        options,
+      ),
+      options,
+    );
   }
 
   // Legacy fallback — LLM checklist (no fictitious +100 base).
@@ -843,9 +983,178 @@ export function computeClinicalAccuracyScore(
     },
   });
 
+  return applyFailedDiagnosisPenalty(
+    applyClinicalTimePenalty(
+      withTherapeuticBlend(
+        { score: legacyPenalized.score, breakdown: legacyPenalized.breakdown },
+        options,
+      ),
+      options,
+    ),
+    options,
+  );
+}
+
+function applyClinicalTimePenalty(
+  result: { score: number; breakdown: ScoreBreakdown["clinical"] },
+  options?: {
+    elapsedMinutes?: number | null;
+    timeLimitMinutes?: number | null;
+  },
+): { score: number; breakdown: ScoreBreakdown["clinical"] } {
+  const elapsed = options?.elapsedMinutes;
+  const limit = options?.timeLimitMinutes;
+  if (elapsed == null || !Number.isFinite(elapsed) || limit == null || !(limit > 0)) {
+    return result;
+  }
+
+  const { overrunRatio, malusFraction, criticalTimeDelay } = clinicalTimeMalusFraction(elapsed, limit);
+  const score = clampScore(result.score * (1 - malusFraction));
+  const overrunPct = Math.round(overrunRatio * 100);
+  const malusPct = Math.round(malusFraction * 1000) / 10;
+  const motivations = [...(result.breakdown.motivations ?? [])];
+  if (malusFraction > 0) {
+    motivations.push(
+      motivation("negative", criticalTimeDelay
+        ? `Ritardo diagnostico critico: ${elapsed} min su limite ${limit} min (sforamento ${overrunPct}% > 50%) — decurtazione fissa 25%`
+        : `Ritardo diagnostico: ${elapsed} min su limite ${limit} min (sforamento ${overrunPct}%) — decurtazione lineare ${malusPct}%`, {
+        id: criticalTimeDelay ? "clin_time_critical" : "clin_time_linear",
+        scoreImpact: score - result.score,
+        sourceRef: "Rif. timeLimitMinutes del caso",
+      }),
+    );
+  }
+
   return {
-    score: legacyPenalized.score,
-    breakdown: legacyPenalized.breakdown,
+    score,
+    breakdown: {
+      ...result.breakdown,
+      final: score,
+      elapsedMinutes: elapsed,
+      timeLimitMinutes: limit,
+      timeOverrunRatio: overrunRatio,
+      timeMalusFraction: malusFraction,
+      criticalTimeDelay,
+      motivations,
+    },
+  };
+}
+
+/**
+ * −10 punti clinici per ogni diagnosi finale errata, dopo esami, terapia e tempo.
+ * Il risultato resta in [0, 100].
+ */
+function applyFailedDiagnosisPenalty(
+  result: { score: number; breakdown: ScoreBreakdown["clinical"] },
+  options?: { failedDiagnosisAttempts?: number | null },
+): { score: number; breakdown: ScoreBreakdown["clinical"] } {
+  const raw = Number(options?.failedDiagnosisAttempts);
+  const failedDiagnosisCount = Number.isFinite(raw) ? Math.max(0, Math.floor(raw)) : 0;
+  const diagnosisPenalty = failedDiagnosisCount * DIAGNOSIS_ATTEMPT_PENALTY_POINTS;
+  if (diagnosisPenalty <= 0) {
+    return {
+      ...result,
+      breakdown: {
+        ...result.breakdown,
+        failedDiagnosisCount: 0,
+        diagnosisPenalty: 0,
+      },
+    };
+  }
+
+  const score = clampScore(result.score - diagnosisPenalty);
+  return {
+    score,
+    breakdown: {
+      ...result.breakdown,
+      final: score,
+      failedDiagnosisCount,
+      diagnosisPenalty,
+      motivations: [
+        ...(result.breakdown.motivations ?? []),
+        motivation(
+          "negative",
+          `Diagnosi errata: ${failedDiagnosisCount} tentativ${failedDiagnosisCount === 1 ? "o fallito" : "i falliti"} — −${diagnosisPenalty} punti sul punteggio clinico (−${DIAGNOSIS_ATTEMPT_PENALTY_POINTS} a tentativo)`,
+          {
+            id: "clin_wrong_diagnosis",
+            scoreImpact: score - result.score,
+            sourceRef: "Rif. tentativi di diagnosi finale",
+          },
+        ),
+      ],
+    },
+  };
+}
+
+function withTherapeuticBlend(
+  result: { score: number; breakdown: ScoreBreakdown["clinical"] },
+  options?: {
+    baselineExamFindings?: unknown;
+    prescribedMedications?: SessionPrescription[] | null;
+  },
+): { score: number; breakdown: ScoreBreakdown["clinical"] } {
+  const allergyHits = detectAllergyFatalPrescriptions({
+    baselineExamFindings: options?.baselineExamFindings,
+    prescriptions: options?.prescribedMedications,
+  });
+  let working = result;
+  if (allergyHits.length > 0) {
+    working = {
+      score: 0,
+      breakdown: {
+        ...result.breakdown,
+        final: 0,
+        iatrogenicCritical: true,
+        qualitativeLabel: "Reazione allergica iatrogena grave",
+        iatrogenicEvents: [
+          ...(result.breakdown.iatrogenicEvents ?? []),
+          ...allergyHits.map((hit) => ({
+            actionId: hit.drugId,
+            name: hit.description,
+            rationale: hit.rationale,
+          })),
+        ],
+        motivations: [
+          ...(result.breakdown.motivations ?? []),
+          ...allergyHits.map((hit) =>
+            motivation("negative", hit.description, {
+              id: `clin_allergy_${normalizeExamSlug(hit.drugId).slice(0, 24)}`,
+              scoreImpact: -result.score,
+              sourceRef: "Rif. Allergia nota del paziente / prontuario",
+            }),
+          ),
+        ],
+      },
+    };
+  }
+
+  const applied = applyTherapyToClinicalScore({
+    examScore: working.score,
+    iatrogenicCritical: working.breakdown.iatrogenicCritical,
+    baselineExamFindings: options?.baselineExamFindings,
+    prescriptions: options?.prescribedMedications,
+  });
+  if (!applied.therapy || !applied.motivation) return working;
+  return {
+    score: applied.score,
+    breakdown: {
+      ...working.breakdown,
+      final: applied.score,
+      therapy: applied.therapy,
+      motivations: [...(working.breakdown.motivations ?? []), applied.motivation],
+      dimensions: working.breakdown.dimensions
+        ? {
+            ...working.breakdown.dimensions,
+            therapeuticAppropriateness: {
+              score: applied.therapy.score,
+              weight: applied.therapy.weight,
+              label: "Appropriatezza terapeutica",
+              met: applied.therapy.indicatedMet,
+              expected: applied.therapy.indicatedExpected,
+            },
+          }
+        : working.breakdown.dimensions,
+    },
   };
 }
 
@@ -1026,6 +1335,8 @@ export function computeEconomicSustainabilityScore(
     caseTitle?: string | null;
     mandatoryExams?: CaseExamDefinition[] | null;
     inappropriateExams?: CaseExamDefinition[] | null;
+    baselineExamFindings?: unknown;
+    prescribedMedications?: SessionPrescription[] | null;
   },
 ): { score: number; breakdown: ScoreBreakdown["economy"] } {
   const result = computeEconomySsnScore({
@@ -1038,6 +1349,8 @@ export function computeEconomicSustainabilityScore(
     mandatoryExams: options?.mandatoryExams,
     inappropriateExams: options?.inappropriateExams,
     examsAppropriatenessScore: options?.examsAppropriatenessScore,
+    baselineExamFindings: options?.baselineExamFindings,
+    prescribedMedications: options?.prescribedMedications,
   });
 
   return {
@@ -1045,7 +1358,9 @@ export function computeEconomicSustainabilityScore(
     breakdown: {
       budgetEuro: result.budgetEuro,
       totalCostEuro: result.actualSpendEuro,
-      formula: `Efficienza ${result.efficiencyPercent}% − sprechi − omissioni (Δ €${result.deltaSpendEuro.toFixed(2)}; scostamento ${result.scostamentoPercent}%)`,
+      examSpendEuro: result.examSpendEuro,
+      medicationSpendEuro: result.medicationSpendEuro,
+      formula: `Efficienza ${result.efficiencyPercent}% su (esami €${result.examSpendEuro.toFixed(2)} + farmaci €${result.medicationSpendEuro.toFixed(2)}) vs ideale €${result.idealSpendEuro.toFixed(2)} − sprechi €${result.wasteEuro.toFixed(2)} − omissioni`,
       final: result.score,
       motivations: result.motivations as ScoreMotivation[],
       appropriatenessCouplingApplied: result.appropriatenessCouplingApplied,
@@ -1180,6 +1495,8 @@ export function computeBehavioralEmpathyScore(params: {
   classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
   goldStandardPath?: string[] | null;
   prescribedMedicationCount?: number;
+  /** Stress del paziente a fine simulazione (0–100). */
+  finalPatientStress?: number | null;
 }): { score: number; breakdown: EmpathyBehavioralBreakdown } {
   const result = computeCalgaryCambridgeEmpathy({
     chatHistory: params.chatHistory,
@@ -1195,18 +1512,36 @@ export function computeBehavioralEmpathyScore(params: {
   });
   const checklist = Array.isArray(params.empathyChecklist) ? params.empathyChecklist : [];
   const d = result.dRime;
+  const stress = communicationStressPenalty(params.finalPatientStress);
+  const score = clampScore(result.score - stress.stressPenalty);
+  const motivations = [...(result.motivations as ScoreMotivation[])];
+  if (stress.stressPenalty > 0 && stress.finalStressLevel != null) {
+    motivations.push(
+      motivation(
+        "negative",
+        stress.criticalPatientStress
+          ? `Stress critico del paziente (${stress.finalStressLevel}/100) — −${stress.stressPenalty} punti sulla comunicazione`
+          : `Stress del paziente ${stress.finalStressLevel}/100 — −${stress.stressPenalty} punti sulla comunicazione`,
+        {
+          id: stress.criticalPatientStress ? "emp_stress_critical" : "emp_stress_moderate",
+          scoreImpact: score - result.score,
+          sourceRef: "Rif. stress finale del paziente",
+        },
+      ),
+    );
+  }
   return {
-    score: result.score,
+    score,
     breakdown: {
       baseline: result.legacy.baseline,
       validationBonus: result.legacy.validationBonus,
       transparencyBonus: result.legacy.transparencyBonus,
       allianceBonus: result.legacy.allianceBonus,
       dismissalPenalty: result.legacy.dismissalPenalty,
-      finalScore: result.score,
-      final: result.score,
+      finalScore: score,
+      final: score,
       qualitativeLabel: result.qualitativeLabel,
-      motivations: result.motivations as ScoreMotivation[],
+      motivations,
       totalParameters: checklist.length,
       metParameters: checklist.filter((i) => i.met).length,
       expertAnalysis: result.expertAnalysis,
@@ -1241,6 +1576,9 @@ export function computeBehavioralEmpathyScore(params: {
         trajectory: d.trajectory,
         relationalInsights: d.relationalInsights,
       },
+      finalStressLevel: stress.finalStressLevel,
+      stressPenalty: stress.stressPenalty,
+      criticalPatientStress: stress.criticalPatientStress,
     },
   };
 }
@@ -1278,6 +1616,12 @@ export function deriveDimensionScores(params: {
   legalSources?: string[] | null;
   classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
   neurologicalRedFlagDetected?: boolean;
+  baselineExamFindings?: unknown;
+  prescribedMedications?: SessionPrescription[] | null;
+  elapsedMinutes?: number | null;
+  timeLimitMinutes?: number | null;
+  failedDiagnosisAttempts?: number | null;
+  finalPatientStress?: number | null;
 }): { scores: DimensionScores; breakdown: ScoreBreakdown } {
   const anamnesis = computeAnamnesisProtocolCoverage({
     chatHistory: params.chatHistory,
@@ -1296,6 +1640,11 @@ export function deriveDimensionScores(params: {
     inappropriateExams: params.inappropriateExams,
     goldStandardPath: params.goldStandardPath,
     neurologicalRedFlagDetected: params.neurologicalRedFlagDetected,
+    baselineExamFindings: params.baselineExamFindings,
+    prescribedMedications: params.prescribedMedications,
+    elapsedMinutes: params.elapsedMinutes,
+    timeLimitMinutes: params.timeLimitMinutes,
+    failedDiagnosisAttempts: params.failedDiagnosisAttempts,
   });
   const exams = computeAppropriatenessScore(params.inappropriateActions, {
     orderedExams: params.orderedExams,
@@ -1309,6 +1658,8 @@ export function deriveDimensionScores(params: {
     caseTitle: params.caseTitle,
     mandatoryExams: params.mandatoryExams,
     inappropriateExams: params.inappropriateExams,
+    baselineExamFindings: params.baselineExamFindings,
+    prescribedMedications: params.prescribedMedications,
   });
   const legal = computeLegalComplianceScore(params.legalInstrumentReviews ?? [], {
     hasLegalContext: params.hasLegalContext,
@@ -1331,6 +1682,7 @@ export function deriveDimensionScores(params: {
     patientProfile: params.patientProfile,
     classifiedIntents: params.classifiedIntents,
     goldStandardPath: params.goldStandardPath,
+    finalPatientStress: params.finalPatientStress,
   });
 
   // Attach anamnesis detail to clinical motivations
@@ -1361,6 +1713,12 @@ export function deriveDimensionScores(params: {
       economy: economy.breakdown,
       legal: legal.breakdown,
       empathy: empathy.breakdown,
+      communication: {
+        finalStressLevel: empathy.breakdown.finalStressLevel ?? null,
+        stressPenalty: empathy.breakdown.stressPenalty ?? 0,
+        criticalPatientStress: empathy.breakdown.criticalPatientStress === true,
+        final: empathy.score,
+      },
     },
   };
 }
@@ -1380,6 +1738,8 @@ export function applyPedagogicalSeverityGates(params: {
   caseTitle?: string | null;
   mandatoryExams?: CaseExamDefinition[] | null;
   inappropriateExams?: CaseExamDefinition[] | null;
+  baselineExamFindings?: unknown;
+  prescribedMedications?: SessionPrescription[] | null;
 }): { scores: DimensionScores; breakdown: ScoreBreakdown } {
   const scores = { ...params.scores };
   const breakdown: ScoreBreakdown = {
@@ -1406,6 +1766,7 @@ export function applyPedagogicalSeverityGates(params: {
       ...params.breakdown.empathy,
       motivations: [...(params.breakdown.empathy.motivations ?? [])],
     },
+    communication: params.breakdown.communication,
   };
 
   const coverage = computeAnamnesisProtocolCoverage({
@@ -1472,8 +1833,14 @@ export function applyPedagogicalSeverityGates(params: {
     };
   }
 
+  const examOnlyEuro =
+    breakdown.economy.examSpendEuro ??
+    Math.max(
+      0,
+      (breakdown.economy.totalCostEuro ?? 0) - (breakdown.economy.medicationSpendEuro ?? 0),
+    );
   const economyRescored = computeEconomicSustainabilityScore(
-    breakdown.economy.totalCostEuro,
+    examOnlyEuro,
     breakdown.economy.budgetEuro,
     {
       examsAppropriatenessScore: scores.exams,
@@ -1483,6 +1850,8 @@ export function applyPedagogicalSeverityGates(params: {
       caseTitle: params.caseTitle,
       mandatoryExams: params.mandatoryExams,
       inappropriateExams: params.inappropriateExams,
+      baselineExamFindings: params.baselineExamFindings,
+      prescribedMedications: params.prescribedMedications,
     },
   );
   scores.economy = economyRescored.score;

@@ -503,6 +503,13 @@ export type EvaluateSimulationInput = {
   helpRequestCount?: number;
   /** D-RIME intent labels from the relational LLM (FSM owns T/A/D). */
   classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
+  /** Clock simulato (`CaseSession.elapsedMinutes`), confrontato con `timeLimitMinutes`. */
+  elapsedMinutes?: number | null;
+  timeLimitMinutes?: number | null;
+  /** Diagnosi finali errate già persistite su `CaseSession.failedDiagnosisAttempts`. */
+  failedDiagnosisAttempts?: number | null;
+  /** Stress finale del paziente (0–100), letto da `CaseSession.patientStress`. */
+  finalPatientStress?: number | null;
 };
 
 export type GenerateObjectFn = typeof generateObject;
@@ -569,6 +576,13 @@ export function buildDeterministicEvaluation(
     legalChunks?: import("@/lib/services/rag-service").GuidelineChunk[];
     legalSources?: string[];
     classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
+    baselineExamFindings?: unknown;
+    prescribedMedications?: import("@/lib/simulator/prescription-trace").SessionPrescription[];
+    /** Minuti del clock simulato. Senza questo dato il malus temporale non scatta. */
+    elapsedMinutes?: number | null;
+    timeLimitMinutes?: number | null;
+    failedDiagnosisAttempts?: number | null;
+    finalPatientStress?: number | null;
   },
 ): Pick<
   EvaluationResult,
@@ -616,6 +630,12 @@ export function buildDeterministicEvaluation(
     legalSources: params.legalSources,
     classifiedIntents: params.classifiedIntents,
     neurologicalRedFlagDetected: analytical.neurologicalRedFlagDetected,
+    baselineExamFindings: params.baselineExamFindings ?? registered?.baselineExamFindings,
+    prescribedMedications: params.prescribedMedications,
+    elapsedMinutes: params.elapsedMinutes,
+    timeLimitMinutes: params.timeLimitMinutes ?? registered?.timeLimitMinutes,
+    failedDiagnosisAttempts: params.failedDiagnosisAttempts,
+    finalPatientStress: params.finalPatientStress,
   });
 
   let scores = checklistScores;
@@ -702,6 +722,8 @@ export function buildDeterministicEvaluation(
     caseTitle: params.caseTitle ?? registered?.title,
     mandatoryExams: registered?.mandatoryExams,
     inappropriateExams: registered?.inappropriateExams,
+    baselineExamFindings: params.baselineExamFindings ?? registered?.baselineExamFindings,
+    prescribedMedications: params.prescribedMedications,
   });
 
   return {
@@ -1049,6 +1071,12 @@ export class EvaluationService {
         legalChunks: input.guidelines?.legal?.chunks,
         legalSources: input.guidelines?.legal?.sources,
         classifiedIntents: input.classifiedIntents,
+        baselineExamFindings: input.baselineExamFindings,
+        prescribedMedications: input.prescribedMedications,
+        elapsedMinutes: input.elapsedMinutes,
+        timeLimitMinutes: input.timeLimitMinutes,
+        failedDiagnosisAttempts: input.failedDiagnosisAttempts,
+        finalPatientStress: input.finalPatientStress,
       });
 
       this.deps.logger.info("Simulation evaluation completed (deterministic scoring)", {

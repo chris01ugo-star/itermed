@@ -55,6 +55,7 @@ import { PatientStressBar } from "./PatientStressBar";
 import { SafeLlmText } from "@/components/ui/safe-llm-content";
 import { SkeletonChatBubble } from "@/components/ui/Skeleton";
 import { VitalSignsBoard } from "./VitalSignsBoard";
+import { extractPatientAllergies } from "@/lib/services/evaluation-allergies";
 import { ExamReportRecap } from "./ExamReportRecap";
 import { DiagnosticCategoryPanel } from "./DiagnosticCategoryPanel";
 import { PrescriptionPad, type ConfirmedPrescription } from "./PrescriptionPad";
@@ -82,6 +83,7 @@ import {
 } from "@/lib/simulator/patient-stress-engine";
 import { isInvasiveExam } from "@/lib/simulator/exam-canonical-registry";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
+import { MEDICAL_DISCLAIMER_VERSION } from "@/lib/simulator/medical-disclaimer";
 import { resolvePatientGrammaticalGender } from "@/lib/simulator/patient-grammatical-gender";
 import { PATIENT_MAX_TURNS } from "@/lib/simulator/chat-context-window";
 import {
@@ -388,6 +390,8 @@ export function SimulatorClient({
   const router = useRouter();
 
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
+  const [disclaimerBusy, setDisclaimerBusy] = useState(false);
+  const [disclaimerError, setDisclaimerError] = useState<string | null>(null);
   const [tutorialOpen, setTutorialOpen] = useState(false);
   const [caseTourOpen, setCaseTourOpen] = useState(false);
   const [tutorialHydrated, setTutorialHydrated] = useState(false);
@@ -437,6 +441,7 @@ export function SimulatorClient({
     anamnesisObjective: "",
     diagnosticFindings: "",
     diagnosisTreatment: "",
+    dischargeNote: "",
   });
   const [expectedConditionText, setExpectedConditionText] = useState<string | null>(null);
   const [debugTargetCondition, setDebugTargetCondition] = useState<string | null>(null);
@@ -765,6 +770,36 @@ export function SimulatorClient({
     return startPromise;
   }, [initialCaseData.id]);
 
+  const acceptMedicalDisclaimer = useCallback(async () => {
+    if (disclaimerBusy || disclaimerAccepted) return;
+    markUserActivity();
+    if (!persistReports) {
+      setDisclaimerAccepted(true);
+      return;
+    }
+
+    setDisclaimerBusy(true);
+    setDisclaimerError(null);
+    try {
+      const sid = effectiveSessionIdRef.current ?? (await ensureSessionId());
+      if (!sid) throw new Error("session");
+      const res = await fetch("/api/session/accept-disclaimer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId: sid,
+          disclaimerVersion: MEDICAL_DISCLAIMER_VERSION,
+        }),
+      });
+      if (!res.ok) throw new Error("accept");
+      setDisclaimerAccepted(true);
+    } catch {
+      setDisclaimerError("Impossibile registrare l'accettazione. Riprova.");
+    } finally {
+      setDisclaimerBusy(false);
+    }
+  }, [disclaimerAccepted, disclaimerBusy, ensureSessionId, markUserActivity, persistReports]);
+
   const openHelpConsult = useCallback(() => {
     if (isPaused) return;
     markUserActivity();
@@ -821,8 +856,10 @@ export function SimulatorClient({
     ]);
 
     setExtraExecutedActionIds((prev) => {
-      if (prev.includes(CONSENT_INFORMED_ACTION_ID)) return prev;
-      const next = [...prev, CONSENT_INFORMED_ACTION_ID];
+      const next = [...prev];
+      for (const id of [CONSENT_INFORMED_ACTION_ID, "informed_consent"]) {
+        if (!next.includes(id)) next.push(id);
+      }
       extraExecutedActionIdsRef.current = next;
       return next;
     });
@@ -1015,6 +1052,7 @@ export function SimulatorClient({
         body: JSON.stringify({
           caseId: initialCaseData.id,
           ...(liveId ? { liveSessionId: liveId } : {}),
+          clinicalSummary: reportSections.dischargeNote.trim(),
         }),
       });
       const data = (await res.json().catch(() => null)) as { sessionId?: string } | null;
@@ -1040,6 +1078,7 @@ export function SimulatorClient({
       prescribedMedications?: SessionPrescription[];
       completedGoldSteps?: string[];
       elapsedMinutes?: number;
+      disclaimerAcceptedAt?: string | null;
     }) => {
       const sid = sanitizeLiveSessionId(
         typeof data.sessionId === "string" ? data.sessionId : undefined,
@@ -1048,6 +1087,9 @@ export function SimulatorClient({
         effectiveSessionIdRef.current = sid;
         setEffectiveSessionId(sid);
         syncSessionIdInUrl(sid);
+      }
+      if (typeof data.disclaimerAcceptedAt === "string" && data.disclaimerAcceptedAt.trim()) {
+        setDisclaimerAccepted(true);
       }
       if (Array.isArray(data.requestedExamIds) && data.requestedExamIds.length > 0) {
         setSelectedExamIds((prev) => {
@@ -1059,11 +1101,16 @@ export function SimulatorClient({
       if (Array.isArray(data.prescribedMedications) && data.prescribedMedications.length > 0) {
         setPrescribedMedications((prev) => (prev.length > 0 ? prev : data.prescribedMedications ?? []));
       }
-      if (Array.isArray(data.completedGoldSteps) && data.completedGoldSteps.some((step) => /consenso/i.test(step))) {
+      if (
+        Array.isArray(data.completedGoldSteps) &&
+        data.completedGoldSteps.some((step) => /consenso/i.test(step) || step === "informed_consent")
+      ) {
         setConsentRequested(true);
         setExtraExecutedActionIds((prev) => {
-          if (prev.includes(CONSENT_INFORMED_ACTION_ID)) return prev;
-          const next = [...prev, CONSENT_INFORMED_ACTION_ID];
+          const next = [...prev];
+          for (const id of [CONSENT_INFORMED_ACTION_ID, "informed_consent"]) {
+            if (!next.includes(id)) next.push(id);
+          }
           extraExecutedActionIdsRef.current = next;
           return next;
         });
@@ -1291,6 +1338,8 @@ export function SimulatorClient({
           ],
           helpRequested: Boolean(helpRequested),
           helpRequestCount: helpRequestCountRef.current ?? 0,
+          patientStress: patientStressRef.current,
+          clinicalSummary: reportSections.dischargeNote.trim(),
         }),
         signal: abortController.signal,
       });
@@ -1360,6 +1409,8 @@ export function SimulatorClient({
   const ageValue = demo.age ?? 58;
   const sexValue = (demo.sex === "F" || demo.sex === "M") ? demo.sex : "M";
   const contextValue = demo.context ?? initialCaseData.specialty ?? "Specialità non specificata";
+
+  const patientAllergies = extractPatientAllergies(initialCaseData.baselineExamFindings);
 
   const patient = {
     age: ageValue,
@@ -1495,6 +1546,7 @@ export function SimulatorClient({
             caseId: initialCaseData.id,
             sessionId: sid,
             diagnosisText,
+            clinicalSummary: reportSections.dischargeNote.trim(),
           }),
         });
 
@@ -2414,7 +2466,9 @@ export function SimulatorClient({
                                   <p className="text-xs font-semibold text-slate-800">Allergie</p>
                                 </div>
                                 <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                                  Nessuna allergia nota.
+                                  {patientAllergies.length > 0
+                                    ? patientAllergies.join(", ")
+                                    : "Nessuna allergia nota."}
                                 </p>
                               </section>
                             </div>
@@ -2767,6 +2821,7 @@ export function SimulatorClient({
                                   anamnesisObjective: "",
                                   diagnosticFindings: "",
                                   diagnosisTreatment: "",
+                                  dischargeNote: "",
                                 });
                                 setGameStatus("playing");
                               } finally {
@@ -3010,6 +3065,7 @@ export function SimulatorClient({
                             anamnesisObjective: "",
                             diagnosticFindings: "",
                             diagnosisTreatment: "",
+                            dischargeNote: "",
                           });
                           setGameStatus("playing");
                         } finally {
@@ -3248,7 +3304,13 @@ export function SimulatorClient({
         </DialogContent>
       </Dialog>
 
-      <Dialog open={!disclaimerAccepted}>
+      {persistReports && !resumeSettled && !disclaimerAccepted ? (
+        <div className="fixed inset-0 z-50 bg-black/40" role="status" aria-live="polite" aria-busy="true">
+          <p className="sr-only">Verifica dell&apos;accettazione del disclaimer in corso.</p>
+        </div>
+      ) : null}
+
+      <Dialog open={!disclaimerAccepted && (!persistReports || resumeSettled)}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>Disclaimer medico-legale</DialogTitle>
@@ -3282,14 +3344,19 @@ export function SimulatorClient({
               size="sm"
               variant="secondary"
               className="rounded-xl text-xs"
+              disabled={disclaimerBusy || (persistReports && !resumeSettled)}
               onClick={() => {
-                setDisclaimerAccepted(true);
-                markUserActivity();
+                void acceptMedicalDisclaimer();
               }}
             >
-              Accetto e desidero procedere
+              {disclaimerBusy ? "Registrazione accettazione…" : "Accetto e desidero procedere"}
             </Button>
           </DialogFooter>
+          {disclaimerError ? (
+            <p className="px-1 text-xs text-rose-700" role="alert">
+              {disclaimerError}
+            </p>
+          ) : null}
         </DialogContent>
       </Dialog>
 
@@ -3651,18 +3718,28 @@ function HistoryChat({
                 type="button"
                 onClick={onRequestConsent}
                 disabled={isLoading || consentBusy || consentRequested || disabled}
-                aria-label="Richiesta Modulo Consenso Informato"
-                title="Spiega rischi/benefici e acquisisci il consenso prima di procedure invasive"
+                aria-label={
+                  consentRequested ? "Consenso informato già acquisito" : "Raccogli Consenso Informato"
+                }
+                title="Spiega rischi e benefici e acquisisci il consenso prima di procedure invasive"
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-medium transition",
                   consentRequested
-                    ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                    ? "cursor-default border-emerald-200 bg-emerald-50 text-emerald-800"
                     : "border-[#345884]/25 bg-[#EEF2F9] text-[#345884] hover:bg-[#345884] hover:text-white disabled:opacity-50",
                 )}
               >
                 <FileText className="h-3.5 w-3.5" strokeWidth={1.75} />
-                {consentRequested ? "Consenso registrato" : "Modulo consenso"}
+                {consentRequested ? "Già acquisito" : "Raccogli Consenso Informato"}
               </button>
+              {consentRequested ? (
+                <span
+                  role="status"
+                  className="inline-flex items-center rounded-full border border-emerald-300 bg-emerald-50 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-800"
+                >
+                  Consenso acquisito
+                </span>
+              ) : null}
             ) : null}
             {onOpenPrescriptionPad ? (
               <button

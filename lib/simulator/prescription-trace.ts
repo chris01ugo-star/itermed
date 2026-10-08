@@ -31,6 +31,23 @@ export const ADMINISTRATION_ROUTES = [
 
 export type AdministrationRoute = (typeof ADMINISTRATION_ROUTES)[number];
 
+/** Opzioni del menù posologia nel ricettario. I casi le citano in `validDosages`. */
+export const POSOLOGY_PRESETS = [
+  "Dose singola (In acuto)",
+  "1 fiala EV",
+  "1 fiala IM",
+  "1 cpr / die",
+  "1 cpr BID (ogni 12h)",
+  "1 cpr TID (ogni 8h)",
+  "In infusione continua",
+  "Al bisogno",
+] as const;
+
+export type PosologyPreset = (typeof POSOLOGY_PRESETS)[number];
+
+/** Voce che apre il campo libero. Il testo libero non coincide con un preset. */
+export const POSOLOGY_CUSTOM = "Altro (Specifica manuale)";
+
 export type PrescriptionMedicationFields = {
   commercialName: string;
   activeIngredient: string;

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ContactEmail } from "@/components/legal/ContactEmail";
 
-/** Global legal footer — contact, Terms, Privacy, Cookies, AI transparency. */
+/** Global legal footer — contact, Terms, Privacy, Subprocessors, DPA, MSA, Cookies, AI transparency. */
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
@@ -32,6 +32,24 @@ export function SiteFooter() {
             className="font-medium text-slate-600 underline-offset-2 hover:text-[#1E324E] hover:underline"
           >
             Privacy Policy
+          </Link>
+          <Link
+            href="/subprocessors"
+            className="font-medium text-slate-600 underline-offset-2 hover:text-[#1E324E] hover:underline"
+          >
+            Sub-responsabili
+          </Link>
+          <Link
+            href="/dpa"
+            className="font-medium text-slate-600 underline-offset-2 hover:text-[#1E324E] hover:underline"
+          >
+            DPA (B2B)
+          </Link>
+          <Link
+            href="/b2b-terms"
+            className="font-medium text-slate-600 underline-offset-2 hover:text-[#1E324E] hover:underline"
+          >
+            Condizioni B2B (MSA)
           </Link>
           <Link
             href="/cookies"

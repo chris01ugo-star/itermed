@@ -3,6 +3,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { ConditionalSiteFooter } from "@/components/legal/ConditionalSiteFooter";
+import { CookieConsentBanner } from "@/components/legal/CookieConsentBanner";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -45,6 +46,7 @@ export default function RootLayout({
             <div className="flex-1">{children}</div>
             <ConditionalSiteFooter />
           </div>
+          <CookieConsentBanner />
         </Providers>
       </body>
     </html>
