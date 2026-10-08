@@ -18,6 +18,7 @@ import {
   detectFatalErrors,
   type KillerSwitchCaseContext,
 } from "@/lib/services/evaluation-killer-switch";
+import { detectAllergyFatalPrescriptions } from "@/lib/services/evaluation-allergies";
 import { buildExecutedActionIds } from "@/lib/services/evaluation-clinical-esc";
 import type { FatalError } from "@/lib/services/evaluation-report-types";
 import {
