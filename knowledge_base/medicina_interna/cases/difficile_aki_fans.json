@@ -1,0 +1,324 @@
+{
+  "id": "INTMED-003",
+  "code": "INTMED-003",
+  "title": "Muratore di 52 anni con cefalea, oliguria e pressione 195/115 dopo FANS",
+  "description": "Giorgio, 52 anni, muratore, arriva in pronto soccorso testardo e abituato a curarsi da solo il mal di schiena. Sminuisce i rischi dei farmaci da banco. Ha cefalea pulsante, nausea e urina pochissimo da 24 ore. Nell'ultima settimana ha preso molte bustine di FANS, diclofenac o ibuprofene, per una lombalgia severa. Parametri: PA 195/115 mmHg, FC 88 bpm, FR 18 atti/min, SpO2 98%. Non ha edemi declivi marcati. Le mucose sono asciutte. La temperatura non è tra i dati forniti.",
+  "difficulty": "HARD",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": ["cardiologia"],
+  "condition": "Danno renale acuto da FANS e deplezione, con pressione 195/115 mmHg",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "KDIGO-2024-CKD-Guideline-Executive-Summary_Italian.pdf",
+  "diagnosis": "Danno renale acuto tossico/pre-renale da FANS e disidratazione lieve, con crisi ipertensiva 195/115 mmHg. Non è un'ostruzione urinaria.",
+  "pastMedicalHistory": "Muratore. Lombalgia severa nell'ultima settimana, trattata con molte bustine di FANS da banco (diclofenac o ibuprofene). Non sono forniti creatinina di base, terapia antipertensiva domiciliare, gastroprotezione, allergie né durata nota di ipertensione. La temperatura non è un dato del caso.",
+  "presentation": "Da 24 ore urina pochissimo. Ha cefalea pulsante e nausea. Dice che le bustine per la schiena non sono un problema. È resistente al ricovero. All'esame le mucose sono asciutte e non ci sono edemi declivi marcati. PA 195/115 mmHg, FC 88 bpm, FR 18, SpO2 98%.",
+  "redHerrings": [],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "Mi chiamo Giorgio, ho 52 anni e faccio il muratore. Ho un mal di testa che pulsa e un po' di nausea. Da ieri urino pochissimo. Per la schiena, questa settimana, ho preso molte bustine di quelle che si comprano senza ricetta, diclofenac o ibuprofene: le uso sempre, non fanno niente. Non esagerate e non tenetemi in ospedale per delle bustine. Se mi spiegate con chiarezza che cosa possono fare ai reni, senza trattarmi da stupido, vi ascolto.",
+  "correctSolution": "Sospendere subito tutti i FANS. Chiedere in urgenza creatinina (il numero non è fissato: il referto conferma il danno renale acuto senza un valore in mg/dL), potassio, esame urine, ecografia renale senza ostruzione e ECG. Idratare con infusione endovenosa controllata. Abbassare la pressione in modo graduale con labetalolo in infusione oppure un calcio-antagonista, senza bolo aggressivo. Ricoverare. Non dare ACE-inibitori, sartani né altri FANS. Spiegare la tossicità dell'automedicazione con fermezza e senza giudizio. Il file della Nota AIFA 66 è in knowledge_base/medicina_interna/economic/nota aifa 66.pdf ma non ha testo estraibile: nessuna frase di quella nota è stata copiata.",
+  "goldStandardPath": ["creat-urea-gfr", "elettroliti", "urine-sed", "ecografia", "ecg"],
+  "goldPathNarrative": "Esami urgenti: creatinina, potassio, urine, ecografia renale, ECG. L'ecografia non mostra un'ostruzione. Sospendere i FANS. Infusione di cristalloidi, non un carico brusco. Pressione: farmaco a breve emivita in titolazione, labetalolo in infusione continua oppure un calcio-antagonista, evitando il crollo pressorio. Ricovero in reparto. Niente ACE-inibitore o sartano in questa oliguria. Con Giorgio: fermezza senza giudizio sulla tossicità delle bustine. Il corpus empatia si recupera a runtime; in questo caso non è citato alcun brano fuori da KDIGO ed ESC.",
+  "examLatencies": {
+    "creat-urea-gfr": 60,
+    "elettroliti": 60,
+    "urine-sed": 60,
+    "ecografia": 30,
+    "ecg": 10,
+    "coronarografia": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "fans",
+      "prompt": "Quale bustina ha preso, quante, per quanti giorni, e ha usato una gastroprotezione?",
+      "critical": true,
+      "expectedKeywords": ["diclofenac", "ibuprofene", "bustine", "quante", "stomaco"],
+      "rationale": "Il caso dichiara molte bustine di FANS nell'ultima settimana. Gastroprotezione e dose esatta non sono fornite e non vanno inventate."
+    },
+    {
+      "id": "oliguria",
+      "prompt": "Da quante ore urina poco e quanto è la quantità rispetto al suo solito?",
+      "critical": true,
+      "expectedKeywords": ["urina", "pochissimo", "24", "ore"],
+      "rationale": "L'oliguria da 24 ore è un dato di partenza e va fatta dire, non data per scontata."
+    },
+    {
+      "id": "rischio-farmaci",
+      "prompt": "Le hanno mai detto che questi farmaci possono peggiorare i reni o la pressione?",
+      "critical": true,
+      "expectedKeywords": ["reni", "rischio", "pressione", "farmaco"],
+      "rationale": "Giorgio sminuisce i farmaci da banco. La domanda apre la spiegazione senza giudizio."
+    },
+    {
+      "id": "terapia-casa",
+      "prompt": "Prende già un farmaco per la pressione, un diuretico o un altro antidolorifico?",
+      "critical": true,
+      "expectedKeywords": ["pressione", "diuretico", "antidolorifico", "casa"],
+      "rationale": "La terapia domiciliare non è nel brief. Va chiesta prima di aggiungere un ACE-inibitore o un altro FANS."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Testardo, minimizza, accetta di parlare se non si sente giudicato. Mucose asciutte. Edemi declivi marcati assenti. Toni ritmici, soffi non descritti dal caso. Non sono descritti rantoli. Addome trattabile, non dolente. Lombalgia riferita, senza un deficit neurologico descritto."
+  },
+  "escCitations": [
+    {
+      "chunkId": "kdigo-2024-ckd-tabella-32-fans-ace",
+      "source": "knowledge_base/medicina_interna/clinical/KDIGO-2024-CKD-Guideline-Executive-Summary_Italian.pdf",
+      "quote": "Tabella 32 | Medicinali che potrebbero dover essere temporaneamente sospesi prima di interventi chirurgici elettivi e potenziali eventi avversi perioperatori associati al loro uso continuativo Medicinali Potenziali eventi avversi perioperatori ACEi/ARB Ipotensione, AKI Diuretici Deplezione di volume, AKI NSAIDs AKI, nefrite interstiziale acuta"
+    },
+    {
+      "chunkId": "kdigo-2024-ckd-giorni-di-malattia",
+      "source": "knowledge_base/medicina_interna/clinical/KDIGO-2024-CKD-Guideline-Executive-Summary_Italian.pdf",
+      "quote": "Figura 47 | Passi essenziali per la corretta implementazione della regola per i giorni in cui si sta male. identifica la malattia che causa disidratazione ricorda/recupera la lista dei farmaci da interrompere identifica e interrompe i farmaci"
+    },
+    {
+      "chunkId": "kdigo-2024-ckd-creatinina-gfr",
+      "source": "knowledge_base/medicina_interna/clinical/KDIGO-2024-CKD-Guideline-Executive-Summary_Italian.pdf",
+      "quote": "Punto pratico 1.2.2.1 - Utilizzare la creatinina sierica (SCr) e un'equazione di stima per la valutazione iniziale del GFR"
+    },
+    {
+      "chunkId": "esc-2024-htn-180-escludere-emergenza",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "It is recommended when BP ≥180/110 mmHg that hypertensive emergency be excluded. I C"
+    },
+    {
+      "chunkId": "esc-2024-htn-definizione-emergenza",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "Hypertensive emergency is defined as BP of ≥180/110 mmHg associated with acute HMOD, often in the presence of symptoms. Hypertensive emergencies are potentially life-threatening and require immediate and careful intervention to reduce BP, often with i.v. therapy."
+    },
+    {
+      "chunkId": "esc-2024-htn-titolazione",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "Regarding BP-lowering drugs, i.v. treatment using a short half-life drug is typically ideal to allow careful titration of the BP response to treatment. Rapid and uncontrolled or excessive BP lowering is not recommended in hypertensive emergency as this can lead to further complications."
+    },
+    {
+      "chunkId": "esc-2024-htn-raas-aki-iperkaliemia",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "A systematic review reported an increased risk of acute kidney injury and hyperkalaemia associated with BP-lowering treatment. Analyses of outcomes by specific drug class showed that drugs affecting the RAAS were more likely to be associated with acute kidney injury and hyperkalaemia."
+    },
+    {
+      "chunkId": "esc-2024-htn-ecg",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
+      "quote": "ECG is recommended for all patients with hypertension."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Creatinina, potassio, esame urine, ecografia renale ed ECG prima di dimettere.",
+      "Sospensione dei FANS e infusione controllata. Nessun altro FANS, nessun ACE-inibitore, nessun sartano.",
+      "Calo pressorio graduato. Il bolo aggressivo è l'errore. Ricovero, non domicilio.",
+      "Spiegare la tossicità delle bustine con fermezza e senza giudizio."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Le citazioni copiate sono solo brani del sommario KDIGO 2024 sulla malattia renale cronica e della ESC 2024 sull'ipertensione. La Nota AIFA 66 è nel disco ma senza testo estraibile, quindi non è citata frase per frase.",
+      "legalCriteria": [
+        "Documentare creatinina, potassio, urine, ecografia renale ed ECG.",
+        "Registrare la sospensione dei FANS e i farmaci non dati: ACE-inibitore, sartano, altro FANS.",
+        "Registrare che la pressione va ridotta per titolazione e che il paziente è ricoverato.",
+        "Spiegare il rischio renale dell'automedicazione senza umiliarlo."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina, urea e stima del GFR",
+      "finding": "Creatinina aumentata, inquadrabile come danno renale acuto. Nessun valore in mg/dL e nessun eGFR numerico sono fissati dal caso.",
+      "isAbnormal": true,
+      "priceEuro": 4.5,
+      "isFatal": false
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici, incluso il potassio",
+      "finding": "Il potassio va misurato per il rischio di iperkaliemia. Nessun valore in mmol/L è fissato dal caso.",
+      "isAbnormal": false,
+      "priceEuro": 6.5,
+      "isFatal": false
+    },
+    {
+      "examId": "urine-sed",
+      "name": "Esame urine chimico-fisico e sedimento",
+      "finding": "Esame urine richiesto. Densità, sangue, sodio urinario e cilindri non sono fissati dal caso.",
+      "isAbnormal": false,
+      "priceEuro": 6,
+      "isFatal": false
+    },
+    {
+      "examId": "ecografia",
+      "name": "Ecografia renale",
+      "finding": "Non si documenta un'ostruzione delle vie urinarie. Diametri renali e spessore corticale non sono fissati.",
+      "isAbnormal": false,
+      "priceEuro": 55,
+      "isFatal": false
+    },
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Frequenza circa 88/min. Il caso non descrive onde T alte, QRS slargato né altre alterazioni da iperkaliemia.",
+      "isAbnormal": false,
+      "priceEuro": 15,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia",
+      "finding": "Non indicata: nel caso non c'è dolore toracico né un altro dato che la richieda.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Procedura invasiva fuori dal percorso di oliguria, FANS e pressione 195/115 mmHg senza dolore toracico."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "195/115",
+      "spo2": 98,
+      "temperature": "non misurata",
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 90,
+    "demographics": {
+      "age": 52,
+      "sex": "M",
+      "context": "Pronto soccorso",
+      "occupation": "Muratore"
+    },
+    "volumeStatus": "Lieve disidratazione, mucose asciutte. Edemi declivi marcati assenti.",
+    "advancedExams": {
+      "values": {
+        "creat-urea-gfr": {
+          "finding": "Creatinina aumentata, senza valore numerico fissato.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "elettroliti": {
+          "finding": "Potassio da misurare. Valore numerico non fissato.",
+          "isAbnormal": false,
+          "price": 6.5
+        },
+        "urine-sed": {
+          "finding": "Esame urine senza sedimento numerico fissato dal caso.",
+          "isAbnormal": false,
+          "price": 6
+        },
+        "ecografia": {
+          "finding": "Ecografia renale: nessuna ostruzione delle vie urinarie documentata.",
+          "isAbnormal": false,
+          "price": 55
+        },
+        "ecg": {
+          "finding": "Frequenza circa 88/min. Nessun segno di iperkaliemia è descritto.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "coronarografia": {
+          "finding": "Esame non indicato in assenza di dolore toracico.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "id": "cristalloidi-ev",
+          "label": "Idratazione endovenosa controllata",
+          "aliases": ["soluzione fisiologica", "sodio cloruro", "ringer", "ringer lattato", "cristalloidi"],
+          "validDosages": ["In infusione continua"]
+        },
+        {
+          "label": "Calo pressorio graduato: una sola alternativa",
+          "anyOf": [
+            {
+              "id": "labetalolo",
+              "label": "Labetalolo in infusione",
+              "aliases": ["labetalolo", "labetalol", "trandate"],
+              "validDosages": ["In infusione continua"]
+            },
+            {
+              "id": "calcio-antagonista",
+              "label": "Calcio-antagonista per os",
+              "aliases": ["amlodipina", "nifedipina", "felodipina", "lercanidipina", "calcio-antagonista"],
+              "validDosages": ["1 cpr / die", "1 cpr BID (ogni 12h)"]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "fans",
+          "label": "FANS, da sospendere e non riprescrivere",
+          "aliases": ["diclofenac", "ibuprofene", "ketoprofene", "naprossene", "nimesulide", "ketorolac", "fans", "antinfiammatorio"]
+        },
+        {
+          "id": "ace-sartani",
+          "label": "ACE-inibitore o sartano nell'AKI in corso",
+          "aliases": ["ramipril", "enalapril", "lisinopril", "perindopril", "zofenopril", "captopril", "losartan", "valsartan", "candesartan", "irbesartan", "olmesartan", "telmisartan", "sartano"]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Sospensione immediata di tutti i FANS.",
+        "Creatinina, potassio, esame urine, ecografia renale senza ostruzione, ECG.",
+        "Infusione endovenosa controllata e calo pressorio graduato con labetalolo in infusione oppure un calcio-antagonista.",
+        "Ricovero in reparto.",
+        "Spiegazione ferma e non giudicante della tossicità dell'automedicazione."
+      ],
+      "penalties": [
+        {
+          "id": "ace-o-sartano",
+          "kind": "clinical_grave",
+          "trigger": "ACE-inibitore o sartano in acuto, con oliguria e danno renale in corso."
+        },
+        {
+          "id": "altro-fans",
+          "kind": "clinical_grave",
+          "trigger": "Prescrizione di un ulteriore FANS."
+        },
+        {
+          "id": "bolo-pressorio",
+          "kind": "clinical_grave",
+          "trigger": "Abbassamento troppo rapido della pressione con un bolo aggressivo."
+        },
+        {
+          "id": "dimissione-domicilio",
+          "kind": "clinical_grave",
+          "trigger": "Dimissione a domicilio. Giorgio necessita di ricovero."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "expectedBehavior": "Spiegare con fermezza e senza giudizio che le bustine di FANS possono danneggiare il rene. Non umiliare l'automedicazione. Il paziente è oppositivo e minimizza il rischio.",
+        "verbatimQuote": null
+      },
+      "citationLimits": [
+        "Il PDF KDIGO presente è il sommario esecutivo 2024 sulla malattia renale cronica, non la linea guida KDIGO sul danno renale acuto. Non contiene una dose di cristalloidi in ml/kg.",
+        "La Tabella 32 riguarda la sospensione prima di chirurgia elettiva. Le righe citate collegano comunque FANS a AKI e nefrite interstiziale, e ACEi/ARB a ipotensione e AKI.",
+        "La frase sull'ostruzione del deflusso renale nello stesso PDF è un criterio di invio pediatrico e non è usata come indicazione dell'ecografia di Giorgio.",
+        "Il punto pratico 1.2.2.1 sulla creatinina serve alla stima del GFR nella CKD. Il caso lo usa come esame, senza assegnare un numero.",
+        "La ESC 2024 dice anche che in alcune emergenze ipertensive un ACE-inibitore o un sartano orale a bassa dose, in ospedale, può essere efficace. In questo caso restano controindicati per l'AKI, l'oliguria e la disidratazione.",
+        "La frase su labetalolo o nicardipina endovena in questo PDF è nel capitolo della gravidanza e non è citata come indicazione per Giorgio.",
+        "knowledge_base/medicina_interna/economic/nota aifa 66.pdf non ha uno strato di testo: nessuna frase sulla gastroprotezione o sul rene è stata estratta.",
+        "La temperatura non è nei parametri del brief e non è stata inventata."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "SELF_MEDICATED",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Testardo, resistente al ricovero, abituato a curarsi il mal di schiena da solo. Sminuisce le bustine di FANS. Se il medico è fermo e non lo giudica, e gli spiega il rischio per il rene, smette di liquidare il problema e accetta di sentire il piano."
+  }
+}

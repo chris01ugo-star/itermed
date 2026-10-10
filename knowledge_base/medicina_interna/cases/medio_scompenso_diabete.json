@@ -1,0 +1,341 @@
+{
+  "id": "INTMED-002",
+  "code": "INTMED-002",
+  "title": "Donna di 68 anni con aumento di peso, caviglie gonfie e ortopnea",
+  "description": "Maria, 68 anni, ex insegnante, arriva in pronto soccorso molto affaticata e rassegnata. Tende a minimizzare per non far preoccupare i figli. Riferisce 4 kg in una settimana, caviglie gonfie e fatica a respirare quando si sdraia. Parametri: PA 155/90 mmHg, FC 110 bpm irregolare, FR 26 atti/min, SpO2 89% in aria ambiente, temperatura 36.8°C. Glicemia capillare 220 mg/dL.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": ["cardiologia"],
+  "condition": "Scompenso cardiaco acuto congestizio in persona con diabete",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESC_2021_Heart_Failure_Guidelines.pdf",
+  "diagnosis": "Scompenso cardiaco acuto con congestione e ipossiemia, in persona con diabete (glicemia capillare 220 mg/dL). Frazione di eiezione non nota.",
+  "pastMedicalHistory": "Ex insegnante. Ha figli, di cui non vuole aumentare la preoccupazione. Il caso include il diabete, con glicemia capillare 220 mg/dL, senza durata, complicanze o terapia domiciliare dichiarate. Non sono forniti frazione di eiezione, ricoveri precedenti, allergie né funzione renale di partenza.",
+  "presentation": "In una settimana ha preso 4 kg, ha le caviglie gonfie e respira male da sdraiata. È sfinita e rassegnata: se non la si interroga, dice che è solo stanchezza e chiede di non avvisare i figli. La frequenza è irregolare a 110 bpm. SpO2 89% in aria ambiente, FR 26.",
+  "redHerrings": [],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "Mi chiamo Maria, ho 68 anni e facevo l'insegnante. Sono solo molto stanca, non è nulla di grave e non voglio che i miei figli si spaventino. Negli ultimi giorni ho messo su qualche chilo, le caviglie sono un po' gonfie e se mi sdraio faccio fatica a respirare, ma passerà. Rispondo poco, se non mi chiedete con calma tengo per me il resto. Non ditemi di andare a casa come se non fosse successo niente, ma non spaventate la mia famiglia.",
+  "correctSolution": "Diagnosi di lavoro: scompenso cardiaco acuto congestizio, con diabete (glicemia capillare 220 mg/dL). La frazione di eiezione non è nota: non chiamare questo caso HFrEF. Obbligatori: ECG, BNP o NT-proBNP, creatinina con stima del GFR, elettroliti (sodio e potassio), RX torace (congestione ilare), EGA. Acuto: ossigeno perché SpO2 è 89%, e diuretico dell'ansa endovena (furosemide). Poi, solo dopo il referto renale ed elettrolitico, un SGLT2-inibitore tra dapagliflozin ed empagliflozin, inquadrato nella Nota AIFA 100 per la persona con diabete tipo 2 e scompenso. Ricovero in reparto. Indagare i sintomi che Maria minimizza e, nel dire del ricovero, nominare la preoccupazione per i figli. Penalizzare i fluidi endovena, la dimissione a domicilio e la prescrizione di SGLT2 o ACE-inibitore prima di creatinina/eGFR.",
+  "goldStandardPath": ["ecg", "nt-probnp", "creat-urea-gfr", "elettroliti", "rx-torace", "ega"],
+  "goldPathNarrative": "Chiedere ECG, peptide natriuretico, creatinina con GFR, sodio e potassio, radiografia del torace ed emogasanalisi. La radiografia mostra congestione ilare. Dare ossigeno e furosemide endovena. Non dimettere: serve il reparto. Dopo il referto di funzione renale ed elettroliti, iniziare dapagliflozin oppure empagliflozin. Chiedere in modo attivo peso, edema e ortopnea, che Maria riduce, e parlare del ricovero tenendo conto della paura per i figli. Il corpus di comunicazione è empatia. La parola NURSE non compare nei PDF di quella cartella: il brano utilizzabile è il protocollo SPIKES sulla verbalizzazione dell'emozione.",
+  "examLatencies": {
+    "ecg": 10,
+    "nt-probnp": 60,
+    "creat-urea-gfr": 60,
+    "elettroliti": 60,
+    "rx-torace": 30,
+    "ega": 10,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "sintomi-minimizzati",
+      "prompt": "Quanti chili ha preso, da quando ha le caviglie gonfie e che cosa succede quando si sdraia?",
+      "critical": true,
+      "expectedKeywords": ["chili", "caviglie", "sdraia", "ortopnea", "peso"],
+      "rationale": "Maria minimizza. Peso di 4 kg, edema e ortopnea sono i dati di partenza e vanno chiesti in modo diretto."
+    },
+    {
+      "id": "figli",
+      "prompt": "Che cosa la preoccupa rispetto ai suoi figli se resta in ospedale?",
+      "critical": true,
+      "expectedKeywords": ["figli", "preoccup", "famiglia", "ospedale"],
+      "rationale": "Il ricovero va comunicato partendo dalla paura che lei dichiara per i figli."
+    },
+    {
+      "id": "diabete-farmaci",
+      "prompt": "Ha il diabete? Quali farmaci prende, inclusi diuretici e farmaci per la pressione?",
+      "critical": true,
+      "expectedKeywords": ["diabete", "farmaci", "diuretico", "pressione"],
+      "rationale": "La glicemia capillare è 220 mg/dL. Terapia domiciliare e diuretico precedente non sono dichiarati e non vanno inventati."
+    },
+    {
+      "id": "respiro-riposo",
+      "prompt": "Il fiatone c'è anche a riposo, di notte, o solo da sdraiata? Quanto è affaticata?",
+      "critical": true,
+      "expectedKeywords": ["fiatone", "notte", "affatic", "sdraiata"],
+      "rationale": "Serve a non accettare la versione minimizzata di semplice stanchezza."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Molto affaticata, rassegnata, risponde a monosillabi e minimizza. Toni cardiaci irregolari, soffi non descritti dal caso. Dispnea che peggiora da sdraiata. Edema bilaterale delle caviglie. Addome trattabile, non dolente."
+  },
+  "escCitations": [
+    {
+      "chunkId": "esc-2021-hf-oxygen-spo2",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2021_Heart_Failure_Guidelines.pdf",
+      "quote": "Oxygen is recommended in patients with SpO2 <90% or PaO2 <60 mmHg to correct hypoxaemia. I C"
+    },
+    {
+      "chunkId": "esc-2021-hf-iv-diuretics",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2021_Heart_Failure_Guidelines.pdf",
+      "quote": "Intravenous diuretics are the cornerstone of AHF treatment. They increase renal excretion of salt and water and are indicated for the treatment of fluid overload and congestion in the vast majority of AHF patients."
+    },
+    {
+      "chunkId": "esc-2021-hf-cxr-ecg",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2021_Heart_Failure_Guidelines.pdf",
+      "quote": "A chest X-ray is recommended to investigate other potential causes of breathlessness (e.g. pulmonary disease). It may also provide supportive evidence of HF (e.g. pulmonary congestion or cardiomegaly)."
+    },
+    {
+      "chunkId": "esc-2021-hf-natriuretic-peptides",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2021_Heart_Failure_Guidelines.pdf",
+      "quote": "Plasma concentrations of NPs are recommended as initial diagnostic tests in patients with symptoms suggestive of HF to rule out the diagnosis. Elevated concentrations support a diagnosis of HF, are useful for prognostication, and may guide further cardiac investigation."
+    },
+    {
+      "chunkId": "esc-2021-hf-initial-labs-abg",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2021_Heart_Failure_Guidelines.pdf",
+      "quote": "Initial laboratory exams include troponin, serum creatinine, electrolytes, blood urea nitrogen or urea, TSH, liver function tests as well as D-dimer and procalcitonin when pulmonary embolism or infection are suspected, arterial blood gas analysis in case of respiratory distress, and lactate in case of hypoperfusion."
+    },
+    {
+      "chunkId": "aifa-nota-100-scompenso",
+      "source": "knowledge_base/medicina_interna/economic/nota-100.pdf",
+      "quote": "Un inibitore del SGLT2* (quando non controindicato e ben tollerato) dovrebbe essere considerato preferenzialmente nei seguenti scenari clinici: 3. Paziente con malattia renale cronica (presenza di VFG <60 mL/min e/o di albuminuria micro o macro)** 4. Paziente con scompenso cardiaco"
+    },
+    {
+      "chunkId": "esc-2021-hf-sglt2-hfref",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2021_Heart_Failure_Guidelines.pdf",
+      "quote": "Dapagliflozin or empagliflozin are recommended for patients with HFrEF to reduce the risk of HF hospitalization and death."
+    },
+    {
+      "chunkId": "empatia-spikes-emozione",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "ECG, NT-proBNP o BNP, creatinina/eGFR, elettroliti, RX torace ed EGA prima di chiudere il caso.",
+      "Ossigeno con SpO2 89% e furosemide endovena. Nessun fluido endovena.",
+      "SGLT2 (dapagliflozin o empagliflozin) solo dopo creatinina/eGFR ed elettroliti, in Nota AIFA 100.",
+      "Ricovero in reparto. Indagare i sintomi minimizzati e la preoccupazione per i figli."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso atteso segue i brani ESC 2021 e la Nota AIFA 100 citati. La frazione di eiezione non è nel caso, quindi la frase ESC riservata all'HFrEF non viene applicata come se il fenotipo fosse già noto.",
+      "legalCriteria": [
+        "Documentare ECG, peptide natriuretico, funzione renale, elettroliti, RX torace ed EGA.",
+        "Non prescrivere SGLT2 o ACE-inibitore prima del referto di creatinina/eGFR.",
+        "Registrare ossigeno, furosemide endovena e la decisione di ricovero in reparto.",
+        "Spiegare il ricovero a Maria partendo dalla preoccupazione per i figli."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Ritmo irregolare, frequenza circa 110/min. Il caso non descrive onde P, QRS, tratto ST né conferma la fibrillazione atriale.",
+      "isAbnormal": true,
+      "priceEuro": 15,
+      "isFatal": false
+    },
+    {
+      "examId": "nt-probnp",
+      "name": "NT-proBNP (o BNP)",
+      "finding": "Peptide natriuretico elevato, a sostegno del sospetto di scompenso. Nessun valore in pg/mL è fissato dal caso.",
+      "isAbnormal": true,
+      "priceEuro": 35,
+      "isFatal": false
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina, urea e stima del GFR",
+      "finding": "Referto disponibile solo dopo la richiesta. Creatinina, urea ed eGFR non hanno un numero nel caso: il referto non dichiara una controindicazione. Prescrivere SGLT2 o ACE-inibitore prima di questo referto è l'errore.",
+      "isAbnormal": false,
+      "priceEuro": 4.5,
+      "isFatal": false
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici (sodio e potassio)",
+      "finding": "Sodio e potassio disponibili solo dopo il prelievo. Nessun valore in mmol/L è fissato dal caso. Vanno visti prima di un ACE-inibitore o di un SGLT2-inibitore.",
+      "isAbnormal": false,
+      "priceEuro": 6.5,
+      "isFatal": false
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX torace",
+      "finding": "Congestione ilare.",
+      "isAbnormal": true,
+      "priceEuro": 25,
+      "isFatal": false
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa",
+      "finding": "Ipossiemia coerente con SpO2 89% in aria ambiente. pH, pCO2 e lattati non sono fissati dal caso.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non fa parte degli esami iniziali descritti per questo quadro.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Esame fuori dal workup iniziale citato (peptide natriuretico, ECG, radiografia, creatinina, elettroliti, emogasanalisi). Non cambia la decisione su ossigeno, diuretico e ricovero."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "155/90",
+      "spo2": 89,
+      "temperature": 36.8,
+      "respiratoryRate": 26
+    },
+    "examBudgetEuro": 100,
+    "demographics": {
+      "age": 68,
+      "sex": "F",
+      "context": "Pronto soccorso",
+      "occupation": "Ex insegnante"
+    },
+    "capillaryGlucoseMgDl": 220,
+    "rhythm": "irregolare",
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "Ritmo irregolare, frequenza circa 110/min. Nessun altro dettaglio del tracciato è fornito.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "nt-probnp": {
+          "finding": "Peptide natriuretico elevato. Valore numerico non fissato.",
+          "isAbnormal": true,
+          "price": 35
+        },
+        "creat-urea-gfr": {
+          "finding": "Referto di creatinina, urea e GFR senza numero assegnato e senza controindicazione dichiarata.",
+          "isAbnormal": false,
+          "price": 4.5
+        },
+        "elettroliti": {
+          "finding": "Sodio e potassio disponibili dopo il prelievo. Valori numerici non fissati.",
+          "isAbnormal": false,
+          "price": 6.5
+        },
+        "rx-torace": {
+          "finding": "Congestione ilare.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "ega": {
+          "finding": "Ipossiemia coerente con SpO2 89% in aria ambiente. pH, pCO2 e lattati non fissati.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "pet-tc": {
+          "finding": "Esame non indicato nel workup iniziale.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "id": "furosemide",
+          "label": "Furosemide endovena",
+          "aliases": ["furosemide", "lasix", "diuretico dell'ansa"],
+          "validDosages": ["1 fiala EV"]
+        },
+        {
+          "label": "SGLT2-inibitore, una sola alternativa, dopo la funzione renale",
+          "anyOf": [
+            {
+              "id": "dapagliflozin",
+              "label": "Dapagliflozin",
+              "aliases": ["dapagliflozin", "forxiga"]
+            },
+            {
+              "id": "empagliflozin",
+              "label": "Empagliflozin",
+              "aliases": ["empagliflozin", "jardiance"]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "fluidi-ev",
+          "label": "Fluidi endovena in congestione polmonare",
+          "aliases": [
+            "soluzione fisiologica",
+            "sodio cloruro",
+            "ringer",
+            "ringer lattato",
+            "fluidi endovena",
+            "infusione di liquidi"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "ECG, BNP o NT-proBNP, creatinina/eGFR, elettroliti, RX torace con congestione ilare, EGA.",
+        "Ossigenoterapia per SpO2 89% e furosemide endovena.",
+        "Dopo il referto renale ed elettrolitico: dapagliflozin oppure empagliflozin.",
+        "Ricovero in reparto.",
+        "Anamnesi attiva sui sintomi minimizzati e comunicazione del ricovero sulla preoccupazione per i figli."
+      ],
+      "penalties": [
+        {
+          "id": "fluidi-ev",
+          "kind": "clinical_grave",
+          "trigger": "Somministrazione di fluidi endovena: peggiora l'edema polmonare in questa congestione."
+        },
+        {
+          "id": "dimissione-domicilio",
+          "kind": "clinical",
+          "trigger": "Dimissione a domicilio. Maria necessita di ricovero in reparto."
+        },
+        {
+          "id": "sglt2-o-ace-senza-rene",
+          "kind": "clinical_economic",
+          "trigger": "SGLT2-inibitore o ACE-inibitore prescritti senza aver prima richiesto creatinina/eGFR ed elettroliti."
+        }
+      ],
+      "prescriptionPrerequisites": [
+        {
+          "drugIds": ["dapagliflozin", "empagliflozin", "ace-inibitore"],
+          "requiredExamIds": ["creat-urea-gfr", "elettroliti"],
+          "rule": "Il referto deve precedere la prescrizione."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "frameworkRequested": "NURSE",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Non accettare la minimizzazione: chiedere peso, edema e ortopnea. Nel comunicare il ricovero, nominare l'emozione e chiedere che cosa la preoccupa per i figli.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "La frase ESC su dapagliflozin o empagliflozin è scritta per l'HFrEF. Qui la frazione di eiezione non è stata misurata.",
+        "La dose iniziale di furosemide nel PDF contiene un carattere non leggibile al posto del trattino tra 20 e 40 mg. Il caso accetta la via endovena (1 fiala EV) e non giudica i milligrammi.",
+        "Il PDF ESC estratto non contiene una frase che vieti i fluidi endovena. Il divieto è la regola di questo caso, perché la paziente è congestionata.",
+        "NURSE non compare nei PDF della cartella empatia. Il brano citato è SPIKES, sulla verbalizzazione dell'emozione e della preoccupazione.",
+        "AMD-Standard-unico1.pdf è nel corpus di medicina interna. Non è stata incollata una frase di quel file sulla doppia indicazione scompenso-diabete.",
+        "L'ecocardiogramma è in classe I nella tabella ESC e non è un errore se richiesto. Non è tra gli esami obbligatori scritti per questo scenario."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Rassegnata e molto affaticata. Minimizza peso, edema e fiatone per non far preoccupare i figli. Se il medico nomina questa paura e le chiede che cosa la preoccupa, racconta l'ortopnea e accetta di parlare del ricovero."
+  }
+}

@@ -1,0 +1,319 @@
+{
+  "id": "INTMED-001",
+  "code": "INTMED-001",
+  "title": "Uomo di 75 anni con tosse produttiva, febbre e lieve dispnea",
+  "description": "Carlo, 75 anni, si presenta in ambulatorio lievemente ansioso ma collaborante. Da tre giorni ha tosse produttiva, febbre 38.5°C e una dispnea lieve. All'ingresso è vigile e orientato. Parametri: PA 110/70 mmHg, FC 95 bpm, FR 22 atti/min, SpO2 93% in aria ambiente, temperatura 38.5°C.",
+  "difficulty": "EASY",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": ["pneumologia"],
+  "condition": "Polmonite acquisita in comunità non severa",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
+  "diagnosis": "Polmonite acquisita in comunità non severa, CURB-65 = 1 (solo età ≥ 65 anni)",
+  "pastMedicalHistory": "Nei dati di partenza non ci sono cardiopatia, pneumopatia cronica, epatopatia, nefropatia, diabete, alcolismo, neoplasia, asplenia, ricovero recente né isolamento pregresso di MRSA o Pseudomonas. Nessuna allergia è già dichiarata: va chiesta prima di una penicillina. Lo stato di fumo non è fornito.",
+  "presentation": "Da tre giorni tosse con espettorato, febbre e fiatone lieve. Non c'è confusione. Carlo collabora, chiede se la malattia si possa curare a casa e ha bisogno che la preoccupazione venga nominata e spiegata con parole semplici.",
+  "redHerrings": [],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Mi chiamo Carlo, ho 75 anni. Da tre giorni tossisco e tiro fuori del catarro, ho la febbre a 38 e mezzo e mi manca un po' il fiato. Sono un po' in ansia, ma voglio collaborare e rispondo alle domande. Non sono confuso. Mi dica con calma se posso curarmi a casa e cosa devo fare.",
+  "correctSolution": "Diagnosi: polmonite acquisita in comunità non severa. CURB-65 = 1 calcolato solo sui dati forniti: niente confusione, urea non misurata e quindi non conteggiata, FR 22 (non ≥ 30), PA 110/70 (non ipotensione), età 75 anni (1 punto). Percorso: emocromo, PCR (esame di catalogo pcr-pct) e RX torace, che mostra addensamento lobare inferiore destro. Terapia empirica orale con amoxicillina/clavulanato oppure un macrolide, in assenza di fattori di rischio per MRSA o Pseudomonas. Impostazione: dimissione a domicilio o breve osservazione. Dire al paziente, con i passi NURSE, che la polmonite si può curare a casa. Penalizzare ricovero in terapia intensiva, antibiotico ad ampissimo spettro (meropenem e analoghi) e TC, PET-TC o broncoscopia di prima linea.",
+  "goldStandardPath": ["emocromo", "pcr-pct", "rx-torace"],
+  "goldPathNarrative": "Chiedere emocromo, PCR e radiografia del torace. La radiografia mostra un addensamento lobare del lobo inferiore destro. Con CURB-65 = 1 e senza criteri di severità oltre l'età, la gestione è ambulatoriale o in breve osservazione, con antibiotico empirico orale: amoxicillina/clavulanato oppure un macrolide. Il medico rassicura Carlo che la polmonite è curabile a casa, nominando l'ansia, comprendendola, rispettandola, sostenendo il piano domiciliare e chiedendo cosa lo preoccupa. Il corpus di comunicazione è il namespace empatia; qui non è incollata alcuna citazione di quel corpus.",
+  "examLatencies": {
+    "emocromo": 30,
+    "pcr-pct": 35,
+    "rx-torace": 20,
+    "tc": 45,
+    "pet-tc": 180,
+    "broncoscopia": 60
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "esordio",
+      "prompt": "Da quanto tempo ha tosse, febbre e fiatone, e come sono cambiati?",
+      "critical": true,
+      "expectedKeywords": ["da quanto", "tre giorni", "febbre", "tosse", "dispnea"],
+      "rationale": "Fissa l'esordio comunitario di tre giorni, dato di partenza del caso."
+    },
+    {
+      "id": "espettorato",
+      "prompt": "La tosse è produttiva? Colore dell'espettorato, sangue, dolore pleuritico?",
+      "critical": true,
+      "expectedKeywords": ["espettorato", "catarro", "sangue", "dolore"],
+      "rationale": "La tosse produttiva è un sintomo di partenza; il sangue non è descritto nel caso e non va inventato."
+    },
+    {
+      "id": "stato-mentale",
+      "prompt": "È confuso, disorientato o ha cambiato comportamento?",
+      "critical": true,
+      "expectedKeywords": ["confusione", "orientato", "stato mentale"],
+      "rationale": "Il caso dichiara assenza di alterazione dello stato mentale: è il criterio Confusion del CURB-65, qui negativo."
+    },
+    {
+      "id": "rischio-resistenti",
+      "prompt": "Ricoveri recenti, isolamento di MRSA o Pseudomonas, bronchiectasie o immunodepressione?",
+      "critical": true,
+      "expectedKeywords": ["ricovero", "mrsa", "pseudomonas", "antibiotico"],
+      "rationale": "Il caso non fornisce questi fattori: la loro assenza è la condizione per non usare uno spettro da MRSA o Pseudomonas."
+    },
+    {
+      "id": "allergie",
+      "prompt": "Allergie a penicilline o altri antibiotici?",
+      "critical": true,
+      "expectedKeywords": ["allergia", "penicillina", "antibiotico"],
+      "rationale": "L'amoxicillina/clavulanato richiede questa domanda. Il caso non dichiara allergie già note."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Vigile, orientato nel tempo e nello spazio, collaborante, lievemente ansioso. Toni ritmici, soffi assenti. Al torace: murmure ridotto e crepitii localizzati alla base destra, resto dei campi libero. Addome trattabile, non dolente."
+  },
+  "escCitations": [
+    {
+      "chunkId": "ats-idsa-2019-cap-definition",
+      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
+      "quote": "Pneumonia is generally defined as a newly recognized pulmonary infiltrate, together with two or more of the following symptoms: new or increased cough, sputum production, shortness of breath, pleuritic chest pain, confusion, fever, rales, and leukocytosis (or suppressed white blood cell count with increased band forms). The 2019 IDSA/ATS pneumonia guidelines confine themselves to community-acquired pneumonia (CAP), specifically pneumonia that develops in adults in the community."
+    },
+    {
+      "chunkId": "ats-idsa-2019-outpatient-macrolide-vs-betalactam",
+      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
+      "quote": "Should a macrolide versus β-lactam be used for treatment of CAP in adults in the outpatient setting?"
+    },
+    {
+      "chunkId": "ats-idsa-2019-evidence-amox-clav",
+      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
+      "quote": "Fogarty 2002 compared oral cefditoren 200 and 400 mg BID with oral amoxicillin/clavulanate 875/125 mg BID for 14 days in adult outpatients with CAP."
+    },
+    {
+      "chunkId": "ats-idsa-2019-site-of-care-curb65",
+      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
+      "quote": "Question: Clinical prediction rules compared to clinical judgment for determination of treatment location in adults with CAP Setting: Bibliography: Atlas 1998 (PS I); Renaud 2007 (PS I); Jo 2012 (PS I); Julian-Jimenez 2013 (PS I); Dean 2015 (CURB-65)"
+    },
+    {
+      "chunkId": "ats-idsa-2019-icu-versus-ward",
+      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
+      "quote": "comparing the use of a clinical prediction rule to clinical judgement alone to determine general medical versus intensive care unit treatment location in adults with CAP."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eseguire emocromo, PCR (catalogo pcr-pct) e RX torace prima di decidere la sede di cura.",
+      "Terapia empirica orale: amoxicillina/clavulanato oppure macrolide, non un carbapenemico.",
+      "Dimissione ambulatoriale o breve osservazione. Il ricovero in terapia intensiva è un errore clinico ed economico.",
+      "Rassicurare che la polmonite è curabile a casa usando NURSE (Name, Understand, Respect, Support, Explore), corpus empatia, senza citazione inventata."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso atteso è quello scritto in questo caso e ancorato ai brani del supplemento ATS/IDSA 2019 citati in escCitations. Non si attribuisce al PDF una classe di raccomandazione che il testo estratto non contiene.",
+      "legalCriteria": [
+        "Documentare emocromo, PCR, RX torace e la scelta dell'antibiotico orale.",
+        "Chiedere le allergie prima di prescrivere amoxicillina/clavulanato.",
+        "Non indicare terapia intensiva, meropenem o esami di seconda linea per questa CAP non severa.",
+        "Spiegare al paziente, in modo comprensibile, che la cura prevista è a domicilio o in breve osservazione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Leucocitosi neutrofila. Il caso non assegna un numero di globuli bianchi: il reperto atteso è l'aumento della serie bianca, non un valore inventato.",
+      "isAbnormal": true,
+      "priceEuro": 4.5,
+      "isFatal": false
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "Proteina C reattiva (PCR) e procalcitonina (PCT)",
+      "finding": "PCR elevata. Nessun numero è fissato dal caso. La PCT viaggia nello stesso esame di catalogo e non è un criterio decisionale aggiuntivo di questo scenario.",
+      "isAbnormal": true,
+      "priceEuro": 12,
+      "isFatal": false
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX torace",
+      "finding": "Addensamento lobare del lobo inferiore destro.",
+      "isAbnormal": true,
+      "priceEuro": 15.5,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC torace",
+      "finding": "Non indicata come primo esame in questa CAP non severa, con radiografia già dirimente.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Esame di seconda linea, costoso e non necessario per decidere la terapia orale di una CAP con CURB-65 = 1."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non indicata nella valutazione iniziale di una polmonite comunitaria non severa.",
+      "isAbnormal": false,
+      "priceEuro": 900,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Esame ad alto costo, senza ruolo nella diagnosi o nella scelta dell'antibiotico di questa CAP."
+    },
+    {
+      "examId": "broncoscopia",
+      "name": "Broncoscopia",
+      "finding": "Non indicata in assenza di un criterio endoscopico fornito dal caso.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Procedura invasiva e non di prima linea per tosse produttiva, febbre e addensamento lobare non severo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 95,
+      "bloodPressure": "110/70",
+      "spo2": 93,
+      "temperature": 38.5,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 40,
+    "demographics": {
+      "age": 75,
+      "sex": "M",
+      "context": "Ambulatorio"
+    },
+    "curb65": {
+      "score": 1,
+      "confusion": false,
+      "ureaCounted": false,
+      "respiratoryRate": 22,
+      "bloodPressure": "110/70",
+      "ageYears": 75,
+      "note": "Un solo punto, l'età ≥ 65 anni. Urea non misurata e non conteggiata. Nessuna alterazione dello stato mentale."
+    },
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Leucocitosi neutrofila, senza valore numerico fissato dal caso.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pcr-pct": {
+          "finding": "PCR elevata. La PCT non guida la decisione di questo caso.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "rx-torace": {
+          "finding": "Addensamento lobare del lobo inferiore destro.",
+          "isAbnormal": true,
+          "price": 15.5
+        },
+        "tc": {
+          "finding": "Esame non indicato come prima linea.",
+          "isAbnormal": false
+        },
+        "pet-tc": {
+          "finding": "Esame non indicato.",
+          "isAbnormal": false,
+          "price": 900
+        },
+        "broncoscopia": {
+          "finding": "Esame non indicato.",
+          "isAbnormal": false,
+          "price": 180
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Terapia empirica orale: una sola delle due alternative",
+          "anyOf": [
+            {
+              "id": "amoxicillina-clavulanato",
+              "label": "Amoxicillina/clavulanato orale",
+              "aliases": [
+                "amoxicillina/clavulanato",
+                "amoxicillina",
+                "acido clavulanico",
+                "clavulanato",
+                "augmentin"
+              ]
+            },
+            {
+              "id": "macrolide",
+              "label": "Macrolide orale",
+              "aliases": ["macrolide", "azitromicina", "claritromicina", "eritromicina"]
+            }
+          ]
+        }
+      ],
+      "inappropriate": [
+        {
+          "id": "ampissimo-spettro",
+          "label": "Antibiotico ad ampissimo spettro senza criteri per MRSA o Pseudomonas",
+          "aliases": [
+            "meropenem",
+            "imipenem",
+            "ertapenem",
+            "doripenem",
+            "piperacillina",
+            "tazobactam",
+            "vancomicina",
+            "linezolid"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Emocromo, PCR e RX torace con addensamento lobare inferiore destro.",
+        "Terapia empirica orale con amoxicillina/clavulanato oppure macrolide.",
+        "Dimissione ambulatoriale o breve osservazione.",
+        "Rassicurazione che la polmonite è curabile a casa, con i passi NURSE richiesti al corpus empatia."
+      ],
+      "penalties": [
+        {
+          "id": "ricovero-ti",
+          "kind": "clinical_economic",
+          "trigger": "Ricovero in terapia intensiva. Il caso non ha confusione, ipotensione né FR ≥ 30."
+        },
+        {
+          "id": "meropenem",
+          "kind": "clinical_stewardship",
+          "trigger": "Meropenem o altro antibiotico ad ampissimo spettro senza criteri per MRSA o Pseudomonas."
+        },
+        {
+          "id": "esami-futili",
+          "kind": "economic",
+          "trigger": "TC torace, PET-TC o broncoscopia non indicate per questa CAP non severa."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "framework": "NURSE",
+        "expectedBehavior": "Nominare l'ansia, mostrare di averla compresa, rispettare la preoccupazione, sostenere che la polmonite si cura a casa, esplorare che cosa teme il paziente.",
+        "verbatimQuote": null
+      },
+      "citationLimits": [
+        "La dose 875/125 mg BID compare solo nella tabella di evidenza Fogarty 2002, come braccio di confronto. Non è registrata qui come posologia obbligatoria.",
+        "Il PDF in repository è il supplemento online. Non contiene, nel testo estratto, una frase 'We recommend' sul regime senza comorbidità.",
+        "CURB-65 è citato come regola di predizione per la sede di cura (Dean 2015), non come una soglia testuale 'punteggio 1 = domicilio'."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Lievemente ansioso e collaborante. Risponde in modo chiaro, non si oppone e chiede se potrà restare a casa. Si calma se il medico nomina la paura, la comprende, la rispetta, spiega il piano domiciliare e chiede che cosa lo preoccupa."
+  }
+}

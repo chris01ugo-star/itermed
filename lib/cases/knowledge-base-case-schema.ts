@@ -115,10 +115,10 @@ const KbBaselineExamFindingsSchema = z
  * Cardiology cases omit `patientProfile`; Pneumology and Gastroenterology cases must include it.
  */
 export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
-  id: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL)-\d{3}$/),
-  code: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL)-\d{3}$/),
-  specialty: z.enum(["cardiologia", "pneumologia", "gastroenterologia"]),
-  specialtyLabel: z.enum(["Cardiologia", "Pneumologia", "Gastroenterologia"]),
+  id: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED)-\d{3}$/),
+  code: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED)-\d{3}$/),
+  specialty: z.enum(["cardiologia", "pneumologia", "gastroenterologia", "medicina_interna"]),
+  specialtyLabel: z.enum(["Cardiologia", "Pneumologia", "Gastroenterologia", "Medicina Interna"]),
   condition: z.string().min(3).max(240),
   frequencyCategory: MatrixFrequencySchema,
   matrixDifficulty: MatrixDifficultySchema,
@@ -151,6 +151,12 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
   baselineExamFindings: KbBaselineExamFindingsSchema,
   /** Optional — omitted on the 30 generated Cardiology cases. */
   patientProfile: PatientProfileSchema.optional(),
+  /**
+   * Comorbidities. Extra specialty slugs retrieved together with `specialty`.
+   * Accepts camelCase and the snake_case key used in authored JSON.
+   */
+  secondarySpecialties: z.array(z.string().trim().min(2).max(80)).max(8).optional(),
+  secondary_specialties: z.array(z.string().trim().min(2).max(80)).max(8).optional(),
 });
 
 export type HealthLiteracy = z.infer<typeof HealthLiteracySchema>;
