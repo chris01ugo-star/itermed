@@ -1,0 +1,313 @@
+{
+  "id": "INTMED-010",
+  "code": "INTMED-010",
+  "title": "Uomo di 65 anni, forte fumatore, con dispnea crescente e tosse purulenta",
+  "description": "Franco, 65 anni, forte fumatore, arriva in pronto soccorso perché da tre giorni respira peggio e tossisce escreato purulento. Minimizza: dice che è solo la sigaretta. Parametri: PA 136/80 mmHg, FC 102 bpm, FR 24 atti/min, SpO2 91% in aria ambiente, temperatura 37.2. Non è in ventilazione meccanica.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": ["pneumologia"],
+  "condition": "Riacutizzazione di BPCO con ipossiemia ed escreato purulento",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "GOLD_2024_COPD_Guidelines.pdf",
+  "diagnosis": "Riacutizzazione di BPCO. Due sintomi cardinali, di cui uno è l'escreato purulento: aumento della dispnea e purulenza. Il volume dell'escreato non è descritto come aumentato.",
+  "pastMedicalHistory": "Fuma molto, da decenni. Non è dichiarato un valore di FEV1, una terapia inalatoria domiciliare né ricoveri precedenti. Non è in ventilazione. Non riferisce una polmonite già nota. Tende a dire che il fiatone è normale per chi fuma.",
+  "presentation": "Da tre giorni la dispnea è aumentata e l'escreato è purulento. Parla a frasi brevi e sminuisce: «è la solita tosse del fumatore». SpO2 91% in aria ambiente, FR 24. Temperatura 37.2. Non descrive un aumento della quantità di escreato, solo il colore purulento e il fiatone peggiore.",
+  "redHerrings": [
+    "Ripete che non serve l'ospedale e che una sigaretta gli farà passare il fiato."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "Mi chiamo Franco, ho 65 anni e fumo da una vita. È solo un po' di tosse, non fate scenate. L'escreato è più scuro, sì, e le scale mi stancano di più, ma passa. Non voglio tubi e non voglio sentirmi dire che è colpa mia. Se proprio dovete spiegarmi qualcosa, chiedetemi che cosa mi preoccupa invece di farmi la predica.",
+  "correctSolution": "Emogasanalisi perché la saturazione è 91%, quindi ≤92%: la pulsossimetria non dà pH né PaCO2. RX torace per escludere una diagnosi alternativa, non per dimostrare la BPCO: nel referto non c'è un addensamento lobare. Broncodilatatore a breve durata d'azione. Corticosteroide sistemico: il brano GOLD è scritto per le riacutizzazioni gravi e lega il beneficio a FEV1, ossigenazione e durata del ricovero, con durata di solito non oltre 5 giorni. Antibiotico perché ci sono due sintomi cardinali e uno è la purulenza dell'escreato. Non dare metilxantine. Non accettare la minimizzazione: chiedere dispnea ed escreato e che cosa lo preoccupa.",
+  "goldStandardPath": ["ega", "rx-torace"],
+  "goldPathNarrative": "Con SpO2 91% chiedere l'emogasanalisi. La radiografia del torace serve a escludere polmonite e altre cause, non a diagnosticare la BPCO. Dare un broncodilatatore a breve azione, un corticosteroide sistemico e un antibiotico empirico. Evitare le metilxantine. Franco minimizza: nominare il fastidio e chiedergli che cosa lo preoccupa, secondo SPIKES.",
+  "examLatencies": {
+    "ega": 10,
+    "rx-torace": 30,
+    "broncoscopia": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "sintomi-cardinali",
+      "prompt": "Il fiatone è aumentato? L'escreato è purulento e la quantità è aumentata?",
+      "critical": true,
+      "expectedKeywords": ["fiatone", "purulento", "escreato", "quantità"],
+      "rationale": "I due sintomi presenti sono dispnea aumentata e purulenza. Il volume aumentato non fa parte della storia e non va inventato."
+    },
+    {
+      "id": "fumo-minimizzazione",
+      "prompt": "Quante sigarette fuma e perché dice che non è niente di grave?",
+      "critical": true,
+      "expectedKeywords": ["sigaret", "fumo", "niente", "minim"],
+      "rationale": "L'archetipo minimizzante va interrogato, non accettato come 'solita tosse'."
+    },
+    {
+      "id": "ventilazione-domicilio",
+      "prompt": "È mai stato intubato o ventilato con la maschera? Quali inalatori usa a casa?",
+      "critical": false,
+      "expectedKeywords": ["ventil", "inalator", "casa", "maschera"],
+      "rationale": "La ventilazione meccanica non è in corso. La terapia domiciliare non è dichiarata e non va inventata."
+    },
+    {
+      "id": "preoccupazione",
+      "prompt": "Che cosa la preoccupa se la teniamo in osservazione e le chiediamo di non fumare ora?",
+      "critical": true,
+      "expectedKeywords": ["preoccup", "fum", "ospedale", "tubi"],
+      "rationale": "SPIKES: chiedere il pensiero legato all'emozione, qui il rifiuto di sentirsi giudicato."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dispnea, parla a frasi brevi e minimizza. Toni cardiaci ritmici, tachicardici, soffi non descritti. Murmure vescicolare ridotto con sibili espiratori e qualche rantolo diffuso, senza un focus lobare all'auscultazione. Tosse con escreato purulento. Non usa la muscolatura accessoria in modo descritto come esaurimento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "gold-2024-abg-spo2",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "If peripheral arterial oxygen saturation is ≤ 92%, arterial blood gases should be measured due to the imperfect correlation between oxygen saturation detected via pulse oximetry as compared to arterial blood gas. Further, pulse oximetry does not provide information on PaCO2 or pH, which may have potential therapeutic implications (e.g., non-invasive ventilation)."
+    },
+    {
+      "chunkId": "gold-2024-cxr",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "A chest X-ray is not useful to establish a diagnosis in COPD, but it is valuable in excluding alternative diagnoses and establishing the presence of significant comorbidities such as concomitant respiratory (pulmonary fibrosis, bronchiectasis, pleural diseases), skeletal (e.g., kyphoscoliosis), and cardiac diseases (e.g., cardiomegaly)."
+    },
+    {
+      "chunkId": "gold-2024-severe-exacerbation",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "In patients with severe exacerbations, systemic corticosteroids can improve lung function (FEV1), oxygenation and shorten recovery time including hospitalization duration. Duration of therapy should not normally be more than 5 days. Antibiotics, when indicated, can shorten recovery time, reduce the risk of early relapse, treatment failure, and hospitalization duration. Duration of therapy should be 5 days. Methylxanthines are not recommended due to increased side effect profiles."
+    },
+    {
+      "chunkId": "gold-2024-antibiotic-cardinal",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "antibiotics should be given to patients with exacerbations of COPD who have three cardinal symptoms: increase in dyspnea, sputum volume, and sputum purulence; have two of the cardinal symptoms, if increased purulence of sputum is one of the two symptoms; or require mechanical ventilation (invasive or noninvasive)."
+    },
+    {
+      "chunkId": "gold-2024-saba-acute",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "A systematic review of the route of delivery of short-acting bronchodilators found no significant differences in FEV1 between using metered dose inhalers (MDI) (with or without a spacer device) or nebulizers to deliver the agent, although the latter may be an easier delivery method for sicker patients. It is recommended that patients do not receive continuous nebulization but use the MDI inhaler one or two puffs every one hour for two or three doses and then every 2-4 hours based on the patient’s response."
+    },
+    {
+      "chunkId": "empatia-spikes-emozione",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "EGA con SpO2 91% e RX torace per escludere cause alternative.",
+      "Broncodilatatore a breve azione, corticosteroide sistemico, antibiotico per dispnea aumentata più escreato purulento.",
+      "Niente metilxantine. Niente broncoscopia come primo esame.",
+      "Non accettare la minimizzazione: chiedere i sintomi e la preoccupazione."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Gli esami e i farmaci attesi seguono i brani GOLD citati. Il volume dell'escreato non è dichiarato aumentato: l'antibiotico poggia sui due sintomi di cui uno è la purulenza. pH e PaCO2 non sono numeri del caso.",
+      "legalCriteria": [
+        "Documentare saturazione, emogasanalisi e radiografia del torace.",
+        "Registrare broncodilatatore, corticosteroide sistemico e antibiotico, con la motivazione dei sintomi cardinali.",
+        "Non prescrivere metilxantine.",
+        "Scrivere che il paziente minimizzava e che cosa lo preoccupava."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa",
+      "finding": "Ipossiemia coerente con SpO2 91% in aria ambiente. pH e PaCO2 non sono fissati dal caso.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX torace",
+      "finding": "Non si documenta un addensamento lobare, un pneumotorace né un versamento. L'esame non serve a porre la diagnosi di BPCO.",
+      "isAbnormal": false,
+      "priceEuro": 25,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "broncoscopia",
+      "name": "Broncoscopia",
+      "finding": "Non fa parte del trattamento iniziale di questa riacutizzazione.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "priceEuro": 280,
+      "wasteRationale": "Il primo passo è emogasanalisi, radiografia, broncodilatatore, steroide e, per i sintomi cardinali, antibiotico. La broncoscopia non cambia questa scelta."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "136/80",
+      "spo2": 91,
+      "temperature": 37.2,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 50,
+    "demographics": {
+      "age": 65,
+      "sex": "M",
+      "context": "Pronto soccorso",
+      "occupation": "Fumatore"
+    },
+    "cardinalSymptoms": {
+      "increasedDyspnea": true,
+      "increasedSputumVolume": false,
+      "sputumPurulence": true,
+      "mechanicalVentilation": false
+    },
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "Ipossiemia coerente con SpO2 91%. pH e PaCO2 non fissati.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "rx-torace": {
+          "finding": "Nessun addensamento lobare, pneumotorace o versamento.",
+          "isAbnormal": false,
+          "price": 25
+        },
+        "broncoscopia": {
+          "finding": "Esame non indicato nel primo approccio.",
+          "isAbnormal": false,
+          "price": 280
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Broncodilatatore a breve durata d'azione",
+          "anyOf": [
+            {
+              "id": "salbutamolo",
+              "label": "Salbutamolo",
+              "aliases": ["salbutamolo", "ventolin", "saba", "broncodilatatore"]
+            },
+            {
+              "id": "ipratropio",
+              "label": "Ipratropio",
+              "aliases": ["ipratropio", "atem"]
+            }
+          ]
+        },
+        {
+          "label": "Corticosteroide sistemico",
+          "anyOf": [
+            {
+              "id": "prednisone",
+              "label": "Prednisone",
+              "aliases": ["prednisone", "deltacortene"]
+            },
+            {
+              "id": "prednisolone",
+              "label": "Prednisolone",
+              "aliases": ["prednisolone"]
+            },
+            {
+              "id": "metilprednisolone",
+              "label": "Metilprednisolone",
+              "aliases": ["metilprednisolone", "solumedrol", "urbason"]
+            },
+            {
+              "id": "desametasone",
+              "label": "Desametasone",
+              "aliases": ["desametasone", "decadron"]
+            }
+          ]
+        },
+        {
+          "label": "Antibiotico empirico",
+          "anyOf": [
+            {
+              "id": "amoxicillina",
+              "label": "Amoxicillina, con o senza clavulanato",
+              "aliases": ["amoxicillina", "clavulanato", "augmentin"]
+            },
+            {
+              "id": "azitromicina",
+              "label": "Azitromicina",
+              "aliases": ["azitromicina", "zitrobiotic"]
+            },
+            {
+              "id": "claritromicina",
+              "label": "Claritromicina",
+              "aliases": ["claritromicina", "klacid"]
+            },
+            {
+              "id": "doxiciclina",
+              "label": "Doxiciclina",
+              "aliases": ["doxiciclina"]
+            }
+          ]
+        }
+      ],
+      "inappropriate": [
+        {
+          "id": "metilxantine",
+          "label": "Metilxantine",
+          "aliases": ["teofillina", "aminofillina", "metilxantina"]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "EGA e RX torace senza addensamento lobare.",
+        "Broncodilatatore a breve azione, corticosteroide sistemico e un antibiotico.",
+        "Nessuna metilxantina.",
+        "Anamnesi che non accetta la minimizzazione e chiede la preoccupazione."
+      ],
+      "penalties": [
+        {
+          "id": "niente-antibiotico",
+          "kind": "clinical",
+          "trigger": "Nessun antibiotico nonostante dispnea aumentata ed escreato purulento."
+        },
+        {
+          "id": "metilxantina",
+          "kind": "clinical",
+          "trigger": "Teofillina o aminofillina: le metilxantine non sono raccomandate."
+        },
+        {
+          "id": "dimissione-senza-ega",
+          "kind": "clinical",
+          "trigger": "Dimissione con SpO2 91% senza emogasanalisi."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "frameworkRequested": "SPIKES",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Non accettare 'è solo la sigaretta'. Chiedere dispnea ed escreato, nominare il fastidio di sentirsi giudicato e domandare che cosa lo preoccupa.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "Il brano sul corticosteroide è introdotto per le riacutizzazioni gravi. Qui SpO2 è 91% e la dispnea è crescente: il caso applica quel brano. Il livello MEDIO del simulatore non è un grado GOLD.",
+        "L'antibiotico è indicato dai due sintomi cardinali con purulenza. Il volume dell'escreato non è detto aumentato e non va contato. GOLD non nomina la molecola nel brano estratto: il caso accetta amoxicillina, azitromicina, claritromicina o doxiciclina.",
+        "La durata 'non oltre 5 giorni' e '5 giorni' è nel testo. Il simulatore non giudica il numero di giorni perché le posologie ammesse non hanno quel preset.",
+        "Le puff ogni ora sono nel brano sul broncodilatatore. Il simulatore non giudica le puff.",
+        "Il brano sulla radiografia in corso di COVID-19 non è stato usato: Franco non ha un quadro di COVID dichiarato.",
+        "pH e PaCO2 non sono inventati, quindi la ventilazione non invasiva non è un obbligo numerico.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Minimizza fiatone e tosse e li attribuisce alla sigaretta. Se il medico non lo rimprovera, gli chiede i sintomi e che cosa lo preoccupa, ammette l'escreato purulento e la dispnea peggiorata."
+  }
+}

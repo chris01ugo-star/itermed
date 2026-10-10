@@ -3,10 +3,16 @@
  *
  * Expected layout:
  *   knowledge_base/<specialty>/legal|economic|clinical/*.{pdf,md,txt,json,csv}
+ *   knowledge_base/generale/legal|economic/*  (corpus legale/economico condiviso)
+ *   knowledge_base/empatia/                    (protocolli di comunicazione)
+ *
+ * `generale` e `empatia` non sono righe MedicalSpecialty. Il metadata Pinecone
+ * `specialty` è lo slug ("generale" o "empatia").
  *
  * Usage:
  *   npx tsx scripts/ingest-specialty-docs.ts --specialty=cardiologia
- *   npx tsx scripts/ingest-specialty-docs.ts --specialty=cardiologia --update
+ *   npx tsx scripts/ingest-specialty-docs.ts --specialty=generale --update
+ *   npx tsx scripts/ingest-specialty-docs.ts --specialty=empatia --update
  *   npx tsx scripts/ingest-specialty-docs.ts --specialty=cardiologia --dry-run
  */
 import { config as loadEnv } from "dotenv";

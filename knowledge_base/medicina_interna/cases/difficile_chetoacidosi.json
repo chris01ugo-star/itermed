@@ -1,0 +1,246 @@
+{
+  "id": "INTMED-017",
+  "code": "INTMED-017",
+  "title": "Ragazzo di 20 anni con respiro di Kussmaul e glicemia sopra 400",
+  "description": "Andrea, 20 anni, non ha una diagnosi precedente di diabete. Respira in modo ampio e profondo, è assetato e dimagrito da alcune settimane. Parametri: PA 108/64 mmHg, FC 118 bpm, FR 32 atti/min, SpO2 99% in aria ambiente, temperatura 36.7. La glicemia capillare è superiore a 400 mg/dL. Il pH è acido. Il numero esatto di glicemia e di pH non è fissato.",
+  "difficulty": "HARD",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "condition": "Chetoacidosi diabetica all'esordio di diabete tipo 1",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "AMD-Standard-unico1.pdf",
+  "diagnosis": "Chetoacidosi diabetica all'esordio. Glicemia superiore a 400 mg/dL, pH acido, respiro di Kussmaul. Ipokaliemia presente, senza un valore in mmol/L.",
+  "pastMedicalHistory": "Nessun diabete noto. Perdita di peso, sete e urine abbondanti da alcune settimane, durata non precisata. Non è in insulina. Non vomita nel brief: la frase AMD sulla chetoacidosi parla di una malattia con vomito e chetosi. Qui il quadro è Kussmaul, glicemia alta e pH acido. Allergie non dichiarate.",
+  "presentation": "Respira ampio e profondo, è spaventato, ha la bocca asciutta. La glicemia capillare supera 400 mg/dL e l'emogasanalisi è acida. Il potassio, quando si chiede, è basso. L'insulina in infusione va dopo la correzione del potassio. Nessuna di queste tre mosse (liquidi abbondanti, insulina in infusione continua, potassio prima dell'insulina) ha una frase di protocollo nel PDF AMD.",
+  "redHerrings": [
+    "Chiede solo un litro d'acqua da bere e di tornare a casa, perché «è solo sete»."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 12,
+  "patientPrompt": "Mi chiamo Andrea, ho 20 anni. Bevo tantissimo, ho perso peso e adesso respiro in un modo strano, profondo. Ho paura. Non ho mai avuto il diabete. Non mandatemi a casa con una bottiglia d'acqua. Se mi dite che cosa ho, ditemelo chiaro e chiedetemi che cosa mi spaventa.",
+  "correctSolution": "È una chetoacidosi all'esordio: il PDF AMD dice che è una condizione a rischio di vita e che serve l'intervento medico immediato, nel contesto di una malattia con vomito e chetosi. Quel vomito non è in questo brief. Glicemia, emogasanalisi e potassio vanno chiesti. Il potassio è basso. Correggerlo prima dell'insulina, idratare per via endovenosa in modo abbondante e avviare l'insulina in infusione continua sono il percorso del caso: nel corpus non c'è una frase che li descriva, quindi non hanno citazione. Non dimettere. Dire che è diabete all'esordio e chiedere che cosa lo spaventa.",
+  "goldStandardPath": ["glicemia", "ega", "elettroliti"],
+  "goldPathNarrative": "Glicemia sopra 400 mg/dL, emogasanalisi acida, potassio basso. Prima il potassio, poi l'insulina in infusione continua, insieme a cristalloidi endovena abbondanti. Ricovero. Queste tre terapie non hanno una citazione nel PDF. L'unica frase clinica AMD è l'urgenza della chetoacidosi. SPIKES sulla paura della diagnosi.",
+  "examLatencies": {
+    "glicemia": 10,
+    "ega": 10,
+    "elettroliti": 20,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "esordio-diabete",
+      "prompt": "Da quando ha sete, urina tanto ed è dimagrito? Le hanno mai detto che ha il diabete?",
+      "critical": true,
+      "expectedKeywords": ["sete", "urina", "peso", "diabete"],
+      "rationale": "È un esordio. La durata precisa non è nel brief e non va inventata."
+    },
+    {
+      "id": "vomito-farmaci",
+      "prompt": "Ha vomitato? Ha preso insulina, cortisone o altri farmaci?",
+      "critical": true,
+      "expectedKeywords": ["vomit", "insulina", "farmaci"],
+      "rationale": "Il vomito non è nel brief. Se nega, non si aggiunge per far coincidere la frase AMD."
+    },
+    {
+      "id": "potassio-sintomi",
+      "prompt": "Ha crampi, debolezza marcata alle gambe o ha perso coscienza?",
+      "critical": false,
+      "expectedKeywords": ["crampi", "debolezza", "coscienza"],
+      "rationale": "L'ipokaliemia è nel referto, non nei sintomi inventati. I crampi non sono dichiarati."
+    },
+    {
+      "id": "paura-diagnosi",
+      "prompt": "Che cosa la preoccupa se le diciamo che si tratta di diabete e che resta in ospedale?",
+      "critical": true,
+      "expectedKeywords": ["preoccup", "diabete", "ospedale", "paura"],
+      "rationale": "SPIKES sulla diagnosi nuova."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Giovane, spaventato, mucose asciutte. Respiro di Kussmaul, ampio e profondo. Murmure vescicolare conservato. Toni cardiaci tachicardici, soffi non descritti. Addome trattabile, non una difesa. Non alito descritto con un termine non fornito dal caso. Non edemi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "amd-2018-dka-urgenza",
+      "source": "knowledge_base/medicina_interna/clinical/AMD-Standard-unico1.pdf",
+      "quote": "Una malattia con vomito accompagnata da chetosi può indicare una chetoacidosi diabetica, condizione di rischio per la vita che richiede l'immediato intervento medico per prevenire complicanze e morte (Kitabchi AE 2006 e 2009)."
+    },
+    {
+      "chunkId": "empatia-spikes-emozione",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Glicemia, emogasanalisi e potassio prima dell'insulina.",
+      "Cristalloidi endovena, correzione del potassio, insulina in infusione continua.",
+      "Non dimettere con la sola acqua per bocca.",
+      "Dire la diagnosi e chiedere la paura."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "L'urgenza della chetoacidosi è la frase AMD citata. Liquidi, insulina in infusione e potassio prima dell'insulina sono nel percorso perché sono il brief, e non hanno una frase nel PDF: non sono presentati come citazione.",
+      "legalCriteria": [
+        "Documentare glicemia sopra 400 mg/dL, pH acido e potassio basso, senza inventare i numeri mancanti.",
+        "Registrare l'ordine: potassio prima dell'insulina.",
+        "Registrare i cristalloidi e l'infusione di insulina.",
+        "Annotare la comunicazione della diagnosi nuova."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glicemia",
+      "finding": "Superiore a 400 mg/dL. Il valore esatto non è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 2.1,
+      "isFatal": false
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "pH acido. Il valore numerico, i bicarbonati e la chetonemia non sono fissati.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti, compreso il potassio",
+      "finding": "Ipokaliemia. Il valore in mmol/L non è fissato. Va corretto prima di avviare l'insulina.",
+      "isAbnormal": true,
+      "priceEuro": 6.5,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non entra nella gestione iniziale della chetoacidosi.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "priceEuro": 950,
+      "wasteRationale": "Il tempo è per glicemia, emogasanalisi, potassio, liquidi e insulina. La PET non tratta l'acidosi."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "108/64",
+      "spo2": 99,
+      "temperature": 36.7,
+      "respiratoryRate": 32
+    },
+    "examBudgetEuro": 40,
+    "demographics": {
+      "age": 20,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
+    "capillaryGlucose": "superiore a 400 mg/dL",
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "Superiore a 400 mg/dL, valore esatto non fissato.",
+          "isAbnormal": true,
+          "price": 2.1
+        },
+        "ega": {
+          "finding": "pH acido, senza un numero fissato.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "elettroliti": {
+          "finding": "Ipokaliemia, senza mmol/L fissati.",
+          "isAbnormal": true,
+          "price": 6.5
+        },
+        "pet-tc": {
+          "finding": "Esame non indicato.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "id": "cristalloidi",
+          "label": "Cristalloidi endovena",
+          "aliases": ["soluzione fisiologica", "sodio cloruro", "ringer", "cristalloidi"],
+          "validDosages": ["In infusione continua"]
+        },
+        {
+          "id": "potassio",
+          "label": "Potassio endovena",
+          "aliases": ["potassio cloruro", "potassio", "kcl"],
+          "validDosages": ["In infusione continua"]
+        },
+        {
+          "id": "insulina",
+          "label": "Insulina in infusione continua",
+          "aliases": ["insulina", "actrapid", "humulin"],
+          "validDosages": ["In infusione continua"]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Glicemia, emogasanalisi e potassio.",
+        "Potassio corretto prima dell'insulina, perché è basso.",
+        "Cristalloidi endovena e insulina in infusione continua.",
+        "Diagnosi detta e paura esplorata. Ricovero."
+      ],
+      "penalties": [
+        {
+          "id": "insulina-prima-del-potassio",
+          "kind": "clinical_grave",
+          "trigger": "Insulina avviata senza avere il potassio, o con ipokaliemia non corretta."
+        },
+        {
+          "id": "solo-acqua-orale",
+          "kind": "clinical_grave",
+          "trigger": "Dimissione con sola idratazione per bocca."
+        }
+      ],
+      "prescriptionPrerequisites": [
+        {
+          "drugIds": ["insulina"],
+          "requiredExamIds": ["elettroliti"],
+          "rule": "Il potassio precede l'insulina."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "frameworkRequested": "SPIKES",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Dire che è un diabete all'esordio, in chetoacidosi, nominare la paura e chiedere che cosa lo preoccupa del ricovero.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "L'unica frase AMD sulla chetoacidosi parla di malattia con vomito e chetosi, e dice che è a rischio di vita e richiede intervento immediato. Andrea non vomita nel brief. La frase non è stata riscritta per il respiro di Kussmaul.",
+        "Kitabchi 2006 e 2009 è il richiamo bibliografico dentro quella frase. Il protocollo di quei lavori non è nel PDF e non è stato copiato.",
+        "Nel PDF non ci sono frasi su cristalloidi, insulina endovena in infusione continua, né sulla correzione del potassio prima dell'insulina. Quelle azioni sono nel percorso e non hanno citazione.",
+        "Glicemia, pH e potassio non hanno un numero oltre «superiore a 400», «acido» e «basso».",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Spaventato dal respiro e dalla sete. Se il medico gli dice che è diabete, gli chiede che cosa lo preoccupa e non lo manda a casa con l'acqua, accetta i prelievi e l'infusione."
+  }
+}

@@ -1,0 +1,307 @@
+{
+  "id": "INTMED-009",
+  "code": "INTMED-009",
+  "title": "Uomo di 72 anni iperteso e diabetico con palpitazioni da 48 ore",
+  "description": "Sergio, 72 anni, iperteso e diabetico in terapia, arriva in pronto soccorso per palpitazioni da 48 ore. Non ha dolore toracico. Parametri: PA 148/86 mmHg, FC 122 bpm irregolare, FR 16 atti/min, SpO2 97% in aria ambiente, temperatura 36.6. Non è in anticoagulante. Non ha protesi meccanica né stenosi mitralica nota.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": ["cardiologia"],
+  "condition": "Fibrillazione atriale di nuova documentazione in uomo iperteso e diabetico",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESC_2024_Atrial_Fibrillation_Guidelines.pdf; nota-97.pdf",
+  "diagnosis": "Fibrillazione atriale clinica. CHA2DS2-VASc 3 con i pesi della Nota 97 (ipertensione, età 65-74, diabete; sesso maschile 0). CHA2DS2-VA senza sesso: 3.",
+  "pastMedicalHistory": "Ipertensione in terapia antipertensiva. Diabete in trattamento, senza il nome del farmaco domiciliare. Non riferisce scompenso cardiaco, ictus, TIA, tromboembolia, cardiopatia ischemica né arteriopatia. Non ha protesi valvolare meccanica né stenosi mitralica. Non è già anticoagulato. Peso e creatinina di partenza non sono dichiarati.",
+  "presentation": "Palpitazioni continuative da 48 ore, senza sincope e senza dolore toracico. È preoccupato che possa essere un infarto. Il polso è irregolare a 122 bpm. La pressione è 148/86 mmHg. È stabile, non ipoteso.",
+  "redHerrings": [
+    "Chiede se serve subito una coronarografia perché ha letto che le palpitazioni sono sempre un infarto."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "Mi chiamo Sergio, ho 72 anni. Da due giorni il cuore va in modo irregolare e ho paura che sia un infarto, anche se il petto non mi fa male. Ho la pressione alta e il diabete, prendo le medicine ma non ricordo i nomi. Non ho mai avuto un ictus e non porto valvole. Se mi dice che cosa succede, me lo dica in modo chiaro e mi chieda che cosa mi spaventa.",
+  "correctSolution": "ECG: fibrillazione atriale (niente onde P ripetute, RR irregolari). Conteggio con la Nota 97: ipertensione +1, età 72 anni +1, diabete in trattamento +1, sesso maschile 0, scompenso 0, ictus 0, vasculopatia 0. CHA2DS2-VASc 3, sopra la soglia ≥2 degli uomini. L'ESC 2024 decide con il CHA2DS2-VA, senza il sesso: resta 3, soglia ≥2. Creatinina e stima della clearance prima di fissare la dose del DOAC: il referto non dichiara una clearance sotto 30 mL/min. Un DOAC tra apixaban, rivaroxaban, dabigatran ed edoxaban, in assenza di protesi meccanica e di stenosi mitralica moderato-severa. Controllo della frequenza con un beta-bloccante. Non è indicata la coronarografia. Dire che è fibrillazione e chiedere che cosa lo preoccupa.",
+  "goldStandardPath": ["ecg", "creat-urea-gfr"],
+  "goldPathNarrative": "Confermare la fibrillazione con l'ECG e calcolare il rischio con i pesi della Nota 97. Chiedere la creatinina con la stima del filtrato prima di scegliere la dose del DOAC. Prescrivere un DOAC e un beta-bloccante per la frequenza. Non inviare in coronarografia: non c'è dolore toracico. Nella comunicazione usare il protocollo SPIKES: nominare la paura e chiedere che cosa lo preoccupa.",
+  "examLatencies": {
+    "ecg": 10,
+    "creat-urea-gfr": 60,
+    "coronarografia": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "durata-dolore",
+      "prompt": "Da quante ore ha le palpitazioni e ha dolore al petto, sincope o mancanza di fiato a riposo?",
+      "critical": true,
+      "expectedKeywords": ["ore", "palpitazioni", "petto", "sincope"],
+      "rationale": "I sintomi durano da 48 ore. Il dolore toracico non c'è e non va sostituito con una coronarografia."
+    },
+    {
+      "id": "cha2ds2-storia",
+      "prompt": "Ha scompenso, ha avuto un ictus o una arteriopatia, e prende già un anticoagulante o una terapia per pressione e diabete?",
+      "critical": true,
+      "expectedKeywords": ["scompenso", "ictus", "anticoagul", "diabete", "pressione"],
+      "rationale": "Servono le voci del CHA2DS2-VASc che il caso non mostra all'esame obiettivo."
+    },
+    {
+      "id": "valvole",
+      "prompt": "Ha una protesi valvolare meccanica o una stenosi della mitrale?",
+      "critical": true,
+      "expectedKeywords": ["protesi", "mitrale", "valvola"],
+      "rationale": "Protesi meccanica e stenosi mitralica moderato-severa sono le eccezioni ESC alla preferenza per il DOAC."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la preoccupa di più di queste palpitazioni?",
+      "critical": true,
+      "expectedKeywords": ["preoccup", "infarto", "paura", "ictus"],
+      "rationale": "SPIKES: nominare l'emozione e chiedere il pensiero associato, qui la paura dell'infarto."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Vigile, collaborante, spaventato dalle palpitazioni. Toni cardiaci irregolari, tachicardici, soffi non descritti. Niente dolore toracico alla palpazione. Murmure vescicolare conservato, non dispnea a riposo. Non edemi. Polsi periferici presenti, senza un quadro di arteriopatia descritto dal caso."
+  },
+  "escCitations": [
+    {
+      "chunkId": "esc-2024-af-ecg",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
+      "quote": "A standard 12-lead ECG recording or a single-lead ECG tracing of ≥30 s showing heart rhythm with no discernible repeating P waves and irregular RR intervals (when atrioventricular conduction is not impaired) is diagnostic of clinical AF. I B Confirmation by an electrocardiogram (12-lead, multiple, or single leads) is recommended to establish the diagnosis of clinical AF and commence risk stratification and treatment. I A"
+    },
+    {
+      "chunkId": "esc-2024-af-oac-cha2ds2va",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
+      "quote": "Oral anticoagulation is recommended in patients with clinical AF at elevated thromboembolic risk to prevent ischaemic stroke and thromboembolism. I A A CHA2DS2-VA score of 2 or more is recommended as an indicator of elevated thromboembolic risk for decisions on initiating oral anticoagulation. I C"
+    },
+    {
+      "chunkId": "esc-2024-af-doac",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
+      "quote": "Direct oral anticoagulants are recommended in preference to VKAs to prevent ischaemic stroke and thromboembolism, except in patients with mechanical heart valves or moderate-to-severe mitral stenosis. I A"
+    },
+    {
+      "chunkId": "esc-2024-af-rate",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
+      "quote": "Rate control therapy is recommended in patients with AF, as initial therapy in the acute setting, an adjunct to rhythm control therapies, or as a sole treatment strategy to control heart rate and reduce symptoms. I B For acute rate control, beta-blockers (for all LVEF) and diltiazem/verapamil (for LVEF >40%) are preferred over digoxin because of their more rapid onset of action and dose-dependent effects."
+    },
+    {
+      "chunkId": "esc-2024-af-crcl",
+      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
+      "quote": "DOACs retain their efficacy and safety over VKAs in patients with mild-to-moderate CKD (creatinine clearance [CrCl] >30 mL/min), although specific dosing adjustments apply. In Europe, reduced doses of rivaroxaban, apixaban, and edoxaban are approved in patients with severe CKD (CrCl 15–29 mL/min)."
+    },
+    {
+      "chunkId": "nota-97-soglia-e-pesi",
+      "source": "knowledge_base/medicina_interna/economic/nota-97.pdf",
+      "quote": "La diagnosi di FANV deve essere sempre confermata da un eletrocardiogramma e dalla valutazione clinica del paziente. La terapia anticoagulante dovrà essere in tutti i pazienti con punteggio CHA2DS2-VASc: ≥2 (se maschi) e ≥3 (se femmine). Scompenso cardiaco congestizio Segni/sintomi di scompenso cardiaco o riscontro di ridotta frazione di eiezione +1 Ipertensione arteriosa PA sist. >140 e/o PA diast. >90 mmHg a riposo in 2 misure successive o terapia antipertensiva in corso +1 Età ≥75 anni +2 Età 65-74 anni +1 Diabete mellito Glicemia a digiuno >126 mg/dl o trattamento con antidiabetici +1 Pregresso ICTUS o TIA o tromboembolismo arterioso +2 Vasculopatia Cardiopatia ischemica, Arteriopatia periferica +1 Sesso Femminile +1"
+    },
+    {
+      "chunkId": "empatia-spikes-emozione",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "ECG diagnostico e creatinina con stima del filtrato prima della dose del DOAC.",
+      "CHA2DS2-VASc 3 secondo i pesi della Nota 97; CHA2DS2-VA 3 senza il sesso, soglia ESC ≥2.",
+      "Un DOAC (apixaban, rivaroxaban, dabigatran o edoxaban) e un beta-bloccante per la frequenza.",
+      "Niente coronarografia. Comunicare la diagnosi partendo dalla paura dell'infarto."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso usa i brani ESC 2024 e della Nota 97 citati. Il conteggio non aggiunge scompenso, ictus o vasculopatia, che il paziente nega. La dose in milligrammi non è fissata perché la clearance non ha un numero.",
+      "legalCriteria": [
+        "Documentare l'ECG e il conteggio CHA2DS2-VASc con le voci presenti e assenti.",
+        "Richiedere la creatinina prima di chiudere la dose del DOAC.",
+        "Registrare il DOAC scelto e il beta-bloccante per la frequenza.",
+        "Scrivere che cosa preoccupa il paziente rispetto alle palpitazioni."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Ritmo senza onde P ripetute riconoscibili, intervalli RR irregolari, frequenza circa 122/min. Nessuna descrizione di sopraslivellamento del tratto ST.",
+      "isAbnormal": true,
+      "priceEuro": 15,
+      "isFatal": false
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina, urea e stima del GFR",
+      "finding": "Referto disponibile solo dopo il prelievo. Nessun numero di creatinina o di clearance è fissato. Il referto non dichiara una clearance sotto 30 mL/min né un VFG sotto 15 mL/min.",
+      "isAbnormal": false,
+      "priceEuro": 4.5,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "coronarografia",
+      "name": "Coronarografia",
+      "finding": "Non indicata: il caso non descrive dolore toracico né un'alterazione ischemica dell'ECG.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "priceEuro": 1800,
+      "wasteRationale": "Le palpitazioni con ECG di fibrillazione non sono un'indicazione a uno studio coronarico invasivo in questo caso."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 122,
+      "bloodPressure": "148/86",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 40,
+    "demographics": {
+      "age": 72,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
+    "cha2ds2": {
+      "scoreVaSc": 3,
+      "scoreVa": 3,
+      "items": {
+        "scompenso": 0,
+        "ipertensione": 1,
+        "eta75": 0,
+        "diabete": 1,
+        "ictus": 0,
+        "vasculopatia": 0,
+        "eta65": 1,
+        "sessoFemminile": 0
+      }
+    },
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "Nessuna onda P ripetuta, RR irregolari, frequenza circa 122/min.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina e filtrato senza numero assegnato. Non è dichiarata una clearance sotto 30 mL/min.",
+          "isAbnormal": false,
+          "price": 4.5
+        },
+        "coronarografia": {
+          "finding": "Esame non indicato in assenza di dolore toracico.",
+          "isAbnormal": false,
+          "price": 1800
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Un DOAC",
+          "anyOf": [
+            {
+              "id": "apixaban",
+              "label": "Apixaban",
+              "aliases": ["apixaban", "eliquis"]
+            },
+            {
+              "id": "rivaroxaban",
+              "label": "Rivaroxaban",
+              "aliases": ["rivaroxaban", "xarelto"]
+            },
+            {
+              "id": "dabigatran",
+              "label": "Dabigatran",
+              "aliases": ["dabigatran", "pradaxa"]
+            },
+            {
+              "id": "edoxaban",
+              "label": "Edoxaban",
+              "aliases": ["edoxaban", "lixiana"]
+            }
+          ]
+        },
+        {
+          "label": "Beta-bloccante per il controllo della frequenza",
+          "anyOf": [
+            {
+              "id": "bisoprololo",
+              "label": "Bisoprololo",
+              "aliases": ["bisoprololo", "concor", "sequacor"]
+            },
+            {
+              "id": "metoprololo",
+              "label": "Metoprololo",
+              "aliases": ["metoprololo", "seloken", "lopresor"]
+            },
+            {
+              "id": "carvedilolo",
+              "label": "Carvedilolo",
+              "aliases": ["carvedilolo", "dilatrend"]
+            },
+            {
+              "id": "atenololo",
+              "label": "Atenololo",
+              "aliases": ["atenololo", "tenormin"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "ECG di fibrillazione atriale.",
+        "CHA2DS2-VASc 3 e, senza il sesso, CHA2DS2-VA 3.",
+        "Creatinina/eGFR prima di chiudere la dose del DOAC.",
+        "Un DOAC e un beta-bloccante.",
+        "Dire la diagnosi e chiedere che cosa lo preoccupa."
+      ],
+      "penalties": [
+        {
+          "id": "coronarografia",
+          "kind": "clinical_economic",
+          "trigger": "Coronarografia in assenza di dolore toracico e di segni ischemici descritti."
+        },
+        {
+          "id": "doac-senza-rene",
+          "kind": "clinical",
+          "trigger": "Dose del DOAC chiusa senza aver richiesto creatinina e stima del filtrato."
+        }
+      ],
+      "prescriptionPrerequisites": [
+        {
+          "drugIds": ["apixaban", "rivaroxaban", "dabigatran", "edoxaban"],
+          "requiredExamIds": ["creat-urea-gfr"],
+          "rule": "Il referto di funzione renale precede la dose definitiva."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "frameworkRequested": "SPIKES",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Dire che si tratta di fibrillazione atriale, nominare la paura e chiedere che cosa lo preoccupa in particolare.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "Nel text layer della Nota 97 le legature ti/tt sono perse. La citazione ripristina solo quelle lettere (tutti, pazienti, antipertensiva, antidiabetici, anticoagulante).",
+        "La Nota 97 usa il CHA2DS2-VASc. L'ESC 2024 decide con il CHA2DS2-VA, senza il sesso. In quest'uomo il sesso vale 0: entrambi i conteggi fanno 3.",
+        "La tabella dei punti ESC (Table 10) è citata nell'indice del PDF e il reticolo dei punti non è nel testo estratto. I pesi usati sono quelli della Nota 97.",
+        "La voce scompenso della Nota 97 vale +1. Qui non è sommata: il paziente non riferisce scompenso e la frazione di eiezione non è misurata.",
+        "La frase in classe I che mette sullo stesso piano beta-bloccante, diltiazem, verapamil e digossina è scritta per LVEF >40%. L'eiezione non è nota. Il beta-bloccante è accettato perché il brano sul controllo acuto lo indica per qualsiasi LVEF.",
+        "Il manuale Evidencio del CHA2DS2-VASc è nel corpus: dice che un punteggio >0 negli uomini ha avuto un beneficio netto e che il calcolatore non indica tipo o dose dell'anticoagulante. Non è la soglia usata per prescrivere. La soglia operativa è ≥2 della Nota 97 e del CHA2DS2-VA ESC.",
+        "Nessun milligrammo di DOAC è giudicato: peso e clearance numerica non sono nel caso.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ansioso, teme un infarto. Se il medico nomina questa paura e gli chiede che cosa lo preoccupa, ascolta la spiegazione sulla fibrillazione e sul perché serve l'anticoagulante."
+  }
+}

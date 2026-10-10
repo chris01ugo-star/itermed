@@ -8,9 +8,16 @@ import { prisma } from "@/lib/prisma";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { truncateForLlmContext } from "@/lib/security/prompt-context";
 import { embedQueryTextCached } from "@/lib/ai/embedding-cache";
+import {
+  EMPATHY_SPECIALTY,
+  pineconeSpecialtyInFilter,
+  specialtyScopeValues,
+  UNIVERSAL_SPECIALTY,
+} from "@/lib/services/specialty-scope";
 
 const LEGAL_TOP_K = 8;
 const PROTOCOL_TOP_K = 4;
+const ECONOMIC_TOP_K = 4;
 const CHUNK_SIZE = 1000;
 const CHUNK_OVERLAP = 200;
 
@@ -54,13 +61,16 @@ const LEGAL_TAG_HINTS = [
 
 const PROTOCOL_PINECONE_TAGS = ["protocollo", "protocolli", "linee guida", "linee-guida"];
 
+const ECONOMIC_TAG_HINTS = ["economico", "tariffario", "ssn", "pillaro-economic", "nomenclatore"];
+const ECONOMIC_PINECONE_TAGS = ["economico", "tariffario", "ssn", "pillaro-economic"];
+
 export type GuidelineChunk = {
   content: string;
   /** Source document title (fonte). */
   title: string;
   tags: string[];
   documentId?: string;
-  kind: "legal" | "protocol";
+  kind: "legal" | "protocol" | "economic";
   /** Unique Pinecone vector / chunk id (e.g. `{documentId}-{index}`). */
   chunkId?: string;
   /** Normative section when present in vector metadata or inferred from text. */
@@ -92,6 +102,9 @@ export type RelevantGuidelines = {
   hasLegalContext: boolean;
   /** Specialty-scoped clinical protocol corpus available for evaluation. */
   hasProtocolContext: boolean;
+  /** Tariffari / Note AIFA, inclusa la knowledge base condivisa `generale`. */
+  economic: GuidelineRetrievalSection;
+  hasEconomicContext: boolean;
 };
 
 export type GetRelevantGuidelinesParams = {
@@ -103,6 +116,12 @@ export type GetRelevantGuidelinesParams = {
   specialtyId?: string;
   /** Human-readable specialty name (e.g. "Cardiologia"). */
   specialtyName?: string;
+  /**
+   * Comorbidities. Slugs or labels such as "cardiologia" / "Cardiologia".
+   * Expanded into the Pinecone specialty `$in` filter together with
+   * `generale` and `empatia`.
+   */
+  secondarySpecialties?: string[];
 };
 
 export type GuidelineDocumentRecord = {
@@ -136,6 +155,7 @@ type PineconeMetadata = {
   tags?: string | string[];
   documentId?: string;
   medicalSpecialtyId?: string;
+  specialty?: string;
   /** Extended citation metadata (ingested or legacy aliases). */
   section?: string;
   sez?: string;
@@ -227,9 +247,9 @@ function formatChunkCitationHeader(chunk: GuidelineChunk): string {
 }
 
 /**
- * When a case has a specialty, retrieve only docs tagged with that specialty
- * plus transversal docs (`medicalSpecialtyId` null / missing) so national legal
- * frameworks remain available without pulling other specialties' protocols.
+ * When a case has a specialty, retrieve that specialty, any secondary
+ * specialties, plus the shared `generale` and `empatia` corpora.
+ * Postgres keeps null `medicalSpecialtyId` as the transversal row.
  */
 function buildPostgresSpecialtyFilter(specialtyId?: string): {
   OR: Array<{ medicalSpecialtyId: string | null }>;
@@ -240,14 +260,60 @@ function buildPostgresSpecialtyFilter(specialtyId?: string): {
   };
 }
 
-function buildPineconeSpecialtyFilter(specialtyId?: string): Record<string, unknown> | undefined {
-  if (!specialtyId) return undefined;
+function normalizeSecondarySpecialties(values?: string[]): string[] {
+  if (!values || values.length === 0) return [];
+  return values.map((value) => value.trim()).filter(Boolean);
+}
+
+function buildPineconeSpecialtyFilter(
+  specialtyId?: string,
+  specialtyName?: string,
+  secondarySpecialties?: string[],
+): Record<string, unknown> | undefined {
+  const label = specialtyName?.trim();
+  const secondary = normalizeSecondarySpecialties(secondarySpecialties);
+  if (!specialtyId && !label && secondary.length === 0) return undefined;
+
+  const byName = label
+    ? pineconeSpecialtyInFilter(label, secondary)
+    : { specialty: { $in: specialtyScopeValues("", secondary) } };
+
+  if (!specialtyId) return byName;
+
   return {
-    $or: [
-      { medicalSpecialtyId: { $eq: specialtyId } },
-      { medicalSpecialtyId: { $exists: false } },
-    ],
+    $or: [byName, { medicalSpecialtyId: { $eq: specialtyId } }],
   };
+}
+
+function allowedSpecialtyLabels(
+  specialtyName?: string,
+  secondarySpecialties?: string[],
+): Set<string> {
+  return new Set(
+    specialtyScopeValues(specialtyName ?? "", normalizeSecondarySpecialties(secondarySpecialties)).map(
+      (value) => value.toLowerCase(),
+    ),
+  );
+}
+
+function isForeignSpecialtyChunk(
+  metadata: PineconeMetadata,
+  allowed: Set<string>,
+  specialtyId?: string,
+): boolean {
+  const specialty = optionalMetaString(metadata.specialty)?.trim().toLowerCase();
+  if (specialty && allowed.has(specialty)) return false;
+  if (specialty === UNIVERSAL_SPECIALTY || specialty === EMPATHY_SPECIALTY) return false;
+  if (!specialtyId) return false;
+  return (
+    typeof metadata.medicalSpecialtyId === "string" &&
+    metadata.medicalSpecialtyId !== specialtyId
+  );
+}
+
+function isEconomicGuideline(tags: string[]): boolean {
+  const normalized = tags.map(normalizeTag);
+  return normalized.some((tag) => ECONOMIC_TAG_HINTS.some((hint) => tag.includes(hint)));
 }
 
 function mergePineconeFilters(
@@ -461,6 +527,8 @@ export class RagService {
   async getRelevantGuidelines(params: GetRelevantGuidelinesParams): Promise<RelevantGuidelines> {
     const query = buildRagQuery(params);
     const specialtyId = params.specialtyId?.trim() || undefined;
+    const specialtyName = params.specialtyName?.trim() || undefined;
+    const secondarySpecialties = normalizeSecondarySpecialties(params.secondarySpecialties);
     const specialtyHints = buildSpecialtyTagHints(params.specialtyName);
     const log = this.deps.logger.child({
       specialtyId,
@@ -469,8 +537,10 @@ export class RagService {
 
     let legalChunks: GuidelineChunk[] = [];
     let protocolChunks: GuidelineChunk[] = [];
+    let economicChunks: GuidelineChunk[] = [];
     let legalSource: GuidelineRetrievalSection["source"] = "none";
     let protocolSource: GuidelineRetrievalSection["source"] = "none";
+    let economicSource: GuidelineRetrievalSection["source"] = "none";
 
     try {
       const embedding = await this.embedQuery(query);
@@ -480,14 +550,27 @@ export class RagService {
           embedding,
           specialtyHints,
           specialtyId,
+          specialtyName,
+          secondarySpecialties,
         );
         protocolChunks = await this.retrieveProtocolFromPinecone(
           embedding,
           specialtyHints,
           specialtyId,
+          specialtyName,
+          secondarySpecialties,
+        );
+        economicChunks = await this.retrieveEconomicFromPinecone(
+          query,
+          embedding,
+          specialtyHints,
+          specialtyId,
+          specialtyName,
+          secondarySpecialties,
         );
         if (legalChunks.length > 0) legalSource = "pinecone";
         if (protocolChunks.length > 0) protocolSource = "pinecone";
+        if (economicChunks.length > 0) economicSource = "pinecone";
       }
     } catch (error) {
       log.warn("Pinecone retrieval failed, falling back to PostgreSQL", { error });
@@ -515,7 +598,20 @@ export class RagService {
       }
     }
 
-    if (legalChunks.length === 0 && protocolChunks.length === 0) {
+    if (economicChunks.length === 0) {
+      try {
+        economicChunks = await this.retrieveEconomicFromPostgres(
+          query,
+          specialtyHints,
+          specialtyId,
+        );
+        if (economicChunks.length > 0) economicSource = "postgres";
+      } catch (error) {
+        log.warn("PostgreSQL economic retrieval failed", { error });
+      }
+    }
+
+    if (legalChunks.length === 0 && protocolChunks.length === 0 && economicChunks.length === 0) {
       log.info("No guidelines retrieved from any source (RAG soft-fail)", {
         queryLength: query.length,
       });
@@ -525,18 +621,22 @@ export class RagService {
         specialtyHintCount: specialtyHints.length,
         legalChunks: legalChunks.length,
         protocolChunks: protocolChunks.length,
+        economicChunks: economicChunks.length,
       });
     }
 
     const legal = toSection(legalChunks, legalSource);
     const protocol = toSection(protocolChunks, protocolSource);
+    const economic = toSection(economicChunks, economicSource);
 
     return {
       query,
       legal,
       protocol,
+      economic,
       hasLegalContext: legal.hasContext,
       hasProtocolContext: protocol.hasContext,
+      hasEconomicContext: economic.hasContext,
     };
   }
 
@@ -570,12 +670,19 @@ export class RagService {
     embedding: number[],
     specialtyHints: string[],
     specialtyId?: string,
+    specialtyName?: string,
+    secondarySpecialties?: string[],
     limit = LEGAL_TOP_K,
   ): Promise<GuidelineChunk[]> {
     const index = this.deps.getPineconeIndex();
     if (!index) return [];
 
-    const specialtyFilter = buildPineconeSpecialtyFilter(specialtyId);
+    const specialtyFilter = buildPineconeSpecialtyFilter(
+      specialtyId,
+      specialtyName,
+      secondarySpecialties,
+    );
+    const allowed = allowedSpecialtyLabels(specialtyName, secondarySpecialties);
     const response = await index.namespace("guidelines").query({
       topK: Math.max(limit * 3, 18),
       vector: embedding,
@@ -592,14 +699,7 @@ export class RagService {
       const content = typeof metadata.content === "string" ? metadata.content.trim() : "";
       if (!content) continue;
 
-      // Defense-in-depth: drop vectors from other specialties even if filter is ignored.
-      if (
-        specialtyId &&
-        typeof metadata.medicalSpecialtyId === "string" &&
-        metadata.medicalSpecialtyId !== specialtyId
-      ) {
-        continue;
-      }
+      if (isForeignSpecialtyChunk(metadata, allowed, specialtyId)) continue;
 
       const title = typeof metadata.title === "string" ? metadata.title : "Documento legale";
       const tags = parseMetadataTags(metadata);
@@ -632,12 +732,19 @@ export class RagService {
     embedding: number[],
     specialtyHints: string[],
     specialtyId?: string,
+    specialtyName?: string,
+    secondarySpecialties?: string[],
     limit = PROTOCOL_TOP_K,
   ): Promise<GuidelineChunk[]> {
     const index = this.deps.getPineconeIndex();
     if (!index) return [];
 
-    const specialtyFilter = buildPineconeSpecialtyFilter(specialtyId);
+    const specialtyFilter = buildPineconeSpecialtyFilter(
+      specialtyId,
+      specialtyName,
+      secondarySpecialties,
+    );
+    const allowed = allowedSpecialtyLabels(specialtyName, secondarySpecialties);
     const protocolFilter = mergePineconeFilters(
       { tags: { $in: PROTOCOL_PINECONE_TAGS } },
       specialtyFilter,
@@ -680,13 +787,7 @@ export class RagService {
         const content = typeof metadata.content === "string" ? metadata.content.trim() : "";
         if (!content) continue;
 
-        if (
-          specialtyId &&
-          typeof metadata.medicalSpecialtyId === "string" &&
-          metadata.medicalSpecialtyId !== specialtyId
-        ) {
-          continue;
-        }
+        if (isForeignSpecialtyChunk(metadata, allowed, specialtyId)) continue;
 
         const title = typeof metadata.title === "string" ? metadata.title : "Protocollo clinico";
         const tags = parseMetadataTags(metadata);
@@ -783,6 +884,98 @@ export class RagService {
           tags: doc.tags,
           documentId: doc.id,
           kind: "protocol",
+          score: scoreChunkWithSpecialty(query, `${doc.title} ${content}`, doc.tags, specialtyHints),
+        });
+      }
+    }
+
+    return rankChunksByRelevance(ranked, limit, specialtyHints);
+  }
+
+  private async retrieveEconomicFromPinecone(
+    query: string,
+    embedding: number[],
+    specialtyHints: string[],
+    specialtyId?: string,
+    specialtyName?: string,
+    secondarySpecialties?: string[],
+    limit = ECONOMIC_TOP_K,
+  ): Promise<GuidelineChunk[]> {
+    const index = this.deps.getPineconeIndex();
+    if (!index) return [];
+
+    const allowed = allowedSpecialtyLabels(specialtyName, secondarySpecialties);
+    const filter = mergePineconeFilters(
+      { tags: { $in: ECONOMIC_PINECONE_TAGS } },
+      buildPineconeSpecialtyFilter(specialtyId, specialtyName, secondarySpecialties),
+    );
+    const response = await index.namespace("guidelines").query({
+      topK: Math.max(limit * 2, 8),
+      vector: embedding,
+      includeMetadata: true,
+      ...(filter ? { filter } : {}),
+    });
+
+    const ranked: Array<GuidelineChunk & { score: number }> = [];
+    for (const match of response.matches ?? []) {
+      const pineconeScore = typeof match.score === "number" ? match.score : 0;
+      if (pineconeScore < SIMILARITY_THRESHOLD_PROTOCOL) continue;
+
+      const metadata = (match.metadata ?? {}) as PineconeMetadata;
+      const content = typeof metadata.content === "string" ? metadata.content.trim() : "";
+      if (!content) continue;
+      if (isForeignSpecialtyChunk(metadata, allowed, specialtyId)) continue;
+
+      const title = typeof metadata.title === "string" ? metadata.title : "Tariffario SSN";
+      const tags = parseMetadataTags(metadata);
+      if (!isEconomicGuideline(tags)) continue;
+
+      ranked.push({
+        content,
+        title,
+        tags,
+        documentId: typeof metadata.documentId === "string" ? metadata.documentId : undefined,
+        kind: "economic",
+        ...mapPineconeChunkCitation(
+          typeof match.id === "string" ? match.id : undefined,
+          metadata,
+          title,
+          content,
+        ),
+        score:
+          pineconeScore +
+          scoreChunkWithSpecialty(query, `${title} ${content}`, tags, specialtyHints) * 0.1,
+      });
+    }
+
+    return rankChunksByRelevance(ranked, limit, specialtyHints);
+  }
+
+  private async retrieveEconomicFromPostgres(
+    query: string,
+    specialtyHints: string[],
+    specialtyId?: string,
+    limit = ECONOMIC_TOP_K,
+  ): Promise<GuidelineChunk[]> {
+    const docs = await prisma.guidelineDocument.findMany({
+      where: {
+        isActive: true,
+        tags: { hasSome: ECONOMIC_TAG_HINTS },
+        ...buildPostgresSpecialtyFilter(specialtyId),
+      },
+      select: { id: true, title: true, tags: true, text: true },
+      take: 10,
+    });
+    const ranked: Array<GuidelineChunk & { score: number }> = [];
+
+    for (const doc of docs) {
+      for (const content of chunkText(doc.text)) {
+        ranked.push({
+          content,
+          title: doc.title,
+          tags: doc.tags,
+          documentId: doc.id,
+          kind: "economic",
           score: scoreChunkWithSpecialty(query, `${doc.title} ${content}`, doc.tags, specialtyHints),
         });
       }

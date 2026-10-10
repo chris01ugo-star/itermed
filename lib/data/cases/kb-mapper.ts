@@ -18,6 +18,7 @@ import type {
   PrassiDifficultyLabel,
 } from "@/lib/data/cases/types";
 import { derivePhysicalExamFromSummary } from "@/lib/clinical/physical-exam-from-summary";
+import { readSecondarySpecialties } from "@/lib/services/specialty-scope";
 
 const DIFFICULTY_LABEL: Record<ClinicalCase["difficulty"], PrassiDifficultyLabel> = {
   EASY: "facile",
@@ -144,6 +145,7 @@ export function knowledgeBaseCaseToClinicalCase(kb: KnowledgeBaseCase): Clinical
   ];
   const patientPrompt = kb.patientPrompt?.trim() || kb.presentation;
   const correctSolution = kb.correctSolution?.trim() || kb.diagnosis;
+  const secondarySpecialties = readSecondarySpecialties(kb);
 
   const mapped = {
     code: kb.code,
@@ -153,6 +155,7 @@ export function knowledgeBaseCaseToClinicalCase(kb: KnowledgeBaseCase): Clinical
     category: "prassi-clinica" as const,
     specialty: kb.specialty,
     specialtyLabel: kb.specialtyLabel,
+    ...(secondarySpecialties.length > 0 ? { secondarySpecialties } : {}),
     medicalSpecialtyKey: kb.specialty,
     difficulty: kb.difficulty,
     difficultyLabel: DIFFICULTY_LABEL[kb.difficulty],

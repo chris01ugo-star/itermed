@@ -1,0 +1,299 @@
+{
+  "id": "INTMED-014",
+  "code": "INTMED-014",
+  "title": "Donna di 82 anni con pressione 80/50, lattati alti e anuria",
+  "description": "Elena, 82 anni, arriva in pronto soccorso portata dalla figlia. È rallentata, fredda, non urina. Ha un catetere vescicale a dimora. Parametri: PA 80/50 mmHg, FC 118 bpm, FR 26 atti/min, SpO2 94% in aria ambiente, temperatura 38.5. I lattati sono alti. Non è un numero fissato in mmol/L.",
+  "difficulty": "HARD",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "condition": "Shock settico a partenza urinaria, con anuria e lattati elevati",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "IT_SSC21_SurvivingSepsisCampain21.pdf",
+  "diagnosis": "Shock settico da infezione urinaria su catetere. Pressione 80/50 mmHg, lattati elevati, anuria. Non è una batteriuria senza ipoperfusione.",
+  "pastMedicalHistory": "Catetere vescicale a dimora. Da quanto tempo è posizionato non è dichiarato. Non è nota un'allergia antibiotica. Non è nota una creatinina di base. La figlia dice che stamattina non rispondeva e il sacchetto del catetere era vuoto. Il peso non è dichiarato: la frase sui 30 mL/kg non diventa un volume in millilitri.",
+  "presentation": "Ipotesa, cute fredda, poco reattiva. Temperatura 38.5. Anuria. La figlia racconta il cambiamento. Chi aspetta l'antibiogramma prima di dare l'antibiotico, o chi non dà liquidi perché «non urina», perde il tempo della rianimazione.",
+  "redHerrings": [
+    "Un collega propone di non idratare perché è in anuria e di aspettare l'urinocoltura prima di qualsiasi antibiotico."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 10,
+  "patientPrompt": "Sono la figlia di Elena. Mia madre ha 82 anni, ha il catetere e da stamattina è assente, fredda e non urina. La pressione è bassissima. Lei non riesce a rispondervi. Non aspettate gli esami di domani per curarla, e spiegatemi con calma che cosa le state facendo: ho paura.",
+  "correctSolution": "Shock settico: rianimazione subito. Emocolture, e le colture appropriate compresa l'urinocoltura, prima dell'antibiotico se il prelievo non ritarda in modo sostanziale l'avvio. Antimicrobico immediato, idealmente entro 1 ora dall'accertamento: è shock, raccomandazione forte. Almeno 30 mL/kg di cristallode endovena entro le prime 3 ore, non entro 1 ora: è quello che scrive la versione 2021. Noradrenalina come vasopressore di prima linea, obiettivo iniziale di pressione arteriosa media 65 mmHg. Misurare il lattato. Controllo della fonte: il catetere è la diagnosi anatomica di questo caso; il PDF non nomina il catetere vescicale. Ricovero in area critica. Parlare alla figlia e nominare la paura.",
+  "goldStandardPath": ["emocolture", "lattati", "urinocoltura"],
+  "goldPathNarrative": "Riconoscere lo shock. Prelievi per emocoltura e urinocoltura, poi antibiotico subito. Cristalloidi, almeno 30 mL/kg entro 3 ore. Noradrenalina in infusione se serve il vasopressore, con obiettivo di pressione media 65 mmHg. Lattato. Non rimandare l'antibiotico all'antibiogramma. SPIKES con la figlia.",
+  "examLatencies": {
+    "emocolture": 20,
+    "lattati": 15,
+    "urinocoltura": 20,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "esordio",
+      "prompt": "Da quando è rallentata, ha febbre e da quante ore non urina?",
+      "critical": true,
+      "expectedKeywords": ["stamattina", "febbre", "urina", "catetere"],
+      "rationale": "Il cambiamento acuto, la febbre e l'anuria sono i dati di partenza. Le ore esatte di anuria non sono fissate e non vanno portate a 12."
+    },
+    {
+      "id": "allergie-farmaci",
+      "prompt": "Ha allergie ad antibiotici e quali farmaci prende a casa?",
+      "critical": true,
+      "expectedKeywords": ["allerg", "antibiot", "farmaci"],
+      "rationale": "L'allergia non è dichiarata. Va chiesta prima dell'empirico e non va inventata."
+    },
+    {
+      "id": "fonte",
+      "prompt": "Il catetere è a dimora? C'è un'altra fonte evidente, addome, polmone, cute?",
+      "critical": true,
+      "expectedKeywords": ["catetere", "fonte", "polmone", "addome"],
+      "rationale": "Il controllo della fonte chiede una diagnosi anatomica. Qui la fonte dichiarata è il catetere."
+    },
+    {
+      "id": "paura-figlia",
+      "prompt": "Che cosa la preoccupa di più in questo momento, per sua madre?",
+      "critical": true,
+      "expectedKeywords": ["preoccup", "paura", "madre", "morire"],
+      "rationale": "Elena non conversa. SPIKES si applica con la figlia."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Poco reattiva, cute fredda e sudata. Toni cardiaci tachicardici, soffi non descritti. Murmure vescicolare conservato, non un focus polmonare. Addome trattabile. Catetere vescicale a dimora, sacchetto vuoto. Non edemi. La figlia è accanto a lei."
+  },
+  "escCitations": [
+    {
+      "chunkId": "ssc-2021-antimicrobici-1-ora",
+      "source": "knowledge_base/medicina_interna/clinical/IT_SSC21_SurvivingSepsisCampain21.pdf",
+      "quote": "raccomandiamo la somministrazione immediata di antimicrobici, idealmente entro 1 ora dall'accertamento. Raccomandazione forte, evidenze di bassa qualità (shock settico) Raccomandazione forte, evidenze di qualità molto bassa (sepsi senza shock)"
+    },
+    {
+      "chunkId": "ssc-2021-colture",
+      "source": "knowledge_base/medicina_interna/clinical/IT_SSC21_SurvivingSepsisCampain21.pdf",
+      "quote": "le colture microbiologiche di routine appropriate (compresa l'emocoltura) dovrebbero essere ottenute prima di iniziare la terapia in pazienti con sospetto di sepsi e shock settico qualora ciò non comporti un ritardo sostanziale nell'inizio degli (cioè <45 min)"
+    },
+    {
+      "chunkId": "ssc-2021-cristalloidi-30",
+      "source": "knowledge_base/medicina_interna/clinical/IT_SSC21_SurvivingSepsisCampain21.pdf",
+      "quote": "Per i pazienti con ipoperfusione indotta da sepsi o shock settico suggeriamo di somministrare almeno 30 mL/kg di liquido cristalloide per via intravenosa entro le prime 3 ore di rianimazione. Raccomandazione debole, evidenze di bassa qualità."
+    },
+    {
+      "chunkId": "ssc-2021-noradrenalina",
+      "source": "knowledge_base/medicina_interna/clinical/IT_SSC21_SurvivingSepsisCampain21.pdf",
+      "quote": "Per gli adulti con shock settico, raccomandiamo di usare la noradrenalina come agente di prima linea rispetto ad altri vasopressori. Raccomandazione forte"
+    },
+    {
+      "chunkId": "ssc-2021-pam-65",
+      "source": "knowledge_base/medicina_interna/clinical/IT_SSC21_SurvivingSepsisCampain21.pdf",
+      "quote": "Per gli adulti con shock settico con vasopressori, raccomandiamo un obiettivo iniziale di pressione arteriosa media (PAM) di 65 mm Hg rispetto a PAM superiori. Raccomandazione forte, evidenze di qualità moderata."
+    },
+    {
+      "chunkId": "ssc-2021-lattato",
+      "source": "knowledge_base/medicina_interna/clinical/IT_SSC21_SurvivingSepsisCampain21.pdf",
+      "quote": "Per gli adulti con sospetto di sepsi, suggeriamo di misurare il lattato nel sangue Raccomandazione debole, evidenze di bassa qualità. Il suo uso è attualmente raccomandato come parte del sepsis bundle SSC Hour-1 per i pazienti con sepsi, e un lattato elevato è parte della definizione di shock settico di Sepsis-3."
+    },
+    {
+      "chunkId": "ssc-2021-fonte",
+      "source": "knowledge_base/medicina_interna/clinical/IT_SSC21_SurvivingSepsisCampain21.pdf",
+      "quote": "Per gli adulti con sepsi o shock settico, raccomandiamo di identificare o escludere rapidamente una specifica diagnosi anatomica di infezione che richieda un controllo urgente della fonte e di implementare qualsiasi intervento di controllo della fonte richiesto non appena possibile dal punto di vista medico e logistico"
+    },
+    {
+      "chunkId": "empatia-spikes-emozione",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Emocolture e urinocoltura, poi antimicrobico entro l'ora dell'accertamento.",
+      "Almeno 30 mL/kg di cristallode entro 3 ore e noradrenalina con obiettivo di pressione media 65 mmHg.",
+      "Lattato misurato. Fonte: catetere vescicale.",
+      "Colloquio con la figlia sulla paura."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue i brani 2021 della Surviving Sepsis citati. I liquidi sono entro 3 ore, come nel testo. Nessun millilitro totale è calcolato perché il peso non c'è. Nessun germe è inventato.",
+      "legalCriteria": [
+        "Documentare pressione, lattato, anuria e catetere.",
+        "Registrare l'ora delle colture e dell'antimicrobico.",
+        "Registrare i cristalloidi e la noradrenalina con l'obiettivo di pressione media.",
+        "Annotare il colloquio con la figlia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "Emocolture",
+      "finding": "Prelievo da più siti prima dell'antibiotico. Nessun isolato è ancora refertato.",
+      "isAbnormal": true,
+      "priceEuro": 45,
+      "isFatal": false
+    },
+    {
+      "examId": "lattati",
+      "name": "Lattati",
+      "finding": "Lattati elevati, in linea con il quadro di shock. Nessun valore in mmol/L è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 5,
+      "isFatal": false
+    },
+    {
+      "examId": "urinocoltura",
+      "name": "Urinocoltura",
+      "finding": "Prelievo dal catetere inviato prima dell'antibiotico. Germe e antibiogramma non sono inventati.",
+      "isAbnormal": true,
+      "priceEuro": 20,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non entra nella rianimazione della prima ora di questo shock.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "priceEuro": 950,
+      "wasteRationale": "Con pressione 80/50 il tempo è per colture, antibiotico, cristalloidi e noradrenalina. La PET non è un controllo della fonte eseguibile subito."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "80/50",
+      "spo2": 94,
+      "temperature": 38.5,
+      "respiratoryRate": 26
+    },
+    "examBudgetEuro": 90,
+    "demographics": {
+      "age": 82,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
+    "advancedExams": {
+      "values": {
+        "emocolture": {
+          "finding": "Inviate prima dell'antibiotico. Nessun isolato inventato.",
+          "isAbnormal": true,
+          "price": 45
+        },
+        "lattati": {
+          "finding": "Elevati, senza mmol/L fissati.",
+          "isAbnormal": true,
+          "price": 5
+        },
+        "urinocoltura": {
+          "finding": "Inviata. Nessun germe inventato.",
+          "isAbnormal": true,
+          "price": 20
+        },
+        "pet-tc": {
+          "finding": "Esame non indicato nella rianimazione iniziale.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "id": "cristalloidi",
+          "label": "Cristalloidi endovena",
+          "aliases": ["soluzione fisiologica", "sodio cloruro", "ringer", "cristalloidi", "fluidi endovena"],
+          "validDosages": ["In infusione continua"]
+        },
+        {
+          "id": "noradrenalina",
+          "label": "Noradrenalina",
+          "aliases": ["noradrenalina", "norepinefrina"],
+          "validDosages": ["In infusione continua"]
+        },
+        {
+          "label": "Un antimicrobico empirico immediato",
+          "anyOf": [
+            {
+              "id": "piperacillina",
+              "label": "Piperacillina/tazobactam",
+              "aliases": ["piperacillina", "tazobactam", "tazocin"]
+            },
+            {
+              "id": "meropenem",
+              "label": "Meropenem",
+              "aliases": ["meropenem", "merrem"]
+            },
+            {
+              "id": "imipenem",
+              "label": "Imipenem",
+              "aliases": ["imipenem"]
+            },
+            {
+              "id": "ceftriaxone",
+              "label": "Ceftriaxone",
+              "aliases": ["ceftriaxone", "rocefin"]
+            },
+            {
+              "id": "ciprofloxacina",
+              "label": "Ciprofloxacina",
+              "aliases": ["ciprofloxacina", "ciproxin"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Colture, poi un antimicrobico senza aspettare l'antibiogramma.",
+        "Cristalloidi in infusione e noradrenalina in infusione.",
+        "Lattato richiesto.",
+        "Fonte riconosciuta: catetere. Colloquio con la figlia."
+      ],
+      "penalties": [
+        {
+          "id": "niente-antibiotico",
+          "kind": "clinical_grave",
+          "trigger": "Nessun antimicrobico nello shock, in attesa del referto colturale."
+        },
+        {
+          "id": "niente-liquidi",
+          "kind": "clinical_grave",
+          "trigger": "Nessun cristallode per l'ipoperfusione, con la sola motivazione dell'anuria."
+        },
+        {
+          "id": "dopamina-prima-linea",
+          "kind": "clinical",
+          "trigger": "Dopamina o adrenalina al posto della noradrenalina, che il testo indica come prima linea quando è disponibile."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "frameworkRequested": "SPIKES",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Elena non sostiene il colloquio. Con la figlia: dire che è uno shock, nominare la paura e chiedere che cosa la preoccupa.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "I cristalloidi sono almeno 30 mL/kg entro 3 ore. Il testo 2021 non dice entro 1 ora per i liquidi. L'ora riguarda gli antimicrobici. Il bundle Hour-1 è nominato per il lattato.",
+        "Nel text layer la frase sulle colture si interrompe dopo «nell'inizio degli» e poi compare «(cioè <45 min)». La parola mancante non è stata ricostruita.",
+        "Tra la raccomandazione sul lattato e la frase sull'Hour-1 il PDF ha un inciso sulla associazione del lattato con la mortalità. I numeri di bibliografia non sono stati copiati.",
+        "La noradrenalina è la prima linea. Dopamina e adrenalina sono alternative se la noradrenalina non è disponibile. Qui si considera disponibile.",
+        "Il controllo della fonte non nomina il catetere vescicale. Il catetere è la fonte di questo caso.",
+        "Nessuna molecola antibiotica è nel brano citato. Il caso accetta un empirico tra piperacillina/tazobactam, meropenem, imipenem, ceftriaxone e ciprofloxacina. Il peso non c'è: i 30 mL/kg non sono convertiti in un volume.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "In shock, poco reattiva, non racconta. La storia la dà la figlia, che è spaventata. Il medico parla anche a Elena con frasi corte e chiede alla figlia che cosa la preoccupa."
+  }
+}

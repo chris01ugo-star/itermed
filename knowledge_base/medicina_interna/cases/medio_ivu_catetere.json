@@ -1,0 +1,277 @@
+{
+  "id": "INTMED-013",
+  "code": "INTMED-013",
+  "title": "Donna di 78 anni con catetere vescicale, febbre e confusione ipoattiva",
+  "description": "Adele, 78 anni, portatrice di catetere vescicale a dimora, arriva in pronto soccorso perché da oggi è rallentata, sonnolenta e poco reattiva. La figlia dice che ieri era lucida. Parametri: PA 112/68 mmHg, FC 104 bpm, FR 20 atti/min, SpO2 96% in aria ambiente, temperatura 38.8. Non è in shock.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "condition": "Infezione urinaria complicata da catetere, con febbre e confusione ipoattiva",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "IT_SSC21_SurvivingSepsisCampain21.pdf; PNCAR_2022-2025.pdf",
+  "diagnosis": "Sospetta sepsi a partenza urinaria in donna con catetere, febbre 38.8 e confusione ipoattiva di nuovo esordio. Non è shock settico: la pressione è 112/68 mmHg. Non è una batteriuria senza sintomi sistemici.",
+  "pastMedicalHistory": "Catetere vescicale a dimora. Da quanto tempo è posizionato non è dichiarato. Ieri era lucida, secondo la figlia. Non è nota una allergia antibiotica. Non è ipotesa. Non si descrive un dolore lombare né un addome peritonitico.",
+  "presentation": "È ipoattiva: risponde a ritardo, non racconta i sintomi, tiene gli occhi semichiusi. Temperatura 38.8. Il catetere è in sede. La figlia riferisce un cambiamento acuto rispetto a ieri. Non c'è ipotensione. Chi la visita senza parlare con la figlia può scambiare il rallentamento per «è anziana» e il catetere per una batteriuria da non trattare.",
+  "redHerrings": [
+    "Un collega suggerisce di non dare antibiotici perché «i cateteri sono sempre colonizzati» e la paziente non si lamenta."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "Sono la figlia di Adele. Mia madre ha 78 anni, ha il catetere e da stamattina non mi risponde come al solito: ieri era lucida, oggi è assente e ha la febbre alta. Lei non vi racconta niente, non perché non voglia, ma perché è rallentata. Non mandatela a casa dicendo che è normale per il catetere. Spiegate anche a lei, con calma, che cosa state facendo.",
+  "correctSolution": "Non è una batteriuria asintomatica: ci sono febbre 38.8 e confusione nuova. Emocromo e PCR mostrano un quadro infiammatorio senza numeri inventati. Prima dell'antibiotico, senza ritardare in modo sostanziale, urinocoltura e emocoltura: il brano della Surviving Sepsis sulle colture, emocoltura compresa, è scritto per il sospetto di sepsi e di shock settico. Qui c'è sospetto di sepsi, non shock. Poi un solo antibiotico empirico, da rivalutare sull'antibiogramma che non è ancora disponibile e di cui non si inventa il germe. Il PNCAR definisce la stewardship come scelta, dose, via e durata appropriate: non è citata una molecola. Errore: dimettere senza antibiotico perché «il catetere colonizza». Il PDF CAM-ICU non ha testo estraibile: la confusione ipoattiva è clinica, non un punteggio CAM. Parlare anche a lei, piano, e chiedere alla figlia che cosa le preoccupa.",
+  "goldStandardPath": ["emocromo", "pcr-pct", "urinocoltura", "emocolture"],
+  "goldPathNarrative": "Riconoscere febbre e confusione nuova, non una colonizzazione silente. Chiedere emocromo, PCR, urinocoltura ed emocoltura prima di iniziare un solo antibiotico empirico. Non dimettere senza terapia. Il CAM-ICU non è citabile. Con Adele rallentata, spiegare in modo semplice e usare SPIKES con la figlia sulla preoccupazione.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pcr-pct": 60,
+    "urinocoltura": 2880,
+    "emocolture": 2880,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "cambiamento-acuto",
+      "prompt": "Fino a ieri era lucida? Da quando è rallentata e ha febbre?",
+      "critical": true,
+      "expectedKeywords": ["ieri", "lucida", "rallent", "febbre"],
+      "rationale": "La confusione è acuta. Senza la figlia si perde il dato e si rischia di chiamarla batteriuria asintomatica."
+    },
+    {
+      "id": "catetere",
+      "prompt": "Il catetere è a dimora? Ha dolore ai fianchi, brividi, o una allergia ad antibiotici?",
+      "critical": true,
+      "expectedKeywords": ["catetere", "allerg", "fianchi", "brividi"],
+      "rationale": "Il catetere è la fonte possibile. Allergia e dolore lombare non sono dichiarati e non vanno inventati."
+    },
+    {
+      "id": "shock",
+      "prompt": "La pressione è bassa, è sudata, respira male?",
+      "critical": true,
+      "expectedKeywords": ["pressione", "sudat", "respiro"],
+      "rationale": "PA 112/68 e FR 20: non è lo shock settico nominato nello stesso brano della Surviving Sepsis."
+    },
+    {
+      "id": "figlia",
+      "prompt": "Che cosa preoccupa la figlia, e Adele riesce a dire che cosa la spaventa?",
+      "critical": true,
+      "expectedKeywords": ["figlia", "preoccup", "spavent", "madre"],
+      "rationale": "SPIKES con chi può rispondere, senza smettere di rivolgersi anche a Adele."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ipoattiva, risponde a ritardo, non oppositiva. Toni cardiaci ritmici, tachicardici, soffi non descritti. Murmure vescicolare conservato, non dispnea. Addome trattabile, non dolente, senza dolore lombare alla palpazione descritto. Catetere vescicale a dimora, urine nel sacchetto non descritte come ematiche. Cute calda per la febbre, pressione conservata."
+  },
+  "escCitations": [
+    {
+      "chunkId": "ssc-2021-colture",
+      "source": "knowledge_base/medicina_interna/clinical/IT_SSC21_SurvivingSepsisCampain21.pdf",
+      "quote": "Come dichiarazione di buona pratica, abbiamo raccomandato che le colture microbiologiche di routine appropriate (compresa l’emocoltura) dovrebbero essere ottenute prima di iniziare la terapia in pazienti con sospetto di sepsi e shock settico qualora ciò non comporti un ritardo sostanziale nell’inizio degli"
+    },
+    {
+      "chunkId": "ssc-2021-sospensione",
+      "source": "knowledge_base/medicina_interna/clinical/IT_SSC21_SurvivingSepsisCampain21.pdf",
+      "quote": "fortemente incoraggiati a sospendere gli antimicrobici in caso di sindrome non infettiva (o di una sindrome infettiva che non trae beneficio dagli antimicrobici) accertata o fortemente sospetta."
+    },
+    {
+      "chunkId": "pncar-stewardship",
+      "source": "knowledge_base/medicina_interna/legal/PNCAR_2022-2025.pdf",
+      "quote": "la antimicrobial stewardship (stewardship antibiotica) si riferisce agli interventi che mirano a promuovere e guidare l'uso ottimale degli antibiotici, inclusi la scelta del farmaco, il suo dosaggio, la sua via di somministrazione e la durata della somministrazione."
+    },
+    {
+      "chunkId": "empatia-spikes-emozione",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Riconoscere febbre e confusione nuova: non è una batteriuria senza sintomi sistemici.",
+      "Emocromo, PCR, urinocoltura ed emocoltura prima dell'antibiotico.",
+      "Un solo antibiotico empirico, in attesa dell'antibiogramma non ancora disponibile.",
+      "Non dimettere. Parlare a Adele e alla figlia."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Le colture prima della terapia seguono il brano della Surviving Sepsis sul sospetto di sepsi. Il caso non è shock settico. Nessun germe e nessuna MIC sono inventati. Il CAM-ICU non è citato perché il PDF non ha testo.",
+      "legalCriteria": [
+        "Documentare febbre, cambiamento acuto dello stato mentale e presenza del catetere.",
+        "Registrare urinocoltura ed emocoltura prelevate prima dell'antibiotico.",
+        "Prescrivere un solo empirico e scrivere che l'antibiogramma non è ancora pronto.",
+        "Annotare il colloquio con la figlia e il tentativo di parlare con Adele."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Leucocitosi, senza un valore di globuli bianchi fissato. Non è riportata una piastrinopenia.",
+      "isAbnormal": true,
+      "priceEuro": 4.8,
+      "isFatal": false
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "PCR e procalcitonina",
+      "finding": "PCR elevata. La procalcitonina non ha un numero e non è il criterio decisionale di questo caso.",
+      "isAbnormal": true,
+      "priceEuro": 28,
+      "isFatal": false
+    },
+    {
+      "examId": "urinocoltura",
+      "name": "Urinocoltura con antibiogramma",
+      "finding": "Prelievo inviato prima dell'antibiotico. Germe e antibiogramma non sono ancora disponibili e non sono inventati.",
+      "isAbnormal": true,
+      "priceEuro": 20,
+      "isFatal": false
+    },
+    {
+      "examId": "emocolture",
+      "name": "Emocolture",
+      "finding": "Prelievo da più siti, inviato prima dell'antibiotico. Nessun isolato è ancora refertato.",
+      "isAbnormal": true,
+      "priceEuro": 45,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non entra nel primo approccio a febbre e confusione con catetere vescicale.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "priceEuro": 950,
+      "wasteRationale": "Il primo passo è il laboratorio infiammatorio e le colture, poi un antibiotico. La PET non distingue la colonizzazione del catetere dalla sepsi urinaria."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 104,
+      "bloodPressure": "112/68",
+      "spo2": 96,
+      "temperature": 38.8,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 120,
+    "demographics": {
+      "age": 78,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
+    "systemicSigns": {
+      "fever": true,
+      "newConfusion": true,
+      "shock": false
+    },
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Leucocitosi senza numero fissato.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pcr-pct": {
+          "finding": "PCR elevata. Procalcitonina senza numero.",
+          "isAbnormal": true,
+          "price": 28
+        },
+        "urinocoltura": {
+          "finding": "In corso. Nessun germe inventato.",
+          "isAbnormal": true,
+          "price": 20
+        },
+        "emocolture": {
+          "finding": "In corso, prelievo prima dell'antibiotico. Nessun isolato inventato.",
+          "isAbnormal": true,
+          "price": 45
+        },
+        "pet-tc": {
+          "finding": "Esame non indicato nel primo approccio.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Un antibiotico empirico, in attesa dell'antibiogramma",
+          "anyOf": [
+            {
+              "id": "ceftriaxone",
+              "label": "Ceftriaxone",
+              "aliases": ["ceftriaxone", "rocefin"]
+            },
+            {
+              "id": "ciprofloxacina",
+              "label": "Ciprofloxacina",
+              "aliases": ["ciprofloxacina", "ciproxin"]
+            },
+            {
+              "id": "amoxicillina",
+              "label": "Amoxicillina con clavulanato",
+              "aliases": ["amoxicillina", "clavulanato", "augmentin"]
+            },
+            {
+              "id": "piperacillina",
+              "label": "Piperacillina/tazobactam",
+              "aliases": ["piperacillina", "tazobactam", "tazocin"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Emocromo, PCR, urinocoltura ed emocoltura prima dell'antibiotico.",
+        "Un solo antibiotico empirico, senza inventare il germe.",
+        "Non dimettere come batteriuria da catetere: ci sono febbre e confusione nuova.",
+        "Parlare a Adele e chiedere alla figlia che cosa la preoccupa."
+      ],
+      "penalties": [
+        {
+          "id": "niente-antibiotico",
+          "kind": "clinical_grave",
+          "trigger": "Nessun antibiotico, con la motivazione che il catetere è solo colonizzato, nonostante febbre 38.8 e confusione nuova."
+        },
+        {
+          "id": "antibiotico-senza-colture",
+          "kind": "clinical",
+          "trigger": "Antibiotico iniziato senza urinocoltura ed emocoltura, potendo prelevarle senza un ritardo sostanziale."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "frameworkRequested": "SPIKES",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Rivolgersi anche a Adele, con frasi brevi. Con la figlia, nominare la paura e chiedere che cosa la preoccupa. Non trattare il silenzio ipoattivo come rifiuto.",
+        "verbatimNurseQuote": null,
+        "camIcu": null
+      },
+      "citationLimits": [
+        "Il PDF 8 CAM-ICU.pdf contiene 27 caratteri non leggibili. Nessun criterio CAM è citato. La confusione ipoattiva è il quadro clinico, non un punteggio.",
+        "La frase sulle colture si interrompe nel text layer dopo «nell’inizio degli». Non è stata ricostruita la parola mancante né la clausola dei 45 minuti.",
+        "Lo stesso brano nomina sepsi e shock settico. Qui la pressione è 112/68: è sospetto di sepsi, non shock.",
+        "La frase che invita a sospendere gli antimicrobici vale per una sindrome non infettiva o che non ne trae beneficio. Febbre e confusione nuova escludono questo caso da quella sospensione. Il PDF non nomina la batteriuria asintomatica.",
+        "Emocromo e PCR sono nel percorso chiesto. La Surviving Sepsis estratta non fissa una soglia di PCR.",
+        "Il PNCAR non nomina una molecola. Un solo farmaco tra ceftriaxone, ciprofloxacina, amoxicillina/clavulanato e piperacillina/tazobactam soddisfa l'empirico. L'antibiogramma non esiste ancora.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Delirium ipoattivo: rallentata, non racconta, non si oppone. La storia del cambiamento acuto la dà la figlia. Bisogna parlare anche a Adele, con frasi corte, e chiedere alla figlia che cosa la preoccupa."
+  }
+}

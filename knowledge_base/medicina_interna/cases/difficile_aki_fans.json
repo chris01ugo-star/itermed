@@ -2,7 +2,7 @@
   "id": "INTMED-003",
   "code": "INTMED-003",
   "title": "Muratore di 52 anni con cefalea, oliguria e pressione 195/115 dopo FANS",
-  "description": "Giorgio, 52 anni, muratore, arriva in pronto soccorso testardo e abituato a curarsi da solo il mal di schiena. Sminuisce i rischi dei farmaci da banco. Ha cefalea pulsante, nausea e urina pochissimo da 24 ore. Nell'ultima settimana ha preso molte bustine di FANS, diclofenac o ibuprofene, per una lombalgia severa. Parametri: PA 195/115 mmHg, FC 88 bpm, FR 18 atti/min, SpO2 98%. Non ha edemi declivi marcati. Le mucose sono asciutte. La temperatura non è tra i dati forniti.",
+  "description": "Giorgio, 52 anni, muratore, arriva in pronto soccorso testardo e abituato a curarsi da solo il mal di schiena. Sminuisce i rischi dei farmaci da banco. Ha cefalea pulsante, nausea e urina pochissimo da 24 ore. Nell'ultima settimana ha preso molte bustine di FANS, diclofenac o ibuprofene, per una lombalgia severa. Parametri: PA 195/115 mmHg, FC 88 bpm, FR 18 atti/min, SpO2 98%, temperatura 36.5°C. Non ha edemi declivi marcati. Le mucose sono asciutte.",
   "difficulty": "HARD",
   "specialty": "medicina_interna",
   "specialtyLabel": "Medicina Interna",
@@ -13,7 +13,7 @@
   "setting": "PRONTO_SOCCORSO",
   "guidelineRef": "KDIGO-2024-CKD-Guideline-Executive-Summary_Italian.pdf",
   "diagnosis": "Danno renale acuto tossico/pre-renale da FANS e disidratazione lieve, con crisi ipertensiva 195/115 mmHg. Non è un'ostruzione urinaria.",
-  "pastMedicalHistory": "Muratore. Lombalgia severa nell'ultima settimana, trattata con molte bustine di FANS da banco (diclofenac o ibuprofene). Non sono forniti creatinina di base, terapia antipertensiva domiciliare, gastroprotezione, allergie né durata nota di ipertensione. La temperatura non è un dato del caso.",
+  "pastMedicalHistory": "Muratore. Lombalgia severa nell'ultima settimana, trattata con molte bustine di FANS da banco (diclofenac o ibuprofene). Non sono forniti creatinina di base, terapia antipertensiva domiciliare, gastroprotezione, allergie né durata nota di ipertensione.",
   "presentation": "Da 24 ore urina pochissimo. Ha cefalea pulsante e nausea. Dice che le bustine per la schiena non sono un problema. È resistente al ricovero. All'esame le mucose sono asciutte e non ci sono edemi declivi marcati. PA 195/115 mmHg, FC 88 bpm, FR 18, SpO2 98%.",
   "redHerrings": [],
   "timeLimitMinutes": 40,
@@ -180,7 +180,7 @@
       "heartRate": 88,
       "bloodPressure": "195/115",
       "spo2": 98,
-      "temperature": "non misurata",
+      "temperature": 36.5,
       "respiratoryRate": 18
     },
     "examBudgetEuro": 90,
@@ -305,8 +305,7 @@
         "Il punto pratico 1.2.2.1 sulla creatinina serve alla stima del GFR nella CKD. Il caso lo usa come esame, senza assegnare un numero.",
         "La ESC 2024 dice anche che in alcune emergenze ipertensive un ACE-inibitore o un sartano orale a bassa dose, in ospedale, può essere efficace. In questo caso restano controindicati per l'AKI, l'oliguria e la disidratazione.",
         "La frase su labetalolo o nicardipina endovena in questo PDF è nel capitolo della gravidanza e non è citata come indicazione per Giorgio.",
-        "knowledge_base/medicina_interna/economic/nota aifa 66.pdf non ha uno strato di testo: nessuna frase sulla gastroprotezione o sul rene è stata estratta.",
-        "La temperatura non è nei parametri del brief e non è stata inventata."
+        "knowledge_base/medicina_interna/economic/nota aifa 66.pdf non ha uno strato di testo: nessuna frase sulla gastroprotezione o sul rene è stata estratta."
       ]
     }
   },

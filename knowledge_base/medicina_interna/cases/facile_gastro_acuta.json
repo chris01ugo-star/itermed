@@ -1,0 +1,168 @@
+{
+  "id": "INTMED-005",
+  "code": "INTMED-005",
+  "title": "Ragazzo di 22 anni con vomito e diarrea",
+  "description": "Luca, 22 anni, arriva spaventato in pronto soccorso per vomito e diarrea da un giorno. Non riferisce sangue. Parametri: PA 112/70 mmHg, FC 100 bpm, FR 18 atti/min, SpO2 98%, temperatura 36.8.",
+  "difficulty": "EASY",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "condition": "Gastroenterite acuta non settica",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+  "diagnosis": "Gastroenterite acuta con perdita di liquidi, senza segni di sepsi.",
+  "pastMedicalHistory": "Nessuna malattia cronica dichiarata, nessun viaggio, nessun antibiotico già assunto. Non c'è sangue nelle feci nel racconto di partenza. La temperatura è 36.8.",
+  "presentation": "Vomita e ha diarrea da circa un giorno. È spaventato, chiede se finirà in ospedale per giorni e se gli serve un antibiotico. Le mucose sono lievemente asciutte. La pressione è mantenuta.",
+  "redHerrings": [],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Mi chiamo Luca, ho 22 anni. Da ieri vomito e ho diarrea, sono spaventato e non so se è grave. Non ho visto sangue. Ho sete. Ditemi che cosa mi succede senza farmi più paura, e ditemi se devo bere o se mi serve una medicina forte.",
+  "correctSolution": "Reidratare. Non prescrivere antibiotici: non c'è febbre alta, sangue o sepsi nei dati del caso. Controllare elettroliti e creatinina, senza numeri fissati. Spiegare a Luca, nominando la paura, che il primo gesto è reintegrare i liquidi. Nel knowledge base non c'è una linea guida sulla gastroenterite acuta: questa scelta non è coperta da una citazione clinica.",
+  "goldStandardPath": ["elettroliti", "creat-urea-gfr"],
+  "goldPathNarrative": "Elettroliti e creatinina, poi liquidi. Niente antibiotico. Dire a Luca che la paura è comprensibile e che il piano è bere o ricevere liquidi, non una terapia antibiotica.",
+  "examLatencies": {
+    "elettroliti": 40,
+    "creat-urea-gfr": 40,
+    "emocolture": 1440
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "perdite",
+      "prompt": "Da quante ore vomita e quante scariche di diarrea ha avuto? C'è sangue?",
+      "critical": true,
+      "expectedKeywords": ["vomito", "diarrea", "sangue", "ore"],
+      "rationale": "Fissa l'esordio di un giorno e l'assenza di sangue dichiarata."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la spaventa di più in questo momento?",
+      "critical": true,
+      "expectedKeywords": ["paura", "spavent", "ospedale", "grave"],
+      "rationale": "Luca è spaventato: va nominata la paura prima della spiegazione."
+    },
+    {
+      "id": "liquidi",
+      "prompt": "Riesce a bere? Ha sete o crampi?",
+      "critical": true,
+      "expectedKeywords": ["bere", "sete", "liquidi", "crampi"],
+      "rationale": "Orienta la reidratazione senza inventare un segno di shock."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Spaventato, chiede se è grave. Mucose lievemente asciutte. Toni ritmici, soffi assenti. Murmure vescicolare. Addome trattabile, non dolente, con borborigmi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "empatia-spikes-paura-luca",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Reidratare. Non iniziare un antibiotico.",
+      "Elettroliti e creatinina, senza inseguire una sepsi assente.",
+      "Nominare la paura di Luca prima di spiegare il piano."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Non esiste nel knowledge base una linea guida sulla gastroenterite acuta. L'astensione dall'antibiotico è la regola di questo caso, non una frase copiata da un PDF. L'unica citazione è il protocollo SPIKES.",
+      "legalCriteria": [
+        "Documentare lo stato di idratazione, gli elettroliti e la creatinina.",
+        "Motivare perché non si prescrive un antibiotico.",
+        "Registrare la spiegazione data a Luca."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici",
+      "finding": "Elettroliti da reintegrare in base al referto. Nessun valore di sodio o potassio è fissato dal caso.",
+      "isAbnormal": false,
+      "priceEuro": 6.5,
+      "isFatal": false
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina e urea",
+      "finding": "Funzione renale richiesta nel vomito. Nessun valore di creatinina è fissato.",
+      "isAbnormal": false,
+      "priceEuro": 4.5,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "emocolture",
+      "name": "Emocolture",
+      "finding": "Non indicate: temperatura 36.8, pressione mantenuta, nessun segno di sepsi.",
+      "isAbnormal": false,
+      "priceEuro": 45,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Esame da sepsi, non da gastroenterite di un giorno senza febbre alta né instabilità."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 100,
+      "bloodPressure": "112/70",
+      "spo2": 98,
+      "temperature": 36.8,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 20,
+    "demographics": { "age": 22, "sex": "M", "context": "Pronto soccorso" },
+    "advancedExams": {
+      "values": {
+        "elettroliti": { "finding": "Referto senza numeri fissati di sodio e potassio.", "isAbnormal": false, "price": 6.5 },
+        "creat-urea-gfr": { "finding": "Creatinina senza valore numerico fissato.", "isAbnormal": false, "price": 4.5 },
+        "emocolture": { "finding": "Non indicate in questo quadro.", "isAbnormal": false, "price": 45 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "id": "reidratazione",
+          "label": "Reidratazione",
+          "aliases": ["soluzione fisiologica", "sodio cloruro", "ringer", "reidratazione", "soluzione reidratante"]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "antibiotico-gastro",
+          "label": "Antibiotico non indicato",
+          "aliases": ["amoxicillina", "ciprofloxacina", "azitromicina", "metronidazolo", "ceftriaxone", "levofloxacina"]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": ["Liquidi.", "Niente antibiotico.", "Elettroliti e creatinina.", "Nominare la paura."],
+      "penalties": [
+        {
+          "id": "antibiotico",
+          "kind": "clinical_stewardship",
+          "trigger": "Antibiotico in vomito e diarrea senza sangue, senza febbre alta e senza sepsi."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Dire a Luca che si vede che è spaventato e chiedergli che cosa teme, poi spiegare la reidratazione.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "Nessun PDF del knowledge base tratta la gastroenterite acuta non complicata. Non è stata inventata una citazione su antibiotici o sali di reidratazione.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Spaventato dal vomito. Chiede se gli serve un antibiotico. Si calma se il medico nomina la paura, gli chiede che cosa teme e gli spiega che il primo passo sono i liquidi."
+  }
+}

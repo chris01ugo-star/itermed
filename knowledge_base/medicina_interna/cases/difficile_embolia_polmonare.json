@@ -1,0 +1,261 @@
+{
+  "id": "INTMED-015",
+  "code": "INTMED-015",
+  "title": "Uomo di 55 anni con dispnea improvvisa, sincope e pressione 85/60",
+  "description": "Davide, 55 anni, ha una dispnea improvvisa e perde coscienza per meno di un minuto. All'arrivo è sudato, confuso, senza fiato. Parametri: PA 85/60 mmHg, FC 128 bpm, FR 32 atti/min, SpO2 84% in aria ambiente, temperatura 36.6. Non ha un'aritmia di nuova insorgenza come causa della pressione, né una sepsi.",
+  "difficulty": "HARD",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": ["pneumologia", "cardiologia"],
+  "condition": "Embolia polmonare ad alto rischio, con instabilità emodinamica",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ehz405.pdf",
+  "diagnosis": "Embolia polmonare ad alto rischio. Pressione sistolica 85 mmHg, sincope, ipossia grave. Non è un'embolia a rischio intermedio.",
+  "pastMedicalHistory": "Nessuna controindicazione alla trombolisi è dichiarata: niente chirurgia recente, niente ictus, niente emorragia in atto. Non è in anticoagulante. Non è nota una neoplasia. Un viaggio lungo o un allettamento non sono nel brief e non vanno inventati. Dopo la sincope è rinvenuto, confuso e dispnoico.",
+  "presentation": "Dispnea a esordio brusco, poi sincope. Ora è freddo, sudato, pressione 85/60, saturazione 84%. È troppo instabile per rimandare la riperfusione a un iter lungo. L'ecocardiografia al letto, se mostra disfunzione del ventricolo destro, basta per la riperfusione. L'angio-TC è l'alternativa se è disponibile e fattibile.",
+  "redHerrings": [
+    "Chiede, appena rinviene, se è stato solo un calo di zucchero e se può firmare per andare a casa."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 10,
+  "patientPrompt": "Mi chiamo Davide, ho 55 anni. Di colpo non respiravo e sono caduto. Adesso ho ancora il fiatone e ho paura di morire. Non mandatemi a fare esami lunghi se potete capire subito che cosa ho. Ditemi che cosa succede e chiedetemi che cosa mi spaventa, ma non perdete tempo.",
+  "correctSolution": "Alto rischio: sistolica sotto 90 mmHg, non spiegata da aritmia nuova, ipovolemia o sepsi, con ipoperfusione (sincope, cute fredda). Diagnosi: ecocardiografia al letto oppure angio-TC in urgenza, in base a disponibilità e condizioni. In questo paziente instabile, la disfunzione destra all'eco basta per la riperfusione senza altri esami. Eparina non frazionata endovena subito, con bolo. Trombolisi sistemica raccomandata nell'alto rischio: rtPA, 100 mg in 2 ore è la modalità preferita nel testo; il simulatore non giudica i milligrammi. La noradrenalina o la dobutamina vanno considerate (classe IIa): non sono un obbligo di punteggio se eparina e trombolisi sono avviate. Niente dimissione. Dire la diagnosi e chiedere la paura.",
+  "goldStandardPath": ["ecocardio", "lattati"],
+  "goldPathNarrative": "Riconoscere l'instabilità. Eco al letto: disfunzione del ventricolo destro, senza misure inventate. L'angio-TC è l'alternativa se fattibile, non un obbligo quando l'eco già mostra la disfunzione destra. Eparina non frazionata endovena subito e trombolisi sistemica. Considerare noradrenalina o dobutamina. SPIKES sulla paura di morire.",
+  "examLatencies": {
+    "ecocardio": 10,
+    "lattati": 15,
+    "angio": 30,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "esordio-sincope",
+      "prompt": "Il fiatone è iniziato di colpo? Ha perso coscienza e per quanto?",
+      "critical": true,
+      "expectedKeywords": ["colpo", "coscienza", "sincope", "fiatone"],
+      "rationale": "Dispnea improvvisa e sincope sono il quadro di partenza dell'instabilità."
+    },
+    {
+      "id": "controindicazioni-lisi",
+      "prompt": "Ha avuto un ictus, un'operazione recente o un sanguinamento in corso?",
+      "critical": true,
+      "expectedKeywords": ["ictus", "oper", "sangue", "emorragia"],
+      "rationale": "Nessuna controindicazione è nel brief. Va chiesta e, se negata, non va inventata."
+    },
+    {
+      "id": "cause-alternative-shock",
+      "prompt": "Ha febbre, una aritmia nota da oggi, o ha perso molto sangue?",
+      "critical": true,
+      "expectedKeywords": ["febbre", "aritmia", "sangue"],
+      "rationale": "La definizione esclude la caduta di pressione da aritmia nuova, ipovolemia o sepsi. Qui non ci sono."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la preoccupa di più in questo momento?",
+      "critical": true,
+      "expectedKeywords": ["preoccup", "morire", "paura", "fiato"],
+      "rationale": "SPIKES, senza ritardare eparina e trombolisi."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Confuso dopo la sincope, sudato, cute fredda. Dispnea. Toni cardiaci tachicardici, soffi non descritti. Murmure vescicolare globale, senza un focus lobare. Giugulari non descritte con un numero. Non edemi cronici. Non segni di sanguinamento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "esc-2019-pe-instabilita",
+      "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
+      "quote": "Systolic BP < 90 mmHg or systolic BP drop >_40 mmHg, lasting longer than 15 min and not caused by new-onset arrhythmia, hypovolaemia, or sepsis And End-organ hypoperfusion (altered mental status; cold, clammy skin; oliguria/anuria; increased serum lactate)"
+    },
+    {
+      "chunkId": "esc-2019-pe-eco-ct",
+      "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
+      "quote": "In suspected high-risk PE, as indicated by the presence of haemodynamic instability, bedside echocardiography or emergency CTPA (depending on availability and clinical circumstances) is recommended for diagnosis. I C"
+    },
+    {
+      "chunkId": "esc-2019-pe-eco-riperfusione",
+      "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
+      "quote": "In a highly unstable patient, echocardiographic evidence of RV dysfunction is sufficient to prompt immediate reperfusion without further testing."
+    },
+    {
+      "chunkId": "esc-2019-pe-ufh",
+      "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
+      "quote": "It is recommended that i.v. anticoagulation with UFH, including a weight-adjusted bolus injection, be initiated without delay in patients with suspected high-risk PE. I C"
+    },
+    {
+      "chunkId": "esc-2019-pe-trombolisi",
+      "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
+      "quote": "Systemic thrombolytic therapy is recommended for high-risk PE. I B"
+    },
+    {
+      "chunkId": "esc-2019-pe-rtpa",
+      "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
+      "quote": "Accelerated i.v. administration of recombinant tissue-type plasminogen activator (rtPA; 100 mg over 2 h) is preferable to prolonged infusions of first-generation thrombolytic agents (streptokinase and urokinase)."
+    },
+    {
+      "chunkId": "esc-2019-pe-norepi",
+      "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
+      "quote": "Norepinephrine and/or dobutamine should be considered in patients with high-risk PE. IIa C"
+    },
+    {
+      "chunkId": "empatia-spikes-emozione",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Instabilità: sistolica 85 mmHg, sincope, cute fredda, saturazione 84%.",
+      "Eco al letto con disfunzione destra, sufficiente per la riperfusione. Angio-TC se fattibile, non al posto del trattamento.",
+      "Eparina non frazionata endovena subito e trombolisi sistemica.",
+      "Noradrenalina o dobutamina considerate, non sostitutive della trombolisi."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue i brani ESC 2019 estratti da ehz405.pdf. I file di sola dichiarazione di conflitti non sono citati. 100 mg in 2 ore è la preferenza del testo e non è un preset del simulatore.",
+      "legalCriteria": [
+        "Documentare pressione, sincope, saturazione e l'assenza di controindicazioni alla lisi.",
+        "Registrare l'eco al letto e la decisione sulla angio-TC.",
+        "Registrare eparina non frazionata e trombolitico sistemico.",
+        "Annotare la paura detta dal paziente, senza ritardare la riperfusione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecocardio",
+      "name": "Ecocardiografia al letto",
+      "finding": "Disfunzione del ventricolo destro. TAPSE, rapporto ventricolare e pressione polmonare stimata non hanno un numero fissato.",
+      "isAbnormal": true,
+      "priceEuro": 75,
+      "isFatal": false
+    },
+    {
+      "examId": "lattati",
+      "name": "Lattati",
+      "finding": "Lattati aumentati, come segno di ipoperfusione. Nessun valore in mmol/L è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 5,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non è l'esame diagnostico dell'embolia ad alto rischio.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "priceEuro": 950,
+      "wasteRationale": "Nel paziente instabile la diagnosi citata è l'eco al letto o l'angio-TC, e la riperfusione non aspetta una PET."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 128,
+      "bloodPressure": "85/60",
+      "spo2": 84,
+      "temperature": 36.6,
+      "respiratoryRate": 32
+    },
+    "examBudgetEuro": 450,
+    "demographics": {
+      "age": 55,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
+    "advancedExams": {
+      "values": {
+        "ecocardio": {
+          "finding": "Disfunzione del ventricolo destro, senza misure numeriche.",
+          "isAbnormal": true,
+          "price": 75
+        },
+        "lattati": {
+          "finding": "Aumentati, senza mmol/L fissati.",
+          "isAbnormal": true,
+          "price": 5
+        },
+        "angio": {
+          "finding": "Se eseguita ed è fattibile, difetto di riempimento polmonare. Non è obbligatoria se l'eco mostra già la disfunzione destra.",
+          "isAbnormal": true,
+          "price": 350
+        },
+        "pet-tc": {
+          "finding": "Esame non indicato.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "id": "ufh",
+          "label": "Eparina non frazionata endovena",
+          "aliases": ["eparina non frazionata", "eparina sodica", "ufh"],
+          "validDosages": ["1 fiala EV", "In infusione continua"]
+        },
+        {
+          "id": "alteplase",
+          "label": "Trombolisi sistemica con rtPA",
+          "aliases": ["alteplase", "actilyse", "rtpa", "rt-pa"]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Eco al letto con disfunzione destra, in paziente con sistolica 85 mmHg.",
+        "Eparina non frazionata endovena senza ritardo e trombolisi sistemica.",
+        "Angio-TC solo se disponibile e fattibile, non come ritardo della lisi.",
+        "Dire che cosa ha e chiedere la paura, senza dimetterlo."
+      ],
+      "penalties": [
+        {
+          "id": "niente-lisi",
+          "kind": "clinical_grave",
+          "trigger": "Alto rischio senza trombolisi sistemica, in assenza di controindicazioni."
+        },
+        {
+          "id": "solo-ebpm",
+          "kind": "clinical",
+          "trigger": "Solo eparina a basso peso molecolare, senza eparina non frazionata endovena e senza trombolisi."
+        },
+        {
+          "id": "dimissione",
+          "kind": "clinical_grave",
+          "trigger": "Dimissione dopo la sincope con pressione 85/60."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "frameworkRequested": "SPIKES",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Dire che si tratta di un'embolia grave, nominare la paura di morire e chiedere che cosa lo preoccupa, mentre partono eparina e trombolisi.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "Nel text layer il simbolo ≥ della caduta di 40 mmHg è stampato >_ . La citazione lo lascia così.",
+        "Eco e angio-TC sono in alternativa. In questo instabile l'eco con disfunzione destra basta per la riperfusione. L'angio-TC non è un esame la cui omissione è un errore.",
+        "100 mg di rtPA in 2 ore è la preferenza rispetto a streptochinasi e urochinasi. Il simulatore non giudica i milligrammi. Il bolo di eparina è nel testo e non ha un preset in unità.",
+        "Noradrenalina o dobutamina sono di classe IIa, da considerare. Non sono nello slot obbligatorio: eparina non frazionata e trombolisi sì.",
+        "I file ESC_2019_Pulmonary_Embolism_Guidelines.pdf e DOI_Summary_2019_ACUTE_PE.pdf estraggono solo conflitti di interessi. Le frasi vengono da ehz405.pdf.",
+        "Il lattato aumentato è nella definizione di ipoperfusione. Il numero in mmol/L non è nel brief e non è stato inventato.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Appena rinvenuto è spaventato e chiede di andare a casa. Se il medico gli dice che cosa ha, nomina la paura e non perde tempo sugli esami, accetta eparina e trombolisi."
+  }
+}

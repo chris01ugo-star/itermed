@@ -184,6 +184,10 @@ model ClinicalCase {
   /// Minutes without life-saving actions before patient deteriorates.
   patientDeteriorationThreshold Int?
 
+  /// Extra specialties retrieved with the primary one (comorbidities).
+  /// Slugs such as "cardiologia". Empty when the case is single-specialty.
+  secondarySpecialties String[] @default([])
+
   medicalSpecialtyId String?
   medicalSpecialty   MedicalSpecialty? @relation(fields: [medicalSpecialtyId], references: [id], onDelete: SetNull)
 

@@ -1,0 +1,182 @@
+{
+  "id": "INTMED-008",
+  "code": "INTMED-008",
+  "title": "Uomo di 45 anni con dolore in ipocondrio destro",
+  "description": "Paolo, 45 anni, arriva in pronto soccorso per un dolore a crampi sotto le costole di destra, dopo un pasto. Non ha febbre. Parametri: PA 138/86 mmHg, FC 102 bpm, FR 18 atti/min, SpO2 98%, temperatura 36.6.",
+  "difficulty": "EASY",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": ["gastroenterologia"],
+  "condition": "Colica biliare",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Tokyo_Guidelines_TG18_Cholecystitis.pdf",
+  "diagnosis": "Colica biliare da calcoli della colecisti, senza colecistite. Temperatura 36.6.",
+  "pastMedicalHistory": "Dolori simili non dichiarati in precedenza. Non è itterico nel racconto di partenza. Non prende già un antidolorifico in pronto soccorso. Non è descritta febbre a casa.",
+  "presentation": "Dolore a crampi in ipocondrio destro, iniziato dopo mangiato. È sofferente e chiede subito qualcosa per il dolore. L'addome è dolente in quel punto, senza difesa. La temperatura è 36.6.",
+  "redHerrings": [],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Mi chiamo Paolo, ho 45 anni. Ho un dolore forte sotto le costole di destra, a ondate, è iniziato dopo pranzo. Non ho febbre. Fatemi passare il dolore, per favore, e ditemi che esame serve. Se mi spiegate che cosa sta succedendo mentre mi fate la terapia, riesco a collaborare.",
+  "correctSolution": "Ecografia dell'addome: calcoli in colecisti, senza i segni di colecistite fissati dal caso. Analgesia con un FANS oppure uno spasmolitico. Il PDF Tokyo Guidelines 2018 è sui bundle di colangite e colecistite acute: dice di fare l'ecografia addominale e di dare analgesici, e nella stessa frase parla di antimicrobici e, dopo l'eco, di TC se serve. Qui la temperatura è 36.6 e il quadro è una colica, quindi antibiotico e TC non sono il percorso premiato e non sono nemmeno un errore automatico contro quel testo.",
+  "goldStandardPath": ["ecografia", "elettroliti"],
+  "goldPathNarrative": "Ecografia addominale e elettroliti. Poi un antidolorifico: FANS o spasmolitico. Parlare a Paolo del dolore mentre si imposta la terapia, chiedendo che cosa lo preoccupa.",
+  "examLatencies": {
+    "ecografia": 30,
+    "elettroliti": 40,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "sede-pasto",
+      "prompt": "Dov'è il dolore, è a crampi, ed è iniziato dopo un pasto?",
+      "critical": true,
+      "expectedKeywords": ["destra", "crampi", "pasto", "costole"],
+      "rationale": "Sede e rapporto con il pasto sono i dati della colica."
+    },
+    {
+      "id": "febbre-ittero",
+      "prompt": "Ha febbre, brividi, o ha notato gli occhi gialli?",
+      "critical": true,
+      "expectedKeywords": ["febbre", "brividi", "gialli", "ittero"],
+      "rationale": "La temperatura misurata è 36.6. Ittero e brividi non sono nel brief e non vanno dati per presenti."
+    },
+    {
+      "id": "dolore-vissuto",
+      "prompt": "Quanto è forte il dolore adesso e che cosa la preoccupa?",
+      "critical": true,
+      "expectedKeywords": ["dolore", "forte", "preoccup", "adesso"],
+      "rationale": "L'analgesia e la comunicazione partono dal dolore che Paolo sta sentendo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Sofferente, chiede un antidolorifico, collabora se gli si parla. Toni ritmici, tachicardici per il dolore, soffi assenti. Murmure vescicolare. Addome dolente in ipocondrio destro, senza difesa né peritonismo descritti."
+  },
+  "escCitations": [
+    {
+      "chunkId": "tg18-ecografia-addome",
+      "source": "knowledge_base/gastroenterologia/clinical/Tokyo_Guidelines_TG18_Cholecystitis.pdf",
+      "quote": "Perform abdominal US, followed by a CT scan, MRI, MRCP, and HIDA scan as required."
+    },
+    {
+      "chunkId": "tg18-analgesici",
+      "source": "knowledge_base/gastroenterologia/clinical/Tokyo_Guidelines_TG18_Cholecystitis.pdf",
+      "quote": "As soon as a diagnosis has been made, provide initial treatment. The treatment is as follows: sufficient fluid replacement, electrolyte compensation, and intravenous administration of analgesics and full-dose antimicrobial agents."
+    },
+    {
+      "chunkId": "empatia-spikes-paolo",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Ecografia addominale prima di chiudere la diagnosi.",
+      "Analgesia con FANS o spasmolitico.",
+      "Non trattare come una colecistite: temperatura 36.6, niente difesa."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Le frasi copiate sono dei bundle TG18 per colangite e colecistite acute. L'ecografia e gli analgesici si usano anche qui. Antimicrobici, liquidi e TC della stessa pagina non diventano obbligatori in questa colica senza febbre.",
+      "legalCriteria": [
+        "Documentare l'ecografia e la temperatura.",
+        "Registrare l'antidolorifico dato e la risposta.",
+        "Spiegare a Paolo il dolore mentre si avvia la terapia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecografia",
+      "name": "Ecografia addome",
+      "finding": "Calcoli della colecisti. Non sono descritti ispessimento di parete né diametro del coledoco.",
+      "isAbnormal": true,
+      "priceEuro": 55,
+      "isFatal": false
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici",
+      "finding": "Elettroliti richiesti. Nessun valore numerico è fissato dal caso.",
+      "isAbnormal": false,
+      "priceEuro": 6.5,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non indicata nel dolore biliare acuto.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Esame fuori dal percorso della colica. Il testo TG18, per la diagnosi, nomina l'ecografia e poi TC, RM, MRCP o HIDA se servono, non la PET."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "138/86",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 70,
+    "demographics": { "age": 45, "sex": "M", "context": "Pronto soccorso" },
+    "advancedExams": {
+      "values": {
+        "ecografia": { "finding": "Calcoli della colecisti, senza misure di parete o di coledoco fissate.", "isAbnormal": true, "price": 55 },
+        "elettroliti": { "finding": "Referto senza numeri fissati.", "isAbnormal": false, "price": 6.5 },
+        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Analgesia: un FANS oppure uno spasmolitico",
+          "anyOf": [
+            {
+              "id": "fans-colica",
+              "label": "FANS",
+              "aliases": ["ibuprofene", "diclofenac", "ketorolac", "ketoprofene", "fans"]
+            },
+            {
+              "id": "spasmolitico",
+              "label": "Spasmolitico",
+              "aliases": ["butilscopolamina", "scopolamina", "buscopan", "spasmolitico"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Ecografia con calcoli della colecisti.",
+        "FANS o spasmolitico.",
+        "Parlare del dolore mentre si dà l'analgesia."
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Riconoscere il dolore di Paolo e chiedergli che cosa lo preoccupa, senza rimandare la spiegazione a dopo l'analgesia.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "TG18 descrive i bundle della colangite e della colecistite acute, non una colica semplice.",
+        "La stessa frase degli analgesici prescrive anche liquidi, elettroliti e antimicrobici a dose piena. In questa colica senza febbre gli antimicrobici non sono il gold path.",
+        "La frase dell'ecografia aggiunge TC, RM, MRCP e HIDA se necessari. Non sono esami da penalizzare. È penalizzata la PET-TC, che quel testo non nomina.",
+        "Il PDF non nomina FANS né butilscopolamina. L'analgesia del caso usa quelle due classi come antidolorifici del brief.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Sofferente e impaziente per il dolore. Collabora se l'antidolorifico arriva insieme a una frase che riconosce il dolore e gli chiede che cosa lo preoccupa."
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "id": "INTMED-007",
+  "code": "INTMED-007",
+  "title": "Uomo di 28 anni con sibili dopo lo sforzo",
+  "description": "Marco, 28 anni, viene in ambulatorio perché dopo la corsa fischia e gli manca il fiato per pochi minuti. A riposo sta bene. Parametri: PA 122/74 mmHg, FC 84 bpm, FR 16 atti/min, SpO2 98%, temperatura 36.6.",
+  "difficulty": "EASY",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": ["pneumologia"],
+  "condition": "Asma lieve con broncocostrizione da sforzo",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "GINA_2024_Asthma_Guidelines.pdf",
+  "diagnosis": "Asma lieve con sintomi da sforzo. Non è un attacco grave.",
+  "pastMedicalHistory": "Sibili dopo la corsa, poi risoluzione. Non fuma nel racconto di partenza. Non usa già un inalatore. Nessun ricovero per asma è dichiarato.",
+  "presentation": "Dopo lo sforzo compaiono sibili e un fiatone breve. In ambulatorio è a riposo, parla a frasi intere, saturazione 98%. Collabora e vuole un inalatore che possa usare quando corre.",
+  "redHerrings": [],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Mi chiamo Marco, ho 28 anni. Quando corro mi fischia il petto e mi manca il fiato per qualche minuto, poi passa. Adesso, seduto, sto bene. Vorrei qualcosa da inalare prima o durante lo sport. Non voglio esami inutili se non servono.",
+  "correctSolution": "Spirometria. Broncodilatatore inalatorio: la GINA indica, nei sintomi infrequenti, ICS-formoterolo al bisogno, ICS-SABA al bisogno o ICS a bassa dose ogni giorno, e ricorda che il solo SABA lascia un rischio di attacchi gravi. Per questo caso va bene un inalatore con broncodilatatore; la preferenza scritta nella guida è l'associazione con corticosteroide. Non chiedere di routine RX torace né emogas. SpO2 98%, non c'è distress.",
+  "goldStandardPath": ["spirometria"],
+  "goldPathNarrative": "Spirometria, poi inalatore. Non RX torace e non emogas di routine. Spiegare a Marco che anche i sintomi solo da sforzo meritano un trattamento che riduce gli attacchi, non soltanto un sollievo momentaneo.",
+  "examLatencies": {
+    "spirometria": 30,
+    "rx-torace": 30,
+    "ega": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "sforzo",
+      "prompt": "I sibili arrivano durante o dopo la corsa, e in quanto tempo passano?",
+      "critical": true,
+      "expectedKeywords": ["corsa", "sforzo", "sibili", "minuti"],
+      "rationale": "Il dato di partenza è il wheezing post-sforzo, non un attacco a riposo."
+    },
+    {
+      "id": "inalatore",
+      "prompt": "Ha già usato un inalatore, anche di tanto in tanto?",
+      "critical": true,
+      "expectedKeywords": ["inalatore", "spray", "ventolin", "mai"],
+      "rationale": "Il caso non dichiara una terapia inalatoria già in corso."
+    },
+    {
+      "id": "riposo",
+      "prompt": "Adesso, a riposo, ha fiato corto o parla bene?",
+      "critical": true,
+      "expectedKeywords": ["riposo", "fiato", "parla", "bene"],
+      "rationale": "Conferma che non è un attacco in corso: saturazione 98% e FR 16."
+    }
+  ],
+  "physicalExam": {
+    "summary": "A riposo parla a frasi intere e collabora. Toni ritmici, soffi assenti. Sibili espiratori evocabili dallo sforzo; a riposo il murmure è conservato, senza distress. Addome trattabile, non dolente."
+  },
+  "escCitations": [
+    {
+      "chunkId": "gina-saba-versus-ics",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "people with infrequent or mild asthma symptoms can have severe or fatal exacerbations if they are treated only with SABA. Explain that treatment with as-needed low-dose ICS-formoterol, as-needed low-dose ICS-SABA or daily low-dose ICS reduces the risk of severe exacerbations by half to two-thirds, compared with SABA alone."
+    },
+    {
+      "chunkId": "gina-exercise-bronchoconstriction",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "ICS-containing medication markedly reduces risk of asthma hospitalizations and death. It is very effective in preventing severe exacerbations, reducing symptoms, improving lung function, and preventing exercise-induced bronchoconstriction, even in patients with mild asthma."
+    },
+    {
+      "chunkId": "gina-no-routine-cxr",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "Do not routinely perform chest X-ray or blood gases, or routinely prescribe antibiotics."
+    },
+    {
+      "chunkId": "empatia-spikes-marco",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Spirometria e inalatore, non una RX torace di routine.",
+      "Non emogas con SpO2 98% e assenza di distress.",
+      "Spiegare che i sintomi da sforzo non si trattano solo con un SABA isolato, se è disponibile un inalatore con ICS."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Le frasi copiate sono della sintesi GINA presente nel file GINA_2024_Asthma_Guidelines.pdf. Il divieto di RX e emogas di routine sta nel riquadro del trattamento acuto; qui si applica a un wheezing lieve da sforzo, a riposo.",
+      "legalCriteria": [
+        "Documentare spirometria e saturazione.",
+        "Motivare l'inalatore e l'astensione da RX torace ed emogas.",
+        "Spiegare a Marco la differenza tra sollievo e prevenzione degli attacchi."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "spirometria",
+      "name": "Spirometria",
+      "finding": "Ostruzione lieve, coerente con asma da sforzo. Nessun valore di FEV1 è fissato dal caso.",
+      "isAbnormal": true,
+      "priceEuro": 25,
+      "isFatal": false
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Nella norma. Nessun numero è fissato. Non cambia la scelta dell'inalatore.",
+      "isAbnormal": false,
+      "priceEuro": 4.8,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX torace",
+      "finding": "Non indicata di routine: a riposo SpO2 98%, niente distress.",
+      "isAbnormal": false,
+      "priceEuro": 25,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "La sintesi GINA dice di non eseguire di routine la RX torace. In questo wheezing da sforzo, a riposo, non aggiunge nulla alla scelta dell'inalatore."
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "Non indicata di routine con SpO2 98% e FR 16.",
+      "isAbnormal": false,
+      "priceEuro": 10,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "La stessa frase GINA sconsiglia gli emogas di routine. Qui non c'è insufficienza respiratoria."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 84,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 35,
+    "demographics": { "age": 28, "sex": "M", "context": "Ambulatorio" },
+    "advancedExams": {
+      "values": {
+        "spirometria": { "finding": "Ostruzione lieve, senza FEV1 numerico fissato.", "isAbnormal": true, "price": 25 },
+        "emocromo": { "finding": "Nella norma, senza numeri fissati.", "isAbnormal": false, "price": 4.8 },
+        "rx-torace": { "finding": "Non indicato di routine.", "isAbnormal": false, "price": 25 },
+        "ega": { "finding": "Non indicato di routine.", "isAbnormal": false, "price": 10 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Inalatore con broncodilatatore",
+          "anyOf": [
+            {
+              "id": "ics-formoterolo",
+              "label": "ICS-formoterolo inalatorio",
+              "aliases": ["formoterolo", "budesonide", "symbicort", "foster", "ics-formoterolo"]
+            },
+            {
+              "id": "salbutamolo",
+              "label": "Salbutamolo inalatorio",
+              "aliases": ["salbutamolo", "ventolin", "saba", "broncodilatatore"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Spirometria.",
+        "Inalatore: preferibilmente ICS-formoterolo al bisogno; anche il salbutamolo soddisfa il brief del broncodilatatore.",
+        "Niente RX torace né emogas di routine."
+      ],
+      "penalties": [
+        {
+          "id": "rx-torace",
+          "kind": "economic",
+          "trigger": "RX torace di routine nel wheezing lieve da sforzo, a riposo."
+        },
+        {
+          "id": "ega",
+          "kind": "economic",
+          "trigger": "Emogas di routine con SpO2 98%."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Chiedere a Marco che cosa lo preoccupa dello sport e spiegare l'inalatore senza allarmarlo.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "Il file si chiama GINA 2024; il testo estratto è la sintesi aggiornata 2026.",
+        "La frase su RX ed emogas sta nel riquadro del trattamento acuto, non in un capitolo sullo sforzo.",
+        "Il solo SABA, per la GINA, lascia un rischio di attacchi gravi. Il caso lo accetta comunque come broncodilatatore inalatorio richiesto dal brief, e indica l'ICS-formoterolo come scelta preferita nel testo.",
+        "L'emocromo non è richiesto da una frase GINA. È nel caso solo perché lo schema esige due esami; il referto è normale e non guida la terapia.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "GOOD", "stressLevel": "LOW", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Collaborante, vuole continuare a correre. Ascolta se gli si spiega quando usare l'inalatore e perché una lastra del torace, da seduto e senza fiato corto, non gli serve."
+  }
+}

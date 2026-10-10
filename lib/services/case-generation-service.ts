@@ -23,6 +23,7 @@ import { getPineconeIndex } from "@/lib/pinecone";
 import { prisma } from "@/lib/prisma";
 import { clearCasesCache } from "@/lib/data/cases/registry-store";
 import { PINECONE_GUIDELINES_NAMESPACE } from "@/lib/services/ingestion-service";
+import { pineconeSpecialtyInFilter } from "@/lib/services/specialty-scope";
 
 const logger = createLogger("case-generation-service");
 
@@ -452,6 +453,9 @@ async function retrieveGuidelineChunks(params: {
     });
 
   let response = await queryOnce({ sourceName: { $eq: sourceName } });
+  if ((response.matches ?? []).length === 0) {
+    response = await queryOnce(pineconeSpecialtyInFilter(params.specialty));
+  }
   if ((response.matches ?? []).length === 0) {
     response = await queryOnce();
   }

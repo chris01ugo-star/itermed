@@ -1,0 +1,271 @@
+{
+  "id": "INTMED-016",
+  "code": "INTMED-016",
+  "title": "Uomo di 70 anni in DOAC con ematemesi, tachicardia e pallore",
+  "description": "Pietro, 70 anni, in DOAC per fibrillazione atriale, vomita sangue rosso. È pallido e tachicardico. Parametri: PA 92/58 mmHg, FC 118 bpm, FR 20 atti/min, SpO2 97% in aria ambiente, temperatura 36.4. La molecola del DOAC non è dichiarata.",
+  "difficulty": "HARD",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": ["gastroenterologia"],
+  "condition": "Emorragia digestiva alta in corso di DOAC per fibrillazione atriale",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESGE_2022_Upper_GI_Bleeding.pdf",
+  "diagnosis": "Emorragia del tratto digestivo superiore, non da varici nel brief, in paziente che assume un DOAC. Instabilità: tachicardia e ipotensione.",
+  "pastMedicalHistory": "Fibrillazione atriale in DOAC. Quale molecola, da quanto tempo e se la dose è stata presa oggi non è dichiarato. Non è descritta una cirrosi. Non è descritto un valore di emoglobina. Non ha dolore toracico.",
+  "presentation": "Ematemesi acuta, pallore, FC 118, PA 92/58. Chiede se può prendere la compressa del DOAC di stasera. Va sospeso. Servono liquidi, un inibitore di pompa endovena ad alte dosi e l'endoscopia presto, senza farla aspettare dall'infusione.",
+  "redHerrings": [
+    "Vuole la dose serale del DOAC perché «se salto un giorno mi viene un ictus»."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 12,
+  "patientPrompt": "Mi chiamo Pietro, ho 70 anni. Ho vomitato sangue, sono pallido e il cuore va forte. Prendo un anticoagulante per la fibrillazione, non ricordo il nome. Ho paura dell'ictus se lo sospendete e ho paura di vomitare ancora. Ditemi che cosa fate e chiedetemi che cosa mi preoccupa, ma non datemi la compressa di stasera.",
+  "correctSolution": "Sospendere il DOAC: l'ESGE raccomanda di sospendere temporaneamente i DOAC nell'emorragia alta non da varici, con il cardiologo o l'ematologo. La Nota 97 sconsiglia fortemente l'inizio dell'anticoagulante se c'è un'emorragia maggiore in atto: il verbo del PDF è «inizio», non «sospensione»; la sospensione di un DOAC già in corso è la frase ESGE. Cristalloidi per la rianimazione di volume. IPP endovena ad alte dosi, bolo poi infusione 80 mg e poi 8 mg/ora, senza ritardare l'endoscopia. Dopo la rianimazione, endoscopia entro 24 ore; sotto le 12 ore va considerata se tachicardia e ipotensione restano nonostante i liquidi. Emocromo: il valore di emoglobina non è fissato. Non represcrivere apixaban, rivaroxaban, dabigatran o edoxaban. Dire la sospensione e chiedere la paura dell'ictus.",
+  "goldStandardPath": ["emocromo", "egds"],
+  "goldPathNarrative": "Sospendere il DOAC. Liquidi. IPP endovena in infusione ad alte dosi. Emocromo senza un numero di emoglobina inventato. Endoscopia alta urgente, senza aspettarla per finire l'infusione. SPIKES sulla paura di sospendere l'anticoagulante.",
+  "examLatencies": {
+    "emocromo": 20,
+    "egds": 60,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "doac-ora",
+      "prompt": "Quale anticoagulante prende, quando è stata l'ultima compressa e ha già vomitato sangue altre volte?",
+      "critical": true,
+      "expectedKeywords": ["anticoagul", "compressa", "sangue", "vomit"],
+      "rationale": "La molecola non è nel brief. L'ultima assunzione va chiesta e, se non la ricorda, non va inventata."
+    },
+    {
+      "id": "cirrosi-farmaci",
+      "prompt": "Ha una cirrosi, prende antinfiammatori o ha feci nere da prima di oggi?",
+      "critical": true,
+      "expectedKeywords": ["cirrosi", "antinfiamm", "feci", "nere"],
+      "rationale": "La cirrosi non è dichiarata. Non si trasforma il caso in emorragia da varici."
+    },
+    {
+      "id": "stabilita",
+      "prompt": "Ha perso coscienza, è sudato, il fiatone c'è anche da fermo?",
+      "critical": true,
+      "expectedKeywords": ["coscienza", "sudat", "fiatone"],
+      "rationale": "Tachicardia e ipotensione sono già nei parametri. La sincope non è nel brief e non va aggiunta."
+    },
+    {
+      "id": "paura-ictus",
+      "prompt": "Che cosa la preoccupa se sospendiamo l'anticoagulante oggi?",
+      "critical": true,
+      "expectedKeywords": ["preoccup", "ictus", "anticoagul", "paura"],
+      "rationale": "SPIKES sul pensiero legato alla sospensione del DOAC."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Pallido, tachicardico, ansioso. Toni cardiaci ritmici tachicardici, soffi non descritti. Murmure vescicolare conservato, non dispnea a riposo. Addome trattabile, non difesa. Tracce di sangue alle labbra. Non ittero e non ascite descritti. Estremità fredde."
+  },
+  "escCitations": [
+    {
+      "chunkId": "esge-doac-sospensione",
+      "source": "knowledge_base/gastroenterologia/clinical/ESGE_2022_Upper_GI_Bleeding.pdf",
+      "quote": "ESGE recommends temporarily withholding new direct oral anticoagulants (DOACs) in patients with suspected acute NVUGIH in coordination/consultation with the local hematologist/cardiologist (strong recommendation, very low quality evidence)."
+    },
+    {
+      "chunkId": "esge-ipp",
+      "source": "knowledge_base/gastroenterologia/clinical/ESGE_2022_Upper_GI_Bleeding.pdf",
+      "quote": "ESGE recommends initiating high dose intravenous proton pump inhibitors (PPI), intravenous bolus followed by continuous infusion (80 mg then 8 mg/hour), in patients presenting with acute UGIH awaiting upper endoscopy. However, PPI infusion should not delay the performance of early endoscopy (strong recommendation, high quality evidence)."
+    },
+    {
+      "chunkId": "esge-endoscopia",
+      "source": "knowledge_base/gastroenterologia/clinical/ESGE_2022_Upper_GI_Bleeding.pdf",
+      "quote": "Following hemodynamic resuscitation, ESGE recommends early (≤ 24 hours) upper GI endoscopy. Very early (< 12 hours) upper GI endoscopy may be considered in patients with high risk clinical features, namely: hemodynamic instability (tachycardia, hypotension) that persists despite ongoing attempts at volume resuscitation"
+    },
+    {
+      "chunkId": "nota-97-emorragia-in-atto",
+      "source": "knowledge_base/medicina_interna/economic/nota-97.pdf",
+      "quote": "sconsigliano fortemente l'inizio di una terapia anticoagulante con AVK o NAO/DOAC: una emorragia maggiore in atto"
+    },
+    {
+      "chunkId": "empatia-spikes-emozione",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "DOAC sospeso. Nessuna nuova prescrizione di apixaban, rivaroxaban, dabigatran o edoxaban.",
+      "Cristalloidi e IPP endovena, bolo poi infusione, senza ritardare l'endoscopia.",
+      "Endoscopia alta: entro 24 ore, e sotto le 12 ore se l'instabilità resta dopo i liquidi.",
+      "Emocromo senza un valore di emoglobina inventato. Paura dell'ictus nominata."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Sospensione del DOAC, IPP ed endoscopia seguono i brani ESGE citati. La Nota 97 è citata solo per il divieto di iniziare l'anticoagulante durante un'emorragia maggiore in atto. 80 mg e 8 mg/ora sono nel testo e non sono un preset del simulatore.",
+      "legalCriteria": [
+        "Documentare ematemesi, frequenza, pressione e DOAC in corso.",
+        "Registrare la sospensione e il confronto con cardiologo o ematologo previsto dal testo.",
+        "Registrare IPP endovena, liquidi ed ora dell'endoscopia.",
+        "Annotare la paura dell'ictus spiegata al paziente."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Anemia acuta coerente con il pallore e l'ematemesi. Nessun valore di emoglobina è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 4.8,
+      "isFatal": false
+    },
+    {
+      "examId": "egds",
+      "name": "Endoscopia digestiva alta",
+      "finding": "Sangue nel tratto superiore. La classe di Forrest non è assegnata.",
+      "isAbnormal": true,
+      "priceEuro": 140,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non fa parte della rianimazione né della diagnosi iniziale dell'ematemesi.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "priceEuro": 950,
+      "wasteRationale": "Il percorso citato è rianimazione, sospensione del DOAC, IPP ed endoscopia. La PET non trova la fonte in tempo utile."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "92/58",
+      "spo2": 97,
+      "temperature": 36.4,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 180,
+    "demographics": {
+      "age": 70,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Anemia acuta, senza g/dL fissati.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "egds": {
+          "finding": "Sangue nel tratto superiore. Classe di Forrest non assegnata.",
+          "isAbnormal": true,
+          "price": 140
+        },
+        "pet-tc": {
+          "finding": "Esame non indicato.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "id": "cristalloidi",
+          "label": "Liquidi per la rianimazione di volume",
+          "aliases": ["soluzione fisiologica", "sodio cloruro", "ringer", "cristalloidi"],
+          "validDosages": ["In infusione continua"]
+        },
+        {
+          "label": "Inibitore di pompa endovena",
+          "anyOf": [
+            {
+              "id": "pantoprazolo",
+              "label": "Pantoprazolo",
+              "aliases": ["pantoprazolo", "pantecta", "pantorc"],
+              "validDosages": ["In infusione continua", "1 fiala EV"]
+            },
+            {
+              "id": "omeprazolo",
+              "label": "Omeprazolo",
+              "aliases": ["omeprazolo", "losec", "antra"],
+              "validDosages": ["In infusione continua", "1 fiala EV"]
+            },
+            {
+              "id": "esomeprazolo",
+              "label": "Esomeprazolo",
+              "aliases": ["esomeprazolo", "lucen", "nexium"],
+              "validDosages": ["In infusione continua", "1 fiala EV"]
+            },
+            {
+              "id": "lansoprazolo",
+              "label": "Lansoprazolo",
+              "aliases": ["lansoprazolo", "lanzopral"],
+              "validDosages": ["In infusione continua", "1 fiala EV"]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "doac-in-emorragia",
+          "label": "DOAC durante l'emorragia in atto",
+          "aliases": ["apixaban", "rivaroxaban", "dabigatran", "edoxaban", "eliquis", "xarelto", "pradaxa", "lixiana"]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "DOAC sospeso, nessun DOAC prescritto.",
+        "Cristalloidi e IPP endovena.",
+        "Endoscopia alta senza aspettarla per completare l'infusione.",
+        "Paura dell'ictus nominata e spiegata."
+      ],
+      "penalties": [
+        {
+          "id": "doac-dato",
+          "kind": "clinical_grave",
+          "trigger": "Somministrazione di un DOAC durante l'ematemesi."
+        },
+        {
+          "id": "endoscopia-rimandata",
+          "kind": "clinical",
+          "trigger": "Endoscopia rinviata oltre la finestra, o rinviata solo per finire l'infusione di IPP."
+        },
+        {
+          "id": "niente-liquidi",
+          "kind": "clinical",
+          "trigger": "Nessuna rianimazione di volume con tachicardia e ipotensione."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "frameworkRequested": "SPIKES",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Dire che l'anticoagulante si sospende oggi, nominare la paura dell'ictus e chiedere che cosa lo preoccupa.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "La Nota 97 dice «inizio» dell'anticoagulante, e mette l'emorragia maggiore in atto tra le condizioni che lo sconsigliano fortemente. Non dice «sospendere». La sospensione del DOAC già assunto è la frase ESGE.",
+        "Nel text layer della Nota 97 le legature ti/tt sono perse. La citazione ripristina inizio, anticoagulante, atto.",
+        "80 mg poi 8 mg/ora sono nel testo. Il simulatore accetta l'infusione continua o la fiala endovena e non giudica i milligrammi.",
+        "L'endoscopia sotto le 12 ore è «may be considered» se l'instabilità resta dopo i liquidi. Entro 24 ore è la raccomandazione dopo la rianimazione.",
+        "L'emoglobina non è nel brief e non è stata inventata. La classe di Forrest non è assegnata.",
+        "La frase EHRA della Nota 97 che suggerisce di non interrompere il NAO prima di una procedura, sfruttando il tempo di minima azione, riguarda quel contesto procedurale. Non è citata e non si applica a questa ematemesi.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Spaventato dal sangue e dall'idea di saltare il DOAC. Se il medico sospende il farmaco, gli dice perché e gli chiede che cosa lo preoccupa, accetta liquidi, IPP ed endoscopia."
+  }
+}

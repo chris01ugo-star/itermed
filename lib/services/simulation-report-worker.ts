@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { evaluationService } from "@/lib/services/evaluation-service";
 import type { AnalyticalEvaluation, EvaluationResult } from "@/lib/services/evaluation-service";
 import { ragService } from "@/lib/services/rag-service";
+import { readSecondarySpecialties } from "@/lib/services/specialty-scope";
 import { getExamValuesCatalog } from "@/lib/exam-values-service";
 import {
   extractMandatoryFirstLevelExams,
@@ -675,6 +676,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
         baselineExamFindings: true,
         goldStandardPath: true,
         correctSolution: true,
+        secondarySpecialties: true,
         medicalSpecialty: { select: { id: true, name: true } },
       },
     });
@@ -683,6 +685,15 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       clinicalCase?.medicalSpecialtyId ?? clinicalCase?.medicalSpecialty?.id ?? undefined;
     const specialtyName =
       clinicalCase?.medicalSpecialty?.name ?? clinicalCase?.specialty ?? undefined;
+    const secondaryFromRow = clinicalCase?.secondarySpecialties ?? [];
+    let secondarySpecialties = secondaryFromRow;
+    if (secondarySpecialties.length === 0) {
+      const kbRow = await prisma.knowledgeBaseCase.findUnique({
+        where: { id: input.caseId },
+        select: { caseData: true },
+      });
+      secondarySpecialties = readSecondarySpecialties(kbRow?.caseData);
+    }
 
     const [guidelines, examCatalog] = await Promise.all([
       ragService.getRelevantGuidelines({
@@ -691,6 +702,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
         reportText: input.normalizedReportText,
         specialtyId,
         specialtyName,
+        secondarySpecialties,
       }),
       getExamValuesCatalog(),
     ]);
@@ -997,9 +1009,10 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       goldPathExams,
       examCatalog: examCatalog ?? {},
     });
-    const economicGuidelineChunks = mapProtocolChunksForEconomicAudit(
-      guidelines.protocol?.chunks,
-    );
+    const economicGuidelineChunks = [
+      ...mapProtocolChunksForEconomicAudit(guidelines.economic?.chunks),
+      ...mapProtocolChunksForEconomicAudit(guidelines.protocol?.chunks),
+    ];
     const clinicalContext = [
       registeredCase?.title ? `Caso: ${registeredCase.title}` : null,
       specialtyName ? `Specialità: ${specialtyName}` : null,

@@ -1,0 +1,305 @@
+{
+  "id": "INTMED-012",
+  "code": "INTMED-012",
+  "title": "Uomo di 60 anni con cirrosi e addome marcatamente aumentato",
+  "description": "Luigi, 60 anni, con cirrosi nota, arriva in pronto soccorso perché l'addome è aumentato in modo marcato da due settimane. Parametri: PA 112/70 mmHg, FC 88 bpm, FR 18 atti/min, SpO2 97% in aria ambiente, temperatura 36.5. Non ha febbre, non vomita sangue e non riferisce sangue nelle feci.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": ["gastroenterologia"],
+  "condition": "Ascite di grado 3 in cirrosi, di prima osservazione in questa entità",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "EASL_2018_Decompensated_Cirrhosis.pdf",
+  "diagnosis": "Ascite marcata (grado 3 EASL: distensione addominale marcata) in cirrosi. Il liquido non raggiunge la soglia di peritonite batterica spontanea. Eziologia della cirrosi non dichiarata.",
+  "pastMedicalHistory": "Cirrosi epatica nota. L'eziologia non è dichiarata e non va inventata. Non è descritto un episodio precedente di ascite di questa entità. Non assume già spironolattone o furosemide. Non ha sanguinamento digestivo. Non ha dolore addominale da peritonite. Funzione renale di partenza non nota.",
+  "presentation": "L'addome è molto disteso, in modo simmetrico e marcato, da due settimane. Non è itterico in modo descritto dal caso e non è confuso. Chiede un antidolorifico «forte» per il fastidio della tensione. La temperatura è 36.5. Non ci sono segni di emorragia.",
+  "redHerrings": [
+    "Insiste per un antinfiammatorio perché la pancia tira e il paracetamolo «non gli basta»."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "Mi chiamo Luigi, ho 60 anni e mi hanno già detto che ho la cirrosi. La pancia è diventata enorme, mi tira e vorrei qualcosa di forte per il dolore, tipo un antinfiammatorio. Non ho vomitato sangue e non ho febbre. Ho un po' di paura del prelievo del liquido. Spiegatemi perché serve e chiedetemi che cosa mi preoccupa.",
+  "correctSolution": "Valutazione iniziale EASL: ecografia addome, funzione epatica, funzione renale, elettroliti sierici e analisi del liquido. L'ascite è di grado 3, distensione marcata. Paracentesi diagnostica obbligatoria nell'esordio di ascite di grado 2 o 3: neutrofili del liquido sotto la soglia di 250/µL della peritonite, senza un numero inventato, e coltura. Diuretico di prima scelta: spironolattone (o canrenone o canrenoato). Il furosemide, nel testo, si aggiunge nei non responder: non è obbligatorio subito e non è vietato. Errore grave: qualsiasi FANS, perché in ascite aumentano ritenzione di sodio, iponatriemia e danno renale acuto. Anche ACE-inibitori, sartani e alfa-litici non vanno usati in ascite secondo lo stesso blocco di raccomandazioni. Dire a che cosa serve la paracentesi e chiedere che cosa lo preoccupa.",
+  "goldStandardPath": ["ecografia", "enzimi-epatici", "creat-urea-gfr", "elettroliti", "liquidi"],
+  "goldPathNarrative": "Ecografia, esami di funzione epatica e renale, elettroliti e paracentesi diagnostica con conta dei neutrofili e coltura. Iniziare lo spironolattone. Non prescrivere FANS. Spiegare il prelievo e chiedere la preoccupazione, con SPIKES.",
+  "examLatencies": {
+    "ecografia": 30,
+    "enzimi-epatici": 60,
+    "creat-urea-gfr": 60,
+    "elettroliti": 60,
+    "liquidi": 120,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "ascite-esordio",
+      "prompt": "Da quando l'addome è aumentato, ha già preso diuretici e ha febbre o sangue nelle feci o nel vomito?",
+      "critical": true,
+      "expectedKeywords": ["addome", "diuretic", "febbre", "sangue"],
+      "rationale": "È un esordio di ascite marcata, senza diuretico già in corso e senza emorragia."
+    },
+    {
+      "id": "fans",
+      "prompt": "Ha preso ibuprofene, diclofenac o un altro antinfiammatorio per il fastidio?",
+      "critical": true,
+      "expectedKeywords": ["ibuprofene", "diclofenac", "antinfiammatorio", "fans"],
+      "rationale": "I FANS sono da non usare in ascite. Va chiesto se li ha già assunti e non vanno prescritti."
+    },
+    {
+      "id": "eziologia",
+      "prompt": "Le hanno detto da che cosa dipende la cirrosi, e quanto alcol beve?",
+      "critical": false,
+      "expectedKeywords": ["cirrosi", "alcol", "causa"],
+      "rationale": "L'eziologia non è nel brief. Se non la ricorda, non va inventata nel referto."
+    },
+    {
+      "id": "paura-prelievo",
+      "prompt": "Che cosa la preoccupa del prelievo di liquido dalla pancia?",
+      "critical": true,
+      "expectedKeywords": ["preoccup", "prelievo", "liquido", "paura"],
+      "rationale": "SPIKES sulla paura della paracentesi."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Addome marcatamente disteso, simmetrico, con ottusità ai fianchi. Non difesa addominale. Toni cardiaci ritmici, soffi non descritti. Murmure vescicolare conservato, non dispnea a riposo. Non ittero e non confusione descritti dal caso. Non edemi marcati delle gambe descritti a parte il volume addominale. Temperatura 36.5."
+  },
+  "escCitations": [
+    {
+      "chunkId": "easl-2018-workup",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_2018_Decompensated_Cirrhosis.pdf",
+      "quote": "Initial patient evaluation should include history, physical examination, abdominal ultrasound, and laboratory assessment of liver and renal functions, serum and urine electrolytes, as well as an analysis of the ascitic fluid."
+    },
+    {
+      "chunkId": "easl-2018-grado3",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_2018_Decompensated_Cirrhosis.pdf",
+      "quote": "Grade 3. Large or gross ascites: it provokes marked abdominal distension"
+    },
+    {
+      "chunkId": "easl-2018-paracentesi",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_2018_Decompensated_Cirrhosis.pdf",
+      "quote": "A diagnostic paracentesis is recommended in all patients with new onset grade 2 or 3 ascites, or in those hospitalised for worsening of ascites or any complication of cirrhosis (II-2;1). Neutrophil count and culture of ascitic fluid culture (bedside inoculation blood culture bottles with 10 ml fluid each) should be performed to exclude bacterial peritonitis. A neutrophil count above 250 cells/ll is required to diagnose SBP (II-2;1)."
+    },
+    {
+      "chunkId": "easl-2018-spironolattone",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_2018_Decompensated_Cirrhosis.pdf",
+      "quote": "anti-mineralocorticoid drugs (spironolactone, canrenone or K-canrenoate) represent a mainstay in the medical treatment of ascites. Four hundred mg/day represents the maximal dosage usually recommended."
+    },
+    {
+      "chunkId": "easl-2018-fans",
+      "source": "knowledge_base/gastroenterologia/clinical/EASL_2018_Decompensated_Cirrhosis.pdf",
+      "quote": "Non-steroidal anti-inflammatory drugs should not be used in patients with ascites because of the high risk of developing further sodium retention, hyponatraemia, and AKI (II-2;1). Angiotensin-converting-enyzme inhibitors, angiotensin II antagonists, or a1-adrenergic receptor blockers should not generally be used in patients with ascites because of increased risk of renal impairment (II-2;1)."
+    },
+    {
+      "chunkId": "empatia-spikes-emozione",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Eco addome, funzione epatica e renale, elettroliti, paracentesi con neutrofili e coltura.",
+      "Spironolattone come diuretico di prima linea. Furosemide non obbligatorio all'esordio.",
+      "Nessun FANS. Nessun ACE-inibitore o sartano avviati per questa ascite.",
+      "Spiegare la paracentesi e chiedere la preoccupazione."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue i brani EASL 2018 citati sul work-up, sulla paracentesi, sullo spironolattone e sul divieto di FANS in ascite. Non si inventa l'eziologia della cirrosi né un valore di neutrofili.",
+      "legalCriteria": [
+        "Documentare ecografia, esami epatici e renali, elettroliti e paracentesi.",
+        "Registrare la conta dei neutrofili rispetto alla soglia di 250/µL senza inventare il numero.",
+        "Prescrivere lo spironolattone e non un FANS.",
+        "Annotare la spiegazione data sulla paracentesi."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecografia",
+      "name": "Ecografia addome",
+      "finding": "Ascite abbondante. Non si fissano diametri portali né noduli epatici numerici.",
+      "isAbnormal": true,
+      "priceEuro": 55,
+      "isFatal": false
+    },
+    {
+      "examId": "enzimi-epatici",
+      "name": "Indici di funzione epatica",
+      "finding": "Alterazione coerente con l'epatopatia nota. AST, ALT, bilirubina e albumina non hanno un numero fissato.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina, urea e stima del GFR",
+      "finding": "Referto senza numero. Non è dichiarato un danno renale acuto.",
+      "isAbnormal": false,
+      "priceEuro": 4.5,
+      "isFatal": false
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti sierici",
+      "finding": "Sodio e potassio disponibili dopo il prelievo. Nessun valore in mmol/L è fissato. Il sodio non è dichiarato basso.",
+      "isAbnormal": false,
+      "priceEuro": 6.5,
+      "isFatal": false
+    },
+    {
+      "examId": "liquidi",
+      "name": "Paracentesi diagnostica",
+      "finding": "Liquido ascistico. La conta dei neutrofili resta sotto la soglia di 250/µL usata per la peritonite batterica spontanea. Il numero esatto non è fissato. La coltura non mostra una peritonite.",
+      "isAbnormal": true,
+      "priceEuro": 60,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non fa parte della valutazione iniziale dell'ascite di nuova osservazione.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "priceEuro": 950,
+      "wasteRationale": "Il work-up citato è ecografia, laboratorio di fegato e rene, elettroliti e analisi del liquido. La PET non guida spironolattone né paracentesi."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "112/70",
+      "spo2": 97,
+      "temperature": 36.5,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 160,
+    "demographics": {
+      "age": 60,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
+    "ascitesGrade": 3,
+    "advancedExams": {
+      "values": {
+        "ecografia": {
+          "finding": "Ascite abbondante, senza misure inventate.",
+          "isAbnormal": true,
+          "price": 55
+        },
+        "enzimi-epatici": {
+          "finding": "Alterazione senza valori numerici.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "creat-urea-gfr": {
+          "finding": "Funzione renale senza numero e senza danno acuto dichiarato.",
+          "isAbnormal": false,
+          "price": 4.5
+        },
+        "elettroliti": {
+          "finding": "Sodio e potassio senza numero. Sodio non dichiarato basso.",
+          "isAbnormal": false,
+          "price": 6.5
+        },
+        "liquidi": {
+          "finding": "Neutrofili del liquido sotto 250/µL. Numero esatto non fissato. Coltura senza peritonite.",
+          "isAbnormal": true,
+          "price": 60
+        },
+        "pet-tc": {
+          "finding": "Esame non indicato nel work-up iniziale.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Antimineralocorticoide",
+          "anyOf": [
+            {
+              "id": "spironolattone",
+              "label": "Spironolattone",
+              "aliases": ["spironolattone", "aldactone"]
+            },
+            {
+              "id": "canrenone",
+              "label": "Canrenone",
+              "aliases": ["canrenone", "kanrenol"]
+            },
+            {
+              "id": "potassio-canrenoato",
+              "label": "Potassio canrenoato",
+              "aliases": ["canrenoato", "kanrenol"]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "fans",
+          "label": "FANS in ascite",
+          "aliases": ["ibuprofene", "diclofenac", "ketorolac", "ketoprofene", "naprossene", "nimesulide", "fans"]
+        },
+        {
+          "id": "ace-sartan",
+          "label": "ACE-inibitore, sartano o alfa-litico in ascite",
+          "aliases": ["ramipril", "enalapril", "lisinopril", "perindopril", "losartan", "valsartan", "candesartan", "irbesartan", "olmesartan", "telmisartan", "sartano", "doxazosina"]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Ecografia, funzione epatica e renale, elettroliti, paracentesi con neutrofili sotto soglia.",
+        "Spironolattone, canrenone o canrenoato.",
+        "Nessun FANS.",
+        "Spiegare la paracentesi e chiedere la preoccupazione."
+      ],
+      "penalties": [
+        {
+          "id": "fans",
+          "kind": "clinical_grave",
+          "trigger": "Prescrizione di un FANS: in ascite il testo EASL lo vieta per ritenzione di sodio, iponatriemia e danno renale acuto."
+        },
+        {
+          "id": "niente-paracentesi",
+          "kind": "clinical",
+          "trigger": "Ascite marcata di nuova osservazione chiusa senza paracentesi diagnostica."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "frameworkRequested": "SPIKES",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Spiegare perché si punge l'addome, nominare la paura del prelievo e chiedere che cosa lo preoccupa. Rifiutare il FANS senza deriderlo.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "400 mg/die è la dose massima di spironolattone nel testo, non la dose di partenza. Il simulatore non giudica i milligrammi.",
+        "Il furosemide, nello stesso PDF, si aggiunge nei non responder o in combinazione. Non è obbligatorio in questo esordio e non è un errore se viene aggiunto.",
+        "Il testo chiede anche gli elettroliti urinari. L'esame di catalogo usato è quello sierico.",
+        "La frase sui FANS da evitare nell'emorragia da varici e nello schema del danno renale acuto non è la citazione usata. La citazione è il divieto nei pazienti con ascite.",
+        "L'eziologia della cirrosi non è nel brief e non è stata inventata.",
+        "Nel text layer la soglia della peritonite è stampata «250 cells/ll»: il carattere mu di µl non è estratto.",
+        "Baveno VII è nel corpus gastroenterologico e non è citato: il lavoro diagnostico di questa ascite è coperto da EASL 2018.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Chiede un antinfiammatorio per la tensione dell'addome ed è spaventato dalla paracentesi. Se gli si spiega il prelievo e gli si chiede che cosa lo preoccupa, accetta l'esame e lo spironolattone."
+  }
+}

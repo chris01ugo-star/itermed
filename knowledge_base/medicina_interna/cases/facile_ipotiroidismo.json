@@ -1,0 +1,154 @@
+{
+  "id": "INTMED-006",
+  "code": "INTMED-006",
+  "title": "Donna di 55 anni con aumento di peso e bradicardia",
+  "description": "Elena, 55 anni, viene in ambulatorio perché è aumentata di peso e si sente rallentata. La frequenza è 52 bpm. Parametri: PA 118/76 mmHg, FC 52 bpm, FR 14 atti/min, SpO2 98%, temperatura 36.2.",
+  "difficulty": "EASY",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "condition": "Ipotiroidismo",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+  "diagnosis": "Ipotiroidismo. Il TSH è elevato e il FT4 è basso, senza numeri fissati.",
+  "pastMedicalHistory": "Aumento di peso recente e senso di rallentamento. Non è in gravidanza. Non prende già levotiroxina. Non sono dichiarati noduli, chirurgia tiroidea o farmaci che interferiscono con la tiroide.",
+  "presentation": "Si sente gonfia, ha freddo e il polso è lento. Non è agitata: vuole capire se deve prendere una pastiglia tutti i giorni. Chiede che le si spieghi il perché prima di iniziare.",
+  "redHerrings": [],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Mi chiamo Elena, ho 55 anni. Sono ingrassata senza mangiare di più e mi sento lenta, ho anche freddo. Il cuore mi batte piano. Vorrei sapere che esame serve e, se devo prendere una pastiglia, che me lo spieghiate con calma.",
+  "correctSolution": "Dosare il TSH, con FT4 nello stesso pannello di catalogo. Il referto mostra TSH alto e FT4 basso, senza cifre. Iniziare levotiroxina, una compressa al giorno. Spiegare a Elena che è una cura continua. Nel testo AMD la levotiroxina compare per la gravidanza e quelle soglie di TSH non si applicano qui: non sono state usate come citazione.",
+  "goldStandardPath": ["tiroide", "emocromo"],
+  "goldPathNarrative": "TSH e emocromo. L'emocromo non mostra anemia: la stanchezza e il peso non vanno attribuiti a una carenza di ferro. Poi levotiroxina, spiegata come terapia quotidiana.",
+  "examLatencies": {
+    "tiroide": 60,
+    "emocromo": 20,
+    "scintigrafia": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "peso-freddo",
+      "prompt": "Di quanto è cambiato il peso e sente freddo o rallentamento?",
+      "critical": true,
+      "expectedKeywords": ["peso", "freddo", "lenta", "rallent"],
+      "rationale": "Peso e rallentamento sono i sintomi di partenza, insieme alla bradicardia."
+    },
+    {
+      "id": "farmaci-tiroide",
+      "prompt": "Prende già una pastiglia per la tiroide o ormoni?",
+      "critical": true,
+      "expectedKeywords": ["tiroide", "pastiglia", "ormoni", "eutirox"],
+      "rationale": "Il caso non dichiara una levotiroxina già in corso."
+    },
+    {
+      "id": "spiegazione",
+      "prompt": "Che cosa vuole sapere prima di iniziare una cura tutti i giorni?",
+      "critical": false,
+      "expectedKeywords": ["perché", "tutti i giorni", "cura", "spieg"],
+      "rationale": "Elena accetta la terapia se ne capisce il motivo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Rallentata, collaborante, chiede spiegazioni. Toni ritmici e lenti, soffi assenti. Murmure vescicolare. Addome trattabile, non dolente. Non è descritto un gozzo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "empatia-spikes-elena",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Dosare il TSH prima della levotiroxina.",
+      "Emocromo per non scambiare il quadro con un'anemia: qui non c'è anemia.",
+      "Spiegare la cura quotidiana e chiedere che cosa la preoccupa."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La levotiroxina è il percorso del brief. La frase AMD sulla levotiroxina riguarda soglie di TSH in gravidanza e non è citata come regola per Elena, che non è gravida.",
+      "legalCriteria": [
+        "Documentare TSH e FT4 prima della prescrizione.",
+        "Registrare la dose come terapia quotidiana e i controlli da programmare.",
+        "Spiegare a Elena perché la pastiglia va presa in continuo."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "tiroide",
+      "name": "Ormoni tiroidei (TSH, FT3, FT4)",
+      "finding": "TSH elevato e FT4 basso. Nessun valore in mU/L è fissato dal caso.",
+      "isAbnormal": true,
+      "priceEuro": 22,
+      "isFatal": false
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Non mostra anemia. Nessun valore di emoglobina è fissato.",
+      "isAbnormal": false,
+      "priceEuro": 4.8,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "scintigrafia",
+      "name": "Scintigrafia tiroidea",
+      "finding": "Non è il primo esame: manca ancora il TSH.",
+      "isAbnormal": false,
+      "priceEuro": 250,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Esame di secondo livello, non necessario per iniziare la levotiroxina dopo il dosaggio ormonale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 52,
+      "bloodPressure": "118/76",
+      "spo2": 98,
+      "temperature": 36.2,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 35,
+    "demographics": { "age": 55, "sex": "F", "context": "Ambulatorio" },
+    "advancedExams": {
+      "values": {
+        "tiroide": { "finding": "TSH elevato, FT4 basso, senza numeri fissati.", "isAbnormal": true, "price": 22 },
+        "emocromo": { "finding": "Senza anemia, senza valore di emoglobina fissato.", "isAbnormal": false, "price": 4.8 },
+        "scintigrafia": { "finding": "Non indicata come primo esame.", "isAbnormal": false, "price": 250 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "id": "levotiroxina",
+          "label": "Levotiroxina",
+          "aliases": ["levotiroxina", "eutirox", "tirosint", "l-tiroxina"]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": ["TSH con FT4.", "Levotiroxina.", "Spiegazione della cura quotidiana."],
+      "empathy": {
+        "namespace": "empatia",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Chiedere a Elena che cosa la preoccupa della pastiglia quotidiana e spiegarle il perché con calma.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "In AMD-Standard-unico1.pdf la levotiroxina è legata a soglie di TSH in gravidanza (2.5 e 4.0 mU/L). Elena ha 55 anni e non è gravida: quella frase non è citata come indicazione.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "MEDIUM", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Collaborante e rallentata. Vuole capire perché la pastiglia va presa tutti i giorni. Se le si chiede che cosa la preoccupa e le si spiega il piano, accetta."
+  }
+}

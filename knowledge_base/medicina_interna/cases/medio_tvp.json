@@ -1,0 +1,233 @@
+{
+  "id": "INTMED-011",
+  "code": "INTMED-011",
+  "title": "Donna di 38 anni con gamba destra gonfia e dolente in pillola",
+  "description": "Chiara, 38 anni, arriva in pronto soccorso per una gamba destra gonfia e dolente da due giorni. Assume un contraccettivo orale. Parametri: PA 116/72 mmHg, FC 90 bpm, FR 16 atti/min, SpO2 98% in aria ambiente, temperatura 36.7. Non ha dispnea, dolore toracico né emottisi.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": ["cardiologia"],
+  "condition": "Sospetta trombosi venosa profonda, probabilità di Wells intermedia",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "score-di-wells-per-il-sospetto-clinico-di-trombosi-venosa-profonda.pdf",
+  "diagnosis": "Trombosi venosa profonda dell'arto inferiore destro. Wells per TVP = 2 (probabilità intermedia): gonfiore di tutta la gamba e tensione dolorosa lungo il sistema venoso profondo. Il contraccettivo non è una voce dello score.",
+  "pastMedicalHistory": "Contraccettivo orale in corso. Non ha un cancro in atto, non è stata allettata per più di 3 giorni, non ha avuto chirurgia maggiore nelle ultime 4 settimane, non ha paresi né immobilizzazione di un arto. Non riferisce una TVP precedente. Non è incinta secondo quanto dichiara. Non ha sintomi respiratori.",
+  "presentation": "La gamba destra è gonfia per tutta la sua lunghezza e duole lungo il decorso venoso. È spaventata e collega il gonfiore alla pillola. Non c'è una diagnosi alternativa più probabile (niente trauma, niente cute calda da cellulite). La differenza di circonferenza del polpaccio non è stata misurata. L'edema a fovea non è descritto. Non ci sono vene superficiali collaterali.",
+  "redHerrings": [
+    "Chiede se basta sospendere la pillola e tornare a casa senza esami."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "Mi chiamo Chiara, ho 38 anni. La gamba destra è gonfia e mi fa male, e prendo la pillola. Ho paura che sia una trombosi e anche paura di quello che mi direte sulla pillola. Non ho avuto operazioni, non sono stata a letto, non ho un tumore. Il fiato è normale. Non mandatemi a casa solo perché sospendo la pillola: spiegatemi che cosa succede e chiedetemi che cosa mi preoccupa.",
+  "correctSolution": "Calcolare Wells per la TVP, non uno score inventato che dia punti alla pillola. Voci positive: gonfiore di tutta la gamba +1, tensione dolorosa lungo il sistema venoso profondo +1. Cancro, allettamento o chirurgia, paresi, vene collaterali: assenti. Diagnosi alternativa più probabile: no, quindi non si sottraggono 2 punti. Circonferenza del polpaccio non misurata e fovea non descritta: quelle voci non si assegnano. Totale 2, probabilità intermedia. Ecocolordoppler venoso dell'arto: trombosi venosa profonda destra. D-dimero: elevato, senza un numero in ng/mL. Avviare un'eparina a basso peso molecolare. Il foglio di Wells e i PDF estratti non contengono una frase che indichi D-dimero o EBPM: quella terapia è la regola di questo caso, non una citazione. Niente angio-TC polmonare: non ci sono sintomi di embolia. Dire la diagnosi e chiedere che cosa la preoccupa della pillola.",
+  "goldStandardPath": ["ecocolordoppler", "ddimero"],
+  "goldPathNarrative": "Applicare il foglio di Wells per la TVP e ottenere 2, probabilità intermedia, senza dare punti al contraccettivo. Chiedere l'ecocolordoppler venoso e il D-dimero. Il doppler mostra la trombosi profonda destra. Iniziare l'eparina a basso peso molecolare. Non usare l'angio-TC come primo esame: non c'è dispnea. Comunicare con SPIKES.",
+  "examLatencies": {
+    "ecocolordoppler": 40,
+    "ddimero": 60,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "wells-negativi",
+      "prompt": "Ha un tumore, è stata allettata o operata di recente, ha una paresi o un'ingessatura?",
+      "critical": true,
+      "expectedKeywords": ["tumore", "allett", "oper", "paresi"],
+      "rationale": "Queste voci del Wells valgono +1 solo se presenti. Qui sono assenti e non vanno sommate."
+    },
+    {
+      "id": "pillola",
+      "prompt": "Assume un contraccettivo orale? Sa che questa informazione non è una voce del Wells?",
+      "critical": true,
+      "expectedKeywords": ["pillola", "contraccettivo", "wells"],
+      "rationale": "La pillola è un dato clinico. Nel foglio di Wells estratto non compare e non aggiunge punti."
+    },
+    {
+      "id": "respiro",
+      "prompt": "Ha fiatone, dolore al petto o sangue nel catarro?",
+      "critical": true,
+      "expectedKeywords": ["fiatone", "petto", "sangue", "catarro"],
+      "rationale": "I sintomi di embolia polmonare non ci sono. Non spostano il caso sull'angio-TC."
+    },
+    {
+      "id": "paura-pillola",
+      "prompt": "Che cosa la preoccupa di più, la gamba o il fatto di prendere la pillola?",
+      "critical": true,
+      "expectedKeywords": ["preoccup", "pillola", "gamba", "trombosi"],
+      "rationale": "SPIKES: chiedere il pensiero associato alla paura."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ansiosa, vigile. Toni cardiaci ritmici, soffi non descritti. Murmure vescicolare conservato, non dispnea. Gamba destra gonfia per tutta la lunghezza, con tensione dolorosa lungo la distribuzione del sistema venoso profondo. Non si misura la circonferenza del polpaccio. Fovea non descritta. Nessuna vena superficiale collaterale. Cute non calda né arrossata come in una cellulite."
+  },
+  "escCitations": [
+    {
+      "chunkId": "wells-voci-usate",
+      "source": "knowledge_base/medicina_interna/clinical/score-di-wells-per-il-sospetto-clinico-di-trombosi-venosa-profonda.pdf",
+      "quote": "SCORE DI WELLS per il sospetto clinico di TVP (JAMA 1998; 279: 1094-9) Tensione dolorosa lungo la distribuzione del sistema venoso profondo 1 Gonfiore a tutta la gamba 1 Diagnosi alternativa più verosimile o più probabile -2"
+    },
+    {
+      "chunkId": "wells-interpretazione",
+      "source": "knowledge_base/medicina_interna/clinical/score-di-wells-per-il-sospetto-clinico-di-trombosi-venosa-profonda.pdf",
+      "quote": "Punteggio totale >= 3: alta probabilità di TVP Punteggio totale tra 1 e 2: probabilità intermedia di TVP Punteggio totale <= 0: bassa probabilità di TVP"
+    },
+    {
+      "chunkId": "empatia-spikes-emozione",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Wells = 2, probabilità intermedia, senza punti per il contraccettivo.",
+      "Ecocolordoppler venoso e D-dimero.",
+      "Eparina a basso peso molecolare dopo il riscontro della trombosi.",
+      "Niente angio-TC in assenza di sintomi respiratori. Chiedere che cosa la preoccupa."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il conteggio di Wells segue solo il foglio presente in knowledge base. D-dimero ed eparina a basso peso molecolare non hanno una frase estratta applicabile a questa TVP isolata e non sono presentati come citazione di linea guida.",
+      "legalCriteria": [
+        "Scrivere le voci di Wells sommate e quelle non sommate, pillola inclusa tra le non sommate.",
+        "Documentare ecocolordoppler e D-dimero.",
+        "Registrare l'eparina a basso peso molecolare e l'assenza di sintomi di embolia.",
+        "Annotare la preoccupazione per la pillola."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecocolordoppler",
+      "name": "Ecocolordoppler venoso dell'arto inferiore",
+      "finding": "Trombosi venosa profonda dell'arto inferiore destro. Non sono fissati il nome del segmento venoso né un diametro.",
+      "isAbnormal": true,
+      "priceEuro": 65,
+      "isFatal": false
+    },
+    {
+      "examId": "ddimero",
+      "name": "D-dimero",
+      "finding": "D-dimero elevato. Nessun valore in ng/mL è fissato. Non esclude la trombosi.",
+      "isAbnormal": true,
+      "priceEuro": 16,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non entra nel percorso di una gamba gonfia senza sintomi sistemici di neoplasia.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "priceEuro": 950,
+      "wasteRationale": "Il percorso di questa TVP è il Wells, il doppler venoso e il D-dimero. La PET non cambia la decisione sull'eparina."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 90,
+      "bloodPressure": "116/72",
+      "spo2": 98,
+      "temperature": 36.7,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 100,
+    "demographics": {
+      "age": 38,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
+    "wellsDvt": {
+      "score": 2,
+      "probability": "intermedia",
+      "positive": ["gonfiore a tutta la gamba", "tensione dolorosa lungo il sistema venoso profondo"],
+      "notScored": [
+        "cancro",
+        "allettamento o chirurgia",
+        "paresi o immobilizzazione",
+        "circonferenza del polpaccio non misurata",
+        "fovea non descritta",
+        "vene collaterali assenti",
+        "contraccettivo orale, assente dal foglio"
+      ],
+      "alternativeDiagnosis": false
+    },
+    "advancedExams": {
+      "values": {
+        "ecocolordoppler": {
+          "finding": "Trombosi venosa profonda dell'arto inferiore destro.",
+          "isAbnormal": true,
+          "price": 65
+        },
+        "ddimero": {
+          "finding": "Elevato, senza valore numerico.",
+          "isAbnormal": true,
+          "price": 16
+        },
+        "pet-tc": {
+          "finding": "Esame non indicato.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "id": "ebpm",
+          "label": "Eparina a basso peso molecolare",
+          "aliases": ["enoxaparina", "clexane", "nadroparina", "fraxiparina", "dalteparina", "seleparina", "ebpm", "basso peso molecolare"]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Wells 2, probabilità intermedia, pillola senza punti.",
+        "Ecocolordoppler con TVP destra e D-dimero elevato senza numero inventato.",
+        "Eparina a basso peso molecolare.",
+        "Comunicare la diagnosi e la preoccupazione per la pillola."
+      ],
+      "penalties": [
+        {
+          "id": "punti-pillola",
+          "kind": "clinical",
+          "trigger": "Aggiungere un punto Wells per il contraccettivo: quella voce non è nel foglio."
+        },
+        {
+          "id": "dimissione-senza-eparina",
+          "kind": "clinical",
+          "trigger": "Dimissione solo sospendendo la pillola, senza eparina, dopo la TVP al doppler."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "frameworkRequested": "SPIKES",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Dire che la gamba ha una trombosi, nominare la paura e chiedere che cosa la preoccupa della pillola.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "Il foglio di Wells non nomina D-dimero, ecocolordoppler né eparina. Quegli atti restano nel percorso del caso e non hanno una citazione.",
+        "ehz405.pdf è la linea guida ESC 2019 sull'embolia polmonare. I brani su D-dimero e sull'anticoagulazione riguardano l'embolia, non questa gamba senza dispnea, dolore toracico o emottisi. Non sono citati.",
+        "Il file ESC_2019_Pulmonary_Embolism_Guidelines.pdf in cardiologia e DOI_Summary_2019_ACUTE_PE.pdf estraggono solo dichiarazioni di conflitto di interessi, non le raccomandazioni.",
+        "Il contraccettivo non è una voce del foglio. Il punteggio non lo include.",
+        "La circonferenza del polpaccio non è misurata e la fovea non è descritta: quei +1 non si assegnano.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Spaventata dal gonfiore e dalla pillola. Se il medico le dice che cosa ha la gamba e le chiede che cosa la preoccupa, smette di chiedere di andare a casa senza esami."
+  }
+}

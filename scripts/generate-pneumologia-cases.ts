@@ -25,6 +25,7 @@ import {
 import { flattenCatalogExams } from "@/lib/exam-catalog-structure";
 import { sanitizeExamFinding } from "@/lib/simulator/exam-finding-text";
 import { getPineconeIndex } from "@/lib/pinecone";
+import { pineconeSpecialtyInFilter } from "@/lib/services/specialty-scope";
 
 loadEnv({ path: resolve(process.cwd(), ".env.local") });
 loadEnv({ path: resolve(process.cwd(), ".env") });
@@ -784,7 +785,7 @@ async function retrieveGuidelineChunks(pdf: string, query: string): Promise<RagH
 
   let response = await queryOnce({ sourceName: { $eq: sourceName } });
   if ((response.matches ?? []).length === 0) {
-    response = await queryOnce({ specialty: { $eq: "Pneumologia" } });
+    response = await queryOnce(pineconeSpecialtyInFilter("Pneumologia"));
   }
   if ((response.matches ?? []).length === 0) {
     response = await queryOnce();

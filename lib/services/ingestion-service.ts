@@ -13,6 +13,7 @@ import { createLogger } from "@/lib/logger";
 import { getPineconeIndex } from "@/lib/pinecone";
 import { prisma } from "@/lib/prisma";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
+import { isUniversalSpecialty } from "@/lib/services/specialty-scope";
 
 const logger = createLogger("ingestion-service");
 
@@ -327,6 +328,19 @@ export async function listDocuments(dir: string): Promise<string[]> {
   return files.sort();
 }
 
+/** Files sitting directly in a shared-corpus root (not inside a pillar folder). */
+async function listRootDocuments(dir: string): Promise<string[]> {
+  if (!existsSync(dir)) return [];
+  const entries = await readdir(dir, { withFileTypes: true });
+  const files: string[] = [];
+  for (const entry of entries) {
+    if (!entry.isFile()) continue;
+    if (!SUPPORTED_EXTENSIONS.has(extname(entry.name).toLowerCase())) continue;
+    files.push(join(dir, entry.name));
+  }
+  return files.sort();
+}
+
 export async function resolveMedicalSpecialty(specialtySlug: string): Promise<{
   id: string;
   name: string;
@@ -355,6 +369,24 @@ export async function resolveMedicalSpecialty(specialtySlug: string): Promise<{
   }
 
   return match;
+}
+
+type IngestSpecialtyRef = {
+  id: string | null;
+  metadataSpecialty: string;
+};
+
+/**
+ * `generale` and `empatia` are shared corpora. They are not MedicalSpecialty
+ * rows: Pinecone metadata.specialty is the slug itself and the Prisma link
+ * stays null.
+ */
+export async function resolveIngestSpecialty(specialtySlug: string): Promise<IngestSpecialtyRef> {
+  if (isUniversalSpecialty(specialtySlug)) {
+    return { id: null, metadataSpecialty: specialtySlug.trim().toLowerCase() };
+  }
+  const specialty = await resolveMedicalSpecialty(specialtySlug);
+  return { id: specialty.id, metadataSpecialty: specialty.name };
 }
 
 async function embedManyWithRetry(values: string[]): Promise<number[][]> {
@@ -436,7 +468,7 @@ async function upsertVectors(records: PineconeRecord[]): Promise<void> {
 
 async function removeExistingSource(params: {
   sourceName: string;
-  medicalSpecialtyId: string;
+  medicalSpecialtyId: string | null;
   update: boolean;
 }): Promise<{ action: IngestAction; existingChunks: number }> {
   const existing = await prisma.guidelineDocument.findFirst({
@@ -473,8 +505,10 @@ function prepareChunks(rawText: string): string[] {
 
 async function persistDocument(params: {
   specialtySlug: string;
-  specialtyId: string;
-  specialtyName: string;
+  /** Null for the shared `generale` corpus (no MedicalSpecialty row). */
+  specialtyId: string | null;
+  /** Pinecone `specialty` metadata. `generale` for the shared corpus. */
+  metadataSpecialty: string;
   pillarCfg: PillarConfig;
   filename: string;
   sourceName: string;
@@ -541,8 +575,8 @@ async function persistDocument(params: {
           source: params.sourceName,
           sourceName: params.sourceName,
           sourceTitle,
-          specialty: params.specialtyName,
-          medicalSpecialtyId: params.specialtyId,
+          specialty: params.metadataSpecialty,
+          ...(params.specialtyId ? { medicalSpecialtyId: params.specialtyId } : {}),
           pillar: params.pillarCfg.pillar,
           chunkId,
           updatedAt,
@@ -599,11 +633,11 @@ export async function ingestDocumentFromBuffer(
     return { sourceName, chunks: chunks.length, action: "create" };
   }
 
-  const specialty = await resolveMedicalSpecialty(specialtySlug);
+  const specialty = await resolveIngestSpecialty(specialtySlug);
   return persistDocument({
     specialtySlug,
     specialtyId: specialty.id,
-    specialtyName: specialty.name,
+    metadataSpecialty: specialty.metadataSpecialty,
     pillarCfg,
     filename,
     sourceName,
@@ -682,20 +716,40 @@ export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<I
     );
   }
 
+  const universal = isUniversalSpecialty(specialtySlug);
+  const pillarsToScan: PillarConfig[] = [];
   for (const pillarCfg of INGEST_PILLARS) {
     const pillarDir = join(knowledgeRoot, pillarCfg.folder);
     if (!existsSync(pillarDir)) {
+      if (universal) continue;
       throw new Error(
         `Pilastro mancante: ${pillarDir}\n` +
           `Atteso: knowledge_base/${specialtySlug}/{legal,economic,clinical}/`,
       );
     }
+    pillarsToScan.push(pillarCfg);
   }
 
   const allFiles: Array<{ pillarCfg: PillarConfig; filePath: string }> = [];
-  for (const pillarCfg of INGEST_PILLARS) {
+  for (const pillarCfg of pillarsToScan) {
     const files = await listDocuments(join(knowledgeRoot, pillarCfg.folder));
     for (const filePath of files) allFiles.push({ pillarCfg, filePath });
+  }
+
+  if (universal) {
+    const clinicalCfg = INGEST_PILLARS.find((pillar) => pillar.pillar === "CLINICAL");
+    if (clinicalCfg) {
+      for (const filePath of await listRootDocuments(knowledgeRoot)) {
+        allFiles.push({ pillarCfg: clinicalCfg, filePath });
+      }
+    }
+  }
+
+  if (universal && allFiles.length === 0 && pillarsToScan.length === 0) {
+    throw new Error(
+      `Nessun documento in knowledge_base/${specialtySlug}. ` +
+        `Attesi file in legal/, economic/, clinical/ oppure direttamente nella cartella.`,
+    );
   }
 
   const report: IngestRunResult = {
@@ -730,8 +784,8 @@ export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<I
     return report;
   }
 
-  const specialty = await resolveMedicalSpecialty(specialtySlug);
-  report.specialtyId = specialty.id;
+  const specialty = await resolveIngestSpecialty(specialtySlug);
+  if (specialty.id) report.specialtyId = specialty.id;
 
   for (let i = 0; i < allFiles.length; i += 1) {
     const { pillarCfg, filePath } = allFiles[i];
@@ -748,7 +802,7 @@ export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<I
       const result = await persistDocument({
         specialtySlug,
         specialtyId: specialty.id,
-        specialtyName: specialty.name,
+        metadataSpecialty: specialty.metadataSpecialty,
         pillarCfg,
         filename: basename(filePath),
         sourceName,

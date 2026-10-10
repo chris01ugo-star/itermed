@@ -1,0 +1,243 @@
+{
+  "id": "INTMED-018",
+  "code": "INTMED-018",
+  "title": "Donna di 40 anni con febbre 39.5, frequenza 140 e agitazione",
+  "description": "Marta, 40 anni, è agitata, ha perso peso nelle ultime settimane e non sta ferma. Parametri: PA 150/70 mmHg, FC 140 bpm, FR 24 atti/min, SpO2 98% in aria ambiente, temperatura 39.5. Non è descritto un gozzo. Non è in una terapia tiroidea nota.",
+  "difficulty": "HARD",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "condition": "Crisi tireotossica",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Nessun protocollo di crisi tireotossica estraibile nel corpus",
+  "diagnosis": "Crisi tireotossica clinica: febbre 39.5, tachicardia 140 bpm, agitazione, dimagrimento recente. Nessun valore di TSH o FT4 è fissato.",
+  "pastMedicalHistory": "Dimagrimento recente, durata non precisata. Non è dichiarato un Morbo di Basedow già noto, un gozzo, una gravidanza, né un farmaco tiroideo o un mezzo di contrasto. Allergie non dichiarate. Nel corpus non c'è una linea guida di trattamento della crisi tireotossica.",
+  "presentation": "Agitata, non mantiene il filo, suda, febbre alta, cuore a 140. Il percorso del caso è: beta-bloccante (propranololo), un antitiroideo tra metimazolo e propiltiouracile, e un corticosteroide, più TSH e FT4 ed ECG. Nessuna di queste azioni ha una frase applicabile nei PDF: le citazioni di terapia restano vuote. L'unico testo relazionale estraibile è SPIKES.",
+  "redHerrings": [
+    "Attribuisce febbre e agitazione a un'influenza e chiede solo paracetamolo per tornare al lavoro."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 10,
+  "patientPrompt": "Mi chiamo Marta, ho 40 anni. Non sto ferma, ho caldo, il cuore mi scoppia e ho perso peso. Ho paura e mi innervosisco se mi parlate sopra. Non è un'influenza. Ditemi che cosa ho, una cosa per volta, e chiedetemi che cosa mi preoccupa. Non datemi solo una pastiglia per la febbre.",
+  "correctSolution": "Trattare come crisi tireotossica, senza citare un protocollo che non è nel corpus. ECG e ormoni tiroidei: i referti non inventano numeri. Propranololo per la frequenza. Metimazolo oppure propiltiouracile. Un corticosteroide tra idrocortisone, desametasone e metilprednisolone. Ricovero in area monitorata. Non dimettere con solo paracetamolo. Parlarle un passo alla volta, nominare l'agitazione e chiedere che cosa la preoccupa: è SPIKES, unico testo relazionale estraibile. Il titolo «Thyroid storm: an updated review» nell'elenco bibliografico ESC della fibrillazione atriale non è una raccomandazione. L'indice ICD che cita la tireotossicosi non è una terapia.",
+  "goldStandardPath": ["tiroide", "ecg"],
+  "goldPathNarrative": "Riconoscere febbre, tachicardia marcata, agitazione e dimagrimento. Chiedere TSH, FT4 ed ECG. Dare propranololo, un antitiroideo e un corticosteroide, e ricoverare. Queste prescrizioni non hanno citazione. Con Marta, frasi corte e SPIKES.",
+  "examLatencies": {
+    "tiroide": 60,
+    "ecg": 10,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "dimagrimento-farmaci",
+      "prompt": "Quanto peso ha perso, da quando, e prende ormoni tiroidei, amiodarone o un mezzo di contrasto recente?",
+      "critical": true,
+      "expectedKeywords": ["peso", "tiroide", "amiodarone", "contrasto"],
+      "rationale": "Il dimagrimento c'è. Amiodarone, ormone e contrasto non sono nel brief: se nega, non si inventano."
+    },
+    {
+      "id": "gozzo-occhi",
+      "prompt": "Ha notato un gonfiore al collo, occhi sporgenti o una diagnosi di Basedow?",
+      "critical": false,
+      "expectedKeywords": ["collo", "occhi", "basedow"],
+      "rationale": "Gozzo e oftalmopatia non sono descritti. Non si aggiungono all'esame se lei nega."
+    },
+    {
+      "id": "febbre-infezione",
+      "prompt": "Ha tosse, bruciore urinario o un'altra infezione in questi giorni?",
+      "critical": true,
+      "expectedKeywords": ["tosse", "urina", "infezione"],
+      "rationale": "La febbre 39.5 è nel caso. Un focolaio infettivo scatenante non è dichiarato e non va inventato."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la preoccupa di più, il cuore o il non riuscire a stare ferma?",
+      "critical": true,
+      "expectedKeywords": ["preoccup", "cuore", "ferma", "paura"],
+      "rationale": "SPIKES, con frasi corte perché è agitata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Agitata, sudata, non sta ferma, collabora a tratti. Toni cardiaci tachicardici a circa 140, soffi non descritti. Murmure vescicolare conservato, non dispnea da edema. Non gozzo descritto. Non esoftalmo descritto. Addome trattabile. Tremore fine alle mani."
+  },
+  "escCitations": [
+    {
+      "chunkId": "empatia-spikes-emozione",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "ECG e ormoni tiroidei, senza numeri inventati.",
+      "Propranololo, metimazolo o propiltiouracile, e un corticosteroide.",
+      "Ricovero monitorato. Non solo paracetamolo.",
+      "Frasi corte, agitazione nominata, paura chiesta."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Non esiste nel corpus una linea guida di crisi tireotossica con testo estraibile. Propranololo, antitiroideo e corticosteroide sono nel percorso clinico e il campo citazione di quelle azioni è vuoto. L'unica citazione è SPIKES.",
+      "legalCriteria": [
+        "Documentare febbre 39.5, frequenza 140, agitazione e dimagrimento.",
+        "Registrare ECG e richiesta di TSH e FT4.",
+        "Registrare beta-bloccante, antitiroideo e steroide, sapendo che non poggiano su una frase del corpus.",
+        "Annotare il modo in cui le è stata detta la gravità."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "tiroide",
+      "name": "TSH, FT3, FT4",
+      "finding": "Quadro compatibile con tireotossicosi. TSH, FT3 e FT4 non hanno un numero fissato.",
+      "isAbnormal": true,
+      "priceEuro": 22,
+      "isFatal": false
+    },
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Tachicardia a circa 140/min. Non è descritta una fibrillazione. QRS e ST non sono descritti.",
+      "isAbnormal": true,
+      "priceEuro": 15,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non è il primo atto in una crisi con febbre alta e frequenza 140.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "priceEuro": 950,
+      "wasteRationale": "Il tempo è per beta-bloccante, antitiroideo, steroide, ECG e ormoni. La PET non tratta la crisi."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 140,
+      "bloodPressure": "150/70",
+      "spo2": 98,
+      "temperature": 39.5,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 50,
+    "demographics": {
+      "age": 40,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
+    "advancedExams": {
+      "values": {
+        "tiroide": {
+          "finding": "Tireotossicosi senza numeri di TSH o FT4.",
+          "isAbnormal": true,
+          "price": 22
+        },
+        "ecg": {
+          "finding": "Tachicardia a circa 140/min, senza fibrillazione descritta.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "pet-tc": {
+          "finding": "Esame non indicato come primo atto.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "id": "propranololo",
+          "label": "Propranololo",
+          "aliases": ["propranololo", "inderal"]
+        },
+        {
+          "label": "Un antitiroideo",
+          "anyOf": [
+            {
+              "id": "metimazolo",
+              "label": "Metimazolo",
+              "aliases": ["metimazolo", "tapazole"]
+            },
+            {
+              "id": "propiltiouracile",
+              "label": "Propiltiouracile",
+              "aliases": ["propiltiouracile", "ptu"]
+            }
+          ]
+        },
+        {
+          "label": "Un corticosteroide",
+          "anyOf": [
+            {
+              "id": "idrocortisone",
+              "label": "Idrocortisone",
+              "aliases": ["idrocortisone", "cortef"]
+            },
+            {
+              "id": "desametasone",
+              "label": "Desametasone",
+              "aliases": ["desametasone", "decadron"]
+            },
+            {
+              "id": "metilprednisolone",
+              "label": "Metilprednisolone",
+              "aliases": ["metilprednisolone", "solumedrol", "urbason"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "ECG e ormoni tiroidei.",
+        "Propranololo, metimazolo o propiltiouracile, e un corticosteroide.",
+        "Ricovero monitorato, non dimissione con solo paracetamolo.",
+        "Agitazione nominata e paura chiesta, con frasi corte."
+      ],
+      "penalties": [
+        {
+          "id": "solo-paracetamolo",
+          "kind": "clinical_grave",
+          "trigger": "Solo antipiretico e dimissione, con febbre 39.5 e frequenza 140."
+        },
+        {
+          "id": "niente-betabloccante",
+          "kind": "clinical",
+          "trigger": "Nessun propranololo con frequenza 140 e agitazione."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "frameworkRequested": "SPIKES",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Frasi corte. Nominare l'agitazione e la paura, chiedere che cosa la preoccupa, senza parlare sopra di lei.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "Nessun PDF del corpus contiene un protocollo di crisi tireotossica. Propranololo, metimazolo, propiltiouracile e corticosteroidi sono nel percorso e non hanno citazione.",
+        "Non esiste una cartella endocrinologia. secondarySpecialties non è stato riempito con uno slug senza documenti.",
+        "In ESC 2024 sulla fibrillazione atriale compare solo il titolo bibliografico Thyroid storm: an updated review. Non è una raccomandazione ed non è citato.",
+        "C_17_pubblicazioni_2251_allegato.pdf è un indice diagnostico: tireotossicosi come codice, non come terapia. Non è citato.",
+        "Il thionamide nel PDF OMS della tubercolosi non è un antitiroideo di questa crisi e non è citato.",
+        "TSH e FT4 non hanno numeri. L'ECG non descrive una fibrillazione.",
+        "L'unica citazione presente è SPIKES. NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Agitata, interrompe, ha paura e si innervosisce se le si parla addosso. Con frasi corte, se le si nomina l'agitazione e le si chiede che cosa la preoccupa, accetta di restare e di prendere la terapia."
+  }
+}

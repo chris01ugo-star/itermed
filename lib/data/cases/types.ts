@@ -174,6 +174,11 @@ export type ClinicalCase = {
   /** Display name for UI (`Cardiologia`). */
   specialtyLabel: string;
   /**
+   * Comorbidities whose guidelines are retrieved with the primary specialty.
+   * Slugs such as `cardiologia`. Omitted on single-specialty cases.
+   */
+  secondarySpecialties?: string[];
+  /**
    * Linee guida ufficiali che la CTU deve citare (art. 5 L. 24/2017).
    * Se assente, si usano `legalConformity.ragReferences` e, in mancanza, la specialità.
    */

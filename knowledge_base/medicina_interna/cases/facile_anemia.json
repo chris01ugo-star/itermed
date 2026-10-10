@@ -1,0 +1,169 @@
+{
+  "id": "INTMED-004",
+  "code": "INTMED-004",
+  "title": "Donna di 32 anni con astenia e ipermenorrea",
+  "description": "Giulia, 32 anni, viene in ambulatorio ansiosa per una stanchezza che dura da alcune settimane e mestruazioni abbondanti. Teme che sia qualcosa di grave. Parametri: PA 108/68 mmHg, FC 94 bpm, FR 16 atti/min, SpO2 99%, temperatura 36.5.",
+  "difficulty": "EASY",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "condition": "Anemia sideropenica da ipermenorrea",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Raccomandazioni SIMTI per l_uso di emocomponenti (1).pdf",
+  "diagnosis": "Anemia da carenza di ferro in ipermenorrea, non urgente.",
+  "pastMedicalHistory": "Mestruazioni abbondanti. Nessuna gravidanza in corso dichiarata, nessuna gastroprotezione, nessuna terapia marziale già in corso. Non sono forniti valori precedenti di emoglobina.",
+  "presentation": "Si sente svuotata e si spaventa quando il medico nomina il sangue. Le mestruazioni sono più lunghe e abbondanti del suo solito. Collabora se la si rassicura con parole chiare, senza sminuire la paura.",
+  "redHerrings": [],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Mi chiamo Giulia, ho 32 anni. Sono sempre stanca, anche al mattino, e le mestruazioni ultimamente sono molto abbondanti. Ho paura che sia una cosa grave. Se mi spiegate con calma che cosa succede e che cosa posso fare, mi tranquillizzo. Non voglio parole difficili.",
+  "correctSolution": "Chiedere emocromo e assetto marziale. Il quadro è un'anemia da carenza di ferro, senza un numero di emoglobina fissato. Prescrivere ferro per os. Non trasfondere: la correzione non è urgente. Rassicurare Giulia nominando la paura e spiegando che si può correggere. Il brano di comunicazione è SPIKES, nel namespace empatia.",
+  "goldStandardPath": ["emocromo", "assetto-marziale"],
+  "goldPathNarrative": "Emocromo e ferritina. Poi ferro orale. La trasfusione non è la prima scelta perché non c'è urgenza. Dire a Giulia, senza fretta, che la stanchezza ha una causa correggibile e chiedere che cosa la spaventa.",
+  "examLatencies": {
+    "emocromo": 20,
+    "assetto-marziale": 60,
+    "biopsia": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "mestruazioni",
+      "prompt": "Come sono le mestruazioni: durata, quantità, coaguli?",
+      "critical": true,
+      "expectedKeywords": ["mestruazioni", "abbondanti", "durata", "coaguli"],
+      "rationale": "L'ipermenorrea è il dato di partenza e la causa da far emergere."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la spaventa di questa stanchezza?",
+      "critical": true,
+      "expectedKeywords": ["paura", "grave", "preoccup", "stanchezza"],
+      "rationale": "L'archetipo è ansioso: la rassicurazione parte dalla paura che lei nomina."
+    },
+    {
+      "id": "ferro-gia",
+      "prompt": "Ha già preso ferro o ha avuto un'anemia in passato?",
+      "critical": false,
+      "expectedKeywords": ["ferro", "anemia", "passato"],
+      "rationale": "Il caso non dichiara una terapia marziale già in corso."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ansiosa, chiede spesso se è grave. Pallore lieve. Toni ritmici, soffi non descritti dal caso. Murmure vescicolare. Addome trattabile, non dolente."
+  },
+  "escCitations": [
+    {
+      "chunkId": "simti-ferro-alternativa-trasfusione",
+      "source": "knowledge_base/medicina_interna/legal/Raccomandazioni SIMTI per l_uso di emocomponenti (1).pdf",
+      "quote": "ove esista l’indicazione e non sia urgente correggere l’anemia, sono da preferire strategie alternative alla trasfusione, quali l’utilizzo di farmaci emopoietici (ferro, vitamina B12, acido folico, eritropoietina ricombinante)"
+    },
+    {
+      "chunkId": "empatia-spikes-nominare-paura",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Emocromo e assetto marziale prima del ferro.",
+      "Ferro orale. Niente trasfusione in un quadro non urgente.",
+      "Rassicurare l'ansia nominando la paura, con il protocollo nel namespace empatia."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "L'unica frase clinica copiata è delle raccomandazioni SIMTI: se la correzione dell'anemia non è urgente, si preferisce il ferro alla trasfusione. Nessun valore di emoglobina è stato inventato.",
+      "legalCriteria": [
+        "Documentare emocromo e assetto marziale.",
+        "Motivare il ferro orale e l'astensione dalla trasfusione.",
+        "Registrare la spiegazione data a Giulia sulla causa della stanchezza."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "Anemia ipocromica microcitica. Nessun valore di emoglobina è fissato dal caso.",
+      "isAbnormal": true,
+      "priceEuro": 4.8,
+      "isFatal": false
+    },
+    {
+      "examId": "assetto-marziale",
+      "name": "Ferritina e assetto marziale",
+      "finding": "Ferritina ridotta, quadro di carenza di ferro. Nessun numero in ng/mL è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 14,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "biopsia",
+      "name": "Biopsia osteomidollare",
+      "finding": "Non indicata come primo esame in un'anemia da ipermenorrea.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Procedura invasiva non necessaria prima di emocromo, ferritina e ferro orale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 94,
+      "bloodPressure": "108/68",
+      "spo2": 99,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 25,
+    "demographics": { "age": 32, "sex": "F", "context": "Ambulatorio" },
+    "advancedExams": {
+      "values": {
+        "emocromo": { "finding": "Anemia ipocromica microcitica, senza valore di emoglobina fissato.", "isAbnormal": true, "price": 4.8 },
+        "assetto-marziale": { "finding": "Ferritina ridotta, senza numero fissato.", "isAbnormal": true, "price": 14 },
+        "biopsia": { "finding": "Esame non indicato in prima battuta.", "isAbnormal": false }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "id": "ferro-orale",
+          "label": "Ferro per os",
+          "aliases": ["ferro", "ferroso", "solfato ferroso", "tardyfer", "ferrograd"]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Emocromo e assetto marziale.",
+        "Ferro orale.",
+        "Rassicurazione dell'ansia, senza trasfusione."
+      ],
+      "penalties": [
+        {
+          "id": "trasfusione-non-urgente",
+          "kind": "clinical_economic",
+          "trigger": "Trasfusione di globuli rossi in un'anemia non urgente da ipermenorrea."
+        }
+      ],
+      "empathy": {
+        "namespace": "empatia",
+        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+        "expectedBehavior": "Nominare la paura di Giulia e chiedere che cosa la preoccupa, poi spiegare che la stanchezza si può correggere.",
+        "verbatimNurseQuote": null
+      },
+      "citationLimits": [
+        "Il corpus non contiene una linea guida dedicata all'anemia sideropenica ambulatoriale. La frase SIMTI vale quando la correzione non è urgente.",
+        "NURSE non compare nei PDF di empatia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Ansiosa, teme una malattia grave. Si calma se il medico nomina questa paura, le chiede che cosa la preoccupa e le spiega il piano del ferro con parole semplici."
+  }
+}
