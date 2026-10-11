@@ -1,0 +1,261 @@
+{
+  "id": "EMERG-018",
+  "code": "EMERG-018",
+  "title": "Uomo di 30 anni in moto, ipoteso, bacino instabile",
+  "description": "Matteo, 30 anni, incidente in moto. Parametri: PA 82/50 mmHg, FC 128 bpm, FR 28 atti/min, SpO2 92%, temperatura 36.2. Bacino instabile. Sudato.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["chirurgia"],
+  "condition": "Politrauma della strada con shock emorragico e bacino instabile",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "atls.pdf",
+  "diagnosis": "Politrauma da moto con shock emorragico e bacino instabile. Non è uno shock cardiogeno. Non è un pneumotorace iperteso isolato finché ABCDE e eFAST non sono fatti.",
+  "pastMedicalHistory": "Nessuna malattia dichiarata. Non è in anticoagulante. Il sangue 0 negativo non ha frase nei PDF: resta nel protocollo emorragia massiva a citazione vuota. La FAST positiva verso laparotomia è WSES, sul paziente scompensato.",
+  "presentation": "Moto, ipotensione, tachicardia, bacino che si muove. ABCDE (vie aeree prima), eFAST, binder pelvico, emoderivati / protocollo emorragia massiva, rivalutazione della pressione. Ossigeno ad alti flussi. Non mandare in radiologia prima di A-B-C.",
+  "redHerrings": [
+    "Un collega manda il paziente in TC total body prima di chiudere il bacino e di dare sangue.",
+    "Chiede di alzarsi per chiamare la madre."
+  ],
+  "timeLimitMinutes": 90,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "Mi chiamo Matteo, ho 30 anni, sono caduto con la moto. Ho freddo, il bacino trema, la pressione è bassissima. Chiudetemi il bacino, cercate il sangue con l'eco, datemi sangue. Non mandatemi in TAC se sto morendo sul lettino.",
+  "correctSolution": "Metodo ABCDE: anticipazione, scena, primary survey. Pervietà delle vie aeree contemporanea al rachide. Ossigeno 12-15 L/min. Shock da riduzione di volume. WSES: primary survey ed E-FAST; se scompensato e FAST positiva, laparotomia per fermare l'emorragia addominale. ERC trauma: splint pelvico ed emoderivati / protocollo emorragia massiva. Sangue 0 negativo: nel percorso, citazione vuota. Rivalutazione della PA. SPIKES Knowledge.",
+  "goldStandardPath": [
+    "abcde",
+    "fast",
+    "stabilizzazione-pelvica",
+    "protocollo-trasfusione-massiva",
+    "ega",
+    "rivalutazione-pa"
+  ],
+  "goldPathNarrative": "ABCDE e ossigeno, eFAST, binder pelvico, protocollo emorragia massiva, emogas, rivalutazione pressoria. Il gruppo 0 negativo non è nominato: resta nel percorso senza citazione.",
+  "examLatencies": {
+    "abcde": 3,
+    "fast": 5,
+    "stabilizzazione-pelvica": 6,
+    "protocollo-trasfusione-massiva": 10,
+    "ega": 8,
+    "rivalutazione-pa": 20,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "dinamica",
+      "prompt": "A che velocità e che cosa ha colpito, il bacino o il torace?",
+      "critical": true,
+      "expectedKeywords": ["moto", "velocità", "bacino", "torace"],
+      "rationale": "La dinamica guida FAST, bacino e torace. ATLS chiede la scena prima della survey."
+    },
+    {
+      "id": "perdite",
+      "prompt": "Ha perso sangue visibile, o il bacino è il solo sospetto?",
+      "critical": true,
+      "expectedKeywords": ["sangue", "bacino", "perdite", "addome"],
+      "rationale": "Emorragia esterna da bloccare prima delle altre fasi. Il binder è nell'algoritmo ERC."
+    },
+    {
+      "id": "coscienza",
+      "prompt": "Ricorda l'impatto, o ha perso i sensi?",
+      "critical": true,
+      "expectedKeywords": ["ricorda", "sensi", "sveglio", "impatto"],
+      "rationale": "GCS e vie aeree. Non ritardare C per una storia lunga."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la spaventa di più adesso?",
+      "critical": true,
+      "expectedKeywords": ["morire", "sangue", "bacino", "paura"],
+      "rationale": "SPIKES Emotions mentre si chiude il bacino e si dà sangue."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Sudato, tachicardico, PA 82/50. Bacino instabile alla compressione. Addome non descritto come disteso. Murmure presente. Vie aeree pervie. Shock da volume."
+  },
+  "escCitations": [
+    {
+      "chunkId": "atls-abcde",
+      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
+      "quote": "Metodo ABCDE, detto anche Metodo ABC..DE, articolato nei seguenti punti: 1. Anticipazione (preparazione della squadra); 2. Valutazione della scena (sicurezza e triage); 3. Valutazione Primaria e Secondaria (Primary and Secondary Survey); 4. Comunicazione con la centrale operativa 118; 5. Monitoraggio continuo e trattamento in itinere; 6. Trasporto verso il trattamento definitivo (ospedale)."
+    },
+    {
+      "chunkId": "atls-vie-aeree",
+      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
+      "quote": "La pervietà delle vie aeree è sempre la priorità assoluta, infatti l’asfissia può portare alla morte in pochi minuti. Nel traumatizzato, la valutazione ed il ripristino della pervietà delle vie aeree è contemporanea alla protezione/immobilizzazione del rachide cervicale."
+    },
+    {
+      "chunkId": "atls-o2",
+      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
+      "quote": "Messo il collare si somministra ossigeno ad alti flussi (12 – 15 litri/minuto). La somministrazioni di ossigeno in un traumatizzato deve sempre esserci, perché come abbiamo già detto un evento traumatico è in continua evoluzione"
+    },
+    {
+      "chunkId": "wses-efast",
+      "source": "knowledge_base/medicina_urgenza/clinical/972-WSES-guidelines-on-blunt-and-penetrating-bowel-injury_-diagnosis-investigations-and-treatment.pdf",
+      "quote": "Management of the awake and oriented blunt abdominal trauma patient starts with the primary survey, E-FAST, physical examination and the sec- ondary survey, blood chemistry, vital signs followed by contrast-enhanced abdominal CT. (GRADE: High)"
+    },
+    {
+      "chunkId": "wses-fast-laparotomia",
+      "source": "knowledge_base/medicina_urgenza/clinical/972-WSES-guidelines-on-blunt-and-penetrating-bowel-injury_-diagnosis-investigations-and-treatment.pdf",
+      "quote": "Patients who are haemodynami- cally decompensated with a positive Focused Assessment with Sonography for Trauma (FAST) should proceed directly to a trauma laparotomy to stop major abdominal bleeding"
+    },
+    {
+      "chunkId": "erc6-pelvi-mtp",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Esegui Decompressione Pleurica Bilaterale (Toracostomia) 4. Decomprimi Tamponamento (traumi Toracici Penetranti) 5. Procedi ad occlusione vascolare prossimale (REBOA/compressione aortica manuale) 6. Splint Pelvico 7. Emoderivati /Protocollo Emorragia Massiva"
+    },
+    {
+      "chunkId": "spikes-knowledge",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "ABCDE prima della TC total body.",
+      "eFAST e splint pelvico. Protocollo emorragia massiva.",
+      "Rivalutazione della pressione dopo binder e sangue."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "ABCDE e ossigeno sono dell'ATLS in cartella. E-FAST e FAST positiva verso laparotomia sono WSES 2022. Splint pelvico e protocollo emorragia massiva sono nell'algoritmo ERC trauma. Il gruppo 0 negativo non è scritto. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "legalCriteria": [
+        "Annotare ora di arrivo, ABCDE e eFAST.",
+        "Annotare il binder pelvico e l'attivazione del protocollo emorragia massiva.",
+        "Registrare la rivalutazione della PA."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "abcde",
+      "name": "Valutazione ABCDE",
+      "finding": "A pervie con collare. B: murmure presente, FR 28, SpO2 92%. C: PA 82/50, FC 128, bacino instabile. D: parlante. E: esposto, freddo.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    },
+    {
+      "examId": "fast",
+      "name": "Ecografia FAST / eFAST",
+      "finding": "eFAST nel primary survey. Liquido libero: operatore-dipendente nei testi WSES. Nessun millilitro è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 40,
+      "isFatal": true
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "Controllo dei gas nello shock. Nessun lattato millimolare è fissato in questo PDF per il trauma.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    },
+    {
+      "examId": "rivalutazione-pa",
+      "name": "Rivalutazione pressione dopo binder e sangue",
+      "finding": "Controllo della PA dopo splint pelvico e protocollo emorragia massiva. Nessun millimetro di target è copiato.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non è il passo successivo nello shock emorragico instabile.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": true,
+      "wasteRationale": "WSES manda il scompensato FAST-positivo in laparotomia, non in PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 128,
+      "bloodPressure": "82/50",
+      "spo2": 92,
+      "temperature": 36.2,
+      "respiratoryRate": 28
+    },
+    "examBudgetEuro": 120,
+    "demographics": { "age": 30, "sex": "M", "context": "Pronto soccorso / trauma" },
+    "clinicalSigns": [
+      {
+        "signName": "Bacino instabile",
+        "result": "Instabile alla compressione. Shock.",
+        "isPositive": true
+      },
+      {
+        "signName": "Cute sudata",
+        "result": "Sudato, pallido, tachicardico.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "fast": {
+          "finding": "eFAST nel primary survey. Volume di liquido non fissato.",
+          "isAbnormal": true,
+          "price": 40
+        },
+        "ega": {
+          "finding": "Gas nello shock. Nessun lattato millimolare copiato per il trauma.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "pet-tc": {
+          "finding": "Non indicata nello shock instabile.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Protocollo emorragia massiva e splint pelvico",
+          "anyOf": [
+            {
+              "id": "emoderivati",
+              "label": "Emoderivati / protocollo emorragia massiva",
+              "aliases": ["sangue", "trasfusione", "emoderivati", "0 negativo", "protocollo"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "ABCDE prima della TC.",
+        "eFAST.",
+        "Stabilizzazione pelvica.",
+        "Protocollo emorragia massiva.",
+        "Rivalutazione della PA.",
+        "Spiegare a Matteo che è uno shock da sangue."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC o imaging lento al posto di FAST, binder e sangue."
+        }
+      ],
+      "citationLimits": [
+        "ATLS in cartella è un testo italiano sul metodo ABCDE, non il manuale ACS originale.",
+        "WSES FAST verso laparotomia vale se scompensato e FAST positiva. Non fissa i millilitri di questo paziente.",
+        "Splint pelvico e protocollo emorragia massiva sono nell'algoritmo ERC di peri-arresto traumatico. Non descrivono il gruppo 0 negativo: citazione vuota.",
+        "Shock emorragico è nominato nella tabella dei picchi di morte ATLS, senza un protocollo trasfusionale 1:1:1."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
+    "communicationStyle": "Ha freddo e paura di morire. Chiede che gli si chiuda il bacino e che gli si dia sangue, senza mandarlo in macchina da solo. Parla a scatti."
+  }
+}

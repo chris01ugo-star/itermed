@@ -1,0 +1,251 @@
+{
+  "id": "EMERG-022",
+  "code": "EMERG-022",
+  "title": "Ragazzo di 18 anni con respiro di Kussmaul e glicemia 450 mg/dl",
+  "description": "Davide, 18 anni, arriva disidratato, poliurico, con respiro profondo. Parametri: PA 102/64 mmHg, FC 118 bpm, FR 32 atti/min, SpO2 98%, temperatura 36.7. Glicemia capillare 450 mg/dl.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["medicina_interna"],
+  "condition": "Chetoacidosi diabetica",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+  "diagnosis": "Chetoacidosi diabetica: respiro di Kussmaul, disidratazione, glicemia 450 mg/dl. Non è un'ipoglicemia. Non è uno stato iperosmolare nominato nei PDF.",
+  "pastMedicalHistory": "Diabete non dichiarato con certezza all'arrivo. Non è in infusione di insulina. I testi ERC nominano la chetoacidosi diabetica come causa endocrina di iperkaliemia. Idratazione aggressiva, insulina ev continua ed emogas oraria della DKA non hanno frase: restano nel percorso a citazione vuota. L'infusione insulina-glucosio ERC è per l'iperkaliemia, non va copiata come protocollo DKA.",
+  "presentation": "Respiro di Kussmaul, secco, glicemia 450. ABCDE, emogas, potassio, fluidi, insulina ev, emogas a 1 ora. Il Kussmaul e i millilitri di soluzione non sono nei PDF.",
+  "redHerrings": [
+    "Un collega dà insulina in bolo sottocute e manda il ragazzo a casa.",
+    "Un altro infonde insulina-glucosio come per l'iperkaliemia da arresto, senza un protocollo DKA."
+  ],
+  "timeLimitMinutes": 120,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "Mi chiamo Davide, ho 18 anni. Respiro a fondo, ho sete, lo zucchero è quattrocentocinquanta. Riempitemi, datemi l'insulina in vena, controllate il potassio e i gas ogni ora. Non mandatemi a casa.",
+  "correctSolution": "ABCDE. La chetoacidosi diabetica è nominata tra i disturbi endocrini che causano iperkaliemia: controllare il potassio. Idratazione aggressiva, infusione di insulina ev ed emogas oraria: gold path, citazione vuota. Non copiare l'infusione insulina-glucosio da 10 UI dell'iperkaliemia come se fosse la DKA. SPIKES Knowledge.",
+  "goldStandardPath": [
+    "ega",
+    "glicemia",
+    "potassio",
+    "idratazione",
+    "insulina-ev",
+    "ega-oraria"
+  ],
+  "goldPathNarrative": "Emogas, glicemia, potassio, idratazione, insulina ev, emogas a 1 ora. Solo DKA-come-causa-di-iperkaliemia e ABCDE hanno citazione. Fluidi aggressivi, insulina continua e gas orari: citazione vuota.",
+  "examLatencies": {
+    "ega": 8,
+    "glicemia": 5,
+    "potassio": 10,
+    "idratazione": 12,
+    "insulina-ev": 20,
+    "ega-oraria": 60,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "poliuria",
+      "prompt": "Beve e urina tanto da quanti giorni, e ha già il diabete?",
+      "critical": true,
+      "expectedKeywords": ["sete", "urina", "diabete", "giorni"],
+      "rationale": "Disidratazione e diabete nel brief. Non c'è un protocollo DKA nei PDF."
+    },
+    {
+      "id": "respiro",
+      "prompt": "Il respiro profondo è iniziato oggi, e ha nausea?",
+      "critical": true,
+      "expectedKeywords": ["respiro", "nause", "oggi", "fondo"],
+      "rationale": "Kussmaul è del brief, non nominato nei PDF."
+    },
+    {
+      "id": "insulina-casa",
+      "prompt": "Ha saltato l'insulina, o non ne ha mai presa?",
+      "critical": true,
+      "expectedKeywords": ["insulina", "saltato", "mai", "penna"],
+      "rationale": "Conta per la DKA. Lo schema ev non è in questi testi."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la spaventa di più: lo zucchero o i gas nel sangue?",
+      "critical": true,
+      "expectedKeywords": ["zucchero", "gas", "paura", "coma"],
+      "rationale": "SPIKES Knowledge, senza ritardare fluidi e potassio."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Disidratato, respiro profondo e rapido, FR 32, glicemia 450 mg/dl. Mucose asciutte. Niente deficit focale. Potassio non ancora noto."
+  },
+  "escCitations": [
+    {
+      "chunkId": "erc6-abcde",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Segui l'approccio ABCDE • Dove necessario adotta tutte le misure di sicurezza • È prioritaria la ricerca delle cause reversibili"
+    },
+    {
+      "chunkId": "erc6-dka-iperkaliemia",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Disturbi endocrini (per esempio, chetoacidosi diabetica, morbo di Addison). • Danno tissutale (per esempio, rabdomiolisi, sindrome da lisi tumorale, emolisi)."
+    },
+    {
+      "chunkId": "erc6-monitor-k",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Monitorare i livelli di potassio e di glucosio nel siero. • Prevenire la recidiva dell’iperkaliemia. Paziente non in arresto cardiaco Valutazione del paziente: • Usare l’approccio ABCDE e correggere ogni eventuale anomalia, ottenere l’accesso EV."
+    },
+    {
+      "chunkId": "spikes-knowledge",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Emogas, glicemia e potassio prima dell'insulina ev.",
+      "Idratazione e insulina ev nel percorso, anche senza frase DKA.",
+      "Emogas a 1 ora."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "ERC 2021 cap. 6 nomina la chetoacidosi diabetica solo come causa di iperkaliemia e chiede ABCDE, potassio e glucosio. Non c'è un protocollo DKA (fluidi, insulina continua, gas orari). L'insulina-glucosio da 10 UI è per l'iperkaliemia, non va usata come citazione DKA. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "legalCriteria": [
+        "Annotare glicemia, emogas e potassio di arrivo.",
+        "Annotare l'inizio dei fluidi e dell'insulina ev.",
+        "Registrare l'emogas a 1 ora."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "Gas all'arrivo. Nessun pH né bicarbonato è fissato. Il Kussmaul è clinico.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": true
+    },
+    {
+      "examId": "glicemia",
+      "name": "Glicemia",
+      "finding": "450 mg/dl nel brief. Non è una soglia copiata da un protocollo DKA nei PDF.",
+      "isAbnormal": true,
+      "priceEuro": 4,
+      "isFatal": true
+    },
+    {
+      "examId": "potassio",
+      "name": "Potassio serico",
+      "finding": "Obbligatorio perché la DKA è elencata tra le cause di iperkaliemia. Nessun mmol/L è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 6,
+      "isFatal": true
+    },
+    {
+      "examId": "ega-oraria",
+      "name": "Emogasanalisi dopo 1 ora",
+      "finding": "Rivalutazione dei gas. Nessuna cadenza oraria è scritta nei PDF: resta nel percorso.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non inquadra la chetoacidosi.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "I testi nominano DKA, potassio e ABCDE. Non la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "102/64",
+      "spo2": 98,
+      "temperature": 36.7,
+      "respiratoryRate": 32
+    },
+    "examBudgetEuro": 60,
+    "demographics": { "age": 18, "sex": "M", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Respiro di Kussmaul",
+        "result": "Respiro profondo e rapido. Disidratazione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Mucose asciutte",
+        "result": "Sete, poliuria riferita.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "Gas all'arrivo. Nessun pH fissato.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "glicemia": {
+          "finding": "450 mg/dl nel brief.",
+          "isAbnormal": true,
+          "price": 4
+        },
+        "potassio": {
+          "finding": "Da dosare. Nessun mmol/L fissato.",
+          "isAbnormal": true,
+          "price": 6
+        },
+        "pet-tc": {
+          "finding": "Non indicata.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Idratazione e insulina ev (citazione vuota sul protocollo DKA)",
+          "anyOf": [
+            {
+              "id": "insulina-ev",
+              "label": "Insulina endovena",
+              "aliases": ["insulina", "infusione"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Emogas e potassio prima dell'insulina.",
+        "Idratazione.",
+        "Insulina ev nel percorso.",
+        "Emogas a 1 ora.",
+        "Spiegare a Davide."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto di gas, potassio e fluidi."
+        }
+      ],
+      "citationLimits": [
+        "DKA è nominata solo come causa endocrina di iperkaliemia.",
+        "Idratazione aggressiva, insulina ev continua e gas orari: gold path, citazione vuota.",
+        "Insulina 10 UI + glucosio 25 g è il trattamento dell'iperkaliemia, non il protocollo DKA. Non citarla come tale.",
+        "Kussmaul e 450 mg/dl sono del brief.",
+        "Nessun mmol/L di potassio o pH è copiato per questo ragazzo."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Ha sete e paura del coma. Chiede fluidi, insulina in vena e gas ogni ora, senza essere dimesso con una penna."
+  }
+}

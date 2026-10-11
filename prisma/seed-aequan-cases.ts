@@ -23,7 +23,11 @@ const SSM_SPECIALTIES: Array<{ name: string; description: string }> = [
   { name: "Gastroenterologia", description: "Emorragia digestiva, pancreatite e addome medico." },
   { name: "Geriatria", description: "Paziente fragile, delirium e multimorbidità." },
   { name: "Malattie Infettive", description: "Sepsis, meningite e infezioni sistemiche." },
-  { name: "Medicina d'Emergenza-Urgenza", description: "Triage, stabilizzazione e percorsi di emergenza." },
+  {
+    name: "Medicina d'Emergenza-Urgenza",
+    description: "Triage, stabilizzazione e percorsi di emergenza.",
+    // Slug JSON e cartella knowledge_base: medicina_urgenza
+  },
   { name: "Medicina Interna", description: "Quadri internistici complessi e diagnosi differenziale." },
   { name: "Neurologia", description: "Stroke, cefalea acuta, crisi e neuropatie." },
   { name: "Oncologia", description: "Complicanze oncologiche e supporto clinico." },

@@ -1,0 +1,258 @@
+{
+  "id": "EMERG-019",
+  "code": "EMERG-019",
+  "title": "Ragazzo di 20 anni caduto dall'alto, GCS 7, anisocoria",
+  "description": "Luca, 20 anni, caduta dall'alto. Parametri: PA 162/90 mmHg, FC 58 bpm, FR 10 atti/min, SpO2 90%, temperatura 36.4. GCS 7. Anisocoria. Non protegge le vie aeree.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["neurologia"],
+  "condition": "Trauma cranico severo con GCS 7 e anisocoria",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "atls.pdf",
+  "diagnosis": "Trauma cranico severo: GCS 7, anisocoria. Non è un paziente da mandare in TC prima delle vie aeree. Non è un ictus ischemico da lisare.",
+  "pastMedicalHistory": "Nessuna malattia dichiarata. Caduta dall'alto. Non è intubato all'arrivo. La pressione intracranica e il mannitololo non hanno frase in questi PDF: restano nel percorso a citazione vuota. La TC è nel gold path senza citazione.",
+  "presentation": "GCS 7, anisocoria, FR 10. Intubazione orotracheale (GCS < 8) contemporanea al rachide, ossigeno, poi imaging. Rivalutazione GCS a 1 ora in attesa di trasferimento. Non la TAC prima del tubo.",
+  "redHerrings": [
+    "Un collega spinge la TC cranio prima di intubare.",
+    "Un altro propone trombolisi per l'anisocoria."
+  ],
+  "timeLimitMinutes": 60,
+  "patientDeteriorationThreshold": 10,
+  "patientPrompt": "Sono il padre di Luca, ha 20 anni, è caduto. Non risponde, una pupilla è diversa. Intubatelo prima della TAC, poi fatemi vedere le immagini. Tra un'ora rivedete se il coma è lo stesso. Ditemi se può morire.",
+  "correctSolution": "Vie aeree prima di tutto, con protezione del rachide. Tabella ATLS: se GCS inferiore a 8, intubazione orotracheale. Anisocoria tra i segni di trauma cranico; ossigeno e ospedalizzazione rapida. TC e gestione della PIC: nel percorso, citazione vuota. Rivalutazione GCS a 1 ora. SPIKES Knowledge col padre.",
+  "goldStandardPath": [
+    "intubazione",
+    "abcde",
+    "ega",
+    "tc",
+    "rivalutazione-gcs-1h",
+    "trasferimento"
+  ],
+  "goldPathNarrative": "Intubazione per GCS 7 prima dell'imaging, ABCDE e ossigeno, emogas, TC, rivalutazione GCS a 1 ora, trasferimento. PIC e osmoterapia: citazione vuota.",
+  "examLatencies": {
+    "intubazione": 4,
+    "abcde": 5,
+    "ega": 8,
+    "tc": 20,
+    "rivalutazione-gcs-1h": 60,
+    "trasferimento": 70,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "altezza-caduta",
+      "prompt": "Da che altezza è caduto, e ha battuto la testa?",
+      "critical": true,
+      "expectedKeywords": ["caduta", "altezza", "testa", "battuto"],
+      "rationale": "Dinamica. I testi ATLS trattano il trauma cranico come sempre pericoloso."
+    },
+    {
+      "id": "gcs-esordio",
+      "prompt": "Ha parlato dopo la caduta, o è rimasto così?",
+      "critical": true,
+      "expectedKeywords": ["parlato", "coma", "subito", "caduta"],
+      "rationale": "GCS all'arrivo 7. La rivalutazione a 1 ora è nel percorso, non una frase PDF."
+    },
+    {
+      "id": "pupille",
+      "prompt": "Le pupille erano già diverse sul luogo, o è successo dopo?",
+      "critical": true,
+      "expectedKeywords": ["pupille", "diverse", "anisocoria", "dopo"],
+      "rationale": "ATLS elenca l'anisocoria tra i segni di trauma cranico."
+    },
+    {
+      "id": "padre",
+      "prompt": "Che cosa vuole sapere adesso sul coma di suo figlio?",
+      "critical": true,
+      "expectedKeywords": ["coma", "morire", "tubo", "tac"],
+      "rationale": "SPIKES Knowledge col padre, senza ritardare il tubo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "GCS 7, anisocoria, FR 10, SpO2 90%, FC 58. Non protegge le vie aeree. Rachide da immobilizzare. Non convulsioni descritte in atto."
+  },
+  "escCitations": [
+    {
+      "chunkId": "atls-vie-aeree",
+      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
+      "quote": "La pervietà delle vie aeree è sempre la priorità assoluta, infatti l’asfissia può portare alla morte in pochi minuti. Nel traumatizzato, la valutazione ed il ripristino della pervietà delle vie aeree è contemporanea alla protezione/immobilizzazione del rachide cervicale."
+    },
+    {
+      "chunkId": "atls-gcs-intubazione",
+      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
+      "quote": "In caso di GCS inferiore a 8 (paziente in stato Pain o Unresponsive) la squadra ALS, medico o infermiere, può decidere se intubare il traumatizzato. GCS è l’acronimo che indica la Glasgow Coma Scale."
+    },
+    {
+      "chunkId": "atls-tabella-gcs8",
+      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
+      "quote": "Livello di coscienza AVPU Controllare le vie aeree (se GCS inferiore a 8 intubazione orotracheale)"
+    },
+    {
+      "chunkId": "atls-anisocoria",
+      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
+      "quote": "anisocoria, cioè diversità del diametro delle pupille; emorragia dal naso o dalle orecchie; liquido limpido in uscita da naso o orecchie; paralisi o perdita di forza in una metà del corpo o anche solo di un arto; convulsioni. I traumi del cranio sono sempre molto pericolosi, il paziente va immobilizzato, sottoposto a somministrazione di ossigeno ed ospedalizzato rapidamente."
+    },
+    {
+      "chunkId": "spikes-knowledge",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Intubazione per GCS < 8 prima della TC.",
+      "Immobilizzazione, ossigeno, anisocoria riconosciuta.",
+      "Rivalutazione GCS a 1 ora in attesa di trasferimento."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Vie aeree, GCS < 8 e anisocoria sono dell'ATLS in cartella. La TC prima del tubo contraddice la priorità delle vie aeree. PIC, mannitololo e target di PaCO2 non sono in questi PDF. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "legalCriteria": [
+        "Annotare GCS, pupille e ora dell'intubazione.",
+        "Annotare che la TC segue la messa in sicurezza delle vie aeree.",
+        "Registrare rivalutazione GCS a 1 ora e trasferimento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "intubazione",
+      "name": "Intubazione orotracheale",
+      "finding": "GCS 7: tubo prima dell'imaging. Rachide protetto. Nessun millimetro di tubo è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    },
+    {
+      "examId": "abcde",
+      "name": "Valutazione ABCDE",
+      "finding": "A: intubato. B: FR bassa prima del tubo. C: FC 58, PA 162/90. D: GCS 7, anisocoria. E: caduta dall'alto.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "Gas dopo il tubo. Nessun PaCO2 target è copiato dai PDF.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    },
+    {
+      "examId": "tc",
+      "name": "TC cranio",
+      "finding": "Dopo le vie aeree. Nessuna frase su ematoma o millimetri di shift è estraibile.",
+      "isAbnormal": true,
+      "priceEuro": 120,
+      "isFatal": true
+    },
+    {
+      "examId": "rivalutazione-gcs-1h",
+      "name": "Rivalutazione GCS dopo 1 ora",
+      "finding": "GCS sotto sedazione da interpretare. Nessun punto è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non prima del tubo, non al posto della TC cranio.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": true,
+      "wasteRationale": "Le vie aeree hanno priorità assoluta. La PET-TC non è nel percorso del trauma cranico di questi PDF."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 58,
+      "bloodPressure": "162/90",
+      "spo2": 90,
+      "temperature": 36.4,
+      "respiratoryRate": 10
+    },
+    "examBudgetEuro": 150,
+    "demographics": { "age": 20, "sex": "M", "context": "Pronto soccorso / trauma" },
+    "clinicalSigns": [
+      {
+        "signName": "Anisocoria",
+        "result": "Pupille di diametro diverso.",
+        "isPositive": true
+      },
+      {
+        "signName": "GCS 7",
+        "result": "Non protegge le vie aeree. Pain/Unresponsive.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "Gas dopo intubazione. Nessun PaCO2 target copiato.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "tc": {
+          "finding": "TC dopo il tubo. Shift millimetrico non copiato.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "pet-tc": {
+          "finding": "Non indicata prima delle vie aeree.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Intubazione orotracheale per GCS < 8",
+          "anyOf": [
+            {
+              "id": "intubazione",
+              "label": "Intubazione orotracheale",
+              "aliases": ["intubazione", "tubo", "vie aeree", "IOT"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Intubazione prima della TC.",
+        "Rachide protetto, ossigeno.",
+        "TC dopo le vie aeree.",
+        "Rivalutazione GCS a 1 ora.",
+        "Parlare col padre."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "Imaging lento o PET prima del tubo."
+        }
+      ],
+      "citationLimits": [
+        "ATLS: GCS < 8, si può decidere di intubare. Non è scritta la frase «prima dell'imaging»: la priorità delle vie aeree la implica, senza una riga su TAC vs tubo.",
+        "PIC, mannitololo, target di PaCO2 e posizione della testa: citazione vuota.",
+        "Anisocoria è un segno di trauma cranico, non un protocollo di craniotomia.",
+        "GCS 7 e caduta dall'alto sono del brief."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
+    "communicationStyle": "Il paziente non parla. Il padre chiede il tubo prima della TAC e se il figlio può morire, senza giri di parole."
+  }
+}

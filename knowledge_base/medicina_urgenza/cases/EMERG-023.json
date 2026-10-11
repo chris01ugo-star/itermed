@@ -1,0 +1,262 @@
+{
+  "id": "EMERG-023",
+  "code": "EMERG-023",
+  "title": "Uomo di 45 anni con ustioni di II e III grado sul 40% del corpo",
+  "description": "Roberto, 45 anni, ustioni termiche estese. Parametri: PA 108/70 mmHg, FC 120 bpm, FR 26 atti/min, SpO2 93%, temperatura 36.1. Viso e collo coinvolti. Raucedine. Superficie circa 40% con regola del 9.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["chirurgia"],
+  "condition": "Ustione termica estesa con rischio inalatorio",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "atls.pdf",
+  "diagnosis": "Ustioni di 2° e 3° grado su circa 40% della superficie, con viso e collo. Rischio di ostruzione delle vie aeree. Non è un'ustione minore da medicazione ambulatoriale.",
+  "pastMedicalHistory": "Incendio / fiamma. Non è intubato all'arrivo. Parkland non compare nei PDF: restano i fluidi nel percorso a citazione vuota. L'analgesia massiva non ha frase. La regola del 9 e il raffreddamento con medicazione sterile sì.",
+  "presentation": "40%, viso e collo, raucedine. Valutare le vie aeree (peli nasali, sputo carbonaceo, tosse). Raffreddare almeno 20 minuti, coprire con medicazione sterile asciutta. Calcolare l'estensione con regola del 9. Fluidi tipo Parkland e oppioidi: nel percorso, citazione vuota. Rivalutazione delle vie aeree.",
+  "redHerrings": [
+    "Un collega applica ghiaccio e aspetta la dermatologia prima delle vie aeree.",
+    "Un altro bagna a lungo un 40% senza coprire e senza pensare al tubo."
+  ],
+  "timeLimitMinutes": 90,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Mi chiamo Roberto, ho 45 anni, sono bruciato. Ho raucedine, viso e collo neri. Guardate le vie aeree, calcolate i nove, coprite sterile, datemi i liquidi e toglietemi il dolore. Tra un'ora rivedete se respiro ancora.",
+  "correctSolution": "Regola del 9: 2° o 3° grado oltre il 30% nell'adulto sono molto gravi. Viso e collo: ostruzione meccanica delle vie aeree; peli bruciati, sputo carbonaceo e tosse fanno sospettare compromissione a breve. ERC primo soccorso: raffreddare con acqua fresca o fredda non ghiacciata almeno 20 minuti, poi medicazione sterile asciutta; attenzione all'ipotermia nelle ustioni estese. Parkland, intubazione precoce nominata e analgesia massiva: gold path, citazione vuota. Rivalutazione vie aeree. SPIKES Knowledge.",
+  "goldStandardPath": [
+    "abcde",
+    "valutazione-inalatoria",
+    "regola-del-9",
+    "raffreddamento-medicazione",
+    "fluidi-parkland",
+    "analgesia",
+    "rivalutazione-vie-aeree"
+  ],
+  "goldPathNarrative": "ABCDE e rischio inalatorio, regola del 9, raffreddamento e medicazione sterile, fluidi (Parkland senza citazione), analgesia, rivalutazione delle vie aeree. Intubazione se raucedine progredisce: citazione sul rischio, non sulla tecnica.",
+  "examLatencies": {
+    "abcde": 5,
+    "valutazione-inalatoria": 6,
+    "regola-del-9": 8,
+    "raffreddamento-medicazione": 20,
+    "fluidi-parkland": 15,
+    "analgesia": 10,
+    "rivalutazione-vie-aeree": 60,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "fiamma-chiuso",
+      "prompt": "Era in un ambiente chiuso, e ha inalato fumo?",
+      "critical": true,
+      "expectedKeywords": ["chiuso", "fumo", "inalato", "incendio"],
+      "rationale": "ATLS: inalazione di fumi o vapori. Viso e collo."
+    },
+    {
+      "id": "voce",
+      "prompt": "La voce è cambiata, tossisce nero, i peli del naso sono bruciati?",
+      "critical": true,
+      "expectedKeywords": ["voce", "tosse", "peli", "nero"],
+      "rationale": "Peli del naso, sputo carbonaceo e tosse nel testo ATLS."
+    },
+    {
+      "id": "estensione",
+      "prompt": "Quali distretti sono bruciati: tronco, braccia, gambe, viso?",
+      "critical": true,
+      "expectedKeywords": ["viso", "tronco", "braccia", "nove"],
+      "rationale": "Regola del 9: 4,5% o 9% per distretto."
+    },
+    {
+      "id": "dolore",
+      "prompt": "Quanto gli fa male, e vuole il dolore spento prima delle medicazioni?",
+      "critical": true,
+      "expectedKeywords": ["male", "dolore", "medicazioni", "spento"],
+      "rationale": "Analgesia nel brief, senza frase PDF. SPIKES Emotions."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ustioni di 2° e 3° grado, viso e collo, raucedine. Circa 40% con regola del 9. SpO2 93%. Non intubato all'arrivo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "atls-regola-9",
+      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
+      "quote": "La regola del 9 si basa sulla suddivisione del corpo in porzioni del 4,5% o 9%. Sommando insieme il punteggio delle zone interessate alla lesione, si ricava l’estensione totale dell’ustione. Le ustioni di 2° o 3° grado coinvolgenti più del 30% della superficie corporea nell’adulto e del 20% nel bambino sono molto gravi."
+    },
+    {
+      "chunkId": "atls-inalazione",
+      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
+      "quote": "le ustioni del capo e del collo possono compromettere rapidamente la meccanica respiratoria attraverso una graduale ostruzione meccanica delle vie aeree, le ustioni al volto con sospetto coinvolgimento delle vie aeree (peli del naso, baffi o barba bruciati, sputo carbonaceo e tosse) devono far sospettare una probabile compromissione a breve termine delle vie aeree"
+    },
+    {
+      "chunkId": "erc8-raffreddamento-immediato",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
+      "quote": "Iniziare immediatamente a raffreddare l’ustione con acqua fresca o fredda (non ghiacciata)"
+    },
+    {
+      "chunkId": "erc8-raffreddamento",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
+      "quote": "Continuare il raffreddamento dell’ustione per almeno 20 minuti • Coprire l’ustione con una medicazione sterile asciutta o in alternativa utilizzare della pellicola trasparente."
+    },
+    {
+      "chunkId": "erc8-ipotermia-ustioni",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
+      "quote": "Prestare particolare attenzione nel raffreddamento di ustioni termiche estese, nei neonati e nei bambini piccoli, per non indurre l’ipotermia."
+    },
+    {
+      "chunkId": "spikes-knowledge",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Vie aeree e segni inalatori prima delle medicazioni lunghe.",
+      "Regola del 9. Raffreddamento 20 minuti, medicazione sterile, niente ghiaccio.",
+      "Rivalutazione delle vie aeree a 1 ora."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Regola del 9 e rischio inalatorio sono ATLS. Raffreddamento 20 minuti e medicazione sterile sono ERC cap. 8. Parkland, dose dei fluidi e analgesia massiva non sono in questi PDF. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "legalCriteria": [
+        "Annotare estensione con regola del 9 e segni inalatori.",
+        "Annotare raffreddamento, medicazione sterile e eventuale intubazione.",
+        "Registrare rivalutazione delle vie aeree a 1 ora."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "abcde",
+      "name": "Valutazione ABCDE",
+      "finding": "A a rischio (viso, collo, raucedine). B: FR 26, SpO2 93%. C: FC 120. E: 40% circa.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    },
+    {
+      "examId": "valutazione-inalatoria",
+      "name": "Valutazione rischio inalatorio",
+      "finding": "Viso e collo, raucedine. Cercare peli bruciati, sputo carbonaceo, tosse. Intubazione precoce: nel percorso, senza frase su timing.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    },
+    {
+      "examId": "regola-del-9",
+      "name": "Calcolo estensione (regola del 9)",
+      "finding": "Circa 40% nel brief. Distretti da 4,5% o 9%. Oltre 30% di 2°/3° grado: molto grave.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": false
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "Gas con SpO2 93%. Nessun COHb è fissato: la carbossiemoglobina non è in questi PDF.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    },
+    {
+      "examId": "rivalutazione-vie-aeree",
+      "name": "Rivalutazione vie aeree dopo 1 ora",
+      "finding": "Raucedine e gonfiore da rivedere. Nessun timing di intubazione è copiato.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non valuta estensione né vie aeree dell'ustionato.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "I testi nominano regola del 9, inalazione e medicazione sterile. Non la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 120,
+      "bloodPressure": "108/70",
+      "spo2": 93,
+      "temperature": 36.1,
+      "respiratoryRate": 26
+    },
+    "examBudgetEuro": 80,
+    "demographics": { "age": 45, "sex": "M", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Ustioni viso e collo",
+        "result": "Raucedine. Sospetto inalatorio.",
+        "isPositive": true
+      },
+      {
+        "signName": "Estensione circa 40%",
+        "result": "2° e 3° grado. Molto grave sopra il 30% adulto.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "Gas. COHb non fissata.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "pet-tc": {
+          "finding": "Non indicata.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Raffreddamento, medicazione sterile, fluidi e analgesia",
+          "anyOf": [
+            {
+              "id": "medicazione-sterile",
+              "label": "Medicazione sterile asciutta",
+              "aliases": ["medicazione", "sterile", "pellicola"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Valutare le vie aeree e l'inalazione.",
+        "Regola del 9.",
+        "Raffreddamento non ghiacciato e medicazione sterile.",
+        "Fluidi nel percorso.",
+        "Rivalutazione vie aeree.",
+        "Spiegare a Roberto."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto di vie aeree e medicazione."
+        }
+      ],
+      "citationLimits": [
+        "Regola del 9 e gravità >30% sono ATLS. Il 40% è del brief.",
+        "Parkland non compare: gold path, citazione vuota.",
+        "Intubazione precoce: ATLS descrive il rischio, non un ordine «intuba subito». Resta nel percorso se la raucedine progredisce.",
+        "Analgesia massiva: citazione vuota.",
+        "ERC: acqua non ghiacciata ≥20 minuti, medicazione sterile, attenzione all'ipotermia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Ha dolore e raucedine. Chiede vie aeree, regola del 9, coperture sterili e liquidi, senza ghiaccio e senza rassicurazioni vuote."
+  }
+}

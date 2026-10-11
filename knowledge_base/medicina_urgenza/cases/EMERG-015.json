@@ -1,0 +1,229 @@
+{
+  "id": "EMERG-015",
+  "code": "EMERG-015",
+  "title": "Uomo di 80 anni con febbre, SpO2 82% e rantoli",
+  "description": "Giuseppe, 80 anni, arriva per febbre e dispnea. Parametri: PA 108/64 mmHg, FC 112 bpm, FR 30 atti/min, SpO2 82%, temperatura 38.4. Rantoli a un emitorace.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["pneumologia", "medicina_interna"],
+  "condition": "Insufficienza respiratoria da polmonite severa, fallimento della NIV",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "2016 Linea guida niv e IRA.pdf",
+  "diagnosis": "Polmonite severa con insufficienza respiratoria ipossiemica. Fallimento della NIV a 2 ore e intubazione. Non è un edema polmonare ipertensivo.",
+  "pastMedicalHistory": "Anziano, senza una BPCO dichiarata con pH. Non è immunocompromesso dichiarato. Non ha ricevuto antibiotico in pronto soccorso. Emocolture non ancora prelevate.",
+  "presentation": "Febbre 38.4, SpO2 82%, rantoli. EGA basale, prova di NIV bilevel se non sta precipitando, emocolture e antibiotico empirico. A due ore la NIV fallisce: intubazione. L'antibiotico entro un'ora e le emocolture non hanno frase in questi PDF: restano nel percorso a citazione vuota.",
+  "redHerrings": [
+    "Un collega propone solo ossigeno a occhialini e dimissione con una compressa.",
+    "Chiede di non essere intubato in nessun caso, prima di qualsiasi EGA."
+  ],
+  "timeLimitMinutes": 140,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Mi chiamo Giuseppe, ho 80 anni. Ho la febbre, non respiro, la saturazione è ottantadue. Fatemi i gas, la maschera, le emocolture e l'antibiotico. Tra due ore, se non va, parlate con mia figlia del tubo. Non voglio falsi rassicurazioni.",
+  "correctSolution": "EGA. Trial di NIV bilevel se si considera l'intubazione, a meno che non stia precipitando subito. Rivalutazione: se a 2 ore fallisce, intubare. CPAP/NIV per edema cardiogeno non è questo quadro. Emocolture e antibiotico empirico entro 1 ora: nessuna frase estraibile, citazione vuota. SPIKES Strategy con la figlia sul tubo.",
+  "goldStandardPath": [
+    "ega",
+    "rx-torace",
+    "emocolture",
+    "niv-bilevel",
+    "ega-2h",
+    "intubazione"
+  ],
+  "goldPathNarrative": "EGA e radiografia, emocolture, antibiotico empirico senza citazione di timing, trial NIV, EGA a 2 ore, intubazione per fallimento. High-flow come alternativa: citazione vuota.",
+  "examLatencies": {
+    "ega": 8,
+    "rx-torace": 20,
+    "emocolture": 15,
+    "niv-bilevel": 20,
+    "ega-2h": 120,
+    "intubazione": 130,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "febbre-esordio",
+      "prompt": "Da quanti giorni ha la febbre, e da che parte sente i polmoni pieni?",
+      "critical": true,
+      "expectedKeywords": ["febbre", "giorni", "polmoni", "tosse"],
+      "rationale": "Febbre e rantoli inquadrano la polmonite, non l'EPA ipertensivo."
+    },
+    {
+      "id": "tubo",
+      "prompt": "Che cosa vuole, e che cosa deve sapere sua figlia, se la maschera non basta?",
+      "critical": true,
+      "expectedKeywords": ["tubo", "figlia", "maschera", "intub"],
+      "rationale": "SPIKES Strategy summary. Il trial NIV non è un rifiuto preventivo del tubo."
+    },
+    {
+      "id": "allergie-ab",
+      "prompt": "Allergie agli antibiotici, e ha già preso qualcosa oggi?",
+      "critical": true,
+      "expectedKeywords": ["allergia", "antibiotico", "penicillina", "oggi"],
+      "rationale": "L'empirico è nel brief. Nessuna molecola è citata nei PDF usati."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Febbrile, tachipnoico, rantoli a un emitorace, non crepitii simmetrici da EPA. PA 108/64, non 200/110. Sensorio conservato all'arrivo. Addome trattabile."
+  },
+  "escCitations": [
+    {
+      "chunkId": "ers-ats-trial-niv-pre-intubazione",
+      "source": "knowledge_base/medicina_urgenza/clinical/2016 Linea guida niv e IRA.pdf",
+      "quote": "We recommend a trial of bilevel NIV in patients considered to require endotracheal intubation and mechanical ventilation, unless the patient is immediately deteriorating"
+    },
+    {
+      "chunkId": "ers-ats-cpap-epa-non-questo",
+      "source": "knowledge_base/medicina_urgenza/clinical/2016 Linea guida niv e IRA.pdf",
+      "quote": "We recommend either bilevel NIV or CPAP for patients with ARF due to cardiogenic pulmonary oedema"
+    },
+    {
+      "chunkId": "esc-acs-o2-sotto-90",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "Nei pazienti con ACS ipossiemici (saturazione di ossigeno <90%) è raccomandata la supplementazione di ossigeno"
+    },
+    {
+      "chunkId": "erc6-ega-rischio-vita",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Se il paziente ha segni di rischio per la vita, esegui un emogasanalisi. Non sono necessari altri test per iniziare un trattamento immediato."
+    },
+    {
+      "chunkId": "spikes-strategy",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "S = Strategy summary Negoziare una strategia d’azione che tenga in considerazione le aspettative e i risultati rag- giungibili. Lasciare spazio ad eventuali doman- de. Riassumere. Verificare la comprensione."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "EGA e trial NIV se non precipita subito.",
+      "Rivalutazione a 2 ore e intubazione se la NIV fallisce.",
+      "Emocolture e antibiotico empirico nel percorso, senza timing citato."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il trial di NIV bilevel prima dell'intubazione, salvo deterioramento immediato, è raccomandazione ERS/ATS 2017. CPAP/NIV per edema cardiogeno non è questo quadro (PA 108/64, febbre, rantoli unilaterali). Antibiotico entro 1 ora ed emocolture: citazione vuota.",
+      "legalCriteria": [
+        "Registrare temperatura 38.4, SpO2 82% e rantoli.",
+        "Allegare EGA basale e a 2 ore.",
+        "Registrare emocolture, antibiotico e l'ora di intubazione dopo il fallimento NIV."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa basale",
+      "finding": "Ipossiemia grave. Nessun pH è fissato all'arrivo.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": true
+    },
+    {
+      "examId": "rx-torace",
+      "name": "Radiografia del torace",
+      "finding": "Addensamento lobare. Nessuna percentuale di coinvolgimento è fissata.",
+      "isAbnormal": true,
+      "priceEuro": 25,
+      "isFatal": false
+    },
+    {
+      "examId": "emocolture",
+      "name": "Emocolture da due siti",
+      "finding": "Prelevate prima dell'antibiotico. Nessun germe è fissato a 2 ore.",
+      "isAbnormal": false,
+      "priceEuro": 20,
+      "isFatal": false
+    },
+    {
+      "examId": "ega-2h",
+      "name": "EGA a 2 ore sotto NIV",
+      "finding": "Fallimento della NIV: ipossiemia persistente. Nessun pH numerico è fissato. Porta all'intubazione.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non è il work-up della polmonite acuta in insufficienza respiratoria.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Le raccomandazioni copiate nominano NIV, EGA e imaging radiologico di base. Non la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 112,
+      "bloodPressure": "108/64",
+      "spo2": 82,
+      "temperature": 38.4,
+      "respiratoryRate": 30
+    },
+    "examBudgetEuro": 90,
+    "demographics": { "age": 80, "sex": "M", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Rantoli unilaterali e febbre",
+        "result": "Rantoli a un emitorace, temperatura 38.4, SpO2 82%. Non è un quadro da EPA ipertensivo.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ega": { "finding": "Ipossiemia, pH non fissato.", "isAbnormal": true, "price": 10 },
+        "rx-torace": { "finding": "Addensamento lobare, estensione non millimetrata.", "isAbnormal": true, "price": 25 },
+        "emocolture": { "finding": "Prelevate, germe non fissato.", "isAbnormal": false, "price": 20 },
+        "ega-2h": { "finding": "Fallimento NIV a 2 ore, numeri non fissati.", "isAbnormal": true, "price": 10 },
+        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Antibiotico empirico",
+          "anyOf": [
+            {
+              "id": "antibiotico-empirico",
+              "label": "Antibiotico empirico",
+              "aliases": ["antibiotico", "ceftriaxone", "piperacillina", "levofloxacina"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "EGA basale.",
+        "Trial NIV se non precipita.",
+        "Emocolture e antibiotico empirico.",
+        "A 2 ore, intubazione per fallimento NIV.",
+        "Parlare con la figlia del tubo."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto di EGA, NIV ed emocolture."
+        }
+      ],
+      "citationLimits": [
+        "Il trial NIV è per chi è considerato da intubare, unless immediately deteriorating. A 2 ore Giuseppe fallisce: si intuba.",
+        "La raccomandazione CPAP/NIV per edema cardiogeno non si applica: pressione 108/64, febbre, rantoli unilaterali.",
+        "Antibiotico entro 1 ora ed emocolture: citazione vuota.",
+        "High-flow vs BiPAP: il PDF raccomanda bilevel NIV nel trial pre-intubazione. High-flow non è in quella frase.",
+        "Ossigeno se SpO2 <90% è una frase ACS. Qui SpO2 è 82%: non sostituisce il trial NIV."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Ha paura del tubo e vuole la figlia. SPIKES Strategy: maschera ora, gas a due ore, se non basta il tubo, senza promettere che la NIV eviti l'intubazione."
+  }
+}

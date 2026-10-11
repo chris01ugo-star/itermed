@@ -1,0 +1,270 @@
+{
+  "id": "EMERG-020",
+  "code": "EMERG-020",
+  "title": "Uomo di 40 anni con trauma toracico, dispnea e murmure assente a destra",
+  "description": "Stefano, 40 anni, trauma toracico chiuso. Parametri: PA 78/48 mmHg, FC 132 bpm, FR 36 atti/min, SpO2 84%, temperatura 36.5. Turgore giugulare. Assenza di murmure a destra.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["pneumologia"],
+  "condition": "Pneumotorace iperteso da trauma toracico chiuso",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+  "diagnosis": "Pneumotorace iperteso: dispnea, turgore giugulare, murmure assente a destra, ipotensione. Non è un tamponamento isolato da mandare in ecocardio prima della decompressione. Non è un infarto.",
+  "pastMedicalHistory": "Trauma toracico chiuso. Non è penetrante dichiarato. Non ha un drenaggio all'arrivo. La radiografia prima della decompressione contraddice la priorità ERC. La frase «prima della radiografia» non è copiata: resta nel percorso.",
+  "presentation": "Non respira, giugulari piene, silenzio a destra, PA 78/48. Decompressione con ago subito, poi toracostomia o tubo. Rivalutazione della PA. La lastra viene dopo, se serve.",
+  "redHerrings": [
+    "Un collega manda il paziente in radiologia prima di decomprimere.",
+    "Un altro aspetta l'eco per «essere sicuri» mentre la pressione crolla."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 8,
+  "patientPrompt": "Mi chiamo Stefano, ho 40 anni, mi hanno colpito il petto. Non respiro, il collo è gonfio, a destra non sento aria. Foratemi adesso, poi il tubo. Non mandatemi in lastra se sto morendo.",
+  "correctSolution": "Pneumotorace iperteso con ipotensione grave: decompressione toracica con ago come trattamento precoce, aghi adeguati. Poi toracostomia o tubo di drenaggio. La decompressione ha priorità rispetto ad altre misure. ATLS: turgore delle giugulari, ossigeno 12-15 L. Radiografia prima della decompressione: nel brief, citazione vuota sulla sequenza «prima della lastra». Rivalutazione PA. SPIKES Knowledge.",
+  "goldStandardPath": [
+    "abcde",
+    "decompressione-ago",
+    "drenaggio-toracico",
+    "ega",
+    "rivalutazione-pa",
+    "rx-torace"
+  ],
+  "goldPathNarrative": "ABCDE, decompressione ad ago, tubo o toracostomia, emogas, rivalutazione PA, radiografia dopo. La lastra non precede la decompressione: la priorità ERC è scritta, la parola «radiografia» no.",
+  "examLatencies": {
+    "abcde": 2,
+    "decompressione-ago": 3,
+    "drenaggio-toracico": 8,
+    "ega": 10,
+    "rivalutazione-pa": 12,
+    "rx-torace": 20,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "trauma-torace",
+      "prompt": "Che cosa ha colpito il torace, e da che parte manca il respiro?",
+      "critical": true,
+      "expectedKeywords": ["torace", "destra", "colpito", "respiro"],
+      "rationale": "Trauma chiuso a destra. ATLS descrive il PNX iperteso come valvola."
+    },
+    {
+      "id": "dispnea",
+      "prompt": "La mancanza d'aria è insorta subito dopo il colpo?",
+      "critical": true,
+      "expectedKeywords": ["subito", "aria", "colpo", "dispnea"],
+      "rationale": "Quadro ostruttivo acuto. Non aspettare imaging."
+    },
+    {
+      "id": "collo",
+      "prompt": "Il collo gli si è gonfiato, o le vene del collo sono piene?",
+      "critical": true,
+      "expectedKeywords": ["collo", "vene", "giugulari", "gonfio"],
+      "rationale": "ATLS chiede di escludere turgore delle giugulari."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la spaventa di più: il foro o non respirare?",
+      "critical": true,
+      "expectedKeywords": ["foro", "respirare", "morire", "paura"],
+      "rationale": "SPIKES Emotions mentre si decomprime."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dispnea severa, turgore giugulare, murmure assente a destra, PA 78/48, FC 132, SpO2 84%. Trachea non misurata. Non aspettare la lastra."
+  },
+  "escCitations": [
+    {
+      "chunkId": "erc6-ago",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "La decompressione toracica con ago ha funzione di trattamento precoce e deve essere eseguita con aghi adeguati (più lunghi, non deformabili). • Ogni tentativo di decompressione con ago durante RCP dovrebbe essere seguito da una toracostomia o dal posizionamento di un tubo di drenaggio toracico, se è disponibile personale con l’adeguata competenza."
+    },
+    {
+      "chunkId": "erc6-priorita-pnx",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "La decompressione toracica risolve efficacemente lo pneumotorace iperteso e ha la priorità rispetto ad altre misure."
+    },
+    {
+      "chunkId": "erc6-ipotensione-grave",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "pneumotorace iperteso in presenza di arresto cardiaco o di ipotensione grave. • La decompressione toracica con ago ha funzione di trattamento precoce e deve essere eseguita con aghi adeguati (più lunghi, non deformabili)."
+    },
+    {
+      "chunkId": "atls-turgore",
+      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
+      "quote": "turgore delle giugulari. Messo il collare si somministra ossigeno ad alti flussi (12 – 15 litri/minuto). La somministrazioni di ossigeno in un traumatizzato deve sempre esserci"
+    },
+    {
+      "chunkId": "atls-pnx-iperteso",
+      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
+      "quote": "pneumotorace iperteso, le ferite si comportano come valvole, si aprono durante l’inspirazione permettendo all’aria di entrare nel cavo pleurico e si richiudono nell’inspirazione, impedendone la fuoriuscita; in questo modo ad ogni inspirazione la quantità di aria che rimane intrappolata nel cavo pleurico aumenta progressivamente"
+    },
+    {
+      "chunkId": "spikes-knowledge",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Decompressione ad ago prima di radiografia o eco dilatori.",
+      "Tubo o toracostomia dopo l'ago.",
+      "Rivalutazione della PA."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "ERC 2021 cap. 6: ago precoce, poi tubo, priorità della decompressione, quadro con ipotensione grave. ATLS: turgore giugulare e meccanismo a valvola. La parola «radiografia» non è nella sequenza: il brief chiede di non farla prima, citazione vuota su quella frase. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "legalCriteria": [
+        "Annotare ora della decompressione ad ago e del tubo.",
+        "Annotare lato (destra), PA prima e dopo.",
+        "Registrare che la radiografia, se fatta, segue la decompressione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "abcde",
+      "name": "Valutazione ABCDE",
+      "finding": "B e C critici: silenzio a destra, turgore giugulare, ipotensione. Decomprimere in B, non andare in lastra.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    },
+    {
+      "examId": "decompressione-ago",
+      "name": "Decompressione toracica con ago",
+      "finding": "Ago adeguato, lato destro. Trattamento precoce. Nessun spazio intercostale millimetrico è copiato dai testi adulti ERC usati qui.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    },
+    {
+      "examId": "drenaggio-toracico",
+      "name": "Tubo di drenaggio toracico / toracostomia",
+      "finding": "Dopo l'ago. ERC: toracostomia o tubo se c'è competenza. Calibro non fissato.",
+      "isAbnormal": true,
+      "priceEuro": 80,
+      "isFatal": true
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "Gas dopo decompressione. Nessun pH è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    },
+    {
+      "examId": "rivalutazione-pa",
+      "name": "Rivalutazione pressione dopo decompressione",
+      "finding": "PA dopo ago e tubo. Nessun millimetro di target è copiato.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": false
+    },
+    {
+      "examId": "rx-torace",
+      "name": "Radiografia del torace",
+      "finding": "Dopo la decompressione, se serve a confermare il tubo. Non prima.",
+      "isAbnormal": true,
+      "priceEuro": 25,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non ha priorità sullo pneumotorace iperteso.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": true,
+      "wasteRationale": "La decompressione ha priorità rispetto ad altre misure."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 132,
+      "bloodPressure": "78/48",
+      "spo2": 84,
+      "temperature": 36.5,
+      "respiratoryRate": 36
+    },
+    "examBudgetEuro": 120,
+    "demographics": { "age": 40, "sex": "M", "context": "Pronto soccorso / trauma" },
+    "clinicalSigns": [
+      {
+        "signName": "Turgore giugulare",
+        "result": "Giugulari turgide. Dispnea.",
+        "isPositive": true
+      },
+      {
+        "signName": "Murmure assente a destra",
+        "result": "Silenzio respiratorio emitorace destro.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "Gas dopo decompressione. Nessun pH fissato.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "rx-torace": {
+          "finding": "Dopo ago e tubo, se eseguita. Non prima.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "pet-tc": {
+          "finding": "Non indicata prima della decompressione.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Decompressione immediata e tubo toracico",
+          "anyOf": [
+            {
+              "id": "decompressione-ago",
+              "label": "Decompressione con ago",
+              "aliases": ["ago", "decompressione", "needle"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Decompressione ad ago prima della lastra.",
+        "Tubo o toracostomia.",
+        "Rivalutazione della PA.",
+        "Spiegare a Stefano che l'aria compressa il polmone."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "Imaging prima della decompressione."
+        }
+      ],
+      "citationLimits": [
+        "ERC: ago precoce, poi tubo, priorità della decompressione, quadro con ipotensione grave o arresto.",
+        "La sequenza «prima della radiografia» non è scritta: è il brief. Resta nel percorso a citazione vuota.",
+        "ATLS descrive il meccanismo a valvola e il turgore giugulare, non l'ago.",
+        "Lo spazio intercostale di prima scelta nei testi pediatrici ERC non va copiato come se fosse questo adulto."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Ha fame d'aria e chiede il foro subito. Non vuole la lastra se sta morendo. Collabora se gli si dice che dopo l'ago arriva il tubo."
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "id": "EMERG-007",
+  "code": "EMERG-007",
+  "title": "Donna di 75 anni con dispnea severa e pressione 200/110",
+  "description": "Elena, 75 anni, arriva in pronto soccorso con dispnea severa. Siede dritta, usa i muscoli accessori. Parametri: PA 200/110 mmHg, FC 118 bpm, FR 32 atti/min, SpO2 86%, temperatura 36.6. Crepitii bibasilari.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["cardiologia", "pneumologia"],
+  "condition": "Edema polmonare acuto cardiogeno ipertensivo",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "2016 Linea guida niv e IRA.pdf",
+  "diagnosis": "Edema polmonare acuto cardiogeno. Ipertensione 200/110, crepitii bibasilari, ipossiemia. Non è un'asma isolata.",
+  "pastMedicalHistory": "Ipertensione nota, senza un infarto dichiarato oggi. Non è in dialisi. Non ha preso un diuretico in pronto soccorso. Non è descritta una BPCO da trattenere l'anidride carbonica con un numero.",
+  "presentation": "Dispnea a esordio notturno, non riesce a parlare a frasi. Tosse rosata non quantificata. Chiede aria e di non essere stesa. La pressione è 200/110. Serve CPAP o NIV bilevel, diuretici e vasodilatatori secondo l'algoritmo dello scompenso acuto, poi EGA di controllo.",
+  "redHerrings": [
+    "Un infermiere propone solo ossigeno a bassi flussi e di aspettare la radiografia prima di qualsiasi pressione positiva.",
+    "Chiede se può prendere la sua compressa di casa e tornare a letto."
+  ],
+  "timeLimitMinutes": 100,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "Mi chiamo Elena, ho 75 anni. Non respiro, ho la pressione altissima, sento i polmoni pieni d'acqua. Mettetemi la maschera che mi spinge l'aria, datemi il diuretico e non stendetemi. Controllate i gas dopo un'ora: ho paura di finire intubata.",
+  "correctSolution": "Edema polmonare cardiogeno: CPAP o NIV bilevel per l'insufficienza respiratoria acuta, secondo la raccomandazione ERS/ATS 2017. Lo scompenso acuto, nella linea guida ESC ACS, considera diuretici, vasodilatatori, inotropi e vasopressori. I nitrati sublinguali dell'ACS alleviano i sintomi ischemici: non sono la titolazione ev nominata dal brief. L'EGA oraria non ha una frase: la rivalutazione resta nel percorso senza citazione di intervallo. Ossigeno se SpO2 <90%. SPIKES sulla paura dell'intubazione.",
+  "goldStandardPath": [
+    "ega",
+    "rx-torace",
+    "ecg",
+    "cpap-niv",
+    "ega-1h",
+    "ega-2h"
+  ],
+  "goldPathNarrative": "EGA e radiografia, ECG per escludere uno STEMI concomitante, avvio di CPAP o NIV bilevel, diuretico dell'ansa e vasodilatazione per lo scompenso acuto. Rivalutazione emogas a 1 e 2 ore per lo svezzamento. L'intervallo orario non è citato: resta nel percorso a citazione vuota.",
+  "examLatencies": {
+    "ega": 10,
+    "rx-torace": 20,
+    "ecg": 10,
+    "cpap-niv": 15,
+    "ega-1h": 60,
+    "ega-2h": 120,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "ortopnea",
+      "prompt": "Il fiatone è peggiorato sdraiata, e da quante ore non riesce a finire una frase?",
+      "critical": true,
+      "expectedKeywords": ["sdraia", "frase", "notte", "fiato"],
+      "rationale": "Ortopnea e frasi spezzate inquadrano l'edema polmonare acuto."
+    },
+    {
+      "id": "cuore-noto",
+      "prompt": "Ha una pressione alta nota, un infarto o una terapia diuretica di casa?",
+      "critical": true,
+      "expectedKeywords": ["pressione", "infarto", "diuretico", "cuore"],
+      "rationale": "Ipertensione nota. Nessun infarto dichiarato oggi."
+    },
+    {
+      "id": "paura-intubazione",
+      "prompt": "Che cosa la spaventa di più della maschera o del tubo?",
+      "critical": true,
+      "expectedKeywords": ["tubo", "maschera", "paura", "intub"],
+      "rationale": "SPIKES Emotions. La NIV è il primo passo citato, non l'intubazione immediata."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "III",
+    "summary": "Siede dritta, muscoli accessori, parlata a parole. Crepitii bibasilari. Toni tachicardici, galloppo non quantificato. Polsi presenti, simmetrici. Caviglie con edema non misurato. Cute sudata."
+  },
+  "escCitations": [
+    {
+      "chunkId": "ers-ats-cpap-niv-epa",
+      "source": "knowledge_base/medicina_urgenza/clinical/2016 Linea guida niv e IRA.pdf",
+      "quote": "We recommend either bilevel NIV or CPAP for patients with ARF due to cardiogenic pulmonary oedema"
+    },
+    {
+      "chunkId": "esc-acs-hf-diuretici-vasodilatatori",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "prendendo in considerazione l’impiego di diuretici, vasodilatatori, agenti inotropi e vasopressori se- condo quanto definito nei relativi algoritmi"
+    },
+    {
+      "chunkId": "esc-acs-o2-sotto-90",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "Nei pazienti con ACS ipossiemici (saturazione di ossigeno <90%) è raccomandata la supplementazione di ossigeno, mentre in quelli che non presentano ipossiemia (saturazione di ossigeno >90%) la supplementazione di ossigeno non è associata ad un beneficio clinico"
+    },
+    {
+      "chunkId": "esc-acs-nitrati-sl",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "La somministrazione di nitrati per via sublinguale può essere utile per alleviare i sintomi ischemici"
+    },
+    {
+      "chunkId": "esc-acs-ecg-10-min",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "Si raccomanda di ottenere ed interpretare un ECG a 12 derivazioni quanto prima possibile dal FMC ma comunque entro 10 min"
+    },
+    {
+      "chunkId": "spikes-emotions",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "E = Emotions Facilitare l’espressione delle emozioni, in modo ta- le da comprendere la reazione emotiva e rispon- dervi in modo empatico"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "CPAP o NIV bilevel per ARF da edema polmonare cardiogeno.",
+      "Diuretici e vasodilatatori nello scompenso acuto.",
+      "ECG entro 10 minuti. Rivalutazione emogas nel tempo, senza un intervallo citato."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "CPAP/NIV bilevel è raccomandazione ERS/ATS 2017 sull'IRA. Diuretici e vasodilatatori sono nella gestione ESC dello scompenso acuto in ACS. I nitrati ev titolati e l'EGA oraria non hanno frase: restano nel percorso a citazione vuota.",
+      "legalCriteria": [
+        "Registrare ora di avvio della CPAP/NIV e i parametri.",
+        "Registrare diuretico e vasodilatatore, con la pressione 200/110.",
+        "Allegare EGA seriate. L'intervallo di un'ora non è nei PDF."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa basale",
+      "finding": "Ipossiemia. Nessun pH numerico è fissato all'arrivo.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": true
+    },
+    {
+      "examId": "rx-torace",
+      "name": "Radiografia del torace",
+      "finding": "Ridistribuzione e hili ingranditi, coerenti con edema. Nessun millimetro di versamento è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 25,
+      "isFatal": false
+    },
+    {
+      "examId": "ecg",
+      "name": "ECG a 12 derivazioni",
+      "finding": "Tachicardia sinusale. Non è descritto un sopraslivellamento.",
+      "isAbnormal": true,
+      "priceEuro": 15,
+      "isFatal": true
+    },
+    {
+      "examId": "ega-1h",
+      "name": "EGA a 1 ora",
+      "finding": "Rivalutazione sotto CPAP. Nessun numero di pH è fissato. Serve a decidere se continuare.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    },
+    {
+      "examId": "ega-2h",
+      "name": "EGA a 2 ore",
+      "finding": "Seconda rivalutazione per lo svezzamento. Nessun criterio numerico di svezzamento è citato nei PDF.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non è il work-up dell'edema polmonare acuto.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Le raccomandazioni copiate nominano NIV/CPAP, diuretici e ECG. Non nominano la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "200/110",
+      "spo2": 86,
+      "temperature": 36.6,
+      "respiratoryRate": 32
+    },
+    "examBudgetEuro": 90,
+    "demographics": { "age": 75, "sex": "F", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Crepitii bibasilari",
+        "result": "Crepitii a entrambe le basi, dispnea, posizione eretta obbligata.",
+        "isPositive": true
+      },
+      {
+        "signName": "Ortopnea",
+        "result": "Non tollera il decubito. Parla a parole.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ega": { "finding": "Ipossiemia, pH non fissato.", "isAbnormal": true, "price": 10 },
+        "rx-torace": { "finding": "Quadro da edema polmonare, senza millimetri fissati.", "isAbnormal": true, "price": 25 },
+        "ecg": { "finding": "Sinusale tachicardico, senza sopraslivellamento descritto.", "isAbnormal": true, "price": 15 },
+        "ega-1h": { "finding": "Controllo a 1 ora sotto CPAP. Numeri non fissati.", "isAbnormal": true, "price": 10 },
+        "ega-2h": { "finding": "Controllo a 2 ore per lo svezzamento. Numeri non fissati.", "isAbnormal": true, "price": 10 },
+        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Diuretico dell'ansa",
+          "anyOf": [
+            {
+              "id": "furosemide",
+              "label": "Furosemide ev",
+              "aliases": ["furosemide", "lasix", "diuretico"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Avvio di CPAP o NIV bilevel.",
+        "Diuretico e vasodilatazione per lo scompenso acuto.",
+        "ECG entro 10 minuti.",
+        "EGA ripetuta nel tempo.",
+        "Parlare della maschera e della paura del tubo."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto di NIV e diuretico."
+        }
+      ],
+      "citationLimits": [
+        "La raccomandazione ERS/ATS è CPAP o NIV bilevel per ARF da edema polmonare cardiogeno. Non fissa i cmH2O.",
+        "I nitrati ev titolati non sono in quella frase. I nitrati ESC sono sublinguali per i sintomi ischemici.",
+        "L'EGA oraria non è scritta. Resta nel brief, citazione vuota.",
+        "Ossigeno se SpO2 <90%: Elena è a 86%. Non è un sostituto della NIV."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
+    "communicationStyle": "Ha paura del tubo. Accetta la maschera se le si dice che spinge aria per asciugare i polmoni e che i gas si rivedono dopo un'ora, senza promettere numeri che i PDF non hanno."
+  }
+}

@@ -1,0 +1,237 @@
+{
+  "id": "EMERG-008",
+  "code": "EMERG-008",
+  "title": "Uomo di 68 anni ipoteso, confuso e oligurico",
+  "description": "Franco, 68 anni, arriva in pronto soccorso confuso, cute fredda. Parametri: PA 70/40 mmHg, FC 118 bpm, FR 28 atti/min, SpO2 90%, temperatura 36.2. Oligurico. Non è una sepsi nel brief.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["cardiologia"],
+  "condition": "Shock cardiogeno",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "04_LG_ESC_ACS (e1-e112).pdf",
+  "diagnosis": "Shock cardiogeno. Ipotensione 70/40, confusione, oliguria. Non è uno shock settico nel racconto di partenza.",
+  "pastMedicalHistory": "Cardiopatia ischemica nota, senza un orario di dolore fissato. Non è in inotropo all'arrivo. Non ha ricevuto un bolo di liquidi descritto. Oliguria riferita dai familiari: poche gocce da ore.",
+  "presentation": "Confuso, sudato, pressione 70/40. Il letto è instabile. Serve TTE in emergenza sulla funzione biventricolare, non un carico di liquidi alla cieca, poi inotropi e vasopressori secondo l'algoritmo dello scompenso acuto, in attesa della terapia intensiva.",
+  "redHerrings": [
+    "Un collega propone un litro di fisiologica rapida prima di qualsiasi eco.",
+    "Chiede, a tratti lucido, se può firmare e andarsene."
+  ],
+  "timeLimitMinutes": 90,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "Mi chiamo Franco, ho 68 anni. Non sto in piedi, ho freddo, non faccio pipì. Non riempitemi di liquidi se il cuore non pompa. Fatemi l'ecografia sul letto e spiegate alla mia famiglia che cosa succede, senza mandarmi in giro per il piano.",
+  "correctSolution": "Shock o instabilità: TTE in emergenza per funzione sinistra e destra. Nello scompenso acuto si considerano diuretici, vasodilatatori, inotropi e vasopressori. Dobutamina e noradrenalina non sono nominate: restano nel percorso a citazione vuota. I liquidi non sono la prima mossa citata nello shock cardiogeno. Monitoraggio e ICCU. SPIKES verso i familiari.",
+  "goldStandardPath": [
+    "ecg",
+    "ecocardio",
+    "lattati",
+    "ega",
+    "monitoraggio-invasivo"
+  ],
+  "goldPathNarrative": "ECG, TTE al letto sulla funzione biventricolare, lattati, EGA, niente bolo di liquidi alla cieca, avvio di inotropo/vasopressore senza i nomi in citazione, monitoraggio e chiamata della terapia intensiva.",
+  "examLatencies": {
+    "ecg": 8,
+    "ecocardio": 10,
+    "lattati": 15,
+    "ega": 10,
+    "monitoraggio-invasivo": 20,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "pipi",
+      "prompt": "Da quante ore non urina, o urina solo gocce?",
+      "critical": true,
+      "expectedKeywords": ["urina", "pipì", "gocce", "ore"],
+      "rationale": "L'oliguria è nel testo ESC tra i criteri di gravità in ICCU."
+    },
+    {
+      "id": "dolore-cuore",
+      "prompt": "Ha avuto dolore al petto oggi, o solo debolezza e confusione?",
+      "critical": true,
+      "expectedKeywords": ["petto", "dolore", "debolezza", "confus"],
+      "rationale": "Cardiopatia ischemica nota. Lo shock può complicare un'ACS."
+    },
+    {
+      "id": "famiglia",
+      "prompt": "Chi deve sapere che cosa sta succedendo al cuore adesso?",
+      "critical": true,
+      "expectedKeywords": ["famiglia", "moglie", "figli", "sapere"],
+      "rationale": "SPIKES Invitation e Knowledge. Franco è confuso."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "IV",
+    "summary": "Confuso, cute fredda, sudato. Polsi filiformi, simmetrici. Toni tachicardici, soffi non descritti. Polmoni con rantoli non quantificati. Addome trattabile. Vescica vuota al tatto, senza un residuo misurato."
+  },
+  "escCitations": [
+    {
+      "chunkId": "esc-acs-tte-cs",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "Tutti i pazienti in CS o emodinamicamente instabili devono essere sottoposti a TTE in emergenza nell’ot- tica di identificare la causa sottostante – in particolare per valutare la funzione LV e RV ed evidenziare eventuali compli- canze meccaniche"
+    },
+    {
+      "chunkId": "esc-acs-inotropi-vasopressori",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "prendendo in considerazione l’impiego di diuretici, vasodilatatori, agenti inotropi e vasopressori se- condo quanto definito nei relativi algoritmi"
+    },
+    {
+      "chunkId": "esc-acs-oliguria-iccu",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "CS, arresto cardiaco con coma, aritmie cardiache maligne (potenzialmente fatali), blocco atrioventricolare di alto grado e insufficienza rena- le acuta (con oliguria)"
+    },
+    {
+      "chunkId": "esc-aorta-pocus-def",
+      "source": "knowledge_base/medicina_urgenza/clinical/Linee guida ESC 2024_Aorta (e1-e169).pdf",
+      "quote": "POCUS, ecografia point-of-care; Rx, radiografia; TEE, ecocardiografia transesofagea; TTE, ecocardiografia transtoracica"
+    },
+    {
+      "chunkId": "erc7-inotropi-vasoattivi",
+      "source": "knowledge_base/medicina_urgenza/clinical/LINEE.GUIDA_.ERC2021_CAPITOLO7.pdf",
+      "quote": "in caso di uno shock cardiogeno da insufficienza ventricolare sinistra, che persiste nonostante il trattamento con fluidi, inotropi, e farmaci vasoattivi"
+    },
+    {
+      "chunkId": "spikes-invitation",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "I = Invitation Invitare il paziente ad esplicitare in che misura vuole essere informato rispetto alla diagnosi, alla prognosi e sui dettagli della malattia"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "TTE in emergenza sulla funzione biventricolare.",
+      "Inotropi e vasopressori secondo l'algoritmo, senza inventare i nomi in citazione.",
+      "Niente PET-TC e niente carico idrico cieco come prima mossa."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La TTE in emergenza nello shock è classe I C ESC ACS. Inotropi e vasopressori sono nell'algoritmo dello scompenso acuto. Dobutamina e noradrenalina non compaiono in quelle frasi. POCUS è definito nella linea ESC aorta, non come protocollo dello shock.",
+      "legalCriteria": [
+        "Registrare pressione 70/40, oliguria e stato mentale.",
+        "Allegare il referto TTE al letto.",
+        "Registrare l'avvio di supporto infusivo e la chiamata della terapia intensiva."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG a 12 derivazioni",
+      "finding": "Tachicardia sinusale. Non è descritto un sopraslivellamento obbligatorio.",
+      "isAbnormal": true,
+      "priceEuro": 15,
+      "isFatal": true
+    },
+    {
+      "examId": "ecocardio",
+      "name": "TTE / POCUS al letto",
+      "finding": "Funzione biventricolare ridotta. Nessuna frazione di eiezione numerica è fissata. Niente complicanza meccanica descritta.",
+      "isAbnormal": true,
+      "priceEuro": 50,
+      "isFatal": true
+    },
+    {
+      "examId": "lattati",
+      "name": "Lattati",
+      "finding": "Ipoperfusione. Nessun mmol/L è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 8,
+      "isFatal": false
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa",
+      "finding": "Acidosi da ipoperfusione non quantificata. Nessun pH è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non è il work-up dello shock cardiogeno in PS.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "La raccomandazione copiata è la TTE in emergenza. Non la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "70/40",
+      "spo2": 90,
+      "temperature": 36.2,
+      "respiratoryRate": 28
+    },
+    "examBudgetEuro": 100,
+    "demographics": { "age": 68, "sex": "M", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Cute fredda",
+        "result": "Cute fredda, sudata, polsi filiformi, confusione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Oliguria",
+        "result": "Poche gocce da ore, vescica vuota al tatto.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": { "finding": "Tachicardia sinusale, senza STEMI descritto.", "isAbnormal": true, "price": 15 },
+        "ecocardio": { "finding": "Disfunzione biventricolare, FE non fissata.", "isAbnormal": true, "price": 50 },
+        "lattati": { "finding": "Elevati, senza mmol/L fissati.", "isAbnormal": true, "price": 8 },
+        "ega": { "finding": "Acidosi non numerata.", "isAbnormal": true, "price": 10 },
+        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Supporto inotropo o vasopressore",
+          "anyOf": [
+            {
+              "id": "dobutamina",
+              "label": "Dobutamina o noradrenalina",
+              "aliases": ["dobutamina", "noradrenalina", "norepinefrina", "inotropo", "vasopressore"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "TTE al letto.",
+        "Niente carico idrico cieco come prima mossa.",
+        "Avvio di inotropo/vasopressore.",
+        "Chiamata della terapia intensiva.",
+        "Informare i familiari."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto della TTE."
+        }
+      ],
+      "citationLimits": [
+        "La TTE in CS valuta LV, RV e complicanze meccaniche. Non fissa la FE.",
+        "Dobutamina e noradrenalina non sono in quella frase: solo inotropi e vasopressori. I nomi restano nel brief, citazione vuota.",
+        "Il capitolo ERC 7 parla di fluidi, inotropi e vasoattivi nello shock che persiste, in un contesto post-arresto. Non autorizza un litro cieco in questo PS.",
+        "POCUS è una definizione ESC aorta, non un protocollo dello shock cardiogeno."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Confuso, risponde a spezzoni. La famiglia chiede chiarezza. SPIKES verso chi decide con lui, senza promettere numeri di pompa che i PDF non hanno."
+  }
+}

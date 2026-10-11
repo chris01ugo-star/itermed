@@ -1,0 +1,229 @@
+{
+  "id": "EMERG-012",
+  "code": "EMERG-012",
+  "title": "Uomo di 70 anni con palpitazioni, FC 160 e pressione 85/50",
+  "description": "Giovanni, 70 anni, arriva per palpitazioni e dolore toracico. Parametri: PA 85/50 mmHg, FC 160 bpm, FR 24 atti/min, SpO2 93%, temperatura 36.4. È vigile ma sudato.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["cardiologia"],
+  "condition": "Fibrillazione atriale con instabilità emodinamica",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+  "diagnosis": "Fibrillazione atriale instabile. FC 160, PA 85/50, dolore toracico. Non è una FA stabile da controllo di frequenza per via orale.",
+  "pastMedicalHistory": "FA non dichiarata come già anticoagulata. Nessun pasto recente fissato per la sedazione. Non è in edema polmonare franco. Il dolore toracico è da ipoperfusione, senza un sopraslivellamento descritto.",
+  "presentation": "Palpitazioni, dolore, pressione 85/50. Segni di allarme da paziente instabile. Sedazione o anestesia, poi cardioversione elettrica sincronizzata, shock sull'onda R, per la FA alla massima potenza. Poi terapia post-CV e osservazione, senza una checklist post-shock citata.",
+  "redHerrings": [
+    "Un collega propone un beta-bloccante orale e di aspettare tre ore.",
+    "Chiede di chiamare il cardiologo di fiducia prima di qualsiasi scarica."
+  ],
+  "timeLimitMinutes": 80,
+  "patientDeteriorationThreshold": 12,
+  "patientPrompt": "Mi chiamo Giovanni, ho 70 anni. Il cuore va a centosessanta, ho male al petto, la pressione è caduta. Se dovete darmi la scarica, addormentatemi prima e spiegatemi che è sincronizzata. Dopo voglio sapere se il ritmo tiene.",
+  "correctSolution": "Instabile: shock, sincope, scompenso o ischemia. Cardioversione elettrica preferenziale. Paziente cosciente: anestetizzare o sedare prima della cardioversione sincronizzata. Shock sull'onda R. Per la FA: shock sincronizzato iniziale alla massima potenza. Amiodarone se inefficace dopo shock, nel diagramma ALS. La terapia anticoagulante post-CV se durata >48 h è nel ramo stabile: qui è instabile, citazione da non copiare come obbligo prima dello shock. SPIKES Knowledge.",
+  "goldStandardPath": [
+    "ecg",
+    "sedazione-cv",
+    "cardioversione-sincronizzata",
+    "ecg-post-cv",
+    "ega",
+    "monitoraggio-post-cv"
+  ],
+  "goldPathNarrative": "ECG, riconoscimento dell'instabilità, sedazione, cardioversione sincronizzata, ECG dopo lo shock, monitoraggio. Anticoagulazione e farmaci post-CV restano nel percorso se indicati, con citazione vuota sul ramo instabile.",
+  "examLatencies": {
+    "ecg": 5,
+    "sedazione-cv": 8,
+    "cardioversione-sincronizzata": 10,
+    "ecg-post-cv": 15,
+    "ega": 15,
+    "monitoraggio-post-cv": 60,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "quando-inizio",
+      "prompt": "Da quanto le batte così, e ha male al petto o ha svenuto?",
+      "critical": true,
+      "expectedKeywords": ["palpit", "petto", "svenuto", "quando"],
+      "rationale": "Durata e segni di instabilità. L'anticoagulazione >48 h è scritta nel ramo stabile, non ritarda lo shock."
+    },
+    {
+      "id": "cibo",
+      "prompt": "Ha mangiato da poco, per la sedazione prima della scarica?",
+      "critical": true,
+      "expectedKeywords": ["mangiato", "digiuno", "sedazione", "stomaco"],
+      "rationale": "Deve essere sedato o anestetizzato. Il digiuno non ha una frase: citazione vuota."
+    },
+    {
+      "id": "paura-scarica",
+      "prompt": "Che cosa vuole sapere della scarica, prima che la addormentiamo?",
+      "critical": true,
+      "expectedKeywords": ["scarica", "paura", "addorment", "cuore"],
+      "rationale": "SPIKES Knowledge. La CV non aspetta il cardiologo di fiducia."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Sudato, vigile, parlante. Polso irregolare a 160, PA 85/50. Toni irregolari, soffi non descritti. Polmoni senza rantoli obbligatori. Deficit neurologico assente."
+  },
+  "escCitations": [
+    {
+      "chunkId": "erc5-cv-instabile",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "La cardioversione elettrica è il trattamento preferenziale per la tachiaritmia nel paziente instabile che presenta segni pericolo di vita."
+    },
+    {
+      "chunkId": "erc5-sedazione-cv",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "I pazienti coscienti devono essere anestetizzati o sedati prima di procedere con la cardioversione sincronizzata."
+    },
+    {
+      "chunkId": "erc5-sync-onda-r",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "Per cardiovertire le tachiaritmie atriali o ventricolari, lo shock deve essere sincronizzato in modo da cadere sull’onda R dell’elettrocardiogramma (ECG)."
+    },
+    {
+      "chunkId": "erc5-fa-max-potenza",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "Per la fibrillazione atriale: ◦ In base ai dati attualmente disponibili, uno shock sincronizzato iniziale alla massima potenza del defibrillatore è una strategia ragionevole preferibile ad un approccio incrementale."
+    },
+    {
+      "chunkId": "erc5-segni-instabile",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "I segni di allarme in un paziente instabile includono: ◦ Shock - si manifesta con ipotensione (ad es. pressione sistolica < 90 mmHg) e sintomi dati dall’aumento dell’attività simpatica e dalla riduzione del flusso ematico cerebrale."
+    },
+    {
+      "chunkId": "erc5-amiodarone-se-inefficace",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "CARDIOVERSIONE ELETTRICA SINCRONIZZATA FINO A 3 SHOCK • Sedazione o anestesia, se paziente cosciente Se inefficaci: • Amiodarone 300 mg EV in 10-20 min"
+    },
+    {
+      "chunkId": "spikes-knowledge",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Riconoscere PA 85/50 come instabilità.",
+      "Sedazione poi cardioversione sincronizzata, non un beta-bloccante orale in attesa.",
+      "ECG dopo lo shock e monitoraggio."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Le frasi su instabilità, sedazione, sincronizzazione sull'onda R e massima potenza nella FA sono del capitolo ERC 5 ALS. La terapia post-CV anticoagulante >48 h è nel ramo stabile del diagramma: non ritarda lo shock.",
+      "legalCriteria": [
+        "Registrare PA 85/50, FC 160 e dolore.",
+        "Registrare sedazione e numero/energia degli shock, senza inventare joule se il PDF dice massima potenza.",
+        "Allegare ECG pre e post."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG a 12 derivazioni",
+      "finding": "Fibrillazione atriale a 160 bpm. Nessun sopraslivellamento descritto.",
+      "isAbnormal": true,
+      "priceEuro": 15,
+      "isFatal": true
+    },
+    {
+      "examId": "ecg-post-cv",
+      "name": "ECG dopo cardioversione",
+      "finding": "Controllo del ritmo dopo lo shock. Nessun intervallo di sinusale è fissato.",
+      "isAbnormal": false,
+      "priceEuro": 15,
+      "isFatal": false
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa",
+      "finding": "Rivalutazione dopo la CV. Nessun pH è fissato.",
+      "isAbnormal": false,
+      "priceEuro": 10,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non è il work-up della FA instabile.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Le raccomandazioni copiate nominano ECG e cardioversione. Non la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 160,
+      "bloodPressure": "85/50",
+      "spo2": 93,
+      "temperature": 36.4,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 60,
+    "demographics": { "age": 70, "sex": "M", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Polso irregolare ipoteso",
+        "result": "Polso irregolare a 160, PA 85/50, dolore toracico, sudorazione.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": { "finding": "FA a 160 bpm, senza STEMI descritto.", "isAbnormal": true, "price": 15 },
+        "ecg-post-cv": { "finding": "ECG dopo shock, ritmo non numerato.", "isAbnormal": false, "price": 15 },
+        "ega": { "finding": "pH non fissato.", "isAbnormal": false, "price": 10 },
+        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Sedazione per cardioversione",
+          "anyOf": [
+            {
+              "id": "midazolam",
+              "label": "Sedazione o anestesia",
+              "aliases": ["midazolam", "propofol", "sedazione", "anestesia"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Riconoscere l'instabilità.",
+        "Sedare.",
+        "Cardioversione sincronizzata.",
+        "ECG dopo lo shock.",
+        "Spiegare la scarica."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto della cardioversione."
+        }
+      ],
+      "citationLimits": [
+        "Shock sincronizzato, non asincrono, sull'onda R.",
+        "Massima potenza iniziale nella FA, non uno schema incrementale obbligatorio.",
+        "Fino a 3 shock nel diagramma. Amiodarone se inefficaci.",
+        "Anticoagulante se durata >48 h è nel ramo stabile. Non ritarda la CV instabile. Post-CV: citazione vuota sul ramo instabile."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Ha paura della scarica. Collabora se gli si dice che prima lo si addormenta e che lo shock cade sull'onda R, poi si rivede l'ECG."
+  }
+}

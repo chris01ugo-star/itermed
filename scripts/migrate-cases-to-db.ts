@@ -4,10 +4,13 @@
  * Reads recursively from:
  *   knowledge_base/{cardiologia,pneumologia,gastroenterologia}/cases/*.json
  *   knowledge_base/medicina_interna/cases/*.json
+ *   knowledge_base/medicina_urgenza/cases/EMERG-*.json
  *   knowledge_base/tutorials/TUTORIAL-*.json
  *
  * Medicina Interna rows are also upserted into `ClinicalCase` and linked to the
  * existing MedicalSpecialty named "Medicina Interna".
+ * Medicina d'Emergenza-Urgenza rows (slug `medicina_urgenza`) are linked to the
+ * seed name "Medicina d'Emergenza-Urgenza".
  *
  * Usage:
  *   npx tsx scripts/migrate-cases-to-db.ts
@@ -26,9 +29,16 @@ loadEnv({ path: resolve(process.cwd(), ".env.local") });
 loadEnv({ path: resolve(process.cwd(), ".env") });
 
 const KB_ROOT = resolve(process.cwd(), "knowledge_base");
-const SPECIALTIES = ["cardiologia", "pneumologia", "gastroenterologia", "medicina_interna"] as const;
-const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED)-\d{3}\.json$/i;
+const SPECIALTIES = [
+  "cardiologia",
+  "pneumologia",
+  "gastroenterologia",
+  "medicina_interna",
+  "medicina_urgenza",
+] as const;
+const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG)-\d{3}\.json$/i;
 const MEDICINA_INTERNA_SPECIALTY_NAME = "Medicina Interna";
+const MEDICINA_URGENZA_SPECIALTY_NAME = "Medicina d'Emergenza-Urgenza";
 
 function isCaseFile(full: string, name: string): boolean {
   if (CASE_FILE_RE.test(name)) return true;
@@ -140,6 +150,10 @@ async function main(): Promise<void> {
     where: { name: { equals: MEDICINA_INTERNA_SPECIALTY_NAME, mode: "insensitive" } },
     select: { id: true, name: true },
   });
+  const medicinaUrgenza = await prisma.medicalSpecialty.findFirst({
+    where: { name: { equals: MEDICINA_URGENZA_SPECIALTY_NAME, mode: "insensitive" } },
+    select: { id: true, name: true },
+  });
   const author = await prisma.user.findFirst({
     where: { role: "ADMIN" },
     orderBy: { createdAt: "asc" },
@@ -149,11 +163,19 @@ async function main(): Promise<void> {
     console.error(
       `[migrate-cases] MedicalSpecialty "${MEDICINA_INTERNA_SPECIALTY_NAME}" assente: i casi INTMED non possono essere collegati.`,
     );
-  } else if (!author) {
-    console.error("[migrate-cases] Nessun utente ADMIN: i casi INTMED non possono essere creati in ClinicalCase.");
+  }
+  if (!medicinaUrgenza) {
+    console.error(
+      `[migrate-cases] MedicalSpecialty "${MEDICINA_URGENZA_SPECIALTY_NAME}" assente: i casi EMERG non possono essere collegati.`,
+    );
+  }
+  if (!author) {
+    console.error("[migrate-cases] Nessun utente ADMIN: i casi INTMED/EMERG non possono essere creati in ClinicalCase.");
   } else {
     console.log(
-      `[migrate-cases] Medicina Interna → ${medicinaInterna.id}; autore ${author.email ?? author.id}`,
+      `[migrate-cases] autore ${author.email ?? author.id}` +
+        `${medicinaInterna ? `; Medicina Interna → ${medicinaInterna.id}` : ""}` +
+        `${medicinaUrgenza ? `; Medicina d'Emergenza-Urgenza → ${medicinaUrgenza.id}` : ""}`,
     );
   }
 
@@ -204,15 +226,21 @@ async function main(): Promise<void> {
           ragSources: ragSources as Prisma.InputJsonValue,
         },
       });
-      if (kb.specialty === "medicina_interna") {
-        if (!medicinaInterna || !author) {
+      if (kb.specialty === "medicina_interna" || kb.specialty === "medicina_urgenza") {
+        const linked =
+          kb.specialty === "medicina_interna" ? medicinaInterna : medicinaUrgenza;
+        const linkedLabel =
+          kb.specialty === "medicina_interna"
+            ? MEDICINA_INTERNA_SPECIALTY_NAME
+            : MEDICINA_URGENZA_SPECIALTY_NAME;
+        if (!linked || !author) {
           failures.push({
             file,
-            error: "ClinicalCase non scritto: manca la specialità Medicina Interna o un utente ADMIN.",
+            error: `ClinicalCase non scritto: manca la specialità ${linkedLabel} o un utente ADMIN.`,
           });
           continue;
         }
-        await upsertMedicinaInternaClinicalCase(prisma, kb, author.id, medicinaInterna.id);
+        await upsertMedicinaInternaClinicalCase(prisma, kb, author.id, linked.id);
       }
 
       upserted += 1;

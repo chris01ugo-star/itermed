@@ -1,0 +1,245 @@
+{
+  "id": "EMERG-017",
+  "code": "EMERG-017",
+  "title": "Donna di 50 anni con cefalea a rombo di tuono e rigidità nucale",
+  "description": "Elena, 50 anni, arriva per cefalea improvvisa a rombo di tuono, vomito e rigidità nucale. Parametri: PA 188/102 mmHg, FC 96 bpm, FR 20 atti/min, SpO2 97%, temperatura 36.9. Fotofobia. GCS 14.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["neurologia"],
+  "condition": "Emorragia subaracnoidea sospetta",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+  "diagnosis": "Sospetta emorragia subaracnoidea: cefalea a rombo di tuono, vomito, rigidità nucale. Non è un'emicrania ordinaria. Non è un ictus ischemico da lisare prima della TC.",
+  "pastMedicalHistory": "Ipertensione. Nessun aneurisma noto nel racconto. Non è in anticoagulante dichiarato. GCS 14 all'arrivo, non 3. La TC senza mdc, il target pressorio dell'ESA e la consulenza neurochirurgica non hanno frase operativa nei PDF di questa cartella.",
+  "presentation": "Cefalea improvvisa, vomito, nuca rigida. ABCDE, TC senza mezzo di contrasto, controllo della pressione, chiamata al neurochirurgo, rivalutazione GCS a 1 ora. L'ESA è nominata tra le morti cerebrali improvvise ERC. Imaging, target millimetrici e consulenza restano nel percorso a citazione vuota.",
+  "redHerrings": [
+    "Un collega propone trombolisi come per un ictus ischemico, prima della TC.",
+    "Chiede un antinfiammatorio e di tornare a casa se il vomito passa."
+  ],
+  "timeLimitMinutes": 120,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "Mi chiamo Elena, ho 50 anni. Mi è esplosa la testa, vomito, non fletto il collo. Fatemi la TAC senza contrasto, tenete la pressione, chiamate i neurochirurghi. Tra un'ora rivedete se sto sveglia. Non datemi la lisi al buio.",
+  "correctSolution": "Trattare come emergenza neurologica. L'emorragia subaracnoidea è nominata nei testi ERC tra le cause di morte cerebrale improvvisa, insieme alla rottura di aneurisma. TC senza mdc, controllo rigoroso della PA e consulenza neurochirurgica: nessuna frase operativa estraibile, restano nel gold path a citazione vuota. Non lisare come un ictus ischemico prima dell'imaging. Rivalutazione GCS a 1 ora. SPIKES Knowledge.",
+  "goldStandardPath": [
+    "abcde",
+    "tc",
+    "ega",
+    "controllo-pa",
+    "consulenza-nch",
+    "rivalutazione-gcs-1h"
+  ],
+  "goldPathNarrative": "ABCDE, TC senza mdc, emogas, controllo pressorio, consulenza neurochirurgica, rivalutazione GCS a 1 ora. Solo l'ESA come causa di morte improvvisa ha citazione ERC. TC, target PA e NCH: citazione vuota.",
+  "examLatencies": {
+    "abcde": 5,
+    "tc": 15,
+    "ega": 10,
+    "controllo-pa": 20,
+    "consulenza-nch": 30,
+    "rivalutazione-gcs-1h": 60,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "esordio-cefalea",
+      "prompt": "La cefalea è esplosa di colpo, o è cresciuta in ore?",
+      "critical": true,
+      "expectedKeywords": ["esplosa", "improvvisa", "tuono", "colpo"],
+      "rationale": "Il rombo di tuono distingue l'ESA dall'emicrania. Non c'è una frase PDF su questo esordio: la domanda resta."
+    },
+    {
+      "id": "vomito-nuca",
+      "prompt": "Ha vomitato, e riesce a flettere il collo?",
+      "critical": true,
+      "expectedKeywords": ["vomito", "nuca", "collo", "rigida"],
+      "rationale": "Rigidità nucale e vomito sono nel brief. Non copiati da un protocollo ESA nei PDF."
+    },
+    {
+      "id": "perdita-coscienza",
+      "prompt": "Ha perso conoscenza, anche per pochi secondi?",
+      "critical": true,
+      "expectedKeywords": ["coscienza", "svenire", "secondi", "sveglia"],
+      "rationale": "ERC elenca l'ESA tra le morti cerebrali improvvise. GCS va seguito nel tempo."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la spaventa di più: che sia rotto un vaso o che la mandino in sala?",
+      "critical": true,
+      "expectedKeywords": ["vaso", "rotto", "sala", "paura"],
+      "rationale": "SPIKES Knowledge ed Emotions, senza ritardare la TC."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Fotofobia, rigidità nucale, vomito. GCS 14. Non afasia. Non emiparesi descritta. PA 188/102. Nessun millimetro di target ESA è citato."
+  },
+  "escCitations": [
+    {
+      "chunkId": "erc6-esa-morte-improvvisa",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "potendosi verificare in caso di emorragia subaracnoidea, emorragia intracranica, convulsioni e ictus ischemico.582 In uno studio statunitense condotto su 335 casi di morte cardiaca improvvisa, 18 (5,4%) erano morti cerebrali improvvise (emorragia intracranica, morte improvvisa ed inattesa in stato epilettico, emorragia secondaria a rottura di aneurisma cerebrale, ictus acuto"
+    },
+    {
+      "chunkId": "erc6-abcde",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Segui l'approccio ABCDE • Dove necessario adotta tutte le misure di sicurezza • È prioritaria la ricerca delle cause reversibili"
+    },
+    {
+      "chunkId": "atls-gcs",
+      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
+      "quote": "GCS è l’acronimo che indica la Glasgow Coma Scale. È una scala che attribuisce un punteggio allo stato di coscienza del paziente e quindi alla gravità del coma. È analoga alla scala AVPU, ma più dettagliata. Può andare da un valore massimo di 15 (vittima completamente orientata e cosciente) ad un minimo di 3"
+    },
+    {
+      "chunkId": "spikes-knowledge",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Non lisare prima della TC.",
+      "TC senza mdc e chiamata al neurochirurgo nel percorso, anche senza frase da copiare.",
+      "Rivalutazione GCS a 1 ora."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "ERC 2021 cap. 6 nomina l'ESA e la rottura di aneurisma tra le morti cerebrali improvvise, senza un protocollo di TC o di pressione. Il PDF ESO 2025 è ICH, non ESA: non copiare la soglia sistolica <140 mmHg come se fosse scritta per l'ESA. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "legalCriteria": [
+        "Annotare ora di esordio della cefalea e GCS di arrivo.",
+        "Annotare TC senza mdc e l'ora della consulenza neurochirurgica.",
+        "Registrare la rivalutazione GCS a 1 ora e i valori di pressione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "abcde",
+      "name": "Valutazione ABCDE",
+      "finding": "Vie aeree pervie, GCS 14, nuca rigida, vomito. Nessuna intubazione all'arrivo.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    },
+    {
+      "examId": "tc",
+      "name": "TC cranio senza mdc",
+      "finding": "Imaging senza contrasto nel percorso. Nessuna frase su sangue negli spazi subaracnoidei è estraibile. Non ritardare per una PET.",
+      "isAbnormal": true,
+      "priceEuro": 120,
+      "isFatal": true
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "Controllo dei gas. Nessun pH è fissato.",
+      "isAbnormal": false,
+      "priceEuro": 10,
+      "isFatal": false
+    },
+    {
+      "examId": "rivalutazione-gcs-1h",
+      "name": "Rivalutazione GCS dopo 1 ora",
+      "finding": "GCS ricalcolato a 1 ora. Nessun punto di calo è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non sostituisce la TC senza mdc nell'ESA sospetta.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "I testi nominano l'ESA come causa di morte improvvisa, non la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "188/102",
+      "spo2": 97,
+      "temperature": 36.9,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 160,
+    "demographics": { "age": 50, "sex": "F", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Rigidità nucale",
+        "result": "Non flette il collo. Fotofobia.",
+        "isPositive": true
+      },
+      {
+        "signName": "Cefalea a rombo di tuono",
+        "result": "Esordio improvviso, la peggiore della vita, vomito.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "tc": {
+          "finding": "TC senza mdc nel percorso. Reperto millimetrico non copiato.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "ega": {
+          "finding": "Nessun pH fissato.",
+          "isAbnormal": false,
+          "price": 10
+        },
+        "pet-tc": {
+          "finding": "Non indicata al posto della TC senza mdc.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Controllo della pressione arteriosa",
+          "anyOf": [
+            {
+              "id": "controllo-pa",
+              "label": "Controllo pressorio",
+              "aliases": ["pressione", "antipertensivo", "urapidil", "labetalolo"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "TC senza mdc prima di qualsiasi lisi.",
+        "Controllo della pressione nel percorso.",
+        "Consulenza neurochirurgica.",
+        "Rivalutazione GCS a 1 ora.",
+        "Spiegare a Elena il sospetto di ESA."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto della TC senza mdc."
+        }
+      ],
+      "citationLimits": [
+        "ERC nomina l'ESA e la rottura di aneurisma tra le morti cerebrali improvvise. Non c'è un protocollo di TC, di pressione o di clip/coil.",
+        "Il PDF ESO 2025 è ICH spontanea, non ESA. Non copiare «sistolica sotto 140 mmHg» come se fosse scritta per l'ESA.",
+        "TC senza mdc, consulenza NCH e target pressori: gold path, citazione vuota.",
+        "GCS 14 e PA 188/102 sono del brief, non soglie copiate."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
+    "communicationStyle": "Ha paura che sia rotto un aneurisma. Chiede TC, pressione e neurochirurgo in ordine, senza rassicurazioni vuote e senza lisi prima dell'imaging."
+  }
+}

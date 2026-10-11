@@ -1,0 +1,240 @@
+{
+  "id": "EMERG-001",
+  "code": "EMERG-001",
+  "title": "Ragazzo di 22 anni con dispnea sibilante",
+  "description": "Luca, 22 anni, arriva in pronto soccorso per dispnea sibilante. Parla a frasi intere, non è esausto. Parametri: PA 124/76 mmHg, FC 92 bpm, FR 20 atti/min, SpO2 96%, temperatura 36.7.",
+  "difficulty": "EASY",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["pneumologia"],
+  "condition": "Crisi asmatica lieve",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+  "diagnosis": "Crisi asmatica lieve. SpO2 96%, parla a frasi intere, nessun segno di esaurimento.",
+  "pastMedicalHistory": "Sibili noti, senza un ricovero descritto. Non è in ossigeno all'arrivo. Non è dichiarata una terapia steroidea già presa oggi. Nessuna allergia è nel racconto di partenza.",
+  "presentation": "Dispnea con sibili, da poche ore. In pronto soccorso parla a frasi intere, non usa i muscoli accessori in modo descritto come esaurimento, saturazione 96%. Vuole il suo spray e tornare a casa.",
+  "redHerrings": [],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Mi chiamo Luca, ho 22 anni. Mi manca il fiato e sento un fischio quando respiro, ma riesco a parlare. Non sono sfinito. Datemi l'inalatore e, se serve, la compressa, e ditemi se posso andare a casa. Non voglio una lastra o un prelievo dal polso se non servono.",
+  "correctSolution": "Salbutamolo per via inalatoria e steroide orale, poi dimissione. Nel riquadro ERC/SIGN il trattamento immediato dell'asma acuto in ospedale indica salbutamolo 5 mg in nebulizzatore e prednisone 40-50 mg per os (o idrocortisone ev). L'adattamento italiano GINA 2017 definisce lievi le riacutizzazioni che richiedono solo un rafforzamento della terapia inalatoria o dei SABA. Nello stesso documento la valutazione del PEF è scritta nel paragrafo delle riacutizzazioni gravi, come alternativa alla curva flusso-volume: non è una soglia di dimissione e non fissa un numero. L'emogas è scritto per i segni di rischio per la vita; qui SpO2 è 96% e non c'è esaurimento. La radiografia del torace, nella figura ERC/SIGN, è indicata se si sospetta pneumotorace o consolidamento o se serve la ventilazione meccanica: qui non è descritto nessuno di questi tre casi.",
+  "goldStandardPath": ["spirometria"],
+  "goldPathNarrative": "Picco di flusso, salbutamolo inalatorio e steroide orale. Non emogas e non radiografia del torace in questo quadro lieve. Spiegare a Luca che la saturazione è 96% e che parla a frasi intere.",
+  "examLatencies": {
+    "spirometria": 15,
+    "emocromo": 20,
+    "rx-torace": 30,
+    "ega": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "frasi",
+      "prompt": "Riesce a finire una frase con un solo respiro, o si interrompe?",
+      "critical": true,
+      "expectedKeywords": ["frase", "parlare", "respiro", "fiato"],
+      "rationale": "La figura SIGN distingue l'asma severo dall'incapacità di terminare la frase. Luca parla a frasi intere."
+    },
+    {
+      "id": "esaurimento",
+      "prompt": "Si sente sfinito, o sta solo fischiando ma è lucido?",
+      "critical": true,
+      "expectedKeywords": ["sfinito", "esausto", "lucido", "fischio"],
+      "rationale": "L'esaurimento è tra i segni di rischio per la vita della stessa figura. Qui non c'è."
+    },
+    {
+      "id": "inalatore",
+      "prompt": "Ha già usato uno spray per l'asma, e quando è stata l'ultima dose?",
+      "critical": true,
+      "expectedKeywords": ["spray", "inalatore", "salbutamolo", "dose"],
+      "rationale": "Il trattamento immediato della figura parte dal broncodilatatore. Il caso non dichiara una dose già fatta in pronto soccorso."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Parla a frasi intere, non è esausto, collabora. Sibili espiratori diffusi, murmure presente, niente cianosi descritta. Toni ritmici, soffi assenti. Addome trattabile."
+  },
+  "escCitations": [
+    {
+      "chunkId": "erc6-salbutamolo-nebulizzato",
+      "source": "knowledge_base/medicina_urgenza/clinic/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Broncodilatatori Beta2 (Salbutamolo 5 mg) attraverso un nebulizzatore ad ossigeno"
+    },
+    {
+      "chunkId": "erc6-prednisone-os",
+      "source": "knowledge_base/medicina_urgenza/clinic/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Prednisone 40-50 mg os o Idrocortisone 100mg e.v."
+    },
+    {
+      "chunkId": "erc6-steroidi",
+      "source": "knowledge_base/medicina_urgenza/clinic/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Somministrare steroidi (40-50 mg di Prednisolone o 100 mg di idrocortisone)."
+    },
+    {
+      "chunkId": "erc6-emogas-se-rischio-vita",
+      "source": "knowledge_base/medicina_urgenza/clinic/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Se il paziente ha segni di rischio per la vita, esegui un emogasanalisi. Non sono necessari altri test per iniziare un trattamento immediato."
+    },
+    {
+      "chunkId": "erc6-rx-condizionale",
+      "source": "knowledge_base/medicina_urgenza/clinic/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Rx del torace se si sospetta pneumotorace o consolidamento o il paziente richiede ventilazione meccanica"
+    },
+    {
+      "chunkId": "erc6-spo2-rischio-vita",
+      "source": "knowledge_base/medicina_urgenza/clinic/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Segni di rischio per la vita • PEF <33% del valore migliore o predetto • SpO2 <92% • Torace silente all’ascultazione, cianosi o scarsi sforzi respiratori"
+    },
+    {
+      "chunkId": "gina-riacutizzazione-lieve-saba",
+      "source": "knowledge_base/medicina_urgenza/clinic/GINA_adattamento_ita_2017_doc.pdf",
+      "quote": "Lievi: se richiedono solo un rafforzamento della terapia inalatoria o dell’uso dei SABA."
+    },
+    {
+      "chunkId": "gina-valutazione-pef",
+      "source": "knowledge_base/medicina_urgenza/clinic/GINA_adattamento_ita_2017_doc.pdf",
+      "quote": "Curva flusso-volume, in alternativa valutazione del PEF"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Salbutamolo inalatorio e steroide orale.",
+      "Niente emogas: SpO2 96%, nessun esaurimento, non è il riquadro del rischio per la vita.",
+      "Niente radiografia del torace: non c'è sospetto di pneumotorace, consolidamento o ventilazione meccanica."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Salbutamolo, steroide, emogas e radiografia restano le frasi della figura BTS/SIGN 2019 nel capitolo ERC 2021. GINA 2017, adattamento italiano, definisce lievi le riacutizzazioni trattate con terapia inalatoria o SABA. La valutazione del PEF, nello stesso GINA, è nel paragrafo 10.3.2 delle riacutizzazioni gravi, come alternativa alla curva flusso-volume. Non è una soglia per dimettere Luca e non porta un numero di PEF.",
+      "legalCriteria": [
+        "Documentare SpO2 96%, capacità di parlare a frasi intere e assenza di esaurimento.",
+        "Registrare salbutamolo e steroide orale, con la risposta.",
+        "Motivare l'astensione da emogas e da radiografia del torace sui criteri della figura."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "spirometria",
+      "name": "Picco di flusso espiratorio",
+      "finding": "Misura del picco di flusso richiesta dalla figura. Nessun valore numerico di PEF è fissato dal caso.",
+      "isAbnormal": true,
+      "priceEuro": 25,
+      "isFatal": false
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Nella norma. Nessun numero è fissato. Non cambia salbutamolo né steroide.",
+      "isAbnormal": false,
+      "priceEuro": 4.8,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rx-torace",
+      "name": "RX torace",
+      "finding": "Non indicata: nessun sospetto di pneumotorace o consolidamento, e non c'è indicazione a ventilare.",
+      "isAbnormal": false,
+      "priceEuro": 25,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Nella figura SIGN la radiografia del torace è prevista se si sospetta pneumotorace o consolidamento o se il paziente richiede ventilazione meccanica. Qui non ricorre nessuno di questi casi."
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "Non indicata: SpO2 96%, parla a frasi intere, non è esausto.",
+      "isAbnormal": false,
+      "priceEuro": 10,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "La figura dice di eseguire l'emogas se ci sono segni di rischio per la vita. Tra quei segni c'è SpO2 inferiore a 92%. Qui la saturazione è 96%."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 92,
+      "bloodPressure": "124/76",
+      "spo2": 96,
+      "temperature": 36.7,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 40,
+    "demographics": { "age": 22, "sex": "M", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Parola a frasi intere",
+        "result": "Completa le frasi. Non è descritto l'uso dei muscoli accessori come esaurimento.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "spirometria": { "finding": "Picco di flusso senza valore numerico fissato.", "isAbnormal": true, "price": 25 },
+        "emocromo": { "finding": "Nella norma, senza numeri fissati.", "isAbnormal": false, "price": 4.8 },
+        "rx-torace": { "finding": "Non indicata in questo quadro.", "isAbnormal": false, "price": 25 },
+        "ega": { "finding": "Non indicata con SpO2 96% e senza segni di rischio per la vita.", "isAbnormal": false, "price": 10 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Salbutamolo inalatorio",
+          "anyOf": [
+            {
+              "id": "salbutamolo",
+              "label": "Salbutamolo inalatorio",
+              "aliases": ["salbutamolo", "ventolin", "nebulizzazione", "beta2", "saba"]
+            }
+          ]
+        },
+        {
+          "label": "Steroide orale",
+          "anyOf": [
+            {
+              "id": "steroide-orale",
+              "label": "Prednisone o prednisolone orale",
+              "aliases": ["prednisone", "prednisolone", "deltacortene", "steroide orale", "cortisone orale"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Salbutamolo per via inalatoria.",
+        "Steroide orale.",
+        "Dimissione di questo attacco lieve.",
+        "Niente radiografia del torace e niente emogas."
+      ],
+      "penalties": [
+        {
+          "id": "rx-torace",
+          "kind": "economic",
+          "trigger": "Radiografia del torace senza sospetto di pneumotorace, consolidamento o ventilazione meccanica."
+        },
+        {
+          "id": "ega",
+          "kind": "economic",
+          "trigger": "Emogas con SpO2 96% e senza segni di rischio per la vita."
+        }
+      ],
+      "citationLimits": [
+        "Il capitolo ERC è sull'arresto in circostanze speciali. La figura riproduce la linea BTS/SIGN 2019 sulla gestione intraospedaliera dell'asma acuto, non un percorso scritto per la sola crisi lieve ambulatoriale.",
+        "Lo stesso capitolo, prima della figura, nel punto Respirazione di asma e BPCO, scrive di richiedere una radiografia del torace senza la condizione pneumotorace/consolidamento/ventilazione. La scelta di non farla in questo caso segue la frase condizionata della figura e il brief, non quella riga.",
+        "Il riquadro del trattamento immediato elenca anche ipratropio bromuro 0,5 mg in nebulizzatore e ossigeno per SpO2 tra 94 e 98%. La saturazione di Luca è già 96%. L'ipratropio non è richiesto per chiudere il caso.",
+        "La dimissione della figura ERC/SIGN chiede PEF superiore al 75% e terapia osservata per 12-24 ore prima di lasciare l'ospedale. Nessun numero di PEF è fissato qui. Quella checklist non è soddisfatta.",
+        "In GINA la frase «Curva flusso-volume, in alternativa valutazione del PEF» sta sotto «10.3.2 Le riacutizzazioni gravi», insieme a pulsiossimetria ed emogas. Non è la regola della forma lieve e non autorizza l'emogas con SpO2 96%.",
+        "La definizione GINA di forma lieve («rafforzamento della terapia inalatoria o dell’uso dei SABA») copre il trattamento, non una frase che dica di dimettere senza altri criteri. La dimissione resta il brief del quadro lieve.",
+        "L'emocromo non è nominato. È nel caso solo perché lo schema esige due esami; il referto è normale e non guida la terapia."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "GOOD", "stressLevel": "MEDIUM", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Collabora e vuole tornare a casa. Ascolta se gli si dice che parla a frasi intere, che la saturazione è 96% e perché spray e compressa bastano senza lastra né prelievo dal polso."
+  }
+}

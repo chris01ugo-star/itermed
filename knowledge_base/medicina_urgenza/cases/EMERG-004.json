@@ -1,0 +1,221 @@
+{
+  "id": "EMERG-004",
+  "code": "EMERG-004",
+  "title": "Ragazza di 25 anni con distorsione di caviglia",
+  "description": "Chiara, 25 anni, arriva in pronto soccorso dopo una distorsione della caviglia giocando a pallavolo. Cammina per quattro passi. La palpazione dei malleoli non le fa male. Parametri: PA 118/72 mmHg, FC 84 bpm, FR 16 atti/min, SpO2 99%, temperatura 36.6.",
+  "difficulty": "EASY",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "condition": "Distorsione di caviglia",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
+  "diagnosis": "Distorsione di caviglia. Quattro passi possibili, malleoli non dolenti alla palpazione.",
+  "pastMedicalHistory": "Nessuna frattura di caviglia nota. Non è in anticoagulante. Il trauma è una ricaduta in pallavolo, chiuso, senza ferita descritta.",
+  "presentation": "Dopo un salto in pallavolo la caviglia si è piegata. Zoppica ma fa quattro passi. Il malleolo, se lo si preme, non è il punto che le fa male. Vuole il ghiaccio e sapere se serve la lastra.",
+  "redHerrings": [],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Mi chiamo Chiara, ho 25 anni. Mi sono storta la caviglia a pallavolo. Riesco a fare quattro passi, zoppicando. Se mi premete sull'osso della caviglia non è lì che fa male, fa male più sotto. Mettetemi il ghiaccio. La lastra la fate solo se serve davvero.",
+  "correctSolution": "Non richiedere la radiografia. Le Ottawa Ankle Rules, nel file ottawa.pdf, dicono che la serie radiografica della caviglia è richiesta solo se c'è dolore nella regione malleolare e almeno uno tra: dolorabilità ossea sui 6 cm distali del bordo posteriore o sulla punta del malleolo laterale, la stessa dolorabilità sul malleolo mediale, oppure incapacità di caricare il peso per 4 passi sia subito sia in pronto soccorso. Chiara fa quattro passi e i malleoli, premuti, non fanno male. C'è poi, nel primo soccorso ERC 2021, l'acronimo RICE e una raccomandazione neutrale sul bendaggio compressivo della caviglia. Un manuale di anatomia del trauma in cartella scrive che per fratture, distorsioni o lussazioni serve sempre un accertamento radiologico: quella frase non è usata per ordinare la lastra.",
+  "goldStandardPath": ["deambulazione", "palpazione-malleoli"],
+  "goldPathNarrative": "Far fare quattro passi e palpare i malleoli. La lastra di caviglia, nelle Ottawa Ankle Rules, è richiesta solo se c'è dolore malleolare e dolorabilità ossea oppure incapacità di fare 4 passi. Qui i due rilievi non ci sono, quindi la radiografia non parte. Ghiaccio e bendaggio secondo RICE. Dire a Chiara perché la lastra non parte.",
+  "examLatencies": {
+    "deambulazione": 5,
+    "palpazione-malleoli": 5,
+    "rx-ossa": 30
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "quattro-passi",
+      "prompt": "Dopo la storta, riesce a fare quattro passi, anche zoppicando?",
+      "critical": true,
+      "expectedKeywords": ["quattro", "passi", "zoppica", "cammina"],
+      "rationale": "Le Ottawa Ankle Rules chiedono la lastra se il paziente non carica il peso per 4 passi, subito e in pronto soccorso. Chiara i quattro passi li fa."
+    },
+    {
+      "id": "malleoli",
+      "prompt": "Il dolore, premendo, è sull'osso del malleolo o più in basso, sul legamento?",
+      "critical": true,
+      "expectedKeywords": ["malleolo", "osso", "legamento", "preme"],
+      "rationale": "Le Ottawa Ankle Rules legano la lastra alla dolorabilità ossea del malleolo laterale o mediale. Qui la palpazione dei malleoli non fa male."
+    },
+    {
+      "id": "ferita",
+      "prompt": "C'è una ferita, o la cute è chiusa?",
+      "critical": false,
+      "expectedKeywords": ["ferita", "cute", "chiusa", "sangue"],
+      "rationale": "Il caso è una distorsione chiusa. Una ferita non è descritta e non va aggiunta."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Collaborante, zoppica, fa quattro passi. Cute chiusa, gonfiore modesto senza un ematoma misurato. La palpazione dei malleoli non risveglia dolore. Il dolore è riferito sotto il malleolo. Polsi periferici presenti, sensibilità conservata."
+  },
+  "escCitations": [
+    {
+      "chunkId": "erc8-rice",
+      "source": "knowledge_base/medicina_urgenza/clinic/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
+      "quote": "RICE: Riposo, Immobilizzazione (compressione), Freddo, e Elevazione\" o Riposo, Ghiaccio, Compressione, Elevazione"
+    },
+    {
+      "chunkId": "erc8-bendaggio-neutrale",
+      "source": "knowledge_base/medicina_urgenza/clinic/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
+      "quote": "Nel 2020 il CoSTR della Task Force ILCOR ha formulato una raccomandazione neutrale, suggerendo l’applicazione oppure la non applicazione di un bendaggio compressivo per adulti con un trauma articolare della caviglia (raccomandazione debole, qualità delle prove molto bassa)"
+    },
+    {
+      "chunkId": "erc8-distorsione-caviglia",
+      "source": "knowledge_base/medicina_urgenza/clinic/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
+      "quote": "La distorsione laterale della caviglia è una lesione chiusa delle articolazioni che i primi soccorritori si trovano frequentemente a dover gestire."
+    },
+    {
+      "chunkId": "ottawa-rx-caviglia-solo-se",
+      "source": "knowledge_base/medicina_urgenza/clinic/ottawa.pdf",
+      "quote": "An ankle x-ray series is required only if there is pain in the malleolar region and any one of the following:"
+    },
+    {
+      "chunkId": "ottawa-malleolo-laterale",
+      "source": "knowledge_base/medicina_urgenza/clinic/ottawa.pdf",
+      "quote": "Bone tenderness along the distal 6 cm of the posterior edge of the fibula or tip of the lateral malleolus"
+    },
+    {
+      "chunkId": "ottawa-malleolo-mediale",
+      "source": "knowledge_base/medicina_urgenza/clinic/ottawa.pdf",
+      "quote": "Bone tenderness along the distal 6 cm of the posterior edge or tip of the medial malleolus"
+    },
+    {
+      "chunkId": "ottawa-quattro-passi",
+      "source": "knowledge_base/medicina_urgenza/clinic/ottawa.pdf",
+      "quote": "Inability to weight bear for 4 steps both immediately and in the emergency department"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Quattro passi e palpazione dei malleoli prima di decidere sulla lastra.",
+      "Non richiedere la radiografia: le Ottawa Ankle Rules la chiedono solo con dolore malleolare e dolorabilità ossea o incapacità di fare 4 passi.",
+      "Ghiaccio e bendaggio, con la raccomandazione ERC che sul bendaggio è neutrale."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Le Ottawa Ankle Rules, file ottawa.pdf, richiedono la serie radiografica della caviglia solo se c'è dolore nella regione malleolare e uno tra dolorabilità ossea del malleolo laterale, dolorabilità del malleolo mediale, o incapacità di caricare il peso per 4 passi subito e in pronto soccorso. Chiara non ha questi rilievi. Il ghiaccio e il bendaggio restano l'acronimo RICE dell'ERC 2021. Il bendaggio ha raccomandazione neutrale. Il testo di anatomia del trauma in cartella dice ancora che la radiografia serve sempre nelle distorsioni: non è la frase usata per ordinare la lastra.",
+      "legalCriteria": [
+        "Scrivere quanti passi fa e l'esito della palpazione dei malleoli.",
+        "Scrivere che la radiografia non è stata chiesta perché mancano i criteri di Ottawa Ankle Rules presenti in ottawa.pdf.",
+        "Registrare ghiaccio e bendaggio."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "deambulazione",
+      "name": "Prova dei quattro passi",
+      "finding": "Fa quattro passi, zoppicando. Nessun punteggio è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": false
+    },
+    {
+      "examId": "palpazione-malleoli",
+      "name": "Palpazione dei malleoli",
+      "finding": "La palpazione dei malleoli non risveglia dolore. Il dolore è riferito più in basso.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rx-ossa",
+      "name": "RX caviglia",
+      "finding": "Non richiesta su questo rilievo: quattro passi e malleoli non dolenti.",
+      "isAbnormal": false,
+      "priceEuro": 30,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Le Ottawa Ankle Rules richiedono la lastra solo con dolore malleolare e dolorabilità ossea o incapacità di fare 4 passi. Qui la paziente fa quattro passi e i malleoli non sono dolenti."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 84,
+      "bloodPressure": "118/72",
+      "spo2": 99,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 15,
+    "demographics": { "age": 25, "sex": "F", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Quattro passi",
+        "result": "Cammina per quattro passi, zoppicando.",
+        "isPositive": true
+      },
+      {
+        "signName": "Palpazione dei malleoli",
+        "result": "Nessun dolore alla palpazione dei malleoli.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "deambulazione": { "finding": "Quattro passi possibili, con zoppia.", "isAbnormal": true, "price": 0 },
+        "palpazione-malleoli": { "finding": "Malleoli non dolenti alla palpazione.", "isAbnormal": true, "price": 0 },
+        "rx-ossa": { "finding": "Non richiesta su questi rilievi.", "isAbnormal": false, "price": 30 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Ghiaccio",
+          "anyOf": [
+            {
+              "id": "ghiaccio",
+              "label": "Ghiaccio",
+              "aliases": ["ghiaccio", "ice", "freddo", "crioterapia"]
+            }
+          ]
+        },
+        {
+          "label": "Bendaggio",
+          "anyOf": [
+            {
+              "id": "bendaggio",
+              "label": "Bendaggio compressivo",
+              "aliases": ["bendaggio", "fasciatura", "compressione", "tutore"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Quattro passi documentati.",
+        "Malleoli non dolenti alla palpazione.",
+        "Niente radiografia.",
+        "Ghiaccio e bendaggio."
+      ],
+      "penalties": [
+        {
+          "id": "rx-ossa",
+          "kind": "economic",
+          "trigger": "Radiografia di caviglia con quattro passi possibili e malleoli non dolenti."
+        }
+      ],
+      "citationLimits": [
+        "Le Ottawa Ankle Rules sono in ottawa.pdf. La lastra di caviglia è richiesta solo se c'è dolore nella regione malleolare e almeno uno tra dolorabilità ossea del malleolo laterale, dolorabilità del malleolo mediale, e incapacità di fare 4 passi subito e in pronto soccorso. Il PDF non contiene la frase «non fare la radiografia»: l'astensione è l'applicazione di quel «only if». Le esclusioni scritte sono età sotto i 18 anni, intossicazione, traumi dolorosi multipli, gravidanza, trauma cranico, deficit di sensibilità. Chiara ha 25 anni e non rientra in queste esclusioni.",
+        "In atls.pdf, nel capitolo di anatomia, è scritto che fratture, distorsioni o lussazioni possono restare nascoste e che per togliere ogni ambiguità è sempre necessario un accertamento radiologico. Quella frase contrasta con il brief. Non è citata come motivo per fare la lastra in questo caso, e non è nascosta.",
+        "Il ghiaccio per lo strappo muscolare, nello stesso atls.pdf, riguarda il punto di unione tra muscolo e tendine, non la distorsione di caviglia. Per il ghiaccio di Chiara si usa solo la voce Freddo/Ghiaccio dell'acronimo RICE dell'ERC.",
+        "La raccomandazione ERC sul bendaggio è neutrale: applicarlo oppure no, evidenza molto bassa, studi fatti in ospedale. Il bendaggio resta nel percorso perché è nel brief e nell'acronimo RICE, non perché il CoSTR lo renda obbligatorio.",
+        "Nel PDF, dopo Elevazione, c'è un segno di virgolette prima di «o Riposo». La citazione lo conserva.",
+        "Riposo ed elevazione sono nell'acronimo e non sono un esame a parte."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "GOOD", "stressLevel": "MEDIUM", "socialSupport": "STRONG" },
+    "communicationStyle": "Vuole tornare a giocare e chiede esplicitamente di non fare esami inutili. Accetta ghiaccio e bendaggio se le si dice che ha fatto quattro passi e che i malleoli, premuti, non fanno male."
+  }
+}

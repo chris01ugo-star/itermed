@@ -1,0 +1,237 @@
+{
+  "id": "EMERG-009",
+  "code": "EMERG-009",
+  "title": "Donna di 40 anni con sincope, tachicardia e contraccettivi",
+  "description": "Chiara, 40 anni, arriva dopo una sincope. Tachicardica, ipotesa. Parametri: PA 82/50 mmHg, FC 124 bpm, FR 30 atti/min, SpO2 88%, temperatura 36.7. Assume contraccettivi orali.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["pneumologia", "cardiologia"],
+  "condition": "Embolia polmonare massiva con instabilità emodinamica",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+  "diagnosis": "Embolia polmonare ad alto rischio. Sincope, ipotensione, ipossia. Non è un'embolia a rischio intermedio stabile.",
+  "pastMedicalHistory": "Contraccettivo orale. Nessuna chirurgia recente, niente ictus, niente emorragia in atto dichiarati. Non è in anticoagulante. Un viaggio lungo non è nel brief e non va inventato.",
+  "presentation": "Sincope, poi fiatone e pressione 82/50. Instabile. Angio-TC se fattibile, TTE se troppo instabile. Trombolisi sistemica per EP ad alto rischio con instabilità. Poi osservazione per sanguinamento.",
+  "redHerrings": [
+    "Chiede se è stato solo uno svenimento da pillola e se può alzarsi.",
+    "Un collega propone eparina sottocute e ricovero ordinario senza lisi."
+  ],
+  "timeLimitMinutes": 90,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "Mi chiamo Chiara, ho 40 anni, prendo la pillola. Sono svenuta, adesso ho il fiatone e paura di morire. Se serve lo scioglimento del coagulo ditelo subito, e state attenti se sangue. Non mandatemi in giro se il cuore non regge.",
+  "correctSolution": "EP instabile: angio-TC in urgenza se fattibile, TTE se troppo instabile (dilatazione RV). Trombolisi associata a riduzione di mortalità o recidiva di EP ad alto rischio con instabilità emodinamica. Agenti fibrino-specifici (alteplase) nella linea ACS sono per lo STEMI, non vanno copiati come dose da EP. Monitoraggio emorragico senza una checklist citata. SPIKES sulla paura di morire.",
+  "goldStandardPath": [
+    "ecg",
+    "ecocardio",
+    "angio",
+    "lattati",
+    "ega",
+    "monitoraggio-emorragia"
+  ],
+  "goldPathNarrative": "Riconoscere l'instabilità. TTE al letto o angio-TC. Trombolisi sistemica. Monitoraggio per sanguinamento. Contraccettivo come contesto, senza una frase che lo nomini nei PDF usati.",
+  "examLatencies": {
+    "ecg": 8,
+    "ecocardio": 10,
+    "angio": 25,
+    "lattati": 15,
+    "ega": 10,
+    "monitoraggio-emorragia": 60,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "pillola",
+      "prompt": "Assume un contraccettivo, ed è svenuta di colpo con il fiatone?",
+      "critical": true,
+      "expectedKeywords": ["pillola", "contraccett", "svenuta", "fiato"],
+      "rationale": "Il brief ha i contraccettivi. I PDF usati non nominano la pillola in quella frase: resta anamnesi, citazione vuota."
+    },
+    {
+      "id": "controindicazioni-lisi",
+      "prompt": "Ha avuto un ictus, un'operazione recente o un sanguinamento in corso?",
+      "critical": true,
+      "expectedKeywords": ["ictus", "oper", "sangue", "emorragia"],
+      "rationale": "Nessuna controindicazione è dichiarata. Va chiesta."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la spaventa di più: svenire di nuovo o il rischio di sanguinare?",
+      "critical": true,
+      "expectedKeywords": ["svenire", "sangue", "paura", "morire"],
+      "rationale": "SPIKES Emotions, senza ritardare la lisi."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Sudata, tachipnoica, confusa dopo la sincope. Polsi rapidi, simmetrici. Giugulari non misurate. Murmure globale, senza un focus. Polpacci senza una circonferenza fissata. Nessun deficit focale."
+  },
+  "escCitations": [
+    {
+      "chunkId": "erc6-trombolisi-ep-instabile",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Una review di RCT ha mostrato che la trombolisi può essere associata ad una riduzione della mortalità o della recidiva di EP in pazienti ad alto rischio con instabilità emodinamica"
+    },
+    {
+      "chunkId": "esc-acs-tte-rv-pe",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "La TTE può anche essere utile per suggerire eziologie alternative associate al dolore toracico (es. malattia aortica acuta, segni di dilatazione RV suggestivi di embolia polmonare [PE])"
+    },
+    {
+      "chunkId": "esc-acs-ct-pe-dissezione",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "la CT rappresenta spesso la metodica diagnostica preferenziale per escludere diagnosi differenziali alternative dell’ACS potenzialmente fa- tali, come la PE o la dissezione aortica"
+    },
+    {
+      "chunkId": "esc-acs-tte-instabili",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "Tutti i pazienti in CS o emodinamicamente instabili devono essere sottoposti a TTE in emergenza nell’ot- tica di identificare la causa sottostante – in particolare per valutare la funzione LV e RV"
+    },
+    {
+      "chunkId": "spikes-knowledge",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Riconoscere l'instabilità emodinamica.",
+      "Angio-TC o TTE in urgenza.",
+      "Trombolisi nell'EP ad alto rischio instabile, poi osservazione emorragica."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La trombolisi nell'EP instabile è nel capitolo ERC 6. TTE e CT per PE sono frasi ESC ACS di diagnosi differenziale, non la linea ESC 2019 sull'EP (quel PDF non è in questa cartella). Alteplase come dose da EP non è in queste frasi.",
+      "legalCriteria": [
+        "Registrare sincope, pressione 82/50 e pillola.",
+        "Allegare TTE e/o angio-TC.",
+        "Registrare l'ora della lisi e la sorveglianza per sanguinamento, senza una checklist citata."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG a 12 derivazioni",
+      "finding": "Tachicardia sinusale. Nessun S1Q3T3 è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 15,
+      "isFatal": false
+    },
+    {
+      "examId": "ecocardio",
+      "name": "TTE al letto",
+      "finding": "Segni di sovraccarico destro, senza misure millimetriche fissate.",
+      "isAbnormal": true,
+      "priceEuro": 50,
+      "isFatal": true
+    },
+    {
+      "examId": "angio",
+      "name": "Angio-TC polmonare",
+      "finding": "Difetti di riempimento centrali. Nessuna percentuale ostruttiva è fissata.",
+      "isAbnormal": true,
+      "priceEuro": 150,
+      "isFatal": true
+    },
+    {
+      "examId": "lattati",
+      "name": "Lattati",
+      "finding": "Ipoperfusione. Nessun mmol/L è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 8,
+      "isFatal": false
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa",
+      "finding": "Ipossiemia. Nessun pH è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non è la metodica dell'EP instabile.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Le frasi copiate nominano CT per PE e TTE. Non la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 124,
+      "bloodPressure": "82/50",
+      "spo2": 88,
+      "temperature": 36.7,
+      "respiratoryRate": 30
+    },
+    "examBudgetEuro": 250,
+    "demographics": { "age": 40, "sex": "F", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Sincope e ipotensione",
+        "result": "Sincope, PA 82/50, cute sudata, tachipnea.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": { "finding": "Tachicardia sinusale.", "isAbnormal": true, "price": 15 },
+        "ecocardio": { "finding": "Sovraccarico destro, misure non fissate.", "isAbnormal": true, "price": 50 },
+        "angio": { "finding": "Emboli centrali, percentuale non fissata.", "isAbnormal": true, "price": 150 },
+        "lattati": { "finding": "Elevati, senza numero.", "isAbnormal": true, "price": 8 },
+        "ega": { "finding": "Ipossiemia, pH non fissato.", "isAbnormal": true, "price": 10 },
+        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Trombolisi sistemica",
+          "anyOf": [
+            {
+              "id": "alteplase",
+              "label": "Fibrinolisi sistemica",
+              "aliases": ["alteplase", "rtpa", "trombolisi", "fibrinolisi"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Riconoscere l'alto rischio.",
+        "TTE e/o angio-TC.",
+        "Trombolisi sistemica.",
+        "Osservazione per sanguinamento.",
+        "Spiegare a Chiara diagnosi e rischio."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto di angio-TC o TTE."
+        }
+      ],
+      "citationLimits": [
+        "ERC 6 associa la trombolisi a riduzione di mortalità o recidiva in EP alto rischio instabile. Non fissa i milligrammi.",
+        "Alteplase nominato in ESC ACS è per lo STEMI, non copiare quella dose qui.",
+        "I contraccettivi sono nel brief. Non sono in queste citazioni.",
+        "Il monitoraggio emorragico non ha una checklist: citazione vuota."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Chiede i rischi della lisi con parole precise. Accetta se le si dice che è instabile, che la TC o l'eco guidano, e che dopo si guarda il sanguinamento, senza inventare percentuali ostruttive."
+  }
+}

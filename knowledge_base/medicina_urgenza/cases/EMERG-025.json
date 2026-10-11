@@ -1,0 +1,261 @@
+{
+  "id": "EMERG-025",
+  "code": "EMERG-025",
+  "title": "Uomo di 60 anni recuperato in strada d'inverno, confuso e bradicardico",
+  "description": "Franco, 60 anni, trovato in strada d'inverno. Parametri: PA 88/54 mmHg, FC 42 bpm, FR 10 atti/min, SpO2 92%, temperatura 30.5. Confuso, bradicardico. Circolo spontaneo.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["medicina_interna"],
+  "condition": "Ipotermia accidentale grave",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+  "diagnosis": "Ipotermia accidentale con circolo spontaneo: confusione, bradicardia, temperatura centrale 30.5. Non è un infarto da mandare in sala prima del riscaldamento. Non è un'intossicazione isolata finché non è valutata.",
+  "pastMedicalHistory": "Esposto al freddo. Non è in arresto. Il brief chiedeva 29 °C: lo schema vitals del caso richiede temperatura >30, quindi 30.5. ERC: rischio di arresto imminente se temperatura interna <30 °C, aritmie ventricolari o sistolica <90. Onde di Osborn e manipolazione delicata per evitare FV: gold path, citazione vuota.",
+  "presentation": "Strada, inverno, confuso, FC 42, 30.5 °C. Isolamento, riscaldamento esterno (aria forzata / dispositivi) e fluidi caldi ev 38-42 °C. ECG. Trasferimento verso centro ECLS se instabile. Rivalutazione della temperatura. Niente scuotimenti da eroe.",
+  "redHerrings": [
+    "Un collega lo scuote per svegliarlo e gli infonde liquidi freddi.",
+    "Un altro attiva l'emodinamica per la bradicardia prima di misurare la temperatura centrale."
+  ],
+  "timeLimitMinutes": 120,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "Mi chiamo Franco, ho 60 anni, mi hanno trovato per terra, ho freddo, sono confuso, il cuore va piano. Scalldatemi fuori e dentro con liquidi caldi, fatemi l'elettrocardiogramma, non scuotetemi. Tra un'ora la temperatura di nuovo. Ditemi se posso fibrillare.",
+  "correctSolution": "Ipotermia grave può ridurre le funzioni vitali fino all'arresto. Con circolo spontaneo: isolamento, triage, trasferimento e riscaldamento. Riscaldamento chimico, elettrico o ad aria forzata e fluidi caldi EV (38-42 °C). Se temperatura interna <30, aritmie ventricolari o sistolica <90: centro con ECLS. Se FV persiste dopo tre scariche, ritardare fino a temperatura >30 °C; niente adrenalina sotto 30 °C. Onde di Osborn e «non scuotere per la FV»: gold path, citazione vuota. SPIKES Knowledge.",
+  "goldStandardPath": [
+    "abcde",
+    "temperatura-centrale",
+    "ecg",
+    "riscaldamento-esterno",
+    "fluidi-caldi-ev",
+    "rivalutazione-temperatura"
+  ],
+  "goldPathNarrative": "ABCDE delicato, temperatura centrale, ECG, riscaldamento esterno e fluidi caldi 38-42 °C, rivalutazione termica. Osborn e manipolazione anti-FV: citazione vuota. PA 88 e bradicardia: valutare centro ECLS.",
+  "examLatencies": {
+    "abcde": 5,
+    "temperatura-centrale": 6,
+    "ecg": 8,
+    "riscaldamento-esterno": 10,
+    "fluidi-caldi-ev": 12,
+    "rivalutazione-temperatura": 60,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "esposizione",
+      "prompt": "Da quanto è all'aperto, e aveva bevuto o preso farmaci?",
+      "critical": true,
+      "expectedKeywords": ["aperto", "freddo", "bevuto", "farmaci"],
+      "rationale": "Ipotermia primaria da esposizione. ERC distingue primaria e secondaria."
+    },
+    {
+      "id": "coscienza",
+      "prompt": "Ricorda dove si è seduto, o si è addormentato per terra?",
+      "critical": true,
+      "expectedKeywords": ["ricorda", "terra", "addormentato", "confuso"],
+      "rationale": "Confusione nel brief. Circolo spontaneo: non è un arresto."
+    },
+    {
+      "id": "bradicardia",
+      "prompt": "Ha sentito il cuore lento, o ha avuto pause?",
+      "critical": true,
+      "expectedKeywords": ["lento", "cuore", "pause", "svenire"],
+      "rationale": "Aritmie ventricolari e sistolica <90 sono fattori di rischio ERC."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa lo spaventa di più: il freddo o che il cuore si fermi?",
+      "critical": true,
+      "expectedKeywords": ["freddo", "cuore", "fermi", "paura"],
+      "rationale": "SPIKES Knowledge. Dire che può fibrillare, senza scuoterlo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Confuso, cute fredda, FC 42, PA 88/54, temperatura 30.5. Circolo spontaneo. Non in arresto. Manipolazione da tenere delicata, anche senza frase PDF."
+  },
+  "escCitations": [
+    {
+      "chunkId": "erc6-ipotermia-grave",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "l’ipotermia grave può ridurre le funzioni vitali fino anche all’arresto cardiaco. Nei pazienti ipotermici con circolo spontaneo, l’isolamento, il triage ospedaliero seguito da trasferimento e riscaldamento, sono interventi cardine."
+    },
+    {
+      "chunkId": "erc6-ecls-soglia",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "I pazienti ipotermici con fattori di rischio per imminente arresto cardiaco (temperatura interna <30 °C, aritmie ventricolari, pressione sistolica <90 mmHg) o in arresto cardiaco devono essere trasferiti preferibilmente in un centro con possibilità di fornire supporto vitale extracorporeo (ECLS) per il riscaldamento."
+    },
+    {
+      "chunkId": "erc6-fluidi-caldi",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "riscaldamento ad attivazione chimica, elettrici o ad aria forzata e fluidi caldi EV (38–42 °C). Nel caso di instabilità cardiaca refrattaria al trattamento medico, considerare il riscaldamento con ECLS."
+    },
+    {
+      "chunkId": "erc6-fv-30",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Se la fibrillazione ventricolare (FV) persiste dopo tre scariche di defibrillazione, ritardare ulteriori tentativi fino a quando la temperatura interna è >30 °C. • Non somministrare l’adrenalina se la temperatura interna è <30 °C."
+    },
+    {
+      "chunkId": "spikes-knowledge",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Temperatura centrale, isolamento, riscaldamento esterno e fluidi caldi 38-42 °C.",
+      "ECG. Non scuotere. Non liquidi freddi.",
+      "Rivalutazione della temperatura. Valutare ECLS se sistolica <90 o aritmie."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Isolamento, riscaldamento, fluidi caldi 38-42 °C, soglia <30 °C / FV / sistolica <90 verso ECLS e ritardo shock dopo tre scariche sono ERC 2021 cap. 6. Onde di Osborn e manipolazione delicata anti-FV non sono in quel testo. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "legalCriteria": [
+        "Annotare temperatura centrale e metodo di misura.",
+        "Annotare riscaldamento esterno, temperatura dei fluidi e ECG.",
+        "Registrare rivalutazione termica e l'eventuale trasferimento ECLS."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "abcde",
+      "name": "Valutazione ABCDE",
+      "finding": "Circolo spontaneo, FR 10, FC 42, PA 88/54, confuso. Non in arresto. Manipolazione delicata nel percorso, senza frase PDF.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    },
+    {
+      "examId": "temperatura-centrale",
+      "name": "Temperatura centrale",
+      "finding": "30.5 °C. Il brief chiedeva 29; lo schema vitals richiede >30. ERC: <30 è rischio di arresto imminente.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    },
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Bradicardia. Onde di Osborn: da cercare, citazione vuota. Nessun millivolt è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 15,
+      "isFatal": true
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "Gas. Nessun pH è fissato. ERC cita il potassio se si fa scalo verso ECLS.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    },
+    {
+      "examId": "rivalutazione-temperatura",
+      "name": "Rivalutazione temperatura dopo 1 ora",
+      "finding": "Controllo della temperatura centrale sotto riscaldamento. Nessun grado/ora è copiato.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non scalda e non sostituisce ECG e temperatura centrale.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "I testi nominano isolamento, riscaldamento e fluidi caldi. Non la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 42,
+      "bloodPressure": "88/54",
+      "spo2": 92,
+      "temperature": 30.5,
+      "respiratoryRate": 10
+    },
+    "examBudgetEuro": 50,
+    "demographics": { "age": 60, "sex": "M", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Cute fredda",
+        "result": "Esposto, confuso, bradicardico.",
+        "isPositive": true
+      },
+      {
+        "signName": "Bradicardia",
+        "result": "FC 42. Circolo spontaneo.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "Bradicardia. Osborn da cercare, senza citazione.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "ega": {
+          "finding": "Gas. Nessun pH fissato.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "pet-tc": {
+          "finding": "Non indicata.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Riscaldamento esterno e fluidi caldi ev",
+          "anyOf": [
+            {
+              "id": "fluidi-caldi-ev",
+              "label": "Fluidi caldi EV 38-42 °C",
+              "aliases": ["fluidi caldi", "riscaldamento", "aria forzata"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Temperatura centrale.",
+        "ECG.",
+        "Riscaldamento esterno e fluidi caldi 38-42 °C.",
+        "Non scuotere, non liquidi freddi.",
+        "Rivalutazione termica.",
+        "Spiegare a Franco il rischio di FV."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto di riscaldamento ed ECG."
+        }
+      ],
+      "citationLimits": [
+        "Ipotermia: temperatura centrale <35 °C nei testi ERC. Grave può arrivare all'arresto.",
+        "Brief 29 °C vs schema vitals >30: usata 30.5. Sistolica 88 e rischio ECLS restano (soglia scritta <90 mmHg).",
+        "Onde di Osborn: nessuna frase. Gold path, citazione vuota.",
+        "Manipolazione delicata anti-FV: nessuna frase. Gold path, citazione vuota. La FV è trattata solo come ritardo degli shock dopo tre scariche se temperatura ≤30.",
+        "Fluidi caldi 38-42 °C e dispositivi esterni (chimici, elettrici, aria forzata) sono scritti.",
+        "Non copiare HOPE/ICE sui bambini in questo adulto."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ISOLATED" },
+    "communicationStyle": "Confuso, parla piano, ha freddo. Chiede di essere scaldato senza scossoni. Se capisce, vuole sapere se il cuore può fibrillare."
+  }
+}

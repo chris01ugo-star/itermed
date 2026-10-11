@@ -1,0 +1,243 @@
+{
+  "id": "EMERG-010",
+  "code": "EMERG-010",
+  "title": "Uomo di 60 anni con dolore toracico lacerante irradiato al dorso",
+  "description": "Paolo, 60 anni, arriva per dolore toracico lacerante che scende al dorso. Parametri: PA 178/98 mmHg al braccio destro, FC 104 bpm, FR 22 atti/min, SpO2 96%, temperatura 36.5. I polsi non sono uguali.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["cardiologia"],
+  "condition": "Dissezione aortica acuta di tipo A",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Linee guida ESC 2024_Aorta (e1-e169).pdf",
+  "diagnosis": "Dissezione aortica acuta di tipo A. Dolore lacerante, polsi asimmetrici. Non è uno STEMI da mandare in sala di emodinamica prima del controllo di frequenza e pressione.",
+  "pastMedicalHistory": "Ipertensione. Nessun intervento aortico. Non è in beta-bloccante ev all'arrivo. Non ha assunto PDE5. La differenza di pressione tra le braccia è riferita, senza un millimetro fissato a sinistra.",
+  "presentation": "Dolore a strappo dal petto al dorso, insorgenza improvvisa. Polso destro più pieno del sinistro. Prima di qualsiasi trasferimento in sala operatoria: frequenza sotto 60 con labetalolo o esmololo, poi vasodilatatori se serve, oppiacei, linea arteriosa e ECG continuo.",
+  "redHerrings": [
+    "Un collega attiva l'emodinamica coronarica come per uno STEMI, senza controllare frequenza e pressione.",
+    "Chiede un antinfiammatorio e di aspettare il figlio prima di qualsiasi vena."
+  ],
+  "timeLimitMinutes": 90,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "Mi chiamo Paolo, ho 60 anni. È uno strappo dal petto alla schiena, il braccio sinistro batte meno. Non mandatemi in sala col cuore a centoquattro: prima fermate la pressione e il polso, poi chiamate i chirurghi. Ditemi se l'aorta è rotta, senza giri.",
+  "correctSolution": "Sospetto AAS: ECG per non trattarlo come STEMI isolato. Beta-bloccante ev (labetalolo o esmololo) prima scelta, titolare frequenza <60, poi vasodilatatori ev se serve. Oppiacei per il dolore. Monitoraggio invasivo con linea arteriosa ed ECG continuo a tre derivazioni, ricovero in UTI. La chirurgia del tipo A non ha in queste citazioni una frase operativa da copiare: resta nel percorso a citazione vuota. SPIKES Knowledge.",
+  "goldStandardPath": [
+    "ecg",
+    "ecocardio",
+    "angio",
+    "monitoraggio-invasivo",
+    "controllo-fc-pa",
+    "ega"
+  ],
+  "goldPathNarrative": "ECG, TTE/POCUS se disponibile, angio-TC aortica, labetalolo o esmololo prima dei vasodilatatori, oppiacei, linea arteriosa e monitoraggio continuo, poi sala. La PA asimmetrica è nel brief, senza frase estraibile.",
+  "examLatencies": {
+    "ecg": 8,
+    "ecocardio": 10,
+    "angio": 25,
+    "monitoraggio-invasivo": 15,
+    "controllo-fc-pa": 20,
+    "ega": 15,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "strappo",
+      "prompt": "Il dolore è uno strappo verso la schiena, ed è iniziato di colpo?",
+      "critical": true,
+      "expectedKeywords": ["strappo", "dorso", "schiena", "colpo"],
+      "rationale": "Il brief è lacerante irradiato al dorso. La linea ESC parla di sindrome aortica acuta, non di questa frase."
+    },
+    {
+      "id": "braccia",
+      "prompt": "Un braccio è più debole o la pressione è diversa tra destra e sinistra?",
+      "critical": true,
+      "expectedKeywords": ["braccio", "polso", "pressione", "sinistra"],
+      "rationale": "Polsi asimmetrici nel brief. Nessuna frase estraibile sulla differenza millimetrica."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa vuole sapere ora sull'aorta, prima della sala?",
+      "critical": true,
+      "expectedKeywords": ["aorta", "sala", "rottura", "sapere"],
+      "rationale": "SPIKES Knowledge. Il controllo di frequenza e pressione viene prima del trasferimento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dolorante, vigile. Polso radiale destro più pieno del sinistro. Toni tachicardici, soffio diastolico non descritto come obbligatorio. Murmure presente. Addome trattabile, senza un soffio numerato. Deficit neurologico assente."
+  },
+  "escCitations": [
+    {
+      "chunkId": "esc-aorta-bb-labetalolo-esmololo",
+      "source": "knowledge_base/medicina_urgenza/clinical/Linee guida ESC 2024_Aorta (e1-e169).pdf",
+      "quote": "I BB in somministrazione e.v. (es. labetalolo o esmololo) sono raccomandati quali farmaci di prima scelta con l’aggiunta se necessario di vasodilatatori e.v. (es. calcio- antagonisti diidropiridinici o nitrati)"
+    },
+    {
+      "chunkId": "esc-aorta-fc-sotto-60",
+      "source": "knowledge_base/medicina_urgenza/clinical/Linee guida ESC 2024_Aorta (e1-e169).pdf",
+      "quote": "Labetalolo o esmololo e.v. (se beta-bloccanti controindicati, sostituire con diltiazem o verapamil) Titolare per conseguire frequenza cardiaca <60 b/min (Classe I)"
+    },
+    {
+      "chunkId": "esc-aorta-oppiacei-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Linee guida ESC 2024_Aorta (e1-e169).pdf",
+      "quote": "Oppiacei e.v. Titolare per conseguire il controllo del dolore (Classe I)"
+    },
+    {
+      "chunkId": "esc-aorta-monitoraggio-invasivo",
+      "source": "knowledge_base/medicina_urgenza/clinical/Linee guida ESC 2024_Aorta (e1-e169).pdf",
+      "quote": "Si raccomanda il monitoraggio invasivo con linea arteriosa ed ECG continuo a tre derivazioni, nonché il ricovero in unità di terapia intensiva"
+    },
+    {
+      "chunkId": "esc-acs-ecg-10-min",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "Si raccomanda di ottenere ed interpretare un ECG a 12 derivazioni quanto prima possibile dal FMC ma comunque entro 10 min"
+    },
+    {
+      "chunkId": "esc-acs-ct-dissezione",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "la CT rappresenta spesso la metodica diagnostica preferenziale per escludere diagnosi differenziali alternative dell’ACS potenzialmente fa- tali, come la PE o la dissezione aortica"
+    },
+    {
+      "chunkId": "spikes-knowledge",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Beta-bloccante ev prima dei vasodilatatori, frequenza <60.",
+      "Oppiacei e linea arteriosa.",
+      "ECG e angio-TC aortica. Niente PCI come prima mossa."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Labetalolo/esmololo, frequenza <60, oppiacei e monitoraggio invasivo sono classe I ESC 2024 aorta. La sala del tipo A e la PA asimmetrica non hanno frase operativa in queste citazioni.",
+      "legalCriteria": [
+        "Registrare dolore lacerante, polsi e pressioni alle due braccia.",
+        "Registrare titolazione di frequenza e pressione prima del trasferimento.",
+        "Allegare ECG e angio-TC."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG a 12 derivazioni",
+      "finding": "Tachicardia sinusale. Non è descritto un sopraslivellamento che sposti il caso in PCI primaria.",
+      "isAbnormal": true,
+      "priceEuro": 15,
+      "isFatal": true
+    },
+    {
+      "examId": "ecocardio",
+      "name": "TTE / POCUS",
+      "finding": "Aorta visibile senza un diametro millimetrico fissato. Versamento non descritto come obbligatorio.",
+      "isAbnormal": true,
+      "priceEuro": 50,
+      "isFatal": false
+    },
+    {
+      "examId": "angio",
+      "name": "Angio-TC aorta",
+      "finding": "Flap di dissezione tipo A. L'estensione millimetrica non è fissata.",
+      "isAbnormal": true,
+      "priceEuro": 180,
+      "isFatal": true
+    },
+    {
+      "examId": "monitoraggio-invasivo",
+      "name": "Linea arteriosa ed ECG continuo",
+      "finding": "Monitoraggio invasivo avviato. Nessun target millimetrico di pressione oltre la frequenza <60 è copiato qui.",
+      "isAbnormal": false,
+      "priceEuro": 0,
+      "isFatal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non è la metodica dell'AAS.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Le frasi copiate nominano CT per dissezione, TTE e monitoraggio invasivo. Non la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 104,
+      "bloodPressure": "178/98",
+      "spo2": 96,
+      "temperature": 36.5,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 280,
+    "demographics": { "age": 60, "sex": "M", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Polsi asimmetrici",
+        "result": "Polso destro più pieno del sinistro. Differenza millimetrica non fissata.",
+        "isPositive": true
+      },
+      {
+        "signName": "Dolore lacerante",
+        "result": "Strappo retrosternale irradiato al dorso, esordio improvviso.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": { "finding": "Sinusale tachicardico, senza STEMI descritto.", "isAbnormal": true, "price": 15 },
+        "ecocardio": { "finding": "Aorta visibile, diametro non fissato.", "isAbnormal": true, "price": 50 },
+        "angio": { "finding": "Dissezione tipo A, estensione non millimetrata.", "isAbnormal": true, "price": 180 },
+        "ega": { "finding": "Nessun pH fissato.", "isAbnormal": false, "price": 10 },
+        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Beta-bloccante ev",
+          "anyOf": [
+            {
+              "id": "labetalolo",
+              "label": "Labetalolo o esmololo ev",
+              "aliases": ["labetalolo", "esmololo", "beta-bloccante"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Labetalolo o esmololo prima dei vasodilatatori.",
+        "Frequenza titolata verso <60.",
+        "Oppiacei e linea arteriosa.",
+        "Angio-TC. Chiamata chirurgica dopo il controllo emodinamico.",
+        "Spiegare la diagnosi."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto dell'angio-TC aortica."
+        }
+      ],
+      "citationLimits": [
+        "Vasodilatatori dopo il beta-bloccante, non prima: è nella stessa raccomandazione.",
+        "Il target è frequenza <60. Un target di pressione millimetrico non è in questa citazione.",
+        "La sala del tipo A e i polsi asimmetrici restano nel brief, citazione vuota.",
+        "L'ECG serve a non trattarlo come STEMI isolato. Non autorizza la PCI prima del controllo di frequenza."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Chiede se l'aorta è rotta. Collabora se gli si dice che prima si ferma il polso con il beta-bloccante e poi si va in sala, senza millimetri di pressione inventati."
+  }
+}

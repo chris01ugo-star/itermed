@@ -1,0 +1,265 @@
+{
+  "id": "EMERG-024",
+  "code": "EMERG-024",
+  "title": "Donna di 25 anni, ingestione volontaria di paracetamolo da 6 ore",
+  "description": "Giulia, 25 anni, ingestione volontaria di paracetamolo da 6 ore, nausea. Parametri: PA 118/72 mmHg, FC 92 bpm, FR 16 atti/min, SpO2 98%, temperatura 36.6. Cosciente, collaborante, pentita.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["medicina_interna"],
+  "condition": "Intossicazione da paracetamolo",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "TOSSICOLOGIA-DI-BASE-PER-EMERGENZA-URGENZA.pdf",
+  "diagnosis": "Intossicazione da paracetamolo a 6 ore dall'ingestione volontaria, con nausea. Non è un'ingestione da 1 ora in cui il nomogramma non si applica ancora. Non è un'intossicazione da oppioidi.",
+  "pastMedicalHistory": "Ingestione volontaria. Nausea. Non alcolizzata dichiarata. Non ha ancora la paracetamolemia. Il nomogramma di Rumack-Matthew si usa già dopo 4 ore con valori seriati. NAC ev preferita alla orale, dose carico 150 mg/kg in 90 minuti poi 300 mg/kg/24 ore.",
+  "presentation": "Sei ore, nausea, paracetamolo. Dosare la paracetamolemia, collocare sul nomogramma, N-acetilcisteina ev. Rivalutazione transaminasi. SPIKES su intenzione suicidaria.",
+  "redHerrings": [
+    "Un collega aspetta le transaminasi del giorno dopo prima di qualsiasi NAC.",
+    "Un altro induce il vomito a 6 ore e dimette senza livello plasmatico."
+  ],
+  "timeLimitMinutes": 120,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Mi chiamo Giulia, ho 25 anni. Ho preso il paracetamolo sei ore fa, ho nausea, mi pento. Dosate il livello, usate il nomogramma, datemi la N-acetilcisteina in vena. Non mandatemi a casa. Tra qualche ora le transaminasi.",
+  "correctSolution": "Dopo 4 ore si può usare il nomogramma di Rumack-Matthew con paracetamolemie seriali (tossicità epatica probabile, possibile, nessuna). Trattamento elencato: vomito, gastrolusi, carbone 50 g, N-acetil-cisteina. CAV Pavia: NAC, dose carico 150 mg/kg in 90 minuti poi mantenimento 300 mg/kg/24 ore; preferibile la formulazione endovenosa. A 6 ore il nomogramma è applicabile. SPIKES Knowledge ed Emotions.",
+  "goldStandardPath": [
+    "paracetamolemia",
+    "nomogramma-rumack",
+    "nac-ev",
+    "transaminasi",
+    "ega",
+    "rivalutazione-transaminasi"
+  ],
+  "goldPathNarrative": "Paracetamolemia, nomogramma dopo 4 ore (qui 6), NAC ev, transaminasi, emogas, rivalutazione epatica. Carbone e gastrolusi sono nel testo tossicologico: a 6 ore il timing non è dettagliato, restano valutabili senza una frase su «troppo tardi».",
+  "examLatencies": {
+    "paracetamolemia": 45,
+    "nomogramma-rumack": 50,
+    "nac-ev": 20,
+    "transaminasi": 40,
+    "ega": 10,
+    "rivalutazione-transaminasi": 120,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "ora-dose",
+      "prompt": "A che ora ha ingerito, quante compresse, e era solo paracetamolo?",
+      "critical": true,
+      "expectedKeywords": ["sei ore", "compresse", "paracetamolo", "ora"],
+      "rationale": "Il nomogramma si usa già dopo 4 ore. Qui sono 6."
+    },
+    {
+      "id": "intenzione",
+      "prompt": "Era un gesto per farsi del male, e vuole ancora farsi del male?",
+      "critical": true,
+      "expectedKeywords": ["male", "suicid", "pentita", "aiuto"],
+      "rationale": "Il caso tossicologico in cartella è un'assunzione volontaria. SPIKES Emotions."
+    },
+    {
+      "id": "alcol-fegato",
+      "prompt": "Beve alcol, o ha una malattia di fegato?",
+      "critical": true,
+      "expectedKeywords": ["alcol", "fegato", "beve", "malattia"],
+      "rationale": "Il metabolismo è epatico via P450. Il caso del PDF era abusatore di alcol: lei no, va chiesto."
+    },
+    {
+      "id": "nausea",
+      "prompt": "La nausea è iniziata quando, e ha vomitato le compresse?",
+      "critical": true,
+      "expectedKeywords": ["nausea", "vomito", "compresse", "quando"],
+      "rationale": "Nausea nel brief. Il vomito è tra i trattamenti elencati, senza un timing a 6 ore."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Cosciente, nausea, addome trattabile. Nessuna itterizia descritta. GCS 15. Sei ore dall'ingestione."
+  },
+  "escCitations": [
+    {
+      "chunkId": "tox-nomogramma",
+      "source": "knowledge_base/medicina_urgenza/clinical/TOSSICOLOGIA-DI-BASE-PER-EMERGENZA-URGENZA.pdf",
+      "quote": "già dopo 4 ore dalla sospetta intossicazione si può ricorrere al nomogramma di Rumack- Matthew al fine di prevedere una verosimile evoluzione del quadro clinico, mediante l’inserimento in quest’ultimo di valori seriati di paracetamolemia: • tossicità epatica probabile • tossicità epatica possibile • nessuna tossicità epatica"
+    },
+    {
+      "chunkId": "tox-nac",
+      "source": "knowledge_base/medicina_urgenza/clinical/TOSSICOLOGIA-DI-BASE-PER-EMERGENZA-URGENZA.pdf",
+      "quote": "Trattamento: • Induzione del vomito • Gastrolusi • Carbone vegetale attivato 50 g per os • N-acetil-cisteina"
+    },
+    {
+      "chunkId": "antidoti-dose-nac",
+      "source": "knowledge_base/medicina_urgenza/clinical/GUIDA ANTIDOTI 2016-17 CAV PAVIA.pdf",
+      "quote": "dose carico di 150 mg/kg in 90 minuti, seguita da mantenimento di 300 mg/kg/24 ore"
+    },
+    {
+      "chunkId": "antidoti-ev-preferita",
+      "source": "knowledge_base/medicina_urgenza/clinical/GUIDA ANTIDOTI 2016-17 CAV PAVIA.pdf",
+      "quote": "l’impiego dell’antidoto per os è raro, e si ritiene preferibile l’approvvigionamento della formulazione per via endovenosa."
+    },
+    {
+      "chunkId": "spikes-emotions",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "E = Emotions Facilitare l’espressione delle emozioni, in modo ta- le da comprendere la reazione emotiva e rispon- dervi in modo empatico"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Paracetamolemia e nomogramma dopo 4 ore (qui 6).",
+      "NAC ev, dose carico poi mantenimento.",
+      "Rivalutazione transaminasi. Non dimettere senza antidoto."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Nomogramma e NAC sono nel testo di tossicologia d'emergenza. Dose e via ev sono della Guida Antidoti CAV Pavia 2016-17. Il valore 4913 mcg/mL del caso maschile nel PDF non va copiato su Giulia. SPIKES Emotions è nel PDF sulla comunicazione.",
+      "legalCriteria": [
+        "Annotare ora di ingestione e ora del prelievo di paracetamolemia.",
+        "Annotare collocatione sul nomogramma e ora di inizio NAC.",
+        "Registrare transaminasi e rivalutazione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "paracetamolemia",
+      "name": "Paracetamolemia",
+      "finding": "Prelievo a 6 ore. Nessun mcg/mL è fissato per Giulia. Non copiare 4913 mcg/mL del caso maschile del PDF.",
+      "isAbnormal": true,
+      "priceEuro": 18,
+      "isFatal": true
+    },
+    {
+      "examId": "nomogramma-rumack",
+      "name": "Nomogramma di Rumack-Matthew",
+      "finding": "Applicabile dopo 4 ore. Esiti possibili: tossicità probabile, possibile, nessuna. Nessuna soglia milligrammo è copiata dalla figura.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    },
+    {
+      "examId": "transaminasi",
+      "name": "Transaminasi",
+      "finding": "Baseline epatica. Nessun U/L è fissato.",
+      "isAbnormal": false,
+      "priceEuro": 8,
+      "isFatal": false
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "Gas. Nessun pH è fissato.",
+      "isAbnormal": false,
+      "priceEuro": 10,
+      "isFatal": false
+    },
+    {
+      "examId": "rivalutazione-transaminasi",
+      "name": "Rivalutazione transaminasi",
+      "finding": "Controllo successivo. Nessun orario di picco è copiato.",
+      "isAbnormal": true,
+      "priceEuro": 8,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non sostituisce paracetamolemia e NAC.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "I testi nominano paracetamolemia, nomogramma e N-acetilcisteina. Non la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 92,
+      "bloodPressure": "118/72",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 50,
+    "demographics": { "age": 25, "sex": "F", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Nausea",
+        "result": "Nausea a 6 ore dall'ingestione. Cosciente.",
+        "isPositive": true
+      },
+      {
+        "signName": "Addome",
+        "result": "Trattabile. Nessuna itterizia descritta.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "paracetamolemia": {
+          "finding": "Prelievo a 6 ore. Nessun mcg/mL fissato per questa paziente.",
+          "isAbnormal": true,
+          "price": 18
+        },
+        "transaminasi": {
+          "finding": "Baseline. Nessun U/L fissato.",
+          "isAbnormal": false,
+          "price": 8
+        },
+        "ega": {
+          "finding": "Nessun pH fissato.",
+          "isAbnormal": false,
+          "price": 10
+        },
+        "pet-tc": {
+          "finding": "Non indicata.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "N-acetilcisteina endovena",
+          "anyOf": [
+            {
+              "id": "nac-ev",
+              "label": "N-acetilcisteina ev",
+              "aliases": ["n-acetilcisteina", "acetilcisteina", "NAC", "nac"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Paracetamolemia.",
+        "Nomogramma.",
+        "NAC ev.",
+        "Non dimettere senza antidoto.",
+        "Rivalutazione transaminasi.",
+        "Parlare del gesto."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto di livello e NAC."
+        }
+      ],
+      "citationLimits": [
+        "Nomogramma dopo 4 ore con livelli seriati. A 6 ore è applicabile.",
+        "Non copiare 4913 mcg/mL del caso maschile del PDF.",
+        "Dose NAC: 150 mg/kg in 90 minuti poi 300 mg/kg/24 ore. Via ev preferita.",
+        "Vomito, gastrolusi e carbone 50 g sono elencati. A 6 ore il beneficio del carbone non è datato: non inventare «inutile dopo 1 ora».",
+        "Nessuna soglia del nomogramma in mcg/mL è copiata dalla figura, che nel testo non è trascritta in numeri."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
+    "communicationStyle": "Si pente, ha nausea, chiede il livello, il nomogramma e la NAC in vena. Non vuole essere dimessa. Parlare del gesto senza giudicare, secondo Emotions."
+  }
+}

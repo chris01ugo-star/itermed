@@ -1,0 +1,280 @@
+{
+  "id": "EMERG-006",
+  "code": "EMERG-006",
+  "title": "Uomo di 55 anni con dolore toracico da 2 ore e STEMI anteriore",
+  "description": "Marco, 55 anni, arriva in pronto soccorso per dolore toracico oppressivo da 2 ore. Sudato, inquieto. Parametri: PA 148/92 mmHg, FC 102 bpm, FR 22 atti/min, SpO2 94%, temperatura 36.8. In osservazione compare una tachicardia ventricolare non sostenuta.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["cardiologia"],
+  "condition": "STEMI anteriore con aritmia ventricolare in pronto soccorso",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "04_LG_ESC_ACS (e1-e112).pdf",
+  "diagnosis": "Infarto miocardico anteriore con sopraslivellamento del tratto ST. Complicanza in PS: tachicardia ventricolare non sostenuta. Non è un NSTEMI.",
+  "pastMedicalHistory": "Fumatore. Nessun infarto dichiarato. Non è in antiaggregante. Non ha assunto inibitori della fosfodiesterasi. Nessuna allergia all'aspirina nel racconto. La TV non sostenuta non è nel racconto di partenza: compare in osservazione.",
+  "presentation": "Dolore al petto da due ore, peso, irradiazione al braccio sinistro, sudorazione. Chiede che gli togliate il dolore e che chiamiate il laboratorio di emodinamica. Dopo l'ECG, mentre è monitorato, ha una salva di tachicardia ventricolare che si interrompe da sola.",
+  "redHerrings": [
+    "Chiede se può aspettare il figlio e fare l'ECG «tra un quarto d'ora».",
+    "Un collega propone di mandarlo in radiologia per una PET-TC prima della sala."
+  ],
+  "timeLimitMinutes": 90,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Mi chiamo Marco, ho 55 anni. Ho un macigno sul petto da due ore, sudo, ho paura di morire. Fatemi subito l'elettrocardiogramma, toglietemi il dolore e chiamate chi mi apre le coronarie. Restatemi accanto: il cuore ha già saltato dei colpi mentre ero sul lettino.",
+  "correctSolution": "ECG a 12 derivazioni quanto prima, comunque entro 10 minuti dal primo contatto medico, e interpretazione immediata. Con sopraslivellamento anteriore: strategia di riperfusione d'emergenza e trasferimento diretto a un centro con emodinamica attiva h24. Oppioide ev (morfina) per il dolore toracico severo. Monitoraggio continuo: lo STEMI ha rischio di aritmie maligne. Secondo ECG se i sintomi cambiano. Dire a Marco la diagnosi e che cosa succede in sala, secondo SPIKES Knowledge. La TV non sostenuta non ha una frase dedicata: resta nel percorso, senza citazione di trattamento specifico.",
+  "goldStandardPath": [
+    "ecg",
+    "troponina-hs",
+    "monitoraggio-continuo",
+    "attivazione-pci",
+    "ecg-seriato",
+    "ega"
+  ],
+  "goldPathNarrative": "ECG entro 10 minuti, prelievo della hs-cTn, sollievo del dolore con oppioide ev, attivazione della PCI primaria, monitoraggio continuo dopo la TV non sostenuta, secondo ECG e rivalutazione dei parametri. La TV non sostenuta non ha una raccomandazione estraibile: va osservata, senza una terapia nominata dai PDF.",
+  "examLatencies": {
+    "ecg": 8,
+    "troponina-hs": 45,
+    "monitoraggio-continuo": 5,
+    "attivazione-pci": 20,
+    "ecg-seriato": 120,
+    "ega": 15,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "esordio",
+      "prompt": "Da quanti minuti è iniziato il dolore, ed è un peso o un bruciore?",
+      "critical": true,
+      "expectedKeywords": ["due ore", "peso", "petto", "minuti"],
+      "rationale": "L'ora di inizio conta per lo STEMI e per la hs-cTn."
+    },
+    {
+      "id": "pde5",
+      "prompt": "Ha preso farmaci per l'erezione nelle ultime 24-48 ore?",
+      "critical": true,
+      "expectedKeywords": ["erezione", "viagra", "nitrati", "farmaci"],
+      "rationale": "La linea guida ESC avverte di non dare nitrati se ha assunto inibitori della PDE5. Qui non li ha presi."
+    },
+    {
+      "id": "palpitazioni",
+      "prompt": "Ha sentito il cuore scappare o svenire mentre era sul lettino?",
+      "critical": true,
+      "expectedKeywords": ["cuore", "scappare", "svenire", "palpit"],
+      "rationale": "La TV non sostenuta compare in osservazione. Va chiesta e monitorata."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la spaventa di più adesso?",
+      "critical": true,
+      "expectedKeywords": ["morire", "paura", "cuore", "sala"],
+      "rationale": "SPIKES Knowledge ed Emotions, senza ritardare l'attivazione della sala."
+    }
+  ],
+  "physicalExam": {
+    "killipClass": "II",
+    "summary": "Sudato, inquieto, parlante. Toni tachicardici, soffi non descritti. Murmure presente, qualche rantolo basale non quantificato. Polsi simmetrici. Addome trattabile. Dopo l'arrivo: salva di TV non sostenuta sul monitor, poi di nuovo sinusale."
+  },
+  "escCitations": [
+    {
+      "chunkId": "esc-acs-ecg-10-min",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "Si raccomanda di ottenere ed interpretare un ECG a 12 derivazioni quanto prima possibile dal FMC ma comunque entro 10 min"
+    },
+    {
+      "chunkId": "esc-acs-riperfusione-emodinamica",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "vi è indicazione per l’avvio di una strategia di riperfusione d’emergenza e per il trasferimento diretto ad un centro do- tato di emodinamica attivo h24/7 giorni"
+    },
+    {
+      "chunkId": "esc-acs-pci-primaria",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "PCI primariaa PCI d’emergenza con palloncino o con impianto di stent o di altro dispositivo approvato eseguita sull’IRA senza precedente fibrinolisi"
+    },
+    {
+      "chunkId": "esc-acs-morfina-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "Per alleviare il dolore toracico severo dovrebbe essere presa in considerazione la somministrazione i.v. di oppioidi (es. morfina 5-10 mg)"
+    },
+    {
+      "chunkId": "esc-acs-secondo-ecg",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "In caso di sintomi ricorrenti o di incertezza diagnostica si raccomanda di eseguire un secondo ECG a 12 derivazioni"
+    },
+    {
+      "chunkId": "esc-acs-aritmie-maligne",
+      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "CS, arresto cardiaco con coma, aritmie cardiache maligne (potenzialmente fatali), blocco atrioventricolare di alto grado e insufficienza rena- le acuta (con oliguria)"
+    },
+    {
+      "chunkId": "spikes-knowledge",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "ECG a 12 derivazioni interpretato entro 10 minuti dal primo contatto.",
+      "Attivazione della strategia di riperfusione verso emodinamica h24.",
+      "Monitoraggio continuo dopo la TV non sostenuta e secondo ECG se i sintomi cambiano."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Le frasi su ECG, riperfusione d'emergenza, PCI primaria e morfina ev sono della linea guida ESC 2023 sulle ACS, edizione italiana. La TV non sostenuta non è nominata: resta nel percorso senza citazione di farmaco. SPIKES Knowledge è nel PDF sulla comunicazione della diagnosi.",
+      "legalCriteria": [
+        "Annotare ora del primo contatto e ora dell'ECG.",
+        "Annotare l'attivazione della sala di emodinamica.",
+        "Registrare la salva di TV non sostenuta sul monitor e gli ECG successivi."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG a 12 derivazioni",
+      "finding": "Ritmo sinusale. Sopraslivellamento del tratto ST nelle derivazioni precordiali anteriori. Nessun millimetro è fissato oltre il sopraslivellamento descritto.",
+      "isAbnormal": true,
+      "priceEuro": 15,
+      "isFatal": true
+    },
+    {
+      "examId": "troponina-hs",
+      "name": "Troponina ad alta sensibilità",
+      "finding": "Prelievo alla presentazione. Nessun ng/L è fissato. Non ritarda la sala.",
+      "isAbnormal": true,
+      "priceEuro": 18,
+      "isFatal": false
+    },
+    {
+      "examId": "monitoraggio-continuo",
+      "name": "Monitoraggio continuo ECG e pressione",
+      "finding": "In osservazione: salva di tachicardia ventricolare non sostenuta, poi ritorno al sinusale. Nessuna energia di defibrillazione è descritta.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    },
+    {
+      "examId": "ecg-seriato",
+      "name": "ECG seriato a 2 ore",
+      "finding": "Controllo dopo due ore: persistenza del sopraslivellamento anteriore in attesa della sala, senza un millimetraggio nuovo.",
+      "isAbnormal": true,
+      "priceEuro": 15,
+      "isFatal": false
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa",
+      "finding": "Rivalutazione dei gas dopo la fase di monitoraggio. Nessun pH è fissato.",
+      "isAbnormal": false,
+      "priceEuro": 10,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non fa parte della strategia di riperfusione d'emergenza dello STEMI.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Le raccomandazioni copiate nominano ECG, hs-cTn e PCI primaria. Non nominano la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "148/92",
+      "spo2": 94,
+      "temperature": 36.8,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 80,
+    "demographics": { "age": 55, "sex": "M", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Dolore toracico oppressivo",
+        "result": "Peso retrosternale da 2 ore, irradiazione al braccio sinistro, sudorazione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Polsi periferici",
+        "result": "Polsi simmetrici. Nessuna differenza pressoria è descritta.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "Sopraslivellamento ST anteriore. Poi, in osservazione, salva di TV non sostenuta.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "troponina-hs": {
+          "finding": "Campione prelevato. Nessun ng/L è fissato.",
+          "isAbnormal": true,
+          "price": 18
+        },
+        "ecg-seriato": {
+          "finding": "Controllo a 2 ore: sopraslivellamento anteriore persistente.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "ega": {
+          "finding": "Nessun pH fissato.",
+          "isAbnormal": false,
+          "price": 10
+        },
+        "pet-tc": {
+          "finding": "Non indicata prima della sala.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Oppioide ev per il dolore toracico severo",
+          "anyOf": [
+            {
+              "id": "morfina",
+              "label": "Morfina ev",
+              "aliases": ["morfina", "oppioide", "oppioidi"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "ECG interpretato entro 10 minuti.",
+        "Attivazione della PCI / emodinamica h24.",
+        "Sollievo del dolore con oppioide ev.",
+        "Monitoraggio continuo dopo la TV non sostenuta.",
+        "Spiegare a Marco la diagnosi."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto dell'attivazione della sala."
+        }
+      ],
+      "citationLimits": [
+        "FMC nel testo è il primo contatto medico. I 10 minuti si misurano da lì.",
+        "La frase sulla PCI primaria definisce la procedura sull'IRA senza fibrinolisi precedente. Non fissa i minuti porta-pallone.",
+        "La TV non sostenuta non è nominata. C'è la fibrillazione ventricolare tra le complicanze immediate e le aritmie maligne in ICCU. Nessuna energia né un antiaritmico è citato per questa salva.",
+        "La morfina è 5-10 mg ev per il dolore toracico severo. Il caso non obbliga i milligrammi.",
+        "I nitrati sublinguali sono per i sintomi ischemici, con avvertenza sui PDE5. Non sostituiscono la sala."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Ha paura di morire e chiede che gli si dica subito se il cuore è chiuso. Collabora se gli si spiega l'ECG, il dolore e il trasferimento in emodinamica senza giri di parole."
+  }
+}

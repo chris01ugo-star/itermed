@@ -341,6 +341,16 @@ async function listRootDocuments(dir: string): Promise<string[]> {
   return files.sort();
 }
 
+/**
+ * Cartella e slug JSON → nome in `MedicalSpecialty` (seed AEQUAN).
+ * `medicina_urgenza` non contiene la stringa "Medicina d'Emergenza-Urgenza"
+ * dopo la normalizzazione di apostrofo e trattino.
+ */
+const SPECIALTY_NAME_BY_SLUG: Record<string, string> = {
+  medicina_urgenza: "Medicina d'Emergenza-Urgenza",
+  emergenza_urgenza: "Medicina d'Emergenza-Urgenza",
+};
+
 export async function resolveMedicalSpecialty(specialtySlug: string): Promise<{
   id: string;
   name: string;
@@ -348,6 +358,13 @@ export async function resolveMedicalSpecialty(specialtySlug: string): Promise<{
   const specialties = await prisma.medicalSpecialty.findMany({
     select: { id: true, name: true },
   });
+
+  const slugKey = specialtySlug.trim().toLowerCase().replace(/[\s-]+/g, "_");
+  const aliasedName = SPECIALTY_NAME_BY_SLUG[slugKey];
+  if (aliasedName) {
+    const aliased = specialties.find((s) => s.name.toLowerCase() === aliasedName.toLowerCase());
+    if (aliased) return aliased;
+  }
 
   const needle = specialtySlug.trim().toLowerCase().replace(/[_-]+/g, " ");
   const match = specialties.find((s) => {

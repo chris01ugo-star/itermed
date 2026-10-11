@@ -1,0 +1,198 @@
+{
+  "id": "EMERG-003",
+  "code": "EMERG-003",
+  "title": "Donna di 60 anni con dolore toracico atipico",
+  "description": "Giulia, 60 anni, arriva in pronto soccorso per un dolore toracico atipico. È stabile. Parametri: PA 128/76 mmHg, FC 78 bpm, FR 16 atti/min, SpO2 98%, temperatura 36.5.",
+  "difficulty": "EASY",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["cardiologia"],
+  "condition": "Sospetta sindrome coronarica a basso rischio",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "04_LG_ESC_ACS (e1-e112).pdf",
+  "diagnosis": "Sospetta sindrome coronarica acuta a basso rischio. Dolore toracico atipico, parametri stabili.",
+  "pastMedicalHistory": "Nessun infarto noto nel racconto di partenza. Non prende già un antiaggregante dichiarato. Non è allergica all'aspirina nel testo di partenza. Il dolore non è traumatico.",
+  "presentation": "Dolore al petto da circa un'ora, non oppressivo, non irradiato al braccio nel racconto iniziale. È tranquilla, parametri stabili, non suda. Vuole sapere se è il cuore.",
+  "redHerrings": [],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Mi chiamo Giulia, ho 60 anni. Ho un dolore al petto, strano, non è un macigno e non mi scende nel braccio. Sto bene in piedi, non sudo. Ho paura che sia il cuore. Fatemi l'elettrocardiogramma e il prelievo, e ditemi che cosa significano.",
+  "correctSolution": "ECG a 12 derivazioni entro 10 minuti dal primo contatto, e prelievo per troponina ad alta sensibilità con risultato entro 60 minuti dal prelievo. Sono le due raccomandazioni di classe I della linea guida ESC sulle sindromi coronariche acute, nella traduzione italiana 2024. Il poster HEART score, nel file hearth score.pdf, descrive lo score per i pazienti con dolore toracico e scrive che predice gli eventi avversi cardiaci maggiori. Non contiene le parole basso rischio né una soglia numerica di dimissione. Il caso non fissa un numero di troponina né un sopraslivellamento del tratto ST.",
+  "goldStandardPath": ["ecg", "troponina-hs"],
+  "goldPathNarrative": "ECG a 12 derivazioni subito, entro 10 minuti, e prelievo della troponina ad alta sensibilità. Dire a Giulia che cosa cercano i due esami. Non avviare una riperfusione d'emergenza: il tracciato del caso non è un STEMI.",
+  "examLatencies": {
+    "ecg": 10,
+    "troponina-hs": 45,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "carattere",
+      "prompt": "Com'è il dolore: oppressivo, irradiato, o diverso, e da quanti minuti è iniziato?",
+      "critical": true,
+      "expectedKeywords": ["dolore", "petto", "oppressivo", "minuti"],
+      "rationale": "Il brief è un dolore atipico. L'ora di inizio conta per leggere poi la troponina."
+    },
+    {
+      "id": "stabilita",
+      "prompt": "Ha sudorazione, fiato corto, o si sente svenire adesso?",
+      "critical": true,
+      "expectedKeywords": ["sudore", "fiato", "svenire", "stabile"],
+      "rationale": "I parametri sono stabili. Questi sintomi non sono nel brief e non vanno dati per presenti."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la preoccupa di più di questo dolore?",
+      "critical": true,
+      "expectedKeywords": ["cuore", "preoccup", "paura", "infarto"],
+      "rationale": "Giulia teme un problema cardiaco. La spiegazione accompagna ECG e prelievo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Vigilante, collaborante, non sudata. Toni ritmici, soffi assenti. Murmure vescicolare, niente rantoli descritti. Addome trattabile. Polsi simmetrici. Non è descritto un soffio addominale."
+  },
+  "escCitations": [
+    {
+      "chunkId": "esc-acs-ecg-10-min",
+      "source": "knowledge_base/medicina_urgenza/clinic/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "Si raccomanda di ottenere ed interpretare un ECG a 12 derivazioni quanto prima possibile dal FMC ma comunque entro 10 min"
+    },
+    {
+      "chunkId": "esc-acs-hsctn-60-min",
+      "source": "knowledge_base/medicina_urgenza/clinic/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "Al momento della presentazione si raccomanda di eseguire immediatamente la misurazione delle hs-cTn e di ottenere i risultati entro 60 min dal prelievo di sangue"
+    },
+    {
+      "chunkId": "esc-acs-hsctn-tutti",
+      "source": "knowledge_base/medicina_urgenza/clinic/04_LG_ESC_ACS (e1-e112).pdf",
+      "quote": "preferibilmente la hs-cTn, è raccomandata in tutti i pa- zienti con sospetta ACS"
+    },
+    {
+      "chunkId": "heart-score-dolore-toracico",
+      "source": "knowledge_base/medicina_urgenza/clinic/hearth score.pdf",
+      "quote": "HEART score for chest pain patients"
+    },
+    {
+      "chunkId": "heart-score-predice-endpoint",
+      "source": "knowledge_base/medicina_urgenza/clinic/hearth score.pdf",
+      "quote": "HEART score reliably predicts endpoints"
+    },
+    {
+      "chunkId": "heart-score-mace",
+      "source": "knowledge_base/medicina_urgenza/clinic/hearth score.pdf",
+      "quote": "MACE = Major Adverse Cardiac Event = Myocardial Infarction, PCI/CABG, all -cause death."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "ECG a 12 derivazioni entro 10 minuti dal primo contatto.",
+      "Prelievo della troponina ad alta sensibilità alla presentazione.",
+      "Niente triage alla riperfusione d'emergenza senza un tracciato da STEMI."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Le frasi su ECG e troponina sono della linea guida ESC 2023 sulle sindromi coronariche acute, edizione italiana G Ital Cardiol 2024. L'ECG entro 10 minuti e la hs-cTn immediata sono raccomandazioni di classe I. Il poster HEART score dice che lo score predice gli endpoint e definisce il MACE. Non scrive basso rischio e non dà una soglia. Il caso non inventa il valore della troponina.",
+      "legalCriteria": [
+        "Annotare l'orario del primo contatto e l'orario dell'ECG.",
+        "Annotare l'orario del prelievo della troponina ad alta sensibilità.",
+        "Conservare il referto ECG e non chiudere la diagnosi prima di averlo letto."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG a 12 derivazioni",
+      "finding": "Ritmo sinusale. Non è descritto un sopraslivellamento del tratto ST. Nessun millimetro di ST è fissato.",
+      "isAbnormal": false,
+      "priceEuro": 15,
+      "isFatal": false
+    },
+    {
+      "examId": "troponina-hs",
+      "name": "Troponina ad alta sensibilità",
+      "finding": "Prelievo eseguito alla presentazione. Nessun valore numerico è fissato dal caso. Il referto non è ancora un numero.",
+      "isAbnormal": false,
+      "priceEuro": 18,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non fa parte del work-up iniziale della sospetta sindrome coronarica.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Le raccomandazioni iniziali copiate nominano l'ECG a 12 derivazioni e la hs-cTn. Non nominano la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 40,
+    "demographics": { "age": 60, "sex": "F", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Dolore toracico",
+        "result": "Dolore presente, non oppressivo nel racconto, senza irradiazione al braccio descritta all'arrivo.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "Sinusale, senza sopraslivellamento del tratto ST descritto.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "troponina-hs": {
+          "finding": "Campione prelevato. Nessun ng/L è fissato.",
+          "isAbnormal": false,
+          "price": 18
+        },
+        "pet-tc": { "finding": "Non indicata nel primo passaggio.", "isAbnormal": false, "price": 950 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": []
+    },
+    "outcomeRules": {
+      "win": [
+        "ECG a 12 derivazioni entro 10 minuti.",
+        "Prelievo della troponina ad alta sensibilità.",
+        "Dire a Giulia che cosa cercano i due esami."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto di ECG e troponina."
+        }
+      ],
+      "citationLimits": [
+        "FMC nel testo è il primo contatto medico. Il brief parla di triage: la frase citata misura i 10 minuti dal primo contatto medico, non da una parola diversa.",
+        "La frase sulla hs-cTn chiede il risultato entro 60 minuti dal prelievo, non un valore soglia. Nessun numero di troponina è stato inventato.",
+        "Nel PDF la frase è spezzata a fine riga come «pa- zienti» e, prima, «cardiomio- citario». La citazione conserva «pa- zienti» e non ricostruisce la parola.",
+        "La stessa linea guida raccomanda il triage immediato alla riperfusione d'emergenza nei pazienti con sospetto STEMI. L'ECG di questo caso non descrive un sopraslivellamento. Quella raccomandazione non è il percorso premiato.",
+        "È scritto anche di considerare una CCTA o un imaging non invasivo se non c'è dolore ricorrente, la hs-cTn è nella norma o incerta e l'ECG è normale. Qui il valore della troponina non è fissato, quindi quella frase non diventa un esame obbligatorio.",
+        "Non c'è, nel poster HEART, la frase basso rischio, low risk, né un cutoff numerico per dimettere. L'asse del grafico elenca i punteggi da 0 a 10. Basso rischio resta il brief. Lo score, nel testo estraibile, predice il MACE: infarto, PCI/CABG, morte per ogni causa. Nel PDF la morte è scritta «all -cause», con lo spazio prima del trattino."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "MEDIUM", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Collabora, è spaventata dall'idea del cuore. Si rassicura se le si dice a che ora arriva l'ECG e che il prelievo della troponina serve a cercare un danno del muscolo cardiaco, senza anticipare un infarto."
+  }
+}

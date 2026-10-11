@@ -1,0 +1,266 @@
+{
+  "id": "EMERG-011",
+  "code": "EMERG-011",
+  "title": "Ragazza di 25 anni con broncospasmo severo, muta, SpO2 88%",
+  "description": "Sara, 25 anni, arriva in pronto soccorso per crisi asmatica. Non completa le frasi, quasi muta. Parametri: PA 138/82 mmHg, FC 128 bpm, FR 34 atti/min, SpO2 88%, temperatura 36.9.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["pneumologia"],
+  "condition": "Crisi asmatica severa refrattaria",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+  "diagnosis": "Asma acuto severo, prossimi all'esaurimento. SpO2 88%, parlata assente. Non è la crisi lieve di chi parla a frasi intere.",
+  "pastMedicalHistory": "Asma nota. Ha già usato lo spray a casa, senza un numero di puff fissato. Non è intubata. Non ha ricevuto magnesio in pronto soccorso. Nessuna allergia da anafilassi è nel brief: è broncospasmo.",
+  "presentation": "Fischio poi silenzio relativo, non parla. Saturazione 88%. Serve ossigeno ad alti flussi, salbutamolo nebulizzato, steroide sistemico, poi magnesio ev se non migliora, rivalutazione entro un'ora, e prontezza all'intubazione.",
+  "redHerrings": [
+    "Un collega propone solo una lastra e dimissione con lo spray.",
+    "Chiede, con cenni, se può aspettare la madre prima di qualsiasi vena."
+  ],
+  "timeLimitMinutes": 100,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "Mi chiamo Sara, ho 25 anni. Non esce la voce, ho l'asma, la saturazione è bassa. Datemi l'aerosol continuo, il cortisone in vena, e se non basta il magnesio. Restate pronti se devo essere intubata. Dite alla mia madre che cosa state facendo.",
+  "correctSolution": "Ossigeno ad alti flussi, titolare poi SpO2 94-98% per l'asma. Salbutamolo 5 mg in nebulizzatore, prednisone 40-50 mg os o idrocortisone 100 mg ev. Considerare solfato di magnesio ev. Rivalutare la risposta in breve tempo, entro 1 ora. Considerare l'intubazione se non migliora. EGA se segni di rischio per la vita. SPIKES verso la madre.",
+  "goldStandardPath": [
+    "ega",
+    "spirometria",
+    "nebulizzazione-continua",
+    "magnesio-ev",
+    "ega-1h",
+    "rivalutazione-intubazione"
+  ],
+  "goldPathNarrative": "Ossigeno, salbutamolo nebulizzato, steroide sistemico, EGA perché ci sono segni di rischio per la vita, magnesio ev se manca la risposta, rivalutazione entro un'ora, prontezza all'intubazione. La NIV è discussa in GINA come discutibile per il rischio di rapido peggioramento.",
+  "examLatencies": {
+    "ega": 8,
+    "spirometria": 15,
+    "nebulizzazione-continua": 10,
+    "magnesio-ev": 25,
+    "ega-1h": 60,
+    "rivalutazione-intubazione": 90,
+    "rx-torace": 30,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "frasi",
+      "prompt": "Riesce a dire una frase, o esce solo un filo di voce?",
+      "critical": true,
+      "expectedKeywords": ["voce", "frase", "muta", "parlare"],
+      "rationale": "ERC/SIGN distingue l'asma severo dall'incapacità di terminare la frase. Sara è quasi muta."
+    },
+    {
+      "id": "spray",
+      "prompt": "Quanti puff ha già fatto, e quando è stata l'ultima dose?",
+      "critical": true,
+      "expectedKeywords": ["puff", "spray", "salbutamolo", "dose"],
+      "rationale": "Ha già usato lo spray. Il trattamento ospedaliero riparte dal nebulizzatore."
+    },
+    {
+      "id": "madre",
+      "prompt": "Chi deve sapere che stiamo valutando anche il tubo?",
+      "critical": true,
+      "expectedKeywords": ["madre", "famiglia", "tubo", "sapere"],
+      "rationale": "SPIKES Invitation. Sara parla poco: la madre è il canale."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Quasi muta, muscoli accessori, agitata. Sibili ridotti, murmure debole. Tachicardia. Niente cianosi descritta con un numero oltre SpO2 88%. Sensorio conservato all'arrivo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "erc6-asma-o2-alti-flussi",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Trattare l’ipossia a rischio di vita con ossigeno ad alti flussi (Figura 13) • Titolare successivamente l’ossigeno terapia con saturimetria (SpO2 pari al 94-98% per l’asma"
+    },
+    {
+      "chunkId": "erc6-salbutamolo-5mg",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Broncodilatatori Beta2 (Salbutamolo 5 mg) attraverso un nebulizzatore ad ossigeno"
+    },
+    {
+      "chunkId": "erc6-steroidi-asma",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Somministrare steroidi (40-50 mg di Prednisolone o 100 mg di idrocortisone)."
+    },
+    {
+      "chunkId": "erc6-magnesio-asma",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Considerare solfato di magnesio EV per l’asma."
+    },
+    {
+      "chunkId": "erc6-magnesio-dose",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Considera magnesio solfato e.v. 1.2-2g in infusione lenta (20 minuti) se non già somministrati"
+    },
+    {
+      "chunkId": "gina-risposta-1h-intubazione",
+      "source": "knowledge_base/medicina_urgenza/clinical/GINA_adattamento_ita_2017_doc.pdf",
+      "quote": "eventuali broncodilatatori per via generale (salbutamolo, solfato di magnesio); valutazione della risposta in breve tempo (entro 1 ora) ed ulteriore decisione (invio a ricovero o no) 3. in base alla risposta terapeutica a breve termine, considerazione sulla necessità di invio in terapia subintensiva o intensiva, e della necessità di intubazione"
+    },
+    {
+      "chunkId": "erc6-ega-rischio-vita",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Se il paziente ha segni di rischio per la vita, esegui un emogasanalisi. Non sono necessari altri test per iniziare un trattamento immediato."
+    },
+    {
+      "chunkId": "spikes-invitation",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "I = Invitation Invitare il paziente ad esplicitare in che misura vuole essere informato rispetto alla diagnosi, alla prognosi e sui dettagli della malattia"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Ossigeno, salbutamolo nebulizzato e steroide sistemico subito.",
+      "Magnesio ev se manca la risposta.",
+      "EGA per rischio vita e rivalutazione entro un'ora, con l'intubazione sullo sfondo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Salbutamolo, steroidi, magnesio ed EGA se rischio vita sono nel capitolo ERC 6 (figura BTS/SIGN). GINA chiede rivalutazione entro 1 ora e di considerare l'intubazione. L'aerosol «continuo» non ha quella parola: citazione vuota.",
+      "legalCriteria": [
+        "Registrare SpO2 88% e l'incapacità di parlare.",
+        "Registrare nebulizzazione, steroide e magnesio con orari.",
+        "Allegare EGA e la decisione a un'ora."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa",
+      "finding": "Segni di rischio per la vita: EGA indicata. Nessun pCO2 numerico è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": true
+    },
+    {
+      "examId": "spirometria",
+      "name": "Picco di flusso",
+      "finding": "PEF non eseguibile in modo affidabile perché è quasi muta. Nessuna percentuale è fissata.",
+      "isAbnormal": true,
+      "priceEuro": 25,
+      "isFatal": false
+    },
+    {
+      "examId": "ega-1h",
+      "name": "EGA a 1 ora",
+      "finding": "Rivalutazione dopo nebulizzazione, steroide e magnesio. Nessun numero è fissato. Decide intensiva vs prosecuzione.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rx-torace",
+      "name": "Radiografia del torace",
+      "finding": "Nella figura ERC/SIGN è indicata se si sospetta pneumotorace, consolidamento o se serve ventilazione meccanica. All'arrivo non è descritto pneumotorace. Può servire se si va verso il tubo, non come primo test al posto della terapia.",
+      "isAbnormal": false,
+      "priceEuro": 25,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Il trattamento immediato non aspetta la lastra. ERC: non sono necessari altri test per iniziare il trattamento immediato, salvo EGA se rischio vita."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non fa parte dell'asma acuto.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Le raccomandazioni copiate nominano ossigeno, nebulizzazione, steroide, magnesio ed EGA."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 128,
+      "bloodPressure": "138/82",
+      "spo2": 88,
+      "temperature": 36.9,
+      "respiratoryRate": 34
+    },
+    "examBudgetEuro": 70,
+    "demographics": { "age": 25, "sex": "F", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Incapacità di parlare",
+        "result": "Quasi muta, muscoli accessori, sibili ridotti.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ega": { "finding": "Rischio vita, pCO2 non fissata.", "isAbnormal": true, "price": 10 },
+        "spirometria": { "finding": "PEF non eseguibile in modo affidabile.", "isAbnormal": true, "price": 25 },
+        "ega-1h": { "finding": "Controllo a 1 ora, numeri non fissati.", "isAbnormal": true, "price": 10 },
+        "rx-torace": { "finding": "Non il primo test.", "isAbnormal": false, "price": 25 },
+        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Salbutamolo nebulizzato",
+          "anyOf": [
+            {
+              "id": "salbutamolo",
+              "label": "Salbutamolo 5 mg nebulizzato",
+              "aliases": ["salbutamolo", "ventolin", "nebulizzazione", "saba"]
+            }
+          ]
+        },
+        {
+          "label": "Steroide sistemico",
+          "anyOf": [
+            {
+              "id": "idrocortisone",
+              "label": "Prednisolone os o idrocortisone ev",
+              "aliases": ["prednisolone", "prednisone", "idrocortisone", "steroide"]
+            }
+          ]
+        },
+        {
+          "label": "Solfato di magnesio ev",
+          "anyOf": [
+            {
+              "id": "magnesio",
+              "label": "Solfato di magnesio ev",
+              "aliases": ["magnesio", "solfato di magnesio"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Ossigeno e salbutamolo nebulizzato.",
+        "Steroide sistemico.",
+        "Magnesio ev se manca la risposta.",
+        "EGA e rivalutazione a un'ora.",
+        "Informare la madre sul rischio di intubazione."
+      ],
+      "penalties": [
+        {
+          "id": "rx-torace",
+          "kind": "economic",
+          "trigger": "Lastra prima della terapia, senza sospetto di pneumotorace."
+        }
+      ],
+      "citationLimits": [
+        "«Continua» per la nebulizzazione non è nel PDF: citazione vuota, il brief la chiede.",
+        "GINA: NIV discutibile per il rischio di rapido peggioramento. Non è il primo passo.",
+        "PEF 15-30 minuti è nella figura ERC se eseguibile. Qui è quasi muta: non inventare un numero.",
+        "Aminofillina: consultare un esperto prima. Non è obbligatoria."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
+    "communicationStyle": "Quasi muta, comunica con cenni. La madre chiede del tubo. SPIKES verso la madre: aerosol, cortisone, magnesio, controllo a un'ora, senza promettere che eviterà l'intubazione."
+  }
+}

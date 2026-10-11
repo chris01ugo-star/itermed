@@ -1,0 +1,217 @@
+{
+  "id": "EMERG-013",
+  "code": "EMERG-013",
+  "title": "Donna di 30 anni con stridore, rash e shock dopo un farmaco",
+  "description": "Martina, 30 anni, arriva per reazione a un antibiotico preso a casa. Stridore, rash, ipotesa. Parametri: PA 78/42 mmHg, FC 132 bpm, FR 28 atti/min, SpO2 91%, temperatura 36.8.",
+  "difficulty": "HARD",
+  "specialty": "medicina_urgenza",
+  "specialtyLabel": "Medicina d'Emergenza-Urgenza",
+  "secondarySpecialties": ["pneumologia"],
+  "condition": "Shock anafilattico severo",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+  "diagnosis": "Anafilassi: vie aeree (stridore), respiro e circolo (ipotensione) dopo farmaco. Non è un'asma isolata.",
+  "pastMedicalHistory": "Ha preso un antibiotico. Non è in beta-bloccante dichiarato. La prima adrenalina IM in PS non ha ancora dato risposta: va ripetuta. Non è seduta: va tenuta supina.",
+  "presentation": "Stridore, pomfi, pressione 78/42. Adrenalina IM 0,5 mg nella coscia appena si sospetta, ripetere dopo circa 5 minuti se non migliora. Bolo di cristalloidi, anche grandi volumi. Restare supina. Cortisonici e anti-istaminici non hanno prove nella gestione precoce: restano nel percorso a citazione vuota.",
+  "redHerrings": [
+    "Un collega propone solo un antistaminico e di farla sedere per respirare meglio.",
+    "Chiede di alzarsi per chiamare il fidanzato."
+  ],
+  "timeLimitMinutes": 80,
+  "patientDeteriorationThreshold": 8,
+  "patientPrompt": "Mi chiamo Martina, ho 30 anni. Ho preso l'antibiotico, ora fischio in gola, ho le macchie, sto svenendo. Fatemela l'adrenalina nella gamba, e di nuovo se non basta. Non fatemi alzare. Ditelo al mio fidanzato.",
+  "correctSolution": "Riconoscere l'anafilassi da vie aeree, respiro e/o circolo. Adrenalina IM 0,5 mg in regione anterolaterale di coscia, ripetere dopo circa 5 minuti se non migliora. Supina, non sedersi né alzarsi. Bolo di cristalloidi EV, anche grandi volumi. Vasopressori alternativi se refrattaria. Steroidi e anti-istaminici: il testo ERC dice che non vi sono prove nella gestione precoce. Il brief li chiede: nel percorso, citazione vuota. SPIKES verso il fidanzato.",
+  "goldStandardPath": [
+    "adrenalina-im",
+    "adrenalina-im-5min",
+    "fluidi-ev",
+    "ega",
+    "monitoraggio-continuo"
+  ],
+  "goldPathNarrative": "Adrenalina IM subito, ripetizione a 5 minuti, cristalloidi a grandi volumi, posizione supina, monitoraggio. Cortisonici senza citazione di efficacia precoce. Non farla alzare.",
+  "examLatencies": {
+    "adrenalina-im": 2,
+    "adrenalina-im-5min": 7,
+    "fluidi-ev": 5,
+    "ega": 10,
+    "monitoraggio-continuo": 15,
+    "pet-tc": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "farmaco",
+      "prompt": "Che farmaco ha preso, e da quanti minuti sono comparsi stridore e macchie?",
+      "critical": true,
+      "expectedKeywords": ["antibiotico", "farmaco", "macchie", "gola"],
+      "rationale": "Allontanare il trigger se possibile. ERC: fattore scatenante."
+    },
+    {
+      "id": "beta-bloccante",
+      "prompt": "Assume un beta-bloccante a casa?",
+      "critical": true,
+      "expectedKeywords": ["beta", "cuore", "pressione", "farmaco"],
+      "rationale": "ERC considera glucagone ev nei pazienti che assumono beta-bloccanti. Qui non è dichiarato."
+    },
+    {
+      "id": "fidanzato",
+      "prompt": "Chi deve sapere che le stiamo dando l'adrenalina di nuovo?",
+      "critical": true,
+      "expectedKeywords": ["fidanzato", "famiglia", "sapere", "adrenalina"],
+      "rationale": "SPIKES Invitation. Non farla alzare per telefonare."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Stridore, pomfi diffusi, sudata, ipotesa. Edema labiale non millimetrato. Polmoni con sibili. Polsi rapidi e filiformi. Addome trattabile."
+  },
+  "escCitations": [
+    {
+      "chunkId": "erc6-riconoscere-anafilassi",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Riconoscere l’anafilassi dalla presenza di problemi a livello delle vie aeree (edema), della respirazione (sibili o tosse persistente) e/o della circolazione (ipotensione)"
+    },
+    {
+      "chunkId": "erc6-adrenalina-im-05",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Somministrare per via intramuscolare (IM) adrenalina (0,5 mg sono 0,5 mL di 1 mg in una fiala da 1 mL di adrenalina) nella regione anterolaterale della coscia appena si sospetta l’anafilassi."
+    },
+    {
+      "chunkId": "erc6-ripetere-5-min",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Ripetere l’adrenalina IM se non si verifica un miglioramento delle condizioni del paziente dopo circa 5 min."
+    },
+    {
+      "chunkId": "erc6-supina",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Assicurarsi che il paziente rimanga supino e che non si sieda o si alzi improvvisa"
+    },
+    {
+      "chunkId": "erc6-fluidi-cristalloidi",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Somministrare immediatamente un bolo di fluidi (cristalloidi) EV e monitorare la risposta – possono essere necessari grandi volumi di fluidi."
+    },
+    {
+      "chunkId": "erc6-steroidi-no-prove-precoce",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Ruolo degli steroidi e degli anti-istaminici nella gestione precoce dell’anafilassi Non vi sono prove che su"
+    },
+    {
+      "chunkId": "spikes-invitation",
+      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "I = Invitation Invitare il paziente ad esplicitare in che misura vuole essere informato rispetto alla diagnosi, alla prognosi e sui dettagli della malattia"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Adrenalina IM immediata, ripetuta a 5 minuti.",
+      "Supina, cristalloidi a volume.",
+      "Niente alzarsi. Cortisonici senza prova di efficacia precoce nel testo ERC."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Riconoscimento, adrenalina IM 0,5 mg, ripetizione a 5 minuti, posizione supina e cristalloidi sono nel capitolo ERC 6. Steroidi e anti-istaminici: il PDF dice che non vi sono prove nella gestione precoce. Il brief li chiede comunque, senza citazione di beneficio.",
+      "legalCriteria": [
+        "Registrare farmaco scatenante, stridore e PA 78/42.",
+        "Registrare ora e sede delle due adrenalina IM.",
+        "Registrare i volumi di cristalloidi e che è restata supina."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi arteriosa",
+      "finding": "Ipossiemia da vie aeree. Nessun pH è fissato. Non ritarda l'adrenalina.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "isFatal": false
+    },
+    {
+      "examId": "monitoraggio-continuo",
+      "name": "Monitoraggio continuo",
+      "finding": "PA e SpO2 dopo la seconda adrenalina. Nessun numero di recupero è fissato.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "isFatal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "Non è il work-up dell'anafilassi.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "isFatal": false,
+      "wasteRationale": "Le raccomandazioni copiate nominano adrenalina IM e fluidi. Non la PET-TC."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 132,
+      "bloodPressure": "78/42",
+      "spo2": 91,
+      "temperature": 36.8,
+      "respiratoryRate": 28
+    },
+    "examBudgetEuro": 40,
+    "demographics": { "age": 30, "sex": "F", "context": "Pronto soccorso" },
+    "clinicalSigns": [
+      {
+        "signName": "Stridore e rash",
+        "result": "Stridore laringeo, pomfi, ipotensione.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ega": { "finding": "Ipossiemia, pH non fissato.", "isAbnormal": true, "price": 10 },
+        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Adrenalina intramuscolo",
+          "anyOf": [
+            {
+              "id": "adrenalina-im",
+              "label": "Adrenalina IM 0,5 mg",
+              "aliases": ["adrenalina", "epinefrina", "intramuscolo"]
+            }
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Adrenalina IM immediata.",
+        "Seconda dose a circa 5 minuti.",
+        "Cristalloidi, posizione supina.",
+        "Non farla alzare.",
+        "Informare il fidanzato."
+      ],
+      "penalties": [
+        {
+          "id": "pet-tc",
+          "kind": "economic",
+          "trigger": "PET-TC al posto dell'adrenalina."
+        }
+      ],
+      "citationLimits": [
+        "0,5 mg IM in coscia anterolaterale, non ev come prima mossa. L'ev è considerata se refrattaria in ambiente specialistico.",
+        "Ripetere dopo circa 5 minuti: è scritto due volte.",
+        "Steroidi e anti-istaminici: «Non vi sono prove» nella gestione precoce. Il brief li tiene nel percorso, citazione di beneficio vuota.",
+        "Alzarsi è contro il testo. Farla sedere è un errore."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "GOOD", "stressLevel": "HIGH", "socialSupport": "STRONG" },
+    "communicationStyle": "Ha paura di soffocare. Accetta l'adrenalina se le si dice che è nella gamba e che se non basta si ripete a cinque minuti, e che deve restare sdraiata."
+  }
+}
