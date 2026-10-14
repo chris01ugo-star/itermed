@@ -15,6 +15,8 @@ import type {
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
 import type { EmpathyBehavioralBreakdown, ScoreBreakdown } from "@/lib/services/evaluation-scoring";
 import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
+import { clinicalAccuracyPercentFromAudit } from "@/lib/mappers/clinical-audit-mapper";
+import { efficiencyPercentFromAudit } from "@/lib/mappers/economic-audit-mapper";
 import type { SessionPrescription } from "@/lib/simulator/prescription-trace";
 
 export type ClinicalCaseSnapshot = {
@@ -127,10 +129,13 @@ export function buildSessionReportData(params: {
     cap: 17.9,
   };
 
+  const clinicalFromAudit = clinicalAccuracyPercentFromAudit(clinicalAudit);
+  const efficiencyFromAudit = efficiencyPercentFromAudit(economicAudit);
+
   return {
     userId,
     caseId,
-    clinicalAccuracy: scores.clinical,
+    clinicalAccuracy: clinicalFromAudit ?? scores.clinical,
     legalComplianceGelliBianco:
       legalAudit &&
       legalAudit.status === "EVALUATED" &&
@@ -138,12 +143,12 @@ export function buildSessionReportData(params: {
         ? Math.max(0, Math.min(100, Number(legalAudit.complianceScore) || 0))
         : Number(scores.legal) || 0,
     /** Exam appropriateness (0–100) — feeds the 15% weight of the /30 grade. */
-    prescribingAppropriateness: scores.exams,
+    prescribingAppropriateness: efficiencyFromAudit ?? scores.exams,
     /**
      * Economic sustainability (0–100) — feeds the 10% weight of the /30 grade.
-     * Distinct from prescribingAppropriateness (exam appropriateness).
+     * When the economic audit succeeds, the same efficiencyScore also replaces prescribing.
      */
-    economicSustainability: scores.economy,
+    economicSustainability: efficiencyFromAudit ?? scores.economy,
     empathy: scores.empathy,
     totalScore,
     medicalSpecialtyIdSnapshot: clinicalCase?.medicalSpecialtyId ?? null,
@@ -262,6 +267,8 @@ export type EliteReportData = {
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
   legalAudit?: LegalAuditResult;
+  clinicalAudit?: ClinicalAuditResult;
+  economicAudit?: EconomicAuditResult;
   totalScore: number;
 };
 
@@ -293,6 +300,8 @@ export function buildReportDataFromSession(session: {
     empathyBreakdown?: EmpathyBehavioralBreakdown | null;
     scoreBreakdown?: ScoreBreakdown | null;
     legalAudit?: LegalAuditResult;
+    clinicalAudit?: ClinicalAuditResult;
+    economicAudit?: EconomicAuditResult;
   };
 
   const legalEvidenceSources = trace.evidence?.legalSources ?? [];
@@ -301,11 +310,12 @@ export function buildReportDataFromSession(session: {
   return {
     sessionId: session.id,
     scores: {
-      clinical: session.clinicalAccuracy,
+      clinical:
+        clinicalAccuracyPercentFromAudit(trace.clinicalAudit) ?? session.clinicalAccuracy,
       legal: legalCompliancePercentFromAudit(trace.legalAudit) ?? session.legalComplianceGelliBianco,
-      exams: session.prescribingAppropriateness,
+      exams: efficiencyPercentFromAudit(trace.economicAudit) ?? session.prescribingAppropriateness,
       empathy: session.empathy,
-      economy: session.economicSustainability,
+      economy: efficiencyPercentFromAudit(trace.economicAudit) ?? session.economicSustainability,
     },
     feedback: trace.feedback,
     evidence: {
@@ -320,6 +330,8 @@ export function buildReportDataFromSession(session: {
     empathyBreakdown: trace.empathyBreakdown ?? trace.scoreBreakdown?.empathy ?? null,
     scoreBreakdown: trace.scoreBreakdown ?? null,
     legalAudit: trace.legalAudit,
+    clinicalAudit: trace.clinicalAudit,
+    economicAudit: trace.economicAudit,
     totalScore: session.totalScore,
   } satisfies EliteReportData;
 }

@@ -39,6 +39,27 @@ export interface FormattedClinicalReportDTO {
   summaryText: string;
 }
 
+export function clinicalAccuracyPercentFromAudit(
+  clinicalAudit?: ClinicalAuditResult | null,
+): number | null {
+  if (!clinicalAudit || clinicalAudit.status !== "EVALUATED") return null;
+  const n = Number(clinicalAudit.clinicalAccuracyScore);
+  if (!Number.isFinite(n)) return null;
+  return Math.max(0, Math.min(100, n));
+}
+
+/** Narrative shown next to the clinical pillar. Audit text only — never the generic coaching note. */
+export function clinicalNarrativeFromAudit(
+  clinicalAudit?: ClinicalAuditResult | null,
+): string | null {
+  if (!clinicalAudit || clinicalAudit.status !== "EVALUATED") return null;
+  const summary =
+    typeof clinicalAudit.executiveSummary === "string" ? clinicalAudit.executiveSummary.trim() : "";
+  if (summary) return summary;
+  const description = clinicalAudit.diagnosticMatch?.diagnosticAccuracyDescription?.trim();
+  return description || null;
+}
+
 export function mapClinicalAuditToDTO(
   clinicalAudit?: ClinicalAuditResult | null,
 ): FormattedClinicalReportDTO {
@@ -100,6 +121,8 @@ export function mapClinicalAuditToDTO(
     },
     therapeuticCompliance: clinicalAudit.therapeuticCompliance,
     timeCriticalCompliance: clinicalAudit.timeCriticalCompliance,
-    summaryText: `Accuratezza clinico-diagnostica complessiva: ${clinicalAudit.clinicalAccuracyScore}%.`,
+    summaryText:
+      clinicalNarrativeFromAudit(clinicalAudit) ??
+      `Accuratezza clinico-diagnostica complessiva: ${clinicalAudit.clinicalAccuracyScore}%.`,
   };
 }

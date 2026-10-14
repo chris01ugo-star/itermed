@@ -45,6 +45,16 @@ import {
   type FormattedLegalReportDTO,
 } from "@/lib/mappers/legal-audit-mapper";
 import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
+import type { ClinicalAuditResult } from "@/lib/services/clinical-audit-service";
+import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
+import {
+  clinicalAccuracyPercentFromAudit,
+  clinicalNarrativeFromAudit,
+} from "@/lib/mappers/clinical-audit-mapper";
+import {
+  economicNarrativeFromAudit,
+  efficiencyPercentFromAudit,
+} from "@/lib/mappers/economic-audit-mapper";
 
 type RadarDatumWithKey = RadarDatum & { key?: string };
 
@@ -73,6 +83,8 @@ type EliteResultsClientProps = {
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
   legalReport?: FormattedLegalReportDTO | LegalAuditResult | null;
+  clinicalAudit?: ClinicalAuditResult | null;
+  economicAudit?: EconomicAuditResult | null;
   /** Diario clinico / relazione di dimissione scritta dallo studente. */
   clinicalSummary?: string | null;
 };
@@ -159,9 +171,19 @@ function resolvePillarInsight(
   coachingFeedback: CoachingFeedback | undefined,
   scoreBreakdown: ScoreBreakdown | null | undefined,
   empathyNote: string | null,
+  auditNarratives?: { clinical?: string | null; economic?: string | null },
 ): string | null {
   // Tutela narrative is executiveSummary, rendered next to the score — not coaching dumps.
   if (pillar.key === "legalComplianceGelliBianco") return null;
+  if (pillar.key === "clinicalAccuracy" && auditNarratives?.clinical) {
+    return auditNarratives.clinical;
+  }
+  if (
+    (pillar.key === "economicSustainability" || pillar.key === "prescribingAppropriateness") &&
+    auditNarratives?.economic
+  ) {
+    return auditNarratives.economic;
+  }
 
   if (pillar.coachKey) {
     const coach = coachingFeedback?.[pillar.coachKey]?.trim();
@@ -440,12 +462,26 @@ export function EliteResultsClient({
   empathyBreakdown = null,
   scoreBreakdown = null,
   legalReport = null,
+  clinicalAudit = null,
+  economicAudit = null,
   clinicalSummary = null,
 }: EliteResultsClientProps) {
   const legalDto = coerceLegalReportDto(legalReport);
+  const clinicalNarrative = clinicalNarrativeFromAudit(clinicalAudit);
+  const economicNarrative = economicNarrativeFromAudit(economicAudit);
   const resolvedRadarData = radarData.map((point) => {
-    if (point.key !== "legalComplianceGelliBianco" || !legalDto) return point;
-    return { ...point, score: legalDto.compliancePercentage };
+    if (point.key === "legalComplianceGelliBianco" && legalDto) {
+      return { ...point, score: legalDto.compliancePercentage };
+    }
+    if (point.key === "clinicalAccuracy") {
+      const audited = clinicalAccuracyPercentFromAudit(clinicalAudit);
+      if (audited != null) return { ...point, score: audited };
+    }
+    if (point.key === "prescribingAppropriateness" || point.key === "economicSustainability") {
+      const audited = efficiencyPercentFromAudit(economicAudit);
+      if (audited != null) return { ...point, score: audited };
+    }
+    return point;
   });
 
   const normalizedScore = safeDisplayTrentesimi(totalScore);
@@ -715,9 +751,17 @@ export function EliteResultsClient({
                     coachingFeedback,
                     scoreBreakdown,
                     empathyNote,
+                    { clinical: clinicalNarrative, economic: economicNarrative },
                   );
                   const isTutela = pillar.key === "legalComplianceGelliBianco";
-                  const tutelaSummary = isTutela ? legalDto?.executiveSummary?.trim() : "";
+                  const auditSummary = isTutela
+                    ? legalDto?.executiveSummary?.trim()
+                    : pillar.key === "clinicalAccuracy"
+                      ? clinicalNarrative
+                      : pillar.key === "economicSustainability" ||
+                          pillar.key === "prescribingAppropriateness"
+                        ? economicNarrative
+                        : "";
                   const flag = pillarFlag(score);
                   const Icon = pillar.icon;
                   return (
@@ -727,9 +771,9 @@ export function EliteResultsClient({
                           <Icon className="h-3.5 w-3.5 shrink-0 text-[var(--aequan-text-secondary)]" strokeWidth={1.75} />
                           {pillar.label}
                         </p>
-                        {tutelaSummary ? (
+                        {auditSummary ? (
                           <p className="mt-1.5 max-w-md text-sm leading-relaxed text-muted-foreground text-slate-600">
-                            <SafeLlmText as="span">{tutelaSummary}</SafeLlmText>
+                            <SafeLlmText as="span">{auditSummary}</SafeLlmText>
                           </p>
                         ) : insight ? (
                           <p className="mt-1 max-w-sm text-[12px] leading-snug text-[var(--aequan-text-secondary)]">
@@ -972,11 +1016,16 @@ export function EliteResultsClient({
               </Accordion>
             ) : null}
 
-            {coachingFeedback ? (
+            {coachingFeedback || clinicalNarrative || economicNarrative ? (
               <Accordion title="Coaching clinico" defaultOpen>
                 <dl className="space-y-3">
                   {COACH_ROWS.map(({ key, label }) => {
-                    const text = coachingFeedback[key];
+                    const text =
+                      key === "accuratezza" && clinicalNarrative
+                        ? clinicalNarrative
+                        : key === "economicita" && economicNarrative
+                          ? economicNarrative
+                          : coachingFeedback?.[key];
                     if (!text?.trim()) return null;
                     return (
                       <div

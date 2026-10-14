@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { EliteResultsClient } from "./EliteResultsClient";
 import { readOfflineReportCache } from "@/lib/reports/offline-report-cache";
 import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
+import { clinicalAccuracyPercentFromAudit } from "@/lib/mappers/clinical-audit-mapper";
+import { efficiencyPercentFromAudit } from "@/lib/mappers/economic-audit-mapper";
 import type { EliteReportData } from "@/lib/services/simulation-report-data";
 import type {
   ClinicalDeltaRow,
@@ -38,7 +40,8 @@ function eliteToClientProps(
     {
       metric: "Accuratezza clinica",
       key: "clinicalAccuracy",
-      score: safeNum(data.scores.clinical),
+      score:
+        clinicalAccuracyPercentFromAudit(data.clinicalAudit) ?? safeNum(data.scores.clinical),
     },
     {
       metric: "Tutela medico-legale",
@@ -50,12 +53,14 @@ function eliteToClientProps(
     {
       metric: "Appropriatezza esami",
       key: "prescribingAppropriateness",
-      score: safeNum(data.scores.exams),
+      score:
+        efficiencyPercentFromAudit(data.economicAudit) ?? safeNum(data.scores.exams),
     },
     {
       metric: "Sostenibilità economica",
       key: "economicSustainability",
-      score: safeNum(data.scores.economy),
+      score:
+        efficiencyPercentFromAudit(data.economicAudit) ?? safeNum(data.scores.economy),
     },
     {
       metric: "Comunicazione",
@@ -81,6 +86,8 @@ function eliteToClientProps(
     empathyBreakdown: data.empathyBreakdown ?? data.scoreBreakdown?.empathy ?? null,
     scoreBreakdown: data.scoreBreakdown ?? null,
     legalReport: data.legalAudit ?? null,
+    clinicalAudit: data.clinicalAudit ?? null,
+    economicAudit: data.economicAudit ?? null,
   };
 }
 

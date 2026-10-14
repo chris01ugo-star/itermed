@@ -13,8 +13,12 @@ import type {
   LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
 import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
+import type { ClinicalAuditResult } from "@/lib/services/clinical-audit-service";
+import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
+import { clinicalAccuracyPercentFromAudit } from "@/lib/mappers/clinical-audit-mapper";
+import { efficiencyPercentFromAudit } from "@/lib/mappers/economic-audit-mapper";
 import type {
   EmpathyBehavioralBreakdown,
   ScoreBreakdown,
@@ -51,6 +55,8 @@ type SessionTrace = {
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
   legalAudit?: LegalAuditResult;
+  clinicalAudit?: ClinicalAuditResult;
+  economicAudit?: EconomicAuditResult;
   clinicalSummary?: string | null;
 };
 
@@ -146,7 +152,9 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
       {
         metric: "Accuratezza clinica",
         key: "clinicalAccuracy",
-        score: safeNum(session.clinicalAccuracy),
+        score:
+          clinicalAccuracyPercentFromAudit(trace.clinicalAudit) ??
+          safeNum(session.clinicalAccuracy),
       },
       {
         metric: "Tutela medico-legale",
@@ -158,12 +166,16 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
       {
         metric: "Appropriatezza esami",
         key: "prescribingAppropriateness",
-        score: safeNum(session.prescribingAppropriateness),
+        score:
+          efficiencyPercentFromAudit(trace.economicAudit) ??
+          safeNum(session.prescribingAppropriateness),
       },
       {
         metric: "Sostenibilità economica",
         key: "economicSustainability",
-        score: safeNum(session.economicSustainability),
+        score:
+          efficiencyPercentFromAudit(trace.economicAudit) ??
+          safeNum(session.economicSustainability),
       },
       {
         metric: "Comunicazione",
@@ -218,6 +230,8 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
             empathyBreakdown={trace.empathyBreakdown ?? trace.scoreBreakdown?.empathy ?? null}
             scoreBreakdown={trace.scoreBreakdown ?? null}
             legalReport={trace.legalAudit ?? null}
+            clinicalAudit={trace.clinicalAudit ?? null}
+            economicAudit={trace.economicAudit ?? null}
             clinicalSummary={trace.clinicalSummary ?? null}
           />
         </div>

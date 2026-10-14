@@ -11,6 +11,12 @@ export const EconomicAuditResultSchema = z.object({
     "CRITICAL_UNDERTESTING",
   ]),
   efficiencyScore: z.number().min(0).max(100),
+  executiveSummary: z
+    .string()
+    .max(600)
+    .describe(
+      "2-3 frasi su appropriatezza prescrittiva e sostenibilità: esami inutili, omissioni del Gold Path e scarto di spesa. Non inventare tariffe.",
+    ),
   financialSummary: z.object({
     totalSpentEuro: z.number(),
     idealCostEuro: z.number(),
@@ -47,6 +53,12 @@ REGOLE TASSATIVE:
 3. CLASSIFICA COME 'inappropriateExams' SOLO GLI ESAMI RIDONDANTI, PRECOCI O PRIVI DI QUALSIASI INDICAZIONE CLINICA.
 4. CLASSIFICA COME 'omittedEssentialExams' GLI ESAMI FONDAMENTALI DEL GOLD PATH CHE IL MEDICO NON HA PRESCRITTO.
 5. OGNI GIUDIZIO DI INAPPROPRIETÀ O OMISSIONE DEVE ESSERE MOTIVATO IN MODO SINTETICO E RIGOROSO.
+6. COMPILA executiveSummary CON 2-3 FRASI SU APPROPRIATEZZA PRESCRITTIVA E SOSTENIBILITÀ ECONOMICA, CITANDO OMISSIONI, ESAMI INUTILI E SCARTO RISPETTO AL GOLD PATH. NON INVENTARE TARIFFE E NON LIMITARTI A RIPETERE efficiencyScore.
+CALCOLO DEL PUNTEGGIO DI APPROPRIATEZZA ED EFFICIENZA (Parti da 100):
+- Pratica di palese Medicina Difensiva (esami costosi e inutili senza giustificazione clinica): -40 punti.
+- Prescrizione di esami ridondanti (es. TC e RM contemporaneamente senza motivo): -25 punti.
+- Sforamento ingiustificato del budget ideale del >50%: Punteggio MAX 40.
+Il tuo 'efficiencyScore' finale deve riflettere ESATTAMENTE queste sottrazioni.
 `;
 
 export async function runEconomicAudit(params: {
@@ -79,6 +91,8 @@ export async function runEconomicAudit(params: {
       status: "EVALUATED",
       overallVerdict: "CRITICAL_UNDERTESTING",
       efficiencyScore: 0,
+      executiveSummary:
+        "Nessun esame prescritto: omissione totale del percorso diagnostico standard e sostenibilità non sostenibile.",
       financialSummary: {
         totalSpentEuro: 0,
         idealCostEuro,

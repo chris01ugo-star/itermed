@@ -11,6 +11,12 @@ export const ClinicalAuditResultSchema = z.object({
     "CRITICAL_CLINICAL_ERROR",
   ]),
   clinicalAccuracyScore: z.number().min(0).max(100),
+  executiveSummary: z
+    .string()
+    .max(600)
+    .describe(
+      "2-3 frasi sul giudizio di accuratezza: errori gravi, omissioni e aderenza al Gold Path. Non ripetere solo il numero.",
+    ),
   diagnosticMatch: z.object({
     userDiagnosis: z.string(),
     goldDiagnosis: z.string(),
@@ -55,6 +61,14 @@ REGOLE TASSATIVE:
 2. SE L'UTENTE HA ESEGUITO AZIONI CONTROINDICATE (CLASS III O IATROGENIC CRITICAL), SEGNALALE NELL'ARRAY 'contraindicatedOrIatrogenicActions' E IMPOSTA OVERALLVERDICT="CRITICAL_CLINICAL_ERROR".
 3. VERIFICA SE LA DIAGNOSI FINALE DELL'UTENTE COINCIDE SOSTANZIALMENTE CON LA DIAGNOSI DEL GOLD PATH.
 4. INDICA CON PRECISIONE OGNI AZIONE FONDAMENTALE OMESSA ED OGNI AZIONE CORRETTA ESEGUITA.
+5. COMPILA executiveSummary CON 2-3 FRASI CHE SPIEGANO ERRORI GRAVI, OMISSIONI E ADERENZA AL GOLD PATH. NON LIMITARTI A RIPETERE clinicalAccuracyScore.
+CALCOLO DEL PUNTEGGIO CLINICO (Parti da 100):
+- Intervento controindicato o fatale (es. farmaco errato con allergia nota): Punteggio MAX 20.
+- Mancato riconoscimento di una 'Red Flag' neurologica: -40 punti.
+- Violazione delle tempistiche della Golden Hour (se applicabile, es. Stroke): -30 punti.
+- Omissione di esame strumentale primario del Gold Path: -20 punti.
+- Diagnosi corretta ma percorso terapeutico errato: -15 punti.
+Il tuo 'clinicalAccuracyScore' finale deve riflettere ESATTAMENTE queste sottrazioni matematiche.
 `;
 
 export async function runClinicalAudit(params: {
@@ -88,6 +102,8 @@ export async function runClinicalAudit(params: {
       status: "NOT_EVALUABLE",
       overallVerdict: "CRITICAL_CLINICAL_ERROR",
       clinicalAccuracyScore: 0,
+      executiveSummary:
+        "Nessuna diagnosi e nessuna azione clinica documentata: accuratezza non valutabile sul Gold Path.",
       diagnosticMatch: {
         userDiagnosis: "Nessuna diagnosi fornita",
         goldDiagnosis,

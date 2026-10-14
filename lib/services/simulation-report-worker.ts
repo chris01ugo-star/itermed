@@ -249,6 +249,8 @@ async function safeRunEconomicAudit(params: {
       status: "NOT_EVALUABLE",
       overallVerdict: "MODERATE_OVERTESTING",
       efficiencyScore: 0,
+      executiveSummary:
+        "Audit economico non completato: il giudizio di appropriatezza e sostenibilità non è disponibile.",
       financialSummary: {
         totalSpentEuro: Number(totalSpentEuro.toFixed(2)),
         idealCostEuro: Number(idealCostEuro.toFixed(2)),
@@ -392,6 +394,8 @@ async function safeRunClinicalAudit(params: {
       status: "NOT_EVALUABLE",
       overallVerdict: "CRITICAL_CLINICAL_ERROR",
       clinicalAccuracyScore: 0,
+      executiveSummary:
+        "Audit clinico non completato: il giudizio di accuratezza diagnostico-terapeutica non è disponibile.",
       diagnosticMatch: {
         userDiagnosis: params.userDiagnosis || "Nessuna diagnosi fornita",
         goldDiagnosis: params.goldDiagnosis,
@@ -973,7 +977,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       killerSwitchApplied = Boolean(recomputed.killerSwitchApplied) || totalScore < rawTotalTrentesimi;
     }
 
-    const evaluationForPersist: EvaluationResult = {
+    let evaluationForPersist: EvaluationResult = {
       ...evaluation,
       scores: scoresForGrade,
     };
@@ -1084,6 +1088,39 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       performedActionCount: clinicalAuditInputs.performedActions.length,
       protocolChunkCount: clinicalGuidelineChunks.length,
     });
+
+    if (clinicalAuditResult.status === "EVALUATED") {
+      scoresForGrade = sanitizeDimensionScores({
+        ...scoresForGrade,
+        clinical: clinicalAuditResult.clinicalAccuracyScore ?? 0,
+      });
+    }
+    if (economicAuditResult.status === "EVALUATED") {
+      scoresForGrade = sanitizeDimensionScores({
+        ...scoresForGrade,
+        economy: economicAuditResult.efficiencyScore ?? 0,
+        exams: economicAuditResult.efficiencyScore ?? 0,
+      });
+    }
+    if (
+      clinicalAuditResult.status === "EVALUATED" ||
+      economicAuditResult.status === "EVALUATED"
+    ) {
+      const recomputed = computeFinalTrentesimiWithKillerSwitch(scoresForGrade, fatalErrors);
+      rawTotalTrentesimi = Number.isFinite(recomputed.rawTotal) ? recomputed.rawTotal : 0;
+      const capped = applyKillerSwitch(
+        Number.isFinite(recomputed.finalTotal) ? recomputed.finalTotal : 0,
+        fatalErrors,
+      );
+      finalTotalTrentesimi = Number.isFinite(capped) ? capped : 0;
+      totalScore = finalTotalTrentesimi;
+      killerSwitchApplied =
+        Boolean(recomputed.killerSwitchApplied) || totalScore < rawTotalTrentesimi;
+      evaluationForPersist = {
+        ...evaluationForPersist,
+        scores: scoresForGrade,
+      };
+    }
 
     await prisma.sessionReport.update({
       where: { id: input.reportId },

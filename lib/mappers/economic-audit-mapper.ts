@@ -34,6 +34,31 @@ export interface FormattedEconomicReportDTO {
   summaryText: string;
 }
 
+export function efficiencyPercentFromAudit(
+  economicAudit?: EconomicAuditResult | null,
+): number | null {
+  if (!economicAudit || economicAudit.status !== "EVALUATED") return null;
+  const n = Number(economicAudit.efficiencyScore);
+  if (!Number.isFinite(n)) return null;
+  return Math.max(0, Math.min(100, n));
+}
+
+/** Narrative for prescribing appropriateness and economic sustainability. */
+export function economicNarrativeFromAudit(
+  economicAudit?: EconomicAuditResult | null,
+): string | null {
+  if (!economicAudit || economicAudit.status !== "EVALUATED") return null;
+  const summary =
+    typeof economicAudit.executiveSummary === "string" ? economicAudit.executiveSummary.trim() : "";
+  if (summary) return summary;
+  const spent = economicAudit.financialSummary?.totalSpentEuro;
+  const ideal = economicAudit.financialSummary?.idealCostEuro;
+  if (typeof spent === "number" && typeof ideal === "number") {
+    return `Spesa totale prescritta: €${spent.toFixed(2)} rispetto a una spesa ideale di €${ideal.toFixed(2)}.`;
+  }
+  return null;
+}
+
 export function mapEconomicAuditToDTO(
   economicAudit?: EconomicAuditResult | null,
 ): FormattedEconomicReportDTO {
@@ -93,6 +118,8 @@ export function mapEconomicAuditToDTO(
       costEuro: o.costEuro,
       clinicalImpact: o.clinicalImpactOfOmission,
     })),
-    summaryText: `Spesa totale prescritta: €${economicAudit.financialSummary.totalSpentEuro.toFixed(2)} rispetto a una spesa ideale di €${economicAudit.financialSummary.idealCostEuro.toFixed(2)}.`,
+    summaryText:
+      economicNarrativeFromAudit(economicAudit) ??
+      `Spesa totale prescritta: €${economicAudit.financialSummary.totalSpentEuro.toFixed(2)} rispetto a una spesa ideale di €${economicAudit.financialSummary.idealCostEuro.toFixed(2)}.`,
   };
 }

@@ -38,11 +38,13 @@ async function runLocalReportTest() {
       inappropriateExams: [],
       omittedEssentialExams: [],
       appropriateExamsCount: 3,
+      executiveSummary: "Operato pienamente aderente al percorso economico ideale.",
     },
     clinicalAudit: {
       status: "EVALUATED",
       overallVerdict: "EXCELLENT_MANAGEMENT",
       clinicalAccuracyScore: 100,
+      executiveSummary: "Diagnosi e percorso terapeutico allineati al Gold Path.",
       diagnosticMatch: {
         userDiagnosis: "Sindrome Coronarica Acuta (NSTEMI)",
         goldDiagnosis: "Sindrome Coronarica Acuta (NSTEMI)",

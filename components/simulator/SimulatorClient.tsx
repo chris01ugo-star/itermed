@@ -88,6 +88,8 @@ import {
   resolveAnchoredLiveSessionId,
 } from "@/lib/simulator/live-session-pin";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
+import { clinicalNarrativeFromAudit } from "@/lib/mappers/clinical-audit-mapper";
+import { economicNarrativeFromAudit } from "@/lib/mappers/economic-audit-mapper";
 import { MEDICAL_DISCLAIMER_VERSION } from "@/lib/simulator/medical-disclaimer";
 import { resolvePatientGrammaticalGender } from "@/lib/simulator/patient-grammatical-gender";
 import { PATIENT_MAX_TURNS } from "@/lib/simulator/chat-context-window";
@@ -1775,7 +1777,9 @@ export function SimulatorClient({
                           Feedback clinico
                         </p>
                         <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">
-                          {reportData.feedback?.clinicalNote ?? "—"}
+                          {clinicalNarrativeFromAudit(reportData.clinicalAudit) ||
+                            reportData.feedback?.clinicalNote ||
+                            "—"}
                         </p>
                       </div>
                     )}
@@ -1802,7 +1806,9 @@ export function SimulatorClient({
                           Feedback prescrittivo
                         </p>
                         <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">
-                          {reportData.feedback?.prescribingNote ?? "—"}
+                          {economicNarrativeFromAudit(reportData.economicAudit) ||
+                            reportData.feedback?.prescribingNote ||
+                            "—"}
                         </p>
                         {reportData.evidence?.protocolSources?.length ? (
                           <div className="mt-3 text-xs text-slate-600">
@@ -1828,7 +1834,9 @@ export function SimulatorClient({
                           Feedback economico
                         </p>
                         <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">
-                          {reportData.feedback?.economyNote ?? "—"}
+                          {economicNarrativeFromAudit(reportData.economicAudit) ||
+                            reportData.feedback?.economyNote ||
+                            "—"}
                         </p>
                       </div>
                     )}
