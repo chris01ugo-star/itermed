@@ -88,7 +88,44 @@ export function inferCompletedGoldSteps(params: {
       continue;
     }
 
-    if (norm.includes("anamnesi") && /fum|anamnes|chied|stor/i.test(msg)) completed.add(norm);
+    if (norm.includes("anamnesi") && /fum|anamnes|chied|stor|drog|alcol|sonno|cefalea/i.test(msg)) {
+      completed.add(norm);
+    }
+    if (norm.includes("parametri") && /parametr|pression|saturaz|vital|fc\b|spo2/i.test(msg)) {
+      completed.add(norm);
+    }
+    if (norm === "nihss" && /nihss|scala.{0,12}ictus|punteggio neurolog/i.test(msg)) {
+      completed.add(norm);
+    }
+    if (norm.includes("trombolisi") && /trombol|alteplas|rt-?pa|fibrinolis/i.test(msg)) {
+      completed.add(norm);
+    }
+    if (norm.includes("patente") && /patente|motorizzaz|sospension.{0,20}guid/i.test(msg)) {
+      completed.add(norm);
+    }
+    if (norm.includes("lorazepam") && /lorazepam|benzodiazepin/i.test(msg)) completed.add(norm);
+    if (norm.includes("fenitoina") && /fenitoina|fosfenitoina/i.test(msg)) completed.add(norm);
+    if (norm.includes("intubazione") && /intub|propofol/i.test(msg)) completed.add(norm);
+    if (norm.includes("aciclovir") && /aciclovir|antivirale/i.test(msg)) completed.add(norm);
+    if (norm.includes("eparina") && /eparina|enoxaparina|anticoagul/i.test(msg)) completed.add(norm);
+    if (norm.includes("carbamazepina") && /carbamazepina|oxcarbazepina/i.test(msg)) completed.add(norm);
+    if (norm.includes("levodopa") && /levodopa|l-dopa|madopar|sinemet/i.test(msg)) completed.add(norm);
+    if (norm.includes("immunoglobulin") && /immunoglobulin|plasmaferesi/i.test(msg)) completed.add(norm);
+    if (norm.includes("antiaggregante") && /aspirina|clopidogrel|antiaggreg/i.test(msg)) completed.add(norm);
+    if (norm.includes("triptan") && /triptan|sumatriptan|almotriptan/i.test(msg)) completed.add(norm);
+    if (
+      (norm.includes("dix") || norm.includes("epley") || norm.includes("hallpike")) &&
+      /dix|hallpike|epley|riposizion/i.test(msg)
+    ) {
+      completed.add(norm);
+    }
+    if (norm.includes("abcd2") && /abcd/i.test(msg)) completed.add(norm);
+    if (norm.includes("piede") && /piede diabet|prevenzione del piede|ispezione dei piedi/i.test(msg)) {
+      completed.add(norm);
+    }
+    if (norm.includes("colloquio") && /prognosi|aspettativa di vita|comunicazione/i.test(msg)) {
+      completed.add(norm);
+    }
     if (norm.includes("obiettivo") && /auscult|palp|obiettiv|esamin/i.test(msg)) completed.add(norm);
     if (norm.includes("ossigeno") && /ossigen|o2|mascher/i.test(msg)) completed.add(norm);
     if (

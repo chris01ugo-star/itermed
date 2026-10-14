@@ -734,22 +734,27 @@ export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<I
   }
 
   const universal = isUniversalSpecialty(specialtySlug);
-  const pillarsToScan: PillarConfig[] = [];
+  const pillarDirs: Array<{ pillarCfg: PillarConfig; dir: string }> = [];
   for (const pillarCfg of INGEST_PILLARS) {
-    const pillarDir = join(knowledgeRoot, pillarCfg.folder);
-    if (!existsSync(pillarDir)) {
+    const folderNames =
+      pillarCfg.folder === "clinical" ? ["clinical", "clinic"] : [pillarCfg.folder];
+    const dirs = folderNames
+      .map((name) => join(knowledgeRoot, name))
+      .filter((dir) => existsSync(dir));
+    if (dirs.length === 0) {
       if (universal) continue;
       throw new Error(
-        `Pilastro mancante: ${pillarDir}\n` +
-          `Atteso: knowledge_base/${specialtySlug}/{legal,economic,clinical}/`,
+        `Pilastro mancante: ${join(knowledgeRoot, pillarCfg.folder)}\n` +
+          `Atteso: knowledge_base/${specialtySlug}/{legal,economic,clinical}/` +
+          (pillarCfg.folder === "clinical" ? " (vale anche clinic/)." : ""),
       );
     }
-    pillarsToScan.push(pillarCfg);
+    for (const dir of dirs) pillarDirs.push({ pillarCfg, dir });
   }
 
   const allFiles: Array<{ pillarCfg: PillarConfig; filePath: string }> = [];
-  for (const pillarCfg of pillarsToScan) {
-    const files = await listDocuments(join(knowledgeRoot, pillarCfg.folder));
+  for (const { pillarCfg, dir } of pillarDirs) {
+    const files = await listDocuments(dir);
     for (const filePath of files) allFiles.push({ pillarCfg, filePath });
   }
 
@@ -762,7 +767,7 @@ export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<I
     }
   }
 
-  if (universal && allFiles.length === 0 && pillarsToScan.length === 0) {
+  if (universal && allFiles.length === 0 && pillarDirs.length === 0) {
     throw new Error(
       `Nessun documento in knowledge_base/${specialtySlug}. ` +
         `Attesi file in legal/, economic/, clinical/ oppure direttamente nella cartella.`,

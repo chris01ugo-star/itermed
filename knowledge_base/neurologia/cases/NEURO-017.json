@@ -1,0 +1,225 @@
+{
+  "id": "NEURO-017",
+  "code": "NEURO-017",
+  "title": "Stato di male epilettico",
+  "description": "Davide R., 40 anni, è in Pronto Soccorso e convulsiva da più di cinque minuti, cronometro del triage alla mano. Le scosse tonico-cloniche non si sono interrotte, non risponde, la saturazione scende. È uno stato di male epilettico convulsivo. Il percorso è lorazepam endovena subito, poi fenitoina se non cessa, poi propofol e intubazione se è refrattario. Fare prima una TC, una RM o una PET è la trappola mortale di tempo: l'imaging viene dopo che le convulsioni si sono fermate. Il budget di questo accesso è 50 euro proprio perché il gold non è un esame radiologico. Il percorso ideale costa circa 3 euro di atti, non perché la cura sia gratuita, ma perché la penalità scatta sull'imaging ordinato al posto del minuto del benzo.",
+  "difficulty": "HARD",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Stato di male epilettico convulsivo generalizzato",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/updated-classification-of-epileptic-seizures-2025.pdf",
+  "diagnosis": "Stato di male epilettico convulsivo. Controllo con lorazepam, fenitoina di seconda linea, intubazione e propofol se refrattario. Causa da cercare dopo, non prima, del primo farmaco. Glicemia in parallelo, non al posto della benzodiazepina.",
+  "pastMedicalHistory": "Epilessia focale nota, in levetiracetam, la moglie non sa se ha preso le dosi degli ultimi due giorni. Nessun trauma prima dell'esordio delle scosse. Non è in gravidanza: è un uomo. Alcol: la moglie nega un binge di oggi. Allergie: nessuna nota. Ultima crisi un anno fa, breve, ferma da sola. Questa non si ferma.",
+  "presentation": "Sul lettino, scosse ai quattro arti continue da 6 minuti all'arrivo del medico, trisma, respiro stertoroso, SpO2 89% con maschera, non risponde al richiamo. Un infermiere chiede se «intanto facciamo la TAC». La moglie urla il nome del farmaco di casa e non sa la dose. Parametri: PA 160/95 mmHg, FC 130, SpO2 89%, FR irregolare, temperatura 37,2 °C. Glicemia da stick, se qualcuno la fa in parallelo: 110 mg/dL, non è l'ipoglicemia. Ogni minuto senza benzo è un minuto di stato.",
+  "redHerrings": [
+    "La richiesta di TC «intanto che convulsiona» sembra organizzazione e invece è un ritardo.",
+    "Cercare la causa (alcol, aderenza, trauma) prima del lorazepam inverte l'ordine.",
+    "Un EEG subito, con il paziente che scuote, non sostituisce la benzodiazepina.",
+    "La fenitoina data per prima, senza benzo, è la sequenza sbagliata."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 8,
+  "patientPrompt": "Sei la moglie di un uomo di 40 anni che sta convulsando adesso, da più di cinque minuti. Lui non parla. Tu gridi, sei concreta se ti fanno una domanda secca: prende il levetiracetam, forse ha saltato due giorni, niente trauma prima, niente alcol oggi. Se il medico dà il lorazepam subito, descrivi che le scosse calano; se dopo un minuto ripartono, dillo. Se il medico ordina prima la TAC o la risonanza, le scosse continuano e la saturazione scende, e tu chiedi perché lo stanno portando via ancora mentre trema. Non nominare tu stato di male, propofol o sequenza. Se danno la fenitoina senza aver dato la benzodiazepina, le scosse non cessano. Se dopo benzo e fenitoina trema ancora, resta incosciente e serve l'intubazione: non opporsi, chiedi solo di restare fuori dalla porta.",
+  "correctSolution": "Stato di male convulsivo. Lorazepam ev immediato, glucosio solo in parallelo se lo stick è basso (qui non lo è), fenitoina se persiste, propofol e intubazione se refrattario. TC solo a convulsioni fermate. Niente RM e niente PET in questa fase.",
+  "goldStandardPath": ["lorazepam", "fenitoina", "intubazione"],
+  "goldPathNarrative": "Orologio già oltre i 5 minuti. 1) Lorazepam endovena subito, e si ripete secondo schema se le scosse non cessano. È l'atto che non si rimanda. 2) Se persiste, fenitoina (o fosfenitoina) in infusione, non come primo farmaco al posto del benzo. 3) Se ancora refrattario, propofol e intubazione, rianimazione. La glicemia si misura in parallelo: qui è 110, non cambia l'ordine. La TC si fa dopo che ha smesso di scuotere, per la causa, e non è nel gold di questi minuti. RM (latenza 80) e PET (240) ordinate adesso fanno scadere la soglia degli 8 minuti e sono inappropriate. EEG dopo il controllo, non prima. Ideale di questi tre atti: circa 3 euro di decisione. Budget dell'accesso acuto: 50 euro. Una TC a 120 euro fatta durante le scosse è già oltre il 50% e oltre il budget, ed è l'errore di tempo.",
+  "examLatencies": {
+    "lorazepam": 1,
+    "fenitoina": 8,
+    "intubazione": 5,
+    "glicemia": 2,
+    "tc": 25,
+    "rm": 80,
+    "pet-tc": 240,
+    "eeg": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-tempo",
+      "prompt": "Da quanti minuti convulsiona senza interruzione?",
+      "critical": true,
+      "expectedKeywords": ["minuti", "cinque", "continuo"],
+      "rationale": "Oltre i cinque minuti è stato di male. La domanda dura un secondo e non sostituisce il farmaco."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "Quale anticrisi prende, e lo ha saltato?",
+      "critical": true,
+      "expectedKeywords": ["levetiracetam", "saltato", "dose"],
+      "rationale": "L'aderenza spiega la causa e si chiede mentre si prepara il lorazepam, non prima."
+    },
+    {
+      "id": "aq-sequenza",
+      "prompt": "La benzodiazepina è stata la prima somministrazione, prima di imaging e prima della fenitoina?",
+      "critical": true,
+      "expectedKeywords": ["lorazepam", "prima", "subito"],
+      "rationale": "La sequenza è il gold. Invertirla è la trappola mortale di tempo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Crisi tonico-clonica generalizzata in corso, non interrotta, trisma, respiro stertoroso, non valutabile un esame neurologico fine. Si proteggono le vie aeree senza mettere oggetti in bocca, si dà ossigeno, si cronometra. L'esame obiettivo dettagliato e la TC vengono dopo il primo farmaco."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-017-tempo",
+      "source": "knowledge_base/neurologia/clinic/updated-classification-of-epileptic-seizures-2025.pdf",
+      "quote": "Sintesi operativa: una convulsione che non si interrompe oltre pochi minuti è uno stato di male. La benzodiazepina endovena viene subito. Imaging e ricerca della causa non precedono la prima dose."
+    },
+    {
+      "chunkId": "neuro-017-sequenza",
+      "source": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
+      "quote": "Sintesi operativa: se la benzodiazepina non basta si passa a un anticrisi endovena come la fenitoina, e se lo stato è refrattario si intuba e si usa un anestetico. Invertire i gradini, o iniziare dalla fenitoina, è un errore di tempo."
+    },
+    {
+      "chunkId": "neuro-017-costi",
+      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "Sintesi operativa sul costo: TC, RM e PET durante le convulsioni non sono il percorso. Consumano minuti e tariffa mentre il farmaco che ferma lo stato non è ancora partito."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Tempo di crisi riconosciuto oltre i cinque minuti.",
+      "Lorazepam come primo atto, non la TC.",
+      "Fenitoina solo se il benzo non ha chiuso lo stato.",
+      "Intubazione e propofol se refrattario, non come prima mossa.",
+      "Imaging rinviato a convulsioni cessate."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Portare in TC un paziente che convulsiva ancora, prima del lorazepam, non aderisce al percorso dello stato di male. L'orario della prima benzodiazepina è il dato che rende difendibile la condotta.",
+      "legalCriteria": [
+        "Orario di inizio crisi e orario della prima benzodiazepina scritti.",
+        "Sequenza benzo, poi fenitoina, poi anestesia se refrattario.",
+        "Nessun imaging prima del controllo delle scosse.",
+        "Glicemia misurata in parallelo, non usata come ritardo."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "lorazepam",
+      "name": "Lorazepam endovena",
+      "finding": "Lorazepam endovena immediato. Le scosse si riducono e poi riprendono: non è sufficiente da solo, ma doveva essere il primo farmaco. Senza questa dose, o se arriva dopo la TC, lo stato prosegue e la saturazione cade. È l'omissione mortale di tempo.",
+      "isAbnormal": true,
+      "priceEuro": 1,
+      "isFatal": true
+    },
+    {
+      "examId": "fenitoina",
+      "name": "Fenitoina endovena",
+      "finding": "Fenitoina in infusione dopo il lorazepam, con monitoraggio cardiaco. Non è il primo farmaco. Dopo questa seconda linea le scosse non cessano del tutto: lo stato è refrattario e si passa all'intubazione. Darla per prima, senza benzo, non chiude la crisi.",
+      "isAbnormal": true,
+      "priceEuro": 1
+    },
+    {
+      "examId": "intubazione",
+      "name": "Intubazione e propofol",
+      "finding": "Stato refrattario a benzo e fenitoina. Intubazione e propofol in ambiente rianimatorio. Solo a questo punto, a vie aeree sicure e scosse controllate, si programma la TC per la causa. L'intubazione non è la prima mossa se il lorazepam non è stato nemmeno provato, ma in questo caso, dopo i due gradini, è necessaria.",
+      "isAbnormal": true,
+      "priceEuro": 1
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio durante le convulsioni",
+      "finding": "TC eseguita mentre il paziente scuoteva: esame degradato dal movimento, nessuna emorragia grossolana visibile, nessun valore decisionale in quel minuto. Costo 120 euro. Andava fatta dopo il controllo delle scosse.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Tempistica errata. 120 euro e 25 minuti contro un ideale di pochi euro, oltre il budget di 50, mentre il lorazepam non è ancora in vena."
+    },
+    {
+      "examId": "rm",
+      "name": "RM encefalo",
+      "finding": "RM non eseguibile durante lo stato convulsivo. Attesa 80 minuti. Nessun referto utile in questa fase. Costo 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Imaging incompatibile con lo stato in corso. Ritardo mortale e costo molto oltre il 50% del percorso di questi minuti."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET-TC impossibile e non indicata. Costo 950 euro.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Medicina difensiva incompatibile con uno stato di male. Sforamento estremo di tempo e di budget."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 130,
+      "bloodPressure": "160/95",
+      "spo2": 89,
+      "temperature": 37.2,
+      "respiratoryRate": 28
+    },
+    "examBudgetEuro": 50,
+    "demographics": { "age": 40, "sex": "M", "name": "Davide R." },
+    "clinicalSigns": [
+      {
+        "signName": "Crisi in corso",
+        "result": "Scosse tonico-cloniche continue da più di cinque minuti. Non interrotte.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Crisi in corso",
+        "result": "Stato di male convulsivo in atto.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "Stick 110 mg/dL. Non è un'ipoglicemia. Si misura in parallelo al lorazepam, non prima. Costo 2,1 euro.",
+          "isAbnormal": false,
+          "price": 2.1
+        },
+        "tc": {
+          "finding": "TC durante le scosse: artefatta, nessuna emorragia ovvia. Inappropriata in questo minuto. Costo 120 euro. Ripeterla dopo l'intubazione è un altro discorso, non questo ordine.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "rm": {
+          "finding": "RM non eseguibile ora. Costo 220 euro di prenotazione inutile e 80 minuti persi.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "pet-tc": {
+          "finding": "PET-TC non indicata. Costo 950 euro.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "eeg": {
+          "finding": "EEG utile dopo il controllo clinico, per vedere se l'attività elettrica persiste. Non è il primo atto mentre il corpo scuote e il lorazepam non è stato dato. Costo 90 euro.",
+          "isAbnormal": true,
+          "price": 90
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Lorazepam subito, poi fenitoina, poi propofol se refrattario",
+          "anyOf": [{ "id": "lorazepam", "label": "Lorazepam", "aliases": ["lorazepam", "benzodiazepina"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "Imaging o fenitoina come primo atto, senza benzodiazepina", "ids": ["tc-prima", "fenitoina-prima"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
+    "communicationStyle": "Il paziente non comunica. La moglie è nel panico ma risponde a domande secche su farmaco, dosi saltate e durata. Se il medico perde tempo in radiologia, lei non ha il linguaggio clinico per fermarlo: descrive solo che lui trema ancora."
+  }
+}

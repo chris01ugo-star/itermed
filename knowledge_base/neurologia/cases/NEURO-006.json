@@ -1,0 +1,204 @@
+{
+  "id": "NEURO-006",
+  "code": "NEURO-006",
+  "title": "Sindrome del tunnel carpale",
+  "description": "Elena P., 47 anni, sarta, da quattro mesi si sveglia di notte con formicolio al pollice, all'indice e al medio della mano destra, e scuote la mano per farli passare. Di giorno il fastidio compare cucendo e guidando. Il collo non le fa male. Non ha dolore che scende dalla spalla. Phalen e Tinel sono positivi, c'è un iniziale appiattimento dell'eminenza tenar, la forza del collo e il riflesso bicipitale sono normali. È un tunnel carpale, non una radicolopatia C6. Il percorso è l'esame clinico del polso e l'EMG, che conferma il rallentamento del mediano al polso. La trappola è chiamarla cervicale e prescrivere un FANS per settimane, oppure prenotare una RM del rachide cervicale (220 euro) senza EMG (70 euro). Il budget della visita è 110 euro: l'EMG ci sta, la RM no.",
+  "difficulty": "EASY",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Intrappolamento del nervo mediano al polso destro",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+  "diagnosis": "Sindrome del tunnel carpale destro, con impegno motorio iniziale del tenar. Conferma elettrofisiologica al polso. Non è una radicolopatia cervicale.",
+  "pastMedicalHistory": "Ipotiroidismo in levotiroxina, TSH recente nella norma. Nessun diabete. Nessun trauma al polso. Due gravidanze in passato, formicolii simili nell'ultimo trimestre poi spariti. Lavoro ripetitivo con forbici e ferro da stiro. Non fuma. Assume ibuprofene 600 mg da tre settimane, ogni sera, con bruciore epigastrico e beneficio nullo sulla notte. Allergie: nessuna. Un ortopedico le ha detto «forse è la cervicale» senza visitarle il polso.",
+  "presentation": "Mostra la mano destra e descrive la notte. Se il medico guarda solo il collo, lei conferma che «ogni tanto tira» dopo il lavoro, e la pista cervicale si apre a vuoto. Il dolore vero è palmare e sulle prime tre dita, non a fascia sull'avambraccio fino al collo. Parametri: PA 128/78 mmHg, FC 74, SpO2 99%, FR 14, temperatura 36,6 °C. Vuole una soluzione prima del matrimonio della figlia, tra due mesi, e accetta qualunque esame le venga proposto, compresa una RM che non può permettersi.",
+  "redHerrings": [
+    "Un ortopedico ha già nominato la cervicale senza esaminare il mediano.",
+    "Un vago fastidio al collo dopo il lavoro non è un dolore radicolare.",
+    "L'ibuprofene già in corso sembra un piano, ed è inutile e gastrolesivo.",
+    "Il tenar appiattito può essere scambiato per «artrosi» e non per deficit motorio del mediano."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sei Elena, 47 anni, sarta, in ambulatorio. Parli pratico. Se ti chiedono del collo, dici che a fine giornata tira un po', e non aggiungi altro. Pollice, indice, medio, risvegli notturni e il gesto di scuotere la mano li racconti solo se ti chiedono quali dita, se di notte, e se il fastidio è al polso o scende dal collo. Non hai dolore al collo che irradia. Se ti fanno piegare il polso (Phalen) il formicolio arriva in pochi secondi. Se ti prescrivono un antinfiammatorio per un mese, dici che lo prendi già e che ti brucia lo stomaco, ma obbedisci se insistono. Se ti chiedono l'EMG, accetti. Se ti chiedono la RM della cervicale, ti preoccupi per il costo e chiedi se è proprio necessaria: se il medico dice di sì, la prenoti. Non nominare tu tunnel carpale o radicolopatia. A fine visita, se nessuno ha parlato della notte e delle tre dita, ricordi che non dormi.",
+  "correctSolution": "Tunnel carpale destro. Clinica mediana (notturna, prime tre dita, Phalen, Tinel, tenar) più EMG con rallentamento al polso. Tutore notturno, sospensione del FANS cronico, invio per valutazione di rilascio se il motore è già impegnato. Non RM cervicale come primo esame. Non diagnosi di radicolopatia C6 senza un dolore radicolare e senza imaging, e comunque qui l'imaging del collo non è il gold.",
+  "goldStandardPath": ["esame-clinico-polso", "emg"],
+  "goldPathNarrative": "1) Esame: territorio mediano, paraestesie notturne, Phalen e Tinel positivi, tenar iniziale, collo senza deficit radicolare e senza dolore a fascia. 2) EMG/elettroneurografia: rallentamento della conduzione sensitiva e motoria del mediano al polso, ulnar e radiale risparmiati, no denervazione radicolare cervicale. Costo ideale 71 euro (visita clinica 1 euro + EMG 70). La RM del rachide cervicale costa 220 euro, non mostra una compressione radicolare e non sostituisce l'EMG. Prescrivere FANS per settimane, senza EMG, è la diagnosi sbagliata di «cervicale» curata con un farmaco inutile. Budget: 110 euro.",
+  "examLatencies": {
+    "esame-clinico-polso": 10,
+    "emg": 20,
+    "rm": 80,
+    "rx-colonna": 15,
+    "ecocolordoppler": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-dita",
+      "prompt": "Quali dita formicolano, e il fastidio la sveglia di notte?",
+      "critical": true,
+      "expectedKeywords": ["pollice", "notte", "tre dita"],
+      "rationale": "Il territorio mediano notturno è il cuore del tunnel carpale. Senza questa domanda resta solo il collo."
+    },
+    {
+      "id": "aq-collo",
+      "prompt": "Il dolore parte dal collo e scende a fascia, o nasce dalla mano?",
+      "critical": true,
+      "expectedKeywords": ["collo", "mano", "notte"],
+      "rationale": "Distingue la radicolopatia cervicale dall'intrappolamento al polso. Qui nasce dalla mano."
+    },
+    {
+      "id": "aq-fans",
+      "prompt": "Da quanto prende l'ibuprofene e le ha cambiato le notti?",
+      "critical": false,
+      "expectedKeywords": ["ibuprofene", "stomaco", "notti"],
+      "rationale": "Il FANS cronico è già fallito e le ha dato epigastralgia. Continuarlo non è un piano."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Phalen positivo a destra in meno di 20 secondi, Tinel positivo sul legamento trasverso del carpo, ipoestesia pulpare su pollice indice e medio, eminenza tenar lievemente appiattita, opposizione del pollice lievemente ridotta. Collo mobile, Spurling negativo, riflesso bicipitale e stiloradiale simmetrici, forza del deltoide e del bicipite conservata. Non c'è un livello radicolare da inseguire con la RM come primo atto."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-006-clinica",
+      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+      "quote": "Sintesi operativa: il tunnel carpale si riconosce dal territorio mediano, dal prevalere notturno e dai segni al polso. L'EMG conferma il livello dell'intrappolamento. Una RM cervicale non è il primo esame se il collo è clinicamente silente."
+    },
+    {
+      "chunkId": "neuro-006-rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "Sintesi operativa sul costo: la RM del rachide è una prestazione costosa. Prenotarla al posto dell'EMG, in un quadro di mediano al polso, sposta la spesa senza rispondere alla domanda clinica."
+    },
+    {
+      "chunkId": "neuro-006-tariffa",
+      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "Sintesi operativa: l'elettroneurografia del mediano sta nel budget di questa visita. La RM muscoloscheletrica del collo, aggiunta per una diagnosi di radicolopatia non sostenuta dall'esame, no."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Territorio sensitivo e segni al polso raccolti prima dell'imaging del collo.",
+      "EMG richiesta e letta come conferma del livello al polso.",
+      "Nessuna diagnosi di radicolopatia C6 senza dolore radicolare e senza un imaging che comunque qui non è il gold.",
+      "FANS cronico sospeso, non rinnovato."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Chiamare cervicale una acroparestesia mediana notturna, e curarla con FANS, non aderisce al percorso dell'intrappolamento. L'EMG è l'esame che rende difendibile il livello diagnostico.",
+      "legalCriteria": [
+        "Distribuzione delle dita e segni di Phalen e Tinel scritti.",
+        "EMG prima di una diagnosi alternativa di radicolopatia.",
+        "Nessun FANS a lungo termine come unica cura.",
+        "Informazione sul tutore notturno e sul possibile invio chirurgico se il tenar è già debole."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "esame-clinico-polso",
+      "name": "Esame clinico del polso e del territorio mediano",
+      "finding": "Paraestesie notturne su pollice, indice e medio destri. Phalen positivo, Tinel positivo, tenar lievemente appiattito, opposizione del pollice ridotta. Collo senza Spurling e senza deficit miomerico C6. Quadro di tunnel carpale, non di radicolopatia.",
+      "isAbnormal": true,
+      "priceEuro": 1
+    },
+    {
+      "examId": "emg",
+      "name": "EMG ed elettroneurografia",
+      "finding": "Elettroneurografia: latenza distale motoria del mediano destro allungata, velocità sensitiva del mediano palmo-polso rallentata, conduzione dell'ulnare normale, confronto mediano-ulnare sul quarto dito patologico. EMG ad ago: iniziale denervazione del muscolo abduttore breve del pollice, muscoli del miomero C6 indenni. Conclusione: intrappolamento del mediano al polso, grado moderato-severo. Nessuna radicolopatia cervicale.",
+      "isAbnormal": true,
+      "priceEuro": 70
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm",
+      "name": "RM rachide cervicale",
+      "finding": "RM cervicale: lieve protusione C5-C6 senza conflitto radicolare, forami pervii, midollo normale. Non spiega le notti e le tre dita. Costo 220 euro. Il livello resta il polso, che questa RM non studia.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Diagnosi errata di radicolopatia perseguita con la RM, senza EMG. 220 euro contro un percorso ideale di 71: sforamento oltre il 50%, e il referto non cambia la clinica del mediano."
+    },
+    {
+      "examId": "rx-colonna",
+      "name": "RX colonna cervicale",
+      "finding": "RX cervicale: rettilineizzazione e iniziale uncoartrosi. Non vede il nervo mediano e non vede una radice. Costo 35 euro. Inutile come primo esame del tunnel carpale.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "inappropriate": true,
+      "wasteRationale": "La radiografia del collo non conferma né esclude il tunnel carpale. Alimenta la diagnosi sbagliata di cervicale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 74,
+      "bloodPressure": "128/78",
+      "spo2": 99,
+      "temperature": 36.6,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 110,
+    "demographics": { "age": 47, "sex": "F", "name": "Elena P." },
+    "clinicalSigns": [
+      {
+        "signName": "Phalen",
+        "result": "Positivo a destra in meno di 20 secondi, formicolio sul mediano.",
+        "isPositive": true
+      },
+      {
+        "signName": "Tinel al polso",
+        "result": "Positivo sul legamento trasverso del carpo destro.",
+        "isPositive": true
+      },
+      {
+        "signName": "Spurling",
+        "result": "Negativo. Nessun dolore radicolare.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Phalen",
+        "result": "Positivo a destra.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "emg": {
+          "finding": "EMG: rallentamento del mediano al polso destro, ulnare risparmiato, niente denervazione radicolare cervicale. Tunnel carpale moderato-severo. Costo 70 euro.",
+          "isAbnormal": true,
+          "price": 70
+        },
+        "rm": {
+          "finding": "RM cervicale: piccola protusione C5-C6 senza conflitto. Non spiega il quadro. Costo 220 euro, sopra il budget di 110.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "rx-colonna": {
+          "finding": "RX cervicale con uncoartrosi iniziale. Non diagnostica il tunnel carpale. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Tutore notturno e invio dopo EMG se il tenar è debole",
+          "anyOf": [{ "id": "tutore", "label": "Tutore notturno", "aliases": ["tutore", "splint"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "FANS a lungo termine come unica terapia", "ids": ["fans-cronico", "ibuprofene-cronico"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "MEDIUM", "socialSupport": "STRONG" },
+    "communicationStyle": "Elena parla del lavoro e del collo se non la si interroga sulle dita e sulla notte. Obbedisce alle prescrizioni, anche all'ibuprofene che le brucia lo stomaco, e si preoccupa del costo della risonanza solo se qualcuno glielo nomina."
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "id": "NEURO-018",
+  "code": "NEURO-018",
+  "title": "Trombosi venosa cerebrale",
+  "description": "Chiara D., 28 anni, da cinque giorni ha una cefalea che non passa con nulla, peggiore da sdraiata, con nausea. Usa un contraccettivo orale da un anno. All'esame c'è papilledema bilaterale e un lieve deficit del braccio sinistro comparso stamattina. È una trombosi venosa cerebrale. Il percorso è il fondo oculare, l'angio-RM venosa (350 euro) e l'eparina, anche se la TC mostra un piccolo infarcimento emorragico venoso. Sospendere l'anticoagulante per paura di quel sanguinamento è la trappola clinica. La puntura lombare, con papilledema e senza aver visto i seni, è pericolosa. La PET non ha ruolo. Il percorso ideale costa circa 411 euro, il budget 560.",
+  "difficulty": "HARD",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Trombosi del seno sagittale superiore con infarcimento emorragico venoso",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/linee guida iso spread.pdf",
+  "diagnosis": "Trombosi del seno sagittale superiore in donna che assume estroprogestinico. Papilledema, cefalea intrattabile, piccolo ematoma venoso parasagittale. Eparina indicata nonostante l'emorragia. Non è una emorragia ipertensiva da non anticoagulare.",
+  "pastMedicalHistory": "Estroprogestinico da 12 mesi, mai un evento trombotico noto. Fuma 8 sigarette. Nessuna trombofilia nota in famiglia, da chiedere. Nessun trauma, nessuna febbre, nessuna ipertensione cronica: le pressioni di oggi sono 128/76. Emicrania negata: questo dolore è continuo da cinque giorni, non a attacchi. Allergie: nessuna. Ha già preso tre FANS diversi, inutili. Il compagno chiede una «TAC e a casa» perché domani ha un esame universitario.",
+  "presentation": "Sofferente, al buio, vomita se si alza in fretta. Fondo: papille con margini sfumati, bilaterali. Forza dell'arto superiore sinistro 4/5, riflessi vivaci a sinistra, resto integro. Nessuna rigidità franca. Parametri: PA 128/76 mmHg, FC 92, SpO2 99%, FR 16, temperatura 36,7 °C. La TC, se richiesta, mostra un'ipodensità parasagittale destra con un piccolo stravaso emorragico: è il reperto che spaventa e che non deve far sospendere l'eparina. Senza l'angio venosa quel sanguinamento viene chiamato «emorragia cerebrale» e trattato al contrario.",
+  "redHerrings": [
+    "La piccola emorragia alla TC sembra una controindicazione assoluta all'eparina.",
+    "La pressione normale e l'età allontanano l'ictus arterioso classico e fanno sottovalutare il seno venoso.",
+    "Il contraccettivo esce solo se si chiedono i farmaci, non se si chiede solo il dolore.",
+    "Il compagno spinge per la dimissione dopo una TC, senza studio venoso."
+  ],
+  "timeLimitMinutes": 80,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sei Chiara, 28 anni, in Pronto Soccorso, al buio, con un mal di testa continuo da cinque giorni. Rispondi a frasi corte perché la luce e il movimento peggiorano il dolore. Il contraccettivo e le sigarette li dici solo se ti chiedono farmaci e abitudini. Se ti guardano il fondo e ti spiegano che la testa è sotto pressione, ti spaventi ma collabori. Se dopo la TC ti dicono che c'è un po' di sangue e che per questo non ti danno l'eparina, ti senti sollevata a torto e chiedi di andare a casa. Se ti spiegano che quel sangue viene da una vena chiusa e che l'eparina serve proprio per quello, accetti. Se propongono la puntura lombare prima di aver visto le vene, hai paura e firmi solo se insistono: è la mossa sbagliata. Non nominare tu trombosi venosa o seno sagittale. Se nessuno studia le vene e ti mandano a casa, il braccio sinistro diventa più debole.",
+  "correctSolution": "Trombosi venosa cerebrale. Fondo con papilledema, angio-RM venosa del seno sagittale, eparina anche con il piccolo infarcimento emorragico visto alla TC. Stop al contraccettivo. Non sospendere l'anticoagulante per quel sangue. Non puntura lombare prima dello studio venoso. Non PET.",
+  "goldStandardPath": ["fundus", "angio", "eparina"],
+  "goldPathNarrative": "1) Fondo oculare: papilledema bilaterale. La cefalea intrattabile della giovane con contraccettivo non è un'emicrania. Costo 60 euro. 2) Angio-RM venosa, non una angio arteriosa generica e non una TC da sola: trombosi del seno sagittale superiore. Costo 350 euro. È l'imaging appropriato, caro e giustificato. 3) Eparina subito, anche se la TC mostra un piccolo sanguinamento venoso parasagittale. Sospenderla o non iniziarla per paura è l'errore clinico. Ideale circa 411 euro, budget 560. La TC a 120 euro può essere il primo colpo e mostra l'emorragia: non è inappropriata, è incompleta se ci si ferma lì. La PET a 950 euro è lo spreco. La rachicentesi con papilledema, prima delle vene, è la manovra pericolosa.",
+  "examLatencies": {
+    "fundus": 8,
+    "angio": 35,
+    "eparina": 5,
+    "tc": 20,
+    "rm": 50,
+    "pet-tc": 240,
+    "liquidi": 30
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-profilo",
+      "prompt": "Il dolore è continuo da giorni, peggiora da sdraiata, e non assomiglia a un'emicrania?",
+      "critical": true,
+      "expectedKeywords": ["continuo", "giorni", "sdraiata"],
+      "rationale": "Il profilo continuo con peggioramento da supina e papilledema non è una cefalea primaria."
+    },
+    {
+      "id": "aq-pillola",
+      "prompt": "Usa un contraccettivo, fuma, o ha avuto trombosi?",
+      "critical": true,
+      "expectedKeywords": ["contraccettivo", "pillola", "fuma"],
+      "rationale": "Il fattore di rischio protrombotico non emerge dal solo dolore. Senza questa domanda la TC emorragica viene letta come emorragia primitiva."
+    },
+    {
+      "id": "aq-eparina",
+      "prompt": "L'emorragia vista alla TC le è stata spiegata come motivo per non dare eparina, o come conseguenza della vena chiusa?",
+      "critical": true,
+      "expectedKeywords": ["eparina", "sangue", "vena"],
+      "rationale": "È il bivio del caso. La paura del sanguinamento non deve sospendere l'anticoagulante."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Cefalea, nausea, papilledema bilaterale, lieve paresis dell'arto superiore sinistro, riflessi vivaci a sinistra, nessun segno meningeo franco, pressione arteriosa non ipertensiva. Il fondo cambia la diagnosi da emicrania a ipertensione intracranica. Non si fa la puntura prima di aver visto i seni venosi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-018-tv",
+      "source": "knowledge_base/neurologia/clinic/linee guida iso spread.pdf",
+      "quote": "Sintesi operativa: la trombosi venosa cerebrale si cerca con uno studio venoso, in una cefalea persistente con papilledema e fattore di rischio. L'eparina resta indicata anche quando c'è un infarcimento emorragico venoso."
+    },
+    {
+      "chunkId": "neuro-018-sirm",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "Sintesi operativa: la TC può mostrare il sanguinamento e non il seno. L'angio-RM venosa è l'esame che chiude la diagnosi. Una PET non mappa i seni durali."
+    },
+    {
+      "chunkId": "neuro-018-costi",
+      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "Sintesi operativa sul costo: l'angio-RM è una prestazione cara e, in questo caso, appropriata. Va nel percorso ideale. La PET no, e non si aggiunge per scrupolo dopo che il seno è già il sospetto."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Contraccettivo e profilo della cefalea raccolti.",
+      "Papilledema visto al fondo.",
+      "Angio-RM venosa, non solo TC.",
+      "Eparina avviata nonostante la piccola emorragia venosa.",
+      "Nessuna puntura lombare prima dello studio dei seni."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Vedere un piccolo sangue alla TC e sospendere o non iniziare l'eparina, in una trombosi del seno, è il contrario del percorso. L'emorragia venosa non è una controindicazione automatica. La puntura con papilledema, senza imaging venoso, non è difendibile.",
+      "legalCriteria": [
+        "Fattore di rischio ormonale scritto.",
+        "Studio venoso eseguito, non solo TC.",
+        "Eparina prescritta e motivata anche in presenza dell'infarcimento emorragico.",
+        "Contraccettivo sospeso e detto in lettera.",
+        "Puntura lombare non eseguita prima dell'imaging, con papilledema."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "fundus",
+      "name": "Fondo oculare",
+      "finding": "Papilledema bilaterale, margini sfumati, nessun sanguinamento preretinico esteso. Segno di ipertensione intracranica. Costo 60 euro. Cambia la cefalea da «virus» a urgenza vascolare venosa.",
+      "isAbnormal": true,
+      "priceEuro": 60
+    },
+    {
+      "examId": "angio",
+      "name": "Angio-RM venosa",
+      "finding": "Angio-RM venosa: mancata opacizzazione del seno sagittale superiore nel suo terzo medio-posteriore, circoli collaterali corticali. Trombo venoso. Non è uno studio arterioso normale. Costo 350 euro. È il gold imaging: la TC da sola non bastava.",
+      "isAbnormal": true,
+      "priceEuro": 350
+    },
+    {
+      "examId": "eparina",
+      "name": "Eparina",
+      "finding": "Eparina a dose anticoagulante avviata subito dopo lo studio venoso, nonostante il piccolo infarcimento emorragico parasagittale visto alla TC. Il contraccettivo si sospende. Non ridurre né sospendere l'eparina per quel sangue: è la conseguenza della vena chiusa, non una controindicazione. Omettere l'eparina è l'errore clinico centrale del caso.",
+      "isAbnormal": false,
+      "priceEuro": 1,
+      "isFatal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "liquidi",
+      "name": "Rachicentesi prima dello studio venoso",
+      "finding": "Puntura lombare eseguita con papilledema e seni non ancora studiati. Manovra a rischio, non necessaria per la diagnosi se l'angio-RM venosa è disponibile. Il liquor, se comunque prelevato, mostra pressione alta e composizione non infettiva, e non cambia l'indicazione all'eparina. Non andava fatta adesso.",
+      "isAbnormal": true,
+      "priceEuro": 60,
+      "inappropriate": true,
+      "isFatal": true,
+      "wasteRationale": "Con papilledema la puntura prima dell'imaging è pericolosa. Non diagnostica la trombosi meglio dell'angio-RM venosa e non autorizza a sospendere l'eparina."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET-TC non indicata. Non visualizza il seno trombizzato. Costo 950 euro.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Medicina difensiva. 950 euro contro un ideale di circa 411: oltre il 50% e oltre il budget di 560 euro, senza rispondere alla domanda sul seno."
+    },
+    {
+      "examId": "scintigrafia",
+      "name": "Scintigrafia",
+      "finding": "Scintigrafia non indicata nella trombosi dei seni. Costo 250 euro.",
+      "isAbnormal": false,
+      "priceEuro": 250,
+      "inappropriate": true,
+      "wasteRationale": "Esame fuori indicazione. Si accumula senza vedere il trombo e sposta spesa e tempo lontano dall'eparina."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 92,
+      "bloodPressure": "128/76",
+      "spo2": 99,
+      "temperature": 36.7,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 560,
+    "demographics": { "age": 28, "sex": "F", "name": "Chiara D." },
+    "clinicalSigns": [
+      {
+        "signName": "Papilledema",
+        "result": "Bilaterale, margini papillari sfumati.",
+        "isPositive": true
+      },
+      {
+        "signName": "Paresi arto superiore sinistro",
+        "result": "Forza 4/5, comparsa stamattina.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Papilledema",
+        "result": "Presente bilateralmente.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "fundus": {
+          "finding": "Papilledema bilaterale. Costo 60 euro.",
+          "isAbnormal": true,
+          "price": 60
+        },
+        "angio": {
+          "finding": "Angio-RM venosa: trombosi del seno sagittale superiore. Costo 350 euro. È l'esame decisivo.",
+          "isAbnormal": true,
+          "price": 350
+        },
+        "tc": {
+          "finding": "TC cranio: ipodensità parasagittale destra con piccolo stravaso emorragico. Non è una controindicazione all'eparina. Non mostra il seno con certezza. Costo 120 euro. Utile come primo colpo, incompleta se è l'ultimo.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "rm": {
+          "finding": "RM parenchimale: infarcimento venoso parasagittale con componente emorragica. Senza sequenze venose il seno non è dimostrato. Costo 220 euro. Va completata con l'angio-RM venosa, non sostituita da una PET.",
+          "isAbnormal": true,
+          "price": 220
+        },
+        "liquidi": {
+          "finding": "Puntura con papilledema: pressione di apertura molto alta, liquor non infettivo. Manovra non indicata prima dello studio venoso.",
+          "isAbnormal": true,
+          "price": 60
+        },
+        "pet-tc": {
+          "finding": "PET-TC non indicata. Costo 950 euro.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "scintigrafia": {
+          "finding": "Scintigrafia non indicata. Costo 250 euro.",
+          "isAbnormal": false,
+          "price": 250
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Eparina anche con piccolo infarcimento emorragico venoso",
+          "anyOf": [{ "id": "eparina", "label": "Eparina", "aliases": ["eparina", "enoxaparina", "anticoagulante"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "Sospensione dell'anticoagulante per paura del sanguinamento venoso", "ids": ["sospensione-eparina", "niente-eparina"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Chiara parla poco per il dolore, collabora se la luce è bassa. Il contraccettivo non lo cita da sola. Si fida di una frase che le dica di non anticoagulare, perché la parola sangue le fa paura, e accetta l'eparina solo se le si spiega la vena chiusa."
+  }
+}

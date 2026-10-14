@@ -1,0 +1,213 @@
+{
+  "id": "NEURO-004",
+  "code": "NEURO-004",
+  "title": "Emicrania senz'aura o cefalea tensiva",
+  "description": "Marta G., 29 anni, grafica, chiede una visita perché da otto anni ha mal di testa che lei chiama «da cervicale». Gli attacchi, tre o quattro al mese, durano da mezza giornata a un giorno intero: dolore pulsante all'emitemporale destra, nausea, fastidio per la luce, peggiora se sale le scale. Tra un attacco e l'altro sta bene. Non è mai stato a rombo di tuono, non ha febbre, non ha deficit, non ha cambiato profilo. L'esame neurologico è negativo. La diagnosi è emicrania senz'aura, non cefalea tensiva: la tensione del collo compare durante l'attacco ed è un accompagnamento, non la causa. Il percorso è anamnesi sul profilo temporale, esame obiettivo, terapia acuta con triptano. TC e RM, che lei chiede perché una collega «aveva un tumore», non sono indicate e sforano un budget ambulatoriale di 40 euro.",
+  "difficulty": "EASY",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Emicrania senz'aura a profilo stabile, esame neurologico negativo",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/cefalee primarie.pdf",
+  "diagnosis": "Emicrania senz'aura (attacchi ricorrenti, unilaterali, pulsanti, con nausea e fotofobia, durata 4-72 ore, esame negativo, nessuna red flag). Non è cefalea tensiva e non richiede neuroimaging.",
+  "pastMedicalHistory": "Cefalea dallo stesso profilo dagli anni dell'università. Nessun trauma, nessuna neoplasia, nessun immunodepressore. Ciclo regolare, non usa estroprogestinico. Non fuma. Assume ibuprofene 400 mg da banco, spesso tardi, con sollievo incompleto. Madre con emicrania. Non ha mai avuto aura visiva, non ha crisi epilettiche, non ha glaucoma noto. Allergie: nessuna. Lavoro al computer, dorme circa 6 ore, salta il pranzo nei giorni di consegna.",
+  "presentation": "In ambulatorio, lucida, collaborante, oggi senza dolore perché l'ultimo attacco è stato tre giorni fa. Descrive il collo rigido solo quando pulsa la tempia, non un dolore nucale continuo. Se il medico si ferma a «è stress?» risponde di sì e il caso sembra una cefalea tensiva. Se si chiede lato, qualità, durata, nausea e luce, emerge l'emicrania. Non ha deficit, non ha papilledema, non ha febbre. Parametri: PA 118/74 mmHg, FC 76, SpO2 99%, FR 14, temperatura 36,5 °C. Porta una stampa di internet sulla risonanza «per escludere qualcosa di brutto» e si aspetta che il medico la prenoti.",
+  "redHerrings": [
+    "Chiama il dolore «cervicale» perché le si irrigidisce il collo durante l'attacco.",
+    "Lo stress lavorativo c'è, ma non trasforma un profilo emicranico in cefalea tensiva.",
+    "La collega operata per un meningioma la spinge a chiedere TC o RM a ogni visita.",
+    "L'ibuprofene parziale la convince che serva un antidolorifico più forte, non un triptano."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sei Marta, 29 anni, in ambulatorio, oggi senza dolore. Parli in modo ordinato. Se ti chiedono solo se sei stressata o se ti fa male il collo, rispondi sì e fermati lì: non regalare nausea, luce e pulsazione. Se ti chiedono come inizia, quanto dura, da che lato sta, se hai nausea o se la luce ti dà fastidio, racconta: tempia destra, batte, dura almeno mezza giornata, nausea, stanza buia, peggiora con le scale, da otto anni, tre o quattro volte al mese, tra un attacco e l'altro stai bene, niente aura. Se propongono TC o RM, accetti subito e citi la collega. Se ti spiegano che l'esame è normale e che il profilo è emicrania, e ti propongono un triptano all'inizio dell'attacco più ibuprofene preso presto, ti rilassi e non insisti per la risonanza. Se ti danno un oppioide o un antinfiammatorio da prendere tutti i giorni, chiedi preoccupata se diventerai dipendente. Non nominare tu emicrania senz'aura, ICHD o red flag. Se la visita si perde in esami e nessuno ti cura l'attacco, ti innervosisci e dici che hai buttato la mattinata.",
+  "correctSolution": "Emicrania senz'aura su criteri clinici. Esame neurologico negativo e storia stabile: niente TC, niente RM. Triptano all'esordio dell'attacco, antinfiammatorio precoce, diario degli attacchi, igiene del sonno. Rivalutare solo se compaiono red flag o se gli attacchi superano la soglia della profilassi.",
+  "goldStandardPath": ["anamnesi-cefalea", "esame-neurologico", "triptano"],
+  "goldPathNarrative": "1) Anamnesi sul profilo: unilateralità, qualità pulsante, durata 4-72 ore, nausea, fotofobia, peggioramento con l'attività, ricorrenza da anni, intervalli liberi. Il collo rigido non basta per la diagnosi di cefalea tensiva. 2) Esame neurologico, fondo oculare compreso: negativo. Nessuna red flag (niente tuono, deficit, febbre, esordio dopo i 50, cambiamento di profilo). 3) Terapia acuta con triptano, non un imaging. Costo ideale circa 3 euro. TC cranio 120 euro e RM encefalo 220 euro sono medicina difensiva: il budget della visita è 40 euro. Una sola delle due supera il 50% del percorso ideale.",
+  "examLatencies": {
+    "anamnesi-cefalea": 12,
+    "esame-neurologico": 8,
+    "triptano": 2,
+    "tc": 40,
+    "rm": 90,
+    "pet-tc": 240,
+    "fundus": 8
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-profilo",
+      "prompt": "Il dolore è pulsante e da un lato, quanto dura, e c'è nausea o fastidio per la luce?",
+      "critical": true,
+      "expectedKeywords": ["pulsante", "nausea", "luce", "unilaterale"],
+      "rationale": "Senza lato, qualità, durata e sintomi associati la cefalea tensiva e l'emicrania si confondono."
+    },
+    {
+      "id": "aq-storia",
+      "prompt": "Da quanti anni ha lo stesso mal di testa e sta bene tra un attacco e l'altro?",
+      "critical": true,
+      "expectedKeywords": ["anni", "intervallo", "stesso"],
+      "rationale": "Un profilo identico da otto anni, con intervalli liberi, abbassa il sospetto di lesione occupante spazio."
+    },
+    {
+      "id": "aq-redflag",
+      "prompt": "Il dolore è mai esploso in secondi, ha avuto deficit, febbre o un cambiamento recente?",
+      "critical": true,
+      "expectedKeywords": ["secondi", "deficit", "febbre"],
+      "rationale": "Le red flag si chiedono per escluderle, non per prenotare comunque la RM."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Vigile, collaborante, nervi cranici integri, campi visivi per confrontazione integri, fondo oculare senza edema di papilla, forza e sensibilità simmetriche, riflessi vivi simmetrici, marcia e coordinazione normali, rigidità nucale assente, non soffi cervicali. L'esame negativo, insieme alla storia stabile, chiude l'indicazione all'imaging."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-004-ichd",
+      "source": "knowledge_base/neurologia/clinic/ICHD-3-Italian.pdf",
+      "quote": "Sintesi operativa: l'emicrania senz'aura si riconosce da attacchi ricorrenti di dolore unilaterale pulsante, aggravato dall'attività, con nausea o foto-fonofobia, della durata di ore. Non serve un'immagine per applicare il criterio se l'esame è negativo."
+    },
+    {
+      "chunkId": "neuro-004-primarie",
+      "source": "knowledge_base/neurologia/clinic/cefalee primarie.pdf",
+      "quote": "Sintesi operativa: la cefalea tensiva è bilaterale, gravativa, lieve o moderata, senza nausea significativa. Un dolore pulsante con nausea e fotofobia non diventa tensivo solo perché la paziente nomina il collo o lo stress."
+    },
+    {
+      "chunkId": "neuro-004-costi",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "Sintesi operativa sul costo: la RM encefalo non è il primo atto di una cefalea primaria a profilo stabile. Ordinarla per rassicurare, con esame negativo, è una spesa non giustificata rispetto al percorso clinico."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Profilo emicranico distinto dalla cefalea tensiva prima di qualsiasi imaging.",
+      "Esame neurologico negativo documentato, fondo compreso.",
+      "Nessuna TC e nessuna RM in assenza di red flag.",
+      "Triptano come terapia dell'attacco, non un oppioide cronico."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La scelta di non fare imaging va scritta: storia stabile, esame negativo, assenza di red flag, criterio di cefalea primaria. Prenotare TC o RM «per sicurezza» non è aderenza alle raccomandazioni sulle cefalee primarie.",
+      "legalCriteria": [
+        "Red flag cercate e risultate assenti, scritte in cartella.",
+        "Diagnosi di emicrania senz'aura motivata sul profilo, non sulla parola cervicale.",
+        "Nessun neuroimaging di routine con obiettivo negativo.",
+        "Piano acuto spiegato e compreso dalla paziente."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "anamnesi-cefalea",
+      "name": "Anamnesi sul profilo della cefalea",
+      "finding": "Otto anni di attacchi identici, 3-4 al mese, durata 12-24 ore, pulsazione emitemporale destra, nausea, fotofobia, peggioramento con l'attività, intervalli liberi. Il collo si irrigidisce durante l'attacco. Nessun esordio a tuono, nessun deficit, nessuna febbre, nessun cambiamento recente. Profilo di emicrania senz'aura, non di cefalea tensiva.",
+      "isAbnormal": true,
+      "priceEuro": 1
+    },
+    {
+      "examId": "esame-neurologico",
+      "name": "Esame neurologico",
+      "finding": "Esame negativo. Nessun deficit focale, papilla a margini netti, assenza di segni meningei. Non c'è un reperto che autorizzi TC o RM.",
+      "isAbnormal": false,
+      "priceEuro": 1
+    },
+    {
+      "examId": "triptano",
+      "name": "Triptano all'esordio dell'attacco",
+      "finding": "Sumatriptan 50 mg al bisogno, all'inizio del dolore, non più di quanto indicato in scheda, insieme a un antinfiammatorio preso presto. Diario degli attacchi. Nessuna profilassi oggi: frequenza sotto la soglia che la rende obbligatoria in questa visita. Niente oppioidi.",
+      "isAbnormal": false,
+      "priceEuro": 1
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio",
+      "finding": "TC encefalo senza contrasto: parenchima omogeneo, sistema ventricolare normale, nessuna lesione. Referto negativo atteso. Costo 120 euro. Non ha cambiato la diagnosi, che era già clinica.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Con esame negativo e cefalea primaria stabile la TC non è indicata. Costa 120 euro contro un percorso ideale di circa 3 euro: sforamento ben oltre il 50%."
+    },
+    {
+      "examId": "rm",
+      "name": "RM encefalo",
+      "finding": "RM encefalo senza contrasto: nessuna lesione espansiva, nessun enhancement da chiedere perché il contrasto non era indicato, segnale regolare. Costo 220 euro. Referto rassicurante e non necessario.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Neuroimaging ingiustificato. La RM per ansia, con obiettivo negativo e storia di otto anni identica, è medicina difensiva e sfonda il budget ambulatoriale di 40 euro."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "118/74",
+      "spo2": 99,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "demographics": { "age": 29, "sex": "F", "name": "Marta G." },
+    "clinicalSigns": [
+      {
+        "signName": "Esame neurologico obiettivo",
+        "result": "Negativo. Nessun deficit, papille nette, assenza di rigidità.",
+        "isPositive": false
+      },
+      {
+        "signName": "Fondo oculare",
+        "result": "Papille a margini netti, nessun edema.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Esame neurologico obiettivo",
+        "result": "Negativo.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "tc": {
+          "finding": "TC cranio negativa. Nessuna indicazione clinica. Costo 120 euro, fuori dal budget di 40 euro di questa visita.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "rm": {
+          "finding": "RM encefalo negativa. Non indicata in un'emicrania senz'aura stabile con esame normale. Costo 220 euro.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "pet-tc": {
+          "finding": "PET-TC non indicata. Costo 950 euro. Nessun iperaccumulo. Prestazione fuori da ogni percorso di cefalea primaria.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "fundus": {
+          "finding": "Fondo oculare: papille nette, nessun edema. Coerente con l'esame clinico già negativo.",
+          "isAbnormal": false,
+          "price": 60
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Triptano all'esordio dell'attacco",
+          "anyOf": [{ "id": "triptano", "label": "Triptano", "aliases": ["sumatriptan", "almotriptan", "triptano"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "Oppioide o FANS quotidiano come piano della cefalea primaria", "ids": ["oppioide", "fans-cronico"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Marta è precisa ma parte dal collo e dallo stress. Regala i criteri dell'emicrania solo se le domande sono mirate. Ha paura di un tumore per via di una collega e accetta volentieri una risonanza se il medico gliela offre come prudenza."
+  }
+}

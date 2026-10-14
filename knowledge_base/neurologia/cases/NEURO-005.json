@@ -1,0 +1,213 @@
+{
+  "id": "NEURO-005",
+  "code": "NEURO-005",
+  "title": "Vertigine posizionale benigna",
+  "description": "Giorgio L., 58 anni, idraulico, da cinque giorni ha giramenti di pochi secondi quando si gira nel letto verso destra o quando alza la testa per guardare un pensile. Tra un episodio e l'altro sta fermo e non ha vertigine. Non ha calo dell'udito, non ha acufeni, non ha diplopia, non ha deficit, non ha cefalea. Ha già fatto una TAC due anni fa per un altro motivo, negativa, e il cognato gli ha detto di pretendere la risonanza e il doppler dei vasi del collo. Il percorso è la manovra di Dix-Hallpike, positiva a destra per il canale semicircolare posteriore, e il riposizionamento di Epley. RM encefalo (220 euro) ed ecocolordoppler dei tronchi sovraortici (65 euro) non spiegano una vertigine posizionale di secondi e sforano un budget di 30 euro.",
+  "difficulty": "EASY",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "VPPB del canale semicircolare posteriore destro",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+  "diagnosis": "Vertigine parossistica posizionale benigna del canale posteriore destro. Dix-Hallpike positivo, Epley efficace. Non è una vertigine centrale e non è un'insufficienza vertebro-basilare.",
+  "pastMedicalHistory": "Ipertensione lieve in ramipril 2,5 mg, PA di solito a target. Nessun diabete, nessuna cardiopatia, nessun trauma cranico recente, nessuna chirurgia otologica. Non fuma. Un episodio simile tre anni fa, durato una settimana e passato da solo, mai inquadrato. Udito riferito stabile, niente fullness auricolare. Allergie: nessuna. Lavora in quota sui ponteggi: ha paura di cadere e per questo chiede «esami seri».",
+  "presentation": "Entra camminando, un po' guardingo nei cambi di posizione. Se resta seduto fermo non ha vertigine. Racconta il letto e il pensile solo se gli si chiede in che posizione gira. Se gli si chiede «le gira la testa in generale?» risponde sì e il caso sembra una vertigine aspecifica da vasi. Non ha nistagmo spontaneo a sguardo primario. Parametri: PA 136/84 mmHg, FC 72, SpO2 98%, FR 14, temperatura 36,4 °C. Ha in mano il numero di una risonanza prenotata dal medico di base «per scrupolo» fra tre settimane.",
+  "redHerrings": [
+    "Dice «vertigini» senza precisare i secondi e il letto, e sembra un problema vascolare.",
+    "L'ipertensione spinge verso l'ecocolordoppler dei tronchi sovraortici.",
+    "La prenotazione di RM già fissata dal curante sembra un percorso già deciso.",
+    "Lavora in quota: l'ansia di cadere non è una indicazione alla RM."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sei Giorgio, 58 anni, idraulico, in ambulatorio. Parli concreto, un po' brusco. Se ti chiedono solo se hai la pressione alta o se vuoi la risonanza, rispondi che la pressione c'è e che il cognato vuole la RM e il doppler del collo. I secondi, il letto e il lato destro li racconti solo se ti chiedono quando gira, quanto dura e in che posizione. Durata: meno di mezzo minuto. Niente udito calato, niente fischi, niente vista doppia, niente svenimento. Se eseguono la Dix-Hallpike verso destra, ti viene una vertigine forte con la sensazione che la stanza giri, e dopo il riposizionamento dici che al secondo tentativo la vertigine si è spenta. Se ti mandano a fare RM o doppler senza manovra, accetti perché ti sembra più scientifico, ma resti vertiginoso e arrabbiato per l'attesa. Non nominare tu otoliti, canale posteriore o Epley. Se nessuno ti muove la testa, a fine visita chiedi «e adesso come ci salgo sul ponteggio?».",
+  "correctSolution": "VPPB del canale posteriore destro. Dix-Hallpike positivo a destra con nistagmo verticale-torsionale che si esaurisce, poi Epley. Spiegare la recidiva possibile e la manovra. Non prenotare RM encefalo né ecocolordoppler TSA. Niente betahistina come sostituto della manovra.",
+  "goldStandardPath": ["anamnesi-vertigine", "dix-hallpike", "epley"],
+  "goldPathNarrative": "1) Anamnesi: secondi, non ore; scatenata dalla posizione (letto, sguardo in alto); niente ipoacusia, acufeni, cefalea, diplopia o deficit. Questo allontana Ménière, emicrania vestibolare e vertigine centrale. 2) Dix-Hallpike a destra: nistagmo verticale-torsionale, latenza breve, esauribile, con vertigine intensa. A sinistra negativo. 3) Epley destro, ripetuto se serve, con controllo. Costo ideale circa 3 euro. RM encefalo 220 euro ed ecocolordoppler TSA 65 euro non vedono gli otoliti e, da soli, superano il 50% di un percorso che non li prevede. Budget della visita: 30 euro.",
+  "examLatencies": {
+    "anamnesi-vertigine": 8,
+    "dix-hallpike": 5,
+    "epley": 8,
+    "rm": 90,
+    "ecocolordoppler": 25,
+    "tc": 40,
+    "angio": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-tempo",
+      "prompt": "Quanto dura il giramento e in che posizione compare?",
+      "critical": true,
+      "expectedKeywords": ["secondi", "letto", "posizione"],
+      "rationale": "La durata in secondi e il trigger posizionale distinguono la VPPB dalla vertigine continua centrale o dalla Ménière."
+    },
+    {
+      "id": "aq-orecchio",
+      "prompt": "Ha calo dell'udito, fischi, fullness o una cefalea insieme al giramento?",
+      "critical": true,
+      "expectedKeywords": ["udito", "acufeni", "cefalea"],
+      "rationale": "I sintomi cocleari e la cefalea spostano la diagnosi. Qui sono assenti."
+    },
+    {
+      "id": "aq-centrale",
+      "prompt": "Ha vista doppia, disfagia, deficit di forza o una vertigine che non passa da fermo?",
+      "critical": true,
+      "expectedKeywords": ["diplopia", "deficit", "fermo"],
+      "rationale": "I segni centrali, se presenti, cambierebbero l'indicazione all'imaging. Vanno cercati e qui non ci sono."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Marcia autonoma, Romberg negativo a occhi aperti, nistagmo spontaneo assente, nervi cranici integri, nessun deficit di forza, dito-naso corretto, otoscopia non infiammata se si guarda l'orecchio. La diagnosi non si chiude senza Dix-Hallpike. Il doppler del collo e la RM non sostituiscono la manovra."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-005-vppb",
+      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+      "quote": "Sintesi operativa: la vertigine di secondi scatenata dal decubito si conferma con Dix-Hallpike e si tratta con il riposizionamento. L'imaging non vede il canalolitiasi e non è il primo atto se l'esame neurologico è silente."
+    },
+    {
+      "chunkId": "neuro-005-costi",
+      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "Sintesi operativa sul costo: ecocolordoppler dei tronchi sovraortici e RM encefalo hanno un tariffario proprio. In una VPPB tipica non rientrano nel percorso e ne spostano la spesa molto sopra il costo della manovra."
+    },
+    {
+      "chunkId": "neuro-005-rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "Sintesi operativa: la RM encefalo si giustifica se compaiono segni centrali, non perché la vertigine posizionale preoccupa il paziente o un familiare."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Durata in secondi e trigger posizionale raccolti prima degli esami.",
+      "Dix-Hallpike eseguita, non solo descritta.",
+      "Epley sul lato positivo.",
+      "Nessuna RM e nessun doppler TSA in assenza di segni centrali o cocleari."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La manovra è l'atto diagnostico e terapeutico. Scriverla in cartella, con il lato e l'esito, aderisce alla pratica sulla VPPB. Inviare a RM e doppler senza aver posizionato la testa non è prudenza, è un percorso diverso da quello indicato.",
+      "legalCriteria": [
+        "Segni centrali cercati e assenti, scritti in cartella.",
+        "Dix-Hallpike con lato e tipo di nistagmo documentati.",
+        "Riposizionamento eseguito o rifiuto motivato.",
+        "Nessun imaging vestibolare di routine prenotato al posto della manovra."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "anamnesi-vertigine",
+      "name": "Anamnesi della vertigine",
+      "finding": "Giramenti di meno di 30 secondi, solo nel passaggio al decubito destro e nello sguardo verso l'alto. Da fermo, seduto, nessuna vertigine. Udito stabile, niente acufeni, niente diplopia, niente cefalea, niente deficit. Profilo periferico posizionale.",
+      "isAbnormal": true,
+      "priceEuro": 1
+    },
+    {
+      "examId": "dix-hallpike",
+      "name": "Manovra di Dix-Hallpike",
+      "finding": "Dix-Hallpike destra: dopo 2-3 secondi, vertigine intensa e nistagmo verticale in alto con componente torsionale, che si esaurisce in circa 15 secondi. Dix-Hallpike sinistra: negativa. Reperto del canale semicircolare posteriore destro.",
+      "isAbnormal": true,
+      "priceEuro": 1
+    },
+    {
+      "examId": "epley",
+      "name": "Manovra di Epley",
+      "finding": "Epley sul lato destro. Al primo posizionamento la vertigine si ripresenta, al controllo successivo la Dix-Hallpike è negativa o molto attenuata. Si spiegano possibili recidive e come rialzarsi dal letto. Non serve betahistina al posto della manovra.",
+      "isAbnormal": false,
+      "priceEuro": 1
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm",
+      "name": "RM encefalo",
+      "finding": "RM encefalo negativa, fosse posteriori comprese, nessun conflitto, nessun ictus. Costo 220 euro. Non spiega gli otoliti e arriva a settimane di distanza, con il paziente ancora non manovrato.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "RM non indicata nella VPPB tipica senza segni centrali. 220 euro contro un percorso di pochi euro: sforamento molto oltre il 50%."
+    },
+    {
+      "examId": "ecocolordoppler",
+      "name": "Ecocolordoppler TSA",
+      "finding": "Ecocolordoppler dei tronchi sovraortici: piccole irregolarità parietali, nessuna stenosi emodinamicamente significativa. Costo 65 euro. Non c'entra con la vertigine di secondi nel letto.",
+      "isAbnormal": false,
+      "priceEuro": 65,
+      "inappropriate": true,
+      "wasteRationale": "Il doppler cervicale non diagnostica la VPPB. Costa 65 euro, oltre il doppio del percorso ideale, e sposta la visita verso una falsa pista vascolare."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 72,
+      "bloodPressure": "136/84",
+      "spo2": 98,
+      "temperature": 36.4,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 30,
+    "demographics": { "age": 58, "sex": "M", "name": "Giorgio L." },
+    "clinicalSigns": [
+      {
+        "signName": "Manovra di Dix-Hallpike",
+        "result": "Positiva a destra: nistagmo verticale-torsionale esauribile dopo breve latenza. Sinistra negativa.",
+        "isPositive": true
+      },
+      {
+        "signName": "Nistagmo spontaneo",
+        "result": "Assente a sguardo primario.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Manovra di Dix-Hallpike",
+        "result": "Positiva a destra per il canale posteriore.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rm": {
+          "finding": "RM encefalo negativa. Non indicata. Costo 220 euro. La vertigine posizionale resta da trattare con la manovra, non con questo referto.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "ecocolordoppler": {
+          "finding": "Ecocolordoppler TSA senza stenosi significativa. Costo 65 euro. Reperto inutile per la VPPB.",
+          "isAbnormal": false,
+          "price": 65
+        },
+        "tc": {
+          "finding": "TC cranio negativa. Non vede gli otoliti. Costo 120 euro, fuori budget.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "angio": {
+          "finding": "Angio-RM del circolo posteriore nella norma. Costo 350 euro. Non è l'esame di una vertigine di secondi nel letto.",
+          "isAbnormal": false,
+          "price": 350
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Riposizionamento di Epley sul lato positivo",
+          "anyOf": [{ "id": "epley", "label": "Epley", "aliases": ["epley", "riposizionamento", "manovra liberatoria"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "Betahistina o RM al posto della manovra", "ids": ["betahistina-al-posto", "rm"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "MEDIUM", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Giorgio parla di «giramenti» e di vasi del collo perché glielo ha detto il cognato. I secondi e il letto escono solo con domande precise. Si fida di più di una macchina che di una manovra, finché la manovra non gli toglie la vertigine."
+  }
+}

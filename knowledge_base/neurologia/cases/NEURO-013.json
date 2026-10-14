@@ -1,0 +1,222 @@
+{
+  "id": "NEURO-013",
+  "code": "NEURO-013",
+  "title": "Nevralgia del trigemino",
+  "description": "Teresa M., 62 anni, da tre mesi ha scosse dolorose di pochi secondi sulla guancia e sul mascellare destri, a partenza da un punto vicino all'ala del naso, scatenate dal lavarsi i denti, dal vento e dal parlare. Tra una scossa e l'altra il dolore è zero. Non ha deficit sensitivi stabili, non ha deficit motorio masticatorio, l'esame neurologico è negativo. È una nevralgia del trigemino classica, da confermare con RM encefalo mirata al conflitto neurovascolare e da trattare con carbamazepina, non con un oppioide. La TC (120 euro) non vede il conflitto. La PET (950 euro) non ha ruolo. Il percorso ideale è circa 222 euro, il budget 340: la RM c'è, l'oppioide e la PET no.",
+  "difficulty": "MEDIUM",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Nevralgia trigeminale classica, conflitto neurovascolare da documentare",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/cefalee primarie.pdf",
+  "diagnosis": "Nevralgia del trigemino destro, prima e seconda branca, con contatto neurovascolare all'emergenza del nervo in RM. Indicazione a carbamazepina. Nessuna lesione occupante spazio. L'oppioide non è la terapia.",
+  "pastMedicalHistory": "Ipertensione in ramipril. Nessuna sclerosi multipla nota, nessun herpes zoster facciale, nessuna chirurgia dentaria recente: il dentista ha già escluso un ascesso e lei ha speso due visite. Non assume anticoagulanti. Allergie: rash da un sulfamidico vent'anni fa, da chiedere prima della carbamazepina. Ha provato ibuprofene e tramadolo prescritti dal curante: il tramadolo la stordisce e non toglie la scossa. Vive con la sorella.",
+  "presentation": "Durante la visita ha una scossa se le si sfiora l'ala del naso: si blocca, non parla per cinque secondi, poi sta bene. Non tiene la mano sulla faccia in modo continuo. Nessuna ipoestesia, riflesso corneale presente, masticazione simmetrica. Parametri: PA 148/86 mmHg, FC 76, SpO2 98%, FR 14, temperatura 36,5 °C. Se il medico propone morfina «per il dolore forte», lei accetta perché ha paura della scossa successiva. Se le si spiega un farmaco specifico e una RM, chiede se potrà lavarsi i denti.",
+  "redHerrings": [
+    "Il dentista negativo la spinge a pensare a un dolore «inventato» o a chiedere un oppioide più forte.",
+    "Il tramadolo già in corso sembra un piano terapeutico, ed è inutile.",
+    "Una TC dei seni, proposta per il naso, non vede il conflitto all'angolo ponto-cerebellare.",
+    "Il rash antico ai sulfamidici va chiesto, ma non è un motivo per passare all'oppioide."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sei Teresa, 62 anni, in ambulatorio. Parli poco perché hai paura di scatenare la scossa. Se ti sfiorano il naso o ti chiedono di raccontare il lavaggio dei denti, ti blocchi per pochi secondi e poi descrivi scosse brevissime, vento, parlare, guancia e mascella destre, niente dolore tra una scossa e l'altra. Se ti chiedono solo «quanto è forte da 0 a 10», dici 10 e accetti la morfina. Il tramadolo già preso, inutile, lo dici se ti chiedono i farmaci. Il rash antico lo dici se ti chiedono allergie. Se propongono la carbamazepina e la RM, chiedi se potrai lavarti i denti e accetti. Se propongono la TC dei seni, pensi che c'entri col naso e accetti. Non nominare tu conflitto neurovascolare o nevralgia. Se la visita non protegge il trigger, resti in silenzio per non parlare.",
+  "correctSolution": "Nevralgia trigeminale classica. RM encefalo con studio dell'angolo ponto-cerebellare, carbamazepina dopo verifica delle allergie e del monitoraggio previsto, stop all'oppioide. La TC non sostituisce la RM. Nessuna lesione secondaria in questo referto, c'è un contatto vascolare.",
+  "goldStandardPath": ["anamnesi-dolore", "rm", "carbamazepina"],
+  "goldPathNarrative": "1) Anamnesi: scosse di secondi, trigger tattili e del vento, territorio V2-V3 destro, intervalli liberi, esame senza deficit. Non è una nevralgia post-erpetica e non è un dolore dentario continuo. 2) RM encefalo mirata: contatto tra un vaso e il trigemino destro all'emergenza, nessuna lesione demielinizzante, nessun tumore dell'angolo. Costo 220 euro. È l'imaging appropriato. La TC a 120 euro non risolve il conflitto. 3) Carbamazepina, dopo l'anamnesi sulle allergie, non tramadolo e non morfina. Ideale circa 222 euro, budget 340. PET 950 euro è medicina difensiva. L'oppioide è la trappola clinica: non modifica la scarica e seduta la paziente.",
+  "examLatencies": {
+    "anamnesi-dolore": 10,
+    "rm": 40,
+    "carbamazepina": 5,
+    "tc": 25,
+    "pet-tc": 240,
+    "angio": 60
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-scossa",
+      "prompt": "Il dolore dura secondi, ha un punto che lo scatena, e tra una crisi e l'altra è zero?",
+      "critical": true,
+      "expectedKeywords": ["secondi", "denti", "vento"],
+      "rationale": "Durata, trigger e intervallo libero definiscono la nevralgia e la distinguono da un dolore continuo da oppioide."
+    },
+    {
+      "id": "aq-territorio",
+      "prompt": "Quale parte della faccia, ed è sempre lo stesso lato?",
+      "critical": true,
+      "expectedKeywords": ["guancia", "destra", "mascella"],
+      "rationale": "Il territorio trigeminale unilaterale orienta la RM sull'angolo, non sui seni in generale."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "Cosa ha già preso, e ha allergie a farmaci?",
+      "critical": true,
+      "expectedKeywords": ["tramadolo", "allergia", "rash"],
+      "rationale": "L'oppioide è già fallito. L'allergia va chiesta prima della carbamazepina, senza usarla come scusa per restare sull'oppioide."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Trigger all'ala nasale destra con scossa di pochi secondi. Nessuna ipoestesia facciale, corneale presente, massetere simmetrico, nessun deficit degli altri nervi cranici, nessun segno di zoster. Esame negativo tra le scosse. Il dolore intenso non è un motivo per saltare la RM né per scegliere un oppioide."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-013-ichd",
+      "source": "knowledge_base/neurologia/clinic/ICHD-3-Italian.pdf",
+      "quote": "Sintesi operativa: la nevralgia del trigemino è una scarica di secondi nel territorio di una o più branche, con trigger innocui e intervalli liberi. Il trattamento di prima linea è la carbamazepina, non un oppioide."
+    },
+    {
+      "chunkId": "neuro-013-rm",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "Sintesi operativa: la RM è l'esame che cerca il contatto neurovascolare e esclude una causa secondaria nell'angolo ponto-cerebellare. La TC non ha la stessa risoluzione sul nervo."
+    },
+    {
+      "chunkId": "neuro-013-costi",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "Sintesi operativa sul costo: la RM encefalo, in questo caso, è giustificata. PET e TC dei seni, aggiunte o usate al suo posto, non rispondono alla stessa domanda e spostano la spesa."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Scossa, trigger e intervallo libero raccolti.",
+      "RM dell'angolo ponto-cerebellare richiesta.",
+      "Carbamazepina proposta, oppioide sospeso.",
+      "TC non usata come equivalente della RM.",
+      "Allergie chieste prima del farmaco."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Prescrivere un oppioide per una nevralgia trigeminale, senza RM e senza un farmaco che agisca sulla scarica, non aderisce al percorso. La RM è l'imaging difendibile, la TC dei seni no.",
+      "legalCriteria": [
+        "Trigger e territorio scritti.",
+        "RM richiesta per conflitto e per escludere una causa secondaria.",
+        "Oppioide non lasciato come terapia di fondo.",
+        "Allergie e monitoraggio della carbamazepina menzionati."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "anamnesi-dolore",
+      "name": "Anamnesi del dolore facciale",
+      "finding": "Scosse di pochi secondi in territorio V2-V3 destro, trigger al lavaggio dei denti, al vento e al parlare, dolore zero nell'intervallo. Tramadolo già inefficace. Rash antico ai sulfamidici da considerare prima della carbamazepina, senza sostituirla con un oppioide. Dentista negativo.",
+      "isAbnormal": true,
+      "priceEuro": 1
+    },
+    {
+      "examId": "rm",
+      "name": "RM encefalo per conflitto neurovascolare",
+      "finding": "RM encefalo con sequenze sull'angolo ponto-cerebellare: contatto tra un'ansa vascolare e il nervo trigemino destro all'emergenza dal ponte. Nessuna lesione demielinizzante, nessun neurinoma, nessuna malformazione. Reperto compatibile con nevralgia classica. Costo 220 euro. La TC non avrebbe mostrato questo contatto.",
+      "isAbnormal": true,
+      "priceEuro": 220
+    },
+    {
+      "examId": "carbamazepina",
+      "name": "Carbamazepina",
+      "finding": "Avvio di carbamazepina a basso dosaggio, con le avvertenze su sonnolenza, controllo dell'emocromo e delle transaminasi, e verifica del rash antico. Sospeso il tramadolo. Il farmaco è quello della scarica, non un oppioide. Costo di avvio trascurabile rispetto all'imaging.",
+      "isAbnormal": false,
+      "priceEuro": 1
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio e seni",
+      "finding": "TC dei seni e del cranio: seni aerei, nessuna sinusite, nessun dato sul nervo trigemino. Referto «negativo» che non esclude il conflitto. Costo 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Imaging sbagliato. La TC non vede il conflitto neurovascolare. Usata al posto della RM è un falso negativo; aggiunta, sposta la spesa senza rispondere alla domanda."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET-TC negativa. Non studia il contatto vascolo-nervoso. Costo 950 euro.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Medicina difensiva. 950 euro contro un ideale di circa 222: molto oltre il 50% e oltre il budget di 340 euro."
+    },
+    {
+      "examId": "angio",
+      "name": "Angio-RM isolata senza studio del nervo",
+      "finding": "Angio-RM arteriosa del poligono, senza le sequenze sull'emergenza del trigemino: vasi regolari, conflitto non valutabile. Costo 350 euro. Non sostituisce la RM mirata.",
+      "isAbnormal": false,
+      "priceEuro": 350,
+      "inappropriate": true,
+      "wasteRationale": "Studio vascolare incompleto per questa domanda. Supera il 50% del percorso ideale e non documenta il contatto sul nervo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "148/86",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 340,
+    "demographics": { "age": 62, "sex": "F", "name": "Teresa M." },
+    "clinicalSigns": [
+      {
+        "signName": "Trigger nasale",
+        "result": "Sfiorando l'ala nasale destra si scatena una scossa di pochi secondi.",
+        "isPositive": true
+      },
+      {
+        "signName": "Ipoestesia trigeminale",
+        "result": "Assente. Corneale presente. Masseteri simmetrici.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Trigger nasale",
+        "result": "Positivo a destra.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rm": {
+          "finding": "RM: contatto vascolare sul trigemino destro, nessuna lesione secondaria. Costo 220 euro. Esame appropriato.",
+          "isAbnormal": true,
+          "price": 220
+        },
+        "tc": {
+          "finding": "TC seni e cranio negativa. Il conflitto non si vede. Costo 120 euro.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "pet-tc": {
+          "finding": "PET-TC non indicata. Costo 950 euro.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "angio": {
+          "finding": "Angio-RM del poligono senza studio del nervo: conflitto non valutabile. Costo 350 euro.",
+          "isAbnormal": false,
+          "price": 350
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Carbamazepina, non un oppioide",
+          "anyOf": [{ "id": "carbamazepina", "label": "Carbamazepina", "aliases": ["carbamazepina", "tegretol"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "Oppioide come terapia della scossa trigeminale", "ids": ["tramadolo", "morfina", "oppioide"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Teresa parla poco per non scatenare il dolore. Se le si chiede un numero da 0 a 10, sembra un dolore da oppioide. I trigger e gli intervalli liberi escono solo con domande precise. Si fida del dentista e del curante che le ha dato il tramadolo."
+  }
+}

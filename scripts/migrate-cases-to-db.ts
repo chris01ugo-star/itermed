@@ -5,12 +5,14 @@
  *   knowledge_base/{cardiologia,pneumologia,gastroenterologia}/cases/*.json
  *   knowledge_base/medicina_interna/cases/*.json
  *   knowledge_base/medicina_urgenza/cases/EMERG-*.json
+ *   knowledge_base/neurologia/cases/NEURO-*.json
  *   knowledge_base/tutorials/TUTORIAL-*.json
  *
  * Medicina Interna rows are also upserted into `ClinicalCase` and linked to the
  * existing MedicalSpecialty named "Medicina Interna".
  * Medicina d'Emergenza-Urgenza rows (slug `medicina_urgenza`) are linked to the
  * seed name "Medicina d'Emergenza-Urgenza".
+ * Neurologia rows (slug `neurologia`) are linked to the seed name "Neurologia".
  *
  * Usage:
  *   npx tsx scripts/migrate-cases-to-db.ts
@@ -35,10 +37,12 @@ const SPECIALTIES = [
   "gastroenterologia",
   "medicina_interna",
   "medicina_urgenza",
+  "neurologia",
 ] as const;
-const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG)-\d{3}\.json$/i;
+const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO)-\d{3}\.json$/i;
 const MEDICINA_INTERNA_SPECIALTY_NAME = "Medicina Interna";
 const MEDICINA_URGENZA_SPECIALTY_NAME = "Medicina d'Emergenza-Urgenza";
+const NEUROLOGIA_SPECIALTY_NAME = "Neurologia";
 
 function isCaseFile(full: string, name: string): boolean {
   if (CASE_FILE_RE.test(name)) return true;
@@ -154,6 +158,10 @@ async function main(): Promise<void> {
     where: { name: { equals: MEDICINA_URGENZA_SPECIALTY_NAME, mode: "insensitive" } },
     select: { id: true, name: true },
   });
+  const neurologia = await prisma.medicalSpecialty.findFirst({
+    where: { name: { equals: NEUROLOGIA_SPECIALTY_NAME, mode: "insensitive" } },
+    select: { id: true, name: true },
+  });
   const author = await prisma.user.findFirst({
     where: { role: "ADMIN" },
     orderBy: { createdAt: "asc" },
@@ -169,13 +177,19 @@ async function main(): Promise<void> {
       `[migrate-cases] MedicalSpecialty "${MEDICINA_URGENZA_SPECIALTY_NAME}" assente: i casi EMERG non possono essere collegati.`,
     );
   }
+  if (!neurologia) {
+    console.error(
+      `[migrate-cases] MedicalSpecialty "${NEUROLOGIA_SPECIALTY_NAME}" assente: i casi NEURO non possono essere collegati.`,
+    );
+  }
   if (!author) {
     console.error("[migrate-cases] Nessun utente ADMIN: i casi INTMED/EMERG non possono essere creati in ClinicalCase.");
   } else {
     console.log(
       `[migrate-cases] autore ${author.email ?? author.id}` +
         `${medicinaInterna ? `; Medicina Interna → ${medicinaInterna.id}` : ""}` +
-        `${medicinaUrgenza ? `; Medicina d'Emergenza-Urgenza → ${medicinaUrgenza.id}` : ""}`,
+        `${medicinaUrgenza ? `; Medicina d'Emergenza-Urgenza → ${medicinaUrgenza.id}` : ""}` +
+        `${neurologia ? `; Neurologia → ${neurologia.id}` : ""}`,
     );
   }
 
@@ -226,13 +240,23 @@ async function main(): Promise<void> {
           ragSources: ragSources as Prisma.InputJsonValue,
         },
       });
-      if (kb.specialty === "medicina_interna" || kb.specialty === "medicina_urgenza") {
+      if (
+        kb.specialty === "medicina_interna" ||
+        kb.specialty === "medicina_urgenza" ||
+        kb.specialty === "neurologia"
+      ) {
         const linked =
-          kb.specialty === "medicina_interna" ? medicinaInterna : medicinaUrgenza;
+          kb.specialty === "medicina_interna"
+            ? medicinaInterna
+            : kb.specialty === "medicina_urgenza"
+              ? medicinaUrgenza
+              : neurologia;
         const linkedLabel =
           kb.specialty === "medicina_interna"
             ? MEDICINA_INTERNA_SPECIALTY_NAME
-            : MEDICINA_URGENZA_SPECIALTY_NAME;
+            : kb.specialty === "medicina_urgenza"
+              ? MEDICINA_URGENZA_SPECIALTY_NAME
+              : NEUROLOGIA_SPECIALTY_NAME;
         if (!linked || !author) {
           failures.push({
             file,

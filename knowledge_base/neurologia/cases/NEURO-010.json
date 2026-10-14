@@ -1,0 +1,239 @@
+{
+  "id": "NEURO-010",
+  "code": "NEURO-010",
+  "title": "Radicolopatia lombare con deficit motorio",
+  "description": "Salvatore D., 46 anni, magazziniere, ha un dolore lombare irradiato alla gamba destra da dieci giorni, dopo un carico. Da ieri non sta sulla punta del piede destro e inciampa. È una radicolopatia S1 con deficit motorio, red flag, non una lombalgia da trattare solo con analgesici. Il percorso è l'esame della forza (gastrocnemio e flessione plantare), la RM del rachide lombosacrale (220 euro) e l'EMG (70 euro) per il livello e l'impegno assonale. Il budget è 400 euro e contiene questi due esami. La trappola è mandarlo a casa con FANS e riposo perché «l'ernia si cura col tempo», senza misurare il piede. PET e scintigrafia sono le spese che sfondano il percorso.",
+  "difficulty": "MEDIUM",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Radicolopatia S1 destra da ernia discale, con deficit motorio",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+  "diagnosis": "Ernia del disco L5-S1 destra con conflitto sulla radice S1 e deficit della flessione plantare. Indicazione a RM urgente e EMG, non a sola analgesia. Nessuna sindrome della cauda su questo esame, ma il deficit motorio è già una red flag.",
+  "pastMedicalHistory": "Lombalgia meccanica episodica da anni, sempre senza irradiazione e sempre passata in pochi giorni. Nessun pregresso intervento vertebrale. Nessun tumore, nessuna febbre, nessun uso di droghe endovena, nessun anticoagulante. Fuma 15 sigarette. Assume ibuprofene da dieci giorni, dolore ancora 7/10, e da ieri il piede «non spinge». Allergie: nessuna. Lavora su turni, vuole il certificato e tornare in magazzino domani.",
+  "presentation": "Zoppica, non esegue la flessione plantare destra contro resistenza, il riflesso achilleo destro è assente, la sensibilità è ridotta sul bordo laterale del piede. Lasègue positivo a 40 gradi a destra. Forza della dorsiflessione conservata (L5 risparmiata). Non ha ritenzione, non ha anestesia a sella, non ha febbre. Se il medico non gli fa alzare il tallone, lui parla solo del mal di schiena e sembra una lombalgia comune. Parametri: PA 142/86 mmHg, FC 82, SpO2 98%, FR 16, temperatura 36,6 °C.",
+  "redHerrings": [
+    "Anni di mal di schiena meccanico fanno sembrare anche questo episodio «il solito».",
+    "Chiede un certificato e un antinfiammatorio, non un ricovero né una RM.",
+    "Non ha i segni della cauda: il medico può convincersi che non ci sia alcuna red flag.",
+    "Il dolore risponde poco al FANS, e la tentazione è alzare l'oppioide invece di guardare il piede."
+  ],
+  "timeLimitMinutes": 70,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sei Salvatore, 46 anni, magazziniere, in Pronto Soccorso. Parli del mal di schiena e del turno di domani. Il piede che non spinge lo dici solo se ti chiedono di camminare in punta o se ti chiedono se la gamba si è indebolita: allora racconti che da ieri inciampi e non ti alzi sul tallone destro. Niente sella addormentata, niente ritenzione, niente febbre. Se ti danno solo un antinfiammatorio e il riposo, ringrazi e chiedi il certificato. Se ti visitano la forza e ti spiegano la RM, accetti anche se hai paura dell'operazione. Se ti offrono morfina senza visitarti, accetti il sollievo e non ricordi tu il piede. Non nominare tu ernia, S1 o red flag. Se passano troppi minuti senza che nessuno guardi la gamba, dici che il piede è più freddo e più debole.",
+  "correctSolution": "Radicolopatia S1 destra con deficit motorio. RM lombosacrale urgente, EMG, non sola analgesia, valutazione neurochirurgica. Cauda esclusa all'esame ma da richiedere comunque. Il deficit di flessione plantare è la red flag che vieta la dimissione con soli FANS.",
+  "goldStandardPath": ["esame-motorio", "rm", "emg"],
+  "goldPathNarrative": "1) Esame della forza: non sta sulla punta a destra, achilleo assente, ipoestesia S1, Lasègue positivo, L5 conservata, niente sella e niente ritenzione. Il deficit motorio è la red flag, anche senza cauda. 2) RM rachide lombosacrale: ernia L5-S1 paramediana destra che comprime S1. Costo 220 euro. È l'imaging appropriato, non una TC «tanto per» e non una PET. 3) EMG: denervazione nel miomero S1, conferma l'impegno assonale. Costo 70 euro. Ideale circa 291 euro, budget 400. Trattare solo con analgesici, senza RM, è il mancato riconoscimento della red flag. PET 950 e scintigrafia 250 non hanno indicazione e sfondano il budget.",
+  "examLatencies": {
+    "esame-motorio": 8,
+    "rm": 35,
+    "emg": 25,
+    "tc": 25,
+    "rx-colonna": 15,
+    "pet-tc": 240,
+    "scintigrafia": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-forza",
+      "prompt": "Riesce a stare sulla punta del piede, e da quando inciampa?",
+      "critical": true,
+      "expectedKeywords": ["punta", "inciampa", "ieri"],
+      "rationale": "Il deficit di S1 è la red flag. Se si chiede solo del dolore lombare, si perde."
+    },
+    {
+      "id": "aq-cauda",
+      "prompt": "Ha ritenzione, incontinenza o la sella addormentata?",
+      "critical": true,
+      "expectedKeywords": ["ritenzione", "sella", "urine"],
+      "rationale": "La cauda va cercata. Qui è assente, ma il deficit motorio resta sufficiente a non dimettere con soli analgesici."
+    },
+    {
+      "id": "aq-febbre",
+      "prompt": "Ha febbre, tumori noti o un'infezione recente?",
+      "critical": false,
+      "expectedKeywords": ["febbre", "tumore", "infezione"],
+      "rationale": "Esclude le red flag infettive e neoplastiche, qui non presenti, senza abbassare l'urgenza del deficit."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Flessione plantare destra 3/5, non sta sulla punta, achilleo destro assente, ipoestesia del bordo laterale del piede e della pianta, Lasègue destro a 40 gradi. Dorsiflessione conservata. Forza prossimale normale. Nessuna anestesia a sella, tono anale non esplorato se non lo si cerca: se si cerca, è conservato e non c'è globo. Non febbre. Il dolore lombare è presente ma non è il dato decisionale."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-010-rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "Sintesi operativa: con un deficit motorio radicolare la RM del rachide è l'imaging che mostra il conflitto. Non si sostituisce con un analgesico né con una scintigrafia. Il costo della RM, in questo caso, è parte del percorso, non uno spreco."
+    },
+    {
+      "chunkId": "neuro-010-clinica",
+      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+      "quote": "Sintesi operativa: una lombalgia irradiata con perdita di forza non è la lombalgia meccanica degli anni precedenti. Il deficit motorio è una red flag anche in assenza di sindrome della cauda, e vieta la sola terapia sintomatica."
+    },
+    {
+      "chunkId": "neuro-010-costi",
+      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "Sintesi operativa sul costo: RM lombare ed EMG stanno nel budget di questo accesso. PET e scintigrafia no, e non rispondono alla domanda sul disco e sulla radice."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Flessione plantare e achilleo esaminati, non solo il dolore.",
+      "Cauda cercata e risultata assente, senza usare questa assenza per dimettere.",
+      "RM lombosacrale richiesta per il deficit.",
+      "EMG non sostituita da una PET.",
+      "Nessuna dimissione con soli analgesici."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Dimettere con FANS un deficit di S1, perché il mal di schiena è cronico e non c'è cauda, non aderisce al percorso della radicolopatia con deficit. La RM è l'esame difendibile, l'oppioide da solo no.",
+      "legalCriteria": [
+        "Forza segmentaria scritta, non solo la VAS del dolore.",
+        "Domande sulla cauda documentate.",
+        "RM richiesta in urgenza per il deficit motorio.",
+        "Analgesia data insieme al piano diagnostico, non al posto della RM."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "esame-motorio",
+      "name": "Esame della forza radicolare",
+      "finding": "Non sta sulla punta del piede destro, flessione plantare 3/5, achilleo assente, ipoestesia S1, Lasègue positivo. Dorsiflessione conservata. Nessuna anestesia a sella, nessun globo. Red flag di deficit motorio presente anche senza cauda.",
+      "isAbnormal": true,
+      "priceEuro": 1,
+      "isFatal": false
+    },
+    {
+      "examId": "rm",
+      "name": "RM rachide lombosacrale",
+      "finding": "RM lombosacrale: ernia del disco L5-S1 paramediana destra, migrazione caudale contenuta, conflitto sulla radice S1 destra, forame parzialmente impegnato. Cono midollare in sede, nessun ematoma, nessun processo infettivo. Indicazione a valutazione neurochirurgica urgente per il deficit, non a dimissione con FANS. Costo 220 euro.",
+      "isAbnormal": true,
+      "priceEuro": 220
+    },
+    {
+      "examId": "emg",
+      "name": "EMG",
+      "finding": "EMG: denervazione attiva nel gastrocnemio mediale e nel soleo di destra, muscoli L5 risparmiati. Radicolopatia S1 assonale in atto. Conferma che il deficit non è solo dolore. Costo 70 euro.",
+      "isAbnormal": true,
+      "priceEuro": 70
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET-TC non indicata in un'ernia con deficit. Nessun iperaccumulo utile. Costo 950 euro.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Medicina difensiva. Non vede il conflitto meglio della RM e sfonda il budget di 400 euro."
+    },
+    {
+      "examId": "scintigrafia",
+      "name": "Scintigrafia ossea",
+      "finding": "Scintigrafia: captazione aspecifica lombare, nessun dato sulla radice. Costo 250 euro. Non sostituisce la RM in un deficit motorio acuto.",
+      "isAbnormal": false,
+      "priceEuro": 250,
+      "inappropriate": true,
+      "wasteRationale": "Esame sbagliato per la domanda clinica. Aggiunta al percorso ideale porta lo scostamento oltre il 50% senza vedere il disco."
+    },
+    {
+      "examId": "rx-colonna",
+      "name": "RX colonna lombare",
+      "finding": "RX: lieve restringimento dello spazio L5-S1. Non mostra l'ernia né la radice. Costo 35 euro. Insufficiente come unico imaging.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "inappropriate": true,
+      "wasteRationale": "Usata al posto della RM, rassicura a torto. Non è l'imaging del deficit motorio radicolare."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 82,
+      "bloodPressure": "142/86",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 400,
+    "demographics": { "age": 46, "sex": "M", "name": "Salvatore D." },
+    "clinicalSigns": [
+      {
+        "signName": "Flessione plantare",
+        "result": "Non sta sulla punta a destra. Forza 3/5.",
+        "isPositive": true
+      },
+      {
+        "signName": "Riflesso achilleo",
+        "result": "Assente a destra, presente a sinistra.",
+        "isPositive": true
+      },
+      {
+        "signName": "Anestesia a sella",
+        "result": "Assente. Nessun globo vescicale.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Flessione plantare",
+        "result": "Deficit a destra, red flag motoria.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rm": {
+          "finding": "RM lombosacrale: ernia L5-S1 destra con conflitto su S1. Cono indenne. Costo 220 euro. Esame appropriato.",
+          "isAbnormal": true,
+          "price": 220
+        },
+        "emg": {
+          "finding": "EMG: denervazione S1 destra, L5 risparmiata. Costo 70 euro.",
+          "isAbnormal": true,
+          "price": 70
+        },
+        "tc": {
+          "finding": "TC lombare senza contrasto: il disco si vede male, nessun dato affidabile sulla radice. Non sostituisce la RM. Costo 120 euro.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "rx-colonna": {
+          "finding": "RX: spazio L5-S1 ridotto. Non mostra l'ernia. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        },
+        "pet-tc": {
+          "finding": "PET-TC non indicata. Costo 950 euro.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "scintigrafia": {
+          "finding": "Scintigrafia aspecifica. Costo 250 euro. Non sostituisce la RM.",
+          "isAbnormal": false,
+          "price": 250
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Analgesia insieme a RM, non al posto della RM",
+          "anyOf": [{ "id": "rm", "label": "RM lombosacrale", "aliases": ["rm rachide", "risonanza lombare"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "Solo FANS o oppioide e dimissione, con deficit motorio non studiato", "ids": ["fans-e-casa", "oppioide-e-casa"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Salvatore parla del certificato e del mal di schiena. Il piede debole lo tira fuori solo se gli si chiede di alzarsi in punta. Preferisce una pastiglia al ricovero, e ringrazia una dimissione rapida anche quando è sbagliata."
+  }
+}

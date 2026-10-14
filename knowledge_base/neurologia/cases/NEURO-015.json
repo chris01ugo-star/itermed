@@ -1,0 +1,226 @@
+{
+  "id": "NEURO-015",
+  "code": "NEURO-015",
+  "title": "Encefalite erpetica",
+  "description": "Nadia K., 54 anni, è portata in Pronto Soccorso perché da un giorno confonde le parole, ha febbre a 38,6 °C e non riconosce il reparto. Il marito riferisce un mal di testa frontale da tre giorni e un episodio in cui fissava il vuoto masticando. È un'encefalite erpetica fino a prova contraria. Il percorso è la rachicentesi urgente, la PCR per HSV sul liquor, e l'aciclovir endovena subito, prima dei risultati. Aspettare la PCR o la RM per dare l'antivirale è la trappola mortale. La RM, se si fa, mostra l'edema temporale e non deve precedere il farmaco. PET e angio non hanno alcun ruolo in questa ora.",
+  "difficulty": "HARD",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Encefalite da HSV, terapia antivirale empirica immediata",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/RACHICENTESI-Informativa-e-consenso.pdf",
+  "diagnosis": "Encefalite erpetica temporale sinistra. Liquor infiammatorio, PCR HSV positiva a referto successivo. Aciclovir da iniziare prima di quel referto. Ritardarlo è l'errore che aggrava il danno.",
+  "pastMedicalHistory": "Ipertensione in ramipril. Nessuna immunodepressione nota, nessun HIV noto, nessuna neurochirurgia, nessun herpes labiale in questo momento. Non viaggi recenti. Marito riferisce che ieri ha detto frasi senza senso e ha avuto un episodio di masticazione a vuoto di un minuto. Allergie: nessuna. Assume solo la pressione. Non anticoagulanti: la puntura non ha questa controindicazione.",
+  "presentation": "Febbricitante, GCS 13 (occhi aperti al richiamo, parole inappropriate, localizza il dolore), afasia fluente con neologismi, non esegue un ordine complesso. Rigida di nuca in modo lieve. Nessun deficit motorio franco, ma non collabora alle prove. Parametri: PA 150/90 mmHg, FC 108, SpO2 97%, FR 20, temperatura 38,6 °C. Se il medico dice «aspettiamo la risonanza e il laboratorio», Nadia smette di nominare gli oggetti e il marito non sa più trattenerla nel letto.",
+  "redHerrings": [
+    "La febbre e la confusione possono essere archiviate come «infezione delle vie urinarie» senza guardare il linguaggio.",
+    "L'afasia isolata può sembrare un ictus, e la RM diventa il primo atto al posto dell'aciclovir.",
+    "La PCR ha un tempo di referto di ore: aspettare quel foglio è l'errore.",
+    "Una TC negativa precoce rassicura e non esclude l'encefalite."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 12,
+  "patientPrompt": "Sei il marito di Nadia, 54 anni, in Pronto Soccorso: lei è confusa, febbricitante, dice parole senza senso e non può dare una storia. Tu racconti il mal di testa da tre giorni, la febbre, le frasi incongrue e un minuto in cui masticava a vuoto. Se il medico cerca un'infezione urinaria e ignora il linguaggio, non correggerlo con diagnosi. Se propone l'aciclovir subito, prima dei risultati, chiedi se è pericoloso ma accetta quando ti dice che aspettare è peggio. Se propone di attendere PCR o RM prima del farmaco, ti fidi e aspetti: Nadia peggiora, non risponde più al nome. Non nominare tu herpes, PCR o temporale. Se fanno la puntura, tieni la mano di Nadia e firmi il consenso se te lo spiegano.",
+  "correctSolution": "Encefalite da HSV fino a prova contraria. Rachicentesi urgente, PCR HSV richiesta, aciclovir endovena immediato senza aspettare il referto né la RM. La RM temporale è compatibile e si fa dopo, o in parallelo, senza ritardare la prima dose. Niente PET, niente angio.",
+  "goldStandardPath": ["liquidi", "pcr-hsv", "aciclovir"],
+  "goldPathNarrative": "1) Rachicentesi: liquor limpido o appena torbido, linfociti, proteine alte, glucosio normale, emazie presenti se c'è necrosi. Costo 60 euro. Il consenso si raccoglie in pochi minuti, non in un turno. 2) PCR per HSV sul liquor: va richiesta subito e il referto arriva dopo, latenza lunga. Costo 48 euro. 3) Aciclovir endovena alla prima ipotesi, prima della PCR e prima della RM. È l'atto salvavita. Ideale circa 109 euro, budget 450, così una RM temporale a 220 euro, giustificata ma successiva, non è la penalità. La penalità mortale è attendere. PET 950 euro e angio 350 euro sono medicina difensiva e rubano i minuti della prima dose. Soglia di peggioramento: 12 minuti senza antivirale.",
+  "examLatencies": {
+    "liquidi": 15,
+    "pcr-hsv": 180,
+    "aciclovir": 5,
+    "rm": 70,
+    "tc": 20,
+    "pet-tc": 240,
+    "angio": 60,
+    "eeg": 25
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-febbre",
+      "prompt": "Da quando ha febbre, mal di testa e parole senza senso?",
+      "critical": true,
+      "expectedKeywords": ["febbre", "mal di testa", "parole"],
+      "rationale": "Febbre più afasia acuta non è un ictus da mandare solo in RM, ed è il profilo dell'encefalite."
+    },
+    {
+      "id": "aq-crisi",
+      "prompt": "Ha fissato il vuoto, masticato o avuto una crisi?",
+      "critical": true,
+      "expectedKeywords": ["masticava", "vuoto", "crisi"],
+      "rationale": "La crisi focale temporale rafforza l'HSV e non è un motivo per ritardare l'aciclovir."
+    },
+    {
+      "id": "aq-attesa",
+      "prompt": "Il farmaco antivirale è partito prima del referto della PCR?",
+      "critical": true,
+      "expectedKeywords": ["aciclovir", "prima", "referto"],
+      "rationale": "La domanda di controllo: se la risposta è no, la trappola mortale si è chiusa."
+    }
+  ],
+  "physicalExam": {
+    "summary": "GCS 13, afasia fluente, febbre 38,6 °C, rigidità nucale lieve, nessuna emiplegia franca, pupille reagenti, masticazione a vuoto riferita. Non è un paziente da dimettere in attesa di un appuntamento di RM. Il linguaggio va descritto, non archiviato come confusione generica."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-015-lp",
+      "source": "knowledge_base/neurologia/clinic/RACHICENTESI-Informativa-e-consenso.pdf",
+      "quote": "Sintesi operativa: nel sospetto di encefalite la puntura è urgente e il consenso si spiega in breve. Il liquor orienta, ma l'antivirale non aspetta il foglio della PCR."
+    },
+    {
+      "chunkId": "neuro-015-farmaco",
+      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+      "quote": "Sintesi operativa: l'aciclovir endovena si inizia appena l'encefalite erpetica è un'ipotesi credibile, prima della conferma di laboratorio e senza usare la RM come cancello. Il ritardo è il danno."
+    },
+    {
+      "chunkId": "neuro-015-costi",
+      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "Sintesi operativa sul costo: liquor e PCR sono il percorso. PET e angio-RM non diagnosticano l'HSV in tempo utile e spostano minuti e spesa lontano dalla prima dose di aciclovir."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Febbre, cefalea e afasia lette come encefalite, non come infezione urinaria.",
+      "Rachicentesi urgente con consenso.",
+      "PCR HSV richiesta.",
+      "Aciclovir partito prima del referto.",
+      "RM non usata come condizione per la prima dose."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Attendere la PCR o una RM negativa-precoce prima dell'aciclovir, in una paziente febbrile e afasica, non aderisce al percorso dell'encefalite erpetica. È l'omissione che il caso tratta come mortale.",
+      "legalCriteria": [
+        "Orario della prima dose di aciclovir scritto, precedente al referto.",
+        "Consenso alla rachicentesi documentato.",
+        "PCR HSV richiesta, non usata come cancello.",
+        "Nessuna dimissione con febbre e afasia acuta."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "liquidi",
+      "name": "Rachicentesi urgente",
+      "finding": "Liquor: 86 linfociti/mm3, 12 eritrociti/mm3, proteine 78 mg/dL, glucosio 62 mg/dL con glicemia 108. Gram negativo. Quadro virale, compatibile con HSV, non atteso un batterio. Costo 60 euro. Si manda la PCR e non si aspetta per il farmaco.",
+      "isAbnormal": true,
+      "priceEuro": 60
+    },
+    {
+      "examId": "pcr-hsv",
+      "name": "PCR per HSV sul liquor",
+      "finding": "PCR HSV-1 positiva. Il referto arriva dopo ore (latenza di simulazione 180 minuti). È la conferma, non il permesso di iniziare. Chi ha aspettato questo foglio ha perso la finestra. Costo 48 euro.",
+      "isAbnormal": true,
+      "priceEuro": 48
+    },
+    {
+      "examId": "aciclovir",
+      "name": "Aciclovir endovena empirico",
+      "finding": "Aciclovir endovena al dosaggio per l'encefalite, iniziato subito, prima della PCR e senza attendere la RM. Idratazione e controllo della funzione renale in parallelo. Se questa dose manca, o parte dopo il referto, il caso è l'errore mortale. Costo dell'atto decisionale trascurabile rispetto al ritardo.",
+      "isAbnormal": false,
+      "priceEuro": 1,
+      "isFatal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET-TC non indicata e non disponibile in tempi compatibili. Costo 950 euro. Nessun effetto sulla prima dose.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Medicina difensiva che ritarda l'aciclovir. 950 euro contro un ideale di circa 109, molto oltre il 50%."
+    },
+    {
+      "examId": "angio",
+      "name": "Angio-RM",
+      "finding": "Angio-RM negativa. Non spiega la febbre e l'afasia e consuma tempo. Costo 350 euro.",
+      "isAbnormal": false,
+      "priceEuro": 350,
+      "inappropriate": true,
+      "wasteRationale": "Esame vascolare senza ipotesi vascolare primaria. Supera il 50% del percorso ideale e sposta l'orario della prima dose."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 108,
+      "bloodPressure": "150/90",
+      "spo2": 97,
+      "temperature": 38.6,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 450,
+    "demographics": { "age": 54, "sex": "F", "name": "Nadia K." },
+    "clinicalSigns": [
+      {
+        "signName": "Afasia",
+        "result": "Linguaggio fluente inappropriato, non esegue ordini complessi.",
+        "isPositive": true
+      },
+      {
+        "signName": "Rigidità nucale",
+        "result": "Lieve. Febbre presente.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Afasia",
+        "result": "Presente, con febbre.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "liquidi": {
+          "finding": "Liquor linfocitario, proteine alte, glucosio normale, qualche eritrocita. Si manda la PCR. Costo 60 euro. Non aspettare per l'aciclovir.",
+          "isAbnormal": true,
+          "price": 60
+        },
+        "rm": {
+          "finding": "RM encefalo: edema e restrizione del lobo temporale sinistro e dell'insula, compatibile con encefalite erpetica. Referto utile e tardivo se ha ritardato la prima dose. Costo 220 euro. Non è un esame da evitare, è un esame da non mettere davanti all'aciclovir.",
+          "isAbnormal": true,
+          "price": 220
+        },
+        "tc": {
+          "finding": "TC cranio precoce sostanzialmente negativa, lieve ipodensità temporale dubbia. Non esclude l'encefalite e non autorizza ad aspettare. Costo 120 euro.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "eeg": {
+          "finding": "EEG: attività lenta periodica sulla regione temporale sinistra. Compatibile, non è il permesso per il farmaco. Costo 90 euro.",
+          "isAbnormal": true,
+          "price": 90
+        },
+        "pet-tc": {
+          "finding": "PET-TC non indicata. Costo 950 euro.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "angio": {
+          "finding": "Angio-RM negativa. Non indicata in questa ora. Costo 350 euro.",
+          "isAbnormal": false,
+          "price": 350
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Aciclovir endovena prima dei referti",
+          "anyOf": [{ "id": "aciclovir", "label": "Aciclovir", "aliases": ["aciclovir", "antivirale"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "Attendere PCR o RM prima dell'antivirale", "ids": ["attesa-referto"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
+    "communicationStyle": "Nadia non può raccontare. Il marito è collaborante, spaventato, e si fida se gli dicono di aspettare un referto. Non corregge un ritardo: lo subisce mentre lei peggiora."
+  }
+}

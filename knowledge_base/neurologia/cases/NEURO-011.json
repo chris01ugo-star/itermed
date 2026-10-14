@@ -1,0 +1,238 @@
+{
+  "id": "NEURO-011",
+  "code": "NEURO-011",
+  "title": "Miastenia gravis con ptosi serale",
+  "description": "Claudia V., 36 anni, insegnante, da due mesi vede doppio nel tardo pomeriggio e le cade la palpebra destra. Al mattino sta meglio. La voce si affatica se legge ad alta voce per dieci minuti. Non ha deficit sensitivi, non ha un ictus nel profilo. È una miastenia. Il percorso è il dosaggio degli anticorpi anti-recettore dell'acetilcolina, l'EMG di singola fibra e la TC del torace per il timoma. Una RM encefalo (220 euro), sensata solo se si pensa a un tronco, qui è l'esame sbagliato e, aggiunta al percorso ideale di circa 226 euro, supera il 50%. La PET a 950 euro è fuori da un budget di 350.",
+  "difficulty": "MEDIUM",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Miastenia gravis oculare-bulbare, da escludere un timoma",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+  "diagnosis": "Miastenia gravis generalizzata iniziale, anticorpi anti-AChR positivi, EMG di singola fibra patologica, TC torace con residuo timico iperplasico senza timoma franco. Indicazione a terapia specifica e follow-up del mediastino, non a una RM encefalo.",
+  "pastMedicalHistory": "Ipotiroidismo in levotiroxina, TSH stabile. Nessun botulino estetico, nessun antibiotico aminoglicosidico in corso, nessuna penicillamina. Due episodi di «vista stanca» ignorati. Non fuma. Nessuna crisi respiratoria finora, ma se legge a lungo la voce diventa nasale. Allergie: nessuna. Ha paura di un tumore cerebrale perché la diplopia le è stata descritta così da una ricerca su internet.",
+  "presentation": "A metà pomeriggio in ambulatorio: ptosi destra parziale, diplopia nello sguardo laterale, peggiora se la si fa fissare in alto per un minuto. Forza del deltoide che cede dopo le prove ripetute, poi recupera col riposo. Riflessi presenti, sensibilità integra, pupille isocoriche (non è un Claude Bernard e non è un aneurisma della comunicante). Parametri: PA 118/72 mmHg, FC 80, SpO2 99%, FR 14, temperatura 36,5 °C. Se le si mette il ghiaccio sulla palpebra, la ptosi si riduce. Vuole «la risonanza della testa» e si irrigidisce se le si parla del torace.",
+  "redHerrings": [
+    "La ricerca su internet ha trasformato la diplopia in un tumore del tronco, e lei chiede la RM encefalo.",
+    "Il miglioramento mattutino sembra stress o mancanza di sonno.",
+    "Le pupille sono normali: un aneurisma non è la prima ipotesi, e l'angio non è il gold.",
+    "Il torace non le duole, quindi la TC del mediastino le pare estranea al problema degli occhi."
+  ],
+  "timeLimitMinutes": 60,
+  "patientDeteriorationThreshold": 45,
+  "patientPrompt": "Sei Claudia, 36 anni, in ambulatorio nel pomeriggio. Sei spaventata e hai letto di tumori. Se ti chiedono solo se hai mal di testa, dici di no e chiedi la risonanza. La palpebra che cade la sera, la vista doppia che peggiora leggendo e la voce che diventa nasale le racconti solo se ti chiedono l'orario dei sintomi, se peggiorano con l'uso e se la voce cambia. Al mattino stai meglio. Se eseguono una prova di affaticamento o il ghiaccio sulla palpebra, descrivi il miglioramento. Se propongono la TC del torace, chiedi perché guardano il petto per un problema degli occhi: accetti se te lo spiegano. Se propongono solo la RM della testa, sei sollevata e non ricordi tu il timo. Non nominare tu anticorpi, singola fibra o timoma. Se nessuno misura l'affaticamento, a fine visita la palpebra è più chiusa.",
+  "correctSolution": "Miastenia gravis. Anticorpi anti-AChR, EMG di singola fibra, TC torace per il timoma. Non RM encefalo come primo esame. Non angio. Iniziare il percorso terapeutico dopo i referti, sorvegliare il respiro, evitare i farmaci che peggiorano la giunzione.",
+  "goldStandardPath": ["anti-achr", "emg", "tc"],
+  "goldPathNarrative": "1) Clinica fluttuante, pupille risparmiate, prova di affaticamento e ghiaccio positive: non è un ictus del tronco. 2) Anticorpi anti-AChR positivi. Costo 36 euro. 3) EMG di singola fibra: jitter aumentato. Costo 70 euro. L'EMG convenzionale può essere quasi normale, la singola fibra no. 4) TC torace senza e con contrasto: iperplasia timica, nessun timoma franco, da seguire. Costo 120 euro. Ideale circa 226 euro, budget 350. La RM encefalo a 220 euro risponde alla paura del tumore cerebrale, non al timo, e da sola supera il 50% del percorso ideale. La PET a 950 euro è fuori budget.",
+  "examLatencies": {
+    "anti-achr": 30,
+    "emg": 25,
+    "tc": 20,
+    "rm": 80,
+    "angio": 60,
+    "pet-tc": 240,
+    "rx-torace": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-fluttuazione",
+      "prompt": "I sintomi peggiorano la sera o dopo uno sforzo, e al mattino sta meglio?",
+      "critical": true,
+      "expectedKeywords": ["sera", "mattino", "affatica"],
+      "rationale": "La fluttuazione è il dato che sposta dalla RM del tronco alla giunzione neuromuscolare."
+    },
+    {
+      "id": "aq-voce",
+      "prompt": "La voce cambia se legge a lungo, e ha avuto fame d'aria?",
+      "critical": true,
+      "expectedKeywords": ["voce", "nasale", "fiato"],
+      "rationale": "L'impegno bulbare va cercato. Qui c'è la voce, non ancora una crisi respiratoria, ma cambia l'urgenza."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "Ha fatto botulino o assume farmaci che peggiorano la miastenia?",
+      "critical": false,
+      "expectedKeywords": ["botulino", "farmaci"],
+      "rationale": "Esclude cause iatrogene prima di etichettare una miastenia autoimmune."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ptosi destra che aumenta mantenendo lo sguardo in alto, diplopia nello sguardo laterale, voce che diventa nasale dopo lettura prolungata, deltoide che cede alle prove ripetute e recupera col riposo. Pupille isocoriche e reagenti. Forza agli arti inferiore conservata a riposo. Riflessi presenti. Prova del ghiaccio sulla palpebra: miglioramento transitorio. Niente deficit sensitivo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-011-clinica",
+      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+      "quote": "Sintesi operativa: ptosi e diplopia fluttuanti, con pupille risparmiate, si studiano con gli anticorpi anti-recettore e con l'EMG di singola fibra. La RM encefalo non è il primo esame se la clinica è di giunzione e non di tronco."
+    },
+    {
+      "chunkId": "neuro-011-timo",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "Sintesi operativa: nel sospetto di miastenia il mediastino si studia con la TC del torace, per non perdere un timoma. Una RM della testa non vede il timo."
+    },
+    {
+      "chunkId": "neuro-011-costi",
+      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "Sintesi operativa sul costo: TC torace ed EMG stanno nel percorso. RM encefalo e PET, ordinate per la paura di un tumore cerebrale, spostano la spesa senza rispondere alla domanda sul timo."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Fluttuazione e risparmio pupillare riconosciuti.",
+      "Anticorpi anti-AChR richiesti.",
+      "EMG di singola fibra, non solo un'EMG generica interpretata come normale.",
+      "TC torace per il timoma.",
+      "RM encefalo non usata come primo e unico esame."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Inseguire un tumore del tronco con la RM, in una ptosi serale con pupille normali, e non guardare il mediastino, lascia indifendibile un timoma mancato. Il percorso difendibile è anticorpi, singola fibra e TC torace.",
+      "legalCriteria": [
+        "Andamento durante la giornata scritto in cartella.",
+        "Anticorpi e EMG di singola fibra richiesti.",
+        "TC del torace proposta e motivata.",
+        "Farmaci che peggiorano la giunzione evitati, respiro sorvegliato."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "anti-achr",
+      "name": "Anticorpi anti-AChR",
+      "finding": "Anticorpi anti-recettore dell'acetilcolina positivi a titolo alto. Anticorpi anti-MuSK non necessari come primo dosaggio in questo profilo, e non sostituiscono la TC del torace. Costo 36 euro.",
+      "isAbnormal": true,
+      "priceEuro": 36
+    },
+    {
+      "examId": "emg",
+      "name": "EMG di singola fibra",
+      "finding": "EMG di singola fibra sull'orbicolare dell'occhio: jitter aumentato, blocchi di conduzione. Stimolazione ripetitiva a bassa frequenza: decremento significativo. Quadro di disturbo della giunzione neuromuscolare. Costo 70 euro.",
+      "isAbnormal": true,
+      "priceEuro": 70
+    },
+    {
+      "examId": "tc",
+      "name": "TC torace per timoma",
+      "finding": "TC torace senza e con contrasto: residuo timico iperplasico, nessun timoma franco, nessun linfonodo mediastinico sospetto. Parenchima polmonare libero. Il mediastino va comunque seguito. Questa TC risponde alla domanda sul timo; una RM encefalo non la sostituisce. Costo 120 euro.",
+      "isAbnormal": true,
+      "priceEuro": 120
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm",
+      "name": "RM encefalo",
+      "finding": "RM encefalo e tronco: nessuna lesione, nessun aneurisma visibile senza uno studio dedicato. Referto negativo che non esclude la miastenia e non vede il timo. Costo 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Esame sbagliato come prima linea. 220 euro su un ideale di circa 226 superano il 50% e rispondono alla paura del tumore, non alla ptosi fluttuante."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET-TC negativa. Non diagnostica la miastenia e non è lo studio di prima scelta del timo. Costo 950 euro.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Medicina difensiva. Supera il budget di 350 euro da sola."
+    },
+    {
+      "examId": "angio",
+      "name": "Angio-RM",
+      "finding": "Angio-RM: poligono regolare. Le pupille normali e la fluttuazione non erano un aneurisma. Costo 350 euro.",
+      "isAbnormal": false,
+      "priceEuro": 350,
+      "inappropriate": true,
+      "wasteRationale": "Studio vascolare non indicato. Costa più dell'intero percorso ideale e non vede il timo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 80,
+      "bloodPressure": "118/72",
+      "spo2": 99,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 350,
+    "demographics": { "age": 36, "sex": "F", "name": "Claudia V." },
+    "clinicalSigns": [
+      {
+        "signName": "Prova del ghiaccio",
+        "result": "La ptosi destra si riduce dopo il ghiaccio sulla palpebra.",
+        "isPositive": true
+      },
+      {
+        "signName": "Affaticamento deltoide",
+        "result": "La forza cede alle prove ripetute e recupera col riposo.",
+        "isPositive": true
+      },
+      {
+        "signName": "Pupille",
+        "result": "Isocoriche e reagenti. Nessun coinvolgimento pupillare.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Prova del ghiaccio",
+        "result": "Positiva sulla ptosi destra.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "emg": {
+          "finding": "EMG di singola fibra: jitter aumentato e blocchi. Decremento alla stimolazione ripetitiva. Costo 70 euro.",
+          "isAbnormal": true,
+          "price": 70
+        },
+        "tc": {
+          "finding": "TC torace: iperplasia timica, nessun timoma franco. È lo studio del mediastino, non una TC della testa. Costo 120 euro.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "rm": {
+          "finding": "RM encefalo e tronco negativa. Non vede il timo e non esclude la miastenia. Costo 220 euro.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "angio": {
+          "finding": "Angio-RM negativa. Non indicata. Costo 350 euro.",
+          "isAbnormal": false,
+          "price": 350
+        },
+        "pet-tc": {
+          "finding": "PET-TC non indicata. Costo 950 euro.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "rx-torace": {
+          "finding": "RX torace: non esclude un piccolo timoma. Insufficiente al posto della TC. Costo 25 euro.",
+          "isAbnormal": false,
+          "price": 25
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Percorso specifico dopo anticorpi, singola fibra e TC torace",
+          "anyOf": [{ "id": "anti-achr", "label": "Anticorpi anti-AChR", "aliases": ["anti-achr", "anticorpi acetilcolina"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "Aminoglicosidi e RM encefalo come unico piano", "ids": ["aminoglicoside", "rm"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Claudia ha già una diagnosi presa da internet, il tumore del tronco, e chiede la RM. I dati della sera, della voce e del miglioramento mattutino escono solo se le si chiede la giornata tipo. Si fida di una spiegazione che colleghi gli occhi al torace."
+  }
+}

@@ -1,0 +1,236 @@
+{
+  "id": "NEURO-012",
+  "code": "NEURO-012",
+  "title": "Polineuropatia diabetica e piede a rischio",
+  "description": "Antonio R., 67 anni, diabetico da quindici anni, viene per bruciore notturno ai piedi, a calza, da molti mesi. Ha già un'ulcera plantare piccola che lui chiama «un callo» e che non gli fa male. La sensibilità vibratoria è ridotta, i riflessi achillei sono assenti, il monofilamento non lo sente. È una polineuropatia sensitivo-motoria diabetica, non una radicolopatia e non una indicazione a RM lombare. Il percorso è glicemia e HbA1c, EMG di conferma, e le indicazioni scritte sulla prevenzione del piede: ispezione quotidiana, scarpe, dove rivolgersi se compare una lesione. Omettere queste indicazioni è la trappola clinica e legale. La RM del rachide a 220 euro, chiesta perché «potrebbe essere la schiena», sfonda un budget di 150 euro. Il percorso ideale costa circa 84 euro.",
+  "difficulty": "MEDIUM",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Polineuropatia distale simmetrica diabetica con piede a rischio",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+  "diagnosis": "Polineuropatia sensitivo-motoria distale diabetica, HbA1c alta, EMG assonale lunghezza-dipendente. Piede a rischio per ulcera plantare insensibile. Nessuna indicazione a neuroimaging del rachide.",
+  "pastMedicalHistory": "Diabete tipo 2 da 15 anni, metformina e insulina serale, controlli irregolari. Ultima HbA1c che ricorda «alta», non sa il numero. Ipertensione, retinopatia non proliferante già nota all'oculista. Fuma 10 sigarette. Claudicatio assente. Non ha mal di schiena irradiato, non ha deficit di un solo miomero. Ha inciampato due volte perché non sentiva il terreno. Allergie: nessuna. Vive solo, si taglia le unghie da sé con poca luce.",
+  "presentation": "Cammina con base allargata, non per atassia cerebellare ma perché non sente la pianta. Bruciore notturno simmetrico. Alla pianta destra, sotto la testa del primo metatarso, una lesione di pochi millimetri, non dolente alla pressione, che lui non aveva visto. Polsi pedidi presenti. Parametri: PA 146/84 mmHg, FC 78, SpO2 97%, FR 16, temperatura 36,6 °C. Se il medico parla solo del bruciore e prescrive un farmaco per il dolore neuropatico, Antonio ringrazia e non chiede nulla sul piede. Se gli si mostra la lesione, si spaventa.",
+  "redHerrings": [
+    "Il bruciore notturno spinge a un farmaco sintomatico e fa dimenticare l'ulcera.",
+    "Due inciampi possono essere letti come stenosi del canale e portare alla RM lombare.",
+    "I polsi pedidi presenti escludono l'ischemia critica, non la neuropatia.",
+    "Vive solo e si taglia le unghie: senza istruzioni scritte il rischio non è stato comunicato."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sei Antonio, 67 anni, in ambulatorio, da solo. Parli del bruciore ai piedi di notte. L'ulcera la chiami callo e non la mostri se non ti chiedono di togliere scarpe e calze e di guardare la pianta. Il diabete lo ammetti, i controlli li salti, non ricordi l'HbA1c. Non hai mal di schiena. Se ti prescrivono solo una pastiglia per il dolore, ringrazi e te ne vai. Se ti fanno vedere la lesione e ti spiegano come controllare i piedi ogni giorno, che scarpe usare e a chi telefonare se la ferita cresce, ti segni le frasi. Se ti propongono la RM della schiena, dici che il figlio te l'aveva consigliata e accetti. Non nominare tu neuropatia o piede diabetico. Se la visita ignora le scarpe, a fine colloquio rimetti il callo nel silenzio.",
+  "correctSolution": "Polineuropatia diabetica. Glicemia e HbA1c, EMG assonale, niente RM lombare. Istruzioni scritte sul piede: ispezione quotidiana, no taglio delle unghie alla cieca, scarpe, invio per la lesione plantare. Il farmaco del dolore neuropatico è ammesso dopo questo piano, non al posto della prevenzione.",
+  "goldStandardPath": ["glicemia", "hba1c", "emg", "educazione-piede"],
+  "goldPathNarrative": "1) Glicemia e HbA1c alte: il danno è metabolico e va documentato. 2) Esame: ipoestesia a calza, achillei assenti, monofilamento non percepito, ulcera plantare insensibile, polsi presenti, niente livello radicolare. 3) EMG: polineuropatia assonale sensitivo-motoria lunghezza-dipendente. Costo 70 euro. 4) Educazione del piede scritta in lettera, non un consiglio generico. Costo clinico trascurabile, valore legale alto. Ideale circa 84 euro, budget 150. La RM lombare a 220 euro per degli inciampi, senza lombosciatalgia, è la penalità economica: supera da sola il 50% del percorso e il budget.",
+  "examLatencies": {
+    "glicemia": 5,
+    "hba1c": 15,
+    "emg": 25,
+    "educazione-piede": 10,
+    "rm": 80,
+    "ecocolordoppler": 20,
+    "rx-ossa": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-diabete",
+      "prompt": "Come è controllato il diabete, e quand'è l'ultima HbA1c?",
+      "critical": true,
+      "expectedKeywords": ["diabete", "insulina", "controlli"],
+      "rationale": "Senza il metabolismo la neuropatia resta un formicolio e non si documenta la causa."
+    },
+    {
+      "id": "aq-piede",
+      "prompt": "Si guarda la pianta dei piedi, e ha lesioni che non gli fanno male?",
+      "critical": true,
+      "expectedKeywords": ["pianta", "callo", "scarpe"],
+      "rationale": "La lesione insensibile è il dato legale. Se non si tolgono le scarpe, non si vede."
+    },
+    {
+      "id": "aq-schiena",
+      "prompt": "Il disturbo è simmetrico ai piedi o è un dolore che scende da un lato della schiena?",
+      "critical": true,
+      "expectedKeywords": ["simmetrico", "schiena", "notte"],
+      "rationale": "Distingue la polineuropatia dalla radicolopatia che giustificherebbe una RM."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ipoestesia tattile e vibratoria a calza fino alle caviglie, monofilamento non percepito sulla pianta, achillei assenti, forza della dorsiflessione lievemente ridotta in modo simmetrico, marcia taloneggiata. Lesione plantare destra sotto la testa del primo metatarso, non dolente. Polsi pedidi e tibiali presenti. Nessun Lasègue, nessun deficit di un solo miomero. Non segni di artropatia acuta."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-012-clinica",
+      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+      "quote": "Sintesi operativa: la polineuropatia distale diabetica si conferma con la distribuzione a calza e, se serve, con l'EMG. Una RM lombare non è indicata se manca un livello radicolare. Il piede insensibile va ispezionato in visita."
+    },
+    {
+      "chunkId": "neuro-012-piede",
+      "source": "knowledge_base/neurologia/legal/Item-8_Paziente-demente-o-con-delirium-valutazione-e-trattamento-non-farmacologico.pdf",
+      "quote": "Sintesi operativa medico-legale, applicata alla comprensione del paziente: le istruzioni sul piede vanno dette e scritte in modo che lui possa eseguirle. Un farmaco per il bruciore, senza la frase sulla lesione, non documenta la prevenzione."
+    },
+    {
+      "chunkId": "neuro-012-rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "Sintesi operativa sul costo: la RM del rachide è appropriata per un conflitto radicolare, non per un bruciore simmetrico dei piedi in un diabetico. In questo caso è una spesa non giustificata."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Scarpe tolte e pianta ispezionata.",
+      "HbA1c e glicemia richieste.",
+      "EMG coerente con polineuropatia, non con radicolopatia.",
+      "Istruzioni scritte su ispezione, scarpe e a chi rivolgersi.",
+      "Nessuna RM lombare di prima linea."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Dimettere un diabetico con ulcera insensibile prescrivendo solo il farmaco del dolore neuropatico, senza istruzioni sul piede, non è un percorso difendibile. La frase va in lettera di dimissione.",
+      "legalCriteria": [
+        "Lesione plantare descritta, o pianta dichiarata indenne dopo ispezione.",
+        "Educazione del piede scritta, non solo orale e generica.",
+        "Controllo metabolico documentato con HbA1c.",
+        "RM non richiesta in assenza di un livello radicolare."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glicemia",
+      "finding": "Glicemia 214 mg/dL a digiuno non stretto. Coerente con scompenso. Costo 2,1 euro.",
+      "isAbnormal": true,
+      "priceEuro": 2.1
+    },
+    {
+      "examId": "hba1c",
+      "name": "Emoglobina glicata",
+      "finding": "HbA1c 76 mmol/mol. Controllo metabolico inadeguato, causa mantenuta della neuropatia. Costo 10,5 euro.",
+      "isAbnormal": true,
+      "priceEuro": 10.5
+    },
+    {
+      "examId": "emg",
+      "name": "EMG",
+      "finding": "EMG ed elettroneurografia: polineuropatia assonale sensitivo-motoria, lunghezza-dipendente, arti inferiori più degli superiori. Nessuna radicolopatia. Nessun blocco di conduzione. Costo 70 euro.",
+      "isAbnormal": true,
+      "priceEuro": 70
+    },
+    {
+      "examId": "educazione-piede",
+      "name": "Educazione alla prevenzione del piede diabetico",
+      "finding": "Indicazioni scritte in lettera: guardare la pianta ogni giorno, anche con uno specchio; non camminare scalzo; non tagliare le unghie alla cieca; scarpe chiuse morbide senza cuciture interne; mostrare subito una lesione, anche se non duole, al curante o a un ambulatorio del piede. La lesione attuale sotto il primo metatarso va medicata e rivista, non chiamata callo. Senza questo testo la visita è incompleta anche se l'EMG è giusta.",
+      "isAbnormal": true,
+      "priceEuro": 1
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm",
+      "name": "RM rachide lombosacrale",
+      "finding": "RM lombare: iniziali discopatie senza conflitto radicolare. Non spiega il bruciore simmetrico né l'ulcera. Costo 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Imaging del rachide senza ipotesi radicolare. 220 euro contro un ideale di circa 84: oltre il 50% e oltre il budget di 150 euro."
+    },
+    {
+      "examId": "ecocolordoppler",
+      "name": "Ecocolordoppler arterioso degli arti",
+      "finding": "Ecocolordoppler: assi arteriosi pervii, indici nella norma. I polsi c'erano già. Costo 65 euro. Non sostituisce l'educazione del piede.",
+      "isAbnormal": false,
+      "priceEuro": 65,
+      "inappropriate": true,
+      "wasteRationale": "Esame vascolare non necessario come primo atto, con polsi presenti. Non è la prevenzione del piede neuropatico."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "146/84",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 150,
+    "demographics": { "age": 67, "sex": "M", "name": "Antonio R." },
+    "clinicalSigns": [
+      {
+        "signName": "Monofilamento plantare",
+        "result": "Non percepito sulla pianta bilateralmente.",
+        "isPositive": true
+      },
+      {
+        "signName": "Ulcera plantare",
+        "result": "Piccola lesione sotto la testa del primo metatarso destro, non dolente.",
+        "isPositive": true
+      },
+      {
+        "signName": "Polsi pedidi",
+        "result": "Presenti. Nessuna ischemia critica.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Monofilamento plantare",
+        "result": "Non percepito.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "Glicemia 214 mg/dL. Costo 2,1 euro.",
+          "isAbnormal": true,
+          "price": 2.1
+        },
+        "hba1c": {
+          "finding": "HbA1c 76 mmol/mol. Costo 10,5 euro.",
+          "isAbnormal": true,
+          "price": 10.5
+        },
+        "emg": {
+          "finding": "Polineuropatia assonale lunghezza-dipendente. Niente radicolopatia. Costo 70 euro.",
+          "isAbnormal": true,
+          "price": 70
+        },
+        "rm": {
+          "finding": "RM lombare senza conflitto. Non indicata. Costo 220 euro.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "ecocolordoppler": {
+          "finding": "Doppler arterioso degli arti nella norma. Costo 65 euro. I polsi erano già presenti.",
+          "isAbnormal": false,
+          "price": 65
+        },
+        "rx-ossa": {
+          "finding": "RX del piede: nessuna osteomielite franca su questa lesione superficiale. Non sostituisce l'educazione. Costo 30 euro.",
+          "isAbnormal": false,
+          "price": 30
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Educazione del piede scritta, oltre all'eventuale farmaco del dolore neuropatico",
+          "anyOf": [{ "id": "educazione-piede", "label": "Prevenzione del piede", "aliases": ["piede diabetico", "ispezione dei piedi"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "Solo farmaco del bruciore, senza guardare la pianta", "ids": ["solo-antidolorifico"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "MEDIUM", "socialSupport": "LIMITED" },
+    "communicationStyle": "Antonio è remissivo, chiama callo l'ulcera e non la mostra. Accetta qualunque esame, compresa la RM, e ringrazia anche una visita che non gli ha detto come guardarsi i piedi."
+  }
+}

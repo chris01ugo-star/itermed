@@ -1,0 +1,245 @@
+{
+  "id": "NEURO-008",
+  "code": "NEURO-008",
+  "title": "Neurite ottica, esordio di sclerosi multipla",
+  "description": "Giulia S., 27 anni, dottoranda, da tre giorni vede sfocato dall'occhio destro e ha dolore dietro l'orbita quando muove lo sguardo. I colori, soprattutto il rosso, le sembrano slavati. Non ha mai avuto sintomi neurologici prima, a parte un formicolio alle gambe durato una settimana l'estate scorsa, che il medico di base chiamò «stress». L'esame mostra un deficit visivo destro, un difetto pupillare afferente relativo e un fondo ancora a papilla netta: neurite retrobulbare. Il percorso è il fondo oculare, i potenziali evocati visivi, la RM di encefalo e midollo con mezzo di contrasto, e la rachicentesi per le bande oligoclonali. Mandarla a casa con «affaticamento da schermo», o chiedere una TC (120 euro) o un'angio-RM (350 euro) al posto della RM dedicata, è il ritardo diagnostico. Il percorso ideale costa circa 460 euro. La PET a 950 euro è la spesa che sfonda il budget di 620.",
+  "difficulty": "MEDIUM",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Neurite ottica retrobulbare come prima manifestazione demielinizzante",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+  "diagnosis": "Neurite ottica destra retrobulbare in sindrome clinicamente isolata ad alta probabilità di sclerosi multipla: RM con lesioni periventricolari e una lesione che prende contrasto, bande oligoclonali nel liquor, potenziali evocati visivi allungati a destra.",
+  "pastMedicalHistory": "Nessuna malattia autoimmune nota. Non fuma. Una dose di vaccino antinfluenzale il mese scorso, temporalmente casuale. Formicolio agli arti inferiori per sei giorni in agosto, risolto, mai studiato. Nessun trauma orbitario, nessun dolore a tuono, nessuna febbre. Usa lenti a contatto. Non è in gravidanza se si chiede il ciclo (ultimo ciclo 10 giorni fa). Allergie: nessuna. Famiglia senza sclerosi multipla nota.",
+  "presentation": "In ambulatorio, spaventata, copre l'occhio destro per leggere. Acuità grossolana ridotta a destra (conta le dita a due metri se si misura), sinistra normale. Dolore al movimento oculare, non un dolore emicranico. Se il medico parla di stress e di schermi, lei si aggrappa a questa versione e chiede un collirio. Se le si spiega che serve una RM e una puntura, ha paura della sclerosi multipla e chiede di rimandare «dopo la tesi», tra sei settimane. Parametri: PA 110/70 mmHg, FC 78, SpO2 99%, FR 14, temperatura 36,4 °C. Nessun deficit motorio oggi, riflessi vivaci agli arti inferiori, Babinski indifferente.",
+  "redHerrings": [
+    "Le lenti a contatto e le ore al computer offrono una spiegazione facile e sbagliata.",
+    "Il fondo oculare è ancora normale: non esclude la neurite retrobulbare.",
+    "Il formicolio dell'estate scorsa sembra uno stress e invece è un possibile primo evento.",
+    "La TC dell'orbita o l'angio-RM rispondono a una domanda diversa da quella delle placche."
+  ],
+  "timeLimitMinutes": 80,
+  "patientDeteriorationThreshold": 50,
+  "patientPrompt": "Sei Giulia, 27 anni, in ambulatorio. Sei lucida e molto ansiosa per la tesi. Se ti dicono che è affaticamento da schermo, accetti e chiedi un collirio: non insistere per restare. Il dolore quando muovi l'occhio e il rosso slavato li racconti solo se ti chiedono il movimento oculare e i colori. Il formicolio dell'estate scorsa lo dici solo se ti chiedono sintomi neurologici passati. Se propongono di rimandare la RM a dopo la tesi, all'inizio sei sollevata. Se ti spiegano che il ritardo conta, accetti RM, potenziali evocati e, con paura, la rachicentesi, a patto che ti si dica perché la TC non basta. Se propongono PET o angio-RM, chiedi se così si evita la puntura: se il medico dice di sì, preferisci quelle. Non nominare tu sclerosi multipla, bande oligoclonali o contrasto. Se la visita si chiude senza un piano di imaging, a casa la vista peggiora e torni più spaventata.",
+  "correctSolution": "Neurite ottica retrobulbare destra. Fondo, potenziali evocati visivi, RM encefalo e midollo con mezzo di contrasto, liquor con bande oligoclonali. Non rinviare per la tesi. Non sostituire la RM con TC, angio o PET. Il colloquio sulla diagnosi possibile va fatto, senza anticipare una terapia di fondo prima dei referti, e senza perdere il tempo diagnostico.",
+  "goldStandardPath": ["fundus", "pot-evocati", "rm", "liquidi"],
+  "goldPathNarrative": "1) Fondo oculare: papilla destra ancora netta, il che non esclude la neurite retrobulbare; c'è il difetto pupillare afferente e la desaturazione del rosso. 2) Potenziali evocati visivi: P100 allungata a destra. Costo 120 euro. 3) RM encefalo e midollo con mezzo di contrasto: lesioni ovoidali periventricolari, una captante, un piccolo focolaio midollare cervicale. Costo 220 euro. La TC non mostra queste placche. 4) Rachicentesi: bande oligoclonali liquorali assenti nel siero. Costo 60 euro. Ideale circa 460 euro, budget 620. Angio-RM 350 euro è un esame confuso (cerca un vaso, non una placca) e, sommata al percorso, porta lo scostamento oltre il 50% se sostituisce o si accumula senza criterio. PET 950 euro è fuori. Rimandare tutto «dopo la tesi» è il ritardo diagnostico.",
+  "examLatencies": {
+    "fundus": 10,
+    "pot-evocati": 25,
+    "rm": 40,
+    "liquidi": 30,
+    "tc": 25,
+    "angio": 60,
+    "pet-tc": 240
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-occhio",
+      "prompt": "Il dolore aumenta muovendo l'occhio, e i colori sono cambiati?",
+      "critical": true,
+      "expectedKeywords": ["movimento", "rosso", "sfocato"],
+      "rationale": "Dolore al movimento e desaturazione cromatica sono il profilo della neurite, non dell'affaticamento da schermo."
+    },
+    {
+      "id": "aq-passato",
+      "prompt": "Ha avuto in passato formicolii, debolezza o disturbi visivi durati giorni?",
+      "critical": true,
+      "expectedKeywords": ["formicolio", "estate", "giorni"],
+      "rationale": "L'episodio estivo non studiato alza la probabilità che questa non sia una malattia dell'occhio isolata."
+    },
+    {
+      "id": "aq-rinvio",
+      "prompt": "Vuole rimandare gli esami, e le è stato detto che il ritardo cambia il percorso?",
+      "critical": true,
+      "expectedKeywords": ["tesi", "rinvio", "risonanza"],
+      "rationale": "Il rinvio chiesto dalla paziente è il bivio legale: va motivato il perché non si aspetta sei settimane."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Acuità ridotta a destra, difetto pupillare afferente relativo destro, movimenti oculari dolorosi, papilla ancora a margini netti, resto dei nervi cranici integro, forza normale, riflessi vivaci agli arti inferiori, coordinazione conservata. Il fondo normale non chiude il caso. Non c'è papilledema da ipertensione intracranica."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-008-sm",
+      "source": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+      "quote": "Sintesi operativa: una neurite ottica nel giovane adulto si studia con RM di encefalo e midollo, con contrasto, e con il liquor. Rimandare l'imaging di settimane perché il fondo è ancora normale o perché c'è un impegno di studio è un ritardo diagnostico."
+    },
+    {
+      "chunkId": "neuro-008-pev",
+      "source": "knowledge_base/neurologia/clinic/Modello-scala-Expanded-Disability-Status-Scale-EDSS.pdf",
+      "quote": "Sintesi operativa: il deficit visivo va misurato e descritto, non archiviato come affaticamento. I potenziali evocati visivi documentano il rallentamento di conduzione anche con papilla ancora netta."
+    },
+    {
+      "chunkId": "neuro-008-costi",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "Sintesi operativa sul costo: la RM con il protocollo demielinizzante è la prestazione appropriata. TC, angio-RM e PET rispondono ad altre domande e, se accumulate, spostano la spesa senza sostituire le sequenze per le placche."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Neurite riconosciuta nonostante il fondo ancora normale.",
+      "Potenziali evocati visivi richiesti.",
+      "RM encefalo e midollo con mezzo di contrasto, non una TC al loro posto.",
+      "Rachicentesi per le bande, con consenso.",
+      "Nessun rinvio di settimane senza motivazione clinica."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Archiviare come affaticamento visivo una neurite con dolore al movimento, o sostituire la RM con esami vascolari e metabolici, non aderisce al percorso della sindrome demielinizzante. Il ritardo va scritto solo se è un rifiuto informato, non una comodità.",
+      "legalCriteria": [
+        "Difetto visivo, dolore al movimento e RAPD descritti.",
+        "RM dedicata proposta subito, non dopo la tesi.",
+        "Consenso alla rachicentesi se si esegue il prelievo.",
+        "TC o angio non presentate come equivalenti della RM per le placche."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "fundus",
+      "name": "Fondo oculare",
+      "finding": "Papilla destra a margini netti, non edematosa, sinistra normale. Il fondo negativo non esclude la neurite retrobulbare. C'è desaturazione del rosso e un difetto pupillare afferente relativo a destra.",
+      "isAbnormal": true,
+      "priceEuro": 60
+    },
+    {
+      "examId": "pot-evocati",
+      "name": "Potenziali evocati visivi",
+      "finding": "PEV: latenza della P100 allungata a destra, ampiezza ridotta, sinistra nei limiti. Rallentamento della via visiva destra, coerente con neurite ottica. Costo 120 euro.",
+      "isAbnormal": true,
+      "priceEuro": 120
+    },
+    {
+      "examId": "rm",
+      "name": "RM encefalo e midollo con mezzo di contrasto",
+      "finding": "RM encefalo e midollo cervicale-dorsale alto, senza e con mezzo di contrasto. Lesioni ovoidali periventricolari e una juxtacorticale, una delle quali capta il contrasto. Piccola lesione midollare cervicale C3 senza effetto massa. Distribuzione tipica demielinizzante. Non è una lesione espansiva orbitaria. Costo 220 euro.",
+      "isAbnormal": true,
+      "priceEuro": 220
+    },
+    {
+      "examId": "liquidi",
+      "name": "Rachicentesi per bande oligoclonali",
+      "finding": "Liquor limpido, cellule 6/mm3, proteine 38 mg/dL, glucosio normale. Bande oligoclonali IgG presenti nel liquor e assenti nel siero. Indice di Link elevato. Nessun germe. Quadro di sintesi intratecale. Costo 60 euro. Va con il consenso informato alla puntura.",
+      "isAbnormal": true,
+      "priceEuro": 60
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio e orbite",
+      "finding": "TC cranio e orbite senza contrasto: globi simmetrici, nessun processo orbitario, parenchima «nella norma» ai limiti della metodica. Le placche non si vedono. Costo 120 euro. Referto falsamente rassicurante.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Esame confuso: la TC non è lo studio della demielinizzazione. Usata al posto della RM produce un falso negativo e un ritardo."
+    },
+    {
+      "examId": "angio",
+      "name": "Angio-RM",
+      "finding": "Angio-RM arteriosa: poligono regolare, nessun aneurisma, nessuna dissezione. Non studia le placche. Costo 350 euro.",
+      "isAbnormal": false,
+      "priceEuro": 350,
+      "inappropriate": true,
+      "wasteRationale": "Esame vascolare senza ipotesi vascolare. 350 euro sul percorso ideale di 460 portano lo scostamento oltre il 50% se si accumula al posto delle sequenze parenchimali."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET-TC senza iperaccumuli interpretabili come neoplasia. Non vede le placche. Costo 950 euro.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Medicina difensiva. Supera da sola il budget di 620 euro e non sostituisce RM e liquor."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "110/70",
+      "spo2": 99,
+      "temperature": 36.4,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 620,
+    "demographics": { "age": 27, "sex": "F", "name": "Giulia S." },
+    "clinicalSigns": [
+      {
+        "signName": "Difetto pupillare afferente",
+        "result": "RAPD destro presente. Desaturazione del rosso a destra.",
+        "isPositive": true
+      },
+      {
+        "signName": "Dolore al movimento oculare",
+        "result": "Dolore retroorbitario destro evocato dallo sguardo.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Difetto pupillare afferente",
+        "result": "Presente a destra.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "fundus": {
+          "finding": "Papille a margini netti. Il fondo normale non esclude la neurite retrobulbare. Costo 60 euro.",
+          "isAbnormal": true,
+          "price": 60
+        },
+        "pot-evocati": {
+          "finding": "PEV: P100 allungata a destra. Costo 120 euro.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "rm": {
+          "finding": "RM encefalo e midollo con contrasto: lesioni demielinizzanti, una captante, un focolaio midollare cervicale. Costo 220 euro.",
+          "isAbnormal": true,
+          "price": 220
+        },
+        "liquidi": {
+          "finding": "Bande oligoclonali nel liquor, assenti nel siero. Cellule e glucosio non infettivi. Costo 60 euro.",
+          "isAbnormal": true,
+          "price": 60
+        },
+        "tc": {
+          "finding": "TC negativa, placche non visibili. Referto rassicurante e fuorviante. Costo 120 euro.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "angio": {
+          "finding": "Angio-RM arteriosa normale. Non studia la demielinizzazione. Costo 350 euro.",
+          "isAbnormal": false,
+          "price": 350
+        },
+        "pet-tc": {
+          "finding": "PET-TC non indicata. Costo 950 euro.",
+          "isAbnormal": false,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Non rinviare RM e liquor; eventuale steroide solo dopo il piano diagnostico, non al posto degli esami",
+          "anyOf": [{ "id": "rm", "label": "RM con contrasto", "aliases": ["risonanza", "rm encefalo"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "Dimissione come affaticamento da schermo", "ids": ["collirio-e-casa"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
+    "communicationStyle": "Giulia ragiona, cita lo schermo e la tesi, e accetta volentieri una spiegazione benigna. Le informazioni sulla neurite escono solo con domande su colori, movimento dell'occhio e sintomi passati. Ha paura della puntura lombare e della parola sclerosi."
+  }
+}

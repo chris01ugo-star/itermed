@@ -1,0 +1,239 @@
+{
+  "id": "NEURO-016",
+  "code": "NEURO-016",
+  "title": "Sclerosi laterale amiotrofica, esordio bulbare",
+  "description": "Elena V., 68 anni, ex insegnante, da quattro mesi fa fatica a deglutire i liquidi, la voce è diventata nasale e la lingua, a riposo, fascicola. Non ha disturbi sensitivi, non ha ptosi fluttuante, non ha un livello midollare. Il marito parla al posto suo perché lei si stanca e si vergogna della saliva. È un esordio bulbare di sclerosi laterale amiotrofica. Il percorso è l'anamnesi bulbare, l'esame (fascicolazioni linguali, riflessi vivaci, Babinski), la RM che esclude una lesione strutturale del tronco, e l'EMG diffusa che mostra denervazione in più regioni. Poi il colloquio sulla prognosi, fatto a lei, non solo al marito. PET e scintigrafia non aggiungono la diagnosi e sfondano un budget di 450 euro. Il percorso ideale, RM compresa, è circa 293 euro.",
+  "difficulty": "HARD",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Malattia del motoneurone a esordio bulbare",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+  "diagnosis": "Sclerosi laterale amiotrofica a esordio bulbare. RM senza lesione strutturale. EMG con denervazione bulbare, cervicale e lombare. Il compito difficile è dirlo a lei, con il tempo che le serve, senza nascondere la prognosi dietro un esame in più.",
+  "pastMedicalHistory": "Ipertensione. Nessun ictus, nessuna miastenia nota, nessun tumore della testa e del collo, nessun intervento cervicale. Ha perso 4 kg perché evita i liquidi. Un ORL ha visto le corde vocali «stancabili» e l'ha mandata dal neurologo. Non fuma più da dieci anni. Allergie: nessuna. Il marito ha chiesto al medico di non usare la parola sclerosi «per non toglierle la speranza». Lei, se le si parla direttamente, vuole sapere.",
+  "presentation": "Voce nasale, saliva da asciugare, lingua con fascicolazioni a riposo e in movimento, atrofia del bordo. Riflesso masseterino vivace, arti con riflessi polisinestetici, Babinski bilaterale, forza ancora quasi piena, nessun deficit sensitivo. Parametri: PA 136/80 mmHg, FC 78, SpO2 97%, FR 16, temperatura 36,5 °C. Se il medico parla solo con il marito, lei smette di guardarlo. Se le si chiede cosa vuole sapere, dice che ha capito che non è una cosa che passa con un aerosol.",
+  "redHerrings": [
+    "Il marito chiede di tacere la diagnosi e di ordinare «ancora un esame» per prendere tempo.",
+    "La disfagia può essere mandata di nuovo dall'ORL senza EMG.",
+    "Le fascicolazioni, se non si guarda la lingua a riposo, non si vedono.",
+    "Una PET «per escludere un tumore» è la fuga dal colloquio, non il gold."
+  ],
+  "timeLimitMinutes": 60,
+  "patientDeteriorationThreshold": 45,
+  "patientPrompt": "Sei Elena, 68 anni, in ambulatorio. La voce è nasale e ti stanchi: frasi corte. Il marito parla sopra di te e chiede al medico di non dire cose brutte. Se il medico si rivolge solo a lui, resti in silenzio e ti chiudi. Se il medico chiede a te della deglutizione, racconti che i liquidi ti vanno di traverso da mesi e che la lingua si muove da sola quando stai zitta. Se guardano la lingua a riposo, le fascicolazioni ci sono. Se ti parlano con calma di una malattia del motoneurone, dopo l'EMG, vuoi la verità e un piano su come mangiare e su chi ti aiuta, non una promessa vuota. Se ti propongono PET o un'altra scintigrafia per rimandare, dici «basta esami, ditemi cos'ho». Non nominare tu SLA se non te lo dicono. Non recitare una lezione: sei spaventata e dignitosa.",
+  "correctSolution": "SLA bulbare. Esame con fascicolazioni linguali e primo motoneurone, RM che esclude una lesione del tronco, EMG diffusa su più regioni. Colloquio prognostico con lei, nutrizione e logopedia, niente PET al posto della parola. Il marito non è il destinatario esclusivo della diagnosi.",
+  "goldStandardPath": ["anamnesi-bulbare", "esame-neurologico", "rm", "emg", "colloquio-prognosi"],
+  "goldPathNarrative": "1) Anamnesi: disfagia per i liquidi, voce nasale, calo di peso, niente fluttuazione miastenia, niente livello sensitivo. Parlare con lei, non solo col marito. 2) Esame: fascicolazioni della lingua, riflessi vivaci, Babinski, forza ancora relativamente conservata. 3) RM encefalo e giunzione: nessuna lesione del tronco, nessun forame magno patologico. Costo 220 euro. È l'imaging appropriato per escludere una causa strutturale, non una PET. 4) EMG diffusa: denervazione in regione bulbare, cervicale e lombare, fascicolazioni, potenziali ampi. Costo 70 euro. 5) Colloquio sulla prognosi, la nutrizione e il supporto, rivolto a Elena. Ideale circa 293 euro, budget 450. PET 950 euro e scintigrafia 250 euro sono la fuga diagnostica e superano il 50% se si accumulano sul percorso.",
+  "examLatencies": {
+    "anamnesi-bulbare": 12,
+    "esame-neurologico": 10,
+    "rm": 40,
+    "emg": 30,
+    "colloquio-prognosi": 15,
+    "pet-tc": 240,
+    "scintigrafia": 120,
+    "tc": 25
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-disfagia",
+      "prompt": "I liquidi le vanno di traverso, e da quanto la voce è cambiata?",
+      "critical": true,
+      "expectedKeywords": ["liquidi", "voce", "mesi"],
+      "rationale": "La disfagia per i liquidi e la rinolalia sono l'esordio bulbare. Vanno chieste a lei."
+    },
+    {
+      "id": "aq-marito",
+      "prompt": "Vuole sapere la diagnosi, o devo parlare solo con suo marito?",
+      "critical": true,
+      "expectedKeywords": ["sapere", "verità", "marito"],
+      "rationale": "Il bivio empatico e legale: il marito chiede di tacere, lei vuole capire. La diagnosi si dice a lei."
+    },
+    {
+      "id": "aq-miastenia",
+      "prompt": "I sintomi peggiorano la sera e migliorano al mattino, o sono stabili?",
+      "critical": true,
+      "expectedKeywords": ["sera", "stabili", "palpebra"],
+      "rationale": "Distingue la SLA bulbare dalla miastenia. Qui non c'è fluttuazione né ptosi."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lingua fascicolante a riposo, atrofia dei bordi, voce nasale, riflesso masseterino vivace, riflessi agli arti polisinestetici, Babinski bilaterale, forza quasi conservata, sensibilità integra, niente ptosi, niente diplopia fluttuante. L'esame va fatto davanti a lei, spiegando cosa si sta guardando, senza sussurrare la conclusione al marito."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-016-emg",
+      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+      "quote": "Sintesi operativa: il sospetto di malattia del motoneurone si appoggia sull'esame clinico e sull'EMG in più regioni, dopo aver escluso con la RM una lesione strutturale del tronco. Altri esami metabolici non sostituiscono questo percorso."
+    },
+    {
+      "chunkId": "neuro-016-parola",
+      "source": "knowledge_base/neurologia/clinic/SIN-INFORMA.pdf",
+      "quote": "Sintesi operativa: la diagnosi si comunica alla persona malata, con il tempo per le domande, anche se un familiare chiede di tacerla. Nasconderla dietro un esame ulteriore non è protezione."
+    },
+    {
+      "chunkId": "neuro-016-costi",
+      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "Sintesi operativa sul costo: RM ed EMG sono le prestazioni del percorso. PET e scintigrafia, chieste per rimandare il colloquio, sono una spesa non giustificata."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Disfagia e voce chieste a lei, non solo al marito.",
+      "Fascicolazioni linguali e segni del primo motoneurone descritti.",
+      "RM che esclude una lesione strutturale.",
+      "EMG diffusa, non un singolo arto.",
+      "Prognosi comunicata a Elena, con un piano di supporto."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Tacere la diagnosi su richiesta del marito, o sostituire l'EMG e il colloquio con una PET, non aderisce a un percorso difendibile. La RM serve a escludere, non a rimandare all'infinito la parola.",
+      "legalCriteria": [
+        "La paziente è stata informata in prima persona.",
+        "RM di esclusione eseguita o motivata.",
+        "EMG estesa a più regioni.",
+        "Piano su nutrizione e follow-up scritto, non solo un invio generico."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "anamnesi-bulbare",
+      "name": "Anamnesi bulbare, rivolta alla paziente",
+      "finding": "Disfagia per i liquidi da quattro mesi, voce nasale, calo di 4 kg, nessuna fluttuazione, nessuna ptosi. Elena vuole sapere. Il marito chiede di tacere: la richiesta non sposta il destinatario della diagnosi.",
+      "isAbnormal": true,
+      "priceEuro": 1
+    },
+    {
+      "examId": "esame-neurologico",
+      "name": "Esame neurologico",
+      "finding": "Fascicolazioni e atrofia della lingua, rinolalia, riflessi vivaci, Babinski bilaterale, sensibilità integra, niente ptosi. Primo e secondo motoneurone. Non è una miastenia e non è un ictus del tronco nel profilo temporale.",
+      "isAbnormal": true,
+      "priceEuro": 1
+    },
+    {
+      "examId": "rm",
+      "name": "RM encefalo e giunzione",
+      "finding": "RM encefalo, tronco e giunzione cranio-cervicale: nessuna lesione espansiva, nessun siringobulbo, nessun conflitto del forame magno. Esclusa la causa strutturale. Costo 220 euro. È l'imaging appropriato. Non va ripetuta in PET per «essere più sicuri».",
+      "isAbnormal": false,
+      "priceEuro": 220
+    },
+    {
+      "examId": "emg",
+      "name": "EMG diffusa",
+      "finding": "EMG: denervazione attiva e cronica in muscoli bulbari, cervicali e lombari, fascicolazioni, potenziali di unità motoria ampi e instabili. Conduzione sensitiva risparmiata. Quadro diffuso di malattia del motoneurone. Costo 70 euro. Un'EMG di un solo arto non sarebbe bastata.",
+      "isAbnormal": true,
+      "priceEuro": 70
+    },
+    {
+      "examId": "colloquio-prognosi",
+      "name": "Colloquio prognostico con la paziente",
+      "finding": "Diagnosi detta a Elena, con il marito presente solo se lei è d'accordo. Spiegati il nome della malattia, l'assenza di una cura che la arresti, e ciò che si può fare: logopedia, valutazione nutrizionale prima che il peso crolli, supporto respiratorio quando servirà, follow-up. Nessuna promessa falsa, nessun esame ulteriore per evitare la frase.",
+      "isAbnormal": false,
+      "priceEuro": 1
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET-TC negativa per neoplasia. Non diagnostica la malattia del motoneurone e ha tenuto il colloquio in sospeso. Costo 950 euro.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Esame chiesto per rimandare la comunicazione. 950 euro contro un ideale di circa 293: oltre il 50% e oltre il budget di 450 euro."
+    },
+    {
+      "examId": "scintigrafia",
+      "name": "Scintigrafia",
+      "finding": "Scintigrafia non indicata. Referto aspecifico. Costo 250 euro. Non sostituisce l'EMG diffusa.",
+      "isAbnormal": false,
+      "priceEuro": 250,
+      "inappropriate": true,
+      "wasteRationale": "Prestazione inutile nel sospetto di SLA. Si accumula al percorso senza cambiare la diagnosi e avvicina lo sforamento di budget."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "136/80",
+      "spo2": 97,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 450,
+    "demographics": { "age": 68, "sex": "F", "name": "Elena V." },
+    "clinicalSigns": [
+      {
+        "signName": "Fascicolazioni della lingua",
+        "result": "Presenti a riposo, con atrofia dei bordi.",
+        "isPositive": true
+      },
+      {
+        "signName": "Babinski",
+        "result": "Bilaterale, in estensione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Ptosi",
+        "result": "Assente. Nessuna fluttuazione.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Fascicolazioni della lingua",
+        "result": "Visibili a riposo.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rm": {
+          "finding": "RM tronco e giunzione senza lesioni strutturali. Costo 220 euro. Esame appropriato di esclusione.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "emg": {
+          "finding": "EMG diffusa: denervazione bulbare, cervicale e lombare, sensitivo risparmiato. Costo 70 euro.",
+          "isAbnormal": true,
+          "price": 70
+        },
+        "pet-tc": {
+          "finding": "PET-TC negativa, non diagnostica. Costo 950 euro.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "scintigrafia": {
+          "finding": "Scintigrafia non indicata. Costo 250 euro.",
+          "isAbnormal": false,
+          "price": 250
+        },
+        "tc": {
+          "finding": "TC encefalo: non esclude una lesione del tronco con la stessa affidabilità della RM e non mostra le fascicolazioni. Costo 120 euro. Non sostituisce la RM di esclusione.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Colloquio con la paziente, nutrizione e logopedia",
+          "anyOf": [{ "id": "colloquio-prognosi", "label": "Colloquio prognostico", "aliases": ["prognosi", "comunicazione"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "Tacere la diagnosi su richiesta del solo marito", "ids": ["silenzio-diagnostico"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
+    "communicationStyle": "Elena parla poco, con voce nasale, e si ritira se la si scavalca. Il marito è protettivo e chiede omissioni. Lei collabora e vuole frasi chiare, non un altro esame per rimandare."
+  }
+}

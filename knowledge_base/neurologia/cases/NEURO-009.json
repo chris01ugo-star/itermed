@@ -1,0 +1,210 @@
+{
+  "id": "NEURO-009",
+  "code": "NEURO-009",
+  "title": "Parkinson all'esordio tremorigeno",
+  "description": "Renato F., 64 anni, pensionato delle poste, da un anno ha un tremore della mano destra che compare da fermo e si quieta quando prende la tazzina. La moglie ha notato il braccio destro fermo nel cammino, la scrittura rimpicciolita e un passo più corto. Non ha cadute precoci, non ha sguardo in su bloccato, non ha allucinazioni, non ha un uso di neurolettici. È un esordio di malattia di Parkinson, clinico. Il percorso è l'esame motorio e un test alla levodopa, che migliora tremore e bradicinesia. Il DAT-Scan (scintigrafia, 250 euro) si riserva al dubbio, e qui il dubbio non c'è: chiederlo come prima linea sfonda un budget di 40 euro. Il percorso ideale costa circa 2 euro.",
+  "difficulty": "MEDIUM",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Malattia di Parkinson idiopatica, esordio unilaterale tremorigeno",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+  "diagnosis": "Malattia di Parkinson, lato destro, tremore a riposo, bradicinesia e rigidità, buona risposta al test con levodopa. Non è un tremore essenziale e non è un parkinsonismo atipico. DAT-Scan non indicato in prima linea.",
+  "pastMedicalHistory": "Ipertensione in amlodipina. Nessun diabete. Nessun neurolettico, nessun antiemetico cronico, nessuna storia di encefalite, nessun trauma cranico ripetuto. Un fratello con tremore essenziale del capo, e per questo Renato è convinto di avere la stessa cosa. Non ha incontinenza precoce, non ha paralisi dello sguardo, non ha segni cerebellari. Beve un caffè al giorno. Allergie: nessuna. Cammina ancora da solo, ha smesso di scrivere a mano gli assegni.",
+  "presentation": "Entra con il braccio destro che non pendola. Tremore a riposo del pollice e dell'indice destri, a 4-6 Hz, che si attenua quando allunga le braccia e quando prende un oggetto. Scrittura micrografica se gli si fa scrivere una frase. Rigidità a ruota dentata a destra, bradicinesia nei movimenti rapidi delle dita. Voce un po' più bassa, espressione meno mobile, ma niente freezing e niente cadute. Parametri: PA 138/80 mmHg, FC 70, SpO2 98%, FR 14, temperatura 36,5 °C. Il figlio, medico di altro reparto, ha già scritto «prenotare DAT-Scan» sul foglio della visita.",
+  "redHerrings": [
+    "Il fratello con tremore essenziale spinge verso quella diagnosi, ma quello di Renato è a riposo e unilaterale.",
+    "Il foglio del figlio con il DAT-Scan sembra un ordine già deciso.",
+    "La voce bassa può essere scambiata per depressione e il tremore per ansia.",
+    "Un RM encefalo «per escludere un tumore» non è il test della via nigrostriatale e non è il primo atto."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sei Renato, 64 anni, in ambulatorio, accompagnato dal figlio. Parli piano. Se ti chiedono se sei ansioso, dici di sì. Il tremore da fermo, il braccio che non muove e la scrittura piccola li mostri solo se ti chiedono quando trema, se trema tenendo un oggetto, e se la grafia è cambiata. Non hai cadute, non hai allucinazioni, non prendi farmaci per la nausea o per la psichiatria. Se propongono il DAT-Scan come primo esame, il figlio approva e tu accetti. Se ti fanno provare la levodopa e dopo il test la mano si muove meglio, lo dici con sorpresa. Se ti parlano di Parkinson con calma, ti spaventi ma ascolti. Non nominare tu substantia nigra o DAT. Se la visita finisce solo con «è lo stress, faccia la scintigrafia», chiedi quando potrai tornare a firmare gli assegni.",
+  "correctSolution": "Parkinson idiopatico a esordio unilaterale. Diagnosi clinica più test alla levodopa positivo. Non DAT-Scan di prima linea. Non RM come sostituto. Spiegare la diagnosi, iniziare la levodopa secondo pratica, follow-up. Nessun neurolettico in anamnesi che simuli il quadro.",
+  "goldStandardPath": ["esame-motorio", "test-levodopa"],
+  "goldPathNarrative": "1) Esame motorio: tremore a riposo unilaterale che si quieta con l'azione, bradicinesia, rigidità a ruota dentata, perdita del pendolarismo. Assenti i red flag del parkinsonismo atipico (cadute precoci, sguardo verticale bloccato, allucinazioni precoci, segni cerebellari, farmaco causale). Il tremore essenziale del fratello è un'altra malattia. 2) Test alla levodopa: miglioramento chiaro di bradicinesia e tremore. Il DAT-Scan, scintigrafia da 250 euro, si fa se la clinica è ambigua. Qui non lo è. Chiederlo come prima linea è la penalità economica. Anche la RM encefalo a 220 euro, ordinata «per escludere», non è il gold e da sola supera di molto il 50% di un percorso clinico da circa 2 euro. Budget: 40 euro.",
+  "examLatencies": {
+    "esame-motorio": 15,
+    "test-levodopa": 20,
+    "scintigrafia": 120,
+    "rm": 90,
+    "pet-tc": 240,
+    "tc": 30
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-tremore",
+      "prompt": "Il tremore c'è da fermo o quando tiene un oggetto, ed è da un lato solo?",
+      "critical": true,
+      "expectedKeywords": ["riposo", "destra", "tazzina"],
+      "rationale": "Il tremore a riposo unilaterale distingue il Parkinson dal tremore essenziale del fratello."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "Assume neurolettici, antiemetici o farmaci che possano rallentare i movimenti?",
+      "critical": true,
+      "expectedKeywords": ["neurolettici", "nausea", "farmaci"],
+      "rationale": "Un parkinsonismo iatrogeno va escluso prima di etichettare una malattia di Parkinson e prima di un DAT-Scan."
+    },
+    {
+      "id": "aq-atipico",
+      "prompt": "Ha cadute precoci, allucinazioni, oppure non muove gli occhi in verticale?",
+      "critical": true,
+      "expectedKeywords": ["cadute", "allucinazioni", "occhi"],
+      "rationale": "Questi red flag renderebbero ragionevole un percorso diverso. Qui sono assenti, e il DAT-Scan non è la prima mossa."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Tremore a riposo 4-6 Hz a destra, attenuato dall'azione. Bradicinesia alle prove di finger tapping a destra. Rigidità a ruota dentata a destra, più evidente con manovra di attivazione controlaterale. Pendolarismo ridotto a destra, passo corto, non freezing. Sguardo verticale conservato. Nessun deficit piramidale, nessun segno cerebellare. Grafia micrografica."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-009-clinica",
+      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+      "quote": "Sintesi operativa: la malattia di Parkinson a esordio tipico si diagnostica sulla clinica (bradicinesia più tremore a riposo o rigidità) e sulla risposta alla levodopa. La scintigrafia dei trasportatori della dopamina non è l'esame di apertura quando il quadro è chiaro."
+    },
+    {
+      "chunkId": "neuro-009-dat",
+      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "Sintesi operativa sul costo: la scintigrafia è una prestazione di secondo livello, cara rispetto a una visita e a un test farmacologico. Prenotarla come prima linea, con clinica già tipica, è uno sforamento non giustificato."
+    },
+    {
+      "chunkId": "neuro-009-rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "Sintesi operativa: la RM encefalo non misura la via nigrostriatale. Non sostituisce l'esame motorio e non va ordinata solo perché un familiare l'ha scritta sul foglio della visita."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Tremore a riposo distinto dal tremore d'azione del fratello.",
+      "Red flag del parkinsonismo atipico e farmaci causali esclusi.",
+      "Test alla levodopa eseguito o programmato come conferma.",
+      "DAT-Scan non richiesto come prima linea."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La diagnosi di Parkinson tipico è clinica. Un DAT-Scan immediato, chiesto per abitudine o per un foglio del familiare, non aderisce al percorso di prima linea e non è difendibile come necessità in questo quadro.",
+      "legalCriteria": [
+        "Segni motori cardinali descritti, con il lato.",
+        "Farmaci causali e red flag atipici cercati.",
+        "Risposta alla levodopa documentata.",
+        "Scintigrafia non presentata come obbligatoria in un esordio tipico."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "esame-motorio",
+      "name": "Esame motorio",
+      "finding": "Tremore a riposo unilaterale destro, bradicinesia, rigidità a ruota dentata, perdita del pendolarismo, micrografia. Sguardo verticale libero, niente cadute, niente allucinazioni, niente farmaci causali. Clinica di malattia di Parkinson, non di tremore essenziale.",
+      "isAbnormal": true,
+      "priceEuro": 1
+    },
+    {
+      "examId": "test-levodopa",
+      "name": "Test acuto alla levodopa",
+      "finding": "Dopo dose test di levodopa (con periferico inibitore della decarbossilasi): il finger tapping destro accelera, il tremore a riposo si riduce in modo chiaro, il pendolarismo migliora. Risposta positiva. Si può impostare la terapia e il follow-up senza un DAT-Scan.",
+      "isAbnormal": true,
+      "priceEuro": 1
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "scintigrafia",
+      "name": "DAT-Scan",
+      "finding": "Scintigrafia dei trasportatori della dopamina: ridotta captazione putaminale sinistra, coerente con una degenerazione che la clinica aveva già mostrato. Referto vero e non necessario in prima linea. Costo 250 euro. Attesa lunga.",
+      "isAbnormal": true,
+      "priceEuro": 250,
+      "inappropriate": true,
+      "wasteRationale": "DAT-Scan come prima linea in un Parkinson clinicamente tipico, con test alla levodopa disponibile. 250 euro contro un ideale di circa 2 euro: sforamento molto oltre il 50% e oltre il budget di 40 euro."
+    },
+    {
+      "examId": "rm",
+      "name": "RM encefalo",
+      "finding": "RM encefalo nella norma per l'età, nessun tumore, nessun idrocefalo, nessun segno che da solo faccia la diagnosi di Parkinson. Costo 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "RM ordinata al posto dell'esame motorio e del test farmacologico. Non è l'esame di prima linea e ne supera il costo di oltre il 50%."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 70,
+      "bloodPressure": "138/80",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "demographics": { "age": 64, "sex": "M", "name": "Renato F." },
+    "clinicalSigns": [
+      {
+        "signName": "Tremore a riposo",
+        "result": "Tremore 4-6 Hz della mano destra, si attenua con l'azione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Bradicinesia",
+        "result": "Finger tapping rallentato e decrementale a destra.",
+        "isPositive": true
+      },
+      {
+        "signName": "Sguardo verticale",
+        "result": "Conservato. Nessun blocco.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Tremore a riposo",
+        "result": "Presente a destra, si quieta prendendo un oggetto.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "scintigrafia": {
+          "finding": "DAT-Scan: captazione putaminale ridotta in modo asimmetrico. Conferma superflua in prima linea. Costo 250 euro.",
+          "isAbnormal": true,
+          "price": 250
+        },
+        "rm": {
+          "finding": "RM encefalo senza lesioni che spieghino il quadro meglio della clinica. Costo 220 euro.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "pet-tc": {
+          "finding": "PET-TC non indicata nell'esordio tipico. Costo 950 euro.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "tc": {
+          "finding": "TC cranio negativa, inutile per la diagnosi di Parkinson. Costo 120 euro.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Levodopa come test e poi come terapia dell'esordio già limitante",
+          "anyOf": [{ "id": "test-levodopa", "label": "Levodopa", "aliases": ["levodopa", "madopar", "sinemet"] }]
+        }
+      ],
+      "contraindicated": [
+        { "label": "DAT-Scan obbligatorio prima di qualsiasi farmaco in un quadro tipico", "ids": ["scintigrafia"] }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "MEDIUM", "socialSupport": "STRONG" },
+    "communicationStyle": "Renato parla poco e si appoggia al figlio, che spinge il DAT-Scan. Descrive il tremore come «ansia» finché non gli si chiede se c'è da fermo. Si fida di una prova pratica più che di una scintigrafia, se qualcuno gliela fa fare."
+  }
+}

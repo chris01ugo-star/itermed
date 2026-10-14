@@ -1,0 +1,306 @@
+{
+  "id": "NEURO-001",
+  "code": "NEURO-001",
+  "title": "Corsa contro il tempo — ictus ischemico acuto",
+  "description": "Giovanni R., 68 anni, ex tabagista, iperteso in amlodipina, arriva in Pronto Soccorso alle 09:40 accompagnato dalla moglie. Alle 08:10, mentre faceva colazione, ha lasciato cadere la tazzina, non ha più articolato frasi e non muove il braccio destro. Last known well certo, testimoniato: 90 minuti prima dell'arrivo. Non è un ictus al risveglio. È vigile, afasico, con emiparesi destra. La finestra per la trombolisi sistemica (4,5 ore) è ancora aperta: restano circa 180 minuti. Ogni esame lento consuma quella finestra. Il percorso atteso è breve e in sequenza: parametri vitali, stick glicemico, NIHSS, TC cranio senza mezzo di contrasto immediata, consenso informato, alteplase endovena. La RM encefalo e l'EEG sono richiedibili e sono trappole: la RM ritarda la riperfusione oltre la finestra, l'EEG non cambia la decisione in questa fase.",
+  "difficulty": "HARD",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Ictus ischemico iperacuto emisferico sinistro, candidato a trombolisi sistemica",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+  "diagnosis": "Ictus ischemico acuto del territorio dell'arteria cerebrale media sinistra, entro 4,5 ore dall'esordio, senza emorragia alla TC. Indicazione a trombolisi sistemica con alteplase dopo stick glicemico, NIHSS, TC e consenso.",
+  "pastMedicalHistory": "Ipertensione arteriosa da 12 anni, in amlodipina 5 mg. Dislipidemia in atorvastatina 20 mg. Ex fumatore (30 pack-year), stop da 4 anni. Nessun diabete noto. Nessuna fibrillazione atriale nota, non assume anticoagulanti né antiaggreganti. Intervento di cataratta a destra tre anni fa. Allergie: nessuna. Ultima volta visto normale dalla moglie alle 08:10, orario scritto sul telefono perché lei ha chiamato il 118 alle 08:18. Non è caduto. Non ha convulsioni. Non ha trauma cranico.",
+  "presentation": "In barella, vigile, sguardo verso sinistra, non esegue ordini complessi. Dice solo «sì» e «boh», non nomina gli oggetti, non ripete una frase. Braccio destro cade in meno di 5 secondi, gamba destra vince la gravità ma non la resistenza. Solco naso-labiale destro appianito. Riflesso plantare destro in estensione. Non ha cervicalgia, non ha cefalea a rombo di tuono, non vomita. Parametri all'arrivo, se misurati: PA 168/94 mmHg, FC 88 bpm ritmica, SpO2 97% in aria, FR 16, temperatura 36,6 °C. La moglie ripete che «fino alle otto e dieci tagliava il pane». Il paziente si agita se non capisce le domande. Se il medico propone una risonanza «per vedere meglio», la moglie accetta perché le sembra più precisa della TC: non sa che il tempo della trombolisi sta scadendo.",
+  "redHerrings": [
+    "La moglie chiede la risonanza perché un vicino «con l'ictus gliel'hanno fatta e si è salvato»: in questo orario la RM ritarda l'alteplase.",
+    "Un infermiere propone l'EEG «perché non parla e potrebbe essere uno stato epilettico»: non ci sono scosse, il quadro è vascolare.",
+    "La pressione è alta ma sotto 185/110: non è una controindicazione e non va trattata in modo aggressivo prima della trombolisi.",
+    "L'afasia può sembrare confusione o demenza: l'esordio è minuti, non mesi."
+  ],
+  "timeLimitMinutes": 180,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "Interpreta la scena in Pronto Soccorso. Il paziente è Giovanni, 68 anni, afasico: risponde con «sì», «no» e parole isolate, non costruisce frasi, non nomina una penna, sembra frustrato e spaventato. La moglie Lucia è presente e risponde ai fatti: esordio alle 08:10, ora di arrivo circa 09:40, niente anticoagulanti, niente caduta, niente convulsioni. Se il medico misura i parametri, conferma PA 168/94, FC 88, saturazione 97%, temperatura 36,6. Se calcola la NIHSS, non inventare un altro quadro: afasia, paresi facciale destra, braccio destro che cade, gamba destra debole, estinzione tattile a destra; il punteggio che il medico ottiene è circa 14. Se il medico ordina la RM o l'EEG, Lucia dice «facciamo l'esame più sicuro» e non ricorda la finestra delle 4 ore e mezzo. Se il medico spiega la trombolisi e chiede il consenso, Lucia è spaventata dall'emorragia ma firma se le si dice il rischio e il beneficio in modo chiaro. Se passano troppi minuti senza TC e senza farmaco, Giovanni smette di muovere anche la gamba e non dice più nemmeno «sì». Non rivelare la diagnosi. Non suggerire tu la trombolisi.",
+  "correctSolution": "Ictus ischemico sinistro entro 4,5 ore. Sequenza: parametri, stick glicemico (esclude l'ipoglicemia), NIHSS, TC cranio immediata senza contrasto (esclude l'emorragia), consenso informato, trombolisi sistemica con alteplase. Non attendere la RM. Non chiedere l'EEG in questa fase. Non dimettere.",
+  "goldStandardPath": [
+    "parametri-vitali",
+    "glicemia",
+    "nihss",
+    "tc",
+    "consenso-informato",
+    "trombolisi"
+  ],
+  "goldPathNarrative": "Orologio: esordio certo 90 minuti prima del triage, finestra residua circa 180 minuti. 1) Parametri vitali, senza far scendere la pressione sotto la soglia che controindica il farmaco: 168/94 non blocca l'alteplase. 2) Stick glicemico prima del farmaco, per non trombolisare un'ipoglicemia che imita l'ictus. 3) NIHSS, per quantificare il deficit e documentare la decisione. 4) TC cranio senza mezzo di contrasto, subito, non in coda con altri esami: serve a escludere l'emorragia. 5) Consenso informato su beneficio e rischio emorragico, firmato da chi può esprimersi (qui la moglie, con il paziente afasico ma vigile). 6) Trombolisi sistemica endovena entro le 4,5 ore. La RM encefalo, se richiesta, costa circa 160 minuti di orologio simulato e fa scadere la finestra: è la violazione della Golden Hour. L'EEG non distingue l'ictus dall'ipoglicemia e non autorizza né vieta l'alteplase. La PET non ha alcun ruolo iperacuto.",
+  "examLatencies": {
+    "parametri-vitali": 2,
+    "glicemia": 3,
+    "nihss": 4,
+    "tc": 12,
+    "consenso-informato": 5,
+    "trombolisi": 8,
+    "rm": 160,
+    "eeg": 45,
+    "pet-tc": 240,
+    "angio": 80,
+    "pt-ptt-inr": 20,
+    "emocromo": 15,
+    "ecg": 8
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-esordio",
+      "prompt": "Quando è stato visto l'ultima volta del tutto normale, e chi lo ha visto?",
+      "critical": true,
+      "expectedKeywords": ["esordio", "08:10", "testimone", "last known well"],
+      "rationale": "Senza un last known well certo non si può aprire la finestra delle 4,5 ore. Qui l'orario è testimoniato, non è un ictus al risveglio."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "Assume anticoagulanti, antiaggreganti o ha un'allergia?",
+      "critical": true,
+      "expectedKeywords": ["anticoagulante", "aspirina", "allergia"],
+      "rationale": "Un anticoagulante in corso cambia controindicazioni e dose. Qui non ne assume."
+    },
+    {
+      "id": "aq-mimic",
+      "prompt": "Ha avuto convulsioni, trauma, cefalea a tuono o un digiuno prolungato?",
+      "critical": true,
+      "expectedKeywords": ["convulsioni", "trauma", "glicemia"],
+      "rationale": "Crisi, trauma ed emorragia subaracnoidea sono controindicazioni o diagnosi alternative. L'ipoglicemia si esclude con lo stick, non con l'anamnesi da sola."
+    },
+    {
+      "id": "aq-nihss",
+      "prompt": "Qual è il deficit adesso: linguaggio, sguardo, faccia, arto superiore, arto inferiore?",
+      "critical": true,
+      "expectedKeywords": ["afasia", "emiparesi", "NIHSS"],
+      "rationale": "La NIHSS rende il deficit misurabile prima del farmaco e serve al consenso e al controllo successivo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Vigile, afasia globale con produzione limitata a sì/no, deviazione dello sguardo non sostenuta, paresi facciale centrale destra, arto superiore destro che cade prima dei 10 secondi, arto inferiore destro che cade prima dei 5 secondi, estinzione tattile a destra, Babinski destro. NIHSS attesa circa 14 se la scala viene applicata. Torace libero, addome trattabile, polsi periferici presenti. Non rigidità nucale. Non morsicatura della lingua."
+  },
+  "escCitations": [
+    {
+      "chunkId": "neuro-001-aha-finestra",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "Sintesi operativa per questo caso, non un estratto letterale: con esordio testimoniato entro 4,5 ore, TC senza emorragia e glicemia non critica, la trombolisi sistemica precede qualsiasi risonanza."
+    },
+    {
+      "chunkId": "neuro-001-nihss",
+      "source": "knowledge_base/neurologia/clinic/NIHSS-Versione-Italiana.pdf",
+      "quote": "Sintesi operativa: la NIHSS si applica prima del farmaco per misurare afasia, sguardo, faccia e arti, e si ripete dopo la trombolisi. Non sostituisce la TC."
+    },
+    {
+      "chunkId": "neuro-001-iso",
+      "source": "knowledge_base/neurologia/clinic/linee guida iso spread.pdf",
+      "quote": "Sintesi operativa ISO-SPREAD: il tempo door-to-needle conta quanto la diagnosi. Un imaging non necessario che sposta la somministrazione fuori finestra è un errore di percorso, non una prudenza."
+    },
+    {
+      "chunkId": "neuro-001-consenso",
+      "source": "knowledge_base/neurologia/clinic/Trattamento-trombolitico-per-via-venosa-e-trombectomia-endovascolare-per-lictus-ischemico-al-risveglio.pdf",
+      "quote": "Sintesi operativa: il consenso alla trombolisi endovena va raccolto prima dell'infusione, spiegando il rischio di emorragia sintomatica. Questo paziente non è un ictus al risveglio: la trombectomia non è il primo gradino se la finestra sistemica è aperta e la TC esclude il sangue."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Stick glicemico e TC cranio senza contrasto prima di qualsiasi fibrinolitico.",
+      "NIHSS documentata prima dell'alteplase.",
+      "Consenso informato raccolto prima dell'infusione.",
+      "Nessuna RM e nessun EEG prima della trombolisi.",
+      "Somministrazione entro la finestra residua di circa 180 minuti dall'arrivo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: la scelta è tracciabile se in cartella restano orario di esordio, NIHSS, referto TC, glicemia, consenso e ora di inizio dell'infusione. La RM chiesta «per completezza» non è aderenza alle linee guida dell'ictus iperacuto.",
+      "legalCriteria": [
+        "Consenso informato specifico per la trombolisi, con rischio emorragico detto in modo comprensibile.",
+        "Orario di last known well e ora di inizio farmaco scritti in cartella.",
+        "TC che esclude l'emorragia allegata prima del farmaco.",
+        "Nessuna dimissione con deficit focale acuto in corso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "parametri-vitali",
+      "name": "Parametri vitali",
+      "finding": "PA 168/94 mmHg (sotto la soglia 185/110 che controindica l'alteplase), FC 88 bpm ritmica, SpO2 97% in aria ambiente, FR 16 atti/min, temperatura 36,6 °C. Non c'è instabilità che imponga di ritardare la TC.",
+      "isAbnormal": true,
+      "priceEuro": 1,
+      "isFatal": false
+    },
+    {
+      "examId": "glicemia",
+      "name": "Stick glicemico",
+      "finding": "Glicemia capillare 112 mg/dL. Non è un'ipoglicemia che imita l'ictus e non è una iperglicemia estrema che controindica la trombolisi. Si può procedere con la TC e, se negativa per sangue, con l'alteplase.",
+      "isAbnormal": false,
+      "priceEuro": 2.1
+    },
+    {
+      "examId": "nihss",
+      "name": "Scala NIHSS",
+      "finding": "NIHSS 14. Voci principali: afasia grave (non nomina, non ripete), paresi facciale destra parziale, braccio destro caduta senza sforzo contro gravità, gamba destra deriva verso il basso, estinzione sensitiva a destra. Deficit disabilitante, non un TIA risolto. Punteggio utile al consenso e al controllo post-trombolisi.",
+      "isAbnormal": true,
+      "priceEuro": 1,
+      "isFatal": false
+    },
+    {
+      "examId": "tc",
+      "name": "TC cranio senza mezzo di contrasto",
+      "finding": "TC encefalo basale, senza contrasto, acquisita in urgenza. Non emorragia intraparenchimale, non emorragia subaracnoidea, non effetto massa, non idrocefalo. Iperdensità del tratto M1 dell'arteria cerebrale media sinistra, suggestiva di trombo. ASPECTS 9 (lieve ipodensità insulare sinistra, non un infarto già esteso). Nessuna controindicazione radiologica alla trombolisi sistemica. Non aspettare un secondo imaging per iniziare l'alteplase.",
+      "isAbnormal": true,
+      "priceEuro": 120,
+      "isFatal": true
+    },
+    {
+      "examId": "consenso-informato",
+      "name": "Consenso informato alla trombolisi",
+      "finding": "Colloquio con la moglie, alla presenza del paziente afasico ma vigile. Spiegati il beneficio sulla disabilità e il rischio di emorragia sintomatica intracranica. La moglie comprende e firma. Senza questo passaggio l'infusione non è difendibile.",
+      "isAbnormal": false,
+      "priceEuro": 1
+    },
+    {
+      "examId": "trombolisi",
+      "name": "Trombolisi sistemica con alteplase",
+      "finding": "Alteplase endovena secondo schema per il peso (non inventare una dose se il peso non è stato chiesto: il paziente pesa 82 kg, dose totale 0,9 mg/kg, bolo 10% in un minuto e il resto in 60 minuti). Inizio infusione ancora dentro le 4,5 ore se non sono stati inseriti RM o PET. Controllo neurologico e PA durante l'infusione. Nessun antiaggregante nelle prime 24 ore dopo il farmaco.",
+      "isAbnormal": false,
+      "priceEuro": 1,
+      "isFatal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm",
+      "name": "RM encefalo",
+      "finding": "RM encefalo eseguita con grave ritardo rispetto al triage. DWI: restrizione di diffusione nel territorio cortico-sottocorticale silviano sinistro, già estesa all'insula e all'opercolo. FLAIR in parte positiva: il danno non è più solo penombra. Il referto arriva quando la finestra delle 4,5 ore è scaduta o è ai minuti finali. Informazione vera, decisione mancata: la trombolisi andava decisa sulla TC, non su questa RM.",
+      "isAbnormal": true,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "In finestra per l'alteplase la RM encefalo ritarda la riperfusione di circa 160 minuti e fa violare la Golden Hour. La TC senza contrasto bastava a escludere il sangue."
+    },
+    {
+      "examId": "eeg",
+      "name": "EEG",
+      "finding": "EEG standard in urgenza: attività di fondo a 8-9 Hz, asimmetria di ampiezza a sinistra, nessuna crisi elettrica, nessun PLED. Referto non urgente e non decisionale. Il tempo macchina (circa 45 minuti) non aggiunge nulla alla scelta trombolitica.",
+      "isAbnormal": false,
+      "priceEuro": 90,
+      "inappropriate": true,
+      "wasteRationale": "L'EEG non è l'esame dell'ictus iperacuto con deficit focale e orario certo. Non esclude l'emorragia e non autorizza l'alteplase. È inappropriato in questa fase."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET-TC non eseguibile in tempi compatibili con la trombolisi. Nessun iperaccumulo interpretabile in acuto. Prestazione da 950 euro, senza alcun effetto sulla decisione delle prossime 3 ore.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Medicina difensiva: la PET non stratifica la finestra trombolitica e sforerebbe il costo del percorso ideale (stick, TC, farmaco) di molte volte."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "168/94",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 180,
+    "demographics": { "age": 68, "sex": "M", "name": "Giovanni R." },
+    "clinicalSigns": [
+      {
+        "signName": "Scala NIHSS",
+        "result": "NIHSS 14: afasia grave, paresi facciale destra, braccio destro che non tiene la posizione, gamba destra debole, estinzione a destra.",
+        "isPositive": true
+      },
+      {
+        "signName": "Babinski destro",
+        "result": "Alluce in estensione a destra. Sinistro indifferente.",
+        "isPositive": true
+      },
+      {
+        "signName": "Rigidità nucale",
+        "result": "Assente. Il mento raggiunge il torace senza dolore.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Scala NIHSS",
+        "result": "NIHSS 14: afasia grave, paresi facciale destra, braccio destro che non tiene la posizione, gamba destra debole, estinzione a destra.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "Glicemia capillare 112 mg/dL. Esclusa l'ipoglicemia come mimic. Valore compatibile con la trombolisi.",
+          "isAbnormal": false,
+          "price": 2.1
+        },
+        "tc": {
+          "finding": "TC cranio senza mezzo di contrasto, immediata. Nessuna emorragia. Iperdensità dell'arteria cerebrale media sinistra. ASPECTS 9. Si può trombolisare: non serve attendere la RM.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "rm": {
+          "finding": "RM encefalo tardiva. DWI positiva su un territorio silviano sinistro già ampio, FLAIR in parte positiva. Il referto è vero e arriva fuori tempo: la finestra delle 4,5 ore è stata consumata dall'attesa del magnete. La trombolisi andava iniziata dopo la TC.",
+          "isAbnormal": true,
+          "price": 220
+        },
+        "eeg": {
+          "finding": "EEG in urgenza: fondo rallentato a sinistra, nessuna crisi. Esame non indicato prima della trombolisi. Ha occupato circa 45 minuti senza cambiare la decisione.",
+          "isAbnormal": false,
+          "price": 90
+        },
+        "pet-tc": {
+          "finding": "PET-TC non indicata nell'ictus iperacuto. Nessun dato utile alla trombolisi. Costo 950 euro.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "angio": {
+          "finding": "Angio-TC del circolo intracranico, se richiesta dopo la TC basale e senza ritardare il bolo: occlusione del tratto M1 sinistro. Non sostituisce la TC senza contrasto né il consenso. Se viene messa in coda prima della TC basale, ritarda l'esclusione dell'emorragia.",
+          "isAbnormal": true,
+          "price": 350
+        },
+        "pt-ptt-inr": {
+          "finding": "INR 1,0. aPTT ratio 1,0. Non assume anticoagulanti. Non è un motivo per aspettare la RM.",
+          "isAbnormal": false,
+          "price": 8.5
+        },
+        "emocromo": {
+          "finding": "Hb 14,2 g/dL. Piastrine 241.000/mm3. Leucociti 8.400. Nessuna piastrinopenia che controindichi l'alteplase.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "ecg": {
+          "finding": "Ritmo sinusale a 86 bpm. Non sopraslivellamento. Non fibrillazione in questo tracciato. L'ECG non sostituisce la TC e non va atteso se ritarda il farmaco: si può registrare in parallelo.",
+          "isAbnormal": false,
+          "price": 15
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Alteplase endovena entro 4,5 ore, dopo TC negativa per sangue, glicemia e consenso",
+          "anyOf": [{ "id": "trombolisi", "label": "Trombolisi sistemica", "aliases": ["alteplase", "rt-pa", "rtpa", "fibrinolisi"] }]
+        }
+      ],
+      "contraindicated": [
+        {
+          "label": "Antiaggregante o eparina nelle prime 24 ore dopo l'alteplase",
+          "ids": ["aspirina-immediata", "eparina"]
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
+    "communicationStyle": "Giovanni non costruisce frasi: si arrabbia, indica il braccio destro, dice solo sì o no a caso. Lucia parla al posto suo, è concreta, ha paura del sangue in testa e firma se le si spiega il rischio senza fretta finta. Se sente «risonanza» pensa che sia l'esame migliore."
+  }
+}
