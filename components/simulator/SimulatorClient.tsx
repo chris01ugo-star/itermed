@@ -82,6 +82,11 @@ import {
   resolveCaseStressProfile,
 } from "@/lib/simulator/patient-stress-engine";
 import { isInvasiveExam } from "@/lib/simulator/exam-canonical-registry";
+import {
+  clearPinnedLiveSessionId,
+  pinLiveSessionId,
+  resolveAnchoredLiveSessionId,
+} from "@/lib/simulator/live-session-pin";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 import { MEDICAL_DISCLAIMER_VERSION } from "@/lib/simulator/medical-disclaimer";
 import { resolvePatientGrammaticalGender } from "@/lib/simulator/patient-grammatical-gender";
@@ -455,9 +460,8 @@ export function SimulatorClient({
   const [reportProgressMessage, setReportProgressMessage] = useState("");
   const [reportData, setReportData] = useState<SimulationReportData | null>(null);
 
-  const sanitizedIncomingSessionId = sanitizeLiveSessionId(sessionId);
-  const [effectiveSessionId, setEffectiveSessionId] = useState<string | undefined>(
-    sanitizedIncomingSessionId,
+  const [effectiveSessionId, setEffectiveSessionId] = useState<string | undefined>(() =>
+    sanitizeLiveSessionId(sessionId),
   );
   /** False until the mount lookup of CaseSession finishes (pause/resume). */
   const [resumeSettled, setResumeSettled] = useState(!persistReports);
@@ -480,7 +484,25 @@ export function SimulatorClient({
   const [isPaused, setIsPaused] = useState(false);
   const [bpMeasured, setBpMeasured] = useState(false);
   const effectiveSessionIdRef = useRef(effectiveSessionId);
+  // Ref-only restore: safe during hydration because it does not change rendered state.
+  // A later effect copies the same id back into React state.
+  if (!effectiveSessionIdRef.current) {
+    const restored = resolveAnchoredLiveSessionId(initialCaseData.id, null);
+    if (restored) effectiveSessionIdRef.current = restored;
+  }
   const sessionStartPromiseRef = useRef<Promise<string | null> | null>(null);
+
+  const commitLiveSessionId = useCallback(
+    (raw: string | null | undefined): string | undefined => {
+      const id = pinLiveSessionId(initialCaseData.id, raw);
+      if (!id) return undefined;
+      effectiveSessionIdRef.current = id;
+      setEffectiveSessionId((prev) => (prev === id ? prev : id));
+      syncSessionIdInUrl(id);
+      return id;
+    },
+    [initialCaseData.id],
+  );
   const examIdsChargedForStressRef = useRef<Set<string>>(new Set());
   const stressInitializedRef = useRef(false);
 
@@ -551,9 +573,15 @@ export function SimulatorClient({
     initialCaseData.goldStandardPath,
   ]);
 
+  // Re-anchor a known id (prop, ref, sessionStorage, or URL) into all four stores.
+  // An empty `effectiveSessionId` is ignored — it must not clear the ref or the pin.
   useEffect(() => {
-    effectiveSessionIdRef.current = effectiveSessionId;
-  }, [effectiveSessionId]);
+    const resolved =
+      resolveAnchoredLiveSessionId(initialCaseData.id, effectiveSessionIdRef.current) ??
+      sanitizeLiveSessionId(effectiveSessionId);
+    if (!resolved) return;
+    commitLiveSessionId(resolved);
+  }, [commitLiveSessionId, effectiveSessionId, initialCaseData.id]);
 
   useEffect(() => {
     selectedExamIdsRef.current = selectedExamIds;
@@ -734,10 +762,23 @@ export function SimulatorClient({
   }, [userMessageCount, selectedExamIds.length, markUserActivity]);
 
   const ensureSessionId = useCallback(async (): Promise<string | null> => {
-    if (effectiveSessionIdRef.current) return effectiveSessionIdRef.current;
+    const existing = resolveAnchoredLiveSessionId(
+      initialCaseData.id,
+      effectiveSessionIdRef.current,
+    );
+    if (existing) {
+      commitLiveSessionId(existing);
+      return existing;
+    }
     if (sessionStartPromiseRef.current) return sessionStartPromiseRef.current;
 
     const startPromise = (async (): Promise<string | null> => {
+      const raced = resolveAnchoredLiveSessionId(
+        initialCaseData.id,
+        effectiveSessionIdRef.current,
+      );
+      if (raced) return commitLiveSessionId(raced) ?? raced;
+
       try {
         const res = await fetch("/api/session/start", {
           method: "POST",
@@ -752,9 +793,7 @@ export function SimulatorClient({
           typeof data?.sessionId === "string" ? data.sessionId : undefined,
         );
         if (newSessionId) {
-          setEffectiveSessionId(newSessionId);
-          effectiveSessionIdRef.current = newSessionId;
-          syncSessionIdInUrl(newSessionId);
+          commitLiveSessionId(newSessionId);
           return newSessionId;
         }
         return null;
@@ -768,7 +807,7 @@ export function SimulatorClient({
 
     sessionStartPromiseRef.current = startPromise;
     return startPromise;
-  }, [initialCaseData.id]);
+  }, [commitLiveSessionId, initialCaseData.id]);
 
   const acceptMedicalDisclaimer = useCallback(async () => {
     if (disclaimerBusy || disclaimerAccepted) return;
@@ -1038,6 +1077,7 @@ export function SimulatorClient({
     if (!confirmed) return;
 
     if (!persistReports) {
+      clearPinnedLiveSessionId(initialCaseData.id);
       router.push(backHref);
       router.refresh();
       return;
@@ -1059,6 +1099,7 @@ export function SimulatorClient({
       if (!res.ok || !data?.sessionId) {
         throw new Error("dismiss failed");
       }
+      clearPinnedLiveSessionId(initialCaseData.id);
       router.push(`/case/${initialCaseData.id}/results?sessionId=${data.sessionId}`);
       router.refresh();
     } catch {
@@ -1084,9 +1125,7 @@ export function SimulatorClient({
         typeof data.sessionId === "string" ? data.sessionId : undefined,
       );
       if (sid) {
-        effectiveSessionIdRef.current = sid;
-        setEffectiveSessionId(sid);
-        syncSessionIdInUrl(sid);
+        commitLiveSessionId(sid);
       }
       if (typeof data.disclaimerAcceptedAt === "string" && data.disclaimerAcceptedAt.trim()) {
         setDisclaimerAccepted(true);
@@ -1159,7 +1198,7 @@ export function SimulatorClient({
     return () => {
       cancelled = true;
     };
-  }, [persistReports, initialCaseData.id, setMessages]);
+  }, [commitLiveSessionId, persistReports, initialCaseData.id, setMessages]);
 
   // Single-flight session start — only after resume lookup and clinical disclaimer.
   useEffect(() => {
@@ -1281,9 +1320,12 @@ export function SimulatorClient({
 
     try {
       const liveSessionId = await ensureSessionId();
-      if (liveSessionId) {
-        syncSessionIdInUrl(liveSessionId);
+      if (!liveSessionId) {
+        throw new Error(
+          "Sessione clinica non disponibile. Ricarica il caso e riprova senza avviare una nuova simulazione.",
+        );
       }
+      commitLiveSessionId(liveSessionId);
       const diagnosisForEval =
         extractFinalDiagnosisFromReport(reportSections).trim() || finalDiagnosis.trim();
       const composedReport = composeClinicalReport(reportSections);
@@ -1315,32 +1357,34 @@ export function SimulatorClient({
       }
 
       setReportProgressMessage("Inizializzazione report...");
+      const payload = {
+        caseId: initialCaseData.id,
+        sessionId: liveSessionId,
+        chatHistory: messages
+          .filter((m) => m.role === "user" || m.role === "assistant")
+          .map((m) => ({
+            role: m.role as "user" | "assistant",
+            content: getChatMessageText(m),
+          })),
+        exams: selectedExams,
+        reportText: composedReport,
+        caseContext: initialCaseData.patientPrompt,
+        finalDiagnosis: diagnosisForEval,
+        requestedExamIds: selectedExamIdsRef.current ?? [],
+        executedActionIds: [
+          ...(selectedExamIdsRef.current ?? []),
+          ...(extraExecutedActionIdsRef.current ?? []),
+        ],
+        helpRequested: Boolean(helpRequested),
+        helpRequestCount: helpRequestCountRef.current ?? 0,
+        patientStress: patientStressRef.current,
+        clinicalSummary: reportSections.dischargeNote.trim(),
+      };
+      console.log("[simulation-report] POST /api/simulation/report payload", payload);
       const res = await fetch("/api/simulation/report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          caseId: initialCaseData.id,
-          sessionId: liveSessionId ?? undefined,
-          chatHistory: messages
-            .filter((m) => m.role === "user" || m.role === "assistant")
-            .map((m) => ({
-              role: m.role as "user" | "assistant",
-              content: getChatMessageText(m),
-            })),
-          exams: selectedExams,
-          reportText: composedReport,
-          caseContext: initialCaseData.patientPrompt,
-          finalDiagnosis: diagnosisForEval,
-          requestedExamIds: selectedExamIdsRef.current ?? [],
-          executedActionIds: [
-            ...(selectedExamIdsRef.current ?? []),
-            ...(extraExecutedActionIdsRef.current ?? []),
-          ],
-          helpRequested: Boolean(helpRequested),
-          helpRequestCount: helpRequestCountRef.current ?? 0,
-          patientStress: patientStressRef.current,
-          clinicalSummary: reportSections.dischargeNote.trim(),
-        }),
+        body: JSON.stringify(payload),
         signal: abortController.signal,
       });
 
@@ -1380,6 +1424,7 @@ export function SimulatorClient({
         { signal: abortController.signal },
       );
 
+      clearPinnedLiveSessionId(initialCaseData.id);
       router.push(`/case/${initialCaseData.id}/results?sessionId=${completedReportId}`);
       router.refresh();
     } catch (e) {
@@ -1396,7 +1441,10 @@ export function SimulatorClient({
       }
     }
   }, [
+    commitLiveSessionId,
+    ensureSessionId,
     finalDiagnosis,
+    helpRequested,
     initialCaseData.id,
     initialCaseData.patientPrompt,
     messages,
