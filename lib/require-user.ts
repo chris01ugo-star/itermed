@@ -91,12 +91,7 @@ export async function requireAdmin(): Promise<SessionUser> {
   if (!id) redirect("/login?callbackUrl=/dashboard/guidelines");
   const email = session.user.email ?? null;
   const role = session.user.role ?? "STUDENT";
-  if (
-    shouldForcePasswordChange({
-      mustChangePassword: session.user.mustChangePassword,
-      email,
-    })
-  ) {
+  if (session.user.mustChangePassword) {
     redirect(MUST_CHANGE_PASSWORD_PATH);
   }
   if (!isPlatformAdminEmail(email) && !hasUnlimitedCaseAccess({ role, email })) {
@@ -144,6 +139,7 @@ export async function requireUser(): Promise<SessionUser> {
         email: true,
         isActive: true,
         mustChangePassword: true,
+        passwordChangedAt: true,
       },
     });
     if (!dbUser) {
@@ -179,12 +175,7 @@ export async function requireUser(): Promise<SessionUser> {
       throw err;
     }
     // Transient DB errors: fall through with session (middleware already gated).
-    if (
-      shouldForcePasswordChange({
-        mustChangePassword: session?.user?.mustChangePassword,
-        email: session?.user?.email,
-      })
-    ) {
+    if (session?.user?.mustChangePassword) {
       redirect(MUST_CHANGE_PASSWORD_PATH);
     }
   }

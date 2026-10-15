@@ -35,8 +35,10 @@ export async function changeInitialPasswordAction(
     where: { id: userId },
     select: {
       email: true,
+      planType: true,
       passwordHash: true,
       mustChangePassword: true,
+      passwordChangedAt: true,
     },
   });
   if (!user) {
@@ -58,6 +60,7 @@ export async function changeInitialPasswordAction(
     data: {
       passwordHash: await hash(password, 12),
       mustChangePassword: false,
+      passwordChangedAt: new Date(),
     },
   });
 

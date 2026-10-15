@@ -7,6 +7,7 @@ import {
 import { completedPerformanceSessionWhere } from "@/lib/session-report-performance";
 import { normalizeTrentesimiScore } from "@/lib/scoring/trentesimi";
 import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
+import { shouldForcePasswordChange } from "@/lib/auth/must-change-password";
 
 export type AdminUserSessionRow = {
   caseTitle: string;
@@ -68,6 +69,8 @@ export async function listAdminUsers(): Promise<AdminUserRow[]> {
       createdAt: true,
       isActive: true,
       mustChangePassword: true,
+      passwordChangedAt: true,
+      planType: true,
       freeSimulationLimit: true,
     },
   });
@@ -140,7 +143,7 @@ export async function listAdminUsers(): Promise<AdminUserRow[]> {
       role: user.role,
       createdAt: user.createdAt.toISOString(),
       isActive: user.isActive,
-      mustChangePassword: user.mustChangePassword,
+      mustChangePassword: shouldForcePasswordChange(user),
       freeSimulationLimit: user.freeSimulationLimit,
       isPlatformAdmin: isPlatformAdminEmail(user.email),
       startedCount,

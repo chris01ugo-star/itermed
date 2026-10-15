@@ -15,7 +15,12 @@ export default async function ChangePasswordPage() {
 
   const dbUser = await prisma.user.findUnique({
     where: { id: userId },
-    select: { email: true, mustChangePassword: true },
+    select: {
+      email: true,
+      planType: true,
+      mustChangePassword: true,
+      passwordChangedAt: true,
+    },
   });
   if (!dbUser || !shouldForcePasswordChange(dbUser)) {
     redirect("/dashboard");

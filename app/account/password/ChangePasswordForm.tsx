@@ -19,7 +19,7 @@ export function ChangePasswordForm({ email }: { email: string | null }) {
     <div className="space-y-7">
       <div className="space-y-1.5">
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#345884]">
-          Primo accesso
+          Sicurezza account
         </p>
         <h2 className="font-display text-[1.75rem] font-bold tracking-tight text-slate-900">
           Cambia la password
@@ -27,14 +27,11 @@ export function ChangePasswordForm({ email }: { email: string | null }) {
         <p className="text-sm leading-relaxed text-slate-500">
           {email ? (
             <>
-              L&apos;account <strong className="font-medium text-slate-700">{email}</strong> è stato
-              creato da un amministratore. Imposta una password personale per continuare.
+              Per l&apos;account <strong className="font-medium text-slate-700">{email}</strong> è
+              obbligatorio impostare una password personale prima di continuare.
             </>
           ) : (
-            <>
-              Questo account è stato creato da un amministratore. Imposta una password personale
-              per continuare.
-            </>
+            <>È obbligatorio impostare una password personale prima di continuare.</>
           )}
         </p>
       </div>
