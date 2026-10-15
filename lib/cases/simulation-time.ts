@@ -137,9 +137,38 @@ export function inferCompletedGoldSteps(params: {
     if (msg.includes("[azione_medica: prescrizione]") && /farmac|prescri|terap/i.test(norm)) {
       completed.add(norm);
     }
+    if (infectiousStepMatches(norm, msg)) {
+      completed.add(norm);
+    }
   }
 
   return Array.from(completed);
+}
+
+/** Gold step id → drugs or actions that complete it from chat or a prescription trace. */
+const INFECTIOUS_STEP_RULES: ReadonlyArray<{ step: RegExp; message: RegExp }> = [
+  { step: /fosfomicina|nitrofurantoina|antibiotico-cistite/, message: /fosfomicin|nitrofurantoin|monuril|furadantin/ },
+  { step: /analgesic/, message: /paracetamol|tachipirina|ibuprofen|fans|analgesic/ },
+  { step: /idratazione|fluidi/, message: /idrat|reidrat|fisiologic|ringer|fluid|riempiment/ },
+  { step: /vancomicina/, message: /vancomic|vancocin/ },
+  { step: /artesunat|artemisinin/, message: /artesunat|artemisinin|artemeter|riamet/ },
+  { step: /ceftriaxone/, message: /ceftriaxon|rocefin/ },
+  { step: /penicillin|cefazolin/, message: /penicillin|benzilpenicillin|cefazolin|amoxicillin/ },
+  { step: /doxiciclin/, message: /doxiciclin|bassado/ },
+  { step: /desametason/, message: /desametason|dexametason/ },
+  { step: /meropenem/, message: /meropenem/ },
+  { step: /clindamicin/, message: /clindamicin|dalacin/ },
+  { step: /daptomicin/, message: /daptomicin|cubicin/ },
+  { step: /piperacillin|tazobactam/, message: /piperacillin|tazobactam|tazocin|piptazo/ },
+  { step: /sbrigliamento/, message: /sbrigliament|debridement|chirurgo|sala operatoria/ },
+  { step: /rimozione-cvc|rimozione/, message: /rimuov|rimozion|tolgo il cateter|sfilo il cateter|catetere rimosso/ },
+  { step: /isolamento/, message: /isolament|camera singola|protettiv/ },
+  { step: /notifica-asl/, message: /notific|a\.?s\.?l|profilassi dei contatt/ },
+  { step: /consenso-hiv/, message: /consenso.{0,40}hiv|hiv.{0,40}consenso|legge\s*135/ },
+];
+
+function infectiousStepMatches(norm: string, msg: string): boolean {
+  return INFECTIOUS_STEP_RULES.some((rule) => rule.step.test(norm) && rule.message.test(msg));
 }
 
 export function isGoldStandardMet(

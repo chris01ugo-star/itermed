@@ -1,0 +1,253 @@
+{
+  "id": "INF-015",
+  "code": "INF-015",
+  "title": "Dieci giorni dopo la chemio — neutropenia febbrile",
+  "description": "Anna S., 58 anni, è al decimo giorno dopo la chemioterapia. Non ha tosse, non ha dolore, non ha un focus. Ha 38,5 ed è svuotata, fatica a tenere gli occhi aperti.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Neutropenia febbrile senza focus, antibiotico ad ampio spettro immediato",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "IDSA neutropenia febbrile: piperacillina/tazobactam in urgenza",
+  "diagnosis": "Neutropenia febbrile senza focus. Isolamento protettivo, emocolture centrali e periferiche, piperacillina/tazobactam subito. Aspettare la crescita delle colture o un sintomo respiratorio prima dell'antibiotico è l'errore mortale.",
+  "pastMedicalHistory": "Carcinoma mammario, ultimo ciclo di chemioterapia dieci giorni fa. Port-a-cath. Ieri sera 38,2 a casa, stamattina 38,5 in reparto. Nessuna tosse, nessun bruciore urinario, nessuna diarrea, nessun rossore del port. Allergia nessuna. Non è in profilassi antibatterica. Neutrofili dell'ultimo emocromo, tre giorni fa, già 800 e in discesa.",
+  "presentation": "A letto, pallida, risponde piano. Non ha un focus all'esame rapido: torace libero all'ascoltazione, addome morbido, port non arrossato, niente lesioni in bocca che lei riferisca. Se le dicono di aspettare le colture o una radiografia «per vedere se serve l'antibiotico», chiude gli occhi e le frasi si accorciano. Parametri: PA 104/66, FC 112, SpO2 97%, FR 20, temperatura 38,5.",
+  "redHerrings": [
+    "L'assenza di tosse e di dolore fa sembrare la febbre «non urgente». In neutropenia è il contrario.",
+    "Aspettare la crescita delle emocolture prima della prima dose lascia scoperto l'intervallo in cui si muore.",
+    "Un pannello virale o una TC total body per trovare un focus, prima dell'antibiotico, sono tempo e denaro."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: ASTENIA PROFONDA, FEBBRE, CONFUSIONE LIEVE. Sei Anna, 58 anni, dieci giorni dopo la chemio. Non urli. Frasi di tre o quattro parole, voce bassa. [brividi] ogni tanto, non il delirio urlato. Alla «Come sta?»: «[brividi] Svuotata. Ho caldo. Non ho male.» Se chiedono tosse, urina, diarrea, gola: «no» secco, una parola. Non chiedere farmaci per nome. Se ti dicono che aspettano un referto prima di darti qualcosa, chiudi gli occhi: «...va bene.» Se ti mettono in camera da sola e arriva una flebo, un «sì» stanco. Esempio: Medico: «Aspettiamo le colture e vediamo se tossisce.» Anna: «[brividi] ...va bene. Sono stanca.»",
+  "correctSolution": "Isolamento protettivo, emocolture dal port e dal periferico, piperacillina/tazobactam subito, senza aspettare la crescita e senza aspettare un sintomo respiratorio. La radiografia del torace può arrivare dopo, non prima della dose.",
+  "goldStandardPath": [
+    "isolamento",
+    "emocolture",
+    "piperacillina"
+  ],
+  "goldPathNarrative": "1) Isolamento protettivo. 2) Emocolture centrali e periferiche, prelevate e non attese. 3) Piperacillina/tazobactam in urgenza, nella prima ora, anche senza focus e anche con la radiografia ancora da fare. Aspettare i flaconi o la tosse è l'omissione mortale. Il pannello virale e la TC cercafocus non precedono la dose.",
+  "examLatencies": {
+    "emocolture": 8,
+    "emocromo": 8,
+    "rx-torace": 30,
+    "tc": 45,
+    "pannello-virale": 40,
+    "isolamento": 5,
+    "piperacillina": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-chemio",
+      "prompt": "Quando è stato l'ultimo ciclo di chemioterapia?",
+      "critical": true,
+      "expectedKeywords": [
+        "dieci",
+        "giorni",
+        "chemio"
+      ],
+      "rationale": "Il giorno dieci è il nadir atteso: la febbre qui è neutropenia finché l'emocromo non dice il contrario."
+    },
+    {
+      "id": "aq-focus",
+      "prompt": "Ha tosse, bruciore urinario, diarrea o dolore in un punto?",
+      "critical": true,
+      "expectedKeywords": [
+        "tosse",
+        "diarrea",
+        "male"
+      ],
+      "rationale": "L'assenza di focus non autorizza ad aspettare. Serve solo a non perdersi una sorgente evidente."
+    },
+    {
+      "id": "aq-port",
+      "prompt": "Il port è rosso, dolente, o ha avuto un brivido in infusione?",
+      "critical": true,
+      "expectedKeywords": [
+        "port",
+        "rosso"
+      ],
+      "rationale": "Un port infetto cambierebbe la sorgente. Qui il tramite è pulito e l'urgenza resta la dose."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Astenica, pallida, orientata a tratti. Torace senza rumori aggiunti, addome trattabile, port non flogistico, cavo orale senza afte grosse, niente cellulite. Febbre 38,5. Nessun focus. Il quadro è la neutropenia, non un organo che urla."
+  },
+  "escCitations": [
+    {
+      "chunkId": "inf-015-ora",
+      "source": "Neutropenia febbrile — sintesi operativa",
+      "quote": "Sintesi operativa: la febbre in neutropenia profonda si tratta subito con un antibiotico ad ampio spettro per via endovenosa. Non si aspetta l'esito delle emocolture e non si aspetta un sintomo d'organo."
+    },
+    {
+      "chunkId": "inf-015-piptazo",
+      "source": "Monoterapia empirica — sintesi operativa",
+      "quote": "Sintesi operativa: piperacillina/tazobactam è una monoterapia di partenza nel paziente stabile senza focus. Le colture si prelevano e la dose parte."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Isolamento protettivo attivato.",
+      "Emocolture centrali e periferiche prelevate.",
+      "Piperacillina/tazobactam nella prima ora, senza focus.",
+      "Nessuna attesa della crescita o della tosse prima della dose."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: l'antibiotico nella prima ora della neutropenia febbrile è aderenza. Aspettare colture o un reperto polmonare è lo scostamento mortale.",
+      "legalCriteria": [
+        "Orario della prima dose, prima di qualunque referto colturale.",
+        "Documentare l'assenza di focus e, lo stesso, la decisione di non aspettare.",
+        "Isolamento protettivo annotato, non solo scritto a dimissione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "Emocolture centrali e periferiche",
+      "finding": "Emocolture dal port e da vena periferica: prelevate in due set. Nessuna crescita al momento del referto. Flaconi in incubazione.",
+      "isAbnormal": false,
+      "priceEuro": 45
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo: leucociti 0,6 x10^9/L, neutrofili 180/mmc, emoglobina 9,8 g/dL, piastrine 88.000. Neutropenia profonda. Il numero è già il motivo della dose.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pannello-virale",
+      "name": "Pannello virale esteso",
+      "finding": "Pannello virale esteso: PCR del listino negative. Costo 1000 euro. Nessun virus nominato, nessun effetto sulla febbre di questa ora.",
+      "isAbnormal": false,
+      "priceEuro": 1000,
+      "inappropriate": true,
+      "wasteRationale": "Il pannello virale da 1000 euro non precede la prima dose nella neutropenia febbrile senza focus."
+    },
+    {
+      "examId": "tc",
+      "name": "TC torace-addome",
+      "finding": "TC torace e addome: non addensamenti, non raccolte, non focolai. Referto senza un focus. Costo 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Cercare un focus con la TC prima dell'antibiotico costa 120 euro e ritarda la dose in neutropenia febbrile."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 112,
+      "bloodPressure": "104/66",
+      "spo2": 97,
+      "temperature": 38.5,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 160,
+    "demographics": {
+      "age": 58,
+      "sex": "F",
+      "name": "Anna S.",
+      "context": "Reparto di Medicina"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Focus clinico",
+        "result": "Nessuna sorgente all'esame: torace, addome, port e cute muti.",
+        "isPositive": false
+      },
+      {
+        "signName": "Afte orali",
+        "result": "Mucosa pallida, non afte grosse.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Focus clinico",
+        "result": "Nessuna sorgente all'esame: torace, addome, port e cute muti.",
+        "isPositive": false
+      },
+      {
+        "signName": "Afte orali",
+        "result": "Mucosa pallida, non afte grosse.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "emocolture": {
+          "finding": "Emocolture dal port e da vena periferica: prelevate in due set. Nessuna crescita al momento del referto. Flaconi in incubazione.",
+          "isAbnormal": false,
+          "price": 45
+        },
+        "emocromo": {
+          "finding": "Emocromo: leucociti 0,6 x10^9/L, neutrofili 180/mmc, emoglobina 9,8 g/dL, piastrine 88.000. Neutropenia profonda. Il numero è già il motivo della dose.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pannello-virale": {
+          "finding": "Pannello virale esteso: PCR del listino negative. Costo 1000 euro. Nessun virus nominato, nessun effetto sulla febbre di questa ora.",
+          "isAbnormal": false,
+          "price": 1000
+        },
+        "tc": {
+          "finding": "TC torace e addome: non addensamenti, non raccolte, non focolai. Referto senza un focus. Costo 120 euro.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "rx-torace": {
+          "finding": "RX torace: parenchima libero, non addensamenti, seni costofrenici liberi. Non un focus polmonare.",
+          "isAbnormal": false,
+          "price": 25
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Piperacillina/tazobactam",
+          "anyOf": [
+            {
+              "id": "piperacillina",
+              "label": "Piperacillina/tazobactam",
+              "aliases": [
+                "piperacillina",
+                "tazobactam",
+                "tazocin",
+                "piptazo"
+              ],
+              "priceEuro": 22
+            }
+          ]
+        }
+      ]
+    },
+    "killerRules": {
+      "fatalIfOmitted": [
+        [
+          "piperacillin",
+          "piperacillina",
+          "tazobactam",
+          "tazocin",
+          "piptazo"
+        ]
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "ASTENIA. [brividi], frasi di tre parole, voce bassa, lieve confusione. Non ha male da nessuna parte. Se le dicono di aspettare, obbedisce e chiude gli occhi."
+  }
+}

@@ -6,7 +6,7 @@
 
 import type { CaseExamDefinition, RagLegalReference } from "@/lib/data/cases/types";
 import { getCachedCaseById } from "@/lib/data/cases/registry-store";
-import type { ExamClinicalMeta } from "@/lib/exam-default-values";
+import { EXAM_DEFAULT_VALUES, type ExamClinicalMeta } from "@/lib/exam-default-values";
 import { summarizeMedicationEconomics } from "@/lib/services/evaluation-medications";
 import { resolveSsnTariffEuro } from "@/lib/services/exam-ssn-tariff-resolver";
 
@@ -169,6 +169,10 @@ function resolveIdealCatalog(
   const byId = new Map<string, CaseExamDefinition>();
 
   for (const exam of mandatory) {
+    const inTariff = Boolean(EXAM_DEFAULT_VALUES[exam.examId]);
+    const authored = typeof exam.priceEuro === "number" ? exam.priceEuro : 0;
+    // Azioni cliniche a costo zero (visita, farmaco già nel therapyMatrix) non sono voci SSN.
+    if (!inTariff && authored <= 0) continue;
     const priceEuro = resolveSsnTariffEuro({
       examId: exam.examId,
       catalog: examCatalog,
@@ -181,6 +185,9 @@ function resolveIdealCatalog(
     const id = String(step).trim();
     if (!id || byId.has(id)) continue;
     if (/consenso|anamnesi|diagnosi|piano|stabilizz/i.test(id)) continue;
+    // Farmaci e azioni (fosfomicina, sbrigliamento) non sono voci del nomenclatore.
+    // Restano nel therapyMatrix / nel copione, senza diventare omissioni di esame.
+    if (!EXAM_DEFAULT_VALUES[id]) continue;
     const fromInapp = inappropriate.find((e) => e.examId === id);
     if (fromInapp) continue;
     byId.set(id, {

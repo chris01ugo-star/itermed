@@ -1,0 +1,253 @@
+{
+  "id": "INF-014",
+  "code": "INF-014",
+  "title": "Il catetere che brucia — sepsi da MRSA",
+  "description": "Luigi B., 74 anni, è ricoverato con un catetere giugulare. Il punto di inserzione è arrossato. Ha 39,5, trema, è meno lucido di ieri. Il catetere è ancora in sede quando lo si visita.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Sepsi correlata a CVC, MRSA, rimozione immediata del catetere",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "IDSA infezioni di catetere: rimozione e colture accoppiate",
+  "diagnosis": "Sepsi da catetere venoso centrale, Staphylococcus aureus meticillino-resistente. Rimozione immediata del CVC, emocolture accoppiate periferica e da catetere, vancomicina o daptomicina. Lasciare il catetere infetto in sede è l'errore mortale.",
+  "pastMedicalHistory": "Ricovero da nove giorni per una pancreatite che si è raffreddata. CVC giugulare destro dal giorno uno, usato per idratazione. Ieri sera brivido, oggi 39,5. Cute intorno al punto d'ingresso arrossata da stamattina. Nessuna allergia. Non dialisi. Non portatore di protesi valvolari. Ha già avuto un tampone nasale negativo all'ingresso.",
+  "presentation": "A letto, trema, frasi corte. Il cerotto giugulare è sporco di un alone rosso, il tramite è dolente. Se lasciano il catetere e aggiungono solo un antibiotico in quella linea, il brivido non cede. Se sfilano il catetere, un lamento e poi sta più fermo. Parametri: PA 100/62, FC 122, SpO2 95%, FR 22, temperatura 39,5.",
+  "redHerrings": [
+    "Coprire con vancomicina lasciando il catetere in sede non tratta la sorgente.",
+    "Un tampone della cute intorno al foro non sostituisce le colture accoppiate.",
+    "Una PET per cercare «dove sia l'infezione» mentre il giugulare è rosso sposta il gesto che conta."
+  ],
+  "timeLimitMinutes": 70,
+  "patientDeteriorationThreshold": 45,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: FEBBRE ALTA, BRIVIDO, CONFUSO A TRATTI. Sei Luigi, 74 anni. [batte i denti] [brividi]. Frasi di tre o quattro parole. Alla «Come sta?»: «[batte i denti] Brucia. Qui. [brividi] Il collo.» Indichi il cerotto. Non chiedere tu di togliere il tubicino: dici solo che brucia. Se ti fanno domande lunghe ti perdi: «che giorno è?». Se lasciano il tubicino e passano i minuti, i brividi aumentano. Se lo sfilano, un lamento e una frase: «ah. freddo.» Esempio: Medico: «Aumentiamo l'antibiotico nella stessa via.» Luigi: «[brividi] Brucia. Ancora.»",
+  "correctSolution": "Sfilare subito il CVC, emocolture accoppiate dal periferico e dal catetere, vancomicina o daptomicina. Non lasciare la linea infetta. Il tampone cutaneo e la PET non sono il percorso.",
+  "goldStandardPath": [
+    "rimozione-cvc",
+    "emocolture",
+    "vancomicina-o-daptomicina"
+  ],
+  "goldPathNarrative": "1) Rimozione immediata del giugulare: la sorgente non resta in vena. 2) Emocolture a coppie, set periferico e set da catetere, prima o al momento della sfilata. 3) Vancomicina o daptomicina. Un antibiotico con il catetere ancora in sede non chiude il gold path. Tampone della cute e PET sono spreco.",
+  "examLatencies": {
+    "emocolture": 10,
+    "emocromo": 8,
+    "tamponi": 15,
+    "pet-tc": 60,
+    "rimozione-cvc": 5,
+    "vancomicina-o-daptomicina": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-linea",
+      "prompt": "Da quanti giorni c'è il catetere e il punto di ingresso è rosso?",
+      "critical": true,
+      "expectedKeywords": [
+        "giorni",
+        "rosso",
+        "collo"
+      ],
+      "rationale": "Durata della linea e rossore del tramite legano la febbre al catetere."
+    },
+    {
+      "id": "aq-brivido",
+      "prompt": "Il brivido è iniziato durante un'infusione?",
+      "critical": true,
+      "expectedKeywords": [
+        "brivido",
+        "infusione"
+      ],
+      "rationale": "Il brivido in infusione è il classico della sepsi da catetere, non una virosi di reparto."
+    },
+    {
+      "id": "aq-protesi",
+      "prompt": "Ha protesi valvolari, dialisi, altri device?",
+      "critical": true,
+      "expectedKeywords": [
+        "protesi",
+        "dialisi"
+      ],
+      "rationale": "L'assenza di protesi non autorizza a lasciare il catetere: semplifica solo il seguito."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Giugulare destro: eritema e dolore al punto di ingresso, secrezione scarsa, tramite dolente. Paziente che trema, risponde a tratti, non ha soffi. Non segni di flebite dell'arto. Febbre 39,5."
+  },
+  "escCitations": [
+    {
+      "chunkId": "inf-014-out",
+      "source": "Catetere infetto — sintesi operativa",
+      "quote": "Sintesi operativa: nella sepsi da catetere con punto d'ingresso infiammato il CVC si rimuove, non si tratta in sede con l'antibiotico da solo."
+    },
+    {
+      "chunkId": "inf-014-coppie",
+      "source": "Colture accoppiate — sintesi operativa",
+      "quote": "Sintesi operativa: si prelevano emocolture periferiche e dal catetere. Un tampone della cute intorno al foro non è quella coppia."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "CVC rimosso in questo turno, non lasciato «ancora un giorno».",
+      "Emocolture periferiche e da catetere.",
+      "Vancomicina o daptomicina.",
+      "Nessun tampone cutaneo al posto delle colture, nessuna PET."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: togliere la sorgente è aderenza. Lasciare il catetere infetto e coprire con l'antibiotico è lo scostamento che mantiene la sepsi.",
+      "legalCriteria": [
+        "Orario della sfilata scritto, con il motivo.",
+        "Tracciare i due set, periferico e da catetere, non un prelievo solo.",
+        "Non documentare «linea ancora necessaria» senza un'alternativa già pronta, se il tramite è flogistico e c'è brivido."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "Emocolture accoppiate",
+      "finding": "Emocolture a coppie: set periferico e set prelevato dal catetere giugulare, entrambi con cocchi gram-positivi a grappolo. Identificazione: Staphylococcus aureus resistente all'oxacillina. Tempo di positività più breve nel set da catetere.",
+      "isAbnormal": true,
+      "priceEuro": 45
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo: leucociti 16.900, neutrofili 88%, emoglobina 10,8, piastrine 160.000. Flogosi. Non dice se il catetere va sfilato: lo dice il tramite rosso.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tamponi",
+      "name": "Tampone del punto di ingresso",
+      "finding": "Tampone della cute intorno al foro: flora mista, stafilococchi coagulasi-negativi. Non è la coppia di emocolture e non identifica il MRSA del lume.",
+      "isAbnormal": false,
+      "priceEuro": 18,
+      "inappropriate": true,
+      "wasteRationale": "Il tampone cutaneo di superficie costa 18 euro e non sostituisce le emocolture accoppiate."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET-TC: iperaccumulo debole in sede giugulare, già visibile a occhio sul cerotto. Costo 950 euro. Nessun altro focus.",
+      "isAbnormal": true,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Cercare la sorgente con la PET mentre il giugulare è rosso costa 950 euro e ritarda la sfilata."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 122,
+      "bloodPressure": "100/62",
+      "spo2": 95,
+      "temperature": 39.5,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 250,
+    "demographics": {
+      "age": 74,
+      "sex": "M",
+      "name": "Luigi B.",
+      "context": "Reparto di Medicina"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Punto di ingresso del CVC",
+        "result": "Eritema, dolore e alone sul giugulare destro.",
+        "isPositive": true
+      },
+      {
+        "signName": "Soffio",
+        "result": "Nessun soffio.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Punto di ingresso del CVC",
+        "result": "Eritema, dolore e alone sul giugulare destro.",
+        "isPositive": true
+      },
+      {
+        "signName": "Soffio",
+        "result": "Nessun soffio.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "emocolture": {
+          "finding": "Emocolture a coppie: set periferico e set prelevato dal catetere giugulare, entrambi con cocchi gram-positivi a grappolo. Identificazione: Staphylococcus aureus resistente all'oxacillina. Tempo di positività più breve nel set da catetere.",
+          "isAbnormal": true,
+          "price": 45
+        },
+        "emocromo": {
+          "finding": "Emocromo: leucociti 16.900, neutrofili 88%, emoglobina 10,8, piastrine 160.000. Flogosi. Non dice se il catetere va sfilato: lo dice il tramite rosso.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "tamponi": {
+          "finding": "Tampone della cute intorno al foro: flora mista, stafilococchi coagulasi-negativi. Non è la coppia di emocolture e non identifica il MRSA del lume.",
+          "isAbnormal": false,
+          "price": 18
+        },
+        "pet-tc": {
+          "finding": "PET-TC: iperaccumulo debole in sede giugulare, già visibile a occhio sul cerotto. Costo 950 euro. Nessun altro focus.",
+          "isAbnormal": true,
+          "price": 950
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Vancomicina o daptomicina",
+          "anyOf": [
+            {
+              "id": "vancomicina",
+              "label": "Vancomicina",
+              "aliases": [
+                "vancomicina",
+                "vancocin"
+              ],
+              "priceEuro": 40
+            },
+            {
+              "id": "daptomicina",
+              "label": "Daptomicina",
+              "aliases": [
+                "daptomicina",
+                "cubicin"
+              ],
+              "priceEuro": 180
+            }
+          ]
+        }
+      ]
+    },
+    "killerRules": {
+      "fatalIfOmitted": [
+        [
+          "rimuov",
+          "rimozion",
+          "sfilo il cateter",
+          "sfilato",
+          "catetere rimosso"
+        ]
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "FEBBRE ALTA. [batte i denti], [brividi], tre o quattro parole, a tratti non sa che giorno è. Il collo brucia. Non chiede lui di togliere il tubicino."
+  }
+}

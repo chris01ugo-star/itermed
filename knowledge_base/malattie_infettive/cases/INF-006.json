@@ -1,0 +1,222 @@
+{
+  "id": "INF-006",
+  "code": "INF-006",
+  "title": "Sindrome influenzale che non è influenza — HIV acuto",
+  "description": "Chiara D., 28 anni, ha da cinque giorni febbre, un rash sul tronco e linfonodi al collo. Sembra un'influenza. È lucida e non vuole prelievi di cui non conosce il nome.",
+  "difficulty": "MEDIUM",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Sieroconversione acuta HIV, test combinato Ag/Ab dopo consenso",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 135/1990 e test HIV Ag/Ab di IV generazione",
+  "diagnosis": "Sieroconversione acuta HIV. Consenso esplicito, poi test combinato Ag/Ab. Il pannello solo anticorpale è falso negativo. Il test senza consenso viola la Legge 135/90 e vale −40 punti.",
+  "pastMedicalHistory": "Sana, nessuna terapia. Contraccezione non usata nell'ultimo rapporto, tre settimane fa, partner nuovo, non ne conosce lo stato. Nessuna tossicodipendenza. Nessuna trasfusione. Lavora in un archivio e ha paura che il prelievo «resti scritto». Allergie nessuna.",
+  "presentation": "Lucida, spaventata, rash maculoso non pruriginoso sul tronco, linfonodi laterocervicali. Temperatura 38,1. Se le prelevano l'HIV senza chiederlo, si chiude e dice che non aveva acconsentito. Se le spiegano il test combinato e le chiedono il consenso, firma. Un pannello solo di anticorpi la rassicura a torto. Parametri: PA 116/74, FC 100, SpO2 98%, FR 16.",
+  "redHerrings": [
+    "Il rash e la febbre sembrano una virosi banale: senza il rischio sessuale non si apre l'HIV acuto.",
+    "Gli anticorpi da soli sono negativi in questa finestra. Serve l'antigene p24.",
+    "Un consenso generico al prelievo non è il consenso al test HIV."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: STABILE, SPAVENTATA, NON UN MANUALE. Sei Chiara, 28 anni. Frasi intere ma tese, non cortesi. Alla «Come sta?»: «Febbre e macchie. Non è un'influenza. Non voglio esami di cui non so il nome.» Il rapporto non protetto di tre settimane fa lo dici SOLO se te lo chiedono in modo diretto e riservato. Se ordinano il test HIV senza chiederti il consenso, ti arrabbi: «Non ho firmato niente.» Se ti chiedono il consenso e ti spiegano che gli anticorpi da soli possono non bastare, firmi. Non nominare tu p24 né la legge. Esempio: Medico: «Le ho già richiesto l'HIV col prelievo.» Chiara: «Non gliel'ho chiesto. Lo tolga.» Medico: «Posso farle il test combinato, serve il suo sì.» Chiara: «Se resta tra noi, sì.»",
+  "correctSolution": "Consenso esplicito al test HIV, poi test combinato Ag/Ab reattivo per antigene. Il pannello anticorpale è negativo e non esclude la sieroconversione. Senza consenso: −40 punti, Legge 135/90.",
+  "goldStandardPath": [
+    "consenso-hiv",
+    "hiv-ag-ab"
+  ],
+  "goldPathNarrative": "1) Consenso specifico al test HIV, non un prelievo generico. 2) Test combinato di IV generazione: antigene presente, anticorpi ancora assenti. Il pannello Ab anti-HIV da solo è la falsa rassicurazione. Eseguire il test senza consenso è DIFETTO_CONSENSO e −40 punti.",
+  "examLatencies": {
+    "consenso-hiv": 8,
+    "hiv-ag-ab": 20,
+    "hiv-hcv-hbv": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-rischio",
+      "prompt": "Ci sono stati rapporti non protetti o altri rischi nelle ultime settimane?",
+      "critical": true,
+      "expectedKeywords": [
+        "rapporto",
+        "non protetto",
+        "settimane"
+      ],
+      "rationale": "Senza il rischio non si giustifica il test, e con il rischio non si usa un esame della finestra sbagliata."
+    },
+    {
+      "id": "aq-consenso",
+      "prompt": "Le è stato chiesto il consenso specifico per l'HIV?",
+      "critical": true,
+      "expectedKeywords": [
+        "consenso",
+        "hiv",
+        "firmare"
+      ],
+      "rationale": "La Legge 135/90 vuole un sì esplicito, non un prelievo di routine."
+    },
+    {
+      "id": "aq-rash",
+      "prompt": "Il rash prude? È comparso insieme alla febbre?",
+      "critical": true,
+      "expectedKeywords": [
+        "rash",
+        "febbre",
+        "tronco"
+      ],
+      "rationale": "Rash e febbre insieme al rischio tengono aperta la sieroconversione."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Rash maculoso al tronco, non pruriginoso, linfonodi laterocervicali elastici, faringe arrossata senza essudato. Lucida. Non meningismo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "inf-006-combo",
+      "source": "Test HIV di IV generazione — sintesi operativa",
+      "quote": "Sintesi operativa: nella sieroconversione il test combinato antigene p24 più anticorpo vede l'infezione quando il solo anticorpo è ancora negativo."
+    },
+    {
+      "chunkId": "inf-006-legge",
+      "source": "Legge 135/1990 — sintesi operativa",
+      "quote": "Sintesi operativa: il test HIV richiede consenso esplicito della persona. Un consenso generico al prelievo non autorizza l'esame. La violazione è un difetto di consenso da 40 punti."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Consenso specifico chiesto prima del prelievo HIV.",
+      "Test combinato Ag/Ab, non solo anticorpi.",
+      "Rischio sessuale chiesto in privato.",
+      "Nessuna rassicurazione basata sul pannello anticorpale negativo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 135/1990 e Legge 24/2017 art. 5: senza consenso esplicito il test HIV è illecito. Senza il combinato Ag/Ab la diagnosi acuta si perde. Penalità −40 se il test parte senza consenso.",
+      "legalCriteria": [
+        "Consenso scritto o tracciato, specifico per l'HIV, prima del prelievo.",
+        "Non comunicare l'esito a terzi senza titolo.",
+        "Penalità −40, difetto di consenso, se hiv-ag-ab o il pannello anticorpi partono senza consenso-hiv."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "hiv-ag-ab",
+      "name": "Test combinato HIV Ag/Ab",
+      "finding": "Test combinato di IV generazione: antigene p24 reattivo, anticorpi anti-HIV ancora non reattivi. Quadro di sieroconversione acuta. Il referto non si legge al paziente senza il consenso già raccolto.",
+      "isAbnormal": true,
+      "priceEuro": 35
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo: leucociti 3.900, linfociti 28%, piastrine 132.000. Leucopenia lieve, non specifica. Non sostituisce il test combinato.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "hiv-hcv-hbv",
+      "name": "Pannello solo anticorpi HIV HCV HBV",
+      "finding": "Anticorpi anti-HIV negativi. Anticorpi anti-HCV negativi. HBsAg negativo. Il pannello anticorpale non vede l'antigene p24: in questa finestra è un falso negativo.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "inappropriate": true,
+      "wasteRationale": "Gli anticorpi da soli costano quanto il combinato e rassicurano a torto nella sieroconversione."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 100,
+      "bloodPressure": "116/74",
+      "spo2": 98,
+      "temperature": 38.1,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 50,
+    "demographics": {
+      "age": 28,
+      "sex": "F",
+      "name": "Chiara D.",
+      "context": "Pronto Soccorso"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Linfonodi laterocervicali",
+        "result": "Linfonodi elastici, mobili, non duri.",
+        "isPositive": true
+      },
+      {
+        "signName": "Rigidità nucale",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Linfonodi laterocervicali",
+        "result": "Linfonodi elastici, mobili, non duri.",
+        "isPositive": true
+      },
+      {
+        "signName": "Rigidità nucale",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "hiv-ag-ab": {
+          "finding": "Test combinato di IV generazione: antigene p24 reattivo, anticorpi anti-HIV ancora non reattivi. Quadro di sieroconversione acuta. Il referto non si legge al paziente senza il consenso già raccolto.",
+          "isAbnormal": true,
+          "price": 35
+        },
+        "emocromo": {
+          "finding": "Emocromo: leucociti 3.900, linfociti 28%, piastrine 132.000. Leucopenia lieve, non specifica. Non sostituisce il test combinato.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "hiv-hcv-hbv": {
+          "finding": "Anticorpi anti-HIV negativi. Anticorpi anti-HCV negativi. HBsAg negativo. Il pannello anticorpale non vede l'antigene p24: in questa finestra è un falso negativo.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [],
+      "inappropriate": [
+        {
+          "id": "oseltamivir",
+          "label": "Oseltamivir",
+          "aliases": [
+            "oseltamivir",
+            "tamiflu"
+          ],
+          "priceEuro": 20
+        },
+        {
+          "id": "amoxicillina",
+          "label": "Amoxicillina",
+          "aliases": [
+            "amoxicillina"
+          ],
+          "priceEuro": 8
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "SELF_MEDICATED",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "SPAVENTATA e lucida. Non vuole esami senza nome. Il rapporto lo dice solo se glielo chiedono. Se le fanno l'HIV senza consenso si chiude. Non è una paziente acquiescente."
+  }
+}

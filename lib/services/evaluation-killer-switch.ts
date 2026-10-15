@@ -35,7 +35,41 @@ export type KillerSwitchCaseContext = {
     commercialName: string;
     activeIngredient: string;
   }> | null;
+  /** Chat, referto e azioni: per farmaci e gesti che non sono id di esame. */
+  narrativeText?: string | null;
 };
+
+function readKillerRules(baseline: unknown): {
+  fatalIfPrescribed: string[][];
+  fatalIfOmitted: string[][];
+} {
+  const empty = { fatalIfPrescribed: [], fatalIfOmitted: [] };
+  if (!baseline || typeof baseline !== "object" || Array.isArray(baseline)) return empty;
+  const raw = (baseline as { killerRules?: unknown }).killerRules;
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return empty;
+  const record = raw as { fatalIfPrescribed?: unknown; fatalIfOmitted?: unknown };
+  return {
+    fatalIfPrescribed: aliasGroups(record.fatalIfPrescribed),
+    fatalIfOmitted: aliasGroups(record.fatalIfOmitted),
+  };
+}
+
+function aliasGroups(raw: unknown): string[][] {
+  if (!Array.isArray(raw)) return [];
+  const groups: string[][] = [];
+  for (const entry of raw) {
+    if (typeof entry === "string" && entry.trim()) {
+      groups.push([entry.trim().toLowerCase()]);
+      continue;
+    }
+    if (!Array.isArray(entry)) continue;
+    const aliases = entry
+      .filter((item): item is string => typeof item === "string" && item.trim().length > 0)
+      .map((item) => item.trim().toLowerCase());
+    if (aliases.length > 0) groups.push(aliases);
+  }
+  return groups;
+}
 
 function textMentionsExam(text: string, exam: CaseFatalExamRef): boolean {
   const hay = normalizeExamSlug(text);
@@ -103,6 +137,35 @@ export function detectFatalErrors(
   for (const fatal of analytical.fatalErrors ?? []) {
     if (!fatal) continue;
     push(fatal.description ?? "Errore fatale", fatal.rationale ?? "");
+  }
+
+  const prescriptionHay = (caseContext?.prescribedMedications ?? [])
+    .flatMap((med) => [med.id, med.commercialName, med.activeIngredient])
+    .join("\n")
+    .toLowerCase();
+  const narrative = [
+    caseContext?.narrativeText ?? "",
+    ...(caseContext?.executedActionIds ?? []),
+    prescriptionHay,
+  ]
+    .join("\n")
+    .toLowerCase();
+  const rules = readKillerRules(caseContext?.baselineExamFindings);
+  for (const aliases of rules.fatalIfPrescribed) {
+    if (!aliases.some((alias) => prescriptionHay.includes(alias))) continue;
+    push(
+      `Azione letale eseguita: ${aliases[0]}`,
+      "Farmaco marcato fatale nel caso clinico e presente in ricetta.",
+    );
+  }
+  const canJudgeOmission = narrative.trim().length > 40;
+  for (const aliases of rules.fatalIfOmitted) {
+    if (!canJudgeOmission) continue;
+    if (aliases.some((alias) => narrative.includes(alias))) continue;
+    push(
+      `Omissione salvavita: ${aliases[0]}`,
+      "Azione marcata fatale nel caso clinico e assente da chat, prescrizioni e registro esecutivo.",
+    );
   }
 
   const mandatoryExams = caseContext?.mandatoryExams ?? [];

@@ -1,0 +1,245 @@
+{
+  "id": "INF-007",
+  "code": "INF-007",
+  "title": "Fianco destro e brivido — pielonefrite",
+  "description": "Elena R., 42 anni, arriva in Pronto Soccorso con dolore al fianco destro, febbre e un brivido che la scuote. Ha vomitato due volte e non trattiene l'acqua.",
+  "difficulty": "MEDIUM",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Pielonefrite acuta non ostruttiva, terapia endovenosa",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "IDSA pielonefrite: urinocoltura, eco, ceftriaxone ev",
+  "diagnosis": "Pielonefrite acuta destra non ostruttiva. Urinocoltura, ecografia, ceftriaxone endovena. La dimissione con antibiotico orale fallisce perché vomita.",
+  "pastMedicalHistory": "Due cistiti negli ultimi tre anni, trattate con fosfomicina, colture non fatte. Nessun calcolo noto. Non è incinta, legatura tubarica. Allergia nessuna. Non diabetica. Ieri ha provato a prendere una compressa di ciprofloxacina avanzata in casa e l'ha vomitata.",
+  "presentation": "Sul fianco, trema, vomita in una bacinella. Dolore lombare destro. Temperatura 39,2. Giordano destro vivace. Se le danno una scatola di compresse per casa, vomita la prima e chiede di uscire lo stesso. Se le spiegano la flebo, accetta. Parametri: PA 108/70, FC 118, SpO2 97%, FR 20.",
+  "redHerrings": [
+    "La ciprofloxacina già vomitata non è una terapia fallita da escalare a caso: non è proprio stata assorbita.",
+    "L'eco serve a escludere l'ostruzione, non a sostituire la flebo.",
+    "Una cistite pregressa non rende orale un quadro con brivido e vomito."
+  ],
+  "timeLimitMinutes": 60,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: FEBBRE CON BRIVIDO E VOMITO. Sei Elena, 42 anni. [brividi] [batte i denti] nel testo. Frasi corte. Alla «Come sta?»: «[brividi] Il fianco. [batte i denti] Vomito. Non tengo niente.» Se ti dimettono con compresse, dici «non le tengo» e vomiti di nuovo, poi se insistono vai. La compressa di ieri l'hai vomitata: lo dici solo se chiedono cosa hai preso. Se propongono la flebo, accetti con un cenno. Non nominare pielonefrite. Esempio: Medico: «Ciprofloxacina a casa.» Elena: «[brividi] L'ho già vomitata. ...va bene, vado.» Medico: «Flebo qui.» Elena: «[batte i denti] Sì. Il fianco.»",
+  "correctSolution": "Urinocoltura prima dell'antibiotico, ecografia senza dilatazione, emocromo e creatinina, ceftriaxone endovena. Non dimissione orale finché vomita.",
+  "goldStandardPath": [
+    "urinocoltura",
+    "ecografia",
+    "emocromo",
+    "ceftriaxone"
+  ],
+  "goldPathNarrative": "1) Urinocoltura prelevata prima della prima dose. 2) Eco: niente idronefrosi, si può trattare senza urologo d'urgenza. 3) Ceftriaxone endovena. Le compresse sono la trappola: il vomito le annulla.",
+  "examLatencies": {
+    "urinocoltura": 15,
+    "ecografia": 25,
+    "emocromo": 12,
+    "creat-urea-gfr": 15,
+    "tc": 45,
+    "ceftriaxone": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-vomito",
+      "prompt": "Riesce a tenere l'acqua o una compressa?",
+      "critical": true,
+      "expectedKeywords": [
+        "vomito",
+        "compresse",
+        "bere"
+      ],
+      "rationale": "Se non trattiene i liquidi la via orale è finita."
+    },
+    {
+      "id": "aq-fianco",
+      "prompt": "Il dolore è al fianco o solo quando urina?",
+      "critical": true,
+      "expectedKeywords": [
+        "fianco",
+        "brivido",
+        "minzione"
+      ],
+      "rationale": "Fianco e brivido spostano il caso sopra la vescica."
+    },
+    {
+      "id": "aq-ostacolo",
+      "prompt": "Ha avuto coliche o calcoli?",
+      "critical": true,
+      "expectedKeywords": [
+        "calcoli",
+        "colica",
+        "ostruzione"
+      ],
+      "rationale": "L'ostruzione cambia l'eco in urgenza urologica. Qui non c'è storia di calcoli."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Giordano destro positivo, sinistro muto. Addome trattabile, non Blumberg. Paziente che trema e ha conati. Non segno di peritonite."
+  },
+  "escCitations": [
+    {
+      "chunkId": "inf-007-ev",
+      "source": "Pielonefrite e via di somministrazione — sintesi operativa",
+      "quote": "Sintesi operativa: con vomito che impedisce l'assorbimento la pielonefrite si avvia con ceftriaxone endovena, non con una scatola per casa."
+    },
+    {
+      "chunkId": "inf-007-eco",
+      "source": "Eco e coltura — sintesi operativa",
+      "quote": "Sintesi operativa: urinocoltura prima della dose e ecografia per escludere l'ostruzione. La coltura non si aspetta per iniziare, si preleva e si parte."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Urinocoltura prelevata prima dell'antibiotico.",
+      "Eco senza rinvio a domani.",
+      "Ceftriaxone endovena, osservazione.",
+      "Nessuna dimissione con sola terapia orale."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: dimettere una pielonefrite che vomita con un antibiotico orale è scostamento. La flebo è la condotta aderente.",
+      "legalCriteria": [
+        "Documentare i vomiti e il fallimento della compressa di ieri.",
+        "Non scrivere «tollera la via orale» se ha la bacinella in mano.",
+        "Coltura prelevata, non inventata dopo la dose."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "urinocoltura",
+      "name": "Urinocoltura",
+      "finding": "Urinocoltura prelevata prima della dose: Escherichia coli superiore a 100.000 UFC/mL, sensibile a ceftriaxone, resistente all'ampicillina. L'antibiogramma arriva dopo: la flebo non si aspetta.",
+      "isAbnormal": true,
+      "priceEuro": 20
+    },
+    {
+      "examId": "ecografia",
+      "name": "Ecografia reni",
+      "finding": "Ecografia: rene destro con lieve ipoecogenicità, non dilatazione della pelvi, non ascesso, non calcolo ostruente. Rene sinistro nei limiti.",
+      "isAbnormal": true,
+      "priceEuro": 55
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo: leucociti 16.800, neutrofili 86%. Emoglobina 12,8. Flogosi batterica sistemica, non una cistite semplice.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC addome",
+      "finding": "TC addome senza contrasto in urgenza: non idronefrosi, non ascesso. Stessa informazione dell'ecografia, costo 120 euro e tempo che ritarda la flebo.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "L'eco basta a escludere l'ostruzione. La TC costa 120 euro e consuma il tempo della prima dose."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "108/70",
+      "spo2": 97,
+      "temperature": 39.2,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 100,
+    "demographics": {
+      "age": 42,
+      "sex": "F",
+      "name": "Elena R.",
+      "context": "Pronto Soccorso"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Giordano destro",
+        "result": "Sobbalzo vivace a destra. A sinistra niente.",
+        "isPositive": true
+      },
+      {
+        "signName": "Blumberg",
+        "result": "Negativo.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Giordano destro",
+        "result": "Sobbalzo vivace a destra. A sinistra niente.",
+        "isPositive": true
+      },
+      {
+        "signName": "Blumberg",
+        "result": "Negativo.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "urinocoltura": {
+          "finding": "Urinocoltura prelevata prima della dose: Escherichia coli superiore a 100.000 UFC/mL, sensibile a ceftriaxone, resistente all'ampicillina. L'antibiogramma arriva dopo: la flebo non si aspetta.",
+          "isAbnormal": true,
+          "price": 20
+        },
+        "ecografia": {
+          "finding": "Ecografia: rene destro con lieve ipoecogenicità, non dilatazione della pelvi, non ascesso, non calcolo ostruente. Rene sinistro nei limiti.",
+          "isAbnormal": true,
+          "price": 55
+        },
+        "emocromo": {
+          "finding": "Emocromo: leucociti 16.800, neutrofili 86%. Emoglobina 12,8. Flogosi batterica sistemica, non una cistite semplice.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "tc": {
+          "finding": "TC addome senza contrasto in urgenza: non idronefrosi, non ascesso. Stessa informazione dell'ecografia, costo 120 euro e tempo che ritarda la flebo.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Ceftriaxone endovena",
+          "anyOf": [
+            {
+              "id": "ceftriaxone",
+              "label": "Ceftriaxone ev",
+              "aliases": [
+                "ceftriaxone",
+                "rocefin"
+              ],
+              "priceEuro": 12
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "ciprofloxacina-orale",
+          "label": "Ciprofloxacina orale e dimissione",
+          "aliases": [
+            "ciprofloxacina",
+            "ciproxin"
+          ],
+          "priceEuro": 12
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "BRIVIDO E VOMITO. [brividi] [batte i denti], frasi corte. Se la mandano a casa con le compresse dice che non le tiene e poi obbedisce lo stesso."
+  }
+}

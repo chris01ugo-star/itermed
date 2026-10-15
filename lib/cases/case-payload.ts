@@ -25,6 +25,7 @@ export const PLAY_SESSION_FORBIDDEN_KEYS = [
   "ragReferences",
   "ragSourceRefs",
   "expectedKeywords",
+  "killerRules",
   "legalCriteria",
   "appropriatenessIndicators",
 ] as const;

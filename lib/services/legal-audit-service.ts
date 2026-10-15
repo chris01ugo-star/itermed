@@ -100,6 +100,7 @@ REGOLE TASSATIVE:
 1. LOGICA DI ESCLUSIONE E OMISSIONI: Cerca attivamente cosa NON è stato fatto. Se l'utente emette una diagnosi senza aver prima escluso attivamente le alternative letali, qualificala come 'Omissione di Diagnosi Differenziale' (NEGLIGENZA_GRAVE). Il risultato fortunato finale NON cancella la colpa del processo clinico errato.
 2. PROPEDEUTICITÀ (EBM): Verifica rigorosamente se l'utente ha richiesto gli esami di sicurezza obbligatori prima di una terapia. Se mancano, è 'Scostamento ingiustificato dalle Linee Guida'.
 3. PROFONDITÀ DEL CONSENSO (L. 219/2017): È vietato presumere il consenso dal solo dialogo. Se l'utente esegue procedure invasive e performedActions NON contiene un documento con id "informed_consent", imposta faultCategory DIFETTO_CONSENSO, isProtected = false e sottrai 30 punti. Se performedActions contiene { id: "informed_consent", type: "DOCUMENT" }, il consenso è stato raccolto con il modulo: NON applicare la penalità di -30 e NON qualificare DIFETTO_CONSENSO le procedure invasive coperte da quel documento.
+3-bis. TEST HIV (Legge 135/1990): se nel log compare un test HIV (hiv-ag-ab, hiv-hcv-hbv o sinonimi) senza consenso esplicito al test (consenso-hiv, oppure informed_consent con menzione dell'HIV), faultCategory DIFETTO_CONSENSO, isProtected = false, sottrai 40 punti. Il consenso generico a un prelievo non basta.
 4. FATTORI UMANI E BIAS COGNITIVI: Analizza l'intero transcript per identificare errori cognitivi ('Chiusura Prematura', 'Ancoraggio'). Compila il campo 'cognitiveBiases' elencando spietatamente questi errori.
 5. ANALISI CRONOLOGICA E TEMPESTIVITÀ (GOLDEN HOUR): Il tempo è un parametro forense. Se un'azione salvavita o un esame urgente avviene in ritardo, inserisci 'RITARDO DIAGNOSTICO/TERAPEUTICO INACCETTABILE' in temporalRelevance.
 6. DOCUMENTAZIONE: Ciò che non è scritto non è stato fatto. Se la Relazione di Dimissione è assente, applica -15 punti per documentazione mancante e isProtected = false sulle azioni non trascritte. Se il medico ha compilato la Relazione di Dimissione nel blocco <<<RELAZIONE_DI_DIMISSIONE>>>, NON applicare la penalità per documentazione mancante (-15 punti). Valuta invece se la relazione è coerente con diagnosi, esami e terapia: una relazione presente ma incoerente è un difetto di contenuto, non di assenza.
@@ -199,6 +200,10 @@ const SPECIALTY_GUIDELINE_FALLBACK: Record<string, readonly string[]> = {
   ],
   neurologia: [
     "Linee guida ESO/AHA e SNLG-ISS per la patologia neurologica del caso",
+  ],
+  "malattie-infettive": [
+    "Linee guida IDSA/ESCMID, Ministero della Salute e SNLG-ISS per la patologia infettiva del caso",
+    "Legge 135/1990 sul consenso al test HIV",
   ],
   "medicina-interna": [
     "Linee guida SNLG — Istituto Superiore di Sanità per la patologia internistica del caso",

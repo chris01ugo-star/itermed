@@ -1,0 +1,263 @@
+{
+  "id": "INF-011",
+  "code": "INF-011",
+  "title": "Petecchie e pressione che cade — meningococco",
+  "description": "Davide C., 19 anni, arriva in Pronto Soccorso con la madre. È soporoso, coperto di petecchie, pressione 78/48. La madre dice che due ore fa era solo «influenzato». Trema e non regge una frase.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Shock settico da meningococco, antibiotico entro un'ora e notifica",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Surviving Sepsis, ceftriaxone immediato, notifica ASL",
+  "diagnosis": "Shock settico da Neisseria meningitidis. Emocolture subito, ceftriaxone in bolo entro un'ora, fluidi. Ritardare l'antibiotico per la TC o per la rachicentesi è l'errore mortale. La mancata notifica ASL lascia i contatti senza profilassi.",
+  "pastMedicalHistory": "Sano, studente fuori sede, coinquilino in camera doppia. Nessuna allergia ai beta-lattamici. Nessun trauma cranico. Ieri sera febbre e mal di gola, stanotte petecchie comparse in un'ora. Non assume farmaci. Vaccino antimeningococco: la madre non ricorda.",
+  "presentation": "Disteso, occhi semichiusi, [brividi], petecchie alle gambe e al tronco che non spariscono alla vitropressione. Estremità fredde. Se lo mandano in TC prima della flebo, la madre urla che «si sta spegnendo» e lui smette di rispondere. Parametri: PA 78/48, FC 138, SpO2 93% in aria, FR 28, temperatura 39,6.",
+  "redHerrings": [
+    "La TC cranio prima del bolo fa passare l'ora in cui l'antibiotico cambia la sopravvivenza.",
+    "La rachicentesi in shock, fatta prima del farmaco, è lo stesso ritardo con un altro nome.",
+    "Senza notifica i coinquilini restano senza profilassi: è obbligo di sorveglianza, non un optional di dimissione."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: SHOCK, FEBBRE ALTA, SOPOROSO. Sei Davide, 19 anni. Quasi non parli. [batte i denti] [brividi] nel testo. Frasi di una o due parole, poi ti perdi. Alla «Come sta?»: «[batte i denti] ...freddo. [brividi] Mamma.» La madre parla al posto tuo e va prefissata «Madre:». Madre: «Due ore fa camminava. Adesso è pieno di puntini e non mi risponde.» Coinquilino e camera doppia: solo se lo chiedono alla madre. Tu non nomini esami né flebo. Se passano i minuti senza una flebo, rispondi ancora meno e la madre alza la voce. Se arriva la flebo, un gemito solo. Esempio: Medico: «Prima la TAC.» Madre: «Guardatelo. Non sta in piedi.» Davide: «[brividi] ...»",
+  "correctSolution": "Emocolture immediate, poi ceftriaxone ev in bolo senza aspettare TC o liquor, e bolo di cristalloidi. Notifica ASL per la profilassi dei contatti. La TC e la rachicentesi non precedono la prima dose.",
+  "goldStandardPath": [
+    "emocolture",
+    "ceftriaxone",
+    "fluidi",
+    "notifica-asl"
+  ],
+  "goldPathNarrative": "1) Due set di emocolture, subito, senza spostare il paziente. 2) Ceftriaxone endovena in bolo nella prima ora: non si aspetta la TC né il liquor. 3) Cristalloidi. 4) Notifica ASL e profilassi dei contatti stretti, coinquilino incluso. Omettere il ceftriaxone è l'errore mortale. Omettere la notifica è il difetto di sorveglianza.",
+  "examLatencies": {
+    "emocolture": 10,
+    "lattati": 5,
+    "emocromo": 8,
+    "tc": 50,
+    "liquidi": 40,
+    "ceftriaxone": 5,
+    "fluidi": 5,
+    "notifica-asl": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-tempo",
+      "prompt": "Da quanto è soporoso e quando sono comparse le petecchie?",
+      "critical": true,
+      "expectedKeywords": [
+        "ore",
+        "petecchie",
+        "stamattina"
+      ],
+      "rationale": "Il tempo delle petecchie dice quanto è stretta la prima ora."
+    },
+    {
+      "id": "aq-contatti",
+      "prompt": "Con chi vive? Chi è stato a stretto contatto?",
+      "critical": true,
+      "expectedKeywords": [
+        "coinquilino",
+        "camera",
+        "contatti"
+      ],
+      "rationale": "I contatti stretti sono il motivo della notifica, non un dettaglio sociale."
+    },
+    {
+      "id": "aq-allergia",
+      "prompt": "È allergico alle penicilline o alle cefalosporine?",
+      "critical": true,
+      "expectedKeywords": [
+        "allergia",
+        "penicillina"
+      ],
+      "rationale": "Il bolo di ceftriaxone richiede questa domanda, in una frase, senza rinviare la dose se la risposta è no."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Soporoso, risponde al dolore, non a una domanda lunga. Petecchie e qualche macchia più larga che non sbiancano. Estremità fredde, tempo di refill allungato. Rigidità difficile da esaminare perché non collabora. Non trauma del capo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "inf-011-ora",
+      "source": "Sepsi meningococcica — sintesi operativa",
+      "quote": "Sintesi operativa: nello shock con petecchie il ceftriaxone endovena parte nella prima ora, dopo le emocolture se non ritardano il bolo. TC e rachicentesi non spostano la dose."
+    },
+    {
+      "chunkId": "inf-011-asl",
+      "source": "Notifica meningococco — sintesi operativa",
+      "quote": "Sintesi operativa: la malattia invasiva da meningococco si notifica. I contatti stretti entrano nella profilassi. Chiudere il caso senza segnalazione lascia scoperto l'obbligo."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Emocolture prelevate senza inviare prima il paziente in TC.",
+      "Ceftriaxone in bolo nella prima ora.",
+      "Fluidi in corso.",
+      "Notifica ASL e contatti chiesti."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: il bolo nella prima ora è la condotta aderente. Aspettare la TC o il liquor è lo scostamento che uccide. La notifica è obbligo di sorveglianza.",
+      "legalCriteria": [
+        "Orario della prima dose scritto in cartella.",
+        "Notifica ASL con i contatti stretti, coinquilino incluso.",
+        "Non documentare «in attesa di TC» come motivo per non dare il farmaco."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "Emocolture",
+      "finding": "Emocolture: diplococchi gram-negativi. Identificazione: Neisseria meningitidis. Il referto non era disponibile nell'ora del bolo: i flaconi erano già stati prelevati.",
+      "isAbnormal": true,
+      "priceEuro": 45
+    },
+    {
+      "examId": "lattati",
+      "name": "Lattati",
+      "finding": "Lattati 5,6 mmol/L. Ipoperfusione. Emogas con pH 7,28 se richiesto insieme.",
+      "isAbnormal": true,
+      "priceEuro": 5
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo: leucociti 18.200, piastrine 86.000, emoglobina 13,1. Piastrinopenia e leucocitosi. Non sostituiscono il bolo.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio",
+      "finding": "TC cranio senza contrasto: non emorragia, non shift. Il referto descrive un encefalo senza lesioni focali. Tempo macchina lungo.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Nello shock con petecchie la TC cranio prima del ceftriaxone consuma la prima ora. Costo 120 euro, danno clinico nel ritardo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 138,
+      "bloodPressure": "78/48",
+      "spo2": 93,
+      "temperature": 39.6,
+      "respiratoryRate": 28
+    },
+    "examBudgetEuro": 150,
+    "demographics": {
+      "age": 19,
+      "sex": "M",
+      "name": "Davide C.",
+      "context": "Pronto Soccorso"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Petecchie",
+        "result": "Petecchie agli arti e al tronco, non sbiancano alla vitropressione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Refill capillare",
+        "result": "Refill superiore a 3 secondi, estremità fredde.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Petecchie",
+        "result": "Petecchie agli arti e al tronco, non sbiancano alla vitropressione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Refill capillare",
+        "result": "Refill superiore a 3 secondi, estremità fredde.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "emocolture": {
+          "finding": "Emocolture: diplococchi gram-negativi. Identificazione: Neisseria meningitidis. Il referto non era disponibile nell'ora del bolo: i flaconi erano già stati prelevati.",
+          "isAbnormal": true,
+          "price": 45
+        },
+        "lattati": {
+          "finding": "Lattati 5,6 mmol/L. Ipoperfusione. Emogas con pH 7,28 se richiesto insieme.",
+          "isAbnormal": true,
+          "price": 5
+        },
+        "emocromo": {
+          "finding": "Emocromo: leucociti 18.200, piastrine 86.000, emoglobina 13,1. Piastrinopenia e leucocitosi. Non sostituiscono il bolo.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "tc": {
+          "finding": "TC cranio senza contrasto: non emorragia, non shift. Il referto descrive un encefalo senza lesioni focali. Tempo macchina lungo.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "liquidi": {
+          "finding": "Esame dei liquidi: liquor torbido, polimorfonucleati fitti, diplococchi gram-negativi. Glucosio basso.",
+          "isAbnormal": true,
+          "price": 60
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Ceftriaxone in bolo",
+          "anyOf": [
+            {
+              "id": "ceftriaxone",
+              "label": "Ceftriaxone ev",
+              "aliases": [
+                "ceftriaxone",
+                "rocefin"
+              ],
+              "priceEuro": 12
+            }
+          ]
+        },
+        {
+          "label": "Cristalloidi",
+          "anyOf": [
+            {
+              "id": "fisiologica",
+              "label": "Soluzione fisiologica",
+              "aliases": [
+                "fisiologica",
+                "ringer",
+                "cristalloidi"
+              ],
+              "priceEuro": 4
+            }
+          ]
+        }
+      ]
+    },
+    "killerRules": {
+      "fatalIfOmitted": [
+        [
+          "ceftriaxon",
+          "rocefin"
+        ]
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "SHOCK. [batte i denti], [brividi], una o due parole, poi tace. La madre parla e si prefissa Madre:. Se non arriva la flebo, lui smette di rispondere."
+  }
+}

@@ -18,6 +18,11 @@ export type PatientSimulatorCaseInput = {
   painNrs: number | null;
   /** Injected when simulation time exceeds deterioration threshold. */
   deteriorationInstruction?: string | null;
+  /**
+   * Authored patient script (`patientPrompt` / case node). Wins over the default
+   * polite, lucid tone. Does not override closed-world facts or the diagnosis ban.
+   */
+  roleplayScript?: string | null;
 };
 
 /**
@@ -37,8 +42,23 @@ export function buildPatientSystemPrompt(ctx: PatientSimulatorCaseInput): string
       ? " Se il sesso è femminile, è assolutamente vietato usare il maschile sovraesteso per riferirti a te stessa."
       : "";
 
+  const roleplayScript = ctx.roleplayScript?.trim() ?? "";
+  const roleplayBlock = roleplayScript
+    ? `
+
+**ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA (VINCE SUL TONO DI DEFAULT):**
+Il copione sotto decide voce, lunghezza, lucidità, dolore, carattere e chi risponde se c'è un accompagnatore. Vince su ogni impulso a essere cortese, lucido e intercambiabile.
+- Alla domanda aperta («Come sta?», «Mi dica») è vietata la frase standard da manuale («Sto abbastanza bene, grazie, sono un po' preoccupato»). Rispondi solo nel registro del copione.
+- Il deficit neurologico si recita nel testo (parole spezzate, lamenti, lentezza, amnesia, oppure un carattere preciso se il paziente è stabile). Non descriverlo in terza persona come un referto.
+- Il motivo dell'accesso è un fatto, non uno stile da recitare. Non trasformarlo in un riassunto clinico ben scritto.
+- Restano vietati, anche se il copione è rotto: rivelare la diagnosi, inventare sintomi o numeri, usare gergo da medico.
+- Se il copione dice che il paziente non può parlare e risponde un accompagnatore, la replica è dell'accompagnatore. Non sostituirla con un riassunto lucido in prima persona del paziente.
+COPIONE DEL PAZIENTE:
+${roleplayScript}`
+    : "";
+
   const systemPrompt = `Sei un paziente che si trova al Pronto Soccorso. Stai simulando un caso clinico reale per addestrare un medico (l'utente). 
-DEVI interpretare il tuo ruolo in modo estremamente realistico, mantenendo le risposte brevi e adeguate al tuo stato di salute.
+DEVI interpretare il tuo ruolo in modo estremamente realistico, mantenendo le risposte brevi e adeguate al tuo stato di salute.${roleplayBlock ? " Se sotto c'è un copione di roleplay, «adeguate» significa adeguate a quel deficit o a quel carattere, non a un paziente educato e lucido." : ""}
 
 ${AI_PROMPT_INJECTION_GUARD}
 
@@ -80,7 +100,7 @@ Traduci il reperto in reazione percepita (gemito, ritiro, interruzione del respi
 4. Mantieni coerenza con il sesso dichiarato (Sesso: ${sexForPrompt}): pronomi, riferimenti anagrafici e qualsiasi nome proprio devono corrispondere a quel sesso (Maschile/M → nomi maschili; Femminile/F → nomi femminili).
 5. Se il Livello di Stress è > 70, sii estremamente ${grammaticalGender === "F" ? "ansiosa" : "ansioso"} e rispondi a fatica. Se lo stress è > 90, limitati a gemiti o frasi sconnesse.
 6. Nel dialogo, le domande del medico arrivano come messaggi "user" e le tue risposte precedenti come "assistant": non scambiare i ruoli e non attribuirti affermazioni del medico.
-7. Rispondi SOLO con le tue parole in prima persona. NON prefissare MAI la risposta con etichette di ruolo ([assistant], assistant:, [PAZIENTE], [MEDICO], user:).${
+7. Rispondi SOLO con le tue parole in prima persona. NON prefissare MAI la risposta con etichette di ruolo ([assistant], assistant:, [PAZIENTE], [MEDICO], user:). Se il copione impone di marcare chi parla (paziente afasico e caregiver), usa solo il nome indicato nel copione, non etichette di ruolo del sistema.${roleplayBlock}${
     ctx.deteriorationInstruction
       ? `
 

@@ -6,6 +6,7 @@
  *   knowledge_base/medicina_interna/cases/*.json
  *   knowledge_base/medicina_urgenza/cases/EMERG-*.json
  *   knowledge_base/neurologia/cases/NEURO-*.json
+ *   knowledge_base/malattie_infettive/cases/INF-*.json
  *   knowledge_base/tutorials/TUTORIAL-*.json
  *
  * Medicina Interna rows are also upserted into `ClinicalCase` and linked to the
@@ -38,11 +39,13 @@ const SPECIALTIES = [
   "medicina_interna",
   "medicina_urgenza",
   "neurologia",
+  "malattie_infettive",
 ] as const;
-const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO)-\d{3}\.json$/i;
+const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF)-\d{3}\.json$/i;
 const MEDICINA_INTERNA_SPECIALTY_NAME = "Medicina Interna";
 const MEDICINA_URGENZA_SPECIALTY_NAME = "Medicina d'Emergenza-Urgenza";
 const NEUROLOGIA_SPECIALTY_NAME = "Neurologia";
+const INFETTIVE_SPECIALTY_NAME = "Malattie Infettive";
 
 function isCaseFile(full: string, name: string): boolean {
   if (CASE_FILE_RE.test(name)) return true;
@@ -123,17 +126,31 @@ async function upsertMedicinaInternaClinicalCase(
     },
   });
 
-  const nodeCount = await prisma.caseNode.count({ where: { caseId: kb.id } });
-  if (nodeCount === 0) {
+  const prompt = kb.patientPrompt?.trim() || kb.presentation;
+  const historyNode = await prisma.caseNode.findFirst({
+    where: { caseId: kb.id, type: "HISTORY" },
+    orderBy: { order: "asc" },
+  });
+  if (!historyNode) {
     await prisma.caseNode.create({
       data: {
         caseId: kb.id,
         order: 0,
         type: "HISTORY",
-        content: { casePrompt: kb.patientPrompt ?? kb.presentation },
+        content: { casePrompt: prompt },
       },
     });
+    return;
   }
+  const existing =
+    historyNode.content && typeof historyNode.content === "object" && !Array.isArray(historyNode.content)
+      ? (historyNode.content as Record<string, unknown>)
+      : {};
+  if (existing.casePrompt === prompt) return;
+  await prisma.caseNode.update({
+    where: { id: historyNode.id },
+    data: { content: { ...existing, casePrompt: prompt } },
+  });
 }
 
 async function main(): Promise<void> {
@@ -162,6 +179,19 @@ async function main(): Promise<void> {
     where: { name: { equals: NEUROLOGIA_SPECIALTY_NAME, mode: "insensitive" } },
     select: { id: true, name: true },
   });
+  let infettive = await prisma.medicalSpecialty.findFirst({
+    where: { name: { equals: INFETTIVE_SPECIALTY_NAME, mode: "insensitive" } },
+    select: { id: true, name: true },
+  });
+  if (!infettive) {
+    infettive = await prisma.medicalSpecialty.create({
+      data: {
+        name: INFETTIVE_SPECIALTY_NAME,
+        description: "Sepsi, stewardship antibiotica e infezioni tempo-dipendenti.",
+      },
+      select: { id: true, name: true },
+    });
+  }
   const author = await prisma.user.findFirst({
     where: { role: "ADMIN" },
     orderBy: { createdAt: "asc" },
@@ -189,7 +219,8 @@ async function main(): Promise<void> {
       `[migrate-cases] autore ${author.email ?? author.id}` +
         `${medicinaInterna ? `; Medicina Interna → ${medicinaInterna.id}` : ""}` +
         `${medicinaUrgenza ? `; Medicina d'Emergenza-Urgenza → ${medicinaUrgenza.id}` : ""}` +
-        `${neurologia ? `; Neurologia → ${neurologia.id}` : ""}`,
+        `${neurologia ? `; Neurologia → ${neurologia.id}` : ""}` +
+        `${infettive ? `; Malattie Infettive → ${infettive.id}` : ""}`,
     );
   }
 
@@ -243,20 +274,25 @@ async function main(): Promise<void> {
       if (
         kb.specialty === "medicina_interna" ||
         kb.specialty === "medicina_urgenza" ||
-        kb.specialty === "neurologia"
+        kb.specialty === "neurologia" ||
+        kb.specialty === "malattie_infettive"
       ) {
         const linked =
           kb.specialty === "medicina_interna"
             ? medicinaInterna
             : kb.specialty === "medicina_urgenza"
               ? medicinaUrgenza
-              : neurologia;
+              : kb.specialty === "neurologia"
+                ? neurologia
+                : infettive;
         const linkedLabel =
           kb.specialty === "medicina_interna"
             ? MEDICINA_INTERNA_SPECIALTY_NAME
             : kb.specialty === "medicina_urgenza"
               ? MEDICINA_URGENZA_SPECIALTY_NAME
-              : NEUROLOGIA_SPECIALTY_NAME;
+              : kb.specialty === "neurologia"
+                ? NEUROLOGIA_SPECIALTY_NAME
+                : INFETTIVE_SPECIALTY_NAME;
         if (!linked || !author) {
           failures.push({
             file,

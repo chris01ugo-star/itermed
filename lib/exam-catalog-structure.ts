@@ -68,6 +68,9 @@ export const EXAM_CATALOG_STRUCTURE: CatalogMacroCategory[] = [
         label: "Immunologia e Sierologia",
         exams: [
           { id: "hiv-hcv-hbv", name: "Ab anti HIV, HCV, HBV", cost: 0, timeMinutes: 0 },
+          { id: "hiv-ag-ab", name: "Test combinato HIV Ag/Ab di IV generazione", cost: 0, timeMinutes: 0 },
+          { id: "sierologia-borrelia", name: "Sierologia Borrelia burgdorferi", cost: 0, timeMinutes: 0 },
+          { id: "pannello-virale", name: "Pannello virale esteso", cost: 0, timeMinutes: 0 },
           { id: "anca", name: "ANCA (p-ANCA e c-ANCA)", cost: 0, timeMinutes: 0 },
           { id: "anti-ccp", name: "Anti-CCP", cost: 0, timeMinutes: 0 },
           { id: "anti-dna", name: "Anti-DNA nativo", cost: 0, timeMinutes: 0 },
@@ -88,6 +91,7 @@ export const EXAM_CATALOG_STRUCTURE: CatalogMacroCategory[] = [
           { id: "emocolture", name: "Emocoltura (da due o più siti)", cost: 0, timeMinutes: 0 },
           { id: "urine-sed", name: "Esame urine chimico-fisico e sedimento", cost: 0, timeMinutes: 0 },
           { id: "cdiff", name: "Ricerca Tossina Clostridium Difficile", cost: 0, timeMinutes: 0 },
+          { id: "goccia-spessa", name: "Goccia spessa e striscio sottile (malaria)", cost: 0, timeMinutes: 0 },
           { id: "tox-screen", name: "Screening tossicologico (urine/sangue)", cost: 0, timeMinutes: 0 },
           { id: "tamponi", name: "Specie microbiche da tampone", cost: 0, timeMinutes: 0 },
           { id: "urinocoltura", name: "Urinocoltura con antibiogramma", cost: 0, timeMinutes: 0 },

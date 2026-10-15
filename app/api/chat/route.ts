@@ -21,6 +21,7 @@ import {
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { AI_RATE_LIMITS, CHAT_MESSAGES_PER_MINUTE } from "@/lib/security/ai-rate-limits";
 import { applyPatientChatWindow } from "@/lib/simulator/chat-context-window";
+import { extractPatientPromptFromNode } from "@/lib/cases/case-payload";
 import { buildPatientSimulatorCaseInput } from "@/lib/simulator/patientCaseContext";
 import { generatePatientResponse } from "@/lib/simulator/generatePatientResponse";
 import { persistChatTurn } from "@/lib/simulator/persist-chat-turn";
@@ -35,7 +36,7 @@ import {
 } from "@/lib/cases/simulation-time";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 const chatLogger = createLogger("chat-api");
 
@@ -76,6 +77,30 @@ function getLastUserMessage(messages: ChatTurn[]): string | undefined {
     }
   }
   return undefined;
+}
+
+/**
+ * Authored simulator script. Prefer the DB case node, then the knowledge-base
+ * payload. The client copy is only a fallback so a player cannot strip the roleplay.
+ */
+async function loadServerRoleplayScript(caseId: string): Promise<string> {
+  const node = await prisma.caseNode.findFirst({
+    where: { caseId },
+    orderBy: { order: "asc" },
+    select: { content: true },
+  });
+  const fromNode = extractPatientPromptFromNode(node?.content, "");
+  if (fromNode) return fromNode;
+
+  const kb = await prisma.knowledgeBaseCase.findUnique({
+    where: { id: caseId },
+    select: { caseData: true },
+  });
+  if (kb?.caseData && typeof kb.caseData === "object" && !Array.isArray(kb.caseData)) {
+    const prompt = (kb.caseData as { patientPrompt?: unknown }).patientPrompt;
+    if (typeof prompt === "string" && prompt.trim()) return prompt.trim();
+  }
+  return "";
 }
 
 function parseStringArray(raw: unknown): string[] {
@@ -353,11 +378,24 @@ export async function POST(req: Request) {
   }
 
   // Client-injected gold answers are never trusted — only DB correctSolution on owned sessions.
+  // The roleplay script is the authored patientPrompt. A live variant replaces it;
+  // otherwise the server copy wins over the browser body.
+  let roleplayScript = sessionVariantPrompt?.trim() ?? "";
+  if (!roleplayScript && typeof caseId === "string" && caseId.trim()) {
+    roleplayScript = await loadServerRoleplayScript(caseId.trim());
+  }
+  if (!roleplayScript && typeof casePrompt === "string") {
+    roleplayScript = casePrompt.trim();
+  }
+
   let caseData = buildPatientSimulatorCaseInput({
     body: { ...body, casePrompt },
     clinicalCase,
     patientStress: stressClamped,
   });
+  if (roleplayScript) {
+    caseData = { ...caseData, roleplayScript };
+  }
 
   if (sessionVariantPrompt) {
     caseData = {

@@ -115,8 +115,8 @@ const KbBaselineExamFindingsSchema = z
  * Cardiology cases omit `patientProfile`; Pneumology and Gastroenterology cases must include it.
  */
 export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
-  id: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO)-\d{3}$/),
-  code: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO)-\d{3}$/),
+  id: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF)-\d{3}$/),
+  code: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF)-\d{3}$/),
   specialty: z.enum([
     "cardiologia",
     "pneumologia",
@@ -124,6 +124,7 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
     "medicina_interna",
     "medicina_urgenza",
     "neurologia",
+    "malattie_infettive",
   ]),
   specialtyLabel: z.enum([
     "Cardiologia",
@@ -132,6 +133,7 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
     "Medicina Interna",
     "Medicina d'Emergenza-Urgenza",
     "Neurologia",
+    "Malattie Infettive",
   ]),
   condition: z.string().min(3).max(240),
   frequencyCategory: MatrixFrequencySchema,

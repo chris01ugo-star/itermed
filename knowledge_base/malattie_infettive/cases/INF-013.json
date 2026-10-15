@@ -1,0 +1,271 @@
+{
+  "id": "INF-013",
+  "code": "INF-013",
+  "title": "Dolore che non torna col rossore — fascite",
+  "description": "Stefano M., 52 anni, urla per una gamba che «brucia sotto» mentre il rossore è ancora modesto. Al tatto si sente un crepitio. È tachicardico, sudato, non sta fermo. Il dolore è sproporzionato rispetto a ciò che si vede.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Fascite necrotizzante, sbrigliamento e terapia combinata",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "IDSA fascite necrotizzante: sbrigliamento immediato",
+  "diagnosis": "Fascite necrotizzante. Consulenza chirurgica urgentissima per sbrigliamento, più meropenem e clindamicina. La sola terapia medica non basta: senza sala operatoria il paziente muore.",
+  "pastMedicalHistory": "Diabete in metformina, ultimo controllo trascurato. Ieri un piccolo taglio sul polpaccio in giardino. Nessuna allergia. Non tossicodipendente. Ha preso ibuprofene a casa, il dolore è aumentato. Non ha febbre da molti giorni: è iniziata stamattina insieme al dolore «che non è della pelle».",
+  "presentation": "Agitato, non si fa toccare il polpaccio, urla quando la mano si appoggia. Rossore modesto, bordi sfumati, crepitio sottocutaneo, dolore molto oltre l'area rossa. Temperatura 38,9, pressione che scende. Se gli danno solo antibiotici e lo lasciano in barella, il dolore cresce e le risposte diventano singulti. Parametri: PA 96/58, FC 128, SpO2 95%, FR 26.",
+  "redHerrings": [
+    "Il rossore scarso fa pensare a una cellulite da antibiotico e dimissione. Il crepitio e il dolore sproporzionato dicono altro.",
+    "TC o RM per «essere sicuri» spostano la sala operatoria.",
+    "Meropenem e clindamicina senza il chirurgo non chiudono il caso."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 36,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: AGONIA. Sei Stefano, 52 anni. Urli. Non fai discorsi. Alla «Come sta?»: «[urla] Sotto. Brucia. [geme] Non toccare.» Se ti palpano la gamba: «[urla] Ah— scricchiola. Basta.» Il taglio in giardino e il diabete solo se chiedono, in due parole. Non proporre tu alcun gesto. Non nominare sale, ferri, tagli da medico. Se passano i minuti senza che qualcuno ti porti via dalla barella, le urla diventano più corte e la voce si spegne. Esempio: Medico: «È solo un arrossamento, le do l'antibiotico.» Stefano: «[urla] No. Sotto. [geme]»",
+  "correctSolution": "Sbrigliamento chirurgico in urgenza, meropenem e clindamicina, emocolture e lattati senza farli diventare il motivo del rinvio in sala. La sola terapia medica è l'errore mortale.",
+  "goldStandardPath": [
+    "sbrigliamento",
+    "meropenem",
+    "clindamicina"
+  ],
+  "goldPathNarrative": "1) Consulenza chirurgica e sbrigliamento subito: è l'atto che cambia la sopravvivenza. 2) Meropenem più clindamicina, non un solo beta-lattamico da cellulite. 3) Emocolture e lattati in parallelo, senza imaging che sposti la sala. TC e RM confermano tardi ciò che crepitio e dolore sproporzionato hanno già detto.",
+  "examLatencies": {
+    "lattati": 5,
+    "emocromo": 8,
+    "emocolture": 8,
+    "tc": 50,
+    "rm": 70,
+    "sbrigliamento": 5,
+    "meropenem": 5,
+    "clindamicina": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-dolore",
+      "prompt": "Il dolore è solo dove è rosso o va molto oltre?",
+      "critical": true,
+      "expectedKeywords": [
+        "oltre",
+        "sotto",
+        "rosso"
+      ],
+      "rationale": "Il dolore sproporzionato rispetto al rossore è il segno che separa la fascite dalla cellulite."
+    },
+    {
+      "id": "aq-crepitio",
+      "prompt": "Sente scricchiolio sotto la pelle? C'è un taglio recente?",
+      "critical": true,
+      "expectedKeywords": [
+        "scricchiolio",
+        "taglio",
+        "giardino"
+      ],
+      "rationale": "Crepitio e porta d'ingresso chiudono l'indicazione alla sala senza aspettare la RM."
+    },
+    {
+      "id": "aq-diabete",
+      "prompt": "Ha il diabete? Ha mangiato oggi?",
+      "critical": true,
+      "expectedKeywords": [
+        "diabete",
+        "metformina"
+      ],
+      "rationale": "Il diabete aumenta il rischio e spiega la porta piccola con il quadro grande."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Polpaccio: eritema modesto a bordi sfumati, edema ligneo, crepitio palpabile, dolore che inizia molti centimetri sopra il rossore. Non pulsi assenti. Paziente che ritrae l'arto e urla. Segni di ipoperfusione incipiente."
+  },
+  "escCitations": [
+    {
+      "chunkId": "inf-013-sala",
+      "source": "Fascite e sala operatoria — sintesi operativa",
+      "quote": "Sintesi operativa: la fascite necrotizzante si sbriglia in urgenza. Antibiotico senza chirurgo non è un piano, è un rinvio."
+    },
+    {
+      "chunkId": "inf-013-clinda",
+      "source": "Meropenem e clindamicina — sintesi operativa",
+      "quote": "Sintesi operativa: meropenem più clindamicina coprono la flora mista e la tossina. Non sostituiscono lo sbrigliamento."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Dolore sproporzionato e crepitio scritti in cartella.",
+      "Chirurgo chiamato in urgenza, non «rivalutare domani».",
+      "Meropenem e clindamicina avviati.",
+      "TC o RM non usate per rinviare la sala."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: lo sbrigliamento urgente è la condotta aderente. La sola terapia medica, o l'imaging che sposta la sala, è lo scostamento mortale.",
+      "legalCriteria": [
+        "Orario della chiamata al chirurgo.",
+        "Descrivere crepitio e dolore oltre il rossore, così il rinvio non è difendibile.",
+        "Non scrivere «cellulite» chiudendo il caso in barella."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "lattati",
+      "name": "Lattati",
+      "finding": "Lattati 5,8 mmol/L. Ipoperfusione. Il numero non si aspetta per chiamare la sala.",
+      "isAbnormal": true,
+      "priceEuro": 5
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo: leucociti 24.600, neutrofili 91%, emoglobina 12,2, piastrine 190.000. Flogosi marcata, sproporzionata al rossore visibile.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocolture",
+      "name": "Emocolture",
+      "finding": "Emocolture: cocchi gram-positivi a catena in un set. Identificazione non ancora chiusa. Prelievo fatto, non un motivo per restare in barella.",
+      "isAbnormal": true,
+      "priceEuro": 45
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC arto",
+      "finding": "TC del polpaccio: gas nelle fasce, edema dei compartimenti. Referto che ripete il crepitio già palpato, disponibile dopo il tempo macchina.",
+      "isAbnormal": true,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Con crepitio e dolore sproporzionato la TC dell'arto costa 120 euro e sposta lo sbrigliamento."
+    },
+    {
+      "examId": "rm",
+      "name": "RM arto",
+      "finding": "RM gamba: edema fasciale esteso, raccolte. Referto tardivo. Costo 220 euro. Il crepitio c'era già alla mano.",
+      "isAbnormal": true,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "La RM dell'arto nella fascite clinica è un rinvio. Costa 220 euro e non precede la sala."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 128,
+      "bloodPressure": "96/58",
+      "spo2": 95,
+      "temperature": 38.9,
+      "respiratoryRate": 26
+    },
+    "examBudgetEuro": 170,
+    "demographics": {
+      "age": 52,
+      "sex": "M",
+      "name": "Stefano M.",
+      "context": "Pronto Soccorso"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Crepitio sottocutaneo",
+        "result": "Screzio palpabile sul polpaccio, il paziente urla al tocco.",
+        "isPositive": true
+      },
+      {
+        "signName": "Dolore sproporzionato",
+        "result": "Il dolore inizia ben sopra il bordo del rossore.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Crepitio sottocutaneo",
+        "result": "Screzio palpabile sul polpaccio, il paziente urla al tocco.",
+        "isPositive": true
+      },
+      {
+        "signName": "Dolore sproporzionato",
+        "result": "Il dolore inizia ben sopra il bordo del rossore.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "lattati": {
+          "finding": "Lattati 5,8 mmol/L. Ipoperfusione. Il numero non si aspetta per chiamare la sala.",
+          "isAbnormal": true,
+          "price": 5
+        },
+        "emocromo": {
+          "finding": "Emocromo: leucociti 24.600, neutrofili 91%, emoglobina 12,2, piastrine 190.000. Flogosi marcata, sproporzionata al rossore visibile.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "emocolture": {
+          "finding": "Emocolture: cocchi gram-positivi a catena in un set. Identificazione non ancora chiusa. Prelievo fatto, non un motivo per restare in barella.",
+          "isAbnormal": true,
+          "price": 45
+        },
+        "tc": {
+          "finding": "TC del polpaccio: gas nelle fasce, edema dei compartimenti. Referto che ripete il crepitio già palpato, disponibile dopo il tempo macchina.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "rm": {
+          "finding": "RM gamba: edema fasciale esteso, raccolte. Referto tardivo. Costo 220 euro. Il crepitio c'era già alla mano.",
+          "isAbnormal": true,
+          "price": 220
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Meropenem",
+          "anyOf": [
+            {
+              "id": "meropenem",
+              "label": "Meropenem",
+              "aliases": [
+                "meropenem"
+              ],
+              "priceEuro": 36
+            }
+          ]
+        },
+        {
+          "label": "Clindamicina",
+          "anyOf": [
+            {
+              "id": "clindamicina",
+              "label": "Clindamicina",
+              "aliases": [
+                "clindamicina",
+                "dalacin"
+              ],
+              "priceEuro": 12
+            }
+          ]
+        }
+      ]
+    },
+    "killerRules": {
+      "fatalIfOmitted": [
+        [
+          "sbrigliament",
+          "debridement",
+          "chirurgo",
+          "sala operatoria"
+        ]
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "AGONIA. [urla] [geme], «sotto», «non toccare». Non fa discorsi. Se lo lasciano in barella la voce si spegne."
+  }
+}

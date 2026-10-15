@@ -901,6 +901,11 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       baselineExamFindings:
         registeredCase?.baselineExamFindings ?? clinicalCase?.baselineExamFindings,
       prescribedMedications: sessionPrescriptions,
+      narrativeText: [
+        ...chatHistoryForAudit.map((turn) => turn.content),
+        input.normalizedReportText ?? "",
+        ...executedActionIds,
+      ].join("\n"),
     });
 
     let scoresForGrade = sanitizeDimensionScores(scoresForPersist);

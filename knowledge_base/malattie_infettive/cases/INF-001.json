@@ -1,0 +1,262 @@
+{
+  "id": "INF-001",
+  "code": "INF-001",
+  "title": "Bruciore e urgenza — cistite non complicata",
+  "description": "Giulia N., 24 anni, si presenta in ambulatorio per bruciore alla minzione e urgenza da 36 ore. Non ha febbre, non ha dolore al fianco, non è incinta per quanto ne sa, non ha avuto cistiti prima. Vuole «l'antibiotico forte» che ha letto online e un'urinocoltura «per essere sicuri». È il primo episodio, non complicato.",
+  "difficulty": "EASY",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Cistite acuta non complicata, primo episodio, donna non gravida",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "IDSA/ESCMID — cistite non complicata, terapia empirica breve",
+  "diagnosis": "Cistite acuta non complicata. Terapia empirica con fosfomicina dose unica o nitrofurantoina. Urinocoltura e fluorochinoloni non indicati al primo episodio.",
+  "pastMedicalHistory": "Nessuna cistite precedente, nessun ricovero, nessuna allergia dichiarata. Ultima mestruazione due settimane fa, non usa contraccezione ormonale, riferisce un rapporto non protetto dieci giorni fa. Non è in gravidanza nota. Non ha diabete, non ha calcoli, non ha malformazioni urinarie. Fuma poco. Lavora in un negozio e oggi vuole chiudere la visita in fretta.",
+  "presentation": "Seduta, lucida, seccata. Minzione bruciante, urgenza, nicturia di una notte. Non febbre, non brivido, non dolore lombare, non sangue mestruale in corso. Addome trattabile, Giordano negativo. Vuole la ciprofloxacina perché «quella debole non funziona». Se le si spiega fosfomicina o nitrofurantoina in una frase, accetta a malincuore. Parametri: PA 118/72, FC 84, SpO2 99%, FR 14, temperatura 36,8.",
+  "redHerrings": [
+    "Chiede l'urinocoltura al primo episodio: il risultato arriva a episodio già chiuso e non cambia la dose unica.",
+    "La ciprofloxacina le sembra più seria. È un fluorochinolone da non usare nella cistite semplice.",
+    "Un fastidio sovrapubico non è una pielonefrite: non ha febbre né dolore al fianco."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 90,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: STABILE MA INAPPROPRIATA. Sei Giulia, 24 anni, ambulatorio. Lucida, seccata, non un manuale cortese. Insisti per l'antibiotico forte e per la coltura. Alla «Come sta?»: «Brucia quando faccio pipì. Mi dia la ciprofloxacina, quella debole non serve. E voglio la coltura.» Non regalare febbre o dolore al fianco: se te li chiedono, non ci sono. Primo episodio. Gravidanza: non lo sai, ultime mestruazioni due settimane fa, lo dici solo se chiedono. Se propongono fosfomicina in bustina unica o nitrofurantoina per pochi giorni, sbuffi e accetti. Se propongono ciprofloxacina, ti illumini e la vuoi subito. Se ordinano l'urinocoltura, dici «finalmente uno preciso». Non nominare tu linee guida. Esempio: Medico: «Le serve davvero la coltura?» Giulia: «Sì. Altrimenti sparate a caso. E non mi dia la bustina da vecchie.»",
+  "correctSolution": "Cistite non complicata. Stick urine e test di gravidanza. Fosfomicina 3 g dose unica oppure nitrofurantoina 100 mg ogni 12 ore per 5 giorni. Non urinocoltura al primo episodio. Non ciprofloxacina.",
+  "goldStandardPath": [
+    "urine-sed",
+    "beta-hcg",
+    "fosfomicina"
+  ],
+  "goldPathNarrative": "1) Esame urine: leucociti e nitriti, senza bisogno di aspettare la coltura. 2) Beta-HCG negativa, così la scelta del farmaco non cade in gravidanza. 3) Fosfomicina dose unica o nitrofurantoina breve. L'urinocoltura costa 20 euro e non cambia il primo episodio. Il fluorochinolone è inappropriatezza di stewardship, non una prudenza.",
+  "examLatencies": {
+    "urine-sed": 10,
+    "beta-hcg": 15,
+    "urinocoltura": 40,
+    "ecografia": 30,
+    "fosfomicina": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-episodio",
+      "prompt": "È il primo episodio o ha già avuto cistiti e colture?",
+      "critical": true,
+      "expectedKeywords": [
+        "primo",
+        "episodio",
+        "coltura"
+      ],
+      "rationale": "Il primo episodio non complicato si tratta in empirico, senza urinocoltura."
+    },
+    {
+      "id": "aq-fianco",
+      "prompt": "Ha febbre, brividi o dolore al fianco?",
+      "critical": true,
+      "expectedKeywords": [
+        "febbre",
+        "fianco",
+        "brividi"
+      ],
+      "rationale": "Febbre e dolore al fianco spostano il caso sulla pielonefrite, che qui non c'è."
+    },
+    {
+      "id": "aq-gravidanza",
+      "prompt": "Può essere incinta?",
+      "critical": true,
+      "expectedKeywords": [
+        "gravidanza",
+        "mestruazioni"
+      ],
+      "rationale": "La gravidanza cambia farmaco e durata. Qui il test è negativo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Donna lucida, apiretica. Dolore sovrapubico lieve, non dolorabilità del fianco, Giordano negativo bilateralmente. Non segni di sepsi. Il quadro è una cistite bassa, non una pielonefrite."
+  },
+  "escCitations": [
+    {
+      "chunkId": "inf-001-empirica",
+      "source": "IDSA/ESCMID cistite non complicata — sintesi operativa",
+      "quote": "Sintesi operativa: nel primo episodio di cistite non complicata la terapia è empirica e breve, fosfomicina o nitrofurantoina. L'urinocoltura non è l'esame di partenza."
+    },
+    {
+      "chunkId": "inf-001-fq",
+      "source": "Stewardship fluorochinoloni — sintesi operativa",
+      "quote": "Sintesi operativa: ciprofloxacina e levofloxacina non sono prima scelta nella cistite semplice. Il fastidio della paziente non è un'indicazione al fluorochinolone."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Stick urine prima di qualunque coltura.",
+      "Beta-HCG prima di fissare il farmaco in età fertile.",
+      "Fosfomicina o nitrofurantoina, non ciprofloxacina.",
+      "Nessuna urinocoltura al primo episodio non complicato."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: la cistite non complicata si chiude con terapia breve empirica. Coltura e fluorochinolone sono uno scostamento, non una tutela.",
+      "legalCriteria": [
+        "Documentare assenza di febbre, dolore al fianco e gravidanza prima della scelta.",
+        "Non lasciare traccia di un fluorochinolone come prima linea senza motivo scritto.",
+        "Il consenso al farmaco è una frase sul beneficio e sugli effetti, non un prelievo in più."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "urine-sed",
+      "name": "Esame urine",
+      "finding": "Esame urine: esterasi leucocitaria positiva, nitriti positivi, 80 leucociti per campo, emazie rare. Non cilindri. Quadro di cistite bassa.",
+      "isAbnormal": true,
+      "priceEuro": 6
+    },
+    {
+      "examId": "beta-hcg",
+      "name": "Beta-HCG",
+      "finding": "Beta-HCG sierica negativa, inferiore a 2 mUI/mL. Non risulta una gravidanza che obblighi a cambiare farmaco.",
+      "isAbnormal": false,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "urinocoltura",
+      "name": "Urinocoltura con antibiogramma",
+      "finding": "Urinocoltura: Escherichia coli superiore a 100.000 UFC/mL, sensibile a fosfomicina e nitrofurantoina. Il referto arriva a episodio già concluso e non cambia la dose unica del primo episodio.",
+      "isAbnormal": true,
+      "priceEuro": 20,
+      "inappropriate": true,
+      "wasteRationale": "Primo episodio non complicato: la coltura costa 20 euro e non modifica fosfomicina o nitrofurantoina."
+    },
+    {
+      "examId": "ecografia",
+      "name": "Ecografia addome",
+      "finding": "Ecografia reni e vie urinarie: reni nei limiti, non dilatazione, non calcoli, vescica a pareti regolari. Non aggiunge nulla al bruciore senza febbre.",
+      "isAbnormal": false,
+      "priceEuro": 55,
+      "inappropriate": true,
+      "wasteRationale": "Senza febbre né dolore al fianco l'eco è medicina difensiva e sforza il budget."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 84,
+      "bloodPressure": "118/72",
+      "spo2": 99,
+      "temperature": 36.8,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 30,
+    "demographics": {
+      "age": 24,
+      "sex": "F",
+      "name": "Giulia N.",
+      "context": "Ambulatorio"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Giordano",
+        "result": "Negativo a destra e a sinistra. Nessun sobbalzo doloroso.",
+        "isPositive": false
+      },
+      {
+        "signName": "Dolore sovrapubico",
+        "result": "Dolorabilità lieve sopra il pube, senza difesa.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Giordano",
+        "result": "Negativo a destra e a sinistra. Nessun sobbalzo doloroso.",
+        "isPositive": false
+      },
+      {
+        "signName": "Dolore sovrapubico",
+        "result": "Dolorabilità lieve sopra il pube, senza difesa.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "urine-sed": {
+          "finding": "Esame urine: esterasi leucocitaria positiva, nitriti positivi, 80 leucociti per campo, emazie rare. Non cilindri. Quadro di cistite bassa.",
+          "isAbnormal": true,
+          "price": 6
+        },
+        "beta-hcg": {
+          "finding": "Beta-HCG sierica negativa, inferiore a 2 mUI/mL. Non risulta una gravidanza che obblighi a cambiare farmaco.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "urinocoltura": {
+          "finding": "Urinocoltura: Escherichia coli superiore a 100.000 UFC/mL, sensibile a fosfomicina e nitrofurantoina. Il referto arriva a episodio già concluso e non cambia la dose unica del primo episodio.",
+          "isAbnormal": true,
+          "price": 20
+        },
+        "ecografia": {
+          "finding": "Ecografia reni e vie urinarie: reni nei limiti, non dilatazione, non calcoli, vescica a pareti regolari. Non aggiunge nulla al bruciore senza febbre.",
+          "isAbnormal": false,
+          "price": 55
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Fosfomicina dose unica o nitrofurantoina breve",
+          "anyOf": [
+            {
+              "id": "fosfomicina",
+              "label": "Fosfomicina 3 g",
+              "aliases": [
+                "fosfomicina",
+                "monuril"
+              ],
+              "priceEuro": 8
+            },
+            {
+              "id": "nitrofurantoina",
+              "label": "Nitrofurantoina",
+              "aliases": [
+                "nitrofurantoina",
+                "furadantin"
+              ],
+              "priceEuro": 6
+            }
+          ]
+        }
+      ],
+      "inappropriate": [
+        {
+          "id": "ciprofloxacina",
+          "label": "Ciprofloxacina",
+          "aliases": [
+            "ciprofloxacina",
+            "ciproxin",
+            "fluorochinolone"
+          ],
+          "priceEuro": 12
+        },
+        {
+          "id": "levofloxacina",
+          "label": "Levofloxacina",
+          "aliases": [
+            "levofloxacina"
+          ],
+          "priceEuro": 14
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "SELF_MEDICATED",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "STABILE, SECCATA, chiede l'antibiotico forte e la coltura. Non ha febbre. Se le offrono la ciprofloxacina la vuole subito. Non è una paziente gentile e generica."
+  }
+}

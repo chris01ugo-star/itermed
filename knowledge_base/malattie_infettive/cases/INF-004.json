@@ -1,0 +1,265 @@
+{
+  "id": "INF-004",
+  "code": "INF-004",
+  "title": "Diarrea in corsia — Clostridioides",
+  "description": "Pietro G., 68 anni, è in reparto di medicina da cinque giorni per una polmonite trattata con ceftriaxone. Da ieri diarrea acquosa profusa, crampi forti, dieci scariche. Ha chiesto all'infermiere qualcosa per fermarle.",
+  "difficulty": "MEDIUM",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Colite da Clostridioides difficile, tossina A/B, vancomicina orale",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "IDSA/SHEA C. difficile: tossina A/B e vancomicina orale",
+  "diagnosis": "Infezione da Clostridioides difficile. Tossina A/B fecale positiva. Vancomicina orale. La loperamide è controindicata per il rischio di megacolon tossico.",
+  "pastMedicalHistory": "BPCO lieve, ipertensione in amlodipina. Polmonite comunitaria iniziata sei giorni fa, ceftriaxone endovena da cinque giorni, in miglioramento sul respiro. Nessun intervento addominale. Allergie nessuna. Vive con la moglie. Non ha viaggiato. Ieri ha preso un antidiarroico offerto dal vicino di letto, non ricorda il nome.",
+  "presentation": "A letto, si tiene l'addome, sudato. Diarrea maleodorante, crampi a ondate, non sangue franco. Temperatura 38,2. Addome trattabile ma dolente, peristalsi viva, non peritonismo adesso. Se gli si dà loperamide ringrazia perché le scariche si fermano. Se gli si spiega la tossina e la vancomicina da bere, accetta. Parametri: PA 100/64, FC 110, SpO2 96%, FR 20.",
+  "redHerrings": [
+    "La polmonite è in miglioramento: non è lei la causa della diarrea di oggi.",
+    "La loperamide ferma le scariche e chiude la tossina nell'intestino.",
+    "Il metronidazolo orale non è più la prima scelta rispetto alla vancomicina."
+  ],
+  "timeLimitMinutes": 60,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: CRAMPI SEVERI. Sei Pietro, 68 anni, in reparto. Non fare discorsi. A ogni crampo: «ah— [crampo]». Frasi di poche parole. Alla «Come sta?»: «Ah— [crampo]. Diarrea. Fermatele.» Vuoi la pastiglia che blocca, non sai che è pericolosa: se propongono loperamide o Imodium dici «sì, datemela». La ceftriaxone degli ultimi giorni la racconti solo se chiedono gli antibiotici. Se propongono la vancomicina da bere, la prendi. Non nominare Clostridioides né megacolon. Esempio: Medico: «Loperamide.» Pietro: «[crampo] Sì. Basta scariche.» Medico: «Vancomicina da bere, niente tappo.» Pietro: «Ah. Va bene. Ma fa male.»",
+  "correctSolution": "C. difficile. Emocromo e creatinina per la gravità, tossina A/B positiva, vancomicina orale 125 mg ogni 6 ore. Stop alla loperamide. Il metronidazolo non è la prima linea.",
+  "goldStandardPath": [
+    "cdiff",
+    "emocromo",
+    "creat-urea-gfr",
+    "vancomicina-os"
+  ],
+  "goldPathNarrative": "1) Tossina A/B fecale, non una coprocoltura generica. 2) Emocromo e creatinina per capire se la colite è grave. 3) Vancomicina orale. La loperamide è l'errore mortale: megacolon tossico. Va cercata in ricetta come farmaco fatale.",
+  "examLatencies": {
+    "cdiff": 20,
+    "emocromo": 15,
+    "creat-urea-gfr": 15,
+    "coprocultura": 40,
+    "vancomicina-os": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-antibiotico",
+      "prompt": "Che antibiotico ha preso in questi giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "ceftriaxone",
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "L'antibiotico recente è il fattore che rende credibile il C. difficile."
+    },
+    {
+      "id": "aq-antidiarroico",
+      "prompt": "Ha già preso qualcosa per fermare la diarrea?",
+      "critical": true,
+      "expectedKeywords": [
+        "loperamide",
+        "fermare",
+        "vicino"
+      ],
+      "rationale": "Va sospeso subito qualunque rallentante della motilità."
+    },
+    {
+      "id": "aq-scariche",
+      "prompt": "Quante scariche e c'è dolore che cresce?",
+      "critical": true,
+      "expectedKeywords": [
+        "scariche",
+        "crampi",
+        "dieci"
+      ],
+      "rationale": "Il numero delle scariche e i crampi misurano la gravità prima del megacolon."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Addome dolente, trattabile, peristalsi presente, non difesa. Diarrea acquosa in padella. Paziente che si interrompe per il crampo. Non segni di peritonite in questo momento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "inf-004-vanco",
+      "source": "IDSA/SHEA C. difficile — sintesi operativa",
+      "quote": "Sintesi operativa: tossina A/B e vancomicina orale. Il metronidazolo non è più il farmaco di prima scelta nell'episodio iniziale."
+    },
+    {
+      "chunkId": "inf-004-loperamide",
+      "source": "Megacolon e rallentanti — sintesi operativa",
+      "quote": "Sintesi operativa: loperamide e affini sono controindicati. Fermare la diarrea trattiene la tossina e apre la strada al megacolon tossico."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Tossina A/B richiesta, non solo coprocoltura.",
+      "Vancomicina data per bocca.",
+      "Loperamide non prescritta e sospesa se già presa.",
+      "Gravità letta con emocromo e creatinina."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: la colite da C. difficile si tratta con vancomicina orale. La loperamide è un danno, non un conforto.",
+      "legalCriteria": [
+        "Tracciare l'antibiotico dei giorni precedenti in cartella.",
+        "Scrivere il divieto esplicito dei rallentanti della motilità.",
+        "Se la loperamide è in ricetta, l'evento è iatrogeno e va dichiarato."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "cdiff",
+      "name": "Tossina C. difficile",
+      "finding": "Tossina A/B di Clostridioides difficile: positiva. Glutammato deidrogenasi positiva. La coprocultura ordinaria non è questo esame.",
+      "isAbnormal": true,
+      "priceEuro": 30
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo: leucociti 18.400, neutrofili 84%. Emoglobina 12,1. Il rialzo dei bianchi segna una colite, non una diarrea banale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina",
+      "finding": "Creatinina 1,6 mg/dL, urea 68 mg/dL, GFR stimato 42. Peggiorata rispetto al ricovero. Segno di gravità, non un motivo per la loperamide.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "coprocultura",
+      "name": "Coprocultura standard",
+      "finding": "Coprocultura standard: negativa per Salmonella, Shigella e Campylobacter. Non cerca la tossina del Clostridioides e non sostituisce il test A/B.",
+      "isAbnormal": false,
+      "priceEuro": 25,
+      "inappropriate": true,
+      "wasteRationale": "La coprocoltura ordinaria non è il test del C. difficile e costa un giro inutile."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "100/64",
+      "spo2": 96,
+      "temperature": 38.2,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 85,
+    "demographics": {
+      "age": 68,
+      "sex": "M",
+      "name": "Pietro G.",
+      "context": "Reparto di Medicina"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Dolore addominale",
+        "result": "Si blocca, dice «ah», poi l'addome resta trattabile.",
+        "isPositive": true
+      },
+      {
+        "signName": "Blumberg",
+        "result": "Negativo in questo momento.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Dolore addominale",
+        "result": "Si blocca, dice «ah», poi l'addome resta trattabile.",
+        "isPositive": true
+      },
+      {
+        "signName": "Blumberg",
+        "result": "Negativo in questo momento.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "cdiff": {
+          "finding": "Tossina A/B di Clostridioides difficile: positiva. Glutammato deidrogenasi positiva. La coprocultura ordinaria non è questo esame.",
+          "isAbnormal": true,
+          "price": 30
+        },
+        "emocromo": {
+          "finding": "Emocromo: leucociti 18.400, neutrofili 84%. Emoglobina 12,1. Il rialzo dei bianchi segna una colite, non una diarrea banale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina 1,6 mg/dL, urea 68 mg/dL, GFR stimato 42. Peggiorata rispetto al ricovero. Segno di gravità, non un motivo per la loperamide.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "coprocultura": {
+          "finding": "Coprocultura standard: negativa per Salmonella, Shigella e Campylobacter. Non cerca la tossina del Clostridioides e non sostituisce il test A/B.",
+          "isAbnormal": false,
+          "price": 25
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Vancomicina orale",
+          "anyOf": [
+            {
+              "id": "vancomicina",
+              "label": "Vancomicina orale",
+              "aliases": [
+                "vancomicina",
+                "vancocin"
+              ],
+              "priceEuro": 40
+            }
+          ]
+        }
+      ],
+      "inappropriate": [
+        {
+          "id": "metronidazolo",
+          "label": "Metronidazolo",
+          "aliases": [
+            "metronidazolo",
+            "flagyl"
+          ],
+          "priceEuro": 6
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "loperamide",
+          "label": "Loperamide",
+          "aliases": [
+            "loperamide",
+            "imodium",
+            "dissenten"
+          ],
+          "priceEuro": 5
+        }
+      ]
+    },
+    "killerRules": {
+      "fatalIfPrescribed": [
+        [
+          "loperamide",
+          "imodium",
+          "dissenten"
+        ]
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "CRAMPI SEVERI. Frasi spezzate, «ah— [crampo]». Chiede di fermare la diarrea e accetta la loperamide se gliela offrono. Non spiega la malattia."
+  }
+}

@@ -1,0 +1,271 @@
+{
+  "id": "INF-012",
+  "code": "INF-012",
+  "title": "Luce spenta e nuca rigida — meningite pneumococcica",
+  "description": "Paola N., 47 anni, entra in Pronto Soccorso piegata, con una cefalea che definisce lancinante. Tiene gli occhi chiusi, la nuca non si flette, la luce la fa gemere. È febbrile. Parla a monosillabi.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Meningite batterica da pneumococco, steroide prima dell'antibiotico",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "IDSA meningite: desametasone prima della prima dose",
+  "diagnosis": "Meningite pneumococcica. Emocolture, desametasone immediatamente prima della prima dose di antibiotico, poi ceftriaxone e vancomicina, rachicentesi. Dimenticare il desametasone prima dell'antibiotico aumenta il danno neurologico.",
+  "pastMedicalHistory": "Otite trattata in modo incompleto dieci giorni fa, ha sospeso l'antibiotico dopo due giorni. Non splenectomia, non immunodepressione nota, non trauma. Allergia nessuna. Vive sola. Non ha petecchie. Ieri cefalea, stamattina non tollera la luce.",
+  "presentation": "Sul fianco, avambraccio sugli occhi. Cefalea, vomito unico, nuca rigida, febbre 39,1. Pressione tenuta, non è in shock. Se accendono il neon si lamenta e smette di rispondere. Se le fanno la TC prima dei farmaci, il tempo passa e il gemito aumenta. Parametri: PA 140/88, FC 118, SpO2 96%, FR 22.",
+  "redHerrings": [
+    "La TC prima dei farmaci, in assenza di segni di lato, ritarda steroide e antibiotico.",
+    "L'antibiotico senza desametasone subito prima è la sequenza che lascia più sequele.",
+    "L'otite di dieci giorni fa non è un motivo per un chinolone orale e la dimissione."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: DOLORE E FOTOFOBIA ESTREMA. Sei Paola, 47 anni. Niente frasi lunghe. Gemi. Alla «Come sta?»: «[geme] La luce. No. La nuca.» Massimo quattro o sei parole. Se insistono con domande lunghe: «[geme] Basta.» L'otite di dieci giorni fa la dici solo se chiedono, in tre parole: «orecchio, poi smesso». Non nominare farmaci. Se accendono una luce, un lamento e stop. Se il tempo passa senza una flebo, i gemiti si accorciano. Esempio: Medico: «Mi racconti la cefalea dall'inizio.» Paola: «[geme] Luce. Nuca. Basta.»",
+  "correctSolution": "Emocolture, desametasone subito prima della prima dose, poi ceftriaxone più vancomicina, rachicentesi. La TC non precede i farmaci in questa paziente senza segni di lato. Lo steroide dopo l'antibiotico è la sequenza sbagliata.",
+  "goldStandardPath": [
+    "emocolture",
+    "desametasone",
+    "ceftriaxone",
+    "vancomicina",
+    "liquidi"
+  ],
+  "goldPathNarrative": "1) Emocolture. 2) Desametasone immediatamente prima della primissima dose di antibiotico: invertire l'ordine aumenta il danno neurologico. 3) Ceftriaxone e vancomicina insieme, copertura dello pneumococco resistente. 4) Rachicentesi, senza farla diventare il motivo per ritardare le dosi. La TC, senza deficit di lato, non è il primo passo.",
+  "examLatencies": {
+    "emocolture": 8,
+    "liquidi": 12,
+    "emocromo": 8,
+    "tc": 55,
+    "desametasone": 5,
+    "ceftriaxone": 5,
+    "vancomicina": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-luce",
+      "prompt": "La luce peggiora il dolore? La nuca si flette?",
+      "critical": true,
+      "expectedKeywords": [
+        "luce",
+        "nuca",
+        "cefalea"
+      ],
+      "rationale": "Fotofobia e rigidità tengono il caso sulle meningi, non su un'emicrania da dimettere."
+    },
+    {
+      "id": "aq-otite",
+      "prompt": "Ha avuto di recente un'infezione dell'orecchio o dei seni?",
+      "critical": true,
+      "expectedKeywords": [
+        "orecchio",
+        "otite"
+      ],
+      "rationale": "La porta ORL recente lega lo pneumococco, senza cambiare l'urgenza delle dosi."
+    },
+    {
+      "id": "aq-lato",
+      "prompt": "Un braccio è più debole? Vede doppio? Ha crisi?",
+      "critical": true,
+      "expectedKeywords": [
+        "braccio",
+        "doppio",
+        "crisi"
+      ],
+      "rationale": "Senza segni di lato la TC non deve precedere steroide e antibiotico."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Fotofoba, Kernig abbozzato, rigidità nucale vera. Non deficit di lato, non papilledema evidente alla prova rapida, non petecchie, non shock. Febbre alta. Gemiti al minimo stimolo luminoso."
+  },
+  "escCitations": [
+    {
+      "chunkId": "inf-012-dex",
+      "source": "Desametasone nella meningite — sintesi operativa",
+      "quote": "Sintesi operativa: nel sospetto di meningite pneumococcica il desametasone si dà immediatamente prima della prima dose di antibiotico, non dopo e non il giorno dopo."
+    },
+    {
+      "chunkId": "inf-012-vanco",
+      "source": "Copertura empirica — sintesi operativa",
+      "quote": "Sintesi operativa: ceftriaxone più vancomicina coprono lo pneumococco a sensibilità ridotta in attesa del liquor e dell'antibiogramma. Le emocolture si prelevano senza spostare le dosi."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Desametasone prima della prima dose di antibiotico.",
+      "Ceftriaxone e vancomicina, non un solo farmaco orale.",
+      "Emocolture e liquor richiesti.",
+      "TC non usata come cancello in assenza di segni di lato."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: steroide subito prima dell'antibiotico, poi ceftriaxone e vancomicina. Saltare il desametasone o aspettare la TC senza segni di lato è scostamento.",
+      "legalCriteria": [
+        "Orario del desametasone e orario della prima dose di antibiotico, in quest'ordine.",
+        "Scrivere l'assenza di segni di lato se non si fa la TC prima.",
+        "Non dimettere con terapia orale dell'otite una nuca rigida."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "Emocolture",
+      "finding": "Emocolture: cocchi gram-positivi a coppie. Identificazione in corso, compatibile con pneumococco. Prelievo fatto prima delle dosi.",
+      "isAbnormal": true,
+      "priceEuro": 45
+    },
+    {
+      "examId": "liquidi",
+      "name": "Rachicentesi",
+      "finding": "Esame dei liquidi: liquor torbido, 1.800 leucociti/mmc di cui 92% polimorfonucleati, glucosio 22 mg/dL, proteine 210 mg/dL. Gram: diplococchi gram-positivi.",
+      "isAbnormal": true,
+      "priceEuro": 60
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo: leucociti 21.400, neutrofili 90%, emoglobina 13,4, piastrine 260.000. Flogosi. Non dice il germe: lo dicono emocolture e liquidi.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio",
+      "finding": "TC cranio senza contrasto: sistema ventricolare nei limiti, non shift, non lesioni. Referto che non cambia le dosi e, se chiesto per primo, le sposta in avanti.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Senza segni di lato la TC cranio prima di steroide e antibiotico costa 120 euro e ritarda la prima dose."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "140/88",
+      "spo2": 96,
+      "temperature": 39.1,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 190,
+    "demographics": {
+      "age": 47,
+      "sex": "F",
+      "name": "Paola N.",
+      "context": "Pronto Soccorso"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Rigidità nucale",
+        "result": "Il mento non raggiunge il torace. Dolore immediato.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segni di lato",
+        "result": "Forza simmetrica, nessun deficit evidente tra un gemito e l'altro.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Rigidità nucale",
+        "result": "Il mento non raggiunge il torace. Dolore immediato.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segni di lato",
+        "result": "Forza simmetrica, nessun deficit evidente tra un gemito e l'altro.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "emocolture": {
+          "finding": "Emocolture: cocchi gram-positivi a coppie. Identificazione in corso, compatibile con pneumococco. Prelievo fatto prima delle dosi.",
+          "isAbnormal": true,
+          "price": 45
+        },
+        "liquidi": {
+          "finding": "Esame dei liquidi: liquor torbido, 1.800 leucociti/mmc di cui 92% polimorfonucleati, glucosio 22 mg/dL, proteine 210 mg/dL. Gram: diplococchi gram-positivi.",
+          "isAbnormal": true,
+          "price": 60
+        },
+        "emocromo": {
+          "finding": "Emocromo: leucociti 21.400, neutrofili 90%, emoglobina 13,4, piastrine 260.000. Flogosi. Non dice il germe: lo dicono emocolture e liquidi.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "tc": {
+          "finding": "TC cranio senza contrasto: sistema ventricolare nei limiti, non shift, non lesioni. Referto che non cambia le dosi e, se chiesto per primo, le sposta in avanti.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Desametasone prima dell'antibiotico",
+          "anyOf": [
+            {
+              "id": "desametasone",
+              "label": "Desametasone",
+              "aliases": [
+                "desametasone",
+                "decadron"
+              ],
+              "priceEuro": 6
+            }
+          ]
+        },
+        {
+          "label": "Ceftriaxone",
+          "anyOf": [
+            {
+              "id": "ceftriaxone",
+              "label": "Ceftriaxone ev",
+              "aliases": [
+                "ceftriaxone",
+                "rocefin"
+              ],
+              "priceEuro": 12
+            }
+          ]
+        },
+        {
+          "label": "Vancomicina",
+          "anyOf": [
+            {
+              "id": "vancomicina",
+              "label": "Vancomicina ev",
+              "aliases": [
+                "vancomicina",
+                "vancocin"
+              ],
+              "priceEuro": 35
+            }
+          ]
+        }
+      ]
+    },
+    "killerRules": {
+      "fatalIfOmitted": [
+        [
+          "ceftriaxon",
+          "rocefin"
+        ]
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "FOTOFOBIA. [geme], quattro o sei parole, «la luce», «la nuca». Non racconta. Se la luce è accesa si chiude."
+  }
+}
