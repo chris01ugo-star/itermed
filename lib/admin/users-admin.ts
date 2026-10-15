@@ -21,6 +21,7 @@ export type AdminUserRow = {
   role: string;
   createdAt: string;
   isActive: boolean;
+  mustChangePassword: boolean;
   freeSimulationLimit: number | null;
   isPlatformAdmin: boolean;
   startedCount: number;
@@ -66,6 +67,7 @@ export async function listAdminUsers(): Promise<AdminUserRow[]> {
       role: true,
       createdAt: true,
       isActive: true,
+      mustChangePassword: true,
       freeSimulationLimit: true,
     },
   });
@@ -138,6 +140,7 @@ export async function listAdminUsers(): Promise<AdminUserRow[]> {
       role: user.role,
       createdAt: user.createdAt.toISOString(),
       isActive: user.isActive,
+      mustChangePassword: user.mustChangePassword,
       freeSimulationLimit: user.freeSimulationLimit,
       isPlatformAdmin: isPlatformAdminEmail(user.email),
       startedCount,

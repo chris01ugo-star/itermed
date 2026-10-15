@@ -21,8 +21,8 @@ export default async function AdminUsersPage() {
         <CardHeader>
           <CardTitle className="text-sm font-medium text-zinc-950">Nuovo utente</CardTitle>
           <CardDescription>
-            Crea un account con email e password. Potrà accedere subito, anche se non è nella
-            whitelist del pilota.
+            Crea un account con email e password. Al primo accesso dovrà obbligatoriamente
+            cambiare la password, anche se non è nella whitelist del pilota.
           </CardDescription>
         </CardHeader>
         <CardContent>
