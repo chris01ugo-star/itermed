@@ -40,6 +40,7 @@ export const authOptions: NextAuthOptions = {
             passwordHash: true,
             isActive: true,
             mustChangePassword: true,
+            passwordChangedAt: true,
           },
         });
         if (!user?.passwordHash) return null;
@@ -59,6 +60,7 @@ export const authOptions: NextAuthOptions = {
               passwordHash: true,
               isActive: true,
               mustChangePassword: true,
+              passwordChangedAt: true,
             },
           });
         } else if (user.isActive === false) {
@@ -199,7 +201,14 @@ export const authOptions: NextAuthOptions = {
         try {
           const dbUser = await prisma.user.findUnique({
             where: { email: String(token.email).toLowerCase() },
-            select: { id: true, role: true, planType: true, mustChangePassword: true, email: true },
+            select: {
+              id: true,
+              role: true,
+              planType: true,
+              email: true,
+              mustChangePassword: true,
+              passwordChangedAt: true,
+            },
           });
           if (dbUser) {
             token.id = dbUser.id;
@@ -223,7 +232,14 @@ export const authOptions: NextAuthOptions = {
         try {
           const dbUser = await prisma.user.findUnique({
             where: { id: userId },
-            select: { role: true, email: true, planType: true, isActive: true, mustChangePassword: true },
+            select: {
+              role: true,
+              email: true,
+              planType: true,
+              isActive: true,
+              mustChangePassword: true,
+              passwordChangedAt: true,
+            },
           });
           if (!dbUser) {
             return {};

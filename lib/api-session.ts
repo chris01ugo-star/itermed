@@ -4,7 +4,6 @@ import { authOptions } from "./auth-options";
 import {
   MUST_CHANGE_PASSWORD_CODE,
   MUST_CHANGE_PASSWORD_MESSAGE,
-  shouldForcePasswordChange,
 } from "./auth/must-change-password";
 
 export const AUTH_JSON_HEADERS = { "Content-Type": "application/json" } as const;
@@ -53,10 +52,7 @@ export async function getSessionUser(): Promise<ApiSessionUser | null> {
     id,
     role: session.user.role?.trim() || "STUDENT",
     email: session.user.email ?? null,
-    mustChangePassword: shouldForcePasswordChange({
-      mustChangePassword: session.user.mustChangePassword,
-      email: session.user.email,
-    }),
+    mustChangePassword: session.user.mustChangePassword === true,
   };
 }
 
