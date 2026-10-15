@@ -42,7 +42,8 @@ function isProtectedPath(pathname: string): boolean {
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/case") ||
     pathname.startsWith("/admin") ||
-    pathname.startsWith("/demo")
+    pathname.startsWith("/demo") ||
+    pathname.startsWith("/account")
   );
 }
 
@@ -145,6 +146,7 @@ export const config = {
     "/case/:path*",
     "/admin/:path*",
     "/demo/:path*",
+    "/account/:path*",
     "/signup",
     "/signup/:path*",
   ],

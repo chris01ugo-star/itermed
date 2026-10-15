@@ -168,6 +168,7 @@ export async function createUserAction(
       role: roleRaw,
       planType: roleRaw === "ADMIN" ? "BETA_TESTER" : "INVITED",
       isActive: true,
+      mustChangePassword: true,
       freeSimulationLimit: roleRaw === "ADMIN" ? UNLIMITED_SIMULATION_SENTINEL : freeSimulationLimit,
       termsAcceptedAt: acceptedAt,
       privacyAcceptedAt: acceptedAt,
