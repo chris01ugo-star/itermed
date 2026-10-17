@@ -13,6 +13,7 @@ import {
 import {
   UNAUTHORIZED_PILOT_EMAIL_CODE,
 } from "@/lib/pilot-whitelist";
+import { shouldForcePasswordChange } from "@/lib/auth/must-change-password";
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -38,6 +39,8 @@ export const authOptions: NextAuthOptions = {
             planType: true,
             passwordHash: true,
             isActive: true,
+            mustChangePassword: true,
+            passwordChangedAt: true,
           },
         });
         if (!user?.passwordHash) return null;
@@ -56,6 +59,8 @@ export const authOptions: NextAuthOptions = {
               planType: true,
               passwordHash: true,
               isActive: true,
+              mustChangePassword: true,
+              passwordChangedAt: true,
             },
           });
         } else if (user.isActive === false) {
@@ -78,6 +83,7 @@ export const authOptions: NextAuthOptions = {
           name: user.name ?? undefined,
           role: user.role,
           planType: user.planType,
+          mustChangePassword: shouldForcePasswordChange(user),
         };
       },
     }),
@@ -184,6 +190,9 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.role = (user as { role?: string }).role;
         token.planType = (user as { planType?: string }).planType;
+        token.mustChangePassword = Boolean(
+          (user as { mustChangePassword?: boolean }).mustChangePassword,
+        );
       }
 
       // For Google sign-ins, `user.id` is the provider's own id, not our DB id —
@@ -192,12 +201,20 @@ export const authOptions: NextAuthOptions = {
         try {
           const dbUser = await prisma.user.findUnique({
             where: { email: String(token.email).toLowerCase() },
-            select: { id: true, role: true, planType: true },
+            select: {
+              id: true,
+              role: true,
+              planType: true,
+              email: true,
+              mustChangePassword: true,
+              passwordChangedAt: true,
+            },
           });
           if (dbUser) {
             token.id = dbUser.id;
             token.role = dbUser.role;
             token.planType = dbUser.planType;
+            token.mustChangePassword = shouldForcePasswordChange(dbUser);
           }
         } catch {
           // Keep whatever we already have if the DB is temporarily unavailable.
@@ -215,7 +232,14 @@ export const authOptions: NextAuthOptions = {
         try {
           const dbUser = await prisma.user.findUnique({
             where: { id: userId },
-            select: { role: true, email: true, planType: true, isActive: true },
+            select: {
+              role: true,
+              email: true,
+              planType: true,
+              isActive: true,
+              mustChangePassword: true,
+              passwordChangedAt: true,
+            },
           });
           if (!dbUser) {
             return {};
@@ -226,8 +250,10 @@ export const authOptions: NextAuthOptions = {
           if (dbUser.role) token.role = dbUser.role;
           if (dbUser.email) token.email = dbUser.email;
           if (dbUser.planType) token.planType = dbUser.planType;
+          token.mustChangePassword = shouldForcePasswordChange(dbUser);
           if (isPlatformAdminEmail(dbUser.email)) {
             token.role = "ADMIN";
+            token.mustChangePassword = false;
           }
         } catch {
           // Keep token fields if DB is temporarily unavailable.
@@ -245,6 +271,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = (token.id ?? token.sub) as string;
         session.user.role = (token.role as string) ?? "STUDENT";
+        session.user.mustChangePassword = token.mustChangePassword === true;
         (session.user as { planType?: string }).planType =
           (token.planType as string) ?? "FREE";
       }

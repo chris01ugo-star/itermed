@@ -25,6 +25,13 @@ describe("forbiddenJson", () => {
     const body = (await res.json()) as { error: string; code: string };
     assert.equal(body.code, "FORBIDDEN_ROLE");
   });
+
+  it("returns HTTP 403 MUST_CHANGE_PASSWORD when first-login is pending", async () => {
+    const res = forbiddenJson("Devi impostare una nuova password prima di continuare.", "MUST_CHANGE_PASSWORD");
+    assert.equal(res.status, 403);
+    const body = (await res.json()) as { error: string; code: string };
+    assert.equal(body.code, "MUST_CHANGE_PASSWORD");
+  });
 });
 
 describe("isTeacherRole", () => {

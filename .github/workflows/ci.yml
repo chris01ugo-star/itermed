@@ -61,6 +61,9 @@ jobs:
       - name: API auth guards (401 / teacher role / IDOR tokens)
         run: npx tsx --test lib/security/api-auth-guards.test.ts
 
+      - name: First-login password change gate
+        run: npx tsx --test lib/auth/must-change-password.test.ts
+
       - name: D-RIME FSM determinism check
         run: npx tsx scripts/verify-d-rime-fsm.ts
 

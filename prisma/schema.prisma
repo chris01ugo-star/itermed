@@ -88,6 +88,10 @@ model User {
   /// Lifetime free-case cap override. null = default rules (pilot 3 / sponsored 20 / daily).
   /// -1 = unlimited grant. >= 0 = lifetime CaseSession cap.
   freeSimulationLimit Int?
+  /// Admin-created accounts must set their own password before using the app.
+  mustChangePassword Boolean @default(false)
+  /// Set when the user completes the mandatory password form (clears the first-login gate).
+  passwordChangedAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
