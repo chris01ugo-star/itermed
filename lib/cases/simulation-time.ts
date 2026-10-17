@@ -8,6 +8,7 @@ export type ExamLatenciesMap = Record<string, number>;
 const GOLD_STEP_ORDER_ALIASES: Record<string, readonly string[]> = {
   coprocoltura: ["coprocultura"],
   "tc-addome": ["tc"],
+  "rm-rachide": ["rm"],
 };
 
 /** Normalizes step/exam ids for fuzzy matching (rx_torace ↔ rx-torace). */
@@ -77,12 +78,7 @@ export function inferCompletedGoldSteps(params: {
     if (completed.has(norm)) continue;
 
     if (
-      params.requestedExamIds.some((e) => {
-        const exam = normalizeStepId(e);
-        if (exam === norm || exam.includes(norm) || norm.includes(exam)) return true;
-        const aliases = GOLD_STEP_ORDER_ALIASES[norm] ?? [];
-        return aliases.some((alias) => normalizeStepId(alias) === exam);
-      })
+      params.requestedExamIds.some((e) => examOrderMatchesGoldStep(normalizeStepId(e), norm))
     ) {
       completed.add(norm);
       continue;
@@ -137,7 +133,7 @@ export function inferCompletedGoldSteps(params: {
     if (msg.includes("[azione_medica: prescrizione]") && /farmac|prescri|terap/i.test(norm)) {
       completed.add(norm);
     }
-    if (infectiousStepMatches(norm, msg)) {
+    if (infectiousStepMatches(norm, msg) || oncologyStepMatches(norm, msg)) {
       completed.add(norm);
     }
   }
@@ -169,6 +165,41 @@ const INFECTIOUS_STEP_RULES: ReadonlyArray<{ step: RegExp; message: RegExp }> = 
 
 function infectiousStepMatches(norm: string, msg: string): boolean {
   return INFECTIOUS_STEP_RULES.some((rule) => rule.step.test(norm) && rule.message.test(msg));
+}
+
+/**
+ * A longer order id satisfies a shorter gold step (`tc-torace` closes `tc`).
+ * The reverse does not: generic `tc` must not close both `tc-torace` and `tc-addome`.
+ * Explicit aliases cover the historical exceptions.
+ */
+function examOrderMatchesGoldStep(exam: string, norm: string): boolean {
+  if (exam === norm) return true;
+  const aliases = GOLD_STEP_ORDER_ALIASES[norm] ?? [];
+  if (aliases.some((alias) => normalizeStepId(alias) === exam)) return true;
+  return exam.startsWith(`${norm}-`);
+}
+
+const ONCOLOGY_STEP_RULES: ReadonlyArray<{ step: RegExp; message: RegExp }> = [
+  { step: /esame-cute|esame-linfonod|esame-neurolog/, message: /cute|nevo|nevi|pelle|linfonod|ascell|inguine|dermos|forza|arto|obiettivo/ },
+  { step: /ondansetron|antiemet/, message: /ondansetron|granisetron|palonosetron|setrone|antiemet|aprepitant|netupitant/ },
+  { step: /metilprednisolon/, message: /metilprednisolon|prednisone|steroide|cortison/ },
+  { step: /sospensione-immunoterap/, message: /sospend|stop.{0,30}immun|nivolumab|pembrolizumab|ipilimumab|checkpoint/ },
+  { step: /rasburicase/, message: /rasburicase|fasturtec/ },
+  { step: /calcio-gluconato/, message: /calcio gluconato|gluconato di calcio|insulina.{0,30}glucos|glucosio.{0,30}insulina/ },
+  { step: /zoledron/, message: /zoledron|bisfosfon|acido zoledronic/ },
+  { step: /calcitonina-ev/, message: /calcitonina/ },
+  { step: /morfina|oppioid/, message: /morfina|fentanyl|ossicodone|idromorfone|oppioid/ },
+  { step: /midazolam|sedazione-palliativ/, message: /midazolam|sedazione palliativ|ipnovel/ },
+  { step: /radioterapia/, message: /radioterap|stent|decompress/ },
+  { step: /colloquio-empatico/, message: /paura|morir|accanto|la ascolto|spavent|non sta morendo|insieme|capisco/ },
+  { step: /colloquio-spikes/, message: /spikes|prognosi|aspettativa|progressione|le dico|non possiamo guarir|verit/ },
+  { step: /colloquio-familiari/, message: /famigl|figli|marito|moglie|sedazione|accaniment|insieme a voi/ },
+  { step: /amoxicillina/, message: /amoxicill|augmentin/ },
+  { step: /ciprofloxacina/, message: /ciprofloxac|levofloxac/ },
+];
+
+function oncologyStepMatches(norm: string, msg: string): boolean {
+  return ONCOLOGY_STEP_RULES.some((rule) => rule.step.test(norm) && rule.message.test(msg));
 }
 
 export function isGoldStandardMet(

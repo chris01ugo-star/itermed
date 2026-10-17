@@ -1,0 +1,292 @@
+{
+  "id": "ONCO-004",
+  "code": "ONCO-004",
+  "title": "La macchia sulla lastra — massa polmonare",
+  "description": "Giuseppe T., 67 anni, fumatore da quarant'anni, porta una radiografia fatta per una tosse che non passa: opacità di 4 cm all'apice destro. Dice che è un «catarro vecchio» e che smetterà dopo le feste. Tosse stizzosa, due chili in meno che attribuisce alla dieta.",
+  "difficulty": "MEDIUM",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "secondary_specialties": ["pneumologia"],
+  "condition": "Massa polmonare sospetta in forte fumatore, stadiazione e diagnosi tissutale",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "AIOM/ESMO NSCLC: TC torace e addome con mezzo di contrasto, poi broncoscopia",
+  "diagnosis": "Sospetto carcinoma polmonare. TC torace e TC addome con mezzo di contrasto, broncoscopia con biopsia. La PET e l'NGS non precedono l'istologia in questo primo accesso.",
+  "pastMedicalHistory": "Fuma 20 sigarette al giorno da quarant'anni, non ha mai provato a smettere sul serio. Tosse da tre mesi, prima al mattino, ora anche di giorno, a volte striata di sangue che lui chiama «gengive». Due chili persi, appetito meno. Non ha BPCO nota, non ossigeno a casa. Ipertensione in terapia con amlodipina. La radiografia di ieri descrive una opacità apicale destra di circa 4 cm.",
+  "presentation": "Seduto, tossisce in un fazzoletto, minimizza. Se gli si dice la parola tumore, alza le spalle: «Mio padre ha fumato fino a ottanta.» Non ha dispnea a riposo, non ha edema a mantellina, non ha dolore osseo. Parametri: PA 146/84, FC 88, SpO2 95% in aria, FR 18, temperatura 36,8.",
+  "redHerrings": [
+    "«È catarro» è negazione, non una diagnosi. La lastra ha già una massa.",
+    "L'emottisi minima non è una gengiva finché non si è visto il bronco.",
+    "Partire dalla PET, senza TC e senza tessuto, brucia 950 euro e non dà l'istologia."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 80,
+  "patientPrompt": "ROLEPLAY RIGIDO. Registro: NEGAZIONE, TOSSE STIZZOSA, FUMATORE. Sei Giuseppe, 67 anni. Tossisci spesso, una tosse secca che ti interrompe. Alla «Come sta?»: «Un catarro. Niente di che. [tosse] Fumo, e allora?» Se ti dicono che sulla lastra c'è una massa: «Sarà il catarro vecchio. Mio padre fumava e campava.» Non chiedere tu la broncoscopia. Il sangue nel fazzoletto, due volte questa settimana, lo dici solo se ti chiedono del catarro o del fazzoletto, e lo chiami gengiva. I due chili li dai alla dieta, solo se chiedono il peso. Se propongono PET o un test genetico prima di spiegarti la TAC e il broncoscopio, accetti perché «così chiudiamo». Se ti spiegano TAC di torace e pancia e poi un tubo per il prelievo, ti irrigidisci, [sospiro], poi: «Fa male?» e accetti a denti stretti. Non nominare tu carcinoma, stadio, EGFR. Esempio: Medico: «Potrebbe essere un tumore.» Giuseppe: «[tosse] Ma no. È fumo. Non esageriamo.»",
+  "correctSolution": "TC torace con mezzo di contrasto e TC addome con mezzo di contrasto, funzione renale prima del contrasto, broncoscopia con biopsia. Non PET e non NGS come primo atto. Dire la verità senza urlare, senza accettare il «catarro».",
+  "goldStandardPath": [
+    "creat-urea-gfr",
+    "tc-torace",
+    "tc-addome",
+    "broncoscopia",
+    "biopsia"
+  ],
+  "goldPathNarrative": "1) Creatinina prima del contrasto, 6 euro. 2) TC torace con mezzo di contrasto, 150 euro: dimensione, ilo, versamento. 3) TC addome con mezzo di contrasto, 150 euro: fegato e surreni. 4) Broncoscopia, 160 euro, e biopsia, 120 euro. Ideale 586 euro, budget 720. Una RM da 220 euro porta il conto a 806 e sfora. PET 950 e NGS 1200 sfonano anche da sole, sommate al percorso.",
+  "examLatencies": {
+    "creat-urea-gfr": 10,
+    "emocromo": 10,
+    "tc-torace": 30,
+    "tc-addome": 30,
+    "broncoscopia": 40,
+    "biopsia": 40,
+    "pet-tc": 180,
+    "rm-rachide": 60,
+    "ngs-panel": 200,
+    "scintigrafia": 80,
+    "rx-torace": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-fumo",
+      "prompt": "Quante sigarette e da quanti anni, e ha smesso?",
+      "critical": true,
+      "expectedKeywords": ["sigarette", "anni", "fumo"],
+      "rationale": "Il pacchetto-anno tiene alto il sospetto e smonta il «catarro»."
+    },
+    {
+      "id": "aq-sangue",
+      "prompt": "Ha visto sangue nel catarro, e il peso è cambiato?",
+      "critical": true,
+      "expectedKeywords": ["sangue", "peso", "fazzoletto"],
+      "rationale": "Emottisi e calo di peso, anche minimizzati, confermano che non si aspetta un altro ciclo di aerosol."
+    },
+    {
+      "id": "aq-dolore",
+      "prompt": "Ha dolore osseo, gonfiore del viso o fiato che manca da sdraiato?",
+      "critical": false,
+      "expectedKeywords": ["dolore", "viso", "fiato"],
+      "rationale": "Esclude, per oggi, compressione midollare e vena cava. Qui non ci sono."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Tosse secca durante il colloquio. Torace iperespanso, murmure ridotto in apice destro, non rantoli diffusi. Non turgore giugulare, non edema a mantellina, non ippocratismo marcato. Linfonodi sovraclaveari non palpabili. Saturazione 95% a riposo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "onco-004-tc",
+      "source": "Nodulo e massa polmonare — sintesi operativa",
+      "quote": "Sintesi operativa: una massa all'rx in un forte fumatore si stadia con TC torace e addome con mezzo di contrasto. La PET non sostituisce la TC né il prelievo."
+    },
+    {
+      "chunkId": "onco-004-tessuto",
+      "source": "Diagnosi di NSCLC — sintesi operativa",
+      "quote": "Sintesi operativa: senza tessuto non c'è istotipo e non c'è terapia. La broncoscopia con biopsia è il passo diagnostico, non un pannello NGS sul sangue."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Non accettare la negazione del «catarro» come piano.",
+      "TC torace e TC addome con mezzo di contrasto.",
+      "Broncoscopia e biopsia.",
+      "PET e NGS non come primo esame."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: massa polmonare in fumatore, aderenza è TC con contrasto e diagnosi tissutale. La PET di apertura è scostamento.",
+      "legalCriteria": [
+        "Creatinina documentata prima del mezzo di contrasto.",
+        "Consenso alla broncoscopia: beneficio del prelievo, rischio di sanguinamento e di pneumotorace.",
+        "Il pacchetto-anno e l'emottisi restano in cartella anche se il paziente li chiama catarro."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina",
+      "finding": "Creatinina 0,9 mg/dL, GFR stimato 82. Il mezzo di contrasto non è vietato.",
+      "isAbnormal": false,
+      "priceEuro": 6
+    },
+    {
+      "examId": "tc-torace",
+      "name": "TC torace con mezzo di contrasto",
+      "finding": "TC torace: lesione spiculata di 42 mm all'apice destro, contatto pleurico, linfonodo ilare destro 16 mm asse corto. Non versamento. Non compressione della vena cava.",
+      "isAbnormal": true,
+      "priceEuro": 150
+    },
+    {
+      "examId": "tc-addome",
+      "name": "TC addome con mezzo di contrasto",
+      "finding": "TC addome: fegato omogeneo, surreni nei limiti, non linfonodi lomboaortici sospetti. Stadio clinico ancora locale-regionale, da confermare col tessuto.",
+      "isAbnormal": false,
+      "priceEuro": 150
+    },
+    {
+      "examId": "broncoscopia",
+      "name": "Broncoscopia",
+      "finding": "Broncoscopia: lesione vegetante all'imbocco del bronco segmentario apicale destro, che sanguina al passaggio. Prelievo eseguito.",
+      "isAbnormal": true,
+      "priceEuro": 160
+    },
+    {
+      "examId": "biopsia",
+      "name": "Biopsia bronchiale",
+      "finding": "Istologia: carcinoma squamocellulare. Materiale adeguato. L'NGS, se servirà, viene dopo l'istotipo, non prima.",
+      "isAbnormal": true,
+      "priceEuro": 120
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC total body",
+      "finding": "PET: iperaccumulo sulla massa apicale, non focolai a distanza chiari. Costa 950 euro e non sostituisce TC e biopsia in questo primo accesso.",
+      "isAbnormal": true,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Sommata al percorso da 586 euro, la PET sfora il budget di 720. Non è il primo esame."
+    },
+    {
+      "examId": "rm-rachide",
+      "name": "RM whole body",
+      "finding": "RM whole body: scheletro senza lesioni litiche. Nessun dolore osseo. 220 euro che, aggiunti, sforano i 720.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Una RM ingiustificata da 220 euro porta 586 a 806, oltre il massimale."
+    },
+    {
+      "examId": "ngs-panel",
+      "name": "Pannello genetico NGS",
+      "finding": "NGS su sangue: non c'è ancora un istotipo su cui leggerlo. Costo 1200 euro.",
+      "isAbnormal": false,
+      "priceEuro": 1200,
+      "inappropriate": true,
+      "wasteRationale": "L'NGS prima del tessuto è spreco e sfora qualunque budget di questa visita."
+    },
+    {
+      "examId": "scintigrafia",
+      "name": "Scintigrafia ossea",
+      "finding": "Scintigrafia ossea negativa. Senza dolore non cambia la TC.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "120 euro senza quesito osseo. Col percorso completo il conto si avvicina al tetto e l'esame non è indicato."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "146/84",
+      "spo2": 95,
+      "temperature": 36.8,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 720,
+    "demographics": {
+      "age": 67,
+      "sex": "M",
+      "name": "Giuseppe T.",
+      "context": "Ambulatorio"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Tosse",
+        "result": "Tosse secca ripetuta, fazzoletto con striatura ematica minima se gli si chiede di mostrarlo.",
+        "isPositive": true
+      },
+      {
+        "signName": "Murmure apicale destro",
+        "result": "Murmure ridotto all'apice destro, non rantoli a bolle.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Tosse",
+        "result": "Tosse secca ripetuta, fazzoletto con striatura ematica minima se gli si chiede di mostrarlo.",
+        "isPositive": true
+      },
+      {
+        "signName": "Murmure apicale destro",
+        "result": "Murmure ridotto all'apice destro, non rantoli a bolle.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "creat-urea-gfr": {
+          "finding": "Creatinina 0,9 mg/dL, GFR 82.",
+          "isAbnormal": false,
+          "price": 6
+        },
+        "emocromo": {
+          "finding": "Emoglobina 13,4 g/dL, leucociti 7800, piastrine 240000.",
+          "isAbnormal": false,
+          "price": 8
+        },
+        "tc-torace": {
+          "finding": "Lesione spiculata di 42 mm all'apice destro, linfonodo ilare destro 16 mm. Non versamento. Vena cava superiore pervia.",
+          "isAbnormal": true,
+          "price": 150
+        },
+        "tc-addome": {
+          "finding": "Fegato e surreni senza lesioni. Non linfonodi lomboaortici sospetti.",
+          "isAbnormal": false,
+          "price": 150
+        },
+        "broncoscopia": {
+          "finding": "Lesione vegetante al bronco segmentario apicale destro.",
+          "isAbnormal": true,
+          "price": 160
+        },
+        "biopsia": {
+          "finding": "Carcinoma squamocellulare. Campione adeguato.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "rx-torace": {
+          "finding": "Radiografia già nota: opacità apicale destra di circa 4 cm.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "pet-tc": {
+          "finding": "Iperaccumulo sulla massa, non chiari focolai a distanza. Non sostituisce la biopsia.",
+          "isAbnormal": true,
+          "price": 950
+        },
+        "rm-rachide": {
+          "finding": "Scheletro senza lesioni. Non indicata oggi.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "rm": {
+          "finding": "Scheletro senza lesioni. Non indicata oggi.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "ngs-panel": {
+          "finding": "Pannello non interpretabile senza istotipo.",
+          "isAbnormal": false,
+          "price": 1200
+        },
+        "scintigrafia": {
+          "finding": "Nessun focolaio osseo. Non indicata.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Negazionista, tosse che lo interrompe, chiama tumore «catarro». Se gli offrono la PET prima della spiegazione, accetta per chiudere. Se gli parlano chiaro della TAC e del broncoscopio, ha paura e poi accetta."
+  }
+}

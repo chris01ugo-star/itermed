@@ -1,0 +1,294 @@
+{
+  "id": "ONCO-007",
+  "code": "ONCO-007",
+  "title": "Otto scariche — colite da immunoterapia",
+  "description": "Marco S., 58 anni, melanoma metastatico in nivolumab da tre mesi. Da quattro giorni diarrea, oggi otto scariche liquide, crampi, si alza di notte. Un collega gli ha detto «gastroenterite, prenda la loperamide». Non ha febbre alta. È spaventato e anche arrabbiato: «la cura mi sta avvelenando».",
+  "difficulty": "MEDIUM",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "secondary_specialties": ["gastroenterologia"],
+  "condition": "Colite grado 3 da inibitore del checkpoint",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "ESMO tossicità da immunoterapia: sospendere il farmaco e steroide ad alto dosaggio",
+  "diagnosis": "Colite grado 3 da nivolumab. Sospendere l'immunoterapia, escludere il Clostridioides, metilprednisolone ad alto dosaggio. La loperamide, come per una tossinfezione, è la trappola mortale.",
+  "pastMedicalHistory": "Melanoma metastatico, nivolumab ogni due settimane, ultima dose sei giorni fa. Nessuna diarrea prima del farmaco. Non antibiotici recenti. Non viaggi. Quattro giorni di scariche, oggi otto, notturne, con crampi e urgenza. Una volta striatura di sangue. Peso meno due chili in una settimana. Non ha preso ancora loperamide, gliel'hanno solo consigliata.",
+  "presentation": "Seduto sul letto, si alza durante il colloquio per il bagno, torna più pallido. Addome diffuso, dolorabilità senza difesa. Non settico. Se gli si parla di loperamide si aggrappa al nome perché è una pastiglia e non un ricovero. Parametri: PA 112/70, FC 108, SpO2 98%, FR 16, temperatura 37,2.",
+  "redHerrings": [
+    "Sembra una gastroenterite. Manca la febbre alta e c'è un farmaco che infiamma il colon.",
+    "Il sangue sulla carta non è un motivo per la loperamide: è un motivo per non chiudere la diarrea a forza.",
+    "La colonscopia immediata, prima dello steroide, ritarda la cura e costa 180 euro."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: DIARREA SEVERA, RABBIA E PAURA. Sei Marco, 58 anni, reparto. Ti alzi, ti tieni la pancia. Alla «Come sta?»: «Otto volte. [sospiro] È acqua. Questa cura mi sta ammazzando.» Pausa, un crampo, stringi i denti. Se ti chiedono da quando, quattro giorni, peggio oggi, anche di notte. Il sangue, una striatura, solo se chiedono del water. Il nivolumab lo dici se chiedono le cure: «L'ultima volta sei giorni fa.» Se ti propongono la loperamide o «è un virus, dieta in bianco», ti illumini e ti arrabbi insieme: «Finalmente una pastiglia. Me la dia.» Se invece sospendono l'immunoterapia e ti parlano di cortisone in vena, hai paura: «E il melanoma? Lo lasciate andare?» poi, se ti spiegano che il colon viene prima, accetti. Non nominare tu grado 3, checkpoint, steroide ad alto dosaggio. Se passa tempo e ti danno solo loperamide: «[crampo] Sto peggio. Non arrivo al bagno.» Esempio: Medico: «È una tossinfezione. Loperamide e a casa.» Marco: «Sì. Datemi quella. Però... otto volte non è un virus?»",
+  "correctSolution": "Sospendere il nivolumab. Emocromo, elettroliti, creatinina, tossina del Clostridioides. Metilprednisolone endovenoso ad alto dosaggio, circa 1-2 mg/kg. Non loperamide. Non colonscopia come primo atto. Non PET.",
+  "goldStandardPath": [
+    "cdiff",
+    "elettroliti",
+    "emocromo",
+    "sospensione-immunoterapia",
+    "metilprednisolone"
+  ],
+  "goldPathNarrative": "1) Si sospende il nivolumab, a voce, prima di nuovi cicli. 2) Tossina di Clostridioides, 30 euro, per non coprire un'infezione con lo steroide da solo. 3) Elettroliti e emocromo, 16 euro: le scariche spostano il potassio. 4) Metilprednisolone endovenoso ad alto dosaggio. Ideale di esami 52 euro più lo steroide, budget 160. La colonscopia da 180 euro, aggiunta, sfora. PET e RM sfonano. La loperamide non sfora il budget: sfora il paziente.",
+  "examLatencies": {
+    "cdiff": 15,
+    "elettroliti": 10,
+    "emocromo": 10,
+    "creat-urea-gfr": 10,
+    "colonscopia": 40,
+    "pet-tc": 180,
+    "rm-rachide": 60,
+    "ngs-panel": 200,
+    "metilprednisolone": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-numero",
+      "prompt": "Quante scariche al giorno, anche di notte, e c'è sangue?",
+      "critical": true,
+      "expectedKeywords": ["otto", "notte", "sangue"],
+      "rationale": "Otto scariche con urgenza notturna sono grado 3, non una dieta in bianco."
+    },
+    {
+      "id": "aq-farmaco",
+      "prompt": "Quale immunoterapia e quando è stata l'ultima dose?",
+      "critical": true,
+      "expectedKeywords": ["nivolumab", "giorni"],
+      "rationale": "Il nesso col checkpoint è la diagnosi. Senza quella domanda si cura un virus che non c'è."
+    },
+    {
+      "id": "aq-loperamide",
+      "prompt": "Ha già preso loperamide o un antibiotico?",
+      "critical": true,
+      "expectedKeywords": ["loperamide", "antibiotico"],
+      "rationale": "Sapere che non l'ha ancora presa permette di non prescriverla."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Tachicardia, pressione tenuta, non febbre alta. Addome diffuso, meteorismo, dolorabilità senza difesa e senza segni di perforazione. Cute turgida ai limiti. Si alza per urgenza. Quadro di colite, non di addome chirurgico."
+  },
+  "escCitations": [
+    {
+      "chunkId": "onco-007-steroide",
+      "source": "Colite da checkpoint — sintesi operativa",
+      "quote": "Sintesi operativa: nella diarrea grado 3 da immunoterapia si sospende il farmaco e si inizia lo steroide ad alto dosaggio. Non si aspetta la colonscopia per la prima dose."
+    },
+    {
+      "chunkId": "onco-007-loperamide",
+      "source": "Antidiarroici — sintesi operativa",
+      "quote": "Sintesi operativa: la loperamide nella colite da checkpoint chiude una diarrea infiammatoria e può precipitare il quadro. Non è il trattamento di una tossinfezione."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Sospensione esplicita del nivolumab.",
+      "Esclusione del Clostridioides.",
+      "Steroide ad alto dosaggio per via venosa.",
+      "Nessuna loperamide."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: grado 3 da checkpoint, aderenza è stop e steroide. La loperamide è lo scostamento che fa danno.",
+      "legalCriteria": [
+        "Contare le scariche e scrivere il grado, non «un po' di diarrea».",
+        "Orario della sospensione e orario della prima dose di steroide.",
+        "Non dimettere con loperamide e dieta in bianco."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "cdiff",
+      "name": "Tossina Clostridioides",
+      "finding": "Tossina di Clostridioides difficile negativa. La diarrea non è una colite da antibiotico.",
+      "isAbnormal": false,
+      "priceEuro": 30
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti",
+      "finding": "Sodio 134 mmol/L, potassio 3,1 mmol/L. Perdite intestinali, da reintegrare insieme allo steroide.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Leucociti 11200, emoglobina 12,8 g/dL, piastrine 310000. Non neutropenia. Non è una tossinfezione settica.",
+      "isAbnormal": false,
+      "priceEuro": 8
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina",
+      "finding": "Creatinina 1,1 mg/dL. Disidratazione lieve, non una controindicazione allo steroide.",
+      "isAbnormal": true,
+      "priceEuro": 6
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "colonscopia",
+      "name": "Colonscopia",
+      "finding": "Mucosa eritematosa, fragile, non una perforazione. Il referto conferma la colite ma arriva dopo lo steroide, non prima. Costo 180 euro.",
+      "isAbnormal": true,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Nel grado 3 lo steroide non aspetta la colonscopia. 180 euro in più sforano il budget di 160."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET non richiesta per una tossicità acuta. 950 euro.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "La PET non cura la colite e sfora il massimale."
+    },
+    {
+      "examId": "rm-rachide",
+      "name": "RM whole body",
+      "finding": "RM non indicata sulla diarrea. 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Una RM da 220 euro sfora il budget di 160."
+    },
+    {
+      "examId": "ngs-panel",
+      "name": "Pannello NGS",
+      "finding": "NGS irrilevante sulla tossicità acuta. 1200 euro.",
+      "isAbnormal": false,
+      "priceEuro": 1200,
+      "inappropriate": true,
+      "wasteRationale": "L'NGS non è il trattamento della colite immune."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 108,
+      "bloodPressure": "112/70",
+      "spo2": 98,
+      "temperature": 37.2,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 160,
+    "demographics": {
+      "age": 58,
+      "sex": "M",
+      "name": "Marco S.",
+      "context": "Reparto di oncologia"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Addome",
+        "result": "Dolorabilità diffusa, meteorismo, peristalsi vivace, non difesa.",
+        "isPositive": true
+      },
+      {
+        "signName": "Perforazione",
+        "result": "Non difesa, non silenzio addominale, non peritonismo.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Addome",
+        "result": "Dolorabilità diffusa, meteorismo, peristalsi vivace, non difesa.",
+        "isPositive": true
+      },
+      {
+        "signName": "Perforazione",
+        "result": "Non difesa, non silenzio addominale, non peritonismo.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "cdiff": {
+          "finding": "Tossina Clostridioides negativa.",
+          "isAbnormal": false,
+          "price": 30
+        },
+        "elettroliti": {
+          "finding": "Sodio 134, potassio 3,1 mmol/L.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "emocromo": {
+          "finding": "Leucociti 11200, emoglobina 12,8, non neutropenia.",
+          "isAbnormal": false,
+          "price": 8
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina 1,1 mg/dL.",
+          "isAbnormal": true,
+          "price": 6
+        },
+        "colonscopia": {
+          "finding": "Mucosa eritematosa e fragile, biopsie compatibili con colite. Non è il primo atto.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "pet-tc": {
+          "finding": "Non indicata.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "rm-rachide": {
+          "finding": "Non indicata.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "ngs-panel": {
+          "finding": "Non pertinente.",
+          "isAbnormal": false,
+          "price": 1200
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Metilprednisolone ad alto dosaggio",
+          "anyOf": [
+            {
+              "id": "metilprednisolone",
+              "label": "Metilprednisolone ev",
+              "aliases": ["metilprednisolone", "solumedrol", "steroide"],
+              "priceEuro": 12
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "loperamide",
+          "label": "Loperamide",
+          "aliases": ["loperamide", "imodium", "loperamida"],
+          "priceEuro": 4
+        }
+      ]
+    },
+    "killerRules": {
+      "fatalIfPrescribed": [
+        ["loperamide", "imodium", "loperamida"]
+      ],
+      "fatalIfOmitted": [
+        ["metilprednisolone", "solumedrol", "prednisone", "steroide", "desametasone"]
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Arrabbiato e spaventato, conta le scariche, crampi. Vuole la pastiglia della loperamide se gliela offrono. Se gli sospendono la cura ha paura per il melanoma."
+  }
+}

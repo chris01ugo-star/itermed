@@ -1,0 +1,277 @@
+{
+  "id": "ONCO-011",
+  "code": "ONCO-011",
+  "title": "Le gambe non reggono — midollo",
+  "description": "Sergio F., 70 anni, carcinoma prostatico metastatico, arriva in pronto soccorso da due ore: non svuota la vescica, le gambe si piegano. Il dolore alla schiena è vecchio. Il deficit no. È spaventato e si scusa di dare fastidio.",
+  "difficulty": "HARD",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "secondary_specialties": ["neurologia", "medicina_urgenza"],
+  "condition": "Compressione midollare acuta, steroidi e RM nella stessa ora",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESMO compressione midollare: desametasone ev immediato e RM urgente",
+  "diagnosis": "Sindrome da compressione midollare. Desametasone endovenoso ad alte dosi subito, RM del rachide in urgenza, non domani. Aspettare il giorno dopo lascia il deficit fissato.",
+  "pastMedicalHistory": "Carcinoma prostatico con metastasi ossee note, in terapia ormonale. Lombalgia da un mese, trattata con FANS. Da quattro ore non urina, sensazione di sella diversa, le ginocchia cedono se si alza. Nessun trauma. Non anticoagulanti. Il figlio lo ha portato perché «non si tirava su dal water».",
+  "presentation": "Sul lettino, non si gira da solo. Ipostenia degli arti inferiori, più a destra, riflessi vivaci, Babinski incerto. Globo vescicale. Dolore alla percussione delle spinose toraciche basse. Se gli si dice che la risonanza si fa domani mattina, chiude gli occhi: «Va bene.» Parametri: PA 156/90, FC 104, SpO2 96%, FR 20, temperatura 36,7.",
+  "redHerrings": [
+    "Il dolore è vecchio. Il deficit e la ritenzione sono di oggi, da poche ore.",
+    "Una RX della colonna non vede il midollo e consuma la notte.",
+    "La PET non è un esame da pronto soccorso per un uomo che non urina."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 18,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: PAURA, IPPOSTENIA, RITENZIONE, SI SCUSA. Sei Sergio, 70 anni, pronto soccorso. La voce è bassa. Alla «Come sta?»: «Le gambe. [sospiro] Da stamattina non mi reggono. E non riesco a fare la pipì.» Pausa. «Non riesco a stare sdraiato dal male, ma se mi tiro su cado.» Se ti chiedono da quante ore: due, quattro, «poco». La sella: «È strana. Come addormentata.» solo se chiedono. Se ti dicono che la risonanza è domani, o che intanto si vede la lastra: «[sospiro] Va bene. Scusi il disturbo.» e le gambe le senti più morte. Se ti fanno subito il cortisone in vena e la risonanza adesso, chiedi: «Dottore, cammino ancora? Quanto mi resta così?» Non nominare tu compressione, desametasone, midollo. Se passa tempo senza steroidi: «Non le sento. Proprio non le sento.» Esempio: Medico: «La RM la prenotiamo domani.» Sergio: «[sospiro] Domani. Va bene. Però la pipì... adesso.»",
+  "correctSolution": "Desametasone endovenoso ad alte dosi immediatamente, prima ancora del referto. RM del rachide in urgenza, nella stessa ora, non il giorno dopo. Catetere se c'è il globo. Non RX come esame definitivo. Non PET.",
+  "goldStandardPath": [
+    "desametasone",
+    "rm-rachide"
+  ],
+  "goldPathNarrative": "1) Desametasone ev ad alte dosi, subito, anche prima che la RM sia eseguita: il tempo è il deficit. 2) RM del rachide in urgenza, 220 euro, non in elezione domani. Ideale 220 euro più lo steroide, budget 360. Una PET da 950 o un NGS da 1200 sfonano. Una TC torace da 150, sommata, porta oltre 360 e non vede il midollo come la RM. Aspettare domani non ha un prezzo: ha una paralisi.",
+  "examLatencies": {
+    "desametasone": 5,
+    "rm-rachide": 25,
+    "rm": 25,
+    "rx-colonna": 20,
+    "tc-torace": 40,
+    "pet-tc": 180,
+    "ngs-panel": 200,
+    "scintigrafia": 80,
+    "emocromo": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-ore",
+      "prompt": "Da quante ore le gambe non reggono e da quante ore non urina?",
+      "critical": true,
+      "expectedKeywords": ["ore", "gambe", "pipì"],
+      "rationale": "Poche ore significano finestra ancora aperta. Domani è fuori tempo."
+    },
+    {
+      "id": "aq-sella",
+      "prompt": "La sella e la sensibilità delle gambe sono cambiate?",
+      "critical": true,
+      "expectedKeywords": ["sella", "addormentata", "sensibilità"],
+      "rationale": "Il livello sensitivo e la sella confermano il midollo, non un dolore osseo semplice."
+    },
+    {
+      "id": "aq-tumore",
+      "prompt": "Il tumore alla prostata e le metastasi ossee sono già noti?",
+      "critical": true,
+      "expectedKeywords": ["prostata", "ossa", "noto"],
+      "rationale": "Un tumore noto più un deficit nuovo è compressione fino a prova contraria, e la prova è la RM di oggi."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ipostenia degli arti inferiori, peggiore a destra, riflessi vivaci. Dubbio Babinski. Ipoestesia a sella. Globo vescicale. Dolore sulle spinose toraco-lombari. Non è un'artrosi e non è un caso da dimettere con il FANS. Ogni ora senza steroide è midollo che si perde."
+  },
+  "escCitations": [
+    {
+      "chunkId": "onco-011-steroide",
+      "source": "Compressione midollare — sintesi operativa",
+      "quote": "Sintesi operativa: nel deficit motorio e nella ritenzione da tumore noto il desametasone endovenoso ad alte dosi si dà subito, senza aspettare il referto della RM."
+    },
+    {
+      "chunkId": "onco-011-rm",
+      "source": "RM urgente — sintesi operativa",
+      "quote": "Sintesi operativa: la RM del rachide è nella stessa ora. Rinviarla al giorno dopo, in un deficit da poche ore, è il gesto che lascia la paralisi."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Desametasone ev ad alte dosi prima del referto.",
+      "RM del rachide richiesta in urgenza, non in elezione.",
+      "Catetere sul globo, senza farne il piano al posto dello steroide.",
+      "Nessuna attesa del giorno dopo e nessuna PET."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: compressione midollare, aderenza è steroide immediato e RM urgente. La RM di domani è lo scostamento che invalida.",
+      "legalCriteria": [
+        "Orario del deficit, orario dello steroide, orario della richiesta di RM.",
+        "Descrivere forza, sella e globo, non solo «mal di schiena».",
+        "Non scrivere «RM in elezione» su un deficit da poche ore."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rm-rachide",
+      "name": "RM rachide in urgenza",
+      "finding": "RM urgente: massa epidurale a T10, compressione del midollo, edema di segnale. Il referto conferma. Non andava aspettato per dare lo steroide, e non andava lasciato a domani.",
+      "isAbnormal": true,
+      "priceEuro": 220,
+      "isFatal": true,
+      "componentExamIds": ["rm"]
+    },
+    {
+      "examId": "esame-neurologico",
+      "name": "Esame neurologico degli arti",
+      "finding": "Ipostenia arti inferiori, sella ipoestesica, globo vescicale. Deficit in atto da poche ore.",
+      "isAbnormal": true,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rx-colonna",
+      "name": "RX colonna",
+      "finding": "Crolli vertebrali noti. Non mostra il midollo e non è un motivo per rinviare la RM a domani.",
+      "isAbnormal": true,
+      "priceEuro": 35,
+      "inappropriate": true,
+      "wasteRationale": "La lastra consuma minuti. Il danno vero è il rinvio, non i 35 euro."
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET non eseguibile né utile in questa ora. 950 euro e un giorno di attesa.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "La PET sfora il budget di 360 e sposta la RM fuori dalla finestra."
+    },
+    {
+      "examId": "tc-torace",
+      "name": "TC torace",
+      "finding": "TC torace non risponde al midollo. 150 euro che, sommati alla RM, sforano i 360 se si aggiungono esami fuori quesito.",
+      "isAbnormal": false,
+      "priceEuro": 150,
+      "inappropriate": true,
+      "wasteRationale": "Non è l'esame della compressione. Aggiunta, consuma il margine del budget."
+    },
+    {
+      "examId": "ngs-panel",
+      "name": "Pannello NGS",
+      "finding": "NGS irrilevante sull'ora. 1200 euro.",
+      "isAbnormal": false,
+      "priceEuro": 1200,
+      "inappropriate": true,
+      "wasteRationale": "L'NGS non decomprime il midollo e sfora il massimale."
+    },
+    {
+      "examId": "scintigrafia",
+      "name": "Scintigrafia ossea",
+      "finding": "Ipercaptazioni multiple già note. Non vede la compressione. 120 euro e un altro rinvio.",
+      "isAbnormal": true,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "La scintigrafia non è la RM. In più, 120 euro erodono un budget già occupato dallo steroide e dalla RM."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 104,
+      "bloodPressure": "156/90",
+      "spo2": 96,
+      "temperature": 36.7,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 360,
+    "demographics": {
+      "age": 70,
+      "sex": "M",
+      "name": "Sergio F.",
+      "context": "Pronto soccorso"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Forza arti inferiori",
+        "result": "Ipostenia, non si alza, peggio a destra.",
+        "isPositive": true
+      },
+      {
+        "signName": "Globo vescicale",
+        "result": "Globo palpabile, non urina da ore.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Forza arti inferiori",
+        "result": "Ipostenia, non si alza, peggio a destra.",
+        "isPositive": true
+      },
+      {
+        "signName": "Globo vescicale",
+        "result": "Globo palpabile, non urina da ore.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rm-rachide": {
+          "finding": "Compressione epidurale a T10, edema midollare.",
+          "isAbnormal": true,
+          "price": 220
+        },
+        "rm": {
+          "finding": "RM del rachide: compressione epidurale a T10, edema midollare.",
+          "isAbnormal": true,
+          "price": 220
+        },
+        "rx-colonna": {
+          "finding": "Crolli noti. Midollo non valutabile.",
+          "isAbnormal": true,
+          "price": 35
+        },
+        "pet-tc": {
+          "finding": "Non è l'esame di questa ora.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "tc-torace": {
+          "finding": "Non risponde al quesito midollare.",
+          "isAbnormal": false,
+          "price": 150
+        },
+        "ngs-panel": {
+          "finding": "Non pertinente.",
+          "isAbnormal": false,
+          "price": 1200
+        },
+        "scintigrafia": {
+          "finding": "Focolai ossei multipli. Non vede il midollo.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "emocromo": {
+          "finding": "Emoglobina 11 g/dL, piastrine 160000. Non un motivo per ritardare lo steroide.",
+          "isAbnormal": false,
+          "price": 8
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Desametasone ev ad alte dosi",
+          "anyOf": [
+            {
+              "id": "desametasone",
+              "label": "Desametasone ev",
+              "aliases": ["desametasone", "dexametasone", "decadron"],
+              "priceEuro": 10
+            }
+          ]
+        }
+      ]
+    },
+    "killerRules": {
+      "fatalIfOmitted": [
+        ["desametasone", "dexametasone", "decadron"]
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Si scusa, voce bassa, non urina, le gambe cedono, non sta sdraiato dal male. Se gli rinviano la RM a domani obbedisce e peggiora. Chiede se camminerà ancora."
+  }
+}

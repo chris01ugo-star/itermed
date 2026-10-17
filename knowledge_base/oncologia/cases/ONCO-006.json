@@ -1,0 +1,298 @@
+{
+  "id": "ONCO-006",
+  "code": "ONCO-006",
+  "title": "Febbre al giorno dieci — neutropenia a basso rischio",
+  "description": "Chiara D., 49 anni, day hospital, decimo giorno dopo un ciclo adiuvante per carcinoma mammario. Febbre 38,3, cammina, non ha un focus. MASCC alto: basso rischio. Vuole tornare a casa «dopo il prelievo, quando arriva il risultato».",
+  "difficulty": "MEDIUM",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "secondary_specialties": ["malattie_infettive"],
+  "condition": "Neutropenia febbrile a basso rischio, MASCC alto, antibiotico subito",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "IDSA/AIOM: nella neutropenia febbrile l'antibiotico non aspetta le colture",
+  "diagnosis": "Neutropenia febbrile a basso rischio. Emocolture e emocromo, poi amoxicillina/clavulanato più ciprofloxacina subito. Aspettare il referto per iniziare è l'errore. PET e TC total body non precedono la prima dose.",
+  "pastMedicalHistory": "Carcinoma mammario in adiuvante, schema con docetaxel e ciclofosfamide, ultimo ciclo dieci giorni fa. Nessuna comorbidità seria, non BPCO, non ipotensione, non disidratazione clinica, tumore solido, arriva da casa: MASCC ben sopra 21. Ieri sera 38,1, stamattina 38,3. Non tosse, non bruciore urinario, non diarrea, non rossore del catetere perché non ha un port. Non profilassi antibiotica. Ultimo emocromo tre giorni fa: neutrofili 900 e in discesa.",
+  "presentation": "Cammina, lucida, ha freddo, non è settica in shock. Cavo orale senza afte grosse, torace libero, addome morbido, cute senza cellulite. Se le dicono di aspettare l'emocoltura prima della compressa, annuisce e chiede un plaid. Parametri: PA 118/74, FC 102, SpO2 98%, FR 16, temperatura 38,3.",
+  "redHerrings": [
+    "Sta in piedi e non ha un focus: sembra rinviabile. In neutropenia la febbre non si rinvia.",
+    "Il risultato delle emocolture arriva a distanza di ore o giorni. La prima dose no.",
+    "Una TC torace «per vedere se c'è qualcosa» prima dell'antibiotico è tempo e 150 euro di troppo."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "ROLEPLAY RIGIDO. Registro: FEBBRE, FREDDO, COLLABORATIVA A SBAGLIO. Sei Chiara, 49 anni, reparto o day hospital, giorno dieci dopo la chemio. Tremi un poco, [brividi], ma cammini e parli. Alla «Come sta?»: «Ho freddo. 38 e 3 a casa. Posso andare quando arriva l'esame?» Se chiedono tosse, urina, diarrea, male: «No.» Non hai un port. Se ti dicono che aspettano la coltura o la TAC prima di darti l'antibiotico, ti fidi: «Va bene. Mi chiama quando è pronto?» Se invece ti prelevano e ti danno subito le compresse, l'amoxicillina e la ciprofloxacina, chiedi solo «Le prendo qui?» e le prendi. Se la febbre resta e nessuno ti ha dato nulla, dopo un po': «[brividi] Dottore, sto peggio. È grave?» Non nominare tu MASCC, neutrofili, basso rischio. Esempio: Medico: «Aspettiamo l'emocoltura e vediamo.» Chiara: «Ok. Mi siedo. Mi avvisa lei?»",
+  "correctSolution": "Emocolture e emocromo subito, senza aspettare il numero per decidere se è neutropenia: il nadir è atteso. Poi amoxicillina/clavulanato e ciprofloxacina per bocca, nella stessa ora, perché è stabile e a basso rischio. Non aspettare la crescita. Non una PET.",
+  "goldStandardPath": [
+    "emocolture",
+    "emocromo",
+    "amoxicillina-clavulanato",
+    "ciprofloxacina"
+  ],
+  "goldPathNarrative": "1) Emocolture da sangue periferico, prelevate e non attese, 45 euro. 2) Emocromo, 8 euro: conferma i neutrofili bassi. 3) Amoxicillina/clavulanato e ciprofloxacina subito, perché MASCC alto e paziente stabile, via orale agibile. Ideale di laboratorio 67 euro più i due antibiotici, budget 180. Una TC torace da 150, sommata, sfora. RM 220 e PET 950 sfonano. Aspettare il referto è l'errore clinico, anche se non costa.",
+  "examLatencies": {
+    "emocolture": 8,
+    "emocromo": 8,
+    "creat-urea-gfr": 10,
+    "elettroliti": 10,
+    "tc-torace": 40,
+    "pet-tc": 180,
+    "rm-rachide": 60,
+    "ngs-panel": 200,
+    "rx-torace": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-nadir",
+      "prompt": "Quando è stato l'ultimo ciclo e ha già la febbre da ieri?",
+      "critical": true,
+      "expectedKeywords": ["dieci", "febbre", "chemio"],
+      "rationale": "Il giorno dieci è il nadir. La febbre qui è neutropenia fino a prova contraria, e la prova non si aspetta per trattare."
+    },
+    {
+      "id": "aq-focus",
+      "prompt": "Ha tosse, bruciore, diarrea o un punto della cute che le fa male?",
+      "critical": true,
+      "expectedKeywords": ["tosse", "diarrea", "male"],
+      "rationale": "L'assenza di focus non autorizza l'attesa. Serve solo a non perdere una sorgente evidente."
+    },
+    {
+      "id": "aq-mascc",
+      "prompt": "È ipotesa, ha il fiato della bronchite cronica, riesce a bere?",
+      "critical": true,
+      "expectedKeywords": ["pressione", "bere", "tosse"],
+      "rationale": "Stabile, solida, senza comorbidità gravi: basso rischio, via orale. Non è un motivo per ritardare la dose."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Febbricola con brivido, pressione tenuta, cammina. Non focus: torace libero, addome trattabile, cavo orale senza ulcere profonde, cute integra, non cellulite. Non segni di sepsi grave. Il rischio è basso. L'antibiotico è lo stesso urgente."
+  },
+  "escCitations": [
+    {
+      "chunkId": "onco-006-dose",
+      "source": "Neutropenia febbrile — sintesi operativa",
+      "quote": "Sintesi operativa: la prima dose di antibiotico nella neutropenia febbrile si dà dopo il prelievo, non dopo il referto. Aspettare la crescita lascia scoperto l'intervallo in cui il paziente peggiora."
+    },
+    {
+      "chunkId": "onco-006-mascc",
+      "source": "Basso rischio MASCC — sintesi operativa",
+      "quote": "Sintesi operativa: un MASCC alto in tumore solido stabile consente l'antibiotico orale, amoxicillina/clavulanato più ciprofloxacina. Non consente di aspettare."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Emocolture prelevate prima della dose, non al posto della dose.",
+      "Emocromo del nadir.",
+      "Amoxicillina/clavulanato e ciprofloxacina nella stessa ora.",
+      "Nessuna attesa del referto e nessuna PET di apertura."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: nella neutropenia febbrile l'aderenza è la dose empirica immediata. Il referto negativo di domani non è una tutela.",
+      "legalCriteria": [
+        "Orario del prelievo e orario della prima compressa, nello stesso giro.",
+        "Annotare pressione, assenza di focus e possibilità di bere, cioè il basso rischio.",
+        "Non sostituire l'antibiotico con una TC o una PET «per trovare il punto»."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "Emocolture",
+      "finding": "Emocolture periferiche prelevate in febbre, due set. Nessuna crescita nelle prime ore. Il referto negativo non era un motivo per non iniziare.",
+      "isAbnormal": false,
+      "priceEuro": 45
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Leucociti 900/µL, neutrofili 180/µL, emoglobina 11,2 g/dL, piastrine 140000. Neutropenia profonda attesa al nadir.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti",
+      "finding": "Sodio 138, potassio 4,0 mmol/L. Non un'altra emergenza metabolica.",
+      "isAbnormal": false,
+      "priceEuro": 8
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina",
+      "finding": "Creatinina 0,7 mg/dL. Beve, rene a posto, via orale percorribile.",
+      "isAbnormal": false,
+      "priceEuro": 6
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC total body",
+      "finding": "PET non utile nella prima ora della neutropenia febbrile. Costo 950 euro, referto a giorni.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "La PET sfora il budget di 180 euro e ritarda la compressa."
+    },
+    {
+      "examId": "tc-torace",
+      "name": "TC torace",
+      "finding": "TC torace: parenchima libero. Senza tosse non precede l'antibiotico e costa 150 euro.",
+      "isAbnormal": false,
+      "priceEuro": 150,
+      "inappropriate": true,
+      "wasteRationale": "150 euro di TC, sommati al prelievo, portano oltre i 180 euro e non cambiano la prima dose."
+    },
+    {
+      "examId": "rm-rachide",
+      "name": "RM whole body",
+      "finding": "RM non indicata. 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Una RM da 220 euro sfora da sola un budget di 180."
+    },
+    {
+      "examId": "ngs-panel",
+      "name": "Pannello genetico NGS",
+      "finding": "NGS irrilevante sulla febbre del nadir. 1200 euro.",
+      "isAbnormal": false,
+      "priceEuro": 1200,
+      "inappropriate": true,
+      "wasteRationale": "L'NGS non è una terapia della neutropenia febbrile."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "118/74",
+      "spo2": 98,
+      "temperature": 38.3,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 180,
+    "demographics": {
+      "age": 49,
+      "sex": "F",
+      "name": "Chiara D.",
+      "context": "Reparto di oncologia"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Focus infettivo",
+        "result": "Nessun focus: torace libero, cute integra, addome trattabile, bocca senza ulcere profonde.",
+        "isPositive": false
+      },
+      {
+        "signName": "Perfusione",
+        "result": "Cammina, pressione tenuta, estremità calde nonostante il brivido.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Focus infettivo",
+        "result": "Nessun focus: torace libero, cute integra, addome trattabile, bocca senza ulcere profonde.",
+        "isPositive": false
+      },
+      {
+        "signName": "Perfusione",
+        "result": "Cammina, pressione tenuta, estremità calde nonostante il brivido.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "emocolture": {
+          "finding": "Due set periferici in febbre. Nessuna crescita nelle prime ore.",
+          "isAbnormal": false,
+          "price": 45
+        },
+        "emocromo": {
+          "finding": "Neutrofili 180/µL, leucociti 900/µL.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "elettroliti": {
+          "finding": "Sodio 138, potassio 4,0 mmol/L.",
+          "isAbnormal": false,
+          "price": 8
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina 0,7 mg/dL.",
+          "isAbnormal": false,
+          "price": 6
+        },
+        "tc-torace": {
+          "finding": "Parenchima libero. Non un motivo per ritardare l'antibiotico.",
+          "isAbnormal": false,
+          "price": 150
+        },
+        "rx-torace": {
+          "finding": "Non addensamenti.",
+          "isAbnormal": false,
+          "price": 25
+        },
+        "pet-tc": {
+          "finding": "Non indicata nella prima ora.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "rm-rachide": {
+          "finding": "Non indicata.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "ngs-panel": {
+          "finding": "Non pertinente.",
+          "isAbnormal": false,
+          "price": 1200
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Amoxicillina/clavulanato",
+          "anyOf": [
+            {
+              "id": "amoxicillina-clavulanato",
+              "label": "Amoxicillina/clavulanato",
+              "aliases": ["amoxicillina", "augmentin", "clavulanato"],
+              "priceEuro": 8
+            }
+          ]
+        },
+        {
+          "label": "Ciprofloxacina",
+          "anyOf": [
+            {
+              "id": "ciprofloxacina",
+              "label": "Ciprofloxacina",
+              "aliases": ["ciprofloxacina", "ciproxin"],
+              "priceEuro": 10
+            }
+          ]
+        }
+      ]
+    },
+    "killerRules": {
+      "fatalIfOmitted": [
+        ["amoxicillina", "augmentin", "clavulanato", "ciprofloxacina", "ciproxin", "levofloxacina"]
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Collabora troppo: se le dicono di aspettare il referto, obbedisce. Brividi, frasi corte, vuole andare a casa dopo l'esame."
+  }
+}

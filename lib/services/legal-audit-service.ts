@@ -205,6 +205,10 @@ const SPECIALTY_GUIDELINE_FALLBACK: Record<string, readonly string[]> = {
     "Linee guida IDSA/ESCMID, Ministero della Salute e SNLG-ISS per la patologia infettiva del caso",
     "Legge 135/1990 sul consenso al test HIV",
   ],
+  oncologia: [
+    "Linee guida AIOM ed ESMO per la patologia oncologica del caso",
+    "Legge 219/2017 sul consenso e sulle cure palliative",
+  ],
   "medicina-interna": [
     "Linee guida SNLG — Istituto Superiore di Sanità per la patologia internistica del caso",
   ],

@@ -96,6 +96,7 @@ function toMandatoryExam(row: KnowledgeBaseCase["mandatoryExams"][number]): Case
     finding: row.finding,
     priceEuro: row.priceEuro ?? 0,
     isFatal: row.isFatal === true ? true : undefined,
+    componentExamIds: row.componentExamIds,
   };
 }
 

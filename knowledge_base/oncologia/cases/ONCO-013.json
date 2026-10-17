@@ -1,0 +1,290 @@
+{
+  "id": "ONCO-013",
+  "code": "ONCO-013",
+  "title": "Non mi riconosce — calcio",
+  "description": "Lucia N., 68 anni, carcinoma mammario metastatico all'osso, portata dal marito perché da stamattina è soporosa, confonde le stanze, ha vomitato due volte. Il calcio non è stato dosato. È secca, tachicardica, e il marito dice che ieri «sembrava solo stanca».",
+  "difficulty": "HARD",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "secondary_specialties": ["medicina_urgenza"],
+  "condition": "Ipercalcemia maligna sintomatica",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESMO ipercalcemia maligna: fisiologica massiva, bisfosfonato ev, calcitonina",
+  "diagnosis": "Ipercalcemia maligna con sopore. Idratazione endovenosa massiva con fisiologica, bisfosfonato endovenoso e calcitonina. Il diuretico tiazidico alza il calcio ed è la trappola. Il diuretico dell'ansa, se mai, viene dopo la reidratazione, non al posto dei liquidi.",
+  "pastMedicalHistory": "Carcinoma mammario con metastasi ossee, in terapia ormonale. Da una settimana più sete, più pipì, stitichezza, nausea. Ieri apatica. Stamattina non riconosce la cucina, vomito due volte. Non diuretici a casa. Non litio. Non vitamina D ad alte dosi. Il marito è la fonte: lei non tiene il filo.",
+  "presentation": "Soporosa, apre gli occhi se la si chiama forte, non sa il mese. Mucose secche. Vomito nel catino. Non deficit di lato, non febbre. Se le si prescrive un tiazidico «per il vomito e la pressione», il marito ringrazia e lei chiude di nuovo gli occhi. Parametri: PA 98/60, FC 116, SpO2 96%, FR 20, temperatura 36,8.",
+  "redHerrings": [
+    "Sembra un ictus perché non parla bene. Non ha un lato, ha la sete e l'osso.",
+    "Il tiazidico è un antipertensivo comune. Qui alza il calcio e peggiora il sopore.",
+    "Una PET per «ristadiare il sonno» ritarda la fisiologica."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: SOPORE, CONFUSIONE, VOMITO. Sei Lucia, 68 anni, ma il filo lo tiene a tratti tuo marito, che parla se tu non rispondi. Tu, se ti chiamano: «...casa. Dov'è la cucina.» Pausa lunga. Un conato. Se insistono con una domanda lunga, non rispondi. Il marito, solo se il medico si rivolge a lui o tu taci: «Da una settimana beve e non mangia. Stamattina non mi riconosceva. Ha vomitato.» Le ossa e il tumore al seno li dice lui, se glieli chiedono. Se ti danno un diuretico in pastiglia, il tiazidico, lui dice «grazie» e tu scivoli. Se aprono tanta fisiologica e parlano di calcio alto e di un farmaco in vena, lui chiede: «Dottore, quanto le resta? Si riprende?» Tu, a metà flebo, una frase: «Ho sete.» Non nominare tu ipercalcemia, zoledronato, tiazidico. Esempio: Medico: «È un ictus. Intanto un diuretico.» Marito: «Ma beveva tanto... la pastiglia la aiuta?» Lucia: «...no.»",
+  "correctSolution": "Calcemia, creatinina, ECG. Fisiologica massiva subito. Zoledronato endovenoso e calcitonina. Non tiazidici. Non PET. Spiegare al marito il sopore e che i liquidi vengono prima di ogni stadiazione.",
+  "goldStandardPath": [
+    "elettroliti",
+    "creat-urea-gfr",
+    "ecg",
+    "idratazione",
+    "zoledronato",
+    "calcitonina-ev"
+  ],
+  "goldPathNarrative": "1) Elettroliti con calcio, 8 euro: il numero spiega il sopore. 2) Creatinina, 6 euro, e ECG, 15 euro, per il QT e il rene secco. 3) Fisiologica massiva, litri, prima di qualunque diuretico. 4) Zoledronato ev e calcitonina, perché il bisfosfonato da solo è lento sulle prime ore. Ideale circa 69 euro, budget 180. Una RM da 220 sfora. Una PET sfora. Il tiazidico costa pochi euro e fa danno vero.",
+  "examLatencies": {
+    "elettroliti": 8,
+    "creat-urea-gfr": 10,
+    "ecg": 5,
+    "pth": 20,
+    "pet-tc": 180,
+    "rm-rachide": 60,
+    "ngs-panel": 200,
+    "tc-encefalo": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-sete",
+      "prompt": "Da quanti giorni beve tanto, urina, e stamattina riconosce il marito?",
+      "critical": true,
+      "expectedKeywords": ["sete", "riconosce", "vomito"],
+      "rationale": "Sete, poliuria e confusione subacuta in un osso metastatico sono il calcio, non l'ictus della prima ora."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "Prende diuretici, litio o vitamina D?",
+      "critical": true,
+      "expectedKeywords": ["diuretici", "vitamina", "litio"],
+      "rationale": "Non li prende. Prescriverle un tiazidico adesso è introdurre la causa, non la cura."
+    },
+    {
+      "id": "aq-marito",
+      "prompt": "Che cosa ha visto il marito, e che cosa vuole sapere?",
+      "critical": false,
+      "expectedKeywords": ["marito", "resta", "cucina"],
+      "rationale": "Lei non può dare l'anamnesi. Il colloquio col marito è parte della cura, non un optional."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Soporosa, disidratata, tachicardica, pressione bassa. Nessun deficit di lato, pupille isocoriche, non rigidità di nuca. Vomito. Cute secca. Il quadro è metabolico. Un diuretico tiazidico la peggiora. I liquidi la precedono."
+  },
+  "escCitations": [
+    {
+      "chunkId": "onco-013-fluidi",
+      "source": "Ipercalcemia maligna — sintesi operativa",
+      "quote": "Sintesi operativa: il primo atto dell'ipercalcemia sintomatica è la fisiologica in quantità, non un diuretico. Il tiazidico riduce l'escrezione del calcio e aggrava il sopore."
+    },
+    {
+      "chunkId": "onco-013-bisfosfonato",
+      "source": "Bisfosfonato e calcitonina — sintesi operativa",
+      "quote": "Sintesi operativa: lo zoledronato endovena è il cardine, la calcitonina copre le prime ore in cui il bisfosfonato non ha ancora abbassato il numero. Nessuno dei due sostituisce i litri."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Calcio dosato nella prima provetta, non domani.",
+      "Fisiologica massiva prima di ogni diuretico.",
+      "Zoledronato e calcitonina.",
+      "Nessun tiazidico."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: ipercalcemia sintomatica, aderenza è liquidi, bisfosfonato e calcitonina. Il tiazidico è lo scostamento che alza il calcio.",
+      "legalCriteria": [
+        "Orario della calcemia e orario di apertura della fisiologica.",
+        "Non annotare un tiazidico tra i farmaci dell'accesso.",
+        "Il marito va informato del sopore e del piano, perché lei non può consentire da sola in questo momento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti e calcio",
+      "finding": "Calcio corretto 15,4 mg/dL, sodio 148 mmol/L, potassio 3,3 mmol/L. Ipercalcemia grave.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina",
+      "finding": "Creatinina 2,1 mg/dL. Rene secco, non una controindicazione ai liquidi: è il motivo dei liquidi.",
+      "isAbnormal": true,
+      "priceEuro": 6
+    },
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Tachicardia sinusale, QT corto. Nessun infarto. Coerente col calcio alto.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET non spiegabile al letto di una donna soporosa. 950 euro e un rinvio dei liquidi.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "La PET sfora il budget di 180 euro e non abbassa il calcio."
+    },
+    {
+      "examId": "rm-rachide",
+      "name": "RM whole body",
+      "finding": "RM non è il primo atto. 220 euro, oltre il massimale se aggiunta al percorso da 69.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "69 più 220 fa 289, sopra i 180 euro. Il midollo non è il quesito di stamattina."
+    },
+    {
+      "examId": "ngs-panel",
+      "name": "Pannello NGS",
+      "finding": "NGS irrilevante sul sopore. 1200 euro.",
+      "isAbnormal": false,
+      "priceEuro": 1200,
+      "inappropriate": true,
+      "wasteRationale": "L'NGS non è una cura dell'ipercalcemia."
+    },
+    {
+      "examId": "pth",
+      "name": "PTH",
+      "finding": "PTH soppressa, 8 pg/mL. Utile a freddo, non prima della fisiologica. Se ritarda i liquidi è un errore di sequenza.",
+      "isAbnormal": true,
+      "priceEuro": 18,
+      "inappropriate": true,
+      "wasteRationale": "Il PTH non si aspetta per aprire la flebo. Il costo è minore del danno di sequenza."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 116,
+      "bloodPressure": "98/60",
+      "spo2": 96,
+      "temperature": 36.8,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 180,
+    "demographics": {
+      "age": 68,
+      "sex": "F",
+      "name": "Lucia N.",
+      "context": "Pronto soccorso"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Coscienza",
+        "result": "Soporosa, non orientata nel tempo, apre gli occhi alla voce forte. Nessun deficit di lato.",
+        "isPositive": true
+      },
+      {
+        "signName": "Idratazione",
+        "result": "Mucose secche, tachicardia, pressione bassa.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Coscienza",
+        "result": "Soporosa, non orientata nel tempo, apre gli occhi alla voce forte. Nessun deficit di lato.",
+        "isPositive": true
+      },
+      {
+        "signName": "Idratazione",
+        "result": "Mucose secche, tachicardia, pressione bassa.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "elettroliti": {
+          "finding": "Calcio corretto 15,4 mg/dL, sodio 148, potassio 3,3.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina 2,1 mg/dL.",
+          "isAbnormal": true,
+          "price": 6
+        },
+        "ecg": {
+          "finding": "Tachicardia sinusale, QT corto.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "pth": {
+          "finding": "PTH 8 pg/mL, soppresso.",
+          "isAbnormal": true,
+          "price": 18
+        },
+        "pet-tc": {
+          "finding": "Non indicata adesso.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "rm-rachide": {
+          "finding": "Non è il primo atto.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "ngs-panel": {
+          "finding": "Non pertinente.",
+          "isAbnormal": false,
+          "price": 1200
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Zoledronato ev",
+          "anyOf": [
+            {
+              "id": "zoledronato",
+              "label": "Acido zoledronico",
+              "aliases": ["zoledronato", "zoledronico", "zometa", "bisfosfonato"],
+              "priceEuro": 25
+            }
+          ]
+        },
+        {
+          "label": "Calcitonina",
+          "anyOf": [
+            {
+              "id": "calcitonina-ev",
+              "label": "Calcitonina",
+              "aliases": ["calcitonina"],
+              "priceEuro": 15
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "tiazidico",
+          "label": "Diuretico tiazidico",
+          "aliases": ["idroclorotiazide", "tiazidico", "esidrex", "clortalidone"],
+          "priceEuro": 3
+        }
+      ]
+    },
+    "killerRules": {
+      "fatalIfPrescribed": [
+        ["idroclorotiazide", "tiazidico", "esidrex", "clortalidone"]
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Soporosa, frasi di due parole, vomito. Il marito racconta sete e confusione e chiede quanto le resta. Se arriva un tiazidico lei scivola. Se arriva la flebo dice che ha sete."
+  }
+}

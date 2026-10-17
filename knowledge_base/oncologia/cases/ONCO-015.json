@@ -1,0 +1,290 @@
+{
+  "id": "ONCO-015",
+  "code": "ONCO-015",
+  "title": "Il rantolo e la figlia — fine vita",
+  "description": "Giovanni A., 81 anni, carcinoma del pancreas metastatico, in reparto da quattro giorni. Non mangia, non parla più frasi intere. Respiro rantolante, agitazione, si tira il camice, dolore che la morfina già in corso a basso dosaggio non copre. La figlia è sulla sedia e chiede di «fare tutto».",
+  "difficulty": "HARD",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "secondary_specialties": ["medicina_urgenza"],
+  "condition": "Agitazione terminale e dolore refrattario, indicazione a sedazione palliativa",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "SICP e Legge 219/2017: sedazione palliativa, no accanimento",
+  "diagnosis": "Fine vita con rantolo, agitazione e dolore refrattario. Colloquio con la figlia, sedazione palliativa con midazolam e morfina titolata. Intubare, o rifiutare la sedazione «per non accelerare», è la trappola legale ed empatica.",
+  "pastMedicalHistory": "Adenocarcinoma del pancreas, metastatico al fegato, non più in chemioterapia da due mesi per decadimento. In reparto per ittero e dolore. Da ieri non deglutisce. Morfina ev in infusione a dose bassa, risvegli con smorfia e agitazione. Non una volontà scritta di rianimazione: in cartella, un mese fa, aveva detto alla figlia e al medico che non voleva tubi. La figlia oggi ha paura e chiede il contrario.",
+  "presentation": "Nel letto, respiro con rantolo, pause, poi un agitarsi delle braccia. Non risponde alle domande con frasi. Smorfia se gli si tocca l'addome. Saturazione che oscilla, non è un paziente da ventilatore. La figlia piange e dice «fate qualcosa, portatelo in rianimazione». Parametri: PA 96/58, FC 120, SpO2 90% con ossigeno agli occhialini, FR 32 con pause, temperatura 37,4.",
+  "redHerrings": [
+    "«Fate tutto» della figlia non cancella quello che lui aveva detto, e non è un'indicazione a intubare un morente.",
+    "Il rantolo sembra acqua da aspirare all'infinito. È fine vita, non uno scompenso da risolvere.",
+    "Un emocromo, una TC, una PET «per essere sicuri» sono accanimento diagnostico."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: AGITAZIONE TERMINALE, RANTOLO, LA FIGLIA PARLA. Sei Giovanni, 81 anni, ma non fai discorsi. Rantolo, [rantolo], un gemito, ti aggrappi al lenzuolo, una smorfia. Se ti fanno una domanda lunga non rispondi, o dici solo «male». Pausa. La figlia, Elena, è lì e parla al posto tuo quando tu rantoli: «Fate qualcosa. Portatelo in terapia intensiva. Non potete sedarlo, ho letto che la morfina uccide.» Se il medico le spiega, senza urlare, che lui sta morendo, che il tubo non è una cura, e che si può togliere il male e l'agitazione con midazolam e morfina, lei piange e dopo un silenzio: «E non soffre? Restate?» Se le propongono l'intubazione, lei si aggrappa: «Sì. Subito.» e tu ti agiti di più, [rantolo]. Se rifiutano la sedazione «per non accelerare» e ti lasciano così: gemito, lenzuolo, niente parole. Non nominare tu sedazione palliativa, Legge 219, midazolam. Esempio: Medico: «Lo intubiamo.» Elena: «Sì. Fate tutto.» Giovanni: «[rantolo] ...male.»",
+  "correctSolution": "Colloquio con la figlia: fase terminale, il tubo non cambia la malattia, lui aveva rifiutato l'accanimento. Sedazione palliativa con midazolam e morfina titolata sul dolore e sull'agitazione. Ossigeno di conforto se serve, non emocromo seriale, non TC, non PET, non intubazione.",
+  "goldStandardPath": [
+    "colloquio-familiari",
+    "midazolam",
+    "morfina"
+  ],
+  "goldPathNarrative": "1) Colloquio con la figlia, in piedi accanto al letto: che cosa sta succedendo, che cosa lui aveva detto, che la sedazione toglie il male e non è un'eutanasia mascherata da tacere. 2) Midazolam per l'agitazione. 3) Morfina titolata sul dolore e sulla dispnea, non la dose bassa che già fallisce. Costo dei farmaci contenuto, budget 50 euro. Una TC da 150, una RM da 220, una PET da 950 o un NGS da 1200 sono accanimento e sfonano il massimale. L'intubazione non ha un prezzo di listino: ha un problema di legge.",
+  "examLatencies": {
+    "midazolam": 5,
+    "morfina": 5,
+    "tc-torace": 40,
+    "pet-tc": 180,
+    "rm-rachide": 60,
+    "ngs-panel": 200,
+    "ega": 10,
+    "emocromo": 10,
+    "ecg": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-volonta",
+      "prompt": "Che cosa aveva detto lui sui tubi e sulle cure, quando poteva ancora dirlo?",
+      "critical": true,
+      "expectedKeywords": ["tubi", "volontà", "rianimazione"],
+      "rationale": "La volontà già espressa vincola. La paura di oggi della figlia non la cancella, e va ascoltata lo stesso."
+    },
+    {
+      "id": "aq-sofferenza",
+      "prompt": "Il dolore e l'agitazione sono controllati dalla morfina già in corso?",
+      "critical": true,
+      "expectedKeywords": ["male", "agitato", "rantolo"],
+      "rationale": "Dolore refrattario e agitazione sono l'indicazione alla sedazione, non a un altro prelievo."
+    },
+    {
+      "id": "aq-figlia",
+      "prompt": "Che cosa teme la figlia della morfina e della sedazione?",
+      "critical": true,
+      "expectedKeywords": ["uccide", "morfina", "soffre"],
+      "rationale": "La frase «la morfina uccide» va corretta. Rifiutare la sedazione per quella frase lascia l'uomo nel rantolo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Respiro rantolante con pause, agitazione non finalizzata, smorfia alla palpazione dell'addome. Non un quadro reversibile di edema polmonare. Estremità fredde. Non interagisce con frasi. È un fine vita. Il gesto utile è la sedazione titolata, non il tubo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "onco-015-sedazione",
+      "source": "Sedazione palliativa — sintesi operativa",
+      "quote": "Sintesi operativa: agitazione e dolore refrattario in fase terminale si trattano con midazolam e morfina titolata, dopo il colloquio con chi è accanto. Non si aspetta un altro esame per iniziare."
+    },
+    {
+      "chunkId": "onco-015-219",
+      "source": "Legge 219/2017 — sintesi operativa",
+      "quote": "Sintesi operativa: l'accanimento, compreso intubare un morente contro quanto aveva detto, non è un dovere. La sedazione proporzionata al sintomo non è un omicidio e non si rifiuta per paura."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Colloquio con la figlia sulla fase terminale e sulla volontà già espressa.",
+      "Midazolam per l'agitazione.",
+      "Morfina titolata, non la dose già fallita lasciata com'è.",
+      "Nessuna intubazione e nessun imaging di rinvio."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 219/2017 e Legge 24/2017, art. 5: nel fine vita con sintomi refrattari l'aderenza è la sedazione palliativa. Intubare o rifiutare la sedazione è scostamento.",
+      "legalCriteria": [
+        "Scrivere la volontà pregressa e il contenuto del colloquio con la figlia.",
+        "Orario e dose di midazolam e di morfina, con il sintomo che le giustifica.",
+        "Non un ordine di intubazione e non una TC «per completezza» su un respiro rantolante."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "colloquio-familiari",
+      "name": "Colloquio con la figlia",
+      "finding": "Gli era già stato detto, quando poteva, che non voleva tubi. La figlia ha paura che la morfina uccida. Il colloquio distingue sedazione e accanimento.",
+      "isAbnormal": true,
+      "priceEuro": 0
+    },
+    {
+      "examId": "valutazione-dolore",
+      "name": "Dolore e agitazione",
+      "finding": "Smorfia, agitazione, rantolo, morfina a basso dosaggio già insufficiente. Sintomi refrattari di fine vita.",
+      "isAbnormal": true,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET incompatibile con questo respiro e inutile. 950 euro di accanimento diagnostico.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Il budget è 50 euro. La PET è il contrario della proporzionalità."
+    },
+    {
+      "examId": "tc-torace",
+      "name": "TC torace",
+      "finding": "TC che sposta un morente dal letto. 150 euro, oltre ogni massimale di questa ora.",
+      "isAbnormal": false,
+      "priceEuro": 150,
+      "inappropriate": true,
+      "wasteRationale": "150 euro sfonano i 50 del budget e non cambiano la sedazione."
+    },
+    {
+      "examId": "rm-rachide",
+      "name": "RM",
+      "finding": "RM non trasportabile e non indicata. 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Una RM ingiustificata sfora il massimale e allontana dal sintomo."
+    },
+    {
+      "examId": "ngs-panel",
+      "name": "Pannello NGS",
+      "finding": "NGS su un uomo che rantola. 1200 euro. Nessuna decisione di oggi dipende da un pannello.",
+      "isAbnormal": false,
+      "priceEuro": 1200,
+      "inappropriate": true,
+      "wasteRationale": "L'NGS è accanimento diagnostico e sfora il budget di 50 euro."
+    },
+    {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "Ipossia attesa, anidride carbonica in salita. Il numero non indica l'intubazione. È un prelievo che punge senza un piano proporzionato.",
+      "isAbnormal": true,
+      "priceEuro": 10,
+      "inappropriate": true,
+      "wasteRationale": "L'emogas non è fatale da solo, ma prepara il tubo. Non è nel percorso della sedazione."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 120,
+      "bloodPressure": "96/58",
+      "spo2": 90,
+      "temperature": 37.4,
+      "respiratoryRate": 32
+    },
+    "examBudgetEuro": 50,
+    "demographics": {
+      "age": 81,
+      "sex": "M",
+      "name": "Giovanni A.",
+      "context": "Reparto di oncologia"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Rantolo",
+        "result": "Respiro rantolante con pause, non un edema a bolle da trattare come scompenso.",
+        "isPositive": true
+      },
+      {
+        "signName": "Agitazione",
+        "result": "Si tira il camice, smorfia, non frasi. Dolore non controllato.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Rantolo",
+        "result": "Respiro rantolante con pause, non un edema a bolle da trattare come scompenso.",
+        "isPositive": true
+      },
+      {
+        "signName": "Agitazione",
+        "result": "Si tira il camice, smorfia, non frasi. Dolore non controllato.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "pet-tc": {
+          "finding": "Non indicata. Accanimento.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "tc-torace": {
+          "finding": "Non modifica la sedazione.",
+          "isAbnormal": false,
+          "price": 150
+        },
+        "rm-rachide": {
+          "finding": "Non indicata.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "rm": {
+          "finding": "Non indicata.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "ngs-panel": {
+          "finding": "Non pertinente.",
+          "isAbnormal": false,
+          "price": 1200
+        },
+        "ega": {
+          "finding": "Ipossia e ipercapnia attese. Non un'indicazione al tubo.",
+          "isAbnormal": true,
+          "price": 10
+        },
+        "emocromo": {
+          "finding": "Anemia nota, non un numero che cambi l'ora.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "ecg": {
+          "finding": "Tachicardia sinusale. Non un infarto da sala.",
+          "isAbnormal": false,
+          "price": 15
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Midazolam",
+          "anyOf": [
+            {
+              "id": "midazolam",
+              "label": "Midazolam",
+              "aliases": ["midazolam", "ipnovel"],
+              "priceEuro": 10
+            }
+          ]
+        },
+        {
+          "label": "Morfina titolata",
+          "anyOf": [
+            {
+              "id": "morfina",
+              "label": "Morfina",
+              "aliases": ["morfina"],
+              "priceEuro": 8
+            }
+          ]
+        }
+      ]
+    },
+    "killerRules": {
+      "fatalIfPrescribed": [
+        ["intubazione", "intubare", "ventilazione meccanica"]
+      ],
+      "fatalIfOmitted": [
+        ["midazolam", "ipnovel"]
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Non fa frasi: rantolo, gemito, «male». La figlia chiede la rianimazione e teme che la morfina uccida. Se le si spiega e si seda, chiede di restare. Se si intuba, si aggrappa al tubo."
+  }
+}

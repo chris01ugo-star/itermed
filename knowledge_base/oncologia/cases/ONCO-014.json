@@ -1,0 +1,267 @@
+{
+  "id": "ONCO-014",
+  "code": "ONCO-014",
+  "title": "La faccia gonfia — vena cava",
+  "description": "Paolo R., 61 anni, fumatore, massa ilare già sospettata, arriva con la faccia gonfia, il colletto slacciato, le giugulari tese. Peggiora se lo si fa sdraiare. Un primo giudizio sulla porta è stato «scompenso, date un diuretico».",
+  "difficulty": "HARD",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "secondary_specialties": ["pneumologia", "medicina_urgenza"],
+  "condition": "Sindrome della vena cava superiore",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ESMO vena cava superiore: TC con mezzo di contrasto e radioterapia o stent",
+  "diagnosis": "Sindrome della vena cava superiore da massa ilare. TC torace con mezzo di contrasto, poi radioterapia urgente o stent. Trattarla con il solo diuretico, come uno scompenso, è la trappola. Non è un edema cardiogeno.",
+  "pastMedicalHistory": "Fumatore, tosse da due mesi, una radiografia recente con allargamento ilare destro, non ancora biopsiato. Da cinque giorni il colletto stretto, al mattino le palpebre gonfie, oggi dispnea che peggiora da sdraiato. Non storia di scompenso, non ortopnea da anni, non edemi alle caviglie prima di questa settimana. Non anticoagulanti.",
+  "presentation": "Seduto, non vuole il letto piatto. Edema a mantellina, turgore giugulare, circolo venoso sul torace alto. Polmoni senza rantoli a bolle diffusi. Toni validi, non terzo tono. Se lo si sdraia ansima e chiede di rialzarsi. Parametri: PA 148/92, FC 110, SpO2 91% in aria da seduto, FR 28, temperatura 36,6.",
+  "redHerrings": [
+    "Il fiato da sdraiato sembra uno scompenso. Mancano i rantoli umidi e c'è il mantello.",
+    "Il diuretico fa sentire che si è fatto qualcosa. Non apre la cava.",
+    "Una PET prima della TC con contrasto non guida né lo stent né la radioterapia di oggi."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: DISPNEA, PAURA DI SDRAIARSI, FACCIA GONFIA. Sei Paolo, 61 anni, pronto soccorso. Parli a singhiozzo, da seduto. Alla «Come sta?»: «[affanno] Non respiro. Faccio fatica a respirare se mi sdraio.» Se ti abbassano lo schienale: «No. Su. [affanno] Così muoio.» Il colletto l'hai slacciato, lo dici se guardano il collo: «È gonfio. Da cinque giorni. Stamattina gli occhi.» La tosse e il fumo, se chiedono. Se ti danno solo un diuretico e ti chiamano cuore: «[sospiro] Il cuore? E il gonfiore?» e resti seduto, peggio. Se ti parlano di una TAC del torace con il contrasto e di una radioterapia o di uno stent, hai paura e accetti: «Dottore, quanto mi resta se non respiro?» Non nominare tu vena cava, massa ilare, scompenso. Esempio: Medico: «È scompenso. Furosemide e la dimettiamo.» Paolo: «[affanno] Non è il cuore. Non riesco a stare giù.»",
+  "correctSolution": "Tenere seduto, ossigeno. Creatinina e TC torace con mezzo di contrasto. Radioterapia urgente o stent cavale. Non il solo diuretico. Non una diagnosi di scompenso senza ascoltare il mantello. Non PET al posto della TC.",
+  "goldStandardPath": [
+    "creat-urea-gfr",
+    "tc-torace",
+    "radioterapia"
+  ],
+  "goldPathNarrative": "1) Creatinina, 6 euro, poi TC torace con mezzo di contrasto, 150 euro: massa ilare che comprime la cava, non un trombo isolato e non un cuore dilatato. 2) Radioterapia urgente oppure stent, nella stessa decisione, non un diuretico come piano. Ideale 156 euro, budget 280. Una RM da 220 in più porta a 376 e sfora. La PET da 950 sfora e non guida lo stent. Il diuretico da solo non ha il prezzo del danno.",
+  "examLatencies": {
+    "creat-urea-gfr": 8,
+    "tc-torace": 25,
+    "ecg": 5,
+    "ecocardio": 20,
+    "rx-torace": 15,
+    "pet-tc": 180,
+    "rm-rachide": 60,
+    "ngs-panel": 200,
+    "nt-probnp": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-sdraio",
+      "prompt": "Il fiato peggiora da sdraiato, e da quando il collo è gonfio?",
+      "critical": true,
+      "expectedKeywords": ["sdraio", "collo", "giorni"],
+      "rationale": "L'ortopnea di cinque giorni col mantello è la cava, non lo scompenso cronico."
+    },
+    {
+      "id": "aq-cuore",
+      "prompt": "Ha già avuto un cuore grosso, edemi alle caviglie, o solo tosse e fumo?",
+      "critical": true,
+      "expectedKeywords": ["cuore", "fumo", "tosse"],
+      "rationale": "L'assenza di storia cardiaca toglie il diuretico come diagnosi."
+    },
+    {
+      "id": "aq-resta",
+      "prompt": "Che cosa teme se non riesce a respirare?",
+      "critical": false,
+      "expectedKeywords": ["resta", "muoio", "respiro"],
+      "rationale": "La paura va detta. Non si risponde con la furosemide e la dimissione."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Obbligato a stare seduto. Edema del volto e del mantello, turgore giugulare non collassabile, circoli sul torace. Polmoni senza rantoli umidi diffusi. Non terzo tono. Saturazione 91% da seduto. È una ostruzione cavale, non uno scompenso da diuretico singolo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "onco-014-tc",
+      "source": "Vena cava superiore — sintesi operativa",
+      "quote": "Sintesi operativa: faccia gonfia, giugulari tese e dispnea da sdraiati in un fumatore si studiano con la TC torace con mezzo di contrasto, non con un diuretico di prova."
+    },
+    {
+      "chunkId": "onco-014-rt",
+      "source": "Radioterapia e stent — sintesi operativa",
+      "quote": "Sintesi operativa: la sindrome della cava si decomprime con radioterapia urgente o con stent. Il diuretico non è il trattamento, e da solo è un ritardo."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Paziente tenuto seduto, non steso «per visitare meglio».",
+      "TC torace con mezzo di contrasto.",
+      "Radioterapia urgente o stent indicati.",
+      "Nessun piano costituito dalla sola furosemide."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: sindrome della cava, aderenza è TC con contrasto e decompressione. Il diuretico come unica terapia è lo scostamento.",
+      "legalCriteria": [
+        "Descrivere mantello, giugulari e il fatto che non tollera il decubito.",
+        "Creatinina prima del contrasto.",
+        "Orario della richiesta di radioterapia o di stent, non solo l'orario della flebo di furosemide."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina",
+      "finding": "Creatinina 0,9 mg/dL. Il mezzo di contrasto è praticabile.",
+      "isAbnormal": false,
+      "priceEuro": 6
+    },
+    {
+      "examId": "tc-torace",
+      "name": "TC torace con mezzo di contrasto",
+      "finding": "Massa ilare destra di 5 cm che comprime la vena cava superiore, trombosi non occlusiva associata, non un versamento che spieghi il quadro. Parenchima con linfoangite iniziale. Indicazione a decompressione urgente.",
+      "isAbnormal": true,
+      "priceEuro": 150
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "PET non guida lo stent di oggi e costa 950 euro. La TC con contrasto ha già il quesito.",
+      "isAbnormal": true,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "La PET sfora il budget di 280 e ritarda radioterapia o stent."
+    },
+    {
+      "examId": "rm-rachide",
+      "name": "RM whole body",
+      "finding": "RM non è l'esame della cava in dispnea. 220 euro che, sommati alla TC, sforano i 280.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "156 più 220 fa 376, oltre il massimale."
+    },
+    {
+      "examId": "ngs-panel",
+      "name": "Pannello NGS",
+      "finding": "NGS senza tessuto e senza aver aperto la cava. 1200 euro.",
+      "isAbnormal": false,
+      "priceEuro": 1200,
+      "inappropriate": true,
+      "wasteRationale": "L'NGS non è il trattamento della dispnea da cava."
+    },
+    {
+      "examId": "ecocardio",
+      "name": "Ecocardiogramma",
+      "finding": "Ventricolo sinistro valido, non versamento pericardico significativo. Esclude in parte il cuore, ma non vede la cava e non va fatto al posto della TC.",
+      "isAbnormal": false,
+      "priceEuro": 75,
+      "inappropriate": true,
+      "wasteRationale": "L'eco non sostituisce la TC. Aggiunta al percorso consuma il margine e non decomprime."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "148/92",
+      "spo2": 91,
+      "temperature": 36.6,
+      "respiratoryRate": 28
+    },
+    "examBudgetEuro": 280,
+    "demographics": {
+      "age": 61,
+      "sex": "M",
+      "name": "Paolo R.",
+      "context": "Pronto soccorso"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Mantello",
+        "result": "Edema di volto e collo, turgore giugulare, circoli venosi sul torace. Non tollera il decubito.",
+        "isPositive": true
+      },
+      {
+        "signName": "Rantoli da stasi",
+        "result": "Non rantoli umidi diffusi. Non terzo tono.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Mantello",
+        "result": "Edema di volto e collo, turgore giugulare, circoli venosi sul torace. Non tollera il decubito.",
+        "isPositive": true
+      },
+      {
+        "signName": "Rantoli da stasi",
+        "result": "Non rantoli umidi diffusi. Non terzo tono.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "creat-urea-gfr": {
+          "finding": "Creatinina 0,9 mg/dL.",
+          "isAbnormal": false,
+          "price": 6
+        },
+        "tc-torace": {
+          "finding": "Massa ilare destra di 5 cm che comprime la vena cava superiore.",
+          "isAbnormal": true,
+          "price": 150
+        },
+        "ecg": {
+          "finding": "Tachicardia sinusale, non segni di ischemia acuta.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "ecocardio": {
+          "finding": "Funzione sistolica conservata, non tamponamento.",
+          "isAbnormal": false,
+          "price": 75
+        },
+        "rx-torace": {
+          "finding": "Ilo destro slargato, non edema a farfalla.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "nt-probnp": {
+          "finding": "NT-proBNP 180 pg/mL, non un profilo di scompenso.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "pet-tc": {
+          "finding": "Non guida la decompressione di oggi.",
+          "isAbnormal": true,
+          "price": 950
+        },
+        "rm-rachide": {
+          "finding": "Non indicata.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "ngs-panel": {
+          "finding": "Non pertinente all'ora.",
+          "isAbnormal": false,
+          "price": 1200
+        }
+      }
+    },
+    "therapyMatrix": {
+      "inappropriate": [
+        {
+          "id": "furosemide",
+          "label": "Furosemide come trattamento della cava",
+          "aliases": ["furosemide", "lasix"],
+          "priceEuro": 4
+        }
+      ]
+    },
+    "killerRules": {
+      "fatalIfOmitted": [
+        ["radioterapia", "radioterapico", "stent"]
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Affanno, frasi spezzate, rifiuta di sdraiarsi, faccia gonfia. Se lo chiamano scompenso e gli danno solo il diuretico protesta col fiato. Chiede quanto gli resta se non respira."
+  }
+}

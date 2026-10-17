@@ -70,6 +70,11 @@ export const KbExamFindingSchema = z.object({
    * Su `inappropriateExams`: azione letale se eseguita.
    */
   isFatal: z.boolean().optional(),
+  /**
+   * Ordering any of these catalog ids satisfies this step
+   * (es. RM generica al posto di `rm-rachide`).
+   */
+  componentExamIds: z.array(z.string().min(1).max(80)).max(8).optional(),
 });
 
 export const KbEscCitationSchema = z.object({
@@ -115,8 +120,8 @@ const KbBaselineExamFindingsSchema = z
  * Cardiology cases omit `patientProfile`; Pneumology and Gastroenterology cases must include it.
  */
 export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
-  id: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF)-\d{3}$/),
-  code: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF)-\d{3}$/),
+  id: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO)-\d{3}$/),
+  code: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO)-\d{3}$/),
   specialty: z.enum([
     "cardiologia",
     "pneumologia",
@@ -125,6 +130,7 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
     "medicina_urgenza",
     "neurologia",
     "malattie_infettive",
+    "oncologia",
   ]),
   specialtyLabel: z.enum([
     "Cardiologia",
@@ -134,6 +140,7 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
     "Medicina d'Emergenza-Urgenza",
     "Neurologia",
     "Malattie Infettive",
+    "Oncologia",
   ]),
   condition: z.string().min(3).max(240),
   frequencyCategory: MatrixFrequencySchema,

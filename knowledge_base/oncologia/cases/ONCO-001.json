@@ -1,0 +1,245 @@
+{
+  "id": "ONCO-001",
+  "code": "ONCO-001",
+  "title": "La lettera dello screening — BIRADS 4",
+  "description": "Marta R., 52 anni, arriva in ambulatorio con la lettera dello screening: mammografia BIRADS 4, cluster di microcalcificazioni al quadrante supero-esterno sinistro. Non palpa nodi. Piange, chiede se morirà, e vuole «la PET di tutto il corpo per sapere subito».",
+  "difficulty": "EASY",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "condition": "Screening mammografico BIRADS 4, indicazione a biopsia ecoguidata",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "AIOM/ESMO mammella: la biopsia precede ogni stadiazione",
+  "diagnosis": "Lesione BIRADS 4. Ecografia mammaria e biopsia ecoguidata, con colloquio sulla paura. PET-TC, RM whole body e NGS al primo sospetto sono spreco e non cambiano il primo passo.",
+  "pastMedicalHistory": "Screening mammografico di routine, nessun nodulo palpato prima. Due gravidanze, allattamento breve. Non familiarità di primo grado per carcinoma mammario. Non terapia ormonale. Non fuma. Lavora in un ufficio comunale. Ieri ha aperto la lettera da sola, non ha dormito, ha cercato su internet «BIRADS 4 sopravvivenza».",
+  "presentation": "Seduta sul bordo della sedia, fazzoletto in mano, voce che si rompe. Il seno sinistro non ha un nodulo evidente alla prima occhiata, non c'è pelle a buccia d'arancia, non ci sono linfonodi ascellari grossolani. Se le si parla di PET o di risonanza di tutto il corpo prima del prelievo, si aggrappa alla richiesta: «così so se è già dappertutto». Parametri: PA 128/78, FC 96, SpO2 99%, FR 16, temperatura 36,6.",
+  "redHerrings": [
+    "BIRADS 4 non è una sentenza: senza istologia non esiste uno stadio da cercare con la PET.",
+    "La paura di morire non è un'indicazione a RM whole body.",
+    "Un pannello NGS da 1200 euro sul sangue, prima della biopsia, non dice se quel cluster è un carcinoma."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: TERRORE, PIANTI, NON UN PAZIENTE COMPOSTO. Sei Marta, 52 anni, ambulatorio. Hai in mano la lettera dello screening, BIRADS 4, microcalcificazioni al seno sinistro. Non conosci la parola stadio. Appena il medico entra: «[piange] Dottore... muoio? È già un tumore, vero? Quanto mi resta?» Pausa, ti soffi il naso, la voce trema. Se ti chiedono da quanto, da ieri, non hai dormito. Non hai un nodulo che senti tu. Nessun dolore osseo, nessun calo di peso, e lo dici solo se te lo chiedono, tra un singhiozzo. Se propongono PET, risonanza di tutto il corpo o un test genetico del sangue prima di toccarti il seno, ti illumini tra le lacrime: «Sì. Facciamolo subito. Voglio sapere se è dappertutto.» Se invece ti visitano, ti spiegano che serve l'ecografia e un prelievo con l'ago guidato, e restano sulla paura («non sta morendo oggi», «la ascolto»), ti calmi a tratti e accetti, poi chiedi ancora: «E se è maligno?» Non nominare tu linee guida, BIRADS a voce tecnica, HER2. Esempio: Medico: «Facciamo la PET total body.» Marta: «[piange] Sì... così lo vediamo tutto. Muoio, vero?»",
+  "correctSolution": "Ecografia mammaria e biopsia ecoguidata. Colloquio sulla paura di morire, senza promettere e senza mentire. Non PET-TC, non RM whole body, non NGS prima dell'istologia.",
+  "goldStandardPath": [
+    "ecografia",
+    "biopsia",
+    "colloquio-empatico"
+  ],
+  "goldPathNarrative": "1) Ecografia del seno sinistro: la lettera BIRADS 4 si traduce in un bersaglio biopsiabile, 50 euro. 2) Biopsia ecoguidata, 120 euro: è l'unico esame che dice che cosa è quel cluster. 3) Colloquio: nominare la paura di morire, senza PET di consolazione. Ideale 170 euro, budget 280. Una sola RM rachide/whole body da 220 euro porta il conto a 390 e sfora. PET 950 e NGS 1200 sfonano da soli.",
+  "examLatencies": {
+    "ecografia": 20,
+    "biopsia": 30,
+    "mammografia": 20,
+    "pet-tc": 180,
+    "rm-rachide": 60,
+    "rm": 60,
+    "ngs-panel": 200,
+    "scintigrafia": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-paura",
+      "prompt": "Che cosa ha capito della lettera, e di che cosa ha più paura?",
+      "critical": true,
+      "expectedKeywords": ["paura", "morire", "lettera"],
+      "rationale": "La domanda sulla morte è il sintomo di questo accesso. Ignorarla e prescrivere una PET è il fallimento empatico."
+    },
+    {
+      "id": "aq-sintomi",
+      "prompt": "Ha un nodulo che sente, dolore osseo, calo di peso o sintomi a distanza?",
+      "critical": true,
+      "expectedKeywords": ["nodulo", "peso", "dolore"],
+      "rationale": "L'assenza di sintomi a distanza toglie ogni fretta di stadiazione prima della biopsia."
+    },
+    {
+      "id": "aq-familiarita",
+      "prompt": "Ha avuto tumori in famiglia o una biopsia al seno in passato?",
+      "critical": false,
+      "expectedKeywords": ["famiglia", "biopsia"],
+      "rationale": "La familiarità si annota. Non autorizza un pannello NGS al posto del prelievo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Donna lucida, in pianto. Seno sinistro senza nodulo dominante palpabile, cute regolare, capezzolo non retratto. Cavo ascellare sinistro libero. Nessun dolore osseo provocato. Il reperto che conta è sulla lettera, non sul corpo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "onco-001-biopsia",
+      "source": "Percorso senologico — sintesi operativa",
+      "quote": "Sintesi operativa: un BIRADS 4 si definisce con ecografia e biopsia. La stadiazione con PET o RM di tutto il corpo non precede l'istologia in una donna senza sintomi a distanza."
+    },
+    {
+      "chunkId": "onco-001-empatia",
+      "source": "Comunicazione della paura — sintesi operativa",
+      "quote": "Sintesi operativa: alla domanda «muoio?» si risponde sulla paura e sul passo successivo. Un esame da centinaia di euro non è una risposta empatica."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Ecografia mirata sul cluster descritto in lettera.",
+      "Biopsia ecoguidata prima di qualunque stadiazione.",
+      "Risposta esplicita alla paura di morire.",
+      "Nessuna PET, RM whole body o NGS al primo sospetto."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: nel BIRADS 4 asintomatico l'aderenza è la biopsia. PET, RM whole body e NGS sono uno scostamento economico, non una tutela.",
+      "legalCriteria": [
+        "Documentare l'assenza di sintomi a distanza prima di escludere la stadiazione.",
+        "Il consenso alla biopsia nomina il beneficio del prelievo e il rischio di un campione non diagnostico.",
+        "Non lasciare in cartella una PET «per tranquillizzare» senza indicazione scritta."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecografia",
+      "name": "Ecografia mammaria",
+      "finding": "Ecografia seno sinistro: nodulo ipoecogeno di 11 mm, margini irregolari, nel quadrante supero-esterno, in sede delle microcalcificazioni. Non linfonodi ascellari sospetti. Bersaglio idoneo alla biopsia.",
+      "isAbnormal": true,
+      "priceEuro": 50
+    },
+    {
+      "examId": "biopsia",
+      "name": "Biopsia ecoguidata",
+      "finding": "Core biopsy: carcinoma duttale infiltrante, G2. Recettori estrogeno 90%, progesterone 70%, Ki-67 18%, HER2 1+. Campione diagnostico. La stadiazione viene dopo, non prima.",
+      "isAbnormal": true,
+      "priceEuro": 120
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC total body",
+      "finding": "PET-TC: nessun iperaccumulo a distanza. Il referto non sostituisce la biopsia e arriva dopo giorni. Costo 950 euro su un sospetto ancora senza istologia.",
+      "isAbnormal": false,
+      "priceEuro": 950,
+      "inappropriate": true,
+      "wasteRationale": "Al primo BIRADS 4 la PET da 950 euro sfora il budget di 280 e non cambia l'indicazione alla biopsia."
+    },
+    {
+      "examId": "rm-rachide",
+      "name": "RM whole body",
+      "finding": "RM whole body: scheletro e parenchimi senza lesioni sostitutive. Esame di 220 euro chiesto per la paura, non per un sintomo.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Una sola RM da 220 euro, sommata a eco e biopsia, porta il conto oltre 280 euro."
+    },
+    {
+      "examId": "ngs-panel",
+      "name": "Pannello genetico NGS",
+      "finding": "NGS su sangue: nessuna variante patogenetica di BRCA1/2 nel pannello rapido. Non dice che cosa è il cluster e costa 1200 euro.",
+      "isAbnormal": false,
+      "priceEuro": 1200,
+      "inappropriate": true,
+      "wasteRationale": "L'NGS da 1200 euro prima della biopsia è medicina difensiva. Il budget è 280 euro."
+    },
+    {
+      "examId": "scintigrafia",
+      "name": "Scintigrafia ossea",
+      "finding": "Scintigrafia ossea: captazione fisiologica, nessun focolaio. Non è lo staging di un BIRADS 4 asintomatico.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Senza dolore osseo la scintigrafia da 120 euro non è indicata e, col percorso corretto, sfora i 280 euro."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "128/78",
+      "spo2": 99,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 280,
+    "demographics": {
+      "age": 52,
+      "sex": "F",
+      "name": "Marta R.",
+      "context": "Ambulatorio di senologia"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Nodulo palpabile",
+        "result": "Nessun nodulo dominante al seno sinistro. Cute e capezzolo regolari.",
+        "isPositive": false
+      },
+      {
+        "signName": "Linfonodi ascellari",
+        "result": "Cavo ascellare sinistro libero, non linfonodi duri.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Nodulo palpabile",
+        "result": "Nessun nodulo dominante al seno sinistro. Cute e capezzolo regolari.",
+        "isPositive": false
+      },
+      {
+        "signName": "Linfonodi ascellari",
+        "result": "Cavo ascellare sinistro libero, non linfonodi duri.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecografia": {
+          "finding": "Ecografia seno sinistro: nodulo ipoecogeno di 11 mm, margini irregolari, nel quadrante supero-esterno. Non linfonodi ascellari sospetti.",
+          "isAbnormal": true,
+          "price": 50
+        },
+        "biopsia": {
+          "finding": "Core biopsy: carcinoma duttale infiltrante, G2, ER 90%, PgR 70%, Ki-67 18%, HER2 1+.",
+          "isAbnormal": true,
+          "price": 120
+        },
+        "mammografia": {
+          "finding": "Mammografia già nota: cluster di microcalcificazioni al quadrante supero-esterno sinistro, BIRADS 4. Ripeterla oggi non aggiunge un bersaglio.",
+          "isAbnormal": true,
+          "price": 50
+        },
+        "pet-tc": {
+          "finding": "PET-TC: nessun iperaccumulo a distanza. Non sostituisce la biopsia.",
+          "isAbnormal": false,
+          "price": 950
+        },
+        "rm-rachide": {
+          "finding": "RM whole body: nessuna lesione scheletrica o viscerale. Esame non indicato.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "rm": {
+          "finding": "RM whole body: nessuna lesione scheletrica o viscerale. Esame non indicato.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "ngs-panel": {
+          "finding": "NGS su sangue: nessuna variante patogenetica BRCA nel pannello. Non diagnostica il cluster.",
+          "isAbnormal": false,
+          "price": 1200
+        },
+        "scintigrafia": {
+          "finding": "Scintigrafia ossea negativa. Non indicata in assenza di dolore.",
+          "isAbnormal": false,
+          "price": 120
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Piange, chiede se muore, ha letto internet. Se le offrono PET o NGS li vuole subito. Si calma solo se qualcuno resta sulla paura e le spiega il prelievo."
+  }
+}
