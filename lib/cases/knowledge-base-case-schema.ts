@@ -114,14 +114,18 @@ const KbBaselineExamFindingsSchema = z
   })
   .passthrough();
 
+/** Prefissi dei casi knowledge-base, incluso Psichiatria (`PSIC-001`). Case-insensitive. */
+const KNOWLEDGE_BASE_CASE_ID_RE =
+  /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO|PSIC)-\d{3}$/i;
+
 /**
  * Structured specialty case authored from `knowledge_base/<specialty>/matrix.json`.
  * Compatible with `CaseImportSchema` / `assertPlayableCase` (playable baseline).
  * Cardiology cases omit `patientProfile`; Pneumology and Gastroenterology cases must include it.
  */
 export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
-  id: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO|PSIC)-\d{3}$/),
-  code: z.string().regex(/^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO|PSIC)-\d{3}$/),
+  id: z.string().trim().regex(KNOWLEDGE_BASE_CASE_ID_RE, "id caso non valido"),
+  code: z.string().trim().regex(KNOWLEDGE_BASE_CASE_ID_RE, "id caso non valido"),
   specialty: z.enum([
     "cardiologia",
     "pneumologia",
