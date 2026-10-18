@@ -9,7 +9,8 @@
  *
  * Idempotent upsert on (commercialName, dosageForm).
  * `category` is the specialty pillar (Cardiologia, Pneumologia,
- * Gastroenterologia, Urgenza), not a pharmacological class.
+ * Gastroenterologia, Urgenza, Neurologia, Oncologia, Malattie Infettive,
+ * Psichiatria), not a pharmacological class.
  *
  *   npx tsx scripts/seed-medications.ts
  *   npm run db:seed:medications
@@ -28,7 +29,15 @@ type SeedMedication = {
   activeIngredient: string;
   dosageForm: string;
   price: number;
-  category: "Cardiologia" | "Pneumologia" | "Gastroenterologia" | "Urgenza";
+  category:
+    | "Cardiologia"
+    | "Pneumologia"
+    | "Gastroenterologia"
+    | "Urgenza"
+    | "Neurologia"
+    | "Oncologia"
+    | "Malattie Infettive"
+    | "Psichiatria";
   /** AIC / AIFA note for audit — not persisted. */
   source: string;
 };
