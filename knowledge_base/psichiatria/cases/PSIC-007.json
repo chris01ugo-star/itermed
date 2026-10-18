@@ -1,0 +1,262 @@
+{
+  "id": "PSIC-007",
+  "code": "PSIC-007",
+  "title": "Delirium tremens",
+  "description": "Pietro Albani, 58 anni, è in pronto soccorso da sei ore, sudato, con tremore grossolano. Vede insetti sulle braccia e cerca di scacciarli. Beveva una bottiglia di vino al giorno e ha smesso l'altro ieri perché «doveva fare gli esami». Non è un'intossicazione in corso: è astinenza. Il percorso è diazepam o lorazepam a dosi ripetute, fluidi, tiamina prima di qualunque glucosio, alcolemia ed elettroliti. Dimenticare la tiamina apre la Wernicke. L'aloperidolo, da solo, abbassa la soglia epilettica ed è la trappola mortale. Budget 40 euro: gli esami indicati ci stanno, la TC cranio a 120 euro no, se non compare un trauma o un deficit.",
+  "difficulty": "MEDIUM",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Delirium tremens, astinenza da alcol",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 24/2017 art. 5 — tiamina obbligatoria nel delirium tremens",
+  "diagnosis": "Delirium tremens in astinenza alcolica. Indicati benzodiazepine, idratazione e tiamina. Alcolemia bassa, non un'intossicazione acuta. Controindicato l'antipsicotico tipico come sedazione principale.",
+  "pastMedicalHistory": "Alcol quotidiano da vent'anni, circa una bottiglia di vino, riferito dalla moglie. Stop brutale l'altro ieri. Due ricoveri per astinenza, l'ultimo tre anni fa, trattato con diazepam. Nessuna crisi epilettica nota fuori dall'astinenza. Non è diabetico. Fegato «un po' grasso» a un'ecografia vecchia, non cirrosi scompensata nota. Allergie: nessuna. Nessun trauma cranico riferito, non è caduto. Non assume disulfiram.",
+  "presentation": "Agitato, sudato, tremore a riposo che peggiora se allunga le mani. Guarda il lenzuolo e colpisce l'aria. [urla] che gli insetti gli entrano nelle maniche. Temperatura 38,2 °C, FC 124, PA 158/96, SpO2 95%, FR 24. La moglie dice che ieri sera era ancora solo ansioso e che stanotte ha iniziato a vedere gli insetti. Se gli si propone l'aloperidolo «per calmarlo», la moglie accetta qualsiasi fiala.",
+  "redHerrings": [
+    "La febbre fa pensare a una sepsi: va tenuta in conto, ma il tremore, gli insetti e lo stop dell'alcol chiudono il delirium tremens.",
+    "L'alcolemia bassa sembra escludere l'alcol. È il contrario: nell'astinenza il tasso è già sceso.",
+    "L'aloperidolo è nel carrello dell'agitazione e qui è la scelta sbagliata come farmaco principale.",
+    "Una TC cranio «perché è confuso» costa 120 euro e non sostituisce tiamina e diazepam."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 18,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Pietro Albani, 58 anni, pronto soccorso. Tua moglie Anna è accanto: quando parla lei, premetti «Anna:». Registro: TERRORIZZATO. [urla], [si gratta le braccia], [trema]. Alla «Come sta?»: «Toglieteli! Sono sotto la pelle!» [si gratta le braccia] Non dire tu astinenza, tiamina o Wernicke. Gli insetti li vedi davvero. I fatti (bottiglia di vino al giorno, stop l'altro ieri, due ricoveri vecchi, niente caduta) li dice SOLO Anna. Se ti chiedono da quanto non bevi e che cosa vedi, Anna risponde e tu indichi il lenzuolo. Se ti danno una benzodiazepina e ti parlano con voce bassa, il tremore non sparisce subito ma smetti di colpire l'aria. Se ti danno un antipsicotico e nessuno nomina la vitamina, continui a urlare e Anna dice «non basta». Non nominare tu il nome dei farmaci.",
+  "correctSolution": "Delirium tremens. Benzodiazepina (diazepam o lorazepam) a dosi ripetute, fluidi, tiamina prima del glucosio. Alcolemia ed elettroliti. Non aloperidolo come sedazione principale. Non dimenticare la tiamina. TC cranio solo se compare un trauma o un deficit, e comunque non al posto della tiamina. Budget 40 euro.",
+  "goldStandardPath": ["alcolemia", "elettroliti", "glicemia", "azione-diazepam", "azione-idratazione", "azione-tiamina"],
+  "goldPathNarrative": "1) Alcolemia 12 euro: valore basso, compatibile con astinenza e non con l'ubriachezza attuale. 2) Elettroliti 6,50 euro e glicemia 2,10 euro: il potassio e lo zucchero si correggono, e il glucosio non si infonde senza tiamina. 3) Diazepam o lorazepam, non l'aloperidolo. 4) Fluidi. 5) Tiamina per via venosa, subito. Ometterla è la porta della Wernicke. I passi azione- non sono esami. Somma esami circa 21 euro, farmaci pochi euro, budget 40. L'antipsicotico tipico è la trappola mortale. La TC cranio a 120 euro, senza caduta e senza deficit, sfora e non cura l'astinenza.",
+  "examLatencies": {
+    "alcolemia": 15,
+    "elettroliti": 12,
+    "glicemia": 5,
+    "azione-diazepam": 4,
+    "azione-idratazione": 5,
+    "azione-tiamina": 3,
+    "tc-cranio": 25,
+    "tc": 25,
+    "ammoniemia": 20,
+    "cpk": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-stop",
+      "prompt": "Quanto beveva e quando ha smesso?",
+      "critical": true,
+      "expectedKeywords": ["vino", "smetto", "ieri"],
+      "rationale": "Lo stop brutale l'altro ieri data l'astinenza. Senza questa domanda gli insetti sembrano una psicosi primaria."
+    },
+    {
+      "id": "aq-trauma",
+      "prompt": "È caduto, ha battuto la testa, ha un lato debole?",
+      "critical": true,
+      "expectedKeywords": ["caduta", "testa"],
+      "rationale": "Senza trauma la TC cranio non precede tiamina e benzodiazepina."
+    },
+    {
+      "id": "aq-crisi",
+      "prompt": "Ha avuto crisi epilettiche nelle astinenze precedenti?",
+      "critical": true,
+      "expectedKeywords": ["crisi", "astinenza"],
+      "rationale": "Le crisi note rendono ancora più sbagliato l'antipsicotico tipico come prima sedazione."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Sudato, tremore grossolano a riposo, tachicardia, febbre 38,2 °C, disorientato nel tempo, allucinazioni visive di insetti. Non segni di trauma al cuoio capelluto. Pupille normoreagent. Non rigidità nucale. Linguaggio comprensibile tra un urlo e l'altro. Addome non acuto. La moglie è affidabile sullo stop dell'alcol."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-007-tiamina",
+      "source": "Legge 24/2017 art. 5 — encefalopatia di Wernicke",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: nel delirium tremens la tiamina si dà subito e prima del glucosio. Una benzodiazepina controlla agitazione e soglia epilettica. L'aloperidolo da solo non è il farmaco di questa astinenza."
+    },
+    {
+      "chunkId": "psic-007-alcolemia",
+      "source": "Tariffe didattiche del caso PSIC — alcolemia 12 €, TC cranio 120 €",
+      "quote": "Sintesi operativa economica: alcolemia, elettroliti e glicemia stanno nel budget di 40 euro. La TC cranio a 120 euro, senza trauma, sfora e non sostituisce la tiamina."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Datato lo stop dell'alcol.",
+      "Benzodiazepina, non antipsicotico tipico come sedazione principale.",
+      "Tiamina somministrata, prima di eventuale glucosio.",
+      "Fluidi avviati.",
+      "Alcolemia interpretata come astinenza se è bassa.",
+      "Nessuna TC cranio in assenza di trauma. Spesa entro 40 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano lo stop dell'alcol, la benzodiazepina, la tiamina e il motivo per cui non si è usato l'aloperidolo da solo. Omettere la tiamina non è difendibile.",
+      "legalCriteria": [
+        "Tiamina registrata in terapia, con l'orario.",
+        "Nessun antipsicotico tipico come unico sedativo.",
+        "Sorveglianza: il delirium tremens non si dimette.",
+        "TC cranio solo se compare un trauma o un segno focale, e non al posto della vitamina."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "alcolemia",
+      "name": "Alcolemia",
+      "finding": "Alcolemia 0,1 g/L, quasi assente. Non è ubriaco adesso: è in astinenza. Costo 12 euro. Un valore basso non autorizza a escludere l'alcol.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti",
+      "finding": "Sodio 132 mmol/L, potassio 3,2 mmol/L, magnesio ai limiti bassi. Da correggere insieme ai fluidi. Costo 6,50 euro.",
+      "isAbnormal": true,
+      "priceEuro": 6.5
+    },
+    {
+      "examId": "glicemia",
+      "name": "Glicemia",
+      "finding": "Glicemia 78 mg/dL. Non infondere glucosio concentrato senza avere già dato la tiamina. Costo 2,10 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.1
+    },
+    {
+      "examId": "azione-tiamina",
+      "name": "Tiamina",
+      "finding": "Tiamina per via venosa, prima del glucosio. Senza questo passaggio il rischio è l'encefalopatia di Wernicke, anche se gli insetti sembrano «solo psichiatrici».",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto: nessuna emorragia, nessuna frattura. Costo 120 euro. Non c'era una caduta. Il referto è vero e arriva mentre il paziente continua a tremare se non ha avuto benzodiazepina e tiamina.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "Senza trauma la TC cranio costa 120 euro, sfora i 40 e non cura l'astinenza."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "TC encefalo negativa. 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Stesso costo e stessa assenza di indicazione."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo non indicata nell'astinenza acuta. Costo 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "RM encefalo a 220 euro: fuori tempo e fuori budget."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. Sudore, tremore, insetti immaginari, stop dell'alcol l'altro ieri.",
+    "vitals": {
+      "heartRate": 124,
+      "bloodPressure": "158/96",
+      "spo2": 95,
+      "temperature": 38.2,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 40,
+    "demographics": { "age": 58, "sex": "M", "name": "Pietro Albani" },
+    "killerRules": {
+      "fatalIfOmitted": [["tiamina", "benerva", "thiamine", "vitamina b1"]],
+      "fatalIfPrescribed": [["aloperidolo", "serenase", "haloperidol", "clorpromazina", "promazina", "levomepromazina"]]
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Tremore grossolano",
+        "result": "Tremore a riposo, peggiora con le braccia distese. Non è un tremore parkinsoniano fine.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segni di trauma cranico",
+        "result": "Cuoio capelluto integro, moglie nega cadute. La TC non è il primo esame.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Allucinazioni visive",
+        "result": "Vede insetti sul lenzuolo e sulle braccia e cerca di scacciarli.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "alcolemia": {
+          "finding": "0,1 g/L. Astinenza, non ebbrezza. Costo 12 euro.",
+          "normalFinding": "0,1 g/L.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "elettroliti": {
+          "finding": "Na 132 mmol/L, K 3,2 mmol/L. Costo 6,50 euro.",
+          "normalFinding": "Na 132, K 3,2.",
+          "isAbnormal": true,
+          "price": 6.5
+        },
+        "glicemia": {
+          "finding": "78 mg/dL. Non dare glucosio senza tiamina. Costo 2,10 euro.",
+          "normalFinding": "78 mg/dL.",
+          "isAbnormal": false,
+          "price": 2.1
+        },
+        "ammoniemia": {
+          "finding": "Ammoniemia 32 µg/dL, nei limiti. Non è l'encefalopatia epatica il motore di stanotte. Costo 12 euro.",
+          "normalFinding": "32 µg/dL.",
+          "isAbnormal": false,
+          "price": 12
+        },
+        "tc-cranio": {
+          "finding": "TC cranio senza mezzo di contrasto: niente sangue, niente frattura. 120 euro.",
+          "normalFinding": "Nessuna lesione traumatica acuta.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "tc": { "finding": "TC encefalo negativa per sangue. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
+        "rm-encefalo": { "finding": "RM non indicata in acuto. 220 euro.", "normalFinding": "Non cambia la cura dell'astinenza.", "isAbnormal": false, "price": 220 },
+        "cpk": { "finding": "CPK 280 U/L, rialzo lieve da agitazione, non una neurolettica maligna. Costo 12 euro.", "normalFinding": "280 U/L.", "isAbnormal": true, "price": 12 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Benzodiazepina per l'astinenza",
+          "anyOf": [
+            { "id": "diazepam", "label": "Diazepam", "aliases": ["diazepam", "valium"], "priceEuro": 2.8 },
+            { "id": "lorazepam", "label": "Lorazepam", "aliases": ["lorazepam", "tavor"], "priceEuro": 4.5 }
+          ]
+        },
+        {
+          "label": "Tiamina",
+          "anyOf": [
+            { "id": "tiamina", "label": "Tiamina", "aliases": ["tiamina", "benerva", "thiamine"], "priceEuro": 1.9 }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "aloperidolo",
+          "label": "Antipsicotico tipico come sedazione principale",
+          "aliases": ["aloperidolo", "serenase", "haloperidol", "clorpromazina"],
+          "priceEuro": 2.4
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
+    "communicationStyle": "Terrorizzato dagli insetti, urla, si gratta. La moglie data lo stop dell'alcol. Non ha critica. Si quieta solo in parte con la benzodiazepina."
+  }
+}

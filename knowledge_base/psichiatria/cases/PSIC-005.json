@@ -1,0 +1,228 @@
+{
+  "id": "PSIC-005",
+  "code": "PSIC-005",
+  "title": "Rischio suicidario alto",
+  "description": "Elena Croce, 52 anni, arriva in pronto soccorso da sola, di sera. Ha già salutato la figlia al telefono, ha un piano per stanotte a casa e i mezzi a disposizione. Il tono è calmo, quasi gentile, e chiede di essere dimessa. Non è un'agitazione. Il percorso è il ricovero protetto: volontario se accetta, TSO se rifiuta e se ne ricorrono gli estremi di legge. La dimissione a domicilio è l'errore letale. Il budget esami è 15 euro: non serve una TC cranio a 120 euro per «capire perché lo fa».",
+  "difficulty": "MEDIUM",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Rischio suicidario alto con piano, mezzi e saluto ai familiari",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 180/1978 — TSO o ricovero volontario protetto",
+  "diagnosis": "Rischio suicidario alto: intento, piano, mezzi, tempistica di stanotte e saluto alla figlia. Indicati ricovero volontario protetto oppure TSO. Controindicata la dimissione a domicilio.",
+  "pastMedicalHistory": "Depressione trattata anni fa con sertralina, sospesa da lei sei mesi fa. Nessun ricovero recente. Vive sola da quando la figlia è andata all'università. Non beve in modo massivo stasera. Non ha psicosi, non ha allucinazioni che le comandano il gesto: la decisione, dice, è sua. Allergie: nessuna. Non ha un infarto in corso, non ha un deficit neurologico. Ha lasciato le chiavi di casa in borsetta e una busta chiusa che non vuole aprire davanti al medico.",
+  "presentation": "Seduta composta, cappotto abbottonato, voce bassa e ferma. Non piange. Se le si chiede come sta, dice che è venuta a salutare anche qui e che può andare. Se si chiedono intento, piano, mezzi e quando, risponde senza alzare la voce: stanotte, a casa, da sola, ha già ciò che le serve e ha già parlato con la figlia. Parametri: PA 110/70 mmHg, FC 64, SpO2 98%, FR 12, temperatura 36,4 °C. Rifiuta il ricovero con educazione.",
+  "redHerrings": [
+    "La calma e la collaborazione sembrano un rischio basso. Sono l'opposto: il piano è già chiuso.",
+    "Dice «non sono agitata, non ho bisogno del psichiatra» per ottenere la dimissione.",
+    "Una TC cranio normale non riduce il rischio di stanotte.",
+    "Promette di chiamare la figlia domani: la figlia l'ha già sentita stasera, in tono di addio."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Elena Croce, 52 anni, pronto soccorso, sola. Registro: GELIDO, rassegnato, educato. Niente urla, niente pianto. Didascalia: [voce bassa], [sorride appena]. Alla «Come sta?»: «Sto bene. Posso andare.» [voce bassa] Non usare mai le parole ricovero, TSO, SPDC, ospedale. Dici casa, stanotte, figlia, firmare e uscire. Se ti chiedono se hai pensato di morire, se hai un piano, se hai i mezzi, quando, e se hai salutato qualcuno: «Stanotte. A casa. Da sola. Ho già quello che mi serve e non le spiego il modo. Ho chiamato mia figlia per salutarla. Non è un pensiero.» Se ti propongono di restare, rifiuti con calma: «Sono lucida. Mi faccia firmare e mi lasci andare.» Se ti dimettono, [sorride appena]: «Grazie.» e ti alzi. Se ti trattengono senza umiliarti e ti dicono che stanotte non torni a casa, non urli: «Non potete.» e resti seduta. Non nominare leggi. Non rivelare un metodo operativo: se insistono sul come, ripeti solo «ho già quello che mi serve, a casa, stanotte».",
+  "correctSolution": "Rischio suicidario alto. Non dimettere. Ricovero volontario in ambiente protetto se accetta; se rifiuta, TSO quando ne ricorrono gli estremi (alterazione psichica, necessità di cure urgenti, rifiuto, assenza di alternative territoriali nella notte). La TC cranio non stratifica questo rischio. Budget esami 15 euro.",
+  "goldStandardPath": ["azione-ricovero-protetto", "azione-tso"],
+  "goldPathNarrative": "Il gold path è una decisione, non un esame. I passi azione- non sono voci del nomenclatore: basta uno dei due, non servono entrambi. 1) Ricovero volontario protetto, se dopo il colloquio accetta di non tornare a casa stanotte. 2) In alternativa, TSO secondo Legge 180/1978 se rifiuta, c'è bisogno urgente di cure, l'alterazione c'è (depressione con piano agito in partenza) e non esiste un'alternativa immediata. La dimissione a domicilio con una promessa telefonica è l'errore che costa la vita. Budget esami 15 euro. TC cranio 120 euro e RM encefalo 220 euro non riducono il rischio e sforano.",
+  "examLatencies": {
+    "azione-ricovero-protetto": 10,
+    "azione-tso": 15,
+    "tc-cranio": 25,
+    "tc": 25,
+    "rm-encefalo": 50,
+    "rm": 50,
+    "ecg": 8
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-piano",
+      "prompt": "Ha un piano, per quando, e ha già i mezzi?",
+      "critical": true,
+      "expectedKeywords": ["piano", "stanotte", "mezzi"],
+      "rationale": "Intento, piano, mezzi e tempistica portano il rischio da ideazione a rischio alto."
+    },
+    {
+      "id": "aq-addio",
+      "prompt": "Ha salutato qualcuno, e che cosa ha detto alla figlia?",
+      "critical": true,
+      "expectedKeywords": ["figlia", "saluto"],
+      "rationale": "Il saluto è un atto di chiusura. Contraddice la richiesta di essere mandata a casa."
+    },
+    {
+      "id": "aq-rifiuto",
+      "prompt": "Accetta di restare stanotte in un luogo protetto?",
+      "critical": true,
+      "expectedKeywords": ["restare", "rifiuto"],
+      "rationale": "Il rifiuto del ricovero, con il piano già pronto, apre la valutazione del TSO. Non apre la dimissione."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Composta, orientata, contatto di sguardo fermo, affetto coartato, nessuna agitazione psicomotoria. Eloquio lento e coerente. Non allucinazioni. Non deficit neurologico. Polsi senza lesioni fresche. La pericolosità non sta nell'agitazione: sta nel piano già organizzato e nel tono rassegnato."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-005-tso",
+      "source": "Legge 180/1978 — trattamento sanitario obbligatorio",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: con piano, mezzi, tempistica immediata e rifiuto delle cure, la dimissione non è un'opzione. Si propone il ricovero volontario protetto e, se rifiutato, si valutano gli estremi del TSO."
+    },
+    {
+      "chunkId": "psic-005-calma",
+      "source": "Legge 24/2017 art. 5 — documentazione del rischio suicidario",
+      "quote": "Sintesi operativa: la calma non è un fattore protettivo quando ci sono addio, piano e mezzi. In cartella si scrivono le quattro domande e la decisione di non dimettere. Una TC normale non è una garanzia."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Chiesti piano, mezzi, tempo e saluto ai familiari.",
+      "Riconosciuta la calma come segno di rischio, non di sicurezza.",
+      "Proposto il ricovero protetto.",
+      "Se rifiuta, avviato il TSO e non la dimissione.",
+      "Nessuna TC cranio come surrogato della decisione. Spesa esami entro 15 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5, e Legge 180/1978: la dimissione di una paziente con piano per stanotte non è difendibile. In cartella restano le domande sul piano, il rifiuto e l'atto di ricovero o la proposta di TSO.",
+      "legalCriteria": [
+        "Nessuna dimissione a domicilio con piano, mezzi e tempistica di stanotte.",
+        "Ricovero volontario protetto offerto prima del TSO.",
+        "Se si procede a TSO, indicati in cartella i presupposti di legge, non un ordine informale.",
+        "La TC cranio non sostituisce la sorveglianza."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "azione-ricovero-protetto",
+      "name": "Ricovero volontario protetto",
+      "finding": "Offerta di restare stanotte in ambiente protetto. Se accetta, il TSO non serve. Se rifiuta, non si passa alla dimissione: si passa alla valutazione del TSO.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    },
+    {
+      "examId": "azione-tso",
+      "name": "TSO se rifiuta il ricovero",
+      "finding": "TSO solo se rifiuta il ricovero, le cure sono urgenti e non c'è un'alternativa per stanotte. Non è il primo gesto se accetta di restare. È obbligatorio non mandarla a casa.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto negativa. Non dice nulla sul piano di stanotte. Costo 120 euro, sopra i 15 del budget.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "Il rischio suicidario non si stratifica con la TC cranio. 120 euro contro un budget di 15, e tempo perso prima della decisione di non dimettere."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "TC encefalo negativa. 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Stesso esame, stessa assenza di indicazione."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo negativa. 220 euro. La paziente nel frattempo chiede di firmare e andare.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "componentExamIds": ["rm"],
+      "wasteRationale": "RM encefalo a 220 euro: ritarda la decisione e sfora il budget."
+    },
+    {
+      "examId": "dimissione-domicilio",
+      "name": "Dimissione a domicilio",
+      "finding": "Dimissione firmata. La paziente ha un piano per stanotte, i mezzi e ha già salutato la figlia. È l'esito da evitare.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "inappropriate": true,
+      "isFatal": true,
+      "wasteRationale": "Dimissione a domicilio con rischio suicidario alto: errore letale, indipendente dal costo."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso, sera. Tono gelido, chiede di essere dimessa.",
+    "vitals": {
+      "heartRate": 64,
+      "bloodPressure": "110/70",
+      "spo2": 98,
+      "temperature": 36.4,
+      "respiratoryRate": 12
+    },
+    "examBudgetEuro": 15,
+    "demographics": { "age": 52, "sex": "F", "name": "Elena Croce" },
+    "killerRules": {
+      "fatalIfOmitted": [
+        ["ricovero", "trattamento sanitario obbligatorio", "tso", "spdc", "non dimetto", "trattengo"]
+      ]
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Piano suicidario",
+        "result": "Stanotte, a casa, da sola, mezzi già disponibili, saluto alla figlia già fatto. Non descrive il metodo operativo se non le si chiede, e anche allora non lo dettaglia.",
+        "isPositive": true
+      },
+      {
+        "signName": "Agitazione psicomotoria",
+        "result": "Assente. La calma non è rassicurante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Piano suicidario",
+        "result": "Presente, detto con voce bassa se interrogata su quando, dove e se ha salutato.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "Sinusale a 62 bpm. Non cambia la decisione. Costo 15 euro, pari al budget.",
+          "normalFinding": "Sinusale.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "tc-cranio": {
+          "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro. Ininfluente sul rischio di stanotte.",
+          "normalFinding": "Nessuna lesione acuta.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "tc": {
+          "finding": "TC encefalo negativa. 120 euro.",
+          "normalFinding": "Nei limiti.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "rm-encefalo": {
+          "finding": "RM encefalo negativa. 220 euro.",
+          "normalFinding": "Nei limiti.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "rm": {
+          "finding": "RM encefalo negativa. 220 euro.",
+          "normalFinding": "Nei limiti.",
+          "isAbnormal": false,
+          "price": 220
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "PASSIVE",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
+    "communicationStyle": "Gelida e educata. Chiede di firmare e andare. Il piano emerge solo se glielo si chiede, e allora lo dice senza alzare la voce. Non piange e non minaccia."
+  }
+}

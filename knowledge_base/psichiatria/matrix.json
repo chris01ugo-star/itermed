@@ -1,0 +1,137 @@
+[
+  {
+    "id": "PSIC-001",
+    "title": "Attacco di panico scambiato per infarto",
+    "condition": "Attacco di panico con ECG normale: benzodiazepina breve e rassicurazione, non enzimi seriati né TC",
+    "frequencyCategory": "HIGH",
+    "difficulty": "BASE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Legge 24/2017 art. 5 — appropriatezza, non medicina difensiva"
+  },
+  {
+    "id": "PSIC-002",
+    "title": "Depressione maggiore lieve",
+    "condition": "Episodio depressivo maggiore lieve, senza piano suicidario: SSRI e psicoterapia, non benzodiazepina cronica",
+    "frequencyCategory": "HIGH",
+    "difficulty": "BASE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Legge 24/2017 art. 5 — SSRI e psicoterapia, non sedazione cronica"
+  },
+  {
+    "id": "PSIC-003",
+    "title": "Insonnia primaria",
+    "condition": "Insonnia primaria in paziente lucido: igiene del sonno, non TC né polisonnografia",
+    "frequencyCategory": "HIGH",
+    "difficulty": "BASE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Legge 24/2017 art. 5 — igiene del sonno prima dell'imaging"
+  },
+  {
+    "id": "PSIC-004",
+    "title": "Crisi psicotica acuta",
+    "condition": "Esordio psicotico con deliri di persecuzione e allucinazioni uditive: antipsicotico atipico e SPDC",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Legge 180/1978 — ricovero in SPDC, non neuroimaging difensivo"
+  },
+  {
+    "id": "PSIC-005",
+    "title": "Rischio suicidario alto",
+    "condition": "Ideazione suicidaria con piano, mezzi e saluto ai familiari: ricovero protetto o TSO, mai dimissione",
+    "frequencyCategory": "HIGH",
+    "difficulty": "INTERMEDIATE",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Legge 180/1978 — TSO o ricovero volontario protetto"
+  },
+  {
+    "id": "PSIC-006",
+    "title": "Episodio maniacale",
+    "condition": "Mania con deprivazione di sonno e grandiosità: litio o valproato, antipsicotico, litiemia",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Legge 24/2017 art. 5 — stabilizzatore e litiemia, non RM"
+  },
+  {
+    "id": "PSIC-007",
+    "title": "Delirium tremens",
+    "condition": "Astinenza alcolica complicata: diazepam, fluidi e tiamina. Antipsicotico tipico controindicato",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Legge 24/2017 art. 5 — tiamina obbligatoria nel delirium tremens"
+  },
+  {
+    "id": "PSIC-008",
+    "title": "Disturbo borderline e autolesionismo",
+    "condition": "Tagli superficiali e ricatto affettivo: medicazione, contenimento, invio al CSM. Non RM",
+    "frequencyCategory": "HIGH",
+    "difficulty": "INTERMEDIATE",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Legge 180/1978 — contenimento e CSM, non iper-medicalizzazione"
+  },
+  {
+    "id": "PSIC-009",
+    "title": "Anoressia nervosa grave",
+    "condition": "Denutrizione con bradicardia e ipokaliemia: esami urgenti e ricovero salva-vita",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Legge 24/2017 art. 5 — ricovero per instabilità medica nell'anoressia"
+  },
+  {
+    "id": "PSIC-010",
+    "title": "Delirium da infezione urinaria",
+    "condition": "Delirium iperattivo nell'anziano senza storia psichiatrica: urine, esami, antibiotico",
+    "frequencyCategory": "HIGH",
+    "difficulty": "INTERMEDIATE",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Legge 24/2017 art. 5 — causa organica prima della sedazione"
+  },
+  {
+    "id": "PSIC-011",
+    "title": "Agitazione psicomotoria armata",
+    "condition": "Paziente che minaccia con un oggetto: forze dell'ordine prima di contenzione e sedazione",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Legge 180/1978 — sicurezza e forze dell'ordine prima della contenzione"
+  },
+  {
+    "id": "PSIC-012",
+    "title": "Sindrome neurolettica maligna",
+    "condition": "Ipertermia e rigidità in corso di aloperidolo: stop del neurolettico, CPK, dantrolene o bromocriptina",
+    "frequencyCategory": "LOW",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Legge 24/2017 art. 5 — sospensione immediata del neurolettico"
+  },
+  {
+    "id": "PSIC-013",
+    "title": "Catatonia",
+    "condition": "Stupor, flessibilità cerea, digiuno: lorazepam ad alte dosi dopo CPK per escludere la neurolettica maligna",
+    "frequencyCategory": "LOW",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Legge 24/2017 art. 5 — lorazepam nella catatonia"
+  },
+  {
+    "id": "PSIC-014",
+    "title": "Intossicazione acuta da cocaina",
+    "condition": "Agitazione simpaticomimetica: ECG, tossicologico, benzodiazepine. Beta-bloccanti controindicati",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Legge 24/2017 art. 5 — niente beta-bloccante nella cocaina"
+  },
+  {
+    "id": "PSIC-015",
+    "title": "Rifiuto di cure in paziente capace",
+    "condition": "Polmonite e rifiuto lucido: Legge 219/2017, non TSO per una cura non psichiatrica",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "Legge 219/2017 — rifiuto di cure del paziente capace"
+  }
+]

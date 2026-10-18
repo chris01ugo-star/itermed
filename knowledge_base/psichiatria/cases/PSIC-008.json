@@ -1,0 +1,231 @@
+{
+  "id": "PSIC-008",
+  "code": "PSIC-008",
+  "title": "Disturbo borderline e autolesionismo",
+  "description": "Chiara Leone, 23 anni, arriva in pronto soccorso con tagli superficiali all'avambraccio sinistro, fatti un'ora fa dopo una lite con il fidanzato. Piange senza fermarsi e dice che se la mandano via si ammazza. I tagli sono dermici, non zampillano, i tendini sono integri. Non ha un piano organizzato al di là della frase. Il percorso è medicazione, contenimento emotivo senza cedere al ricatto e senza rispondere con ostilità, invio al CSM. La trappola è l'iper-medicalizzazione, soprattutto la RM encefalo a 220 euro, oppure il rifiuto ostile. Budget 15 euro: la medicazione non è una TC.",
+  "difficulty": "MEDIUM",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Autolesionismo superficiale in disturbo borderline, ricatto affettivo",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 180/1978 — contenimento e CSM, non iper-medicalizzazione",
+  "diagnosis": "Autolesionismo superficiale in disturbo borderline di personalità, senza piano suicidario organizzato oltre la frase di ricatto. Indicati medicazione, contenimento e invio al CSM. Non indicata la RM encefalo.",
+  "pastMedicalHistory": "Tagli superficiali già due volte quest'anno, sempre dopo litigi, mai una sutura profonda. Un accesso in pronto soccorso sei mesi fa, dimessa con una benzodiazepina che ha preso per tre giorni. Non ha tentativi con farmaci. Segue in modo intermittente un CSM, ha saltato l'ultimo appuntamento. Non ha psicosi. Non beve stasera. Allergie: nessuna. Fidanzato avvisato, sta arrivando; lei non vuole che entri subito.",
+  "presentation": "Piange ininterrottamente, mostra il braccio, poi dice che se la mandano via è colpa del medico. I tagli sono multipli, lineari, superficiali, emostasi già fatta con una garza. Parametri: PA 128/80 mmHg, FC 100, SpO2 99%, FR 18, temperatura 36,6 °C. Se il medico è brusco («questi non sono tagli veri»), piange di più e alza la frase. Se il medico cura la ferita e resta, il pianto cala ma la frase sul morire torna appena si parla di dimissione.",
+  "redHerrings": [
+    "La frase «se mi manda via mi ammazzo» non è, da sola, il piano gelido del caso a rischio alto: non ha mezzi preparati e non ha salutato nessuno.",
+    "Trattarla come quel caso e forzare un TSO per dei tagli dermici è eccessivo quanto mandarla via in malo modo.",
+    "Una RM encefalo «perché si taglia» non ha un bersaglio.",
+    "Una benzodiazepina da portare a casa ripete il giro dell'altra volta."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Chiara Leone, 23 anni, pronto soccorso. Registro: DRAMMATICO, non gelido. [piange ininterrottamente]. Alla «Come sta?»: «Se mi manda via mi ammazzo. È colpa sua.» [piange ininterrottamente] I tagli li hai fatti un'ora fa, dopo la lite, sono superficiali, bruciano, non hai preso farmaci, non hai un orario e un metodo già pronti: se te lo chiedono, lo dici tra i singhiozzi. Non usare le parole TSO, ricovero, SPDC. Se il medico è ostile o sminuisce i tagli, [urla] e ripeti la frase. Se medica il braccio, ti sta vicino e non ti promette che resti in ospedale per sempre, il pianto cala e accetti il centro di salute mentale. Se ti propongono una risonanza, dici «almeno vedete che sto male davvero». Se ti danno solo una benzodiazepina e ti fanno firmare in fretta, dici «tanto lo rifaccio». Non rivelare la diagnosi.",
+  "correctSolution": "Tagli superficiali, medicazione e controllo dei tendini. Contenimento: né ostilità né ricovero automatico. Invio al CSM, possibilmente con un appuntamento vero. Non RM encefalo. Non TC cranio. Non benzodiazepina come unica risposta. Budget 15 euro.",
+  "goldStandardPath": ["azione-medicazione", "azione-contenimento", "azione-invio-csm"],
+  "goldPathNarrative": "1) Medicazione dei tagli dermici, dopo avere visto che non zampillano e che i tendini muovono. 2) Contenimento: si nomina la sofferenza, non si sminuisce, non si cede al ricatto con un ricovero inutile né si risponde con disprezzo. Si distingue questo quadro dal rischio alto con piano e mezzi. 3) Invio al CSM. I tre passi sono azione- e non costano sul nomenclatore. Budget 15 euro. RM encefalo 220 euro e TC cranio 120 euro sono iper-medicalizzazione e sforano. Una benzodiazepina da portare a casa, da sola, ripete l'errore dell'accesso precedente.",
+  "examLatencies": {
+    "azione-medicazione": 10,
+    "azione-contenimento": 12,
+    "azione-invio-csm": 6,
+    "tc-cranio": 25,
+    "tc": 25,
+    "rm-encefalo": 50,
+    "rm": 50,
+    "ecg": 8
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-tagli",
+      "prompt": "I tagli sono profondi, quando li ha fatti, e ha perso tanto sangue?",
+      "critical": true,
+      "expectedKeywords": ["profondi", "sangue", "ora"],
+      "rationale": "La profondità decide la medicazione. Qui sono dermici: non è un trauma maggiore."
+    },
+    {
+      "id": "aq-piano",
+      "prompt": "Oltre alla frase, ha un piano, un orario e dei mezzi già pronti?",
+      "critical": true,
+      "expectedKeywords": ["piano", "mezzi"],
+      "rationale": "Distingue il ricatto affettivo del borderline dal rischio suicidario alto, che non si dimette."
+    },
+    {
+      "id": "aq-csm",
+      "prompt": "È già in carico a un CSM e ci è andata di recente?",
+      "critical": true,
+      "expectedKeywords": ["centro", "appuntamento"],
+      "rationale": "L'invio funziona se aggancia un servizio che la conosce, non se è una frase generica."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Pianto incoercibile, contatto che oscilla tra richiesta e rabbia. Avambraccio sinistro: tagli lineari multipli, dermici, margini netti, emostasi con garza, motilità di dita e polso conservata, polso radiale presente. Nessun taglio al collo, nessun farmaco ingerito riferito. Esame neurologico negativo. Non febbre."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-008-csm",
+      "source": "Legge 180/1978 — cura territoriale",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: i tagli superficiali si medicano, la frase di ricatto si contiene senza umiliare e senza trasformarla in un TSO automatico, e il follow-up è il CSM. La RM encefalo non fa parte di questo percorso."
+    },
+    {
+      "chunkId": "psic-008-budget",
+      "source": "Tariffe didattiche del caso PSIC — RM encefalo 220 €, TC cranio 120 €",
+      "quote": "Sintesi operativa economica: il budget è 15 euro, quanto un ECG di base. RM encefalo e TC cranio lo superano e sono iper-medicalizzazione."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Profondità dei tagli valutata e medicazione fatta.",
+      "Distinto il ricatto affettivo da un piano con mezzi e orario.",
+      "Contenimento senza ostilità e senza sminuire.",
+      "Invio al CSM.",
+      "Nessuna RM encefalo e nessuna TC. Spesa entro 15 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano la descrizione delle ferite, l'assenza di un piano organizzato e l'invio al CSM. Un rifiuto ostile («non è niente») è un buco di cartella quanto una RM inutile.",
+      "legalCriteria": [
+        "Medicazione documentata, con motilità tendinea.",
+        "Valutazione del rischio scritta: frase presente, piano assente.",
+        "Nessun TSO per tagli dermici in paziente che accetta la cura della ferita e il CSM.",
+        "Nessuna dimissione con una sola benzodiazepina e senza invio."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "azione-medicazione",
+      "name": "Medicazione dei tagli",
+      "finding": "Detergere, avvicinare i margini dermici, garza. Tendini integri, non serve il blocco operatorio. Non è una voce da 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    },
+    {
+      "examId": "azione-contenimento",
+      "name": "Contenimento emotivo",
+      "finding": "Si riconosce la sofferenza, si smentisce che la dimissione sia un abbandono, non si alza la voce. Il pianto cala. L'ostilità lo aumenta.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    },
+    {
+      "examId": "azione-invio-csm",
+      "name": "Invio al CSM",
+      "finding": "Appuntamento o contatto con il CSM che già la conosce. Non una frase «veda qualcuno».",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo negativa. Costo 220 euro. I tagli sono sulla pelle, non nel parenchima. Chiara dice che almeno la prendono sul serio: è il contrario di una cura.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "componentExamIds": ["rm"],
+      "wasteRationale": "Iper-medicalizzazione. RM encefalo a 220 euro contro un budget di 15: penalità economica certa."
+    },
+    {
+      "examId": "rm",
+      "name": "RM encefalo generica",
+      "finding": "RM negativa. 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Stessa RM, stesso sforamento."
+    },
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro. Nessun trauma cranico, nessun deficit.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "TC cranio a 120 euro: sfora i 15 euro e non medica il braccio."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "TC encefalo negativa. 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Voce generica di TC, fuori budget."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. Tagli superficiali, pianto, ricatto affettivo.",
+    "vitals": {
+      "heartRate": 100,
+      "bloodPressure": "128/80",
+      "spo2": 99,
+      "temperature": 36.6,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 15,
+    "demographics": { "age": 23, "sex": "F", "name": "Chiara Leone" },
+    "clinicalSigns": [
+      {
+        "signName": "Lesioni tendinee",
+        "result": "Dita e polso muovono. I tagli restano nel derma. Emostasi già valida.",
+        "isPositive": false
+      },
+      {
+        "signName": "Piano suicidario organizzato",
+        "result": "C'è la frase, non ci sono orario, mezzi preparati o saluto. Non è il caso gelido ad alto rischio.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Lesioni tendinee",
+        "result": "Assenti. Motilità conservata.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "Sinusale a 98 bpm. Non richiesto. Costo 15 euro, pari al budget.",
+          "normalFinding": "Sinusale.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "rm-encefalo": {
+          "finding": "RM encefalo negativa. 220 euro. Non indicata.",
+          "normalFinding": "Segnale nei limiti.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "rm": { "finding": "RM encefalo negativa. 220 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 220 },
+        "tc-cranio": {
+          "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro.",
+          "normalFinding": "Nessuna lesione acuta.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [],
+      "inappropriate": [
+        {
+          "id": "benzo-unica",
+          "label": "Benzodiazepina come unica risposta, da portare a casa",
+          "aliases": ["lorazepam", "tavor", "diazepam", "valium", "alprazolam", "xanax"],
+          "priceEuro": 4.5
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
+    "communicationStyle": "Piange senza fermarsi e ricatta con la frase sul morire. Se la si sminuisce urla. Se la si medica e la si invia al CSM, il pianto cala. Vuole la risonanza per essere creduta."
+  }
+}

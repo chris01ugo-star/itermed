@@ -12,7 +12,10 @@ export type ExamClinicalMeta = {
 
 export const EXAM_DEFAULT_VALUES: Record<string, ExamClinicalMeta> = {
   lattati: { price: 5, urgencyTiming: "15 min", routineTiming: "1h", routineMinutes: 60, normalFinding: "0.5 – 2.2 mmol/L" },
-  ammoniemia: { price: 8.5, urgencyTiming: "45 min", routineTiming: "2h", routineMinutes: 120, normalFinding: "15 – 45 µg/dL" },
+  ammoniemia: { price: 12, urgencyTiming: "45 min", routineTiming: "2h", routineMinutes: 120, normalFinding: "15 – 45 µg/dL" },
+  alcolemia: { price: 12, urgencyTiming: "30 min", routineTiming: "2h", routineMinutes: 120, normalFinding: "< 0,5 g/L" },
+  litiemia: { price: 12, urgencyTiming: "2h", routineTiming: "12h", routineMinutes: 720, normalFinding: "0,6 – 1,2 mmol/L (range terapeutico)" },
+  cpk: { price: 12, urgencyTiming: "1h", routineTiming: "4h", routineMinutes: 240, normalFinding: "30 – 200 U/L" },
   "amilasi-lipasi": { price: 7, urgencyTiming: "1h", routineTiming: "4h", routineMinutes: 240, normalFinding: "Amilasi <100 U/L; Lipasi <60 U/L" },
   "assetto-lipidico": { price: 12, urgencyTiming: "n.p.", routineTiming: "12h", routineMinutes: 720, normalFinding: "Tot <200; LDL <130; HDL >50 mg/dL" },
   bilirubina: { price: 3.5, urgencyTiming: "1h", routineTiming: "4h", routineMinutes: 240, normalFinding: "Totale 0.3 – 1.2 mg/dL" },
@@ -68,6 +71,7 @@ export const EXAM_DEFAULT_VALUES: Record<string, ExamClinicalMeta> = {
   cdiff: { price: 30, urgencyTiming: "4h", routineTiming: "24h", routineMinutes: 1440, normalFinding: "Negativo" },
   "goccia-spessa": { price: 28, urgencyTiming: "1h", routineTiming: "4h", routineMinutes: 240, normalFinding: "Nessun plasmodio alla goccia spessa e allo striscio" },
   "tox-screen": { price: 40, urgencyTiming: "2h", routineTiming: "12h", routineMinutes: 720, normalFinding: "Negativo" },
+  tossicologico: { price: 40, urgencyTiming: "2h", routineTiming: "12h", routineMinutes: 720, normalFinding: "Negativo per cannabinoidi, cocaina, amfetamine, oppiacei, benzodiazepine" },
   tamponi: { price: 18, urgencyTiming: "n.p.", routineTiming: "48-72h", routineMinutes: 2880, normalFinding: "Flora saprofita normale" },
   urinocoltura: { price: 20, urgencyTiming: "n.p.", routineTiming: "48h", routineMinutes: 2880, normalFinding: "< 10^5 CFU/mL" },
   afp: { price: 15, urgencyTiming: "n.p.", routineTiming: "24h", routineMinutes: 1440, normalFinding: "< 10 ng/mL" },
@@ -97,6 +101,8 @@ export const EXAM_DEFAULT_VALUES: Record<string, ExamClinicalMeta> = {
   "rm-prostata": { price: 280, urgencyTiming: "n.p.", routineTiming: "48h", routineMinutes: 2880, normalFinding: "PIRADS 1 o 2" },
   scintigrafia: { price: 250, urgencyTiming: "n.p.", routineTiming: "3 gg", routineMinutes: 4320, normalFinding: "Captazione omogenea" },
   tc: { price: 120, urgencyTiming: "1h", routineTiming: "24h", routineMinutes: 1440, normalFinding: "Assenza aree alterata densità" },
+  "tc-cranio": { price: 120, urgencyTiming: "1h", routineTiming: "24h", routineMinutes: 1440, normalFinding: "TC cranio senza mezzo di contrasto: parenchima nei limiti, non emorragia, non effetto massa" },
+  "rm-encefalo": { price: 220, urgencyTiming: "2h", routineTiming: "48h", routineMinutes: 2880, normalFinding: "RM encefalo: segnale parenchimale nei limiti, non lesioni acute" },
   "uro-tc": { price: 180, urgencyTiming: "1h", routineTiming: "24h", routineMinutes: 1440, normalFinding: "Regolare escrezione del mdc" },
   audiometria: { price: 15, urgencyTiming: "30 min", routineTiming: "n.p.", routineMinutes: 30, normalFinding: "Udito nei limiti di norma" },
   coronarografia: { price: 1800, urgencyTiming: "Real-time", routineTiming: "n.p.", routineMinutes: 120, normalFinding: "Albero coronarico indenne" },

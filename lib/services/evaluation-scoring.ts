@@ -672,8 +672,21 @@ export function extractMandatoryFirstLevelExams(goldStandardPath?: string[] | nu
   const path = Array.isArray(goldStandardPath) ? goldStandardPath : [];
   return path
     .map((s) => normalizeExamSlug(s))
-    .filter((s) => s.length > 0 && !NON_EXAM_GOLD_STEPS.has(s) && !s.includes("consenso"));
+    .filter(
+      (s) =>
+        s.length > 0 &&
+        !NON_EXAM_GOLD_STEPS.has(s) &&
+        !s.includes("consenso") &&
+        !s.startsWith("azione_"),
+    );
 }
+
+/** Id autore → id di catalogo già presenti in simulatore. Match esatto, senza allargare le sottostringhe. */
+const GOLD_EXAM_ALIASES: Record<string, readonly string[]> = {
+  tossicologico: ["tox_screen"],
+  tc_cranio: ["tc"],
+  rm_encefalo: ["rm"],
+};
 
 function examMatchesGold(
   exam: { id?: string; name?: string },
@@ -683,9 +696,11 @@ function examMatchesGold(
     .filter((v): v is string => typeof v === "string" && v.trim().length > 0)
     .map(normalizeExamSlug);
   if (candidates.length === 0 || goldSlugs.length === 0) return false;
-  return goldSlugs.some((g) =>
-    candidates.some((c) => c.includes(g) || g.includes(c) || c === g),
-  );
+  return goldSlugs.some((g) => {
+    if (candidates.some((c) => c.includes(g) || g.includes(c) || c === g)) return true;
+    const aliases = GOLD_EXAM_ALIASES[g] ?? [];
+    return aliases.some((alias) => candidates.some((c) => c === alias));
+  });
 }
 
 function descriptionMatchesGold(description: string, goldSlugs: string[]): boolean {

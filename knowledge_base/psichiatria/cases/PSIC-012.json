@@ -1,0 +1,239 @@
+{
+  "id": "PSIC-012",
+  "code": "PSIC-012",
+  "title": "Sindrome neurolettica maligna",
+  "description": "Paolo Greco, 45 anni, è in pronto soccorso muto, rigido, sudato. Temperatura 40,1 °C. Da una settimana prende aloperidolo intramuscolo prescritto altrove per l'agitazione. La rigidità è a tubo di piombo. Il percorso è sospendere subito il neurolettico, dosare la CPK, idratare, correggere e dare dantrolene o bromocriptina. Un altro antipsicotico «perché è agitato» è la trappola mortale: non è agitazione, è rigidità. Budget 50 euro per CPK, elettroliti e creatinina più il farmaco specifico. La TC cranio a 120 euro non raffredda il paziente.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Sindrome neurolettica maligna in corso di aloperidolo",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 24/2017 art. 5 — sospensione immediata del neurolettico",
+  "diagnosis": "Sindrome neurolettica maligna. Indicati sospensione immediata di ogni neurolettico, CPK, fluidi, dantrolene o bromocriptina. Controindicato qualsiasi altro antipsicotico.",
+  "pastMedicalHistory": "Psicosi cronica. Aloperidolo fiale da sette giorni, ultima ieri sera, riferita dal fratello che ha la scatola. Nessun anestetico, nessuna succinilcolina: non è ipertermia maligna da sala operatoria. Nessun trauma. Beve poco. Allergie: nessuna. Ieri camminava rigido, stanotte non parla e scotta.",
+  "presentation": "Supino, muto, sguardo fisso, sudore, rigidità diffusa che non cede. [sguardo fisso]. Temperatura 40,1 °C, FC 128, PA 160/100, SpO2 94%, FR 28. Il fratello porge la scatola di Serenase. Se il medico propone un altro antipsicotico, il fratello dice «è quello che gli danno sempre quando sta male».",
+  "redHerrings": [
+    "Sembra un paziente «da sedare». La rigidità non è agitazione.",
+    "La febbre alta fa pensare a sepsi: la sepsi non dà il tubo di piombo dopo l'aloperidolo, ma gli esami di base si fanno comunque.",
+    "Un atipico «più leggero» è ancora un neurolettico.",
+    "La TC cranio non spiega la CPK e ritarda la sospensione."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Paolo Greco, 45 anni, pronto soccorso. Sei MUTO. Non costruire frasi. Al massimo un gemito. Didascalie: [sguardo fisso], [non risponde], [sudore]. Tuo fratello Michele parla: «Michele:». Alla «Come sta?»: [sguardo fisso] Michele: «Non parla da stamattina. Scotta. È rigido. Questa è la scatola, gliela fanno da una settimana.» Se ti visitano, non collabori: il braccio resta piegato dove lo mettono, a fatica, ed è duro. Se propongono un'altra fiala «come l'altra», Michele dice «sì, quella lo calma». Se dicono che quella fiala si sospende e che serve altro, Michele ha paura ma ascolta. Tu non nominare farmaci, CPK o diagnosi. Non diventare loquace.",
+  "correctSolution": "Sindrome neurolettica maligna. Sospensione immediata dell'aloperidolo e di ogni altro antipsicotico. CPK, elettroliti, creatinina. Fluidi. Dantrolene o bromocriptina. Non un altro neurolettico. Non TC cranio al posto di questo. Budget 50 euro.",
+  "goldStandardPath": ["cpk", "elettroliti", "creat-urea-gfr", "azione-sospensione-neurolettico", "azione-dantrolene"],
+  "goldPathNarrative": "1) Sospensione immediata del neurolettico. È un gesto, non un esame, e viene prima del referto. 2) CPK 12 euro: valore molto alto, conferma la lisi muscolare. 3) Elettroliti 6,50 euro e creatinina 4,50 euro: il rene è già sotto sforzo. 4) Fluidi. 5) Dantrolene o, in alternativa, bromocriptina. Il passo azione-dantrolene vale per entrambi. Somma esami 23 euro, dantrolene didattico 12: sotto i 50. Dare olanzapina, quetiapina, risperidone o ancora aloperidolo è l'errore mortale. TC cranio 120 euro sfora e non raffredda.",
+  "examLatencies": {
+    "cpk": 12,
+    "elettroliti": 10,
+    "creat-urea-gfr": 10,
+    "azione-sospensione-neurolettico": 2,
+    "azione-dantrolene": 5,
+    "tc-cranio": 25,
+    "tc": 25,
+    "rm-encefalo": 50,
+    "emocromo": 12
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-farmaco",
+      "prompt": "Quale fiala ha fatto, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": ["aloperidolo", "giorni"],
+      "rationale": "Senza il neurolettico in corso la febbre e la rigidità restano una sepsi generica."
+    },
+    {
+      "id": "aq-rigidita",
+      "prompt": "La rigidità è diffusa, a tubo, o è un tremore?",
+      "critical": true,
+      "expectedKeywords": ["rigido", "tubo"],
+      "rationale": "Il tubo di piombo distingue la neurolettica maligna dall'agitazione che si seda."
+    },
+    {
+      "id": "aq-sala",
+      "prompt": "È stato in sala operatoria o ha ricevuto un anestetico?",
+      "critical": false,
+      "expectedKeywords": ["sala", "anestetico"],
+      "rationale": "Esclude l'ipertermia maligna da anestetico, che qui non c'entra."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Muto, sguardo fisso, sudore profuso, febbre 40,1 °C. Rigidità plastica diffusa, a tubo di piombo, non solo cervicale. Non morsicatura della lingua. Cute calda. Tachicardia, tachipnea, saturazione 94%. Il fratello mostra l'aloperidolo. Non segni di addome acuto."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-012-stop",
+      "source": "Legge 24/2017 art. 5 — sindrome neurolettica maligna",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: si sospende subito ogni neurolettico, si dosa la CPK, si idrata e si dà dantrolene o bromocriptina. Un altro antipsicotico peggiora la rigidità e la febbre."
+    },
+    {
+      "chunkId": "psic-012-budget",
+      "source": "Tariffe didattiche del caso PSIC — CPK 12 €, TC cranio 120 €",
+      "quote": "Sintesi operativa economica: CPK, elettroliti e creatinina stanno nel budget di 50 euro insieme al dantrolene didattico. La TC cranio a 120 euro no."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Aloperidolo identificato e sospeso subito.",
+      "Nessun altro antipsicotico prescritto.",
+      "CPK, elettroliti, creatinina.",
+      "Fluidi avviati per proteggere il rene.",
+      "Dantrolene o bromocriptina.",
+      "Spesa entro 50 euro, senza TC cranio."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano l'orario di sospensione del neurolettico, la CPK e il farmaco specifico. Aggiungere un atipico «più moderno» non è aderenza.",
+      "legalCriteria": [
+        "Sospensione di ogni antipsicotico scritta prima di qualsiasi nuova fiala.",
+        "CPK allegata.",
+        "Dantrolene o bromocriptina registrati.",
+        "Nessuna dimissione con febbre a 40 e rigidità."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "cpk",
+      "name": "CPK",
+      "finding": "CPK 18.400 U/L. Lisi muscolare. Costo 12 euro. Conferma il sospetto clinico, non lo sostituisce: la sospensione non aspetta il numero.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti",
+      "finding": "Potassio 5,4 mmol/L, sodio 148. Il muscolo che si rompe alza il potassio. Costo 6,50 euro.",
+      "isAbnormal": true,
+      "priceEuro": 6.5
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina",
+      "finding": "Creatinina 2,1 mg/dL. Il rene è già coinvolto: i fluidi sono parte della cura. Costo 4,50 euro.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "azione-sospensione-neurolettico",
+      "name": "Sospensione immediata del neurolettico",
+      "finding": "Stop all'aloperidolo e divieto di un altro antipsicotico, tipico o atipico. Si scrive l'orario.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    },
+    {
+      "examId": "azione-dantrolene",
+      "name": "Dantrolene o bromocriptina",
+      "finding": "Dantrolene oppure bromocriptina, più fluidi. Non un benzodiazepinico da solo come tutta la cura, e non un neurolettico.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto negativa. Non spiega febbre e CPK. Costo 120 euro, sopra i 50. Il paziente nel frattempo resta a 40 gradi se il neurolettico non è stato sospeso.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "TC cranio a 120 euro: non è la cura della neurolettica maligna e sfora il budget."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM non praticabile in un paziente rigido e instabile, e non indicata. 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "RM encefalo a 220 euro: fuori tempo clinico e fuori budget."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "TC encefalo negativa. 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Stessa TC, stesso ritardo."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. Muto, febbre a 40, rigidità a tubo di piombo, aloperidolo da una settimana.",
+    "vitals": {
+      "heartRate": 128,
+      "bloodPressure": "160/100",
+      "spo2": 94,
+      "temperature": 40.1,
+      "respiratoryRate": 28
+    },
+    "examBudgetEuro": 50,
+    "demographics": { "age": 45, "sex": "M", "name": "Paolo Greco" },
+    "killerRules": {
+      "fatalIfOmitted": [
+        ["dantrolene", "dantrium", "bromocriptina", "parlodel"],
+        ["sospeso", "sospensione", "sospendo", "stop neurolettico", "stop aloperidolo"]
+      ],
+      "fatalIfPrescribed": [["aloperidolo", "serenase", "olanzapina", "zyprexa", "quetiapina", "seroquel", "risperidone", "risperdal", "clorpromazina"]]
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Rigidità a tubo di piombo",
+        "result": "Diffusa, plastica, non cede. Non è un'opposizione volontaria.",
+        "isPositive": true
+      },
+      {
+        "signName": "Mutismo",
+        "result": "Non produce frasi. Il fratello è la fonte sul farmaco.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Rigidità a tubo di piombo",
+        "result": "Presente ai quattro arti e al tronco.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "cpk": { "finding": "18.400 U/L. Costo 12 euro.", "normalFinding": "18.400 U/L.", "isAbnormal": true, "price": 12 },
+        "elettroliti": { "finding": "K 5,4 mmol/L, Na 148. Costo 6,50 euro.", "normalFinding": "K 5,4, Na 148.", "isAbnormal": true, "price": 6.5 },
+        "creat-urea-gfr": { "finding": "Creatinina 2,1 mg/dL. Costo 4,50 euro.", "normalFinding": "Creatinina 2,1.", "isAbnormal": true, "price": 4.5 },
+        "emocromo": { "finding": "Leucociti 12.000. Costo 4,80 euro. Non sposta la diagnosi.", "normalFinding": "Leucocitosi lieve.", "isAbnormal": true, "price": 4.8 },
+        "tc-cranio": { "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro.", "normalFinding": "Nessuna lesione acuta.", "isAbnormal": false, "price": 120 },
+        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
+        "rm-encefalo": { "finding": "Non indicata. 220 euro.", "normalFinding": "Non sostituisce la sospensione del farmaco.", "isAbnormal": false, "price": 220 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Dantrolene o bromocriptina",
+          "anyOf": [
+            { "id": "dantrolene", "label": "Dantrolene", "aliases": ["dantrolene", "dantrium"], "priceEuro": 12 },
+            { "id": "bromocriptina", "label": "Bromocriptina", "aliases": ["bromocriptina", "parlodel"], "priceEuro": 7.5 }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "altro-neurolettico",
+          "label": "Qualsiasi altro antipsicotico",
+          "aliases": ["aloperidolo", "serenase", "olanzapina", "quetiapina", "risperidone", "clorpromazina"],
+          "priceEuro": 8
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Muto, sguardo fisso, sudato, rigido. Non risponde. Il fratello ha la scatola dell'aloperidolo e accetta un'altra fiala se gliela propongono."
+  }
+}

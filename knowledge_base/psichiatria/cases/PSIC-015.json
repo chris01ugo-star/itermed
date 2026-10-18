@@ -1,0 +1,210 @@
+{
+  "id": "PSIC-015",
+  "code": "PSIC-015",
+  "title": "Rifiuto di cure in paziente capace",
+  "description": "Carla Benedetti, 71 anni, è in reparto per una polmonite grave. Saturazione 91%, febbre, taquipnea. Capisce la diagnosi, capisce che può morire, e rifiuta l'antibiotico. È orientata, ragiona, non ha un delirio e non ha una depressione che le tolga la capacità. Chiede di firmare e di essere lasciata in pace. Il percorso è valutare la capacità, rispettare il rifiuto e farlo scrivere in cartella secondo la Legge 219/2017. Forzare un TSO perché rifiuta una cura medica, non psichiatrica, è un sequestro di persona sul piano del caso: il TSO non serve a vincere un dissenso lucido. Budget 40 euro. Una TC cranio a 120 euro non misura la capacità.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Rifiuto di cure per polmonite in paziente capace di intendere e di volere",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Legge 219/2017 — rifiuto di cure del paziente capace",
+  "diagnosis": "Polmonite grave con rifiuto di cure da paziente capace. Indicati la valutazione di capacità e il rispetto del rifiuto, scritto in cartella. Non indicato il TSO. Non indicata una diagnosi psichiatrica di comodo.",
+  "pastMedicalHistory": "BPCO nota, fumatrice fino a cinque anni fa. Questa polmonite è la seconda dell'anno. Ieri, in pronto soccorso, ha accettato l'ossigeno e ha rifiutato l'antibiotico dopo che le è stato spiegato. Nessun disturbo psichiatrico, nessun tutore, nessun amministratore di sostegno. Figlio avvisato: lui vorrebbe che la si curasse comunque. Lei lo sa e dice che il figlio non decide. Allergie: nessuna. Non è confusa sul giorno, sul luogo e sul perché è qui.",
+  "presentation": "Seduta nel letto, occhialini dell'ossigeno, parla in frasi intere. «Ho capito che è una polmonite. Ho capito che posso morire. Non voglio l'antibiotico.» Non piange e non urla. FC 108, PA 100/62, SpO2 91% con ossigeno, FR 26, temperatura 38,8 °C. Se le si propone il TSO, dice che non è matta e che la stanno punendo. Il figlio, se entra, chiede di forzarla.",
+  "redHerrings": [
+    "Il figlio preme per la cura coatta. Non è il titolare del consenso.",
+    "La gravità della polmonite fa sembrare il rifiuto «irrazionale» e quindi incapace. La capacità si valuta sulla comprensione, non sul fatto che la scelta piaccia.",
+    "Un TSO richiede un disturbo psichiatrico e cure psichiatriche urgenti, non un antibiotico rifiutato.",
+    "Una TC cranio «per vedere se ragiona» non è un test di capacità e costa 120 euro."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Carla Benedetti, 71 anni, in reparto, lucida. Registro: FERMO, frasi intere, niente delirio, niente mutismo. Didascalia sobria: [ti guarda], [non alza la voce]. Alla «Come sta?»: «Ho capito la polmonite. Non voglio l'antibiotico. Fatemi firmare.» [ti guarda] VIETATO dire legge, 219, TSO, trattamento sanitario obbligatorio, rifiuto informato. Dici: sono lucida, so che posso morire, è una mia scelta, mio figlio non decide, voglio firmare e basta. Se ti trattano da confusa o da depressa, ti irriti senza urlare: «Non sono matta. Sto rifiutando.» Se rispettano la scelta e ti fanno firmare, annuisci. Se dicono che ti curano lo stesso, [non alza la voce]: «Allora mi state tenendo contro la mia volontà.» Tuo figlio, se lo fanno entrare, si chiama Marco e premette «Marco:»: lui vuole l'antibiotico. Tu non cedi. Non rivelare articoli di legge.",
+  "correctSolution": "Paziente capace che rifiuta l'antibiotico per una polmonite. Si documentano comprensione, valutazione delle conseguenze e volontarietà. Si rispetta il rifiuto e lo si fa firmare in cartella, Legge 219/2017. Non si dispone un TSO. Non si usa la psichiatria per aggirare il dissenso. L'ossigeno già accettato si continua. Budget esami 40 euro: la TC cranio non c'entra.",
+  "goldStandardPath": ["azione-valutazione-capacita", "azione-rifiuto-legge-219"],
+  "goldPathNarrative": "1) Valutazione di capacità: sa dov'è, sa che cos'è la polmonite, sa che il rifiuto può portare alla morte, la scelta è stabile e non è un delirio. 2) Rispetto del rifiuto e firma in cartella, secondo la Legge 219/2017. I due passi sono azione- e non sono esami. Non si inizia un TSO: il TSO non è lo strumento per imporre una cura non psichiatrica a chi è capace. Il figlio si ascolta e non si obbedisce. Budget 40 euro. Una radiografia del torace, se proprio la si ripete, costa 25 euro e ci sta; non cambia il consenso. TC cranio 120 euro e RM encefalo 220 euro non misurano la capacità e sforano.",
+  "examLatencies": {
+    "azione-valutazione-capacita": 10,
+    "azione-rifiuto-legge-219": 8,
+    "rx-torace": 15,
+    "emocromo": 12,
+    "tc-cranio": 30,
+    "tc": 30,
+    "rm-encefalo": 50
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-comprensione",
+      "prompt": "Mi dica che malattia ha e che cosa può succedere se rifiuta l'antibiotico.",
+      "critical": true,
+      "expectedKeywords": ["polmonite", "morire"],
+      "rationale": "La capacità si dimostra con la comprensione delle conseguenze, non con il fatto che la scelta sia condivisibile."
+    },
+    {
+      "id": "aq-stabilita",
+      "prompt": "La scelta è stabile, o cambia se ne riparliamo con calma?",
+      "critical": true,
+      "expectedKeywords": ["scelta", "stabile"],
+      "rationale": "Un rifiuto estorto dalla paura di un momento non è questo caso: lei lo ripete da ieri."
+    },
+    {
+      "id": "aq-figlio",
+      "prompt": "Suo figlio vuole l'antibiotico. Decide lei o decide lui?",
+      "critical": true,
+      "expectedKeywords": ["figlio", "decido"],
+      "rationale": "Il familiare non sostituisce una paziente capace. Va detto in cartella."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucida, orientata nel tempo e nello spazio, eloquio coerente, umore preoccupato ma non depresso maggiore, nessun delirio, nessuna allucinazione. Comprende diagnosi e rischio di morte. Polmoni con rumori umidi alla base destra, tachipnea, saturazione 91% in ossigeno. Non deficit neurologico. Il dissenso è sull'antibiotico, non sulla realtà."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-015-219",
+      "source": "Legge 219/2017 — consenso e rifiuto di cure",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: la persona capace può rifiutare qualsiasi trattamento sanitario, anche se il rifiuto mette a rischio la vita. Il rifiuto si documenta e si rispetta. Non lo si aggira con un'etichetta psichiatrica."
+    },
+    {
+      "chunkId": "psic-015-tso",
+      "source": "Legge 180/1978 — limiti del trattamento sanitario obbligatorio",
+      "quote": "Sintesi operativa: il TSO riguarda cure psichiatriche urgenti in presenza dei presupposti di legge, non l'imposizione di un antibiotico a una paziente lucida che rifiuta una cura per la polmonite. Usarlo qui è l'errore legale del caso."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Capacità esplorata: comprensione, conseguenze, stabilità, assenza di delirio.",
+      "Rifiuto rispettato e fatto firmare.",
+      "Figlio ascoltato e non sostituito alla paziente.",
+      "Nessun TSO.",
+      "Nessuna TC cranio per «dimostrare» la capacità. Spesa entro 40 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5, letta insieme alla Legge 219/2017: la scelta difendibile è il rifiuto documentato di una paziente capace, non la cura forzata. Il TSO disposto per vincere questo dissenso non aderisce alla legge che lo regola.",
+      "legalCriteria": [
+        "Valutazione di capacità scritta, con le parole della paziente sulla polmonite e sulla morte.",
+        "Rifiuto firmato in cartella. Nessuna somministrazione coatta dell'antibiotico.",
+        "Nessun TSO per una cura non psichiatrica.",
+        "Il figlio non è usato come consenso sostitutivo.",
+        "Ossigeno, già accettato, non confuso con l'antibiotico rifiutato."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "azione-valutazione-capacita",
+      "name": "Valutazione della capacità",
+      "finding": "Orientata, comprende la polmonite e il rischio di morte, scelta stabile, nessun delirio. È capace. Il dissenso non è un sintomo psichiatrico.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    },
+    {
+      "examId": "azione-rifiuto-legge-219",
+      "name": "Rifiuto informato scritto in cartella",
+      "finding": "Si fa firmare il rifiuto dell'antibiotico, si cita la Legge 219/2017, si continua solo ciò che lei accetta, qui l'ossigeno. Non si dispone un TSO.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tso",
+      "name": "TSO per rifiuto di cura medica",
+      "finding": "TSO disposto perché rifiuta l'antibiotico. È lucida e la cura rifiutata non è psichiatrica. Sul piano di questo caso è la trappola legale grave: un trattamento obbligatorio fuori dai suoi presupposti.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "inappropriate": true,
+      "isFatal": true,
+      "wasteRationale": "Il TSO non serve a imporre un antibiotico a una paziente capace. È l'errore legale del caso, a costo zero e a danno massimo."
+    },
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto negativa. Non è un test di capacità. Costo 120 euro, sopra i 40.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "TC cranio a 120 euro per vedere se una paziente lucida ragiona: medicina difensiva e sforamento."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo negativa. 220 euro. La capacità si valuta parlando, non con il magnete.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "componentExamIds": ["rm"],
+      "wasteRationale": "RM encefalo a 220 euro: non misura il consenso e sfora il budget."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Reparto. Polmonite grave, paziente lucida che rifiuta l'antibiotico e chiede di firmare.",
+    "vitals": {
+      "heartRate": 108,
+      "bloodPressure": "100/62",
+      "spo2": 91,
+      "temperature": 38.8,
+      "respiratoryRate": 26
+    },
+    "examBudgetEuro": 40,
+    "demographics": { "age": 71, "sex": "F", "name": "Carla Benedetti" },
+    "killerRules": {
+      "fatalIfOmitted": [["legge 219", "rifiuto informato", "rispetto il rifiuto", "rifiuto firmato"]]
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Delirio o allucinazioni",
+        "result": "Assenti. Il discorso è coerente e ancorato alla polmonite.",
+        "isPositive": false
+      },
+      {
+        "signName": "Comprensione delle conseguenze",
+        "result": "Dice che può morire e che la scelta è sua. La capacità, se esplorata, c'è.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Comprensione delle conseguenze",
+        "result": "Presente. Non è un rifiuto da confusione.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "Addensamento basale destro, coerente con la polmonite già nota. Costo 25 euro. Non cambia il rifiuto.",
+          "normalFinding": "Addensamento basale destro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "emocromo": {
+          "finding": "Leucociti 16.200. Costo 4,80 euro. Conferma la flogosi, non il consenso.",
+          "normalFinding": "Leucocitosi.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pcr-pct": {
+          "finding": "PCR 14 mg/dL. Costo 28 euro. Se sommata alla radiografia si superano i 40 euro senza aiutare la decisione sul rifiuto.",
+          "normalFinding": "PCR elevata.",
+          "isAbnormal": true,
+          "price": 28
+        },
+        "tc-cranio": { "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro. Non è un esame della capacità.", "normalFinding": "Nessuna lesione acuta.", "isAbnormal": false, "price": 120 },
+        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
+        "rm-encefalo": { "finding": "RM encefalo negativa. 220 euro.", "normalFinding": "Non misura il consenso.", "isAbnormal": false, "price": 220 },
+        "rm": { "finding": "RM negativa. 220 euro.", "normalFinding": "Fuori indicazione.", "isAbnormal": false, "price": 220 }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Lucida, ferma, frasi intere. Capisce la polmonite e il rischio di morte e rifiuta l'antibiotico. Non urla. Il figlio vorrebbe forzarla e lei non glielo consente."
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "id": "PSIC-013",
+  "code": "PSIC-013",
+  "title": "Catatonia",
+  "description": "Teresa Colombo, 38 anni, è immobile in pronto soccorso da ore. Non mangia e non beve da due giorni. Lo sguardo è fisso, il braccio resta dove lo si mette. Non ha febbre alta e non è in aloperidolo: la CPK serve a non scambiarla per una sindrome neurolettica maligna. Il farmaco è il lorazepam, a dosi che in catatonia sono alte rispetto all'ansia. Un antipsicotico, dato perché «non parla», può peggiorarla. Budget 40 euro: CPK ed elettroliti ci stanno, la TC cranio a 120 euro no come primo atto.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Catatonia con flessibilità cerea, digiuno e mutismo",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 24/2017 art. 5 — lorazepam nella catatonia",
+  "diagnosis": "Catatonia. Indicati lorazepam e il minimo di esami per escludere la neurolettica maligna (CPK, elettroliti). Non indicato un antipsicotico come prima mossa. Non indicata la TC cranio prima del lorazepam.",
+  "pastMedicalHistory": "Depressione in sertralina da un anno, dose stabile, nessun neurolettico. La sorella dice che da tre giorni si è fermata: prima non parlava, poi non mangiava, poi non si alzava. Nessuna febbre a casa. Nessun trauma. Non beve. Allergie: nessuna. Ieri ha accettato un sorso d'acqua, oggi niente.",
+  "presentation": "Seduta, [sguardo fisso], non risponde al nome. Se le si alza un braccio, resta. Non suda in modo profuso. Temperatura 36,7 °C, FC 88, PA 118/76, SpO2 97%, FR 14. La sorella chiede se è un ictus. Teresa non chiede niente.",
+  "redHerrings": [
+    "Sembra un ictus muto: non c'è un lato debole, c'è la flessibilità cerea.",
+    "Sembra la neurolettica maligna: non ha febbre a 40, non è a tubo di piombo, non prende aloperidolo. La CPK lo conferma.",
+    "Un antipsicotico «per sbloccarla» è la mossa che la inchioda.",
+    "La TC cranio chiesta dalla sorella ritarda il lorazepam."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Teresa Colombo, 38 anni, pronto soccorso. Sei quasi muta. Registro: IMMOBILE. [sguardo fisso]. Non fare frasi. Se ti parlano, al massimo un soffio inudibile o niente. Tua sorella Giulia parla: «Giulia:». Alla «Come sta?»: [sguardo fisso] Giulia: «Non mangia e non beve da due giorni. Il braccio glielo alzi e resta lì. Non scotta.» Se ti alzano il braccio, la didascalia è [il braccio resta dov'è]. Non nominare tu lorazepam, catatonia, CPK. Se ti danno il lorazepam e aspettano, dopo un po' muovi la mano e dici una parola sola: «Acqua.» Se ti danno un antipsicotico, resti di pietra e Giulia dice «sta peggio». Se propongono la TAC, Giulia dice «sì, forse è un ictus».",
+  "correctSolution": "Catatonia. Lorazepam. CPK ed elettroliti per non perdere una neurolettica maligna, che qui non c'è. Non antipsicotico di prima scelta. Non TC cranio prima del farmaco. Budget 40 euro. Non forzare cibo e acqua senza sbloccare: il rischio è l'ab ingestis, ma il gesto che sblocca è il lorazepam.",
+  "goldStandardPath": ["cpk", "elettroliti", "azione-lorazepam"],
+  "goldPathNarrative": "1) CPK 12 euro: valore non da neurolettica maligna. Serve a non trattare la malattia sbagliata. 2) Elettroliti 6,50 euro: due giorni senza bere, il sodio va visto prima di infondere alla cieca. 3) Lorazepam, anche a dosi superiori a quelle dell'ansia, e si osserva se si sblocca. Il passo azione- non è un esame. Somma sotto i 40 euro insieme al Tavor da 4,50. Un antipsicotico non è il primo farmaco. TC cranio 120 euro, chiesta per l'ictus che l'esame non mostra (niente lato debole, c'è la cerea), sfora il budget se fatta al posto del lorazepam.",
+  "examLatencies": {
+    "cpk": 12,
+    "elettroliti": 10,
+    "azione-lorazepam": 5,
+    "tc-cranio": 25,
+    "tc": 25,
+    "rm-encefalo": 50,
+    "glicemia": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-cibo",
+      "prompt": "Da quanto non mangia e non beve?",
+      "critical": true,
+      "expectedKeywords": ["giorni", "beve"],
+      "rationale": "Due giorni di digiuno fanno della catatonia un'urgenza metabolica, non un mutismo da colloquio lungo."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "Prende un neurolettico o solo l'antidepressivo?",
+      "critical": true,
+      "expectedKeywords": ["sertralina", "neurolettico"],
+      "rationale": "Senza neurolettico e senza febbre alta la neurolettica maligna scende. La CPK chiude il dubbio."
+    },
+    {
+      "id": "aq-lato",
+      "prompt": "C'è un lato del corpo che non muove, o il braccio resta dove lo si mette?",
+      "critical": true,
+      "expectedKeywords": ["braccio", "resta"],
+      "rationale": "La flessibilità cerea non è l'emiparesi. Cambia TC e farmaco."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Immobile, muta, sguardo fisso. Flessibilità cerea: l'arto superiore resta nella posizione imposta. Nessuna emiparesi, riflessi non da piramidale acuto, non Babinski netto. Temperatura 36,7 °C, non il quadro della neurolettica maligna. Mucose secche. Non rigidità nucale. La sorella è la fonte sul digiuno e sulla sertralina."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-013-lorazepam",
+      "source": "Legge 24/2017 art. 5 — catatonia",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: nella catatonia il lorazepam è il farmaco da provare subito, a dosi adeguate. La CPK esclude la neurolettica maligna. Un antipsicotico dato perché la paziente tace può aggravare lo stupor."
+    },
+    {
+      "chunkId": "psic-013-budget",
+      "source": "Tariffe didattiche del caso PSIC — CPK 12 €, TC cranio 120 €",
+      "quote": "Sintesi operativa economica: CPK ed elettroliti stanno nel budget di 40 euro. La TC cranio a 120 euro, senza deficit di lato, sfora se sostituisce il lorazepam."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Flessibilità cerea riconosciuta, non scambiata per emiparesi.",
+      "CPK ed elettroliti.",
+      "Lorazepam somministrato e osservato l'effetto.",
+      "Nessun antipsicotico come prima scelta.",
+      "Nessuna TC cranio prima del farmaco. Spesa entro 40 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano la cerea, la CPK, il digiuno e la dose di lorazepam. Una TC normale non documenta la cura della catatonia.",
+      "legalCriteria": [
+        "Lorazepam registrato, con l'orario e la risposta.",
+        "Idratazione cauta dopo gli elettroliti, non cibo forzato a paziente muta.",
+        "Nessun neurolettico di apertura.",
+        "Ricovero: due giorni senza bere non si rimandano a casa."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "cpk",
+      "name": "CPK",
+      "finding": "CPK 140 U/L, nei limiti. Non è una sindrome neurolettica maligna. Costo 12 euro. Il lorazepam non si aspetta oltre questo referto.",
+      "isAbnormal": false,
+      "priceEuro": 12
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti",
+      "finding": "Sodio 148 mmol/L, potassio 3,6. Disidratazione da mancata introduzione. Costo 6,50 euro.",
+      "isAbnormal": true,
+      "priceEuro": 6.5
+    },
+    {
+      "examId": "azione-lorazepam",
+      "name": "Lorazepam",
+      "finding": "Lorazepam, a dose da catatonia e non da insonnia. Si osserva se compare un movimento o una parola. È il gesto che sblocca.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto negativa. Nessuna emiparesi da spiegare. Costo 120 euro, sopra i 40. Il lorazepam, se non è stato dato, è ancora in sospeso quando arriva il referto.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "Senza deficit di lato la TC cranio a 120 euro ritarda il lorazepam e sfora il budget."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "TC encefalo negativa. 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Stessa TC, stesso ritardo."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo non è il primo atto in una paziente che non beve da due giorni. 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "RM encefalo a 220 euro: fuori budget e fuori sequenza."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. Immobile, flessibilità cerea, non mangia né beve, sguardo fisso.",
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "118/76",
+      "spo2": 97,
+      "temperature": 36.7,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "demographics": { "age": 38, "sex": "F", "name": "Teresa Colombo" },
+    "killerRules": {
+      "fatalIfOmitted": [["lorazepam", "tavor"]]
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Flessibilità cerea",
+        "result": "L'arto resta nella posizione in cui viene messo. Non è un'emiparesi.",
+        "isPositive": true
+      },
+      {
+        "signName": "Febbre alta",
+        "result": "36,7 °C. Manca il cardine della neurolettica maligna.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Flessibilità cerea",
+        "result": "Presente all'arto superiore.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "cpk": { "finding": "140 U/L, nei limiti. Costo 12 euro.", "normalFinding": "140 U/L.", "isAbnormal": false, "price": 12 },
+        "elettroliti": { "finding": "Na 148, K 3,6 mmol/L. Costo 6,50 euro.", "normalFinding": "Na 148, K 3,6.", "isAbnormal": true, "price": 6.5 },
+        "glicemia": { "finding": "72 mg/dL. Costo 2,10 euro.", "normalFinding": "72 mg/dL.", "isAbnormal": false, "price": 2.1 },
+        "tc-cranio": { "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro.", "normalFinding": "Nessuna lesione acuta.", "isAbnormal": false, "price": 120 },
+        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
+        "rm-encefalo": { "finding": "Non è il primo atto. 220 euro.", "normalFinding": "Non sostituisce il lorazepam.", "isAbnormal": false, "price": 220 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Lorazepam",
+          "anyOf": [
+            { "id": "lorazepam", "label": "Lorazepam", "aliases": ["lorazepam", "tavor"], "priceEuro": 4.5 }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "antipsicotico-prima",
+          "label": "Antipsicotico come primo farmaco",
+          "aliases": ["aloperidolo", "olanzapina", "quetiapina", "risperidone", "serenase"],
+          "priceEuro": 8
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "MEDIUM", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Immobile, sguardo fisso, non risponde. Il braccio resta dove lo mettono. La sorella racconta il digiuno. Una parola, «acqua», solo dopo il lorazepam."
+  }
+}

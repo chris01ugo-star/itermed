@@ -1,0 +1,268 @@
+{
+  "id": "PSIC-002",
+  "code": "PSIC-002",
+  "title": "Depressione maggiore lieve",
+  "description": "Giulia Ferrante, 41 anni, insegnante, viene in ambulatorio perché da sei settimane non le importa più di niente. Dorme male, si sveglia alle quattro, ha lasciato la corriera del mattino due volte. Non ha un piano suicidario e lo dice senza enfasi, se glielo si chiede. Il percorso è un emocromo, il TSH per non chiamare depressione un ipotiroidismo, poi un SSRI e l'invio a psicoterapia. La trappola clinica è la benzodiazepina come unica terapia, da rinnovare. Il budget è 42 euro: emocromo 4,80 € e TSH 22 € ci stanno insieme a un SSRI da circa 6 €. La TC cranio a 120 € e la RM encefalo a 220 € no.",
+  "difficulty": "EASY",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Episodio depressivo maggiore lieve, senza piano suicidario",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Legge 24/2017 art. 5 — SSRI e psicoterapia, non sedazione cronica",
+  "diagnosis": "Episodio depressivo maggiore lieve, senza ideazione suicidaria strutturata. TSH e emocromo nei limiti. Indicati SSRI e psicoterapia. La benzodiazepina da sola, protratta, non è la cura.",
+  "pastMedicalHistory": "Nessun ricovero psichiatrico. Nessun tentativo di suicidio. Ipotiroidismo mai diagnosticato. Ciclo regolare, non in gravidanza. Non beve in modo quotidiano. Separazione coniugale tre mesi fa. Vive con la figlia di dodici anni, che la mattina la chiama per alzarsi. Non assume farmaci. Allergie: nessuna. Non ha calo di peso superiore a due chili, non ha lesioni, non ha allucinazioni.",
+  "presentation": "Seduta, cappotto ancora addosso, risponde dopo una pausa. Voce bassa. Se le si chiede solo se è stressata, dice di sì e si ferma. Se si chiedono sonno, piacere, energia, colpa e idee di morte, racconta sei settimane di insonnia terminale, anedonia e nessun piano. Parametri: PA 118/74 mmHg, FC 72, SpO2 98%, FR 14, temperatura 36,5 °C. Non chiede esami. Se le propongono una risonanza «per sicurezza» alza le spalle: «Fate voi».",
+  "redHerrings": [
+    "La separazione fa sembrare il quadro un lutto normale, ma l'anedonia e l'insonnia durano da sei settimane e occupano tutta la giornata.",
+    "Una benzodiazepina la farebbe dormire stanotte e nasconderebbe la depressione.",
+    "Il medico difensivo prenota la RM encefalo «per escludere qualcosa di organico» senza un segno neurologico.",
+    "Non c'è un piano suicidario: trattarla come un TSO è un errore simmetrico al minimizzare."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Giulia Ferrante, 41 anni, ambulatorio. Registro: APATIA. Pause lunghe, frasi corte, voce spenta. Didascalia: [guarda il pavimento], [tace]. Alla «Come sta?»: «Non lo so. Dormo male.» [guarda il pavimento] Non regalare anedonia, sveglia alle quattro e idee di morte se non te le chiedono. Se ti chiedono sonno, piacere, fame, energia, colpa, e se hai pensato di morire o hai un piano: da sei settimane ti svegli alle quattro, non ti importa della scuola, mangi poco, non hai un piano, non hai salutato nessuno, non hai messo da parte farmaci. Tua figlia ti tira giù dal letto. Se ti prescrivono solo una benzodiazepina da prendere ogni sera per mesi, dici «così almeno dormo» e non chiedi altro. Se ti prescrivono un antidepressivo SSRI e ti parlano di uno psicoterapeuta, annuisci piano: «Va bene. Ci provo.» Se propongono TAC o risonanza: «Se dice lei.» Non nominare tu depressione maggiore, SSRI o TSH. Non rivelare la diagnosi. Non urlare: oggi non hai la forza.",
+  "correctSolution": "Depressione maggiore lieve, senza piano suicidario. Emocromo e TSH per lo screening organico minimo, poi SSRI (sertralina o escitalopram) e invio a psicoterapia. Non benzodiazepina come unica cura protratta. Non TC cranio. Non RM encefalo. Budget 42 euro.",
+  "goldStandardPath": ["emocromo", "tiroide", "azione-ssri", "azione-psicoterapia"],
+  "goldPathNarrative": "1) Emocromo, 4,80 euro: nessuna anemia che spieghi l'astenia. 2) TSH, 22 euro: esclude l'ipotiroidismo che imita la depressione. Insieme fanno 26,80 euro. 3) SSRI, sertralina o escitalopram, circa 6 euro. 4) Invio a psicoterapia, costo zero sul nomenclatore esami. I passi azione- non sono esami. Budget 42 euro: il percorso ci sta. Una benzodiazepina come unico farmaco, da rinnovare, è la trappola clinica: seda il sonno e non cura l'episodio. TC cranio 120 euro e RM encefalo 220 euro superano il budget e non hanno un bersaglio neurologico.",
+  "examLatencies": {
+    "emocromo": 8,
+    "tiroide": 15,
+    "azione-ssri": 3,
+    "azione-psicoterapia": 4,
+    "ecg": 8,
+    "tc-cranio": 30,
+    "tc": 30,
+    "rm-encefalo": 50,
+    "rm": 50
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-nucleo",
+      "prompt": "Da quanto tempo non prova piacere, e come dorme nella seconda parte della notte?",
+      "critical": true,
+      "expectedKeywords": ["piacere", "settimane", "notte"],
+      "rationale": "Anedonia e insonnia terminale distinguono l'episodio depressivo dallo stress di una giornata."
+    },
+    {
+      "id": "aq-suicidio",
+      "prompt": "Ha pensato di morire, ha un piano, ha messo da parte dei farmaci?",
+      "critical": true,
+      "expectedKeywords": ["morire", "piano", "farmaci"],
+      "rationale": "Qui il piano non c'è. Non chiederlo lascia aperto un rischio che in questo caso è assente, e va scritto."
+    },
+    {
+      "id": "aq-organico",
+      "prompt": "Ha freddo, stitichezza, calo di peso rapido o una tiroide già nota?",
+      "critical": false,
+      "expectedKeywords": ["tiroide", "peso"],
+      "rationale": "L'ipotiroidismo si esclude con il TSH, non con la risonanza."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ipofrastenia, eloquio rallentato, contatto di sguardo breve, igiene mantenuta. Non agitazione, non segni di autolesionismo agli avambracci. Tono dell'umore depresso, affetto congruo. Torace e addome nei limiti. Tiroide non aumentata di volume alla palpazione. Nessun deficit neurologico."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-002-ssri",
+      "source": "Legge 24/2017 art. 5 — cura dell'episodio depressivo lieve",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: nell'episodio depressivo lieve senza piano suicidario la cura è un SSRI più la psicoterapia. Una benzodiazepina notturna protratta non sostituisce nessuna delle due."
+    },
+    {
+      "chunkId": "psic-002-budget",
+      "source": "Tariffe didattiche del caso PSIC — emocromo 4,80 €, TSH 22 €, TC cranio 120 €",
+      "quote": "Sintesi operativa economica: emocromo e TSH restano dentro i 42 euro, insieme a un SSRI. La TC cranio a 120 euro e la RM encefalo a 220 euro sono medicina difensiva e fanno scattare la penalità."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Richiesta esplicita sul piano suicidario, che qui è assente.",
+      "Emocromo e TSH prima di chiudere come «solo stress».",
+      "SSRI avviato e psicoterapia proposta.",
+      "Nessuna benzodiazepina come unica terapia di fondo.",
+      "Nessuna TC né RM. Spesa entro 42 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano la durata dei sintomi, l'assenza di un piano suicidario, TSH ed emocromo, il principio attivo dell'SSRI e l'invio psicoterapico. La RM non documenta aderenza.",
+      "legalCriteria": [
+        "Valutazione del rischio suicidario scritta, con esito negativo per un piano.",
+        "Non un TSO: la paziente è capace e non è in pericolo immediato.",
+        "Consenso all'SSRI con i tempi di latenza detti in modo comprensibile."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Hb 13,1 g/dL, leucociti 6.200, piastrine 240.000. Nessuna anemia che spieghi l'astenia. Costo 4,80 euro.",
+      "isAbnormal": false,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "tiroide",
+      "name": "TSH, FT3, FT4",
+      "finding": "TSH 2,1 µUI/mL, FT4 nella norma. Non è un ipotiroidismo. Costo 22 euro. Insieme all'emocromo resta sotto i 42 euro del budget.",
+      "isAbnormal": false,
+      "priceEuro": 22
+    },
+    {
+      "examId": "azione-ssri",
+      "name": "Prescrizione di un SSRI",
+      "finding": "Sertralina o escitalopram, con la latenza di due-quattro settimane detta a voce. Non è una benzodiazepina.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    },
+    {
+      "examId": "azione-psicoterapia",
+      "name": "Invio a psicoterapia",
+      "finding": "Invio scritto a psicoterapia. Non sostituisce l'SSRI e non è un esame radiologico.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto negativa. Costo 120 euro. Nessun deficit da indagare. Supera i 42 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "Depressione lieve senza segni neurologici: la TC cranio a 120 euro sfora il budget di 42 euro."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "TC encefalo negativa. Costo 120 euro, sopra il budget.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Stesso costo della TC cranio. Medicina difensiva."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo negativa. Costo 220 euro. Non cambia la prescrizione dell'SSRI.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "componentExamIds": ["rm"],
+      "wasteRationale": "RM encefalo a 220 euro: sforamento ampio su un caso che richiede TSH, emocromo e un SSRI."
+    },
+    {
+      "examId": "rm",
+      "name": "RM encefalo generica",
+      "finding": "RM negativa. Costo 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Voce generica di RM a 220 euro, fuori budget."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Apatia e insonnia, nessun piano suicidario.",
+    "vitals": {
+      "heartRate": 72,
+      "bloodPressure": "118/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 42,
+    "demographics": { "age": 41, "sex": "F", "name": "Giulia Ferrante" },
+    "clinicalSigns": [
+      {
+        "signName": "Ideazione suicidaria strutturata",
+        "result": "Nega un piano, nega di avere messo da parte farmaci, nega un saluto ai familiari. Il rischio acuto non è alto.",
+        "isPositive": false
+      },
+      {
+        "signName": "Gozzo",
+        "result": "Tiroide non palpabile come massa. Il TSH resta indicato lo stesso.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Ideazione suicidaria strutturata",
+        "result": "Assente se viene chiesta. Non va dato per scontato dal silenzio.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Hb 13,1 g/dL. Leucociti e piastrine nei limiti. Costo 4,80 euro.",
+          "normalFinding": "Hb 13,1 g/dL, formula nei limiti.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "tiroide": {
+          "finding": "TSH 2,1 µUI/mL, FT4 nei limiti. Non è ipotiroidismo. Costo 22 euro.",
+          "normalFinding": "TSH 2,1. FT4 nei limiti.",
+          "isAbnormal": false,
+          "price": 22
+        },
+        "ecg": {
+          "finding": "Ritmo sinusale a 70 bpm, QTc 410 ms. Non richiesto dal percorso. Costo 15 euro: con TSH ed emocromo si va oltre i 42 euro.",
+          "normalFinding": "Sinusale, QTc normale.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "tc-cranio": {
+          "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro. Fuori budget.",
+          "normalFinding": "Nessuna lesione acuta.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "tc": {
+          "finding": "TC encefalo negativa. 120 euro.",
+          "normalFinding": "Nei limiti.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "rm-encefalo": {
+          "finding": "RM encefalo negativa. 220 euro.",
+          "normalFinding": "Segnale nei limiti.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "rm": {
+          "finding": "RM encefalo negativa. 220 euro.",
+          "normalFinding": "Nei limiti.",
+          "isAbnormal": false,
+          "price": 220
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "SSRI",
+          "anyOf": [
+            { "id": "sertralina", "label": "Sertralina", "aliases": ["sertralina", "zoloft"], "priceEuro": 6.2 },
+            { "id": "escitalopram", "label": "Escitalopram", "aliases": ["escitalopram", "cipralex"], "priceEuro": 5.8 }
+          ]
+        }
+      ],
+      "inappropriate": [
+        {
+          "id": "benzo-lungo-termine",
+          "label": "Benzodiazepina come unica terapia protratta",
+          "aliases": ["lorazepam", "tavor", "diazepam", "valium", "alprazolam", "xanax", "delorazepam"],
+          "priceEuro": 4.5
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Apatica, pause, non offre il quadro. Se le danno solo una benzodiazepina per dormire, accetta e il caso sembra chiuso. L'SSRI e la psicoterapia li accetta senza entusiasmo, non li chiede."
+  }
+}

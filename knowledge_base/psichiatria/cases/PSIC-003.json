@@ -1,0 +1,227 @@
+{
+  "id": "PSIC-003",
+  "code": "PSIC-003",
+  "title": "Insonnia primaria",
+  "description": "Luca Esposito, 29 anni, grafico, chiede una visita perché da quattro mesi non dorme e di giorno conta le ore perse. È lucido, non è depresso, non russa, la partner non lo ha visto smettere di respirare. Il percorso è l'igiene del sonno: orario fisso, niente schermi a letto, caffè solo al mattino, niente sonnellini. Il budget è 15 euro, appena un ECG se proprio lo si vuole. La TC cranio a 120 euro, la RM encefalo a 220 euro e la polisonnografia a 180 euro sono fuori indicazione e fuori budget.",
+  "difficulty": "EASY",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Insonnia primaria, paziente lucido",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Legge 24/2017 art. 5 — igiene del sonno prima dell'imaging",
+  "diagnosis": "Insonnia primaria. Nessun segno di apnea, di depressione o di lesione endocranica. Indicata l'igiene del sonno. Non indicate TC cranio, RM encefalo e polisonnografia.",
+  "pastMedicalHistory": "Dorme male da quattro mesi, da quando lavora fino all'una con le consegne. Si corica alle due, guarda il telefono a letto, beve un caffè alle diciotto. Non russa. La partner non descrive pause respiratorie. Non ha sonnolenza alla guida. Non ha allucinazioni ipnagogiche, non cade per le emozioni. Umore stabile, va in palestra, non ha idee di morte. Non assume farmaci. Allergie: nessuna. Non beve alcol per dormire, lo ha provato una sera e gli è bastato.",
+  "presentation": "Lucido, seduto sul bordo della sedia, parla fitto del sonno e poco d'altro. Se il medico non lo interrompe, fa un elenco di notti. Non è confuso e non è depresso. Parametri: PA 122/76 mmHg, FC 78, SpO2 98%, FR 16, temperatura 36,6 °C. Ha stampato una pagina sulla polisonnografia e una sulla risonanza «per il cervello che non stacca».",
+  "redHerrings": [
+    "La logorrea sul sonno sembra ansia generalizzata, ma l'unico tema è non dormire e di giorno funziona.",
+    "La pagina sulla polisonnografia non descrive russamento né apnee riferite.",
+    "Chiede la TC cranio perché «forse ho qualcosa che mi tiene sveglio».",
+    "Una benzodiazepina ogni sera lo farebbe dormire e gli costruirebbe una dipendenza su un'insonnia da abitudini."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Luca Esposito, 29 anni, ambulatorio, lucido e logorroico solo sul sonno. Registro: LUCIDO, frasi lunghe se ti lasciano parlare, sempre sul non dormire. Didascalia: [conta sulle dita], [guarda l'orologio]. Alla «Come sta?»: «Non dormo. Ieri tre ore, l'altro ieri due e quaranta, la settimana scorsa una media di...» [conta sulle dita] Se ti interrompono e ti chiedono russamento, pause del respiro, sonnolenza alla guida, umore, caffeina, telefono a letto, orario in cui ti corichi: non russi, la tua partner non ha sentito apnee, guidi bene, l'umore c'è, caffè alle sei di sera, telefono a letto, ti corichi alle due. Se ti propongono polisonnografia, TAC o risonanza, accetti subito e tiri fuori la stampa. Se ti spiegano l'igiene del sonno in modo concreto (orario, schermi, caffè, niente pisolino) e non ti danno una pastiglia per sempre, ti irriti un attimo e poi prendi nota. Se ti danno una benzodiazepina ogni sera senza parlare delle abitudini, dici «finalmente una cosa che funziona». Non nominare tu insonnia primaria o apnea. Non rivelare la diagnosi.",
+  "correctSolution": "Insonnia primaria da igiene del sonno scorretta. Niente TC cranio, niente RM encefalo, niente polisonnografia in assenza di apnee riferite. Consigli concreti su orario, schermi e caffeina. Budget 15 euro: un ECG ci sta al limite, l'imaging no.",
+  "goldStandardPath": ["azione-igiene-del-sonno"],
+  "goldPathNarrative": "Il gold path è un gesto, non un esame: igiene del sonno (orario stabile, letto solo per dormire, stop agli schermi, caffè non nel pomeriggio, niente sonnellino di recupero). Il passo azione- non entra nel nomenclatore e non costa. Budget 15 euro, cioè il prezzo di un ECG se lo si chiede senza motivo forte. Polisonnografia 180 euro, TC cranio senza mezzo di contrasto 120 euro e RM encefalo 220 euro non hanno un'indicazione (niente apnee riferite, niente deficit, paziente lucido) e superano tutte il budget.",
+  "examLatencies": {
+    "azione-igiene-del-sonno": 8,
+    "ecg": 8,
+    "polisonnografia": 80,
+    "tc-cranio": 30,
+    "tc": 30,
+    "rm-encefalo": 50,
+    "rm": 50
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-apnee",
+      "prompt": "Russa, ha pause del respiro, gli viene sonno mentre guida?",
+      "critical": true,
+      "expectedKeywords": ["russa", "respiro", "guida"],
+      "rationale": "Senza questi tre elementi la polisonnografia è un esame alla cieca."
+    },
+    {
+      "id": "aq-abitudini",
+      "prompt": "A che ora si corica, usa il telefono a letto, a che ora beve il caffè?",
+      "critical": true,
+      "expectedKeywords": ["ora", "telefono", "caffè"],
+      "rationale": "L'igiene del sonno si prescrive sui comportamenti reali, non su una frase generica."
+    },
+    {
+      "id": "aq-umore",
+      "prompt": "Di giorno l'umore c'è, o non gli importa più di niente?",
+      "critical": true,
+      "expectedKeywords": ["umore", "giorno"],
+      "rationale": "Distingue l'insonnia primaria dalla depressione, che avrebbe un altro percorso."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucido, orientato, eloquio accelerato solo se si parla di sonno, poi si lascia interrompere. Non obeso, collo nella norma, non cianotico. Mallampati non valutabile come apnea certa e non serve: l'anamnesi sulle apnee è negativa. Esame neurologico povero, negativo. Umore eutimico."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-003-igiene",
+      "source": "Legge 24/2017 art. 5 — insonnia primaria",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: senza russamento, apnee riferite o sonnolenza alla guida, la polisonnografia non è il primo atto. Si correggono orario, schermi e caffeina."
+    },
+    {
+      "chunkId": "psic-003-budget",
+      "source": "Tariffe didattiche del caso PSIC — polisonnografia 180 €, TC cranio 120 €, RM encefalo 220 €",
+      "quote": "Sintesi operativa economica: il budget di 15 euro tollera al massimo un esame di base. TC cranio, RM encefalo e polisonnografia lo superano di molte volte e sono inappropriate."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Chieste apnee, russamento e sonnolenza alla guida.",
+      "Chieste abitudini di orario, schermi e caffeina.",
+      "Consigli di igiene del sonno concreti.",
+      "Nessuna polisonnografia, nessuna TC, nessuna RM.",
+      "Spesa entro 15 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano l'esclusione dell'apnea riferita e i consigli comportamentali. Prenotare la polisonnografia perché il paziente ha una stampa non è aderenza.",
+      "legalCriteria": [
+        "Anamnesi su apnee e guida scritta prima di qualunque esame del sonno.",
+        "Nessun ipnotico cronico come sostituto delle abitudini.",
+        "Nessun imaging encefalico in paziente neurologicamente integro."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "azione-igiene-del-sonno",
+      "name": "Igiene del sonno",
+      "finding": "Orario fisso, letto senza telefono, caffè solo al mattino, niente sonnellino. Non è un esame a pagamento. Il paziente prende nota se i consigli sono concreti.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    },
+    {
+      "examId": "azione-stop-ipnotico-cronico",
+      "name": "Non avviare un ipnotico cronico",
+      "finding": "Nessuna benzodiazepina da assumere ogni sera come cura dell'insonnia primaria. Se il sonno non cambia dopo le abitudini, si rivaluta, non si prenota la TC.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "polisonnografia",
+      "name": "Polisonnografia",
+      "finding": "Polisonnografia: AHI 2 eventi/ora, saturazione minima 94%. Referto normale. Non c'erano apnee da cercare. Costo 180 euro, molto sopra i 15 del budget.",
+      "isAbnormal": false,
+      "priceEuro": 180,
+      "inappropriate": true,
+      "wasteRationale": "Senza russamento né pause riferite la polisonnografia costa 180 euro e non cambia la cura, che è l'igiene del sonno."
+    },
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto negativa. Costo 120 euro. Il paziente è lucido e senza deficit.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "TC cranio a 120 euro su un'insonnia primaria: sfora il budget di 15 euro."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "TC encefalo negativa. 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Stesso costo e stessa assenza di indicazione della TC cranio."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo negativa. Costo 220 euro. Non spiega e non cura l'insonnia da abitudini.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "componentExamIds": ["rm"],
+      "wasteRationale": "RM encefalo a 220 euro: medicina difensiva, budget superato."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Paziente lucido, ossessionato dal non dormire.",
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "122/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 15,
+    "demographics": { "age": 29, "sex": "M", "name": "Luca Esposito" },
+    "clinicalSigns": [
+      {
+        "signName": "Sonnolenza diurna alla guida",
+        "result": "Nega colpi di sonno alla guida. Non è il profilo dell'apnea da studiare subito con la polisonnografia.",
+        "isPositive": false
+      },
+      {
+        "signName": "Deficit neurologico",
+        "result": "Assente. Nessuna indicazione a TC o RM.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Deficit neurologico",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "polisonnografia": {
+          "finding": "AHI 2/ora, saturazione minima 94%. Esame normale e non indicato. Costo 180 euro.",
+          "normalFinding": "AHI nei limiti, saturazione conservata.",
+          "isAbnormal": false,
+          "price": 180
+        },
+        "ecg": {
+          "finding": "Ritmo sinusale a 76 bpm. Non aggiunge nulla. Costo 15 euro, pari al budget: non lascia margine per altro.",
+          "normalFinding": "Sinusale.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "tc-cranio": {
+          "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro.",
+          "normalFinding": "Nessuna lesione acuta.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "tc": {
+          "finding": "TC encefalo negativa. 120 euro.",
+          "normalFinding": "Nei limiti.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "rm-encefalo": {
+          "finding": "RM encefalo negativa. 220 euro.",
+          "normalFinding": "Segnale nei limiti.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "rm": {
+          "finding": "RM encefalo negativa. 220 euro.",
+          "normalFinding": "Nei limiti.",
+          "isAbnormal": false,
+          "price": 220
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Lucido e logorroico sul sonno, con le stampe degli esami già in mano. Si ferma se lo si interrompe sulle abitudini. Vuole la polisonnografia e la accetta appena proposta."
+  }
+}

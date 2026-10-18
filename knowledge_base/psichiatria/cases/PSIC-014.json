@@ -1,0 +1,240 @@
+{
+  "id": "PSIC-014",
+  "code": "PSIC-014",
+  "title": "Intossicazione acuta da cocaina",
+  "description": "Simone Ricci, 26 anni, è portato in pronto soccorso da un amico. È paranoico, suda, ha le pupille larghe, il cuore a 142 e la pressione a 186/112. Ha sniffato cocaina un'ora fa: lo dice l'amico, lui dice che lo vogliono arrestare. Il percorso è ECG, screening tossicologico e benzodiazepine. Il beta-bloccante, dato per la tachicardia, è la trappola mortale: vasocostrizione che non si frena. Budget 80 euro: ECG 15 ed esame tossicologico 40 ci stanno, insieme alla benzodiazepina. La TC cranio a 120 euro no, se non c'è un deficit.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Intossicazione acuta da cocaina con agitazione simpaticomimetica",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 24/2017 art. 5 — niente beta-bloccante nella cocaina",
+  "diagnosis": "Intossicazione acuta da cocaina. Indicati ECG, screening tossicologico e benzodiazepine. Controindicati i beta-bloccanti. Non indicata la TC cranio in assenza di deficit focale.",
+  "pastMedicalHistory": "Uso di cocaina nei fine settimana, mai un infarto. Nessun beta-bloccante a domicilio. Non è epilettico. L'amico ha visto la striscia un'ora fa e poi l'agitazione. Nessun trauma riferito, non è caduto. Allergie: nessuna. Non ha dolore toracico costrittivo tipico: ha paura e il cuore che corre. Se compare dolore, l'ECG c'è già nel percorso.",
+  "presentation": "Sudato, midriasi, si gira di scatto verso la porta. [sguardo fisso] sull'amico e lo accusa. PA 186/112, FC 142, SpO2 97%, FR 22, temperatura 37,6 °C. Se il medico propone un beta-bloccante «per il cuore», l'amico dice «sì, così si calma». Simone non vuole fiale, vuole uscire.",
+  "redHerrings": [
+    "La tachicardia invita al beta-bloccante. Nella cocaina è il farmaco da non dare.",
+    "La paranoia sembra una psicosi da ricoverare in SPDC senza il tossicologico.",
+    "La pressione altissima fa pensare a un'urgenza ipertensiva da trattare con il solito antipertensivo del reparto.",
+    "La TC cranio non vede la cocaina e costa 120 euro."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 12,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Simone Ricci, 26 anni, pronto soccorso. Il tuo amico Luca è con te: «Luca:». Registro: PARANOICO, sudato. [sguardo fisso], [si asciuga la faccia]. Alla «Come sta?»: «Mi avete chiuso qui. Lui è con loro.» [sguardo fisso] Non dire tu cocaina se non te la chiedono in modo diretto. Se ti chiedono che cosa hai preso e quando, Luca dice la striscia un'ora fa e tu neghi, poi ammetti solo se insistono: «Una. Un'ora fa. E allora?» Pupille, sudore e paura li mostri, non li racconti da manuale. Se propongono una pastiglia per il cuore che è un beta-bloccante, non la riconosci: Luca dice di sì. Se ti danno una benzodiazepina e ti spiegano che il cuore rallenta così, resti diffidente ma ti siedi. Se propongono la TAC, dici che è una trappola. Non nominare tu vasocostrizione o tossicologico.",
+  "correctSolution": "Cocaina acuta. ECG senza sovraslivellamento in questo caso, screening tossicologico positivo, benzodiazepina. Niente propranololo, metoprololo, bisoprololo o altri beta-bloccanti. Niente TC cranio senza deficit. Budget 80 euro.",
+  "goldStandardPath": ["ecg", "tossicologico", "azione-benzodiazepina"],
+  "goldPathNarrative": "1) ECG 15 euro, subito: tachicardia sinusale, nessun sopraslivellamento. Si esclude l'infarto che la cocaina può fare, e in questo tracciato non c'è. 2) Screening tossicologico completo, id tossicologico, 40 euro (la voce di catalogo tox-screen vale lo stesso). Positivo per cocaina. 3) Benzodiazepina, diazepam o lorazepam, che frena agitazione e simpatico. Il passo azione- non è un esame. Somma intorno a 58 euro, budget 80. Il beta-bloccante è l'errore mortale, anche se la frequenza è 142. TC cranio 120 euro, senza deficit e senza trauma, supera gli 80 euro.",
+  "examLatencies": {
+    "ecg": 5,
+    "tossicologico": 20,
+    "tox-screen": 20,
+    "azione-benzodiazepina": 4,
+    "tc-cranio": 25,
+    "tc": 25,
+    "rm-encefalo": 40,
+    "troponina-hs": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-sostanza",
+      "prompt": "Che cosa ha preso, per quale via, e quanto tempo fa?",
+      "critical": true,
+      "expectedKeywords": ["cocaina", "ora"],
+      "rationale": "Senza sostanza, via e tempo la tachicardia resta un'aritmia da beta-bloccante. L'amico è la fonte."
+    },
+    {
+      "id": "aq-dolore",
+      "prompt": "Ha dolore toracico costrittivo, oltre alla paura?",
+      "critical": true,
+      "expectedKeywords": ["dolore", "petto"],
+      "rationale": "La cocaina causa infarto. L'ECG è obbligatorio anche se il dolore manca; se c'è, non si esce dal monitoraggio."
+    },
+    {
+      "id": "aq-deficit",
+      "prompt": "Ha un lato debole, un trauma, una convulsione?",
+      "critical": true,
+      "expectedKeywords": ["lato", "trauma"],
+      "rationale": "Senza deficit la TC cranio non precede ECG e benzodiazepina."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Agitato, sudore profuso, midriasi bilaterale reattiva, tachicardia, ipertensione. Eloquio persecutorio verso l'amico. Nessun deficit motorio, nessun segno di trauma, linguaggio non afasico. Torace senza rumori aggiunti evidenti. Temperatura 37,6 °C. L'amico riferisce la striscia di un'ora fa."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-014-beta",
+      "source": "Legge 24/2017 art. 5 — cocaina e beta-bloccanti",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: nell'intossicazione da cocaina l'agitazione e la tachicardia si trattano con benzodiazepine. Il beta-bloccante lascia l'alfa-stimolo senza freno ed è da non dare. ECG e tossicologico documentano."
+    },
+    {
+      "chunkId": "psic-014-budget",
+      "source": "Tariffe didattiche del caso PSIC — ECG 15 €, tossicologico 40 €, TC cranio 120 €",
+      "quote": "Sintesi operativa economica: ECG e screening tossicologico completo stanno negli 80 euro insieme alla benzodiazepina. La TC cranio a 120 euro, senza deficit, sfora."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Sostanza, via e tempo ricostruiti, anche tramite l'amico.",
+      "ECG eseguito.",
+      "Screening tossicologico richiesto.",
+      "Benzodiazepina, non beta-bloccante.",
+      "Nessuna TC cranio senza deficit. Spesa entro 80 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano l'orario dell'assunzione, l'ECG, il tossicologico e la benzodiazepina. Un beta-bloccante per la frequenza a 142 non è difendibile in questo contesto.",
+      "legalCriteria": [
+        "Nessun beta-bloccante prescritto.",
+        "ECG archiviato prima di dichiarare che non c'è ischemia.",
+        "Benzodiazepina registrata.",
+        "Osservazione: non una dimissione immediata con pressione a 186."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Tachicardia sinusale a 140 bpm. Nessun sopraslivellamento, nessun sottoslivellamento significativo. QTc 430 ms. La cocaina può ischemizzare: questo tracciato, ora, no. Costo 15 euro. Si ripete se compare dolore.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "tossicologico",
+      "name": "Screening tossicologico completo",
+      "finding": "Positivo per cocaina. Negativi oppiacei, amfetamine, cannabinoidi, benzodiazepine. Costo 40 euro. Conferma l'amico e toglie il dubbio di una psicosi primaria da mandare in SPDC senza cura medica.",
+      "isAbnormal": true,
+      "priceEuro": 40,
+      "componentExamIds": ["tox-screen"]
+    },
+    {
+      "examId": "azione-benzodiazepina",
+      "name": "Benzodiazepina",
+      "finding": "Diazepam o lorazepam. Scende l'agitazione e, con lei, parte del simpatico. Non è un beta-bloccante.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto negativa. Nessun deficit da cercare. Costo 120 euro, sopra gli 80. Non vede la cocaina.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "Senza deficit la TC cranio a 120 euro sfora il budget e non sostituisce ECG e benzodiazepina."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "TC encefalo negativa. 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Stessa TC, stesso sforamento."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo non indicata nell'intossicazione acuta. 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "RM encefalo a 220 euro: fuori tempo e fuori budget."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. Paranoico, tachicardico, iperteso, sudato, midriasi, cocaina un'ora fa.",
+    "vitals": {
+      "heartRate": 142,
+      "bloodPressure": "186/112",
+      "spo2": 97,
+      "temperature": 37.6,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 80,
+    "demographics": { "age": 26, "sex": "M", "name": "Simone Ricci" },
+    "killerRules": {
+      "fatalIfPrescribed": [["propranololo", "inderal", "metoprololo", "bisoprololo", "atenololo", "carvedilolo", "beta-bloccante", "betabloccante"]]
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Midriasi",
+        "result": "Pupille larghe, ancora reattive. Coerente con il simpatico della cocaina.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit motorio focale",
+        "result": "Assente. La TC cranio non è il primo esame.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Midriasi",
+        "result": "Presente, bilaterale.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "Tachicardia sinusale 140 bpm, nessun ST sollevato. Costo 15 euro.",
+          "normalFinding": "Sinusale a 140, nessun sopraslivellamento.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tossicologico": {
+          "finding": "Positivo per cocaina, negativo il resto del pannello. Costo 40 euro.",
+          "normalFinding": "Cocaina positiva.",
+          "isAbnormal": true,
+          "price": 40
+        },
+        "tox-screen": {
+          "finding": "Stesso screening: cocaina positiva. Costo 40 euro.",
+          "normalFinding": "Cocaina positiva.",
+          "isAbnormal": true,
+          "price": 40
+        },
+        "troponina-hs": {
+          "finding": "8 ng/L, sotto soglia. Se il dolore toracico resta assente non va seriata per abitudine. Costo 18 euro: con ECG e tossicologico si resta sotto gli 80, ma non è il gold path.",
+          "normalFinding": "8 ng/L.",
+          "isAbnormal": false,
+          "price": 18
+        },
+        "tc-cranio": { "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro.", "normalFinding": "Nessuna emorragia.", "isAbnormal": false, "price": 120 },
+        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
+        "rm-encefalo": { "finding": "Non indicata. 220 euro.", "normalFinding": "Non sostituisce il tossicologico.", "isAbnormal": false, "price": 220 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Benzodiazepina",
+          "anyOf": [
+            { "id": "diazepam", "label": "Diazepam", "aliases": ["diazepam", "valium"], "priceEuro": 2.8 },
+            { "id": "lorazepam", "label": "Lorazepam", "aliases": ["lorazepam", "tavor"], "priceEuro": 4.5 }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "betabloccante",
+          "label": "Beta-bloccante",
+          "aliases": ["betabloccante", "beta bloccante", "propranololo", "metoprololo", "bisoprololo", "atenololo", "carvedilolo", "inderal"],
+          "priceEuro": 3.2
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
+    "communicationStyle": "Paranoico, sudato, midriasi, accusa l'amico. La cocaina la dice l'amico subito e lui solo se incalzato. Diffida di ogni fiala, anche di quella giusta."
+  }
+}

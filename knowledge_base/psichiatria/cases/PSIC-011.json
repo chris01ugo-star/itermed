@@ -1,0 +1,204 @@
+{
+  "id": "PSIC-011",
+  "code": "PSIC-011",
+  "title": "Agitazione psicomotoria armata",
+  "description": "Davide Riva, 36 anni, spacca il corridoio del pronto soccorso, urla e brandisce una sedia di metallo. Non è il momento del colloquio ravvicinato. Il primo atto sono le forze dell'ordine. Poi la de-escalation a distanza, e solo quando la scena è sicura la sedazione intramuscolo (midazolam, lorazepam o aloperidolo). Contenere fisicamente prima che arrivi chi mette in sicurezza la scena è la trappola legale. Budget esami 25 euro: non si «capisce il cervello» con una TC da 120 euro mentre la sedia è ancora in mano.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Agitazione psicomotoria grave con minaccia mediante oggetto",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 180/1978 — sicurezza e forze dell'ordine prima della contenzione",
+  "diagnosis": "Agitazione psicomotoria grave con minaccia. Indicati, in ordine: allerta alle forze dell'ordine, de-escalation a distanza, sedazione intramuscolo quando la scena è sicura. Controindicata la contenzione fisica prima della messa in sicurezza.",
+  "pastMedicalHistory": "Un ricovero in SPDC due anni fa per psicosi, poi abbandono dei farmaci. La sorella, al telefono, dice che da tre giorni non dorme e parla da solo. Non è noto un trauma di oggi. Non c'è un'arma da fuoco: l'oggetto è una sedia del pronto soccorso. Allergie: nessuna. Non si riesce a fare un'anamnesi diretta finché urla.",
+  "presentation": "In corridoio, rovescia un carrello, brandisce la sedia, non lascia avvicinare. [urla]. FC intorno a 130 se qualcuno riesce a vederlo da lontano, sudato. Non c'è un colloquio possibile a un metro. Se un operatore entra per tenerlo, la scena peggiora. Se si parla da distanza, senza invadere, le urla restano ma non carica.",
+  "redHerrings": [
+    "Il riflesso è tenerlo in quattro e fare la fiala. Senza la polizia è una contenzione illegittima e pericolosa.",
+    "Sembra «solo psichiatrico»: prima è una scena non sicura.",
+    "La TC cranio non si fa a un uomo che brandisce una sedia, e non è il primo atto nemmeno dopo.",
+    "L'aloperidolo è lecito qui, a differenza del delirium tremens, ma dopo la sicurezza, non prima."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 12,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Davide Riva, 36 anni, nel corridoio del pronto soccorso. Registro: MINACCIA. [urla]. Frasi corte. Alla prima domanda: «Indietro! Vi spacco!» [urla] Brandisci una sedia di metallo, non un'arma da fuoco, e non spieghi come colpire: dici solo di stare lontani. VIETATO dire le parole polizia, carabinieri, forze dell'ordine. Se si avvicinano per afferrarti, rovesci il carrello e le urla aumentano. Se parlano da lontano, voce bassa, senza insultarti e senza entrare nel tuo spazio, resti con la sedia ma non carichi. Se la scena viene messa in sicurezza da fuori e poi ti propongono una fiala, resisti una frase e poi, se non ti saltano addosso, la accetti di malavoglia. Non nominare diagnosi. Non diventare lucido e collaborante nel primo minuto.",
+  "correctSolution": "Prima le forze dell'ordine. Poi de-escalation a distanza. Poi sedazione intramuscolo (midazolam, lorazepam o aloperidolo) solo a scena sicura. Non contenzione fisica come primo gesto. Non TC cranio in questa fase. Budget 25 euro.",
+  "goldStandardPath": ["azione-forze-ordine", "azione-de-escalation", "azione-sedazione-im"],
+  "goldPathNarrative": "Ordine tassativo. 1) Allerta alle forze dell'ordine prima di qualsiasi contatto fisico. Senza questo passaggio la contenzione è la trappola legale. 2) De-escalation: distanza, voce bassa, niente sfida. 3) Sedazione intramuscolo quando la sedia non è più una minaccia attiva: midazolam, lorazepam o aloperidolo. I passi azione- non sono esami e costano zero sul nomenclatore. Budget esami 25 euro, quanto un ECG successivo. TC cranio 120 euro e RM encefalo 220 euro, in questa fase, sforano e non mettono in sicurezza il corridoio.",
+  "examLatencies": {
+    "azione-forze-ordine": 3,
+    "azione-de-escalation": 6,
+    "azione-sedazione-im": 4,
+    "ecg": 10,
+    "tc-cranio": 30,
+    "tc": 30,
+    "rm-encefalo": 50
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-oggetto",
+      "prompt": "Che cosa ha in mano e chi è già abbastanza lontano da non essere colpito?",
+      "critical": true,
+      "expectedKeywords": ["sedia", "distanza"],
+      "rationale": "La scena si descrive prima di entrare. L'oggetto è una sedia, non un motivo per il corpo a corpo."
+    },
+    {
+      "id": "aq-sicurezza",
+      "prompt": "Le forze dell'ordine sono state allertate prima del contatto?",
+      "critical": true,
+      "expectedKeywords": ["allert", "prima"],
+      "rationale": "La contenzione senza messa in sicurezza è l'errore legale del caso."
+    },
+    {
+      "id": "aq-farmaco",
+      "prompt": "La sedazione è intramuscolo e avviene dopo, non prima, della sicurezza?",
+      "critical": true,
+      "expectedKeywords": ["dopo", "fiala"],
+      "rationale": "Il farmaco è lecito. L'ordine no: prima la scena, poi la fiala."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame a distanza: sudato, urlante, brandisce una sedia di metallo, non lascia lo spazio di un metro. Non si palpa l'addome e non si misura la pressione finché la scena non è sicura. Dopo la messa in sicurezza, se sedato: tachicardia intorno a 130, cute sudata, nessun trauma evidente al primo sguardo. L'obiettività fine viene dopo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-011-ordine",
+      "source": "Legge 180/1978 — contenzione e sicurezza",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: davanti a un paziente che minaccia con un oggetto si allertano le forze dell'ordine prima della contenzione fisica. La sedazione viene quando la scena è sicura, non come sostituto della sicurezza."
+    },
+    {
+      "chunkId": "psic-011-budget",
+      "source": "Tariffe didattiche del caso PSIC — TC cranio 120 €",
+      "quote": "Sintesi operativa economica: questo caso non ha un esame salvavita. Il budget di 25 euro non copre la TC cranio a 120 euro, che in corridoio non è nemmeno eseguibile in sicurezza."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Forze dell'ordine allertate per prime.",
+      "De-escalation a distanza, senza invadere lo spazio.",
+      "Sedazione intramuscolo solo dopo la messa in sicurezza.",
+      "Nessuna contenzione fisica come primo atto.",
+      "Nessuna TC in questa fase. Spesa esami entro 25 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5, e i limiti della contenzione: in cartella restano l'orario della chiamata alle forze dell'ordine, la distanza tenuta e il farmaco dato dopo. Tenere il paziente prima di quella chiamata non è difendibile.",
+      "legalCriteria": [
+        "Chiamata alle forze dell'ordine precedente a ogni contatto fisico.",
+        "Contenzione fisica non iniziata da soli, senza sicurezza.",
+        "Farmaco, dose e via intramuscolo scritti dopo, non al posto della chiamata.",
+        "Nessun imaging richiesto mentre la minaccia è in corso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "azione-forze-ordine",
+      "name": "Allerta alle forze dell'ordine",
+      "finding": "Chiamata prima di avvicinarsi. È il primo rigo di cartella. Senza, ogni contatto è un rischio per tutti e un problema legale.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    },
+    {
+      "examId": "azione-de-escalation",
+      "name": "De-escalation a distanza",
+      "finding": "Voce bassa, spazio largo, niente sfida. La sedia resta in mano ma non parte la carica.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    },
+    {
+      "examId": "azione-sedazione-im",
+      "name": "Sedazione intramuscolo a scena sicura",
+      "finding": "Midazolam, lorazepam o aloperidolo intramuscolo, dopo. Non è il primo gesto e non sostituisce la chiamata.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "contenzione-fisica",
+      "name": "Contenzione fisica senza forze dell'ordine",
+      "finding": "Il paziente viene tenuto dagli operatori prima che la scena sia messa in sicurezza. È la trappola legale: rischio di lesioni e di un atto non difendibile.",
+      "isAbnormal": true,
+      "priceEuro": 0,
+      "inappropriate": true,
+      "isFatal": true,
+      "wasteRationale": "Contenzione fisica prima delle forze dell'ordine. Non è un risparmio: è l'errore che il caso vuole intercettare."
+    },
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "Non eseguibile in sicurezza e non indicata come primo atto. Se forzata più tardi, referto senza sangue acuto. Costo 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "TC cranio a 120 euro mentre il problema è la scena. Sfora i 25 euro di budget."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "Non eseguibile. Costo teorico 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "RM encefalo a 220 euro: incompatibile con la scena e con il budget."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso, corridoio. Urla, brandisce una sedia, non si lascia avvicinare.",
+    "vitals": {
+      "heartRate": 130,
+      "bloodPressure": "168/100",
+      "spo2": 97,
+      "temperature": 37.2,
+      "respiratoryRate": 26
+    },
+    "examBudgetEuro": 25,
+    "demographics": { "age": 36, "sex": "M", "name": "Davide Riva" },
+    "killerRules": {
+      "fatalIfOmitted": [["polizia", "carabinieri", "forze dell'ordine", "forze dell ordine"]]
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Minaccia con oggetto",
+        "result": "Brandisce una sedia di metallo. Lo spazio di un metro non è sicuro.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Minaccia con oggetto",
+        "result": "Presente. L'esame ravvicinato non è il primo atto.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": { "finding": "Tachicardia sinusale, se si riesce a registrarlo dopo la sedazione. Costo 15 euro.", "normalFinding": "Sinusale tachicardica.", "isAbnormal": true, "price": 15 },
+        "tc-cranio": { "finding": "Non indicata in questa fase. Se eseguita dopo, nessuna emorragia. 120 euro.", "normalFinding": "Nessuna emorragia.", "isAbnormal": false, "price": 120 },
+        "tc": { "finding": "TC encefalo non prioritaria. 120 euro.", "normalFinding": "Nei limiti se eseguita dopo.", "isAbnormal": false, "price": 120 },
+        "rm-encefalo": { "finding": "Non eseguibile. 220 euro.", "normalFinding": "Non indicata.", "isAbnormal": false, "price": 220 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Sedazione intramuscolo dopo la messa in sicurezza",
+          "anyOf": [
+            { "id": "midazolam", "label": "Midazolam", "aliases": ["midazolam", "ipnovel"], "priceEuro": 3.2 },
+            { "id": "lorazepam", "label": "Lorazepam", "aliases": ["lorazepam", "tavor"], "priceEuro": 4.5 },
+            { "id": "aloperidolo", "label": "Aloperidolo", "aliases": ["aloperidolo", "serenase"], "priceEuro": 2.4 }
+          ]
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
+    "communicationStyle": "Urla, minaccia, frasi di due parole, brandisce la sedia. A distanza si ferma senza diventare gentile. Se lo si afferra, la scena peggiora."
+  }
+}

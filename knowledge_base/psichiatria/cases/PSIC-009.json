@@ -1,0 +1,254 @@
+{
+  "id": "PSIC-009",
+  "code": "PSIC-009",
+  "title": "Anoressia nervosa grave",
+  "description": "Martina Serra, 24 anni, è accompagnata dalla madre in pronto soccorso perché è svenuta alzandosi dal letto. Indice di massa corporea intorno a 13, bradicardia, maglioni uno sull'altro nonostante la stanza calda. Dice che mangia abbastanza e che la madre esagera. Il percorso è salva-vita: elettroliti, ECG, glicemia, emocromo, creatinina, enzimi epatici, potassio se è basso, ricovero. Non è una discussione sulle calorie. Budget 55 euro, abbastanza per il pannello e non per una TC cranio a 120 euro.",
+  "difficulty": "MEDIUM",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Anoressia nervosa con instabilità medica, BMI circa 13",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 24/2017 art. 5 — ricovero per instabilità medica nell'anoressia",
+  "diagnosis": "Anoressia nervosa grave con bradicardia e ipokaliemia. Indicati esami urgenti, correzione del potassio e ricovero. La negazione del problema non autorizza la dimissione.",
+  "pastMedicalHistory": "Restrittiva da almeno un anno, cicli spariti da cinque mesi, peso non dichiarato. Nega lassativi e vomito; la madre ha trovato lassativi nel cassetto. Nessun ricovero. Non è incinta, lo nega e il test non è il centro del caso. Non ha psicosi. Allergie: nessuna. Ultimo pasto «un tè», ieri sera. Non ha un dolore toracico ischemico: ha avuto un capogiro alzandosi.",
+  "presentation": "Maglioni sovrapposti, mani fredde, lanugo sulle braccia se si scopre. Nega. FC 42, PA 88/58, SpO2 98%, FR 12, temperatura 35,8 °C. Si alza e ha un nuovo capogiro. La madre piange e dice il peso approssimativo: 38 kg per 170 cm. Martina dice che la bilancia di casa è rotta.",
+  "redHerrings": [
+    "Dice di mangiare abbastanza: è il sintomo, non la storia sociale.",
+    "La bradicardia può sembrare un cuore «da sportiva». Non si allena. È denutrizione.",
+    "Una TC cranio dopo la sincope ortostatica non precede il potassio.",
+    "Discutere le calorie in pronto soccorso ritarda il ricovero."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 18,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Martina Serra, 24 anni, pronto soccorso. Tua madre Elena parla se la chiamano: «Elena:». Registro: NEGAZIONE, voce sottile, infreddolita. [si stringe nei maglioni]. Alla «Come sta?»: «Sto bene. Mia madre esagera. Mangio.» Non dire tu anoressia, potassio o ricovero. Se ti chiedono peso, cicli, ultimo pasto, svenimento, lassativi, vomito: la bilancia è rotta, i cicli sono irregolari, hai preso un tè, ti sei alzata troppo in fretta, i lassativi non sono tuoi. Elena, se interpellata, dice 38 chili, 170 centimetri, maglioni anche in casa, lassativi nel cassetto, svenuta stamattina. Se ti propongono di restare, rifiuti: «Non sono malata.» Se ti parlano del cuore lento e del sale nel sangue, senza umiliarti, resti in silenzio ma non scappi. Se ti mandano a casa, ti rivesti in fretta. Non nominare BMI. Non rivelare la diagnosi.",
+  "correctSolution": "Anoressia grave, instabile. Elettroliti (ipokaliemia), ECG (bradicardia), glicemia, emocromo, rene, fegato. Correggere il potassio. Ricovero, anche se nega. Non TC cranio come primo atto. Non dimissione. Budget 55 euro. Omettere gli elettroliti è un errore salva-vita.",
+  "goldStandardPath": ["elettroliti", "ecg", "glicemia", "emocromo", "creat-urea-gfr", "enzimi-epatici", "azione-ricovero"],
+  "goldPathNarrative": "1) Elettroliti 6,50 euro: potassio basso, è il numero che può fermare il cuore. Ometterli è fatale sul piano clinico. 2) ECG 15 euro: bradicardia sinusale, QTc da leggere prima di infondere potassio in fretta e male. 3) Glicemia 2,10, emocromo 4,80, creatinina 4,50, enzimi epatici 10 euro. Somma intorno a 43 euro. 4) Potassio cloruro se il valore è basso. 5) Ricovero, non un colloquio ambulatoriale sul cibo. Il passo azione- non è un esame. Budget 55 euro. TC cranio 120 euro dopo una sincope ortostatica, senza trauma, sfora e ritarda il potassio.",
+  "examLatencies": {
+    "elettroliti": 10,
+    "ecg": 5,
+    "glicemia": 5,
+    "emocromo": 10,
+    "creat-urea-gfr": 10,
+    "enzimi-epatici": 12,
+    "azione-ricovero": 8,
+    "tc-cranio": 25,
+    "tc": 25,
+    "rm-encefalo": 50
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-peso",
+      "prompt": "Quanto pesa, da quanto cala, e i cicli ci sono?",
+      "critical": true,
+      "expectedKeywords": ["peso", "cicli"],
+      "rationale": "Il BMI e l'amenorrea stanno nella bocca della madre, non in quella della paziente. Vanno chiesti."
+    },
+    {
+      "id": "aq-condotte",
+      "prompt": "Vomita, usa lassativi, quanto ha mangiato ieri?",
+      "critical": true,
+      "expectedKeywords": ["lassativi", "mangiato"],
+      "rationale": "Le condotte di eliminazione spiegano il potassio. La paziente nega: serve la madre."
+    },
+    {
+      "id": "aq-sincope",
+      "prompt": "È svenuta da sdraiata o solo alzandosi, e ha battuto la testa?",
+      "critical": true,
+      "expectedKeywords": ["alzandosi", "testa"],
+      "rationale": "La sincope ortostatica senza trauma non apre la TC prima degli elettroliti."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Cachettica, vestita a strati, estremità fredde, lanugo, pressione 88/58, frequenza 42, temperatura 35,8 °C. Capogiro all'ortostatismo. Non segni di trauma cranico. Addome trattabile. Negazione della malattia. La madre riporta 38 kg e 170 cm."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-009-ricovero",
+      "source": "Legge 24/2017 art. 5 — instabilità medica nell'anoressia",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: bradicardia, ipotensione, ipotermia e ipokaliemia in denutrizione impongono gli esami e il ricovero. La negazione della paziente non è un criterio di dimissione."
+    },
+    {
+      "chunkId": "psic-009-budget",
+      "source": "Tariffe didattiche del caso PSIC — elettroliti 6,50 €, ECG 15 €, TC cranio 120 €",
+      "quote": "Sintesi operativa economica: il pannello urgente sta dentro 55 euro. La TC cranio a 120 euro, senza trauma, sfora e non corregge il potassio."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Peso e condotte chiesti anche alla madre.",
+      "Elettroliti ed ECG urgenti.",
+      "Glicemia, emocromo, rene e fegato.",
+      "Potassio corretto se basso.",
+      "Ricovero disposto. Nessuna dimissione.",
+      "Nessuna TC cranio come primo atto. Spesa entro 55 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano i parametri, il potassio, l'ECG e la decisione di ricovero. Dimettere una bradicardia a 42 con BMI intorno a 13 non è difendibile.",
+      "legalCriteria": [
+        "Elettroliti eseguiti prima della dimissione, che non deve avvenire.",
+        "Ricovero anche contro la negazione, come cura salvavita e non come punizione.",
+        "Consenso della paziente cercato; se incapace per la gravità medica, la scelta di trattenere è scritta.",
+        "TC cranio non usata al posto del potassio."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti",
+      "finding": "Sodio 128 mmol/L, potassio 2,8 mmol/L, fosforo basso nel pannello, magnesio ai limiti. Ipokaliemia che può diventare un'aritmia. Costo 6,50 euro. Va corretto e non mandato a casa.",
+      "isAbnormal": true,
+      "priceEuro": 6.5,
+      "isFatal": true
+    },
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Bradicardia sinusale a 42 bpm. QTc 480 ms, ai limiti alti, da ricontrollare dopo il potassio. Nessun sopraslivellamento. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "glicemia",
+      "name": "Glicemia",
+      "finding": "Glicemia 58 mg/dL. Ipoglicemia da digiuno. Costo 2,10 euro. Glucosio insieme alla correzione, non da solo come tutta la cura.",
+      "isAbnormal": true,
+      "priceEuro": 2.1
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Hb 11,2 g/dL, leucociti 3.400, piastrine 160.000. Leucopenia da denutrizione. Costo 4,80 euro.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina",
+      "finding": "Creatinina 1,3 mg/dL, disidratazione. Costo 4,50 euro. I fluidi si decidono con il potassio in mano, non alla cieca.",
+      "isAbnormal": true,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "enzimi-epatici",
+      "name": "Enzimi epatici",
+      "finding": "AST 96 U/L, ALT 88 U/L. Rialzo da denutrizione, non un'epatite acuta come diagnosi principale. Costo 10 euro.",
+      "isAbnormal": true,
+      "priceEuro": 10
+    },
+    {
+      "examId": "azione-ricovero",
+      "name": "Ricovero salva-vita",
+      "finding": "Ricovero. La paziente nega e vuole rivestirsi. I numeri non consentono l'ambulatorio.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto negativa. Non ha battuto la testa. Costo 120 euro, sopra i 55. Il potassio nel frattempo resta a 2,8 se nessuno lo ha chiesto.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "Sincope ortostatica senza trauma: la TC cranio a 120 euro sfora il budget e non corregge l'ipokaliemia."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "TC encefalo negativa. 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Stessa TC, stesso ritardo."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo non indicata. 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "RM encefalo a 220 euro su una denutrizione instabile."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. BMI circa 13, bradicardia, nega il problema, vestita a strati.",
+    "vitals": {
+      "heartRate": 42,
+      "bloodPressure": "88/58",
+      "spo2": 98,
+      "temperature": 35.8,
+      "respiratoryRate": 12
+    },
+    "examBudgetEuro": 55,
+    "demographics": { "age": 24, "sex": "F", "name": "Martina Serra" },
+    "killerRules": {
+      "fatalIfOmitted": [["ricovero", "trattengo", "non dimetto", "ospedalizzo"]]
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Bradicardia",
+        "result": "42 bpm, regolare. Non è un cuore da atleta: non si allena e pesa circa 38 kg.",
+        "isPositive": true
+      },
+      {
+        "signName": "Trauma cranico",
+        "result": "Nega il colpo, cute integra. Sincope al passaggio posturale.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Ipotensione ortostatica",
+        "result": "Capogiro all'alzarsi, pressione già bassa da supina.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "elettroliti": {
+          "finding": "Na 128, K 2,8 mmol/L, fosforo basso. Costo 6,50 euro. Ipokaliemia.",
+          "normalFinding": "Na 128, K 2,8.",
+          "isAbnormal": true,
+          "price": 6.5
+        },
+        "ecg": {
+          "finding": "Bradicardia sinusale 42 bpm, QTc 480 ms. Costo 15 euro.",
+          "normalFinding": "Sinusale a 42, QTc ai limiti.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "glicemia": { "finding": "58 mg/dL. Costo 2,10 euro.", "normalFinding": "58 mg/dL.", "isAbnormal": true, "price": 2.1 },
+        "emocromo": { "finding": "Hb 11,2 g/dL, leucociti 3.400. Costo 4,80 euro.", "normalFinding": "Leucopenia lieve, Hb 11,2.", "isAbnormal": true, "price": 4.8 },
+        "creat-urea-gfr": { "finding": "Creatinina 1,3 mg/dL. Costo 4,50 euro.", "normalFinding": "Creatinina 1,3.", "isAbnormal": true, "price": 4.5 },
+        "enzimi-epatici": { "finding": "AST 96, ALT 88 U/L. Costo 10 euro.", "normalFinding": "AST 96, ALT 88.", "isAbnormal": true, "price": 10 },
+        "tc-cranio": { "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro.", "normalFinding": "Nessuna lesione traumatica.", "isAbnormal": false, "price": 120 },
+        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
+        "rm-encefalo": { "finding": "RM non indicata. 220 euro.", "normalFinding": "Non sostituisce il potassio.", "isAbnormal": false, "price": 220 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Correzione del potassio",
+          "anyOf": [
+            { "id": "potassio", "label": "Potassio cloruro", "aliases": ["potassio", "kloruro"], "priceEuro": 1.8 }
+          ]
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
+    "communicationStyle": "Nega, voce sottile, coperta di maglioni. La madre ha i numeri. Rifiuta di restare. Non urla: si riveste se la lasciano andare."
+  }
+}

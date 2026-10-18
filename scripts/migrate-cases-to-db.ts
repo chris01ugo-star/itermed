@@ -8,6 +8,7 @@
  *   knowledge_base/neurologia/cases/NEURO-*.json
  *   knowledge_base/malattie_infettive/cases/INF-*.json
  *   knowledge_base/oncologia/cases/ONCO-*.json
+ *   knowledge_base/psichiatria/cases/PSIC-*.json
  *   knowledge_base/tutorials/TUTORIAL-*.json
  *
  * Medicina Interna rows are also upserted into `ClinicalCase` and linked to the
@@ -16,6 +17,7 @@
  * seed name "Medicina d'Emergenza-Urgenza".
  * Neurologia rows (slug `neurologia`) are linked to the seed name "Neurologia".
  * Oncologia rows (slug `oncologia`) are linked to the seed name "Oncologia".
+ * Psichiatria rows (slug `psichiatria`) are linked to the seed name "Psichiatria".
  *
  * Usage:
  *   npx tsx scripts/migrate-cases-to-db.ts
@@ -43,13 +45,15 @@ const SPECIALTIES = [
   "neurologia",
   "malattie_infettive",
   "oncologia",
+  "psichiatria",
 ] as const;
-const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO)-\d{3}\.json$/i;
+const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO|PSIC)-\d{3}\.json$/i;
 const MEDICINA_INTERNA_SPECIALTY_NAME = "Medicina Interna";
 const MEDICINA_URGENZA_SPECIALTY_NAME = "Medicina d'Emergenza-Urgenza";
 const NEUROLOGIA_SPECIALTY_NAME = "Neurologia";
 const INFETTIVE_SPECIALTY_NAME = "Malattie Infettive";
 const ONCOLOGIA_SPECIALTY_NAME = "Oncologia";
+const PSICHIATRIA_SPECIALTY_NAME = "Psichiatria";
 
 function isCaseFile(full: string, name: string): boolean {
   if (CASE_FILE_RE.test(name)) return true;
@@ -209,6 +213,19 @@ async function main(): Promise<void> {
       select: { id: true, name: true },
     });
   }
+  let psichiatria = await prisma.medicalSpecialty.findFirst({
+    where: { name: { equals: PSICHIATRIA_SPECIALTY_NAME, mode: "insensitive" } },
+    select: { id: true, name: true },
+  });
+  if (!psichiatria) {
+    psichiatria = await prisma.medicalSpecialty.create({
+      data: {
+        name: PSICHIATRIA_SPECIALTY_NAME,
+        description: "Agitazione, rischio suicidario, psicosi e consenso alle cure.",
+      },
+      select: { id: true, name: true },
+    });
+  }
   const author = await prisma.user.findFirst({
     where: { role: "ADMIN" },
     orderBy: { createdAt: "asc" },
@@ -238,7 +255,8 @@ async function main(): Promise<void> {
         `${medicinaUrgenza ? `; Medicina d'Emergenza-Urgenza → ${medicinaUrgenza.id}` : ""}` +
         `${neurologia ? `; Neurologia → ${neurologia.id}` : ""}` +
         `${infettive ? `; Malattie Infettive → ${infettive.id}` : ""}` +
-        `${oncologia ? `; Oncologia → ${oncologia.id}` : ""}`,
+        `${oncologia ? `; Oncologia → ${oncologia.id}` : ""}` +
+        `${psichiatria ? `; Psichiatria → ${psichiatria.id}` : ""}`,
     );
   }
 
@@ -294,7 +312,8 @@ async function main(): Promise<void> {
         kb.specialty === "medicina_urgenza" ||
         kb.specialty === "neurologia" ||
         kb.specialty === "malattie_infettive" ||
-        kb.specialty === "oncologia"
+        kb.specialty === "oncologia" ||
+        kb.specialty === "psichiatria"
       ) {
         const linked =
           kb.specialty === "medicina_interna"
@@ -305,7 +324,9 @@ async function main(): Promise<void> {
                 ? neurologia
                 : kb.specialty === "oncologia"
                   ? oncologia
-                  : infettive;
+                  : kb.specialty === "psichiatria"
+                    ? psichiatria
+                    : infettive;
         const linkedLabel =
           kb.specialty === "medicina_interna"
             ? MEDICINA_INTERNA_SPECIALTY_NAME
@@ -315,7 +336,9 @@ async function main(): Promise<void> {
                 ? NEUROLOGIA_SPECIALTY_NAME
                 : kb.specialty === "oncologia"
                   ? ONCOLOGIA_SPECIALTY_NAME
-                  : INFETTIVE_SPECIALTY_NAME;
+                  : kb.specialty === "psichiatria"
+                    ? PSICHIATRIA_SPECIALTY_NAME
+                    : INFETTIVE_SPECIALTY_NAME;
         if (!linked || !author) {
           failures.push({
             file,

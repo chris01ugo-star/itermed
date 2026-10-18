@@ -1,0 +1,281 @@
+{
+  "id": "PSIC-006",
+  "code": "PSIC-006",
+  "title": "Episodio maniacale",
+  "description": "Stefano Marini, 31 anni, entra in pronto soccorso parlando senza pause. Non dorme da quattro notti, ha prenotato un volo per comprare un'azienda che non esiste e dice di non aver bisogno di medici. La madre, fuori dalla porta, racconta il disturbo bipolare già noto e il litio sospeso due mesi fa. Il percorso è litiemia, elettroliti, creatinina, TSH, ECG, poi litio o valproato e un antipsicotico atipico. Il budget è 85 euro e copre questo pannello più i due farmaci. La TC cranio a 120 euro lo supera.",
+  "difficulty": "MEDIUM",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Episodio maniacale in disturbo bipolare, litio sospeso",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 24/2017 art. 5 — stabilizzatore e litiemia, non RM",
+  "diagnosis": "Episodio maniacale in disturbo bipolare, dopo sospensione del litio. Indicati litiemia ed esami di base, ripresa dello stabilizzatore (litio o valproato) e un antipsicotico atipico. Non indicata la RM encefalo.",
+  "pastMedicalHistory": "Disturbo bipolare diagnosticato a 24 anni. Litio carbonato sospeso da lui due mesi fa perché «andava troppo piano». Ultima litiemia nota, riferita dalla madre, 0,7 mmol/L sei mesi fa. Nessuna insufficienza renale nota. Non è in gravidanza: è un uomo. Nega cocaina stasera. Non ha dormito da quattro notti. Allergie: nessuna. Nessun trauma, nessuna febbre.",
+  "presentation": "In piedi, parla alla madre, al medico e all'infermiere nello stesso fiato. Progetti grandiosi, irritabilità se lo si interrompe, nessuna critica. Parametri: PA 142/88 mmHg, FC 108, SpO2 98%, FR 18, temperatura 37,0 °C. Se gli si propone di restare, dice che l'ospedale è piccolo per lui. La madre chiede che non lo mandino a casa.",
+  "redHerrings": [
+    "La logorrea può sembrare un'intossicazione da cocaina: nega l'uso e la madre data l'esordio in quattro giorni di insonnia, non in un'ora.",
+    "Vuole l'EEG o la RM per «certificare il genio».",
+    "Un antipsicotico da solo, senza stabilizzatore, spegne l'agitazione e lascia scoperto il bipolare.",
+    "La pressione un po' alta non è l'oggetto della visita."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 22,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Stefano Marini, 31 anni, pronto soccorso. Tua madre Lucia è fuori e entra se il medico la chiama: quando parla lei, premetti «Lucia:». Registro: LOGORROICO. [parla senza pause]. Non fare pause lunghe. Alla «Come sta?»: «Benissimo, anzi ho chiuso un affare, l'ospedale mi sta stretto, quattro notti sveglio e non sono mai stato così lucido, voi siete lenti.» Non dire tu che sei bipolare e che hai sospeso il litio: lo dice SOLO Lucia, concreta e stanca. Se ti chiedono sonno, soldi, idee grandiose, farmaci sospesi, cocaina: non dormi da quattro notti, hai prenotato un volo, non ti serve il litio perché ti rallentava, niente cocaina. Se ti interrompono ti irriti ma non diventi violento. Se ti propongono la risonanza accetti: «Fotografate il cervello, è acceso.» Se ti spiegano che va ripreso uno stabilizzatore e un antipsicotico, e che resti, sbuffi e poi dici «una notte, non di più» se il tono non è punitivo. Non nominare tu mania o litiemia.",
+  "correctSolution": "Mania in bipolare dopo stop del litio. Litiemia, elettroliti, creatinina, TSH, ECG. Poi litio o valproato, più un antipsicotico atipico. Non RM encefalo. Non TC cranio. Budget 85 euro.",
+  "goldStandardPath": ["litiemia", "elettroliti", "creat-urea-gfr", "tiroide", "ecg", "azione-stabilizzatore", "azione-antipsicotico"],
+  "goldPathNarrative": "1) Litiemia 12 euro: è sospeso da due mesi, il valore di stasera è basso e conferma che non è in range. 2) Elettroliti 6,50 euro e creatinina con GFR 4,50 euro, prima di riprendere il litio. 3) TSH 22 euro. 4) ECG 15 euro. Somma esami 60 euro. 5) Stabilizzatore: litio o valproato. 6) Antipsicotico atipico per l'agitazione della fase acuta. I due farmaci didattici stanno nel margine fino a 85 euro. I passi azione- non sono esami. TC cranio 120 euro e RM encefalo 220 euro superano 85 euro e non hanno un bersaglio: non c'è deficit, non c'è trauma.",
+  "examLatencies": {
+    "litiemia": 20,
+    "elettroliti": 12,
+    "creat-urea-gfr": 12,
+    "tiroide": 20,
+    "ecg": 8,
+    "azione-stabilizzatore": 4,
+    "azione-antipsicotico": 4,
+    "tc-cranio": 25,
+    "tc": 25,
+    "rm-encefalo": 50,
+    "rm": 50,
+    "tossicologico": 30
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-sonno",
+      "prompt": "Da quante notti non dorme, e si sente più energico o più distrutto?",
+      "critical": true,
+      "expectedKeywords": ["notti", "quattro", "energia"],
+      "rationale": "Quattro notti senza sonno con aumento di energia sono il nucleo della mania, non dell'insonnia primaria."
+    },
+    {
+      "id": "aq-litio",
+      "prompt": "Assumeva litio e quando lo ha sospeso?",
+      "critical": true,
+      "expectedKeywords": ["litio", "sospeso"],
+      "rationale": "La sospensione spiega la ricaduta e impone la litiemia prima di riprendere il farmaco."
+    },
+    {
+      "id": "aq-cocaina",
+      "prompt": "Ha usato cocaina o altre sostanze in queste ore?",
+      "critical": true,
+      "expectedKeywords": ["cocaina", "nega"],
+      "rationale": "La tachicardia e la logorrea imitano la cocaina. Qui l'uso è negato e il decorso è di giorni."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Eccitamento psicomotorio, eloquio non interrompibile, fuga delle idee, umore espanso e irritabile, nessuna critica di malattia. Non allucinazioni evidenti in questo episodio. Pupille normoreagent, non midriasi da cocaina. Non deficit focali. Cute sudata, non febbrile in modo preoccupante."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-006-litio",
+      "source": "Legge 24/2017 art. 5 — mania e stabilizzatori",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: nella mania con litio sospeso si dosano litiemia, rene, elettroliti e TSH, si fa l'ECG e si riprende uno stabilizzatore insieme a un antipsicotico. La RM non fa diagnosi di mania."
+    },
+    {
+      "chunkId": "psic-006-budget",
+      "source": "Tariffe didattiche del caso PSIC — litiemia 12 €, ECG 15 €, TSH 22 €, TC cranio 120 €",
+      "quote": "Sintesi operativa economica: il pannello del litio sta dentro 85 euro. La TC cranio a 120 euro e la RM encefalo a 220 euro no."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Sonno, grandiosità e sospensione del litio ricostruiti.",
+      "Litiemia, rene, elettroliti, TSH ed ECG prima di riprendere il litio.",
+      "Stabilizzatore più antipsicotico atipico.",
+      "Nessuna TC né RM.",
+      "Spesa entro 85 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano la sospensione del litio, la litiemia, la funzione renale e la scelta del farmaco. Dimetterlo perché «è solo euforico» non è aderenza.",
+      "legalCriteria": [
+        "Non una dimissione notturna in mania con insonnia da quattro giorni.",
+        "Litiemia richiesta se si riprende il litio.",
+        "Consenso o, se incapace in fase acuta, decisione di ricovero tracciata."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "litiemia",
+      "name": "Litiemia",
+      "finding": "Litio 0,2 mmol/L, sotto il range terapeutico 0,6-1,2. Coerente con la sospensione. Costo 12 euro. Prima di riprendere il farmaco il valore va scritto.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti",
+      "finding": "Sodio 141 mmol/L, potassio 4,1, creatinina a parte. Nessuna iponatriemia che controindichi il ripristino. Costo 6,50 euro.",
+      "isAbnormal": false,
+      "priceEuro": 6.5
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina e GFR",
+      "finding": "Creatinina 0,9 mg/dL, GFR sopra 90. Il rene consente di rivalutare il litio. Costo 4,50 euro.",
+      "isAbnormal": false,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "tiroide",
+      "name": "TSH",
+      "finding": "TSH 1,8 µUI/mL. Il litio non ha lasciato un ipotiroidismo evidente in questo prelievo. Costo 22 euro.",
+      "isAbnormal": false,
+      "priceEuro": 22
+    },
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Tachicardia sinusale a 106 bpm, QTc 416 ms. Nessuna aritmia che blocchi lo stabilizzatore o l'atipico. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto negativa. Costo 120 euro. Supera gli 85 euro del pannello corretto.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "Mania senza deficit né trauma: la TC cranio a 120 euro sfora il budget di 85 euro."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "TC encefalo negativa. 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Stesso costo, stessa mancanza di indicazione."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo negativa. 220 euro. Stefano la voleva per «certificare il genio».",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "componentExamIds": ["rm"],
+      "wasteRationale": "RM encefalo a 220 euro: non diagnostica la mania e distrugge il budget."
+    },
+    {
+      "examId": "rm",
+      "name": "RM encefalo generica",
+      "finding": "RM negativa. 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Voce generica di RM, fuori budget."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. Logorrea, quattro notti senza sonno, litio sospeso.",
+    "vitals": {
+      "heartRate": 108,
+      "bloodPressure": "142/88",
+      "spo2": 98,
+      "temperature": 37,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 85,
+    "demographics": { "age": 31, "sex": "M", "name": "Stefano Marini" },
+    "clinicalSigns": [
+      {
+        "signName": "Fuga delle idee",
+        "result": "Eloquio non interrompibile, progetti grandiosi, irritabilità se lo si ferma.",
+        "isPositive": true
+      },
+      {
+        "signName": "Midriasi",
+        "result": "Pupille normoreagent, non la midriasi della cocaina.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Fuga delle idee",
+        "result": "Presente per tutto il colloquio.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "litiemia": {
+          "finding": "0,2 mmol/L, sotto il range 0,6-1,2. Costo 12 euro.",
+          "normalFinding": "0,2 mmol/L, non terapeutico.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "elettroliti": {
+          "finding": "Na 141, K 4,1 mmol/L. Costo 6,50 euro.",
+          "normalFinding": "Na 141, K 4,1.",
+          "isAbnormal": false,
+          "price": 6.5
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina 0,9 mg/dL, GFR > 90. Costo 4,50 euro.",
+          "normalFinding": "Creatinina 0,9, GFR conservato.",
+          "isAbnormal": false,
+          "price": 4.5
+        },
+        "tiroide": {
+          "finding": "TSH 1,8 µUI/mL. Costo 22 euro.",
+          "normalFinding": "TSH 1,8.",
+          "isAbnormal": false,
+          "price": 22
+        },
+        "ecg": {
+          "finding": "Tachicardia sinusale 106 bpm, QTc 416 ms. Costo 15 euro.",
+          "normalFinding": "Sinusale, QTc nei limiti.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tc-cranio": {
+          "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro.",
+          "normalFinding": "Nessuna lesione acuta.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
+        "rm-encefalo": { "finding": "RM encefalo negativa. 220 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 220 },
+        "rm": { "finding": "RM encefalo negativa. 220 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 220 },
+        "tossicologico": {
+          "finding": "Screening tossicologico negativo, cocaina compresa. Costo 40 euro. Non è il primo esame: la storia è di giorni e la madre è chiara. Se lo si aggiunge al pannello del litio si sfiorano gli 85 euro.",
+          "normalFinding": "Negativo.",
+          "isAbnormal": false,
+          "price": 40
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Stabilizzatore dell'umore",
+          "anyOf": [
+            { "id": "litio", "label": "Litio carbonato", "aliases": ["litio", "carbolithium"], "priceEuro": 5.5 },
+            { "id": "valproato", "label": "Valproato di sodio", "aliases": ["valproato", "depakin"], "priceEuro": 6.1 }
+          ]
+        },
+        {
+          "label": "Antipsicotico atipico nella fase acuta",
+          "anyOf": [
+            { "id": "olanzapina", "label": "Olanzapina", "aliases": ["olanzapina", "zyprexa"], "priceEuro": 8.4 },
+            { "id": "quetiapina", "label": "Quetiapina", "aliases": ["quetiapina", "seroquel"], "priceEuro": 7.2 },
+            { "id": "risperidone", "label": "Risperidone", "aliases": ["risperidone", "risperdal"], "priceEuro": 6.8 }
+          ]
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
+    "communicationStyle": "Logorroico, grandioso, non si lascia finire le domande. La madre è l'unica fonte sul litio. Accetta la RM se gliela propongono, accetta una notte solo se non lo si punisce."
+  }
+}

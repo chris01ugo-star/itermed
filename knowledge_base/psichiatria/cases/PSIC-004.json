@@ -1,0 +1,261 @@
+{
+  "id": "PSIC-004",
+  "code": "PSIC-004",
+  "title": "Crisi psicotica acuta",
+  "description": "Andrea Vitale, 27 anni, è portato in pronto soccorso dal fratello. Da una settimana non esce, dice che i vicini lo spiano dalle prese della luce e risponde a voce a qualcuno che nella stanza non c'è. Non ha febbre, non ha deficit, non ha un trauma. Il percorso è un colloquio contenitivo, un ECG prima dell'antipsicotico atipico, il farmaco e il ricovero in SPDC. Il budget è 32 euro: l'ECG a 15 euro e un atipico da circa 8 euro ci stanno. La TC cranio a 120 euro e la RM encefalo a 220 euro, senza un segno neurologico, sono medicina difensiva e sforano.",
+  "difficulty": "MEDIUM",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Psicosi acuta con deliri di persecuzione e allucinazioni uditive",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 180/1978 — ricovero in SPDC, non neuroimaging difensivo",
+  "diagnosis": "Episodio psicotico acuto, inquadrabile come esordio di schizofrenia finché un decorso non dirà altro. Indicati colloquio contenitivo, antipsicotico atipico dopo ECG, ricovero in SPDC. Non indicata la TC cranio.",
+  "pastMedicalHistory": "Nessun ricovero precedente. Cannabis occasionale fino a sei mesi fa, nega uso nelle ultime settimane. Nessuna epilessia, nessun trauma cranico, nessuna febbre in casa. Il fratello riferisce ritiro sociale da un anno, poi la settimana scorsa le voci. Non assume farmaci. Allergie: nessuna. Non ha cefalea a tuono, non ha un lato del corpo debole, non ha il collo rigido.",
+  "presentation": "In barella, sguardo verso l'angolo vuoto della stanza. Risponde a una voce che il medico non sente, poi accusa il medico di essere d'accordo con i vicini. Il fratello traduce i fatti. Parametri: PA 130/82 mmHg, FC 96, SpO2 98%, FR 18, temperatura 36,8 °C. Se si propone una TC «per vedere il cervello», il fratello dice di sì. Andrea dice che la macchina è una trappola.",
+  "redHerrings": [
+    "La cannabis di sei mesi fa non spiega un delirio di persecuzione con allucinazioni in corso e astinenza già trascorsa.",
+    "Il fratello chiede la risonanza perché un sito parla di tumori che danno le voci.",
+    "Sembra aggressivo, ma si contiene se non lo si smentisce in modo frontale.",
+    "Non ha febbre: non è un delirium infettivo."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Andrea Vitale, 27 anni, pronto soccorso. Con te c'è tuo fratello Marco: quando parla lui, premetti «Marco:». Registro: DELIRANTE. [sguardo fisso] verso un angolo vuoto. Rispondi alle voci a voce alta, anche se nessuno ha parlato. Alla «Come sta?»: «Zitto. Lo dicono anche a lei?» [sguardo fisso] Poi, all'angolo: «Lo so che siete dietro la presa.» Non spiegare tu che sono allucinazioni. I fatti (una settimana, vicini, prese della luce, niente febbre, niente trauma, cannabis ferma da mesi) li dice SOLO Marco, spaventato, non come un referto. Se il medico smentisce in modo duro («non c'è nessuno»), [urla] e ti alzi. Se il medico non dà ragione al delirio e non lo prende in giro, e dice che in reparto si può stare al sicuro, ti siedi ma continui a guardare l'angolo. Se propongono la TAC, Marco dice «facciamola» e tu dici che è una trappola. Non nominare tu schizofrenia, SPDC, antipsicotico. Non rivelare la diagnosi.",
+  "correctSolution": "Psicosi acuta. Colloquio che non smentisce in modo frontale e non collude. ECG, poi antipsicotico atipico (olanzapina, quetiapina o risperidone). Ricovero in SPDC. Non TC cranio e non RM encefalo in assenza di deficit, febbre, trauma o cefalea a tuono. Budget 32 euro.",
+  "goldStandardPath": ["ecg", "azione-colloquio-contenitivo", "azione-antipsicotico-atipico", "azione-ricovero-spdc"],
+  "goldPathNarrative": "1) Colloquio contenitivo: non si dice che i vicini ci sono, non si dice «è tutto falso» come primo atto. 2) ECG, 15 euro, prima dell'antipsicotico: QTc normale, si può usare un atipico. 3) Antipsicotico atipico, circa 7-8 euro. 4) Ricovero in SPDC, non la dimissione a casa con il fratello e una ricetta. I passi azione- non sono esami. Budget 32 euro. TC cranio 120 euro e RM encefalo 220 euro, senza segni neurologici, sono medicina difensiva e sforano.",
+  "examLatencies": {
+    "ecg": 8,
+    "azione-colloquio-contenitivo": 10,
+    "azione-antipsicotico-atipico": 5,
+    "azione-ricovero-spdc": 8,
+    "tc-cranio": 25,
+    "tc": 25,
+    "rm-encefalo": 50,
+    "rm": 50,
+    "tossicologico": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-voci",
+      "prompt": "Sente voci che altri non sentono, e che cosa gli dicono?",
+      "critical": true,
+      "expectedKeywords": ["voci", "vicini"],
+      "rationale": "L'allucinazione uditiva e il delirio di persecuzione si eliciano, non si deducono dal silenzio."
+    },
+    {
+      "id": "aq-organico",
+      "prompt": "Ha febbre, un trauma, una cefalea improvvisa o un lato del corpo debole?",
+      "critical": true,
+      "expectedKeywords": ["febbre", "trauma", "debole"],
+      "rationale": "Senza red flag neurologiche la TC non precede il ricovero psichiatrico."
+    },
+    {
+      "id": "aq-sostanze",
+      "prompt": "Quando ha usato cannabis o altre sostanze l'ultima volta?",
+      "critical": true,
+      "expectedKeywords": ["cannabis", "mesi"],
+      "rationale": "L'uso fermo da mesi non trasforma l'episodio in un'intossicazione acuta."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Vigile, diffidente, risponde a uno spazio vuoto. Eloquio tangenziale, umore teso, affetto inadeguato. Nessuna rigidità nucale. Forza simmetrica, pupille isocoriche normoreagent, non febbre. Non segni traumatici al cuoio capelluto. Il fratello è la fonte affidabile sui tempi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-004-spdc",
+      "source": "Legge 180/1978 — ricovero psichiatrico",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: un episodio psicotico acuto con allucinazioni e delirio, senza red flag neurologiche, si contiene e si ricovera in SPDC. La TC cranio non è il primo atto e non sostituisce il farmaco."
+    },
+    {
+      "chunkId": "psic-004-budget",
+      "source": "Tariffe didattiche del caso PSIC — ECG 15 €, TC cranio 120 €, RM encefalo 220 €",
+      "quote": "Sintesi operativa economica: ECG e antipsicotico atipico restano dentro i 32 euro. TC cranio e RM encefalo, chieste per escludere un tumore in assenza di segni, sforano il budget."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Colloquio che non collude e non smentisce in modo frontale.",
+      "ECG prima dell'antipsicotico.",
+      "Antipsicotico atipico, non solo una benzodiazepina per rimandarlo a casa.",
+      "Ricovero in SPDC.",
+      "Nessuna TC né RM. Spesa entro 32 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5, insieme alla Legge 180/1978: in cartella restano il contenuto del delirio, l'assenza di red flag neurologiche, l'ECG, il farmaco e la decisione di ricovero. La RM chiesta dal fratello non è il percorso.",
+      "legalCriteria": [
+        "Ricovero in SPDC, volontario se accetta, con il rifiuto documentato se non accetta.",
+        "Nessuna dimissione notturna con psicosi florida in corso.",
+        "ECG archiviato prima dell'antipsicotico."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG prima dell'antipsicotico",
+      "finding": "Ritmo sinusale a 94 bpm. QTc 408 ms. Nessuna controindicazione elettrocardiografica a un antipsicotico atipico. Costo 15 euro.",
+      "isAbnormal": false,
+      "priceEuro": 15
+    },
+    {
+      "examId": "azione-colloquio-contenitivo",
+      "name": "Colloquio contenitivo",
+      "finding": "Il medico non conferma i vicini e non umilia il paziente. Andrea resta in stanza. Senza questo passaggio il farmaco arriva su una persona che si sente aggredita.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    },
+    {
+      "examId": "azione-antipsicotico-atipico",
+      "name": "Antipsicotico atipico",
+      "finding": "Olanzapina, quetiapina o risperidone. Non l'aloperidolo come prima scelta di questo caso, e non la sola benzodiazepina per dimetterlo.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    },
+    {
+      "examId": "azione-ricovero-spdc",
+      "name": "Ricovero in SPDC",
+      "finding": "Ricovero in SPDC. La dimissione a domicilio con il fratello lascia una psicosi florida senza sorveglianza.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto: non emorragia, non massa, sistema ventricolare nei limiti. Referto normale. Costo 120 euro. Non c'erano deficit, febbre o trauma.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "Psicosi acuta senza red flag neurologiche: la TC cranio a 120 euro sfora i 32 euro e ritarda il ricovero."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "TC encefalo negativa. 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Stessa TC, stesso sforamento."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo negativa, anche in diffusione. Costo 220 euro. Non cambia la decisione di ricoverare e trattare.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "componentExamIds": ["rm"],
+      "wasteRationale": "RM encefalo a 220 euro per escludere un tumore che l'esame clinico non suggerisce."
+    },
+    {
+      "examId": "rm",
+      "name": "RM encefalo generica",
+      "finding": "RM encefalo negativa. 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Voce generica di RM, fuori budget."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. Delirio di persecuzione, risponde al vuoto.",
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "130/82",
+      "spo2": 98,
+      "temperature": 36.8,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 32,
+    "demographics": { "age": 27, "sex": "M", "name": "Andrea Vitale" },
+    "clinicalSigns": [
+      {
+        "signName": "Allucinazioni uditive in atto",
+        "result": "Risponde a voce verso un angolo vuoto. Il contenuto, se non lo si interrompe male, è persecutorio.",
+        "isPositive": true
+      },
+      {
+        "signName": "Rigidità nucale",
+        "result": "Assente. Non è una meningite clinica.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Allucinazioni uditive in atto",
+        "result": "Presenti. Parla con persone che non sono nella stanza.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "Sinusale a 94 bpm, QTc 408 ms. Si può prescrivere un atipico. Costo 15 euro.",
+          "normalFinding": "Sinusale, QTc 408 ms.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "tc-cranio": {
+          "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro. Non indicata.",
+          "normalFinding": "Nessuna lesione acuta.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "tc": {
+          "finding": "TC encefalo negativa. 120 euro.",
+          "normalFinding": "Nei limiti.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "rm-encefalo": {
+          "finding": "RM encefalo negativa. 220 euro.",
+          "normalFinding": "Segnale nei limiti.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "rm": {
+          "finding": "RM encefalo negativa. 220 euro.",
+          "normalFinding": "Nei limiti.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "tossicologico": {
+          "finding": "Screening tossicologico negativo per cocaina, amfetamine, oppiacei, cannabinoidi. Costo 40 euro: da solo supera i 32 euro e non è il primo esame, l'uso è fermo da mesi.",
+          "normalFinding": "Negativo.",
+          "isAbnormal": false,
+          "price": 40
+        },
+        "tox-screen": {
+          "finding": "Stesso screening, negativo. 40 euro, sopra il budget di questo caso puro.",
+          "normalFinding": "Negativo.",
+          "isAbnormal": false,
+          "price": 40
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Antipsicotico atipico",
+          "anyOf": [
+            { "id": "olanzapina", "label": "Olanzapina", "aliases": ["olanzapina", "zyprexa"], "priceEuro": 8.4 },
+            { "id": "quetiapina", "label": "Quetiapina", "aliases": ["quetiapina", "seroquel"], "priceEuro": 7.2 },
+            { "id": "risperidone", "label": "Risperidone", "aliases": ["risperidone", "risperdal"], "priceEuro": 6.8 }
+          ]
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Risponde al vuoto, sguardo fisso, delirio di persecuzione. Il fratello riferisce i tempi. Si agita se lo si sbugiarda, si siede se non lo si prende in giro e gli si offre un posto sicuro."
+  }
+}

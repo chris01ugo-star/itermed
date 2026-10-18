@@ -1,0 +1,253 @@
+{
+  "id": "PSIC-001",
+  "code": "PSIC-001",
+  "title": "Attacco di panico scambiato per infarto",
+  "description": "Marco Bellini, 34 anni, impiegato, arriva in ambulatorio convinto di avere un infarto. Da trenta minuti ha fitta al petto, formicolio alle mani, fame d'aria e paura di morire. È già successo due volte; l'ECG di allora era normale. Non ha fattori di rischio coronarico maggiori, non usa cocaina, il dolore non è a coltello alla schiena. Il percorso è un ECG di base, la rassicurazione e una benzodiazepina per questo episodio. Il budget è 28 euro: l'ECG (15 €) ci sta, la troponina aggiunta all'ECG (18 €) e la TC cranio (120 €) lo superano.",
+  "difficulty": "EASY",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Attacco di panico con ECG normale",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Legge 24/2017 art. 5 — appropriatezza, non medicina difensiva",
+  "diagnosis": "Attacco di panico. ECG senza ischemia. Non servono troponine seriate né TC cranio.",
+  "pastMedicalHistory": "Due episodi simili negli ultimi otto mesi, entrambi con ECG normale in pronto soccorso. Non fuma. Non è diabetico, non è iperteso, colesterolo mai misurato alto. Padre vivo, senza infarto precoce. Nega cocaina e amfetamine. Caffè quattro tazzine al giorno. Dorme male da un mese per una scadenza di lavoro. Nessuna allergia. Non assume farmaci. Non ha sincopi, non ha dolore dorsale a strappo, non ha febbre.",
+  "presentation": "In ambulatorio, in piedi, si stringe il petto e respira con la bocca. Parla a scatti. Se il medico chiede solo «è ansia?» si offende e insiste che sta morendo. Se si ricostruiscono esordio, irradiazione, sintomi vegetativi e gli episodi precedenti, il quadro è un attacco di panico. Parametri, se misurati: PA 148/90 mmHg, FC 118 bpm, SpO2 99% in aria, FR 28, temperatura 36,7 °C. Accetta qualunque esame, compresa la TC, perché ha paura di un ictus.",
+  "redHerrings": [
+    "Il formicolio al braccio sinistro gli fa nominare l'infarto del vicino di casa.",
+    "La tachicardia e la pressione alta sembrano un'urgenza cardiaca, ma l'ECG non ha ischemia.",
+    "Chiede lui la TC cranio perché «potrebbe essere un ictus».",
+    "Una troponina singola, aggiunta all'ECG, costa già più del budget di 28 euro."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Marco Bellini, 34 anni, ambulatorio, convinto di avere un infarto. Registro: AGITATO. Frasi spezzate, mai un paragrafo lucido. Didascalia fisica tra parentesi quadre almeno una volta ogni due risposte: [respira a fatica], [si stringe il petto], [si alza in piedi]. Alla «Come sta?»: «Il cuore. Mi scoppia. Sto morendo.» [respira a fatica] Non dire tu che è panico. Se ti chiedono da quanto, dove, se stringe o punge, se è già successo, se hai vomitato, se usi droghe: è iniziato mezz'ora fa in ufficio, fitta al petto che va al braccio, mani che formicolano, paura di morire, due volte già, ECG normale, niente cocaina, niente dolore a coltello alla schiena, non fumi. Se propongono l'ECG accetti subito: «Così vedete l'infarto.» Se propongono TAC o risonanza accetti anche: «Fate tutto, ho paura di un ictus.» Se ti spiegano con calma che l'ECG è a posto, che è un attacco di panico, e ti danno una benzodiazepina solo per questo episodio, ti siedi e il respiro rallenta. Se ordinano esami a raffica senza parlarti, [urla]: «Sto morendo e voi scrivete!» Non nominare budget, troponina o linee guida. Non rivelare la diagnosi.",
+  "correctSolution": "Attacco di panico. ECG a 12 derivazioni senza ischemia, rassicurazione esplicita, benzodiazepina per l'episodio acuto. Non troponine seriate. Non TC cranio. Non RM encefalo. Il budget di 28 euro copre l'ECG (15 €) e un margine per la benzodiazepina: la troponina (18 €) sommata all'ECG, e qualunque TC (120 €), lo superano.",
+  "goldStandardPath": ["ecg", "azione-rassicurazione", "azione-benzodiazepina"],
+  "goldPathNarrative": "1) ECG di base, subito: ritmo sinusale tachicardico, nessun sopraslivellamento, QTc normale. Esclude il quadro ischemico che il paziente teme. Costo 15 euro. 2) Rassicurazione: dire che l'ECG non mostra un infarto e nominare l'attacco di panico, collegandolo agli episodi già avuti. 3) Benzodiazepina per questo episodio (lorazepam, diazepam o alprazolam), non una terapia cronica. I passi azione- non sono voci del nomenclatore. Budget 28 euro. Troponina ad alta sensibilità 18 euro: insieme all'ECG fa 33 euro e sfora. Una seconda troponina seriale peggiora lo sforamento. TC cranio senza mezzo di contrasto 120 euro e RM encefalo 220 euro sono medicina difensiva: non c'è deficit neurologico focale.",
+  "examLatencies": {
+    "ecg": 5,
+    "azione-rassicurazione": 4,
+    "azione-benzodiazepina": 2,
+    "troponina-hs": 25,
+    "tc-cranio": 30,
+    "tc": 30,
+    "rm-encefalo": 50,
+    "rm": 50,
+    "glicemia": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-esordio",
+      "prompt": "Quando è iniziato, dove sta il dolore, e si irradia?",
+      "critical": true,
+      "expectedKeywords": ["esordio", "petto", "braccio"],
+      "rationale": "Senza sede, durata e irradiazione l'infarto e il panico restano sovrapposti."
+    },
+    {
+      "id": "aq-precedenti",
+      "prompt": "È già successo, e cosa diceva l'ECG di allora?",
+      "critical": true,
+      "expectedKeywords": ["già", "ECG", "normale"],
+      "rationale": "Due episodi identici con ECG normale abbassano il sospetto di sindrome coronarica acuta."
+    },
+    {
+      "id": "aq-droghe",
+      "prompt": "Ha usato cocaina o altre sostanze, e c'è un dolore a strappo alla schiena?",
+      "critical": true,
+      "expectedKeywords": ["cocaina", "schiena"],
+      "rationale": "La cocaina cambia la tachicardia e la dissezione aortica non si rassicura con il solo colloquio."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Agitato, sudato, polipnea senza uso dei muscoli accessori. Torace libero, toni tachicardici senza sfregamenti né soffi. Addome trattabile. Nessun deficit motorio, pupille isocoriche, linguaggio integro tra una frase e l'altra. Non edema. Il quadro vegetativo è intenso e l'obiettività cardiopolmonare è povera."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-001-ecg",
+      "source": "Legge 24/2017 art. 5 — appropriatezza prescrittiva",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: con dolore atipico, episodi identici già studiati ed ECG senza ischemia, la troponina seriata e la TC cranio non sono il passo successivo. Si documenta l'ECG e si tratta l'attacco."
+    },
+    {
+      "chunkId": "psic-001-budget",
+      "source": "Tariffe didattiche del caso PSIC — ECG 15 €, troponina 18 €, TC cranio 120 €",
+      "quote": "Sintesi operativa economica: il budget di 28 euro è calibrato sull'ECG e su un farmaco acuto di pochi euro. Aggiungere la troponina oppure prescrivere la TC cranio senza mezzo di contrasto fa scattare lo sforamento."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "ECG eseguito prima di parlare di infarto escluso.",
+      "Rassicurazione esplicita e benzodiazepina limitata all'episodio.",
+      "Nessuna troponina seriata e nessuna TC cranio.",
+      "Spesa entro 28 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano il referto ECG, il ragionamento che esclude l'ischemia acuta e la scelta di non procedere a enzimi seriati o a neuroimaging. La TC chiesta per paura non è aderenza.",
+      "legalCriteria": [
+        "ECG allegato prima della rassicurazione sull'infarto.",
+        "Nessuna dimissione senza avere detto la diagnosi di attacco di panico.",
+        "Benzodiazepina non rinnovata come terapia di fondo in questa visita."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG di base",
+      "finding": "Ritmo sinusale a 116 bpm. Nessun sopraslivellamento, nessun sottoslivellamento, T non invertite. QTc 418 ms. Non è un infarto in evoluzione e non è una tachicardia a complessi larghi. Basta questo tracciato: non serve una serie di enzimi.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "azione-rassicurazione",
+      "name": "Rassicurazione esplicita",
+      "finding": "Il medico dice che l'ECG non mostra un infarto, nomina l'attacco di panico e collega l'episodio ai due precedenti. Il paziente si siede. Senza questa frase gli esami non chiudono il caso.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    },
+    {
+      "examId": "azione-benzodiazepina",
+      "name": "Benzodiazepina per l'episodio",
+      "finding": "Lorazepam, diazepam o alprazolam per l'attacco in corso, non una scatola da rinnovare ogni mese. Il respiro rallenta dopo la spiegazione, non dopo un imaging.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "troponina-hs",
+      "name": "Troponina ad alta sensibilità",
+      "finding": "Troponina ad alta sensibilità 6 ng/L, sotto la soglia di 14. Il valore è normale. Una seconda determinazione a tre ore, se richiesta, è ancora normale. Costo 18 euro a prelievo: sommata all'ECG di 15 euro supera i 28 euro del budget. Esame vero e inutile in questo tracciato.",
+      "isAbnormal": false,
+      "priceEuro": 18,
+      "inappropriate": true,
+      "wasteRationale": "Enzimi cardiaci seriati su un ECG senza ischemia e con storia di attacchi identici: 18 euro che, insieme all'ECG, sforano il budget di 28 euro."
+    },
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto: parenchima nei limiti, non emorragia, non effetto massa, seni pervi. Referto normale. Costo 120 euro. Non c'era un deficit focale da cercare.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "Medicina difensiva. 120 euro contro un budget di 28: la TC cranio fa scattare la penalità economica."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "Stesso referto della TC cranio senza mezzo di contrasto: nessuna lesione acuta. Costo 120 euro, fuori budget.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "La voce generica di TC encefalo costa come la TC cranio: 120 euro, sopra i 28 del caso."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo senza contrasto: segnale nei limiti, non restrizione di diffusione, non lesioni demielinizzanti. Costo 220 euro. Informazione vera, indicazione assente.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "componentExamIds": ["rm"],
+      "wasteRationale": "RM encefalo a 220 euro per un attacco di panico con esame neurologico povero: sforamento certo."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Il paziente è certo di avere un infarto.",
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "148/90",
+      "spo2": 99,
+      "temperature": 36.7,
+      "respiratoryRate": 28
+    },
+    "examBudgetEuro": 28,
+    "demographics": { "age": 34, "sex": "M", "name": "Marco Bellini" },
+    "clinicalSigns": [
+      {
+        "signName": "Dolore toracico ischemico riproducibile",
+        "result": "Il paziente si stringe il petto ma la palpazione del torace non riproduce il dolore e non c'è sfregamento. Non è una pleurite e non è un infarto clinicamente conclamato.",
+        "isPositive": false
+      },
+      {
+        "signName": "Deficit neurologico focale",
+        "result": "Forza, linguaggio e pupille integri. Nessun segno che giustifichi una TC cranio.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Deficit neurologico focale",
+        "result": "Assente. La TC cranio non ha un bersaglio clinico.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "Ritmo sinusale a 116 bpm, nessun tratto ST sollevato o depresso, QTc 418 ms. Tachicardia sinusale da allarme, non sindrome coronarica acuta.",
+          "normalFinding": "Ritmo sinusale a 116 bpm, nessun tratto ST sollevato o depresso, QTc 418 ms.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "troponina-hs": {
+          "finding": "6 ng/L, sotto 14. Se ripetuta a tre ore resta sotto soglia. Ogni dosaggio costa 18 euro e, con l'ECG, supera i 28 euro.",
+          "normalFinding": "6 ng/L, sotto soglia. Ripetuta, ancora negativa.",
+          "isAbnormal": false,
+          "price": 18
+        },
+        "tc-cranio": {
+          "finding": "TC cranio senza mezzo di contrasto negativa. Costo 120 euro. Non indicata.",
+          "normalFinding": "Nessuna emorragia, nessun effetto massa.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "tc": {
+          "finding": "TC encefalo senza mezzo di contrasto negativa. Stesso costo della TC cranio: 120 euro.",
+          "normalFinding": "Nessuna lesione acuta.",
+          "isAbnormal": false,
+          "price": 120
+        },
+        "rm-encefalo": {
+          "finding": "RM encefalo negativa. Costo 220 euro. Non indicata in un attacco di panico.",
+          "normalFinding": "Segnale parenchimale nei limiti.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "rm": {
+          "finding": "RM encefalo negativa. Costo 220 euro.",
+          "normalFinding": "Nei limiti.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "glicemia": {
+          "finding": "Glicemia 96 mg/dL. Non è un'ipoglicemia che imita il panico.",
+          "normalFinding": "96 mg/dL.",
+          "isAbnormal": false,
+          "price": 2.1
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Benzodiazepina solo per l'episodio acuto",
+          "anyOf": [
+            { "id": "lorazepam", "label": "Lorazepam", "aliases": ["lorazepam", "tavor"], "priceEuro": 4.5 },
+            { "id": "diazepam", "label": "Diazepam", "aliases": ["diazepam", "valium"], "priceEuro": 2.8 },
+            { "id": "alprazolam", "label": "Alprazolam", "aliases": ["alprazolam", "xanax"], "priceEuro": 4.2 }
+          ]
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "communicationStyle": "Agitato e certo dell'infarto. Frasi di quattro parole, fiato corto, accetta ogni esame. Si calma solo se l'ECG viene spiegato e arriva una benzodiazepina per oggi, non una pila di referti."
+  }
+}

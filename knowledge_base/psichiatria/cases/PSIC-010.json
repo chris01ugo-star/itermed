@@ -1,0 +1,264 @@
+{
+  "id": "PSIC-010",
+  "code": "PSIC-010",
+  "title": "Delirium da infezione urinaria",
+  "description": "Giuseppe Neri, 80 anni, è portato in pronto soccorso dalla figlia. Ieri era lucido e ha fatto la spesa. Stanotte non riconosce la casa, urla e vuole scendere dal letto. Nessun precedente psichiatrico, nessun neurolettico a domicilio. Brucia quando urina, la figlia lo dice se glielo si chiede. Il percorso è urine, urinocoltura, emocromo, PCR, elettroliti e un antibiotico. Etichettarlo come «vecchio agitato» e sedarlo con un antipsicotico senza cercare la causa è la trappola. Budget 90 euro: il pannello e il ceftriaxone ci stanno. La TC cranio a 120 euro, senza deficit e senza trauma, no.",
+  "difficulty": "MEDIUM",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Delirium iperattivo da infezione urinaria nell'anziano",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 24/2017 art. 5 — causa organica prima della sedazione",
+  "diagnosis": "Delirium iperattivo secondario a infezione delle vie urinarie. Indicati esame urine, urinocoltura, esami di base e antibiotico. Non è un esordio psichiatrico e non si tratta con la sola sedazione.",
+  "pastMedicalHistory": "Ipertensione in amlodipina. Ipertrofia prostatica, un episodio di ritenzione due anni fa. Nessun ricovero psichiatrico, nessuna demenza nota: ieri compilava le parole crociate. Non beve. Non è caduto. Diabete no. Allergie: nessuna. La figlia riferisce bruciore urinario da tre giorni, minimizzato da lui, e la confusione solo da stanotte.",
+  "presentation": "Agitato, non riconosce la figlia per qualche minuto, poi la insulta e vuole andarsene. [urla]. Temperatura 38,1 °C, FC 104, PA 150/88, SpO2 95%, FR 22. Non ha un lato debole, non ha afasia quando si aggancia una frase. Se il medico chiede solo «è demente?» la figlia si offende e dice che ieri guidava la situazione di casa. Se si chiede la pipì, racconta il bruciore.",
+  "redHerrings": [
+    "L'età fa scattare l'etichetta di demenza. L'esordio è di ore, non di anni.",
+    "L'agitazione chiede un sedativo. Senza urine e senza antibiotico la causa resta.",
+    "Una TC cranio «nell'anziano confuso» è il riflesso difensivo e costa 120 euro.",
+    "La saturazione a 95% non è una polmonite conclamata: il focus è urinario."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "ROLEPLAY RIGIDO. Sei Giuseppe Neri, 80 anni, pronto soccorso, confuso e aggressivo. Tua figlia Laura è presente: «Laura:». Registro: AGGRESSIVO, frasi fuori luogo. [urla], [cerca di scendere dal letto]. Alla «Come sta?»: «Chi è lei? Mi hanno chiuso qui!» [urla] Non dire tu infezione, urine o antibiotico. Non sei lucido: sbagli il giorno e non sai il nome dell'ospedale. I fatti (ieri lucido, bruciore da tre giorni, niente cadute, niente psichiatria) li dice SOLO Laura, preoccupata, non come un referto. Se il medico parla solo di psichiatria e di una fiala per calmarti, Laura dice «mio padre non è matto, ieri stava bene» e tu continui a urlare. Se cercano la causa e partono le cure, ti agiti meno ma non diventi lucido in dieci minuti. Non nominare tu delirium.",
+  "correctSolution": "Delirium organico da infezione urinaria. Stick e sedimento, urinocoltura, emocromo, PCR, elettroliti. Antibiotico (ceftriaxone, amoxicillina/clavulanato, levofloxacina o piperacillina). Non sedazione pesante come unico atto. Non etichetta psichiatrica. TC cranio non indicata senza trauma o deficit. Budget 90 euro.",
+  "goldStandardPath": ["urine-sed", "urinocoltura", "emocromo", "pcr-pct", "elettroliti", "azione-antibiotico"],
+  "goldPathNarrative": "1) Esame urine 6 euro: leucociti, nitriti, batteri. 2) Urinocoltura 20 euro, prima dell'antibiotico se si riesce a non ritardare la prima dose in un paziente settico-limite: qui è febbrile ma stabile, la coltura si preleva e si parte. 3) Emocromo 4,80 euro e PCR 28 euro. 4) Elettroliti 6,50 euro, perché il delirium ha anche cause metaboliche e qui il sodio è un po' basso. Somma circa 65 euro. 5) Antibiotico, pochi euro. Il passo azione- non è un esame. Budget 90. L'aloperidolo da solo, senza questo pannello, è la trappola clinica. TC cranio 120 euro supera 90 euro.",
+  "examLatencies": {
+    "urine-sed": 15,
+    "urinocoltura": 20,
+    "emocromo": 12,
+    "pcr-pct": 20,
+    "elettroliti": 12,
+    "azione-antibiotico": 5,
+    "tc-cranio": 25,
+    "tc": 25,
+    "rm-encefalo": 50,
+    "rx-torace": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-esordio",
+      "prompt": "Ieri era lucido, e da quante ore è confuso?",
+      "critical": true,
+      "expectedKeywords": ["ieri", "ore", "lucido"],
+      "rationale": "L'esordio acuto distingue il delirium dalla demenza. Lo dice la figlia, non il paziente."
+    },
+    {
+      "id": "aq-urine",
+      "prompt": "Brucia quando urina, o la pipì è cambiata?",
+      "critical": true,
+      "expectedKeywords": ["brucia", "urina"],
+      "rationale": "Il focus urinario è la causa. Senza la domanda si resta sull'etichetta psichiatrica."
+    },
+    {
+      "id": "aq-trauma",
+      "prompt": "È caduto o ha un lato del corpo che non muove?",
+      "critical": true,
+      "expectedKeywords": ["caduta", "lato"],
+      "rationale": "Senza trauma e senza deficit la TC cranio non precede urine e antibiotico."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Disorientato nel tempo e nello spazio, agitazione, attenzione che va e viene. Non afasia, non emiparesi, non segni di trauma. Febbre 38,1 °C. Addome trattabile, Giordano non evocabile in modo affidabile perché non collabora. Ipotesi urinaria appesa all'anamnesi della figlia e poi alle urine. Polmoni senza rumori added a un'auscultazione rapida."
+  },
+  "escCitations": [
+    {
+      "chunkId": "psic-010-organico",
+      "source": "Legge 24/2017 art. 5 — delirium nell'anziano",
+      "quote": "Sintesi operativa, non un estratto da un PDF assente: un anziano lucido ieri e aggressivo stanotte ha un delirium finché non si prova il contrario. Si cercano urine, sangue e una causa, e si tratta quella. La sedazione non è la diagnosi."
+    },
+    {
+      "chunkId": "psic-010-budget",
+      "source": "Tariffe didattiche del caso PSIC — urine 6 €, PCR 28 €, TC cranio 120 €",
+      "quote": "Sintesi operativa economica: urine, coltura, emocromo, PCR ed elettroliti stanno sotto i 90 euro insieme all'antibiotico. La TC cranio a 120 euro, senza deficit, sfora."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Esordio acuto ricostruito con la figlia.",
+      "Sintomi urinari chiesti.",
+      "Urine, urinocoltura, emocromo, PCR, elettroliti.",
+      "Antibiotico avviato.",
+      "Nessuna sedazione come unico atto.",
+      "Nessuna TC cranio senza trauma o deficit. Spesa entro 90 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano l'esordio di ore, il bruciore, le urine e l'antibiotico. Scrivere «psicosi senile» e dare un neurolettico senza esami non è aderenza.",
+      "legalCriteria": [
+        "Causa organica cercata prima dell'etichetta psichiatrica.",
+        "Antibiotico registrato, non solo un sedativo.",
+        "Contenzione fisica evitata se la causa si tratta e l'agitazione cala.",
+        "TC cranio non usata al posto delle urine."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "urine-sed",
+      "name": "Esame urine",
+      "finding": "Leucociti numerosi, nitriti positivi, batteri. Infezione urinaria. Costo 6 euro. È il referto che toglie l'etichetta psichiatrica.",
+      "isAbnormal": true,
+      "priceEuro": 6
+    },
+    {
+      "examId": "urinocoltura",
+      "name": "Urinocoltura",
+      "finding": "Prelievo inviato. Esito non ancora pronto: in questo scenario didattico la coltura confermerà Escherichia coli sensibile alle molecole di primo impiego. Costo 20 euro. Non si aspetta l'antibiogramma per la prima dose in un paziente febbrile.",
+      "isAbnormal": true,
+      "priceEuro": 20
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Leucociti 14.800, neutrofili aumentati. Hb 13,4. Costo 4,80 euro.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "PCR",
+      "finding": "PCR 8,6 mg/dL. Procalcitonina non da shock. Costo 28 euro. Conferma flogosi, non localizza: le urine sì.",
+      "isAbnormal": true,
+      "priceEuro": 28
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti",
+      "finding": "Sodio 132 mmol/L, potassio 4,0. Iponatriemia lieve, non è da sola il delirium, ma va vista. Costo 6,50 euro.",
+      "isAbnormal": true,
+      "priceEuro": 6.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-cranio",
+      "name": "TC Cranio senza mezzo di contrasto",
+      "finding": "TC cranio senza mezzo di contrasto: atrofia compatibile con l'età, nessuna emorragia, nessun effetto massa. Non spiega l'esordio di stanotte. Costo 120 euro, sopra i 90.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "componentExamIds": ["tc"],
+      "wasteRationale": "Senza deficit e senza trauma la TC cranio a 120 euro sfora il budget e ruba il posto a urine e antibiotico."
+    },
+    {
+      "examId": "tc",
+      "name": "TC encefalo generica",
+      "finding": "TC encefalo: atrofia, niente di acuto. 120 euro.",
+      "isAbnormal": false,
+      "priceEuro": 120,
+      "inappropriate": true,
+      "wasteRationale": "Stessa TC, stesso problema."
+    },
+    {
+      "examId": "rm-encefalo",
+      "name": "RM Encefalo",
+      "finding": "RM encefalo non eseguibile in un paziente che urla e non sta fermo, e non indicata come primo atto. Costo 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "componentExamIds": ["rm"],
+      "wasteRationale": "RM encefalo a 220 euro: fuori indicazione e fuori budget."
+    },
+    {
+      "examId": "rm",
+      "name": "RM encefalo generica",
+      "finding": "RM non indicata. 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "inappropriate": true,
+      "wasteRationale": "Voce generica di RM, fuori budget."
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. Ottantenne lucido ieri, aggressivo stanotte, nessun precedente psichiatrico.",
+    "vitals": {
+      "heartRate": 104,
+      "bloodPressure": "150/88",
+      "spo2": 95,
+      "temperature": 38.1,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 90,
+    "demographics": { "age": 80, "sex": "M", "name": "Giuseppe Neri" },
+    "killerRules": {
+      "fatalIfOmitted": [
+        ["urine", "urinocoltura"],
+        ["antibiotico", "ceftriaxone", "rocefin", "amoxicillina", "augmentin", "levofloxacina", "piperacillina", "tazocin"]
+      ]
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Deficit motorio focale",
+        "result": "Assente quando si ottiene un attimo di collaborazione. Non è il profilo dell'ictus come prima ipotesi.",
+        "isPositive": false
+      },
+      {
+        "signName": "Febbre",
+        "result": "38,1 °C. Il delirium febbrile non è una diagnosi psichiatrica.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Disorientamento temporale",
+        "result": "Non sa il giorno né dove si trova. Ieri, secondo la figlia, era lucido.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "urine-sed": {
+          "finding": "Leucociti, nitriti positivi, batteri. Costo 6 euro.",
+          "normalFinding": "Infezione urinaria.",
+          "isAbnormal": true,
+          "price": 6
+        },
+        "urinocoltura": {
+          "finding": "Inviata. Attesa E. coli. Costo 20 euro. Non ritardare la prima dose di antibiotico.",
+          "normalFinding": "Prelievo inviato.",
+          "isAbnormal": true,
+          "price": 20
+        },
+        "emocromo": { "finding": "Leucociti 14.800. Costo 4,80 euro.", "normalFinding": "Leucocitosi.", "isAbnormal": true, "price": 4.8 },
+        "pcr-pct": { "finding": "PCR 8,6 mg/dL. Costo 28 euro.", "normalFinding": "PCR elevata.", "isAbnormal": true, "price": 28 },
+        "elettroliti": { "finding": "Na 132, K 4,0. Costo 6,50 euro.", "normalFinding": "Na 132, K 4,0.", "isAbnormal": true, "price": 6.5 },
+        "tc-cranio": { "finding": "Atrofia età-compatibile, niente di acuto. 120 euro.", "normalFinding": "Nessuna emorragia.", "isAbnormal": false, "price": 120 },
+        "tc": { "finding": "TC encefalo senza lesioni acute. 120 euro.", "normalFinding": "Nei limiti per l'acuto.", "isAbnormal": false, "price": 120 },
+        "rm-encefalo": { "finding": "Non indicata come primo atto. 220 euro.", "normalFinding": "Non sostituisce le urine.", "isAbnormal": false, "price": 220 },
+        "rm": { "finding": "RM non indicata. 220 euro.", "normalFinding": "Fuori percorso.", "isAbnormal": false, "price": 220 },
+        "rx-torace": { "finding": "Non addensamenti evidenti. Costo 25 euro. Il focus non è polmonare.", "normalFinding": "Parenchima senza addensamenti francamente visibili.", "isAbnormal": false, "price": 25 }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Antibiotico per l'infezione urinaria",
+          "anyOf": [
+            { "id": "ceftriaxone", "label": "Ceftriaxone", "aliases": ["ceftriaxone", "rocefin"], "priceEuro": 4.5 },
+            { "id": "amoxicillina", "label": "Amoxicillina/clavulanato", "aliases": ["amoxicillina", "augmentin", "clavulanato"], "priceEuro": 8 },
+            { "id": "levofloxacina", "label": "Levofloxacina", "aliases": ["levofloxacina"], "priceEuro": 7.8 },
+            { "id": "piperacillina", "label": "Piperacillina/tazobactam", "aliases": ["piperacillina", "tazocin", "tazobactam"], "priceEuro": 15.5 }
+          ]
+        }
+      ],
+      "inappropriate": [
+        {
+          "id": "solo-aloperidolo",
+          "label": "Antipsicotico come unico trattamento",
+          "aliases": ["aloperidolo", "serenase", "olanzapina", "quetiapina", "risperidone"],
+          "priceEuro": 2.4
+        }
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "NON_COMPLIANT",
+    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
+    "communicationStyle": "Confuso e aggressivo, urla, non riferisce i sintomi. La figlia ha l'esordio e il bruciore. Non diventa lucido appena parte l'antibiotico."
+  }
+}
