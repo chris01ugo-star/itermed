@@ -8,6 +8,10 @@ import { getBetaEmailAllowlistFromEnv, isBetaAuthorized } from "@/lib/beta/acces
 import { ACCOUNT_DISABLED_CODE } from "@/lib/billing/simulation-entitlement";
 import { prisma } from "@/lib/prisma";
 import { isRuntimeDevelopment } from "@/lib/security/dev-only-gates";
+import {
+  MUST_CHANGE_PASSWORD_PATH,
+  shouldForcePasswordChange,
+} from "@/lib/auth/must-change-password";
 
 export type SessionUser = {
   id: string;
@@ -46,6 +50,9 @@ export async function requireAdmin(): Promise<SessionUser> {
   if (!id) redirect("/login?callbackUrl=/dashboard/guidelines");
   const email = session.user.email ?? null;
   const role = session.user.role ?? "STUDENT";
+  if (session.user.mustChangePassword) {
+    redirect(MUST_CHANGE_PASSWORD_PATH);
+  }
   if (!isPlatformAdminEmail(email) && !hasUnlimitedCaseAccess({ role, email })) {
     redirect("/dashboard");
   }
@@ -83,7 +90,14 @@ export async function requireUser(): Promise<SessionUser> {
   try {
     const dbUser = await prisma.user.findUnique({
       where: { id },
-      select: { role: true, planType: true, email: true, isActive: true },
+      select: {
+        role: true,
+        planType: true,
+        email: true,
+        isActive: true,
+        mustChangePassword: true,
+        passwordChangedAt: true,
+      },
     });
     if (!dbUser) {
       redirect(`/login?error=${ACCOUNT_DISABLED_CODE}`);
@@ -103,6 +117,9 @@ export async function requireUser(): Promise<SessionUser> {
     ) {
       redirect("/login?error=UNAUTHORIZED_PILOT_EMAIL");
     }
+    if (shouldForcePasswordChange(dbUser)) {
+      redirect(MUST_CHANGE_PASSWORD_PATH);
+    }
   } catch (err) {
     // `redirect()` throws a special Next.js error — rethrow it.
     if (
@@ -115,6 +132,9 @@ export async function requireUser(): Promise<SessionUser> {
       throw err;
     }
     // Transient DB errors: fall through with session (middleware already gated).
+    if (session?.user?.mustChangePassword) {
+      redirect(MUST_CHANGE_PASSWORD_PATH);
+    }
   }
 
   return {

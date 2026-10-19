@@ -10,7 +10,8 @@ function isProtectedPath(pathname: string): boolean {
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/case") ||
     pathname.startsWith("/admin") ||
-    pathname.startsWith("/demo")
+    pathname.startsWith("/demo") ||
+    pathname.startsWith("/account")
   );
 }
 
@@ -65,5 +66,13 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/case/:path*", "/admin/:path*", "/demo/:path*", "/signup", "/signup/:path*"],
+  matcher: [
+    "/dashboard/:path*",
+    "/case/:path*",
+    "/admin/:path*",
+    "/demo/:path*",
+    "/account/:path*",
+    "/signup",
+    "/signup/:path*",
+  ],
 };
