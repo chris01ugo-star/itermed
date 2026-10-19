@@ -167,10 +167,10 @@ function buildNodes(steps: Step[], resolutions: Resolution[]) {
   if (depth < 5) throw new Error(`catena decisionale di ${depth} nodi, ne servono 5`);
   if (cursor !== "res-ok") throw new Error(`la catena corretta finisce su ${cursor}`);
   const negatives = nodes.filter((node) => node.type === "resolution" && node.outcome === "negative");
-  if (!negatives.some((node) => node.trap === "medico-legale")) {
+  if (!negatives.some((node) => "trap" in node && node.trap === "medico-legale")) {
     throw new Error("manca una resolution negativa medico-legale");
   }
-  if (!negatives.some((node) => node.trap === "economico")) {
+  if (!negatives.some((node) => "trap" in node && node.trap === "economico")) {
     throw new Error("manca una resolution negativa economica");
   }
   return nodes;
