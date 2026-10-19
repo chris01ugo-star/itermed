@@ -209,6 +209,9 @@ const SPECIALTY_GUIDELINE_FALLBACK: Record<string, readonly string[]> = {
     "Linee guida AIOM ed ESMO per la patologia oncologica del caso",
     "Legge 219/2017 sul consenso e sulle cure palliative",
   ],
+  reumatologia: [
+    "Linee guida EULAR/SIR e SNLG-ISS per la patologia reumatologica del caso",
+  ],
   "medicina-interna": [
     "Linee guida SNLG — Istituto Superiore di Sanità per la patologia internistica del caso",
   ],

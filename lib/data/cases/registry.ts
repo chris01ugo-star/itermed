@@ -63,14 +63,25 @@ async function loadKbCasesFromDb(): Promise<ClinicalCase[]> {
     const rows = await prisma.knowledgeBaseCase.findMany({
       orderBy: [{ specialty: "asc" }, { id: "asc" }],
     });
-    const mapped = rows.map((row) =>
-      clinicalCaseFromKnowledgeBaseRow({
-        id: row.id,
-        caseData: row.caseData,
-        patientProfile: row.patientProfile,
-        ragSources: row.ragSources,
-      }),
-    );
+    const mapped: ClinicalCase[] = [];
+    for (const row of rows) {
+      try {
+        mapped.push(
+          clinicalCaseFromKnowledgeBaseRow({
+            id: row.id,
+            caseData: row.caseData,
+            patientProfile: row.patientProfile,
+            ragSources: row.ragSources,
+          }),
+        );
+      } catch (rowError) {
+        if (rowError instanceof KnowledgeBaseCaseValidationError) {
+          console.error("[registry] skip invalid KB case", row.id, rowError);
+          continue;
+        }
+        throw rowError;
+      }
+    }
     setKbCatalog(mapped);
     return mapped;
   } catch (err) {

@@ -8,6 +8,7 @@ import {
   displaySpecialtyName,
   isCaseDifficulty,
 } from "@/lib/dashboard-case-utils";
+import { specialtyAppearance } from "@/lib/ui/specialty-appearance";
 
 export type ClinicalCaseRow = {
   id: string;
@@ -49,6 +50,8 @@ export function ClinicalCaseCard({
   onSessionStart,
 }: ClinicalCaseCardProps) {
   const specialtyLabel = displaySpecialtyName(caseRow);
+  const specialtyLook = specialtyAppearance(specialtyLabel);
+  const SpecialtyIcon = specialtyLook.icon;
   const difficultyKey = isCaseDifficulty(caseRow.difficulty) ? caseRow.difficulty : "MEDIUM";
   const difficultyLabel = DIFFICULTY_LABELS[difficultyKey] ?? String(caseRow.difficulty ?? "Media");
   const difficultyStyle =
@@ -60,7 +63,10 @@ export function ClinicalCaseCard({
   const body = (
     <div className="flex h-full flex-col">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-full border border-[#345884]/15 bg-[#345884]/10 px-2.5 py-1 text-xs font-medium text-[#345884]">
+        <span
+          className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium ${specialtyLook.badgeClass}`}
+        >
+          {SpecialtyIcon ? <SpecialtyIcon className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden /> : null}
           {specialtyLabel}
         </span>
         <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${difficultyStyle}`}>

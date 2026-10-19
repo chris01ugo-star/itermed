@@ -18,6 +18,7 @@ export const SSM_SPECIALTY_CATEGORIES = [
   "Pneumologia",
   "Psichiatria",
   "Radiologia",
+  "Reumatologia",
   "Urologia",
 ] as const;
 

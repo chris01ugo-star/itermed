@@ -15,6 +15,7 @@ import { DIFFICULTY_LABELS, displaySpecialtyName } from "@/lib/dashboard-case-ut
 import { patientDisplayName, estimateAgeFromTitle } from "@/lib/prassi/demo-vitals";
 import type { PrassiPastel } from "@/lib/ui/prassi-pastels";
 import { specialtyPastel } from "@/lib/ui/prassi-pastels";
+import { specialtyAppearance } from "@/lib/ui/specialty-appearance";
 
 type PrassiCaseBriefingProps = {
   caseRow: ClinicalCaseRow;
@@ -32,6 +33,8 @@ function BriefingBody({
   dept: PrassiPastel;
 }) {
   const specialty = displaySpecialtyName(caseRow);
+  const specialtyLook = specialtyAppearance(specialty);
+  const SpecialtyIcon = specialtyLook.icon;
   const difficulty = DIFFICULTY_LABELS[caseRow.difficulty] ?? caseRow.difficulty;
   const vitals = caseRow.vitals;
   const name = patientDisplayName(caseRow.id, caseRow.title, caseRow.sex);
@@ -56,9 +59,9 @@ function BriefingBody({
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className="rounded-lg border bg-white/70 px-2.5 py-1 text-xs font-medium text-slate-700"
-              style={{ borderColor: dept.border }}
+              className={`inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-medium ${specialtyLook.badgeClass}`}
             >
+              {SpecialtyIcon ? <SpecialtyIcon className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden /> : null}
               {specialty}
             </span>
             <span className="rounded-lg border border-amber-200/80 bg-amber-50/90 px-2.5 py-1 text-xs font-medium text-amber-900">

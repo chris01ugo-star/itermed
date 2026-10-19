@@ -388,6 +388,7 @@ function buildSpecialtyTagHints(specialtyName?: string): string[] {
     chirurgia: ["chirurgico", "operatorio"],
     ginecologia: ["ginecologico", "ostetricia"],
     psichiatria: ["psichiatrico", "salute mentale"],
+    reumatologia: ["reumatologico", "articolare", "artrite"],
     radiologia: ["radiologico", "imaging"],
     anestesia: ["anestesiologia", "rianimazione"],
   };

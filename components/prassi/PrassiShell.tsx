@@ -18,6 +18,7 @@ import {
   nestPastel,
   type PrassiPastel,
 } from "@/lib/ui/prassi-pastels";
+import { specialtyAppearance } from "@/lib/ui/specialty-appearance";
 import { PrassiCaseBriefing } from "@/components/prassi/PrassiCaseBriefing";
 
 type SpecialtyOption = {
@@ -349,7 +350,9 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {buckets.map((bucket) => (
+              {buckets.map((bucket) => {
+                const SpecialtyIcon = specialtyAppearance(bucket.name).icon;
+                return (
                 <div key={bucket.name} className="relative pt-2.5">
                   <FolderNotch fill={bucket.pastel.fill} />
                   <button
@@ -374,8 +377,11 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
                       >
                         Specialità
                       </p>
-                      <p className="font-display text-lg font-bold leading-snug tracking-tight text-slate-800">
-                        {bucket.name}
+                      <p className="font-display flex items-center gap-2 text-lg font-bold leading-snug tracking-tight text-slate-800">
+                        {SpecialtyIcon ? (
+                          <SpecialtyIcon className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden />
+                        ) : null}
+                        <span className="min-w-0">{bucket.name}</span>
                       </p>
                       <p className="text-[11px] leading-snug text-slate-500">
                         {difficultyMix(bucket.cases)}
@@ -396,7 +402,8 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
                     </div>
                   </button>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
