@@ -1,0 +1,368 @@
+{
+  "id": "REUMA-013",
+  "code": "REUMA-013",
+  "title": "Sindrome di Sjögren",
+  "description": "Marta Esposito, 55 anni, ha secchezza degli occhi e della bocca da un anno, e un gonfiore parotideo andato e venuto. Il percorso è ANA e ENA (anti-SSA/SSB) prima di qualunque biopsia salivare, più lacrime artificiali. La biopsia come primo gesto e i colliri di ciclosporina subito sono le trappole.",
+  "difficulty": "MEDIUM",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "Sjögren: autoanticorpi prima della biopsia salivare, non ciclosporina di prima linea",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Sjögren — ANA e anti-SSA/SSB prima della biopsia, lacrime prima della ciclosporina",
+  "diagnosis": "Sindrome di Sjögren. ANA e ENA positivi per anti-SSA. Biopsia salivare non indicata come primo esame. Lacrime artificiali, non collirio di ciclosporina subito.",
+  "pastMedicalHistory": "Nessuna artrite. Carie frequenti negli ultimi due anni. Non ha linfonodi noti, non ha calo di peso. Non usa lenti a contatto. Ha comprato da sola un collirio qualsiasi, con poco beneficio. Nessuna allergia. Non fuma. Una tiroide già sostituita, stabile.",
+  "presentation": "Beve mentre parla. Gli occhi sono rossi ai bordi. Se le si propone la biopsia del labbro come primo esame, si spaventa. Se le si prescrive subito la ciclosporina in collirio, la prende perché «è la cura seria». Le lacrime artificiali le sembrano troppo semplici finché non le si spiega la sequenza.",
+  "redHerrings": [
+    "Le carie sembrano solo scarsa igiene e si perde la secchezza.",
+    "Un oculista ha scritto «occhio secco» e sembra che la sierologia non serva.",
+    "Chiede la biopsia perché ha letto che è l'esame definitivo."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY. Sei Marta Esposito, 55 anni, ambulatorio. Registro: infastidita dalla sete, educata. Alla «Come sta?»: «Bevo di continuo. Gli occhi bruciano. Ho sempre carie.» Non dire tu Sjögren. Se chiedono bocca, occhi, ghiandole, articolazioni, peso: sete da un anno, sabbia negli occhi, una ghiandola sotto l'orecchio si è gonfiata due volte, niente gonfiore delle mani, peso stabile. Se ti prenotano la biopsia del labbro per prima, esiti. Se ti danno la ciclosporina subito, la preferisci alle lacrime. Se ti spiegano gli esami del sangue e le lacrime come primo passo, accetti. Non nominare budget.",
+  "correctSolution": "Sjögren. ANA e ENA con anti-SSA prima di ogni biopsia. Lacrime artificiali e igiene dentale. Collirio di ciclosporina solo se l'oculista, dopo, lo indica per un occhio secco che non risponde. Follow-up su ghiandole, denti e sintomi sistemici. Non una biopsia di apertura.",
+  "goldStandardPath": [
+    "anamnesi-secchezza",
+    "ana",
+    "ena",
+    "azione-lacrime",
+    "azione-followup-ghiandole"
+  ],
+  "goldPathNarrative": "1) Anamnesi: xeroftalmia, xerostomia, parotidi, carie, assenza di artrite. 2) ANA 12 euro ed ENA 25 euro, totale 37, dentro un budget di 80. L'anti-SSA è nel pannello ENA. 3) Non si biopsia il labbro prima di questo risultato. 4) Lacrime artificiali, non ciclosporina in collirio da circa 120 euro di prima linea. 5) Follow-up su gonfiori ghiandolari, denti e febbre. La biopsia costa 180 euro e qui non è il primo esame.",
+  "examLatencies": {
+    "anamnesi-secchezza": 8,
+    "ana": 4320,
+    "ena": 4320,
+    "azione-lacrime": 5,
+    "azione-followup-ghiandole": 8,
+    "biopsia": 7200,
+    "anca": 4320,
+    "rm": 2880
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-secchezza",
+      "prompt": "Da quanto ha sete e sabbia negli occhi, e le ghiandole si gonfiano?",
+      "critical": true,
+      "expectedKeywords": [
+        "sete",
+        "ghiandole"
+      ],
+      "rationale": "Secchezza e parotidi intermittenti sono il nucleo del Sjögren, prima della biopsia."
+    },
+    {
+      "id": "aq-sistemico",
+      "prompt": "Ha febbre, linfonodi, calo di peso o articolazioni gonfie?",
+      "critical": true,
+      "expectedKeywords": [
+        "febbre",
+        "peso"
+      ],
+      "rationale": "Questi segni cercano un linfoma o un overlap, non giustificano la biopsia come primo atto."
+    },
+    {
+      "id": "aq-occhio",
+      "prompt": "Ha già provato le lacrime artificiali, e chi le ha guardato la cornea?",
+      "critical": true,
+      "expectedKeywords": [
+        "lacrime",
+        "cornea"
+      ],
+      "rationale": "La ciclosporina in collirio non è il primo prodotto, e non si dà senza un oculista."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Mucose orali asciutte, occhi arrossati senza secrezione purulenta, nessuna parotide gonfia oggi, nessun linfonodo grosso. Non sinovite. Il labbro non va punto prima degli anticorpi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-013-siero",
+      "source": "Sintesi operativa — Sjögren, sierologia prima della biopsia",
+      "quote": "ANA e anti-SSA/SSB precedono la biopsia delle ghiandole salivari minori. La biopsia serve se la sierologia è negativa e la secchezza è oggettiva, non come primo esame."
+    },
+    {
+      "chunkId": "reuma-013-collirio",
+      "source": "Sintesi operativa — occhio secco, lacrime prima della ciclosporina",
+      "quote": "Il collirio di ciclosporina è un passo successivo, oculistico, quando le lacrime artificiali non bastano. Darlo in apertura è fuori sequenza e costa."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "ANA ed ENA prima di ogni biopsia.",
+      "Lacrime artificiali come primo trattamento oculare.",
+      "Ciclosporina in collirio non avviata dal reumatologo di prima battuta.",
+      "Segni di allarme ghiandolare raccolti."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano la secchezza, gli anticorpi chiesti per primi e il motivo per cui la biopsia e la ciclosporina non sono il primo gesto.",
+      "legalCriteria": [
+        "Biopsia salivare non eseguita prima di ANA ed ENA.",
+        "Collirio di ciclosporina non dato senza fallimento delle lacrime e senza oculista.",
+        "Sintomi sistemici chiesti."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ana",
+      "name": "ANA",
+      "finding": "ANA positivi, titolo 1:320. Costo 12 euro. È il primo esame, insieme all'ENA.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "ena",
+      "name": "ENA",
+      "finding": "Anti-SSA positivi, anti-SSB negativi. Costo 25 euro. La biopsia non serve più come primo passo.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "biopsia",
+      "name": "Biopsia delle ghiandole salivari",
+      "finding": "Infiltrato linfocitario, informazione vera ma tardiva: gli anticorpi c'erano già. Costo 180 euro e un gesto invasivo non necessario in apertura.",
+      "isAbnormal": true,
+      "priceEuro": 180,
+      "wasteRationale": "Biopsia prima dello screening anticorpale: 180 euro e un rischio evitabile.",
+      "inappropriate": true
+    },
+    {
+      "examId": "rm",
+      "name": "RM",
+      "finding": "RM delle parotidi senza una massa da caratterizzare. Costo 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "wasteRationale": "RM ghiandolare di prima linea, sopra il budget di 80 euro.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Secchezza oculare e orale.",
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "130/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 55,
+      "sex": "F",
+      "name": "Marta Esposito"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Secchezza delle mucose",
+        "result": "Bocca asciutta, occhi irritati, nessuna secrezione purulenta.",
+        "isPositive": true
+      },
+      {
+        "signName": "Linfonodo sospetto",
+        "result": "Nessuna adenopatia grossolana oggi.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Secchezza delle mucose",
+        "result": "Bocca asciutta, occhi irritati, nessuna secrezione purulenta.",
+        "isPositive": true
+      },
+      {
+        "signName": "Linfonodo sospetto",
+        "result": "Nessuna adenopatia grossolana oggi.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ana": {
+          "finding": "ANA positivi, titolo 1:320. Costo 12 euro. È il primo esame, insieme all'ENA.",
+          "normalFinding": "ANA positivi, titolo 1:320. Costo 12 euro. È il primo esame, insieme all'ENA.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "ena": {
+          "finding": "Anti-SSA positivi, anti-SSB negativi. Costo 25 euro. La biopsia non serve più come primo passo.",
+          "normalFinding": "Anti-SSA positivi, anti-SSB negativi. Costo 25 euro. La biopsia non serve più come primo passo.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "biopsia": {
+          "finding": "Infiltrato linfocitario, informazione vera ma tardiva: gli anticorpi c'erano già. Costo 180 euro e un gesto invasivo non necessario in apertura.",
+          "normalFinding": "Infiltrato linfocitario, informazione vera ma tardiva: gli anticorpi c'erano già. Costo 180 euro e un gesto invasivo non necessario in apertura.",
+          "isAbnormal": true,
+          "price": 180
+        },
+        "rm": {
+          "finding": "RM delle parotidi senza una massa da caratterizzare. Costo 220 euro.",
+          "normalFinding": "RM delle parotidi senza una massa da caratterizzare. Costo 220 euro.",
+          "isAbnormal": false,
+          "price": 220
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ha letto che la biopsia è definitiva e che la ciclosporina è la cura vera. Cambia ordine se le si dice che il sangue può evitare il taglio e che le lacrime vengono prima del collirio costoso."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Secchezza oggettiva",
+      "prompt": "Cosa raccogli?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Occhi, bocca, parotidi, carie, febbre e peso",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Prenotare subito la biopsia del labbro",
+          "next": "res-biopsia"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Anticorpi prima del taglio",
+      "prompt": "Qual è il primo laboratorio?",
+      "cost": 37,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ANA e ENA, cercando anti-SSA e anti-SSB",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Biopsia salivare oggi, la sierologia dopo",
+          "next": "res-biopsia"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cosa non aggiungere",
+      "prompt": "Gli anti-SSA sono positivi. Cosa non fai?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non biopsi e non apri ANCA o una RM",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "RM delle parotidi e ANCA per completezza",
+          "next": "res-rm"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Lacrime, non ciclosporina",
+      "prompt": "Cosa prescrivi per gli occhi?",
+      "cost": 8,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Lacrime artificiali e invio oculistico. Non ciclosporina in collirio oggi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Collirio di ciclosporina come prima ricetta",
+          "next": "res-collirio"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Ghiandole nel tempo",
+      "prompt": "Cosa le fai controllare?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Denti, gonfiori persistenti, febbre. Biopsia solo se più avanti la sierologia non bastasse",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Biopsia di routine fra un mese anche con anti-SSA positivo",
+          "next": "res-biopsia"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Sjögren senza biopsia d'ingresso",
+      "prompt": "ANA ed ENA positivi, lacrime avviate, biopsia non fatta, ciclosporina rinviata all'oculista se servirà.",
+      "cost": 45,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-biopsia",
+      "type": "resolution",
+      "title": "Biopsia prima degli anticorpi",
+      "prompt": "Il labbro viene punto mentre anti-SSA sarebbe bastato. È un gesto invasivo evitabile, con dolore e un rischio locale inutili.",
+      "cost": 180,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-collirio",
+      "type": "resolution",
+      "title": "Ciclosporina fuori sequenza",
+      "prompt": "Il collirio di ciclosporina, circa 120 euro, è fuori indicazione come primo prodotto. Le lacrime non sono state provate e l'oculista non ha visto la cornea.",
+      "cost": 120,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-rm",
+      "type": "resolution",
+      "title": "RM e ANCA di troppo",
+      "prompt": "RM 220 euro e ANCA 20 euro superano il budget di 80 e non diagnosticano il Sjögren meglio dell'ENA.",
+      "cost": 240,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

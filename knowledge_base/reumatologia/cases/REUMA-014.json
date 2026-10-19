@@ -1,0 +1,384 @@
+{
+  "id": "REUMA-014",
+  "code": "REUMA-014",
+  "title": "Lupus in gravidanza",
+  "description": "Silvia Greco, 32 anni, è incinta di 11 settimane e ha un lupus noto. Prende ancora metotrexato perché nessuno le ha detto di sospenderlo, più idrossiclorochina. Il percorso è lo stop immediato del metotrexato, il mantenimento dell'idrossiclorochina, gli esami di attività senza radiografie non schermate. Continuare il metotrexato è la trappola grave.",
+  "difficulty": "HARD",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "LES in gravidanza: stop immediato del metotrexato, idrossiclorochina sì",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Lupus e gravidanza — sospendere il metotrexato, continuare l'idrossiclorochina",
+  "diagnosis": "Lupus in gravidanza al primo trimestre, ancora esposta al metotrexato. Sospensione immediata, idrossiclorochina mantenuta, nessun RX non schermato.",
+  "pastMedicalHistory": "LES diagnosticato tre anni fa, anti-Ro positivo noto, anti-DNA variabile. Metotrexato 10 mg a settimana fino a ieri, idrossiclorochina 200 mg. Ultimo ciclo non arrivato, test di gravidanza positivo a casa, ecografia ostetrica che data 11 settimane. Nessun rash in questo periodo, nessuna proteinuria nota nell'ultimo anno. Pressione normale. Allergie: nessuna. Fuma no.",
+  "presentation": "Tiene in mano il blister del metotrexato e chiede se prenderlo anche stasera. Se le si dice di continuare «per non far riaccendere il lupus», obbedisce. Se le si toglie il blister e le si lascia l'idrossiclorochina, si spaventa per il bambino e poi si fida. Rifiuta una radiografia se le si dice che non è schermata.",
+  "redHerrings": [
+    "Il lupus quieto fa sembrare inutile cambiare terapia.",
+    "Un dolore lombare di gravidanza fa chiedere una RX del rachide.",
+    "L'anti-Ro noto viene dimenticato e non si programma l'eco fetale."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "ROLEPLAY. Sei Silvia Greco, 32 anni, incinta di 11 settimane, ambulatorio. Registro: spaventata, frasi brevi, guardi il blister. Alla «Come sta?»: «Sono incinta. Il lupus sta zitto. Prendo ancora questa.» [mostra il metotrexato] Non dire tu che il metotrexato è teratogeno finché non te lo spiegano. Se chiedono settimane, altri farmaci, rash, pressione, anti-Ro: undici settimane, anche l'idrossiclorochina, niente rash, pressione normale, ti hanno detto anni fa che hai l'anti-Ro. Se ti dicono di continuare il metotrexato, lo prendi stasera. Se te lo fanno sospendere e ti lasciano l'altra pastiglia, chiedi del bambino e accetti. Se ti propongono una lastra non schermata, esiti. Non nominare budget.",
+  "correctSolution": "Stop immediato del metotrexato, acido folico, consulenza ostetrica. Idrossiclorochina continuata. Urine, pressione, emocromo e complemento senza RX. Eco fetale programmata per l'anti-Ro. Nessuna radiografia non schermata. Follow-up ogni trimestre.",
+  "goldStandardPath": [
+    "anamnesi-gravidanza",
+    "azione-stop-metotrexato",
+    "urine-sed",
+    "emocromo",
+    "c3-c4",
+    "azione-continua-idrossiclorochina",
+    "azione-followup-fetale"
+  ],
+  "goldPathNarrative": "1) Anamnesi: 11 settimane, metotrexato fino a ieri, idrossiclorochina, anti-Ro noto, lupus quieto. 2) Nessuna RX. Urine 6 euro, emocromo 4,80, complemento 14. 3) Lo screening qui è la gravidanza già certa: il teratogeno si ferma oggi. 4) Stop del metotrexato, si tiene l'idrossiclorochina da 8 euro. 5) Follow-up ostetrico ed ecografia fetale per il blocco da anti-Ro. Una RX non schermata e il metotrexato continuato sono i due danni.",
+  "examLatencies": {
+    "anamnesi-gravidanza": 6,
+    "azione-stop-metotrexato": 2,
+    "urine-sed": 60,
+    "emocromo": 60,
+    "c3-c4": 1440,
+    "azione-continua-idrossiclorochina": 4,
+    "azione-followup-fetale": 10,
+    "rx-ossa": 40,
+    "rm": 2880
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-farmaci",
+      "prompt": "Quali compresse ha preso questa settimana, e di quante settimane è?",
+      "critical": true,
+      "expectedKeywords": [
+        "metotrexato",
+        "settimane"
+      ],
+      "rationale": "Il metotrexato in corso a 11 settimane è l'urgenza della visita."
+    },
+    {
+      "id": "aq-attivita",
+      "prompt": "Ha rash, gonfiore, mal di testa o urine schiumose?",
+      "critical": true,
+      "expectedKeywords": [
+        "rash",
+        "urine"
+      ],
+      "rationale": "Si distingue un lupus quieto da una riacutizzazione, senza aprire radiografie."
+    },
+    {
+      "id": "aq-ro",
+      "prompt": "Le hanno mai detto anti-Ro o anti-La, e ha già un'ecografia ostetrica?",
+      "critical": true,
+      "expectedKeywords": [
+        "anti-Ro",
+        "ecografia"
+      ],
+      "rationale": "L'anti-Ro programma il controllo del cuore fetale. Non si perde nel cambio di terapia."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Addome gravido compatibile con il primo trimestre, nessun rash, nessuna sinovite, pressione normale, niente edema. Il blister del metotrexato è il reperto che conta più di qualunque lastra."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-014-mtx",
+      "source": "Sintesi operativa — metotrexato e gravidanza",
+      "quote": "Il metotrexato si sospende appena la gravidanza è nota. Non si continua per tenere quieto il lupus. L'idrossiclorochina, se tollerata, si mantiene."
+    },
+    {
+      "chunkId": "reuma-014-rx",
+      "source": "Sintesi operativa — imaging in gravidanza",
+      "quote": "Una radiografia non schermata non è un esame di attività del lupus. Urine, emocromo e complemento rispondono senza irradiare."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Metotrexato sospeso in visita, non rimandato.",
+      "Idrossiclorochina continuata.",
+      "Nessuna RX non schermata.",
+      "Anti-Ro collegato al follow-up fetale."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano l'ora dello stop del metotrexato, i farmaci mantenuti e il rifiuto della radiografia non schermata.",
+      "legalCriteria": [
+        "Metotrexato non rinnovato.",
+        "Idrossiclorochina non sospesa senza un motivo.",
+        "RX non richiesta per lombalgia o per attività di malattia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "urine-sed",
+      "name": "Urine",
+      "finding": "Nessuna proteinuria. Costo 6 euro. Il rene, oggi, è quieto.",
+      "isAbnormal": false,
+      "priceEuro": 6
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emoglobina 11,8 in gravidanza, piastrine normali. Costo 4,80 euro.",
+      "isAbnormal": false,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "c3-c4",
+      "name": "Complemento",
+      "finding": "C3 e C4 nei limiti. Costo 14 euro. Nessuna riacutizzazione sierologica.",
+      "isAbnormal": false,
+      "priceEuro": 14
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rx-ossa",
+      "name": "RX non schermata",
+      "finding": "RX del rachide lombare chiesta per il dolore di gravidanza, senza schermatura. Costo 30 euro. Non cambia la cura del lupus e irradia.",
+      "isAbnormal": false,
+      "priceEuro": 30,
+      "wasteRationale": "RX non schermata in gravidanza: danno evitabile, esame non indicato.",
+      "inappropriate": true
+    },
+    {
+      "examId": "rm",
+      "name": "RM",
+      "finding": "RM non indicata per un lupus quieto. Costo 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "wasteRationale": "RM difensiva in un lupus senza segno d'organo nuovo.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Lupus noto, gravidanza a 11 settimane, metotrexato ancora in corso.",
+    "vitals": {
+      "heartRate": 92,
+      "bloodPressure": "118/72",
+      "spo2": 99,
+      "temperature": 36.7,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 50,
+    "demographics": {
+      "age": 32,
+      "sex": "F",
+      "name": "Silvia Greco"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Attività di lupus",
+        "result": "Nessun rash, nessuna sinovite, pressione normale.",
+        "isPositive": false
+      },
+      {
+        "signName": "Esposizione a metotrexato",
+        "result": "Blister in mano, ultima dose ieri.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Attività di lupus",
+        "result": "Nessun rash, nessuna sinovite, pressione normale.",
+        "isPositive": false
+      },
+      {
+        "signName": "Esposizione a metotrexato",
+        "result": "Blister in mano, ultima dose ieri.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "urine-sed": {
+          "finding": "Nessuna proteinuria. Costo 6 euro. Il rene, oggi, è quieto.",
+          "normalFinding": "Nessuna proteinuria. Costo 6 euro. Il rene, oggi, è quieto.",
+          "isAbnormal": false,
+          "price": 6
+        },
+        "emocromo": {
+          "finding": "Emoglobina 11,8 in gravidanza, piastrine normali. Costo 4,80 euro.",
+          "normalFinding": "Emoglobina 11,8 in gravidanza, piastrine normali. Costo 4,80 euro.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "c3-c4": {
+          "finding": "C3 e C4 nei limiti. Costo 14 euro. Nessuna riacutizzazione sierologica.",
+          "normalFinding": "C3 e C4 nei limiti. Costo 14 euro. Nessuna riacutizzazione sierologica.",
+          "isAbnormal": false,
+          "price": 14
+        },
+        "rx-ossa": {
+          "finding": "RX del rachide lombare chiesta per il dolore di gravidanza, senza schermatura. Costo 30 euro. Non cambia la cura del lupus e irradia.",
+          "normalFinding": "RX del rachide lombare chiesta per il dolore di gravidanza, senza schermatura. Costo 30 euro. Non cambia la cura del lupus e irradia.",
+          "isAbnormal": false,
+          "price": 30
+        },
+        "rm": {
+          "finding": "RM non indicata per un lupus quieto. Costo 220 euro.",
+          "normalFinding": "RM non indicata per un lupus quieto. Costo 220 euro.",
+          "isAbnormal": false,
+          "price": 220
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Obbedisce al foglio della terapia precedente. Lascia il metotrexato solo se le si dice, in modo chiaro, che quella compressa è il rischio per il feto e che l'idrossiclorochina si tiene."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Farmaci e settimane",
+      "prompt": "Cosa deve essere chiaro nei primi minuti?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Settimane di gravidanza, metotrexato fino a ieri, idrossiclorochina, anti-Ro",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Rinnovare lo schema precedente senza rileggere il blister",
+          "next": "res-mtx"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Attività senza lastre",
+      "prompt": "Come misuri il lupus oggi?",
+      "cost": 24.8,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Urine, emocromo e complemento. Nessuna RX",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "RX del rachide non schermata per la lombalgia",
+          "next": "res-rx"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Teratogeno già in corso",
+      "prompt": "Lo screening di gravidanza è già positivo. Cosa fai del metotrexato?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Lo sospendi in questa visita e avvisi l'ostetricia",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Lo sospendi dal secondo trimestre, per non riaccendere il lupus",
+          "next": "res-mtx"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cosa si tiene",
+      "prompt": "Quale farmaco resta?",
+      "cost": 8,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Idrossiclorochina sì. Metotrexato no. Folato e invio ostetrico",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Metotrexato e idrossiclorochina insieme, come prima",
+          "next": "res-mtx"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Madre e feto",
+      "prompt": "Cosa programmi?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Controlli di attività ogni trimestre ed eco fetale per l'anti-Ro",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Nessun follow-up fino al parto, il lupus è quieto",
+          "next": "res-ritardo"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Metotrexato fermato",
+      "prompt": "Stop immediato del teratogeno, idrossiclorochina mantenuta, attività vista senza lastre, feto in follow-up per l'anti-Ro.",
+      "cost": 32.8,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-mtx",
+      "type": "resolution",
+      "title": "Metotrexato mantenuto in gravidanza",
+      "prompt": "La dose successiva espone un embrione di 11 settimane a un teratogeno noto. Continuare il metotrexato è il danno grave.",
+      "cost": 12.5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-rx",
+      "type": "resolution",
+      "title": "RX non schermata",
+      "prompt": "La radiografia senza schermatura non risponde a nessuna domanda sul lupus e irradia la gravidanza. È un esame evitabile.",
+      "cost": 30,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ritardo",
+      "type": "resolution",
+      "title": "RM al posto dei controlli",
+      "prompt": "Una RM da 220 euro, o un pacchetto di imaging, non sostituisce urine e complemento e sfora il budget di 50 euro.",
+      "cost": 220,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

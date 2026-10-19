@@ -1,0 +1,431 @@
+{
+  "id": "REUMA-009",
+  "code": "REUMA-009",
+  "title": "Sclerosi sistemica iniziale",
+  "description": "Laura Bianchi, 52 anni, ha un Raynaud nuovo, dita gonfie al mattino e una piccola ulcera del polpastrello. Non è un Raynaud benigno da liquidare, e non è nemmeno un pretesto per FR, anti-CCP, ANCA e RM. Il percorso è la capillaroscopia e gli ANA, poi un ENA mirato se il quadro è sclerodermico, e la pressione sorvegliata.",
+  "difficulty": "HARD",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "Sclerosi sistemica iniziale: capillaroscopia e ANA, non pannello a pioggia",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Raynaud secondario — capillaroscopia e ANA prima di un pannello esteso",
+  "diagnosis": "Sclerosi sistemica iniziale. Capillaroscopia con pattern sclerodermico e ANA. Non FR né RM. Niente steroide ad alto dosaggio.",
+  "pastMedicalHistory": "Raynaud da sei mesi, prima assente. Fuma dieci sigarette. Nessuna dispnea da sforzo dichiarata, ma fa le scale più piano. Pirosi notturna nuova. Non ha artrite. Pressione di casa 150/90, non curata. Nessuna allergia. Madre con tiroidite.",
+  "presentation": "Arriva con i guanti anche se non fa freddo. Un polpastrello ha una crosticina. Se le si dice che è il freddo e di non pensarci, si rimette i guanti e se ne va. Se le si chiede un pannello di dodici autoanticorpi più una RM, si spaventa del costo e del tempo. La capillaroscopia la accetta se le si mostra il dito.",
+  "redHerrings": [
+    "Il fumo basta, per qualcuno, a spiegare il Raynaud e a chiudere la visita.",
+    "La pirosi sembra solo un reflusso e si perde la dismotilità esofagea.",
+    "La pressione alta viene rinviata al curante senza un'urina."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "ROLEPLAY. Sei Laura Bianchi, 52 anni, ambulatorio. Registro: preoccupata, frasi medie, guardi le dita. Alla «Come sta?»: «Diventano bianche, poi blu. E qui c'è una crosta.» [mostra il polpastrello] Non dire tu sclerosi sistemica. Se chiedono da quanto, fumo, fiato, bruciore, pressione: sei mesi, fumi, le scale ti stancano, bruciore di notte, pressione alta non curata. Se ti dicono che è solo freddo, ti alzi. Se ti elencano dieci esami e una risonanza, chiedi se servono tutti. Se ti propongono la capillaroscopia e gli ANA, accetti. Non nominare budget.",
+  "correctSolution": "Sclerosi sistemica iniziale. Capillaroscopia e ANA. ENA mirato solo dopo questo binomio, non FR, anti-CCP, ANCA e RM. Niente steroide ad alto dosaggio. Pressione, urine e creatinina, e invio per il follow-up cardiopolmonare. Calcio-antagonista per il Raynaud.",
+  "goldStandardPath": [
+    "anamnesi-raynaud",
+    "capillaroscopia",
+    "ana",
+    "creat-urea-gfr",
+    "urine-sed",
+    "azione-no-steroide-alto",
+    "azione-followup-pressione"
+  ],
+  "goldPathNarrative": "1) Anamnesi: Raynaud nuovo, ulcera digitale, pirosi, dispnea lieve, pressione alta. 2) Capillaroscopia 45 euro e ANA 12 euro. Insieme 57 euro, dentro un budget di 90. 3) Se il pattern è sclerodermico si chiede un ENA mirato, non FR 8, anti-CCP 15, ANCA 20 e RM 220. 4) Nessuno steroide ad alto dosaggio: il rischio è la crisi renale. Si cura il Raynaud e si misura il rene. 5) Follow-up di pressione, creatinina e fiato.",
+  "examLatencies": {
+    "anamnesi-raynaud": 8,
+    "capillaroscopia": 1440,
+    "ana": 4320,
+    "creat-urea-gfr": 240,
+    "urine-sed": 60,
+    "azione-no-steroide-alto": 5,
+    "azione-followup-pressione": 8,
+    "fr": 1440,
+    "anti-ccp": 4320,
+    "anca": 4320,
+    "rm": 2880,
+    "ena": 4320
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-raynaud",
+      "prompt": "Da quanto le dita cambiano colore, e c'è stata un'ulcera?",
+      "critical": true,
+      "expectedKeywords": [
+        "bianche",
+        "ulcera"
+      ],
+      "rationale": "Un Raynaud nuovo con ulcera non è benigno e chiede la capillaroscopia."
+    },
+    {
+      "id": "aq-visceri",
+      "prompt": "Ha bruciore nuovo, fiato corto o le dita dure?",
+      "critical": true,
+      "expectedKeywords": [
+        "bruciore",
+        "fiato"
+      ],
+      "rationale": "Esofago e polmone iniziali cambiano il follow-up, non il pannello a pioggia."
+    },
+    {
+      "id": "aq-pressione",
+      "prompt": "Che pressione ha, e le urine sono schiumose?",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "urine"
+      ],
+      "rationale": "La pressione trascurata è il terreno della crisi renale se poi si dà uno steroide alto."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dita edematose, una crosta sul polpastrello dell'indice, Raynaud riferito a tre fasi. Non sinovite. Pressione 150/92. Non sclerosi cutanea estesa, ma il quadro non è un Raynaud primario."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-009-cap",
+      "source": "Sintesi operativa — Raynaud e capillaroscopia",
+      "quote": "Un Raynaud di nuova comparsa con ulcera digitale si studia con la capillaroscopia e gli ANA. Liquidarlo come freddo fa perdere la sclerosi sistemica iniziale."
+    },
+    {
+      "chunkId": "reuma-009-pioggia",
+      "source": "Tariffe didattiche REUMA-009 — capillaroscopia 45 €, ANA 12 €, RM 220 €",
+      "quote": "FR, anti-CCP, ANCA e RM non sono il pacchetto del Raynaud. Il binomio capillaroscopia più ANA sta nel budget di 90 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Raynaud non archiviato come benigno.",
+      "Capillaroscopia e ANA prima di un pannello esteso.",
+      "Nessuno steroide ad alto dosaggio.",
+      "Pressione e rene controllati. Spesa entro 90 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano l'ulcera digitale, la capillaroscopia, gli ANA e il motivo per cui FR, ANCA e RM non sono stati chiesti.",
+      "legalCriteria": [
+        "Capillaroscopia non omessa davanti a un'ulcera.",
+        "Steroide ad alto dosaggio non avviato.",
+        "Pressione non rinviata senza un'urina e una creatinina."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "capillaroscopia",
+      "name": "Capillaroscopia periungueale",
+      "finding": "Megacapillari e aree avascolari: pattern sclerodermico. Costo 45 euro. È l'esame che non si può saltare.",
+      "isAbnormal": true,
+      "priceEuro": 45,
+      "isFatal": true
+    },
+    {
+      "examId": "ana",
+      "name": "ANA",
+      "finding": "ANA positivi, pattern nucleolare. Costo 12 euro. Con la capillaroscopia basta a indirizzare, senza un pannello intero.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina",
+      "finding": "Creatinina 0,9 mg/dL, GFR conservato. Costo 4,50 euro. È il basale da non perdere.",
+      "isAbnormal": false,
+      "priceEuro": 4.5
+    },
+    {
+      "examId": "urine-sed",
+      "name": "Urine",
+      "finding": "Nessuna proteinuria oggi. Costo 6 euro. Va ripetuta se la pressione resta alta.",
+      "isAbnormal": false,
+      "priceEuro": 6
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "fr",
+      "name": "FR",
+      "finding": "FR negativo. Costo 8 euro. Non c'entra con questo Raynaud.",
+      "isAbnormal": false,
+      "priceEuro": 8,
+      "wasteRationale": "FR su un Raynaud senza artrite.",
+      "inappropriate": true
+    },
+    {
+      "examId": "anti-ccp",
+      "name": "Anti-CCP",
+      "finding": "Anti-CCP negativo. Costo 15 euro.",
+      "isAbnormal": false,
+      "priceEuro": 15,
+      "wasteRationale": "Anti-CCP non studia la sclerosi sistemica.",
+      "inappropriate": true
+    },
+    {
+      "examId": "anca",
+      "name": "ANCA",
+      "finding": "ANCA negativi. Costo 20 euro.",
+      "isAbnormal": false,
+      "priceEuro": 20,
+      "wasteRationale": "ANCA a pioggia, senza vasculite.",
+      "inappropriate": true
+    },
+    {
+      "examId": "rm",
+      "name": "RM",
+      "finding": "RM delle mani senza una domanda clinica. Costo 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "wasteRationale": "RM al posto della capillaroscopia: 220 euro e l'esame giusto non è stato fatto.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Raynaud nuovo con ulcera digitale.",
+    "vitals": {
+      "heartRate": 84,
+      "bloodPressure": "150/92",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 90,
+    "demographics": {
+      "age": 52,
+      "sex": "F",
+      "name": "Laura Bianchi"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Ulcera digitale",
+        "result": "Crosticina sul polpastrello, dita edematose.",
+        "isPositive": true
+      },
+      {
+        "signName": "Sinovite",
+        "result": "Nessuna artrite. FR e anti-CCP non hanno un bersaglio.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Ulcera digitale",
+        "result": "Crosticina sul polpastrello, dita edematose.",
+        "isPositive": true
+      },
+      {
+        "signName": "Sinovite",
+        "result": "Nessuna artrite. FR e anti-CCP non hanno un bersaglio.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "capillaroscopia": {
+          "finding": "Megacapillari e aree avascolari: pattern sclerodermico. Costo 45 euro. È l'esame che non si può saltare.",
+          "normalFinding": "Megacapillari e aree avascolari: pattern sclerodermico. Costo 45 euro. È l'esame che non si può saltare.",
+          "isAbnormal": true,
+          "price": 45
+        },
+        "ana": {
+          "finding": "ANA positivi, pattern nucleolare. Costo 12 euro. Con la capillaroscopia basta a indirizzare, senza un pannello intero.",
+          "normalFinding": "ANA positivi, pattern nucleolare. Costo 12 euro. Con la capillaroscopia basta a indirizzare, senza un pannello intero.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina 0,9 mg/dL, GFR conservato. Costo 4,50 euro. È il basale da non perdere.",
+          "normalFinding": "Creatinina 0,9 mg/dL, GFR conservato. Costo 4,50 euro. È il basale da non perdere.",
+          "isAbnormal": false,
+          "price": 4.5
+        },
+        "urine-sed": {
+          "finding": "Nessuna proteinuria oggi. Costo 6 euro. Va ripetuta se la pressione resta alta.",
+          "normalFinding": "Nessuna proteinuria oggi. Costo 6 euro. Va ripetuta se la pressione resta alta.",
+          "isAbnormal": false,
+          "price": 6
+        },
+        "fr": {
+          "finding": "FR negativo. Costo 8 euro. Non c'entra con questo Raynaud.",
+          "normalFinding": "FR negativo. Costo 8 euro. Non c'entra con questo Raynaud.",
+          "isAbnormal": false,
+          "price": 8
+        },
+        "anti-ccp": {
+          "finding": "Anti-CCP negativo. Costo 15 euro.",
+          "normalFinding": "Anti-CCP negativo. Costo 15 euro.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "anca": {
+          "finding": "ANCA negativi. Costo 20 euro.",
+          "normalFinding": "ANCA negativi. Costo 20 euro.",
+          "isAbnormal": false,
+          "price": 20
+        },
+        "rm": {
+          "finding": "RM delle mani senza una domanda clinica. Costo 220 euro.",
+          "normalFinding": "RM delle mani senza una domanda clinica. Costo 220 euro.",
+          "isAbnormal": false,
+          "price": 220
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Minimizza se le si dice che è il freddo, e si allarma se le si elenca un pannello lungo. Si fida della capillaroscopia perché guarda le sue dita."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Raynaud benigno o no",
+      "prompt": "Quali elementi tolgono il Raynaud dalla forma benigna?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Esordio dopo i 50 anni, ulcera, pirosi, dispnea, pressione alta",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Dirle di coprirsi e chiudere la visita",
+          "next": "res-omessa"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Capillaroscopia e ANA",
+      "prompt": "Qual è il primo binomio?",
+      "cost": 57,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Capillaroscopia periungueale e ANA",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "FR, anti-CCP, ANCA e RM delle mani",
+          "next": "res-pioggia"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Rene prima dello steroide",
+      "prompt": "Cosa misuri, e quale farmaco eviti?",
+      "cost": 10.5,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Pressione, urine e creatinina. Nessuno steroide ad alto dosaggio",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Prednisone 25 mg per le dita gonfie",
+          "next": "res-rene"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Raynaud, non immunosoppressione cieca",
+      "prompt": "Cosa avvii?",
+      "cost": 4,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Calcio-antagonista per il Raynaud e invio strutturato. Non metotrexato alla cieca",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Metotrexato e un ENA completo più FR oggi stesso",
+          "next": "res-pioggia"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Pressione e fiato",
+      "prompt": "Cosa ricontrolli?",
+      "cost": 4.5,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Pressione, creatinina e dispnea. Non una seconda RM",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Nessun controllo: la capillaroscopia basta per sempre",
+          "next": "res-omessa"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Sclerosi iniziale intercettata",
+      "prompt": "Capillaroscopia e ANA fatti, rene basale registrato, steroide alto evitato, follow-up fissato.",
+      "cost": 76,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-omessa",
+      "type": "resolution",
+      "title": "Raynaud sottovalutato",
+      "prompt": "Senza capillaroscopia l'ulcera successiva e la sclerosi viscerale arrivano senza una diagnosi. L'omissione è il danno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-pioggia",
+      "type": "resolution",
+      "title": "Esami reumatologici a pioggia",
+      "prompt": "FR, anti-CCP, ANCA e RM superano il budget di 90 euro e non sostituiscono la capillaroscopia.",
+      "cost": 263,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-rene",
+      "type": "resolution",
+      "title": "Steroide e crisi renale",
+      "prompt": "Lo steroide ad alto dosaggio, con la pressione già alta, è il terreno della crisi renale sclerodermica.",
+      "cost": 4.5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

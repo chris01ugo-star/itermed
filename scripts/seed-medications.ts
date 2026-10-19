@@ -37,7 +37,8 @@ type SeedMedication = {
     | "Neurologia"
     | "Oncologia"
     | "Malattie Infettive"
-    | "Psichiatria";
+    | "Psichiatria"
+    | "Reumatologia";
   /** AIC / AIFA note for audit — not persisted. */
   source: string;
 };
@@ -777,6 +778,56 @@ const MEDICATIONS: SeedMedication[] = [
     price: 4.2,
     category: "Psichiatria",
     source: "Tariffa didattica di reparto. Classe C. Benzodiazepina, via orale.",
+  },
+
+  // --- Reumatologia (tariffe didattiche di reparto, casi REUMA) ---
+  {
+    commercialName: "Metotrexato",
+    activeIngredient: "Metotrexato",
+    dosageForm: "compresse 10mg",
+    price: 12.5,
+    category: "Reumatologia",
+    source: "Tariffa didattica di reparto. Classe A. Antimetabolita, via orale settimanale.",
+  },
+  {
+    commercialName: "Idrossiclorochina",
+    activeIngredient: "Idrossiclorochina",
+    dosageForm: "compresse 200mg",
+    price: 8,
+    category: "Reumatologia",
+    source: "Tariffa didattica di reparto. Classe A. Antimalarico di fondo, via orale.",
+  },
+  {
+    commercialName: "Prednisone",
+    activeIngredient: "Prednisone",
+    dosageForm: "compresse 25mg",
+    price: 4.5,
+    category: "Reumatologia",
+    source: "Tariffa didattica di reparto. Classe A. Glucocorticoide, via orale.",
+  },
+  {
+    commercialName: "Adalimumab",
+    activeIngredient: "Adalimumab",
+    dosageForm: "siringa preriempita 40mg",
+    price: 450,
+    category: "Reumatologia",
+    source: "Tariffa didattica di reparto. Classe H. Anti-TNF, via sottocutanea.",
+  },
+  {
+    commercialName: "Colchicina",
+    activeIngredient: "Colchicina",
+    dosageForm: "compresse 1mg",
+    price: 3.5,
+    category: "Reumatologia",
+    source: "Tariffa didattica di reparto. Classe A. Antinfiammatorio per la gotta, via orale.",
+  },
+  {
+    commercialName: "Allopurinolo",
+    activeIngredient: "Allopurinolo",
+    dosageForm: "compresse 300mg",
+    price: 5,
+    category: "Reumatologia",
+    source: "Tariffa didattica di reparto. Classe A. Inibitore della xantina ossidasi, via orale.",
   },
 ];
 

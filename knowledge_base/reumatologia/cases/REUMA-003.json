@@ -1,0 +1,436 @@
+{
+  "id": "REUMA-003",
+  "code": "REUMA-003",
+  "title": "Fibromialgia",
+  "description": "Elena Greco, 41 anni, riferisce dolore ovunque da otto mesi, sonno non ristoratore e stanchezza. Non ha sinovite, gli indici di flogosi sono normali, non ha rigidità prolungata. Il percorso è un laboratorio minimo per escludere l'infiammazione, la diagnosi clinica e un piano non farmacologico. Il pannello ANA/ENA e i DMARD sono l'iper-medicalizzazione.",
+  "difficulty": "EASY",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "Fibromialgia: diagnosi clinica, laboratorio minimo, niente DMARD né pannello ANA",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Fibromialgia — diagnosi clinica, no immunosoppressione, no pannello a pioggia",
+  "diagnosis": "Fibromialgia. Emocromo, VES, PCR e TSH normali. Non ANA, non ENA, non metotrexato, non steroide sistemico.",
+  "pastMedicalHistory": "Emicrania. Due anni di lavoro su turni. Nessuna psoriasi, nessun fenomeno di Raynaud, nessuna bocca secca. Ha letto online di lupus e porta un elenco di esami. Non fuma. Non è anemica nota. Ultimo TSH due anni fa, normale. Nessuna allergia. Assume paracetamolo ogni sera.",
+  "presentation": "Indica con il dito schiena, spalle, anche e mandibola. Le articolazioni non sono gonfie. Se le si dice che servirà «tutto il pannello», si illumina. Se le si spiega che il dolore diffuso senza sinovite si chiama fibromialgia e non si cura con il metotrexato, all'inizio si offende e poi ascolta.",
+  "redHerrings": [
+    "Il referto di un ANA a basso titolo fatto altrove, 1:80, senza sintomi di lupus.",
+    "La stanchezza le fa chiedere una risonanza total body.",
+    "Il sonno pessimo viene scambiato per una miopatia infiammatoria."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY. Sei Elena Greco, 41 anni, ambulatorio. Registro: stanca, convinta di avere qualcosa di autoimmune grave. Alla «Come sta?»: «Mi fa male tutto. Da mesi. Nessuno mi crede.» Non dire tu la parola fibromialgia finché non te la spiegano. Se chiedono gonfiore, rigidità lunga, febbre, Raynaud, sonno: niente gonfiore vero, la rigidità dura pochi minuti, niente febbre, niente dita che cambiano colore, dormi male. Se propongono ANA, ENA e risonanza li pretendi. Se ti visitano le articolazioni, ti dicono che gli esami di infiammazione bastano e ti parlano di sonno e movimento, resti delusa e poi chiedi cosa fare in concreto. Non nominare budget.",
+  "correctSolution": "Fibromialgia. Emocromo, VES, PCR e TSH, tutti senza infiammazione. Spiegazione della diagnosi, attività fisica e igiene del sonno. Non pannello ANA/ENA/FR/anti-CCP/ANCA. Non RM. Non metotrexato né prednisone.",
+  "goldStandardPath": [
+    "anamnesi-dolore-diffuso",
+    "emocromo",
+    "ves",
+    "pcr-pct",
+    "tiroide",
+    "azione-spiegazione",
+    "azione-followup-funzione"
+  ],
+  "goldPathNarrative": "1) Anamnesi: dolore diffuso, sonno non ristoratore, nessuna sinovite. 2) Primo livello: emocromo 4,80, VES 3,50, PCR 28, TSH 22 euro. Totale di laboratorio circa 58 euro, dentro un budget di 80. 3) Non si aggiungono ANA 12, ENA 25, FR 8, anti-CCP 15, ANCA 20 né RM 220. 4) Si nomina la fibromialgia e si avvia un piano di movimento e sonno, non un immunosoppressore. 5) Follow-up sulla funzione, non sulla ripetizione degli anticorpi.",
+  "examLatencies": {
+    "anamnesi-dolore-diffuso": 10,
+    "emocromo": 240,
+    "ves": 120,
+    "pcr-pct": 240,
+    "tiroide": 1440,
+    "azione-spiegazione": 8,
+    "azione-followup-funzione": 10,
+    "ana": 4320,
+    "ena": 4320,
+    "fr": 1440,
+    "anti-ccp": 4320,
+    "anca": 4320,
+    "rm": 2880
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-sinovite",
+      "prompt": "Le articolazioni si gonfiano davvero, o il dolore è nei muscoli?",
+      "critical": true,
+      "expectedKeywords": [
+        "gonfiore",
+        "muscoli"
+      ],
+      "rationale": "Senza sinovite il pannello autoimmune non è il primo passo."
+    },
+    {
+      "id": "aq-sonno",
+      "prompt": "Il sonno la ristora, e da quanti mesi è così?",
+      "critical": true,
+      "expectedKeywords": [
+        "sonno",
+        "mesi"
+      ],
+      "rationale": "Sonno non ristoratore e cronicità sostengono la fibromialgia."
+    },
+    {
+      "id": "aq-redflag",
+      "prompt": "Ha febbre, calo di peso, dita che diventano bianche o debolezza vera?",
+      "critical": true,
+      "expectedKeywords": [
+        "febbre",
+        "debolezza"
+      ],
+      "rationale": "Questi segni sposterebbero verso connettivite o miopatia, e qui non ci sono."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dolore alla digitopressione in più sedi, articolazioni fredde e senza versamento, forza conservata. Non rush, non Raynaud in visita, non tumefazione. L'obiettività esclude la sinovite."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-003-clinica",
+      "source": "Sintesi operativa — fibromialgia, diagnosi clinica",
+      "quote": "Il dolore diffuso cronico senza sinovite e con indici di flogosi normali si nomina e si tratta senza un pannello autoanticorpale esteso e senza immunosoppressori."
+    },
+    {
+      "chunkId": "reuma-003-costi",
+      "source": "Tariffe didattiche REUMA-003 — laboratorio minimo circa 58 €, RM 220 €",
+      "quote": "Emocromo, VES, PCR e TSH stanno nel budget di 80 euro. ANA, ENA e la RM lo superano senza cambiare la diagnosi."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Sinovite cercata e non trovata prima degli autoanticorpi.",
+      "Laboratorio limitato a emocromo, VES, PCR e TSH.",
+      "Nessun DMARD e nessuno steroide sistemico.",
+      "Spesa entro 80 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano l'assenza di sinovite, gli indici normali e il rifiuto motivato del pannello esteso e della RM.",
+      "legalCriteria": [
+        "Diagnosi detta al paziente, non un rinvio indefinito di esami.",
+        "Nessun metotrexato né prednisone per un dolore non infiammatorio.",
+        "ANA a basso titolo pregresso non usato per aprire un pannello ENA."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo normale. Costo 4,80 euro. Nessuna anemia o leucopenia da connettivite.",
+      "isAbnormal": false,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "ves",
+      "name": "VES",
+      "finding": "VES 12 mm/h. Costo 3,50 euro. Non c'è flogosi.",
+      "isAbnormal": false,
+      "priceEuro": 3.5
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "PCR",
+      "finding": "PCR 0,2 mg/dL. Costo 28 euro. Normale.",
+      "isAbnormal": false,
+      "priceEuro": 28
+    },
+    {
+      "examId": "tiroide",
+      "name": "TSH",
+      "finding": "TSH 2,1 µUI/mL. Costo 22 euro. La stanchezza non è un ipotiroidismo.",
+      "isAbnormal": false,
+      "priceEuro": 22
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ana",
+      "name": "ANA",
+      "finding": "ANA 1:80, titolo basso, senza specificità. Costo 12 euro. Non autorizza ENA né una diagnosi di lupus.",
+      "isAbnormal": false,
+      "priceEuro": 12,
+      "wasteRationale": "ANA non indicati in assenza di segni di connettivite.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ena",
+      "name": "ENA",
+      "finding": "ENA negativo. Costo 25 euro.",
+      "isAbnormal": false,
+      "priceEuro": 25,
+      "wasteRationale": "ENA a cascata dopo un ANA non indicato.",
+      "inappropriate": true
+    },
+    {
+      "examId": "fr",
+      "name": "FR",
+      "finding": "FR negativo. Costo 8 euro.",
+      "isAbnormal": false,
+      "priceEuro": 8,
+      "wasteRationale": "FR senza artrite.",
+      "inappropriate": true
+    },
+    {
+      "examId": "anti-ccp",
+      "name": "Anti-CCP",
+      "finding": "Anti-CCP negativo. Costo 15 euro.",
+      "isAbnormal": false,
+      "priceEuro": 15,
+      "wasteRationale": "Anti-CCP senza sinovite.",
+      "inappropriate": true
+    },
+    {
+      "examId": "rm",
+      "name": "RM",
+      "finding": "RM senza lesioni infiammatorie. Costo 220 euro, molto sopra il budget di 80.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "wasteRationale": "RM total body o articolare non indicata nella fibromialgia.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Dolore diffuso cronico senza sinovite.",
+    "vitals": {
+      "heartRate": 82,
+      "bloodPressure": "118/74",
+      "spo2": 99,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 41,
+      "sex": "F",
+      "name": "Elena Greco"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Sinovite",
+        "result": "Nessuna articolazione tumefatta.",
+        "isPositive": false
+      },
+      {
+        "signName": "Dolore diffuso alla pressione",
+        "result": "Più sedi dolenti, forza conservata.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Sinovite",
+        "result": "Nessuna articolazione tumefatta.",
+        "isPositive": false
+      },
+      {
+        "signName": "Dolore diffuso alla pressione",
+        "result": "Più sedi dolenti, forza conservata.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Emocromo normale. Costo 4,80 euro. Nessuna anemia o leucopenia da connettivite.",
+          "normalFinding": "Emocromo normale. Costo 4,80 euro. Nessuna anemia o leucopenia da connettivite.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "ves": {
+          "finding": "VES 12 mm/h. Costo 3,50 euro. Non c'è flogosi.",
+          "normalFinding": "VES 12 mm/h. Costo 3,50 euro. Non c'è flogosi.",
+          "isAbnormal": false,
+          "price": 3.5
+        },
+        "pcr-pct": {
+          "finding": "PCR 0,2 mg/dL. Costo 28 euro. Normale.",
+          "normalFinding": "PCR 0,2 mg/dL. Costo 28 euro. Normale.",
+          "isAbnormal": false,
+          "price": 28
+        },
+        "tiroide": {
+          "finding": "TSH 2,1 µUI/mL. Costo 22 euro. La stanchezza non è un ipotiroidismo.",
+          "normalFinding": "TSH 2,1 µUI/mL. Costo 22 euro. La stanchezza non è un ipotiroidismo.",
+          "isAbnormal": false,
+          "price": 22
+        },
+        "ana": {
+          "finding": "ANA 1:80, titolo basso, senza specificità. Costo 12 euro. Non autorizza ENA né una diagnosi di lupus.",
+          "normalFinding": "ANA 1:80, titolo basso, senza specificità. Costo 12 euro. Non autorizza ENA né una diagnosi di lupus.",
+          "isAbnormal": false,
+          "price": 12
+        },
+        "ena": {
+          "finding": "ENA negativo. Costo 25 euro.",
+          "normalFinding": "ENA negativo. Costo 25 euro.",
+          "isAbnormal": false,
+          "price": 25
+        },
+        "fr": {
+          "finding": "FR negativo. Costo 8 euro.",
+          "normalFinding": "FR negativo. Costo 8 euro.",
+          "isAbnormal": false,
+          "price": 8
+        },
+        "anti-ccp": {
+          "finding": "Anti-CCP negativo. Costo 15 euro.",
+          "normalFinding": "Anti-CCP negativo. Costo 15 euro.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "rm": {
+          "finding": "RM senza lesioni infiammatorie. Costo 220 euro, molto sopra il budget di 80.",
+          "normalFinding": "RM senza lesioni infiammatorie. Costo 220 euro, molto sopra il budget di 80.",
+          "isAbnormal": false,
+          "price": 220
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Ha già una lista di esami presa da internet. Si irrigidisce se le si dice che non serve il pannello, e si apre se le si visita davvero e le si dà un piano concreto su sonno e movimento."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Dolore diffuso o artrite",
+      "prompt": "Come distingui questo dolore da un'artrite?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Cercare sinovite, rigidità lunga, febbre, Raynaud e qualità del sonno",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Aprire subito ANA, ENA e una RM perché lo chiede la paziente",
+          "next": "res-pioggia"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Laboratorio minimo",
+      "prompt": "Quali esami bastano?",
+      "cost": 58.3,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Emocromo, VES, PCR e TSH",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "FR, anti-CCP, ANA, ENA e ANCA insieme",
+          "next": "res-pioggia"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Non trasformarla in una connettivite",
+      "prompt": "L'ANA 1:80 fatto altrove cosa impone?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Niente ENA: il titolo basso senza segni clinici non si insegue",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Completare ENA, anti-DNA e una visita genetica",
+          "next": "res-pioggia"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente immunosoppressore",
+      "prompt": "Cosa prescrivi?",
+      "cost": 0,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Spiegare la fibromialgia, movimento e igiene del sonno. Nessun metotrexato",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Prednisone 25 mg e metotrexato per «spegnere l'infiammazione»",
+          "next": "res-farmaci"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo sulla funzione",
+      "prompt": "Cosa ricontrolli fra due mesi?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Sonno, attività e dolore. Non si ripetono gli autoanticorpi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Ripetere ANA ed ENA anche se negativi",
+          "next": "res-pioggia"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Fibromialgia detta e contenuta",
+      "prompt": "Diagnosi clinica, laboratorio minimo normale, nessun DMARD. Il budget di 80 euro regge.",
+      "cost": 58.3,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-pioggia",
+      "type": "resolution",
+      "title": "Eccesso diagnostico",
+      "prompt": "ANA, ENA, FR, anti-CCP, ANCA e RM costano 300 euro e non curano il dolore. È medicina difensiva.",
+      "cost": 300,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-farmaci",
+      "type": "resolution",
+      "title": "Iper-medicalizzazione",
+      "prompt": "Prednisone e metotrexato su una fibromialgia espongono a infezione, epatotossicità e dipendenza dallo steroide senza un'infiammazione da trattare.",
+      "cost": 17,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

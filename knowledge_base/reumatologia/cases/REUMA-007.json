@@ -1,0 +1,378 @@
+{
+  "id": "REUMA-007",
+  "code": "REUMA-007",
+  "title": "Spondilite anchilosante",
+  "description": "Andrea Villa, 27 anni, ha da due anni un mal di schiena infiammatorio, risvegli notturni e una uveite l'anno scorso. Le radiografie mostrano già una sacroileite. Il percorso è un ciclo adeguato di due FANS prima di qualunque biologico, e il Quantiferon se e solo quando il biologico diventa indicato. Il biologico subito, con o senza screening per la tubercolosi, è la trappola.",
+  "difficulty": "MEDIUM",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "Spondilite anchilosante: due FANS prima del biologico, Quantiferon se si scala",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Spondiloartrite assiale — FANS a dose piena, biologico dopo fallimento e dopo IGRA",
+  "diagnosis": "Spondilite anchilosante radiografica. Due FANS a dose piena in sequenza. Adalimumab solo dopo il fallimento e dopo Quantiferon, epatite e RX torace.",
+  "pastMedicalHistory": "Uveite anteriore destra un anno fa, trattata dall'oculista. Non ha psoriasi, non ha diarrea ematica. Non fuma. Nessun contatto tubercolare noto, nessun viaggio recente. Ha preso ibuprofene «quando fa male», mai a dose piena per un mese. Allergie: nessuna. Lavora in magazzino e solleva pesi.",
+  "presentation": "Sta meglio dopo essersi mosso, peggio alle tre di notte. Se gli si offre l'iniezione biologica subito, la vuole per tornare al lavoro. Se gli si dice che prima servono due antinfiammatori presi davvero e, solo dopo, gli esami della tubercolosi, si spazientisce ma capisce.",
+  "redHerrings": [
+    "Il lavoro da magazziniere fa chiamare il dolore una lombalgia meccanica.",
+    "L'HLA non è ancora dosato e sembra obbligatorio prima di ogni cura.",
+    "Una RM delle sacroiliache viene chiesta anche se la radiografia è già positiva."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY. Sei Andrea Villa, 27 anni, ambulatorio. Registro: impaziente, frasi dirette. Alla «Come sta?»: «Di notte mi sveglio. Se cammino passa.» Non dire tu spondilite. Se chiedono notte, rigidità, uveite, diarrea, psoriasi, FANS già presi: ti svegli alle tre, la schiena è rigida un'ora, un occhio rosso l'anno scorso, niente diarrea, niente pelle, l'ibuprofene lo prendi a spot. Se ti propongono l'iniezione cara subito dici «sì, datemela». Se ti spiegano due antinfiammatori a dose piena e gli esami della tbc prima di ogni biologico, accetti a malincuore. Non nominare budget.",
+  "correctSolution": "Spondilite anchilosante. RX del bacino già diagnostica. Due FANS a dose piena, in sequenza, per alcune settimane. Fisioterapia. Adalimumab non ora. Se più avanti il biologico serve: Quantiferon, sierologia epatite e RX torace prima della prima siringa.",
+  "goldStandardPath": [
+    "anamnesi-schiena-infiammatoria",
+    "rx-ossa",
+    "azione-fans-1",
+    "azione-fans-2",
+    "azione-followup-basdai"
+  ],
+  "goldPathNarrative": "1) Anamnesi: dolore notturno, migliora col movimento, uveite, FANS mai a dose piena. 2) RX del bacino 30 euro: sacroileite già visibile. La RM da 220 euro non serve. 3) Non si apre il biologico: lo screening tubercolare si fa solo se si decide di scalarlo. 4) Primo FANS a dose piena, poi un secondo FANS diverso se il primo fallisce. 5) Follow-up con attività di malattia. L'adalimumab da 450 euro senza questi passi, e senza Quantiferon da 60 euro, è l'errore.",
+  "examLatencies": {
+    "anamnesi-schiena-infiammatoria": 8,
+    "rx-ossa": 40,
+    "azione-fans-1": 6,
+    "azione-fans-2": 6,
+    "azione-followup-basdai": 10,
+    "quantiferon": 5760,
+    "rm": 2880,
+    "hiv-hcv-hbv": 1440
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-notte",
+      "prompt": "Il dolore la sveglia, e migliora se si alza?",
+      "critical": true,
+      "expectedKeywords": [
+        "notte",
+        "movimento"
+      ],
+      "rationale": "Il ritmo infiammatorio distingue la spondilite dalla lombalgia del magazzino."
+    },
+    {
+      "id": "aq-uveite",
+      "prompt": "Ha avuto un occhio rosso e doloroso, psoriasi o diarrea con sangue?",
+      "critical": true,
+      "expectedKeywords": [
+        "occhio",
+        "diarrea"
+      ],
+      "rationale": "L'uveite sostiene la spondiloartrite. IBD e psoriasi cambierebbero il farmaco più avanti."
+    },
+    {
+      "id": "aq-fans",
+      "prompt": "Quale antinfiammatorio ha preso, a che dose e per quanti giorni di fila?",
+      "critical": true,
+      "expectedKeywords": [
+        "ibuprofene",
+        "dose"
+      ],
+      "rationale": "Senza due FANS a dose piena il biologico non è indicato."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Schober ridotto, dolore alle sacroiliache, espansione toracica un po' ridotta. Non deficit neurologico, non lasègue. L'obiettività è assiale, coerente con la radiografia, e non chiede una RM urgente."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-007-fans",
+      "source": "Sintesi operativa — spondiloartrite assiale e biologico",
+      "quote": "Il biologico si considera dopo il fallimento di almeno due FANS a dose piena. Non è la prima ricetta di un mal di schiena infiammatorio già radiografico."
+    },
+    {
+      "chunkId": "reuma-007-tb",
+      "source": "Tariffe didattiche REUMA-007 — Quantiferon 60 €, adalimumab 450 €",
+      "quote": "Prima di un anti-TNF servono IGRA o equivalente, sierologia epatite e imaging del torace. Saltarli espone a una tubercolosi da riattivazione. Saltare i FANS costa 450 euro senza indicazione."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Dolore infiammatorio e uveite raccolti.",
+      "RX sufficiente, RM non ripetuta a sacroileite già visibile.",
+      "Due FANS prima di ogni biologico.",
+      "Nessun adalimumab senza Quantiferon."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano i FANS già falliti oppure il loro avvio corretto, e lo screening tubercolare se si prescrive un anti-TNF.",
+      "legalCriteria": [
+        "Adalimumab non avviato senza fallimento di due FANS.",
+        "Quantiferon non omesso se il biologico viene comunque scelto.",
+        "RM non usata al posto di un FANS quando la RX è già positiva."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-ossa",
+      "name": "RX bacino",
+      "finding": "Sacroileite bilaterale di grado 2-3. Costo 30 euro. La diagnosi radiografica c'è: la RM non è il passo successivo.",
+      "isAbnormal": true,
+      "priceEuro": 30
+    },
+    {
+      "examId": "ves",
+      "name": "VES",
+      "finding": "VES 28 mm/h, mossa poco. Costo 3,50 euro. Non sostituisce la clinica e non autorizza il biologico.",
+      "isAbnormal": true,
+      "priceEuro": 3.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm",
+      "name": "RM delle sacroiliache",
+      "finding": "Edema midollare, informazione ridondante sulla RX già positiva. Costo 220 euro.",
+      "isAbnormal": true,
+      "priceEuro": 220,
+      "wasteRationale": "RM con sacroileite già radiografica: 220 euro che non cambiano l'avvio dei FANS.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ana",
+      "name": "ANA",
+      "finding": "ANA negativi. Costo 12 euro. Non c'è un sospetto di lupus.",
+      "isAbnormal": false,
+      "priceEuro": 12,
+      "wasteRationale": "ANA non indicati in una spondilite tipica.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Lombalgia infiammatoria e uveite pregressa.",
+    "vitals": {
+      "heartRate": 72,
+      "bloodPressure": "120/70",
+      "spo2": 99,
+      "temperature": 36.6,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 27,
+      "sex": "M",
+      "name": "Andrea Villa"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Sacroileite clinica",
+        "result": "Dolore alle sacroiliache e Schober ridotto.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit neurologico radicolare",
+        "result": "Lasègue negativo, forza integra. Non è un'ernia da operare.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Sacroileite clinica",
+        "result": "Dolore alle sacroiliache e Schober ridotto.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit neurologico radicolare",
+        "result": "Lasègue negativo, forza integra. Non è un'ernia da operare.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rx-ossa": {
+          "finding": "Sacroileite bilaterale di grado 2-3. Costo 30 euro. La diagnosi radiografica c'è: la RM non è il passo successivo.",
+          "normalFinding": "Sacroileite bilaterale di grado 2-3. Costo 30 euro. La diagnosi radiografica c'è: la RM non è il passo successivo.",
+          "isAbnormal": true,
+          "price": 30
+        },
+        "ves": {
+          "finding": "VES 28 mm/h, mossa poco. Costo 3,50 euro. Non sostituisce la clinica e non autorizza il biologico.",
+          "normalFinding": "VES 28 mm/h, mossa poco. Costo 3,50 euro. Non sostituisce la clinica e non autorizza il biologico.",
+          "isAbnormal": true,
+          "price": 3.5
+        },
+        "rm": {
+          "finding": "Edema midollare, informazione ridondante sulla RX già positiva. Costo 220 euro.",
+          "normalFinding": "Edema midollare, informazione ridondante sulla RX già positiva. Costo 220 euro.",
+          "isAbnormal": true,
+          "price": 220
+        },
+        "ana": {
+          "finding": "ANA negativi. Costo 12 euro. Non c'è un sospetto di lupus.",
+          "normalFinding": "ANA negativi. Costo 12 euro. Non c'è un sospetto di lupus.",
+          "isAbnormal": false,
+          "price": 12
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole l'iniezione per smettere di svegliarsi. Minimizza l'ibuprofene preso a caso. Collabora se i due FANS gli vengono presentati come la condizione per arrivare, dopo, al biologico in sicurezza."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Schiena infiammatoria",
+      "prompt": "Cosa deve emergere dal colloquio?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Dolore notturno, miglioramento col movimento, uveite, FANS mai a dose piena",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Chiamarla lombalgia da lavoro e chiudere senza terapia di fondo",
+          "next": "res-ritardo"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "RX, non RM ridondante",
+      "prompt": "La radiografia mostra già la sacroileite. Cosa fai?",
+      "cost": 30,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Ti fermi alla RX e non chiedi la RM",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "RM delle sacroiliache subito, e nel frattempo nessun FANS",
+          "next": "res-rm"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Lo screening solo se serve il biologico",
+      "prompt": "Quando chiedi il Quantiferon?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non ora: prima i FANS. Il Quantiferon precede solo un'eventuale siringa",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Adalimumab oggi e Quantiferon il mese prossimo",
+          "next": "res-tb"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Due FANS",
+      "prompt": "Qual è la prima terapia?",
+      "cost": 6,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Un FANS a dose piena, poi un secondo FANS se il primo fallisce. Nessun biologico",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Adalimumab 40 mg come prima ricetta",
+          "next": "res-biologico"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Attività nel tempo",
+      "prompt": "Cosa rivaluti fra un mese?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Dolore notturno, rigidità e aderenza al FANS, prima di parlare di biologico",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Biologico comunque, perché un solo FANS a spot non è bastato",
+          "next": "res-biologico"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "FANS prima del biologico",
+      "prompt": "Spondilite radiografica, due FANS avviati in sequenza, biologico non anticipato. Lo screening tubercolare resta agganciato a una eventuale scala.",
+      "cost": 36,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-tb",
+      "type": "resolution",
+      "title": "Biologico senza Quantiferon",
+      "prompt": "L'anti-TNF senza IGRA riattiva una tubercolosi latente. L'omissione dello screening è il danno evitabile.",
+      "cost": 450,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-biologico",
+      "type": "resolution",
+      "title": "Biologico senza due FANS",
+      "prompt": "Adalimumab 450 euro senza il fallimento di due FANS a dose piena. Non è indicato e sfora qualunque budget di questo caso.",
+      "cost": 450,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-rm",
+      "type": "resolution",
+      "title": "RM non necessaria",
+      "prompt": "Con la sacroileite già in radiografia la RM costa 220 euro e non sblocca la terapia.",
+      "cost": 220,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ritardo",
+      "type": "resolution",
+      "title": "Dolore infiammatorio non trattato",
+      "prompt": "Dimettere una schiena infiammatoria come usura da lavoro lascia progredire la rigidità. Il ritardo è in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

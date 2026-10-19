@@ -1,0 +1,358 @@
+{
+  "id": "REUMA-011",
+  "code": "REUMA-011",
+  "title": "Polimialgia reumatica",
+  "description": "Anna Marino, 71 anni, ha da tre settimane dolore e rigidità del cingolo scapolare e pelvico, tanto da non alzarsi dal letto. La VES di oggi è 18 mm/h. Una VES normale non cancella la polimialgia. Il percorso è la clinica, l'esclusione dell'arterite cranica e il prednisone a basso dosaggio, con la risposta come conferma. L'EMG è la trappola.",
+  "difficulty": "MEDIUM",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "Polimialgia reumatica: diagnosi anche con VES normale, EMG non indicata",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Polimialgia reumatica — clinica e prednisone basso, VES normale non esclude",
+  "diagnosis": "Polimialgia reumatica con VES normale. Prednisone 15 mg e risposta rapida attesa. Non EMG. Sintomi cranici cercati e assenti.",
+  "pastMedicalHistory": "Ipertensione. Nessuna cefalea nuova, nessuna claudicatio masticatoria, nessun velo visivo: va chiesto, non dato per scontato. Non ha debolezza vera, si veste da sola se la rigidità cede. Una VES fatta ieri è 18 e il collega ha escluso la polimialgia per questo. Diabete assente. Allergie: nessuna.",
+  "presentation": "Entra aiutata, le spalle non si alzano. Se le si dice che con la VES normale non può essere polimialgia, si scoraggia. Se le si dà il prednisone basso e le si chiede di tornare in tre giorni, accetta. Se le si prenota un'elettromiografia, chiede se deve soffrire ancora un mese.",
+  "redHerrings": [
+    "La VES 18 viene usata per rifiutare la diagnosi.",
+    "Il dolore alle cosce fa pensare a una polimiosite e si chiede l'EMG.",
+    "Una cefalea tensiva vecchia di anni viene scambiata per Horton."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Anna Marino, 71 anni, ambulatorio. Registro: sofferente, frasi lente. Alla «Come sta?»: «Non esco dal letto. Le spalle sono di legno.» Non dire tu polimialgia. Se chiedono rigidità, forza vera, testa, masticazione, vista: più di un'ora al mattino, la forza c'è ma il dolore blocca, niente cefalea nuova, mastichi, la vista è quella di sempre. Se ti dicono che la VES è normale e quindi non è niente, ti chiudi. Se ti danno il cortisone basso e un controllo a tre giorni, lo prendi. Se ti mandano all'elettromiografia, chiedi quanto devi aspettare. Non nominare budget.",
+  "correctSolution": "Polimialgia reumatica nonostante la VES normale. Esclusione dei sintomi di Horton. Prednisone 12,5-15 mg, risposta clinica a pochi giorni. Non EMG. Follow-up di glicemia, sintomi cranici e svezzamento.",
+  "goldStandardPath": [
+    "anamnesi-cingolo",
+    "ves",
+    "pcr-pct",
+    "azione-prednisone-basso",
+    "azione-followup-risposta"
+  ],
+  "goldPathNarrative": "1) Anamnesi: cingolo, età, rigidità, assenza di cefalea nuova e di deficit di forza. 2) VES 3,50 euro, qui normale, e PCR 28 euro che può essere solo poco mossa. La VES normale non chiude il caso. 3) Si esclude l'arterite cranica con le domande, non con un EMG. 4) Prednisone 15 mg, costo didattico 4,50 euro. 5) Controllo a 72 ore sulla vestizione. L'EMG costa 70 euro, sopra un budget di 45, e non diagnostica la polimialgia.",
+  "examLatencies": {
+    "anamnesi-cingolo": 8,
+    "ves": 120,
+    "pcr-pct": 240,
+    "azione-prednisone-basso": 6,
+    "azione-followup-risposta": 8,
+    "emg": 2880,
+    "ana": 4320,
+    "ena": 4320
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-cingolo",
+      "prompt": "Sono bloccate spalle e anche, e da quante settimane?",
+      "critical": true,
+      "expectedKeywords": [
+        "spalle",
+        "settimane"
+      ],
+      "rationale": "Il cingolo bilaterale nell'anziano è il nucleo della polimialgia."
+    },
+    {
+      "id": "aq-forza",
+      "prompt": "La forza c'è, una volta superato il dolore, o il muscolo cede?",
+      "critical": true,
+      "expectedKeywords": [
+        "forza",
+        "dolore"
+      ],
+      "rationale": "Il dolore senza debolezza vera allontana la miopatia e rende inutile l'EMG."
+    },
+    {
+      "id": "aq-cranio",
+      "prompt": "Ha cefalea nuova, dolore a masticare o un calo della vista?",
+      "critical": true,
+      "expectedKeywords": [
+        "cefalea",
+        "vista"
+      ],
+      "rationale": "Questi sintomi spostano verso l'arterite di Horton e uno steroide più alto."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Spalle e anche dolorose e limitate in modo simmetrico, forza conservata se si vince il dolore. Arterie temporali non dolenti. Nessun deficit neurologico. La VES normale non cancella questo esame."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-011-ves",
+      "source": "Sintesi operativa — polimialgia e VES normale",
+      "quote": "Una quota di polimialgie ha VES normale. Rifiutare la diagnosi su questo solo numero lascia il paziente bloccato a letto. La risposta al prednisone basso è il riscontro che conta."
+    },
+    {
+      "chunkId": "reuma-011-emg",
+      "source": "Tariffe didattiche REUMA-011 — EMG 70 €, budget 45 €",
+      "quote": "L'elettromiografia studia la miopatia e la neuropatia, non la polimialgia. Settanta euro sono sopra il budget e non cambiano il prednisone."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "VES normale non usata per escludere la diagnosi.",
+      "Sintomi cranici cercati.",
+      "Prednisone a basso dosaggio, non un'EMG.",
+      "Risposta clinica ricontrollata in pochi giorni."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano il cingolo, la VES normale reinterpretata, l'assenza di sintomi cranici e la dose di prednisone.",
+      "legalCriteria": [
+        "Diagnosi non rifiutata per una VES di 18.",
+        "Sintomi di Horton chiesti e negativi prima del dosaggio basso.",
+        "EMG non richiesta al posto della prova terapeutica."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ves",
+      "name": "VES",
+      "finding": "VES 18 mm/h, nel limite per l'età. Costo 3,50 euro. Non esclude la polimialgia.",
+      "isAbnormal": false,
+      "priceEuro": 3.5
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "PCR",
+      "finding": "PCR 1,1 mg/dL, mossa poco. Costo 28 euro. Non è un argomento per negare la clinica.",
+      "isAbnormal": true,
+      "priceEuro": 28
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "emg",
+      "name": "EMG",
+      "finding": "Conduzione e tracciato muscolare normali. Costo 70 euro. Non c'era debolezza da studiare.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "EMG nella polimialgia: 70 euro, sopra il budget di 45, senza una miopatia.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ana",
+      "name": "ANA",
+      "finding": "ANA negativi. Costo 12 euro.",
+      "isAbnormal": false,
+      "priceEuro": 12,
+      "wasteRationale": "ANA non diagnosticano la polimialgia.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Rigidità del cingolo e VES normale.",
+    "vitals": {
+      "heartRate": 80,
+      "bloodPressure": "146/82",
+      "spo2": 97,
+      "temperature": 37.2,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 45,
+    "demographics": {
+      "age": 71,
+      "sex": "F",
+      "name": "Anna Marino"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Cingolo doloroso",
+        "result": "Spalle e anche limitate dal dolore, forza conservata.",
+        "isPositive": true
+      },
+      {
+        "signName": "Arteria temporale dolente",
+        "result": "Tempie non dolenti, nessun sintomo visivo.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Cingolo doloroso",
+        "result": "Spalle e anche limitate dal dolore, forza conservata.",
+        "isPositive": true
+      },
+      {
+        "signName": "Arteria temporale dolente",
+        "result": "Tempie non dolenti, nessun sintomo visivo.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ves": {
+          "finding": "VES 18 mm/h, nel limite per l'età. Costo 3,50 euro. Non esclude la polimialgia.",
+          "normalFinding": "VES 18 mm/h, nel limite per l'età. Costo 3,50 euro. Non esclude la polimialgia.",
+          "isAbnormal": false,
+          "price": 3.5
+        },
+        "pcr-pct": {
+          "finding": "PCR 1,1 mg/dL, mossa poco. Costo 28 euro. Non è un argomento per negare la clinica.",
+          "normalFinding": "PCR 1,1 mg/dL, mossa poco. Costo 28 euro. Non è un argomento per negare la clinica.",
+          "isAbnormal": true,
+          "price": 28
+        },
+        "emg": {
+          "finding": "Conduzione e tracciato muscolare normali. Costo 70 euro. Non c'era debolezza da studiare.",
+          "normalFinding": "Conduzione e tracciato muscolare normali. Costo 70 euro. Non c'era debolezza da studiare.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "ana": {
+          "finding": "ANA negativi. Costo 12 euro.",
+          "normalFinding": "ANA negativi. Costo 12 euro.",
+          "isAbnormal": false,
+          "price": 12
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Accetta il rifiuto della diagnosi se glielo dice un medico. Si illumina se le si promette un controllo a tre giorni dopo una compressa, e si abbatte se la si manda all'elettromiografia."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Cingolo e cranio",
+      "prompt": "Cosa chiedi prima di guardare la VES?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Età, cingolo, forza vera, cefalea, masticazione e vista",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Leggere VES 18 e chiudere: non è polimialgia",
+          "next": "res-ves"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Indici, non EMG",
+      "prompt": "Quali esami hanno senso?",
+      "cost": 31.5,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "VES e PCR, sapendo che la VES normale non esclude",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "EMG per una sospetta polimiosite",
+          "next": "res-emg"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Horton esclusa a voce",
+      "prompt": "I sintomi cranici sono assenti. Cosa cambia la dose?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Prednisone basso, non lo schema da arterite. Nessun imaging cranico",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "RM encefalo e biopsia temporale prima di ogni compressa",
+          "next": "res-emg"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prednisone basso",
+      "prompt": "Cosa prescrivi?",
+      "cost": 4.5,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Prednisone 15 mg e un controllo a 72 ore sulla vestizione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Nessuna terapia: la VES normale vieta il cortisone",
+          "next": "res-ves"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "La risposta è il test",
+      "prompt": "A tre giorni si veste da sola. Cosa fai?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Confermi la diagnosi e programmi lo svezzamento, con un occhio alla glicemia",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Chiedi comunque l'EMG prima di continuare",
+          "next": "res-emg"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Polimialgia riconosciuta",
+      "prompt": "Clinica rispettata nonostante la VES, Horton esclusa, prednisone basso, risposta usata come conferma. Nessuna EMG.",
+      "cost": 36,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-ves",
+      "type": "resolution",
+      "title": "Diagnosi rifiutata per la VES",
+      "prompt": "La paziente resta allettata. Una VES normale non era un criterio di esclusione. Il ritardo è il danno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-emg",
+      "type": "resolution",
+      "title": "EMG inutile",
+      "prompt": "L'EMG costa 70 euro e supera il budget di 45. Non distingue la polimialgia e rinvia il prednisone.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

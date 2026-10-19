@@ -1,0 +1,374 @@
+{
+  "id": "REUMA-010",
+  "code": "REUMA-010",
+  "title": "Osteoartrosi del ginocchio",
+  "description": "Roberto Gallo, 67 anni, ha male al ginocchio destro quando scende le scale, rigidità di dieci minuti e un ingrandimento osseo. Gli indici non sono infiammatori. Il percorso è la radiografia, il carico e un FANS breve, non il fattore reumatoide e non un immunosoppressore letto su una PCR normale.",
+  "difficulty": "EASY",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "Osteoartrosi: RX e carico, non FR/anti-CCP né un DMARD",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Osteoartrosi — terapia meccanica, autoanticorpi non indicati",
+  "diagnosis": "Gonartrosi meccanica. Radiografia e riabilitazione. Non FR, non anti-CCP, non metotrexato.",
+  "pastMedicalHistory": "Sovrappeso, ginocchio operato di menisco vent'anni fa. Diabete in dieta. Nessuna psoriasi, nessun gonfiore delle mani. Una PCR fatta in farmacia risulta 0,4 mg/dL e lui crede sia «infiammazione autoimmune» perché lo ha letto così. Allergie: nessuna. Cammina poco.",
+  "presentation": "Zoppica in discesa, il ginocchio non è caldo. Se gli si propone il metotrexato perché «gli esami sono accesi» si preoccupa e accetta. Se gli si mostra che la rigidità dura minuti e non ore, e che la cura è il carico, resta scettico e poi collabora.",
+  "redHerrings": [
+    "La PCR 0,4 viene letta come patologica e apre i DMARD.",
+    "Il menisco operato fa chiedere una RM prima della RX.",
+    "Chiede FR e anti-CCP perché la sorella ha l'artrite reumatoide."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY. Sei Roberto Gallo, 67 anni, ambulatorio. Registro: pratico, un po' diffidente. Alla «Come sta?»: «Scendo le scale e il ginocchio cede.» Non dire tu artrosi. Se chiedono rigidità, gonfiore, mani, febbre, peso: dieci minuti al mattino e poi passa, niente gonfiore vero, mani a posto, niente febbre, sei in sovrappeso. Se ti propongono FR, anti-CCP o il metotrexato perché tua sorella ha l'artrite, li vuoi. Se ti spiegano la radiografia e il dimagrimento, brontoli e accetti. Non nominare budget.",
+  "correctSolution": "Osteoartrosi. RX del ginocchio, calo ponderale, esercizio e un FANS topico o breve. Non FR, non anti-CCP, non metotrexato, non adalimumab. Follow-up sulla funzione, non sugli anticorpi.",
+  "goldStandardPath": [
+    "anamnesi-meccanica",
+    "rx-ossa",
+    "azione-carico",
+    "azione-no-dmard",
+    "azione-followup-funzione"
+  ],
+  "goldPathNarrative": "1) Anamnesi: dolore in discesa, rigidità breve, nessuna sinovite. 2) RX del ginocchio 30 euro, dentro un budget di 40. FR 8 e anti-CCP 15, sommati, lo sforano. 3) Non c'è uno screening da immunosoppressore perché l'immunosoppressore non si dà. 4) Carico, esercizio, FANS breve. Non metotrexato 12,50 e non adalimumab 450. 5) Follow-up sul cammino, non su un titolo anticorpale.",
+  "examLatencies": {
+    "anamnesi-meccanica": 8,
+    "rx-ossa": 40,
+    "azione-carico": 8,
+    "azione-no-dmard": 4,
+    "azione-followup-funzione": 8,
+    "fr": 1440,
+    "anti-ccp": 4320,
+    "ana": 4320,
+    "rm": 2880
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-rigidita",
+      "prompt": "Quanti minuti dura la rigidità, e il dolore è peggio in movimento o a riposo?",
+      "critical": true,
+      "expectedKeywords": [
+        "minuti",
+        "scale"
+      ],
+      "rationale": "Dieci minuti e il dolore meccanico escludono l'artrite infiammatoria."
+    },
+    {
+      "id": "aq-mani",
+      "prompt": "Le mani si gonfiano, ha psoriasi o febbre?",
+      "critical": true,
+      "expectedKeywords": [
+        "mani",
+        "febbre"
+      ],
+      "rationale": "Senza sinovite sistemica FR e anti-CCP non hanno indicazione."
+    },
+    {
+      "id": "aq-pcr",
+      "prompt": "Chi le ha detto che la PCR è alta, e qual è il numero?",
+      "critical": true,
+      "expectedKeywords": [
+        "PCR",
+        "numero"
+      ],
+      "rationale": "Una PCR normale letta come patologica è la porta del DMARD sbagliato."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ginocchio destro con bozze ossee, non versamento, non calore. Arco doloroso in discesa. Mani senza sinovite. L'obiettività è artrosica. Un immunosoppressore qui è un errore di lettura, non una terapia."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-010-rx",
+      "source": "Sintesi operativa — osteoartrosi, niente DMARD",
+      "quote": "Il dolore meccanico con rigidità breve si studia con la radiografia e si tratta con carico, esercizio e analgesia. Il metotrexato non è un antidolorifico dell'artrosi."
+    },
+    {
+      "chunkId": "reuma-010-anticorpi",
+      "source": "Tariffe didattiche REUMA-010 — RX 30 €, FR 8 €, anti-CCP 15 €",
+      "quote": "FR e anti-CCP aggiunti a una RX già indicata superano un budget di 40 euro e non cambiano la gonartrosi."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Dolore meccanico distinto dall'artrite.",
+      "RX fatta, RM non anticipata.",
+      "FR e anti-CCP non richiesti.",
+      "Nessun immunosoppressore. Spesa entro 40 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano la rigidità breve, la PCR normale e il rifiuto motivato di FR, anti-CCP e metotrexato.",
+      "legalCriteria": [
+        "Metotrexato non prescritto su una PCR normale.",
+        "FR e anti-CCP non richiesti per un dolore meccanico.",
+        "Il numero della PCR è stato riletto, non dato per alto."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-ossa",
+      "name": "RX ginocchio",
+      "finding": "Restringimento della rima mediale, osteofiti. Costo 30 euro. È l'imaging indicato.",
+      "isAbnormal": true,
+      "priceEuro": 30
+    },
+    {
+      "examId": "azione-carico",
+      "name": "Calo ponderale e esercizio",
+      "finding": "Il trattamento dell'artrosi è il carico, non un anticorpo. Nessun costo di nomenclatore.",
+      "isAbnormal": false,
+      "priceEuro": 0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "fr",
+      "name": "FR",
+      "finding": "FR negativo. Costo 8 euro. Inutile.",
+      "isAbnormal": false,
+      "priceEuro": 8,
+      "wasteRationale": "FR per un dolore meccanico senza sinovite.",
+      "inappropriate": true
+    },
+    {
+      "examId": "anti-ccp",
+      "name": "Anti-CCP",
+      "finding": "Anti-CCP negativo. Costo 15 euro.",
+      "isAbnormal": false,
+      "priceEuro": 15,
+      "wasteRationale": "Anti-CCP non diagnostica l'artrosi. Con il FR sfora il budget.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ana",
+      "name": "ANA",
+      "finding": "ANA negativi. Costo 12 euro.",
+      "isAbnormal": false,
+      "priceEuro": 12,
+      "wasteRationale": "ANA senza segni di connettivite.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Gonalgia meccanica.",
+    "vitals": {
+      "heartRate": 70,
+      "bloodPressure": "136/80",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "demographics": {
+      "age": 67,
+      "sex": "M",
+      "name": "Roberto Gallo"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Gonartrosi",
+        "result": "Bozze ossee, dolore in carico, nessun versamento caldo.",
+        "isPositive": true
+      },
+      {
+        "signName": "Sinovite",
+        "result": "Assente. Non c'è un bersaglio per FR o metotrexato.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Gonartrosi",
+        "result": "Bozze ossee, dolore in carico, nessun versamento caldo.",
+        "isPositive": true
+      },
+      {
+        "signName": "Sinovite",
+        "result": "Assente. Non c'è un bersaglio per FR o metotrexato.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rx-ossa": {
+          "finding": "Restringimento della rima mediale, osteofiti. Costo 30 euro. È l'imaging indicato.",
+          "normalFinding": "Restringimento della rima mediale, osteofiti. Costo 30 euro. È l'imaging indicato.",
+          "isAbnormal": true,
+          "price": 30
+        },
+        "azione-carico": {
+          "finding": "Il trattamento dell'artrosi è il carico, non un anticorpo. Nessun costo di nomenclatore.",
+          "normalFinding": "Il trattamento dell'artrosi è il carico, non un anticorpo. Nessun costo di nomenclatore.",
+          "isAbnormal": false,
+          "price": 0
+        },
+        "fr": {
+          "finding": "FR negativo. Costo 8 euro. Inutile.",
+          "normalFinding": "FR negativo. Costo 8 euro. Inutile.",
+          "isAbnormal": false,
+          "price": 8
+        },
+        "anti-ccp": {
+          "finding": "Anti-CCP negativo. Costo 15 euro.",
+          "normalFinding": "Anti-CCP negativo. Costo 15 euro.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "ana": {
+          "finding": "ANA negativi. Costo 12 euro.",
+          "normalFinding": "ANA negativi. Costo 12 euro.",
+          "isAbnormal": false,
+          "price": 12
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole un farmaco forte perché la sorella «sta meglio con le pastiglie dell'artrite». Si convincere se gli si rilegge la PCR 0,4 e gli si mostra la radiografia."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Meccanico o infiammatorio",
+      "prompt": "Quale domanda separa i due dolori?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Durata della rigidità, carico, assenza di sinovite e il numero vero della PCR",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Dare per buona la PCR «accesa» e aprire un percorso da artrite reumatoide",
+          "next": "res-dmard"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Solo la radiografia",
+      "prompt": "Quali esami prescrivi?",
+      "cost": 30,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "RX del ginocchio. Non FR, non anti-CCP, non RM",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "FR e anti-CCP perché in famiglia c'è l'artrite reumatoide",
+          "next": "res-anticorpi"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Non c'è un immunosoppressore da schermare",
+      "prompt": "Serve uno screening pre-metotrexato?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No: il metotrexato non è indicato, quindi non si scherma una cura che non si dà",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Beta-HCG, Quantiferon ed epatite per poi dare comunque il metotrexato",
+          "next": "res-dmard"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Carico, non DMARD",
+      "prompt": "Cosa prescrivi?",
+      "cost": 0,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Calo ponderale, esercizio e un FANS breve o topico",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Metotrexato 10 mg a settimana",
+          "next": "res-dmard"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Funzione, non titoli",
+      "prompt": "Cosa rivedi fra tre mesi?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Cammino, peso e dolore. Nessun FR di controllo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Ripetere FR e anti-CCP",
+          "next": "res-anticorpi"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Artrosi trattata da artrosi",
+      "prompt": "Radiografia, carico e analgesia. Nessun autoanticorpo e nessun DMARD.",
+      "cost": 30,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-dmard",
+      "type": "resolution",
+      "title": "Immunosoppressore su una PCR normale",
+      "prompt": "Il metotrexato, letto su una PCR 0,4 scambiata per patologica, espone a tossicità senza una malattia infiammatoria. È un errore di lettura.",
+      "cost": 12.5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-anticorpi",
+      "type": "resolution",
+      "title": "FR e anti-CCP nel dolore meccanico",
+      "prompt": "FR 8 euro e anti-CCP 15 euro, sopra la RX da 30, superano il budget di 40 e non modificano la gonartrosi.",
+      "cost": 23,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

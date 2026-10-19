@@ -1,0 +1,360 @@
+{
+  "id": "REUMA-005",
+  "code": "REUMA-005",
+  "title": "Arterite di Horton",
+  "description": "Giuseppe Conti, 74 anni, ha da dieci giorni una cefalea temporale nuova, claudicatio masticatoria e dolore al cingolo. La vista è ancora integra, la VES è alta. Lo steroide ad alto dosaggio parte subito. Attendere la biopsia, o fermarsi su un eco-Doppler, è la trappola che porta alla cecità.",
+  "difficulty": "HARD",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "Arterite a cellule giganti: steroide immediato, biopsia dopo, non eco che ritarda",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Arterite di Horton — prednisone subito, biopsia senza ritardare lo steroide",
+  "diagnosis": "Arterite di Horton a rischio visivo. Prednisone ad alto dosaggio ora. La biopsia dell'arteria temporale si programma dopo, non prima.",
+  "pastMedicalHistory": "Ipertensione in amlodipina. Glaucoma dubbio mai studiato. Non diabetico. Da un mese dolore alle spalle attribuito all'età. Nessuna perdita visiva ancora, ma da stamattina vede «come attraverso un velo» a sinistra per pochi secondi. Allergie: nessuna. Vive con la moglie.",
+  "presentation": "Si tocca la tempia sinistra, che è dolente. Se gli si dice che serve prima l'istologico, si siede ad aspettare. Se gli si dà il prednisone spiegando il rischio sulla vista, accetta anche se teme il cortisone. Non ha un deficit neurologico da TC.",
+  "redHerrings": [
+    "Il glaucoma noto fa rimandare tutto all'oculista di martedì.",
+    "Un eco-Doppler delle temporali «per essere sicuri» occupa il pomeriggio.",
+    "La cefalea sembra tensiva perché non vomita."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 15,
+  "patientPrompt": "ROLEPLAY. Sei Giuseppe Conti, 74 anni, pronto soccorso. Registro: spaventato, frasi lente. Alla «Come sta?»: «La tempia batte. E a sinistra ho visto un velo.» [si tocca la tempia] Non dire tu arterite o Horton. Se chiedono masticazione, spalle, da quanto, vista: fa male masticare la carne da una settimana, le spalle sono rigide da un mese, il velo è stato un attimo stamattina, la vista adesso c'è. Se ti dicono di aspettare una biopsia o un'ecografia prima della compressa, aspetti in silenzio. Se ti danno il cortisone subito e ti spiegano la vista, lo prendi. Non nominare budget.",
+  "correctSolution": "Arterite di Horton. VES e PCR, poi prednisone 60 mg subito, senza attendere la biopsia. La biopsia si prenota entro pochi giorni, sotto steroide. Non un eco-Doppler come pretesto per ritardare. Protezione gastrica e controllo della vista. Follow-up ravvicinato dello svezzamento.",
+  "goldStandardPath": [
+    "anamnesi-cefalea-temporale",
+    "ves",
+    "pcr-pct",
+    "azione-prednisone-immediato",
+    "azione-biopsia-dopo",
+    "azione-followup-vista"
+  ],
+  "goldPathNarrative": "1) Anamnesi: età, cefalea nuova, claudicatio masticatoria, velo visivo, dolore al cingolo. 2) VES 3,50 euro e PCR 28 euro, alte, mentre si prepara lo steroide. 3) Non si attende l'eco-Doppler da 65 euro né la biopsia da 180. 4) Prednisone 60 mg, 4,50 euro a confezione didattica, subito. 5) Biopsia nei giorni successivi, già in steroide, e controllo della vista. Aspettare l'istologico è la strada della cecità.",
+  "examLatencies": {
+    "anamnesi-cefalea-temporale": 5,
+    "ves": 60,
+    "pcr-pct": 60,
+    "azione-prednisone-immediato": 5,
+    "azione-biopsia-dopo": 15,
+    "azione-followup-vista": 10,
+    "ecocolordoppler": 180,
+    "biopsia": 1440,
+    "rm": 2880
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-masticazione",
+      "prompt": "Masticare fa male alla mandibola, e la cefalea è nuova?",
+      "critical": true,
+      "expectedKeywords": [
+        "masticare",
+        "cefalea"
+      ],
+      "rationale": "Claudicatio masticatoria e cefalea nuova nell'anziano sono Horton finché non si dimostra il contrario."
+    },
+    {
+      "id": "aq-vista",
+      "prompt": "Ha avuto un velo, una perdita di campo, o vede doppio?",
+      "critical": true,
+      "expectedKeywords": [
+        "velo",
+        "vista"
+      ],
+      "rationale": "Qualunque sintomo visivo rende lo steroide immediato, non differibile."
+    },
+    {
+      "id": "aq-cingolo",
+      "prompt": "Le spalle e i fianchi sono rigidi al mattino?",
+      "critical": true,
+      "expectedKeywords": [
+        "spalle",
+        "rigidi"
+      ],
+      "rationale": "Il dolore del cingolo è la polimialgia che spesso accompagna l'arterite."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Arteria temporale sinistra dolente e poco pulsatile. Spalle rigide, non deficit di forza. Acuità riferita integra in questo momento, con amaurosis fugace stamattina. Non segni meningei. Il cortisone non si può rimandare a un referto."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-005-steroide",
+      "source": "Sintesi operativa — arterite a cellule giganti",
+      "quote": "Se il sospetto è alto, soprattutto con sintomi visivi, il glucocorticoide ad alto dosaggio parte subito. La biopsia dell'arteria temporale non è un pretesto per aspettare."
+    },
+    {
+      "chunkId": "reuma-005-eco",
+      "source": "Tariffe didattiche REUMA-005 — eco-Doppler 65 €, biopsia 180 €",
+      "quote": "L'eco-Doppler non è il gradino che autorizza lo steroide. Farlo prima della prima dose consuma il tempo in cui la vista si perde."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Sintomi visivi e claudicatio masticatoria raccolti subito.",
+      "Prednisone ad alto dosaggio prima della biopsia.",
+      "Eco-Doppler non usato per ritardare la terapia.",
+      "Follow-up della vista programmato."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano i sintomi cranici, l'ora della prima dose di steroide e il motivo per cui la biopsia è successiva, non precedente.",
+      "legalCriteria": [
+        "Prima dose di prednisone non subordinata al referto bioptico.",
+        "Sintomo visivo scritto, non liquidato come glaucoma.",
+        "Eco-Doppler non anteposto alla terapia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ves",
+      "name": "VES",
+      "finding": "VES 92 mm/h. Costo 3,50 euro. Alta, coerente. Non si attende questo numero per dare lo steroide se i sintomi visivi ci sono già.",
+      "isAbnormal": true,
+      "priceEuro": 3.5
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "PCR",
+      "finding": "PCR 8 mg/dL. Costo 28 euro. Alta. Conferma, non ritarda.",
+      "isAbnormal": true,
+      "priceEuro": 28
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ecocolordoppler",
+      "name": "Eco-Doppler delle temporali prima della terapia",
+      "finding": "Alone ipoecogeno possibile, referto nel pomeriggio. Costo 65 euro. Nel frattempo lo steroide non è partito.",
+      "isAbnormal": true,
+      "priceEuro": 65,
+      "wasteRationale": "Eco-Doppler usato come pretesto per non iniziare il prednisone: spreco di tempo e di 65 euro.",
+      "inappropriate": true
+    },
+    {
+      "examId": "rm",
+      "name": "RM encefalo",
+      "finding": "RM encefalo senza lesioni acute. Costo 220 euro. Non vede l'arterite temporale e fa scadere le ore utili.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "wasteRationale": "RM encefalo non diagnostica l'arterite di Horton e ritarda lo steroide.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. Cefalea temporale nuova e amaurosis fugace.",
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "150/84",
+      "spo2": 97,
+      "temperature": 37.8,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 50,
+    "demographics": {
+      "age": 74,
+      "sex": "M",
+      "name": "Giuseppe Conti"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Arteria temporale dolente",
+        "result": "Tempia sinistra dolente, polso temporale ridotto.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit motorio",
+        "result": "Nessuna emiparesi. Non è un ictus da trombolisi.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Arteria temporale dolente",
+        "result": "Tempia sinistra dolente, polso temporale ridotto.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit motorio",
+        "result": "Nessuna emiparesi. Non è un ictus da trombolisi.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ves": {
+          "finding": "VES 92 mm/h. Costo 3,50 euro. Alta, coerente. Non si attende questo numero per dare lo steroide se i sintomi visivi ci sono già.",
+          "normalFinding": "VES 92 mm/h. Costo 3,50 euro. Alta, coerente. Non si attende questo numero per dare lo steroide se i sintomi visivi ci sono già.",
+          "isAbnormal": true,
+          "price": 3.5
+        },
+        "pcr-pct": {
+          "finding": "PCR 8 mg/dL. Costo 28 euro. Alta. Conferma, non ritarda.",
+          "normalFinding": "PCR 8 mg/dL. Costo 28 euro. Alta. Conferma, non ritarda.",
+          "isAbnormal": true,
+          "price": 28
+        },
+        "ecocolordoppler": {
+          "finding": "Alone ipoecogeno possibile, referto nel pomeriggio. Costo 65 euro. Nel frattempo lo steroide non è partito.",
+          "normalFinding": "Alone ipoecogeno possibile, referto nel pomeriggio. Costo 65 euro. Nel frattempo lo steroide non è partito.",
+          "isAbnormal": true,
+          "price": 65
+        },
+        "rm": {
+          "finding": "RM encefalo senza lesioni acute. Costo 220 euro. Non vede l'arterite temporale e fa scadere le ore utili.",
+          "normalFinding": "RM encefalo senza lesioni acute. Costo 220 euro. Non vede l'arterite temporale e fa scadere le ore utili.",
+          "isAbnormal": false,
+          "price": 220
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Obbedisce a chi gli dice di aspettare un esame. Prende il cortisone se gli si nomina la vista con parole semplici, non se gli si promette un'ecografia."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sintomi cranici",
+      "prompt": "Cosa chiedi nei primi minuti?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Cefalea nuova, claudicatio masticatoria, vista e dolore al cingolo",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Liquidarla come cefalea tensiva e dimetterlo",
+          "next": "res-cecita"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Indici, non imaging che ritarda",
+      "prompt": "Cosa chiedi mentre prepari la terapia?",
+      "cost": 31.5,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "VES e PCR, senza aspettare il referto per decidere",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Eco-Doppler delle temporali prima di ogni farmaco",
+          "next": "res-eco"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Rischio visivo",
+      "prompt": "Il velo di stamattina cosa cambia?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Rende lo steroide immediato. Si annotano anche glicemia e pressione, senza ritardare",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Prenotare la biopsia e iniziare il cortisone solo se è positiva",
+          "next": "res-cecita"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prednisone ora",
+      "prompt": "Quale dose e quando?",
+      "cost": 4.5,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Prednisone 40-60 mg subito, gastroprotezione, poi biopsia entro pochi giorni",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "FANS e controllo oculistico fra una settimana",
+          "next": "res-cecita"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Vista e svezzamento",
+      "prompt": "Cosa controlli dopo la prima dose?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Vista a breve, poi svezzamento guidato dai sintomi e dagli indici",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Stop dello steroide dopo tre giorni perché la cefalea è passata",
+          "next": "res-cecita"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Steroide partito in tempo",
+      "prompt": "Prednisone ad alto dosaggio subito, biopsia dopo, vista sorvegliata. L'eco-Doppler non ha ritardato la prima dose.",
+      "cost": 36,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-cecita",
+      "type": "resolution",
+      "title": "Cecità da attesa",
+      "prompt": "La biopsia o l'oculista arrivano dopo la neuropatia ottica ischemica. La vista non torna. L'attesa dello steroide è il danno permanente.",
+      "cost": 180,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco",
+      "type": "resolution",
+      "title": "Eco-Doppler che ritarda la cura",
+      "prompt": "L'eco-Doppler costa 65 euro e supera il budget di 50 se si somma agli indici già chiesti per decidere. Soprattutto occupa le ore in cui andava dato il prednisone.",
+      "cost": 65,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

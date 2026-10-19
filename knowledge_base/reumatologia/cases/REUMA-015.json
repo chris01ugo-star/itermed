@@ -1,0 +1,373 @@
+{
+  "id": "REUMA-015",
+  "code": "REUMA-015",
+  "title": "Pseudogotta da cristalli di CPPD",
+  "description": "Luigi Barbieri, 78 anni, ha un ginocchio caldo da due giorni, senza la podagra dell'alluce. La radiografia di quel ginocchio mostra la condrocalcinosi. Non è gotta: l'allopurinolo non cura i cristalli di pirofosfato. Il percorso è la RX dell'articolazione malata, l'artrocentesi se il dubbio resta, e la colchicina. Radiografare ogni articolazione è la trappola economica.",
+  "difficulty": "MEDIUM",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "CPPD: colchicina, non allopurinolo; RX solo dell'articolazione colpita",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Pseudogotta — cristalli di CPPD, ipouricemizzante non indicato",
+  "diagnosis": "Artrite acuta da pirofosfato (CPPD) del ginocchio, condrocalcinosi radiografica. Colchicina. Non allopurinolo. Non un RX di tutte le articolazioni.",
+  "pastMedicalHistory": "Gonartrosi nota. Uricemia sempre normale, mai gotta, mai tofi. Ipertensione in amlodipina, non in tiazidico. Una crisi simile al ginocchio tre anni fa, passata in una settimana. Non febbre a casa sopra 38. Nessuna ferita. Beve un bicchiere di vino a pranzo. Allergie: nessuna.",
+  "presentation": "Il ginocchio è gonfio, l'alluce è freddo. Se gli si dà l'allopurinolo «per gli acidi» lo prende. Se gli si chiede una lastra di mani, spalle, anche e caviglie oltre al ginocchio, si stanca e chiede se serve. La colchicina la accetta se gli si dice che i cristalli non sono quelli della gotta.",
+  "redHerrings": [
+    "L'artrosi nota fa dare solo un FANS e una dimissione senza nome.",
+    "L'uricemia normale viene usata per escludere ogni cristallo.",
+    "Chiede lastre di tutte le articolazioni che gli hanno mai fatto male."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Luigi Barbieri, 78 anni, pronto soccorso, ginocchio sinistro gonfio. Registro: burbero, frasi corte. Alla «Come sta?»: «Il ginocchio è un pallone. L'alluce sta bene.» Non dire tu pseudogotta. Se chiedono alluce, febbre, gotta precedente, diuretico, altre articolazioni: l'alluce è a posto, febbricola no, niente gotta, niente pastiglia per urinare, tre anni fa lo stesso ginocchio. Se ti danno l'allopurinolo dici «così abbasso gli acidi». Se ti fanno la lastra di quel ginocchio e la colchicina, accetti. Se ti elencano sei lastre, brontoli. Non nominare budget.",
+  "correctSolution": "CPPD del ginocchio. RX di quel ginocchio con condrocalcinosi. Artrocentesi se serve a vedere i cristalli romboidali. Colchicina o FANS. Non allopurinolo. Non RX seriali di tutte le articolazioni. Follow-up e, se ricorrente, ricerca mirata di causa associata, non un pacchetto di lastre.",
+  "goldStandardPath": [
+    "anamnesi-ginocchio",
+    "rx-ossa",
+    "artrocentesi",
+    "azione-colchicina",
+    "azione-followup"
+  ],
+  "goldPathNarrative": "1) Anamnesi: ginocchio, alluce risparmiato, uricemia storica normale, niente tiazidico, niente febbre settica. 2) RX del ginocchio 30 euro: condrocalcinosi. Artrocentesi 55 euro se si vogliono i cristalli. Totale 85, dentro un budget di 120. 3) Non si screena un percorso di gotta. 4) Colchicina 3,50 euro. Allopurinolo 5 euro vietato: non è urato. 5) Follow-up. Sei radiografie invece di una costano circa 180 euro e non cambiano la colchicina.",
+  "examLatencies": {
+    "anamnesi-ginocchio": 6,
+    "rx-ossa": 40,
+    "artrocentesi": 40,
+    "azione-colchicina": 6,
+    "azione-followup": 8,
+    "uricemia": 60,
+    "ana": 4320,
+    "anca": 4320
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-sede",
+      "prompt": "È solo il ginocchio, o anche l'alluce è rosso come nelle crisi di gotta?",
+      "critical": true,
+      "expectedKeywords": [
+        "ginocchio",
+        "alluce"
+      ],
+      "rationale": "L'alluce risparmiato e la storia senza gotta spostano verso il pirofosfato."
+    },
+    {
+      "id": "aq-settica",
+      "prompt": "Ha febbre alta, una ferita o un'iniezione recente nel ginocchio?",
+      "critical": true,
+      "expectedKeywords": [
+        "febbre",
+        "ferita"
+      ],
+      "rationale": "Prima di chiamarla pseudogotta si esclude l'artrite settica."
+    },
+    {
+      "id": "aq-urato",
+      "prompt": "Le hanno mai trovato l'acido urico alto, o prende un diuretico?",
+      "critical": true,
+      "expectedKeywords": [
+        "urico",
+        "diuretico"
+      ],
+      "rationale": "Uricemia storica normale e niente tiazidico tolgono l'allopurinolo dal tavolo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ginocchio sinistro caldo con versamento, alluce freddo, nessun tofo, nessuna porta d'ingresso. Non è una podagra. La lastra di questo ginocchio basta: non serve un giro di radiografie."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-015-cppd",
+      "source": "Sintesi operativa — artrite da pirofosfato",
+      "quote": "I cristalli di CPPD si vedono in artrocentesi o si sospettano dalla condrocalcinosi. L'allopurinolo non li scioglie e non va iniziato."
+    },
+    {
+      "chunkId": "reuma-015-rx",
+      "source": "Tariffe didattiche REUMA-015 — una RX 30 €, sei RX circa 180 €",
+      "quote": "Si radiografa l'articolazione colpita. Ripetere la lastra su ogni distretto che ha mai fatto male moltiplica il costo senza una domanda clinica."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Alluce risparmiato e settica esclusa.",
+      "RX del solo ginocchio, condrocalcinosi vista.",
+      "Allopurinolo non prescritto.",
+      "Colchicina avviata. Spesa entro 120 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano la sede, la condrocalcinosi, il rifiuto dell'allopurinolo e il motivo per cui non si è radiografato tutto lo scheletro.",
+      "legalCriteria": [
+        "Allopurinolo non consegnato per una CPPD.",
+        "Segni settici esclusi prima di una dimissione.",
+        "RX limitata al ginocchio malato."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-ossa",
+      "name": "RX del ginocchio",
+      "finding": "Condrocalcinosi dei menischi, rima artrosica. Costo 30 euro. È la lastra che serve, una sola.",
+      "isAbnormal": true,
+      "priceEuro": 30
+    },
+    {
+      "examId": "artrocentesi",
+      "name": "Artrocentesi",
+      "finding": "Cristalli romboidali, birifrangenti, compatibili con pirofosfato. Nessun germe al Gram. Costo 55 euro.",
+      "isAbnormal": true,
+      "priceEuro": 55
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "uricemia",
+      "name": "Uricemia usata per aprire l'allopurinolo",
+      "finding": "Uricemia 5,1 mg/dL, normale. Costo 3 euro. Non autorizza l'allopurinolo e non esclude i cristalli di CPPD.",
+      "isAbnormal": false,
+      "priceEuro": 3,
+      "wasteRationale": "Usare l'uricemia normale per negare ogni artropatia da cristalli, o per iniziare comunque l'allopurinolo.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ana",
+      "name": "ANA",
+      "finding": "ANA negativi. Costo 12 euro.",
+      "isAbnormal": false,
+      "priceEuro": 12,
+      "wasteRationale": "ANA in una monoartrite da cristalli.",
+      "inappropriate": true
+    },
+    {
+      "examId": "anca",
+      "name": "ANCA",
+      "finding": "ANCA negativi. Costo 20 euro.",
+      "isAbnormal": false,
+      "priceEuro": 20,
+      "wasteRationale": "ANCA senza vasculite, a pioggia.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. Monoartrite del ginocchio e condrocalcinosi.",
+    "vitals": {
+      "heartRate": 86,
+      "bloodPressure": "148/82",
+      "spo2": 97,
+      "temperature": 37.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 120,
+    "demographics": {
+      "age": 78,
+      "sex": "M",
+      "name": "Luigi Barbieri"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Ginocchio con versamento",
+        "result": "Caldo, tumefatto, alluce risparmiato.",
+        "isPositive": true
+      },
+      {
+        "signName": "Podagra",
+        "result": "Prima metatarso-falangea fredda. Non è la gotta classica.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Ginocchio con versamento",
+        "result": "Caldo, tumefatto, alluce risparmiato.",
+        "isPositive": true
+      },
+      {
+        "signName": "Podagra",
+        "result": "Prima metatarso-falangea fredda. Non è la gotta classica.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rx-ossa": {
+          "finding": "Condrocalcinosi dei menischi, rima artrosica. Costo 30 euro. È la lastra che serve, una sola.",
+          "normalFinding": "Condrocalcinosi dei menischi, rima artrosica. Costo 30 euro. È la lastra che serve, una sola.",
+          "isAbnormal": true,
+          "price": 30
+        },
+        "artrocentesi": {
+          "finding": "Cristalli romboidali, birifrangenti, compatibili con pirofosfato. Nessun germe al Gram. Costo 55 euro.",
+          "normalFinding": "Cristalli romboidali, birifrangenti, compatibili con pirofosfato. Nessun germe al Gram. Costo 55 euro.",
+          "isAbnormal": true,
+          "price": 55
+        },
+        "uricemia": {
+          "finding": "Uricemia 5,1 mg/dL, normale. Costo 3 euro. Non autorizza l'allopurinolo e non esclude i cristalli di CPPD.",
+          "normalFinding": "Uricemia 5,1 mg/dL, normale. Costo 3 euro. Non autorizza l'allopurinolo e non esclude i cristalli di CPPD.",
+          "isAbnormal": false,
+          "price": 3
+        },
+        "ana": {
+          "finding": "ANA negativi. Costo 12 euro.",
+          "normalFinding": "ANA negativi. Costo 12 euro.",
+          "isAbnormal": false,
+          "price": 12
+        },
+        "anca": {
+          "finding": "ANCA negativi. Costo 20 euro.",
+          "normalFinding": "ANCA negativi. Costo 20 euro.",
+          "isAbnormal": false,
+          "price": 20
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole la pastiglia degli acidi. Si convince della colchicina se gli si dice che i suoi cristalli non sono quelli della gotta e che una sola lastra del ginocchio basta."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Quale cristallo",
+      "prompt": "Cosa distingui prima degli esami?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Ginocchio sì, alluce no, niente gotta nota, niente febbre settica",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Chiamarla gotta e prescrivere allopurinolo subito",
+          "next": "res-allo"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Una lastra, non sei",
+      "prompt": "Quale imaging?",
+      "cost": 30,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "RX del solo ginocchio malato",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "RX di ginocchia, mani, spalle, anche e caviglie",
+          "next": "res-rx"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cristalli, non urato",
+      "prompt": "La lastra mostra condrocalcinosi. Cosa confermi, e cosa non dosi per curare?",
+      "cost": 55,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Artrocentesi per i cristalli di pirofosfato. L'uricemia non decide l'allopurinolo",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "ANA e ANCA prima di trattare",
+          "next": "res-rx"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Colchicina, non allopurinolo",
+      "prompt": "Cosa consegni?",
+      "cost": 3.5,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Colchicina per l'attacco. Nessun allopurinolo",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Allopurinolo 300 mg da oggi",
+          "next": "res-allo"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non un atlante radiografico",
+      "prompt": "Cosa programmi dopo?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Controllo clinico. Altre lastre solo se un'articolazione si accende",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Radiografare a priori tutte le articolazioni rimaste",
+          "next": "res-rx"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "CPPD riconosciuta",
+      "prompt": "Condrocalcinosi e cristalli di pirofosfato, colchicina, allopurinolo non dato, una sola radiografia.",
+      "cost": 88.5,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-allo",
+      "type": "resolution",
+      "title": "Ipouricemizzante sulla malattia sbagliata",
+      "prompt": "L'allopurinolo non scioglie il pirofosfato. Il paziente prende un farmaco inutile, con i suoi rischi, per una gotta che non ha.",
+      "cost": 5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-rx",
+      "type": "resolution",
+      "title": "RX su ogni articolazione",
+      "prompt": "Sei radiografie costano circa 180 euro e superano il budget di 120. Il ginocchio malato ne chiedeva una.",
+      "cost": 180,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

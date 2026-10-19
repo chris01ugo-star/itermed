@@ -1,0 +1,405 @@
+{
+  "id": "REUMA-012",
+  "code": "REUMA-012",
+  "title": "Artrite reumatoide in follow-up",
+  "description": "Francesca Riva, 49 anni, è in metotrexato 10 mg da quattro mesi per un'artrite reumatoide già nota. Oggi sta meglio e non ha fatto gli esami del fegato da quando ha iniziato. Il percorso è emocromo e transaminasi, non la ripetizione di FR e anti-CCP. Saltare il fegato è la trappola legale.",
+  "difficulty": "MEDIUM",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "Follow-up di artrite reumatoide: fegato ed emocromo, non ridosare gli autoanticorpi",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Metotrexato — emocromo e transaminasi periodici, autoanticorpi non si ripetono",
+  "diagnosis": "Artrite reumatoide in metotrexato, attività buona. Monitoraggio di fegato ed emocromo obbligatorio. FR e anti-CCP non vanno ripetuti.",
+  "pastMedicalHistory": "Artrite reumatoide sieropositiva diagnosticata quattro mesi fa, metotrexato 10 mg a settimana e acido folico, che a volte dimentica. Niente alcol. Ultimo emocromo e ultime transaminasi: il giorno dell'inizio, normali. Nessuna infezione in corso, nessuna dispnea nuova. Beta-HCG negativo il mese scorso, contraccezione con spirale. Allergie: nessuna.",
+  "presentation": "Muove le mani meglio di quattro mesi fa. Se le si dice che si possono saltare gli esami perché sta bene, è contenta. Se le si ripetono FR e anti-CCP «per vedere se sono scesi», chiede se deve pagare di nuovo. Il fegato lo fa fare se le si spiega che il farmaco si ferma su quei numeri.",
+  "redHerrings": [
+    "Il benessere clinico sembra autorizzare a non prelevare.",
+    "Un FR di controllo viene scambiato per un marcatore di attività.",
+    "Una tosse banale fa chiedere una TC torace senza una dispnea."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY. Sei Francesca Riva, 49 anni, controllo di reumatologia. Registro: sollevata, collaborante. Alla «Come sta?»: «Le mani vanno meglio. Il metotrexato lo prendo, il folico a volte no.» Non dire tu che gli esami del fegato sono in ritardo finché non te lo chiedono. Se chiedono alcol, fiato, infezioni, gravidanza, ultima analisi: non bevi, respiri bene, niente febbre, hai la spirale, gli esami sono quelli del primo giorno. Se ti dicono che si può saltare il prelievo, ringrazi. Se ti spiegano fegato e globuli, tiri su la manica. Se ti ripetono gli anticorpi, chiedi a cosa servono. Non nominare budget.",
+  "correctSolution": "Continuare il metotrexato solo dopo emocromo e transaminasi di oggi. Rafforzare il folato. Non ripetere FR, anti-CCP, ANA ed ENA. Follow-up di laboratorio fra 8-12 settimane se i valori sono normali. Nessuna TC.",
+  "goldStandardPath": [
+    "anamnesi-metotrexato",
+    "emocromo",
+    "enzimi-epatici",
+    "creat-urea-gfr",
+    "azione-continua-metotrexato",
+    "azione-followup-laboratorio"
+  ],
+  "goldPathNarrative": "1) Anamnesi: aderenza, alcol, dispnea, infezioni, contraccezione. 2) Emocromo 4,80, transaminasi 10, creatinina 4,50: circa 19 euro, dentro un budget di 40. 3) Non si ripete lo screening autoimmune. 4) Se i numeri sono buoni il metotrexato continua, col folato. 5) Nuovo prelievo fra 8-12 settimane. Ripetere FR, anti-CCP, ANA ed ENA costa circa 60 euro e non misura l'attività.",
+  "examLatencies": {
+    "anamnesi-metotrexato": 8,
+    "emocromo": 240,
+    "enzimi-epatici": 240,
+    "creat-urea-gfr": 240,
+    "azione-continua-metotrexato": 6,
+    "azione-followup-laboratorio": 6,
+    "fr": 1440,
+    "anti-ccp": 4320,
+    "ana": 4320,
+    "ena": 4320
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-aderenza",
+      "prompt": "Ha preso il metotrexato ogni settimana, e il folato?",
+      "critical": true,
+      "expectedKeywords": [
+        "settimana",
+        "folato"
+      ],
+      "rationale": "L'aderenza spiega sia il beneficio sia il rischio di un prelievo saltato."
+    },
+    {
+      "id": "aq-fegato",
+      "prompt": "Beve alcol, ha nausea o il bianco degli occhi giallo? Quando è stato l'ultimo prelievo?",
+      "critical": true,
+      "expectedKeywords": [
+        "alcol",
+        "prelievo"
+      ],
+      "rationale": "Quattro mesi senza transaminasi sono il buco da chiudere oggi."
+    },
+    {
+      "id": "aq-polmone",
+      "prompt": "Ha tosse secca nuova o fiato corto?",
+      "critical": true,
+      "expectedKeywords": [
+        "tosse",
+        "fiato"
+      ],
+      "rationale": "La dispnea nuova farebbe sospettare una tossicità polmonare. Qui non c'è, e non si fa una TC di routine."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Sinovite delle mani molto ridotta rispetto all'esordio. Nessun ittero, nessun crepitio polmonare, nessun segno di infezione. Il benessere clinico non sostituisce emocromo e transaminasi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-012-fegato",
+      "source": "Sintesi operativa — monitoraggio del metotrexato",
+      "quote": "Emocromo e transaminasi si ripetono a intervalli regolari per tutta la durata del metotrexato. Il paziente che sta meglio non è esentato."
+    },
+    {
+      "chunkId": "reuma-012-anticorpi",
+      "source": "Tariffe didattiche REUMA-012 — laboratorio di monitoraggio circa 19 €, anticorpi circa 60 €",
+      "quote": "FR e anti-CCP non si usano per seguire l'attività. Ripeterli costa e non decide se continuare il farmaco."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Emocromo e transaminasi richiesti nonostante il benessere.",
+      "FR e anti-CCP non ripetuti.",
+      "Folato rinforzato.",
+      "Prossimo prelievo già fissato."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano la data dell'ultimo prelievo, i valori di oggi e il motivo per cui gli autoanticorpi non sono stati ripetuti.",
+      "legalCriteria": [
+        "Metotrexato non rinnovato senza un emocromo e delle transaminasi recenti.",
+        "Autoanticorpi non usati come monitoraggio.",
+        "Sintomi polmonari chiesti prima di archiviare la visita."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Leucociti 6.200, piastrine 240.000, emoglobina stabile. Costo 4,80 euro. Il metotrexato si può continuare.",
+      "isAbnormal": false,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "enzimi-epatici",
+      "name": "Transaminasi",
+      "finding": "AST 28, ALT 31, normali. Costo 10 euro. Quattro mesi senza questo numero erano il buco della cartella.",
+      "isAbnormal": false,
+      "priceEuro": 10,
+      "isFatal": true
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina",
+      "finding": "Creatinina 0,8 mg/dL. Costo 4,50 euro. Funzione renale adatta al farmaco.",
+      "isAbnormal": false,
+      "priceEuro": 4.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "fr",
+      "name": "FR di controllo",
+      "finding": "FR ancora positivo, titolo simile. Costo 8 euro. Non misura l'attività.",
+      "isAbnormal": true,
+      "priceEuro": 8,
+      "wasteRationale": "Ripetere il FR in follow-up non cambia la cura.",
+      "inappropriate": true
+    },
+    {
+      "examId": "anti-ccp",
+      "name": "Anti-CCP di controllo",
+      "finding": "Anti-CCP ancora positivo. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15,
+      "wasteRationale": "L'anti-CCP non si usa per monitorare la risposta.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ana",
+      "name": "ANA",
+      "finding": "ANA negativi. Costo 12 euro.",
+      "isAbnormal": false,
+      "priceEuro": 12,
+      "wasteRationale": "ANA non indicati in un follow-up di artrite reumatoide stabile.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ena",
+      "name": "ENA",
+      "finding": "ENA negativo. Costo 25 euro.",
+      "isAbnormal": false,
+      "priceEuro": 25,
+      "wasteRationale": "ENA di controllo: 25 euro senza una domanda clinica.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Controllo di metotrexato a quattro mesi.",
+    "vitals": {
+      "heartRate": 74,
+      "bloodPressure": "122/74",
+      "spo2": 99,
+      "temperature": 36.6,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "demographics": {
+      "age": 49,
+      "sex": "F",
+      "name": "Francesca Riva"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Sinovite residua",
+        "result": "Mani molto migliorate, dolore residuo lieve.",
+        "isPositive": false
+      },
+      {
+        "signName": "Ittero",
+        "result": "Assente. Il fegato si giudica con il prelievo, non con il colore.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Sinovite residua",
+        "result": "Mani molto migliorate, dolore residuo lieve.",
+        "isPositive": false
+      },
+      {
+        "signName": "Ittero",
+        "result": "Assente. Il fegato si giudica con il prelievo, non con il colore.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Leucociti 6.200, piastrine 240.000, emoglobina stabile. Costo 4,80 euro. Il metotrexato si può continuare.",
+          "normalFinding": "Leucociti 6.200, piastrine 240.000, emoglobina stabile. Costo 4,80 euro. Il metotrexato si può continuare.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "enzimi-epatici": {
+          "finding": "AST 28, ALT 31, normali. Costo 10 euro. Quattro mesi senza questo numero erano il buco della cartella.",
+          "normalFinding": "AST 28, ALT 31, normali. Costo 10 euro. Quattro mesi senza questo numero erano il buco della cartella.",
+          "isAbnormal": false,
+          "price": 10
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina 0,8 mg/dL. Costo 4,50 euro. Funzione renale adatta al farmaco.",
+          "normalFinding": "Creatinina 0,8 mg/dL. Costo 4,50 euro. Funzione renale adatta al farmaco.",
+          "isAbnormal": false,
+          "price": 4.5
+        },
+        "fr": {
+          "finding": "FR ancora positivo, titolo simile. Costo 8 euro. Non misura l'attività.",
+          "normalFinding": "FR ancora positivo, titolo simile. Costo 8 euro. Non misura l'attività.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "anti-ccp": {
+          "finding": "Anti-CCP ancora positivo. Costo 15 euro.",
+          "normalFinding": "Anti-CCP ancora positivo. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "ana": {
+          "finding": "ANA negativi. Costo 12 euro.",
+          "normalFinding": "ANA negativi. Costo 12 euro.",
+          "isAbnormal": false,
+          "price": 12
+        },
+        "ena": {
+          "finding": "ENA negativo. Costo 25 euro.",
+          "normalFinding": "ENA negativo. Costo 25 euro.",
+          "isAbnormal": false,
+          "price": 25
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "GOOD",
+      "stressLevel": "LOW",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Felice del miglioramento e pronta a saltare il prelievo. Accetta emocromo e transaminasi se le si dice che senza quei numeri la ricetta non si rinnova."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Farmaco e rischi",
+      "prompt": "Cosa chiedi a una paziente che sta meglio?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Aderenza, folato, alcol, dispnea, infezioni e data dell'ultimo prelievo",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Rinnovare il metotrexato senza domande, visto che sta bene",
+          "next": "res-fegato"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Fegato e emocromo",
+      "prompt": "Quali esami di oggi sono obbligatori?",
+      "cost": 19.3,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Emocromo, transaminasi e creatinina",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Ripetere FR, anti-CCP, ANA ed ENA per vedere se sono scesi",
+          "next": "res-anticorpi"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cosa non riscreenare",
+      "prompt": "La contraccezione c'è e l'epatite fu negativa. Cosa non ripeti?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non ripeti gli autoanticorpi. Il prelievo di sicurezza di oggi resta",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Un pannello autoimmune completo al posto delle transaminasi",
+          "next": "res-anticorpi"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rinnovo condizionato",
+      "prompt": "I valori sono normali. Cosa fai?",
+      "cost": 12.5,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Continui il metotrexato e insisti sul folato",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Lo continui senza aver visto i valori, li farà lei quando può",
+          "next": "res-fegato"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Prossimo prelievo",
+      "prompt": "Quando la rivedi in laboratorio?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Emocromo e transaminasi fra 8-12 settimane, prima se nausea o ittero",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Controllo esami fra un anno",
+          "next": "res-fegato"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Metotrexato monitorato",
+      "prompt": "Fegato ed emocromo visti, farmaco rinnovato, folato rinforzato, anticorpi non ripetuti.",
+      "cost": 31.8,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-fegato",
+      "type": "resolution",
+      "title": "Fegato non monitorato",
+      "prompt": "Quattro mesi più un rinnovo cieco. L'epatotossicità del metotrexato arriva senza un numero in cartella. L'omissione del monitoraggio è il vizio.",
+      "cost": 12.5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-anticorpi",
+      "type": "resolution",
+      "title": "Autoanticorpi ripetuti",
+      "prompt": "FR, anti-CCP, ANA ed ENA costano circa 60 euro e superano il budget di 40. Non dicono se il metotrexato funziona.",
+      "cost": 60,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

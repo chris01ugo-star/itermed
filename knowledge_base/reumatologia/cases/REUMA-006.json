@@ -1,0 +1,358 @@
+{
+  "id": "REUMA-006",
+  "code": "REUMA-006",
+  "title": "Gotta, attacco acuto",
+  "description": "Paolo Ricci, 58 anni, si presenta con il primo dito del piede destro caldo e rosso da una notte. Ha già avuto due episodi identici. L'uricemia in acuto può essere normale e non si inizia l'allopurinolo durante l'attacco. Il percorso è la diagnosi clinica, la colchicina e, a fiamma spenta, il controllo dell'uricemia. La RM e l'allopurinolo immediato sono le trappole.",
+  "difficulty": "EASY",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "Attacco gottoso: colchicina in acuto, allopurinolo solo a fiamma spenta",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Gotta acuta — colchicina o FANS, non allopurinolo nell'attacco, non RM",
+  "diagnosis": "Artrite gottosa acuta della prima metatarso-falangea. Colchicina ora. Allopurinolo non in acuto. RM non diagnostica.",
+  "pastMedicalHistory": "Ipertensione in idroclorotiazide. Beve birra la sera. Due episodi identici all'alluce, passati in una settimana con un antinfiammatorio. Uricemia l'anno scorso 8,2 mg/dL, mai trattato. Creatinina nota normale. Nessuna gotta tofacea. Allergie: nessuna. Non ha febbre alta, non ha ferite.",
+  "presentation": "Non mette la scarpa. L'alluce è lucido e non sopporta il lenzuolo. Se gli si propone una risonanza «per vedere l'osso» accetta. Se gli si dà l'allopurinolo subito, lo prende convinto di curare la causa. La colchicina lo convince se gli si dice che l'attacco si spegne prima e che l'uricemia si sistema dopo.",
+  "redHerrings": [
+    "L'uricemia di oggi, se dosata, è 6,4 e sembra escludere la gotta.",
+    "Il tiazidico viene sospeso e si crede di aver curato l'attacco.",
+    "Chiede una RM perché teme una frattura da sforzo."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Paolo Ricci, 58 anni, pronto soccorso, alluce destro che non tocchi. Registro: irritato, frasi secche. Alla «Come sta?»: «È un tizzone. Non ci entra la scarpa.» Non dire tu che è gotta finché non la nominano. Se chiedono episodi precedenti, birra, diuretico, febbre, trauma: è già successo due volte, bevi birra, prendi una pastiglia per la pressione, niente febbre alta, niente trauma. Se ti danno l'allopurinolo subito dici «finalmente la cura». Se ti danno la colchicina e ti spiegano che l'altra pastiglia si inizia a dolore finito, accetti. Se propongono la risonanza dici «fate, ho paura sia rotto». Non nominare budget.",
+  "correctSolution": "Gotta acuta. Diagnosi clinica sulla podagra recidivante. Colchicina 1 mg. Non allopurinolo durante l'attacco. Non RM. Uricemia e decisione ipouricemizzante a fiamma spenta, con il tiazidico rivalutato.",
+  "goldStandardPath": [
+    "anamnesi-podagra",
+    "uricemia",
+    "azione-colchicina",
+    "azione-non-allopurinolo",
+    "azione-followup-uricemia"
+  ],
+  "goldPathNarrative": "1) Anamnesi: podagra recidivante, birra, tiazidico, niente febbre settica. 2) Uricemia 3 euro, che in acuto può essere normale e non esclude la diagnosi. Non la RM da 220 euro. 3) Non serve uno screening autoimmune. 4) Colchicina 3,50 euro. L'allopurinolo da 5 euro non si inizia oggi. 5) Follow-up a fiamma spenta per l'uricemia e per togliere il diuretico se possibile.",
+  "examLatencies": {
+    "anamnesi-podagra": 6,
+    "uricemia": 60,
+    "azione-colchicina": 8,
+    "azione-non-allopurinolo": 4,
+    "azione-followup-uricemia": 8,
+    "rm": 2880,
+    "artrocentesi": 40,
+    "ana": 4320
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-episodi",
+      "prompt": "È già successo a questo alluce, e quanto è durato?",
+      "critical": true,
+      "expectedKeywords": [
+        "già",
+        "alluce"
+      ],
+      "rationale": "La podagra recidivante è clinica. Non le serve una RM."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "Assume un diuretico, e quanto alcol beve?",
+      "critical": true,
+      "expectedKeywords": [
+        "diuretico",
+        "birra"
+      ],
+      "rationale": "Il tiazidico e la birra sono i fattori scatenanti, da toccare a fiamma spenta."
+    },
+    {
+      "id": "aq-settica",
+      "prompt": "Ha febbre alta, una ferita, o un ginocchio bollente insieme?",
+      "critical": true,
+      "expectedKeywords": [
+        "febbre",
+        "ferita"
+      ],
+      "rationale": "Senza segni settici non si apre un percorso da artrite settica."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Prima metatarso-falangea destra eritematosa, lucida, dolente al minimo tocco. Nessuna porta d'ingresso cutanea, nessuna febbre alta, le altre articolazioni fredde. È una podagra, non una frattura e non una sepsi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-006-acuto",
+      "source": "Sintesi operativa — attacco gottoso acuto",
+      "quote": "Nell'attacco si usa colchicina, un FANS o uno steroide breve. L'allopurinolo non si inizia a fiamma accesa: può prolungare la crisi. Si avvia dopo, con copertura."
+    },
+    {
+      "chunkId": "reuma-006-rm",
+      "source": "Tariffe didattiche REUMA-006 — uricemia 3 €, RM 220 €, colchicina 3,50 €",
+      "quote": "La diagnosi di podagra recidivante non passa dalla RM. Duecentoventi euro non vedono meglio l'attacco di quanto faccia l'esame clinico."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Podagra riconosciuta senza RM.",
+      "Colchicina in acuto.",
+      "Allopurinolo non iniziato durante l'attacco.",
+      "Uricemia interpretata senza usarla per escludere la gotta. Spesa entro 40 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano gli episodi precedenti, la scelta della colchicina e il rinvio esplicito dell'allopurinolo a fiamma spenta.",
+      "legalCriteria": [
+        "Allopurinolo non consegnato in piena crisi.",
+        "RM non richiesta per una podagra tipica.",
+        "Segni settici cercati e assenti prima di chiudere come gotta."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "uricemia",
+      "name": "Uricemia",
+      "finding": "Uricemia 6,4 mg/dL, nel range. In acuto non esclude la gotta. Costo 3 euro. L'anno scorso era 8,2.",
+      "isAbnormal": false,
+      "priceEuro": 3
+    },
+    {
+      "examId": "creat-urea-gfr",
+      "name": "Creatinina",
+      "finding": "Creatinina 0,9 mg/dL. Costo 4,50 euro. Il rene consente la colchicina senza un pannello ulteriore.",
+      "isAbnormal": false,
+      "priceEuro": 4.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm",
+      "name": "RM del piede",
+      "finding": "RM senza frattura, edema aspecifico. Costo 220 euro. Non diagnostica i cristalli e sfora il budget di 40.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "wasteRationale": "RM per diagnosticare una podagra: 220 euro, inutili.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ana",
+      "name": "ANA",
+      "finding": "ANA negativi. Costo 12 euro. Non c'è un sospetto di connettivite.",
+      "isAbnormal": false,
+      "priceEuro": 12,
+      "wasteRationale": "ANA in una podagra tipica.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. Podagra recidivante dell'alluce destro.",
+    "vitals": {
+      "heartRate": 90,
+      "bloodPressure": "142/86",
+      "spo2": 98,
+      "temperature": 37.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 40,
+    "demographics": {
+      "age": 58,
+      "sex": "M",
+      "name": "Paolo Ricci"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Podagra",
+        "result": "Prima metatarso-falangea calda, rossa, intollerante al tocco.",
+        "isPositive": true
+      },
+      {
+        "signName": "Porta d'ingresso settica",
+        "result": "Nessuna ferita né febbre alta.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Podagra",
+        "result": "Prima metatarso-falangea calda, rossa, intollerante al tocco.",
+        "isPositive": true
+      },
+      {
+        "signName": "Porta d'ingresso settica",
+        "result": "Nessuna ferita né febbre alta.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "uricemia": {
+          "finding": "Uricemia 6,4 mg/dL, nel range. In acuto non esclude la gotta. Costo 3 euro. L'anno scorso era 8,2.",
+          "normalFinding": "Uricemia 6,4 mg/dL, nel range. In acuto non esclude la gotta. Costo 3 euro. L'anno scorso era 8,2.",
+          "isAbnormal": false,
+          "price": 3
+        },
+        "creat-urea-gfr": {
+          "finding": "Creatinina 0,9 mg/dL. Costo 4,50 euro. Il rene consente la colchicina senza un pannello ulteriore.",
+          "normalFinding": "Creatinina 0,9 mg/dL. Costo 4,50 euro. Il rene consente la colchicina senza un pannello ulteriore.",
+          "isAbnormal": false,
+          "price": 4.5
+        },
+        "rm": {
+          "finding": "RM senza frattura, edema aspecifico. Costo 220 euro. Non diagnostica i cristalli e sfora il budget di 40.",
+          "normalFinding": "RM senza frattura, edema aspecifico. Costo 220 euro. Non diagnostica i cristalli e sfora il budget di 40.",
+          "isAbnormal": false,
+          "price": 220
+        },
+        "ana": {
+          "finding": "ANA negativi. Costo 12 euro. Non c'è un sospetto di connettivite.",
+          "normalFinding": "ANA negativi. Costo 12 euro. Non c'è un sospetto di connettivite.",
+          "isAbnormal": false,
+          "price": 12
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole la pastiglia che «scioglie l'acido urico» oggi. Accetta la colchicina se gli si dice che l'allopurinolo adesso allunga il fuoco e che si inizierà a dolore finito."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Podagra o altro",
+      "prompt": "Cosa rende clinica la diagnosi?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Episodi identici, birra, tiazidico, assenza di febbre settica",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "RM del piede per escludere la frattura prima di curare",
+          "next": "res-rm"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Uricemia senza farsi ingannare",
+      "prompt": "L'uricemia di oggi è 6,4. Cosa ne fai?",
+      "cost": 3,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non escludi la gotta: in acuto l'uricemia può essere normale",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Escludere la gotta e chiedere ANA e una RM",
+          "next": "res-rm"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Rene prima della colchicina",
+      "prompt": "Cosa verifichi in una riga, senza allargare gli esami?",
+      "cost": 4.5,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Creatinina già nota normale: la colchicina si può usare. Nessun pannello",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Artrocentesi, ANA, ENA e RM prima di ogni compressa",
+          "next": "res-rm"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Acuto, non ipouricemizzante",
+      "prompt": "Cosa consegni oggi?",
+      "cost": 3.5,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Colchicina per l'attacco. Allopurinolo rinviato a fiamma spenta",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Allopurinolo 300 mg da stamattina",
+          "next": "res-allo"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "A fiamma spenta",
+      "prompt": "Cosa programmi dopo?",
+      "cost": 5,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Uricemia a crisi finita e solo allora valutare l'allopurinolo, sospendendo il tiazidico se si può",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Nessun follow-up: l'attacco passa da solo e basta",
+          "next": "res-allo"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Attacco trattato, urato dopo",
+      "prompt": "Colchicina in acuto, allopurinolo rinviato, nessuna RM. Il follow-up dell'uricemia è fissato.",
+      "cost": 16,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-allo",
+      "type": "resolution",
+      "title": "Allopurinolo in piena crisi",
+      "prompt": "L'allopurinolo iniziato nell'attacco mobilita l'urato e prolunga l'artrite. Il paziente torna con un dolore peggiore e una cura sbagliata nel timing.",
+      "cost": 5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-rm",
+      "type": "resolution",
+      "title": "RM per diagnosticare la gotta",
+      "prompt": "La RM del piede costa 220 euro contro un budget di 40. Non vede i cristalli e non cambia la colchicina.",
+      "cost": 220,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

@@ -1,0 +1,453 @@
+{
+  "id": "REUMA-001",
+  "code": "REUMA-001",
+  "title": "Artrite reumatoide all'esordio",
+  "description": "Giulia Ferrara, 46 anni, sarta, da dieci settimane ha gonfiore simmetrico di metacarpo-falangee e interfalangee prossimali, rigidità mattutina di oltre un'ora e presa della mano che cede sul lavoro. Non ha febbre, non ha monoartrite calda, non ha trauma. Il percorso è la conferma infiammatoria con radiografie e autoanticorpi mirati, lo screening di sicurezza e il metotrexato entro tre mesi dall'esordio. La risonanza immediata e il biologico di prima linea sono le trappole.",
+  "difficulty": "MEDIUM",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "Artrite reumatoide all'esordio: csDMARD precoce, non RM né biologico di prima linea",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "EULAR RA — csDMARD subito dopo la diagnosi, biologico solo dopo fallimento",
+  "diagnosis": "Artrite reumatoide all'esordio, sieropositiva. Serve metotrexato dopo screening. Non RM articolare immediata e non adalimumab di prima linea.",
+  "pastMedicalHistory": "Ipotiroidismo in levotiroxina, stabile. Due gravidanze portate a termine, l'ultima otto anni fa. Non beve alcolici. Non ha epatite nota, non ha tubercolosi, non ha allergie. Una zia aveva le mani deformate, mai inquadrata. Assume ibuprofene da tre settimane, con poco beneficio e epigastralgia lieve. Ultimo ciclo regolare, non usa contraccezione.",
+  "presentation": "In ambulatorio tiene le mani socchiuse. Se si chiede solo da quanto fa male, risponde «da un po'» e accetta qualunque risonanza pur di tornare a cucire. Se si ricostruiscono rigidità, simmetria e durata oltre le sei settimane, il quadro è infiammatorio e non meccanico. Parametri stabili, non febbre.",
+  "redHerrings": [
+    "Il dolore al pollice della mano dominante sembra artrosi da lavoro.",
+    "Chiede lei la risonanza perché una collega «ha risolto così».",
+    "L'ibuprofene ha abbassato un po' il dolore e fa sembrare inutile un farmaco di fondo."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY. Sei Giulia Ferrara, 46 anni, sarta, ambulatorio di reumatologia. Registro: preoccupata, frasi brevi, torni sempre al lavoro. Alla «Come sta?»: «Non chiudo più le forbici. La mattina le mani sono blocchi.» Non dire tu che è artrite reumatoide. Se chiedono rigidità, simmetria, da quanto, febbre, altre articolazioni: più di un'ora al risveglio, entrambe le mani, da dieci settimane, niente febbre, anche i polsi. Se propongono una risonanza subito accetti: «Così si vede tutto.» Se propongono radiografie, esami del sangue e poi una compressa settimanale dopo i controlli di fegato e gravidanza, accetti se ti spiegano perché non è un antidolorifico. Se ti mandano a casa solo con l'ibuprofene, [stringe i pugni]: «Tra un mese non lavoro più.» Non nominare budget, linee guida o trappole.",
+  "correctSolution": "Artrite reumatoide all'esordio. Radiografie delle mani, fattore reumatoide, anti-CCP e indici di flogosi; screening con beta-HCG, transaminasi, sierologia epatite e radiografia del torace; metotrexato 10 mg a settimana con folato. Controllo di emocromo e fegato a 4-6 settimane. Non RM immediata. Non adalimumab prima del fallimento del DMARD.",
+  "goldStandardPath": [
+    "anamnesi-infiammatoria",
+    "rx-ossa",
+    "fr",
+    "anti-ccp",
+    "beta-hcg",
+    "enzimi-epatici",
+    "hiv-hcv-hbv",
+    "azione-metotrexato",
+    "azione-followup-laboratorio"
+  ],
+  "goldPathNarrative": "1) Anamnesi: rigidità oltre un'ora, simmetria, durata di dieci settimane, assenza di febbre. 2) Primo livello: RX mani 30 euro, FR 8 euro, anti-CCP 15 euro, emocromo 4,80, VES 3,50, PCR 28 euro. Non la RM da 220 euro. 3) Screening prima del metotrexato: beta-HCG 15 euro, transaminasi 10 euro, sierologia epatitica 35 euro, RX torace 25 euro. 4) Metotrexato 10 mg a settimana, 12,50 euro, più folato. Non adalimumab da 450 euro. 5) Follow-up a 4-6 settimane con emocromo e transaminasi. Il ritardo del DMARD lascia erodere le articolazioni.",
+  "examLatencies": {
+    "anamnesi-infiammatoria": 8,
+    "rx-ossa": 40,
+    "fr": 1440,
+    "anti-ccp": 4320,
+    "beta-hcg": 120,
+    "enzimi-epatici": 240,
+    "hiv-hcv-hbv": 1440,
+    "azione-metotrexato": 10,
+    "azione-followup-laboratorio": 15,
+    "rm": 2880,
+    "ana": 4320,
+    "ena": 4320
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-rigidita",
+      "prompt": "Quanto dura la rigidità al risveglio e da quante settimane?",
+      "critical": true,
+      "expectedKeywords": [
+        "rigidità",
+        "settimane"
+      ],
+      "rationale": "Oltre sei settimane e oltre un'ora al mattino separano l'artrite reumatoide dal dolore meccanico."
+    },
+    {
+      "id": "aq-simmetria",
+      "prompt": "Quali articolazioni sono gonfie, e sono entrambe le mani?",
+      "critical": true,
+      "expectedKeywords": [
+        "mani",
+        "entrambe"
+      ],
+      "rationale": "La simmetria di MCF e IFP è il pattern dell'esordio, non l'artrosi del solo pollice dominante."
+    },
+    {
+      "id": "aq-redflag",
+      "prompt": "Ha febbre, un'articolazione caldissima isolata, o potrebbe essere incinta?",
+      "critical": true,
+      "expectedKeywords": [
+        "febbre",
+        "gravidanza"
+      ],
+      "rationale": "La febbre sposta verso l'artrite settica. La gravidanza vieta il metotrexato."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Sinovite palpabile e simmetrica di metacarpo-falangee e interfalangee prossimali, polsi tumefatti, presa debole. Non noduli, non monartrite bollente, non rush malare. Il quadro è infiammatorio cronico, non artrosi isolata del pollice."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-001-dmard",
+      "source": "Sintesi operativa EULAR — trattamento precoce dell'artrite reumatoide",
+      "quote": "Alla diagnosi si inizia un csDMARD, in prima linea il metotrexato, senza attendere le erosioni. Il biologico non è il primo farmaco se il csDMARD non è stato provato."
+    },
+    {
+      "chunkId": "reuma-001-costi",
+      "source": "Tariffe didattiche REUMA-001 — RX 30 €, FR 8 €, anti-CCP 15 €, RM 220 €, adalimumab 450 €",
+      "quote": "Il primo livello sta nel budget di 210 euro. La RM articolare immediata costa 220 euro da sola e non cambia la decisione di iniziare il metotrexato."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Anamnesi di rigidità, simmetria e durata raccolta prima degli esami.",
+      "RX, FR e anti-CCP prima di qualunque risonanza.",
+      "Screening di gravidanza, fegato ed epatite prima del metotrexato.",
+      "Nessun biologico di prima linea. Spesa entro 210 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano il pattern infiammatorio, gli esami di primo livello, lo screening pre-metotrexato e il motivo per cui la RM e il biologico non sono il primo passo.",
+      "legalCriteria": [
+        "Metotrexato non consegnato senza beta-HCG e senza funzionalità epatica.",
+        "Nessuna dimissione con solo FANS dopo dieci settimane di sinovite.",
+        "Biologico non prescritto come prima linea."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-ossa",
+      "name": "RX mani",
+      "finding": "Osteopenia iuxta-articolare delle MCF, non ancora erosioni grosse. Utile e sufficiente come imaging di esordio. Costo 30 euro.",
+      "isAbnormal": true,
+      "priceEuro": 30
+    },
+    {
+      "examId": "fr",
+      "name": "Fattore reumatoide",
+      "finding": "FR 86 UI/mL, sopra 14. Sieropositività coerente con l'esame clinico. Costo 8 euro.",
+      "isAbnormal": true,
+      "priceEuro": 8
+    },
+    {
+      "examId": "anti-ccp",
+      "name": "Anticorpi anti-CCP",
+      "finding": "Anti-CCP 124 U/mL, sopra 20. Conferma l'artrite reumatoide. Costo 15 euro. Non serve un pannello ANA/ENA.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "beta-hcg",
+      "name": "Beta-HCG",
+      "finding": "Beta-HCG inferiore a 5 mUI/mL. Non è in gravidanza: il metotrexato non è vietato per questo motivo. Costo 15 euro.",
+      "isAbnormal": false,
+      "priceEuro": 15
+    },
+    {
+      "examId": "enzimi-epatici",
+      "name": "Transaminasi",
+      "finding": "AST 22 U/L, ALT 24 U/L. Fegato idoneo a iniziare il metotrexato, da ricontrollare. Costo 10 euro.",
+      "isAbnormal": false,
+      "priceEuro": 10
+    },
+    {
+      "examId": "hiv-hcv-hbv",
+      "name": "Sierologia epatite",
+      "finding": "HBsAg negativo, anti-HBc negativo, anti-HCV negativo. Nessuna epatite attiva da riattivare. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm",
+      "name": "RM articolare immediata",
+      "finding": "RM delle mani: sinovite, nessun dato che non fosse già clinico. Costo 220 euro, sopra il budget di 210. Non anticipa il metotrexato.",
+      "isAbnormal": true,
+      "priceEuro": 220,
+      "wasteRationale": "RM di primo livello senza RX: 220 euro, fuori budget, e ritarda il DMARD.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ana",
+      "name": "ANA non giustificati",
+      "finding": "ANA negativi. Costo 12 euro. Non c'è un sospetto di connettivite oltre l'artrite reumatoide già definita da FR e anti-CCP.",
+      "isAbnormal": false,
+      "priceEuro": 12,
+      "wasteRationale": "ANA a pioggia su un'artrite reumatoide già sieropositiva.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ena",
+      "name": "ENA non giustificato",
+      "finding": "Pannello ENA negativo. Costo 25 euro. Non cambia la decisione terapeutica.",
+      "isAbnormal": false,
+      "priceEuro": 25,
+      "wasteRationale": "ENA senza un pattern clinico di overlap. Costo aggiunto inutile.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio di reumatologia. Sinovite delle mani da dieci settimane.",
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.8,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 210,
+    "demographics": {
+      "age": 46,
+      "sex": "F",
+      "name": "Giulia Ferrara"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Sinovite simmetrica delle mani",
+        "result": "MCF e IFP tumefatte e dolenti in modo simmetrico, rigidità prolungata.",
+        "isPositive": true
+      },
+      {
+        "signName": "Monartrite settica",
+        "result": "Nessuna articolazione isolata, calda e febbrile.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Sinovite simmetrica delle mani",
+        "result": "MCF e IFP tumefatte e dolenti in modo simmetrico, rigidità prolungata.",
+        "isPositive": true
+      },
+      {
+        "signName": "Monartrite settica",
+        "result": "Nessuna articolazione isolata, calda e febbrile.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rx-ossa": {
+          "finding": "Osteopenia iuxta-articolare delle MCF, non ancora erosioni grosse. Utile e sufficiente come imaging di esordio. Costo 30 euro.",
+          "normalFinding": "Osteopenia iuxta-articolare delle MCF, non ancora erosioni grosse. Utile e sufficiente come imaging di esordio. Costo 30 euro.",
+          "isAbnormal": true,
+          "price": 30
+        },
+        "fr": {
+          "finding": "FR 86 UI/mL, sopra 14. Sieropositività coerente con l'esame clinico. Costo 8 euro.",
+          "normalFinding": "FR 86 UI/mL, sopra 14. Sieropositività coerente con l'esame clinico. Costo 8 euro.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "anti-ccp": {
+          "finding": "Anti-CCP 124 U/mL, sopra 20. Conferma l'artrite reumatoide. Costo 15 euro. Non serve un pannello ANA/ENA.",
+          "normalFinding": "Anti-CCP 124 U/mL, sopra 20. Conferma l'artrite reumatoide. Costo 15 euro. Non serve un pannello ANA/ENA.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "beta-hcg": {
+          "finding": "Beta-HCG inferiore a 5 mUI/mL. Non è in gravidanza: il metotrexato non è vietato per questo motivo. Costo 15 euro.",
+          "normalFinding": "Beta-HCG inferiore a 5 mUI/mL. Non è in gravidanza: il metotrexato non è vietato per questo motivo. Costo 15 euro.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "enzimi-epatici": {
+          "finding": "AST 22 U/L, ALT 24 U/L. Fegato idoneo a iniziare il metotrexato, da ricontrollare. Costo 10 euro.",
+          "normalFinding": "AST 22 U/L, ALT 24 U/L. Fegato idoneo a iniziare il metotrexato, da ricontrollare. Costo 10 euro.",
+          "isAbnormal": false,
+          "price": 10
+        },
+        "hiv-hcv-hbv": {
+          "finding": "HBsAg negativo, anti-HBc negativo, anti-HCV negativo. Nessuna epatite attiva da riattivare. Costo 35 euro.",
+          "normalFinding": "HBsAg negativo, anti-HBc negativo, anti-HCV negativo. Nessuna epatite attiva da riattivare. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        },
+        "rm": {
+          "finding": "RM delle mani: sinovite, nessun dato che non fosse già clinico. Costo 220 euro, sopra il budget di 210. Non anticipa il metotrexato.",
+          "normalFinding": "RM delle mani: sinovite, nessun dato che non fosse già clinico. Costo 220 euro, sopra il budget di 210. Non anticipa il metotrexato.",
+          "isAbnormal": true,
+          "price": 220
+        },
+        "ana": {
+          "finding": "ANA negativi. Costo 12 euro. Non c'è un sospetto di connettivite oltre l'artrite reumatoide già definita da FR e anti-CCP.",
+          "normalFinding": "ANA negativi. Costo 12 euro. Non c'è un sospetto di connettivite oltre l'artrite reumatoide già definita da FR e anti-CCP.",
+          "isAbnormal": false,
+          "price": 12
+        },
+        "ena": {
+          "finding": "Pannello ENA negativo. Costo 25 euro. Non cambia la decisione terapeutica.",
+          "normalFinding": "Pannello ENA negativo. Costo 25 euro. Non cambia la decisione terapeutica.",
+          "isAbnormal": false,
+          "price": 25
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Pratica e spaventata dal lavoro perso. Accetta la risonanza se proposta. Si fida del metotrexato solo se le si dice che le radiografie e gli esami del sangue bastano e che il fegato verrà ricontrollato."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Pattern infiammatorio",
+      "prompt": "Come inquadri il dolore alle mani prima di prescrivere esami?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Chiedere rigidità mattutina, simmetria, durata e febbre",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Chiamarla artrosi da lavoro e dimetterla con il solo ibuprofene",
+          "next": "res-ritardo"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Primo livello",
+      "prompt": "Quale imaging e quale sierologia sono il primo livello?",
+      "cost": 89.3,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "RX mani, FR, anti-CCP, emocromo, VES e PCR",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "RM delle mani subito, senza radiografie",
+          "next": "res-rm"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Sicurezza pre-metotrexato",
+      "prompt": "Prima di consegnare il metotrexato, cosa controlli?",
+      "cost": 85,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Beta-HCG, transaminasi, sierologia epatite e RX torace",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Iniziare il metotrexato oggi, gli esami di sicurezza al prossimo mese",
+          "next": "res-noscreen"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaco di fondo",
+      "prompt": "Quale terapia di fondo avvii dopo lo screening negativo?",
+      "cost": 12.5,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Metotrexato 10 mg a settimana più folato",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Adalimumab 40 mg subito, senza provare il DMARD",
+          "next": "res-biologico"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo nel tempo",
+      "prompt": "Come programmi il controllo dopo l'avvio?",
+      "cost": 14.8,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Emocromo e transaminasi tra 4-6 settimane, e attività di malattia",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Controllo fra un anno, se il dolore torna",
+          "next": "res-ritardo"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "DMARD avviato in sicurezza",
+      "prompt": "Artrite reumatoide riconosciuta, screening fatto, metotrexato iniziato, follow-up fissato. Nessuna RM e nessun biologico di prima linea.",
+      "cost": 201.6,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-ritardo",
+      "type": "resolution",
+      "title": "Danno da ritardo del DMARD",
+      "prompt": "La sinovite resta senza farmaco di fondo. A sei mesi compaiono erosioni e limitazione permanente della presa. Il ritardo diagnostico-terapeutico è il vizio medico-legale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-rm",
+      "type": "resolution",
+      "title": "RM immediata fuori budget",
+      "prompt": "La RM articolare costa 220 euro e supera da sola il budget di 210. Non aggiunge la decisione che radiografie e anticorpi già sostengono.",
+      "cost": 220,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-noscreen",
+      "type": "resolution",
+      "title": "Metotrexato senza screening",
+      "prompt": "Il metotrexato parte senza beta-HCG e senza fegato. Il rischio è una gravidanza esposta o un'epatite non vista. Lo screening omesso è l'errore legale.",
+      "cost": 12.5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-biologico",
+      "type": "resolution",
+      "title": "Biologico senza fallimento del DMARD",
+      "prompt": "Adalimumab 450 euro di prima linea, senza fallimento del metotrexato. È spreco e non è il percorso di prima scelta.",
+      "cost": 450,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

@@ -114,9 +114,46 @@ const KbBaselineExamFindingsSchema = z
   })
   .passthrough();
 
-/** Prefissi dei casi knowledge-base, incluso Psichiatria (`PSIC-001`). Case-insensitive. */
+/** Prefissi dei casi knowledge-base, incluso Psichiatria (`PSIC-001`) e Reumatologia (`REUMA-001`). Case-insensitive. */
 const KNOWLEDGE_BASE_CASE_ID_RE =
-  /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO|PSIC)-\d{3}$/i;
+  /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO|PSIC|REUMA)-\d{3}$/i;
+
+const CaseFlowChoiceSchema = z.object({
+  id: z.string().min(1).max(80),
+  label: z.string().min(3).max(400),
+  next: z.string().min(1).max(80),
+});
+
+/** Nodo di un albero decisionale: `decision` (bivio) o `resolution` (esito). */
+const CaseFlowNodeSchema = z
+  .object({
+    id: z.string().min(1).max(80),
+    type: z.enum(["decision", "resolution"]),
+    phase: z.enum(["anamnesi", "diagnostica", "screening", "terapia", "follow-up"]).optional(),
+    title: z.string().min(3).max(200),
+    prompt: z.string().min(8).max(2000),
+    cost: z.number().min(0),
+    score: z.number(),
+    outcome: z.enum(["positive", "negative"]).optional(),
+    trap: z.enum(["medico-legale", "economico"]).optional(),
+    choices: z.array(CaseFlowChoiceSchema).min(1).max(6).optional(),
+  })
+  .superRefine((node, ctx) => {
+    if (node.type === "decision" && (!node.choices || node.choices.length < 2)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "un nodo decision richiede almeno due scelte",
+        path: ["choices"],
+      });
+    }
+    if (node.type === "resolution" && !node.outcome) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "un nodo resolution richiede outcome",
+        path: ["outcome"],
+      });
+    }
+  });
 
 /**
  * Structured specialty case authored from `knowledge_base/<specialty>/matrix.json`.
@@ -136,6 +173,7 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
     "malattie_infettive",
     "oncologia",
     "psichiatria",
+    "reumatologia",
   ]),
   specialtyLabel: z.enum([
     "Cardiologia",
@@ -147,6 +185,7 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
     "Malattie Infettive",
     "Oncologia",
     "Psichiatria",
+    "Reumatologia",
   ]),
   condition: z.string().min(3).max(240),
   frequencyCategory: MatrixFrequencySchema,
@@ -186,6 +225,11 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
    */
   secondarySpecialties: z.array(z.string().trim().min(2).max(80)).max(8).optional(),
   secondary_specialties: z.array(z.string().trim().min(2).max(80)).max(8).optional(),
+  /**
+   * Albero decisionale didattico (Reumatologia e casi successivi).
+   * Assente sui casi già pubblicati: non è obbligatorio in ingest.
+   */
+  nodes: z.array(CaseFlowNodeSchema).min(6).max(24).optional(),
 });
 
 export type HealthLiteracy = z.infer<typeof HealthLiteracySchema>;

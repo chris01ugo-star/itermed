@@ -9,6 +9,7 @@
  *   knowledge_base/malattie_infettive/cases/INF-*.json
  *   knowledge_base/oncologia/cases/ONCO-*.json
  *   knowledge_base/psichiatria/cases/PSIC-*.json
+ *   knowledge_base/reumatologia/cases/REUMA-*.json
  *   knowledge_base/tutorials/TUTORIAL-*.json
  *
  * Medicina Interna rows are also upserted into `ClinicalCase` and linked to the
@@ -46,8 +47,9 @@ const SPECIALTIES = [
   "malattie_infettive",
   "oncologia",
   "psichiatria",
+  "reumatologia",
 ] as const;
-const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO|PSIC)-\d{3}\.json$/i;
+const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO|PSIC|REUMA)-\d{3}\.json$/i;
 const MEDICINA_INTERNA_SPECIALTY_NAME = "Medicina Interna";
 const MEDICINA_URGENZA_SPECIALTY_NAME = "Medicina d'Emergenza-Urgenza";
 const NEUROLOGIA_SPECIALTY_NAME = "Neurologia";

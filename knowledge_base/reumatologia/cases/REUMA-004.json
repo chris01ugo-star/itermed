@@ -1,0 +1,404 @@
+{
+  "id": "REUMA-004",
+  "code": "REUMA-004",
+  "title": "Lupus eritematoso sistemico",
+  "description": "Chiara Romano, 29 anni, ha rash malare, fotosensibilità, aftosi e artralgie da due mesi, con urine schiumose. Il percorso è ANA e poi anti-DNA e complemento, lo stick urinario, e l'idrossiclorochina con una contraccezione esplicita prima di qualunque immunosoppressore teratogeno. Il test genetico esteso è la trappola economica.",
+  "difficulty": "HARD",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "LES: ANA, anti-DNA, complemento; contraccezione prima dell'immunosoppressore",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "LES — idrossiclorochina, contraccezione prima di MTX o micofenolato, no NGS",
+  "diagnosis": "Lupus eritematoso sistemico con impegno cutaneo e sospetto renale lieve. Idrossiclorochina e contraccezione. Non un pannello genetico.",
+  "pastMedicalHistory": "Nessuna malattia nota. Fuma cinque sigarette. Non è incinta, ha rapporti non protetti. Non assume farmaci. Una fotosensibilità ogni estate, quest'anno anche afta e gonfiore delle dita. Nessuna trombosi. Famiglia senza lupus noto. Allergie: nessuna.",
+  "presentation": "Ha il rash sulle guance che risparmia il solco naso-labiale, e lo copre con il fondotinta. Se le si propone un test del DNA «completo» accetta perché ha paura di una malattia genetica. Se le si parla di gravidanza e di farmaci che non si possono prendere in gravidanza, si irrigidisce e poi ascolta.",
+  "redHerrings": [
+    "Chiede un test genetico perché un sito ha parlato di lupus ereditario.",
+    "Le artralgie senza erosioni fanno pensare a una fibromialgia e si chiude il caso.",
+    "La pressione è solo un po' alta e le urine schiumose vengono rimandate."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "ROLEPLAY. Sei Chiara Romano, 29 anni, ambulatorio. Registro: allarmata, frasi medie, torni al viso. Alla «Come sta?»: «Ho la farfalla sulla faccia. E la pipì fa schiuma.» Non dire tu che è lupus finché non te lo spiegano. Se chiedono sole, afte, articolazioni, gravidanza, trombosi: il sole peggiora il viso, afte sì, dita gonfie, non sei incinta ma non usi precauzioni, niente trombosi. Se propongono un test genetico da mille euro dici «fatelo, voglio sapere». Se ti prescrivono l'idrossiclorochina e ti chiedono una contraccezione prima di altri farmaci, accetti se ti spiegano il rischio sul feto. Non nominare budget.",
+  "correctSolution": "LES. ANA, anti-DNA, C3/C4, urine e creatinina, beta-HCG. Idrossiclorochina 200 mg. Contraccezione documentata prima di metotrexato o micofenolato, che qui non sono il primo farmaco. Non NGS. Follow-up di proteinurìa e complemento.",
+  "goldStandardPath": [
+    "anamnesi-lupus",
+    "ana",
+    "anti-dna",
+    "c3-c4",
+    "urine-sed",
+    "beta-hcg",
+    "azione-idrossiclorochina",
+    "azione-contraccezione",
+    "azione-followup-renale"
+  ],
+  "goldPathNarrative": "1) Anamnesi: rash, sole, afte, artralgie, schiuma urinaria, rapporti non protetti. 2) ANA 12 euro, poi anti-DNA 15, complemento 14, urine 6, creatinina 4,50. 3) Beta-HCG 15 euro prima di qualunque farmaco teratogeno. 4) Idrossiclorochina 8 euro e contraccezione scritta. Non metotrexato. Non NGS da 1200 euro. 5) Follow-up di proteinuria e complemento, non un secondo test genetico.",
+  "examLatencies": {
+    "anamnesi-lupus": 10,
+    "ana": 4320,
+    "anti-dna": 4320,
+    "c3-c4": 1440,
+    "urine-sed": 60,
+    "beta-hcg": 120,
+    "azione-idrossiclorochina": 8,
+    "azione-contraccezione": 8,
+    "azione-followup-renale": 12,
+    "ngs-panel": 7200,
+    "rm": 2880
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-rash",
+      "prompt": "Il rossore peggiora al sole, e ha afte o gonfiore delle dita?",
+      "critical": true,
+      "expectedKeywords": [
+        "sole",
+        "afte"
+      ],
+      "rationale": "Fotosensibilità e aftosi sono criteri clinici, non un pretesto per un test genetico."
+    },
+    {
+      "id": "aq-rene",
+      "prompt": "Le urine sono schiumose, e la pressione è stata misurata?",
+      "critical": true,
+      "expectedKeywords": [
+        "urine",
+        "pressione"
+      ],
+      "rationale": "La schiuma urinaria è un possibile impegno renale e non si rimanda."
+    },
+    {
+      "id": "aq-gravidanza",
+      "prompt": "Potrebbe essere incinta, e usa un contraccettivo?",
+      "critical": true,
+      "expectedKeywords": [
+        "incinta",
+        "contraccettivo"
+      ],
+      "rationale": "Senza questa domanda un immunosoppressore diventa un danno sul feto."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Eritema malare che risparmia il solco naso-labiale, due afte orali, sinovite lieve delle dita senza deformità. Non edema declive. Pressione 138/88. Il quadro è da lupus, non da sola fotosensibilità benigna."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-004-hcq",
+      "source": "Sintesi operativa — lupus, idrossiclorochina e contraccezione",
+      "quote": "L'idrossiclorochina è il farmaco di fondo. Metotrexato e micofenolato richiedono una gravidanza esclusa e una contraccezione, e non sono il primo passo cutaneo-articolare."
+    },
+    {
+      "chunkId": "reuma-004-ngs",
+      "source": "Tariffe didattiche REUMA-004 — NGS 1200 € contro un budget di 120 €",
+      "quote": "ANA, anti-DNA, complemento, urine e beta-HCG stanno nel budget. Un pannello genetico NGS da 1200 euro non diagnostica il lupus di questa visita."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "ANA seguito da anti-DNA e complemento, non da un NGS.",
+      "Urine e creatinina eseguite per la schiuma.",
+      "Beta-HCG e contraccezione prima di qualunque teratogeno.",
+      "Idrossiclorochina avviata. Spesa entro 120 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano i criteri clinici, gli esami mirati, il beta-HCG e la contraccezione discussa prima di un immunosoppressore.",
+      "legalCriteria": [
+        "Nessun metotrexato né micofenolato senza beta-HCG e senza contraccezione.",
+        "Proteinuria non rimandata.",
+        "NGS non proposto come esame diagnostico del lupus."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ana",
+      "name": "ANA",
+      "finding": "ANA positivi, titolo 1:320, pattern omogeneo. Costo 12 euro. È il test di ingresso, non l'NGS.",
+      "isAbnormal": true,
+      "priceEuro": 12
+    },
+    {
+      "examId": "anti-dna",
+      "name": "Anti-DNA",
+      "finding": "Anti-DNA nativo positivo. Costo 15 euro. Specifico per il lupus in questo contesto.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "c3-c4",
+      "name": "Complemento",
+      "finding": "C3 62 mg/dL, C4 8 mg/dL, entrambi bassi. Costo 14 euro. Attività di malattia.",
+      "isAbnormal": true,
+      "priceEuro": 14
+    },
+    {
+      "examId": "urine-sed",
+      "name": "Urine",
+      "finding": "Proteine 1+, emazie 10 per campo, nessun batterio. Costo 6 euro. Impegno renale da non ignorare.",
+      "isAbnormal": true,
+      "priceEuro": 6
+    },
+    {
+      "examId": "beta-hcg",
+      "name": "Beta-HCG",
+      "finding": "Negativo. Costo 15 euro. Va documentato prima di parlare di immunosoppressori teratogeni.",
+      "isAbnormal": false,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ngs-panel",
+      "name": "Pannello genetico NGS",
+      "finding": "Nessuna variante che spieghi il rash. Costo 1200 euro. Non è il test del lupus.",
+      "isAbnormal": false,
+      "priceEuro": 1200,
+      "wasteRationale": "NGS da 1200 euro, dieci volte il budget, senza indicazione.",
+      "inappropriate": true
+    },
+    {
+      "examId": "rm",
+      "name": "RM",
+      "finding": "RM encefalo non indicata: nessun deficit neurologico. Costo 220 euro.",
+      "isAbnormal": false,
+      "priceEuro": 220,
+      "wasteRationale": "RM difensiva in assenza di segni neurologici.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Rash malare, afte e urine schiumose.",
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "138/88",
+      "spo2": 98,
+      "temperature": 37.4,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 120,
+    "demographics": {
+      "age": 29,
+      "sex": "F",
+      "name": "Chiara Romano"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Rash malare",
+        "result": "Eritema a farfalla che risparmia il solco naso-labiale.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit neurologico",
+        "result": "Nessun deficit focale. La RM encefalo non ha un bersaglio.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Rash malare",
+        "result": "Eritema a farfalla che risparmia il solco naso-labiale.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit neurologico",
+        "result": "Nessun deficit focale. La RM encefalo non ha un bersaglio.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ana": {
+          "finding": "ANA positivi, titolo 1:320, pattern omogeneo. Costo 12 euro. È il test di ingresso, non l'NGS.",
+          "normalFinding": "ANA positivi, titolo 1:320, pattern omogeneo. Costo 12 euro. È il test di ingresso, non l'NGS.",
+          "isAbnormal": true,
+          "price": 12
+        },
+        "anti-dna": {
+          "finding": "Anti-DNA nativo positivo. Costo 15 euro. Specifico per il lupus in questo contesto.",
+          "normalFinding": "Anti-DNA nativo positivo. Costo 15 euro. Specifico per il lupus in questo contesto.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "c3-c4": {
+          "finding": "C3 62 mg/dL, C4 8 mg/dL, entrambi bassi. Costo 14 euro. Attività di malattia.",
+          "normalFinding": "C3 62 mg/dL, C4 8 mg/dL, entrambi bassi. Costo 14 euro. Attività di malattia.",
+          "isAbnormal": true,
+          "price": 14
+        },
+        "urine-sed": {
+          "finding": "Proteine 1+, emazie 10 per campo, nessun batterio. Costo 6 euro. Impegno renale da non ignorare.",
+          "normalFinding": "Proteine 1+, emazie 10 per campo, nessun batterio. Costo 6 euro. Impegno renale da non ignorare.",
+          "isAbnormal": true,
+          "price": 6
+        },
+        "beta-hcg": {
+          "finding": "Negativo. Costo 15 euro. Va documentato prima di parlare di immunosoppressori teratogeni.",
+          "normalFinding": "Negativo. Costo 15 euro. Va documentato prima di parlare di immunosoppressori teratogeni.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "ngs-panel": {
+          "finding": "Nessuna variante che spieghi il rash. Costo 1200 euro. Non è il test del lupus.",
+          "normalFinding": "Nessuna variante che spieghi il rash. Costo 1200 euro. Non è il test del lupus.",
+          "isAbnormal": false,
+          "price": 1200
+        },
+        "rm": {
+          "finding": "RM encefalo non indicata: nessun deficit neurologico. Costo 220 euro.",
+          "normalFinding": "RM encefalo non indicata: nessun deficit neurologico. Costo 220 euro.",
+          "isAbnormal": false,
+          "price": 220
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Colta e spaventata dal viso. Chiede il test genetico. Accetta l'idrossiclorochina se le si collega il rash agli esami mirati e se la contraccezione è spiegata come tutela, non come divieto."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Criteri clinici",
+      "prompt": "Cosa raccogli prima degli esami?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Rash, sole, afte, articolazioni, urine e possibilità di gravidanza",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Saltare al test genetico che ha letto online",
+          "next": "res-ngs"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Sierologia mirata",
+      "prompt": "Quale sequenza di laboratorio?",
+      "cost": 51.5,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ANA, e se positivo anti-DNA, complemento, urine e creatinina",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "NGS e RM encefalo come primo livello",
+          "next": "res-ngs"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Gravidanza e contraccezione",
+      "prompt": "Prima di un immunosoppressore, cosa documenti?",
+      "cost": 15,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Beta-HCG negativo e un metodo contraccettivo scritto in cartella",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Metotrexato oggi: la contraccezione si discute al controllo",
+          "next": "res-contraccezione"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaco di fondo",
+      "prompt": "Cosa avvii adesso?",
+      "cost": 8,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Idrossiclorochina 200 mg. Non metotrexato di prima linea",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Micofenolato subito, senza nefrologo e senza contraccezione",
+          "next": "res-contraccezione"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rene nel tempo",
+      "prompt": "Cosa ricontrolli?",
+      "cost": 20,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Proteinuria, complemento e pressione entro poche settimane",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Ripetere l'NGS e non le urine",
+          "next": "res-ngs"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Lupus inquadrato e coperto",
+      "prompt": "Sierologia mirata, urine viste, idrossiclorochina avviata, contraccezione documentata. Nessun NGS.",
+      "cost": 94.5,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-contraccezione",
+      "type": "resolution",
+      "title": "Immunosoppressore senza contraccezione",
+      "prompt": "Metotrexato o micofenolato in una donna senza contraccezione e senza beta-HCG. Il rischio teratogeno è il danno legale.",
+      "cost": 12.5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ngs",
+      "type": "resolution",
+      "title": "Test genetico inutile",
+      "prompt": "Il pannello NGS costa 1200 euro contro un budget di 120. Non diagnostica questo lupus e ritarda anti-DNA e urine.",
+      "cost": 1200,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

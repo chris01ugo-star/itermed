@@ -1,0 +1,431 @@
+{
+  "id": "REUMA-002",
+  "code": "REUMA-002",
+  "title": "Artrite settica del ginocchio",
+  "description": "Marco De Santis, 62 anni, diabetico, arriva in pronto soccorso con il ginocchio destro bollente da trenta ore e febbre. Non è una riacutizzazione di artrosi da trattare con un pannello autoimmune. Il percorso è l'artrocentesi prima di qualunque antibiotico, poi la terapia mirata e il controllo ortopedico. L'antibiotico alla cieca e gli autoanticorpi a pioggia sono le trappole.",
+  "difficulty": "HARD",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "Artrite settica: artrocentesi prima dell'antibiotico, non pannello autoimmune",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Artrite settica — prelievo sinoviale prima dell'antibiotico empirico",
+  "diagnosis": "Artrite settica del ginocchio destro. L'artrocentesi precede l'antibiotico. FR, anti-CCP, ANA ed ENA non diagnosticano l'infezione.",
+  "pastMedicalHistory": "Diabete di tipo 2 in metformina, glicemie ballerane. Artrosi nota del ginocchio destro, mai operato. Non assume immunosoppressori. Una settimana fa un'iniezione intra-articolare di cortisone dal medico di famiglia. Allergie: nessuna. Non ha gotta documentata, uricemia mai alta. Prostata ingrossata, nessuna ferita cutanea attiva oltre al punto dell'infiltrazione.",
+  "presentation": "Non appoggia il piede. Il ginocchio è caldo, teso, con versamento. Se le si propone di «dare subito la flebo e poi si vede», accetta perché ha paura. Se le si spiega che l'ago serve prima dell'antibiotico, ha timore dell'ago ma resta. Temperatura 38,7 °C.",
+  "redHerrings": [
+    "L'artrosi nota fa sembrare il dolore una riacutizzazione meccanica.",
+    "Il cortisone della settimana scorsa viene scambiato per la causa di tutto, e si rinvia il prelievo.",
+    "Un FR debolmente positivo, se cercato, non spiega la febbre."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "ROLEPLAY. Sei Marco De Santis, 62 anni, pronto soccorso, ginocchio destro che non tocchi. Registro: sofferente, frasi corte. Alla «Come sta?»: «Brucia. Non ci appoggio. Ho i brividi.» [tiene il ginocchio] Non dire tu che è artrite settica. Se chiedono febbre, da quanto, iniezioni, diabete, altre articolazioni: da ieri sera, 38 e mezzo a casa, un'infiltrazione sette giorni fa, diabete, solo questo ginocchio. Se ti danno l'antibiotico prima dell'ago, ti calmi a metà e poi il ginocchio resta distrutto nel racconto, ma tu in scena dici solo «fate qualcosa». Se spiegano l'artrocentesi prima della flebo, accetti dopo un rifiuto breve. Non nominare budget né diagnosi.",
+  "correctSolution": "Artrite settica. Artrocentesi con conta, Gram, coltura e ricerca cristalli prima dell'antibiotico. Poi antibiotico empirico e consulenza ortopedica per il drenaggio. Controllo seriato. Non pannello FR, anti-CCP, ANA, ENA, ANCA.",
+  "goldStandardPath": [
+    "anamnesi-monoartrite",
+    "artrocentesi",
+    "emocromo",
+    "pcr-pct",
+    "azione-antibiotico-dopo-prelievo",
+    "azione-followup-ortopedico"
+  ],
+  "goldPathNarrative": "1) Anamnesi: febbre, infiltrazione recente, diabete, una sola articolazione. 2) Artrocentesi 55 euro prima di ogni antibiotico: liquido purulento, Gram positivo. Emocromo 4,80 euro e PCR 28 euro completano il primo livello. 3) Screening: non serve un pannello autoimmune; serve la coltura in corso e l'assenza di cristalli. 4) Antibiotico solo dopo il prelievo, e drenaggio. 5) Follow-up: rivalutazione del ginocchio e della coltura, non una RM. Il pannello FR+CCP+ANA+ENA+ANCA costa 80 euro e non identifica il germe.",
+  "examLatencies": {
+    "anamnesi-monoartrite": 6,
+    "artrocentesi": 30,
+    "emocromo": 20,
+    "pcr-pct": 60,
+    "azione-antibiotico-dopo-prelievo": 10,
+    "azione-followup-ortopedico": 20,
+    "fr": 1440,
+    "anti-ccp": 4320,
+    "ana": 4320,
+    "ena": 4320,
+    "anca": 4320
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-febbre",
+      "prompt": "Da quante ore è così il ginocchio, e ha avuto febbre?",
+      "critical": true,
+      "expectedKeywords": [
+        "febbre",
+        "ore"
+      ],
+      "rationale": "La monoartrite febbrile è settica finché il liquido non dice il contrario."
+    },
+    {
+      "id": "aq-iniezione",
+      "prompt": "Le hanno punto il ginocchio di recente, ed è diabetico?",
+      "critical": true,
+      "expectedKeywords": [
+        "iniezione",
+        "diabete"
+      ],
+      "rationale": "L'infiltrazione e il diabete sono la porta d'ingresso del germe."
+    },
+    {
+      "id": "aq-altre",
+      "prompt": "È solo questo ginocchio, o si sono gonfiate altre articolazioni?",
+      "critical": true,
+      "expectedKeywords": [
+        "solo",
+        "ginocchio"
+      ],
+      "rationale": "La monoartrite acuta non si studia con un pannello da connettivite."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ginocchio destro caldo, tumefatto, con versamento in tensione. Cute intatta salvo il punto di un'infiltrazione recente. Le altre articolazioni sono fredde. Febbre presente. Non è una poliartrite."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-002-tap",
+      "source": "Sintesi operativa — artrite settica acuta",
+      "quote": "Nella monoartrite febbrile il liquido sinoviale si preleva prima dell'antibiotico, salvo instabilità che impedisca l'ago. La coltura dopo la prima dose è già sporcata."
+    },
+    {
+      "chunkId": "reuma-002-costi",
+      "source": "Tariffe didattiche REUMA-002 — artrocentesi 55 €, pannello autoimmune circa 80 €",
+      "quote": "L'artrocentesi costa 55 euro ed è l'esame che decide. FR, anti-CCP, ANA, ENA e ANCA sommati non trovano lo stafilococco e sforano un budget di 140 euro se si aggiungono al resto."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Artrocentesi eseguita prima della prima dose di antibiotico.",
+      "Nessun pannello autoimmune al posto del liquido sinoviale.",
+      "Antibiotico e drenaggio solo dopo il prelievo.",
+      "Spesa del primo livello entro 140 euro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano l'ora del prelievo, il fatto che precede l'antibiotico, e il motivo per cui gli autoanticorpi non sostituiscono la coltura.",
+      "legalCriteria": [
+        "Nessun antibiotico documentato prima dell'artrocentesi.",
+        "Coltura del liquido richiesta, non solo un emocromo.",
+        "Consulenza per il drenaggio non rinviata al giorno dopo senza motivo."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "artrocentesi",
+      "name": "Artrocentesi del ginocchio",
+      "finding": "Liquido torbido, 72.000 globuli bianchi, Gram con cocchi Gram positivi, cristalli assenti. Costo 55 euro. Va fatto prima dell'antibiotico.",
+      "isAbnormal": true,
+      "priceEuro": 55,
+      "isFatal": true
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Leucociti 16.400/mm3, neutrofilia. Costo 4,80 euro. Conferma l'infiammazione sistemica, non sostituisce il liquido.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "PCR",
+      "finding": "PCR 14 mg/dL. Costo 28 euro. Alta, come atteso in un'infezione articolare, non discriminante da sola.",
+      "isAbnormal": true,
+      "priceEuro": 28
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "fr",
+      "name": "Fattore reumatoide",
+      "finding": "FR 18 UI/mL, debolmente sopra soglia. Costo 8 euro. Non spiega la febbre e non autorizza a saltare l'ago.",
+      "isAbnormal": true,
+      "priceEuro": 8,
+      "wasteRationale": "FR in una monoartrite febbrile: falso binario, costa e ritarda il prelievo.",
+      "inappropriate": true
+    },
+    {
+      "examId": "anti-ccp",
+      "name": "Anti-CCP",
+      "finding": "Anti-CCP negativo. Costo 15 euro. Inutile in acuto su un ginocchio settico.",
+      "isAbnormal": false,
+      "priceEuro": 15,
+      "wasteRationale": "Anti-CCP non diagnostica l'artrite settica.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ana",
+      "name": "ANA",
+      "finding": "ANA negativi. Costo 12 euro.",
+      "isAbnormal": false,
+      "priceEuro": 12,
+      "wasteRationale": "ANA non hanno indicazione in una monoartrite febbrile.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ena",
+      "name": "ENA",
+      "finding": "ENA negativo. Costo 25 euro.",
+      "isAbnormal": false,
+      "priceEuro": 25,
+      "wasteRationale": "Pannello ENA a pioggia, 25 euro senza un sospetto di connettivite.",
+      "inappropriate": true
+    },
+    {
+      "examId": "anca",
+      "name": "ANCA",
+      "finding": "ANCA negativi. Costo 20 euro.",
+      "isAbnormal": false,
+      "priceEuro": 20,
+      "wasteRationale": "ANCA non sostituiscono l'artrocentesi.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso. Monoartrite febbrile del ginocchio destro.",
+    "vitals": {
+      "heartRate": 108,
+      "bloodPressure": "100/64",
+      "spo2": 96,
+      "temperature": 38.7,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 140,
+    "demographics": {
+      "age": 62,
+      "sex": "M",
+      "name": "Marco De Santis"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Ginocchio settica",
+        "result": "Calore, versamento in tensione, dolore alla minima mobilizzazione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Poliartrite",
+        "result": "Le altre articolazioni sono fredde e non tumefatte.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Ginocchio settica",
+        "result": "Calore, versamento in tensione, dolore alla minima mobilizzazione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Poliartrite",
+        "result": "Le altre articolazioni sono fredde e non tumefatte.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "artrocentesi": {
+          "finding": "Liquido torbido, 72.000 globuli bianchi, Gram con cocchi Gram positivi, cristalli assenti. Costo 55 euro. Va fatto prima dell'antibiotico.",
+          "normalFinding": "Liquido torbido, 72.000 globuli bianchi, Gram con cocchi Gram positivi, cristalli assenti. Costo 55 euro. Va fatto prima dell'antibiotico.",
+          "isAbnormal": true,
+          "price": 55
+        },
+        "emocromo": {
+          "finding": "Leucociti 16.400/mm3, neutrofilia. Costo 4,80 euro. Conferma l'infiammazione sistemica, non sostituisce il liquido.",
+          "normalFinding": "Leucociti 16.400/mm3, neutrofilia. Costo 4,80 euro. Conferma l'infiammazione sistemica, non sostituisce il liquido.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pcr-pct": {
+          "finding": "PCR 14 mg/dL. Costo 28 euro. Alta, come atteso in un'infezione articolare, non discriminante da sola.",
+          "normalFinding": "PCR 14 mg/dL. Costo 28 euro. Alta, come atteso in un'infezione articolare, non discriminante da sola.",
+          "isAbnormal": true,
+          "price": 28
+        },
+        "fr": {
+          "finding": "FR 18 UI/mL, debolmente sopra soglia. Costo 8 euro. Non spiega la febbre e non autorizza a saltare l'ago.",
+          "normalFinding": "FR 18 UI/mL, debolmente sopra soglia. Costo 8 euro. Non spiega la febbre e non autorizza a saltare l'ago.",
+          "isAbnormal": true,
+          "price": 8
+        },
+        "anti-ccp": {
+          "finding": "Anti-CCP negativo. Costo 15 euro. Inutile in acuto su un ginocchio settico.",
+          "normalFinding": "Anti-CCP negativo. Costo 15 euro. Inutile in acuto su un ginocchio settico.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "ana": {
+          "finding": "ANA negativi. Costo 12 euro.",
+          "normalFinding": "ANA negativi. Costo 12 euro.",
+          "isAbnormal": false,
+          "price": 12
+        },
+        "ena": {
+          "finding": "ENA negativo. Costo 25 euro.",
+          "normalFinding": "ENA negativo. Costo 25 euro.",
+          "isAbnormal": false,
+          "price": 25
+        },
+        "anca": {
+          "finding": "ANCA negativi. Costo 20 euro.",
+          "normalFinding": "ANCA negativi. Costo 20 euro.",
+          "isAbnormal": false,
+          "price": 20
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole la flebo subito e teme l'ago. Si fida se gli si dice che l'antibiotico dato prima rovina l'esame che serve a salvargli il ginocchio."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Monoartrite febbrile",
+      "prompt": "Cosa devi sapere prima di scegliere l'esame?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Febbre, durata, infiltrazione recente, diabete, una sola articolazione",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Darla per artrosi riacutizzata e prenotare una RM",
+          "next": "res-autoimmune"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Artrocentesi prima di tutto",
+      "prompt": "Qual è il primo gesto diagnostico?",
+      "cost": 55,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Artrocentesi con Gram, coltura, conta e cristalli",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Antibiotico endovena subito, il prelievo domani",
+          "next": "res-antibiotico"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cosa non cercare",
+      "prompt": "Quali esami completano il primo livello, e quali no?",
+      "cost": 32.8,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Emocromo e PCR, in attesa della coltura. Nessun pannello autoimmune",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "FR, anti-CCP, ANA, ENA e ANCA prima di decidere",
+          "next": "res-autoimmune"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antibiotico dopo il prelievo",
+      "prompt": "Quando parte l'antibiotico?",
+      "cost": 8,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Subito dopo l'artrocentesi, empirico, e drenaggio ortopedico",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Attendere cinque giorni l'antibiogramma senza coprire",
+          "next": "res-ritardo"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo del ginocchio",
+      "prompt": "Come segui le ore successive?",
+      "cost": 0,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Rivalutare dolore, febbre e referto colturale, senza RM di routine",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Dimettere con un FANS e un controllo fra due settimane",
+          "next": "res-ritardo"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Prelievo fatto, poi antibiotico",
+      "prompt": "L'artrocentesi precede l'antibiotico, il germe è cercato, il drenaggio è avviato. Nessun pannello autoimmune.",
+      "cost": 95.8,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-antibiotico",
+      "type": "resolution",
+      "title": "Antibiotico prima dell'ago",
+      "prompt": "La prima dose sterilizza il liquido o ne sporca la lettura. Il ginocchio va verso la distruzione cartilaginea senza un germe documentato. È il danno iatrogeno da omissione del prelievo.",
+      "cost": 8,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-autoimmune",
+      "type": "resolution",
+      "title": "Pannello autoimmune al posto del liquido",
+      "prompt": "FR, anti-CCP, ANA, ENA e ANCA costano circa 80 euro e non identificano l'infezione. Sommati al resto superano il budget di 140 euro e fanno perdere ore.",
+      "cost": 80,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ritardo",
+      "type": "resolution",
+      "title": "Ritardo del drenaggio",
+      "prompt": "Senza copertura dopo il prelievo, o con una dimissione, la sepsi articolare progredisce. Il ritardo è il vizio che costa l'articolazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

@@ -1,0 +1,394 @@
+{
+  "id": "REUMA-008",
+  "code": "REUMA-008",
+  "title": "Artrite psoriasica",
+  "description": "Sara Colombo, 36 anni, ha psoriasi del cuoio capelluto, una dattilite del terzo dito e un'artrite asimmetrica. Uno steroide sistemico le spegnerebbe la pelle per poi farla rimbalzare. Il percorso è la diagnosi clinica, un FANS con gastroprotezione e un csDMARD dopo lo screening, non il prednisone.",
+  "difficulty": "MEDIUM",
+  "specialty": "reumatologia",
+  "specialtyLabel": "Reumatologia",
+  "condition": "Artrite psoriasica: niente steroide sistemico, FANS con gastroprotezione",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Artrite psoriasica — evitare lo steroide sistemico, gastroprotezione col FANS",
+  "diagnosis": "Artrite psoriasica con dattilite. FANS più inibitore di pompa. Metotrexato dopo screening. Non prednisone sistemico.",
+  "pastMedicalHistory": "Psoriasi del cuoio capelluto da dieci anni, trattata a fasi con lozioni. Epigastralgia da FANS l'anno scorso, una gastrite documentata. Non è incinta, usa un contraccettivo. Non beve. Transaminasi mai alterate. Nessuna epatite nota. Allergie: nessuna. Unghie con pitting, non se ne è mai accorta.",
+  "presentation": "Mostra il dito a salsicciotto e si scosta i capelli per far vedere le placche. Se le si offre il prednisone «per spegnere tutto» lo vuole. Se le si spiega il rimbalzo sulla pelle e le si dà un FANS con la protezione allo stomaco, accetta.",
+  "redHerrings": [
+    "La dattilite sembra un ascesso e si apre un percorso solo antibiotico.",
+    "Le placche sono lievi e vengono separate dall'artrite come se non c'entrassero.",
+    "Chiede lo stesso steroide che una volta le schiarì la pelle in cinque giorni."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "ROLEPLAY. Sei Sara Colombo, 36 anni, ambulatorio. Registro: pratica, infastidita dal dito. Alla «Come sta?»: «Il dito è una salsiccia. E la testa mi gratta da anni.» Non dire tu artrite psoriasica. Se chiedono pelle, unghie, stomaco, gravidanza, altri FANS: placche in testa, unghie bucate, lo stomaco brucia con l'ibuprofene, prendi la pillola, non sei incinta. Se ti offrono il cortisone in compresse dici «sì, l'altra volta la pelle è sparita». Se ti spiegano il rimbalzo e ti danno un antinfiammatorio con la pastiglia per lo stomaco, accetti. Non nominare budget.",
+  "correctSolution": "Artrite psoriasica. Nessun prednisone sistemico. FANS con gastroprotezione per la gastrite. Screening e poi metotrexato se l'artrite resta. Follow-up di pelle e fegato. Non una RM.",
+  "goldStandardPath": [
+    "anamnesi-dattilite",
+    "rx-ossa",
+    "azione-fans-gastroprotezione",
+    "beta-hcg",
+    "enzimi-epatici",
+    "azione-metotrexato",
+    "azione-followup-cute"
+  ],
+  "goldPathNarrative": "1) Anamnesi: psoriasi, pitting, dattilite, gastrite da FANS, contraccezione già in corso. 2) RX delle mani 30 euro, senza RM. 3) Beta-HCG 15 euro e transaminasi 10 euro prima del metotrexato, anche se riferisce la pillola. 4) FANS più gastroprotezione, non prednisone 4,50 euro che fa rimbalzare la pelle. Poi metotrexato 12,50. 5) Follow-up di cute, dito e fegato.",
+  "examLatencies": {
+    "anamnesi-dattilite": 8,
+    "rx-ossa": 40,
+    "azione-fans-gastroprotezione": 6,
+    "beta-hcg": 120,
+    "enzimi-epatici": 240,
+    "azione-metotrexato": 8,
+    "azione-followup-cute": 10,
+    "rm": 2880,
+    "ana": 4320
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-pelle",
+      "prompt": "Dov'è la psoriasi, e le unghie sono bucate o sollevate?",
+      "critical": true,
+      "expectedKeywords": [
+        "psoriasi",
+        "unghie"
+      ],
+      "rationale": "Cute e unghie legano la dattilite all'artrite psoriasica."
+    },
+    {
+      "id": "aq-stomaco",
+      "prompt": "L'ibuprofene le ha già bruciato lo stomaco?",
+      "critical": true,
+      "expectedKeywords": [
+        "stomaco",
+        "ibuprofene"
+      ],
+      "rationale": "La gastrite impone la gastroprotezione. Senza, il FANS è un sanguinamento."
+    },
+    {
+      "id": "aq-steroide",
+      "prompt": "Ha già preso cortisone in compresse, e cosa ha fatto la pelle dopo?",
+      "critical": true,
+      "expectedKeywords": [
+        "cortisone",
+        "pelle"
+      ],
+      "rationale": "Il rimbalzo cutaneo è il motivo per non ripetere lo steroide sistemico."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dattilite del terzo dito della mano destra, pitting ungueale, placche al cuoio capelluto. Nessun ascesso, nessun pus. Addome trattabile, epigastrio dolente alla pressione. Il prednisone sistemico è la scelta che la pelle pagherà."
+  },
+  "escCitations": [
+    {
+      "chunkId": "reuma-008-steroide",
+      "source": "Sintesi operativa — artrite psoriasica e cortisone sistemico",
+      "quote": "Lo steroide sistemico non è la terapia dell'artrite psoriasica: spegne e poi fa rimbalzare la psoriasi. Si usano FANS, csDMARD e, se serve, un biologico mirato."
+    },
+    {
+      "chunkId": "reuma-008-stomaco",
+      "source": "Sintesi operativa — FANS e gastroprotezione",
+      "quote": "Con una gastrite già documentata il FANS senza inibitore di pompa è un sanguinamento evitabile, non un risparmio."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Pelle, unghie e dattilite collegati nella stessa diagnosi.",
+      "Nessun prednisone sistemico.",
+      "FANS con gastroprotezione.",
+      "Screening prima del metotrexato."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano il rifiuto dello steroide sistemico, la gastrite e la gastroprotezione prescritta insieme al FANS.",
+      "legalCriteria": [
+        "Prednisone sistemico non avviato.",
+        "FANS non dato da solo a una paziente con gastrite.",
+        "Metotrexato non dato senza transaminasi e senza conferma della contraccezione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-ossa",
+      "name": "RX mani",
+      "finding": "Tumefazione delle parti molli del terzo dito, non erosioni grosse. Costo 30 euro. Basta come imaging iniziale.",
+      "isAbnormal": true,
+      "priceEuro": 30
+    },
+    {
+      "examId": "enzimi-epatici",
+      "name": "Transaminasi",
+      "finding": "AST e ALT normali. Costo 10 euro. Il metotrexato si può discutere.",
+      "isAbnormal": false,
+      "priceEuro": 10
+    },
+    {
+      "examId": "beta-hcg",
+      "name": "Beta-HCG",
+      "finding": "Negativo, coerente con la contraccezione riferita. Costo 15 euro. Va comunque documentato.",
+      "isAbnormal": false,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm",
+      "name": "RM della mano",
+      "finding": "Sinovite del dito, dato già clinico. Costo 220 euro.",
+      "isAbnormal": true,
+      "priceEuro": 220,
+      "wasteRationale": "RM immediata su una dattilite clinica: 220 euro fuori budget.",
+      "inappropriate": true
+    },
+    {
+      "examId": "ana",
+      "name": "ANA",
+      "finding": "ANA negativi. Costo 12 euro.",
+      "isAbnormal": false,
+      "priceEuro": 12,
+      "wasteRationale": "ANA non servono a diagnosticare l'artrite psoriasica.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio. Dattilite e psoriasi del cuoio capelluto.",
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "124/78",
+      "spo2": 99,
+      "temperature": 36.7,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 90,
+    "demographics": {
+      "age": 36,
+      "sex": "F",
+      "name": "Sara Colombo"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Dattilite",
+        "result": "Terzo dito a salsicciotto, non fistolizzato.",
+        "isPositive": true
+      },
+      {
+        "signName": "Ascesso",
+        "result": "Nessun pus, nessuna porta d'ingresso. Non è un'infezione del dito.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Dattilite",
+        "result": "Terzo dito a salsicciotto, non fistolizzato.",
+        "isPositive": true
+      },
+      {
+        "signName": "Ascesso",
+        "result": "Nessun pus, nessuna porta d'ingresso. Non è un'infezione del dito.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rx-ossa": {
+          "finding": "Tumefazione delle parti molli del terzo dito, non erosioni grosse. Costo 30 euro. Basta come imaging iniziale.",
+          "normalFinding": "Tumefazione delle parti molli del terzo dito, non erosioni grosse. Costo 30 euro. Basta come imaging iniziale.",
+          "isAbnormal": true,
+          "price": 30
+        },
+        "enzimi-epatici": {
+          "finding": "AST e ALT normali. Costo 10 euro. Il metotrexato si può discutere.",
+          "normalFinding": "AST e ALT normali. Costo 10 euro. Il metotrexato si può discutere.",
+          "isAbnormal": false,
+          "price": 10
+        },
+        "beta-hcg": {
+          "finding": "Negativo, coerente con la contraccezione riferita. Costo 15 euro. Va comunque documentato.",
+          "normalFinding": "Negativo, coerente con la contraccezione riferita. Costo 15 euro. Va comunque documentato.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "rm": {
+          "finding": "Sinovite del dito, dato già clinico. Costo 220 euro.",
+          "normalFinding": "Sinovite del dito, dato già clinico. Costo 220 euro.",
+          "isAbnormal": true,
+          "price": 220
+        },
+        "ana": {
+          "finding": "ANA negativi. Costo 12 euro.",
+          "normalFinding": "ANA negativi. Costo 12 euro.",
+          "isAbnormal": false,
+          "price": 12
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole il cortisone che le ha già schiarito la pelle. Cambia idea se le si descrive il rimbalzo e se lo stomaco viene protetto in modo esplicito."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Pelle e dito insieme",
+      "prompt": "Cosa leghi prima di curare?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Psoriasi, pitting, dattilite e storia di gastrite da FANS",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Trattare il dito come un ascesso e ignorare la pelle",
+          "next": "res-ritardo"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "RX, non RM",
+      "prompt": "Quale imaging?",
+      "cost": 30,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "RX della mano. La dattilite è già clinica",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "RM della mano prima di ogni terapia",
+          "next": "res-rm"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Stomaco e fegato",
+      "prompt": "Cosa documenti prima delle compresse?",
+      "cost": 25,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Gastrite già nota, beta-HCG e transaminasi",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "FANS pieno senza gastroprotezione: lo stomaco si vedrà dopo",
+          "next": "res-stomaco"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente steroide sistemico",
+      "prompt": "Cosa prescrivi?",
+      "cost": 12.5,
+      "score": 25,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "FANS con inibitore di pompa e, dopo lo screening, metotrexato. Non prednisone",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Prednisone 25 mg per spegnere pelle e dito insieme",
+          "next": "res-rebound"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Cute e fegato",
+      "prompt": "Cosa rivedi fra un mese?",
+      "cost": 10,
+      "score": 20,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Pelle, dattilite e transaminasi. Nessuno steroide di richiamo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Un ciclo di prednisone se la pelle non è sparita",
+          "next": "res-rebound"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Psoriasica senza steroide",
+      "prompt": "Dattilite inquadrata, FANS protetto, metotrexato dopo screening, pelle sorvegliata. Nessun prednisone sistemico.",
+      "cost": 77.5,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-rebound",
+      "type": "resolution",
+      "title": "Rimbalzo da steroide sistemico",
+      "prompt": "Il prednisone spegne la pelle e l'artrite per giorni, poi la psoriasi riesplode più estesa. Il rimbalzo era prevedibile.",
+      "cost": 4.5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-stomaco",
+      "type": "resolution",
+      "title": "FANS senza gastroprotezione",
+      "prompt": "Con una gastrite già scritta, il FANS da solo causa un sanguinamento. L'omissione della protezione è il vizio.",
+      "cost": 6,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-rm",
+      "type": "resolution",
+      "title": "RM inutile sulla dattilite",
+      "prompt": "La RM costa 220 euro e supera il budget di 90. Il dito a salsicciotto non aveva bisogno di quell'imaging.",
+      "cost": 220,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ritardo",
+      "type": "resolution",
+      "title": "Dattilite scambiata per ascesso",
+      "prompt": "Un percorso solo antibiotico lascia l'artrite psoriasica senza diagnosi e senza farmaco di fondo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}
