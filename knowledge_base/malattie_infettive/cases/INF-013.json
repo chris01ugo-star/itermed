@@ -22,13 +22,13 @@
   "timeLimitMinutes": 50,
   "patientDeteriorationThreshold": 36,
   "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: AGONIA. Sei Stefano, 52 anni. Urli. Non fai discorsi. Alla «Come sta?»: «[urla] Sotto. Brucia. [geme] Non toccare.» Se ti palpano la gamba: «[urla] Ah— scricchiola. Basta.» Il taglio in giardino e il diabete solo se chiedono, in due parole. Non proporre tu alcun gesto. Non nominare sale, ferri, tagli da medico. Se passano i minuti senza che qualcuno ti porti via dalla barella, le urla diventano più corte e la voce si spegne. Esempio: Medico: «È solo un arrossamento, le do l'antibiotico.» Stefano: «[urla] No. Sotto. [geme]»",
-  "correctSolution": "Sbrigliamento chirurgico in urgenza, meropenem e clindamicina, emocolture e lattati senza farli diventare il motivo del rinvio in sala. La sola terapia medica è l'errore mortale.",
+  "correctSolution": "Fascite necrotizzante in diabetico instabile: controllo della fonte subito, non una stabilizzazione medica al posto della sala. Schema dello shock o dell'infezione necrotizzante: daptomicina più clindamicina per 72 ore più meropenem o piperacillina/tazobactam perché il diabete è un fattore per i Gram negativi. Emocolture se non ritardano.",
   "goldStandardPath": [
     "sbrigliamento",
     "meropenem",
     "clindamicina"
   ],
-  "goldPathNarrative": "1) Consulenza chirurgica e sbrigliamento subito: è l'atto che cambia la sopravvivenza. 2) Meropenem più clindamicina, non un solo beta-lattamico da cellulite. 3) Emocolture e lattati in parallelo, senza imaging che sposti la sala. TC e RM confermano tardi ciò che crepitio e dolore sproporzionato hanno già detto.",
+  "goldPathNarrative": "1) Dolore sproporzionato e crepitio. 2) È uno shock o una necrosi: non restare sulla barella. 3) Sala il prima possibile. 4) Daptomicina, clindamicina 72 ore, e un farmaco per i Gram negativi perché è diabetico. 5) Emocolture senza ritardare la sala. 6) Non un ampio spettro a caso al posto della chirurgia. 7) De-escalation quando torna l'antibiogramma.",
   "examLatencies": {
     "lattati": 5,
     "emocromo": 8,
@@ -267,5 +267,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "AGONIA. [urla] [geme], «sotto», «non toccare». Non fa discorsi. Se lo lasciano in barella la voce si spegne."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Quadro",
+      "prompt": "Dolore enorme, crepitio, rossore ancora modesto, pressione 96/58. Cosa sospetti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Infezione necrotizzante di cute e tessuti molli, con instabilità",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Una erisipela, e un antibiotico orale a casa",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sala",
+      "prompt": "Cosa non sostituisce la chirurgia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Il controllo della fonte, il prima possibile. Una lunga stabilizzazione medica al posto della sala è sconsigliata nello shock",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Ore di antibiotico in barella, «aspettiamo che si stabilizzi del tutto»",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaci",
+      "prompt": "È diabetico. Quale schema empirico della tabella?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Daptomicina più clindamicina per 72 ore, più meropenem o piperacillina/tazobactam per i Gram negativi",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Solo amoxicillina/clavulanato, lo schema comunitario senza fattori di rischio",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Emocolture",
+      "prompt": "Quando le fai?",
+      "cost": 25.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Subito, se non ritardano la sala e la prima dose oltre l'ora",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Le aspetti al picco febbrile di stanotte",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Procalcitonina",
+      "prompt": "Chiedono la procalcitonina per decidere se operare.",
+      "cost": 30,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No: la decisione è clinica e chirurgica",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Procalcitonina da 30 euro e poi si vede",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Via meno invasiva",
+      "prompt": "Se un drenaggio percutaneo non controlla la necrosi, cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Chirurgia aperta, se le altre vie non bastano o non sono subito disponibili",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Insisti con il drenaggio anche se la necrosi procede",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Antibiogramma",
+      "prompt": "Il germe e le sensibilità sono noti e migliora. Cosa fai ogni giorno?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "De-escalation: togli ciò che non serve e restringi lo spettro",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Meropenem e daptomicina per tre settimane fisse, senza rileggere le colture",
+          "next": "res-eco-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Necrosi portata in sala",
+      "prompt": "Controllo chirurgico della fonte e schema FVG della necrosi nel diabetico. Le colture e la procalcitonina non tengono il paziente fuori dalla sala.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Necrosi scambiata per erisipela",
+      "prompt": "Linee FVG: nello shock o nelle infezioni necrotizzanti di cute e tessuti molli si considera l'imaging e la valutazione chirurgica per la toilette, soprattutto se si sospetta una gangrena gassosa o un'infezione da anaerobi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Sala rinviata",
+      "prompt": "Surviving Sepsis 2021: il controllo della fonte include lo sbrigliamento del tessuto necrotico e va fatto appena è possibile sul piano medico e logistico. Gli sforzi prolungati di stabilizzazione al posto del controllo della fonte, nello shock, sono in genere sconsigliati. Studi minori suggeriscono un vantaggio entro 6-12 ore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Schema della cute semplice",
+      "prompt": "Linee FVG: nella cute comunitaria senza fattori di rischio, amoxicillina/clavulanato più clindamicina per 72 ore. Nello shock o nella necrosi: daptomicina più clindamicina per 72 ore, più meropenem o piperacillina/tazobactam se ci sono fattori di rischio per i Gram negativi. Nel diabete i Gram negativi vanno considerati.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Colture al picco, dose ritardata",
+      "prompt": "Linee FVG sepsi: almeno due set completi per aerobi e anaerobi, da due siti venosi diversi, 8 ml per prelievo senza superare i 10 ml, non per forza al picco febbrile. Le colture non devono ritardare l'antibiotico endovena. Surviving Sepsis 2021: nello shock settico gli antimicrobici si danno subito, idealmente entro 1 ora dall'accertamento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "Procalcitonina al posto della sala",
+      "prompt": "Surviving Sepsis 2021: la procalcitonina non si usa per decidere l'inizio degli antimicrobici. Non è l'esame che sostituisce il controllo della fonte. Tariffario privati: 30,00 euro.",
+      "cost": 30,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Via inadeguata protratta",
+      "prompt": "Surviving Sepsis 2021: si sceglie l'opzione meno invasiva che controlli davvero la fonte. La chirurgia aperta si considera se gli altri approcci sono inadeguati o non disponibili in tempo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-7",
+      "type": "resolution",
+      "title": "Spettro largo non rivisto",
+      "prompt": "Surviving Sepsis 2021: valutazione quotidiana della de-escalation. Quando patogeno e sensibilità sono noti, si sospende l'antibiotico non più necessario o lo si sostituisce per limitare lo spettro. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
 }

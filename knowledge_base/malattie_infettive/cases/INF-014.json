@@ -22,13 +22,13 @@
   "timeLimitMinutes": 70,
   "patientDeteriorationThreshold": 45,
   "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: FEBBRE ALTA, BRIVIDO, CONFUSO A TRATTI. Sei Luigi, 74 anni. [batte i denti] [brividi]. Frasi di tre o quattro parole. Alla «Come sta?»: «[batte i denti] Brucia. Qui. [brividi] Il collo.» Indichi il cerotto. Non chiedere tu di togliere il tubicino: dici solo che brucia. Se ti fanno domande lunghe ti perdi: «che giorno è?». Se lasciano il tubicino e passano i minuti, i brividi aumentano. Se lo sfilano, un lamento e una frase: «ah. freddo.» Esempio: Medico: «Aumentiamo l'antibiotico nella stessa via.» Luigi: «[brividi] Brucia. Ancora.»",
-  "correctSolution": "Sfilare subito il CVC, emocolture accoppiate dal periferico e dal catetere, vancomicina o daptomicina. Non lasciare la linea infetta. Il tampone cutaneo e la PET non sono il percorso.",
+  "correctSolution": "Sepsi da catetere: nuovo accesso, poi rimozione del CVC dopo la rianimazione iniziale. Empirico: daptomicina o vancomicina più piperacillina/tazobactam. Due set di emocolture se non ritardano. De-escalation sull'antibiogramma. Il tampone cutaneo non sostituisce le colture del sangue.",
   "goldStandardPath": [
     "rimozione-cvc",
     "emocolture",
     "vancomicina-o-daptomicina"
   ],
-  "goldPathNarrative": "1) Rimozione immediata del giugulare: la sorgente non resta in vena. 2) Emocolture a coppie, set periferico e set da catetere, prima o al momento della sfilata. 3) Vancomicina o daptomicina. Un antibiotico con il catetere ancora in sede non chiude il gold path. Tampone della cute e PET sono spreco.",
+  "goldPathNarrative": "1) Catetere, febbre, confusione. 2) Emocolture da due siti. 3) Nuovo accesso e rimozione del CVC. 4) Daptomicina o vancomicina più piperacillina/tazobactam. 5) Non un carbapenemico se non c'è rischio di ESBL. 6) Non la procalcitonina per iniziare. 7) De-escalation quotidiana.",
   "examLatencies": {
     "emocolture": 10,
     "emocromo": 8,
@@ -249,5 +249,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "FEBBRE ALTA. [batte i denti], [brividi], tre o quattro parole, a tratti non sa che giorno è. Il collo brucia. Non chiede lui di togliere il tubicino."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Fonte",
+      "prompt": "Catetere giugulare arrossato, febbre, è meno lucido. Cosa consideri?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Il catetere come possibile fonte di sepsi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un'infezione virale e il catetere resta",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Emocolture",
+      "prompt": "Come le prelevi?",
+      "cost": 25.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Almeno due set da due siti venosi diversi, 8-10 ml, prima dell'antibiotico se non ritardi oltre 45 minuti. Dal catetere servono prelievi ulteriori secondo il protocollo locale",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Un solo tappo dal catetere, dopo l'antibiotico",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rimozione",
+      "prompt": "Quando sfili il CVC?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Dopo aver messo un altro accesso e dopo la prima rianimazione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Lo lasci perché «è l'unica vena» e continui a infondere di lì",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Empirico",
+      "prompt": "Quale combinazione della tabella?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Daptomicina o vancomicina più piperacillina/tazobactam",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Solo amoxicillina per bocca",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Carbapenemico",
+      "prompt": "Non ha ricoveri lunghi né ESBL nota. Aggiungi meropenem?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No: il meropenem della tabella entra con il rischio di ESBL",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Meropenem subito, insieme a tutto",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Procalcitonina",
+      "prompt": "La usi per decidere se iniziare?",
+      "cost": 30,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. Può aiutare a 24-48 ore la gestione dell'antibiotico già dato",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Aspetti il referto da 30 euro prima della prima dose",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Restringere",
+      "prompt": "L'antibiogramma torna. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "De-escalation quotidiana sullo spettro che serve",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Lasci la combinazione empirica fino alla dimissione",
+          "next": "res-eco-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Catetere rimosso e terapia mirabile",
+      "prompt": "CVC rimosso dopo un nuovo accesso, schema FVG della batteriemia da catetere, de-escalation quando le colture parlano.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Fonte ignorata",
+      "prompt": "Surviving Sepsis 2021: un dispositivo intravascolare ritenuto fonte di sepsi va rimosso dopo un nuovo accesso e dopo la rianimazione iniziale. Linee FVG, batteriemie da CVC: la nota è «rimozione del CVC».",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Set unico e tardivo",
+      "prompt": "Linee FVG sepsi: almeno due set completi per aerobi e anaerobi, da due siti venosi diversi, 8 ml per prelievo senza superare i 10 ml, non per forza al picco febbrile. Le colture non devono ritardare l'antibiotico endovena. Surviving Sepsis 2021: le colture, inclusa l'emocoltura, si ottengono prima della terapia se questo non ritarda in modo sostanziale l'inizio, cioè meno di 45 minuti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Catetere fonte lasciato in sede",
+      "prompt": "Surviving Sepsis 2021: rimozione immediata dei dispositivi di accesso intravascolare che sono una possibile fonte, non appena esiste un altro accesso. Senza shock settico o fungemia, un catetere tunnellizzato può talvolta restare se la rimozione non è fattibile; la rimozione con l'antibiotico resta il trattamento preferito nella maggior parte dei casi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Schema non da catetere",
+      "prompt": "Linee FVG, batteriemie da CVC: daptomicina o vancomicina più piperacillina/tazobactam. Se c'è rischio di ESBL, daptomicina più meropenem o vancomicina più meropenem. Il portatore di CVC è tra i fattori di rischio per MRSA.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "Meropenem senza rischio ESBL",
+      "prompt": "Linee FVG: meropenem se fattori di rischio per ESBL. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "Procalcitonina che ritarda la dose",
+      "prompt": "Surviving Sepsis 2021: non usare la procalcitonina per decidere l'inizio. Linee FVG: a 24-48 ore può dare informazioni sulla gestione dell'antibiotico, ma l'accuratezza diagnostica è dubbia. Tariffario privati: 30,00 euro.",
+      "cost": 30,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-7",
+      "type": "resolution",
+      "title": "Combinazione non rivista",
+      "prompt": "Surviving Sepsis 2021: quando patogeno e sensibilità sono noti, de-escalation. Anche con colture negative, se l'infezione è esclusa, si interrompe presto tutta la terapia antimicrobica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
 }

@@ -22,12 +22,12 @@
   "timeLimitMinutes": 50,
   "patientDeteriorationThreshold": 70,
   "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: STABILE, SPAVENTATA, NON UN MANUALE. Sei Chiara, 28 anni. Frasi intere ma tese, non cortesi. Alla «Come sta?»: «Febbre e macchie. Non è un'influenza. Non voglio esami di cui non so il nome.» Il rapporto non protetto di tre settimane fa lo dici SOLO se te lo chiedono in modo diretto e riservato. Se ordinano il test HIV senza chiederti il consenso, ti arrabbi: «Non ho firmato niente.» Se ti chiedono il consenso e ti spiegano che gli anticorpi da soli possono non bastare, firmi. Non nominare tu p24 né la legge. Esempio: Medico: «Le ho già richiesto l'HIV col prelievo.» Chiara: «Non gliel'ho chiesto. Lo tolga.» Medico: «Posso farle il test combinato, serve il suo sì.» Chiara: «Se resta tra noi, sì.»",
-  "correctSolution": "Consenso esplicito al test HIV, poi test combinato Ag/Ab reattivo per antigene. Il pannello anticorpale è negativo e non esclude la sieroconversione. Senza consenso: −40 punti, Legge 135/90.",
+  "correctSolution": "Sindrome simil-influenzale: non un antibiotico, che sui virus influenzali e parainfluenzali è inefficace. Il test HIV solo con il consenso, salvo necessità clinica nel suo interesse. L'esito si dice solo a lui. Non si parte dal test di resistenza da 773,80 euro.",
   "goldStandardPath": [
     "consenso-hiv",
     "hiv-ag-ab"
   ],
-  "goldPathNarrative": "1) Consenso specifico al test HIV, non un prelievo generico. 2) Test combinato di IV generazione: antigene presente, anticorpi ancora assenti. Il pannello Ab anti-HIV da solo è la falsa rassicurazione. Eseguire il test senza consenso è DIFETTO_CONSENSO e −40 punti.",
+  "goldPathNarrative": "1) Niente antibiotico per una virosi. 2) Consenso prima del test HIV. 3) Necessità clinica solo nel suo interesse. 4) Esito soltanto a lui. 5) Riservatezza dell'assistenza. 6) Non la resistenza da 773,80 euro come primo esame. 7) L'infezione non è un motivo di discriminazione.",
   "examLatencies": {
     "consenso-hiv": 8,
     "hiv-ag-ab": 20,
@@ -218,5 +218,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "SPAVENTATA e lucida. Non vuole esami senza nome. Il rapporto lo dice solo se glielo chiedono. Se le fanno l'HIV senza consenso si chiude. Non è una paziente acquiescente."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sintomi virali",
+      "prompt": "Febbre, mal di gola, malessere, senza un focolaio batterico. Cosa non prescrivi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Un antibiotico: sui virus influenzali e parainfluenzali è inefficace",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Amoxicillina «per sicurezza»",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Consenso al test",
+      "prompt": "Vuoi cercare l'HIV. Cosa serve prima del prelievo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Il suo consenso. Senza consenso il test non si fa, salvo necessità clinica nel suo interesse",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Il prelievo insieme agli altri esami, senza dirglielo",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "A chi dici l'esito",
+      "prompt": "La madre chiede il risultato.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Solo a lui",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Alla madre, perché è in sala d'attesa",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Riservatezza",
+      "prompt": "Gli operatori che sanno dell'infezione cosa devono fare?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "L'assistenza necessaria e tutte le misure per la riservatezza",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Segnare la diagnosi sulla cartella in vista, in corsia",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Quale esame",
+      "prompt": "Quale costo eviti come primo test?",
+      "cost": 773.8,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non il saggio di resistenza da 773,80 euro. Nell'elenco il HIV DUO è indicato a 62,70",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "HIV-1 RNA resistenza ai farmaci, 773,80 euro, come unico primo esame",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Statistica",
+      "prompt": "Come si fa la rilevazione statistica dell'HIV?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Con modalità che non permettano di identificare la persona",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Una notifica nominativa «per il registro»",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Discriminazione",
+      "prompt": "Il datore di lavoro chiede se è sieropositivo.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non è un motivo di discriminazione e il datore non può fare quell'indagine",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Gli rispondi al telefono del datore",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "HIV cercato con il consenso",
+      "prompt": "Nessun antibiotico per la virosi, test HIV solo con consenso, esito solo alla persona, nessun saggio di resistenza come primo esame.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "Antibiotico su un virus",
+      "prompt": "Comunicato AIFA sul Rapporto 2025: i picchi invernali fanno presumere un uso improprio degli antibiotici contro virus influenzali e parainfluenzali, rispetto ai quali sono inefficaci.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Test HIV senza consenso",
+      "prompt": "Legge 135/1990, art. 5 comma 3: nessuno può essere sottoposto, senza il suo consenso, ad analisi per l'HIV se non per necessità clinica nel suo interesse.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Esito detto a un altro",
+      "prompt": "Legge 135/1990, art. 5 comma 4: il risultato di un accertamento per HIV si comunica esclusivamente alla persona cui l'esame si riferisce.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Riservatezza non tutelata",
+      "prompt": "Legge 135/1990, art. 5 comma 1: chi viene a conoscenza di un caso di AIDS o di infezione da HIV deve prestare l'assistenza e adottare tutte le misure per la riservatezza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "Resistenza come primo test",
+      "prompt": "Elenco prestazioni: HIV DUO 62,70 euro; HIV-1 RNA quantitativo 221,10 euro; resistenza ai farmaci 773,80 euro. Partire dal saggio di resistenza moltiplica il costo senza un'infezione già accertata e senza il consenso.",
+      "cost": 773.8,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Notifica identificativa",
+      "prompt": "Legge 135/1990, art. 5 comma 2: la rilevazione statistica dell'infezione da HIV deve essere effettuata con modalità che non consentano l'identificazione della persona.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Sieropositività comunicata al lavoro",
+      "prompt": "Legge 135/1990, art. 5 comma 5 e art. 6: l'infezione non può essere motivo di discriminazione. È vietato al datore di lavoro accertare la sieropositività.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

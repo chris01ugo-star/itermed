@@ -22,7 +22,7 @@
   "timeLimitMinutes": 55,
   "patientDeteriorationThreshold": 40,
   "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: DOLORE E FOTOFOBIA ESTREMA. Sei Paola, 47 anni. Niente frasi lunghe. Gemi. Alla «Come sta?»: «[geme] La luce. No. La nuca.» Massimo quattro o sei parole. Se insistono con domande lunghe: «[geme] Basta.» L'otite di dieci giorni fa la dici solo se chiedono, in tre parole: «orecchio, poi smesso». Non nominare farmaci. Se accendono una luce, un lamento e stop. Se il tempo passa senza una flebo, i gemiti si accorciano. Esempio: Medico: «Mi racconti la cefalea dall'inizio.» Paola: «[geme] Luce. Nuca. Basta.»",
-  "correctSolution": "Emocolture, desametasone subito prima della prima dose, poi ceftriaxone più vancomicina, rachicentesi. La TC non precede i farmaci in questa paziente senza segni di lato. Lo steroide dopo l'antibiotico è la sequenza sbagliata.",
+  "correctSolution": "Meningite, 47 anni, senza shock: valutazione rapida e ceftriaxone entro tre ore, con aciclovir se il quadro lo consente. Emocolture prima se non ritardano oltre 45 minuti. La vancomicina è lo schema dell'allergia, non la prima scelta. Scheda di sorveglianza delle meningiti batteriche una volta accertata l'eziologia.",
   "goldStandardPath": [
     "emocolture",
     "desametasone",
@@ -30,7 +30,7 @@
     "vancomicina",
     "liquidi"
   ],
-  "goldPathNarrative": "1) Emocolture. 2) Desametasone immediatamente prima della primissima dose di antibiotico: invertire l'ordine aumenta il danno neurologico. 3) Ceftriaxone e vancomicina insieme, copertura dello pneumococco resistente. 4) Rachicentesi, senza farla diventare il motivo per ritardare le dosi. La TC, senza deficit di lato, non è il primo passo.",
+  "goldPathNarrative": "1) Sepsi possibile senza shock. 2) Emocolture senza ritardo sostanziale. 3) Ceftriaxone, ha meno di 50 anni. 4) Non vancomicina di apertura. 5) La TC non sposta la dose oltre le tre ore. 6) Non la procalcitonina per iniziare. 7) Scheda di sorveglianza se l'eziologia batterica è accertata.",
   "examLatencies": {
     "emocolture": 8,
     "liquidi": 12,
@@ -267,5 +267,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "FOTOFOBIA. [geme], quattro o sei parole, «la luce», «la nuca». Non racconta. Se la luce è accesa si chiude."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Senza shock",
+      "prompt": "Cefalea, nuca rigida, luce intollerabile, pressione tenuta. Che tempi hai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Possibile sepsi senza shock: se l'infezione resta la causa più probabile, antibiotico entro tre ore",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "La tratti come shock e aspetti il giorno dopo «perché la pressione è buona»",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Emocolture",
+      "prompt": "Cosa prelevi prima della dose?",
+      "cost": 25.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Due set, se ci vogliono meno di 45 minuti",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Nessuna coltura, «tanto è meningite»",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaco",
+      "prompt": "Ha 47 anni, non è allergica. Quale schema?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Ceftriaxone, con aciclovir se il dubbio virale resta",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Vancomicina e levofloxacina, lo schema dell'allergia",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ampio spettro",
+      "prompt": "Propongono meropenem e linezolid «per coprire tutto».",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No: non ha i fattori di rischio dello schema nosocomiale",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Meropenem e linezolid",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Tomografia",
+      "prompt": "La TC è libera tra due ore. Sposti la dose?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No: la dose resta dentro le tre ore",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Prima la TC, l'antibiotico al referto",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Procalcitonina",
+      "prompt": "Vuoi la procalcitonina per decidere se iniziare.",
+      "cost": 30,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Inizi sulla clinica. La procalcitonina non serve a decidere l'avvio",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Attendi il referto, 30 euro di tariffa privata",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Sorveglianza",
+      "prompt": "L'eziologia batterica è accertata. Cosa invii?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "La scheda di sorveglianza delle meningiti batteriche, per vie brevi, a Regione, Ministero e Istituto superiore di sanità",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Niente: «è uno pneumococco, non un meningococco, quindi non si segnala»",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Meningite trattata senza shock",
+      "prompt": "Ceftriaxone entro tre ore, colture se non ritardano, niente vancomicina senza allergia, scheda di sorveglianza se il germe è batterico.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Finestra delle tre ore persa",
+      "prompt": "Surviving Sepsis 2021: nella possibile sepsi senza shock, se il timore di infezione persiste, gli antimicrobici entro 3 ore dal momento in cui la sepsi è stata identificata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Colture saltate",
+      "prompt": "Linee FVG sepsi: almeno due set completi per aerobi e anaerobi, da due siti venosi diversi, 8 ml per prelievo senza superare i 10 ml, non per forza al picco febbrile. Le colture non devono ritardare l'antibiotico endovena. Surviving Sepsis 2021: le colture, inclusa l'emocoltura, si ottengono prima della terapia se questo non ritarda in modo sostanziale l'inizio, cioè meno di 45 minuti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Schema da allergia senza allergia",
+      "prompt": "Linee FVG: sotto i 50 anni, ceftriaxone con o senza aciclovir. Vancomicina più levofloxacina, o linezolid più levofloxacina, sono lo schema in caso di allergia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Spettro da sepsi nosocomiale",
+      "prompt": "Lo schema con meropenem o piperacillina/tazobactam più linezolid o vancomicina, nelle linee FVG, è per la sepsi di origine sconosciuta correlata all'assistenza o con rischio di germi resistenti. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "TC che sposta l'antibiotico",
+      "prompt": "Surviving Sepsis 2021: nella possibile sepsi senza shock, se il timore di infezione persiste, gli antimicrobici entro 3 ore dal momento in cui la sepsi è stata identificata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "Procalcitonina decisionale",
+      "prompt": "Surviving Sepsis 2021 suggerisce di non usare la procalcitonina per decidere quando iniziare gli antimicrobici. Tariffario privati: procalcitonina 30,00 euro. Le linee FVG dicono che l'accuratezza diagnostica della procalcitonina è dubbia; a 24-48 ore può aiutare la gestione dell'antibiotico già iniziato.",
+      "cost": 30,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Scheda non compilata",
+      "prompt": "Sorveglianza delle meningiti batteriche: la scheda va compilata per tutti i casi di meningite con eziologia batterica accertata e inviata per vie brevi. Per il meningococco si segnala anche l'invasiva senza meningite e si invia il ceppo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

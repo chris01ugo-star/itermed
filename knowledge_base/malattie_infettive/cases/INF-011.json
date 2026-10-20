@@ -22,14 +22,14 @@
   "timeLimitMinutes": 45,
   "patientDeteriorationThreshold": 35,
   "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: SHOCK, FEBBRE ALTA, SOPOROSO. Sei Davide, 19 anni. Quasi non parli. [batte i denti] [brividi] nel testo. Frasi di una o due parole, poi ti perdi. Alla «Come sta?»: «[batte i denti] ...freddo. [brividi] Mamma.» La madre parla al posto tuo e va prefissata «Madre:». Madre: «Due ore fa camminava. Adesso è pieno di puntini e non mi risponde.» Coinquilino e camera doppia: solo se lo chiedono alla madre. Tu non nomini esami né flebo. Se passano i minuti senza una flebo, rispondi ancora meno e la madre alza la voce. Se arriva la flebo, un gemito solo. Esempio: Medico: «Prima la TAC.» Madre: «Guardatelo. Non sta in piedi.» Davide: «[brividi] ...»",
-  "correctSolution": "Emocolture immediate, poi ceftriaxone ev in bolo senza aspettare TC o liquor, e bolo di cristalloidi. Notifica ASL per la profilassi dei contatti. La TC e la rachicentesi non precedono la prima dose.",
+  "correctSolution": "Shock settico meningococcico: due set di emocolture se non ritardano oltre 45 minuti, ceftriaxone subito ed entro un'ora, cristalloidi a boli da 500 ml fino a un massimo di 30 ml/kg in tre ore, noradrenalina se la pressione media resta sotto 65. Scheda di sorveglianza subito, anche sul solo sospetto.",
   "goldStandardPath": [
     "emocolture",
     "ceftriaxone",
     "fluidi",
     "notifica-asl"
   ],
-  "goldPathNarrative": "1) Due set di emocolture, subito, senza spostare il paziente. 2) Ceftriaxone endovena in bolo nella prima ora: non si aspetta la TC né il liquor. 3) Cristalloidi. 4) Notifica ASL e profilassi dei contatti stretti, coinquilino incluso. Omettere il ceftriaxone è l'errore mortale. Omettere la notifica è il difetto di sorveglianza.",
+  "goldPathNarrative": "1) Shock: pressione 78/48. 2) Due set di emocolture senza ritardare. 3) Ceftriaxone entro un'ora, ha 19 anni. 4) Liquidi e noradrenalina se serve. 5) Né TC né liquor prima della prima dose. 6) Non meropenem di apertura. 7) Notifica immediata della sepsi meningococcica sospetta.",
   "examLatencies": {
     "emocolture": 10,
     "lattati": 5,
@@ -259,5 +259,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "SHOCK. [batte i denti], [brividi], una o due parole, poi tace. La madre parla e si prefissa Madre:. Se non arriva la flebo, lui smette di rispondere."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Riconoscere lo shock",
+      "prompt": "Petecchie, sopore, pressione 78/48. Come lo chiami?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Shock settico: infezione, ipotensione che richiede un vasopressore per una pressione media di almeno 65 mmHg, dopo un riempimento adeguato, con lattato alto",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Una virosi, e lo mandi a casa con un antipiretico",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Emocolture",
+      "prompt": "Quando prelevi?",
+      "cost": 25.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Due set da due vene, 8-10 ml, prima dell'antibiotico se non superi i 45 minuti",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Prima la TC, le colture domani",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antibiotico",
+      "prompt": "Ha 19 anni ed è in shock. Quale farmaco e quando?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Ceftriaxone subito, entro un'ora. Sotto i 50 anni lo schema della meningoencefalite è ceftriaxone, con aciclovir se serve",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Meropenem e linezolid, lo schema della sepsi nosocomiale",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Liquidi",
+      "prompt": "Come riempi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Boli di cristalloidi da 500 ml, fino a un massimo di 30 ml/kg nelle prime tre ore, valutando la tolleranza. Se la pressione media resta sotto 65, noradrenalina",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Un litro unico rapidissimo e poi stop, senza rivalutare",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Cosa non precede la dose",
+      "prompt": "La madre chiede la TC prima di ogni farmaco.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "La TC e la rachicentesi non spostano la prima dose oltre l'ora",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "TC, poi il liquor, poi l'antibiotico",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Procalcitonina",
+      "prompt": "Qualcuno vuole la procalcitonina per decidere se iniziare.",
+      "cost": 30,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non per decidere l'inizio: nello shock si inizia sulla clinica",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Aspetti la procalcitonina, tariffa privata 30 euro",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Notifica",
+      "prompt": "È un sospetto di sepsi meningococcica. Quando segnali?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Subito, anche sul solo sospetto, e compili la scheda delle meningiti batteriche",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Dopo la conferma del laboratorio, fra due giorni",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Meningococco trattato e notificato",
+      "prompt": "Ceftriaxone entro un'ora, colture se non ritardano, liquidi e notifica immediata. Nessun carbapenemico di apertura e nessuna attesa della TC.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Shock non riconosciuto",
+      "prompt": "Linee FVG: lo shock settico è sepsi più ipotensione refrattaria che richiede vasopressori per mantenere la pressione media almeno a 65 mmHg e iperlattatemia oltre 2 mmol/L nonostante il riempimento. La sepsi non riconosciuta e non trattata è la principale morte per infezione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Colture dopo ore di antibiotico, o ritardo della dose",
+      "prompt": "Linee FVG sepsi: almeno due set completi per aerobi e anaerobi, da due siti venosi diversi, 8 ml per prelievo senza superare i 10 ml, non per forza al picco febbrile. Le colture non devono ritardare l'antibiotico endovena. Surviving Sepsis 2021: le colture, inclusa l'emocoltura, si ottengono prima della terapia se questo non ritarda in modo sostanziale l'inizio, cioè meno di 45 minuti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Ampio spettro non previsto",
+      "prompt": "Linee FVG, meningoencefalite sotto i 50 anni: ceftriaxone, con o senza aciclovir. Surviving Sepsis 2021: nello shock settico gli antimicrobici si danno subito, idealmente entro 1 ora dall'accertamento. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Riempimento rigido",
+      "prompt": "Linee FVG: boli di 500 ml di cristalloidi fino a un massimo di 30 ml/kg nelle prime tre ore se è ipoteso o ha i lattati alti, senza uno schema rigido che ignori il singolo paziente. Sotto 65 mmHg di pressione media nonostante i liquidi, noradrenalina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Dose rinviata agli esami",
+      "prompt": "Surviving Sepsis 2021: nello shock settico gli antimicrobici si danno subito, idealmente entro 1 ora dall'accertamento. Linee FVG: ogni ora di ritardo dell'antibiotico si associa a un aumento della mortalità nello shock settico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "Procalcitonina che ritarda lo shock",
+      "prompt": "Surviving Sepsis 2021: nel sospetto di sepsi o shock settico si suggerisce di non usare la procalcitonina, insieme alla clinica, per decidere quando iniziare gli antimicrobici. Tariffario privati: procalcitonina 30,00 euro.",
+      "cost": 30,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Notifica rinviata",
+      "prompt": "Documento sulla notifica, flusso di classe II: immediatamente per la meningite e la sepsi meningococcica anche solo sospette. La scheda di sorveglianza delle meningiti batteriche si invia per vie brevi; per Neisseria si segnala anche l'invasiva senza meningite.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }
