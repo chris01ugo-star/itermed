@@ -10,8 +10,8 @@
   "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "INTERMEDIATE",
   "setting": "AMBULATORIO",
-  "guidelineRef": "Spondiloartrite assiale — FANS a dose piena, biologico dopo fallimento e dopo IGRA",
-  "diagnosis": "Spondilite anchilosante radiografica. Due FANS a dose piena in sequenza. Adalimumab solo dopo il fallimento e dopo Quantiferon, epatite e RX torace.",
+  "guidelineRef": "ASAS-EULAR 2022 axSpA — due FANS a dose piena per 4 settimane e ASDAS ≥2.1 prima del bDMARD",
+  "diagnosis": "Spondilite anchilosante radiografica. Almeno due FANS a dose piena per 4 settimane complessive. Un bDMARD solo se l'ASDAS resta ≥2.1, e solo dopo Quantiferon o Mantoux, RX torace, HBV, HCV e HIV.",
   "pastMedicalHistory": "Uveite anteriore destra un anno fa, trattata dall'oculista. Non ha psoriasi, non ha diarrea ematica. Non fuma. Nessun contatto tubercolare noto, nessun viaggio recente. Ha preso ibuprofene «quando fa male», mai a dose piena per un mese. Allergie: nessuna. Lavora in magazzino e solleva pesi.",
   "presentation": "Sta meglio dopo essersi mosso, peggio alle tre di notte. Se gli si offre l'iniezione biologica subito, la vuole per tornare al lavoro. Se gli si dice che prima servono due antinfiammatori presi davvero e, solo dopo, gli esami della tubercolosi, si spazientisce ma capisce.",
   "redHerrings": [
@@ -22,7 +22,7 @@
   "timeLimitMinutes": 50,
   "patientDeteriorationThreshold": 40,
   "patientPrompt": "ROLEPLAY. Sei Andrea Villa, 27 anni, ambulatorio. Registro: impaziente, frasi dirette. Alla «Come sta?»: «Di notte mi sveglio. Se cammino passa.» Non dire tu spondilite. Se chiedono notte, rigidità, uveite, diarrea, psoriasi, FANS già presi: ti svegli alle tre, la schiena è rigida un'ora, un occhio rosso l'anno scorso, niente diarrea, niente pelle, l'ibuprofene lo prendi a spot. Se ti propongono l'iniezione cara subito dici «sì, datemela». Se ti spiegano due antinfiammatori a dose piena e gli esami della tbc prima di ogni biologico, accetti a malincuore. Non nominare budget.",
-  "correctSolution": "Spondilite anchilosante. RX del bacino già diagnostica. Due FANS a dose piena, in sequenza, per alcune settimane. Fisioterapia. Adalimumab non ora. Se più avanti il biologico serve: Quantiferon, sierologia epatite e RX torace prima della prima siringa.",
+  "correctSolution": "Spondilite anchilosante. RX del bacino già diagnostica, quindi la sacroileite radiografica è già un criterio obiettivo. Almeno due FANS alla dose massima usata nella axSpA, per 4 settimane complessive. Adalimumab non ora. Un TNFi o un IL-17i si considera solo se dopo quel fallimento l'ASDAS resta ≥2.1. Prima della siringa: Quantiferon o Mantoux, RX torace, HBV, HCV e HIV.",
   "goldStandardPath": [
     "anamnesi-schiena-infiammatoria",
     "rx-ossa",
@@ -30,7 +30,7 @@
     "azione-fans-2",
     "azione-followup-basdai"
   ],
-  "goldPathNarrative": "1) Anamnesi: dolore notturno, migliora col movimento, uveite, FANS mai a dose piena. 2) RX del bacino 30 euro: sacroileite già visibile. La RM da 220 euro non serve. 3) Non si apre il biologico: lo screening tubercolare si fa solo se si decide di scalarlo. 4) Primo FANS a dose piena, poi un secondo FANS diverso se il primo fallisce. 5) Follow-up con attività di malattia. L'adalimumab da 450 euro senza questi passi, e senza Quantiferon da 60 euro, è l'errore.",
+  "goldPathNarrative": "1) Anamnesi: dolore notturno, migliora col movimento, uveite, FANS mai a dose piena. 2) RX del bacino 30 euro: sacroileite già visibile. La RM da 220 euro non è il primo passo. 3) Almeno due FANS a dose massima per 4 settimane complessive. 4) Il bDMARD non si apre ora: serve ancora un ASDAS ≥2.1 dopo quel fallimento. 5) Se più avanti si scala, prima della siringa servono IGRA o Mantoux, RX torace, HBV, HCV e HIV. L'adalimumab da 450 euro oggi è l'errore.",
   "examLatencies": {
     "anamnesi-schiena-infiammatoria": 8,
     "rx-ossa": 40,
@@ -79,13 +79,13 @@
   "escCitations": [
     {
       "chunkId": "reuma-007-fans",
-      "source": "Sintesi operativa — spondiloartrite assiale e biologico",
-      "quote": "Il biologico si considera dopo il fallimento di almeno due FANS a dose piena. Non è la prima ricetta di un mal di schiena infiammatorio già radiografico."
+      "source": "ASAS-EULAR 2022, raccomandazioni per la spondiloartrite assiale (Ramiro)",
+      "quote": "TNFi, IL-17i o JAKi si considerano se l'ASDAS resta ≥2.1 dopo la terapia convenzionale. Questa è il trattamento non farmacologico e almeno due FANS alla dose massima, per 4 settimane complessive. In più servono PCR elevata, o infiammazione RM delle sacroiliache, o sacroileite radiografica."
     },
     {
       "chunkId": "reuma-007-tb",
-      "source": "Tariffe didattiche REUMA-007 — Quantiferon 60 €, adalimumab 450 €",
-      "quote": "Prima di un anti-TNF servono IGRA o equivalente, sierologia epatite e imaging del torace. Saltarli espone a una tubercolosi da riattivazione. Saltare i FANS costa 450 euro senza indicazione."
+      "source": "Nota informativa anti-TNF, documento 658 — screening prima del trattamento",
+      "quote": "Prima di iniziare infliximab o adalimumab vanno eseguiti Rx torace, Mantoux ed eventualmente Quantiferon, e i markers HBV, HCV e HIV."
     }
   ],
   "auditMetrics": {
@@ -294,7 +294,7 @@
       "choices": [
         {
           "id": "d4-ok",
-          "label": "Un FANS a dose piena, poi un secondo FANS se il primo fallisce. Nessun biologico",
+          "label": "Almeno due FANS a dose piena per 4 settimane complessive. Nessun biologico",
           "next": "d5"
         },
         {
@@ -315,7 +315,7 @@
       "choices": [
         {
           "id": "d5-ok",
-          "label": "Dolore notturno, rigidità e aderenza al FANS, prima di parlare di biologico",
+          "label": "Attività e aderenza. Il biologico solo se dopo i due FANS l'ASDAS resta ≥2.1",
           "next": "res-ok"
         },
         {
@@ -329,7 +329,7 @@
       "id": "res-ok",
       "type": "resolution",
       "title": "FANS prima del biologico",
-      "prompt": "Spondilite radiografica, due FANS avviati in sequenza, biologico non anticipato. Lo screening tubercolare resta agganciato a una eventuale scala.",
+      "prompt": "Sacroileite radiografica già presente. Due FANS a dose piena per 4 settimane, biologico non anticipato. Se l'ASDAS resterà ≥2.1, prima della siringa serviranno IGRA o Mantoux, RX torace, HBV, HCV e HIV.",
       "cost": 36,
       "score": 100,
       "outcome": "positive"
@@ -338,7 +338,7 @@
       "id": "res-tb",
       "type": "resolution",
       "title": "Biologico senza Quantiferon",
-      "prompt": "L'anti-TNF senza IGRA riattiva una tubercolosi latente. L'omissione dello screening è il danno evitabile.",
+      "prompt": "L'anti-TNF senza IGRA o Mantoux, senza RX torace e senza HBV, HCV e HIV può riattivare una tubercolosi latente. L'omissione dello screening è il danno evitabile.",
       "cost": 450,
       "score": 0,
       "outcome": "negative",
@@ -348,7 +348,7 @@
       "id": "res-biologico",
       "type": "resolution",
       "title": "Biologico senza due FANS",
-      "prompt": "Adalimumab 450 euro senza il fallimento di due FANS a dose piena. Non è indicato e sfora qualunque budget di questo caso.",
+      "prompt": "Adalimumab 450 euro senza almeno due FANS a dose piena per 4 settimane e senza ASDAS ≥2.1. Non è indicato e sfora il budget di questo caso.",
       "cost": 450,
       "score": 0,
       "outcome": "negative",

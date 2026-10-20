@@ -2,36 +2,37 @@
   "id": "REUMA-005",
   "code": "REUMA-005",
   "title": "Arterite di Horton",
-  "description": "Giuseppe Conti, 74 anni, ha da dieci giorni una cefalea temporale nuova, claudicatio masticatoria e dolore al cingolo. La vista è ancora integra, la VES è alta. Lo steroide ad alto dosaggio parte subito. Attendere la biopsia, o fermarsi su un eco-Doppler, è la trappola che porta alla cecità.",
+  "description": "Giuseppe Conti, 74 anni, ha da dieci giorni una cefalea temporale nuova, claudicatio masticatoria e dolore al cingolo. La vista è ancora integra, la VES è alta. Lo steroide 40-60 mg parte subito. L'eco-Doppler delle temporali si esegue presto, ma non si attende il referto. Attendere la biopsia o una RM encefalo è la trappola.",
   "difficulty": "HARD",
   "specialty": "reumatologia",
   "specialtyLabel": "Reumatologia",
-  "condition": "Arterite a cellule giganti: steroide immediato, biopsia dopo, non eco che ritarda",
+  "condition": "Arterite a cellule giganti: prednisone 40-60 mg subito ed eco-Doppler precoce, senza attendere il referto",
   "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "Arterite di Horton — prednisone subito, biopsia senza ritardare lo steroide",
-  "diagnosis": "Arterite di Horton a rischio visivo. Prednisone ad alto dosaggio ora. La biopsia dell'arteria temporale si programma dopo, non prima.",
+  "guidelineRef": "SIR vasculiti 2021 — GC 40-60 mg tempestivi e conferma precoce con eco-Doppler o biopsia",
+  "diagnosis": "Arterite di Horton a rischio visivo. Prednisone 40-60 mg subito. Eco color-Doppler delle temporali precoce, senza attendere il referto per la prima dose. La biopsia non ritarda lo steroide.",
   "pastMedicalHistory": "Ipertensione in amlodipina. Glaucoma dubbio mai studiato. Non diabetico. Da un mese dolore alle spalle attribuito all'età. Nessuna perdita visiva ancora, ma da stamattina vede «come attraverso un velo» a sinistra per pochi secondi. Allergie: nessuna. Vive con la moglie.",
   "presentation": "Si tocca la tempia sinistra, che è dolente. Se gli si dice che serve prima l'istologico, si siede ad aspettare. Se gli si dà il prednisone spiegando il rischio sulla vista, accetta anche se teme il cortisone. Non ha un deficit neurologico da TC.",
   "redHerrings": [
     "Il glaucoma noto fa rimandare tutto all'oculista di martedì.",
-    "Un eco-Doppler delle temporali «per essere sicuri» occupa il pomeriggio.",
+    "Una RM encefalo «per escludere l'ictus» occupa le ore in cui va dato il prednisone.",
     "La cefalea sembra tensiva perché non vomita."
   ],
   "timeLimitMinutes": 35,
   "patientDeteriorationThreshold": 15,
   "patientPrompt": "ROLEPLAY. Sei Giuseppe Conti, 74 anni, pronto soccorso. Registro: spaventato, frasi lente. Alla «Come sta?»: «La tempia batte. E a sinistra ho visto un velo.» [si tocca la tempia] Non dire tu arterite o Horton. Se chiedono masticazione, spalle, da quanto, vista: fa male masticare la carne da una settimana, le spalle sono rigide da un mese, il velo è stato un attimo stamattina, la vista adesso c'è. Se ti dicono di aspettare una biopsia o un'ecografia prima della compressa, aspetti in silenzio. Se ti danno il cortisone subito e ti spiegano la vista, lo prendi. Non nominare budget.",
-  "correctSolution": "Arterite di Horton. VES e PCR, poi prednisone 60 mg subito, senza attendere la biopsia. La biopsia si prenota entro pochi giorni, sotto steroide. Non un eco-Doppler come pretesto per ritardare. Protezione gastrica e controllo della vista. Follow-up ravvicinato dello svezzamento.",
+  "correctSolution": "Arterite di Horton. Prednisone 40-60 mg subito, senza attendere referti. VES, PCR ed eco color-Doppler delle temporali si eseguono presto, ma la prima dose non aspetta il referto. La biopsia si prenota entro pochi giorni, già in steroide. Non una RM encefalo. Protezione gastrica e controllo della vista.",
   "goldStandardPath": [
     "anamnesi-cefalea-temporale",
     "ves",
     "pcr-pct",
+    "ecocolordoppler",
     "azione-prednisone-immediato",
     "azione-biopsia-dopo",
     "azione-followup-vista"
   ],
-  "goldPathNarrative": "1) Anamnesi: età, cefalea nuova, claudicatio masticatoria, velo visivo, dolore al cingolo. 2) VES 3,50 euro e PCR 28 euro, alte, mentre si prepara lo steroide. 3) Non si attende l'eco-Doppler da 65 euro né la biopsia da 180. 4) Prednisone 60 mg, 4,50 euro a confezione didattica, subito. 5) Biopsia nei giorni successivi, già in steroide, e controllo della vista. Aspettare l'istologico è la strada della cecità.",
+  "goldPathNarrative": "1) Anamnesi: età, cefalea nuova, claudicatio masticatoria, velo visivo, dolore al cingolo. 2) Prednisone 40-60 mg subito, senza attendere referti. 3) VES, PCR ed eco color-Doppler delle temporali si avviano in parallelo: l'eco conferma, non autorizza la prima dose. 4) Non si fa una RM encefalo. 5) Biopsia nei giorni successivi, già in steroide, e controllo della vista. Aspettare l'istologico o il referto ecografico è la strada della cecità.",
   "examLatencies": {
     "anamnesi-cefalea-temporale": 5,
     "ves": 60,
@@ -81,20 +82,20 @@
   "escCitations": [
     {
       "chunkId": "reuma-005-steroide",
-      "source": "Sintesi operativa — arterite a cellule giganti",
-      "quote": "Se il sospetto è alto, soprattutto con sintomi visivi, il glucocorticoide ad alto dosaggio parte subito. La biopsia dell'arteria temporale non è un pretesto per aspettare."
+      "source": "SIR, raccomandazioni sulle vasculiti dei grossi vasi, 2021",
+      "quote": "Nelle forme attive di arterite a cellule giganti, l'inizio tempestivo di glucocorticoidi ad alto dosaggio per via orale (40-60 mg al dì di prednisone equivalente) è fortemente raccomandato per indurre la remissione clinica."
     },
     {
       "chunkId": "reuma-005-eco",
-      "source": "Tariffe didattiche REUMA-005 — eco-Doppler 65 €, biopsia 180 €",
-      "quote": "L'eco-Doppler non è il gradino che autorizza lo steroide. Farlo prima della prima dose consuma il tempo in cui la vista si perde."
+      "source": "SIR, raccomandazioni sulle vasculiti dei grossi vasi, 2021 — diagnosi",
+      "quote": "Nei pazienti con sospetto clinico di vasculite dei grossi vasi a interessamento cranico è fortemente raccomandata l'esecuzione precoce di un esame di diagnostica per immagini e/o bioptico di conferma. L'ecografia color-Doppler dell'arteria temporale è fortemente raccomandata per confermare l'arterite a cellule giganti."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
       "Sintomi visivi e claudicatio masticatoria raccolti subito.",
-      "Prednisone ad alto dosaggio prima della biopsia.",
-      "Eco-Doppler non usato per ritardare la terapia.",
+      "Prednisone 40-60 mg prima di attendere biopsia o referto.",
+      "Eco color-Doppler delle temporali avviato presto, senza subordinare la prima dose al referto.",
       "Follow-up della vista programmato."
     ],
     "gelliBiancoShield": {
@@ -102,7 +103,7 @@
       "legalCriteria": [
         "Prima dose di prednisone non subordinata al referto bioptico.",
         "Sintomo visivo scritto, non liquidato come glaucoma.",
-        "Eco-Doppler non anteposto alla terapia."
+        "Eco color-Doppler richiesto come conferma, non come condizione per la prima dose."
       ]
     }
   },
@@ -120,18 +121,16 @@
       "finding": "PCR 8 mg/dL. Costo 28 euro. Alta. Conferma, non ritarda.",
       "isAbnormal": true,
       "priceEuro": 28
+    },
+    {
+      "examId": "ecocolordoppler",
+      "name": "Eco color-Doppler delle arterie temporali",
+      "finding": "Alone ipoecogeno della temporale sinistra. L'esame si esegue presto. Il prednisone 40-60 mg è già stato dato, senza attendere questo referto.",
+      "isAbnormal": true,
+      "priceEuro": 65
     }
   ],
   "inappropriateExams": [
-    {
-      "examId": "ecocolordoppler",
-      "name": "Eco-Doppler delle temporali prima della terapia",
-      "finding": "Alone ipoecogeno possibile, referto nel pomeriggio. Costo 65 euro. Nel frattempo lo steroide non è partito.",
-      "isAbnormal": true,
-      "priceEuro": 65,
-      "wasteRationale": "Eco-Doppler usato come pretesto per non iniziare il prednisone: spreco di tempo e di 65 euro.",
-      "inappropriate": true
-    },
     {
       "examId": "rm",
       "name": "RM encefalo",
@@ -151,7 +150,7 @@
       "temperature": 37.8,
       "respiratoryRate": 16
     },
-    "examBudgetEuro": 50,
+    "examBudgetEuro": 120,
     "demographics": {
       "age": 74,
       "sex": "M",
@@ -196,8 +195,8 @@
           "price": 28
         },
         "ecocolordoppler": {
-          "finding": "Alone ipoecogeno possibile, referto nel pomeriggio. Costo 65 euro. Nel frattempo lo steroide non è partito.",
-          "normalFinding": "Alone ipoecogeno possibile, referto nel pomeriggio. Costo 65 euro. Nel frattempo lo steroide non è partito.",
+          "finding": "Alone ipoecogeno della temporale sinistra. L'esame conferma, ma il prednisone è già partito.",
+          "normalFinding": "Alone ipoecogeno della temporale sinistra. L'esame conferma, ma il prednisone è già partito.",
           "isAbnormal": true,
           "price": 65
         },
@@ -247,20 +246,25 @@
       "id": "d2",
       "type": "decision",
       "phase": "diagnostica",
-      "title": "Indici, non imaging che ritarda",
-      "prompt": "Cosa chiedi mentre prepari la terapia?",
-      "cost": 31.5,
+      "title": "Conferma senza ritardare lo steroide",
+      "prompt": "Cosa chiedi mentre dai la prima dose?",
+      "cost": 96.5,
       "score": 20,
       "choices": [
         {
           "id": "d2-ok",
-          "label": "VES e PCR, senza aspettare il referto per decidere",
+          "label": "VES, PCR ed eco color-Doppler delle temporali, senza attendere i referti per il prednisone",
           "next": "d3"
         },
         {
           "id": "d2-w1",
-          "label": "Eco-Doppler delle temporali prima di ogni farmaco",
-          "next": "res-eco"
+          "label": "Attendere il referto dell'eco-Doppler prima di ogni farmaco",
+          "next": "res-cecita"
+        },
+        {
+          "id": "d2-w2",
+          "label": "RM encefalo prima di tutto, per escludere un ictus",
+          "next": "res-rm"
         }
       ]
     },
@@ -331,8 +335,8 @@
       "id": "res-ok",
       "type": "resolution",
       "title": "Steroide partito in tempo",
-      "prompt": "Prednisone ad alto dosaggio subito, biopsia dopo, vista sorvegliata. L'eco-Doppler non ha ritardato la prima dose.",
-      "cost": 36,
+      "prompt": "Prednisone 40-60 mg subito. Eco color-Doppler delle temporali eseguito presto, senza subordinare la prima dose al referto. Biopsia dopo, vista sorvegliata.",
+      "cost": 101,
       "score": 100,
       "outcome": "positive"
     },
@@ -340,18 +344,18 @@
       "id": "res-cecita",
       "type": "resolution",
       "title": "Cecità da attesa",
-      "prompt": "La biopsia o l'oculista arrivano dopo la neuropatia ottica ischemica. La vista non torna. L'attesa dello steroide è il danno permanente.",
+      "prompt": "Biopsia, oculista o referto dell'eco arrivano dopo la neuropatia ottica ischemica. La vista non torna. L'attesa dello steroide è il danno permanente.",
       "cost": 180,
       "score": 0,
       "outcome": "negative",
       "trap": "medico-legale"
     },
     {
-      "id": "res-eco",
+      "id": "res-rm",
       "type": "resolution",
-      "title": "Eco-Doppler che ritarda la cura",
-      "prompt": "L'eco-Doppler costa 65 euro e supera il budget di 50 se si somma agli indici già chiesti per decidere. Soprattutto occupa le ore in cui andava dato il prednisone.",
-      "cost": 65,
+      "title": "RM encefalo fuori indicazione",
+      "prompt": "La RM encefalo costa 220 euro, non vede l'arterite temporale e fa scadere le ore in cui andava dato il prednisone 40-60 mg. L'esame indicato per la conferma cranica è l'eco color-Doppler, non questa RM.",
+      "cost": 220,
       "score": 0,
       "outcome": "negative",
       "trap": "economico"

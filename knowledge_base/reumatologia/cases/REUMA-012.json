@@ -10,7 +10,7 @@
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "INTERMEDIATE",
   "setting": "AMBULATORIO",
-  "guidelineRef": "Metotrexato — emocromo e transaminasi periodici, autoanticorpi non si ripetono",
+  "guidelineRef": "Nota 659 methotrexate — emocromo e transaminasi a 1 mese, poi ogni 3 mesi",
   "diagnosis": "Artrite reumatoide in metotrexato, attività buona. Monitoraggio di fegato ed emocromo obbligatorio. FR e anti-CCP non vanno ripetuti.",
   "pastMedicalHistory": "Artrite reumatoide sieropositiva diagnosticata quattro mesi fa, metotrexato 10 mg a settimana e acido folico, che a volte dimentica. Niente alcol. Ultimo emocromo e ultime transaminasi: il giorno dell'inizio, normali. Nessuna infezione in corso, nessuna dispnea nuova. Beta-HCG negativo il mese scorso, contraccezione con spirale. Allergie: nessuna.",
   "presentation": "Muove le mani meglio di quattro mesi fa. Se le si dice che si possono saltare gli esami perché sta bene, è contenta. Se le si ripetono FR e anti-CCP «per vedere se sono scesi», chiede se deve pagare di nuovo. Il fegato lo fa fare se le si spiega che il farmaco si ferma su quei numeri.",
@@ -22,7 +22,7 @@
   "timeLimitMinutes": 40,
   "patientDeteriorationThreshold": 40,
   "patientPrompt": "ROLEPLAY. Sei Francesca Riva, 49 anni, controllo di reumatologia. Registro: sollevata, collaborante. Alla «Come sta?»: «Le mani vanno meglio. Il metotrexato lo prendo, il folico a volte no.» Non dire tu che gli esami del fegato sono in ritardo finché non te lo chiedono. Se chiedono alcol, fiato, infezioni, gravidanza, ultima analisi: non bevi, respiri bene, niente febbre, hai la spirale, gli esami sono quelli del primo giorno. Se ti dicono che si può saltare il prelievo, ringrazi. Se ti spiegano fegato e globuli, tiri su la manica. Se ti ripetono gli anticorpi, chiedi a cosa servono. Non nominare budget.",
-  "correctSolution": "Continuare il metotrexato solo dopo emocromo e transaminasi di oggi. Rafforzare il folato. Non ripetere FR, anti-CCP, ANA ed ENA. Follow-up di laboratorio fra 8-12 settimane se i valori sono normali. Nessuna TC.",
+  "correctSolution": "Continuare il metotrexato solo dopo emocromo e transaminasi di oggi. Folato il giorno dopo la dose settimanale. Non ripetere FR, anti-CCP, ANA ed ENA. Prossimo prelievo fra 3 mesi se i valori sono normali. Nessuna TC.",
   "goldStandardPath": [
     "anamnesi-metotrexato",
     "emocromo",
@@ -31,7 +31,7 @@
     "azione-continua-metotrexato",
     "azione-followup-laboratorio"
   ],
-  "goldPathNarrative": "1) Anamnesi: aderenza, alcol, dispnea, infezioni, contraccezione. 2) Emocromo 4,80, transaminasi 10, creatinina 4,50: circa 19 euro, dentro un budget di 40. 3) Non si ripete lo screening autoimmune. 4) Se i numeri sono buoni il metotrexato continua, col folato. 5) Nuovo prelievo fra 8-12 settimane. Ripetere FR, anti-CCP, ANA ed ENA costa circa 60 euro e non misura l'attività.",
+  "goldPathNarrative": "1) Anamnesi: aderenza, alcol, dispnea, infezioni, contraccezione. 2) Emocromo 4,80, transaminasi 10, creatinina 4,50: circa 19 euro, dentro un budget di 40. 3) Non si ripete lo screening autoimmune. 4) Se i numeri sono buoni il metotrexato continua, con il folato il giorno dopo. 5) Nuovo prelievo fra 3 mesi. Ripetere FR, anti-CCP, ANA ed ENA costa circa 60 euro e non misura l'attività.",
   "examLatencies": {
     "anamnesi-metotrexato": 8,
     "emocromo": 240,
@@ -82,8 +82,8 @@
   "escCitations": [
     {
       "chunkId": "reuma-012-fegato",
-      "source": "Sintesi operativa — monitoraggio del metotrexato",
-      "quote": "Emocromo e transaminasi si ripetono a intervalli regolari per tutta la durata del metotrexato. Il paziente che sta meglio non è esentato."
+      "source": "Nota informativa immunosoppressori, documento 659 — methotrexate",
+      "quote": "In corso di methotrexate si eseguono emocromo, GOT, GPT, gamma GT e fosfatasi alcalina dopo 1 mese e in seguito ogni 3 mesi. Si assume una compressa di acido folico il giorno successivo alla somministrazione."
     },
     {
       "chunkId": "reuma-012-anticorpi",
@@ -341,7 +341,7 @@
       "choices": [
         {
           "id": "d4-ok",
-          "label": "Continui il metotrexato e insisti sul folato",
+          "label": "Continui il metotrexato e il folato il giorno dopo la dose",
           "next": "d5"
         },
         {
@@ -362,7 +362,7 @@
       "choices": [
         {
           "id": "d5-ok",
-          "label": "Emocromo e transaminasi fra 8-12 settimane, prima se nausea o ittero",
+          "label": "Emocromo e transaminasi fra 3 mesi, prima se nausea o ittero",
           "next": "res-ok"
         },
         {
@@ -376,7 +376,7 @@
       "id": "res-ok",
       "type": "resolution",
       "title": "Metotrexato monitorato",
-      "prompt": "Fegato ed emocromo visti, farmaco rinnovato, folato rinforzato, anticorpi non ripetuti.",
+      "prompt": "Fegato ed emocromo visti oggi, farmaco rinnovato, folato il giorno dopo la dose, prossimo prelievo fra 3 mesi. Gli anticorpi non sono stati ripetuti.",
       "cost": 31.8,
       "score": 100,
       "outcome": "positive"

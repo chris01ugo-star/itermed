@@ -2,7 +2,7 @@
   "id": "REUMA-001",
   "code": "REUMA-001",
   "title": "Artrite reumatoide all'esordio",
-  "description": "Giulia Ferrara, 46 anni, sarta, da dieci settimane ha gonfiore simmetrico di metacarpo-falangee e interfalangee prossimali, rigidità mattutina di oltre un'ora e presa della mano che cede sul lavoro. Non ha febbre, non ha monoartrite calda, non ha trauma. Il percorso è la conferma infiammatoria con radiografie e autoanticorpi mirati, lo screening di sicurezza e il metotrexato entro tre mesi dall'esordio. La risonanza immediata e il biologico di prima linea sono le trappole.",
+  "description": "Giulia Ferrara, 46 anni, sarta, da dieci settimane ha gonfiore simmetrico di metacarpo-falangee e interfalangee prossimali, rigidità mattutina di oltre un'ora e presa della mano che cede sul lavoro. Non ha febbre, non ha monoartrite calda, non ha trauma. Il percorso è la conferma infiammatoria con radiografie e autoanticorpi mirati, lo screening di sicurezza e, come prima linea, metotrexato più un glucocorticoide a breve termine. La risonanza immediata e il biologico di prima linea sono le trappole.",
   "difficulty": "MEDIUM",
   "specialty": "reumatologia",
   "specialtyLabel": "Reumatologia",
@@ -10,8 +10,8 @@
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "INTERMEDIATE",
   "setting": "AMBULATORIO",
-  "guidelineRef": "EULAR RA — csDMARD subito dopo la diagnosi, biologico solo dopo fallimento",
-  "diagnosis": "Artrite reumatoide all'esordio, sieropositiva. Serve metotrexato dopo screening. Non RM articolare immediata e non adalimumab di prima linea.",
+  "guidelineRef": "EULAR 2025 AR — MTX più glucocorticoide breve; biologico solo dopo il fallimento",
+  "diagnosis": "Artrite reumatoide all'esordio, sieropositiva. Dopo lo screening: metotrexato più glucocorticoide a breve termine, con riduzione rapida e cessazione. Non RM immediata e non adalimumab di prima linea.",
   "pastMedicalHistory": "Ipotiroidismo in levotiroxina, stabile. Due gravidanze portate a termine, l'ultima otto anni fa. Non beve alcolici. Non ha epatite nota, non ha tubercolosi, non ha allergie. Una zia aveva le mani deformate, mai inquadrata. Assume ibuprofene da tre settimane, con poco beneficio e epigastralgia lieve. Ultimo ciclo regolare, non usa contraccezione.",
   "presentation": "In ambulatorio tiene le mani socchiuse. Se si chiede solo da quanto fa male, risponde «da un po'» e accetta qualunque risonanza pur di tornare a cucire. Se si ricostruiscono rigidità, simmetria e durata oltre le sei settimane, il quadro è infiammatorio e non meccanico. Parametri stabili, non febbre.",
   "redHerrings": [
@@ -22,7 +22,7 @@
   "timeLimitMinutes": 50,
   "patientDeteriorationThreshold": 40,
   "patientPrompt": "ROLEPLAY. Sei Giulia Ferrara, 46 anni, sarta, ambulatorio di reumatologia. Registro: preoccupata, frasi brevi, torni sempre al lavoro. Alla «Come sta?»: «Non chiudo più le forbici. La mattina le mani sono blocchi.» Non dire tu che è artrite reumatoide. Se chiedono rigidità, simmetria, da quanto, febbre, altre articolazioni: più di un'ora al risveglio, entrambe le mani, da dieci settimane, niente febbre, anche i polsi. Se propongono una risonanza subito accetti: «Così si vede tutto.» Se propongono radiografie, esami del sangue e poi una compressa settimanale dopo i controlli di fegato e gravidanza, accetti se ti spiegano perché non è un antidolorifico. Se ti mandano a casa solo con l'ibuprofene, [stringe i pugni]: «Tra un mese non lavoro più.» Non nominare budget, linee guida o trappole.",
-  "correctSolution": "Artrite reumatoide all'esordio. Radiografie delle mani, fattore reumatoide, anti-CCP e indici di flogosi; screening con beta-HCG, transaminasi, sierologia epatite e radiografia del torace; metotrexato 10 mg a settimana con folato. Controllo di emocromo e fegato a 4-6 settimane. Non RM immediata. Non adalimumab prima del fallimento del DMARD.",
+  "correctSolution": "Artrite reumatoide all'esordio. Radiografie delle mani, fattore reumatoide, anti-CCP e indici di flogosi; screening con beta-HCG, transaminasi, sierologia epatite e radiografia del torace; metotrexato settimanale con folato il giorno dopo, più un glucocorticoide a breve termine da ridurre e sospendere. Controllo di emocromo e fegato a 4-6 settimane. Non RM immediata. Non adalimumab prima del fallimento di questa prima linea.",
   "goldStandardPath": [
     "anamnesi-infiammatoria",
     "rx-ossa",
@@ -34,7 +34,7 @@
     "azione-metotrexato",
     "azione-followup-laboratorio"
   ],
-  "goldPathNarrative": "1) Anamnesi: rigidità oltre un'ora, simmetria, durata di dieci settimane, assenza di febbre. 2) Primo livello: RX mani 30 euro, FR 8 euro, anti-CCP 15 euro, emocromo 4,80, VES 3,50, PCR 28 euro. Non la RM da 220 euro. 3) Screening prima del metotrexato: beta-HCG 15 euro, transaminasi 10 euro, sierologia epatitica 35 euro, RX torace 25 euro. 4) Metotrexato 10 mg a settimana, 12,50 euro, più folato. Non adalimumab da 450 euro. 5) Follow-up a 4-6 settimane con emocromo e transaminasi. Il ritardo del DMARD lascia erodere le articolazioni.",
+  "goldPathNarrative": "1) Anamnesi: rigidità oltre un'ora, simmetria, durata di dieci settimane, assenza di febbre. 2) Primo livello: RX mani 30 euro, FR 8 euro, anti-CCP 15 euro, emocromo 4,80, VES 3,50, PCR 28 euro. Non la RM da 220 euro. 3) Screening prima del metotrexato: beta-HCG 15 euro, transaminasi 10 euro, sierologia epatitica 35 euro, RX torace 25 euro. 4) Metotrexato settimanale più folato il giorno dopo, e un glucocorticoide a breve termine con riduzione rapida e cessazione. Non adalimumab da 450 euro. 5) Follow-up a 4-6 settimane con emocromo e transaminasi. Il biologico arriva solo se questa prima linea fallisce.",
   "examLatencies": {
     "anamnesi-infiammatoria": 8,
     "rx-ossa": 40,
@@ -87,8 +87,8 @@
   "escCitations": [
     {
       "chunkId": "reuma-001-dmard",
-      "source": "Sintesi operativa EULAR — trattamento precoce dell'artrite reumatoide",
-      "quote": "Alla diagnosi si inizia un csDMARD, in prima linea il metotrexato, senza attendere le erosioni. Il biologico non è il primo farmaco se il csDMARD non è stato provato."
+      "source": "EULAR 2025, aggiornamento AR nel documento PharmaStar (Smolen)",
+      "quote": "Si conferma l'inizio della terapia con MTX (o altro csDMARD) più glucocorticoidi: nessuna strategia iniziale ha dimostrato di essere superiore. I glucocorticoidi si usano a breve termine, con rapida riduzione e cessazione. Il fallimento di MTX più glucocorticoidi è già un segno prognostico sfavorevole: il biologico non è la prima ricetta."
     },
     {
       "chunkId": "reuma-001-costi",
@@ -369,7 +369,7 @@
       "choices": [
         {
           "id": "d4-ok",
-          "label": "Metotrexato 10 mg a settimana più folato",
+          "label": "Metotrexato settimanale, folato il giorno dopo, e glucocorticoide breve da ridurre e sospendere",
           "next": "d5"
         },
         {
@@ -404,7 +404,7 @@
       "id": "res-ok",
       "type": "resolution",
       "title": "DMARD avviato in sicurezza",
-      "prompt": "Artrite reumatoide riconosciuta, screening fatto, metotrexato iniziato, follow-up fissato. Nessuna RM e nessun biologico di prima linea.",
+      "prompt": "Artrite reumatoide riconosciuta, screening fatto, metotrexato più glucocorticoide a breve termine avviati, follow-up fissato. Nessuna RM e nessun biologico di prima linea.",
       "cost": 201.6,
       "score": 100,
       "outcome": "positive"
@@ -443,7 +443,7 @@
       "id": "res-biologico",
       "type": "resolution",
       "title": "Biologico senza fallimento del DMARD",
-      "prompt": "Adalimumab 450 euro di prima linea, senza fallimento del metotrexato. È spreco e non è il percorso di prima scelta.",
+      "prompt": "Adalimumab 450 euro di prima linea, senza fallimento di metotrexato più glucocorticoide a breve termine. È spreco e non è il percorso di prima scelta.",
       "cost": 450,
       "score": 0,
       "outcome": "negative",

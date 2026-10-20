@@ -10,8 +10,8 @@
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "BASE",
   "setting": "AMBULATORIO",
-  "guidelineRef": "Fibromialgia — diagnosi clinica, no immunosoppressione, no pannello a pioggia",
-  "diagnosis": "Fibromialgia. Emocromo, VES, PCR e TSH normali. Non ANA, non ENA, non metotrexato, non steroide sistemico.",
+  "guidelineRef": "Linee di indirizzo fibromialgia 2018 — emocromo e PCR, non ANA/FR/TSH di routine",
+  "diagnosis": "Fibromialgia. Primo laboratorio: emocromo e PCR, normali. Non ANA, non FR, non TSH di routine, non metotrexato, non steroide sistemico.",
   "pastMedicalHistory": "Emicrania. Due anni di lavoro su turni. Nessuna psoriasi, nessun fenomeno di Raynaud, nessuna bocca secca. Ha letto online di lupus e porta un elenco di esami. Non fuma. Non è anemica nota. Ultimo TSH due anni fa, normale. Nessuna allergia. Assume paracetamolo ogni sera.",
   "presentation": "Indica con il dito schiena, spalle, anche e mandibola. Le articolazioni non sono gonfie. Se le si dice che servirà «tutto il pannello», si illumina. Se le si spiega che il dolore diffuso senza sinovite si chiama fibromialgia e non si cura con il metotrexato, all'inizio si offende e poi ascolta.",
   "redHerrings": [
@@ -22,17 +22,15 @@
   "timeLimitMinutes": 45,
   "patientDeteriorationThreshold": 40,
   "patientPrompt": "ROLEPLAY. Sei Elena Greco, 41 anni, ambulatorio. Registro: stanca, convinta di avere qualcosa di autoimmune grave. Alla «Come sta?»: «Mi fa male tutto. Da mesi. Nessuno mi crede.» Non dire tu la parola fibromialgia finché non te la spiegano. Se chiedono gonfiore, rigidità lunga, febbre, Raynaud, sonno: niente gonfiore vero, la rigidità dura pochi minuti, niente febbre, niente dita che cambiano colore, dormi male. Se propongono ANA, ENA e risonanza li pretendi. Se ti visitano le articolazioni, ti dicono che gli esami di infiammazione bastano e ti parlano di sonno e movimento, resti delusa e poi chiedi cosa fare in concreto. Non nominare budget.",
-  "correctSolution": "Fibromialgia. Emocromo, VES, PCR e TSH, tutti senza infiammazione. Spiegazione della diagnosi, attività fisica e igiene del sonno. Non pannello ANA/ENA/FR/anti-CCP/ANCA. Non RM. Non metotrexato né prednisone.",
+  "correctSolution": "Fibromialgia. Emocromo e PCR, senza infiammazione. Spiegazione della diagnosi, attività fisica e igiene del sonno. Non VES né TSH di routine. Non pannello ANA/ENA/FR/anti-CCP/ANCA. Non RM. Non metotrexato né prednisone.",
   "goldStandardPath": [
     "anamnesi-dolore-diffuso",
     "emocromo",
-    "ves",
     "pcr-pct",
-    "tiroide",
     "azione-spiegazione",
     "azione-followup-funzione"
   ],
-  "goldPathNarrative": "1) Anamnesi: dolore diffuso, sonno non ristoratore, nessuna sinovite. 2) Primo livello: emocromo 4,80, VES 3,50, PCR 28, TSH 22 euro. Totale di laboratorio circa 58 euro, dentro un budget di 80. 3) Non si aggiungono ANA 12, ENA 25, FR 8, anti-CCP 15, ANCA 20 né RM 220. 4) Si nomina la fibromialgia e si avvia un piano di movimento e sonno, non un immunosoppressore. 5) Follow-up sulla funzione, non sulla ripetizione degli anticorpi.",
+  "goldPathNarrative": "1) Anamnesi: dolore diffuso, sonno non ristoratore, nessuna sinovite. 2) Primo livello raccomandato: emocromo 4,80 euro e PCR 28 euro. Totale circa 33 euro. 3) Non si aggiungono di routine VES, TSH, ANA, ENA, FR, anti-CCP, ANCA né RM. 4) Si nomina la fibromialgia e si avvia un piano di movimento e sonno, non un immunosoppressore. 5) Follow-up sulla funzione, non sulla ripetizione degli anticorpi.",
   "examLatencies": {
     "anamnesi-dolore-diffuso": 10,
     "emocromo": 240,
@@ -86,19 +84,19 @@
   "escCitations": [
     {
       "chunkId": "reuma-003-clinica",
-      "source": "Sintesi operativa — fibromialgia, diagnosi clinica",
-      "quote": "Il dolore diffuso cronico senza sinovite e con indici di flogosi normali si nomina e si tratta senza un pannello autoanticorpale esteso e senza immunosoppressori."
+      "source": "Linee di indirizzo sulla fibromialgia, 2018",
+      "quote": "Gli esami di laboratorio raccomandati per una valutazione iniziale sono emocromo con formula e proteina C reattiva, perché la fibromialgia non è una condizione infiammatoria. Non ci sono evidenze sufficienti per l'uso routinario di ANA, fattore reumatoide, TSH e CPK."
     },
     {
       "chunkId": "reuma-003-costi",
-      "source": "Tariffe didattiche REUMA-003 — laboratorio minimo circa 58 €, RM 220 €",
-      "quote": "Emocromo, VES, PCR e TSH stanno nel budget di 80 euro. ANA, ENA e la RM lo superano senza cambiare la diagnosi."
+      "source": "Linee di indirizzo sulla fibromialgia, 2018 — laboratorio iniziale",
+      "quote": "La diagnosi si basa sulla clinica e su un set limitato di esami. Emocromo e PCR escludono l'infiammazione. ANA, FR e TSH non sono un primo livello di routine, e la RM non è suggerita."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
       "Sinovite cercata e non trovata prima degli autoanticorpi.",
-      "Laboratorio limitato a emocromo, VES, PCR e TSH.",
+      "Laboratorio iniziale limitato a emocromo e PCR.",
       "Nessun DMARD e nessuno steroide sistemico.",
       "Spesa entro 80 euro."
     ],
@@ -120,25 +118,11 @@
       "priceEuro": 4.8
     },
     {
-      "examId": "ves",
-      "name": "VES",
-      "finding": "VES 12 mm/h. Costo 3,50 euro. Non c'è flogosi.",
-      "isAbnormal": false,
-      "priceEuro": 3.5
-    },
-    {
       "examId": "pcr-pct",
       "name": "PCR",
       "finding": "PCR 0,2 mg/dL. Costo 28 euro. Normale.",
       "isAbnormal": false,
       "priceEuro": 28
-    },
-    {
-      "examId": "tiroide",
-      "name": "TSH",
-      "finding": "TSH 2,1 µUI/mL. Costo 22 euro. La stanchezza non è un ipotiroidismo.",
-      "isAbnormal": false,
-      "priceEuro": 22
     }
   ],
   "inappropriateExams": [
@@ -325,12 +309,12 @@
       "phase": "diagnostica",
       "title": "Laboratorio minimo",
       "prompt": "Quali esami bastano?",
-      "cost": 58.3,
+      "cost": 32.8,
       "score": 20,
       "choices": [
         {
           "id": "d2-ok",
-          "label": "Emocromo, VES, PCR e TSH",
+          "label": "Emocromo e PCR. Non TSH, VES, ANA o FR di routine",
           "next": "d3"
         },
         {
@@ -407,8 +391,8 @@
       "id": "res-ok",
       "type": "resolution",
       "title": "Fibromialgia detta e contenuta",
-      "prompt": "Diagnosi clinica, laboratorio minimo normale, nessun DMARD. Il budget di 80 euro regge.",
-      "cost": 58.3,
+      "prompt": "Diagnosi clinica, emocromo e PCR normali, nessun DMARD. Il laboratorio iniziale sta nel budget.",
+      "cost": 32.8,
       "score": 100,
       "outcome": "positive"
     },
