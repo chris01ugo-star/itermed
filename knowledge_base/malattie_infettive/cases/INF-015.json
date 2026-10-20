@@ -1,0 +1,376 @@
+{
+  "id": "INF-015",
+  "code": "INF-015",
+  "title": "Klebsiella resistente ai carbapenemici, senza sepsi",
+  "description": "Marco T., 70 anni, diabetico, cistite con sintomi ma senza sepsi. L'urinocoltura mostra una Klebsiella resistente ai carbapenemici, sensibile a cotrimossazolo e gentamicina. Funzione renale conservata. Può essere curato a domicilio.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "IVU complicata da CRE, senza sepsi",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "AIFA-OPERA, CRE, medicina territoriale",
+  "diagnosis": "IVU complicata da CRE senza sepsi e con reni conservati: cotrimossazolo o aminoglicoside, durata massima 7 giorni. Non un altro carbapenemico.",
+  "pastMedicalHistory": "Diabete, quindi IVU complicata secondo AIFA-OPERA. Nessun segno di sepsi. Creatinina normale. Sensibile a cotrimossazolo e gentamicina.",
+  "presentation": "Disuria e febbricola 37,6, pressione tenuta, non confusione. Parametri: PA 130/78, FC 90, FR 16, SpO2 97%.",
+  "redHerrings": [
+    "Resistente ai carbapenemici sembra voler dire un carbapenemico a dose più alta.",
+    "Il diabete sembra imporre il ricovero anche senza sepsi.",
+    "Dieci giorni sembrano più sicuri del massimo di sette."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Marco, 70 anni, diabetico. La coltura è resistente ai carbapenemici. Stai in piedi e non hai la pressione bassa. Chiedi se devi essere ricoverato.",
+  "correctSolution": "Senza sepsi e con funzione renale conservata: cotrimossazolo o amikacina o gentamicina, al massimo 7 giorni. Non un carbapenemico. Se non potessi usare queste opzioni, valuteresti il ricovero.",
+  "goldStandardPath": [
+    "urinocoltura",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) Il diabete rende l'IVU complicata. 2) Non c'è sepsi. 3) Cotrimossazolo o aminoglicoside. 4) Massimo 7 giorni. 5) Non un carbapenemico. 6) Ricovero solo se le opzioni non si possono usare. 7) Non trattare se fosse asintomatico.",
+  "examLatencies": {
+    "urinocoltura": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "È diabetico. Per AIFA-OPERA l'IVU è complicata?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Disuria e febbricola 37,6, pressione tenuta, non confusione. Parametri: PA 130/78, FC 90, FR 16, SpO2 97%."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-015-src",
+      "source": "AIFA-OPERA, IVU complicate da CRE",
+      "quote": "Nelle IVU complicate da CRE senza segni di sepsi si può considerare come prima scelta aminoglicosidi o cotrimossazolo, purché la funzione renale non sia compromessa."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue AIFA-OPERA, CRE, medicina territoriale. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "urinocoltura",
+      "name": "urinocoltura",
+      "finding": "Klebsiella resistente ai carbapenemici, sensibile a cotrimossazolo e gentamicina. Funzione renale conservata.",
+      "isAbnormal": true,
+      "priceEuro": 12.91
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Meropenem prescritto per una Klebsiella già resistente ai carbapenemici.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 12.91,
+      "wasteRationale": "Un carbapenemico su un CRE non è una scelta del documento territoriale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 90,
+      "bloodPressure": "130/78",
+      "spo2": 97,
+      "temperature": 37.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 70,
+      "sex": "M",
+      "name": "Marco T.",
+      "context": "AMBULATORIO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Complicata",
+      "prompt": "È diabetico. Per AIFA-OPERA l'IVU è complicata?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Sì: il diabete è tra i fattori che definiscono l'IVU complicata",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "No: senza catetere resta non complicata",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sepsi",
+      "prompt": "Pressione tenuta, lucido. Il documento territoriale lo copre?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Sì, se non ha sepsi e non ha bisogno del ricovero",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Lo ricoveri per definitione, perché è un CRE",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaco",
+      "prompt": "Reni conservati, sensibile a entrambi. Prima scelta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Cotrimossazolo oppure amikacina o gentamicina",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Meropenem, perché il nome è carbapenemico",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Durata",
+      "prompt": "Quanto al massimo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "7 giorni",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "14 giorni di gentamicina",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Reni",
+      "prompt": "Se la creatinina fosse compromessa, l'aminoglicoside resterebbe prima scelta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No: la buona pratica lo considera purché la funzione renale non sia compromessa. In quel caso valuti il ricovero se non restano opzioni",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Gentamicina a dose piena anche con insufficienza renale",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Fosfomicina",
+      "prompt": "La fosfomicina è prima scelta in questa complicata da CRE?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No: nel CRE non complicato è seconda scelta e solo per E. coli. Qui il germe non è E. coli ed è una IVU complicata",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Fosfomicina 3 g e stop",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se fosse asintomatico",
+      "prompt": "Se non avesse sintomi, tratteresti il CRE?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No: senza sintomi è batteriuria asintomatica anche se MDR",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Lo tratteresti lo stesso, perché è resistente",
+          "next": "res-eco-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "CRE complicata senza sepsi",
+      "prompt": "Cotrimossazolo o aminoglicoside per non più di sette giorni, a domicilio.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Diabete non contato",
+      "prompt": "AIFA-OPERA: IVU complicata se c'è almeno uno tra gravidanza, segni sistemici o invasione tissutale, alterazione del tratto, calcolosi, derivazioni, catetere, patologie renali o comorbidità come diabete, neoplasie o immunodepressione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Ricovero obbligato dal nome del germe",
+      "prompt": "AIFA-OPERA: per le IVU complicate da CRE senza segni di sepsi, nel paziente che non necessita di ricovero, si considerano aminoglicosidi o cotrimossazolo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Carbapenemico su un CRE",
+      "prompt": "AIFA-OPERA: prima scelta cotrimossazolo o aminoglicoside. Un CRE è resistente ai carbapenemici. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Oltre il massimo",
+      "prompt": "AIFA-OPERA: per cotrimossazolo e aminoglicosidi nella IVU complicata da CRE la durata massima è 7 giorni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Aminoglicoside a reni compromessi",
+      "prompt": "AIFA-OPERA: aminoglicosidi o cotrimossazolo purché non ci sia compromissione della funzione renale. Se i farmaci non si possono somministrare per insufficienza renale, valutare l'ospedalizzazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "Fosfomicina fuori indicazione",
+      "prompt": "AIFA-OPERA: nella IVU non complicata da CRE la fosfomicina è seconda scelta e solo per E. coli. Nella complicata la prima scelta scritta è cotrimossazolo o aminoglicoside.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-7",
+      "type": "resolution",
+      "title": "CRE asintomatico trattato",
+      "prompt": "AIFA-OPERA: un Gram-negativo MDR senza sintomatologia è batteriuria asintomatica e non si tratta, fuori dalle eccezioni scritte.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

@@ -1,5 +1,50 @@
 [
   {
+    "id": "INF-001",
+    "title": "Bruciore senza perdite — cistite non complicata",
+    "condition": "Cistite acuta non complicata nella donna",
+    "frequencyCategory": "HIGH",
+    "difficulty": "BASE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Linea guida Emilia-Romagna IVU adulto, dossier 190"
+  },
+  {
+    "id": "INF-002",
+    "title": "Il terzo episodio dell'anno — cistiti ricorrenti",
+    "condition": "IVU ricorrenti nella donna, correlazione con il rapporto",
+    "frequencyCategory": "HIGH",
+    "difficulty": "INTERMEDIATE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Dossier 190, gestione delle IVU ricorrenti"
+  },
+  {
+    "id": "INF-003",
+    "title": "Urinocoltura positiva e nessun sintomo",
+    "condition": "Batteriuria asintomatica, non trattare",
+    "frequencyCategory": "HIGH",
+    "difficulty": "INTERMEDIATE",
+    "setting": "REPARTO",
+    "guidelineRef": "AIFA-OPERA e dossier 190 sul catetere"
+  },
+  {
+    "id": "INF-004",
+    "title": "Trentaquattro settimane e bruciore",
+    "condition": "Cistite acuta in gravidanza al terzo trimestre",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Dossier 190 e protocollo IVU adulti in gravidanza"
+  },
+  {
+    "id": "INF-005",
+    "title": "Disuria a settantadue anni",
+    "condition": "IVU nell'uomo anziano",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Dossier 190, IVU negli uomini"
+  },
+  {
     "id": "INF-006",
     "title": "Sindrome influenzale che non è influenza — HIV acuto",
     "condition": "Sieroconversione acuta HIV, test combinato Ag/Ab",
@@ -7,6 +52,42 @@
     "difficulty": "INTERMEDIATE",
     "setting": "PRONTO_SOCCORSO",
     "guidelineRef": "Legge 135/1990 e test HIV di IV generazione"
+  },
+  {
+    "id": "INF-007",
+    "title": "Febbre e catetere da dieci giorni",
+    "condition": "IVU febbrile nel portatore di catetere",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "REPARTO",
+    "guidelineRef": "Dossier 190, catetere urinario"
+  },
+  {
+    "id": "INF-008",
+    "title": "Febbre e dolore al fianco — pielonefrite",
+    "condition": "Pielonefrite senza anomalie e senza rischio MDR",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Protocollo IVU adulti, ospedale"
+  },
+  {
+    "id": "INF-009",
+    "title": "Pielonefrite dopo un ricovero lungo",
+    "condition": "Pielonefrite con fattori di rischio MDR, senza ESBL recente",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Protocollo IVU adulti, fattori MDR"
+  },
+  {
+    "id": "INF-010",
+    "title": "Antibiogramma: E. coli resistente alle cefalosporine",
+    "condition": "Cistite non complicata da 3GCRE, terapia mirata",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "AIFA-OPERA, 3GCRE, medicina territoriale"
   },
   {
     "id": "INF-011",
@@ -43,5 +124,104 @@
     "difficulty": "ADVANCED",
     "setting": "REPARTO",
     "guidelineRef": "IDSA infezioni di catetere vascolare"
+  },
+  {
+    "id": "INF-015",
+    "title": "Klebsiella resistente ai carbapenemici, senza sepsi",
+    "condition": "IVU complicata da CRE, senza sepsi",
+    "frequencyCategory": "LOW",
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "AIFA-OPERA, CRE, medicina territoriale"
+  },
+  {
+    "id": "INF-016",
+    "title": "Pseudomonas resistente a tutto lo schema classico",
+    "condition": "IVU non complicata da Pseudomonas DTR",
+    "frequencyCategory": "LOW",
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "AIFA-OPERA, Pseudomonas DTR"
+  },
+  {
+    "id": "INF-017",
+    "title": "Tosse, febbre e radiografia — polmonite a casa",
+    "condition": "CAP ambulatoriale senza comorbidità",
+    "frequencyCategory": "HIGH",
+    "difficulty": "BASE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Indicazioni operative polmoniti adulto, ASP Ragusa"
+  },
+  {
+    "id": "INF-018",
+    "title": "CURB alto, fuori dalla terapia intensiva",
+    "condition": "CAP ospedalizzata non in terapia intensiva",
+    "frequencyCategory": "HIGH",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "Indicazioni operative polmoniti, CAP non ICU"
+  },
+  {
+    "id": "INF-019",
+    "title": "Polmonite che finisce in terapia intensiva",
+    "condition": "CAP severa",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Indicazioni operative, CAP severa"
+  },
+  {
+    "id": "INF-020",
+    "title": "Polmonite al quinto giorno di ricovero",
+    "condition": "Polmonite ospedaliera senza ESBL",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "Indicazioni operative, HAP"
+  },
+  {
+    "id": "INF-021",
+    "title": "Inalazione e nuovo infiltrato",
+    "condition": "Polmonite da aspirazione",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Indicazioni operative, polmonite da aspirazione"
+  },
+  {
+    "id": "INF-022",
+    "title": "Diarrea dopo l'antibiotico — Clostridium",
+    "condition": "Infezione da Clostridium difficile",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "REPARTO",
+    "guidelineRef": "Opuscolo ASUITS Clostridium difficile, 2018"
+  },
+  {
+    "id": "INF-023",
+    "title": "Febbre e neutrofili a quattrocento",
+    "condition": "Neutropenia febbrile a basso rischio, senza indicazione al glicopeptide",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "Protocollo neutropenia febbrile oncoematologica e AIOM 2019"
+  },
+  {
+    "id": "INF-024",
+    "title": "Febbre e protesi aortica — endocardite",
+    "condition": "Sospetta endocardite su protesi, poi MSSA su valvola nativa sinistra nel referto",
+    "frequencyCategory": "LOW",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "Tesi su endocardite, criteri di Duke e tabella terapeutica"
+  },
+  {
+    "id": "INF-025",
+    "title": "Febbre al ritorno dall'area malarica",
+    "condition": "Febbre al ritorno da area malarica",
+    "frequencyCategory": "LOW",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Linea guida SIMET sulla profilassi della malaria, 2013"
   }
 ]

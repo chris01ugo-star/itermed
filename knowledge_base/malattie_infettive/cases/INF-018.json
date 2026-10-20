@@ -1,0 +1,376 @@
+{
+  "id": "INF-018",
+  "code": "INF-018",
+  "title": "CURB alto, fuori dalla terapia intensiva",
+  "description": "Franca G., 71 anni, polmonite comunitaria. CURB-65 superiore a 1. Nessun fattore MDRO. Nessuna colonizzazione ESBL. Ha una fibrillazione e prende un anticoagulante. Non è in terapia intensiva.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "CAP ospedalizzata non in terapia intensiva",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Indicazioni operative polmoniti, CAP non ICU",
+  "diagnosis": "CAP non ICU con CURB maggiore di 1 e cardiopatia: ceftriaxone o ampicillina/sulbactam più doxiciclina, non un macrolide di prima battuta. Niente meropenem senza ESBL. Passaggio all'orale alla stabilizzazione.",
+  "pastMedicalHistory": "Fibrillazione in anticoagulante. Nessun antibiotico parenterale recente, nessuna casa di riposo, nessun isolamento di Pseudomonas, MRSA o ESBL.",
+  "presentation": "Febbre, tosse, infiltrato, CURB-65 superiore a 1. Parametri: PA 108/64, FC 110, FR 24, SpO2 93%, temperatura 38,4.",
+  "redHerrings": [
+    "Il meropenem sembra la versione ospedaliera del ceftriaxone.",
+    "Il macrolide sembra obbligatorio anche con la cardiopatia.",
+    "La procalcitonina sembra decidere se iniziare."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Franca, 71 anni. Sei ricoverata per una polmonite. Prendi l'anticoagulante per il cuore. Chiedi se l'antibiotico forte è necessario.",
+  "correctSolution": "Ceftriaxone 2 g al giorno o ampicillina/sulbactam 3 g ogni 6 ore per 7 giorni, più doxiciclina. Eviti il macrolide per la cardiopatia. Non usi il meropenem senza ESBL. Passi all'orale quando è stabile.",
+  "goldStandardPath": [
+    "emocolture",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) CAP non ICU. 2) Ceftriaxone o ampicillina/sulbactam più doxiciclina. 3) Niente macrolide per il cuore. 4) Niente meropenem. 5) Lo schema MDRO solo se i fattori ci sono. 6) Passaggio all'orale. 7) Legionella: non togliere il partner atipico solo perché l'antigene è negativo, senza un test molecolare.",
+  "examLatencies": {
+    "emocolture": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "CURB maggiore di 1, non in terapia intensiva, nessun MDRO. Prima scelta?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Febbre, tosse, infiltrato, CURB-65 superiore a 1. Parametri: PA 108/64, FC 110, FR 24, SpO2 93%, temperatura 38,4."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-018-src",
+      "source": "Indicazioni operative, CAP in-patient non ICU",
+      "quote": "CAP non ICU: ceftriaxone 2 g al giorno o ampicillina/sulbactam 3 g ogni 6 ore per 7 giorni, più doxiciclina o azitromicina. Il carbapenemico si riserva alla colonizzazione o all'isolamento di ESBL."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue Indicazioni operative polmoniti, CAP non ICU. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "emocolture",
+      "finding": "Emocolture prelevate. Nessuna colonizzazione ESBL. CURB-65 superiore a 1, non in terapia intensiva.",
+      "isAbnormal": true,
+      "priceEuro": 25.95
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Meropenem avviato in una CAP non ICU senza colonizzazione ESBL.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 25.95,
+      "wasteRationale": "Il meropenem senza ESBL è riservato dal testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "108/64",
+      "spo2": 93,
+      "temperature": 38.4,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 71,
+      "sex": "F",
+      "name": "Franca G.",
+      "context": "REPARTO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Schema",
+      "prompt": "CURB maggiore di 1, non in terapia intensiva, nessun MDRO. Prima scelta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Ceftriaxone 2 g al giorno oppure ampicillina/sulbactam 3 g ogni 6 ore, per 7 giorni, più doxiciclina",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Meropenem 1 g ogni 8 ore",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cuore",
+      "prompt": "Ha una cardiopatia. Quale partner scegli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Doxiciclina, e consideri un'alternativa al macrolide",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Azitromicina insieme all'anticoagulante, senza alternativa",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "MDRO",
+      "prompt": "Quali fattori accenderebbero lo schema con cefepime o piperacillina/tazobactam più linezolid?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Antibiotico parenterale negli ultimi 90 giorni, precedente Pseudomonas o S. aureus, ricovero recente, casa di cura, tossicodipendenza, post-influenza, neutropenia",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "L'età oltre i 70 da sola",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "ESBL",
+      "prompt": "Non è colonizzata. Il meropenem della tabella HAP si applica?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No: è riservato a colonizzazione o isolamento ESBL da espettorato, BAS o BAL",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Meropenem perché è ricoverata",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Orale",
+      "prompt": "È stabile, mangia, la febbre scende. Cosa valuti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Il passaggio all'orale",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Altri sette giorni di endovena a prescindere",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Legionella",
+      "prompt": "L'antigene urinario è negativo. Togli subito azitromicina o doxiciclina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No: prima valuti un test molecolare su espettorato, BAS o BAL",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Le togli il giorno stesso dell'antigene negativo",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Chinolone",
+      "prompt": "È anziana e nefropatica. Il fluorochinolone è neutro?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No: servono prudenza per muscolo, nervi, aneurisma e dissezione, glicemia e QTc",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Levofloxacina 750 mg senza rileggere il rischio",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "CAP di reparto senza carbapenemico",
+      "prompt": "Ceftriaxone o ampicillina/sulbactam più doxiciclina, passaggio all'orale quando è stabile.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "Meropenem di apertura",
+      "prompt": "Indicazioni operative: CAP non ICU, ceftriaxone o ampicillina/sulbactam più doxiciclina o azitromicina. Il carbapenemico si riserva a colonizzazione o isolamento ESBL. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Macrolide nel cardiopatico",
+      "prompt": "Indicazioni operative: azitromicina e claritromicina hanno rischi di aritmie. Considerare un regime alternativo nelle comorbidità cardiologiche. Attenzione anche a macrolidi e anticoagulanti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "MDRO per la sola età",
+      "prompt": "Indicazioni operative: i fattori MDRO sono terapia parenterale negli ultimi 90 giorni, precedente isolamento di Pseudomonas o S. aureus, ricovero recente, casa di cura, tossicodipendenza endovenosa, post-influenza, neutropenia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Carbapenemico senza ESBL",
+      "prompt": "Indicazioni operative: riservare il carbapenemico ai casi con nota colonizzazione o isolamento di germi ESBL.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "Endovena protratta",
+      "prompt": "Indicazioni operative: laddove possibile, valutare sempre lo switch all'orale alla stabilizzazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Copertura atipica tolta presto",
+      "prompt": "Indicazioni operative: se gli antigeni urinari per legionella sono negativi, valutare i test molecolari prima di togliere azitromicina e doxiciclina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Chinolone senza la nota di rischio",
+      "prompt": "Indicazioni operative: i fluorochinoloni hanno reazioni avverse muscoloscheletriche e neurologiche, aneurisma e dissezione aortica. Prudenza negli anziani, nei nefropatici, nei trapiantati e in chi prende steroidi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

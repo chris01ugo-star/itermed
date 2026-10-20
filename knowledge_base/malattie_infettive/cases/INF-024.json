@@ -1,0 +1,376 @@
+{
+  "id": "INF-024",
+  "code": "INF-024",
+  "title": "Febbre e protesi aortica — endocardite",
+  "description": "Enrico V., 69 anni, protesi aortica, febbre da dieci giorni. Non ha ancora preso antibiotici. Non è un giovane con uso di sostanze e la valvola interessata, se confermata, è sinistra.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Sospetta endocardite su protesi, poi MSSA su valvola nativa sinistra nel referto",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Tesi su endocardite, criteri di Duke e tabella terapeutica",
+  "diagnosis": "Tre emocolture prima dell'antibiotico. MSSA sulla protesi: oxacillina più rifampicina per 6 settimane e gentamicina per 14 giorni. Non la vancomicina senza allergia o MRSA.",
+  "pastMedicalHistory": "Protesi aortica da tre anni, quindi rischio elevato. Nessun antibiotico nelle ultime settimane. Nessuna allergia alla penicillina. Non usa sostanze per vena.",
+  "presentation": "Febbre 38,4, soffio, astenia. Parametri: PA 128/70, FC 96, FR 16, SpO2 98%. Nessun antibiotico già dato.",
+  "redHerrings": [
+    "Una sola emocoltura sembra abbastanza.",
+    "La vancomicina sembra più sicura anche se lo stafilococco è meticillino-sensibile.",
+    "Due settimane sembrano abbastanza appena la febbre cade."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Enrico, 69 anni. Hai la febbre da dieci giorni e una protesi al cuore. Chiedi se devono prelevarti prima della flebo.",
+  "correctSolution": "Tre prelievi prima dell'antibiotico. Un solo coagulasi-negativo su tre si sospetta contaminante. Se è MSSA sulla protesi: oxacillina più rifampicina per 6 settimane e gentamicina per 14 giorni. La vancomicina è per MRSA o allergia.",
+  "goldStandardPath": [
+    "emocolture",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) Protesi, rischio elevato. 2) Tre emocolture prima della dose. 3) Un solo coagulasi-negativo non basta. 4) La possibile si tratta come definita. 5) MSSA su protesi: oxacillina, rifampicina, gentamicina. 6) Non due settimane. 7) Sulla nativa sinistra la durata è 4-6 settimane.",
+  "examLatencies": {
+    "emocolture": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Ha una protesi valvolare. Che classe di rischio è, nel testo letto?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Febbre 38,4, soffio, astenia. Parametri: PA 128/70, FC 96, FR 16, SpO2 98%. Nessun antibiotico già dato."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-024-src",
+      "source": "Tesi di dottorato, endocarditi e patologia del cavo orale",
+      "quote": "Le emocolture si ottengono da tre prelievi venosi distinti nell'arco di almeno 24 ore. Per MSSA su valvola aortica o mitrale nativa: oxacillina o cefazolina per 4-6 settimane."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue Tesi su endocardite, criteri di Duke e tabella terapeutica. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "emocolture",
+      "finding": "Tre set in corso. Se un solo coagulasi-negativo cresce, si sospetta contaminazione.",
+      "isAbnormal": true,
+      "priceEuro": 25.95
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Vancomicina avviata dopo un MSSA documentato, senza allergia.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 25.95,
+      "wasteRationale": "La vancomicina su un MSSA non è lo schema della tabella."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "128/70",
+      "spo2": 98,
+      "temperature": 38.4,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 69,
+      "sex": "M",
+      "name": "Enrico V.",
+      "context": "REPARTO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Rischio",
+      "prompt": "Ha una protesi valvolare. Che classe di rischio è, nel testo letto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Rischio elevato",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Rischio basso, come una coronaropatia",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Emocolture",
+      "prompt": "Non ha ancora preso antibiotici. Come le fai?",
+      "cost": 25.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Tre prelievi venosi distinti in almeno 24 ore, metà in aerobiosi e metà in anaerobiosi, prima della dose",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Una emocoltura dopo la prima flebo",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Un solo coagulasi-negativo",
+      "prompt": "Cresce un solo Staphylococcus epidermidis su tre. Come lo leggi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Sospetti una contaminazione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "È un criterio maggiore e inizi sei settimane",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Possibile",
+      "prompt": "I criteri non chiudono la diagnosi certa, ma non la escludono. La tratti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Sì: la possibile endocardite si tratta come la definita",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Smetti dopo tre giorni perché non è certa",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "MSSA su protesi",
+      "prompt": "Cresce uno S. aureus meticillino-sensibile e la valvola malata è la protesi. Schema?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Oxacillina più rifampicina per 6 settimane, e gentamicina per 14 giorni",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Vancomicina, anche senza allergia e senza MRSA",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Due settimane",
+      "prompt": "La febbre scende. Accorci a due settimane?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No: le due settimane sono per il giovane che usa sostanze, con interessamento della tricuspide, che risponde e non ha complicanze",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Due settimane e dimissione",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Valvola nativa",
+      "prompt": "Se il MSSA fosse su valvola aortica o mitrale nativa, non sulla protesi, quale durata?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Oxacillina o cefazolina per 4-6 settimane, non due",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Due settimane appena sfebbra, come se fosse una tricuspide nel giovane che usa sostanze",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Endocardite con tre emocolture",
+      "prompt": "Tre set prima della dose. MSSA sulla protesi: oxacillina, rifampicina e gentamicina. Niente vancomicina senza allergia.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Protesi messa tra i rischi bassi",
+      "prompt": "Slide PMI: rischio elevato per protesi valvolari. Rischio basso per coronaropatia e difetti interatriali.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Una coltura dopo l'antibiotico",
+      "prompt": "Tesi: tre prelievi distinti in almeno 24 ore. Se l'antibiotico è già stato dato, le colture possono restare negative e vanno seriate per cercare la ricomparsa della batteriemia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Contaminante trattato come endocardite",
+      "prompt": "Tesi: se uno solo dei tre campioni è positivo per Staphylococcus epidermidis o difteroidi, si sospetta contaminazione. I criteri minori escludono la singola emocoltura per stafilococchi coagulasi-negativi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Possibile endocardite sospesa",
+      "prompt": "Tesi: chi riceve diagnosi di possibile endocardite va trattato come una endocardite definita. La diagnosi escludibile include la risoluzione con antibiotico di durata pari o inferiore a quattro giorni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "Vancomicina su un MSSA",
+      "prompt": "Tabella della tesi, MSSA su protesi: oxacillina più rifampicina per 6 settimane, più gentamicina per 14 giorni. La vancomicina è lo schema MRSA o l'allergia alla penicillina. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Schema breve fuori indicazione",
+      "prompt": "Tesi: in media 4-6 settimane. Due settimane nei giovani con uso di sostanze, endocardite da S. aureus, buona risposta e senza complicanze. La tabella mette le due settimane sulla tricuspide nativa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Durata da tricuspide",
+      "prompt": "Tabella della tesi: MSSA su valvola aortica o mitrale nativa, oxacillina o cefazolina per 4-6 settimane. Le due settimane sono lo schema della tricuspide nativa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

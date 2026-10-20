@@ -1,0 +1,376 @@
+{
+  "id": "INF-020",
+  "code": "INF-020",
+  "title": "Polmonite al quinto giorno di ricovero",
+  "description": "Teresa B., 78 anni, nuovo infiltrato e febbre al quinto giorno di degenza. Non è colonizzata da ESBL né da MRSA. È stagione influenzale.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Polmonite ospedaliera senza ESBL",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Indicazioni operative, HAP",
+  "diagnosis": "HAP: piperacillina/tazobactam più linezolid o vancomicina più levofloxacina, 7-10 giorni. Oseltamivir in stagione influenzale. Meropenem solo se ESBL. Sospendere l'anti-MRSA se la colonizzazione è esclusa.",
+  "pastMedicalHistory": "Ricoverata per scompenso, giorno 5. Nessuna colonizzazione ESBL o MRSA. Non ventilata. Stagione influenzale.",
+  "presentation": "Nuova febbre 38,5, infiltrato comparso in ospedale. Parametri: PA 118/70, FC 104, FR 24, SpO2 92%.",
+  "redHerrings": [
+    "Il meropenem sembra lo schema di ogni polmonite nata in ospedale.",
+    "L'oseltamivir sembra inutile se c'è già l'antibiotico.",
+    "Linezolid sembra da continuare anche dopo l'esclusione di MRSA."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Teresa, 78 anni, ricoverata da cinque giorni. È comparsa la febbre. Chiedi se è la stessa polmonite di chi arriva da casa.",
+  "correctSolution": "Non è una CAP. Piperacillina/tazobactam più linezolid o vancomicina più levofloxacina per 7-10 giorni. Aggiungi oseltamivir 75 mg ogni 12 ore per 5 giorni. Niente meropenem senza ESBL. Togli l'anti-MRSA se la colonizzazione è esclusa.",
+  "goldStandardPath": [
+    "emocolture",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) HAP, non CAP. 2) Schema senza carbapenemico. 3) Oseltamivir di stagione. 4) Meropenem solo con ESBL. 5) Stop anti-MRSA se escluso. 6) Durata 7-10 giorni. 7) Test molecolare prima di togliere il chinolone se l'antigene legionella è negativo.",
+  "examLatencies": {
+    "emocolture": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Infiltrato nuovo al quinto giorno. Come la chiami?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Nuova febbre 38,5, infiltrato comparso in ospedale. Parametri: PA 118/70, FC 104, FR 24, SpO2 92%."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-020-src",
+      "source": "Indicazioni operative, HAP e VAP",
+      "quote": "HAP: piperacillina/tazobactam più linezolid o vancomicina più levofloxacina, durata 7-10 giorni. In periodo influenzale aggiungere oseltamivir 75 mg ogni 12 ore per 5 giorni."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue Indicazioni operative, HAP. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "emocolture",
+      "finding": "Emocolture prelevate. Nessuna colonizzazione ESBL o MRSA nota.",
+      "isAbnormal": true,
+      "priceEuro": 25.95
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Meropenem avviato in una HAP senza colonizzazione ESBL.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 25.95,
+      "wasteRationale": "Il meropenem senza ESBL non è la prima riga della HAP."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 104,
+      "bloodPressure": "118/70",
+      "spo2": 92,
+      "temperature": 38.5,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 78,
+      "sex": "F",
+      "name": "Teresa B.",
+      "context": "REPARTO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Tipo",
+      "prompt": "Infiltrato nuovo al quinto giorno. Come la chiami?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Polmonite acquisita in ospedale",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "CAP, e le dai amoxicillina",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Schema",
+      "prompt": "Nessuna ESBL. Quale combinazione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Piperacillina/tazobactam 4,5 g quattro volte al giorno più linezolid o vancomicina più levofloxacina 750 mg",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Meropenem più linezolid",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Influenza",
+      "prompt": "È stagione influenzale. Cosa aggiungi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Oseltamivir 75 mg ogni 12 ore per 5 giorni",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Niente, l'antibiotico copre anche il virus",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "MRSA",
+      "prompt": "La colonizzazione da MRSA è esclusa. Cosa sospendi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Linezolid, vancomicina o ceftobiprolo",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Li tieni fino alla dimissione",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Durata",
+      "prompt": "Quanti giorni?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Da 7 a 10",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Tre settimane fisse",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Legionella",
+      "prompt": "L'antigene è negativo. Togli la levofloxacina subito?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No: prima un test molecolare su espettorato, BAS o BAL",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "La togli il giorno stesso",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "KPC nota",
+      "prompt": "Se fosse già colonizzata da Klebsiella KPC, lo schema resterebbe piperacillina/tazobactam?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No: meropenem/vaborbactam o ceftazidime/avibactam, più fosfomicina 4 g quattro volte",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Piperacillina/tazobactam comunque",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "HAP senza carbapenemico",
+      "prompt": "Piperacillina/tazobactam, anti-MRSA e levofloxacina, più oseltamivir di stagione.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "HAP curata come CAP",
+      "prompt": "Indicazioni operative: HAP è la polmonite acquisita in ospedale. Lo schema ambulatoriale non è quello della HAP.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "Meropenem di apertura",
+      "prompt": "Indicazioni operative: meropenem o imipenem sono la seconda riga e il carbapenemico si riserva a colonizzazione o isolamento ESBL. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Oseltamivir omesso",
+      "prompt": "Indicazioni operative: nel periodo influenzale considerare sempre l'aggiunta di oseltamivir 75 mg ogni 12 ore per 5 giorni. Comunicato AIFA: gli antibiotici sono inefficaci sui virus influenzali.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Anti-MRSA non sospeso",
+      "prompt": "Indicazioni operative: se esclusa la colonizzazione da MRSA, valutare la sospensione di linezolid, vancomicina o ceftobiprolo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "Durata allungata",
+      "prompt": "Indicazioni operative: durata HAP e VAP 7-10 giorni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Chinolone tolto senza molecolare",
+      "prompt": "Indicazioni operative: se gli antigeni urinari per legionella sono negativi, valutare i test molecolari prima di togliere la levofloxacina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "KPC trattata con lo schema standard",
+      "prompt": "Indicazioni operative: nel forte sospetto di Klebsiella KPC in un colonizzato, meropenem/vaborbactam o ceftazidime/avibactam al posto di piperacillina/tazobactam o meropenem, più fosfomicina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

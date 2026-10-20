@@ -1,0 +1,376 @@
+{
+  "id": "INF-002",
+  "code": "INF-002",
+  "title": "Il terzo episodio dell'anno — cistiti ricorrenti",
+  "description": "Elena P., 41 anni, terza cistite in dodici mesi. I sintomi tornano il giorno dopo i rapporti. Assume warfarin.",
+  "difficulty": "MEDIUM",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "IVU ricorrenti nella donna, correlazione con il rapporto",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Dossier 190, gestione delle IVU ricorrenti",
+  "diagnosis": "Episodio acuto di IVU ricorrente: stesso schema della cistite non complicata. Profilassi continua non di routine. Mirtillo e warfarin alzano l'INR.",
+  "pastMedicalHistory": "Tre episodi in un anno. Warfarin per una trombosi precedente. Funzione renale normale. Non in gravidanza. Gli episodi seguono il rapporto.",
+  "presentation": "Disuria da un giorno, senza febbre e senza dolore al fianco. L'ultimo ciclo di antibiotico è finito tre settimane fa. Parametri stabili, temperatura 36,7.",
+  "redHerrings": [
+    "Tre episodi sembrano obbligare una profilassi antibiotica continua.",
+    "Il mirtillo rosso sembra innocuo anche con il warfarin.",
+    "La ricomparsa a tre settimane sembra uguale a una ricaduta entro due settimane."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Elena, 41 anni. Dici che è la terza volta quest'anno e che capita dopo i rapporti. Prendi il warfarin. Se ti parlano del mirtillo, chiedi se va d'accordo con la tua compressa.",
+  "correctSolution": "Tratti l'episodio come una cistite non complicata. Non proponi la profilassi continua di routine. Se gli altri interventi falliscono, una dose unica post-coitale. Il mirtillo con warfarin alza l'INR.",
+  "goldStandardPath": [
+    "stick-urine",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) Episodio acuto, stesso schema. 2) Niente profilassi continua di routine. 3) Dose post-coitale solo se il resto è fallito. 4) Mirtillo e warfarin. 5) Coltura se i sintomi tornano entro due settimane. 6) Autosomministrazione ai primi segni. 7) Niente chinolone.",
+  "examLatencies": {
+    "stick-urine": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Come curi questo episodio?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Disuria da un giorno, senza febbre e senza dolore al fianco. L'ultimo ciclo di antibiotico è finito tre settimane fa. Parametri stabili, temperatura 36,7."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-002-src",
+      "source": "Dossier 190, IVU ricorrenti",
+      "quote": "In donne con IVU ricorrenti la profilassi antibiotica non è raccomandata di routine. Il mirtillo rosso in chi è in warfarin aumenta l'INR."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue Dossier 190, gestione delle IVU ricorrenti. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "stick-urine",
+      "name": "stick-urine",
+      "finding": "Stick urine positivo per esterasi. L'episodio è a tre settimane dalla cura precedente, oltre la finestra delle due settimane.",
+      "isAbnormal": true,
+      "priceEuro": 12.91
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Profilassi antibiotica quotidiana avviata senza aver provato gli altri interventi.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 12.91,
+      "wasteRationale": "La profilassi continua non è raccomandata di routine."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 80,
+      "bloodPressure": "122/76",
+      "spo2": 99,
+      "temperature": 36.7,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 41,
+      "sex": "F",
+      "name": "Elena P.",
+      "context": "AMBULATORIO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Episodio acuto",
+      "prompt": "Come curi questo episodio?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Come una cistite non complicata: nitrofurantoina 3-5 giorni, o cotrimossazolo tre giorni, o fosfomicina 3 g",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Ciprofloxacina per due settimane",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Profilassi continua",
+      "prompt": "Chiede una compressa tutti i giorni per un mese.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non di routine: non ha effetto dopo la sospensione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Nitrofurantoina quotidiana per tre mesi",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo il rapporto",
+      "prompt": "Gli episodi seguono il coito e il resto non è bastato. Cosa puoi proporre?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Una singola dose di nitrofurantoina, cotrimossazolo o fosfomicina entro due ore dal coito, dopo aver svuotato la vescica",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Un fluorochinolone dopo ogni rapporto",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Mirtillo e warfarin",
+      "prompt": "Vuole il mirtillo rosso. Assume warfarin.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "La informi che il mirtillo può aumentare l'INR",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Glielo consigli senza dire nulla del warfarin",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Finestra delle due settimane",
+      "prompt": "I sintomi erano tornati dieci giorni dopo la fine della cura. Cosa era indicato?",
+      "cost": 12.91,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Urinocoltura, e terapia in base all'antibiogramma",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Un altro ciclo empirico, senza coltura",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Autosomministrazione",
+      "prompt": "Riconosce i primissimi segni. Cosa le proponi?",
+      "cost": 12.91,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "L'autosomministrazione dello stesso antibiotico della forma non complicata, senza urinocoltura se il legame è con il rapporto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Una urinocoltura prima di ogni compressa",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Estrogeni",
+      "prompt": "È in menopausa e chiede gli estrogeni locali come profilassi.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non ci sono prove sufficienti per consigliarli",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Li prescrivi come profilassi della ricorrenza",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Ricorrenza senza profilassi continua",
+      "prompt": "Episodio trattato come cistite breve, niente profilassi di routine, attenzione al warfarin.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "Chinolone nella ricorrenza",
+      "prompt": "Dossier 190: l'episodio acuto delle IVU ricorrenti si tratta come la cistite non complicata, e non si ricorre ai fluorochinoloni. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "Profilassi di routine",
+      "prompt": "Dossier 190, raccomandazione debole: la profilassi antibiotica non è raccomandata di routine, perché non ha effetto dopo la sospensione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Profilassi post-coitale con chinolone",
+      "prompt": "Dossier 190: se l'anamnesi lega gli episodi al rapporto e gli altri interventi non sono stati efficaci, si può proporre una dose unica di nitrofurantoina, cotrimossazolo o fosfomicina entro due ore dal coito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Mirtillo senza l'INR",
+      "prompt": "Dossier 190: le donne con IVU ricorrenti vanno informate del mirtillo rosso, e chi è in warfarin va avvisata dell'aumento dell'INR.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Ricaduta precoce senza coltura",
+      "prompt": "Dossier 190: se i sintomi ricompaiono entro due settimane dalla fine della terapia, è indicata l'urinocoltura per scegliere o modificare l'antibiotico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "Coltura a ogni episodio legato al coito",
+      "prompt": "Dossier 190: il curante propone l'autosomministrazione ai primissimi segni. Se la ricomparsa è legata al rapporto, l'automedicazione precoce usa gli stessi antibiotici senza urinocoltura.",
+      "cost": 12.91,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Estrogeni come profilassi",
+      "prompt": "Dossier 190, raccomandazione debole: non ci sono prove sufficienti per consigliare estrogeni topici nelle IVU ricorrenti in post-menopausa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

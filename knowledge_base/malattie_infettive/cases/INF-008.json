@@ -1,0 +1,376 @@
+{
+  "id": "INF-008",
+  "code": "INF-008",
+  "title": "Febbre e dolore al fianco — pielonefrite",
+  "description": "Giulia S., 36 anni, febbre 38,7, dolore al fianco destro, nausea. Nessuna anomalia urinaria nota, nessun ricovero recente, nessun antibiotico negli ultimi tre mesi.",
+  "difficulty": "MEDIUM",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Pielonefrite senza anomalie e senza rischio MDR",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Protocollo IVU adulti, ospedale",
+  "diagnosis": "Pielonefrite senza anomalie: urinocoltura ed emocolture prima dell'antibiotico, cefotaxime o ceftriaxone, non piperacillina/tazobactam. Durata 7 giorni se la risposta endovena è buona.",
+  "pastMedicalHistory": "Sana. Nessun catetere, nessuna calcolosi nota, nessun diabete. Nessun ricovero negli ultimi 90 giorni e nessun antibiotico ad ampio spettro.",
+  "presentation": "Dolore al fianco, febbre 38,7, nausea. Parametri: PA 118/70, FC 104, FR 18, SpO2 98%.",
+  "redHerrings": [
+    "Piperacillina/tazobactam sembra più sicura del ceftriaxone anche senza anomalie.",
+    "Il meropenem sembra indicato perché la febbre è alta.",
+    "L'imaging sembra dover precedere la prima dose."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Giulia, 36 anni. Hai febbre e male al fianco. Chiedi se la flebo è quella giusta o se devono aspettare la tac.",
+  "correctSolution": "Urinocoltura ed emocolture prima della dose. Cefotaxime 2 g ogni 8 ore o ceftriaxone 2 g ogni 24 ore. Imaging per escludere un'urgenza urologica, senza farne il motivo del rinvio se la sepsi non è il quadro. De-escalation a 48-72 ore. Sette giorni se la risposta endovena è buona.",
+  "goldStandardPath": [
+    "emocolture",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) Pielonefrite. 2) Colture prima della dose. 3) Cefalosporina di terza generazione. 4) Non lo schema delle anomalie. 5) Imaging senza rinviare la dose. 6) De-escalation. 7) Durata 7 giorni se risponde.",
+  "examLatencies": {
+    "emocolture": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Febbre e dolore al fianco. Cosa sospetti?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dolore al fianco, febbre 38,7, nausea. Parametri: PA 118/70, FC 104, FR 18, SpO2 98%."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-008-src",
+      "source": "Protocollo IVU adulti, pielonefrite senza anomalie",
+      "quote": "In tutti i casi, prima dell'antibiotico, urinocoltura. Con febbre oltre 38 gradi, anche emocolture. Senza anomalie: cefotaxime 2 g ogni 8 ore o ceftriaxone 2 g ogni 24 ore."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue Protocollo IVU adulti, ospedale. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "emocolture",
+      "finding": "Emocolture e urinocoltura prelevate prima del ceftriaxone. Nessun fattore MDR in anamnesi.",
+      "isAbnormal": true,
+      "priceEuro": 25.95
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Meropenem avviato in una pielonefrite senza anomalie e senza ESBL nei sei mesi.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 25.95,
+      "wasteRationale": "Il meropenem senza ESBL recente non è lo schema di questa pielonefrite."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 104,
+      "bloodPressure": "118/70",
+      "spo2": 98,
+      "temperature": 38.7,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 36,
+      "sex": "F",
+      "name": "Giulia S.",
+      "context": "PRONTO_SOCCORSO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Quadro",
+      "prompt": "Febbre e dolore al fianco. Cosa sospetti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Pielonefrite",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Cistite, e nitrofurantoina a casa",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Colture",
+      "prompt": "Cosa prelevi prima della dose?",
+      "cost": 25.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Urinocoltura e, con febbre oltre 38, emocolture",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Solo lo stick, e la flebo",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaco",
+      "prompt": "Nessuna anomalia e nessun rischio MDR. Quale schema?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Cefotaxime 2 g ogni 8 ore oppure ceftriaxone 2 g ogni 24 ore",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Piperacillina/tazobactam 4,5 g ogni 6 ore",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Meropenem",
+      "prompt": "Non ha ESBL nei sei mesi né allergia alle penicilline. Usi il meropenem?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No: il meropenem entra con ESBL nei sei mesi precedenti o allergia alle penicilline, nello schema con rischio MDR",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Meropenem 1 g ogni 8 ore",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Imaging",
+      "prompt": "A cosa serve l'imaging?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "A escludere un disturbo urologico che va trattato in urgenza, non a ritardare la prima dose dopo le colture",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Tac prima, antibiotico al referto",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "De-escalation",
+      "prompt": "A 48 ore sta meglio e l'isolato è sensibile. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "De-escalation sull'isolamento",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Lasci il ceftriaxone fino al quattordicesimo giorno senza rileggere la coltura",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Durata",
+      "prompt": "Risponde bene alla via endovenosa e non hai raccolte. Quanti giorni?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "7 giorni di trattamento endovenoso, 10 se passi all'orale",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "14 giorni fissi di meropenem",
+          "next": "res-eco-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Pielonefrite con ceftriaxone",
+      "prompt": "Colture, cefotaxime o ceftriaxone, de-escalation, sette giorni se risponde.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Pielonefrite trattata come cistite",
+      "prompt": "Dossier 190: con febbre o dolore a schiena o fianco bisogna sospettare una pielonefrite e iniziare l'empirico subito dopo la raccolta delle urine.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Dose senza colture",
+      "prompt": "Protocollo IVU adulti: urinocoltura in tutti i casi prima dell'antibiotico. Con febbre oltre 38 gradi o altri segni sistemici, anche emocolture.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Schema delle anomalie",
+      "prompt": "Protocollo IVU adulti: senza anomalie, cefotaxime o ceftriaxone. Piperacillina/tazobactam è lo schema in presenza di anomalie. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Meropenem senza ESBL",
+      "prompt": "Protocollo IVU adulti: meropenem 1 g ogni 8 ore se IVU da ESBL nei 6 mesi precedenti o allergia alle penicilline, nel percorso con fattori MDR.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Dose rinviata all'imaging",
+      "prompt": "Protocollo IVU adulti: imaging per escludere disturbi urologici urgenti. Dossier 190: nella pielonefrite l'empirico inizia subito dopo la raccolta delle urine, senza attendere la coltura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Nessuna de-escalation",
+      "prompt": "Protocollo IVU adulti: durata di 7 giorni possibile se l'isolato è suscettibile, la risposta è buona e a 48-72 ore si fa de-escalation, in assenza di raccolte.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-7",
+      "type": "resolution",
+      "title": "Durata da schema complicato",
+      "prompt": "Protocollo IVU adulti: 7 giorni se buona risposta e trattamento endovenoso, 10 se passaggio all'orale, nello schema senza anomalie.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

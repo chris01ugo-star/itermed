@@ -1,0 +1,376 @@
+{
+  "id": "INF-007",
+  "code": "INF-007",
+  "title": "Febbre e catetere da dieci giorni",
+  "description": "Anna R., 80 anni, catetere a permanenza da dieci giorni. Da stamattina febbre e brividi. Ieri era asintomatica.",
+  "difficulty": "MEDIUM",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "IVU febbrile nel portatore di catetere",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "Dossier 190, catetere urinario",
+  "diagnosis": "IVU sistemica da catetere in sede da più di 7 giorni: urinocoltura, rimozione o sostituzione, due emocolture e antibiotico subito. Durata 10-14 giorni. Niente antibiotico al cambio programmato.",
+  "pastMedicalHistory": "Catetere posizionato per ritenzione dopo un intervento ortopedico, da dieci giorni. Nessuna profilassi antibiotica in corso. Ieri urinocoltura di controllo non indicata.",
+  "presentation": "Febbre 38,6, brividi, catetere da dieci giorni. Parametri: PA 128/74, FC 102, FR 20, SpO2 96%.",
+  "redHerrings": [
+    "Aspettare l'urinocoltura sembra prudente anche con la febbre.",
+    "Lasciare il catetere e coprire con l'antibiotico sembra sufficiente.",
+    "Una dose al cambio sembra proteggere dalle IVU."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Anna, 80 anni. Hai la febbre e il catetere da dieci giorni. Chiedi se devono toglierlo prima della flebo.",
+  "correctSolution": "Con sintomi sistemici: urinocoltura, togli o sostituisci il catetere se è in sede da più di 7 giorni, due emocolture e antibiotico subito. Durata 10-14 giorni. Non tratti la batteriuria senza sintomi e non dai l'antibiotico al cambio.",
+  "goldStandardPath": [
+    "emocolture",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) Sintomi sistemici. 2) Coltura e rimozione se oltre 7 giorni. 3) Due emocolture e terapia subito. 4) Durata 10-14 giorni. 5) Se i sintomi fossero solo locali, 5-7 giorni e si può attendere la coltura. 6) Niente antibiotico al cambio. 7) Niente circuito aperto né lavaggi.",
+  "examLatencies": {
+    "emocolture": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Febbre e brividi. È un quadro locale o sistemico?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Febbre 38,6, brividi, catetere da dieci giorni. Parametri: PA 128/74, FC 102, FR 20, SpO2 96%."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-007-src",
+      "source": "Dossier 190, protocollo del catetere",
+      "quote": "Se i sintomi sono sistemici, oltre all'urinocoltura si eseguono due emocolture e si inizia subito la terapia empirica. Il catetere in sede da più di 7 giorni si rimuove."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue Dossier 190, catetere urinario. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "emocolture",
+      "finding": "Due emocolture e urinocoltura prelevate. Il catetere, in sede da dieci giorni, va rimosso o sostituito.",
+      "isAbnormal": true,
+      "priceEuro": 25.95
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Profilassi antibiotica aggiunta al cambio programmato del catetere.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 25.95,
+      "wasteRationale": "L'antibiotico al cambio del catetere non riduce le infezioni."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "128/74",
+      "spo2": 96,
+      "temperature": 38.6,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 80,
+      "sex": "F",
+      "name": "Anna R.",
+      "context": "REPARTO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sintomi",
+      "prompt": "Febbre e brividi. È un quadro locale o sistemico?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Sistemico",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Solo locale, e aspetti la coltura prima di ogni farmaco",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Catetere",
+      "prompt": "È in sede da dieci giorni. Cosa fai prima dell'antibiotico appropriato?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Lo rimuovi o lo sostituisci",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Lo lasci e copri solo con l'antibiotico",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Emocolture",
+      "prompt": "Quante emocolture, e quando parte la terapia?",
+      "cost": 25.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Due emocolture e terapia empirica subito",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Una sola emocoltura domani, terapia dopo il referto",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Durata",
+      "prompt": "Quanto deve durare, con sintomi sistemici?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Tra 10 e 14 giorni",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Tre giorni, come una cistite",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Cambio programmato",
+      "prompt": "Al prossimo cambio, da asintomatica, aggiungi un antibiotico?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Nessun antibiotico al cambio",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Una dose di ciprofloxacina a ogni cambio",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Lavaggio",
+      "prompt": "Propongono un lavaggio vescicale per ridurre le infezioni.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No: il wash-out non riduce le IVU e può fare danno",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Lavaggio quotidiano con antibiotico",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Catetere argentato",
+      "prompt": "Chiedono un catetere rivestito d'argento per prevenire.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "I dati sono troppo deboli per raccomandarlo. Gli impregnati di antisettico non riducono le infezioni",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Lo sostituisci con un catetere argentato a pagamento",
+          "next": "res-eco-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Catetere febbrile rimosso",
+      "prompt": "Coltura, rimozione, due emocolture e antibiotico subito, per 10-14 giorni.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Febbre trattata come sintomo locale",
+      "prompt": "Dossier 190: se i sintomi sono solo locali si possono attendere i risultati. Se sono sistemici si inizia subito, dopo urinocoltura e, dove possibile, due emocolture.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Catetere lasciato oltre i 7 giorni",
+      "prompt": "Dossier 190: si raccoglie l'urinocoltura e si rimuove il catetere se è in sede da più di 7 giorni. Nella IVU febbrile rimuovere o sostituire prima dell'antibiotico aumenta la probabilità di guarigione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Terapia rinviata",
+      "prompt": "Dossier 190: nei sintomi sistemici, oltre all'urinocoltura, due emocolture e inizio subito della terapia empirica. Emocoltura in elenco: 25,95 euro di tariffa SSN.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Durata da cistite",
+      "prompt": "Dossier 190: sintomi solo locali, in genere 5-7 giorni; sintomi sistemici, fra 10 e 14 giorni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "Antibiotico al cambio",
+      "prompt": "Dossier 190: l'antibiotico al cambio periodico non riduce le IVU e aumenta i germi resistenti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Lavaggio vescicale",
+      "prompt": "Dossier 190: l'instillazione di liquidi di lavaggio non è efficace nel ridurre le IVU, potrebbe causare effetti avversi e non deve essere utilizzata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-7",
+      "type": "resolution",
+      "title": "Catetere argentato",
+      "prompt": "Dossier 190: i cateteri impregnati di antisettico non riducono le infezioni e non devono essere usati. I dati sui cateteri rivestiti d'argento sono troppo deboli per raccomandarli.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

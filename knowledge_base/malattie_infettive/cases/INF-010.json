@@ -1,0 +1,376 @@
+{
+  "id": "INF-010",
+  "code": "INF-010",
+  "title": "Antibiogramma: E. coli resistente alle cefalosporine",
+  "description": "Chiara V., 44 anni, cistite senza febbre. L'urinocoltura, fatta perché non era migliorata, mostra E. coli resistente alle cefalosporine di terza generazione. Non è in gravidanza e la funzione renale è normale. Non è un caso da ricovero.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Cistite non complicata da 3GCRE, terapia mirata",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "AIFA-OPERA, 3GCRE, medicina territoriale",
+  "diagnosis": "IVU non complicata da E. coli 3GCRE: nitrofurantoina o fosfomicina in prima scelta. Non cefepime. Non un carbapenemico sul territorio.",
+  "pastMedicalHistory": "Cistite non risolta con il primo empirico. Antibiogramma: E. coli resistente alle cefalosporine di terza generazione, sensibile a nitrofurantoina e fosfomicina. Funzione renale ed epatica conservate. Non gravida. Nessun segno di sepsi.",
+  "presentation": "Disuria, temperatura 36,8, non dolore al fianco. Può essere curata a domicilio.",
+  "redHerrings": [
+    "La resistenza alle cefalosporine sembra richiedere il meropenem anche senza sepsi.",
+    "Il cefepime sembra coprire una ESBL.",
+    "Nitrofurantoina e fosfomicina sembrano troppo deboli per un MDR."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Chiara, 44 anni. La coltura è resistente. Stai bene, non hai febbre. Chiedi se devi andare in ospedale o se basta una compressa.",
+  "correctSolution": "Terapia mirata, non grave: nitrofurantoina o fosfomicina, perché è E. coli. Non cefepime. Se nessuna opzione del documento è utilizzabile, allora valuti il ricovero. I dosaggi sono per funzione renale ed epatica conservate.",
+  "goldStandardPath": [
+    "urinocoltura",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) È mirata, non empirica. 2) Non è grave. 3) Nitrofurantoina o fosfomicina. 4) Non cefepime. 5) Seconda scelta solo se non è E. coli o se le prime non si possono usare. 6) Ricovero se nessuna opzione è praticabile. 7) Dosaggi per funzione conservata.",
+  "examLatencies": {
+    "urinocoltura": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Hai l'antibiogramma. Come leggi il documento?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Disuria, temperatura 36,8, non dolore al fianco. Può essere curata a domicilio."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-010-src",
+      "source": "AIFA-OPERA, IVU non complicate da 3GCRE",
+      "quote": "Nelle IVU non complicate da 3GCRE si consiglia come prima scelta nitrofurantoina o fosfomicina trometamolo, entrambe da limitare a E. coli. Non è consigliato il cefepime se la resistenza è mediata da ESBL o il meccanismo non è noto."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue AIFA-OPERA, 3GCRE, medicina territoriale. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "urinocoltura",
+      "name": "urinocoltura",
+      "finding": "E. coli resistente alle cefalosporine di terza generazione, sensibile a nitrofurantoina e fosfomicina.",
+      "isAbnormal": true,
+      "priceEuro": 12.91
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Cefepime prescritto per una cistite da E. coli 3GCRE senza sepsi.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 12.91,
+      "wasteRationale": "Il cefepime non è consigliato e non è un risparmio rispetto alla nitrofurantoina."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 82,
+      "bloodPressure": "116/74",
+      "spo2": 99,
+      "temperature": 36.8,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 44,
+      "sex": "F",
+      "name": "Chiara V.",
+      "context": "AMBULATORIO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Mirata",
+      "prompt": "Hai l'antibiogramma. Come leggi il documento?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Solo terapia mirata, sulla suscettibilità riportata",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Lo usi come schema empirico della prossima cistite",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Gravità",
+      "prompt": "Non ha sepsi e può stare a casa. È nel perimetro del documento?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Sì: infezione non grave, senza ospedalizzazione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "La mandi in ospedale solo perché il germe è resistente",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima scelta",
+      "prompt": "È E. coli, funzione renale normale. Cosa scegli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Nitrofurantoina per 5 giorni oppure fosfomicina trometamolo 3 g in dose singola",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Cefepime",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se non fosse E. coli",
+      "prompt": "Se il germe fosse una Klebsiella, la nitrofurantoina resterebbe prima scelta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No: per batteri diversi da E. coli la prima tra le seconde scelte è il cotrimossazolo, se sensibile",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Nitrofurantoina comunque, per cinque giorni",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Seconda scelta",
+      "prompt": "Non tollera nitrofurantoina e fosfomicina, ed è sensibile. In che ordine?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Cotrimossazolo, poi aminoglicoside in dose singola, poi fluorochinoloni",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Meropenem orale, che il documento territoriale non riporta",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se nessuna opzione",
+      "prompt": "L'antibiogramma non ha nessuna delle opzioni, oppure non può prenderle per allergia. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Valuti l'ospedalizzazione",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Insisti con cefepime a domicilio",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dosaggio",
+      "prompt": "Pesa 60 kg, reni e fegato sono a posto. I dosaggi della tabella valgono?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Sì: sono per adulti con funzione renale ed epatica conservata. Sopra il 120% del peso ideale l'aminoglicoside si calcola sul peso aggiustato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Raddoppi la nitrofurantoina perché il germe è resistente",
+          "next": "res-eco-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "3GCRE mirato con nitrofurantoina",
+      "prompt": "Nitrofurantoina o fosfomicina, niente cefepime e niente carbapenemico a domicilio.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Documento usato in empirica",
+      "prompt": "AIFA-OPERA: il documento è specifico per la terapia mirata e le indicazioni si interpretano sull'antibiogramma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Ricovero per la sola resistenza",
+      "prompt": "AIFA-OPERA: le opzioni sono per il paziente con infezione non grave che non richiede ospedalizzazione e può essere trattato a domicilio o in RSA.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Cefepime su una 3GCRE",
+      "prompt": "AIFA-OPERA: prima scelta nitrofurantoina o fosfomicina, limitate a E. coli. Non è consigliato il cefepime se la resistenza alle cefalosporine di terza generazione è mediata da ESBL o il meccanismo non è noto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Nitrofurantoina fuori da E. coli",
+      "prompt": "AIFA-OPERA: nitrofurantoina e fosfomicina solo per E. coli. La seconda scelta, che diventa la prima per gli altri batteri, parte dal cotrimossazolo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "Farmaco fuori tabella",
+      "prompt": "AIFA-OPERA: seconda scelta, in ordine di impatto ecologico e classe AWaRe, cotrimossazolo, aminoglicosidi in singola dose o fluorochinoloni. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Opzione assente tenuta a casa",
+      "prompt": "AIFA-OPERA: se l'antibiogramma non include nessuna opzione raccomandata, o se non si possono somministrare per insufficienza renale o epatica o allergia, valutare l'ospedalizzazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-7",
+      "type": "resolution",
+      "title": "Dose aumentata senza indicazione",
+      "prompt": "AIFA-OPERA: i dosaggi sono per adulti con funzione renale ed epatica conservata. Per gli aminoglicosidi, sopra il 120% del peso ideale si usa l'adjusted body weight. Non sono riportati dosaggi per l'obeso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

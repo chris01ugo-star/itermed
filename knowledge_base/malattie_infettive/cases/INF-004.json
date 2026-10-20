@@ -1,0 +1,376 @@
+{
+  "id": "INF-004",
+  "code": "INF-004",
+  "title": "Trentaquattro settimane e bruciore",
+  "description": "Sara B., 29 anni, gravida a 34 settimane. Disuria e urgenza da un giorno, non febbre, non dolore al fianco.",
+  "difficulty": "MEDIUM",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Cistite acuta in gravidanza al terzo trimestre",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Dossier 190 e protocollo IVU adulti in gravidanza",
+  "diagnosis": "Cistite in gravidanza a 34 settimane. Coltura prima della terapia. Niente nitrofurantoina al terzo trimestre, niente chinoloni. Controllo colturale a 7 giorni dalla fine.",
+  "pastMedicalHistory": "Gravidanza a 34 settimane, decorso regolare. Nessuna allergia. Funzione renale normale. Non ha ancora preso antibiotici per questo episodio.",
+  "presentation": "Disuria e pollachiuria, temperatura 36,8, non dolorabilità al fianco. Parametri materni stabili.",
+  "redHerrings": [
+    "La nitrofurantoina della cistite non complicata sembra valida anche a 34 settimane.",
+    "Il cotrimossazolo sembra una seconda scelta neutra in ogni trimestre.",
+    "Senza controllo colturale la gravidanza sembra chiusa come una cistite qualunque."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Sara, 29 anni, alla trentaquattresima settimana. Hai bruciore. Chiedi se la compressa è adatta alla gravidanza. Non hai febbre.",
+  "correctSolution": "Raccogli l'urina e inizi subito un empirico compatibile con il terzo trimestre, per 7 giorni. Non nitrofurantoina, non fluorochinoloni, non tetracicline. Urinocoltura di controllo a 7 giorni dalla fine.",
+  "goldStandardPath": [
+    "urinocoltura",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) Cistite in gravidanza, coltura e poi terapia in attesa. 2) Niente nitrofurantoina dopo la 32a settimana. 3) Niente chinoloni e tetracicline. 4) Durata 7 giorni. 5) Controllo a 7 giorni. 6) Cotrimossazolo non nel primo trimestre. 7) Niente spettro da pielonefrite.",
+  "examLatencies": {
+    "urinocoltura": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Quando inizi rispetto alla coltura?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Disuria e pollachiuria, temperatura 36,8, non dolorabilità al fianco. Parametri materni stabili."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-004-src",
+      "source": "Dossier 190, cistite in gravidanza",
+      "quote": "Il trattamento della cistite acuta in gravidanza si inizia dopo la raccolta delle urine. È da evitare la nitrofurantoina dopo la 32a settimana. Fluorochinoloni e tetracicline sono controindicati."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue Dossier 190 e protocollo IVU adulti in gravidanza. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "urinocoltura",
+      "name": "urinocoltura",
+      "finding": "Urinocoltura in corso. In gravidanza la terapia empirica parte dopo il prelievo, senza attendere il referto.",
+      "isAbnormal": true,
+      "priceEuro": 12.91
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Ciprofloxacina avviata senza coltura in una gravidanza a 34 settimane.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 12.91,
+      "wasteRationale": "Un chinolone in gravidanza è controindicato e non è un risparmio."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "110/68",
+      "spo2": 99,
+      "temperature": 36.8,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 29,
+      "sex": "F",
+      "name": "Sara B.",
+      "context": "AMBULATORIO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Prelievo",
+      "prompt": "Quando inizi rispetto alla coltura?",
+      "cost": 12.91,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Raccogli le urine e inizi l'empirico senza attendere il referto",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Aspetti l'antibiogramma e nel frattempo non dai nulla",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Nitrofurantoina",
+      "prompt": "È alla 34a settimana. Puoi usare la nitrofurantoina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "No: è da evitare dopo la 32a settimana e nel terzo trimestre",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Nitrofurantoina 100 mg ogni 6 ore per 5 giorni",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cosa è controindicato",
+      "prompt": "Quali classi non usi in gravidanza?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Fluorochinoloni e tetracicline",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Levofloxacina per tre giorni",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Empirico possibile",
+      "prompt": "Quale empirico orale è nell'elenco, per quanti giorni?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Amoxicillina/clavulanato o una cefalosporina di prima o seconda generazione, per 7 giorni, poi si adegua all'antibiogramma",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Fosfomicina e stop, senza programma di durata né di aggiustamento",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cotrimossazolo",
+      "prompt": "Sarebbe stato accettabile nel primo trimestre?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No: il cotrimossazolo si evita nel primo trimestre",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Cotrimossazolo anche all'ottava settimana",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo",
+      "prompt": "A fine cura cosa programmi?",
+      "cost": 12.91,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Urinocoltura di controllo a 7 giorni dalla fine dell'antibiotico",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Nessun controllo, come nella donna non gravida",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Spettro da ricovero",
+      "prompt": "Non ha febbre né dolore al fianco. Le dai ceftriaxone endovena?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No: è una cistite, non una pielonefrite",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Ceftriaxone 2 g e meropenem di scorta",
+          "next": "res-eco-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Cistite di gravidanza a 34 settimane",
+      "prompt": "Coltura, empirico compatibile con il terzo trimestre per sette giorni, controllo colturale.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Terapia rinviata al referto",
+      "prompt": "Dossier 190: in gravidanza il trattamento della cistite acuta si inizia dopo aver raccolto il campione, in attesa dell'esito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Nitrofurantoina nel terzo trimestre",
+      "prompt": "Dossier 190: evitare la nitrofurantoina dopo la 32a settimana. Protocollo IVU adulti: nitrofurantoina controindicata nel primo e nel terzo trimestre.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Chinolone in gravidanza",
+      "prompt": "Dossier 190: i fluorochinoloni e le tetracicline sono controindicati in gravidanza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Durata non da gravidanza",
+      "prompt": "Dossier 190: empirico con amoxicillina/clavulanato o cefalosporine di prima o seconda generazione, da modificare su clinica e antibiogramma, per 7 giorni. Il protocollo IVU elenca anche amoxicillina, cefuroxime e cefalexina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Cotrimossazolo nel primo trimestre",
+      "prompt": "Dossier 190: evitare il trimetoprim nel primo trimestre. Protocollo IVU adulti: cotrimossazolo solo nel secondo trimestre e se non ci sono altre opzioni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Controllo omesso",
+      "prompt": "Dossier 190: urinocoltura di controllo a 7 giorni dalla fine dell'antibioticoterapia nelle donne in gravidanza trattate per cistite acuta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-7",
+      "type": "resolution",
+      "title": "Spettro da pielonefrite",
+      "prompt": "Protocollo IVU adulti: il ceftriaxone 2 g è nello schema della pielonefrite, non della cistite. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

@@ -1,0 +1,376 @@
+{
+  "id": "INF-017",
+  "code": "INF-017",
+  "title": "Tosse, febbre e radiografia — polmonite a casa",
+  "description": "Davide C., 40 anni, senza malattie croniche. Tosse, febbre e infiltrato. CURB-65 tra 0 e 1. Nessun fattore per Pseudomonas o MRSA. Nessuna cardiopatia.",
+  "difficulty": "MEDIUM",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "CAP ambulatoriale senza comorbidità",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Indicazioni operative polmoniti adulto, ASP Ragusa",
+  "diagnosis": "CAP ambulatoriale CURB 0-1 senza comorbidità: amoxicillina più claritromicina, oppure azitromicina o doxiciclina. Non levofloxacina di apertura.",
+  "pastMedicalHistory": "Sano. Nessun ricovero, nessun antibiotico parenterale negli ultimi 90 giorni, nessuna cardiopatia, nessun isolamento di Pseudomonas o MRSA.",
+  "presentation": "Tosse e febbre 38,2 da tre giorni, infiltrato alla radiografia. Parametri: PA 124/76, FC 96, FR 18, SpO2 97%.",
+  "redHerrings": [
+    "La levofloxacina sembra più comoda dell'amoxicillina più macrolide.",
+    "Un'influenza senza infiltrato sembra curarsi con lo stesso schema.",
+    "Il meropenem sembra una copertura prudente."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Davide, 40 anni. Hai tosse e febbre. La radiografia mostra una polmonite. Chiedi se puoi curarti a casa e con quale compressa.",
+  "correctSolution": "Amoxicillina 1 g ogni 8 ore per 5-7 giorni più claritromicina 500 mg ogni 12 ore, oppure azitromicina o doxiciclina. Non un fluorochinolone se non c'è allergia ai beta-lattamici. Se è legionella, sospendi il beta-lattamico e allunghi a 10-14 giorni.",
+  "goldStandardPath": [
+    "rx-torace",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) CAP e non virosi. 2) CURB basso, a casa. 3) Amoxicillina più macrolide. 4) Non il chinolone di apertura. 5) Legionella: stop al beta-lattamico. 6) Macrolide cauto se c'è il cuore. 7) Non meropenem.",
+  "examLatencies": {
+    "rx-torace": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Ha l'infiltrato. Un antibiotico andrebbe bene anche se fosse solo influenza, senza polmonite?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Tosse e febbre 38,2 da tre giorni, infiltrato alla radiografia. Parametri: PA 124/76, FC 96, FR 18, SpO2 97%."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-017-src",
+      "source": "Indicazioni operative polmoniti, allegato ambulatoriale",
+      "quote": "Senza comorbidità e senza fattori per Pseudomonas o MRSA: amoxicillina 1 g ogni 8 ore per 5-7 giorni più claritromicina, oppure azitromicina o doxiciclina."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue Indicazioni operative polmoniti adulto, ASP Ragusa. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "rx-torace",
+      "finding": "Radiografia: infiltrato compatibile con polmonite comunitaria. CURB-65 basso.",
+      "isAbnormal": true,
+      "priceEuro": 0
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Levofloxacina prescritta come prima scelta in un adulto senza comorbidità e senza allergia.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 0,
+      "wasteRationale": "Il chinolone di apertura non è la prima scelta ambulatoriale senza allergia."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "124/76",
+      "spo2": 97,
+      "temperature": 38.2,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 40,
+      "sex": "M",
+      "name": "Davide C.",
+      "context": "AMBULATORIO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "È una polmonite",
+      "prompt": "Ha l'infiltrato. Un antibiotico andrebbe bene anche se fosse solo influenza, senza polmonite?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "No: sugli virus influenzali e parainfluenzali l'antibiotico è inefficace",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Amoxicillina anche senza infiltrato, per la tosse",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Setting",
+      "prompt": "CURB-65 0-1, senza comorbidità. Dove lo curi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "A domicilio, con lo schema ambulatoriale",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Lo ricoveri e inizi lo schema della terapia intensiva",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Schema",
+      "prompt": "Qual è la prima scelta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Amoxicillina 1 g ogni 8 ore per 5-7 giorni più claritromicina 500 mg ogni 12 ore, oppure azitromicina o doxiciclina",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Levofloxacina 750 mg al giorno",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Legionella",
+      "prompt": "L'antigene urinario della legionella è positivo. Cosa cambi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Sospendi il beta-lattamico e porti la durata a 10-14 giorni",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Continui amoxicillina per cinque giorni",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Notifica",
+      "prompt": "La legionellosi è confermata. Entro quando la segnali?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Entro 48 ore: è di classe II",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Subito come se fosse un meningococco, o mai",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cuore",
+      "prompt": "Se avesse una cardiopatia, il macrolide resterebbe neutro?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No: azitromicina e claritromicina hanno un rischio di aritmie. Consideri un regime alternativo",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Claritromicina comunque, senza alternativa",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Mycoplasma",
+      "prompt": "La sierologia chiude su Mycoplasma. Durata?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Sospendi il beta-lattamico e tratti 10-14 giorni",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Ti fermi a cinque giorni di amoxicillina",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "CAP a casa con amoxicillina",
+      "prompt": "Amoxicillina più macrolide o doxiciclina, per 5-7 giorni. Niente chinolone di apertura.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "Antibiotico su un virus",
+      "prompt": "Comunicato AIFA sul Rapporto 2025: i picchi invernali fanno presumere un uso improprio contro virus influenzali e parainfluenzali, rispetto ai quali gli antibiotici sono inefficaci.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "Ricovero non necessario",
+      "prompt": "Indicazioni operative: la tabella ambulatoriale è per CURB-65 0-1. Lo schema della CAP severa è un altro.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Chinolone di apertura",
+      "prompt": "Indicazioni operative: senza comorbidità, amoxicillina più macrolide o doxiciclina. Levofloxacina e moxifloxacina compaiono nell'allergia ai beta-lattamici. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Legionella lasciata al beta-lattamico",
+      "prompt": "Indicazioni operative: se la diagnosi è legionellosi, sospendere il beta-lattamico e durata 10-14 giorni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Notifica di classe sbagliata",
+      "prompt": "Documento sulla notifica: la legionellosi è di classe II. Il medico segnala il caso entro 48 ore. L'immediatezza anche sul solo sospetto è scritta per la meningite e la sepsi meningococcica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Macrolide nel cardiopatico",
+      "prompt": "Indicazioni operative: per azitromicina e claritromicina sono segnalati rischi di aritmie. Considerare un regime alternativo nei pazienti con comorbidità cardiologiche.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Mycoplasma in cinque giorni",
+      "prompt": "Indicazioni operative: nella polmonite da Mycoplasma si sospende il beta-lattamico e la durata è 10-14 giorni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

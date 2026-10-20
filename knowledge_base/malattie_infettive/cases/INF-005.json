@@ -1,0 +1,376 @@
+{
+  "id": "INF-005",
+  "code": "INF-005",
+  "title": "Disuria a settantadue anni",
+  "description": "Luigi F., 72 anni, disuria e urgenza da tre giorni. Non febbre. È il primo episodio. Non è trapiantato e non prende cortisonici, ma è anziano.",
+  "difficulty": "MEDIUM",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "IVU nell'uomo anziano",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Dossier 190, IVU negli uomini",
+  "diagnosis": "IVU nell'uomo anziano: urinocoltura prima dell'empirico, cefalosporina di seconda o terza generazione invece del fluorochinolone, poi aggiustamento. Indagare anomalie del tratto urinario.",
+  "pastMedicalHistory": "Ipertensione. Nessun cortisone, nessun trapianto. Primo episodio. Non sintomi di prostatite acuta descritti, ma va considerata. Creatinina normale.",
+  "presentation": "Disuria e pollachiuria, temperatura 36,9, non dolorabilità prostatica riferita in prima battuta. Parametri stabili.",
+  "redHerrings": [
+    "Il fluorochinolone per due settimane sembra la regola anche nell'anziano.",
+    "Senza un secondo episodio l'ecografia sembra inutile a 72 anni.",
+    "Partire senza coltura sembra accettabile come nella donna."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Luigi, 72 anni. Bruciore da tre giorni, niente febbre. Chiedi se la compressa è adatta alla tua età. È la prima volta.",
+  "correctSolution": "Urinocoltura prima della terapia. Nell'anziano preferisci una cefalosporina di seconda o terza generazione al fluorochinolone, per due settimane, poi correggi sull'antibiogramma. A più di 50 anni indaghi anomalie o calcolosi.",
+  "goldStandardPath": [
+    "urinocoltura",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) Coltura prima dell'empirico. 2) Niente chinolone nell'anziano. 3) Cefalosporina di seconda o terza generazione. 4) Due settimane, poi antibiogramma. 5) Valutare la prostatite. 6) Indagini sul tratto urinario. 7) Niente meropenem.",
+  "examLatencies": {
+    "urinocoltura": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Quando la prelevi?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Disuria e pollachiuria, temperatura 36,9, non dolorabilità prostatica riferita in prima battuta. Parametri stabili."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-005-src",
+      "source": "Dossier 190, gestione delle IVU negli uomini",
+      "quote": "Nell'uomo si esegue l'urinocoltura prima dell'empirico. Negli anziani è preferibile una cefalosporina di II o III generazione, per il rischio di effetti collaterali dei fluorochinoloni."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue Dossier 190, IVU negli uomini. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "urinocoltura",
+      "name": "urinocoltura",
+      "finding": "Urinocoltura prelevata prima dell'antibiotico, come raccomandato nell'uomo.",
+      "isAbnormal": true,
+      "priceEuro": 12.91
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Levofloxacina avviata senza urinocoltura in un uomo di 72 anni.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 12.91,
+      "wasteRationale": "Il chinolone nell'anziano è la scelta che il dossier sconsiglia."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 74,
+      "bloodPressure": "138/80",
+      "spo2": 97,
+      "temperature": 36.9,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 72,
+      "sex": "M",
+      "name": "Luigi F.",
+      "context": "AMBULATORIO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Coltura",
+      "prompt": "Quando la prelevi?",
+      "cost": 12.91,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Prima di iniziare l'empirico",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Dopo tre giorni di antibiotico, se non migliora",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Anziano e chinolone",
+      "prompt": "Ha 72 anni. Usi il fluorochinolone previsto per l'uomo più giovane?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "No: nell'anziano è preferibile una cefalosporina di seconda o terza generazione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Ciprofloxacina per due settimane",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Durata",
+      "prompt": "Per quanto tieni la terapia, in attesa della coltura?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Due settimane, poi la correggi sull'antibiogramma",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Tre giorni, come la cistite della donna",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Prostatite",
+      "prompt": "Cosa devi considerare prima di chiudere come cistite?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Sintomi di prostatite batterica acuta: se il sospetto c'è, serve la valutazione specialistica",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "La escludi senza chiedere dolore pelvico o febbre",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Secondo livello",
+      "prompt": "Ha più di 50 anni. Cosa programmi sul tratto urinario?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Indagini per anomalie del tratto urinario o nefrolitiasi",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Niente, finché non arriva un secondo episodio",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo a fine cura",
+      "prompt": "Sta bene a fine terapia. Rifai la coltura?",
+      "cost": 12.91,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No: negli uomini non è necessaria in assenza di sintomi",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Urinocoltura di controllo da 12,91 euro",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ampio spettro",
+      "prompt": "Propongono meropenem perché è anziano.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No: l'età non è un'indicazione al carbapenemico",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Meropenem per due settimane",
+          "next": "res-eco-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "IVU maschile senza chinolone",
+      "prompt": "Coltura prima, cefalosporina di seconda o terza generazione, poi antibiogramma e studio del tratto urinario.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Empirico senza coltura",
+      "prompt": "Dossier 190, raccomandazione forte: nell'uomo con sintomi di IVU si esegue l'urinocoltura prima della terapia empirica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Chinolone nell'anziano",
+      "prompt": "Dossier 190: negli anziani, nei trapiantati e in chi prende cortisonici è preferibile una cefalosporina di II o III generazione, per l'elevato rischio di effetti collaterali dei fluorochinoloni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Durata da cistite femminile",
+      "prompt": "Dossier 190: nell'uomo il trattamento si protrae per due settimane e si corregge sull'antibiogramma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Prostatite non considerata",
+      "prompt": "Protocollo IVU adulti: nel maschio è sempre utile considerare la prostatite batterica acuta. In caso di sospetto clinico serve una valutazione specialistica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Tratto urinario non studiato",
+      "prompt": "Dossier 190: gli uomini con più di 50 anni con IVU acuta o ricorrente dovrebbero essere indagati per anomalie del tratto urinario o nefrolitiasi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "Coltura di controllo inutile",
+      "prompt": "Dossier 190, raccomandazione debole: nella IVU degli uomini non si eseguono esami di controllo a fine terapia in assenza di sintomi.",
+      "cost": 12.91,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-7",
+      "type": "resolution",
+      "title": "Meropenem per l'età",
+      "prompt": "Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

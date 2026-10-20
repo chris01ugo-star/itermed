@@ -1,0 +1,376 @@
+{
+  "id": "INF-022",
+  "code": "INF-022",
+  "title": "Diarrea dopo l'antibiotico — Clostridium",
+  "description": "Silvana P., 74 anni, diarrea acquosa, dolore e febbre dopo dieci giorni di antibiotico ad ampio spettro in ospedale. È incontinente.",
+  "difficulty": "MEDIUM",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Infezione da Clostridium difficile",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "Opuscolo ASUITS Clostridium difficile, 2018",
+  "diagnosis": "Sospetto Clostridium: stop all'antibiotico in corso e agli antidiarroici, ricerca delle tossine A e B, non la coprocoltura come test di scelta, precauzioni da contatto e camera singola perché è incontinente.",
+  "pastMedicalHistory": "Dieci giorni di antibiotico ad ampio spettro. Diarrea acquosa, dolore addominale, febbre. Incontinente. Nessun antidiarroico ancora assunto, la figlia vorrebbe darlo.",
+  "presentation": "Diarrea frequente, temperatura 38,1, dolore addominale. Parametri: PA 126/72, FC 98, FR 18, SpO2 97%.",
+  "redHerrings": [
+    "L'antidiarroico sembra il primo gesto.",
+    "La coprocoltura sembra il test più completo.",
+    "Il gel alcolico sembra abbastanza sulle spore."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Silvana, 74 anni. Hai la diarrea dopo l'antibiotico. Tua figlia vuole darti una compressa per fermarla. Chiedi se puoi restare in camera con le altre.",
+  "correctSolution": "Sospesi l'antibiotico scatenante e gli antidiarroici. Cerchi le tossine A e B, non la coltura come esame di scelta. Camera singola perché è incontinente, mani con acqua e sapone, cloro sui servizi, niente visite dei bambini fino alla fine dell'isolamento.",
+  "goldStandardPath": [
+    "tossine-feci",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) Stop all'antibiotico e all'antidiarroico. 2) Tossine, non la coltura. 3) Antibiotico orale specifico, senza inventarne il nome. 4) Mani con sapone. 5) Camera singola. 6) Cloro. 7) Bambini rimandati.",
+  "examLatencies": {
+    "tossine-feci": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Cosa sospendi subito?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Diarrea frequente, temperatura 38,1, dolore addominale. Parametri: PA 126/72, FC 98, FR 18, SpO2 97%."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-022-src",
+      "source": "Opuscolo ASUITS sul Clostridium difficile, revisione 2018",
+      "quote": "Il paziente deve interrompere l'antibiotico in corso e gli antidiarroici. La ricerca delle tossine è il test rapido. La coprocoltura non è la scelta ideale."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue Opuscolo ASUITS Clostridium difficile, 2018. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "tossine-feci",
+      "name": "tossine-feci",
+      "finding": "Ricerca delle tossine A e B indicata. La coprocoltura non è l'esame di scelta.",
+      "isAbnormal": true,
+      "priceEuro": 20.66
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Coprocoltura richiesta come unico esame, tariffa privata 20,66 euro.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 20.66,
+      "wasteRationale": "La coprocoltura è poco specifica e lenta."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 98,
+      "bloodPressure": "126/72",
+      "spo2": 97,
+      "temperature": 38.1,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 74,
+      "sex": "F",
+      "name": "Silvana P.",
+      "context": "REPARTO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaci da fermare",
+      "prompt": "Cosa sospendi subito?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "L'antibiotico in corso e ogni antidiarroico",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Loperamide e continui l'antibiotico ad ampio spettro",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Quale esame",
+      "prompt": "Quale test chiedi?",
+      "cost": 20.66,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "La ricerca delle tossine A e B, rapida",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Solo la coprocoltura, 20,66 euro",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Terapia specifica",
+      "prompt": "Come descrivi l'antibiotico, senza andare oltre il testo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Un antibiotico orale specifico a cui il Clostridium è sensibile",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Vancomicina endovena ad ampio spettro, non scritta nel testo",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Mani",
+      "prompt": "Come si lavano le mani, per le spore?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Acqua e sapone, con frizionamento: l'azione meccanica allontana la spora",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Solo gel alcolico, senza sapone",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Camera",
+      "prompt": "È incontinente. Che sistemazione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Camera singola con bagno dedicato",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Stanza a due letti, senza precauzioni da contatto",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Servizi",
+      "prompt": "Con cosa disinfetti il bagno dopo la pulizia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Un prodotto a base di cloro",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Solo detersivo, senza cloro",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Bambini",
+      "prompt": "Il nipote di quattro anni vuole entrare.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "La visita dei bambini si rimanda alla fine dell'isolamento",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Entra con il gel e si siede sul letto",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Clostridium contenuto",
+      "prompt": "Antibiotico scatenante e antidiarroico sospesi, tossine cercate, contatto e camera singola.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Antidiarroico e antibiotico lasciati",
+      "prompt": "Opuscolo ASUITS: si interrompe l'antibiotico in corso e gli antidiarroici, che rallentano il transito e lasciano il colon esposto alla tossina più a lungo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "Coltura al posto delle tossine",
+      "prompt": "Opuscolo ASUITS: l'esame colturale delle feci non è la scelta ideale, è poco specifico e lento. Con sospetto forte si cerca la tossina o i microrganismi che la producono. Tariffario privati: coprocoltura 20,66 euro.",
+      "cost": 20.66,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Spettro non scritto nel testo",
+      "prompt": "Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%. L'opuscolo dice di iniziare una terapia antibiotica orale specifica, e non nomina una molecola endovena.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Spore lasciate sulle mani",
+      "prompt": "Opuscolo ASUITS: acqua e sapone, e buon frizionamento, perché l'azione meccanica allontana la forma sporigena. I visitatori si lavano le mani anche se hanno usato i guanti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Isolamento non fatto",
+      "prompt": "Opuscolo ASUITS: la camera singola con bagno dedicato è preferibile e particolarmente raccomandata se la persona è incontinente o non collabora. Altrimenti precauzioni da contatto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Bagno senza cloro",
+      "prompt": "Opuscolo ASUITS: dopo la pulizia, disinfettare il servizio igienico con un prodotto a base di cloro.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Bambino in stanza",
+      "prompt": "Opuscolo ASUITS: la visita dei bambini va rimandata al termine dell'isolamento. I visitatori usano guanti e camice e non si siedono sul letto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

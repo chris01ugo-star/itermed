@@ -1,0 +1,376 @@
+{
+  "id": "INF-016",
+  "code": "INF-016",
+  "title": "Pseudomonas resistente a tutto lo schema classico",
+  "description": "Rita M., 58 anni, cistite non complicata. L'urinocoltura mostra Pseudomonas difficile da trattare: resistente a ceftazidime, piperacillina/tazobactam, cefepime, aztreonam, meropenem, imipenem, levofloxacina e ciprofloxacina. Non è grave.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "IVU non complicata da Pseudomonas DTR",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "AIFA-OPERA, Pseudomonas DTR",
+  "diagnosis": "IVU non complicata da Pseudomonas DTR: amikacina o gentamicina in dose singola. Non ciprofloxacina, già nel profilo di resistenza.",
+  "pastMedicalHistory": "Nessuna gravidanza, nessun diabete, nessun catetere, nessun segno di sepsi. Funzione renale qualunque: la buona pratica indica l'aminoglicoside in dose singola a prescindere dalla funzione renale.",
+  "presentation": "Disuria senza febbre. Parametri stabili. Antibiogramma compatibile con la definizione DTR.",
+  "redHerrings": [
+    "La ciprofloxacina sembra ancora l'antibiotico dello Pseudomonas.",
+    "Il meropenem sembra l'unica via se il chinolone fallisce.",
+    "La funzione renale sembra vietare l'aminoglicoside in questo documento."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Rita, 58 anni. Hai bruciore e una coltura di Pseudomonas resistente. Chiedi se la compressa della cistite basta o se serve un'iniezione.",
+  "correctSolution": "Una dose singola di amikacina 15 mg/kg o gentamicina 5 mg/kg. La definizione DTR include già la resistenza a chinoloni e carbapenemici. La dose unica è indicata a prescindere dalla funzione renale.",
+  "goldStandardPath": [
+    "urinocoltura",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) Verifica la definizione DTR. 2) Non è grave. 3) Aminoglicoside in dose singola. 4) Vale a prescindere dalla funzione renale. 5) Non ciprofloxacina. 6) Non meropenem. 7) Se non puoi somministrarlo, valuti il ricovero.",
+  "examLatencies": {
+    "urinocoltura": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Quali resistenze servono per chiamarlo DTR?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Disuria senza febbre. Parametri stabili. Antibiogramma compatibile con la definizione DTR."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-016-src",
+      "source": "AIFA-OPERA, Pseudomonas DTR",
+      "quote": "Nelle IVU non complicate da Pseudomonas DTR si consiglia come prima linea l'aminoglicoside in singola dose, a prescindere dalla funzionalità renale."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue AIFA-OPERA, Pseudomonas DTR. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "urinocoltura",
+      "name": "urinocoltura",
+      "finding": "Pseudomonas resistente a ceftazidime, piperacillina/tazobactam, cefepime, aztreonam, meropenem, imipenem, levofloxacina e ciprofloxacina.",
+      "isAbnormal": true,
+      "priceEuro": 12.91
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Ciprofloxacina prescritta su uno Pseudomonas già definito DTR.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 12.91,
+      "wasteRationale": "Ciprofloxacina e meropenem sono già nel profilo di resistenza DTR."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "124/76",
+      "spo2": 99,
+      "temperature": 36.7,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 58,
+      "sex": "F",
+      "name": "Rita M.",
+      "context": "AMBULATORIO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Definizione",
+      "prompt": "Quali resistenze servono per chiamarlo DTR?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Ceftazidime, piperacillina/tazobactam, cefepime, aztreonam, meropenem, imipenem, levofloxacina e ciprofloxacina",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Basta la resistenza alla ciprofloxacina",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Scelta",
+      "prompt": "IVU non complicata, non grave. Prima linea?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Amikacina 15 mg/kg o gentamicina 5 mg/kg in dose singola",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Ciprofloxacina 500 mg per cinque giorni",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Reni",
+      "prompt": "La creatinina è al limite. Cambia la buona pratica?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No: la dose singola è consigliata a prescindere dalla funzionalità renale",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Eviti l'aminoglicoside e dai meropenem",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Meropenem",
+      "prompt": "Il meropenem è un'alternativa scritta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No: la resistenza al meropenem fa parte della definizione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Meropenem 1 g ogni 8 ore",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Gravità",
+      "prompt": "Compare ipotensione e confusione. Restano le opzioni territoriali?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No: il documento non copre la sepsi. Valuti l'ospedalizzazione",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Tieni la dose singola e la mandi a casa in shock",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Colonizzazione",
+      "prompt": "Una seconda coltura, a sintomi già finiti, ricresce lo stesso Pseudomonas. Lo ritratti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No, se non ha sintomi: è batteriuria asintomatica",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Ripeti l'amikacina ogni settimana",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Peso",
+      "prompt": "Pesa molto oltre il 120% del peso ideale. Come calcoli l'aminoglicoside?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Sul peso aggiustato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Sui chili reali, a piacere",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "DTR con aminoglicoside singolo",
+      "prompt": "Amikacina o gentamicina in una sola dose. Niente chinolone e niente carbapenemico.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "DTR dichiarato a metà",
+      "prompt": "AIFA-OPERA: Pseudomonas DTR è il ceppo resistente a ceftazidime, piperacillina-tazobactam, cefepime, aztreonam, meropenem, imipenem-cilastatina, levofloxacina e ciprofloxacina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "Chinolone su un DTR",
+      "prompt": "AIFA-OPERA: prima linea aminoglicosidi in singola dose. La ciprofloxacina è dentro la definizione di resistenza. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Meropenem al posto della dose unica",
+      "prompt": "AIFA-OPERA: nelle IVU non complicate da Pseudomonas DTR, aminoglicosidi in singola dose a prescindere dalla funzionalità renale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Carbapenemico già inutile",
+      "prompt": "Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Sepsi tenuta sul territorio",
+      "prompt": "AIFA-OPERA: le opzioni sono per l'infezione non grave, senza sepsi o shock. Se i farmaci non si possono usare o il quadro esce dal documento, valutare l'ospedalizzazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "DTR asintomatico ritrattato",
+      "prompt": "AIFA-OPERA: un MDR senza sintomatologia non si tratta, fuori dalle eccezioni della batteriuria asintomatica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Dose non aggiustata",
+      "prompt": "AIFA-OPERA: per gli aminoglicosidi, se il peso supera il 120% del peso ideale, si usa l'adjusted body weight.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

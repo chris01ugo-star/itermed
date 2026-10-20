@@ -1,0 +1,376 @@
+{
+  "id": "INF-023",
+  "code": "INF-023",
+  "title": "Febbre e neutrofili a quattrocento",
+  "description": "Lucia F., 54 anni, dopo chemioterapia. Neutrofili 400/mmc. Temperatura ascellare 38,6 in una sola misurazione. Pressione tenuta, nessun catetere sospetto, nessuna colonizzazione MRSA.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Neutropenia febbrile a basso rischio, senza indicazione al glicopeptide",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Protocollo neutropenia febbrile oncoematologica e AIOM 2019",
+  "diagnosis": "Neutropenia febbrile: colture e poi antibiotico subito. Non il carbapenemico di apertura. Niente vancomicina di routine. Niente G-CSF di routine insieme all'antibiotico. Non cambiare prima di quattro giorni solo per la febbre.",
+  "pastMedicalHistory": "Chemioterapia conclusa da dieci giorni. Nessuna colonizzazione MRSA. Catetere centrale presente ma senza segni locali. Pressione stabile. Non ha ricevuto G-CSF pegilato in profilassi.",
+  "presentation": "Una temperatura ascellare a 38,6. Neutrofili 400. Parametri: PA 118/72, FC 108, FR 18, SpO2 98%.",
+  "redHerrings": [
+    "Il meropenem sembra la monoterapia più sicura di apertura.",
+    "La vancomicina sembra da aggiungere sempre.",
+    "Il G-CSF sembra obbligatorio insieme all'antibiotico."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Lucia, 54 anni. Hai la febbre dopo la chemioterapia. Chiedi se devono aspettare le colture prima della flebo e se serve un'altra medicina per i globuli bianchi.",
+  "correctSolution": "Prelievi e subito una terapia battericida ad ampio spettro che non sia il carbapenemico di apertura. Niente vancomicina senza i criteri. Niente G-CSF di routine. Non modificare prima di quattro giorni se è stabile e febbrile soltanto.",
+  "goldStandardPath": [
+    "emocolture",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) È neutropenia febbrile. 2) Colture e inizio subito. 3) Non il carbapenemico di apertura. 4) Niente glicopeptide di routine. 5) Niente cambio prima di quattro giorni. 6) Antifungino dopo 5-6 giorni se resta febbrile senza documentazione. 7) G-CSF non di routine.",
+  "examLatencies": {
+    "emocolture": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "38,6 una volta e neutrofili a 400. È neutropenia febbrile?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Una temperatura ascellare a 38,6. Neutrofili 400. Parametri: PA 118/72, FC 108, FR 18, SpO2 98%."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-023-src",
+      "source": "Protocollo oncoematologico di neutropenia febbrile",
+      "quote": "I carbapenemici non dovrebbero essere impiegati nella terapia iniziale e vanno riservati alle infezioni documentate da patogeni multiresistenti. Il glicopeptide di routine non è indicato."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue Protocollo neutropenia febbrile oncoematologica e AIOM 2019. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "emocolture",
+      "finding": "Emocolture da periferica e dal catetere, prelevate prima dell'antibiotico. Neutrofili 400/mmc.",
+      "isAbnormal": true,
+      "priceEuro": 25.95
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Meropenem e vancomicina avviati insieme, senza MDR documentato e senza i criteri del glicopeptide.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 25.95,
+      "wasteRationale": "Meropenem e vancomicina di apertura non sono lo schema iniziale senza MDR o senza i criteri del glicopeptide."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 108,
+      "bloodPressure": "118/72",
+      "spo2": 98,
+      "temperature": 38.6,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 54,
+      "sex": "F",
+      "name": "Lucia F.",
+      "context": "REPARTO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Definizione",
+      "prompt": "38,6 una volta e neutrofili a 400. È neutropenia febbrile?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Sì: una temperatura oltre 38,5, e neutrofili sotto 500",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "No, perché non ha avuto due punte a 38",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Tempi",
+      "prompt": "Aspetti i risultati delle colture?",
+      "cost": 25.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "No: prelievi e antibiotico subito. La febbre in neutropenia è un'urgenza",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Domani, quando tornano le colture",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Carbapenemico",
+      "prompt": "Usi meropenem come farmaco iniziale?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No: si riserva ai patogeni multiresistenti documentati",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Meropenem 60 mg/kg al giorno, massimo 3 g, subito",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Vancomicina",
+      "prompt": "Niente MRSA, catetere senza segni, pressione tenuta, colture ancora mute. Aggiungi la vancomicina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No: non di routine",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Vancomicina in ogni neutropenia febbrile",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Febbre che resta",
+      "prompt": "Al secondo giorno è stabile ma ancora a 38. Cambi l'antibiotico?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No: non prima di almeno quattro giorni, se non c'è un isolamento resistente o un quadro nuovo",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Meropenem già al secondo giorno, solo per la febbre",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Antifungino",
+      "prompt": "È ancora sopra 38 al sesto giorno, senza un'infezione documentata e con neutrofili sotto 500. Cosa aggiungi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Un antifungino empirico, in genere dopo 5-6 giorni di antibatterico",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Un terzo antibatterico, e nessun antifungino",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "G-CSF",
+      "prompt": "Glielo associ di routine all'antibiotico?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No: AIOM non lo raccomanda di routine insieme all'antibiotico, e non lo raccomanda nella neutropenia senza febbre",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Filgrastim a tutti, insieme alla prima dose",
+          "next": "res-eco-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Neutropenia febbrile senza carbapenemico",
+      "prompt": "Colture, antibiotico subito, niente carbapenemico di apertura, niente vancomicina e niente G-CSF di routine.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Febbre unica non contata",
+      "prompt": "Protocollo oncoematologico: febbre se temperatura ascellare oltre 38 in almeno due misure in 2-4 ore, oppure oltre 38,5 in una sola misura. Neutropenia sotto 500, oppure sotto 1000 in discesa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Dose rinviata alle colture",
+      "prompt": "Protocollo oncoematologico: gli esami si fanno prima della terapia, ma il trattamento ad ampio spettro prima dei risultati ha ridotto la mortalità. La febbre in neutropenia può essere un'urgenza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Meropenem di apertura",
+      "prompt": "Protocollo oncoematologico: i carbapenemici non dovrebbero essere impiegati nella terapia iniziale. Piperacillina/tazobactam è tra i penicillinici ad ampio spettro usati. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Glicopeptide di routine",
+      "prompt": "Protocollo oncoematologico: il glicopeptide di routine non è indicato, salvo centri ad alta incidenza di MRSA, colonizzazione nota, sospetto di batteriemia da catetere, ipotensione o scompenso, o cocchi Gram-positivi già in coltura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Cambio anticipato",
+      "prompt": "Protocollo oncoematologico: la sola febbre, se il paziente è stabile, non è un fallimento. Le modifiche non si fanno prima di almeno quattro giorni, salvo isolamento resistente o un quadro non coperto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Antifungino non considerato",
+      "prompt": "Protocollo oncoematologico: se la febbre persiste oltre 38 e i neutrofili restano sotto 500, senza documentazione, si dà un antifungino dopo in genere 5-6 giorni. Fluconazolo se non è in profilassi, oppure amfotericina B liposomiale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-7",
+      "type": "resolution",
+      "title": "G-CSF di routine",
+      "prompt": "AIOM 2019: il G-CSF non si dovrebbe utilizzare di routine in associazione all'antibioticoterapia. Non è raccomandato nei neutropenici senza febbre. Può essere considerato se il rischio di morbilità è alto, per accorciare la neutropenia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

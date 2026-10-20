@@ -1,0 +1,376 @@
+{
+  "id": "INF-009",
+  "code": "INF-009",
+  "title": "Pielonefrite dopo un ricovero lungo",
+  "description": "Paolo D., 64 anni, febbre e dolore al fianco. Ricovero di cinque giorni settanta giorni fa e, nello stesso periodo, dieci giorni di antibiotico ad ampio spettro. Nessuna ESBL nota.",
+  "difficulty": "HARD",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Pielonefrite con fattori di rischio MDR, senza ESBL recente",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Protocollo IVU adulti, fattori MDR",
+  "diagnosis": "Pielonefrite con rischio MDR: piperacillina/tazobactam più amikacina. Il meropenem solo con ESBL nei sei mesi o allergia alle penicilline. De-escalation a 48-72 ore.",
+  "pastMedicalHistory": "Ricovero di cinque giorni settanta giorni fa. Dieci giorni di cefalosporina nello stesso periodo. Nessuna ESBL isolata. Nessuna allergia alle penicilline. Diabete.",
+  "presentation": "Febbre 38,9, dolore al fianco, nausea. Parametri: PA 110/68, FC 108, FR 20, SpO2 97%.",
+  "redHerrings": [
+    "Il meropenem sembra obbligatorio appena c'è un ricovero recente.",
+    "Il ceftriaxone della pielonefrite semplice sembra ancora sufficiente.",
+    "L'amikacina sembra un di più da togliere subito."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Paolo, 64 anni. Hai febbre e male al fianco. Sei stato ricoverato due mesi fa e hai preso un antibiotico lungo. Chiedi se serve l'antibiotico più forte in assoluto.",
+  "correctSolution": "Colture prima della dose. Hai un fattore MDR: piperacillina/tazobactam 4,5 g ogni 6 ore più amikacina 15 mg/kg ogni 24 ore. Non meropenem, perché non c'è ESBL nei sei mesi né allergia. De-escalation a 48-72 ore.",
+  "goldStandardPath": [
+    "emocolture",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) Il ricovero e l'antibiotico recente sono fattori MDR. 2) Colture. 3) Piperacillina/tazobactam più amikacina. 4) Non meropenem. 5) Non lo schema semplice. 6) De-escalation. 7) Durata 7 giorni solo se le condizioni scritte sono vere.",
+  "examLatencies": {
+    "emocolture": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Ricovero di cinque giorni a settanta giorni e dieci giorni di antibiotico. È un fattore MDR?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Febbre 38,9, dolore al fianco, nausea. Parametri: PA 110/68, FC 108, FR 20, SpO2 97%."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-009-src",
+      "source": "Protocollo IVU adulti, nota sui fattori MDR",
+      "quote": "Rischio MDR: ricovero di almeno 48 ore negli ultimi 90 giorni, oppure antibiotico ad ampio spettro per almeno 5 giorni negli ultimi 90 giorni. Schema: piperacillina/tazobactam più amikacina."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue Protocollo IVU adulti, fattori MDR. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocolture",
+      "name": "emocolture",
+      "finding": "Emocolture e urinocoltura prelevate. Nessuna ESBL nei sei mesi.",
+      "isAbnormal": true,
+      "priceEuro": 25.95
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Meropenem scelto solo per il ricovero recente, senza ESBL.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 25.95,
+      "wasteRationale": "Il meropenem senza ESBL recente allarga lo spettro oltre la tabella."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 108,
+      "bloodPressure": "110/68",
+      "spo2": 97,
+      "temperature": 38.9,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 64,
+      "sex": "M",
+      "name": "Paolo D.",
+      "context": "PRONTO_SOCCORSO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Fattore MDR",
+      "prompt": "Ricovero di cinque giorni a settanta giorni e dieci giorni di antibiotico. È un fattore MDR?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Sì: ricovero di almeno 48 ore negli ultimi 90 giorni, e antibiotico ad ampio spettro per almeno 5 giorni",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "No, perché non ha una ESBL scritta in cartella",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Colture",
+      "prompt": "Quando le fai?",
+      "cost": 25.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Urinocoltura ed emocolture prima della dose, la febbre è oltre 38",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Dopo la prima flebo",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Schema",
+      "prompt": "Quale combinazione della tabella MDR?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Piperacillina/tazobactam 4,5 g ogni 6 ore più amikacina 15 mg/kg ogni 24 ore",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Ceftriaxone da solo, lo schema senza rischio",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Meropenem",
+      "prompt": "Non ha ESBL nei sei mesi e non è allergico. Passi al meropenem?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Resti su piperacillina/tazobactam e amikacina",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Meropenem 1 g ogni 8 ore al posto della combinazione",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dove non usarlo",
+      "prompt": "Se domani trovassi una ESBL degli ultimi sei mesi, cosa cambierebbe?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Allora il meropenem 1 g ogni 8 ore è lo schema scritto",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Restarebbe comunque proibito",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rilettura",
+      "prompt": "A 72 ore l'isolato è sensibile a un farmaco più stretto e sta meglio. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "De-escalation",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Tieni amikacina e piperacillina per 14 giorni fissi",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Raccolta",
+      "prompt": "L'ecografia mostra un ascesso renale. Vale ancora la durata di 7 giorni?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No: i 7 giorni richiedono l'assenza di raccolte",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Dimissione al settimo giorno con l'ascesso ancora lì",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "MDR coperto senza carbapenemico",
+      "prompt": "Piperacillina/tazobactam e amikacina, colture prima, de-escalation a due-tre giorni.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Rischio MDR non visto",
+      "prompt": "Protocollo IVU adulti: è a rischio MDR chi ha almeno uno tra ricovero di almeno 48 ore negli ultimi 90 giorni, antibiotico ad ampio spettro per almeno 5 giorni negli ultimi 90 giorni, MDR noto negli ultimi 12 mesi, provenienza da lungodegenza o casa di riposo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Colture dopo la dose",
+      "prompt": "Protocollo IVU adulti: urinocoltura sempre prima dell'antibiotico; emocolture se la febbre supera 38 gradi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Schema della pielonefrite semplice",
+      "prompt": "Protocollo IVU adulti: con fattori MDR, piperacillina/tazobactam più amikacina. Il ceftriaxone da solo è lo schema senza anomalie e senza quel rischio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Meropenem senza ESBL",
+      "prompt": "Protocollo IVU adulti: meropenem se IVU da ESBL nei 6 mesi precedenti o allergia alle penicilline. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "ESBL recente ignorata",
+      "prompt": "Protocollo IVU adulti: se IVU da ESBL nei 6 mesi precedenti, meropenem 1 g ogni 8 ore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "Combinazione non rivista",
+      "prompt": "Protocollo IVU adulti: a 48-72 ore de-escalation se l'isolato è suscettibile e la risposta è buona. Sette giorni solo se non ci sono raccolte.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Ascesso chiuso in sette giorni",
+      "prompt": "Protocollo IVU adulti: 7 giorni solo se isolato suscettibile, buona risposta, de-escalation fatta e assenza di raccolte renali. L'imaging serve a cercare il disturbo urologico urgente.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

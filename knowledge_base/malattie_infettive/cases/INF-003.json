@@ -1,0 +1,376 @@
+{
+  "id": "INF-003",
+  "code": "INF-003",
+  "title": "Urinocoltura positiva e nessun sintomo",
+  "description": "Giorgio N., 68 anni, diabetico, catetere a permanenza. L'urinocoltura fatta «di controllo» cresce E. coli. Non ha disuria, febbre né dolore.",
+  "difficulty": "MEDIUM",
+  "specialty": "malattie_infettive",
+  "specialtyLabel": "Malattie Infettive",
+  "condition": "Batteriuria asintomatica, non trattare",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "AIFA-OPERA e dossier 190 sul catetere",
+  "diagnosis": "Batteriuria asintomatica. Diabete, catetere e isolamento MDR non sono indicazioni al trattamento. Niente antibiotico al cambio del catetere.",
+  "pastMedicalHistory": "Diabete in terapia orale. Catetere da dieci giorni per ritenzione. Nessun intervento urologico in programma. Nessun sintomo urinario acuto.",
+  "presentation": "Asintomatico. Temperatura 36,5. L'urinocoltura mostra almeno 10 alla quinta UFC/ml. La piuria è presente. Parametri stabili.",
+  "redHerrings": [
+    "Il diabete sembra obbligare il trattamento della batteriuria.",
+    "Un germe resistente sembra più da trattare di un germe sensibile.",
+    "La piuria da sola sembra un motivo per curare."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 70,
+  "patientPrompt": "Sei Giorgio, 68 anni. Stai bene, non bruci e non hai febbre. Se ti dicono che nelle urine c'è un batterio, chiedi se devi prendere una compressa pur stando bene.",
+  "correctSolution": "Non tratti. Diabete, catetere e MDR asintomatico non sono indicazioni. Non dai l'antibiotico al cambio del catetere. La sola piuria non indica la coltura.",
+  "goldStandardPath": [
+    "urinocoltura",
+    "emocromo"
+  ],
+  "goldPathNarrative": "1) Batteriuria asintomatica. 2) Il diabete non basta. 3) Il catetere non basta. 4) Il germe MDR senza sintomi non si tratta. 5) Niente antibiotico al cambio. 6) La piuria non indica la coltura. 7) Si tratta solo prima di procedure sulla mucosa, chirurgia urinaria, nefrostomia o stent, e in gravidanza.",
+  "examLatencies": {
+    "urinocoltura": 20,
+    "emocromo": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-1",
+      "prompt": "Coltura positiva, nessun sintomo. Come la chiami?",
+      "critical": true,
+      "expectedKeywords": [
+        "sintomo",
+        "tempo"
+      ],
+      "rationale": "Il primo bivio segue la definizione del documento citato nel caso."
+    },
+    {
+      "id": "aq-2",
+      "prompt": "Ha già preso un antibiotico per questo episodio, e da quanti giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "antibiotico",
+        "giorni"
+      ],
+      "rationale": "La terapia già fatta cambia colture, spettro e durata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Asintomatico. Temperatura 36,5. L'urinocoltura mostra almeno 10 alla quinta UFC/ml. La piuria è presente. Parametri stabili."
+  },
+  "escCitations": [
+    {
+      "chunkId": "INF-003-src",
+      "source": "AIFA-OPERA, batteriuria asintomatica",
+      "quote": "Diabete, catetere o stent, neutropenia e trapianto oltre il primo mese da soli non costituiscono indicazioni al trattamento della batteriuria asintomatica."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il farmaco di prima scelta è quello nominato dal documento, non un carbapenemico di apertura.",
+      "L'esame si chiede solo se il documento lo indica per quel quadro."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue AIFA-OPERA e dossier 190 sul catetere. Lo scostamento è la scelta contraria alla raccomandazione citata nel nodo.",
+      "legalCriteria": [
+        "Documentare la regola del testo usata per la scelta.",
+        "Non allargare lo spettro senza il fattore di rischio scritto nel documento."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "urinocoltura",
+      "name": "urinocoltura",
+      "finding": "Urinocoltura: E. coli oltre 100.000 UFC/ml, senza sintomi. Batteriuria asintomatica.",
+      "isAbnormal": true,
+      "priceEuro": 12.91
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emocromo coerente con il quadro descritto. Non sostituisce la coltura o il test indicato dal documento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "spreco",
+      "name": "Esame non indicato",
+      "finding": "Fosfomicina prescritta su un'urinocoltura di controllo in un paziente senza sintomi.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "priceEuro": 12.91,
+      "wasteRationale": "Trattare la batteriuria asintomatica seleziona resistenze."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "132/78",
+      "spo2": 97,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 68,
+      "sex": "M",
+      "name": "Giorgio N.",
+      "context": "REPARTO"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Stato di coscienza",
+        "result": "Lucido, orientato, collaborante.",
+        "isPositive": false
+      }
+    ]
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo e accetta il piano se gli si dicono benefici, rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Definizione",
+      "prompt": "Coltura positiva, nessun sintomo. Come la chiami?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Batteriuria asintomatica: almeno 10 alla quinta UFC/ml, con o senza piuria, senza segni acuti",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Cistite, e la curi",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Diabete",
+      "prompt": "È diabetico. Tratti per questo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "No: il diabete da solo non è un'indicazione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Fosfomicina perché è diabetico",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Catetere",
+      "prompt": "Ha il catetere. Gli dai un antibiotico?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No: il catetere da solo non è un'indicazione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Amoxicillina/clavulanato finché il catetere resta",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Germe resistente",
+      "prompt": "L'antibiogramma mostra un germe MDR. Cambia la decisione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No: senza sintomi resta batteriuria asintomatica",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Meropenem perché è resistente",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Cambio del catetere",
+      "prompt": "Oggi è il cambio programmato. Aggiungi un antibiotico?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No: l'antibiotico al cambio non riduce le IVU e seleziona resistenze",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Una dose di ciprofloxacina al cambio",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Piuria",
+      "prompt": "Lo stick mostra solo piuria, ed è asintomatico. Invii la coltura?",
+      "cost": 12.91,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No: la sola piuria non è indicazione all'urinocoltura",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Urinocoltura da 12,91 euro per la piuria",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Quando invece si tratta",
+      "prompt": "Qual è l'eccezione scritta, che qui non c'è?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Procedura endoscopica che interrompe la mucosa, chirurgia delle vie urinarie, sostituzione di nefrostomia o stent, gravidanza",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Anche la neutropenia e il trapianto oltre il primo mese",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Batteriuria lasciata senza antibiotico",
+      "prompt": "Nessun antibiotico: non ci sono sintomi e non c'è una procedura che interrompe la mucosa.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Colonizzazione curata come cistite",
+      "prompt": "AIFA-OPERA: batteriuria asintomatica è una o più urinocolture con almeno 10 alla quinta UFC/ml, con o senza piuria, in assenza di segnali acuti o sintomi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "Antibiotico per il diabete",
+      "prompt": "AIFA-OPERA: la concomitante presenza di diabete da sola non costituisce indicazione al trattamento della batteriuria asintomatica. Lo stesso elenco è nel protocollo IVU adulti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Antibiotico da catetere asintomatico",
+      "prompt": "AIFA-OPERA e dossier 190: in assenza di sintomi la terapia antibiotica non va fatta. La profilassi periodica o cronica nei portatori non riduce le IVU e aumenta i germi resistenti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "MDR asintomatico trattato",
+      "prompt": "AIFA-OPERA: l'isolamento di un Gram-negativo MDR senza sintomatologia è batteriuria asintomatica e non va trattato, con le sole eccezioni già scritte. Comunicato AIFA sul Rapporto 2025: aumentano le prescrizioni ad ampio spettro, a più alto rischio di generare resistenze. La quota Access è 54,4%, sotto l'obiettivo europeo del 65%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Antibiotico al cambio",
+      "prompt": "Dossier 190: l'uso dell'antibiotico al cambio periodico del catetere non riduce le IVU e aumenta la colonizzazione da germi resistenti, e pertanto non deve essere utilizzato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "Coltura per la sola piuria",
+      "prompt": "AIFA-OPERA e protocollo IVU adulti: la sola piuria all'esame chimico-fisico o allo stick non costituisce indicazione a richiedere un'urinocoltura.",
+      "cost": 12.91,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Eccezione inventata",
+      "prompt": "AIFA-OPERA: si tratta solo prima di procedure con interruzione della mucosa, chirurgia delle vie urinarie, sostituzione di nefrostomia o stent, e nelle donne in gravidanza. Neutropenia e trapianto oltre il primo mese da soli non bastano.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}
