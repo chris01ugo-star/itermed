@@ -125,7 +125,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Dopo aver eseguito un ECG che mostra elevazione del segmento ST, si procede con il prelievo di troponina-hs, elettroliti, creatinina e urea, e si ottiene il consenso informato per la coronarografia. La coronarografia rivela un occlusione della coronaria anteriore discendente, per cui si esegue un'angioplastica con stenting.",
+  "correctSolution": "ECG entro 10 minuti, riperfusione immediata per STEMI, consenso d'emergenza annotato. Non PET e non attesa della firma dei familiari.",
   "patientPrompt": "Mi chiamo Marco e Ho 67 anni. Sono venuto al pronto soccorso perché ho un dolore toracico che non riesco a tollerare. Sento come se qualcuno mi stesse stringendo il petto e ho anche un po' di difficoltà a respirare. Ho avuto episodi di dolore in passato, ma mai così intensi. Ho paura che ci sia qualcosa di serio.",
   "id": "CARDIO-001",
   "code": "CARDIO-001",
@@ -219,7 +219,7 @@
     "killipClass": "I",
     "summary": "All'esame fisico, Marco appare ansioso ma vigile. La frequenza cardiaca è di 98 bpm, la pressione arteriosa è di 130/85 mmHg e la saturazione di ossigeno è al 95%. L'auscultazione polmonare non evidenzia crepitii, ma si nota un lieve respiro affannoso. Non ci sono segni di edema periferico e l'addome è morbido e non dolente."
   },
-  "goldPathNarrative": "Il percorso diagnostico e terapeutico seguito per Marco è stato conforme alle linee guida ESC per la gestione dell'ACS. L'ECG è stato eseguito tempestivamente, entro 10 minuti dall'arrivo, e ha mostrato segni di STEMI. La troponina-hs è stata prelevata e ha confermato l'infarto. Gli elettroliti e la funzione renale sono stati monitorati, e il consenso informato per la coronarografia è stato ottenuto. Questo approccio ha garantito un intervento tempestivo e appropriato, riducendo il rischio di complicazioni e migliorando l'esito clinico.",
+  "goldPathNarrative": "1) Dolore, sudorazione, durata. 2) ECG entro 10 minuti dal primo contatto. 3) Sopraslivellamento: attivazione della rete per angioplastica primaria. 4) Troponina ed esami senza ritardare la sala. 5) In emergenza le cure non aspettano i familiari. 6) Stent sulla coronaria colpevole. 7) Doppia antiaggregazione e controllo.",
   "escCitations": [
     {
       "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-81",
@@ -324,5 +324,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Dolore ischemico",
+      "prompt": "Cosa ricostruisci nei primi minuti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Dolore oppressivo, sudorazione, irradiazione e ora di inizio",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Chiamarlo indigestione e rimandarlo a casa",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG al primo contatto",
+      "prompt": "Quale esame fai subito?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG a 12 derivazioni, obiettivo entro 10 minuti",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "PET miocardica da 1071 euro prima di ogni ECG",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Strategia di riperfusione",
+      "prompt": "L'ECG mostra sopraslivellamento anteriore. Cosa attivi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Rete per angioplastica primaria, subito",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Ricovero in osservazione e troponina seriale prima di chiamare l'emodinamica",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esami che non fermano la sala",
+      "prompt": "Cosa prelevi mentre la sala si prepara?",
+      "cost": 20,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Troponina, elettroliti e creatinina, senza condizionare la partenza",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Annullare la sala finché la troponina non è «abbastanza alta»",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cure in emergenza",
+      "prompt": "Il paziente è sudato e non firma. I figli chiedono di aspettare.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Si procede: in emergenza si assicurano le cure necessarie e si annota",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Sospendere l'angioplastica finché un familiare non firma",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Lesione colpevole",
+      "prompt": "In sala la discendente anteriore è occlusa. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Angioplastica e stent della coronaria colpevole",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Solo coronarografia diagnostica e rinvio a domani",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo lo stent",
+      "prompt": "Cosa lasci prescritto e controllato?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Doppia antiaggregazione, spiegata, e controllo del sito e dei sintomi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Dimissione senza antiaggregazione «perché lo stent basta»",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "STEMI riperfuso",
+      "prompt": "ECG precoce, angioplastica primaria senza attesa di troponina o di firma dei familiari, consenso d'emergenza in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Dimissione contro le linee guida",
+      "prompt": "Dimettere uno STEMI senza riperfusione abbandona la raccomandazione ESC. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "PET al posto dell'ECG",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. Nomenclatore specialistica ambulatoriale, codice 89.52: elettrocardiogramma, tariffa 11,62 euro. Nello STEMI il primo esame è l'ECG, non la PET.",
+      "cost": 11.62,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Riperfusione ritardata",
+      "prompt": "Nello STEMI la priorità è la riperfusione il prima possibile. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Sala condizionata alla troponina",
+      "prompt": "La diagnosi operativa di STEMI è clinica ed elettrocardiografica. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Firma dei familiari al posto della cura",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Occlusione lasciata chiusa",
+      "prompt": "La riperfusione dello STEMI non si rimanda al giorno dopo. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Stent senza terapia spiegata",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

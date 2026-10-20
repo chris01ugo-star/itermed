@@ -124,7 +124,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire ECG, creatinina, urea, GFR, elettroliti, assetto lipidico, HbA1c, analisi delle urine, esame del fondo oculare.",
+  "correctSolution": "Ipertensione non controllata: ECG, rene, elettroliti, lipidi, urine. Terapia orale spiegata. Non RM encefalo e non angiografia come primo passo.",
   "patientPrompt": "Ho 52 anni e sono qui per il follow-up della mia ipertensione. Anche se prendo i farmaci, la mia pressione continua a essere alta e ho mal di testa frequenti. Mi sento stanco e ho notato che devo alzarmi di notte per andare in bagno.",
   "id": "CARDIO-005",
   "code": "CARDIO-005",
@@ -234,7 +234,7 @@
     "killipClass": "I",
     "summary": "All'esame obiettivo, Giovanni presenta una pressione arteriosa di 160/100 mmHg. Non ci sono segni di edema periferico e il cuore è auscultato senza soffi. La respirazione è regolare, ma la saturazione di ossigeno è al 92%."
   },
-  "goldPathNarrative": "Nel follow-up di Giovanni, è fondamentale eseguire una serie di esami per valutare il controllo della sua ipertensione e identificare eventuali complicanze. L'ECG aiuterà a escludere anomalie cardiache, mentre i test di laboratorio forniranno informazioni sulla funzione renale e sul metabolismo. L'analisi delle urine e l'esame del fondo oculare sono essenziali per valutare eventuali danni agli organi target legati all'ipertensione.",
+  "goldPathNarrative": "1) Valori e aderenza. 2) Danno d'organo con ECG, rene, urine. 3) Lipidi e glicemia. 4) Terapia orale spiegata. 5) Consenso e alternative. 6) Non RM da 222 euro. 7) Controllo ambulatoriale.",
   "escCitations": [
     {
       "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-291",
@@ -343,5 +343,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Aderenza e valori",
+      "prompt": "Cosa chiedi prima di cambiare farmaco?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Valori a casa, aderenza, sale, farmaci che alzano la pressione",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Raddoppiare la terapia senza una domanda",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Danno d'organo",
+      "prompt": "Quali esami di primo livello?",
+      "cost": 40,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG, creatinina, elettroliti e urine",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Angiografia coronarica come screening",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Rischio metabolico",
+      "prompt": "Cosa aggiungi al rischio?",
+      "cost": 20,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Assetto lipidico e glicata",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Un pacchetto di autoanticorpi",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaco",
+      "prompt": "La pressione resta alta, senza danno acuto. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Terapia orale, titolata, spiegata",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Labetalolo endovenoso in ambulatorio",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Come consegni la ricetta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Benefici, rischi e alternative, annotati",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "«Prenda queste, non serve spiegare»",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "RM encefalo",
+      "prompt": "La paziente chiede una risonanza «per la pressione».",
+      "cost": 222.08,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non di routine: prima il work-up a basso costo",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "RM encefalo da 222 euro",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo",
+      "prompt": "Quando la rivedi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Controllo dei valori e degli esami, con la terapia scritta",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Nessun appuntamento",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Ipertensione ritrattata in ambulatorio",
+      "prompt": "Work-up di danno d'organo a basso costo, terapia orale spiegata, nessuna RM encefalo di primo livello.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Terapia cambiata al buio",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "Angiografia nello screening",
+      "prompt": "Il primo livello è laboratorio ed ECG da 11,62 euro, non un'angiografia. Nomenclatore specialistica ambulatoriale, codice 89.52: elettrocardiogramma, tariffa 11,62 euro.",
+      "cost": 40,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Pannello inutile",
+      "prompt": "Gli autoanticorpi non sono nel work-up di primo livello dell'ipertensione e aggiungono costo senza una domanda clinica.",
+      "cost": 20,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Endovena fuori emergenza",
+      "prompt": "Senza danno d'organo acuto la riduzione è orale. L'endovena appartiene all'emergenza ipertensiva.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Ricetta senza informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "RM encefalo di routine",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 88.91.1: RM del cervello e del tronco encefalico, tariffa 222,08 euro. Non sostituisce ECG, rene e urine.",
+      "cost": 222.08,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Ipertensione senza follow-up",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

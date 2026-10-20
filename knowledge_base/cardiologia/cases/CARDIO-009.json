@@ -102,7 +102,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "ECG, elettroliti, EGA, troponina-hs, PT-PTT-INR",
+  "correctSolution": "Fibrillazione con risposta rapida: ECG, stabilità, controllo della frequenza o cardioversione se non tollerata. In instabilità non si aspetta la firma dei familiari.",
   "patientPrompt": "Mi chiamo Giovanni e Ho 78 anni. Sono venuto qui perché ho un battito cardiaco molto veloce e mi sento ansioso. Ho difficoltà a respirare e mi sento debole. Ho avuto episodi simili in passato, ma mai così gravi. Ho una storia di ipertensione e diabete, ma non ho mai avuto problemi cardiaci prima d'ora.",
   "id": "CARDIO-009",
   "code": "CARDIO-009",
@@ -213,7 +213,7 @@
     "killipClass": "III",
     "summary": "Il paziente presenta tachicardia, sudorazione, ansia, e segni di distress respiratorio. La pressione arteriosa è elevata e la saturazione dell'ossigeno è al 92%."
   },
-  "goldPathNarrative": "Il paziente è stato sottoposto a un ECG che ha mostrato fibrillazione atriale con una risposta ventricolare rapida. Sono stati eseguiti esami di laboratorio per valutare gli elettroliti e la troponina. È stata esclusa un'ischemia miocardica acuta e si è proceduto con il trattamento della fibrillazione atriale.",
+  "goldPathNarrative": "1) Palpitazioni e frequenza. 2) ECG. 3) Stabilità. 4) Se instabile, cardioversione subito. 5) Se stabile, farmaco e informazione. 6) Non RM. 7) Causa e follow-up.",
   "escCitations": [
     {
       "chunkId": "614c32b3-6007-482b-bcec-d60b2d4af3ae-361",
@@ -308,5 +308,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Frequenza alta",
+      "prompt": "Cosa misuri per primi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Pressione, ossigeno, dolore, coscienza",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Solo il numero sulla saturazione, senza pressione",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG",
+      "prompt": "Quale tracciato?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG a 12 derivazioni, per confermare la fibrillazione e escludere una preeccitazione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Una striscia illeggibile archiviata come «tachicardia»",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se non tollerata",
+      "prompt": "Pressione bassa e distress. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Cardioversione elettrica subito",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Digossina orale e attesa di domani",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Firma",
+      "prompt": "È incosciente. La moglie chiede di aspettare il figlio.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Si cardioverte e si annota",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Si aspetta il figlio",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se tollerata",
+      "prompt": "È stabile. Quale strada?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Controllo della frequenza, spiegato, ed esami di trigger",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Cardioversione coercitiva anche se rifiuta, da capace",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "RM encefalo",
+      "prompt": "Chiedono una RM encefalo per le palpitazioni.",
+      "cost": 222.08,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "La rifiuti: il ritmo si legge sull'ECG",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "RM encefalo da 222 euro",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo",
+      "prompt": "Cosa chiudi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Causa, anticoagulazione da stratificare, controllo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Dimissione senza un piano",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Frequenza gestita",
+      "prompt": "ECG, cardioversione solo se non tollerata, senza RM encefalo e senza attesa dei familiari nell'instabilità.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Instabilità non vista",
+      "prompt": "La tolleranza emodinamica decide se la cardioversione è immediata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Meccanismo non noto",
+      "prompt": "Una tachicardia a QRS largo di meccanismo ignoto non si tratta come una fibrillazione qualsiasi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Instabilità non cardiovertita",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Shock rinviato alla firma",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Rifiuto di un paziente stabile",
+      "prompt": "Legge 219/2017, art. 1 commi 5 e 6: il paziente capace può rifiutare il trattamento e il medico deve rispettare il rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "RM per palpitazioni",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 88.91.1: RM del cervello e del tronco encefalico, tariffa 222,08 euro. Le palpitazioni da fibrillazione si leggono sull'ECG da 11,62 euro.",
+      "cost": 222.08,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Fibrillazione senza piano",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

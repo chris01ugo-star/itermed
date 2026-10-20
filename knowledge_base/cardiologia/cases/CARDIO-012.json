@@ -113,7 +113,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Iniziare ossigenoterapia, somministrare diuretici endovenosi e monitorare i segni vitali. Valutare la necessità di supporto ventilatorio e considerare l'uso di vasodilatatori.",
+  "correctSolution": "Edema polmonare: ossigeno, diuretico dell'ansa endovenoso, ECG, emogas, peptide, radiografia, troponina, eco. Cure d'emergenza senza attendere i familiari. Non colonscopia.",
   "patientPrompt": "Mi chiamo Giovanni e Ho 76 anni. Sono venuto al pronto soccorso perché ho difficoltà a respirare. Negli ultimi giorni ho notato che la mia tosse è aumentata e ho espettorato del materiale schiumoso. Mi sento molto stanco e ansioso. Ho una storia di problemi cardiaci e ipertensione, ma non ho mai avuto problemi respiratori così gravi prima d'ora.",
   "id": "CARDIO-012",
   "code": "CARDIO-012",
@@ -225,7 +225,7 @@
     "killipClass": "III",
     "summary": "All'esame obiettivo, Giovanni presenta tachicardia, tachipnea e segni di distress respiratorio. I polmoni mostrano crepitii bilaterali e ronchi. La pressione arteriosa è bassa e la saturazione di ossigeno è ridotta. È pallido e sudato."
   },
-  "goldPathNarrative": "Il paziente è stato sottoposto a un ECG che mostra segni di sovraccarico cardiaco. È stata eseguita un'analisi dei gas ematici che indica ipossiemia. Il dosaggio del NT-proBNP è risultato elevato, confermando il sospetto di scompenso cardiaco. La radiografia del torace ha mostrato segni di edema polmonare. È stata eseguita una troponina ad alta sensibilità per escludere un infarto miocardico. Infine, è stato effettuato un ecocardiogramma che ha confermato la disfunzione ventricolare sinistra.",
+  "goldPathNarrative": "1) Ortopnea. 2) Ossigeno. 3) Diuretico endovenoso. 4) Esami senza ritardare il diuretico. 5) Emergenza. 6) Non colonscopia. 7) Causa e passaggio alla terapia orale.",
   "escCitations": [
     {
       "chunkId": "18335d3c-f44d-49b1-83ba-ccdd43716688-329",
@@ -327,5 +327,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Ortopnea",
+      "prompt": "Cosa riconosci?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Dispnea, ortopnea, rantoli, pressione",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Una radiografia prenotata per domani e nel frattempo nulla",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ossigeno",
+      "prompt": "È ipossiemica. Cosa fai per primi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Ossigeno, e valuti il supporto ventilatorio",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Aspetti il referto del peptide prima di dare ossigeno",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Diuretico",
+      "prompt": "Quale farmaco della congestione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Diuretico dell'ansa per via endovenosa",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Un litro di fisiologica «per il rene»",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esami in parallelo",
+      "prompt": "Cosa chiedi senza fermare la cura?",
+      "cost": 80,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "ECG, emogas, NT-proBNP, radiografia, troponina, eco",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Colonscopia per la dispnea",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Firma",
+      "prompt": "Non parla per la dispnea. I figli non sono ancora arrivati.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Tratti e annoti",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Aspetti i figli prima del diuretico",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Causa",
+      "prompt": "Dopo la prima risposta cosa cerchi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Ischemia, aritmia, valvola, aderenza, infezione",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Archivi come «bronchite» senza un ECG",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Passaggio",
+      "prompt": "Migliora. Cosa lasci?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Terapia di fondo dello scompenso, peso, controllo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Stop di ogni diuretico la sera stessa",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Edema trattato",
+      "prompt": "Ossigeno e diuretico subito, diagnosi in parallelo, nessuna colonscopia, nessuna attesa dei familiari.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Edema lasciato in attesa",
+      "prompt": "L'edema polmonare acuto si tratta, non si prenota.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Ossigeno rinviato",
+      "prompt": "L'ossigeno è indicato nell'edema. Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Fluidi nell'edema",
+      "prompt": "L'obiettivo è la decongestione, non un carico di fluidi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Colonscopia nell'edema",
+      "prompt": "La colonscopia non diagnostica l'edema polmonare e sposta tempo e costo.",
+      "cost": 80,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Diuretico dopo i familiari",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Causa non cercata",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Sospensione immediata",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

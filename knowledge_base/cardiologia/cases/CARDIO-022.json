@@ -4,11 +4,11 @@
   "difficulty": "HARD",
   "goldStandardPath": [
     "ecg",
+    "cardioversione",
     "elettroliti",
     "ega",
     "troponina-hs",
-    "ecocardio",
-    "cardioversione"
+    "ecocardio"
   ],
   "baselineExamFindings": {
     "vitals": {
@@ -103,7 +103,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un ECG, valutare gli elettroliti, eseguire un'analisi dei gas ematici, misurare i livelli di troponina-hs, effettuare un ecocardiogramma e, se necessario, procedere con la cardioversione.",
+  "correctSolution": "Tachicardia ventricolare monomorfa sostenuta non tollerata: ECG e cardioversione elettrica subito. Cause reversibili dopo, non prima. In emergenza non si aspetta la firma dei familiari. Non una RM prima dello shock.",
   "patientPrompt": "Mi chiamo Giovanni e Ho 72 anni. Sono venuto qui perché ho avuto delle palpitazioni forti e mi sento molto debole. Ho difficoltà a respirare e mi fa male il petto. Non ho mai avuto problemi cardiaci prima d'ora. Ho mangiato un pasto abbondante poco prima che iniziassero i sintomi.",
   "id": "CARDIO-022",
   "code": "CARDIO-022",
@@ -214,7 +214,7 @@
     "killipClass": "III",
     "summary": "All'esame fisico, Giovanni mostra segni di distress respiratorio, con frequenza respiratoria aumentata e cianosi labiale. La palpazione del torace non rivela segni di dolore acuto, ma il battito cardiaco è irregolare e accelerato. La pressione arteriosa è bassa, indicando una possibile compromissione emodinamica."
   },
-  "goldPathNarrative": "Iniziare con un ECG per confermare la presenza di tachicardia ventricolare. Valutare gli elettroliti per escludere squilibri che possano contribuire alla tachicardia. Eseguire un'analisi dei gas ematici per valutare l'ossigenazione e l'equilibrio acido-base. Misurare i livelli di troponina-hs per escludere un infarto miocardico. Un ecocardiogramma può essere utile per valutare la funzione cardiaca. Se i sintomi persistono e il paziente è emodinamicamente instabile, procedere con la cardioversione.",
+  "goldPathNarrative": "1) Instabilità. 2) ECG. 3) Cardioversione. 4) Emergenza senza familiari. 5) Poi elettroliti, emogas, troponina. 6) Eco dopo. 7) Non RM prima dello shock.",
   "escCitations": [
     {
       "chunkId": "f057304e-6ee8-4c3f-9c98-5dc138c7bde3-157",
@@ -239,7 +239,7 @@
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: ecg → elettroliti → ega → troponina-hs → ecocardio → cardioversione.",
+      "Eseguire in sequenza il gold path: ecg → cardioversione → elettroliti → ega → troponina-hs → ecocardio.",
       "Non prescrivere di prima intenzione: tc, rm (ESC_2022_Ventricular_Arrhythmias_Guidelines.pdf).",
       "Budget SSN di riferimento: €140."
     ],
@@ -309,5 +309,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2022_Ventricular_Arrhythmias_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Instabilità",
+      "prompt": "Pressione 90/60 e saturazione 85%. Cosa conta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non è tollerata: la cardioversione è di prima linea",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un questionario lungo prima di ogni gesto",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG",
+      "prompt": "Cosa registri mentre prepari lo shock?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG, senza ritardare la cardioversione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "RM encefalo da 222 euro prima dello shock",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Shock",
+      "prompt": "Qual è il primo trattamento?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Cardioversione elettrica",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Amiodarone orale e attesa",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Firma",
+      "prompt": "Non firma. I figli sono in viaggio.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Si cardioverte e si annota l'emergenza",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Si aspetta i figli",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Cause reversibili",
+      "prompt": "Dopo lo shock cosa cerchi?",
+      "cost": 30,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Elettroliti, ipossia, ischemia",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Nulla: «lo shock basta»",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco",
+      "prompt": "Quando l'eco?",
+      "cost": 61.97,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Dopo la stabilizzazione, per la funzione",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Eco prima, shock dopo, perché «serve il referto»",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo",
+      "prompt": "Cosa programmi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Monitoraggio, causa, e informazione appena è in grado di riceverla",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Dimissione a ritmo ancora instabile",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Shock dato in tempo",
+      "prompt": "Cardioversione come prima linea della tachicardia non tollerata, cause reversibili dopo, nessuna RM prima dello shock.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Questionario al posto dello shock",
+      "prompt": "La cardioversione elettrica è raccomandata come prima linea se la tachicardia ventricolare monomorfa sostenuta non è tollerata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "RM prima dello shock",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 88.91.1: RM del cervello e del tronco encefalico, tariffa 222,08 euro. Non tratta la tachicardia e ne ritarda la cardioversione.",
+      "cost": 11.62,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Farmaco al posto dello shock",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Shock dopo i familiari",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Cause non cercate",
+      "prompt": "È raccomandato cercare cause reversibili, come elettroliti, ischemia e ipossiemia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Eco che ritarda lo shock",
+      "prompt": "Nella forma non tollerata lo shock viene prima dell'imaging.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Dimissione instabile",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

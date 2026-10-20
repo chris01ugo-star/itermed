@@ -80,7 +80,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un ECG, seguito da un ecocardiogramma e analisi degli elettroliti per valutare la presenza di cardiomiopatia ipertrofica.",
+  "correctSolution": "Screening di cardiomiopatia ipertrofica: ECG ed ecocardio. Non coronarografia e non PET come primo esame. Informazione sulla diagnosi.",
   "patientPrompt": "Ho 31 anni e sono qui per un controllo di routine. Ho una storia familiare di cardiomiopatia e ho iniziato a sentirmi più affaticato ultimamente. A volte ho anche palpitazioni, ma non ho mai avuto dolori al petto o svenimenti.",
   "id": "CARDIO-023",
   "code": "CARDIO-023",
@@ -189,7 +189,7 @@
     "killipClass": "I",
     "summary": "All'esame obiettivo, Luca appare in buone condizioni generali. I suoni cardiaci sono regolari, senza soffi. Non si osservano segni di congestione venosa o edema periferico. La pressione arteriosa è nella norma. La frequenza respiratoria è regolare."
   },
-  "goldPathNarrative": "Luca, un uomo di 31 anni con storia familiare di cardiomiopatia, si presenta per screening. Si procede con un ECG per valutare la funzione cardiaca e identificare eventuali anomalie. Successivamente, si esegue un ecocardiogramma per valutare la morfologia e la funzione ventricolare. Infine, si eseguono analisi degli elettroliti per escludere altre cause di sintomi.",
+  "goldPathNarrative": "1) Familiarità. 2) Sintomi e sincope. 3) ECG. 4) Eco. 5) Non coronarografia di screening. 6) Informazione. 7) Follow-up familiare.",
   "escCitations": [
     {
       "chunkId": "0fcd2244-c075-46b2-86dd-6d345c04e920-278",
@@ -270,5 +270,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Cardiomyopathies_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Familiarità",
+      "prompt": "Cosa chiedi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Morte improvvisa in famiglia, sincope, dispnea, murmure",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un test genetico commerciale prima di visitare",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG",
+      "prompt": "Quale primo esame?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "PET da 1071 euro",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco",
+      "prompt": "Quale imaging diagnostico?",
+      "cost": 61.97,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Ecocardio, per lo spessore e l'ostruzione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Coronarografia di screening",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Elettroliti",
+      "prompt": "Perché li dosi?",
+      "cost": 15,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Per non scambiare un disturbo metabolico per la malattia",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Un pannello di dieci ormoni",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Diagnosi",
+      "prompt": "L'eco mostra ipertrofia non spiegata. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Gli dici diagnosi, rischi e alternative di follow-up",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Gli dici che è tutto normale per non spaventarlo",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto del follow-up",
+      "prompt": "È capace e rifiuta i controlli dopo la spiegazione.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Annoti il rifiuto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Lo iscrivi di forza a un programma invasivo",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Famiglia",
+      "prompt": "Cosa proponi ai parenti di primo grado?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Valutazione clinica, non un esame a caso",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Una PET ciascuno",
+          "next": "res-eco-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Screening con ECG ed eco",
+      "prompt": "ECG ed ecocardio, nessuna coronarografia di screening, diagnosi spiegata.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "Genetica prima della clinica",
+      "prompt": "Il primo passo è la clinica, l'ECG e l'eco, non un test a pagamento fatto al posto della visita.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "PET nello screening",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. Nomenclatore specialistica ambulatoriale, codice 89.52: elettrocardiogramma, tariffa 11,62 euro. Lo screening non parte dalla PET.",
+      "cost": 11.62,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Coronarografia nello screening",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 88.72.3: ecocolordopplergrafia cardiaca, tariffa 61,97 euro. L'eco vede il fenotipo. La coronarografia non è lo screening della familiare.",
+      "cost": 61.97,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Ormoni non indicati",
+      "prompt": "Gli elettroliti escludono un mimico a basso costo. Un pannello ormonale esteso no.",
+      "cost": 15,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Diagnosi taciuta",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Follow-up imposto",
+      "prompt": "Legge 219/2017, art. 1 commi 5 e 6: il paziente capace può rifiutare il trattamento e il medico deve rispettare il rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-7",
+      "type": "resolution",
+      "title": "PET sui parenti",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. Non è lo screening dei familiari.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

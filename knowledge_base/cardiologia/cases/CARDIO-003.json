@@ -115,7 +115,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Procedere con ECG, dosaggio della troponina-hs, elettroliti, gasometria arteriosa, ecocardiogramma e preparazione per pacing.",
+  "correctSolution": "STEMI inferiore con blocco di alto grado: ECG con derivazioni destre, riperfusione, pacing se serve, cure d'emergenza senza attendere i familiari.",
   "patientPrompt": "Mi chiamo Giovanni e Ho 79 anni. Sono qui perché ho un dolore al petto che si irradia al braccio sinistro, è molto forte e mi sento debole. Ho anche sudore freddo e mi sembra di non riuscire a respirare bene. Ho una storia di pressione alta e diabete, ma non ho mai avuto problemi cardiaci prima d'ora.",
   "id": "CARDIO-003",
   "code": "CARDIO-003",
@@ -228,7 +228,7 @@
     "killipClass": "III",
     "summary": "Il paziente presenta tachicardia, ipotensione, sudorazione profusa e dispnea. All'auscultazione cardiaca, si nota un ritmo irregolare. La saturazione di ossigeno è bassa e la frequenza respiratoria è elevata."
   },
-  "goldPathNarrative": "Giovanni viene sottoposto a un elettrocardiogramma che mostra un'infiammazione del segmento ST. I test di laboratorio rivelano elevati livelli di troponina-hs, confermando un infarto miocardico acuto. Viene eseguita una gasometria arteriosa che mostra una compromissione dell'ossigenazione. L'ecocardiogramma evidenzia disfunzione ventricolare sinistra. Dato il blocco atrioventricolare di alto grado, si decide di procedere con il pacing temporaneo. Dopo la stabilizzazione, Giovanni viene trasferito per una coronarografia.",
+  "goldPathNarrative": "1) Dolore inferiore e bradicardia. 2) ECG e derivazioni destre. 3) Riperfusione. 4) Pacing temporaneo se il blocco condiziona l'emodinamica. 5) Emergenza senza firma dei familiari. 6) Non TC encefalo. 7) Controllo del ritmo dopo la riperfusione.",
   "escCitations": [
     {
       "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-333",
@@ -330,5 +330,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Dolore e polso lento",
+      "prompt": "Cosa leghi al primo sguardo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Dolore inferiore, bradicardia, pressione e ossigeno",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Chiamarla vagale e osservarla in corridoio",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG completo",
+      "prompt": "Quali derivazioni registri?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Dodici derivazioni e, nel sospetto inferiore, destre V3R-V4R",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Solo una striscia di monitor",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Riperfusione",
+      "prompt": "C'è sopraslivellamento inferiore. Cosa attivi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Angioplastica primaria, subito",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Trombolisi «domani mattina, con calma»",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Pacing",
+      "prompt": "Il blocco di alto grado non è tollerato. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Pacing temporaneo e poi la sala, senza perdere la riperfusione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Atropina a ripetizione e nessun pacing",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Firma in emergenza",
+      "prompt": "Non riesce a firmare. La figlia vuole leggere il consenso con calma.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Si procede e si annota l'emergenza",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Si aspetta la figlia prima del pacing",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "RM encefalo",
+      "prompt": "Qualcuno chiede una RM encefalo per la bradicardia.",
+      "cost": 222.08,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non ora: il quadro è coronarico",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "RM encefalo da 222 euro prima di sala e pacing",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo la riperfusione",
+      "prompt": "Il blocco si risolve. Cosa controlli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Ritmo, pressione e sito di accesso, e spieghi cosa è successo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Dimissione nella notte senza un ECG di controllo",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "STEMI inferiore e blocco trattati",
+      "prompt": "Riperfusione e pacing senza anteporre una TC encefalo o la firma dei familiari.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Blocco letto come vagale",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "ECG incompleto",
+      "prompt": "Nel sospetto di STEMI inferiore è raccomandato registrare le derivazioni precordiali destre. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Riperfusione rinviata",
+      "prompt": "La priorità dello STEMI è la riperfusione il prima possibile. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Blocco non supportato",
+      "prompt": "Il pacing temporaneo fa parte della stabilizzazione di questo STEMI. Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Attesa del familiare",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "RM che ritarda la sala",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 88.91.1: RM del cervello e del tronco encefalico, tariffa 222,08 euro. Non è il primo esame di uno STEMI inferiore. Nomenclatore specialistica ambulatoriale, codice 89.52: elettrocardiogramma, tariffa 11,62 euro.",
+      "cost": 222.08,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Nessun controllo del ritmo",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

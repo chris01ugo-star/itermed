@@ -91,7 +91,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un ecocolordoppler per valutare la circolazione periferica, seguito da un assetto lipidico, glicemia e HbA1c per escludere altre complicanze.",
+  "correctSolution": "Claudicatio: ecocolordoppler arterioso, lipidi, glicemia, glicata, esercizio. Non angiografia come primo esame. Rivascolarizzazione solo dopo informazione, se indicata.",
   "patientPrompt": "Da qualche mese avverto un dolore ai polpacci quando cammino, che mi costringe a fermarmi. Questo dolore si allevia dopo pochi minuti di riposo. Ho notato che la distanza che riesco a percorrere prima che il dolore si manifesti è diminuita. Sono preoccupato per la mia condizione e vorrei sapere cosa posso fare per migliorare.",
   "id": "CARDIO-025",
   "code": "CARDIO-025",
@@ -199,7 +199,7 @@
     "killipClass": "I",
     "summary": "All'esame obiettivo, si notano pulsazioni ridotte a livello dei piedi e dei polpacci. Non ci sono segni di ulcere o lesioni cutanee. La pressione arteriosa è controllata e i segni vitali sono stabili. Non si evidenziano anomalie cardiache durante l'auscultazione."
   },
-  "goldPathNarrative": "La gestione di Giovanni prevede un ecocolordoppler per valutare la gravità dell'arteriopatia periferica. Successivamente, si procederà con un assetto lipidico per monitorare i livelli di colesterolo e un test glicemico per escludere il diabete. Infine, si misurerà l'HbA1c per avere un quadro completo della sua salute metabolica. Questo percorso diagnostico è conforme alle linee guida ESC per l'arteriopatia periferica.",
+  "goldPathNarrative": "1) Claudicatio. 2) Polsi e distanza. 3) Ecocolordoppler. 4) Lipidi e glicemia. 5) Esercizio. 6) Non angiografia di apertura. 7) Consenso se poi serve una procedura.",
   "escCitations": [
     {
       "chunkId": "a1cab4a0-1edc-4326-a3cb-3f022eef61ea-280",
@@ -287,5 +287,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Marcia",
+      "prompt": "Cosa misuri?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Distanza libera, dolore a riposo, ulcere, fumo, diabete",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un'angiografia prenotata senza visitare i polsi",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Doppler",
+      "prompt": "Quale esame dell'arto?",
+      "cost": 80,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Ecocolordoppler arterioso",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Coronarografia «già che c'è»",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Metabolismo",
+      "prompt": "Cosa dosi?",
+      "cost": 25,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Lipidi, glicemia, glicata",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Un pannello autoimmune",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Esercizio",
+      "prompt": "Qual è il trattamento della claudicatio?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Programma di esercizio, oltre al controllo dei fattori di rischio",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Stent lo stesso giorno, come unica proposta",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Se il dolore è a riposo",
+      "prompt": "Compare dolore a riposo e una lesione. Cosa cambia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non è più una claudicatio semplice: serve valutazione vascolare urgente",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Lo rimandi tra sei mesi",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso",
+      "prompt": "Serve una rivascolarizzazione. È capace.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Benefici, rischi e alternative, in cartella",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Lo porti in sala senza parlare",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Follow-up",
+      "prompt": "Cosa ricontrolli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Distanza, fumo, glicemia, aderenza",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Nessun controllo",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Claudicatio inquadrata",
+      "prompt": "Ecocolordoppler, rischio metabolico, esercizio. Angiografia non di primo livello. Consenso se si arriva a una procedura.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "Angiografia senza clinica",
+      "prompt": "Nella claudicatio il primo imaging non è l'angiografia. Servono clinica ed ecocolordoppler.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "Coronarografia nella claudicatio",
+      "prompt": "La coronarografia non mappa l'arteriopatia dell'arto. L'ecocolordoppler sì.",
+      "cost": 80,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Autoanticorpi nella claudicatio",
+      "prompt": "Lipidi e glicemia cambiano la terapia del rischio. Gli autoanticorpi no.",
+      "cost": 25,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Stent senza alternative",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella. L'esercizio è un trattamento della claudicatio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Ischemia critica rinviata",
+      "prompt": "Il dolore a riposo e la lesione escono dalla claudicatio stabile e non si rinviano di mesi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Procedura senza consenso",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Arteriopatia senza follow-up",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

@@ -113,7 +113,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un emocromo, PCR, PCT, emocolture, ecocardiogramma, creatinina, urea, GFR e analisi delle urine.",
+  "correctSolution": "Endocardite su valvola nativa: almeno tre set di emocolture prima dell'antibiotico, poi eco. Non PET e non colonscopia come primo esame. Informazione sulla terapia.",
   "patientPrompt": "Ho 46 anni e sono venuto in ospedale perché ho febbre alta e mi sento molto stanco. Ho avuto un'infezione dentale alcune settimane fa e non riesco a respirare bene. Le gambe mi fanno male e sono gonfie. Ho paura che ci sia qualcosa di serio.",
   "id": "CARDIO-029",
   "code": "CARDIO-029",
@@ -222,7 +222,7 @@
     "killipClass": "III",
     "summary": "Giovanni presenta un respiro affannoso, edemi agli arti inferiori, febbre, sudorazione e un soffio cardiaco diastolico udibile. La saturazione di ossigeno è bassa e la frequenza respiratoria è aumentata."
   },
-  "goldPathNarrative": "Il paziente presenta sintomi e segni compatibili con endocardite infettiva. Si inizia un percorso diagnostico che comprende emocromo per valutare l'emocromo e la presenza di infezione, PCR e PCT per identificare l'infiammazione, emocolture per identificare eventuali patogeni, ecocardiogramma per valutare la presenza di vegetazioni valvolari, e test di funzionalità renale. Gli esami di imaging come PET-TC e colonscopia non sono indicati in questa fase.",
+  "goldPathNarrative": "1) Febbre e soffio. 2) Tre set di emocolture prima dell'antibiotico. 3) Eco. 4) Laboratorio di infiammazione e rene. 5) Antibiotico dopo le colture. 6) Non PET di apertura. 7) Informazione e follow-up.",
   "escCitations": [
     {
       "chunkId": "bea1b353-43bf-4834-88ce-646ec62209c5-526",
@@ -324,5 +324,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Endocarditis_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Febbre e valvola",
+      "prompt": "Cosa chiedi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Febbre, soffio nuovo, emboli, procedure, allergie agli antibiotici",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un antibiotico in pronto soccorso prima di ogni prelievo",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Tre set",
+      "prompt": "Come prelevi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Tre set da vena periferica, prima dell'antibiotico",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Un solo set dal catetere venoso centrale",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco",
+      "prompt": "Quale imaging della valvola?",
+      "cost": 61.97,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Ecocardio, alla ricerca di vegetazioni",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Colonscopia come primo esame",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Laboratorio",
+      "prompt": "Cosa aggiungi?",
+      "cost": 40,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Emocromo, PCR, procalcitonina, rene, urine",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "PET da 1071 euro prima delle colture",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antibiotico",
+      "prompt": "Le colture sono partite. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Antibiotico empirico, poi mirato, spiegato",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Aspetti una settimana il risultato senza coprire un paziente settico",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Informazione",
+      "prompt": "È vigile. Come gli dici la terapia lunga?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Durata, rischi, alternative, in cartella",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Gliela appendi senza una frase",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Follow-up",
+      "prompt": "Cosa ricontrolli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Febbre, colture, eco, funzione renale",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Dimissione il giorno dopo senza un piano",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Colture prima dell'antibiotico",
+      "prompt": "Tre set prima dell'antibiotico, eco, niente PET di primo livello, terapia spiegata.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Antibiotico prima delle colture",
+      "prompt": "Almeno tre set di emocolture vanno ottenuti prima della terapia antibiotica. Il documento dice che la coltura prima dell'antibiotico è necessaria.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Set unico dal catetere",
+      "prompt": "I prelievi si fanno da vena periferica, non dal catetere centrale, per il rischio di contaminazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Colonscopia nell'endocardite",
+      "prompt": "La colonscopia non è l'esame di questa fase. L'eco cerca le vegetazioni.",
+      "cost": 61.97,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "PET prima delle colture",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. Su valvola nativa il primo passo sono colture ed eco, non la PET.",
+      "cost": 40,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Sepsi non coperta",
+      "prompt": "Dopo le colture l'antibiotico non si rimanda se il paziente è settico. Prima delle colture, invece, non si inizia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Terapia senza informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Endocardite senza piano",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

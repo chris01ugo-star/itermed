@@ -113,7 +113,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Iniziare il trattamento con diuretici per alleviare i sintomi di congestione e procedere con la valutazione diagnostica secondo il gold path ESC.",
+  "correctSolution": "HFpEF congesto: diuretico per i sintomi, ECG, peptide, radiografia, eco, rene. Non la quadruplice dell'HFrEF al posto della diagnosi. Non PET.",
   "patientPrompt": "Mi chiamo Giulia e Ho 84 anni. Sono venuta in ospedale perché ho avuto difficoltà a respirare e mi sento molto stanca. Ho notato che il mio peso è aumentato e ho gonfiore alle gambe. Non ho mai avuto problemi di cuore gravi prima d'ora, ma ho una storia di pressione alta e diabete. Ho avuto un raffreddore di recente, ma non penso che sia la causa dei miei sintomi.",
   "id": "CARDIO-013",
   "code": "CARDIO-013",
@@ -225,7 +225,7 @@
     "killipClass": "III",
     "summary": "All'esame fisico, Giulia presenta segni di congestione polmonare con crepitii bilaterali, edema agli arti inferiori e tachicardia. La pressione arteriosa è stabile, ma la saturazione di ossigeno è bassa. È ansiosa e mostra segni di affaticamento."
   },
-  "goldPathNarrative": "Dopo aver stabilito la diagnosi di scompenso cardiaco a frazione d'eiezione conservata, si procede con un ECG per valutare eventuali anomalie cardiache, seguito da un dosaggio di NT-proBNP per confermare la diagnosi. Successivamente, si esegue una radiografia del torace per valutare la congestione polmonare e un ecocardiogramma per analizzare la funzione cardiaca. Infine, si eseguono esami di laboratorio per controllare gli elettroliti e la funzione renale.",
+  "goldPathNarrative": "1) Congestione in degenza. 2) Escludere altre cause. 3) Eco con eiezione conservata. 4) Diuretico. 5) Comorbidità. 6) Non PET. 7) Piano spiegato.",
   "escCitations": [
     {
       "chunkId": "18335d3c-f44d-49b1-83ba-ccdd43716688-232",
@@ -327,5 +327,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Congestione",
+      "prompt": "Cosa documenti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Edemi, ortopnea, peso, pressione",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un diuretico senza visitare",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Mimi",
+      "prompt": "Cosa escludi prima di chiamarla HFpEF?",
+      "cost": 40,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Anemia, polmone, ECG, peptide, radiografia",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "PET miocardica da 1071 euro",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco",
+      "prompt": "Quale dato chiude il fenotipo?",
+      "cost": 61.97,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Ecocardio: eiezione conservata e segni di riempimento",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Chiamarla HFrEF senza misurare l'eiezione e partire con ARNI e antialdosteronico",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Diuretico",
+      "prompt": "È congesto. Cosa è raccomandato?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Diuretico per alleviare sintomi e segni",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Niente diuretico «perché l'eiezione è buona»",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Comorbidità",
+      "prompt": "Cosa tratti insieme?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Ipertensione, ischemia, anemia, ritmo, come parte della gestione",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Solo il diuretico e nessuna comorbidità",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Come gli dici la diagnosi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Prognosi, cosa aspettarsi, alternative, in cartella",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "«Cuore stanco» senza un'altra frase",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Follow-up",
+      "prompt": "Cosa ricontrolli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Peso, sintomi, rene, potassio",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Dimissione senza un appuntamento",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "HFpEF decongestionato",
+      "prompt": "Diagnosi con eco e peptide, diuretico se congesto, nessuna PET e nessuna etichetta di HFrEF senza eiezione.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Diuretico senza visita",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "PET per gli edemi",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. Non è l'esame con cui si diagnostica l'HFpEF.",
+      "cost": 40,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Fenotipo sbagliato",
+      "prompt": "I quattro farmaci di fondo citati dal documento sono per l'HFrEF. Qui serve prima l'eiezione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Congestione non trattata",
+      "prompt": "I diuretici sono raccomandati nei pazienti con HFpEF congesto per alleviare sintomi e segni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Comorbidità ignorate",
+      "prompt": "Nel documento, identificare e trattare eziologie e comorbidità è raccomandato nell'HFpEF.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Diagnosi non detta",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Scompenso senza controllo",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

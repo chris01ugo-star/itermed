@@ -91,7 +91,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Ecografia addominale per valutare la presenza di aneurisma dell'aorta addominale.",
+  "correctSolution": "Aneurisma addominale sintomatico: ecografia subito, poi valutazione dell'aorta, non una risonanza rinviata e non una colonscopia. Informazione. Se è instabile, cure d'emergenza.",
   "patientPrompt": "Mi chiamo Giovanni e Ho 77 anni. Sono venuto qui perché ho un dolore addominale molto forte che non se ne va. Sento anche che è difficile respirare e mi sento molto ansioso. Ho avuto un po' di tosse di recente, ma non pensavo fosse grave.",
   "id": "CARDIO-026",
   "code": "CARDIO-026",
@@ -200,7 +200,7 @@
     "killipClass": "III",
     "summary": "All'esame fisico, Giovanni presenta un addome teso e dolente alla palpazione, con segni di possibile irritazione peritoneale. La frequenza cardiaca è elevata e la saturazione di ossigeno è bassa. Non si riscontrano soffi cardiaci anomali."
   },
-  "goldPathNarrative": "Iniziare con un'ecografia addominale per confermare la presenza di aneurisma dell'aorta addominale. Seguire con un ecocolordoppler per valutare il flusso sanguigno e la dimensione dell'aneurisma. Eseguire emocromo e test di funzionalità renale (creatinina, urea, GFR) per valutare lo stato generale del paziente e la presenza di eventuali complicanze.",
+  "goldPathNarrative": "1) Dolore e massa pulsatile. 2) Stabilità. 3) Ecografia subito. 4) Non colonscopia. 5) Se instabile, emergenza. 6) Informazione. 7) Non una RM tra un mese al posto dell'eco di oggi.",
   "escCitations": [
     {
       "chunkId": "a1cab4a0-1edc-4326-a3cb-3f022eef61ea-392",
@@ -288,5 +288,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Massa pulsatile",
+      "prompt": "Cosa non rimandi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Dolore addominale e massa pulsatile si vedono oggi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Una visita tra un mese",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Stabilità",
+      "prompt": "Come lo misuri?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Pressione, dolore, segni di rottura",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Solo la temperatura",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco",
+      "prompt": "Quale primo imaging?",
+      "cost": 40,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Ecografia addominale",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Colonscopia",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Tutta l'aorta",
+      "prompt": "Trovato l'aneurisma, cosa è raccomandato?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Valutare l'intera aorta, non solo il tratto già visto",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Fermarsi al primo fotogramma",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se crolla",
+      "prompt": "Diventa ipoteso. I figli non ci sono.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Cure d'emergenza e chirurgia vascolare, annotate",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Si aspetta la famiglia",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se è stabile e capace",
+      "prompt": "Come gli dici l'aneurisma?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Rischi, alternative, tempi, in cartella",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Glissa per non spaventarlo",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "RM rinviata",
+      "prompt": "Un collega propone una RM tra sei settimane al posto dell'eco di oggi.",
+      "cost": 222,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No: l'eco è oggi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "RM encefalo o addome rinviata, e nel frattempo a casa senza imaging",
+          "next": "res-eco-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Aneurisma visto oggi",
+      "prompt": "Ecografia immediata, niente colonscopia e niente RM rinviata. Se instabile, cure d'emergenza.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Aneurisma sintomatico rinviato",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Rottura non cercata",
+      "prompt": "Ipotensione e dolore cambiano l'urgenza. Vanno misurati.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Colonscopia sull'aneurisma",
+      "prompt": "La colonscopia non vede l'aorta e ritarda l'ecografia.",
+      "cost": 40,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Aorta incompleta",
+      "prompt": "Quando si identifica un aneurisma aortico, è raccomandato valutare l'intera aorta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Rottura in attesa dei figli",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Diagnosi taciuta",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-7",
+      "type": "resolution",
+      "title": "RM che sostituisce l'eco di oggi",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 88.91.1: RM del cervello e del tronco encefalico, tariffa 222,08 euro. Non è il primo esame di una massa pulsatile dolorosa, e rinviarla lascia il paziente senza diagnosi.",
+      "cost": 222,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

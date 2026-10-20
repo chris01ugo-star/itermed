@@ -102,7 +102,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Iniziare il trattamento con labetalolo per via endovenosa per ridurre la pressione arteriosa in modo controllato e monitorare i segni vitali della paziente.",
+  "correctSolution": "Urgenza ipertensiva senza danno acuto: work-up per escluderlo, poi terapia orale, di solito senza ricovero. Non labetalolo endovenoso. Non RM encefalo.",
   "patientPrompt": "Mi chiamo Laura e Ho 48 anni. Sono qui perché ho avuto un forte mal di testa e mi sento molto ansiosa. Ho anche la vista offuscata e un forte dolore al petto che si irradia alla schiena. Non riesco a respirare bene e mi sento debole. Cosa mi sta succedendo?",
   "id": "CARDIO-006",
   "code": "CARDIO-006",
@@ -213,12 +213,12 @@
     "killipClass": "I",
     "summary": "Paziente in stato ansioso, pallida e sudata. Frequenza cardiaca elevata, respiro affannoso e pressione arteriosa molto alta. Non presenta segni di edema o alterazioni neurologiche evidenti."
   },
-  "goldPathNarrative": "La paziente presenta una crisi ipertensiva con valori di pressione arteriosa molto elevati. È necessario eseguire un ECG per escludere ischemie miocardiche, segnalare i livelli di creatinina e urea per valutare la funzionalità renale, controllare gli elettroliti e analizzare le urine per escludere eventuali danni renali. La troponina deve essere monitorata per escludere un infarto miocardico acuto.",
+  "goldPathNarrative": "1) Sintomi e pressione. 2) Escludere ischemia, rene e danno acuto. 3) Se non c'è danno acuto, terapia orale. 4) Non ricovero automatico. 5) Informazione. 6) Non RM. 7) Rivalutazione ravvicinata ambulatoriale.",
   "escCitations": [
     {
       "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-477",
       "source": "knowledge_base/cardiologia/clinical/ESC_2024_Hypertension_Guidelines.pdf",
-      "quote": "A, transient ischaemic attack. aClass of recommendation. bLevel of evidence. Recommendation Table 33 — Recommendations for acutely managing blood pressure in patients with severe hypertension in pregnancy and pre-eclampsia (see Evidence Table 46) Recommendation Classa Levelb In pre-eclampsia or eclampsia with hypertensive crisis, drug treatment with i.v. labetalol or nicardipine and magnesium is recommended.971 I C In pre-eclampsia or eclampsia associated with pulmonary oedema, nitroglycerin giv"
+      "quote": "Hypertensive emergency is BP of at least 180/110 mmHg associated with acute organ damage and often requires immediate intravenous therapy. Hypertension urgency is severe hypertension without clinical evidence of acute organ damage: these patients require blood pressure reduction, do not usually require hospital admission, and blood pressure reduction is best achieved with oral medication."
     },
     {
       "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-464",
@@ -308,5 +308,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Pressione e sintomi",
+      "prompt": "Cosa definisce il quadro prima del farmaco?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Pressione molto alta e ricerca di dolore toracico, dispnea, deficit neurologico",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Dare subito un endovenoso senza chiedere i sintomi",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Escludere il danno acuto",
+      "prompt": "Quali esami usi per distinguere urgenza ed emergenza?",
+      "cost": 40,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG, creatinina, elettroliti, urine e troponina",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "RM encefalo da 222 euro come unico esame",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaco",
+      "prompt": "Gli esami non mostrano danno acuto. Cosa prescrivi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Terapia orale secondo l'algoritmo, non endovena",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Labetalolo endovenoso",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Setting",
+      "prompt": "Serve il ricovero?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Di solito no: revisione ambulatoriale più stretta",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Ricovero in terapia intensiva per definizione",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Spiegazione",
+      "prompt": "Come chiudi la visita?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Spieghi i segni che devono farla tornare e annoti il piano",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "La mandi via senza una frase",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Familiari",
+      "prompt": "Il marito chiede di costringerla a un ricovero che lei, capace, rifiuta.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Rispetti il rifiuto, dopo aver spiegato le conseguenze",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "La ricoveri contro la sua volontà",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo",
+      "prompt": "Quando la rivedi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Rivalutazione ravvicinata dei valori",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Controllo tra un anno",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Urgenza trattata per bocca",
+      "prompt": "Danno acuto escluso, terapia orale, niente labetalolo endovenoso e niente RM encefalo.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Farmaco prima del quadro",
+      "prompt": "L'emergenza è pressione almeno 180/110 con danno d'organo acuto. Senza quella ricerca non sai se è un'urgenza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "RM al posto del work-up",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 88.91.1: RM del cervello e del tronco encefalico, tariffa 222,08 euro. Nomenclatore specialistica ambulatoriale, codice 89.52: elettrocardiogramma, tariffa 11,62 euro. Il work-up dell'urgenza non è una RM encefalo.",
+      "cost": 40,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Endovena in un'urgenza",
+      "prompt": "L'urgenza senza danno acuto si tratta per bocca. L'endovena è dell'emergenza, o della crisi in gravidanza con pre-eclampsia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Intensiva non indicata",
+      "prompt": "Senza danno acuto non è richiesto il ricovero. L'intensiva è un costo e un setting dell'emergenza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Piano non detto",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Rifiuto non rispettato",
+      "prompt": "Legge 219/2017, art. 1 commi 5 e 6: il paziente capace può rifiutare il trattamento e il medico deve rispettare il rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Urgenza senza revisione",
+      "prompt": "Questi pazienti possono richiedere una revisione ambulatoriale più urgente per verificare il controllo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

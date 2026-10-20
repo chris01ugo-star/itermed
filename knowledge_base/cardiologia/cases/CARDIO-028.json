@@ -102,7 +102,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire ECG, ecocardiogramma, esami di laboratorio (PT, PTT, INR), beta-hCG ed emocromo per monitorare la situazione e gestire il rischio.",
+  "correctSolution": "Protesi meccanica in gravidanza: ECG, eco, INR ed emocromo. Non sospendere l'anticoagulante di propria iniziativa. Ogni cambio di terapia si informa e si documenta. Non TC di routine.",
   "patientPrompt": "Mi chiamo Chiara e Ho 29 anni. Sono incinta di 24 settimane e ho una protesi valvolare meccanica. Ultimamente ho avuto difficoltà a respirare e mi sento molto stanca. Ho anche notato che le mie caviglie si gonfiano. Sono preoccupata per la mia salute e quella del mio bambino.",
   "id": "CARDIO-028",
   "code": "CARDIO-028",
@@ -213,7 +213,7 @@
     "killipClass": "III",
     "summary": "All'esame obiettivo, Chiara presenta tachicardia, ipotensione e saturazione di ossigeno ridotta. L'auscultazione cardiaca rivela un soffio sistolico e un ritmo irregolare. La palpazione dell'addome mostra un leggero ingrossamento uterino. Edema bilaterale alle caviglie."
   },
-  "goldPathNarrative": "La paziente deve essere monitorata attentamente a causa della sua protesi valvolare meccanica e della gravidanza. È fondamentale eseguire un ECG per valutare il ritmo cardiaco e possibili aritmie. L'ecocardiogramma aiuterà a valutare la funzione cardiaca e la situazione della valvola. Gli esami di laboratorio sono essenziali per controllare i parametri di coagulazione, dato che la paziente è in terapia anticoagulante. È importante anche monitorare i livelli di beta-hCG e l'emocromo per valutare eventuali complicanze legate alla gravidanza.",
+  "goldPathNarrative": "1) Gravidanza e protesi. 2) Quale anticoagulante prende. 3) Eco e INR. 4) Non stop empirico. 5) Informazione su benefici e rischi di ogni cambio. 6) Non TC. 7) Follow-up ostetrico e cardiologico.",
   "escCitations": [
     {
       "chunkId": "a63fbbb6-fc91-4658-bdae-6bc7efbf480e-385",
@@ -308,5 +308,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Pregnancy_Cardiovascular_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Protesi e settimane",
+      "prompt": "Cosa deve essere chiaro?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Settimane, farmaco anticoagulante, dose, aderenza, sanguinamenti",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Sospendere tutto «perché è incinta» senza chiedere il nome del farmaco",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG",
+      "prompt": "Quale primo esame del ritmo?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "TC torace di routine",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco e INR",
+      "prompt": "Cosa misura la protesi e la coagulazione?",
+      "cost": 70,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Ecocardio e INR, più emocromo",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Una PET",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Stop empirico",
+      "prompt": "Vuole smettere l'anticoagulante da sola, spaventata.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Le spieghi trombosi di protesi ed emorragia, e non lo sospendi di tua iniziativa",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Glielo sospendi per accontentarla, senza una frase",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto capace",
+      "prompt": "Dopo la spiegazione rifiuta un cambio di molecola.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Annoti il rifiuto",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Cambî il farmaco senza dirglielo",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Emergenza",
+      "prompt": "Va in edema e non riesce a firmare.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Tratti l'edema e annoti",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Aspetti un familiare prima dell'ossigeno",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Follow-up",
+      "prompt": "Cosa programmi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Controlli di INR, eco e ostetricia, scritti",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Un solo prelievo e poi nulla fino al parto",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Protesi sorvegliata in gravidanza",
+      "prompt": "Eco e INR, anticoagulante non sospeso di nascosto, cambio di terapia solo dopo informazione. Nessuna TC di routine.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Stop alla cieca",
+      "prompt": "Sospendere l'anticoagulante di una protesi meccanica senza una valutazione espone a trombosi. Va documentato il farmaco in corso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "TC in gravidanza di routine",
+      "prompt": "La TC non è l'esame di primo livello per sorvegliare una protesi in una paziente stabile. L'ECG costa 11,62 euro.",
+      "cost": 11.62,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "PET in gravidanza",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. Non sorveglia la protesi. Eco e INR sì.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Sospensione non discussa",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Cambio imposto",
+      "prompt": "Legge 219/2017, art. 1 commi 5 e 6: il paziente capace può rifiutare il trattamento e il medico deve rispettare il rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Edema in attesa della firma",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Gravidanza senza controlli",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

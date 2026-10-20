@@ -102,7 +102,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un ECG, dosare gli elettroliti, la troponina-hs, il PT-PTT-INR e un ecocardiogramma per valutare la funzione cardiaca e il rischio di tromboembolia.",
+  "correctSolution": "Fibrillazione atriale di nuova insorgenza: ECG che fa diagnosi, stratificazione, ecocardio. Se è stabile, consenso prima di una cardioversione. Non coronarografia di default.",
   "patientPrompt": "Mi chiamo Giovanni e Ho 64 anni. Oggi sono venuto alla Guardia Medica perché ho sentito il cuore battere in modo strano e veloce. Ho anche un po' di difficoltà a respirare e mi sento ansioso. Non ho mai avuto problemi di cuore prima d'ora.",
   "id": "CARDIO-008",
   "code": "CARDIO-008",
@@ -214,7 +214,7 @@
     "killipClass": "I",
     "summary": "All'esame obiettivo, Giovanni presenta tachicardia, respiro affannoso e sudorazione. Non ci sono segni di insufficienza cardiaca congestizia. L'auscultazione cardiaca rivela un ritmo irregolare, e i polmoni mostrano un leggero rantolo."
   },
-  "goldPathNarrative": "Iniziare con un ECG per confermare la diagnosi di fibrillazione atriale. Successivamente, eseguire analisi di laboratorio per gli elettroliti e la troponina-hs per escludere un infarto. Monitorare PT-PTT-INR per valutare la coagulazione. Infine, un ecocardiogramma per valutare la funzione cardiaca e le strutture cardiache.",
+  "goldPathNarrative": "1) Palpitazioni. 2) ECG. 3) Elettroliti e troponina. 4) Eco. 5) Se stabile, informazione prima di cardiovertire. 6) Non PET. 7) Piano sul ritmo e sul rischio.",
   "escCitations": [
     {
       "chunkId": "614c32b3-6007-482b-bcec-d60b2d4af3ae-98",
@@ -309,5 +309,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Palpitazioni nuove",
+      "prompt": "Cosa chiedi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Inizio, durata, sincope, dolore, terapia in corso",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Una compressa di ansiolitico senza ECG",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG",
+      "prompt": "Quale esame chiude la diagnosi?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG a 12 derivazioni",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Holter tra tre mesi come unico gesto",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Trigger",
+      "prompt": "Cosa dosi insieme?",
+      "cost": 25,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Elettroliti e troponina ad alta sensibilità",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Pannello autoimmune",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco",
+      "prompt": "Quale imaging?",
+      "cost": 61.97,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Ecocolordoppler cardiaco",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Coronarografia subito, senza un'indicazione ischemica",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cardioversione",
+      "prompt": "È vigile, pressione tenuta, chiede cosa comporta lo shock.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Spieghi rischi e alternative e documenti il consenso",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Cardioversione senza una frase, «tanto è un gesto breve»",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "PET",
+      "prompt": "Propongono una PET per «vedere il cuore».",
+      "cost": 1071.65,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non ora",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "PET da 1071 euro",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Piano",
+      "prompt": "Cosa lasci?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Stratificazione del rischio e controllo, con la terapia spiegata",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "«Torni se sviene»",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Fibrillazione inquadrata",
+      "prompt": "Diagnosi con l'ECG, eco, nessuna PET, cardioversione solo dopo informazione se la paziente è stabile.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Aritmia non registrata",
+      "prompt": "La diagnosi di fibrillazione atriale clinica si fa con l'ECG. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Diagnosi rinviata",
+      "prompt": "È raccomandato un ECG a 12 derivazioni per stabilire la diagnosi. Nomenclatore specialistica ambulatoriale, codice 89.52: elettrocardiogramma, tariffa 11,62 euro.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Pannello non richiesto",
+      "prompt": "Elettroliti e troponina rispondono a cause correggibili e a ischemia. Un pannello autoimmune non è il primo passo.",
+      "cost": 25,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Coronarografia di default",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 88.72.3: ecocolordopplergrafia cardiaca, tariffa 61,97 euro. L'eco costa 61,97 euro e valuta funzione e strutture. La coronarografia non è il primo esame di una fibrillazione nuova stabile.",
+      "cost": 61.97,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Shock senza consenso",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "PET nella fibrillazione nuova",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. Non serve a fare la diagnosi di fibrillazione.",
+      "cost": 1071.65,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Nessuna stratificazione",
+      "prompt": "Dopo la diagnosi si avvia la stratificazione del rischio. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

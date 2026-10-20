@@ -4,12 +4,11 @@
   "difficulty": "HARD",
   "goldStandardPath": [
     "ecg",
+    "angio",
     "troponina-hs",
     "rx-torace",
-    "ddimero",
     "pt-ptt-inr",
-    "creat-urea-gfr",
-    "angio"
+    "creat-urea-gfr"
   ],
   "baselineExamFindings": {
     "vitals": {
@@ -124,7 +123,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Seguire il gold path ESC: ECG, troponina-hs, RX torace, D-dimero, PT-PTT-INR, creatinina-urea-GFR, angio.",
+  "correctSolution": "Dolore lacerante e ipotensione: ADD-RS almeno 2. ECG per escludere lo STEMI, poi angio-TC dal collo al bacino senza attendere il D-dimero. Riparazione chirurgica immediata del tipo A. In emergenza non si aspettano i familiari.",
   "patientPrompt": "Mi chiamo Giovanni e Ho 86 anni. Sono venuto al pronto soccorso perché ho un dolore toracico molto forte che si irradia alla schiena. È iniziato all'improvviso mentre facevo esercizio. Ho difficoltà a respirare e mi sento molto debole. Ho una storia di ipertensione e ho subito un intervento chirurgico al cuore qualche anno fa.",
   "id": "CARDIO-030",
   "code": "CARDIO-030",
@@ -237,12 +236,12 @@
     "killipClass": "III",
     "summary": "Giovanni presenta segni vitali alterati con tachicardia, ipotensione e ipossiemia. All'esame fisico, si nota un pallore e sudorazione. Il torace è doloroso alla palpazione e si avverte un soffio aortico."
   },
-  "goldPathNarrative": "Dopo aver eseguito l'ECG, si evidenziano segni di ischemia. La troponina-hs risulta elevata, suggerendo un danno miocardico. La RX torace mostra un'ampia dilatazione dell'aorta. I livelli di D-dimero sono elevati, il che supporta il sospetto di un evento tromboembolico. Gli esami della coagulazione sono nella norma. La creatinina e l'urea sono nella norma, ma l'angiografia conferma la dissezione aortica acuta tipo A.",
+  "goldPathNarrative": "1) Dolore lacerante. 2) Pressione e polsi. 3) ECG. 4) Angio-TC senza attendere il D-dimero. 5) Chirurgia immediata del tipo A. 6) Non coronarografia prima della TC. 7) Emergenza annotata.",
   "escCitations": [
     {
       "chunkId": "a1cab4a0-1edc-4326-a3cb-3f022eef61ea-1092",
       "source": "knowledge_base/cardiologia/clinical/ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf",
-      "quote": "JACC Cardiovasc Imaging 2014;7: 406–24. https://doi.org/10.1016/j.jcmg.2013.[REDACTED]. Nazerian P, Mueller C, Vanni S, Soeiro AM, Leidel BA, Cerini G, et al. Integration of transthoracic focused cardiac ultrasound in the diagnostic algorithm for suspected acute aortic syndromes. Eur Heart J 2019;40:1952–60. https://doi.org/10.1093/ eurheartj/ehz207 1204. Shiga T, Wajima Z, Apfel CC, Inoue T, Ohe Y. Diagnostic accuracy of transesophageal echocardiography, helical computed tomography, and magneti"
+      "quote": "ECG-gated CCT from neck to pelvis is recommended as the first-line imaging technique in suspected acute aortic syndrome. Laboratory tests should be obtained, but awaiting results should not delay imaging if there is a high probability of acute aortic dissection. Immediate surgical repair is recommended for acute type A aortic dissection."
     },
     {
       "chunkId": "a1cab4a0-1edc-4326-a3cb-3f022eef61ea-1128",
@@ -262,7 +261,7 @@
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: ecg → troponina-hs → rx-torace → ddimero → pt-ptt-inr → creat-urea-gfr → angio.",
+      "ECG, poi angio-TC dal collo al bacino senza attendere il D-dimero. Riparazione chirurgica immediata del tipo A.",
       "Non prescrivere di prima intenzione: coronarografia, pet-tc (ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf).",
       "Budget SSN di riferimento: €280."
     ],
@@ -299,13 +298,6 @@
       "priceEuro": 15.5
     },
     {
-      "examId": "ddimero",
-      "name": "D-Dimero",
-      "finding": "D-Dimero nel contesto di Dissezione aortica acuta Stanford A (CARDIO-030). ECG: segni di ischemia; Troponina-hs: elevata; RX torace: dilatazione aortica; D-dimero: elevato; PT-PTT-INR: nella norma; Creatinina-urea-GFR: nella norma; Angiografia: dissezione aortica acuta tipo A.",
-      "isAbnormal": true,
-      "priceEuro": 9
-    },
-    {
       "examId": "pt-ptt-inr",
       "name": "Coagulazione (PT, PTT, INR)",
       "finding": "Coagulazione (PT, PTT, INR) nel contesto di Dissezione aortica acuta Stanford A (CARDIO-030). ECG: segni di ischemia; Troponina-hs: elevata; RX torace: dilatazione aortica; D-dimero: elevato; PT-PTT-INR: nella norma; Creatinina-urea-GFR: nella norma; Angiografia: dissezione aortica acuta tipo A.",
@@ -329,6 +321,15 @@
   ],
   "inappropriateExams": [
     {
+      "examId": "ddimero",
+      "name": "D-Dimero prima dell'angio-TC",
+      "finding": "D-dimero richiesto prima dell'imaging in un ADD-RS di almeno 2. Il referto non è disponibile quando andrebbe già eseguita l'angio-TC.",
+      "isAbnormal": true,
+      "priceEuro": 9,
+      "inappropriate": true,
+      "wasteRationale": "Con dolore lacerante e ipotensione l'ADD-RS è almeno 2: l'attesa del D-dimero ritarda l'angio-TC dal collo al bacino."
+    },
+    {
       "examId": "coronarografia",
       "name": "Coronarografia (Invasiva)",
       "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf.",
@@ -346,5 +347,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Aortic_and_Peripheral_Diseases_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Dolore lacerante",
+      "prompt": "Cosa rende alto il sospetto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Inizio improvviso, dolore al dorso, iperteso, già operato al cuore",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un antiacido e la dimissione",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "screening",
+      "title": "ADD-RS",
+      "prompt": "Pressione 90/60 e dolore lacerante. Quanti punti fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Almeno 2: dolore ad alto rischio e ipotensione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Un punto solo, e quindi aspetti il laboratorio",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG",
+      "prompt": "Cosa escludi con l'ECG?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Lo STEMI, senza fermare il percorso aortico",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Solo la troponina, senza ECG",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Angio-TC",
+      "prompt": "Qual è l'imaging di prima linea?",
+      "cost": 180,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Angio-TC dal collo al bacino, senza attendere il D-dimero",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "D-dimero obbligatorio prima di ogni imaging",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Chirurgia",
+      "prompt": "La TC mostra un tipo A. Cosa è raccomandato?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Riparazione chirurgica immediata",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Terapia medica e controllo tra una settimana",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Coronarografia prima",
+      "prompt": "Qualcuno vuole una coronarografia prima della TC.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No: prima l'angio-TC",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Coronarografia diagnostica come primo esame",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Firma",
+      "prompt": "È in shock e non firma. I figli arrivano tra un'ora.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Si chiama il cardiochirurgo e si annota l'emergenza",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Si aspetta un'ora",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Tipo A in sala chirurgica",
+      "prompt": "ECG, angio-TC senza attesa del D-dimero, riparazione immediata, nessuna attesa dei familiari.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Dissezione dimessa",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Rischio sottostimato",
+      "prompt": "Dolore lacerante e ipotensione portano l'ADD-RS ad almeno 2. In questa fascia l'imaging non si ritarda.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "STEMI non escluso",
+      "prompt": "Nel sospetto di sindrome aortica acuta l'ECG serve a escludere lo STEMI, e l'assenza di un reperto non deve ritardare gli accertamenti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "D-dimero che ritarda la TC",
+      "prompt": "Gli esami si prelevano, ma attenderne l'esito non deve ritardare l'imaging se la probabilità di dissezione è alta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Tipo A non operato",
+      "prompt": "Per la dissezione acuta di tipo A è raccomandata la riparazione chirurgica immediata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "Coronarografia che ritarda la TC",
+      "prompt": "La coronarografia non è l'imaging di prima linea del sospetto di sindrome aortica acuta e ne ritarda la TC.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Tipo A in attesa dei figli",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

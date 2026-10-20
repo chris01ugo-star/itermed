@@ -113,7 +113,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Seguire il gold path ESC: ECG, NT-proBNP, ecocardiogramma, elettroliti, creatinina-urea-GFR, RX torace.",
+  "correctSolution": "Cardiomiopatia dilatativa: ECG, NT-proBNP, eco, rene, elettroliti, radiografia. Informazione su evoluzione e cure. Non colonscopia e non PET.",
   "patientPrompt": "Mi chiamo Marco e Ho 38 anni. Sono venuto qui perché mi sento molto stanco e ho difficoltà a respirare. Ho notato che mi gonfio alle caviglie e che il mio cuore batte in modo strano. Non so cosa mi stia succedendo.",
   "id": "CARDIO-024",
   "code": "CARDIO-024",
@@ -224,7 +224,7 @@
     "killipClass": "III",
     "summary": "All'esame fisico, il paziente presenta tachicardia, polso regolare, ed è ansioso. Si notano edemi alle caviglie e crepitii bilaterali all'auscultazione polmonare. La saturazione di ossigeno è bassa."
   },
-  "goldPathNarrative": "Dopo aver eseguito l'ECG, si osserva una disfunzione ventricolare sinistra. Il dosaggio di NT-proBNP è elevato, suggerendo congestione cardiaca. L'ecocardiogramma mostra dilatazione del ventricolo sinistro e ridotta frazione di eiezione. Gli esami di laboratorio rivelano alterazioni elettrolitiche, mentre la RX torace mostra segni di congestione polmonare. Questi risultati sono coerenti con una diagnosi di cardiomiopatia dilatativa.",
+  "goldPathNarrative": "1) Familiarità e dispnea. 2) ECG e peptide. 3) Eco. 4) Cause correggibili. 5) Informazione, anche sulla pianificazione se la malattia è evolutiva. 6) Non PET. 7) Follow-up.",
   "escCitations": [
     {
       "chunkId": "0fcd2244-c075-46b2-86dd-6d345c04e920-536",
@@ -326,5 +326,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_Cardiomyopathies_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Dispnea e famiglia",
+      "prompt": "Cosa chiedi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Familiarità, alcol, chemioterapia, gravidanze, sincope",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Una colonscopia per la dispnea",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG e peptide",
+      "prompt": "Quali primi esami?",
+      "cost": 40,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG e NT-proBNP",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "PET da 1071 euro",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco",
+      "prompt": "Cosa conferma la diagnosi?",
+      "cost": 61.97,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Eco: ventricolo dilatato e frazione di eiezione ridotta",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Una radiografia chiamata «cuore grosso» senza eco",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cause",
+      "prompt": "Cosa cerchi insieme?",
+      "cost": 20,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Ischemia, alcol, ritmo, rene, elettroliti",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Nulla: «è genetica» senza un'altra domanda",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Come gli dici la malattia evolutiva?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Evoluzione possibile, qualità di vita, cure, in cartella",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Glissa",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Piano futuro",
+      "prompt": "Vuole scrivere cosa desidera se non potrà più decidere.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Lo informi sulle disposizioni anticipate e le annoti se le redige",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Gli dici che in Italia non esistono",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Follow-up",
+      "prompt": "Cosa ricontrolli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Sintomi, funzione, terapia, peso",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Un controllo ogni cinque anni",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Dilatativa spiegata",
+      "prompt": "Eco e peptide, cause cercate, informazione sulla malattia, nessuna PET.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "Colonscopia nella dilatativa",
+      "prompt": "La colonscopia non diagnostica la dilatazione ventricolare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "PET di primo livello",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. ECG e peptide vengono prima.",
+      "cost": 40,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Fenotipo non visto",
+      "prompt": "La diagnosi di fenotipo dilatativo si ancora all'imaging cardiaco, non alla sola radiografia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Causa non cercata",
+      "prompt": "Identificare fattori e malattie concomitanti è parte della gestione della cardiomiopatia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Prognosi taciuta",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "DAT negate",
+      "prompt": "Legge 219/2017, art. 4: una persona maggiorenne e capace può esprimere DAT su trattamenti e accertamenti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Follow-up assente",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

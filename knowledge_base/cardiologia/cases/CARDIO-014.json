@@ -91,7 +91,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Seguire il gold path: ECG, assetto lipidico, glicemia, ecocardiogramma.",
+  "correctSolution": "Angina stabile: storia, ECG, lipidi, glicemia, eco. Non coronarografia né PET come primo esame. Informazione sulle alternative prima di una rivascolarizzazione.",
   "patientPrompt": "Da qualche mese ho iniziato a sentire un dolore al petto che si presenta quando faccio sforzi. È un dolore che mi preoccupa e vorrei sapere cosa potrebbe essere.",
   "id": "CARDIO-014",
   "code": "CARDIO-014",
@@ -199,7 +199,7 @@
     "killipClass": "I",
     "summary": "All'esame obiettivo, il paziente presenta una pressione arteriosa di 130/85 mmHg e un battito cardiaco regolare. Non ci sono segni di insufficienza cardiaca. L'auscultazione cardiaca è normale, senza soffi. Non ci sono edemi periferici."
   },
-  "goldPathNarrative": "Iniziare con un elettrocardiogramma per valutare eventuali anomalie ischemiche. Successivamente, eseguire un profilo lipidico per valutare i livelli di colesterolo e trigliceridi, seguito da un test della glicemia per escludere il diabete. Infine, un ecocardiogramma per valutare la funzione cardiaca e la presenza di eventuali anomalie strutturali.",
+  "goldPathNarrative": "1) Angina da sforzo. 2) ECG. 3) Lipidi e glicemia. 4) Eco. 5) Terapia medica. 6) Non PET. 7) Rivascolarizzazione solo dopo informazione, se indicata.",
   "escCitations": [
     {
       "chunkId": "c7ba8b74-9a67-4082-a46e-366eba928636-138",
@@ -287,5 +287,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Chronic_Coronary_Syndromes_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Storia di angina",
+      "prompt": "Cosa raccogli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Sforzo, durata, fattori di rischio, riposo",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Una coronarografia prenotata dalla prima frase",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG",
+      "prompt": "Quale esame a riposo?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "PET da 1071 euro",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Rischio",
+      "prompt": "Cosa dosi?",
+      "cost": 25,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Assetto lipidico e glicemia",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Un pannello di autoanticorpi",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco",
+      "prompt": "Quale imaging di struttura?",
+      "cost": 61.97,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Ecocardio",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Scintigrafia da 187 euro prima ancora dell'ECG",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Terapia",
+      "prompt": "Qual è il cardine iniziale?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Terapia medica e controllo dei fattori di rischio, spiegati",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Stent lo stesso giorno, senza una frase sulle alternative",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se i sintomi restano",
+      "prompt": "La terapia medica non basta. Cosa consideri?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Stratificazione, preferibilmente con imaging da stress, e poi eventuale coronarografia",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Altro anno di attesa senza rivalutare",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Follow-up",
+      "prompt": "Cosa ricontrolli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Sintomi, aderenza, lipidi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Nessun controllo",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Angina stabile inquadrata",
+      "prompt": "ECG, lipidi, glicemia ed eco prima di ogni PET o coronarografia. Alternative spiegate.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "Sala come prima mossa",
+      "prompt": "Nella sospetta sindrome coronarica cronica il primo passo è storia, fattori di rischio ed ECG, non la sala.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "PET al posto dell'ECG",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. Nomenclatore specialistica ambulatoriale, codice 89.52: elettrocardiogramma, tariffa 11,62 euro. L'ECG costa 11,62 euro ed è il primo esame.",
+      "cost": 11.62,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Autoanticorpi nell'angina",
+      "prompt": "Lipidi e glicemia modificano il rischio. Gli autoanticorpi non sono il primo livello.",
+      "cost": 25,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Scintigrafia anticipata",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.05.1: scintigrafia miocardica di perfusione, tariffa 187,01 euro. Si usa nella stratificazione, non al posto della storia e dell'ECG.",
+      "cost": 61.97,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Stent senza alternative",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Sintomi refrattari non rivalutati",
+      "prompt": "Se i sintomi sono refrattari alla terapia medica, la coronarografia è raccomandata per stratificare e valutare la rivascolarizzazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Angina senza follow-up",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

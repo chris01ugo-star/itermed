@@ -113,7 +113,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Seguire il gold path ESC per la gestione dello scompenso cardiaco: ECG, NT-proBNP, RX torace, elettroliti, creatinina, ecocardiogramma.",
+  "correctSolution": "HFrEF: ECG, NT-proBNP, radiografia, rene, elettroliti, ecocardio. Terapia di fondo con ACE-inibitore o ARNI, betabloccante, antialdosteronico e SGLT2, diuretico dell'ansa se c'è congestione. Informazione. Non coronarografia di primo livello.",
   "patientPrompt": "Mi chiamo Giovanni e Ho 69 anni. Sono qui perché mi sento molto affaticato e ho difficoltà a respirare. Ho notato che le mie gambe sono gonfie e ho tosse secca, soprattutto di notte. Ho una storia di scompenso cardiaco e prendo dei farmaci per la pressione alta.",
   "id": "CARDIO-011",
   "code": "CARDIO-011",
@@ -225,7 +225,7 @@
     "killipClass": "III",
     "summary": "All'esame obiettivo, il paziente presenta segni di congestione venosa con edemi agli arti inferiori e crepitii bilaterali all'auscultazione polmonare. La frequenza respiratoria è aumentata e la saturazione di ossigeno è bassa."
   },
-  "goldPathNarrative": "Il paziente deve essere sottoposto a ECG per valutare eventuali anomalie del ritmo e della conduzione. Successivamente, si procederà con la misurazione dei livelli di NT-proBNP per valutare la gravità dello scompenso. Una RX torace sarà utile per escludere congestione polmonare. Saranno eseguiti esami di laboratorio per controllare gli elettroliti e la funzione renale. Infine, un ecocardiogramma fornirà informazioni sulla frazione d'eiezione e sulla funzione cardiaca complessiva.",
+  "goldPathNarrative": "1) Peggioramento funzionale. 2) ECG e peptide. 3) Eco per la frazione di eiezione. 4) I quattro farmaci di fondo. 5) Diuretico se congesto. 6) Non coronarografia come primo esame. 7) Titolazione spiegata.",
   "escCitations": [
     {
       "chunkId": "18335d3c-f44d-49b1-83ba-ccdd43716688-144",
@@ -327,5 +327,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2021_Heart_Failure_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Peggioramento",
+      "prompt": "Cosa misuri nel racconto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Classi funzionali, peso, aderenza, febbre, ischemia",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Aumentare il diuretico al telefono senza un dato",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Peptide ed ECG",
+      "prompt": "Quali primi esami?",
+      "cost": 40,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG e NT-proBNP",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Coronarografia come primo gesto",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco",
+      "prompt": "Come confermi l'HFrEF?",
+      "cost": 61.97,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Ecocardio con frazione di eiezione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Una radiografia da sola, chiamata «scompenso sistolico»",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quattro farmaci",
+      "prompt": "È in classe II-IV, eiezione ridotta, senza controindicazioni. Cosa avvii?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "ACE-inibitore o ARNI, betabloccante, antialdosteronico e SGLT2",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Solo il diuretico, a vita, come unica terapia",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Congestione",
+      "prompt": "Ha stasi. Cosa aggiungi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Diuretico dell'ansa per la ritenzione di fluidi",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Un SGLT2 e stop, lasciando l'edema",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Informazione",
+      "prompt": "Come gli dici i quattro farmaci?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Benefici, rischi, controlli di rene e potassio, in cartella",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Glieli inizi senza una frase",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Titolazione",
+      "prompt": "Cosa programmi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Controlli di rene, potassio e sintomi, e titolazione",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Ritorno tra un anno",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "HFrEF in terapia di fondo",
+      "prompt": "Eco e peptide, quattro farmaci di fondo, diuretico se congesto, nessuna coronarografia di primo livello.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Terapia cambiata senza visita",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "Coronarografia prima dell'eco",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 88.72.3: ecocolordopplergrafia cardiaca, tariffa 61,97 euro. L'ecocolordoppler cardiaco è 61,97 euro e serve a misurare la frazione di eiezione. La coronarografia non è il primo esame di un lieve peggioramento.",
+      "cost": 40,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Frazione di eiezione non misurata",
+      "prompt": "La scelta dei farmaci di fondo dell'HFrEF richiede di conoscere la frazione di eiezione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Solo diuretico",
+      "prompt": "ACE-inibitore o ARNI, betabloccante, antialdosteronico e SGLT2 sono le terapie di fondo dell'HFrEF. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Stasi non trattata",
+      "prompt": "Il diuretico dell'ansa è indicato se c'è ritenzione di fluidi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Politerapia senza informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Titolazione assente",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

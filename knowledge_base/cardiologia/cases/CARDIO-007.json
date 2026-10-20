@@ -113,7 +113,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Inizio immediato di trattamento con labetalolo per via endovenosa e monitoraggio continuo della pressione arteriosa e dei segni vitali.",
+  "correctSolution": "Emergenza ipertensiva con encefalopatia: riduzione endovenosa monitorata, non un calo brusco, cure d'emergenza senza attendere la firma.",
   "patientPrompt": "Mi chiamo Giulia e Ho 71 anni. Sono venuta in pronto soccorso perché ho un mal di testa molto forte e mi sento confusa. Ho avuto anche problemi di vista. Ho una storia di pressione alta, ma non ho mai seguito un trattamento.",
   "id": "CARDIO-007",
   "code": "CARDIO-007",
@@ -224,7 +224,7 @@
     "killipClass": "III",
     "summary": "Giulia presenta segni di ansia, confusione mentale e disorientamento. I segni vitali mostrano tachicardia e ipertensione severa. L'esame neurologico rivela difficoltà di concentrazione e visione offuscata."
   },
-  "goldPathNarrative": "Dopo aver eseguito un ECG, un'analisi dei gas ematici e test di laboratorio per creatinina, urea e GFR, si procede con il dosaggio della troponina e una TC per escludere eventuali complicanze. Si esegue anche un esame del fondo oculare per valutare segni di danno retinico.",
+  "goldPathNarrative": "1) Confusione e pressione estrema. 2) Danno d'organo. 3) Endovena in area monitorata. 4) Niente calo eccessivo. 5) Emergenza senza firma dei familiari. 6) Non PET. 7) Ricerca di causa e follow-up.",
   "escCitations": [
     {
       "chunkId": "72d83361-38e0-43ff-a759-ac144bb6edc5-477",
@@ -326,5 +326,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Hypertension_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Confusione e pressione",
+      "prompt": "Come inquadri la confusione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Emergenza finché non dimostri il contrario: pressione e danno acuto",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Ansia e una compressa a casa",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Organo colpito",
+      "prompt": "Cosa cerchi subito?",
+      "cost": 50,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG, troponina, rene, fundus e TC se il quadro neurologico lo chiede",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "PET miocardica da 1071 euro",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaco",
+      "prompt": "Dove e come abbassi la pressione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Farmaco endovenoso a emivita breve, in area monitorata",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Un bolo unico non titolabile e poi a casa",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Entità del calo",
+      "prompt": "Quale errore eviti sul numero?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Titolazione, non un crollo libero della pressione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "«Più scende e meglio è, anche sotto i 100 di sistolica in pochi minuti»",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Firma",
+      "prompt": "Non collabora. Il figlio vuole leggere il foglio prima di ogni farmaco.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Si tratta e si annota l'emergenza",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Si aspetta il figlio",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Causa",
+      "prompt": "Dopo la stabilizzazione cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Cerchi una causa precipitante e programmi lo screening di ipertensione secondaria",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Archivi come «pressione alta» senza un piano",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Follow-up",
+      "prompt": "Come la riaffidi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Terapia orale di passaggio, spiegata, e controllo stretto",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Sospensione di tutto perché «la crisi è passata»",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Emergenza ridotta in sicurezza",
+      "prompt": "Endovena monitorata, senza calo eccessivo e senza attendere i familiari. Nessuna PET.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Emergenza trattata come ansia",
+      "prompt": "L'emergenza è pressione almeno 180/110 con danno d'organo acuto e richiede un intervento immediato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "PET nell'emergenza",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. Non definisce l'encefalopatia ipertensiva.",
+      "cost": 50,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Calo non titolato",
+      "prompt": "Il documento sconsiglia un abbassamento rapido, non controllato o eccessivo, perché può complicare l'emergenza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Calo eccessivo",
+      "prompt": "Un abbassamento eccessivo e non controllato non è raccomandato nell'emergenza ipertensiva.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Emergenza in attesa della firma",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Emergenza senza causa",
+      "prompt": "Questi pazienti restano ad alto rischio e vanno valutati anche per una forma secondaria.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Sospensione non spiegata",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

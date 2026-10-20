@@ -91,7 +91,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un ECG, esami di laboratorio per PT, PTT, INR, creatinina, urea, GFR ed emocromo per valutare il rischio tromboembolico e decidere sulla terapia anticoagulante.",
+  "correctSolution": "Fibrillazione e decisione anticoagulante: ECG, rene, emocromo, coagulazione. Informazione su benefici e rischi. Se il paziente capace rifiuta, il rifiuto si rispetta. Non PET per decidere.",
   "patientPrompt": "Mi chiamo Giovanna e Ho 82 anni. Sono qui per un controllo della mia fibrillazione atriale. Ho sentito parlare della terapia anticoagulante, ma ho alcune domande e preoccupazioni. Ho avvertito delle palpitazioni e mi sento un po' più stanca del solito. Vorrei sapere come posso prevenire un ictus.",
   "id": "CARDIO-010",
   "code": "CARDIO-010",
@@ -202,7 +202,7 @@
     "killipClass": "I",
     "summary": "All'esame obiettivo, Giovanna appare in buone condizioni generali. La pressione arteriosa è controllata, il ritmo cardiaco è regolare e non ci sono segni di insufficienza cardiaca. I polsi periferici sono presenti e simmetrici."
   },
-  "goldPathNarrative": "Iniziare con un ECG per valutare la fibrillazione atriale e quindi eseguire esami di laboratorio per determinare il profilo emostatico e la funzionalità renale. Questi dati aiuteranno a stabilire se Giovanna è idonea a iniziare una terapia anticoagulante orale e a quale tipo di farmaco potrebbe rispondere meglio.",
+  "goldPathNarrative": "1) Storia di ictus e sanguinamenti. 2) ECG. 3) Rene ed emocromo. 4) Informazione. 5) Rispetto del rifiuto. 6) Non PET. 7) Controllo di funzione renale e aderenza.",
   "escCitations": [
     {
       "chunkId": "614c32b3-6007-482b-bcec-d60b2d4af3ae-627",
@@ -290,5 +290,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2024_Atrial_Fibrillation_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Rischio che conta",
+      "prompt": "Cosa chiedi prima della ricetta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Ictus pregresso, sanguinamenti, cadute, alcol, antiinfiammatori",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Prescrivere un anticoagulante senza una domanda",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG",
+      "prompt": "Su cosa poggi la diagnosi?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Un ECG che documenta la fibrillazione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Il racconto del paziente, senza tracciato",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Laboratorio",
+      "prompt": "Cosa dosi prima di scegliere la molecola?",
+      "cost": 30,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Creatinina, emocromo e coagulazione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "PET miocardica per «vedere se serve l'anticoagulante»",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Come proponi l'anticoagulante?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Benefici sull'ictus, rischio di sanguinamento, alternative, in cartella",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "«Firmi qui» senza una frase sui sanguinamenti",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto",
+      "prompt": "È capace e rifiuta l'anticoagulante dopo la spiegazione.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Annoti il rifiuto e non lo costringi",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Lo anticoaguli lo stesso «per il suo bene»",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Familiare",
+      "prompt": "Il figlio, contro il padre capace, pretende la siringa.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Decide il paziente",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Decidi il figlio",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo",
+      "prompt": "Se accetta, cosa ricontrolli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Funzione renale, emocromo, aderenza e pressione",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Nessun controllo dopo la prima scatola",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Anticoagulazione decisa con il paziente",
+      "prompt": "Stratificazione dopo ECG e rene, informazione documentata, rifiuto rispettato, nessuna PET.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Ricetta senza storia",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Anticoagulazione senza ECG",
+      "prompt": "La diagnosi clinica di fibrillazione richiede l'ECG. Nomenclatore specialistica ambulatoriale, codice 89.52: elettrocardiogramma, tariffa 11,62 euro.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "PET per la scelta del farmaco",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. La scelta non passa da questa tariffa. Servono rene ed emocromo.",
+      "cost": 30,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Consenso vuoto",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Rifiuto scavalcato",
+      "prompt": "Legge 219/2017, art. 1 commi 5 e 6: il paziente capace può rifiutare il trattamento e il medico deve rispettare il rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Familiare al posto del paziente",
+      "prompt": "Il consenso è della persona interessata. Il familiare entra se il paziente lo vuole.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Anticoagulante senza follow-up",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

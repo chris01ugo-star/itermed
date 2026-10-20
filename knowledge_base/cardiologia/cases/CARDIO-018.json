@@ -91,7 +91,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "ECG, elettroliti, troponina-hs, ecocardiogramma.",
+  "correctSolution": "Sincope da bradiaritmia: ECG, relazione tra sincope e bradicardia, pacing se il legame è dimostrato. Se è stabile e capace, consenso. Se è instabile, pacing d'emergenza. Non EEG e non RM encefalo al posto dell'ECG.",
   "patientPrompt": "Mi chiamo Giovanni e Ho 81 anni. Sono venuto al pronto soccorso dopo aver perso conoscenza a casa. Mi sentivo debole e confuso quando mi sono ripreso. Negli ultimi giorni ho notato che mi sentivo più stanco del solito e ho avuto qualche problema di equilibrio. Non ho mai avuto problemi di cuore prima d'ora.",
   "id": "CARDIO-018",
   "code": "CARDIO-018",
@@ -201,7 +201,7 @@
     "killipClass": "III",
     "summary": "All'esame obiettivo, Giovanni appare pallido e sudato. La frequenza cardiaca è di 45 bpm, la pressione arteriosa è 90/60 mmHg e la saturazione di ossigeno è 85%. I polmoni sono auscultati senza rumori anomali. L'addome è morbido e non dolente. Non ci sono edemi periferici evidenti."
   },
-  "goldPathNarrative": "Il paziente presenta un episodio di sincope con bradiaritmia. Si procederà con un ECG per valutare il ritmo cardiaco e identificare eventuali anomalie. Successivamente, verranno eseguiti esami ematochimici per valutare gli elettroliti e i livelli di troponina. Infine, un ecocardiogramma sarà utile per escludere patologie strutturali del cuore.",
+  "goldPathNarrative": "1) Sincope e polso lento. 2) ECG. 3) Elettroliti e troponina. 4) Eco per escludere struttura. 5) Pacing se il legame è chiaro. 6) Non RM. 7) Consenso o emergenza, a seconda della stabilità.",
   "escCitations": [
     {
       "chunkId": "9727a773-2fbd-469b-b7d3-2e5f4fbfe187-136",
@@ -289,5 +289,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2018_Syncope_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sincope",
+      "prompt": "Cosa ricostruisci?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Prodromi assenti, trauma, palpito lento, durata",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Una diagnosi di epilessia senza ECG",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG",
+      "prompt": "Quale esame è obbligato?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG a 12 derivazioni",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "EEG",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Cause correggibili",
+      "prompt": "Cosa dosi?",
+      "cost": 20,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Elettroliti e troponina",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Un pannello tossicologico allargato come unico gesto",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Struttura",
+      "prompt": "Quale imaging?",
+      "cost": 61.97,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Ecocardio",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "RM encefalo da 222 euro",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Indicazione al pacing",
+      "prompt": "C'è blocco e la sincope è legata alla bradicardia. È stabile e capace.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Proponi il pacing, con benefici, rischi e alternative",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Impianti il pacemaker senza dirglielo",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se rifiuta",
+      "prompt": "Rifiuta il pacemaker, da capace, dopo la spiegazione.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Annoti il rifiuto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Lo impianti comunque",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se instabile",
+      "prompt": "Perde coscienza e la frequenza è incompatibile con la vita.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Pacing d'emergenza, annotato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Aspetti un parente",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Bradicardia documentata",
+      "prompt": "ECG, pacing solo con nesso chiaro o in emergenza, nessuna RM encefalo al posto del tracciato.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Sincope chiamata epilessia",
+      "prompt": "L'ECG è il primo esame della sincope. L'epilessia non si dichiara al posto del ritmo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "EEG nella sincope",
+      "prompt": "L'EEG non è l'esame di primo livello di una sincope. L'ECG costa 11,62 euro.",
+      "cost": 11.62,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Tossicologico al posto del ritmo",
+      "prompt": "Elettroliti e troponina cercano cause correggibili. Non sostituiscono l'ECG.",
+      "cost": 20,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "RM encefalo nella bradicardia",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 88.91.1: RM del cervello e del tronco encefalico, tariffa 222,08 euro. Il ritmo si legge sull'ECG, la struttura sull'eco da 61,97 euro.",
+      "cost": 61.97,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Pacemaker senza consenso",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella. Il pacing è indicato se il nesso tra sincope e bradicardia è stabilito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Rifiuto del pacemaker",
+      "prompt": "Legge 219/2017, art. 1 commi 5 e 6: il paziente capace può rifiutare il trattamento e il medico deve rispettare il rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Pacing rinviato",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

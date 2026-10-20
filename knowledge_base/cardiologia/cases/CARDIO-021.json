@@ -91,7 +91,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un ECG, analisi degli elettroliti, troponina-hs e un ecocardiogramma per valutare la funzione cardiaca e identificare eventuali anomalie.",
+  "correctSolution": "Tachicardia ventricolare non sostenuta su cardiopatia ischemica: ECG, elettroliti, troponina, eco. Non una PET. Non un defibrillatore impiantato senza informazione e senza l'indicazione documentata.",
   "patientPrompt": "Mi chiamo Giovanni e Ho 68 anni. Sono venuto in ospedale perché ho avuto delle palpitazioni e mi sento molto affaticato. Le palpitazioni sono iniziate mentre stavo guardando la televisione e mi sono sentito sudato e ansioso. Ho una storia di cardiopatia ischemica, ma non ho avuto dolore toracico. Negli ultimi giorni ho notato che mi stanco facilmente.",
   "id": "CARDIO-021",
   "code": "CARDIO-021",
@@ -200,7 +200,7 @@
     "killipClass": "III",
     "summary": "Esame fisico mostra tachicardia, ansia, sudorazione e segni di affaticamento. Non ci sono segni di congestione polmonare o edema periferico."
   },
-  "goldPathNarrative": "Il paziente viene sottoposto a ECG che mostra segni di tachicardia ventricolare non sostenuta. Gli esami di laboratorio rivelano anomalie elettrolitiche lievi, ma la troponina-hs è negativa. L'ecocardiogramma evidenzia una lieve disfunzione ventricolare sinistra, compatibile con la sua storia di cardiopatia ischemica. Viene avviato un trattamento medico per gestire la sua condizione.",
+  "goldPathNarrative": "1) Palpiti in cardiopatia nota. 2) ECG. 3) Elettroliti e troponina. 4) Eco. 5) Terapia della causa, spiegata. 6) Non PET. 7) Follow-up, non un ICD «di default».",
   "escCitations": [
     {
       "chunkId": "f057304e-6ee8-4c3f-9c98-5dc138c7bde3-157",
@@ -288,5 +288,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2022_Ventricular_Arrhythmias_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Palpiti",
+      "prompt": "Cosa chiedi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Durata, sincope, dolore, farmaci, potassio",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un defibrillatore prenotato dalla prima frase",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG",
+      "prompt": "Quale tracciato?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG, e il tracciato dell'episodio se c'è",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "RM encefalo",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Laboratorio",
+      "prompt": "Cosa correggi?",
+      "cost": 25,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Elettroliti e troponina",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Un pannello autoimmune esteso",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco",
+      "prompt": "Quale imaging?",
+      "cost": 61.97,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Ecocardio, per la funzione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "PET da 1071 euro",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Terapia",
+      "prompt": "Troponina negativa, elettroliti lievi, funzione ridotta nota. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Correggi la causa e spieghi il piano, senza un dispositivo d'urgenza",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Impianti un defibrillatore in giornata senza una frase",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto",
+      "prompt": "Rifiuta un antiaritmico dopo la spiegazione.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Annoti il rifiuto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Glielo somministri di nascosto",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Follow-up",
+      "prompt": "Cosa ricontrolli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Sintomi, ritmo, funzione, aderenza",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Nessun controllo",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Non sostenuta inquadrata",
+      "prompt": "ECG, elettroliti, troponina ed eco. Nessuna PET e nessun defibrillatore senza indicazione spiegata.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "ICD senza inquadramento",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "RM per l'extrasistolia",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 88.91.1: RM del cervello e del tronco encefalico, tariffa 222,08 euro. Non caratterizza la tachicardia ventricolare.",
+      "cost": 11.62,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Pannello di prima linea",
+      "prompt": "Il documento raccomanda di cercare cause reversibili, come gli elettroliti e l'ischemia.",
+      "cost": 25,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "PET nella non sostenuta",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. Nomenclatore specialistica ambulatoriale, codice 88.72.3: ecocolordopplergrafia cardiaca, tariffa 61,97 euro. L'eco costa 61,97 euro.",
+      "cost": 61.97,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Dispositivo senza consenso",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Farmaco imposto",
+      "prompt": "Legge 219/2017, art. 1 commi 5 e 6: il paziente capace può rifiutare il trattamento e il medico deve rispettare il rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Aritmia senza follow-up",
+      "prompt": "Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }

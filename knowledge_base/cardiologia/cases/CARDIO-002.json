@@ -124,7 +124,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Seguire il gold path ESC per la gestione del NSTEMI: ECG, troponina-hs, elettroliti, creat-urea-gfr, pt-ptt-inr, nt-probnp, ecocardio.",
+  "correctSolution": "NSTEMI: ECG, troponina ad alta sensibilità seriata, strategia invasiva precoce se alto rischio. Consenso informato prima dell'angiografia non emergente. Non PET.",
   "patientPrompt": "Mi chiamo Giovanni e Ho 74 anni. Sono diabetico da dieci anni. Oggi sono venuto al pronto soccorso perché ho un forte dolore al petto che dura da circa due ore. Il dolore è oppressivo e si irradia al braccio sinistro. Ho anche difficoltà a respirare e mi sento molto ansioso. Ho avuto episodi simili in passato, ma mai così intensi. Non ho mai avuto un infarto prima d'ora.",
   "id": "CARDIO-002",
   "code": "CARDIO-002",
@@ -236,7 +236,7 @@
     "killipClass": "III",
     "summary": "All'esame fisico, Giovanni presenta tachicardia, sudorazione, pallore e segni di distress respiratorio. La pressione arteriosa è stabile, ma la frequenza respiratoria è elevata. Non ci sono soffi cardiaci apprezzabili e i polmoni presentano un respiro affannoso."
   },
-  "goldPathNarrative": "Iniziare con un ECG per valutare eventuali anomalie ischemiche. Procedere con il dosaggio della troponina ad alta sensibilità per confermare la diagnosi di NSTEMI. Monitorare gli elettroliti e la funzionalità renale. Valutare i parametri di coagulazione. Infine, eseguire un ecocardiogramma per valutare la funzione cardiaca e identificare eventuali complicanze. È fondamentale gestire il paziente secondo le linee guida ESC per garantire un trattamento adeguato e tempestivo.",
+  "goldPathNarrative": "1) Dolore atipico in diabetica. 2) ECG. 3) Troponina ad alta sensibilità con algoritmo 0/1 h o 0/2 h. 4) Rischio. 5) Angiografia entro 24 ore se alto rischio, con consenso. 6) Non PET. 7) Terapia e follow-up.",
   "escCitations": [
     {
       "chunkId": "a5af11f4-3f3b-42ed-8ebd-1d6af78e251a-198",
@@ -345,5 +345,244 @@
       "inappropriate": true,
       "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_2023_ACS_Guidelines.pdf."
     }
-  ]
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Dolore atipico",
+      "prompt": "Cosa non ti fa escludere una sindrome coronarica?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Diabete, dolore toracico anche atipico, durata e segni vitali",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Escluderla perché il dolore non è il classico peso",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG",
+      "prompt": "Qual è il primo esame?",
+      "cost": 11.62,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "ECG a 12 derivazioni",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "RM encefalo da 222 euro per il dolore",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Troponina seriale",
+      "prompt": "Come usi la troponina?",
+      "cost": 16,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Algoritmo ESC 0 ore/1 ora oppure 0 ore/2 ore",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Una sola troponina e dimissione se il numero è basso",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Rischio",
+      "prompt": "Quale strada invasiva scegli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Immediata se instabilità o dolore refrattario; entro 24 ore se alto rischio",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Angiografia elettiva tra un mese in ogni caso",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso all'angiografia",
+      "prompt": "La paziente è vigile e stabile abbastanza da decidere.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Spieghi benefici, rischi e alternative e documenti il consenso",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "La porti in sala senza una parola perché «è il protocollo»",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame che non decide",
+      "prompt": "Un collega propone la PET prima della troponina.",
+      "cost": 1071.65,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "La rifiuti: prima ECG e troponina",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "PET miocardica da 1071 euro come primo esame",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo la rivascolarizzazione",
+      "prompt": "Cosa programmi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Terapia medica spiegata e controllo dei sintomi e dell'emoglobina",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Nessun follow-up: «lo stent ha chiuso il caso»",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "NSTEMI stratificato",
+      "prompt": "Troponina seriale, strategia invasiva precoce se alto rischio, consenso documentato, nessuna PET di primo livello.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "NSTEMI escluso dal sintomo",
+      "prompt": "Il documento ESC usa storia, sintomi, segni vitali, ECG e troponina ad alta sensibilità. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "RM encefalo nel NSTEMI",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 88.91.1: RM del cervello e del tronco encefalico, tariffa 222,08 euro. Non è l'esame di primo livello di una sospetta sindrome coronarica. Nomenclatore specialistica ambulatoriale, codice 89.52: elettrocardiogramma, tariffa 11,62 euro.",
+      "cost": 11.62,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Algoritmo troponinico saltato",
+      "prompt": "È raccomandato l'algoritmo con misurazioni seriali di troponina ad alta sensibilità per rule-in e rule-out. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Timing invasivo fuori raccomandazione",
+      "prompt": "Il documento distingue strategia immediata e strategia precoce entro 24 ore. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Angiografia senza informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "PET di primo livello",
+      "prompt": "Nomenclatore specialistica ambulatoriale, codice 92.09.1: tomoscintigrafia miocardica PET a riposo e dopo stimolo, tariffa 1071,65 euro. Nel NSTEMI la diagnosi si ancora a ECG e troponina, non a questa tariffa.",
+      "cost": 1071.65,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Nessuna informazione dopo la procedura",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative prima del trattamento, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ],
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde in frasi brevi, torna al sintomo principale e accetta il piano se gli si dicono benefici e rischi con parole semplici."
+  }
 }
