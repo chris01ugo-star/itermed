@@ -1,0 +1,488 @@
+{
+  "id": "GERIA-001",
+  "code": "GERIA-001",
+  "title": "Delirium iperattivo dopo frattura di femore",
+  "description": "Aldo Greco, 82 anni, seconda giornata dopo osteosintesi di femore. Di notte è inattento, fluttuante, tenta di scendere. La TC encefalo dopo la caduta è già negativa e non c'è un deficit focale nuovo. Assume diazepam e ossibutinina. Il percorso segue Bellelli: cause prima dei farmaci, contenzione da proscrivere, benzodiazepine non indicate fuori dall'astinenza alcolica, niente inibitori dell'acetilcolinesterasi nel delirium. La VMD è raccomandata in ortogeriatria per ridurre il delirium. L'MMSE si fa a quadro risolto. Aloperidolo 2 mg/ml gocce non è il trattamento del cammino notturno.",
+  "difficulty": "HARD",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Delirium postoperatorio: cause, niente contenzione, niente benzodiazepina, MMSE dopo",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Bellelli SIMG 2020; Beers; LG VMD SIGOT-SIMG R6a.1; Legge 219/2017",
+  "diagnosis": "Delirium iperattivo precipitato da dolore, ritenzione, diazepam e anticolinergico. Non è demenza da trattare stanotte e non richiede una seconda TC encefalo.",
+  "pastMedicalHistory": "Ipertensione in ramipril, amlodipina e idroclorotiazide. Ipertrofia prostatica in ossibutinina. Insonnia in diazepam 5 mg ogni sera da anni. Due cadute nell'ultimo anno. Nessuna DAT. Udito ridotto a sinistra. Un bicchiere di vino a pranzo, non astinenza. La TC encefalo in pronto soccorso, dopo la caduta, era negativa.",
+  "presentation": "Sudato, inattento, alterna lucidità e agitazione. Globo vescicale, ferita del femore dolente. Nessuna paresi nuova, nessun segno meningeo. La figlia chiede sponde bloccate e un sedativo perché cammina.",
+  "redHerrings": [
+    "La figlia racconta smemoratezza da un anno e spinge a chiamarla demenza.",
+    "La TC di ieri, già negativa, viene riletta come insufficiente.",
+    "Il diazepam della sera è difeso come unico modo per farlo dormire."
+  ],
+  "timeLimitMinutes": 70,
+  "patientDeteriorationThreshold": 45,
+  "patientPrompt": "ROLEPLAY. Sei Aldo Greco, 82 anni, operato al femore. Sei spaventato, a tratti lucido. Alla domanda iniziale: «Chi siete? Dov'è mia moglie?». Se chiedono da quando, se il quadro va e viene, se hai dolore e se hai urinato: da stanotte, un minuto sì e un minuto no, la gamba fa male, la pancia è gonfia. Se propongono di legarti o l'Aloperidolo 2 mg/ml gocce perché cammini, ti agiti. Se cercano dolore, vescica e le pastiglie che confondono, ti calmi un poco. La figlia insiste per le sponde. Non nominare linee guida né budget.",
+  "correctSolution": "Delirium. VMD ora, MMSE a risoluzione. Analgesia, svuotamento vescicale, sospensione di diazepam e ossibutinina. Nessuna contenzione. Niente Aloperidolo 2 mg/ml gocce per il cammino. Niente Donepezil 5 mg. Non ripetere la TC encefalo.",
+  "goldStandardPath": [
+    "anamnesi-delirium",
+    "valutazione-geriatrica",
+    "mmse",
+    "urine-sed",
+    "elettroliti",
+    "azione-cause",
+    "azione-sospensione",
+    "azione-dimissione"
+  ],
+  "goldPathNarrative": "Si riconosce il delirium acuto e fluttuante. La VMD, 25 euro, documenta funzione, nutrizione e cadute: in ortogeriatria è raccomandata per ridurre il delirium. L'MMSE, 15 euro, si esegue a risoluzione. Si trattano dolore, ritenzione, urine ed elettroliti. Si sospendono diazepam e ossibutinina. Non si contiene e non si seda il cammino. Non si ripete la TC encefalo da 70 euro.",
+  "examLatencies": {
+    "anamnesi-delirium": 12,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "urine-sed": 60,
+    "elettroliti": 60,
+    "azione-cause": 15,
+    "azione-sospensione": 10,
+    "azione-dimissione": 20,
+    "tc-encefalo": 60
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-esordio",
+      "prompt": "L'agitazione è iniziata stanotte e fluttua, o è stabile da mesi?",
+      "critical": true,
+      "expectedKeywords": [
+        "stanotte",
+        "fluttua"
+      ],
+      "rationale": "Esordio acuto e fluttuazione distinguono il delirium da una demenza stabile."
+    },
+    {
+      "id": "aq-precipitanti",
+      "prompt": "Ha dolore, ha urinato, e quali sedativi o anticolinergici assume?",
+      "critical": true,
+      "expectedKeywords": [
+        "dolore",
+        "diazepam"
+      ],
+      "rationale": "Dolore, ritenzione, benzodiazepina e anticolinergico sono precipitanti da correggere."
+    },
+    {
+      "id": "aq-cadute",
+      "prompt": "Quante cadute recenti e chi chiede la contenzione?",
+      "critical": true,
+      "expectedKeywords": [
+        "cadute",
+        "contenzione"
+      ],
+      "rationale": "Il rischio cadute va scritto. La contenzione fisica è da proscrivere."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Inattenzione e fluttuazione, globo vescicale, ferita dolente, nessun deficit focale nuovo. Parametri stabili, non segni meningei."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-001-bellelli",
+      "source": "Bellelli, Il delirium nell'anziano, Rivista SIMG 2020",
+      "quote": "L'uso di contenzioni fisiche è particolarmente pericoloso ed è da proscrivere. Il neuroimaging è indicato solo dopo caduta recente, se si sospettano eventi cerebrovascolari o infettivi, o se la coscienza è ridotta con segni focali."
+    },
+    {
+      "chunkId": "geria-001-beers",
+      "source": "Criteri di Beers, Commissione terapeutica regionale",
+      "quote": "Il diazepam, per la lunga emivita, può durare giorni nell'anziano e la sedazione produce rischio di cadute. In demenza gli antimuscarinici peggiorano confusione e agitazione."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Delirium riconosciuto prima di qualunque sedativo.",
+      "VMD in ortogeriatria e MMSE solo a risoluzione.",
+      "Sospesi diazepam e ossibutinina. Nessuna contenzione.",
+      "Nessuna seconda TC encefalo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano i criteri del delirium, i precipitanti, la sospensione dei farmaci inappropriati e il motivo per cui contenzione, Aloperidolo e seconda TC non sono il primo atto.",
+      "legalCriteria": [
+        "Nessuna contenzione fisica per il cammino notturno.",
+        "Aloperidolo 2 mg/ml gocce non usato al posto delle cause.",
+        "Rischio cadute e farmaci sedativi scritti prima della dimissione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 2/6 nell'acuto, IADL dipendenti, MNA 18, rischio cadute alto per benzodiazepina. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "Al quarto giorno, a delirium risolto: 23/30. Non andava fatto durante l'agitazione e non autorizza il Donepezil 5 mg. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "urine-sed",
+      "name": "Esame urine",
+      "finding": "Leucocituria lieve, nitriti negativi. Non è la causa unica. Costo 6 euro.",
+      "isAbnormal": false,
+      "priceEuro": 6
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti",
+      "finding": "Sodio 132 mmol/L, potassio 3,6. Contribuisce, non spiega da solo. Costo 6,50 euro.",
+      "isAbnormal": true,
+      "priceEuro": 6.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c. ripetuta",
+      "finding": "Seconda TC ancora negativa, identica a quella dopo la caduta. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "Senza un segno focale nuovo la TC non si ripete: 70 euro che non cambiano la cura.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC) in acuto",
+      "finding": "T-score non decide il delirium di questa notte. Costo 35 euro.",
+      "isAbnormal": true,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria nell'agitazione acuta non evita la contenzione.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ortogeriatria, seconda giornata dopo osteosintesi di femore.",
+    "vitals": {
+      "heartRate": 104,
+      "bloodPressure": "148/82",
+      "spo2": 95,
+      "temperature": 37.4,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 160,
+    "demographics": {
+      "age": 82,
+      "sex": "M",
+      "name": "Aldo Greco"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Inattenzione e fluttuazione",
+        "result": "Non mantiene il filo e alterna lucidità e agitazione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Globo vescicale",
+        "result": "Cupola palpabile e dolore sovrapubico.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit focale nuovo",
+        "result": "Nessuna paresi comparsa stanotte.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Inattenzione e fluttuazione",
+        "result": "Non mantiene il filo e alterna lucidità e agitazione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Globo vescicale",
+        "result": "Cupola palpabile e dolore sovrapubico.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit focale nuovo",
+        "result": "Nessuna paresi comparsa stanotte.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 2/6 nell'acuto, IADL dipendenti, MNA 18, rischio cadute alto per benzodiazepina. Costo 25 euro.",
+          "normalFinding": "ADL 2/6 nell'acuto, IADL dipendenti, MNA 18, rischio cadute alto per benzodiazepina. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "Al quarto giorno, a delirium risolto: 23/30. Non andava fatto durante l'agitazione e non autorizza il Donepezil 5 mg. Costo 15 euro.",
+          "normalFinding": "Al quarto giorno, a delirium risolto: 23/30. Non andava fatto durante l'agitazione e non autorizza il Donepezil 5 mg. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "urine-sed": {
+          "finding": "Leucocituria lieve, nitriti negativi. Non è la causa unica. Costo 6 euro.",
+          "normalFinding": "Leucocituria lieve, nitriti negativi. Non è la causa unica. Costo 6 euro.",
+          "isAbnormal": false,
+          "price": 6
+        },
+        "elettroliti": {
+          "finding": "Sodio 132 mmol/L, potassio 3,6. Contribuisce, non spiega da solo. Costo 6,50 euro.",
+          "normalFinding": "Sodio 132 mmol/L, potassio 3,6. Contribuisce, non spiega da solo. Costo 6,50 euro.",
+          "isAbnormal": true,
+          "price": 6.5
+        },
+        "tc-encefalo": {
+          "finding": "Seconda TC ancora negativa, identica a quella dopo la caduta. Costo 70 euro.",
+          "normalFinding": "Seconda TC ancora negativa, identica a quella dopo la caduta. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "T-score non decide il delirium di questa notte. Costo 35 euro.",
+          "normalFinding": "T-score non decide il delirium di questa notte. Costo 35 euro.",
+          "isAbnormal": true,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Di notte è concreto e oppositivo. La figlia spinge per le gocce e le sponde. Si fida se gli si nomina il dolore e la pipì."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Inquadramento del delirium",
+      "prompt": "Urla, non riconosce la figlia, tenta di scendere. La TC dopo la caduta è negativa e non c'è un deficit nuovo. Come inquadri l'agitazione prima di un sedativo o di una nuova radiologia?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Riconoscere un delirium acuto e fluttuante, non una demenza da etichettare stanotte",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Chiamarla demenza e iniziare subito Donepezil 5 mg",
+          "next": "res-nota85"
+        },
+        {
+          "id": "d1-w2",
+          "label": "Ripetere la TC Encefalo senza m.d.c. perché è agitato",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "VMD e MMSE al momento giusto",
+      "prompt": "In ortogeriatria la valutazione multidimensionale è raccomandata per ridurre il delirium. L'MMSE durante l'agitazione non è una diagnosi. Cosa fai?",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale ora; MMSE solo a delirium risolto",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Saltare le scale e chiedere Aloperidolo 2 mg/ml gocce",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cadute e contenzione",
+      "prompt": "Due cadute, diazepam ogni sera, ossibutinina. La figlia vuole le sponde bloccate. Bellelli proscrive la contenzione fisica. Cosa registri?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Scrivere il rischio cadute e rifiutare la contenzione per il cammino",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Omettere il rischio cadute perché è a letto",
+          "next": "res-cadute"
+        },
+        {
+          "id": "d3-w2",
+          "label": "Autorizzare sponde bloccate e fasce per tutta la notte",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cause precipitanti",
+      "prompt": "Dolore alla ferita, globo vescicale, sodio ai limiti. Bellelli: prima le strategie non farmacologiche e la correzione dei fattori scatenanti. Qual è il gesto utile?",
+      "cost": 20,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Analgesia, svuotamento vescicale e correzione dei precipitanti",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Aloperidolo 2 mg/ml gocce a ogni agitazione, senza toccare dolore e vescica",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaci inappropriati",
+      "prompt": "Il diazepam ha emivita lunga e aumenta cadute e fratture. L'ossibutinina è un antimuscarinico che in un disturbo cognitivo peggiora confusione e agitazione. Le benzodiazepine nel delirium sono riservate all'astinenza alcolica, che qui non c'è.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Sospendere diazepam e ossibutinina; non aggiungere un'altra benzodiazepina",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Aggiungere un'altra benzodiazepina a lunga emivita per la notte",
+          "next": "res-beers"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se cammina dopo le cause",
+      "prompt": "Dolore e vescica sono stati trattati. Di sera cammina nel corridoio ma non è un pericolo per sé o per gli altri e non ha un delirium da astinenza. I farmaci si usano solo se è un pericolo, se i sintomi impediscono cure essenziali, e comunque a bassa dose e per il minor tempo. Qui il cammino non soddisfa quel criterio, e la sedazione per prevenire le cadute è sconsigliata.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Nessun sedativo per il cammino: ambiente, sorveglianza, revisione dei farmaci",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "Aloperidolo 2 mg/ml gocce a orario per tenerlo a letto",
+          "next": "res-contenzione"
+        },
+        {
+          "id": "d6-w2",
+          "label": "Donepezil 5 mg da stanotte, senza diagnosi né piano",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dimissione",
+      "prompt": "Al quarto giorno è orientato, MMSE 23/30, cammina con il deambulatore. Come chiudi?",
+      "cost": 15,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Piano cadute, sospensioni confermate, MMSE di controllo, niente neurolettico a casa",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Dimissione con Aloperidolo 2 mg/ml gocce se cammina di notte, senza piano cadute",
+          "next": "res-cadute"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Delirium trattato senza contenzione",
+      "prompt": "Cause corrette, diazepam e ossibutinina sospesi, scale ai tempi della LG VMD e di Bellelli, nessuna seconda TC e nessuna sedazione del cammino.",
+      "cost": 52.5,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-contenzione",
+      "type": "resolution",
+      "title": "Contenzione o Aloperidolo per il cammino",
+      "prompt": "Legarlo, o sedarlo con Aloperidolo 2 mg/ml gocce perché cammina, contraddice Bellelli e il documento EBN: la contenzione non previene le cadute e i tranquillanti sono un fattore estrinseco di rischio. L'aloperidolo, se mai, è a bassa dose e per il minor tempo solo quando il paziente è un pericolo o i sintomi impediscono cure essenziali.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-beers",
+      "type": "resolution",
+      "title": "Benzodiazepina a lunga emivita",
+      "prompt": "Aggiungere o continuare il diazepam ripete un criterio di Beers ad alto rischio: sedazione prolungata, cadute e fratture. Nel delirium di Bellelli le benzodiazepine restano riservate all'astinenza alcolica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-cadute",
+      "type": "resolution",
+      "title": "Prevenzione delle cadute omessa",
+      "prompt": "Il manuale sulla sicurezza dei pazienti ricostruisce un decesso dopo caduta dal letto proprio sulla mancata applicazione delle procedure di prevenzione negli anziani. Dimettere senza piano, o con un sedativo notturno, lascia intatta quella omissione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "Seconda TC encefalo inutile",
+      "prompt": "La TC dopo la caduta c'è già ed è negativa, e non è comparso un segno focale. Ripeterla costa 70 euro e non distingue il delirium dalla demenza.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-nota85",
+      "type": "resolution",
+      "title": "Donepezil fuori Nota 85 e fuori dal delirium",
+      "prompt": "Bellelli: non vi sono evidenze per gli inibitori dell'acetilcolinesterasi nel delirium. La Nota 85 rimborsa il Donepezil 5 mg solo nell'Alzheimer, con diagnosi e piano del CDCD e MMSE nella fascia prevista. Stanotte mancano diagnosi, piano e un MMSE valido.",
+      "cost": 15,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

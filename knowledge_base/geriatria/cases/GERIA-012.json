@@ -1,0 +1,424 @@
+{
+  "id": "GERIA-012",
+  "code": "GERIA-012",
+  "title": "Allucinazioni nel Parkinson",
+  "description": "Sergio Vitali, 77 anni, malattia di Parkinson, vede persone in casa la sera, è spaventato ma non aggressivo. Beers: nella malattia di Parkinson gli antipsicotici tipici sono inappropriati per gli effetti antidopaminergici. La LG ISS avverte che in demenza associata a Parkinson o a corpi di Lewy gli antipsicotici possono peggiorare i sintomi motori e causare ipersensibilità grave. L'RCP della quetiapina non la autorizza nelle psicosi da demenza e chiede cautela nell'anziano con Parkinson. La Nota 85 non rimborsa il donepezil fuori dall'Alzheimer. La rivastigmina, non questo catalogo, è l'inibitore con indicazione nella demenza di Parkinson lieve-moderata; il donepezil in quella indicazione è off-label.",
+  "difficulty": "HARD",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Parkinson con allucinazioni: niente antipsicotico tipico e niente Nota 85",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Beers Parkinson; LG ISS rec. 90 e 149; RCP quetiapina; Nota 85",
+  "diagnosis": "Allucinazioni in malattia di Parkinson. Non si danno Aloperidolo 2 mg/ml gocce né Quetiapina 25 mg d'emblée, e non si usa Donepezil 5 mg come se fosse Nota 85.",
+  "pastMedicalHistory": "Parkinson da otto anni, levodopa. MMSE 22/30, rallentamento anche motorio: il punteggio va letto con la disabilità, raccomandazione 82. Nessun piano CDCD per Alzheimer. Nessuna caduta con trauma nelle 48 ore. Nessun segno focale nuovo.",
+  "presentation": "Tremore e camptocormia noti, racconta persone sulla porta solo la sera, è spaventato, non violento. La moglie chiede le gocce del neurologo generico, cioè l'aloperidolo.",
+  "redHerrings": [
+    "L'allucinazione sembra un'indicazione automatica al neurolettico.",
+    "La quetiapina sembra più sicura perché atipica.",
+    "L'MMSE 22 sembra un via libera al donepezil della Nota 85."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "ROLEPLAY. Sei Sergio Vitali, 77 anni. Dici che la sera ci sono persone sulla porta e hai paura, di giorno no. Non vuoi gocce che ti irrigidiscono. Se propongono Aloperidolo 2 mg/ml gocce, tua moglie dice sì e tu dici che non cammineresti più. Se propongono di sentire il centro Parkinson e di non aggiungere psicofarmaci oggi, accetti. Non nominare Beers.",
+  "correctSolution": "VMD e MMSE con i limiti motori. Cercare cause (infezione, farmaci, ambiente). Non iniziare Aloperidolo 2 mg/ml gocce. Non iniziare Quetiapina 25 mg. Non prescrivere Donepezil 5 mg con la Nota 85. Invio al centro che conosce la raccomandazione 90. Nessuna TC senza segno focale.",
+  "goldStandardPath": [
+    "anamnesi-park",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-cause",
+    "azione-no-tipico",
+    "azione-no-nota85",
+    "azione-invio"
+  ],
+  "goldPathNarrative": "Si riconoscono allucinazioni nel Parkinson, non un Alzheimer da Nota 85. VMD e MMSE descrivono funzione e cognizione senza ignorare il rallentamento motorio. Non si prescrivono aloperidolo né quetiapina. Si invia al percorso specialistico. Nessuna TC.",
+  "examLatencies": {
+    "anamnesi-park": 15,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-cause": 10,
+    "azione-no-tipico": 5,
+    "azione-no-nota85": 5,
+    "azione-invio": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-motorio",
+      "prompt": "Gli antipsicotici tipici come li tollera il Parkinson?",
+      "critical": true,
+      "expectedKeywords": [
+        "peggiorano",
+        "rigidità"
+      ],
+      "rationale": "Beers e la raccomandazione 149 sconsigliano i tipici."
+    },
+    {
+      "id": "aq-diagnosi",
+      "prompt": "C'è una diagnosi di Alzheimer con piano del CDCD?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "Parkinson"
+      ],
+      "rationale": "La Nota 85 non si applica."
+    },
+    {
+      "id": "aq-pericolo",
+      "prompt": "È violento o solo spaventato?",
+      "critical": true,
+      "expectedKeywords": [
+        "spaventato",
+        "no"
+      ],
+      "rationale": "Senza danno in atto non si salta la valutazione delle cause."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Segni extrapiramidali cronici, allucinazioni serali riferite, nessun deficit piramidale nuovo, non febbre."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-012-beers",
+      "source": "Criteri di Beers, malattia di Parkinson",
+      "quote": "Nella malattia di Parkinson e nei parkinsonismi gli antipsicotici, soprattutto di prima generazione, sono inappropriati per gli effetti antidopaminergici e colinergici."
+    },
+    {
+      "chunkId": "geria-012-lg",
+      "source": "LG ISS demenza e MCI, gennaio 2024, raccomandazioni 90 e 149",
+      "quote": "La rivastigmina in capsule è l'inibitore con indicazione nella demenza di Parkinson lieve-moderata; l'uso di donepezil è off-label. Gli antipsicotici possono peggiorare i sintomi motori e causare ipersensibilità grave nella demenza a corpi di Lewy."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Parkinson distinto dall'Alzheimer della Nota 85.",
+      "VMD e MMSE con limite motorio annotato.",
+      "Niente aloperidolo e niente quetiapina oggi.",
+      "Nessuna TC senza segno focale."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: allucinazioni, divieto del tipico, quetiapina non autorizzata nel RCP per la psicosi da demenza, donepezil non in Nota 85, invio specialistico.",
+      "legalCriteria": [
+        "Nessun antipsicotico tipico nel Parkinson.",
+        "La moglie è informata del rischio motorio.",
+        "Nessuna contenzione per la paura serale."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 3/6 per il motorio, IADL dipendenti, MNA 19, rischio cadute alto. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "22/30 con lentezza motoria che pesa sul disegno. Non è un piano di Nota 85. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c.",
+      "finding": "Nessun segno focale nuovo. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC non autorizza l'aloperidolo né il donepezil.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata da questo quesito. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non tratta le allucinazioni.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio, allucinazioni serali in Parkinson.",
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "124/74",
+      "spo2": 97,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 77,
+      "sex": "M",
+      "name": "Sergio Vitali"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Parkinson",
+        "result": "Tremore e rigidità cronici, non un deficit piramidale nuovo.",
+        "isPositive": true
+      },
+      {
+        "signName": "Aggressività",
+        "result": "Spaventato, non violento.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Parkinson",
+        "result": "Tremore e rigidità cronici, non un deficit piramidale nuovo.",
+        "isPositive": true
+      },
+      {
+        "signName": "Aggressività",
+        "result": "Spaventato, non violento.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 3/6 per il motorio, IADL dipendenti, MNA 19, rischio cadute alto. Costo 25 euro.",
+          "normalFinding": "ADL 3/6 per il motorio, IADL dipendenti, MNA 19, rischio cadute alto. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "22/30 con lentezza motoria che pesa sul disegno. Non è un piano di Nota 85. Costo 15 euro.",
+          "normalFinding": "22/30 con lentezza motoria che pesa sul disegno. Non è un piano di Nota 85. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tc-encefalo": {
+          "finding": "Nessun segno focale nuovo. Costo 70 euro.",
+          "normalFinding": "Nessun segno focale nuovo. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata da questo quesito. Costo 35 euro.",
+          "normalFinding": "Non indicata da questo quesito. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Descrive le persone sulla porta con paura. La moglie vuole una ricetta oggi. Lui si fida se gli prometti di non irrigidirlo."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Di che malattia parli",
+      "prompt": "Allucinazioni serali, Parkinson, niente piano per Alzheimer. Come eviti l'errore di categoria?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Allucinazioni nel Parkinson, non Alzheimer da Nota 85",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Donepezil 5 mg con piano immaginario perché l'MMSE è 22",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale",
+      "prompt": "VMD e MMSE, annotando che il rallentamento motorio può falsare il punteggio, raccomandazione 82.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE letto con la disabilità motoria",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Saltare le scale e dare Aloperidolo 2 mg/ml gocce",
+          "next": "res-aloperidolo"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cause",
+      "prompt": "Prima di un psicofarmaco: infezione, farmaci nuovi, deprivazione di sonno, ambiente. Raccomandazione 132.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Cercare le cause e non partire dal neurolettico",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Quetiapina 25 mg stasera senza cercare cause",
+          "next": "res-quetiapina"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Tipici",
+      "prompt": "Beers e raccomandazione 149: i tipici peggiorano il motorio e nella Lewy possono dare ipersensibilità grave.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non prescrivere Aloperidolo 2 mg/ml gocce",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Aloperidolo 2 mg/ml gocce a basso dosaggio tanto è poco",
+          "next": "res-aloperidolo"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quetiapina",
+      "prompt": "L'RCP non la autorizza nelle psicosi correlate a demenza e segnala cautela nell'anziano con Parkinson, con un segnale di mortalità nello studio che includeva il Parkinson.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non iniziare Quetiapina 25 mg in questo ambulatorio",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Quetiapina 25 mg ogni sera come scelta sicura",
+          "next": "res-quetiapina"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Donepezil",
+      "prompt": "La raccomandazione 90 indica la rivastigmina in capsule per la demenza di Parkinson lieve-moderata e dichiara off-label il donepezil. La Nota 85 è solo Alzheimer.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non usare Donepezil 5 mg al posto del percorso specialistico",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "Donepezil 5 mg in Nota 85 da oggi",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Invio",
+      "prompt": "Serve il centro che può applicare la raccomandazione 90, non una TC.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Invio specialistico, igiene del sonno, nessun neurolettico a casa",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "TC Encefalo senza m.d.c. e aloperidolo nel frattempo",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Parkinson senza tipico e senza Nota 85",
+      "prompt": "Cause cercate, scale fatte, nessun aloperidolo, nessuna quetiapina, nessun donepezil di Nota 85.",
+      "cost": 40,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-aloperidolo",
+      "type": "resolution",
+      "title": "Aloperidolo nel Parkinson",
+      "prompt": "Aloperidolo 2 mg/ml gocce è un antipsicotico tipico. Beers lo giudica inappropriato nel Parkinson. La raccomandazione 149 aggiunge il rischio di peggioramento motorio e di ipersensibilità grave se il quadro è una demenza a corpi di Lewy.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-quetiapina",
+      "type": "resolution",
+      "title": "Quetiapina non autorizzata",
+      "prompt": "L'RCP non autorizza la quetiapina nelle psicosi correlate alla demenza e chiede cautela nell'anziano con Parkinson. Quetiapina 25 mg non è la ricetta di questo ambulatorio.",
+      "cost": 5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-nota85",
+      "type": "resolution",
+      "title": "Donepezil in Nota 85 senza Alzheimer",
+      "prompt": "Donepezil 5 mg a carico del SSN richiede Alzheimer e piano del CDCD. Qui la malattia è il Parkinson e, per la LG, il donepezil in quella demenza è off-label. La molecola con indicazione citata è la rivastigmina in capsule.",
+      "cost": 15,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC non indicata",
+      "prompt": "Non c'è caduta recente con quesito aperto, né sospetto ictus, né segno focale. La TC costa 70 euro e nel frattempo non autorizza l'aloperidolo.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

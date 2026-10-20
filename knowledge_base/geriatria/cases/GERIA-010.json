@@ -1,0 +1,450 @@
+{
+  "id": "GERIA-010",
+  "code": "GERIA-010",
+  "title": "Delirium ipoattivo, non da sedare",
+  "description": "Carla Donati, 90 anni, in reparto è sonnolenta, inattenta, con fluttuazione riferita dal turno di notte. Non è aggressiva. Bellelli: la forma ipoattiva è la più frequente nell'anziano, ha prognosi peggiore e non richiede sedazione; gli antipsicotici rispondono poco. Vanno cercate le cause, qui una polmonite e un anticolinergico. Non ci sono segni focali né caduta: la TC non è indicata. Se il quadro diventasse terminale varrebbe l'art. 2 della Legge 219 sull'accanimento, ma oggi le cause sono trattabili.",
+  "difficulty": "HARD",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Delirium ipoattivo trattabile: niente sedazione, cause mediche, no TC",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Bellelli SIMG 2020; Legge 219/2017 art. 2; criteri di Beers",
+  "diagnosis": "Delirium ipoattivo da polmonite e anticolinergico, non terminalità. Non si seda e non si fa una TC encefalo.",
+  "pastMedicalHistory": "Scompenso lieve, demenza vascolare lieve nota da anni con sottotipo già chiaro. Ossibutinina. Nessuna DAT e nessuna pianificazione scritta di rinuncia alle cure delle infezioni. Vive in RSA.",
+  "presentation": "Apre gli occhi se chiamata, non mantiene l'attenzione, febbre 38, rantolo basale. Nessuna paresi nuova. Un collega propone Aloperidolo 2 mg/ml gocce perché disturba il sonno del compagno di stanza.",
+  "redHerrings": [
+    "La sonnolenza sembra terminalità da non trattare.",
+    "Sembra anche un motivo per sedarla.",
+    "La demenza nota sembra un motivo per una TC di controllo."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "ROLEPLAY. Sei Carla Donati, 90 anni. Rispondi a monosillabi, ti riaddormenti, se ti chiamano dici «sono stanca». Non sei aggressiva. Tua nipote chiede se è la fine. Se il medico spiega febbre e pastiglia della vescica, la nipote accetta le cure. Se propongono gocce per farla stare zitta, la nipote si allarma. Non nominare delirium.",
+  "correctSolution": "4AT compatibile con delirium, VMD, MMSE non diagnostico oggi, RX e PCR, sospendere l'ossibutinina, antibiotico. Niente Aloperidolo 2 mg/ml gocce, niente Quetiapina 25 mg, niente TC. Non dichiararla terminale saltando la polmonite.",
+  "goldStandardPath": [
+    "anamnesi-ipo",
+    "valutazione-geriatrica",
+    "mmse",
+    "rx-torace",
+    "pcr-pct",
+    "azione-cause",
+    "azione-no-sedazione"
+  ],
+  "goldPathNarrative": "Si riconosce il delirium ipoattivo. VMD e tentativo di MMSE documentano che oggi il test cognitivo non stadia la demenza. RX e PCR confermano la polmonite. Si toglie l'anticolinergico e si cura l'infezione. Non si seda e non si fa la TC.",
+  "examLatencies": {
+    "anamnesi-ipo": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 20,
+    "rx-torace": 40,
+    "pcr-pct": 60,
+    "azione-cause": 10,
+    "azione-no-sedazione": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-forma",
+      "prompt": "È sonnolenta e fluttuante o è un peggioramento stabile da mesi?",
+      "critical": true,
+      "expectedKeywords": [
+        "sonnolenta",
+        "fluttua"
+      ],
+      "rationale": "La forma ipoattiva è delirium, non una indicazione a sedare."
+    },
+    {
+      "id": "aq-cause",
+      "prompt": "Febbre, farmaci anticolinergici, dolore?",
+      "critical": true,
+      "expectedKeywords": [
+        "febbre",
+        "ossibutinina"
+      ],
+      "rationale": "Le cause trattabili vanno cercate prima di parlare di terminalità."
+    },
+    {
+      "id": "aq-focale",
+      "prompt": "C'è un segno focale o una caduta recente?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "focale"
+      ],
+      "rationale": "Senza quei criteri la TC non è indicata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ipoallerta, inattenzione, febbre, rantolo basale, nessun deficit focale nuovo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-010-ipo",
+      "source": "Bellelli, Rivista SIMG 2020",
+      "quote": "Il delirium ipocinetico non richiede una sedazione farmacologica. Gli studi hanno dimostrato scarsa responsività agli antipsicotici. L'uso di contenzioni fisiche è particolarmente pericoloso ed è da proscrivere."
+    },
+    {
+      "chunkId": "geria-010-219",
+      "source": "Legge 219/2017, art. 2",
+      "quote": "Il medico deve astenersi da ostinazione irragionevole e da trattamenti inutili o sproporzionati quando la prognosi è infausta a breve o la morte è imminente. Il dolore va sempre trattato."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Forma ipoattiva riconosciuta e non sedata.",
+      "Cause cercate: polmonite e anticolinergico.",
+      "VMD fatta. MMSE non usato come nuova stadiazione.",
+      "TC non eseguita. Terminalità non dichiarata al posto della cura."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: delirium ipoattivo, polmonite curata, ossibutinina sospesa, sedazione non indicata, TC non indicata, art. 2 non applicabile perché la causa è reversibile.",
+      "legalCriteria": [
+        "Nessuna sedazione del delirium ipoattivo.",
+        "Nessuna contenzione.",
+        "Nessun abbandono di una polmonite trattabile."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL dipendenti nell'acuto, MNA 16, demenza vascolare lieve di base. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "Non completabile per ipoallerta. Non si usa questo numero per cambiare la terapia antidemenza. Costo 15 euro se forzato.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX torace",
+      "finding": "Addensamento basale. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "PCR",
+      "finding": "PCR 12 mg/dL. Costo 28 euro.",
+      "isAbnormal": true,
+      "priceEuro": 28
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c.",
+      "finding": "Sottotipo vascolare già noto, nessun segno focale nuovo, nessuna caduta. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC non sostituisce la cura della polmonite.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata in questo turno. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non spiega la sonnolenza.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Reparto medico, sonnolenza e febbre.",
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "108/64",
+      "spo2": 93,
+      "temperature": 38,
+      "respiratoryRate": 24
+    },
+    "examBudgetEuro": 120,
+    "demographics": {
+      "age": 90,
+      "sex": "F",
+      "name": "Carla Donati"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Ipoallerta fluttuante",
+        "result": "Si risveglia allo stimolo e si riaddormenta.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale nuovo",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Ipoallerta fluttuante",
+        "result": "Si risveglia allo stimolo e si riaddormenta.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale nuovo",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL dipendenti nell'acuto, MNA 16, demenza vascolare lieve di base. Costo 25 euro.",
+          "normalFinding": "ADL dipendenti nell'acuto, MNA 16, demenza vascolare lieve di base. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "Non completabile per ipoallerta. Non si usa questo numero per cambiare la terapia antidemenza. Costo 15 euro se forzato.",
+          "normalFinding": "Non completabile per ipoallerta. Non si usa questo numero per cambiare la terapia antidemenza. Costo 15 euro se forzato.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "rx-torace": {
+          "finding": "Addensamento basale. Costo 25 euro.",
+          "normalFinding": "Addensamento basale. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "pcr-pct": {
+          "finding": "PCR 12 mg/dL. Costo 28 euro.",
+          "normalFinding": "PCR 12 mg/dL. Costo 28 euro.",
+          "isAbnormal": true,
+          "price": 28
+        },
+        "tc-encefalo": {
+          "finding": "Sottotipo vascolare già noto, nessun segno focale nuovo, nessuna caduta. Costo 70 euro.",
+          "normalFinding": "Sottotipo vascolare già noto, nessun segno focale nuovo, nessuna caduta. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata in questo turno. Costo 35 euro.",
+          "normalFinding": "Non indicata in questo turno. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Poche parole. La nipote teme l'abbandono e anche l'accanimento. Si fida se distingui la polmonite curabile da una sedazione inutile."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Ipoattivo non significa terminale",
+      "prompt": "Sonnolenta, febbre, anticolinergico, demenza già nota. Come lo leggi?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Delirium ipoattivo con causa trattabile, non sedazione e non abbandono",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Dichiararla terminale e sospendere ogni cura senza cercare la polmonite",
+          "next": "res-abbandono"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale e torace",
+      "prompt": "VMD, MMSE non forzato come nuova diagnosi, RX e PCR.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale, RX torace e PCR. MMSE a risoluzione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "TC Encefalo senza m.d.c. prima di visitare il torace",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cause",
+      "prompt": "Polmonite e ossibutinina. Cosa fai?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Antibiotico e sospensione dell'ossibutinina",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Aumentare l'ossibutinina e non dare l'antibiotico",
+          "next": "res-abbandono"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente sedazione",
+      "prompt": "Bellelli: il delirium ipoattivo non si seda. Gli antipsicotici rispondono poco. Non c'è pericolo.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Niente Aloperidolo 2 mg/ml gocce e niente Quetiapina 25 mg",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Quetiapina 25 mg perché non dorme il compagno di stanza",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Contenzione",
+      "prompt": "Propongono le sponde perché non si alzi nel sonno. Bellelli le proscrive.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Niente contenzione fisica",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Sponde e fasce per il turno di notte",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC encefalo",
+      "prompt": "Sottotipo già chiaro, nessun segno focale, nessuna caduta. Né Bellelli né la raccomandazione 12 indicano una TC nuova.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non eseguire la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. di controllo della demenza vascolare",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo la risoluzione",
+      "prompt": "Se la sonnolenza cede con la cura, non era terminalità. Si rimisura allora la cognizione.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "MMSE a risoluzione e lettera alla RSA senza neurolettico",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Dimissione con Aloperidolo 2 mg/ml gocce se è troppo quieta",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Ipoattivo curato, non sedato",
+      "prompt": "Polmonite trattata, anticolinergico sospeso, nessuna sedazione e nessuna TC.",
+      "cost": 93,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-abbandono",
+      "type": "resolution",
+      "title": "Causa trattabile saltata",
+      "prompt": "Sospendere le cure, o non dare l'antibiotico, applica l'art. 2 della Legge 219 a un quadro che non è una morte imminente: la polmonite è trattabile. L'articolo vieta l'accanimento, non la cura proporzionata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-sedazione",
+      "type": "resolution",
+      "title": "Sedazione dell'ipoattivo",
+      "prompt": "Aloperidolo 2 mg/ml gocce o Quetiapina 25 mg per una paziente ipoattiva contraddicono Bellelli. L'RCP non autorizza la quetiapina nelle psicosi da demenza. Non c'è un pericolo da trattare.",
+      "cost": 5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-contenzione",
+      "type": "resolution",
+      "title": "Contenzione notturna",
+      "prompt": "Le contenzioni fisiche, scrive Bellelli, sono particolarmente pericolose e da proscrivere. Non sono la cura del delirium ipoattivo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC di controllo",
+      "prompt": "Né il criterio di Bellelli né la raccomandazione 12, con sottotipo già chiaro e senza segno focale, indicano la TC. Costa 70 euro.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

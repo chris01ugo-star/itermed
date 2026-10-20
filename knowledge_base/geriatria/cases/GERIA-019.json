@@ -1,0 +1,447 @@
+{
+  "id": "GERIA-019",
+  "code": "GERIA-019",
+  "title": "Malnutrizione e rifiuto della nutrizione artificiale",
+  "description": "Rosa Marino, 79 anni, è capace, MNA in area di malnutrizione, perde peso, e rifiuta la PEG. Vuole mangiare poco, a conforto. L'art. 1 della Legge 219 include la nutrizione artificiale tra i trattamenti rifiutabili. La VMD serve a descrivere la malnutrizione, non a forzarla. Vive a casa, cammina: Colecalciferolo (Vitamina D) 25.000 UI senza 25-OH non rientra nello scenario A. Non si usa Quetiapina 25 mg per farle accettare il tubo.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Malnutrizione in paziente capace: niente PEG forzata e niente vitamina D fuori Nota 96",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Legge 219/2017 art. 1; Nota AIFA 96; LG VMD",
+  "diagnosis": "Malnutrizione con rifiuto capace della nutrizione artificiale. Il colecalciferolo empirico è fuori Nota 96. La TC encefalo non è indicata.",
+  "pastMedicalHistory": "Vedova, vive sola, cammina, appetito scarso da mesi, nessun tumore noto in questo scenario, nessun allettamento, nessuna istituzionalizzazione. Nessuna demenza. I figli chiedono la PEG e una vitamina D forte.",
+  "presentation": "Magra, lucida, rifiuta il tubo con frasi coerenti. Nessun deficit neurologico. MNA basso.",
+  "redHerrings": [
+    "Il peso basso sembra obbligare la PEG.",
+    "L'età sembra obbligare la vitamina D.",
+    "I figli chiedono un calmante per farla ragionare."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Rosa Marino, 79 anni, lucida. Dici che mangerai quello che riesci e che il tubo no. Cammini, vivi a casa. Se propongono la PEG, ripeti il no. Se propongono una fiala di vitamina senza prelievo, chiedi perché. Se ti spiegano integratori orali e il prelievo solo se serve, accetti. Non citare la legge.",
+  "correctSolution": "VMD con MNA, MMSE che conferma la capacità, supporto nutrizionale orale, rispetto del rifiuto della PEG, niente Colecalciferolo (Vitamina D) 25.000 UI senza criterio, niente Quetiapina 25 mg, niente TC.",
+  "goldStandardPath": [
+    "anamnesi-peso",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-rifiuto",
+    "azione-orale",
+    "azione-nota96",
+    "azione-no-tc"
+  ],
+  "goldPathNarrative": "La VMD misura la malnutrizione. L'MMSE conferma che decide lei. Si rispettano il rifiuto e gli integratori orali. Non si prescrive il colecalciferolo fuori scenario. Non si seda e non si fa la TC.",
+  "examLatencies": {
+    "anamnesi-peso": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-rifiuto": 10,
+    "azione-orale": 10,
+    "azione-nota96": 5,
+    "azione-no-tc": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-capacita",
+      "prompt": "Capisce la PEG e la rifiuta?",
+      "critical": true,
+      "expectedKeywords": [
+        "rifiuta",
+        "capisce"
+      ],
+      "rationale": "Il rifiuto capace vincola."
+    },
+    {
+      "id": "aq-scenario",
+      "prompt": "È allettata o istituzionalizzata?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "casa"
+      ],
+      "rationale": "Lo scenario A della Nota 96 non scatta."
+    },
+    {
+      "id": "aq-figli",
+      "prompt": "I figli vogliono il tubo al posto suo?",
+      "critical": true,
+      "expectedKeywords": [
+        "figli",
+        "tubo"
+      ],
+      "rationale": "Non sostituiscono una madre capace."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Magrezza, lucida, nessun deficit focale, cammina."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-019-219",
+      "source": "Legge 219/2017, art. 1",
+      "quote": "Ogni persona capace di agire ha il diritto di rifiutare qualsiasi trattamento sanitario. Sono considerati trattamenti la nutrizione artificiale e l'idratazione artificiale. Il medico è tenuto a rispettare il rifiuto."
+    },
+    {
+      "chunkId": "geria-019-96",
+      "source": "Nota AIFA 96",
+      "quote": "Nello scenario A il colecalciferolo senza 25-OH è limitato, tra gli altri, a persone istituzionalizzate o con gravi deficit motori o allettate. Lo screening nella popolazione generale è inappropriato."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Rifiuto annotato.",
+      "MNA e MMSE eseguiti.",
+      "Nutrizione orale, non PEG.",
+      "Vitamina D non prescritta fuori scenario. Nessuna TC."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: capacità, rifiuto della PEG, integratori orali, Nota 96 non soddisfatta, figli informati.",
+      "legalCriteria": [
+        "PEG non eseguita.",
+        "Nessun sedativo per il consenso.",
+        "I figli non firmano al posto suo."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 6/6, IADL 6/8, MNA 15 malnutrizione, cammina, vive a casa. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "28/30. Capacità conservata. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Emoglobina 11,2. Non spiega da solo il peso. Costo 4,80 euro.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c.",
+      "finding": "Nessun segno focale. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC non fa accettare la PEG e non nutre.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non è il primo esame di questa malnutrizione senza frattura. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "Farla non autorizza il colecalciferolo senza 25-OH in chi cammina.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio per calo di peso.",
+    "vitals": {
+      "heartRate": 74,
+      "bloodPressure": "118/70",
+      "spo2": 98,
+      "temperature": 36.4,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 79,
+      "sex": "F",
+      "name": "Rosa Marino"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Rifiuto capace",
+        "result": "Coerente e informato sul tubo.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit neurologico",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Rifiuto capace",
+        "result": "Coerente e informato sul tubo.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit neurologico",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 6/6, IADL 6/8, MNA 15 malnutrizione, cammina, vive a casa. Costo 25 euro.",
+          "normalFinding": "ADL 6/6, IADL 6/8, MNA 15 malnutrizione, cammina, vive a casa. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "28/30. Capacità conservata. Costo 15 euro.",
+          "normalFinding": "28/30. Capacità conservata. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "emocromo": {
+          "finding": "Emoglobina 11,2. Non spiega da solo il peso. Costo 4,80 euro.",
+          "normalFinding": "Emoglobina 11,2. Non spiega da solo il peso. Costo 4,80 euro.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "tc-encefalo": {
+          "finding": "Nessun segno focale. Costo 70 euro.",
+          "normalFinding": "Nessun segno focale. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non è il primo esame di questa malnutrizione senza frattura. Costo 35 euro.",
+          "normalFinding": "Non è il primo esame di questa malnutrizione senza frattura. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "È ferma sul no. I figli parlano sopra. Si affida se il medico ripete la sua frase e propone il cibo, non il tubo."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Chi rifiuta",
+      "prompt": "È capace e dice no alla PEG. I figli dicono sì. Cosa fai?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Annotare il rifiuto e non programmare la PEG",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "PEG perché il peso è basso e i figli insistono",
+          "next": "res-peg"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "VMD",
+      "prompt": "L'MNA quantifica la malnutrizione. L'MMSE sostiene la capacità. Non sono un mandato a forzarla.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Quetiapina 25 mg e poi si ridiscute la PEG",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Come nutrirla",
+      "prompt": "Integratori orali, pasti, controllo del peso. Il rifiuto del tubo non è rifiuto di ogni cura.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Supporto orale e follow-up del peso",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Niente cibo e niente follow-up: ha rifiutato, quindi si abbandona",
+          "next": "res-abbandono"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Vitamina D",
+      "prompt": "Cammina, vive a casa, non è istituzionalizzata. Senza 25-OH lo scenario B non è verificato.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non prescrivere Colecalciferolo (Vitamina D) 25.000 UI oggi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Colecalciferolo (Vitamina D) 25.000 UI perché è anziana e magra",
+          "next": "res-nota96"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sedativo",
+      "prompt": "Non c'è una psicosi. Il calmante servirebbe a piegare il no.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Niente Quetiapina 25 mg e niente Aloperidolo 2 mg/ml gocce",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Aloperidolo 2 mg/ml gocce finché non firma la PEG",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC encefalo",
+      "prompt": "Nessun segno focale e nessuna caduta.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non eseguire la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. per escludere che il no sia un ictus",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Lettera",
+      "prompt": "Rifiuto, integratori, peso, nessun tubo.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Piano nutrizionale orale e revoca possibile solo da lei",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Appuntamento PEG senza ridirle nulla",
+          "next": "res-peg"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Rifiuto rispettato e nutrizione orale avviata",
+      "prompt": "PEG non fatta, MNA documentato, vitamina D non data fuori Nota 96.",
+      "cost": 44.8,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-peg",
+      "type": "resolution",
+      "title": "PEG contro il rifiuto",
+      "prompt": "La PEG contro il no di una paziente capace viola l'art. 1 della Legge 219/2017. I figli non la sostituiscono.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-abbandono",
+      "type": "resolution",
+      "title": "Abbandono dopo il rifiuto",
+      "prompt": "Rifiutare il tubo non autorizza a sospendere cibo, integratori e follow-up. L'art. 1 chiede di prospettare alternative e di sostenere la persona.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-sedazione",
+      "type": "resolution",
+      "title": "Sedativo per il consenso",
+      "prompt": "Quetiapina 25 mg o Aloperidolo 2 mg/ml gocce per farle firmare la PEG sono una costrizione. Non c'è un'indicazione dell'RCP né un pericolo.",
+      "cost": 5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-nota96",
+      "type": "resolution",
+      "title": "Vitamina D fuori scenario",
+      "prompt": "Colecalciferolo (Vitamina D) 25.000 UI senza 25-OH, in una donna che cammina e vive a casa, non è lo scenario A. La magrezza da sola non è un criterio della Nota 96.",
+      "cost": 6,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC per spiegare il no",
+      "prompt": "Non c'è indicazione di Bellelli. La TC costa 70 euro e non revoca il rifiuto.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

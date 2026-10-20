@@ -1,0 +1,438 @@
+import type { Spec } from "./types";
+import { done, exam, q, step } from "./helpers";
+
+const mmse = (finding: string, abnormal = true) =>
+  exam("mmse", "Mini-Mental State Examination (MMSE)", finding, abnormal, 15);
+const vmd = (finding: string, abnormal = true) =>
+  exam(
+    "valutazione-geriatrica",
+    "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+    finding,
+    abnormal,
+    25,
+  );
+
+export const batch4: Spec[] = [
+  {
+    n: 16,
+    title: "Alzheimer moderato: aggiungere memantina",
+    description:
+      "Paolo Serra, 81 anni, Alzheimer già in Donepezil 5 mg con piano del CDCD. L'MMSE è sceso a 16, fascia moderata. Tollera il donepezil e il giudizio clinico non è di peggioramento tale da sospenderlo. La raccomandazione 87 dice di considerare l'aggiunta di memantina nell'Alzheimer moderata già in inibitore. La Nota 85 rimborsa la memantina tra MMSE 10 e 20, con piano aggiornato. La raccomandazione 89 vieta di interrompere solo per la gravità. Se compaiono fattori di rischio cardiaci, la Nota 85 consiglia l'ECG del QTc. Non si sostituisce il piano con Quetiapina 25 mg.",
+    difficulty: "MEDIUM",
+    matrixDifficulty: "INTERMEDIATE",
+    frequencyCategory: "HIGH",
+    setting: "AMBULATORIO",
+    condition: "Alzheimer moderato in donepezil: valutare memantina col piano, non sospendere per il punteggio",
+    guidelineRef: "Nota AIFA 85; LG ISS rec. 87 e 89",
+    diagnosis:
+      "Alzheimer moderato, MMSE 16, già in Donepezil 5 mg tollerato. Si considera Memantina 10 mg aggiornando il piano del CDCD. Non si interrompe il donepezil solo per la discesa del punteggio.",
+    pastMedicalHistory:
+      "Diagnosi CDCD di Alzheimer due anni fa, piano rinnovato, beneficio non perduto alla visita dei tre mesi. Ipertensione. Nessuna bradicardia, nessun farmaco che allunga il QT in questo momento. La figlia chiede di smettere tutto perché è peggiorato di qualche punto e di dare un sonnifero.",
+    presentation:
+      "Collaborante, ripete le domande, cammina, non ha deliri né aggressività. MMSE 16 oggi, era 20 un anno fa.",
+    redHerrings: ["La discesa del MMSE sembra un motivo per sospendere il donepezil.", "La memantina sembra prescrivibile dal medico di famiglia senza aggiornare il piano.", "Il sonno sembra una indicazione a quetiapina."],
+    timeLimitMinutes: 50,
+    patientDeteriorationThreshold: 30,
+    patientPrompt:
+      "ROLEPLAY. Sei Paolo Serra, 81 anni. Ripeti le stesse domande, sei cortese, non vedi cose strane. Tua figlia dice che le pastiglie non servono più. Se il medico spiega che il donepezil si tiene e che la memantina si valuta col centro, annuisci. Se propongono di togliere tutto o una pastiglia per dormire, tua figlia insiste e tu dici che di giorno sei già lento. Non nominare la Nota.",
+    correctSolution:
+      "VMD e MMSE 16. Mantenere Donepezil 5 mg. Considerare Memantina 10 mg solo con piano del CDCD aggiornato. ECG del QTc se compaiono i fattori della Nota 85. Niente Quetiapina 25 mg. Niente TC di controllo.",
+    goldStandardPath: ["anamnesi-piano", "valutazione-geriatrica", "mmse", "azione-tenere", "azione-memantina", "azione-qtc", "azione-no-tc"],
+    goldPathNarrative:
+      "Il piano c'è e il farmaco è tollerato. VMD e MMSE collocano la fascia moderata. Non si sospende il donepezil solo per il punteggio. Si considera la memantina aggiornando il piano. Non si dà la quetiapina. Non si ripete la TC.",
+    examLatencies: { "anamnesi-piano": 10, "valutazione-geriatrica": 45, mmse: 30, "azione-tenere": 5, "azione-memantina": 10, "azione-qtc": 10, "azione-no-tc": 5 },
+    anamnesisQuestions: [
+      q("aq-piano", "Il Donepezil 5 mg ha un piano del CDCD e com'è la tollerabilità?", ["piano", "tollerato"], "Senza piano la memantina non è rimborsabile."),
+      q("aq-mmse", "L'MMSE è tra 10 e 20?", ["16", "moderato"], "È la fascia in cui Nota 85 e raccomandazione 87 si incontrano."),
+      q("aq-cuore", "Ci sono bradicardia, cardiopatia o farmaci che allungano il QT?", ["no", "cuore"], "In quei casi la Nota 85 consiglia l'ECG del QTc."),
+    ],
+    physicalSummary: "Collaborante, nessun delirium, nessun deficit focale, polso 72 ritmico.",
+    citations: [
+      { chunkId: "geria-016-87", source: "LG ISS demenza e MCI, gennaio 2024, raccomandazioni 87 e 89", quote: "Nell'Alzheimer moderata già in trattamento con inibitori delle acetilcolinesterasi considerare l'aggiunta di memantina. Non interrompere inibitori o memantina solo sulla base della gravità di malattia." },
+      { chunkId: "geria-016-85", source: "Nota AIFA 85", quote: "Alzheimer moderato, MMSE tra 10 e 20: donepezil, rivastigmina, galantamina, memantina, su piano del CDCD. Il trattamento si interrompe se il beneficio è insufficiente. Se l'MMSE scende a 10 o meno, valutare il beneficio e il rischio di proseguire. Monitorare il QTc se ci sono cardiopatia, farmaci che allungano il QT, bradicardia o squilibri elettrolitici." },
+    ],
+    indicators: ["Fascia MMSE 10-20 riconosciuta.", "Donepezil non sospeso solo per il punteggio.", "Memantina solo con piano aggiornato.", "Niente quetiapina e niente TC."],
+    art5: "In cartella: MMSE 16, tollerabilità, piano da aggiornare prima della memantina, QTc non indicato oggi per assenza di fattori, quetiapina non prescritta.",
+    legalCriteria: ["Nessun sedativo per il sonno della figlia.", "Consenso all'invio al CDCD.", "Il piano non viene falsificato in ambulatorio."],
+    mandatoryExams: [
+      vmd("ADL 4/6, IADL 2/8, MNA 21, nessuna agitazione. Costo 25 euro."),
+      mmse("16/30, fascia moderata. Costo 15 euro."),
+      exam("ecg", "ECG", "Ritmo sinusale, QTc nei limiti. Utile come baseline, non perché ci sia già un fattore di rischio maggiore. Costo 15 euro.", false, 15),
+    ],
+    inappropriateExams: [
+      exam("tc-encefalo", "TC Encefalo senza m.d.c. di controllo", "Sottotipo già chiaro, nessun segno focale. Costo 70 euro.", false, 70, "La TC non aggiorna il piano terapeutico."),
+      exam("densitometria-ossea", "Densitometria Ossea (MOC)", "Non indicata. Costo 35 euro.", false, 35, "La densitometria non decide la memantina."),
+    ],
+    budget: 90,
+    name: "Paolo Serra",
+    age: 81,
+    sex: "M",
+    context: "Ambulatorio, rinnovo della terapia antidemenza.",
+    vitals: { heartRate: 72, bloodPressure: "134/76", spo2: 97, temperature: 36.5, respiratoryRate: 14 },
+    signs: [
+      { signName: "Deliri o aggressività", result: "Assenti.", isPositive: false },
+      { signName: "Tollerabilità del donepezil", result: "Niente nausea, polso normale.", isPositive: false },
+    ],
+    literacy: "MEDIUM",
+    emotion: "COLLABORATIVE",
+    adherence: "FULL",
+    sleep: "FAIR",
+    stress: "MEDIUM",
+    support: "STRONG",
+    communicationStyle: "Ripete le domande. La figlia vuole sospendere. Accetta il centro se non gli prometti una pastiglia nuova oggi stesso senza piano.",
+    steps: [
+      step("anamnesi", "Piano e tollerabilità", "Donepezil in piano, MMSE da 20 a 16, nessun effetto avverso. Cosa non fai?", 0, 15, "Non sospendere il Donepezil 5 mg solo perché il punteggio è sceso", [{ label: "Sospendere il donepezil solo per la discesa dell'MMSE", next: "res-stop" }]),
+      step("diagnostica", "Scale", "VMD e MMSE per la fascia e per la funzione, non per chiudere il piano.", 40, 15, "Valutazione multidimensionale e MMSE", [{ label: "TC Encefalo senza m.d.c. prima di ogni decisione sul farmaco", next: "res-tc" }]),
+      step("terapia", "Memantina", "Raccomandazione 87 e Nota 85: nella fascia 10-20 si può aggiungere, ma serve il piano del CDCD.", 0, 15, "Considerare Memantina 10 mg solo dopo aggiornamento del piano", [{ label: "Memantina 10 mg da oggi, piano invariato e non avvisare il CDCD", next: "res-piano" }]),
+      step("terapia", "QTc", "Oggi non ci sono i fattori elencati dalla Nota 85. Se comparissero, ECG. Non è un motivo per non considerare la memantina.", 0, 10, "Annotare l'assenza di fattori di QTc e rivalutarli al follow-up", [{ label: "Rifiutare per sempre la memantina senza quei fattori", next: "res-stop" }]),
+      step("terapia", "Sonno", "Non ci sono i criteri della raccomandazione 144. La quetiapina non è un ipnotico autorizzato.", 0, 10, "Niente Quetiapina 25 mg per il sonno", [{ label: "Quetiapina 25 mg alla sera al posto della memantina", next: "res-quetiapina" }]),
+      step("diagnostica", "Imaging", "Diagnosi e sottotipo sono chiari. Nessun segno focale.", 0, 10, "Non ripetere la TC Encefalo senza m.d.c.", [{ label: "TC Encefalo senza m.d.c. annuale obbligatoria", next: "res-tc" }]),
+      step("follow-up", "Tempi della Nota 85", "A un mese effetti collaterali e aggiustamento del piano, a tre mesi continuare solo se non c'è peggioramento nel giudizio clinico complessivo.", 0, 15, "Controlli a 1 e 3 mesi dopo ogni modifica del piano", [{ label: "Nessun controllo: la ricetta vale da sola", next: "res-piano" }]),
+    ],
+    resolutions: [
+      done("res-ok", "positive", "Piano aggiornato, donepezil mantenuto", "Fascia moderata riconosciuta, memantina rinviata al CDCD, donepezil non sospeso per il solo punteggio.", 55, 100),
+      done("res-stop", "negative", "Sospensione solo per gravità", "Interrompere il Donepezil 5 mg solo perché l'MMSE è sceso contraddice la raccomandazione 89. La Nota 85 chiede una valutazione individuale del beneficio, non un automatismo sul punteggio finché si è sopra la fascia severa.", 0, 0, "medico-legale"),
+      done("res-piano", "negative", "Memantina senza piano", "Memantina 10 mg a carico del SSN richiede il piano del CDCD. Prescriverla senza aggiornarlo, o senza i controlli a 1 e 3 mesi, è fuori Nota 85.", 20, 0, "economico"),
+      done("res-quetiapina", "negative", "Quetiapina come ipnotico", "Quetiapina 25 mg non è autorizzata come sonnifero né nelle psicosi da demenza. Non sostituisce la memantina e non ricorrono i criteri della raccomandazione 144.", 5, 0, "economico"),
+      done("res-tc", "negative", "TC di controllo", "Sottotipo chiaro, nessun segno focale. La TC costa 70 euro e non modifica il piano.", 70, 0, "economico"),
+    ],
+  },
+  {
+    n: 17,
+    title: "Protocollo di contenzione per chi cammina",
+    description:
+      "Giuseppina Ferri, 84 anni, in reparto dopo una polmonite risolta, cammina di notte verso il bagno. Il turno applica a tutti le sponde e chiede Aloperidolo 2 mg/ml gocce in protocollo. Non è aggressiva, non ha deliri, il delirium si è risolto. Bellelli proscrive la contenzione. Il documento EBN la considera inaccettabile come risposta alle necessità istituzionali e ricorda che non previene le cadute. La raccomandazione 144 non è soddisfatta. La VMD in reparto medico è raccomandata per ridurre il ricovero in struttura, non per giustificare le fasce.",
+    difficulty: "MEDIUM",
+    matrixDifficulty: "INTERMEDIATE",
+    frequencyCategory: "HIGH",
+    setting: "REPARTO",
+    condition: "Cammino in reparto: niente protocollo di contenzione o di aloperidolo",
+    guidelineRef: "Bellelli; EBN 2008; LG VMD R5a.1; LG ISS rec. 144",
+    diagnosis:
+      "Cammino notturno dopo delirium risolto. Non è indicata la contenzione né l'Aloperidolo 2 mg/ml gocce. Non si ripete la TC.",
+    pastMedicalHistory:
+      "Polmonite trattata. Delirium risolto da 48 ore. Ipertensione. Nessuna demenza conclamata. Nessuna DAT. MMSE di ieri, da lucida, 24.",
+    presentation:
+      "Lucida di giorno, di notte cerca il bagno. Nessuna aggressività. Il protocollo di reparto prevede sponde e gocce per chiunque si alzi.",
+    redHerrings: ["Il protocollo sembra una copertura legale.", "Il cammino viene chiamato pericolo automatico.", "Una TC viene chiesta per autorizzare le fasce."],
+    timeLimitMinutes: 40,
+    patientDeteriorationThreshold: 30,
+    patientPrompt:
+      "ROLEPLAY. Sei Giuseppina Ferri, 84 anni. Di giorno sei lucida. Dici che di notte ti alzi per il bagno e trovi le sponde. Non vuoi le gocce. Se il medico toglie il protocollo e lascia una luce e il campanello, ringrazi. Se insiste per l'Aloperidolo 2 mg/ml gocce, ti arrabbi. Non nominare codici deontologici.",
+    correctSolution:
+      "VMD, MMSE già lucido da confermare, luce, bagno assistito, revisione farmaci. Niente sponde abituali, niente Aloperidolo 2 mg/ml gocce, niente Quetiapina 25 mg, niente TC.",
+    goldStandardPath: ["anamnesi-protocollo", "valutazione-geriatrica", "mmse", "azione-ambiente", "azione-no-farmaco", "azione-no-fasce", "azione-no-tc"],
+    goldPathNarrative:
+      "Il delirium è risolto. VMD e MMSE mostrano una donna che può essere dimessa con un piano, non contenuta. Si tolgono le sponde di protocollo e non si prescrive l'aloperidolo. Nessuna TC.",
+    examLatencies: { "anamnesi-protocollo": 10, "valutazione-geriatrica": 45, mmse: 30, "azione-ambiente": 10, "azione-no-farmaco": 5, "azione-no-fasce": 5, "azione-no-tc": 5 },
+    anamnesisQuestions: [
+      q("aq-pericolo", "È aggressiva o sta andando in bagno?", ["bagno", "no"], "Senza danno o grave distress non scatta la raccomandazione 144."),
+      q("aq-delirium", "Il delirium è risolto?", ["risolto", "lucida"], "Non si tratta più un precipitante attivo."),
+      q("aq-protocollo", "Le sponde sono un atto sul suo caso o una regola del turno?", ["protocollo", "tutti"], "La contenzione istituzionale è inaccettabile nel documento EBN."),
+    ],
+    physicalSummary: "Lucida, deambulazione possibile, nessun deficit focale, polmonite risolta.",
+    citations: [
+      { chunkId: "geria-017-ebn", source: "Cappuccio et al., Centro Studi EBN, 2008", quote: "L'infermiere si adopera affinché la contenzione fisica e farmacologica sia evento straordinario e motivato, e non metodica abituale. È inaccettabile quando sia una risposta alle necessità istituzionali. La contenzione non previene le cadute." },
+      { chunkId: "geria-017-vmd", source: "LG SIGOT-SIMG sulla valutazione multidimensionale, R5a.1", quote: "Si raccomanda di usare la valutazione multidimensionale al fine di ridurre il tasso di ricovero in strutture residenziali nei pazienti anziani che afferiscono a reparti di area medica." },
+    ],
+    indicators: ["Protocollo di contenzione sospeso sul caso singolo.", "VMD e MMSE eseguiti.", "Niente aloperidolo di protocollo.", "Nessuna TC."],
+    art5: "In cartella: delirium risolto, cammino per il bagno, contenzione non indicata, VMD orientata alla dimissione e non alla fascia.",
+    legalCriteria: ["Nessuna contenzione di protocollo.", "Nessun sedativo di protocollo.", "Il piano di dimissione non include le gocce."],
+    mandatoryExams: [
+      vmd("ADL 5/6, MNA 22, delirium risolto, dimissione possibile con supervisione. Costo 25 euro."),
+      mmse("24/30 da lucida. Non autorizza un neurolettico. Costo 15 euro."),
+    ],
+    inappropriateExams: [
+      exam("tc-encefalo", "TC Encefalo senza m.d.c.", "Nessun segno focale, delirium risolto. Costo 70 euro.", false, 70, "La TC non autorizza le sponde."),
+      exam("densitometria-ossea", "Densitometria Ossea (MOC)", "Non indicata stanotte. Costo 35 euro.", false, 35, "La densitometria non sostituisce il bagno assistito."),
+    ],
+    budget: 70,
+    name: "Giuseppina Ferri",
+    age: 84,
+    sex: "F",
+    context: "Reparto medico, notte, protocollo di contenzione.",
+    vitals: { heartRate: 76, bloodPressure: "128/74", spo2: 97, temperature: 36.6, respiratoryRate: 16 },
+    signs: [
+      { signName: "Aggressività", result: "Assente. Cerca il bagno.", isPositive: false },
+      { signName: "Delirium attivo", result: "Risolto da 48 ore.", isPositive: false },
+    ],
+    literacy: "MEDIUM",
+    emotion: "DEFENSIVE",
+    adherence: "FULL",
+    sleep: "POOR",
+    stress: "MEDIUM",
+    support: "ADEQUATE",
+    communicationStyle: "Di giorno è ferma nel rifiuto delle gocce. Il turno invoca il protocollo. Cede se le lasci il campanello e la luce.",
+    steps: [
+      step("anamnesi", "Protocollo o caso", "Si alza per il bagno. Il turno vuole sponde e gocce per tutti. Cosa valuti prima?", 0, 15, "Il caso singolo: niente pericolo, delirium risolto", [{ label: "Applicare il protocollo senza vedere la paziente", next: "res-protocollo" }]),
+      step("diagnostica", "VMD", "In reparto medico la VMD è raccomandata per ridurre l'istituzionalizzazione, non per compilare le fasce.", 40, 15, "Valutazione multidimensionale e MMSE", [{ label: "Saltare le scale: il protocollo basta", next: "res-protocollo" }]),
+      step("screening", "Ambiente", "Luce, campanello, bagno assistito, calzature. È il primo intervento, non il farmaco.", 0, 15, "Misure ambientali e niente contenzione abituale", [{ label: "Sponde bloccate per tutto il turno", next: "res-contenzione" }]),
+      step("terapia", "Aloperidolo di protocollo", "Non è un pericolo e non ha grave distress psicotico.", 0, 15, "Non prescrivere Aloperidolo 2 mg/ml gocce", [{ label: "Aloperidolo 2 mg/ml gocce a ogni paziente che si alza", next: "res-aloperidolo" }]),
+      step("terapia", "Quetiapina", "Non è un ipnotico autorizzato e non c'è una psicosi da demenza da trattare.", 0, 10, "Non prescrivere Quetiapina 25 mg alla sera", [{ label: "Quetiapina 25 mg nel protocollo del sonno", next: "res-quetiapina" }]),
+      step("diagnostica", "TC encefalo", "Nessun segno focale. Il delirium è risolto.", 0, 10, "Non eseguire la TC Encefalo senza m.d.c.", [{ label: "TC Encefalo senza m.d.c. per autorizzare le sponde", next: "res-tc" }]),
+      step("follow-up", "Dimissione", "La VMD orienta a un rientro sorvegliato, non a una RSA decisa dalle fasce.", 0, 15, "Piano di dimissione senza neurolettico e senza contenzione", [{ label: "RSA perché si è alzata una notte", next: "res-protocollo" }]),
+    ],
+    resolutions: [
+      done("res-ok", "positive", "Protocollo sospeso", "Ambiente adattato, scale fatte, nessun sedativo e nessuna TC.", 40, 100),
+      done("res-protocollo", "negative", "Contenzione istituzionale", "Applicare sponde o istituzionalizzare perché un protocollo lo dice, senza un atto eccezionale e motivato sul caso, è la risposta alle necessità istituzionali che il documento EBN giudica inaccettabile.", 0, 0, "medico-legale"),
+      done("res-contenzione", "negative", "Sponde per il bagno", "Bellelli proscrive la contenzione fisica. Il documento EBN ricorda che non previene le cadute.", 0, 0, "medico-legale"),
+      done("res-aloperidolo", "negative", "Aloperidolo di protocollo", "Aloperidolo 2 mg/ml gocce per chiunque si alzi non rispetta la raccomandazione 144 né il criterio di Bellelli del pericolo. È contenzione farmacologica abituale.", 3, 0, "medico-legale"),
+      done("res-quetiapina", "negative", "Quetiapina nel protocollo", "Quetiapina 25 mg non è autorizzata come ipnotico. Metterla in un protocollo di sonno è una spesa inappropriata e un rischio cerebrovascolare segnalato nell'RCP per gli anziani.", 5, 0, "economico"),
+      done("res-tc", "negative", "TC per le sponde", "Non c'è indicazione di Bellelli. La TC costa 70 euro e non rende legittima la contenzione.", 70, 0, "economico"),
+    ],
+  },
+  {
+    n: 18,
+    title: "Delirium e infezione urinaria",
+    description:
+      "Antonio Ricci, 86 anni, è confuso da ieri, ha il catetere da tre giorni e la febbre. Bellelli elenca tra i precipitanti il catetere, l'infezione e i farmaci. Il neuroimaging non è indicato: non è caduto, non ha segni focali, non c'è sospetto di infezione del sistema nervoso. Non si inizia Donepezil 5 mg. Non si aggiunge un anticolinergico per la vescica. L'aloperidolo non è il primo atto se, tolto il catetere e avviata la cura, non è un pericolo.",
+    difficulty: "MEDIUM",
+    matrixDifficulty: "INTERMEDIATE",
+    frequencyCategory: "HIGH",
+    setting: "REPARTO",
+    condition: "Delirium da catetere e infezione: curare la causa, niente TC, niente donepezil",
+    guidelineRef: "Bellelli SIMG 2020; criteri di Beers; Nota AIFA 85",
+    diagnosis:
+      "Delirium precipitato da infezione urinaria e catetere. Non è indicata la TC encefalo. Non si inizia un antidemenza.",
+    pastMedicalHistory:
+      "Ritenzione trattata con catetere lasciato per comodità. Nessuna demenza nota. Ipertensione. Nessuna caduta. Nessuna astinenza alcolica.",
+    presentation:
+      "Inattento, febbre 38,2, urina torbida, nessun deficit di lato. Il catetere è stato messo tre giorni fa e non è stato più discusso.",
+    redHerrings: ["La confusione sembra un ictus.", "Il catetere sembra intoccabile.", "L'MMSE basso durante il delirium sembra un'indicazione al donepezil."],
+    timeLimitMinutes: 45,
+    patientDeteriorationThreshold: 30,
+    patientPrompt:
+      "ROLEPLAY. Sei Antonio Ricci, 86 anni, confuso, febbricitante. Dici che ti brucia e che non sai dove sei, poi per un minuto riconosci tuo figlio. Se propongono di togliere il catetere e di darti la cura, tuo figlio accetta. Se propongono la TAC o una pastiglia della memoria, tuo figlio chiede se è necessario. Non nominare delirium.",
+    correctSolution:
+      "Delirium, VMD, MMSE a risoluzione, urine ed esami, togliere il catetere se possibile, antibiotico mirato, niente TC, niente Donepezil 5 mg, niente ossibutinina, niente Aloperidolo 2 mg/ml gocce come primo atto.",
+    goldStandardPath: ["anamnesi-ivu", "valutazione-geriatrica", "mmse", "urine-sed", "azione-catetere", "azione-antibiotico", "azione-no-tc"],
+    goldPathNarrative:
+      "Si riconosce il delirium e si trova il catetere. VMD ora, MMSE dopo. Urine e cura dell'infezione. Nessuna TC. Nessun donepezil. Nessun anticolinergico aggiunto.",
+    examLatencies: { "anamnesi-ivu": 10, "valutazione-geriatrica": 45, mmse: 30, "urine-sed": 50, "azione-catetere": 10, "azione-antibiotico": 10, "azione-no-tc": 5 },
+    anamnesisQuestions: [
+      q("aq-catetere", "Da quando ha il catetere e chi ha deciso di lasciarlo?", ["tre giorni", "comodità"], "Il catetere è un precipitante di Bellelli."),
+      q("aq-focale", "C'è un deficit neurologico nuovo?", ["no", "focale"], "Senza segno focale la TC non è indicata."),
+      q("aq-farmaci", "Qualcuno propone donepezil o un anticolinergico vescicale?", ["donepezil", "ossibutinina"], "Né l'uno né l'altro curano questo delirium."),
+    ],
+    physicalSummary: "Inattenzione fluttuante, febbre, catetere, nessun segno focale, non rigidità nucale.",
+    citations: [
+      { chunkId: "geria-018-bellelli", source: "Bellelli, Rivista SIMG 2020", quote: "Tra i fattori precipitanti ci sono la contenzione, la malnutrizione, la polifarmacia, il catetere vescicale e l'iatrogenesi. Il neuroimaging non è indicato in assenza di caduta recente, sospetto ictus o infezione centrale, o coscienza ridotta con segni focali." },
+      { chunkId: "geria-018-beers", source: "Criteri di Beers, antimuscarinici", quote: "Gli antimuscarinici, per esempio nell'iperattività vescicale, peggiorano deficit cognitivo, confusione e agitazione." },
+    ],
+    indicators: ["Catetere riconosciuto come precipitante.", "VMD fatta, MMSE differito.", "Niente TC e niente donepezil.", "Niente anticolinergico aggiunto."],
+    art5: "In cartella: delirium, infezione, catetere rimosso o motivato, TC non indicata, donepezil non iniziato.",
+    legalCriteria: ["Nessuna contenzione.", "Nessun neurolettico come primo atto.", "Il catetere non resta per comodità del turno."],
+    mandatoryExams: [
+      vmd("ADL in calo acuto, catetere, febbre. Costo 25 euro."),
+      mmse("Non valido oggi. A risoluzione 25/30. Costo 15 euro se forzato nel delirium."),
+      exam("urine-sed", "Esame urine", "Leucocituria e nitriti positivi. Costo 6 euro.", true, 6),
+      exam("pcr-pct", "PCR", "PCR 8 mg/dL. Costo 28 euro.", true, 28),
+    ],
+    inappropriateExams: [
+      exam("tc-encefalo", "TC Encefalo senza m.d.c.", "Non indicata. Costo 70 euro.", false, 70, "La TC non toglie il catetere."),
+      exam("densitometria-ossea", "Densitometria Ossea (MOC)", "Non indicata. Costo 35 euro.", false, 35, "La densitometria non cura l'infezione."),
+    ],
+    budget: 100,
+    name: "Antonio Ricci",
+    age: 86,
+    sex: "M",
+    context: "Reparto, confusione e catetere.",
+    vitals: { heartRate: 100, bloodPressure: "110/68", spo2: 95, temperature: 38.2, respiratoryRate: 20 },
+    signs: [
+      { signName: "Delirium", result: "Inattenzione e fluttuazione da ieri.", isPositive: true },
+      { signName: "Segno focale", result: "Assente. Non c'è rigidità nucale.", isPositive: false },
+    ],
+    literacy: "LOW",
+    emotion: "ANXIOUS",
+    adherence: "PARTIAL",
+    sleep: "POOR",
+    stress: "HIGH",
+    support: "ADEQUATE",
+    communicationStyle: "Fluttua. Il figlio vuole una spiegazione semplice: febbre e tubo, non una TAC di notte.",
+    steps: [
+      step("anamnesi", "Precipitanti visibili", "Confusione, febbre, catetere da tre giorni, niente deficit. Come lo chiami?", 0, 15, "Delirium da infezione e catetere", [{ label: "Demenza e Donepezil 5 mg stanotte", next: "res-donepezil" }]),
+      step("diagnostica", "Cosa chiedere", "VMD, urine, PCR. MMSE dopo. Non la TC.", 40, 15, "Valutazione multidimensionale, urine e PCR. MMSE a risoluzione", [{ label: "TC Encefalo senza m.d.c. prima delle urine", next: "res-tc" }]),
+      step("terapia", "Catetere", "Bellelli lo elenca tra i precipitanti. È stato lasciato per comodità.", 0, 15, "Rimuovere il catetere se la ritenzione non lo impone più e curare l'infezione", [{ label: "Lasciare il catetere e aggiungere ossibutinina", next: "res-anticolinergico" }]),
+      step("terapia", "Neurolettico", "Non è un pericolo: è febbrile e confuso, il figlio è presente. Prima la causa.", 0, 15, "Niente Aloperidolo 2 mg/ml gocce come primo atto", [{ label: "Aloperidolo 2 mg/ml gocce e contenzione in attesa della TC", next: "res-sedazione" }]),
+      step("terapia", "Donepezil", "Nessuna evidenza nel delirium. Nessun piano di Nota 85.", 0, 10, "Non iniziare Donepezil 5 mg", [{ label: "Donepezil 5 mg perché l'MMSE di stanotte è basso", next: "res-donepezil" }]),
+      step("diagnostica", "TC encefalo", "Niente caduta, niente segno focale, niente sospetto di meningite.", 0, 10, "Non eseguire la TC Encefalo senza m.d.c.", [{ label: "TC Encefalo senza m.d.c. comunque, è anziano", next: "res-tc" }]),
+      step("follow-up", "A risoluzione", "MMSE da lucido e lettera senza catetere di comodità.", 0, 15, "MMSE di controllo e niente neurolettico a casa", [{ label: "Dimissione con il catetere e Aloperidolo 2 mg/ml gocce", next: "res-sedazione" }]),
+    ],
+    resolutions: [
+      done("res-ok", "positive", "Causa tolta", "Catetere e infezione affrontati, niente TC e niente donepezil.", 74, 100),
+      done("res-anticolinergico", "negative", "Anticolinergico aggiunto", "Aggiungere ossibutinina e lasciare il catetere mantiene due precipitanti. Beers: gli antimuscarinici peggiorano confusione e agitazione.", 0, 0, "medico-legale"),
+      done("res-sedazione", "negative", "Sedazione e catetere di comodità", "Aloperidolo 2 mg/ml gocce e contenzione, o la dimissione con entrambi, saltano la causa. Bellelli proscrive la contenzione e riserva il farmaco al pericolo.", 3, 0, "medico-legale"),
+      done("res-tc", "negative", "TC non indicata", "Non ricorrono i criteri di Bellelli. La TC costa 70 euro e non cura l'infezione.", 70, 0, "economico"),
+      done("res-donepezil", "negative", "Donepezil nel delirium", "Nessuna evidenza degli inibitori nel delirium. Donepezil 5 mg senza Alzheimer e senza piano è fuori Nota 85.", 15, 0, "economico"),
+    ],
+  },
+  {
+    n: 19,
+    title: "Malnutrizione e rifiuto della nutrizione artificiale",
+    description:
+      "Rosa Marino, 79 anni, è capace, MNA in area di malnutrizione, perde peso, e rifiuta la PEG. Vuole mangiare poco, a conforto. L'art. 1 della Legge 219 include la nutrizione artificiale tra i trattamenti rifiutabili. La VMD serve a descrivere la malnutrizione, non a forzarla. Vive a casa, cammina: Colecalciferolo (Vitamina D) 25.000 UI senza 25-OH non rientra nello scenario A. Non si usa Quetiapina 25 mg per farle accettare il tubo.",
+    difficulty: "MEDIUM",
+    matrixDifficulty: "INTERMEDIATE",
+    frequencyCategory: "MEDIUM",
+    setting: "AMBULATORIO",
+    condition: "Malnutrizione in paziente capace: niente PEG forzata e niente vitamina D fuori Nota 96",
+    guidelineRef: "Legge 219/2017 art. 1; Nota AIFA 96; LG VMD",
+    diagnosis:
+      "Malnutrizione con rifiuto capace della nutrizione artificiale. Il colecalciferolo empirico è fuori Nota 96. La TC encefalo non è indicata.",
+    pastMedicalHistory:
+      "Vedova, vive sola, cammina, appetito scarso da mesi, nessun tumore noto in questo scenario, nessun allettamento, nessuna istituzionalizzazione. Nessuna demenza. I figli chiedono la PEG e una vitamina D forte.",
+    presentation:
+      "Magra, lucida, rifiuta il tubo con frasi coerenti. Nessun deficit neurologico. MNA basso.",
+    redHerrings: ["Il peso basso sembra obbligare la PEG.", "L'età sembra obbligare la vitamina D.", "I figli chiedono un calmante per farla ragionare."],
+    timeLimitMinutes: 45,
+    patientDeteriorationThreshold: 30,
+    patientPrompt:
+      "ROLEPLAY. Sei Rosa Marino, 79 anni, lucida. Dici che mangerai quello che riesci e che il tubo no. Cammini, vivi a casa. Se propongono la PEG, ripeti il no. Se propongono una fiala di vitamina senza prelievo, chiedi perché. Se ti spiegano integratori orali e il prelievo solo se serve, accetti. Non citare la legge.",
+    correctSolution:
+      "VMD con MNA, MMSE che conferma la capacità, supporto nutrizionale orale, rispetto del rifiuto della PEG, niente Colecalciferolo (Vitamina D) 25.000 UI senza criterio, niente Quetiapina 25 mg, niente TC.",
+    goldStandardPath: ["anamnesi-peso", "valutazione-geriatrica", "mmse", "azione-rifiuto", "azione-orale", "azione-nota96", "azione-no-tc"],
+    goldPathNarrative:
+      "La VMD misura la malnutrizione. L'MMSE conferma che decide lei. Si rispettano il rifiuto e gli integratori orali. Non si prescrive il colecalciferolo fuori scenario. Non si seda e non si fa la TC.",
+    examLatencies: { "anamnesi-peso": 10, "valutazione-geriatrica": 45, mmse: 30, "azione-rifiuto": 10, "azione-orale": 10, "azione-nota96": 5, "azione-no-tc": 5 },
+    anamnesisQuestions: [
+      q("aq-capacita", "Capisce la PEG e la rifiuta?", ["rifiuta", "capisce"], "Il rifiuto capace vincola."),
+      q("aq-scenario", "È allettata o istituzionalizzata?", ["no", "casa"], "Lo scenario A della Nota 96 non scatta."),
+      q("aq-figli", "I figli vogliono il tubo al posto suo?", ["figli", "tubo"], "Non sostituiscono una madre capace."),
+    ],
+    physicalSummary: "Magrezza, lucida, nessun deficit focale, cammina.",
+    citations: [
+      { chunkId: "geria-019-219", source: "Legge 219/2017, art. 1", quote: "Ogni persona capace di agire ha il diritto di rifiutare qualsiasi trattamento sanitario. Sono considerati trattamenti la nutrizione artificiale e l'idratazione artificiale. Il medico è tenuto a rispettare il rifiuto." },
+      { chunkId: "geria-019-96", source: "Nota AIFA 96", quote: "Nello scenario A il colecalciferolo senza 25-OH è limitato, tra gli altri, a persone istituzionalizzate o con gravi deficit motori o allettate. Lo screening nella popolazione generale è inappropriato." },
+    ],
+    indicators: ["Rifiuto annotato.", "MNA e MMSE eseguiti.", "Nutrizione orale, non PEG.", "Vitamina D non prescritta fuori scenario. Nessuna TC."],
+    art5: "In cartella: capacità, rifiuto della PEG, integratori orali, Nota 96 non soddisfatta, figli informati.",
+    legalCriteria: ["PEG non eseguita.", "Nessun sedativo per il consenso.", "I figli non firmano al posto suo."],
+    mandatoryExams: [
+      vmd("ADL 6/6, IADL 6/8, MNA 15 malnutrizione, cammina, vive a casa. Costo 25 euro."),
+      mmse("28/30. Capacità conservata. Costo 15 euro."),
+      exam("emocromo", "Emocromo", "Emoglobina 11,2. Non spiega da solo il peso. Costo 4,80 euro.", true, 4.8),
+    ],
+    inappropriateExams: [
+      exam("tc-encefalo", "TC Encefalo senza m.d.c.", "Nessun segno focale. Costo 70 euro.", false, 70, "La TC non fa accettare la PEG e non nutre."),
+      exam("densitometria-ossea", "Densitometria Ossea (MOC)", "Non è il primo esame di questa malnutrizione senza frattura. Costo 35 euro.", false, 35, "Farla non autorizza il colecalciferolo senza 25-OH in chi cammina."),
+    ],
+    budget: 80,
+    name: "Rosa Marino",
+    age: 79,
+    sex: "F",
+    context: "Ambulatorio per calo di peso.",
+    vitals: { heartRate: 74, bloodPressure: "118/70", spo2: 98, temperature: 36.4, respiratoryRate: 14 },
+    signs: [
+      { signName: "Rifiuto capace", result: "Coerente e informato sul tubo.", isPositive: true },
+      { signName: "Deficit neurologico", result: "Assente.", isPositive: false },
+    ],
+    literacy: "MEDIUM",
+    emotion: "DEFENSIVE",
+    adherence: "PARTIAL",
+    sleep: "FAIR",
+    stress: "MEDIUM",
+    support: "ADEQUATE",
+    communicationStyle: "È ferma sul no. I figli parlano sopra. Si affida se il medico ripete la sua frase e propone il cibo, non il tubo.",
+    steps: [
+      step("anamnesi", "Chi rifiuta", "È capace e dice no alla PEG. I figli dicono sì. Cosa fai?", 0, 15, "Annotare il rifiuto e non programmare la PEG", [{ label: "PEG perché il peso è basso e i figli insistono", next: "res-peg" }]),
+      step("diagnostica", "VMD", "L'MNA quantifica la malnutrizione. L'MMSE sostiene la capacità. Non sono un mandato a forzarla.", 40, 15, "Valutazione multidimensionale e MMSE", [{ label: "Quetiapina 25 mg e poi si ridiscute la PEG", next: "res-sedazione" }]),
+      step("terapia", "Come nutrirla", "Integratori orali, pasti, controllo del peso. Il rifiuto del tubo non è rifiuto di ogni cura.", 0, 15, "Supporto orale e follow-up del peso", [{ label: "Niente cibo e niente follow-up: ha rifiutato, quindi si abbandona", next: "res-abbandono" }]),
+      step("terapia", "Vitamina D", "Cammina, vive a casa, non è istituzionalizzata. Senza 25-OH lo scenario B non è verificato.", 0, 10, "Non prescrivere Colecalciferolo (Vitamina D) 25.000 UI oggi", [{ label: "Colecalciferolo (Vitamina D) 25.000 UI perché è anziana e magra", next: "res-nota96" }]),
+      step("terapia", "Sedativo", "Non c'è una psicosi. Il calmante servirebbe a piegare il no.", 0, 10, "Niente Quetiapina 25 mg e niente Aloperidolo 2 mg/ml gocce", [{ label: "Aloperidolo 2 mg/ml gocce finché non firma la PEG", next: "res-sedazione" }]),
+      step("diagnostica", "TC encefalo", "Nessun segno focale e nessuna caduta.", 0, 10, "Non eseguire la TC Encefalo senza m.d.c.", [{ label: "TC Encefalo senza m.d.c. per escludere che il no sia un ictus", next: "res-tc" }]),
+      step("follow-up", "Lettera", "Rifiuto, integratori, peso, nessun tubo.", 0, 15, "Piano nutrizionale orale e revoca possibile solo da lei", [{ label: "Appuntamento PEG senza ridirle nulla", next: "res-peg" }]),
+    ],
+    resolutions: [
+      done("res-ok", "positive", "Rifiuto rispettato e nutrizione orale avviata", "PEG non fatta, MNA documentato, vitamina D non data fuori Nota 96.", 44.8, 100),
+      done("res-peg", "negative", "PEG contro il rifiuto", "La PEG contro il no di una paziente capace viola l'art. 1 della Legge 219/2017. I figli non la sostituiscono.", 0, 0, "medico-legale"),
+      done("res-abbandono", "negative", "Abbandono dopo il rifiuto", "Rifiutare il tubo non autorizza a sospendere cibo, integratori e follow-up. L'art. 1 chiede di prospettare alternative e di sostenere la persona.", 0, 0, "medico-legale"),
+      done("res-sedazione", "negative", "Sedativo per il consenso", "Quetiapina 25 mg o Aloperidolo 2 mg/ml gocce per farle firmare la PEG sono una costrizione. Non c'è un'indicazione dell'RCP né un pericolo.", 5, 0, "medico-legale"),
+      done("res-nota96", "negative", "Vitamina D fuori scenario", "Colecalciferolo (Vitamina D) 25.000 UI senza 25-OH, in una donna che cammina e vive a casa, non è lo scenario A. La magrezza da sola non è un criterio della Nota 96.", 6, 0, "economico"),
+      done("res-tc", "negative", "TC per spiegare il no", "Non c'è indicazione di Bellelli. La TC costa 70 euro e non revoca il rifiuto.", 70, 0, "economico"),
+    ],
+  },
+  {
+    n: 20,
+    title: "Frattura di polso e pressione in piedi",
+    description:
+      "Bruno Galli, 80 anni, è caduto fratturandosi il polso. In piedi la pressione crolla. Assume doxazosina. Beers segnala ipotensione posturale con urapidil e prazosina e ipotensione con la nifedipina; la doxazosina è elencata per ipotensione ortostatica. Non è allettato a lungo e vive a casa: Colecalciferolo (Vitamina D) 25.000 UI senza 25-OH è fuori scenario A. La TC encefalo dopo la caduta, se indicata dal trauma, non si ripete da lucido senza segno focale. Le sponde non sono la prevenzione.",
+    difficulty: "MEDIUM",
+    matrixDifficulty: "INTERMEDIATE",
+    frequencyCategory: "HIGH",
+    setting: "PRONTO_SOCCORSO",
+    condition: "Caduta con ortostatismo: togliere la doxazosina, vitamina D solo dentro la Nota 96",
+    guidelineRef: "Criteri di Beers; Nota AIFA 96; EBN; Bellelli",
+    diagnosis:
+      "Frattura di polso e ipotensione ortostatica da doxazosina. Non si ripete la TC e non si prescrive il colecalciferolo senza criterio.",
+    pastMedicalHistory:
+      "Ipertensione in doxazosina e un diuretico. Vive a casa, cammina. Nessuna istituzionalizzazione. Osteoporosi non ancora inquadrata come candidatura a remineralizzazione: manca il 25-OH. TC dopo la caduta negativa, è lucido. Nessun deficit.",
+    presentation:
+      "Polso dolorante, pressione 150/84 da sdraiato e 98/62 in piedi con capogiro. Lucido. La figlia chiede le gocce per la notte e la vitamina D subito.",
+    redHerrings: ["La pressione da sdraiato sembra ancora da trattare con lo stesso farmaco.", "La frattura sembra un via libera al bolo di vitamina D.", "Il trauma cranico lieve, già studiato, sembra una seconda TC."],
+    timeLimitMinutes: 45,
+    patientDeteriorationThreshold: 30,
+    patientPrompt:
+      "ROLEPLAY. Sei Bruno Galli, 80 anni, ti fa male il polso, sei lucido. Se ti alzi ti gira la testa. Prendi la doxazosina. Vivi a casa. Se propongono di toglierla, accetti. Se propongono vitamina D senza prelievo, chiedi. Se propongono gocce o sponde, rifiuti. Non nominare note.",
+    correctSolution:
+      "VMD, MMSE, pressione in piedi, sospendere la doxazosina, immobilizzare il polso, piano cadute. Niente Colecalciferolo (Vitamina D) 25.000 UI prima del 25-OH. Niente Aloperidolo 2 mg/ml gocce. Niente seconda TC.",
+    goldStandardPath: ["anamnesi-polso", "valutazione-geriatrica", "mmse", "azione-ortostatismo", "azione-doxazosina", "azione-nota96", "azione-piano"],
+    goldPathNarrative:
+      "Si misura la pressione in piedi e si trova la doxazosina. VMD e MMSE. Si sospende il farmaco, si sistema il polso, si scrive il piano. Il colecalciferolo aspetta il 25-OH. La TC non si ripete.",
+    examLatencies: { "anamnesi-polso": 10, "valutazione-geriatrica": 45, mmse: 30, "azione-ortostatismo": 10, "azione-doxazosina": 5, "azione-nota96": 5, "azione-piano": 10 },
+    anamnesisQuestions: [
+      q("aq-piedi", "La pressione in piedi com'è, e assume doxazosina?", ["in piedi", "doxazosina"], "Il farmaco è elencato per ipotensione ortostatica."),
+      q("aq-casa", "È allettato in modo stabile o cammina e vive a casa?", ["casa", "cammina"], "Lo scenario A non si applica."),
+      q("aq-tc", "La TC dopo la caduta è già negativa e lui è lucido?", ["negativa", "lucido"], "Non si ripete senza un segno nuovo."),
+    ],
+    physicalSummary: "Lucido, frattura di polso, caduta pressoria in ortostatismo, nessun deficit focale.",
+    citations: [
+      { chunkId: "geria-020-beers", source: "Criteri di Beers, ipotensione", quote: "Doxazosina: possibile ipotensione ortostatica. Urapidil e prazosina: possibile ipotensione posturale. La nifedipina causa ipotensione." },
+      { chunkId: "geria-020-96", source: "Nota AIFA 96", quote: "Senza determinazione della 25-OH la prescrizione è limitata a persone istituzionalizzate, con gravi deficit motori o allettate, in gravidanza o con osteoporosi non candidata a terapia remineralizzante. Le dosi elevate possono aumentare cadute e fratture." },
+    ],
+    indicators: ["Ortostatismo misurato.", "Doxazosina sospesa.", "VMD e MMSE eseguiti.", "Vitamina D non data fuori scenario. TC non ripetuta."],
+    art5: "In cartella: pressione in piedi, doxazosina sospesa, piano cadute, Nota 96 non soddisfatta, seconda TC non indicata.",
+    legalCriteria: ["Nessuna contenzione.", "Nessun sedativo notturno.", "Piano cadute scritto."],
+    mandatoryExams: [
+      vmd("ADL 5/6 per il polso, MNA 23, vive a casa, rischio cadute alto. Costo 25 euro."),
+      mmse("27/30. Lucido. Costo 15 euro."),
+      exam("rx-ossa", "RX polso", "Frattura di radio distale composta. Costo 30 euro.", true, 30),
+    ],
+    inappropriateExams: [
+      exam("tc-encefalo", "Seconda TC Encefalo senza m.d.c.", "La prima dopo la caduta è negativa. Costo 70 euro.", false, 70, "È lucido e senza segno focale nuovo."),
+      exam("densitometria-ossea", "Densitometria Ossea (MOC) stanotte", "Va programmata, non sostituisce la sospensione della doxazosina. Costo 35 euro.", false, 35, "Farla in pronto soccorso non autorizza il colecalciferolo senza 25-OH."),
+    ],
+    budget: 100,
+    name: "Bruno Galli",
+    age: 80,
+    sex: "M",
+    context: "Pronto soccorso, frattura di polso e capogiro in piedi.",
+    vitals: { heartRate: 88, bloodPressure: "150/84", spo2: 98, temperature: 36.5, respiratoryRate: 16 },
+    signs: [
+      { signName: "Ipotensione ortostatica", result: "Da 150/84 a 98/62 in piedi.", isPositive: true },
+      { signName: "Deficit focale", result: "Assente.", isPositive: false },
+    ],
+    literacy: "MEDIUM",
+    emotion: "ANXIOUS",
+    adherence: "FULL",
+    sleep: "FAIR",
+    stress: "MEDIUM",
+    support: "ADEQUATE",
+    communicationStyle: "Vuole tornare a casa. Accetta di sospendere la pastiglia della pressione se gli misuri i numeri in piedi.",
+    steps: [
+      step("anamnesi", "Perché è caduto", "Polso fratturato, capogiro in piedi, doxazosina. Qual è il meccanismo?", 0, 15, "Ipotensione ortostatica da doxazosina", [{ label: "Aumentare la doxazosina perché da sdraiato è 150", next: "res-farmaco" }]),
+      step("diagnostica", "Scale e polso", "VMD, MMSE, radiografia. La TC c'è già.", 40, 15, "Valutazione multidimensionale, MMSE e RX del polso", [{ label: "Seconda TC Encefalo senza m.d.c. prima del polso", next: "res-tc" }]),
+      step("terapia", "Doxazosina", "Beers la associa a ipotensione ortostatica. Si sospende o si sostituisce con una molecola che non faccia lo stesso.", 0, 15, "Sospendere la doxazosina e ricontrollare in piedi", [{ label: "Aggiungere nifedipina a rilascio rapido", next: "res-farmaco" }]),
+      step("terapia", "Vitamina D", "Vive a casa e cammina. Manca il 25-OH. Non è lo scenario A. Un bolo elevato aumenterebbe il rischio di una nuova caduta.", 0, 10, "Non prescrivere Colecalciferolo (Vitamina D) 25.000 UI stanotte", [{ label: "Colecalciferolo (Vitamina D) 25.000 UI in bolo perché si è fratturato", next: "res-nota96" }]),
+      step("screening", "Cadute", "Piano, non sponde, non gocce.", 0, 15, "Piano cadute senza Aloperidolo 2 mg/ml gocce e senza contenzione", [{ label: "Aloperidolo 2 mg/ml gocce e sponde per una settimana", next: "res-contenzione" }]),
+      step("diagnostica", "Seconda TC", "Lucido, TC negativa, nessun segno nuovo.", 0, 10, "Non ripetere la TC Encefalo senza m.d.c.", [{ label: "TC Encefalo senza m.d.c. di controllo domattina", next: "res-tc" }]),
+      step("follow-up", "Dimissione", "Polso immobilizzato, doxazosina sospesa, 25-OH solo se poi diventerà candidato a remineralizzazione.", 0, 15, "Lettera con farmaco sospeso e piano, vitamina D non anticipata", [{ label: "Stessa doxazosina e vitamina D in borsa", next: "res-nota96" }]),
+    ],
+    resolutions: [
+      done("res-ok", "positive", "Ortostatismo corretto", "Doxazosina sospesa, polso curato, vitamina D non data fuori Nota 96, TC non ripetuta.", 70, 100),
+      done("res-farmaco", "negative", "Antipertensivo che abbassa ancora", "Aumentare la doxazosina o aggiungere nifedipina ignora l'ipotensione in piedi già scritta nei criteri di Beers.", 0, 0, "medico-legale"),
+      done("res-contenzione", "negative", "Gocce e sponde", "Aloperidolo 2 mg/ml gocce e sponde dopo una caduta non prevengono la successiva e non sono un atto eccezionale motivato.", 3, 0, "medico-legale"),
+      done("res-nota96", "negative", "Colecalciferolo fuori scenario", "Colecalciferolo (Vitamina D) 25.000 UI senza 25-OH, in un uomo che cammina e vive a casa, non è lo scenario A. Il bolo è anche il tipo di dose che la Nota 96 collega a più cadute e fratture.", 6, 0, "economico"),
+      done("res-tc", "negative", "Seconda TC", "La TC dopo la caduta è negativa e non c'è un segno focale nuovo. Ripeterla costa 70 euro.", 70, 0, "economico"),
+    ],
+  },
+];

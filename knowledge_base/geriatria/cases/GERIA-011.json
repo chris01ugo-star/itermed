@@ -1,0 +1,457 @@
+{
+  "id": "GERIA-011",
+  "code": "GERIA-011",
+  "title": "RSA allettata: vitamina D nello scenario A",
+  "description": "Franca Bellini, 88 anni, è allettata in RSA per grave deficit motorio dopo un ictus antico, con dolore vertebrale meccanico. Non è candidata a terapia remineralizzante. La Nota 96, scenario A, consente il colecalciferolo senza dosare la 25-OH nelle persone istituzionalizzate, allettate a domicilio, o con osteoporosi non candidata a remineralizzazione. Le dosi elevate, però, possono aumentare cadute e fratture. Il dolore non si tratta con Aloperidolo 2 mg/ml gocce né con la contenzione. La TC encefalo di controllo non è indicata: l'ictus è antico e non c'è un segno nuovo.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Scenario A della Nota 96: colecalciferolo sì, bolo elevato e TC no",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Nota AIFA 96 scenario A; Bellelli; EBN contenzione",
+  "diagnosis": "Dolore vertebrale in donna istituzionalizzata e allettata, non candidata a remineralizzazione. Colecalciferolo (Vitamina D) 25.000 UI è ammissibile senza 25-OH. Il bolo elevato e la TC encefalo no.",
+  "pastMedicalHistory": "Ictus antico con emiparesi stabile, allettata, vive in RSA. Nessun segno neurologico nuovo. Nessuna candidatura a farmaco antiriassorbitivo per fragilità estrema. Dolore rachideo da una settimana.",
+  "presentation": "Dolore alla mobilizzazione del rachide, vigile, emiparesi vecchia invariata. Il medico di RSA propone un bolo molto alto e una TC del cervello, e le gocce perché si lamenta di notte.",
+  "redHerrings": [
+    "Chiedere il 25-OH a tutta la RSA sembra più prudente.",
+    "Un bolo unico sembra più comodo.",
+    "Il lamento notturno sembra un'indicazione all'aloperidolo."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Franca Bellini, 88 anni, a letto in RSA. Ti fa male la schiena quando ti girano. L'emiparesi è quella di sempre. Se ti chiedono se vuoi una pastiglia per le ossa, dici di sì se non ti addormentano. Se propongono gocce forti o di legarti perché piangi, dici no. Non nominare note AIFA.",
+  "correctSolution": "VMD, MMSE, analgesia, Colecalciferolo (Vitamina D) 25.000 UI nello schema prudente dello scenario A, senza 25-OH obbligatorio e senza bolo elevato. Niente Aloperidolo 2 mg/ml gocce, niente contenzione, niente TC encefalo, niente screening di massa della 25-OH.",
+  "goldStandardPath": [
+    "anamnesi-rsa",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-nota96",
+    "azione-dolore",
+    "azione-no-bolo",
+    "azione-no-tc"
+  ],
+  "goldPathNarrative": "È istituzionalizzata e allettata, non candidata a remineralizzazione: scenario A. VMD e MMSE documentano la fragilità. Si prescrive Colecalciferolo (Vitamina D) 25.000 UI senza pretendere il 25-OH e senza bolo elevato. Si cura il dolore. Non si contiene e non si ripete la TC.",
+  "examLatencies": {
+    "anamnesi-rsa": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-nota96": 10,
+    "azione-dolore": 10,
+    "azione-no-bolo": 5,
+    "azione-no-tc": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-scenario",
+      "prompt": "È istituzionalizzata o allettata, ed è candidata a un antiriassorbitivo?",
+      "critical": true,
+      "expectedKeywords": [
+        "RSA",
+        "allettata"
+      ],
+      "rationale": "Lo scenario A non richiede il 25-OH."
+    },
+    {
+      "id": "aq-dolore",
+      "prompt": "Il lamento è dolore rachideo o un delirium nuovo?",
+      "critical": true,
+      "expectedKeywords": [
+        "dolore",
+        "schiena"
+      ],
+      "rationale": "Il dolore si tratta, non si seda come se fosse un BPSD."
+    },
+    {
+      "id": "aq-focale",
+      "prompt": "L'emiparesi è cambiata?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "stabile"
+      ],
+      "rationale": "Senza segno nuovo la TC non si ripete."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dolore vertebrale meccanico, emiparesi cronica invariata, lucida, non febbrile."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-011-96",
+      "source": "Nota AIFA 96, scenario A",
+      "quote": "Indipendentemente dalla determinazione della 25(OH)D: persone istituzionalizzate; persone con gravi deficit motori o allettate che vivono al proprio domicilio; persone con osteoporosi non candidate a terapia remineralizzante."
+    },
+    {
+      "chunkId": "geria-011-dose",
+      "source": "Nota AIFA 96, sicurezza",
+      "quote": "Dai trials di Sanders KM e di Smith H emerge che il trattamento con dosi elevate di vitamina D può aumentare il rischio di cadute o di fratture."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Scenario A riconosciuto.",
+      "Colecalciferolo prescritto senza 25-OH obbligatorio e senza bolo elevato.",
+      "VMD e MMSE eseguiti. Dolore trattato.",
+      "Niente TC e niente aloperidolo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: scenario A, dose non elevata, analgesia, rifiuto di contenzione e di TC.",
+      "legalCriteria": [
+        "Il dolore è trattato, non sedato.",
+        "Nessuna contenzione per il lamento.",
+        "Consenso della paziente alla vitamina D."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 1/6, allettata, MNA 17, emiparesi cronica. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "18/30, stabile, eseguito da lucida. Non è il motivo della vitamina D. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "rx-colonna",
+      "name": "RX colonna",
+      "finding": "Crollo vertebrale senza deficit neurologico nuovo. Costo 35 euro.",
+      "isAbnormal": true,
+      "priceEuro": 35
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c. di controllo",
+      "finding": "Esiti di ictus già noti, nessun segno nuovo. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC non è richiesta dallo scenario A né dal dolore vertebrale.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non cambia la condotta: non è candidata a remineralizzazione. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "Farla non è il criterio che autorizza il colecalciferolo in questo scenario.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Visita in RSA per dolore vertebrale.",
+    "vitals": {
+      "heartRate": 80,
+      "bloodPressure": "130/70",
+      "spo2": 96,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 100,
+    "demographics": {
+      "age": 88,
+      "sex": "F",
+      "name": "Franca Bellini"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Dolore vertebrale",
+        "result": "Dolorabilità alla mobilizzazione, deficit neurologico invariato.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale nuovo",
+        "result": "Emiparesi uguale all'anno scorso.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Dolore vertebrale",
+        "result": "Dolorabilità alla mobilizzazione, deficit neurologico invariato.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale nuovo",
+        "result": "Emiparesi uguale all'anno scorso.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 1/6, allettata, MNA 17, emiparesi cronica. Costo 25 euro.",
+          "normalFinding": "ADL 1/6, allettata, MNA 17, emiparesi cronica. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "18/30, stabile, eseguito da lucida. Non è il motivo della vitamina D. Costo 15 euro.",
+          "normalFinding": "18/30, stabile, eseguito da lucida. Non è il motivo della vitamina D. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "rx-colonna": {
+          "finding": "Crollo vertebrale senza deficit neurologico nuovo. Costo 35 euro.",
+          "normalFinding": "Crollo vertebrale senza deficit neurologico nuovo. Costo 35 euro.",
+          "isAbnormal": true,
+          "price": 35
+        },
+        "tc-encefalo": {
+          "finding": "Esiti di ictus già noti, nessun segno nuovo. Costo 70 euro.",
+          "normalFinding": "Esiti di ictus già noti, nessun segno nuovo. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non cambia la condotta: non è candidata a remineralizzazione. Costo 35 euro.",
+          "normalFinding": "Non cambia la condotta: non è candidata a remineralizzazione. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde sì e no. Il medico di RSA vuole una soluzione unica per tutta la stanza. Lei accetta l'analgesia."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Scenario A o B",
+      "prompt": "Istituzionalizzata, allettata, non candidata a remineralizzazione. Ti chiedono il 25-OH prima di ogni vitamina D. Cosa applica la Nota 96?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Scenario A: il colecalciferolo è prescrivibile senza 25-OH",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Rifiutare ogni Colecalciferolo (Vitamina D) 25.000 UI finché non c'è il 25-OH",
+          "next": "res-rifiuto"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale e colonna",
+      "prompt": "Funzione, cognizione, radiografia del dolore. La densitometria non decide questo scenario.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "VMD, MMSE e RX colonna. Non la TC encefalo",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "TC Encefalo senza m.d.c. e densitometria prima di ogni cura",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prescrizione corretta",
+      "prompt": "Quale ricetta è dentro la Nota 96 senza rincorrere il bolo di Sanders?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Colecalciferolo (Vitamina D) 25.000 UI in schema prudente, non un bolo elevato",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Bolo elevato unico perché tanto è in RSA",
+          "next": "res-bolo"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dolore",
+      "prompt": "Si lamenta di notte per la schiena. Non è un pericolo e non ha deliri.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Analgesia. Niente Aloperidolo 2 mg/ml gocce",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Aloperidolo 2 mg/ml gocce a ogni lamento",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Contenzione",
+      "prompt": "Il turno chiede le fasce perché piange quando la girano.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Niente contenzione. Girarla con analgesia",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Fasce notturne come metodica della stanza",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Screening di massa",
+      "prompt": "Propongono il 25-OH a tutti i residenti asintomatici della RSA. La Nota 96 dice che lo screening della popolazione senza fattori che lo richiedano è inappropriato, e in questo scenario A il dosaggio non è il presupposto della ricetta.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non avviare uno screening di 25-OH per tutta la RSA",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "Dosare la 25-OH a tutti i residenti asintomatici",
+          "next": "res-screening"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Lettera",
+      "prompt": "Come chiudi?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Vitamina D nello scenario A, analgesia, nessun neurolettico, nessuna TC",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "TC Encefalo senza m.d.c. tra una settimana per controllo",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Scenario A applicato",
+      "prompt": "Colecalciferolo prescritto senza 25-OH obbligatorio e senza bolo elevato. Dolore trattato. Nessuna TC.",
+      "cost": 75,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-rifiuto",
+      "type": "resolution",
+      "title": "Scenario A ignorato",
+      "prompt": "Negare Colecalciferolo (Vitamina D) 25.000 UI solo perché manca il 25-OH contraddice lo scenario A: istituzionalizzata, allettata, non candidata a remineralizzazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-bolo",
+      "type": "resolution",
+      "title": "Bolo elevato",
+      "prompt": "La Nota 96 riporta che dosi elevate possono aumentare cadute e fratture. Il bolo non è lo schema prudente dello scenario A.",
+      "cost": 6,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-screening",
+      "type": "resolution",
+      "title": "Screening inappropriato",
+      "prompt": "La Nota 96 considera inappropriato il dosaggio nella popolazione senza le condizioni che lo richiedono. In scenario A il prelievo di massa non è la condizione della rimborsabilità.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-sedazione",
+      "type": "resolution",
+      "title": "Aloperidolo per il dolore",
+      "prompt": "Aloperidolo 2 mg/ml gocce non è l'analgesia. Non ricorrono pericolo o grave distress psicotico. Il dolore va trattato.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-contenzione",
+      "type": "resolution",
+      "title": "Fasce di routine",
+      "prompt": "La contenzione come metodica della stanza è inaccettabile nel documento EBN e da proscrivere secondo Bellelli.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC encefalo di controllo",
+      "prompt": "Non c'è segno focale nuovo. Diagnosi vascolare già nota. La TC costa 70 euro.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

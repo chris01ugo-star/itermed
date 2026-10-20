@@ -1,0 +1,437 @@
+{
+  "id": "GERIA-003",
+  "code": "GERIA-003",
+  "title": "Sincope ortostatica da antipertensivi",
+  "description": "Mario Lenti, 84 anni, è svenuto alzandosi dal letto. Nessun deficit focale, è già lucido, la TC dopo il trauma cranico lieve è negativa. Assume clonidina, doxazosina e nifedipina. I criteri integrati segnalano ipotensione posturale con questi farmaci. La prevenzione delle cadute è revisione dei farmaci e ambiente, non contenzione e non un sedativo. Una seconda TC non è indicata.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Sincope ortostatica: deprescrivere i farmaci che abbassano la pressione in piedi",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Criteri di Beers integrati; EBN contenzione; Bellelli SIMG 2020; manuale sicurezza",
+  "diagnosis": "Sincope da ipotensione ortostatica su clonidina, doxazosina e nifedipina. Non è un'emorragia da riscandire e non si previene con l'Aloperidolo.",
+  "pastMedicalHistory": "Ipertensione trattata con clonidina, doxazosina e nifedipina a rilascio rapido, oltre a un diuretico. Due pre-sincopi nell'ultimo mese. Diabete in dieta. Nessuna DAT. Vive con la moglie. Nessun dolore toracico.",
+  "presentation": "Lucido, pallido, pressione 138/76 da sdraiato e 96/60 in piedi, con capogiro. Nessuna paresi, nessun morso linguale. La moglie chiede di legarlo al letto e di dargli qualcosa per non farlo alzare.",
+  "redHerrings": [
+    "Il trauma cranico lieve fa chiedere una seconda TC a distanza di ore.",
+    "La pressione da sdraiato sembra ancora alta e invita ad aggiungere un farmaco.",
+    "La moglie chiede un sedativo come prevenzione della caduta."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY. Sei Mario Lenti, 84 anni, in pronto soccorso dopo uno svenimento. Sei lucido e spaventato. Se chiedono come è successo: «Mi sono alzato e è diventato nero». Se chiedono i farmaci: clonidina, doxazosina, nifedipina, la pastiglia dell'acqua. Se ti misurano in piedi, di' che ti gira di nuovo. Se propongono di legarti o l'Aloperidolo 2 mg/ml gocce, rifiuta. Se propongono di alleggerire le pastiglie della pressione, accetta. Non nominare budget.",
+  "correctSolution": "Ipotensione ortostatica. VMD e MMSE. Sospensione o riduzione di clonidina, doxazosina e nifedipina. Piano cadute. Nessuna contenzione, niente Aloperidolo 2 mg/ml gocce, nessuna seconda TC encefalo.",
+  "goldStandardPath": [
+    "anamnesi-sincope",
+    "valutazione-geriatrica",
+    "mmse",
+    "ecg",
+    "azione-ortostatismo",
+    "azione-deprescrizione",
+    "azione-cadute"
+  ],
+  "goldPathNarrative": "Si misura la pressione in piedi. La VMD e l'MMSE escludono che il problema sia una demenza acuta. L'ECG cerca una causa cardiaca grossolana. Si allegano clonidina, doxazosina e nifedipina, citate per ipotensione posturale. Non si ripete la TC e non si contiene.",
+  "examLatencies": {
+    "anamnesi-sincope": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "ecg": 15,
+    "azione-ortostatismo": 10,
+    "azione-deprescrizione": 10,
+    "azione-cadute": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-alzata",
+      "prompt": "Lo svenimento è avvenuto al passaggio in piedi?",
+      "critical": true,
+      "expectedKeywords": [
+        "in piedi",
+        "alzato"
+      ],
+      "rationale": "L'ortostatismo è il meccanismo da misurare, non da inferire."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "Quali antipertensivi assume, in particolare clonidina, doxazosina o nifedipina?",
+      "critical": true,
+      "expectedKeywords": [
+        "clonidina",
+        "nifedipina"
+      ],
+      "rationale": "Quei farmaci sono elencati per ipotensione posturale."
+    },
+    {
+      "id": "aq-focale",
+      "prompt": "C'è un deficit neurologico nuovo rispetto a ieri?",
+      "critical": true,
+      "expectedKeywords": [
+        "deficit",
+        "no"
+      ],
+      "rationale": "Senza segno focale nuovo la TC già fatta non si ripete."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucido, nessun deficit focale, caduta pressoria in ortostatismo con capogiro. Ferita superficiale dello scalpo già medicata. ECG senza ischemia acuta."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-003-beers",
+      "source": "Criteri integrati di inappropriatezza nell'anziano, ipertensione e ipotensione",
+      "quote": "Urapidil e prazosina: possibile ipotensione posturale. La clonidina può causare ipotensione ortostatica. La nifedipina causa ipotensione e costipazione."
+    },
+    {
+      "chunkId": "geria-003-ebn",
+      "source": "Cappuccio et al., Contenzione e disorientamento, Centro Studi EBN 2008",
+      "quote": "La contenzione fisica dovrebbe essere un atto eccezionale, da sottoporre a prescrizione medica e giustificare. I tranquillanti compaiono tra i fattori estrinseci di rischio di caduta."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Pressione misurata in clino e ortostatismo.",
+      "VMD e MMSE eseguiti.",
+      "Clonidina, doxazosina e nifedipina rivisti.",
+      "Nessuna seconda TC e nessuna contenzione."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: valori in ortostatismo, farmaci sospesi o ridotti, assenza di segno focale nuovo, rifiuto della contenzione e della seconda TC.",
+      "legalCriteria": [
+        "Nessuna contenzione per impedirgli di alzarsi.",
+        "Piano cadute scritto, come chiede la logica del manuale sulla sicurezza.",
+        "Il sedativo non è usato come prevenzione della caduta."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 5/6, IADL in parte conservate, MNA 22, rischio cadute alto per ipotensione e politerapia. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "27/30, eseguito da lucido. Non sostiene una diagnosi di demenza. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Ritmo sinusale, non ischemia acuta, QTc nei limiti. Costo 15 euro.",
+      "isAbnormal": false,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "Seconda TC Encefalo senza m.d.c.",
+      "finding": "Identica alla TC dopo il trauma, già negativa. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "È lucido e senza segno focale nuovo: la seconda TC non cambia la sospensione dei farmaci.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non decide la sincope di oggi. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria in pronto soccorso non corregge l'ortostatismo.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso dopo sincope al risveglio.",
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "138/76",
+      "spo2": 97,
+      "temperature": 36.4,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 120,
+    "demographics": {
+      "age": 84,
+      "sex": "M",
+      "name": "Mario Lenti"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Ipotensione ortostatica",
+        "result": "Da 138/76 a 96/60 in piedi, con capogiro.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit focale",
+        "result": "Forza e linguaggio invariati.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Ipotensione ortostatica",
+        "result": "Da 138/76 a 96/60 in piedi, con capogiro.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit focale",
+        "result": "Forza e linguaggio invariati.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 5/6, IADL in parte conservate, MNA 22, rischio cadute alto per ipotensione e politerapia. Costo 25 euro.",
+          "normalFinding": "ADL 5/6, IADL in parte conservate, MNA 22, rischio cadute alto per ipotensione e politerapia. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "27/30, eseguito da lucido. Non sostiene una diagnosi di demenza. Costo 15 euro.",
+          "normalFinding": "27/30, eseguito da lucido. Non sostiene una diagnosi di demenza. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "ecg": {
+          "finding": "Ritmo sinusale, non ischemia acuta, QTc nei limiti. Costo 15 euro.",
+          "normalFinding": "Ritmo sinusale, non ischemia acuta, QTc nei limiti. Costo 15 euro.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "tc-encefalo": {
+          "finding": "Identica alla TC dopo il trauma, già negativa. Costo 70 euro.",
+          "normalFinding": "Identica alla TC dopo il trauma, già negativa. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non decide la sincope di oggi. Costo 35 euro.",
+          "normalFinding": "Non decide la sincope di oggi. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Collabora se gli si spiega la pressione in piedi. La moglie chiede di immobilizzarlo. Si oppongono entrambi a un sedativo se gli si dice che aumenta le cadute."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Meccanismo della sincope",
+      "prompt": "È svenuto alzandosi. È lucido, la TC dopo il trauma è negativa, non c'è deficit nuovo. Da dove parti?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Misurare la pressione in piedi e ricostruire i farmaci antipertensivi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Ripetere subito la TC Encefalo senza m.d.c.",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "VMD e cognizione",
+      "prompt": "Non è un delirium. Servono funzione, cadute e un MMSE da lucido, più un ECG. Cosa chiedi?",
+      "cost": 55,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale, MMSE ed ECG",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Aloperidolo 2 mg/ml gocce e sponde, senza scale",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Rischio cadute",
+      "prompt": "Due pre-sincopi, politerapia, moglie che vuole le sponde. Il manuale sulla sicurezza lega un esito grave alla mancata prevenzione. Cosa registri?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Piano multifattoriale: farmaci, ambiente, niente contenzione abituale",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Omettere il piano cadute: è stato uno svenimento solo",
+          "next": "res-cadute"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quali farmaci alleggerire",
+      "prompt": "Clonidina, doxazosina e nifedipina sono nel sacchetto. I criteri li associano a ipotensione posturale o ortostatica. Cosa fai?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Sospendere o ridurre clonidina, doxazosina e nifedipina e ricontrollare in piedi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Aggiungere un altro antipertensivo perché da sdraiato è 138",
+          "next": "res-ipotensione"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cosa non aggiungere",
+      "prompt": "La moglie chiede un sedativo perché non si rialzi di notte. I tranquillanti sono un fattore estrinseco di caduta.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Niente Aloperidolo 2 mg/ml gocce e niente benzodiazepina",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Aloperidolo 2 mg/ml gocce la sera per tenerlo a letto",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Imaging già fatto",
+      "prompt": "La TC dopo la caduta è negativa. È lucido, senza segno focale. Bellelli non indica un nuovo neuroimaging in questo quadro.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non ripetere la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. di controllo prima della dimissione",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dimissione",
+      "prompt": "In piedi è 118/72 senza capogiro dopo la riduzione dei farmaci. Come chiudi?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Lettera con farmaci sospesi, pressione in piedi a casa, niente sedativo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Dimissione con le stesse dosi e le sponde consigliate alla moglie",
+          "next": "res-cadute"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Ortostatismo corretto senza contenzione",
+      "prompt": "I farmaci che abbassano la pressione in piedi sono stati rivisti. Scale fatte, TC non ripetuta, nessun sedativo.",
+      "cost": 55,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-contenzione",
+      "type": "resolution",
+      "title": "Contenzione o sedazione preventiva",
+      "prompt": "Sponde abituali o Aloperidolo 2 mg/ml gocce per non farlo alzare non sono un atto eccezionale e motivato. Il documento EBN ricorda che la contenzione non previene le cadute e che i tranquillanti sono un rischio estrinseco.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-cadute",
+      "type": "resolution",
+      "title": "Piano cadute assente",
+      "prompt": "Omettere la prevenzione, o rimandarlo a casa con gli stessi farmaci e le sponde come unica misura, ripete l'errore descritto nel manuale di sicurezza: procedura di prevenzione delle cadute non applicata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ipotensione",
+      "type": "resolution",
+      "title": "Antipertensivo aggiunto",
+      "prompt": "Aggiungere un farmaco perché la pressione da sdraiato non è bassa ignora la caduta in piedi e i criteri su clonidina, doxazosina e nifedipina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "Seconda TC encefalo",
+      "prompt": "È lucido e senza segno focale, e una TC dopo il trauma è già negativa. Ripeterla costa 70 euro e non corregge l'ortostatismo.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

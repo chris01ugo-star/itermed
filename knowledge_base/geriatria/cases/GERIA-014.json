@@ -1,0 +1,424 @@
+{
+  "id": "GERIA-014",
+  "code": "GERIA-014",
+  "title": "Caduta in paziente anticoagulato",
+  "description": "Luigi Romano, 82 anni, in apixaban, è caduto, ha un ematoma dello scalpo, è lucido, la TC dopo la caduta è negativa, nessun segno focale. Assume anche ibuprofene da una settimana per la schiena. Beers: in chi è anticoagulato, FANS e aspirina possono prolungare il sanguinamento. Il ketorolac è da evitare nell'anziano. La prevenzione della caduta è la revisione dei farmaci che aumentano le cadute e l'ambiente, non l'Aloperidolo e non le sponde abituali. Una seconda TC, da lucido e senza segno nuovo, non è il passo successivo.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Anticoagulato che cade: togliere il FANS, non ripetere la TC, non sedare",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Criteri di Beers su coagulazione e FANS; Bellelli; EBN; manuale sicurezza",
+  "diagnosis": "Caduta senza emorragia intracranica già esclusa. Il FANS va sospeso. Non si ripete la TC e non si previene la caduta con l'aloperidolo.",
+  "pastMedicalHistory": "Fibrillazione in apixaban. Lombalgia in ibuprofene. Diazepam saltuario. Ipertensione. Nessuna demenza. TC encefalo oggi negativa.",
+  "presentation": "Lucido, ematoma piccolo, nessun deficit, pressione stabile. La figlia chiede di sospendere l'apixaban per l'età e di legarlo la notte.",
+  "redHerrings": [
+    "L'età sembra un motivo per sedarlo.",
+    "Una seconda TC sembra obbligatoria perché è anticoagulato.",
+    "Sospendere l'apixaban viene proposto al posto di togliere il FANS."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Luigi Romano, 82 anni, lucido, ti fa male la schiena e hai un bernoccolo. Prendi l'apixaban e l'ibuprofene. Se ti chiedono le cadute, dici che il diazepam ti intontisce. Se propongono di legarti o le gocce, rifiuti. Se ti tolgono l'antinfiammatorio e ti spiegano la TAC già fatta, ti rassicuri. Non nominare Beers.",
+  "correctSolution": "VMD, MMSE, sospendere ibuprofene e diazepam, mantenere la decisione sull'apixaban fuori da un automatismo, non ripetere la TC, piano cadute, niente Aloperidolo 2 mg/ml gocce e niente contenzione.",
+  "goldStandardPath": [
+    "anamnesi-caduta",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-fans",
+    "azione-diazepam",
+    "azione-piano",
+    "azione-no-tc"
+  ],
+  "goldPathNarrative": "La TC dopo la caduta è negativa e lui è lucido. VMD e MMSE confermano l'autonomia. Si sospende il FANS, inappropriato in corso di anticoagulante, e il diazepam che favorisce le cadute. Si scrive il piano. Non si ripete la TC e non si contiene.",
+  "examLatencies": {
+    "anamnesi-caduta": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-fans": 10,
+    "azione-diazepam": 5,
+    "azione-piano": 10,
+    "azione-no-tc": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-fans",
+      "prompt": "Assume un antinfiammatorio insieme all'anticoagulante?",
+      "critical": true,
+      "expectedKeywords": [
+        "ibuprofene",
+        "apixaban"
+      ],
+      "rationale": "Beers segnala il rischio di sanguinamento di FANS e aspirina in chi è anticoagulato."
+    },
+    {
+      "id": "aq-tc",
+      "prompt": "La TC dopo questa caduta è già negativa?",
+      "critical": true,
+      "expectedKeywords": [
+        "negativa",
+        "fatta"
+      ],
+      "rationale": "Senza segno nuovo non si ripete."
+    },
+    {
+      "id": "aq-sedativo",
+      "prompt": "Il diazepam c'entra con la caduta?",
+      "critical": true,
+      "expectedKeywords": [
+        "diazepam",
+        "intontito"
+      ],
+      "rationale": "La benzodiazepina a lunga emivita aumenta le cadute."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucido, ematoma piccolo, nessun deficit focale, dolore lombare meccanico."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-014-beers",
+      "source": "Criteri di Beers, coagulazione e ketorolac",
+      "quote": "Nei disturbi della coagulazione o in terapia anticoagulante, aspirina, FANS, dipiridamolo, ticlopidina e clopidogrel possono prolungare il sanguinamento. Il ketorolac andrebbe evitato nell'anziano."
+    },
+    {
+      "chunkId": "geria-014-bellelli",
+      "source": "Bellelli, Rivista SIMG 2020",
+      "quote": "Il neuroimaging è indicato nei pazienti con storia di recente caduta, se si sospettano eventi cerebrovascolari o infettivi, o se la coscienza è ridotta con segni focali. La contenzione fisica è da proscrivere."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "FANS sospeso in corso di anticoagulante.",
+      "Diazepam sospeso. Piano cadute scritto.",
+      "TC non ripetuta.",
+      "Niente aloperidolo e niente contenzione."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: TC negativa, FANS sospeso, diazepam sospeso, apixaban non gestito con un sedativo, piano cadute.",
+      "legalCriteria": [
+        "Nessuna contenzione preventiva.",
+        "Nessun sedativo per l'età.",
+        "Procedura di prevenzione delle cadute applicata."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 5/6, tre farmaci a rischio, MNA 23. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "28/30, lucido. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "Seconda TC Encefalo senza m.d.c.",
+      "finding": "Ancora negativa. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La prima TC dopo la caduta c'è già. È lucido e senza segno focale.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC) in pronto soccorso",
+      "finding": "Non decide il FANS di stanotte. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non sostituisce la sospensione dell'ibuprofene.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso dopo caduta, TC già negativa.",
+    "vitals": {
+      "heartRate": 84,
+      "bloodPressure": "136/78",
+      "spo2": 97,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 82,
+      "sex": "M",
+      "name": "Luigi Romano"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Deficit focale",
+        "result": "Assente.",
+        "isPositive": false
+      },
+      {
+        "signName": "Ematoma dello scalpo",
+        "result": "Piccolo, paziente lucido.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Deficit focale",
+        "result": "Assente.",
+        "isPositive": false
+      },
+      {
+        "signName": "Ematoma dello scalpo",
+        "result": "Piccolo, paziente lucido.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 5/6, tre farmaci a rischio, MNA 23. Costo 25 euro.",
+          "normalFinding": "ADL 5/6, tre farmaci a rischio, MNA 23. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "28/30, lucido. Costo 15 euro.",
+          "normalFinding": "28/30, lucido. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tc-encefalo": {
+          "finding": "Ancora negativa. Costo 70 euro.",
+          "normalFinding": "Ancora negativa. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non decide il FANS di stanotte. Costo 35 euro.",
+          "normalFinding": "Non decide il FANS di stanotte. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Collabora. La figlia vuole togliere l'apixaban e aggiungere le sponde. Lui segue se gli togli il farmaco della schiena e quello della sera."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Cosa ha già l'imaging",
+      "prompt": "Caduta, TC negativa, lucido, apixaban e ibuprofene. Da dove parti?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Dal FANS associato all'anticoagulante e dal diazepam, non da una seconda TC",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Seconda TC Encefalo senza m.d.c. immediata",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale",
+      "prompt": "VMD e MMSE da lucido.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Aloperidolo 2 mg/ml gocce senza scale",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "FANS",
+      "prompt": "Beers: in anticoagulato i FANS prolungano il sanguinamento. Il ketorolac è sconsigliato. Cosa fai dell'ibuprofene?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Sospendere l'ibuprofene e non sostituirlo con ketorolac",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Passare a ketorolac intramuscolo per la schiena",
+          "next": "res-fans"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Diazepam",
+      "prompt": "Emivita lunga, cadute. Lo sospendi.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Sospendere il diazepam",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Aumentare il diazepam la sera della caduta",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Prevenzione",
+      "prompt": "Piano ambientale e revisione farmaci. Non le sponde come unica misura.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Piano cadute senza contenzione abituale",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Sponde bloccate ogni notte perché è anticoagulato",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Seconda TC",
+      "prompt": "È ancora lucido, nessun segno nuovo. La TC della caduta è negativa.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non ripetere la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. a 6 ore comunque",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dimissione",
+      "prompt": "Come lo mandi a casa?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Senza FANS, senza diazepam, con piano cadute, senza neurolettico",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Aloperidolo 2 mg/ml gocce se ha paura di cadere",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "FANS e diazepam tolti",
+      "prompt": "Sanguinamento iatrogeno ridotto, cadute affrontate sul farmaco, TC non ripetuta.",
+      "cost": 40,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-fans",
+      "type": "resolution",
+      "title": "FANS o ketorolac in anticoagulato",
+      "prompt": "Aggiungere o sostituire con ketorolac contraddice Beers: in terapia anticoagulante i FANS prolungano il sanguinamento e il ketorolac andrebbe evitato nell'anziano.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-sedazione",
+      "type": "resolution",
+      "title": "Sedativo dopo la caduta",
+      "prompt": "Aloperidolo 2 mg/ml gocce o più diazepam aumentano il rischio di una nuova caduta. Non sono la prevenzione descritta dal documento EBN.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-contenzione",
+      "type": "resolution",
+      "title": "Sponde perché è anticoagulato",
+      "prompt": "La contenzione abituale non previene le cadute. L'anticoagulazione non la trasforma in un atto eccezionale motivato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "Seconda TC",
+      "prompt": "La TC dopo la caduta recente è già stata fatta ed è negativa, e non c'è un segno focale nuovo. Ripeterla costa 70 euro.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

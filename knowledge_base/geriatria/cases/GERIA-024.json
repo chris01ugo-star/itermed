@@ -1,0 +1,450 @@
+{
+  "id": "GERIA-024",
+  "code": "GERIA-024",
+  "title": "Pianificazione condivisa, senza DAT formali",
+  "description": "Vincenzo De Luca, 86 anni, ha una demenza avanzata e una pianificazione condivisa delle cure scritta sei mesi fa, quando era ancora in grado di decidere: niente rianimazione e niente PEG, sì all'antibiotico e alle cure del sintomo. Non ha depositato DAT al comune. Entra per una polmonite. L'art. 5 della Legge 219/2017 obbliga medico ed équipe a rispettare quella pianificazione quando il paziente non può più acconsentire. I figli, assenti allora, chiedono l'intubazione. La LG sulla demenza richiama proprio DAT e pianificazione condivisa. Non si ripete la TC per rimandare la lettura del foglio.",
+  "difficulty": "HARD",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Pianificazione condivisa vincolante: antibiotico sì, intubazione e PEG no",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Legge 219/2017 art. 5; LG ISS su DAT e PCC",
+  "diagnosis": "Polmonite in demenza avanzata con pianificazione condivisa scritta. Si cura in modo proporzionato. Non si intuba e non si posiziona la PEG.",
+  "pastMedicalHistory": "Demenza avanzata, pianificazione firmata in cartella: no rianimazione, no PEG, sì antibiotico e conforto. Nessuna DAT comunale. Figli non presenti alla stesura. Memantina sospesa l'anno scorso per beneficio insufficiente.",
+  "presentation": "Febbre, saturazione 92%, sonnolento, non decide più. Il foglio è in cartella. Il figlio chiede la terapia intensiva.",
+  "redHerrings": [
+    "L'assenza di DAT al comune sembra cancellare il foglio.",
+    "I figli sembrano poter riscrivere il piano.",
+    "Una TC sembra un modo per non leggere l'art. 5."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "ROLEPLAY. Sei Vincenzo De Luca, 86 anni. Non sostieni un colloquio. Tuo figlio parla e chiede la rianimazione. Se il medico legge il foglio firmato da te sei mesi fa, tuo figlio tace e poi chiede se l'antibiotico si può fare. Se gli si dice di sì, e di no al tubo, resta. Se propongono la PEG, alza la voce. Non citare l'articolo.",
+  "correctSolution": "Leggere la pianificazione. VMD. MMSE non decisionale oggi. RX e antibiotico. Niente intubazione, niente PEG, niente Memantina 10 mg senza piano, niente TC di controllo.",
+  "goldStandardPath": [
+    "anamnesi-pcc",
+    "valutazione-geriatrica",
+    "mmse",
+    "rx-torace",
+    "azione-antibiotico",
+    "azione-no-icu",
+    "azione-figlio"
+  ],
+  "goldPathNarrative": "L'art. 5 rende vincolante il piano scritto. VMD e MMSE documentano la fase, non riaprono la memantina. Si cura la polmonite. Non si intuba e non si fa la PEG. Non si ripete la TC.",
+  "examLatencies": {
+    "anamnesi-pcc": 15,
+    "valutazione-geriatrica": 45,
+    "mmse": 20,
+    "rx-torace": 40,
+    "azione-antibiotico": 10,
+    "azione-no-icu": 10,
+    "azione-figlio": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-piano",
+      "prompt": "C'è una pianificazione condivisa scritta e cosa esclude?",
+      "critical": true,
+      "expectedKeywords": [
+        "pianificazione",
+        "rianimazione"
+      ],
+      "rationale": "L'art. 5 obbliga l'équipe quando il paziente non può più acconsentire."
+    },
+    {
+      "id": "aq-dat",
+      "prompt": "L'assenza di DAT al comune cancella quel foglio?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "foglio"
+      ],
+      "rationale": "Sono istituti diversi. Il piano in cartella basta."
+    },
+    {
+      "id": "aq-figlio",
+      "prompt": "Il figlio era presente alla stesura?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "contesta"
+      ],
+      "rationale": "Il dissenso successivo non revoca il piano."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Sonnolenza, febbre, rantoli, saturazione 92%, nessun segno focale nuovo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-024-5",
+      "source": "Legge 219/2017, art. 5",
+      "quote": "Nella patologia cronica e invalidante o a evoluzione inarrestabile può realizzarsi una pianificazione delle cure condivisa, alla quale il medico e l'équipe sono tenuti ad attenersi qualora il paziente non possa più esprimere il consenso o sia incapace."
+    },
+    {
+      "chunkId": "geria-024-lg",
+      "source": "LG ISS demenza e MCI, gennaio 2024, capitolo etico",
+      "quote": "La Legge 219 del 2017 ha previsto le disposizioni anticipate di trattamento e la pianificazione condivisa delle cure per la persona con patologia cronica e invalidante, in un processo continuo di informazione e scelta."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Pianificazione letta prima della rianimazione.",
+      "Antibiotico dato, PEG e intubazione no.",
+      "VMD fatta. MMSE non usato per riaprire la memantina.",
+      "Nessuna TC di controllo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La pianificazione condivisa è citata in cartella insieme alla cura proporzionata della polmonite e al rifiuto di rianimazione e PEG.",
+      "legalCriteria": [
+        "Intubazione non eseguita contro il piano.",
+        "PEG non eseguita contro il piano.",
+        "Il figlio è informato e non revoca il foglio."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 0/6, MNA 14, piano di cura già orientato. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "Non eseguibile. Non riapre Memantina 10 mg. Costo 15 euro se forzato.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX torace",
+      "finding": "Addensamento. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "PCR",
+      "finding": "PCR 10 mg/dL. Costo 28 euro.",
+      "isAbnormal": true,
+      "priceEuro": 28
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c.",
+      "finding": "Sottotipo noto, nessun segno nuovo. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC non riscrive la pianificazione.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non decide l'intubazione.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Reparto, polmonite, pianificazione condivisa in cartella.",
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "100/60",
+      "spo2": 92,
+      "temperature": 38.3,
+      "respiratoryRate": 26
+    },
+    "examBudgetEuro": 120,
+    "demographics": {
+      "age": 86,
+      "sex": "M",
+      "name": "Vincenzo De Luca"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Incapacità attuale",
+        "result": "Non può acconsentire. Il piano scritto c'è.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale nuovo",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Incapacità attuale",
+        "result": "Non può acconsentire. Il piano scritto c'è.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale nuovo",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 0/6, MNA 14, piano di cura già orientato. Costo 25 euro.",
+          "normalFinding": "ADL 0/6, MNA 14, piano di cura già orientato. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "Non eseguibile. Non riapre Memantina 10 mg. Costo 15 euro se forzato.",
+          "normalFinding": "Non eseguibile. Non riapre Memantina 10 mg. Costo 15 euro se forzato.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "rx-torace": {
+          "finding": "Addensamento. Costo 25 euro.",
+          "normalFinding": "Addensamento. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "pcr-pct": {
+          "finding": "PCR 10 mg/dL. Costo 28 euro.",
+          "normalFinding": "PCR 10 mg/dL. Costo 28 euro.",
+          "isAbnormal": true,
+          "price": 28
+        },
+        "tc-encefalo": {
+          "finding": "Sottotipo noto, nessun segno nuovo. Costo 70 euro.",
+          "normalFinding": "Sottotipo noto, nessun segno nuovo. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata. Costo 35 euro.",
+          "normalFinding": "Non indicata. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Non parla. Il figlio è combattivo finché non gli si legge il foglio e non gli si dice che l'antibiotico è dentro il piano."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Quale foglio vale",
+      "prompt": "Niente DAT al comune, ma una pianificazione firmata in cartella. Il figlio chiede la rianimazione. Cosa applica l'art. 5?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Il piano condiviso vincola l'équipe ora che lui non può acconsentire",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Ignorarlo perché non è una DAT depositata al comune",
+          "next": "res-piano"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale e torace",
+      "prompt": "VMD, RX, PCR. L'MMSE di oggi non riapre la memantina.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale, RX e PCR. MMSE non decisionale",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "TC Encefalo senza m.d.c. prima di leggere il foglio",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cosa il piano accetta",
+      "prompt": "Antibiotico e conforto sì. Il rifiuto del tubo non è abbandono.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Antibiotico proporzionato e cure del sintomo",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Niente antibiotico: tanto ha rifiutato la rianimazione",
+          "next": "res-abbandono"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cosa il piano esclude",
+      "prompt": "Rianimazione e PEG sono scritte come no.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non intubare e non posizionare la PEG",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Intubare perché il figlio, oggi, è contrario al foglio",
+          "next": "res-piano"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Memantina",
+      "prompt": "Sospesa per beneficio insufficiente. Riprenderla senza piano non è la cura della polmonite.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non riprendere Memantina 10 mg",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Memantina 10 mg in reparto senza piano del CDCD",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC encefalo",
+      "prompt": "Nessun segno focale, sottotipo noto.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non eseguire la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. per decidere la rianimazione",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Con il figlio",
+      "prompt": "Gli si lascia il testo del piano e il fatto che l'antibiotico è stato dato.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Lettera con art. 5, antibiotico, niente PEG",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "PEG differita di una settimana per accontentarlo",
+          "next": "res-piano"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Piano rispettato e polmonite curata",
+      "prompt": "Antibiotico sì, rianimazione e PEG no, memantina non riaperta, TC non fatta.",
+      "cost": 93,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-piano",
+      "type": "resolution",
+      "title": "Pianificazione ignorata",
+      "prompt": "Intubare, fare la PEG o trattare il foglio come nullo perché manca la DAT comunale viola l'art. 5: medico ed équipe devono attenersi alla pianificazione quando il paziente non può più acconsentire. Il figlio non la revoca.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-abbandono",
+      "type": "resolution",
+      "title": "Antibiotico negato",
+      "prompt": "Il piano accetta l'antibiotico. Negarlo perché è stata rifiutata la rianimazione abbandona una cura proporzionata che lui aveva consentito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-nota85",
+      "type": "resolution",
+      "title": "Memantina senza piano",
+      "prompt": "Memantina 10 mg senza piano del CDCD, dopo una sospensione per beneficio insufficiente, è fuori Nota 85.",
+      "cost": 20,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC per non decidere",
+      "prompt": "La TC non riscrive l'art. 5 e non è indicata senza un segno focale nuovo. Costa 70 euro.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

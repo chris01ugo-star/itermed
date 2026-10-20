@@ -1,0 +1,437 @@
+{
+  "id": "GERIA-016",
+  "code": "GERIA-016",
+  "title": "Alzheimer moderato: aggiungere memantina",
+  "description": "Paolo Serra, 81 anni, Alzheimer già in Donepezil 5 mg con piano del CDCD. L'MMSE è sceso a 16, fascia moderata. Tollera il donepezil e il giudizio clinico non è di peggioramento tale da sospenderlo. La raccomandazione 87 dice di considerare l'aggiunta di memantina nell'Alzheimer moderata già in inibitore. La Nota 85 rimborsa la memantina tra MMSE 10 e 20, con piano aggiornato. La raccomandazione 89 vieta di interrompere solo per la gravità. Se compaiono fattori di rischio cardiaci, la Nota 85 consiglia l'ECG del QTc. Non si sostituisce il piano con Quetiapina 25 mg.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Alzheimer moderato in donepezil: valutare memantina col piano, non sospendere per il punteggio",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Nota AIFA 85; LG ISS rec. 87 e 89",
+  "diagnosis": "Alzheimer moderato, MMSE 16, già in Donepezil 5 mg tollerato. Si considera Memantina 10 mg aggiornando il piano del CDCD. Non si interrompe il donepezil solo per la discesa del punteggio.",
+  "pastMedicalHistory": "Diagnosi CDCD di Alzheimer due anni fa, piano rinnovato, beneficio non perduto alla visita dei tre mesi. Ipertensione. Nessuna bradicardia, nessun farmaco che allunga il QT in questo momento. La figlia chiede di smettere tutto perché è peggiorato di qualche punto e di dare un sonnifero.",
+  "presentation": "Collaborante, ripete le domande, cammina, non ha deliri né aggressività. MMSE 16 oggi, era 20 un anno fa.",
+  "redHerrings": [
+    "La discesa del MMSE sembra un motivo per sospendere il donepezil.",
+    "La memantina sembra prescrivibile dal medico di famiglia senza aggiornare il piano.",
+    "Il sonno sembra una indicazione a quetiapina."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Paolo Serra, 81 anni. Ripeti le stesse domande, sei cortese, non vedi cose strane. Tua figlia dice che le pastiglie non servono più. Se il medico spiega che il donepezil si tiene e che la memantina si valuta col centro, annuisci. Se propongono di togliere tutto o una pastiglia per dormire, tua figlia insiste e tu dici che di giorno sei già lento. Non nominare la Nota.",
+  "correctSolution": "VMD e MMSE 16. Mantenere Donepezil 5 mg. Considerare Memantina 10 mg solo con piano del CDCD aggiornato. ECG del QTc se compaiono i fattori della Nota 85. Niente Quetiapina 25 mg. Niente TC di controllo.",
+  "goldStandardPath": [
+    "anamnesi-piano",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-tenere",
+    "azione-memantina",
+    "azione-qtc",
+    "azione-no-tc"
+  ],
+  "goldPathNarrative": "Il piano c'è e il farmaco è tollerato. VMD e MMSE collocano la fascia moderata. Non si sospende il donepezil solo per il punteggio. Si considera la memantina aggiornando il piano. Non si dà la quetiapina. Non si ripete la TC.",
+  "examLatencies": {
+    "anamnesi-piano": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-tenere": 5,
+    "azione-memantina": 10,
+    "azione-qtc": 10,
+    "azione-no-tc": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-piano",
+      "prompt": "Il Donepezil 5 mg ha un piano del CDCD e com'è la tollerabilità?",
+      "critical": true,
+      "expectedKeywords": [
+        "piano",
+        "tollerato"
+      ],
+      "rationale": "Senza piano la memantina non è rimborsabile."
+    },
+    {
+      "id": "aq-mmse",
+      "prompt": "L'MMSE è tra 10 e 20?",
+      "critical": true,
+      "expectedKeywords": [
+        "16",
+        "moderato"
+      ],
+      "rationale": "È la fascia in cui Nota 85 e raccomandazione 87 si incontrano."
+    },
+    {
+      "id": "aq-cuore",
+      "prompt": "Ci sono bradicardia, cardiopatia o farmaci che allungano il QT?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "cuore"
+      ],
+      "rationale": "In quei casi la Nota 85 consiglia l'ECG del QTc."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Collaborante, nessun delirium, nessun deficit focale, polso 72 ritmico."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-016-87",
+      "source": "LG ISS demenza e MCI, gennaio 2024, raccomandazioni 87 e 89",
+      "quote": "Nell'Alzheimer moderata già in trattamento con inibitori delle acetilcolinesterasi considerare l'aggiunta di memantina. Non interrompere inibitori o memantina solo sulla base della gravità di malattia."
+    },
+    {
+      "chunkId": "geria-016-85",
+      "source": "Nota AIFA 85",
+      "quote": "Alzheimer moderato, MMSE tra 10 e 20: donepezil, rivastigmina, galantamina, memantina, su piano del CDCD. Il trattamento si interrompe se il beneficio è insufficiente. Se l'MMSE scende a 10 o meno, valutare il beneficio e il rischio di proseguire. Monitorare il QTc se ci sono cardiopatia, farmaci che allungano il QT, bradicardia o squilibri elettrolitici."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Fascia MMSE 10-20 riconosciuta.",
+      "Donepezil non sospeso solo per il punteggio.",
+      "Memantina solo con piano aggiornato.",
+      "Niente quetiapina e niente TC."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: MMSE 16, tollerabilità, piano da aggiornare prima della memantina, QTc non indicato oggi per assenza di fattori, quetiapina non prescritta.",
+      "legalCriteria": [
+        "Nessun sedativo per il sonno della figlia.",
+        "Consenso all'invio al CDCD.",
+        "Il piano non viene falsificato in ambulatorio."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 4/6, IADL 2/8, MNA 21, nessuna agitazione. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "16/30, fascia moderata. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Ritmo sinusale, QTc nei limiti. Utile come baseline, non perché ci sia già un fattore di rischio maggiore. Costo 15 euro.",
+      "isAbnormal": false,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c. di controllo",
+      "finding": "Sottotipo già chiaro, nessun segno focale. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC non aggiorna il piano terapeutico.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non decide la memantina.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio, rinnovo della terapia antidemenza.",
+    "vitals": {
+      "heartRate": 72,
+      "bloodPressure": "134/76",
+      "spo2": 97,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 90,
+    "demographics": {
+      "age": 81,
+      "sex": "M",
+      "name": "Paolo Serra"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Deliri o aggressività",
+        "result": "Assenti.",
+        "isPositive": false
+      },
+      {
+        "signName": "Tollerabilità del donepezil",
+        "result": "Niente nausea, polso normale.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Deliri o aggressività",
+        "result": "Assenti.",
+        "isPositive": false
+      },
+      {
+        "signName": "Tollerabilità del donepezil",
+        "result": "Niente nausea, polso normale.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 4/6, IADL 2/8, MNA 21, nessuna agitazione. Costo 25 euro.",
+          "normalFinding": "ADL 4/6, IADL 2/8, MNA 21, nessuna agitazione. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "16/30, fascia moderata. Costo 15 euro.",
+          "normalFinding": "16/30, fascia moderata. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "ecg": {
+          "finding": "Ritmo sinusale, QTc nei limiti. Utile come baseline, non perché ci sia già un fattore di rischio maggiore. Costo 15 euro.",
+          "normalFinding": "Ritmo sinusale, QTc nei limiti. Utile come baseline, non perché ci sia già un fattore di rischio maggiore. Costo 15 euro.",
+          "isAbnormal": false,
+          "price": 15
+        },
+        "tc-encefalo": {
+          "finding": "Sottotipo già chiaro, nessun segno focale. Costo 70 euro.",
+          "normalFinding": "Sottotipo già chiaro, nessun segno focale. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata. Costo 35 euro.",
+          "normalFinding": "Non indicata. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Ripete le domande. La figlia vuole sospendere. Accetta il centro se non gli prometti una pastiglia nuova oggi stesso senza piano."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Piano e tollerabilità",
+      "prompt": "Donepezil in piano, MMSE da 20 a 16, nessun effetto avverso. Cosa non fai?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non sospendere il Donepezil 5 mg solo perché il punteggio è sceso",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Sospendere il donepezil solo per la discesa dell'MMSE",
+          "next": "res-stop"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale",
+      "prompt": "VMD e MMSE per la fascia e per la funzione, non per chiudere il piano.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "TC Encefalo senza m.d.c. prima di ogni decisione sul farmaco",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Memantina",
+      "prompt": "Raccomandazione 87 e Nota 85: nella fascia 10-20 si può aggiungere, ma serve il piano del CDCD.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Considerare Memantina 10 mg solo dopo aggiornamento del piano",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Memantina 10 mg da oggi, piano invariato e non avvisare il CDCD",
+          "next": "res-piano"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "QTc",
+      "prompt": "Oggi non ci sono i fattori elencati dalla Nota 85. Se comparissero, ECG. Non è un motivo per non considerare la memantina.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Annotare l'assenza di fattori di QTc e rivalutarli al follow-up",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Rifiutare per sempre la memantina senza quei fattori",
+          "next": "res-stop"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sonno",
+      "prompt": "Non ci sono i criteri della raccomandazione 144. La quetiapina non è un ipnotico autorizzato.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Niente Quetiapina 25 mg per il sonno",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Quetiapina 25 mg alla sera al posto della memantina",
+          "next": "res-quetiapina"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Imaging",
+      "prompt": "Diagnosi e sottotipo sono chiari. Nessun segno focale.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non ripetere la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. annuale obbligatoria",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Tempi della Nota 85",
+      "prompt": "A un mese effetti collaterali e aggiustamento del piano, a tre mesi continuare solo se non c'è peggioramento nel giudizio clinico complessivo.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Controlli a 1 e 3 mesi dopo ogni modifica del piano",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Nessun controllo: la ricetta vale da sola",
+          "next": "res-piano"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Piano aggiornato, donepezil mantenuto",
+      "prompt": "Fascia moderata riconosciuta, memantina rinviata al CDCD, donepezil non sospeso per il solo punteggio.",
+      "cost": 55,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-stop",
+      "type": "resolution",
+      "title": "Sospensione solo per gravità",
+      "prompt": "Interrompere il Donepezil 5 mg solo perché l'MMSE è sceso contraddice la raccomandazione 89. La Nota 85 chiede una valutazione individuale del beneficio, non un automatismo sul punteggio finché si è sopra la fascia severa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-piano",
+      "type": "resolution",
+      "title": "Memantina senza piano",
+      "prompt": "Memantina 10 mg a carico del SSN richiede il piano del CDCD. Prescriverla senza aggiornarlo, o senza i controlli a 1 e 3 mesi, è fuori Nota 85.",
+      "cost": 20,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-quetiapina",
+      "type": "resolution",
+      "title": "Quetiapina come ipnotico",
+      "prompt": "Quetiapina 25 mg non è autorizzata come sonnifero né nelle psicosi da demenza. Non sostituisce la memantina e non ricorrono i criteri della raccomandazione 144.",
+      "cost": 5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC di controllo",
+      "prompt": "Sottotipo chiaro, nessun segno focale. La TC costa 70 euro e non modifica il piano.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

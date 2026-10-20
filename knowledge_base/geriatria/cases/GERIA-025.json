@@ -1,0 +1,434 @@
+{
+  "id": "GERIA-025",
+  "code": "GERIA-025",
+  "title": "Dimissione dopo delirium risolto",
+  "description": "Adele Santini, 83 anni, ha avuto un delirium da polmonite, ora risolto. È lucida da 48 ore. Bellelli non consente di chiamare demenza il punteggio preso durante l'agitazione. L'MMSE si fa adesso. La raccomandazione 5 invia al CDCD solo dopo che le cause reversibili sono state escluse: qui lo sono. Non si parte con Donepezil 5 mg senza diagnosi e piano. Non si manda a casa Aloperidolo 2 mg/ml gocce o Quetiapina 25 mg per la notte. Il manuale di sicurezza chiede la procedura di prevenzione delle cadute. La VMD in area medica è raccomandata anche per non trasformare il ricovero in un ingresso in RSA non discusso.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Delirium risolto: MMSE adesso, niente neurolettico a casa, niente donepezil senza piano",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "Bellelli; LG ISS rec. 5; Nota 85; LG VMD R5a.1; manuale sicurezza",
+  "diagnosis": "Delirium risolto dopo polmonite. Cognizione da rivalutare da lucida. Nessuna indicazione a Donepezil 5 mg, Quetiapina 25 mg o Aloperidolo 2 mg/ml gocce alla dimissione.",
+  "pastMedicalHistory": "Polmonite curata, delirium durato due giorni, ora attenzioni stabile. Ipertensione. Vive con la figlia. Nessuna demenza precedente. Nessuna caduta in reparto. Le hanno proposto le gocce per la prima settimana a casa.",
+  "presentation": "Orientata, chiede quando torna a casa, cammina con supervisione. La figlia ha paura della prima notte.",
+  "redHerrings": [
+    "L'MMSE basso di tre giorni fa, preso nel delirium, sembra una diagnosi.",
+    "Le gocce sembrano una dimissione prudente.",
+    "La RSA sembra obbligatoria senza VMD."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Adele Santini, 83 anni, di nuovo lucida. Ricordi poco della febbre. Vuoi tornare da tua figlia. Se ti fanno domande di orientamento rispondi bene. Se propongono Aloperidolo 2 mg/ml gocce o Quetiapina 25 mg per la notte, dici che di giorno sei già lenta. Se ti spiegano un piano senza quelle gocce, accetti. Non nominare CDCD.",
+  "correctSolution": "VMD e MMSE da lucida. Se il sospetto cognitivo resta, invio al CDCD, non Donepezil 5 mg oggi. Niente neurolettico a casa. Piano cadute. Niente TC. Niente RSA automatica.",
+  "goldStandardPath": [
+    "anamnesi-risolto",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-non-demenza",
+    "azione-no-farmaco",
+    "azione-cadute",
+    "azione-dimissione"
+  ],
+  "goldPathNarrative": "Il delirium è finito. VMD e MMSE si fanno adesso. Un punteggio precedente, preso nell'agitazione, non è Alzheimer e non autorizza il donepezil. Non si prescrivono aloperidolo e quetiapina. Si scrive il piano cadute e si dimette a casa se la VMD lo consente.",
+  "examLatencies": {
+    "anamnesi-risolto": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-non-demenza": 10,
+    "azione-no-farmaco": 5,
+    "azione-cadute": 10,
+    "azione-dimissione": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-risolto",
+      "prompt": "L'attenzione è stabile da 48 ore?",
+      "critical": true,
+      "expectedKeywords": [
+        "stabile",
+        "lucida"
+      ],
+      "rationale": "Solo adesso l'MMSE è interpretabile."
+    },
+    {
+      "id": "aq-vecchio",
+      "prompt": "Il punteggio preso durante il delirium va usato per il donepezil?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "delirium"
+      ],
+      "rationale": "Quel numero non è una diagnosi di Alzheimer."
+    },
+    {
+      "id": "aq-notte",
+      "prompt": "La figlia chiede un sedativo per la prima notte?",
+      "critical": true,
+      "expectedKeywords": [
+        "gocce",
+        "paura"
+      ],
+      "rationale": "Non è un criterio per aloperidolo o quetiapina."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucida, febbre assente, deambulazione con supervisione, nessun deficit focale."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-025-bellelli",
+      "source": "Bellelli, Rivista SIMG 2020, e LG ISS raccomandazione 5",
+      "quote": "La diagnosi di delirium è clinica e non va confusa con una demenza. Al CDCD si invia dopo aver escluso le cause reversibili, tra cui il delirium. Non vi sono evidenze per gli inibitori dell'acetilcolinesterasi nel delirium."
+    },
+    {
+      "chunkId": "geria-025-vmd",
+      "source": "LG VMD R5a.1 e manuale di sicurezza dei pazienti",
+      "quote": "Si raccomanda la valutazione multidimensionale per ridurre il ricovero in struttura nei reparti medici. La mancata applicazione delle procedure di prevenzione delle cadute negli anziani è un errore di sistema già ricostruito su un evento mortale."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "MMSE eseguito a delirium risolto.",
+      "VMD usata per la dimissione, non per una RSA automatica.",
+      "Niente donepezil senza piano.",
+      "Niente neurolettico a casa e piano cadute scritto."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: delirium risolto, MMSE attuale, farmaci non prescritti, piano cadute, sede di dimissione motivata con la VMD.",
+      "legalCriteria": [
+        "Nessun sedativo di dimissione.",
+        "Nessuna contenzione consigliata in lettera.",
+        "Prevenzione delle cadute scritta."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 5/6, IADL con aiuto della figlia, MNA 22, dimissione a domicilio possibile. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "24/30 da lucida. Non è il numero preso durante il delirium e non autorizza il Donepezil 5 mg senza CDCD. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c. di dimissione",
+      "finding": "Nessun segno focale, delirium risolto. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC non è il passaporto per la dimissione.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata da questo ricovero. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non sostituisce il piano cadute.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Reparto, delirium risolto, giorno della dimissione.",
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "132/74",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 70,
+    "demographics": {
+      "age": 83,
+      "sex": "F",
+      "name": "Adele Santini"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Delirium attivo",
+        "result": "Assente da 48 ore.",
+        "isPositive": false
+      },
+      {
+        "signName": "Deficit focale",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Delirium attivo",
+        "result": "Assente da 48 ore.",
+        "isPositive": false
+      },
+      {
+        "signName": "Deficit focale",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 5/6, IADL con aiuto della figlia, MNA 22, dimissione a domicilio possibile. Costo 25 euro.",
+          "normalFinding": "ADL 5/6, IADL con aiuto della figlia, MNA 22, dimissione a domicilio possibile. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "24/30 da lucida. Non è il numero preso durante il delirium e non autorizza il Donepezil 5 mg senza CDCD. Costo 15 euro.",
+          "normalFinding": "24/30 da lucida. Non è il numero preso durante il delirium e non autorizza il Donepezil 5 mg senza CDCD. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tc-encefalo": {
+          "finding": "Nessun segno focale, delirium risolto. Costo 70 euro.",
+          "normalFinding": "Nessun segno focale, delirium risolto. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata da questo ricovero. Costo 35 euro.",
+          "normalFinding": "Non indicata da questo ricovero. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Vuole una data di uscita. La figlia ha paura della notte. Entrambe accettano un piano scritto senza gocce."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Il delirium è finito",
+      "prompt": "Lucida da 48 ore. Il punteggio del giorno di febbre era basso. Quale numero usi?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "L'MMSE di oggi, non quello preso nel delirium",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Diagnosi di Alzheimer sul punteggio del giorno di febbre e Donepezil 5 mg",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale di dimissione",
+      "prompt": "VMD per decidere la sede, MMSE da lucida.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE attuali",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "RSA senza VMD, per sicurezza",
+          "next": "res-rsa"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "CDCD",
+      "prompt": "La raccomandazione 5 invia dopo le cause reversibili. La polmonite è guarita. L'invio, se il sospetto resta, non è una ricetta di donepezil.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Eventuale invio al CDCD senza iniziare il farmaco",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Donepezil 5 mg oggi e il centro più avanti",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Notte a casa",
+      "prompt": "Non c'è pericolo né psicosi. Quetiapina e aloperidolo non sono la profilassi della prima notte.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Niente Quetiapina 25 mg e niente Aloperidolo 2 mg/ml gocce",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Quetiapina 25 mg per sette sere",
+          "next": "res-notte"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cadute",
+      "prompt": "Il manuale di sicurezza chiede la procedura, non un sedativo.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Piano cadute: ambiente, niente sponde di routine, niente benzodiazepina",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Diazepam e sponde consigliate in lettera",
+          "next": "res-cadute"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC di dimissione",
+      "prompt": "Nessun segno focale.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non eseguire la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. come condizione della dimissione",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dove torna",
+      "prompt": "La VMD consente il domicilio con la figlia. La RSA non è l'esito obbligato di un delirium risolto.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Dimissione a casa con piano, senza neurolettico",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Aloperidolo 2 mg/ml gocce al bisogno in lettera",
+          "next": "res-notte"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Dimessa lucida, senza sedativo",
+      "prompt": "MMSE attuale, VMD usata per il domicilio, nessun antidemenza e nessun neurolettico.",
+      "cost": 40,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-nota85",
+      "type": "resolution",
+      "title": "Donepezil sul punteggio del delirium",
+      "prompt": "Quel MMSE non è valido e non c'è un piano del CDCD. Donepezil 5 mg è fuori Nota 85. Bellelli non trova evidenze per gli inibitori nel delirium, e qui il delirium è già risolto: il farmaco andrebbe comunque solo dopo una diagnosi di Alzheimer.",
+      "cost": 15,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-notte",
+      "type": "resolution",
+      "title": "Neurolettico a casa",
+      "prompt": "Quetiapina 25 mg non è un ipnotico autorizzato e non è indicata nelle psicosi da demenza. Aloperidolo 2 mg/ml gocce al bisogno, senza pericolo, è una sedazione di dimissione. Nessuno dei due previene la caduta.",
+      "cost": 5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-cadute",
+      "type": "resolution",
+      "title": "Diazepam e sponde in lettera",
+      "prompt": "Il diazepam aumenta le cadute secondo Beers. Le sponde di routine non sono la prevenzione del manuale di sicurezza e non sono un atto eccezionale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-rsa",
+      "type": "resolution",
+      "title": "RSA senza VMD",
+      "prompt": "La raccomandazione R5a.1 usa la valutazione multidimensionale per ridurre l'ingresso in struttura. Decidere la RSA senza farla, dopo un delirium risolto, è il contrario di quell'uso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC di dimissione",
+      "prompt": "Non c'è indicazione. Costa 70 euro e non è la condizione per tornare a casa.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

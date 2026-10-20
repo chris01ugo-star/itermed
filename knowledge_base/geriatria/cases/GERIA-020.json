@@ -1,0 +1,437 @@
+{
+  "id": "GERIA-020",
+  "code": "GERIA-020",
+  "title": "Frattura di polso e pressione in piedi",
+  "description": "Bruno Galli, 80 anni, è caduto fratturandosi il polso. In piedi la pressione crolla. Assume doxazosina. Beers segnala ipotensione posturale con urapidil e prazosina e ipotensione con la nifedipina; la doxazosina è elencata per ipotensione ortostatica. Non è allettato a lungo e vive a casa: Colecalciferolo (Vitamina D) 25.000 UI senza 25-OH è fuori scenario A. La TC encefalo dopo la caduta, se indicata dal trauma, non si ripete da lucido senza segno focale. Le sponde non sono la prevenzione.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Caduta con ortostatismo: togliere la doxazosina, vitamina D solo dentro la Nota 96",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Criteri di Beers; Nota AIFA 96; EBN; Bellelli",
+  "diagnosis": "Frattura di polso e ipotensione ortostatica da doxazosina. Non si ripete la TC e non si prescrive il colecalciferolo senza criterio.",
+  "pastMedicalHistory": "Ipertensione in doxazosina e un diuretico. Vive a casa, cammina. Nessuna istituzionalizzazione. Osteoporosi non ancora inquadrata come candidatura a remineralizzazione: manca il 25-OH. TC dopo la caduta negativa, è lucido. Nessun deficit.",
+  "presentation": "Polso dolorante, pressione 150/84 da sdraiato e 98/62 in piedi con capogiro. Lucido. La figlia chiede le gocce per la notte e la vitamina D subito.",
+  "redHerrings": [
+    "La pressione da sdraiato sembra ancora da trattare con lo stesso farmaco.",
+    "La frattura sembra un via libera al bolo di vitamina D.",
+    "Il trauma cranico lieve, già studiato, sembra una seconda TC."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Bruno Galli, 80 anni, ti fa male il polso, sei lucido. Se ti alzi ti gira la testa. Prendi la doxazosina. Vivi a casa. Se propongono di toglierla, accetti. Se propongono vitamina D senza prelievo, chiedi. Se propongono gocce o sponde, rifiuti. Non nominare note.",
+  "correctSolution": "VMD, MMSE, pressione in piedi, sospendere la doxazosina, immobilizzare il polso, piano cadute. Niente Colecalciferolo (Vitamina D) 25.000 UI prima del 25-OH. Niente Aloperidolo 2 mg/ml gocce. Niente seconda TC.",
+  "goldStandardPath": [
+    "anamnesi-polso",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-ortostatismo",
+    "azione-doxazosina",
+    "azione-nota96",
+    "azione-piano"
+  ],
+  "goldPathNarrative": "Si misura la pressione in piedi e si trova la doxazosina. VMD e MMSE. Si sospende il farmaco, si sistema il polso, si scrive il piano. Il colecalciferolo aspetta il 25-OH. La TC non si ripete.",
+  "examLatencies": {
+    "anamnesi-polso": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-ortostatismo": 10,
+    "azione-doxazosina": 5,
+    "azione-nota96": 5,
+    "azione-piano": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-piedi",
+      "prompt": "La pressione in piedi com'è, e assume doxazosina?",
+      "critical": true,
+      "expectedKeywords": [
+        "in piedi",
+        "doxazosina"
+      ],
+      "rationale": "Il farmaco è elencato per ipotensione ortostatica."
+    },
+    {
+      "id": "aq-casa",
+      "prompt": "È allettato in modo stabile o cammina e vive a casa?",
+      "critical": true,
+      "expectedKeywords": [
+        "casa",
+        "cammina"
+      ],
+      "rationale": "Lo scenario A non si applica."
+    },
+    {
+      "id": "aq-tc",
+      "prompt": "La TC dopo la caduta è già negativa e lui è lucido?",
+      "critical": true,
+      "expectedKeywords": [
+        "negativa",
+        "lucido"
+      ],
+      "rationale": "Non si ripete senza un segno nuovo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucido, frattura di polso, caduta pressoria in ortostatismo, nessun deficit focale."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-020-beers",
+      "source": "Criteri di Beers, ipotensione",
+      "quote": "Doxazosina: possibile ipotensione ortostatica. Urapidil e prazosina: possibile ipotensione posturale. La nifedipina causa ipotensione."
+    },
+    {
+      "chunkId": "geria-020-96",
+      "source": "Nota AIFA 96",
+      "quote": "Senza determinazione della 25-OH la prescrizione è limitata a persone istituzionalizzate, con gravi deficit motori o allettate, in gravidanza o con osteoporosi non candidata a terapia remineralizzante. Le dosi elevate possono aumentare cadute e fratture."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Ortostatismo misurato.",
+      "Doxazosina sospesa.",
+      "VMD e MMSE eseguiti.",
+      "Vitamina D non data fuori scenario. TC non ripetuta."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: pressione in piedi, doxazosina sospesa, piano cadute, Nota 96 non soddisfatta, seconda TC non indicata.",
+      "legalCriteria": [
+        "Nessuna contenzione.",
+        "Nessun sedativo notturno.",
+        "Piano cadute scritto."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 5/6 per il polso, MNA 23, vive a casa, rischio cadute alto. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "27/30. Lucido. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "rx-ossa",
+      "name": "RX polso",
+      "finding": "Frattura di radio distale composta. Costo 30 euro.",
+      "isAbnormal": true,
+      "priceEuro": 30
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "Seconda TC Encefalo senza m.d.c.",
+      "finding": "La prima dopo la caduta è negativa. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "È lucido e senza segno focale nuovo.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC) stanotte",
+      "finding": "Va programmata, non sostituisce la sospensione della doxazosina. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "Farla in pronto soccorso non autorizza il colecalciferolo senza 25-OH.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso, frattura di polso e capogiro in piedi.",
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "150/84",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 100,
+    "demographics": {
+      "age": 80,
+      "sex": "M",
+      "name": "Bruno Galli"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Ipotensione ortostatica",
+        "result": "Da 150/84 a 98/62 in piedi.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit focale",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Ipotensione ortostatica",
+        "result": "Da 150/84 a 98/62 in piedi.",
+        "isPositive": true
+      },
+      {
+        "signName": "Deficit focale",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 5/6 per il polso, MNA 23, vive a casa, rischio cadute alto. Costo 25 euro.",
+          "normalFinding": "ADL 5/6 per il polso, MNA 23, vive a casa, rischio cadute alto. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "27/30. Lucido. Costo 15 euro.",
+          "normalFinding": "27/30. Lucido. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "rx-ossa": {
+          "finding": "Frattura di radio distale composta. Costo 30 euro.",
+          "normalFinding": "Frattura di radio distale composta. Costo 30 euro.",
+          "isAbnormal": true,
+          "price": 30
+        },
+        "tc-encefalo": {
+          "finding": "La prima dopo la caduta è negativa. Costo 70 euro.",
+          "normalFinding": "La prima dopo la caduta è negativa. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Va programmata, non sostituisce la sospensione della doxazosina. Costo 35 euro.",
+          "normalFinding": "Va programmata, non sostituisce la sospensione della doxazosina. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole tornare a casa. Accetta di sospendere la pastiglia della pressione se gli misuri i numeri in piedi."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Perché è caduto",
+      "prompt": "Polso fratturato, capogiro in piedi, doxazosina. Qual è il meccanismo?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Ipotensione ortostatica da doxazosina",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Aumentare la doxazosina perché da sdraiato è 150",
+          "next": "res-farmaco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale e polso",
+      "prompt": "VMD, MMSE, radiografia. La TC c'è già.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale, MMSE e RX del polso",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Seconda TC Encefalo senza m.d.c. prima del polso",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Doxazosina",
+      "prompt": "Beers la associa a ipotensione ortostatica. Si sospende o si sostituisce con una molecola che non faccia lo stesso.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Sospendere la doxazosina e ricontrollare in piedi",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Aggiungere nifedipina a rilascio rapido",
+          "next": "res-farmaco"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Vitamina D",
+      "prompt": "Vive a casa e cammina. Manca il 25-OH. Non è lo scenario A. Un bolo elevato aumenterebbe il rischio di una nuova caduta.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non prescrivere Colecalciferolo (Vitamina D) 25.000 UI stanotte",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Colecalciferolo (Vitamina D) 25.000 UI in bolo perché si è fratturato",
+          "next": "res-nota96"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cadute",
+      "prompt": "Piano, non sponde, non gocce.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Piano cadute senza Aloperidolo 2 mg/ml gocce e senza contenzione",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Aloperidolo 2 mg/ml gocce e sponde per una settimana",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Seconda TC",
+      "prompt": "Lucido, TC negativa, nessun segno nuovo.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non ripetere la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. di controllo domattina",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dimissione",
+      "prompt": "Polso immobilizzato, doxazosina sospesa, 25-OH solo se poi diventerà candidato a remineralizzazione.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Lettera con farmaco sospeso e piano, vitamina D non anticipata",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Stessa doxazosina e vitamina D in borsa",
+          "next": "res-nota96"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Ortostatismo corretto",
+      "prompt": "Doxazosina sospesa, polso curato, vitamina D non data fuori Nota 96, TC non ripetuta.",
+      "cost": 70,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-farmaco",
+      "type": "resolution",
+      "title": "Antipertensivo che abbassa ancora",
+      "prompt": "Aumentare la doxazosina o aggiungere nifedipina ignora l'ipotensione in piedi già scritta nei criteri di Beers.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-contenzione",
+      "type": "resolution",
+      "title": "Gocce e sponde",
+      "prompt": "Aloperidolo 2 mg/ml gocce e sponde dopo una caduta non prevengono la successiva e non sono un atto eccezionale motivato.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-nota96",
+      "type": "resolution",
+      "title": "Colecalciferolo fuori scenario",
+      "prompt": "Colecalciferolo (Vitamina D) 25.000 UI senza 25-OH, in un uomo che cammina e vive a casa, non è lo scenario A. Il bolo è anche il tipo di dose che la Nota 96 collega a più cadute e fratture.",
+      "cost": 6,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "Seconda TC",
+      "prompt": "La TC dopo la caduta è negativa e non c'è un segno focale nuovo. Ripeterla costa 70 euro.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

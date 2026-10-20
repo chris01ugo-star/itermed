@@ -1,0 +1,434 @@
+{
+  "id": "GERIA-008",
+  "code": "GERIA-008",
+  "title": "Cadute ripetute e diazepam",
+  "description": "Anna Rizzi, 83 anni, tre cadute in due mesi, l'ultima con trauma cranico lieve. La TC dopo quella caduta è negativa, è lucida, non ha segni focali. Assume diazepam ogni sera da anni. Beers classifica le benzodiazepine a lunga emivita ad alto rischio di cadute e fratture. Il documento EBN mette i tranquillanti tra i fattori estrinseci e ricorda che la contenzione non previene le cadute. Il manuale di sicurezza lega un decesso alla mancata procedura di prevenzione. Una terza TC non è indicata.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Cadute: sospendere il diazepam, piano multifattoriale, no TC seriale",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Criteri di Beers; EBN contenzione; Bellelli SIMG 2020; manuale sicurezza",
+  "diagnosis": "Cadute in donna lucida, favorite dal diazepam. La TC dopo l'ultimo trauma è sufficiente. Non si contiene e non si aggiunge Aloperidolo 2 mg/ml gocce.",
+  "pastMedicalHistory": "Insonnia in diazepam 5 mg. Ipertensione. Osteoporosi nota, non in terapia remineralizzante e non allettata: vive sola e cammina. Nessuna demenza. Nessuna DAT.",
+  "presentation": "Lucida, escoriazione frontale, pressione stabile, nessun deficit. La figlia chiede una TC nuova e le sponde a casa.",
+  "redHerrings": [
+    "Tre cadute sembrano tre TC obbligatorie.",
+    "Il diazepam è l'unica cosa che la fa dormire.",
+    "Le sponde vengono vendute come prevenzione."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Anna Rizzi, 83 anni, lucida, dolorante alla fronte. Cadi spesso, prendi il diazepam ogni sera. Se ti chiedono di smetterlo hai paura di non dormire, ma ascolti se ti spiegano le cadute. Se propongono un'altra TAC o di legare il letto, dici che vuoi tornare a casa. Non nominare criteri.",
+  "correctSolution": "VMD, MMSE, sospensione del diazepam, piano cadute, niente seconda TC, niente contenzione, niente Aloperidolo 2 mg/ml gocce. La vitamina D non si aggiunge oggi senza criterio: cammina, vive a casa, e per una remineralizzazione serve prima il 25-OH.",
+  "goldStandardPath": [
+    "anamnesi-cadute",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-diazepam",
+    "azione-piano",
+    "azione-no-tc",
+    "azione-sonno"
+  ],
+  "goldPathNarrative": "Si conta le cadute e si trova il diazepam. VMD e MMSE mostrano una donna lucida a rischio. Si sospende la benzodiazepina a lunga emivita e si scrive il piano. La TC non si ripete. Non si prescrive Colecalciferolo (Vitamina D) 25.000 UI senza 25-OH.",
+  "examLatencies": {
+    "anamnesi-cadute": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-diazepam": 10,
+    "azione-piano": 10,
+    "azione-no-tc": 5,
+    "azione-sonno": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-farmaco",
+      "prompt": "Quale ipnotico assume e da quanto?",
+      "critical": true,
+      "expectedKeywords": [
+        "diazepam",
+        "sera"
+      ],
+      "rationale": "Il diazepam è il farmaco di Beers da togliere."
+    },
+    {
+      "id": "aq-tc",
+      "prompt": "La TC dopo l'ultima caduta è già stata fatta e com'era?",
+      "critical": true,
+      "expectedKeywords": [
+        "negativa",
+        "fatta"
+      ],
+      "rationale": "Senza segno focale nuovo non si ripete."
+    },
+    {
+      "id": "aq-contenzione",
+      "prompt": "La figlia chiede le sponde come prevenzione?",
+      "critical": true,
+      "expectedKeywords": [
+        "sponde",
+        "figlia"
+      ],
+      "rationale": "La contenzione abituale non è la prevenzione."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucida, escoriazione frontale, forza simmetrica, andatura cauta, pressione senza caduta marcata in piedi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-008-beers",
+      "source": "Criteri di Beers, benzodiazepine a lunga durata",
+      "quote": "Diazepam: data la lunga emivita, nei soggetti anziani l'effetto può durare anche più giorni. La forte sedazione può produrre il rischio di cadute."
+    },
+    {
+      "chunkId": "geria-008-ebn",
+      "source": "Cappuccio et al., Centro Studi EBN, 2008",
+      "quote": "La contenzione fisica non previene le cadute e può aumentarle attraverso debolezza e riduzione funzionale. I tranquillanti sono un fattore di rischio estrinseco."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Diazepam identificato come causa di cadute.",
+      "VMD e MMSE eseguiti.",
+      "Piano cadute scritto, contenzione rifiutata.",
+      "TC non ripetuta. Vitamina D non prescritta fuori Nota 96."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: tre cadute, diazepam sospeso, TC recente negativa, niente sponde abituali, niente seconda TC.",
+      "legalCriteria": [
+        "Procedura di prevenzione delle cadute applicata.",
+        "Nessuna contenzione domiciliare di routine.",
+        "Nessun nuovo sedativo in dimissione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 5/6, IADL 4/8, MNA 22, tre cadute, diazepam in corso. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "26/30 da lucida. Non è un delirium. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c. ripetuta",
+      "finding": "Terza TC negativa, come quella dopo l'ultimo trauma. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "Lucida e senza segno focale nuovo: la ripetizione non previene la prossima caduta.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC) in pronto soccorso",
+      "finding": "Utile in seguito per l'osteoporosi, non decide la sospensione del diazepam stanotte. Costo 35 euro.",
+      "isAbnormal": true,
+      "priceEuro": 35,
+      "wasteRationale": "Farla al posto della sospensione del diazepam sposta il problema.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso dopo l'ennesima caduta, TC già negativa.",
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "142/80",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 83,
+      "sex": "F",
+      "name": "Anna Rizzi"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Deficit focale",
+        "result": "Assente, paziente lucida.",
+        "isPositive": false
+      },
+      {
+        "signName": "Andatura instabile",
+        "result": "Passi corti, paura di cadere.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Deficit focale",
+        "result": "Assente, paziente lucida.",
+        "isPositive": false
+      },
+      {
+        "signName": "Andatura instabile",
+        "result": "Passi corti, paura di cadere.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 5/6, IADL 4/8, MNA 22, tre cadute, diazepam in corso. Costo 25 euro.",
+          "normalFinding": "ADL 5/6, IADL 4/8, MNA 22, tre cadute, diazepam in corso. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "26/30 da lucida. Non è un delirium. Costo 15 euro.",
+          "normalFinding": "26/30 da lucida. Non è un delirium. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tc-encefalo": {
+          "finding": "Terza TC negativa, come quella dopo l'ultimo trauma. Costo 70 euro.",
+          "normalFinding": "Terza TC negativa, come quella dopo l'ultimo trauma. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Utile in seguito per l'osteoporosi, non decide la sospensione del diazepam stanotte. Costo 35 euro.",
+          "normalFinding": "Utile in seguito per l'osteoporosi, non decide la sospensione del diazepam stanotte. Costo 35 euro.",
+          "isAbnormal": true,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Teme l'insonnia se le togli il diazepam. Accetta se le proponi un piano e non solo un divieto."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Perché cade",
+      "prompt": "Tre cadute, diazepam ogni sera, lucida. Qual è il fattore che Beers mette in alto rischio?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La benzodiazepina a lunga emivita, da sospendere",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Chiedere subito un'altra TC Encefalo senza m.d.c.",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale",
+      "prompt": "Funzione, nutrizione, cognizione. Non è un delirium.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Aloperidolo 2 mg/ml gocce e niente scale",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Prevenzione",
+      "prompt": "Il manuale di sicurezza mostra un decesso dopo caduta dal letto con procedura di prevenzione non applicata. Cosa scrivi?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Piano multifattoriale: farmaco, ambiente, calzature, supervisione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Sponde bloccate a casa come unica misura",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Diazepam",
+      "prompt": "Emivita lunga, sedazione che può durare giorni, cadute e fratture. Cosa fai della sera?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Sospendere il diazepam e non sostituirlo con un'altra benzodiazepina a lunga emivita",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Aumentare il diazepam così dorme e non si alza",
+          "next": "res-beers"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Vitamina D non automatica",
+      "prompt": "Cammina e vive a casa. Non è istituzionalizzata né allettata. Per l'osteoporosi candidata a remineralizzazione la Nota 96 chiede prima il 25-OH. Oggi il gesto che previene la caduta è un altro.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non prescrivere Colecalciferolo (Vitamina D) 25.000 UI al posto della sospensione del diazepam",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Colecalciferolo (Vitamina D) 25.000 UI subito, senza 25-OH",
+          "next": "res-nota96"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC già fatta",
+      "prompt": "Dopo l'ultima caduta la TC è negativa e non c'è un segno focale nuovo.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non ripetere la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. di controllo a 24 ore",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dimissione",
+      "prompt": "Come chiudi la notte?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Senza diazepam, con piano cadute, senza sponde abituali e senza neurolettico",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Dimissione con Aloperidolo 2 mg/ml gocce se si alza",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Cadute affrontate sul farmaco",
+      "prompt": "Diazepam sospeso, piano scritto, TC non ripetuta, vitamina D non data fuori Nota 96.",
+      "cost": 40,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-beers",
+      "type": "resolution",
+      "title": "Diazepam aumentato",
+      "prompt": "Aumentare il diazepam per non farla alzare rafforza un farmaco che Beers associa a sedazione prolungata, cadute e fratture.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-contenzione",
+      "type": "resolution",
+      "title": "Sponde come prevenzione",
+      "prompt": "La contenzione abituale non previene le cadute e può aumentarle. Non è un atto eccezionale e motivato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-sedazione",
+      "type": "resolution",
+      "title": "Aloperidolo al posto del piano",
+      "prompt": "Aloperidolo 2 mg/ml gocce per non farla alzare è un tranquillante usato come prevenzione delle cadute, fattore di rischio nel documento EBN, senza i criteri di pericolo di Bellelli o della LG sui sintomi non cognitivi.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC encefalo seriale",
+      "prompt": "La TC dopo la caduta c'è già. È lucida e senza segno focale. Ripeterla costa 70 euro.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-nota96",
+      "type": "resolution",
+      "title": "Vitamina D fuori scenario",
+      "prompt": "Colecalciferolo (Vitamina D) 25.000 UI senza 25-OH, in una donna che cammina e vive a casa, non rientra nello scenario A. Se è candidata a remineralizzazione serve il dosaggio prima.",
+      "cost": 6,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

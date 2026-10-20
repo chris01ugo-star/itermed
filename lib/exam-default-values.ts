@@ -89,6 +89,7 @@ export const EXAM_DEFAULT_VALUES: Record<string, ExamClinicalMeta> = {
   fast: { price: 40, urgencyTiming: "5 min", routineTiming: "n.p.", routineMinutes: 15, normalFinding: "Assenza di versamento libero" },
   mammografia: { price: 62, urgencyTiming: "n.p.", routineTiming: "3 gg", routineMinutes: 4320, normalFinding: "Assenza di lesioni sospette" },
   moc: { price: 52, urgencyTiming: "n.p.", routineTiming: "2 gg", routineMinutes: 2880, normalFinding: "T-score > -1.0" },
+  "densitometria-ossea": { price: 35, urgencyTiming: "n.p.", routineTiming: "2 gg", routineMinutes: 2880, normalFinding: "T-score > -1.0 (densità ossea nella norma)" },
   "rx-addome": { price: 25, urgencyTiming: "30 min", routineTiming: "24h", routineMinutes: 1440, normalFinding: "Assenza di aria libera/livelli" },
   "rx-ossa": { price: 30, urgencyTiming: "30 min", routineTiming: "24h", routineMinutes: 1440, normalFinding: "Assenza di fratture recenti" },
   "rx-colonna": { price: 35, urgencyTiming: "30 min", routineTiming: "24h", routineMinutes: 1440, normalFinding: "Rachide in asse" },
@@ -104,6 +105,7 @@ export const EXAM_DEFAULT_VALUES: Record<string, ExamClinicalMeta> = {
   scintigrafia: { price: 250, urgencyTiming: "n.p.", routineTiming: "3 gg", routineMinutes: 4320, normalFinding: "Captazione omogenea" },
   tc: { price: 120, urgencyTiming: "1h", routineTiming: "24h", routineMinutes: 1440, normalFinding: "Assenza aree alterata densità" },
   "tc-cranio": { price: 120, urgencyTiming: "1h", routineTiming: "24h", routineMinutes: 1440, normalFinding: "TC cranio senza mezzo di contrasto: parenchima nei limiti, non emorragia, non effetto massa" },
+  "tc-encefalo": { price: 70, urgencyTiming: "1h", routineTiming: "24h", routineMinutes: 1440, normalFinding: "TC encefalo senza mezzo di contrasto: parenchima nei limiti, non emorragia, non effetto massa" },
   "rm-encefalo": { price: 220, urgencyTiming: "2h", routineTiming: "48h", routineMinutes: 2880, normalFinding: "RM encefalo: segnale parenchimale nei limiti, non lesioni acute" },
   "uro-tc": { price: 180, urgencyTiming: "1h", routineTiming: "24h", routineMinutes: 1440, normalFinding: "Regolare escrezione del mdc" },
   audiometria: { price: 15, urgencyTiming: "30 min", routineTiming: "n.p.", routineMinutes: 30, normalFinding: "Udito nei limiti di norma" },
@@ -132,4 +134,6 @@ export const EXAM_DEFAULT_VALUES: Record<string, ExamClinicalMeta> = {
   fna: { price: 120, urgencyTiming: "n.p.", routineTiming: "48h", routineMinutes: 2880, normalFinding: "Citologia: materiale adeguato, senza atipie significative" },
   biopsia: { price: 180, urgencyTiming: "n.p.", routineTiming: "7 gg", routineMinutes: 10080, normalFinding: "Istologia: tessuto rappresentativo, quadro non specifico" },
   laringoscopia: { price: 95, urgencyTiming: "n.p.", routineTiming: "48h", routineMinutes: 2880, normalFinding: "Strutture laringee mobili, senza lesioni evidenti" },
+  mmse: { price: 15, urgencyTiming: "30 min", routineTiming: "n.p.", routineMinutes: 30, normalFinding: "Punteggio ≥ 24/30 (nei limiti per scolarità)" },
+  "valutazione-geriatrica": { price: 25, urgencyTiming: "45 min", routineTiming: "n.p.", routineMinutes: 45, normalFinding: "ADL 6/6; IADL conservate; MNA ≥ 24 (stato nutrizionale normale)" },
 };

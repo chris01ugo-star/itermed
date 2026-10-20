@@ -1,0 +1,452 @@
+{
+  "id": "GERIA-002",
+  "code": "GERIA-002",
+  "title": "Polmonite ab ingestis e DAT già scritte",
+  "description": "Teresa Neri, 88 anni, demenza avanzata e disfagia, entra per febbre e tosse dopo il pasto. Due anni fa ha rifiutato per iscritto nutrizione artificiale, PEG e rianimazione, e ha accettato le cure del sintomo e un antibiotico se proporzionato. Il figlio chiede la PEG e una TC encefalo di controllo. La Legge 219/2017 considera nutrizione e idratazione artificiali trattamenti rifiutabili e obbliga il medico a rispettare il rifiuto. La neuroradiologia non si ripete se diagnosi e sottotipo sono già chiari.",
+  "difficulty": "HARD",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Inalazione in demenza avanzata: DAT vincolanti, no PEG, no TC di controllo",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Legge 219/2017 art. 1 e 4; LG demenza ISS 2024 rec. 12; Nota 85 e Nota 96",
+  "diagnosis": "Polmonite da inalazione in disfagia grave. Le DAT rifiutano PEG e rianimazione. Non si ripete la TC encefalo e non si riavvia la memantina.",
+  "pastMedicalHistory": "Alzheimer da sei anni, MMSE 8/30 un anno fa, piano della memantina chiuso per beneficio insufficiente. Fibrillazione in apixaban. Due inalazioni nell'ultimo anno. DAT in cartella della RSA: no PEG, no rianimazione; sì a cure del dolore e antibiotico se non è accanimento. Il figlio non c'era alla stesura.",
+  "presentation": "Frequenza respiratoria 28, saturazione 91% in aria, rantoli alle basi, febbre. Sonnolenta, tosse inefficace al sorso. Nessuna emiparesi nuova. Il figlio chiede la PEG e una TC del cervello.",
+  "redHerrings": [
+    "Il figlio legge la sonnolenza come un ictus e chiede la TC.",
+    "La memantina sospesa sembra una cura tolta troppo presto.",
+    "La saturazione bassa viene usata per giustificare la rianimazione contro la DAT."
+  ],
+  "timeLimitMinutes": 60,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY. Sei Teresa Neri, 88 anni. Parli pochissimo, tossisci dopo ogni sorso, dici «acqua» e poi «figlio». Tuo figlio Marco parla al posto tuo e chiede la PEG e una nuova TAC. Se il medico legge ad alta voce il rifiuto scritto di nutrizione artificiale e rianimazione, Marco tace e chiede se la lascerete senza cure. Se gli si spiegano bocca, postura, antibiotico proporzionato e presenza, resta. Se propongono la PEG, dici di no con un gesto e tossisci. Non nominare tu la legge.",
+  "correctSolution": "Leggere le DAT. VMD. MMSE di oggi non valido, resta il pregresso. RX torace e PCR. Antibiotico proporzionato, niente PEG, niente rianimazione, niente Aloperidolo 2 mg/ml gocce, niente Memantina 10 mg, niente TC di controllo. Il colecalciferolo non è la cura di questa polmonite.",
+  "goldStandardPath": [
+    "anamnesi-dat",
+    "valutazione-geriatrica",
+    "mmse",
+    "rx-torace",
+    "pcr-pct",
+    "azione-antibiotico",
+    "azione-dat",
+    "azione-comfort"
+  ],
+  "goldPathNarrative": "Si leggono le DAT prima di ogni tubo. La VMD documenta dipendenza e disfagia. L'MMSE odierno non riapre la Memantina 10 mg. RX torace e PCR confermano la polmonite. Antibiotico proporzionato, postura, liquidi addensati. PEG e rianimazione restano rifiutate. Nessuna TC encefalo di controllo.",
+  "examLatencies": {
+    "anamnesi-dat": 15,
+    "valutazione-geriatrica": 45,
+    "mmse": 20,
+    "rx-torace": 40,
+    "pcr-pct": 60,
+    "azione-antibiotico": 10,
+    "azione-dat": 15,
+    "azione-comfort": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-dat",
+      "prompt": "Esistono DAT e che cosa rifiutano di preciso?",
+      "critical": true,
+      "expectedKeywords": [
+        "DAT",
+        "PEG"
+      ],
+      "rationale": "Il rifiuto scritto di nutrizione artificiale vincola il medico."
+    },
+    {
+      "id": "aq-disfagia",
+      "prompt": "Come mangia in RSA e ci sono state altre inalazioni?",
+      "critical": true,
+      "expectedKeywords": [
+        "disfagia",
+        "inalazione"
+      ],
+      "rationale": "Il meccanismo è la disfagia, non un cervello da riscandire."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "La memantina è stata sospesa per beneficio insufficiente?",
+      "critical": true,
+      "expectedKeywords": [
+        "memantina",
+        "sospesa"
+      ],
+      "rationale": "Riprenderla senza piano non è ammesso dalla Nota 85."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Sonnolenza risvegliabile, tosse inefficace, rantoli basali, saturazione 91%. Nessuna emiparesi nuova. Il sorso di acqua scatena la tosse."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-002-219",
+      "source": "Legge 22 dicembre 2017, n. 219, art. 1",
+      "quote": "Sono considerati trattamenti sanitari la nutrizione artificiale e l'idratazione artificiale. Il medico è tenuto a rispettare la volontà espressa dal paziente di rifiutare il trattamento sanitario ed è esente da responsabilità civile o penale."
+    },
+    {
+      "chunkId": "geria-002-lg",
+      "source": "LG ISS Diagnosi e trattamento di demenza e MCI, gennaio 2024, raccomandazione 12",
+      "quote": "Offrire esami di neuroradiologia strutturale per escludere cause reversibili e a supporto del sottotipo, a meno che la diagnosi di demenza sia già ben stabilita e il suo sottotipo sia chiaro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "DAT lette prima di ogni proposta di PEG.",
+      "VMD fatta. MMSE odierno non usato per riaprire un antidemenza.",
+      "Antibiotico proporzionato, nessuna PEG e nessuna rianimazione.",
+      "Nessuna TC encefalo di controllo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La condotta difendibile è il rispetto della DAT e la cura proporzionata della polmonite. PEG, rianimazione e TC di controllo sono lo scostamento da documentare se qualcuno li propone.",
+      "legalCriteria": [
+        "PEG non posizionata contro le DAT.",
+        "Rianimazione non impostata contro il rifiuto scritto.",
+        "Il figlio è informato e non sostituisce la volontà della paziente."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 0/6, IADL 0/8, MNA 14, disfagia grave, obiettivo già orientato al conforto. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "Non completabile per sonnolenza. Resta l'MMSE 8/30 dell'anno scorso: non si riparte con Memantina 10 mg. Costo 15 euro se lo si forza.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "rx-torace",
+      "name": "RX torace",
+      "finding": "Addensamento basale destro compatibile con inalazione. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "PCR",
+      "finding": "PCR 9 mg/dL. Sostiene la polmonite, non indica la PEG. Costo 28 euro.",
+      "isAbnormal": true,
+      "priceEuro": 28
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c. di controllo",
+      "finding": "Atrofia e leucoaraiosi già note, nessun sangue. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "Diagnosi e sottotipo sono già chiari e non c'è un segno focale nuovo.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non richiesta da questo ricovero respiratorio. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non tocca la DAT né la polmonite.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Reparto geriatrico. Polmonite, disfagia, DAT in cartella.",
+    "vitals": {
+      "heartRate": 108,
+      "bloodPressure": "102/64",
+      "spo2": 91,
+      "temperature": 38.2,
+      "respiratoryRate": 28
+    },
+    "examBudgetEuro": 140,
+    "demographics": {
+      "age": 88,
+      "sex": "F",
+      "name": "Teresa Neri"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Disfagia ai liquidi",
+        "result": "Tosse immediata al sorso, voce gorgogliante.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale nuovo",
+        "result": "Nessuna emiparesi rispetto al baseline della RSA.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Disfagia ai liquidi",
+        "result": "Tosse immediata al sorso, voce gorgogliante.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale nuovo",
+        "result": "Nessuna emiparesi rispetto al baseline della RSA.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 0/6, IADL 0/8, MNA 14, disfagia grave, obiettivo già orientato al conforto. Costo 25 euro.",
+          "normalFinding": "ADL 0/6, IADL 0/8, MNA 14, disfagia grave, obiettivo già orientato al conforto. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "Non completabile per sonnolenza. Resta l'MMSE 8/30 dell'anno scorso: non si riparte con Memantina 10 mg. Costo 15 euro se lo si forza.",
+          "normalFinding": "Non completabile per sonnolenza. Resta l'MMSE 8/30 dell'anno scorso: non si riparte con Memantina 10 mg. Costo 15 euro se lo si forza.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "rx-torace": {
+          "finding": "Addensamento basale destro compatibile con inalazione. Costo 25 euro.",
+          "normalFinding": "Addensamento basale destro compatibile con inalazione. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "pcr-pct": {
+          "finding": "PCR 9 mg/dL. Sostiene la polmonite, non indica la PEG. Costo 28 euro.",
+          "normalFinding": "PCR 9 mg/dL. Sostiene la polmonite, non indica la PEG. Costo 28 euro.",
+          "isAbnormal": true,
+          "price": 28
+        },
+        "tc-encefalo": {
+          "finding": "Atrofia e leucoaraiosi già note, nessun sangue. Costo 70 euro.",
+          "normalFinding": "Atrofia e leucoaraiosi già note, nessun sangue. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non richiesta da questo ricovero respiratorio. Costo 35 euro.",
+          "normalFinding": "Non richiesta da questo ricovero respiratorio. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Teresa non sostiene un colloquio. Il figlio contesta la DAT. Si placa se gli si legge il foglio e gli si dice che bocca, respiro e presenza non sono un abbandono."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "DAT prima del tubo",
+      "prompt": "Febbre, tosse dopo il pasto, saturazione 91%, demenza avanzata. Il figlio chiede la PEG in ingresso. Cosa leggi prima?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Leggere le DAT: rifiuto di nutrizione artificiale, PEG e rianimazione",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Ignorare le DAT perché oggi il figlio vuole la PEG",
+          "next": "res-dat"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "VMD, non una stadiazione notturna",
+      "prompt": "È dipendente e disfagica. Un MMSE estorto alla sonnolenza non riapre la terapia. Cosa misuri?",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e documentazione che l'MMSE di oggi non è valido",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "TC Encefalo senza m.d.c. per vedere se il cervello è peggiorato",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Proporzionalità",
+      "prompt": "La DAT accetta l'antibiotico se non è accanimento e rifiuta tubo e rianimazione. Come imposti il confine?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Antibiotico e conforto sì; PEG e rianimazione no",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Intubazione preventiva perché la saturazione è bassa",
+          "next": "res-dat"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Conferma della polmonite",
+      "prompt": "Quale imaging serve alla polmonite in una demenza di sottotipo già chiaro?",
+      "cost": 53,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "RX torace e PCR. Nessuna TC encefalo",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "TC Encefalo senza m.d.c. e poi un'altra a 24 ore",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cura proporzionata",
+      "prompt": "Il meccanismo è l'inalazione. Qual è il pacchetto coerente con la DAT?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Postura, liquidi addensati, igiene del cavo, antibiotico. Nessun sedativo per tenerla ferma",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Aloperidolo 2 mg/ml gocce per la tosse e sponde bloccate",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antidemenza già sospeso",
+      "prompt": "Il piano della memantina è stato chiuso perché il beneficio era insufficiente. Qualcuno propone di riprendere Memantina 10 mg durante la polmonite. La Nota 85 esige diagnosi e piano del CDCD e l'interruzione se il beneficio non giustifica la continuazione.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non riprendere Memantina 10 mg senza un nuovo piano del CDCD",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "Riprendere Memantina 10 mg senza piano del CDCD",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Piano con il figlio",
+      "prompt": "Marco chiede ancora la PEG, altrimenti dice che morirà di fame. Come chiudi?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Alimentazione a conforto, DAT citata in lettera, nessuna PEG",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Firmare la PEG per accontentare il figlio",
+          "next": "res-dat"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "DAT rispettate e polmonite curata",
+      "prompt": "Il tubo non è stato messo. La polmonite è trattata in modo proporzionato. Nessuna TC di controllo e nessun antidemenza riaperto.",
+      "cost": 93,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-dat",
+      "type": "resolution",
+      "title": "DAT violate",
+      "prompt": "PEG o rianimazione contro il rifiuto scritto ignorano l'art. 1 della Legge 219/2017: nutrizione e idratazione artificiali sono trattamenti, e il medico deve rispettare il rifiuto. Il volere del figlio non sostituisce la disposizione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-contenzione",
+      "type": "resolution",
+      "title": "Sedazione della tosse",
+      "prompt": "Aloperidolo 2 mg/ml gocce e sponde per una paziente che tossisce sono una contenzione, non una cura dell'inalazione. Bellelli proscrive la contenzione fisica.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC encefalo di controllo",
+      "prompt": "La raccomandazione 12 della LG ISS dice di offrire la neuroradiologia strutturale a meno che diagnosi e sottotipo siano già chiari. Qui lo sono, e non c'è un segno focale nuovo. La TC costa 70 euro.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-nota85",
+      "type": "resolution",
+      "title": "Memantina senza piano",
+      "prompt": "La Nota 85 limita la rimborsabilità a diagnosi e piano del CDCD. Il piano precedente è stato chiuso per beneficio insufficiente. Riprendere Memantina 10 mg senza un nuovo piano non è appropriato.",
+      "cost": 20,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

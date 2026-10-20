@@ -1,0 +1,424 @@
+{
+  "id": "GERIA-022",
+  "code": "GERIA-022",
+  "title": "Allettamento e contenzione abituale",
+  "description": "Ettore Barbieri, 87 anni, è in reparto da cinque giorni per una infezione respiratoria in via di risoluzione. È stato tenuto a letto con le sponde anche di giorno, senza una prescrizione motivata. Bellelli dice di prevenire l'immobilizzazione e proscrive la contenzione. Il documento EBN la associa a piaghe, debolezza, più cadute e più neurolettici. La VMD in ortogeriatria e in area medica serve a limitare il danno funzionale e il delirium, non a ratificare il letto. Non c'è un pericolo che giustifichi Aloperidolo 2 mg/ml gocce.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Immobilizzazione protratta: togliere la contenzione abituale e rimettere in piedi",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "Bellelli SIMG 2020; EBN 2008; LG VMD R5a.1 e R6a.1",
+  "diagnosis": "Decondizionamento da contenzione e allettamento non motivati. Non c'è indicazione all'aloperidolo né a una TC encefalo.",
+  "pastMedicalHistory": "Bronchite in risoluzione. Nessuna demenza. Nessuna caduta in reparto. Sponde messe la prima notte e mai rivalutate. Nessuna DAT.",
+  "presentation": "Lucido, debole, arrossamento sacrale, chiede di alzarsi. Il turno dice che le sponde sono la prassi e chiede le gocce se prova a scendere.",
+  "redHerrings": [
+    "La prassi sembra una prescrizione.",
+    "La debolezza sembra un motivo per non alzarlo.",
+    "Una TC sembra necessaria prima di metterlo seduto."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Ettore Barbieri, 87 anni, lucido. Dici che sei a letto da giorni e ti fa male la schiena. Vuoi sederti. Se il medico toglie le sponde e ti fa alzare con aiuto, collabori. Se propone Aloperidolo 2 mg/ml gocce, rifiuti. Non nominare piaghe in linguaggio tecnico: di' che brucia dietro.",
+  "correctSolution": "Togliere la contenzione, VMD, MMSE, mobilizzazione, cura della cute, niente Aloperidolo 2 mg/ml gocce, niente TC.",
+  "goldStandardPath": [
+    "anamnesi-letto",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-sponde",
+    "azione-mobilizzare",
+    "azione-cute",
+    "azione-no-farmaco"
+  ],
+  "goldPathNarrative": "Le sponde non hanno una motivazione eccezionale. VMD e MMSE mostrano un uomo lucido che si sta decondizionando. Si mobilizza e si cura la cute. Non si prescrive l'aloperidolo. Non si fa la TC.",
+  "examLatencies": {
+    "anamnesi-letto": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-sponde": 5,
+    "azione-mobilizzare": 15,
+    "azione-cute": 10,
+    "azione-no-farmaco": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-motivo",
+      "prompt": "Le sponde hanno una prescrizione motivata di oggi o sono la prassi?",
+      "critical": true,
+      "expectedKeywords": [
+        "prassi",
+        "nessuna"
+      ],
+      "rationale": "Senza eccezionalità la contenzione non sta in piedi."
+    },
+    {
+      "id": "aq-pericolo",
+      "prompt": "È un pericolo per sé in questo momento?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "lucido"
+      ],
+      "rationale": "Non scatta il criterio del farmaco."
+    },
+    {
+      "id": "aq-cute",
+      "prompt": "C'è un arrossamento da pressione?",
+      "critical": true,
+      "expectedKeywords": [
+        "sacro",
+        "brucia"
+      ],
+      "rationale": "È un danno atteso dell'immobilizzazione."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucido, ipostenico, eritema sacrale, nessun deficit focale, saturazione buona."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-022-bellelli",
+      "source": "Bellelli, Rivista SIMG 2020",
+      "quote": "Nel delirium, e come prevenzione, vanno evitati immobilizzazione e contenzione. L'uso di contenzioni fisiche è particolarmente pericoloso ed è da proscrivere."
+    },
+    {
+      "chunkId": "geria-022-ebn",
+      "source": "Cappuccio et al., Centro Studi EBN, 2008",
+      "quote": "La contenzione fisica non previene le cadute e si associa a piaghe, lesioni, più dipendenza e più uso di benzodiazepine e neurolettici tipici. Deve essere un atto eccezionale, prescritto e giustificato."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Contenzione rivalutata e tolta.",
+      "VMD e MMSE eseguiti.",
+      "Mobilizzazione e cute.",
+      "Niente aloperidolo e niente TC."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: sponde senza motivazione eccezionale, sospese, piano di mobilizzazione, cute descritta.",
+      "legalCriteria": [
+        "Contenzione non lasciata come prassi.",
+        "Nessun neurolettico per tenerlo a letto.",
+        "Il danno da pressione è cercato, non ignorato."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL scese a 2/6 per l'allettamento, MNA 19, rischio decondizionamento. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "26/30, lucido. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c.",
+      "finding": "Nessun segno focale e nessuna caduta. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC non rimette in piedi e non giustifica le sponde.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non è il gesto di oggi. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non cura l'eritema sacrale.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Reparto medico, quinto giorno, sponde dalla prima notte.",
+    "vitals": {
+      "heartRate": 82,
+      "bloodPressure": "136/78",
+      "spo2": 95,
+      "temperature": 36.8,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 70,
+    "demographics": {
+      "age": 87,
+      "sex": "M",
+      "name": "Ettore Barbieri"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Eritema sacrale",
+        "result": "Rossore da pressione, cute integra.",
+        "isPositive": true
+      },
+      {
+        "signName": "Delirium",
+        "result": "Assente. È lucido.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Eritema sacrale",
+        "result": "Rossore da pressione, cute integra.",
+        "isPositive": true
+      },
+      {
+        "signName": "Delirium",
+        "result": "Assente. È lucido.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL scese a 2/6 per l'allettamento, MNA 19, rischio decondizionamento. Costo 25 euro.",
+          "normalFinding": "ADL scese a 2/6 per l'allettamento, MNA 19, rischio decondizionamento. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "26/30, lucido. Costo 15 euro.",
+          "normalFinding": "26/30, lucido. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tc-encefalo": {
+          "finding": "Nessun segno focale e nessuna caduta. Costo 70 euro.",
+          "normalFinding": "Nessun segno focale e nessuna caduta. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non è il gesto di oggi. Costo 35 euro.",
+          "normalFinding": "Non è il gesto di oggi. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Chiede di alzarsi in modo concreto. Si chiude se gli proponi le gocce. Collabora se lo fai sedere."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Perché è ancora contenuto",
+      "prompt": "Sponde da cinque giorni, lucido, infezione in risoluzione. C'è un atto eccezionale scritto?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "No: è una prassi e va sospesa",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Confermare le sponde perché sono la prassi del reparto",
+          "next": "res-prassi"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "VMD",
+      "prompt": "La valutazione multidimensionale quantifica il danno funzionale dell'allettamento.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "TC Encefalo senza m.d.c. prima di farlo sedere",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Mobilizzare",
+      "prompt": "Bellelli invita a prevenire l'immobilizzazione. Lo si alza con aiuto.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Seduto e poi in piedi con assistenza, sponde sospese",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Riposo a letto altri cinque giorni",
+          "next": "res-prassi"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cute",
+      "prompt": "L'eritema è il danno previsto dal documento EBN. Va curato, non coperto dalle fasce.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Curare la pressione e cambiare spesso posizione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Ignorare il sacro finché non si apre",
+          "next": "res-cute"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se prova a scendere",
+      "prompt": "Non è un pericolo. Vuole il bagno. Non è un criterio per l'aloperidolo.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Accompagnarlo. Niente Aloperidolo 2 mg/ml gocce",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Aloperidolo 2 mg/ml gocce a orario finché è in reparto",
+          "next": "res-aloperidolo"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC encefalo",
+      "prompt": "Nessuna indicazione di Bellelli.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non eseguire la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. perché è debole",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dimissione",
+      "prompt": "Funzione recuperata almeno in parte, niente sponde scritte in lettera come consiglio domiciliare di routine.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Lettera senza contenzione e senza neurolettico",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Consigliare le sponde a casa per sempre",
+          "next": "res-prassi"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Rimesso in piedi",
+      "prompt": "Sponde sospese, VMD fatta, cute curata, nessun sedativo e nessuna TC.",
+      "cost": 40,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-prassi",
+      "type": "resolution",
+      "title": "Contenzione di prassi",
+      "prompt": "Lasciare o consigliare le sponde come metodica abituale contraddice Bellelli e il documento EBN: serve un atto eccezionale, prescritto e giustificato. La prassi istituzionale è inaccettabile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-cute",
+      "type": "resolution",
+      "title": "Piaga ignorata",
+      "prompt": "Il documento EBN lega la contenzione alle lesioni da pressione. Non guardare il sacro mentre lo si tiene fermo prosegue il danno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-aloperidolo",
+      "type": "resolution",
+      "title": "Aloperidolo per tenerlo a letto",
+      "prompt": "Aloperidolo 2 mg/ml gocce a orario, senza pericolo, è la contenzione farmacologica che l'EBN trova associata alle fasce. Non è il criterio di Bellelli.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC prima di sedersi",
+      "prompt": "Non c'è caduta, né sospetto ictus, né segno focale. La TC costa 70 euro e ritarda la mobilizzazione.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

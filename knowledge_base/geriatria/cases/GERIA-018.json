@@ -1,0 +1,450 @@
+{
+  "id": "GERIA-018",
+  "code": "GERIA-018",
+  "title": "Delirium e infezione urinaria",
+  "description": "Antonio Ricci, 86 anni, è confuso da ieri, ha il catetere da tre giorni e la febbre. Bellelli elenca tra i precipitanti il catetere, l'infezione e i farmaci. Il neuroimaging non è indicato: non è caduto, non ha segni focali, non c'è sospetto di infezione del sistema nervoso. Non si inizia Donepezil 5 mg. Non si aggiunge un anticolinergico per la vescica. L'aloperidolo non è il primo atto se, tolto il catetere e avviata la cura, non è un pericolo.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Delirium da catetere e infezione: curare la causa, niente TC, niente donepezil",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "Bellelli SIMG 2020; criteri di Beers; Nota AIFA 85",
+  "diagnosis": "Delirium precipitato da infezione urinaria e catetere. Non è indicata la TC encefalo. Non si inizia un antidemenza.",
+  "pastMedicalHistory": "Ritenzione trattata con catetere lasciato per comodità. Nessuna demenza nota. Ipertensione. Nessuna caduta. Nessuna astinenza alcolica.",
+  "presentation": "Inattento, febbre 38,2, urina torbida, nessun deficit di lato. Il catetere è stato messo tre giorni fa e non è stato più discusso.",
+  "redHerrings": [
+    "La confusione sembra un ictus.",
+    "Il catetere sembra intoccabile.",
+    "L'MMSE basso durante il delirium sembra un'indicazione al donepezil."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Antonio Ricci, 86 anni, confuso, febbricitante. Dici che ti brucia e che non sai dove sei, poi per un minuto riconosci tuo figlio. Se propongono di togliere il catetere e di darti la cura, tuo figlio accetta. Se propongono la TAC o una pastiglia della memoria, tuo figlio chiede se è necessario. Non nominare delirium.",
+  "correctSolution": "Delirium, VMD, MMSE a risoluzione, urine ed esami, togliere il catetere se possibile, antibiotico mirato, niente TC, niente Donepezil 5 mg, niente ossibutinina, niente Aloperidolo 2 mg/ml gocce come primo atto.",
+  "goldStandardPath": [
+    "anamnesi-ivu",
+    "valutazione-geriatrica",
+    "mmse",
+    "urine-sed",
+    "azione-catetere",
+    "azione-antibiotico",
+    "azione-no-tc"
+  ],
+  "goldPathNarrative": "Si riconosce il delirium e si trova il catetere. VMD ora, MMSE dopo. Urine e cura dell'infezione. Nessuna TC. Nessun donepezil. Nessun anticolinergico aggiunto.",
+  "examLatencies": {
+    "anamnesi-ivu": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "urine-sed": 50,
+    "azione-catetere": 10,
+    "azione-antibiotico": 10,
+    "azione-no-tc": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-catetere",
+      "prompt": "Da quando ha il catetere e chi ha deciso di lasciarlo?",
+      "critical": true,
+      "expectedKeywords": [
+        "tre giorni",
+        "comodità"
+      ],
+      "rationale": "Il catetere è un precipitante di Bellelli."
+    },
+    {
+      "id": "aq-focale",
+      "prompt": "C'è un deficit neurologico nuovo?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "focale"
+      ],
+      "rationale": "Senza segno focale la TC non è indicata."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "Qualcuno propone donepezil o un anticolinergico vescicale?",
+      "critical": true,
+      "expectedKeywords": [
+        "donepezil",
+        "ossibutinina"
+      ],
+      "rationale": "Né l'uno né l'altro curano questo delirium."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Inattenzione fluttuante, febbre, catetere, nessun segno focale, non rigidità nucale."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-018-bellelli",
+      "source": "Bellelli, Rivista SIMG 2020",
+      "quote": "Tra i fattori precipitanti ci sono la contenzione, la malnutrizione, la polifarmacia, il catetere vescicale e l'iatrogenesi. Il neuroimaging non è indicato in assenza di caduta recente, sospetto ictus o infezione centrale, o coscienza ridotta con segni focali."
+    },
+    {
+      "chunkId": "geria-018-beers",
+      "source": "Criteri di Beers, antimuscarinici",
+      "quote": "Gli antimuscarinici, per esempio nell'iperattività vescicale, peggiorano deficit cognitivo, confusione e agitazione."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Catetere riconosciuto come precipitante.",
+      "VMD fatta, MMSE differito.",
+      "Niente TC e niente donepezil.",
+      "Niente anticolinergico aggiunto."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: delirium, infezione, catetere rimosso o motivato, TC non indicata, donepezil non iniziato.",
+      "legalCriteria": [
+        "Nessuna contenzione.",
+        "Nessun neurolettico come primo atto.",
+        "Il catetere non resta per comodità del turno."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL in calo acuto, catetere, febbre. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "Non valido oggi. A risoluzione 25/30. Costo 15 euro se forzato nel delirium.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "urine-sed",
+      "name": "Esame urine",
+      "finding": "Leucocituria e nitriti positivi. Costo 6 euro.",
+      "isAbnormal": true,
+      "priceEuro": 6
+    },
+    {
+      "examId": "pcr-pct",
+      "name": "PCR",
+      "finding": "PCR 8 mg/dL. Costo 28 euro.",
+      "isAbnormal": true,
+      "priceEuro": 28
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c.",
+      "finding": "Non indicata. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC non toglie il catetere.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non cura l'infezione.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Reparto, confusione e catetere.",
+    "vitals": {
+      "heartRate": 100,
+      "bloodPressure": "110/68",
+      "spo2": 95,
+      "temperature": 38.2,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 100,
+    "demographics": {
+      "age": 86,
+      "sex": "M",
+      "name": "Antonio Ricci"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Delirium",
+        "result": "Inattenzione e fluttuazione da ieri.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale",
+        "result": "Assente. Non c'è rigidità nucale.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Delirium",
+        "result": "Inattenzione e fluttuazione da ieri.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale",
+        "result": "Assente. Non c'è rigidità nucale.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL in calo acuto, catetere, febbre. Costo 25 euro.",
+          "normalFinding": "ADL in calo acuto, catetere, febbre. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "Non valido oggi. A risoluzione 25/30. Costo 15 euro se forzato nel delirium.",
+          "normalFinding": "Non valido oggi. A risoluzione 25/30. Costo 15 euro se forzato nel delirium.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "urine-sed": {
+          "finding": "Leucocituria e nitriti positivi. Costo 6 euro.",
+          "normalFinding": "Leucocituria e nitriti positivi. Costo 6 euro.",
+          "isAbnormal": true,
+          "price": 6
+        },
+        "pcr-pct": {
+          "finding": "PCR 8 mg/dL. Costo 28 euro.",
+          "normalFinding": "PCR 8 mg/dL. Costo 28 euro.",
+          "isAbnormal": true,
+          "price": 28
+        },
+        "tc-encefalo": {
+          "finding": "Non indicata. Costo 70 euro.",
+          "normalFinding": "Non indicata. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata. Costo 35 euro.",
+          "normalFinding": "Non indicata. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Fluttua. Il figlio vuole una spiegazione semplice: febbre e tubo, non una TAC di notte."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Precipitanti visibili",
+      "prompt": "Confusione, febbre, catetere da tre giorni, niente deficit. Come lo chiami?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Delirium da infezione e catetere",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Demenza e Donepezil 5 mg stanotte",
+          "next": "res-donepezil"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Cosa chiedere",
+      "prompt": "VMD, urine, PCR. MMSE dopo. Non la TC.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale, urine e PCR. MMSE a risoluzione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "TC Encefalo senza m.d.c. prima delle urine",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Catetere",
+      "prompt": "Bellelli lo elenca tra i precipitanti. È stato lasciato per comodità.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Rimuovere il catetere se la ritenzione non lo impone più e curare l'infezione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Lasciare il catetere e aggiungere ossibutinina",
+          "next": "res-anticolinergico"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Neurolettico",
+      "prompt": "Non è un pericolo: è febbrile e confuso, il figlio è presente. Prima la causa.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Niente Aloperidolo 2 mg/ml gocce come primo atto",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Aloperidolo 2 mg/ml gocce e contenzione in attesa della TC",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Donepezil",
+      "prompt": "Nessuna evidenza nel delirium. Nessun piano di Nota 85.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non iniziare Donepezil 5 mg",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Donepezil 5 mg perché l'MMSE di stanotte è basso",
+          "next": "res-donepezil"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC encefalo",
+      "prompt": "Niente caduta, niente segno focale, niente sospetto di meningite.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non eseguire la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. comunque, è anziano",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "A risoluzione",
+      "prompt": "MMSE da lucido e lettera senza catetere di comodità.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "MMSE di controllo e niente neurolettico a casa",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Dimissione con il catetere e Aloperidolo 2 mg/ml gocce",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Causa tolta",
+      "prompt": "Catetere e infezione affrontati, niente TC e niente donepezil.",
+      "cost": 74,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-anticolinergico",
+      "type": "resolution",
+      "title": "Anticolinergico aggiunto",
+      "prompt": "Aggiungere ossibutinina e lasciare il catetere mantiene due precipitanti. Beers: gli antimuscarinici peggiorano confusione e agitazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-sedazione",
+      "type": "resolution",
+      "title": "Sedazione e catetere di comodità",
+      "prompt": "Aloperidolo 2 mg/ml gocce e contenzione, o la dimissione con entrambi, saltano la causa. Bellelli proscrive la contenzione e riserva il farmaco al pericolo.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC non indicata",
+      "prompt": "Non ricorrono i criteri di Bellelli. La TC costa 70 euro e non cura l'infezione.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-donepezil",
+      "type": "resolution",
+      "title": "Donepezil nel delirium",
+      "prompt": "Nessuna evidenza degli inibitori nel delirium. Donepezil 5 mg senza Alzheimer e senza piano è fuori Nota 85.",
+      "cost": 15,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

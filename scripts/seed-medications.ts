@@ -10,7 +10,7 @@
  * Idempotent upsert on (commercialName, dosageForm).
  * `category` is the specialty pillar (Cardiologia, Pneumologia,
  * Gastroenterologia, Urgenza, Neurologia, Oncologia, Malattie Infettive,
- * Psichiatria), not a pharmacological class.
+ * Psichiatria, Reumatologia, Geriatria), not a pharmacological class.
  *
  *   npx tsx scripts/seed-medications.ts
  *   npm run db:seed:medications
@@ -38,7 +38,8 @@ type SeedMedication = {
     | "Oncologia"
     | "Malattie Infettive"
     | "Psichiatria"
-    | "Reumatologia";
+    | "Reumatologia"
+    | "Geriatria";
   /** AIC / AIFA note for audit — not persisted. */
   source: string;
 };
@@ -828,6 +829,48 @@ const MEDICATIONS: SeedMedication[] = [
     price: 5,
     category: "Reumatologia",
     source: "Tariffa didattica di reparto. Classe A. Inibitore della xantina ossidasi, via orale.",
+  },
+
+  // --- Geriatria (tariffe didattiche di reparto) ---
+  {
+    commercialName: "Donepezil",
+    activeIngredient: "Donepezil",
+    dosageForm: "compresse 5 mg",
+    price: 15,
+    category: "Geriatria",
+    source: "Tariffa didattica di reparto. Classe A. Inibitore dell'acetilcolinesterasi, via orale.",
+  },
+  {
+    commercialName: "Memantina",
+    activeIngredient: "Memantina",
+    dosageForm: "compresse 10 mg",
+    price: 20,
+    category: "Geriatria",
+    source: "Tariffa didattica di reparto. Classe A. Antagonista NMDA, via orale.",
+  },
+  {
+    commercialName: "Quetiapina",
+    activeIngredient: "Quetiapina",
+    dosageForm: "compresse 25 mg",
+    price: 5,
+    category: "Geriatria",
+    source: "Tariffa didattica di reparto. Classe A. Antipsicotico atipico a basso dosaggio per BPSD, via orale.",
+  },
+  {
+    commercialName: "Aloperidolo",
+    activeIngredient: "Aloperidolo",
+    dosageForm: "gocce 2 mg/ml",
+    price: 3,
+    category: "Geriatria",
+    source: "Tariffa didattica di reparto. Classe A. Antipsicotico tipico in gocce, via orale.",
+  },
+  {
+    commercialName: "Colecalciferolo (Vitamina D)",
+    activeIngredient: "Colecalciferolo",
+    dosageForm: "25.000 UI",
+    price: 6,
+    category: "Geriatria",
+    source: "Tariffa didattica di reparto. Classe A. Vitamina D3, via orale.",
   },
 ];
 

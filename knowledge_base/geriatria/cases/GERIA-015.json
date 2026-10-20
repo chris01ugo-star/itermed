@@ -1,0 +1,435 @@
+{
+  "id": "GERIA-015",
+  "code": "GERIA-015",
+  "title": "Delirium e emiparesi nuova",
+  "description": "Ida Colombo, 85 anni, è inattenta e da un'ora non muove il braccio destro. Bellelli indica il neuroimaging se si sospetta un evento cerebrovascolare o se la coscienza è ridotta con segni focali. La TC encefalo qui è l'esame corretto, una volta. Il sodio lievemente basso è un fattore concomitante, non il motivo per saltare la TC. Non si inizia Donepezil 5 mg, non si seda con Aloperidolo 2 mg/ml gocce prima di aver protetto la diagnosi, e non si ripete la TC a distanza di poche ore se la prima ha già risposto e il quadro neurologico non cambia.",
+  "difficulty": "HARD",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Segno focale nuovo: una TC encefalo sì, la seconda e il donepezil no",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Bellelli SIMG 2020; LG ISS rec. 12; Nota AIFA 85",
+  "diagnosis": "Delirium con emiparesi nuova: indicazione a una TC encefalo. Non è una demenza da trattare con donepezil e non si contiene.",
+  "pastMedicalHistory": "Ipertensione, fibrillazione in apixaban. Nessuna demenza. Ieri era autonoma. Nessun anticolinergico. La figlia riferisce fluttuazione dell'attenzione da stamattina e poi il braccio.",
+  "presentation": "Inattenta, emiparesi destra nuova, afasia, pressione alta. Non è una semplice iponatriemia: il segno focale c'è.",
+  "redHerrings": [
+    "Il sodio 132 sembra sufficiente a chiudere il caso.",
+    "L'età sembra un motivo per il donepezil.",
+    "Una seconda TC sembra dovuta anche se la prima ha già mostrato l'ischemia e il quadro non cambia."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 25,
+  "patientPrompt": "ROLEPLAY. Sei Ida Colombo, 85 anni. Parli male, non muovi il braccio destro, sei confusa. Tua figlia spiega che stamattina andava e veniva e poi il braccio è caduto. Se propongono la TAC, lei annuisce spaventata. Se propongono gocce per tenerla ferma o una pastiglia della memoria, scuote la testa. Non nominare ictus in termini tecnici.",
+  "correctSolution": "Riconoscere delirium più segno focale. Una TC Encefalo senza m.d.c. Elettroliti nel percorso, non al posto della TC. VMD appena possibile e MMSE solo a risoluzione. Niente Donepezil 5 mg, niente Aloperidolo 2 mg/ml gocce per immobilizzarla, niente seconda TC se il deficit non cambia.",
+  "goldStandardPath": [
+    "anamnesi-focale",
+    "tc-encefalo",
+    "valutazione-geriatrica",
+    "mmse",
+    "elettroliti",
+    "azione-no-farmaco",
+    "azione-no-replica"
+  ],
+  "goldPathNarrative": "Il segno focale nuovo rende indicata una TC encefalo, 70 euro, una volta. Gli elettroliti non la sostituiscono. VMD e, a risoluzione, MMSE. Non si inizia il donepezil e non si seda per fare la TC. Se il quadro non cambia non si ripete l'esame.",
+  "examLatencies": {
+    "anamnesi-focale": 8,
+    "tc-encefalo": 40,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "elettroliti": 40,
+    "azione-no-farmaco": 5,
+    "azione-no-replica": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-braccio",
+      "prompt": "Il deficit del braccio è nuovo?",
+      "critical": true,
+      "expectedKeywords": [
+        "nuovo",
+        "destra"
+      ],
+      "rationale": "Il segno focale è l'indicazione di Bellelli al neuroimaging."
+    },
+    {
+      "id": "aq-attenzione",
+      "prompt": "L'attenzione fluttua da stamattina?",
+      "critical": true,
+      "expectedKeywords": [
+        "fluttua",
+        "stamattina"
+      ],
+      "rationale": "C'è anche un delirium, ma non cancella il deficit."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "Assume un antidemenza o un sedativo?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "apixaban"
+      ],
+      "rationale": "Non c'è un piano di Nota 85 da eseguire in pronto soccorso."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Inattenzione, emiparesi destra e afasia nuove. Non segni meningei. Pressione elevata."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-015-bellelli",
+      "source": "Bellelli, Rivista SIMG 2020",
+      "quote": "Il neuroimaging in genere è indicato soltanto nei pazienti con storia di recente caduta, qualora si sospettino eventi cerebrovascolari o infettivi, o nei casi di riduzione dello stato di coscienza a genesi non chiara e in presenza di segni neurologici focali."
+    },
+    {
+      "chunkId": "geria-015-85",
+      "source": "Nota AIFA 85",
+      "quote": "La prescrizione a carico del SSN è limitata alla malattia di Alzheimer, su diagnosi e piano terapeutico dei CDCD, con gravità stabilita secondo l'MMSE."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Segno focale riconosciuto.",
+      "Una sola TC encefalo.",
+      "VMD eseguita. MMSE non usato in acuto come diagnosi di Alzheimer.",
+      "Niente donepezil e niente aloperidolo per immobilizzarla."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: delirium, emiparesi nuova, TC indicata una volta, farmaci del delirium non usati al posto della diagnosi.",
+      "legalCriteria": [
+        "Nessuna sedazione per rendere la paziente ferma al posto del monitoraggio.",
+        "Nessuna contenzione non motivata.",
+        "Il consenso della figlia non sostituisce l'indicazione clinica della TC, che qui c'è."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c.",
+      "finding": "Ipodesità vascolare recente compatibile con ischemia. Nessun sangue. Costo 70 euro. Indicata per il segno focale.",
+      "isAbnormal": true,
+      "priceEuro": 70
+    },
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL crollate nell'ultima ora, rischio allettamento. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "Non valido durante afasia e inattenzione. Da ripetere a risoluzione. Costo 15 euro se forzato ora.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti",
+      "finding": "Sodio 132 mmol/L. Contribuisce al delirium, non spiega l'emiparesi. Costo 6,50 euro.",
+      "isAbnormal": true,
+      "priceEuro": 6.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata nel deficit focale acuto. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non sostituisce la TC encefalo.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Pronto soccorso, inattenzione ed emiparesi da un'ora.",
+    "vitals": {
+      "heartRate": 98,
+      "bloodPressure": "168/92",
+      "spo2": 96,
+      "temperature": 36.8,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 160,
+    "demographics": {
+      "age": 85,
+      "sex": "F",
+      "name": "Ida Colombo"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Emiparesi destra",
+        "result": "Braccio cadente, afasia, esordio nell'ultima ora.",
+        "isPositive": true
+      },
+      {
+        "signName": "Inattenzione",
+        "result": "Non mantiene il filo.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Emiparesi destra",
+        "result": "Braccio cadente, afasia, esordio nell'ultima ora.",
+        "isPositive": true
+      },
+      {
+        "signName": "Inattenzione",
+        "result": "Non mantiene il filo.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "tc-encefalo": {
+          "finding": "Ipodesità vascolare recente compatibile con ischemia. Nessun sangue. Costo 70 euro. Indicata per il segno focale.",
+          "normalFinding": "Ipodesità vascolare recente compatibile con ischemia. Nessun sangue. Costo 70 euro. Indicata per il segno focale.",
+          "isAbnormal": true,
+          "price": 70
+        },
+        "valutazione-geriatrica": {
+          "finding": "ADL crollate nell'ultima ora, rischio allettamento. Costo 25 euro.",
+          "normalFinding": "ADL crollate nell'ultima ora, rischio allettamento. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "Non valido durante afasia e inattenzione. Da ripetere a risoluzione. Costo 15 euro se forzato ora.",
+          "normalFinding": "Non valido durante afasia e inattenzione. Da ripetere a risoluzione. Costo 15 euro se forzato ora.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "elettroliti": {
+          "finding": "Sodio 132 mmol/L. Contribuisce al delirium, non spiega l'emiparesi. Costo 6,50 euro.",
+          "normalFinding": "Sodio 132 mmol/L. Contribuisce al delirium, non spiega l'emiparesi. Costo 6,50 euro.",
+          "isAbnormal": true,
+          "price": 6.5
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata nel deficit focale acuto. Costo 35 euro.",
+          "normalFinding": "Non indicata nel deficit focale acuto. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Afasia, la figlia riferisce i tempi. Si agita se la tengono ferma senza spiegarle la TAC."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Delirium con segno focale",
+      "prompt": "Inattenta e non muove il braccio destro da un'ora. Quale indicazione di Bellelli scatta?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Sospetto cerebrovascolare: serve la TC encefalo",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "È solo un delirium metabolico, il braccio si vede dopo",
+          "next": "res-mancata"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Quale esame",
+      "prompt": "Elettroliti sì, ma non al posto dell'imaging. Una TC, non due.",
+      "cost": 70,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "TC Encefalo senza m.d.c. una volta, più elettroliti",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Solo il sodio, la TC costa troppo",
+          "next": "res-mancata"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale",
+      "prompt": "La VMD si fa. L'MMSE durante afasia e delirium non è una diagnosi di Alzheimer.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Valutazione multidimensionale ora, MMSE a risoluzione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "MMSE immediato e Donepezil 5 mg se è basso",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Per fare l'esame",
+      "prompt": "Si agita. Bellelli ammette il farmaco solo se è un pericolo o impedisce una cura essenziale, a bassa dose e per il minor tempo. Qui si può eseguire la TC senza sedarla. Non è il primo gesto.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Accompagnare la TC senza Aloperidolo 2 mg/ml gocce profilattico",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Aloperidolo 2 mg/ml gocce per tenerla ferma comunque",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Donepezil",
+      "prompt": "Non c'è Alzheimer né piano. Il donepezil non cura l'ischemia acuta.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non prescrivere Donepezil 5 mg",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Donepezil 5 mg in pronto soccorso",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Seconda TC",
+      "prompt": "La prima TC ha risposto e il deficit non è cambiato. Ripeterla subito non aggiunge una decisione.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non ripetere la TC Encefalo senza m.d.c. a breve senza un cambiamento",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "Seconda TC Encefalo senza m.d.c. dopo un'ora, deficit invariato",
+          "next": "res-replica"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo l'acuto",
+      "prompt": "Percorso stroke, VMD già avviata, MMSE quando potrà parlare, niente neurolettico a casa.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Ricovero appropriato, niente Donepezil e niente sedativo di dimissione",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Dimissione con Aloperidolo 2 mg/ml gocce e appuntamento TC tra un giorno",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Una TC indicata, nessun farmaco di troppo",
+      "prompt": "Il segno focale ha avuto la sua TC. Il donepezil non è partito. La paziente non è stata sedata per comodità.",
+      "cost": 116.5,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-mancata",
+      "type": "resolution",
+      "title": "TC indicata non fatta",
+      "prompt": "Bellelli indica il neuroimaging se si sospetta un evento cerebrovascolare o se ci sono segni focali con coscienza ridotta. Saltare la TC per il sodio o per il costo lascia senza diagnosi un'emiparesi nuova.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-sedazione",
+      "type": "resolution",
+      "title": "Aloperidolo per immobilizzarla",
+      "prompt": "Aloperidolo 2 mg/ml gocce profilattico, o in dimissione, non è il basso dosaggio riservato al pericolo. Qui la TC si può fare senza quella sedazione. La contenzione chimica non sostituisce il monitoraggio.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-nota85",
+      "type": "resolution",
+      "title": "Donepezil in pronto soccorso",
+      "prompt": "Donepezil 5 mg senza diagnosi di Alzheimer, senza piano del CDCD e con un MMSE invalido è fuori Nota 85 e non tratta l'ischemia.",
+      "cost": 15,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-replica",
+      "type": "resolution",
+      "title": "Seconda TC inutile",
+      "prompt": "La prima TC ha già risposto e il deficit non è cambiato. Una seconda TC encefalo costa altri 70 euro senza una decisione nuova.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

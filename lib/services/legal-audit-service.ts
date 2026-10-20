@@ -212,6 +212,11 @@ const SPECIALTY_GUIDELINE_FALLBACK: Record<string, readonly string[]> = {
   reumatologia: [
     "Linee guida EULAR/SIR e SNLG-ISS per la patologia reumatologica del caso",
   ],
+  geriatria: [
+    "Criteri di Beers, SIGG e SNLG-ISS per la valutazione multidimensionale geriatrica",
+    "Legge 219/2017 su consenso, DAT e pianificazione condivisa delle cure",
+    "Note AIFA 85 e 96 su antidemenza e vitamina D",
+  ],
   "medicina-interna": [
     "Linee guida SNLG — Istituto Superiore di Sanità per la patologia internistica del caso",
   ],

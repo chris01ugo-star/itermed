@@ -1,0 +1,435 @@
+{
+  "id": "GERIA-005",
+  "code": "GERIA-005",
+  "title": "Frattura vertebrale e Nota 96",
+  "description": "Giovanni Sala, 79 anni, vive a casa, cammina, ha una frattura vertebrale osteoporotica e gli propongono Colecalciferolo (Vitamina D) 25.000 UI subito, senza 25-OH, più un antiriassorbitivo lo stesso giorno. Non è istituzionalizzato né allettato. È candidato a terapia remineralizzante: la Nota 96 chiede prima il 25-OH e, se è sotto 30 ng/mL, la correzione della carenza prima dell'antiriassorbitivo. Dosi elevate di vitamina D possono aumentare cadute e fratture. La densitometria serve. La TC encefalo no.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Osteoporosi candidata a remineralizzazione: 25-OH prima del colecalciferolo",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Nota AIFA 96; criteri di Beers sulle cadute; EBN; LG VMD",
+  "diagnosis": "Frattura vertebrale da fragilità in uomo che cammina, non allettato. Il colecalciferolo non si prescrive prima del 25-OH. La densitometria è appropriata. La TC encefalo no.",
+  "pastMedicalHistory": "Fuma poco, non è in glucocorticoidi cronici, non ha malassorbimento noto, non è istituzionalizzato. Ipertensione in ramipril. Nessuna demenza nota. Un familiare chiede anche un sedativo perché ha paura di muoversi.",
+  "presentation": "Dolore rachideo meccanico dopo un minimo sforzo. Cammina con un bastone. Nessun deficit neurologico, nessun trauma cranico. La radiografia mostra un crollo vertebrale.",
+  "redHerrings": [
+    "L'età da sola sembra autorizzare la vitamina D senza dosaggio.",
+    "Partire lo stesso giorno con l'antiriassorbitivo sembra efficiente.",
+    "Il dolore viene scambiato per un motivo di TC encefalo."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "ROLEPLAY. Sei Giovanni Sala, 79 anni. Ti fa male la schiena dopo aver sollevato una borsa. Cammini. Se chiedono dove vivi: a casa, da solo di giorno, tua figlia la sera. Se propongono una pastiglia di vitamina D senza analisi, chiedi se serve il prelievo. Se propongono di legarti a letto o un sedativo, rifiuti. Se spiegano densitometria, prelievo e poi eventuale vitamina, accetti. Non nominare la Nota.",
+  "correctSolution": "VMD, MMSE, radiografia già vista, densitometria, 25-OH prima di ogni Colecalciferolo (Vitamina D) 25.000 UI. Antiriassorbitivo solo dopo la correzione se il livello è sotto 30 ng/mL. Niente bolo empirico, niente Aloperidolo, niente TC encefalo.",
+  "goldStandardPath": [
+    "anamnesi-frattura",
+    "valutazione-geriatrica",
+    "mmse",
+    "densitometria-ossea",
+    "azione-25oh",
+    "azione-nota96",
+    "azione-cadute"
+  ],
+  "goldPathNarrative": "VMD e MMSE inquadrano funzione e consenso. La densitometria, 35 euro, documenta l'osteoporosi. Si chiede il 25-OH perché è candidato a terapia remineralizzante e non rientra nello scenario A. Il colecalciferolo, se servirà, viene dopo il livello. Nessuna TC encefalo.",
+  "examLatencies": {
+    "anamnesi-frattura": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "densitometria-ossea": 40,
+    "azione-25oh": 10,
+    "azione-nota96": 10,
+    "azione-cadute": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-scenario",
+      "prompt": "È istituzionalizzato, allettato, o cammina e vive a casa?",
+      "critical": true,
+      "expectedKeywords": [
+        "casa",
+        "cammina"
+      ],
+      "rationale": "Lo scenario A della Nota 96 non si applica a chi cammina e vive a casa."
+    },
+    {
+      "id": "aq-remine",
+      "prompt": "È candidato a una terapia remineralizzante?",
+      "critical": true,
+      "expectedKeywords": [
+        "remineralizzante",
+        "sì"
+      ],
+      "rationale": "In quel caso il 25-OH precede la correzione e la correzione precede il farmaco."
+    },
+    {
+      "id": "aq-sedativo",
+      "prompt": "Qualcuno propone un sedativo per il dolore e la paura di cadere?",
+      "critical": true,
+      "expectedKeywords": [
+        "sedativo",
+        "cadute"
+      ],
+      "rationale": "Un sedativo aumenta il rischio di cadute già citato nei criteri di Beers."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dolore alla pressione delle spinose lombari, forza e sensibilità conservate, cammina. Nessun segno neurologico centrale."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-005-96",
+      "source": "Nota AIFA 96, scenari A e B",
+      "quote": "Nello scenario B la prescrizione richiede la determinazione della 25(OH)D. Sotto 30 ng/mL, in osteoporosi candidata a terapia remineralizzante, la correzione della ipovitaminosi è propedeutica all'inizio della terapia."
+    },
+    {
+      "chunkId": "geria-005-sanders",
+      "source": "Nota AIFA 96, sezione sicurezza",
+      "quote": "Dai trials di Sanders KM e di Smith H emerge che il trattamento con dosi elevate di vitamina D può aumentare il rischio di cadute o di fratture senza raggiungere livelli di 25(OH)D definiti tossici."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Scenario della Nota 96 identificato prima della ricetta.",
+      "Densitometria eseguita. VMD e MMSE eseguiti.",
+      "Nessun colecalciferolo prima del 25-OH.",
+      "Nessuna TC encefalo e nessun sedativo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: candidato a remineralizzazione, non allettato, 25-OH richiesto, densitometria, divieto di bolo empirico e di contenzione.",
+      "legalCriteria": [
+        "Nessun sedativo e nessuna contenzione per la paura di cadere.",
+        "Consenso alla densitometria e al prelievo.",
+        "Piano cadute scritto insieme alla cura dell'osso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 6/6, IADL 5/8, MNA 21, cammina, vive a casa. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "28/30. Il consenso è affidabile. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "T-score lombare -2,8. Osteoporosi. Costo 35 euro.",
+      "isAbnormal": true,
+      "priceEuro": 35
+    },
+    {
+      "examId": "rx-colonna",
+      "name": "RX colonna",
+      "finding": "Crollo vertebrale lombare senza segni di instabilità neurologica. Costo 35 euro.",
+      "isAbnormal": true,
+      "priceEuro": 35
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c.",
+      "finding": "Esame non indicato: nessun trauma cranico e nessun segno focale. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC encefalo non stadia la frattura vertebrale.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio dopo crollo vertebrale osteoporotico.",
+    "vitals": {
+      "heartRate": 74,
+      "bloodPressure": "136/78",
+      "spo2": 98,
+      "temperature": 36.4,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 150,
+    "demographics": {
+      "age": 79,
+      "sex": "M",
+      "name": "Giovanni Sala"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Deficit neurologico",
+        "result": "Forza e sensibilità conservate.",
+        "isPositive": false
+      },
+      {
+        "signName": "Dolore vertebrale",
+        "result": "Dolorabilità delle spinose lombari.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Deficit neurologico",
+        "result": "Forza e sensibilità conservate.",
+        "isPositive": false
+      },
+      {
+        "signName": "Dolore vertebrale",
+        "result": "Dolorabilità delle spinose lombari.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 6/6, IADL 5/8, MNA 21, cammina, vive a casa. Costo 25 euro.",
+          "normalFinding": "ADL 6/6, IADL 5/8, MNA 21, cammina, vive a casa. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "28/30. Il consenso è affidabile. Costo 15 euro.",
+          "normalFinding": "28/30. Il consenso è affidabile. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "densitometria-ossea": {
+          "finding": "T-score lombare -2,8. Osteoporosi. Costo 35 euro.",
+          "normalFinding": "T-score lombare -2,8. Osteoporosi. Costo 35 euro.",
+          "isAbnormal": true,
+          "price": 35
+        },
+        "rx-colonna": {
+          "finding": "Crollo vertebrale lombare senza segni di instabilità neurologica. Costo 35 euro.",
+          "normalFinding": "Crollo vertebrale lombare senza segni di instabilità neurologica. Costo 35 euro.",
+          "isAbnormal": true,
+          "price": 35
+        },
+        "tc-encefalo": {
+          "finding": "Esame non indicato: nessun trauma cranico e nessun segno focale. Costo 70 euro.",
+          "normalFinding": "Esame non indicato: nessun trauma cranico e nessun segno focale. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Fa domande concrete sul prelievo. Rifiuta il sedativo se gli si dice che può farlo cadere. Accetta un piano in due tempi."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Quale scenario della Nota 96",
+      "prompt": "Frattura vertebrale, cammina, vive a casa, non è in glucocorticoidi. Ti chiedono di firmare subito Colecalciferolo (Vitamina D) 25.000 UI. Cosa verifichi?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non è istituzionalizzato né allettato: non rientra nello scenario A",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Prescrivere Colecalciferolo (Vitamina D) 25.000 UI perché ha più di 75 anni",
+          "next": "res-nota96"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Funzione e osso",
+      "prompt": "Servono autonomia, cognizione, radiografia e densitometria. Cosa chiedi?",
+      "cost": 110,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "VMD, MMSE, RX e densitometria ossea",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "TC Encefalo senza m.d.c. al posto della densitometria",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cadute e sedativi",
+      "prompt": "Ha paura di muoversi. Un familiare chiede un sedativo. I criteri di Beers legano le benzodiazepine a lunga emivita alle cadute.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Analgesia e piano cadute, niente benzodiazepina e niente contenzione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Diazepam alla sera e riposo a letto obbligato",
+          "next": "res-cadute"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "25-OH prima del farmaco",
+      "prompt": "È candidato a terapia remineralizzante. La Nota 96, scenario B, chiede il 25-OH. Sotto 30 ng/mL la correzione precede l'antiriassorbitivo.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Dosare la 25-OH e non iniziare il colecalciferolo prima del risultato",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Colecalciferolo (Vitamina D) 25.000 UI oggi e antiriassorbitivo oggi",
+          "next": "res-nota96"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dosi elevate",
+      "prompt": "Qualcuno propone un bolo molto alto per fare prima. La Nota 96 cita Sanders e Smith: dosi elevate possono aumentare cadute e fratture.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Nessun bolo elevato. Se il livello lo consentirà, correzione prudente e poi remineralizzazione",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Bolo elevato di vitamina D in un'unica somministrazione",
+          "next": "res-bolo"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Cosa non serve al cervello",
+      "prompt": "Non c'è trauma cranico né segno focale. La raccomandazione di Bellelli non indica la TC.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non prescrivere la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. perché l'anziano con frattura va studiato tutto",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo il 25-OH",
+      "prompt": "Il referto, quando arriverà, guiderà la correzione. Come lo dici in lettera?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Remineralizzante solo dopo correzione se 25-OH sotto 30 ng/mL; altrimenti rivalutare il criterio",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Antiriassorbitivo subito, il prelievo si può saltare",
+          "next": "res-nota96"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Nota 96 rispettata",
+      "prompt": "Densitometria fatta, 25-OH richiesto prima del colecalciferolo, nessun bolo, nessun sedativo, nessuna TC encefalo.",
+      "cost": 110,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-nota96",
+      "type": "resolution",
+      "title": "Colecalciferolo fuori scenario",
+      "prompt": "Colecalciferolo (Vitamina D) 25.000 UI senza 25-OH, in un uomo che cammina e vive a casa ed è candidato a remineralizzazione, sta fuori dallo scenario A e salta lo scenario B. Iniziare l'antiriassorbitivo lo stesso giorno salta anche la correzione propedeutica.",
+      "cost": 6,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-bolo",
+      "type": "resolution",
+      "title": "Bolo elevato",
+      "prompt": "La Nota 96 riporta che dosi elevate di vitamina D possono aumentare cadute e fratture anche senza livelli tossici. Il bolo non è una scorciatoia sicura.",
+      "cost": 6,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-cadute",
+      "type": "resolution",
+      "title": "Sedazione e allettamento",
+      "prompt": "Diazepam e riposo forzato aumentano il rischio di cadute già descritto per le benzodiazepine a lunga emivita e contraddicono la prevenzione multifattoriale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC encefalo non indicata",
+      "prompt": "Non c'è caduta recente con indicazione rimasta aperta, né sospetto ictus o infezione del sistema nervoso, né riduzione di coscienza con segno focale. La TC costa 70 euro.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

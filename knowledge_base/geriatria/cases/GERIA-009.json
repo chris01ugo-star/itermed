@@ -1,0 +1,437 @@
+{
+  "id": "GERIA-009",
+  "code": "GERIA-009",
+  "title": "Delirium da anticolinergico",
+  "description": "Pietro Amato, 80 anni, da tre giorni è confuso e secco in bocca. La figlia ha aggiunto un antistaminico per il prurito e continua l'ossibutinina. Non è caduto, non ha segni focali, non è febbrile. Bellelli: rivedere tutte le terapie; il neuroimaging non è indicato senza caduta recente, sospetto ictus o infezione del sistema nervoso, o coscienza ridotta con segni focali. Beers: in demenza e disturbi cognitivi gli antimuscarinici e gli antistaminici di prima generazione peggiorano confusione e agitazione. Non ci sono evidenze per gli inibitori dell'acetilcolinesterasi nel delirium.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Delirium anticolinergico: sospendere i farmaci, niente donepezil, niente TC",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "GUARDIA_MEDICA",
+  "guidelineRef": "Bellelli SIMG 2020; criteri di Beers; LG demenza rec. 31-32",
+  "diagnosis": "Delirium precipitato da antistaminico e ossibutinina. Non è indicata la TC encefalo e non si inizia Donepezil 5 mg.",
+  "pastMedicalHistory": "Ipertrofia prostatica in ossibutinina. Prurito da tre giorni, antistaminico sedativo aggiunto. Ipertensione. Nessuna demenza nota. Nessuna caduta. Beve vino ai pasti, non è in astinenza.",
+  "presentation": "Inattento, fluttuante secondo la figlia, pupille non estreme, bocca secca, globo vescicale modesto. Nessun deficit di lato, temperatura normale.",
+  "redHerrings": [
+    "La confusione sembra un ictus da mandare in TC di notte.",
+    "Il prurito sembra un motivo per non toccare l'antistaminico.",
+    "Qualcuno propone il donepezil come antidoto cognitivo."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Pietro Amato, 80 anni, confuso a tratti. Dici che hai sete e che ti prude. Se chiedono le pastiglie nuove: una per il prurito, oltre a quella della vescica. Se propongono la TAC di notte ti spaventi. Se ti dicono di sospendere quelle due pastiglie, la figlia accetta. Non nominare anticolinergico.",
+  "correctSolution": "Riconoscere il delirium, VMD, MMSE dopo la risoluzione, sospendere antistaminico e ossibutinina, svuotare la vescica, niente TC, niente Donepezil 5 mg, niente benzodiazepina, Aloperidolo 2 mg/ml gocce solo se diventa un pericolo e comunque non come primo atto.",
+  "goldStandardPath": [
+    "anamnesi-farmaci",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-sospensione",
+    "azione-vescica",
+    "azione-no-tc",
+    "azione-no-donepezil"
+  ],
+  "goldPathNarrative": "Si raccolgono i due anticolinergici. La VMD documenta il rischio. L'MMSE si rimanda a risoluzione. Si sospendono i farmaci e si svuota la vescica. Non si fa la TC. Non si inizia il donepezil.",
+  "examLatencies": {
+    "anamnesi-farmaci": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-sospensione": 10,
+    "azione-vescica": 10,
+    "azione-no-tc": 5,
+    "azione-no-donepezil": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-nuovi",
+      "prompt": "Quali farmaci sono stati aggiunti nei giorni scorsi?",
+      "critical": true,
+      "expectedKeywords": [
+        "antistaminico",
+        "prurito"
+      ],
+      "rationale": "Bellelli chiede di rivedere le terapie in corso e quelle appena iniziate."
+    },
+    {
+      "id": "aq-focale",
+      "prompt": "C'è stata una caduta o un deficit di lato?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "deficit"
+      ],
+      "rationale": "Senza quei criteri la TC non è indicata."
+    },
+    {
+      "id": "aq-astinenza",
+      "prompt": "È in astinenza alcolica?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "vino"
+      ],
+      "rationale": "Le benzodiazepine nel delirium restano per l'astinenza, che qui non c'è."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Inattenzione, bocca secca, globo vescicale, nessun segno focale, non febbre."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-009-bellelli",
+      "source": "Bellelli, Rivista SIMG 2020",
+      "quote": "È importante rivalutare tutte le terapie in corso o sospese di recente. Non vi sono evidenze di alcun tipo sull'uso degli inibitori dell'acetilcolinesterasi nel delirium. Le benzodiazepine sono da riservare all'astinenza alcolica."
+    },
+    {
+      "chunkId": "geria-009-beers",
+      "source": "Criteri di Beers, demenza e disturbi cognitivi",
+      "quote": "Gli antimuscarinici, per esempio nell'iperattività vescicale, comportano rischio di peggioramento del deficit cognitivo, della confusione e dell'agitazione. Gli antistaminici di prima generazione possono peggiorare i deficit cognitivi."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Farmaci precipitanti identificati.",
+      "VMD fatta, MMSE non usato durante il delirium come diagnosi di demenza.",
+      "Anticolinergici sospesi. Nessun Donepezil 5 mg.",
+      "TC non richiesta."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: delirium, due anticolinergici sospesi, assenza di indicazione alla TC, donepezil non iniziato.",
+      "legalCriteria": [
+        "Nessuna benzodiazepina in assenza di astinenza.",
+        "Nessuna contenzione.",
+        "Il neurolettico non è il primo atto."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL in calo acuto, ritenzione, rischio cadute se viene sedato. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "Da eseguire a risoluzione. Oggi non è interpretabile come demenza. Costo 15 euro se lo si forza durante il delirium.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "elettroliti",
+      "name": "Elettroliti",
+      "finding": "Sodio 138, potassio 4,1. Non sono il precipitante principale. Costo 6,50 euro.",
+      "isAbnormal": false,
+      "priceEuro": 6.5
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c.",
+      "finding": "Non indicata: niente caduta, niente sospetto ictus o infezione centrale, niente segno focale. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC non sospende l'anticolinergico.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata in guardia. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non cura il delirium.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Guardia medica notturna per confusione da tre giorni.",
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "150/84",
+      "spo2": 96,
+      "temperature": 36.7,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 70,
+    "demographics": {
+      "age": 80,
+      "sex": "M",
+      "name": "Pietro Amato"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Inattenzione",
+        "result": "Non mantiene il filo, la figlia descrive fluttuazione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Inattenzione",
+        "result": "Non mantiene il filo, la figlia descrive fluttuazione.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL in calo acuto, ritenzione, rischio cadute se viene sedato. Costo 25 euro.",
+          "normalFinding": "ADL in calo acuto, ritenzione, rischio cadute se viene sedato. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "Da eseguire a risoluzione. Oggi non è interpretabile come demenza. Costo 15 euro se lo si forza durante il delirium.",
+          "normalFinding": "Da eseguire a risoluzione. Oggi non è interpretabile come demenza. Costo 15 euro se lo si forza durante il delirium.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "elettroliti": {
+          "finding": "Sodio 138, potassio 4,1. Non sono il precipitante principale. Costo 6,50 euro.",
+          "normalFinding": "Sodio 138, potassio 4,1. Non sono il precipitante principale. Costo 6,50 euro.",
+          "isAbnormal": false,
+          "price": 6.5
+        },
+        "tc-encefalo": {
+          "finding": "Non indicata: niente caduta, niente sospetto ictus o infezione centrale, niente segno focale. Costo 70 euro.",
+          "normalFinding": "Non indicata: niente caduta, niente sospetto ictus o infezione centrale, niente segno focale. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata in guardia. Costo 35 euro.",
+          "normalFinding": "Non indicata in guardia. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde a singhiozzo. La figlia ha paura dell'ictus. Si calma se le nomini le pastiglie del prurito e della vescica."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Precipitanti",
+      "prompt": "Confusione da tre giorni, antistaminico nuovo, ossibutinina, niente caduta e niente deficit. Come lo inquadri?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Delirium da farmaci anticolinergici",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Ictus fino a prova contraria e TC Encefalo senza m.d.c. subito",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale e laboratorio mirato",
+      "prompt": "VMD ora. MMSE a risoluzione. Elettroliti per non perdere una causa metabolica, che qui non è la principale.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale, elettroliti, MMSE solo dopo",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Donepezil 5 mg subito per alzare l'acetilcolina",
+          "next": "res-donepezil"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quali farmaci togliere",
+      "prompt": "Antistaminico sedativo e ossibutinina sono i precipitanti di Beers e di Bellelli.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Sospendere antistaminico e ossibutinina",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Continuare entrambi e aggiungere un sedativo",
+          "next": "res-farmaci"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Vescica",
+      "prompt": "C'è ritenzione. Gli anticolinergici peggiorano anche il flusso. Cosa fai?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Svuotare la vescica e non reintrodurre l'ossibutinina stanotte",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Aumentare l'ossibutinina per la vescica",
+          "next": "res-farmaci"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Benzodiazepina e neurolettico",
+      "prompt": "Non è in astinenza. Non è un pericolo in questo momento: è confuso ma gestibile se si tolgono i farmaci. L'aloperidolo non è il primo atto.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Niente benzodiazepina e niente Aloperidolo 2 mg/ml gocce come primo gesto",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Aloperidolo 2 mg/ml gocce subito e diazepam per dormire",
+          "next": "res-sedazione"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Donepezil",
+      "prompt": "Bellelli: nessuna evidenza degli inibitori nel delirium. Nota 85: non è una diagnosi di Alzheimer con piano.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non iniziare Donepezil 5 mg",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "Donepezil 5 mg per tre giorni e poi si vede",
+          "next": "res-donepezil"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo",
+      "prompt": "A risoluzione si fa l'MMSE e si decide se il prurito e la vescica hanno alternative non anticolinergiche.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "MMSE di controllo e alternative ai due farmaci sospesi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "TC Encefalo senza m.d.c. ambulatoriale comunque",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Anticolinergici sospesi",
+      "prompt": "Delirium riconosciuto, farmaci tolti, vescica svuotata, niente TC e niente donepezil.",
+      "cost": 46.5,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-farmaci",
+      "type": "resolution",
+      "title": "Anticolinergici continuati",
+      "prompt": "Continuare o aumentare ossibutinina e antistaminico mantiene i precipitanti che Beers e Bellelli indicano di rivedere. La confusione e la ritenzione peggiorano.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-sedazione",
+      "type": "resolution",
+      "title": "Sedazione al posto della sospensione",
+      "prompt": "Aloperidolo 2 mg/ml gocce e diazepam, senza astinenza e senza pericolo, saltano la correzione della causa. Le benzodiazepine nel delirium di Bellelli sono solo per l'astinenza alcolica.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC non indicata",
+      "prompt": "Bellelli riserva il neuroimaging a caduta recente, sospetto ictus o infezione centrale, o coscienza ridotta con segni focali. Qui non ricorre. Costa 70 euro.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-donepezil",
+      "type": "resolution",
+      "title": "Donepezil nel delirium",
+      "prompt": "Non vi sono evidenze per gli inibitori dell'acetilcolinesterasi nel delirium. Donepezil 5 mg senza Alzheimer e senza piano del CDCD è anche fuori Nota 85.",
+      "cost": 15,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

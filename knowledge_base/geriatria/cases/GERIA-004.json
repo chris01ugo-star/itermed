@@ -1,0 +1,429 @@
+{
+  "id": "GERIA-004",
+  "code": "GERIA-004",
+  "title": "Cammino notturno in Alzheimer, senza psicosi",
+  "description": "Lucia Parini, 86 anni, Alzheimer moderato noto, in RSA cammina di notte e la figlia ha paura che cada. Non ha allucinazioni, non è aggressiva, non è in pericolo immediato. La LG ISS chiede prima una valutazione strutturata delle cause e interventi psicosociali e ambientali. Gli antipsicotici si offrono solo se c'è rischio di danno o grave distress da agitazione, allucinazioni o deliri. L'RCP della quetiapina non la autorizza nelle psicosi correlate a demenza. La contenzione non è una metodica abituale.",
+  "difficulty": "HARD",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Cammino notturno: interventi ambientali, no antipsicotico, no contenzione",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "LG demenza ISS 2024 rec. 132-145; RCP quetiapina; EBN contenzione",
+  "diagnosis": "Cammino notturno in Alzheimer moderato, senza i criteri per un antipsicotico. Non si prescrivono Quetiapina 25 mg né Aloperidolo 2 mg/ml gocce e non si contiene.",
+  "pastMedicalHistory": "Alzheimer moderato, MMSE 16/30 sei mesi fa al CDCD, Donepezil 5 mg in piano terapeutico, tollerato, beneficio non peggiorato alla visita dei tre mesi. Ipertensione in amlodipina. Nessuna psicosi pregressa, nessun disturbo bipolare. La RSA ha già proposto le sponde.",
+  "presentation": "In ambulatorio è orientata sulla persona, cammina senza aggressività, cerca la porta perché «è ora di andare al lavoro». Nessun dolore evidente, non è febrile, non fluttua nel giro di minuti. La figlia chiede le gocce della sera.",
+  "redHerrings": [
+    "Il cammino viene chiamato psicosi per giustificare un antipsicotico.",
+    "La quetiapina a basso dosaggio sembra una scelta gentile.",
+    "Le sponde vengono presentate come l'unica prevenzione delle cadute."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "ROLEPLAY. Sei Lucia Parini, 86 anni. Sei cortese, ripeti che devi andare al lavoro e cerchi la porta. Non sei aggressiva. Se ti chiedono se vedi persone che non ci sono, rispondi di no. Se ti chiedono se hai male, sete o bisogno del bagno, rispondi in modo semplice. Se propongono Quetiapina 25 mg o Aloperidolo 2 mg/ml gocce, la figlia dice sì e tu dici «non voglio dormire di giorno». Se propongono luce, compagnia e di togliere le sponde come abitudine, la figlia esita e poi accetta. Non nominare linee guida.",
+  "correctSolution": "Cercare cause cliniche e ambientali. Mantenere il Donepezil 5 mg secondo piano. VMD e MMSE di controllo. Interventi psicosociali. Non iniziare Quetiapina 25 mg né Aloperidolo 2 mg/ml gocce. Non contenere. Non ripetere la TC encefalo.",
+  "goldStandardPath": [
+    "anamnesi-bpsd",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-cause",
+    "azione-non-farmaco",
+    "azione-no-antipsicotico",
+    "azione-piano"
+  ],
+  "goldPathNarrative": "Si escludono dolore, delirium, farmaci e ambiente. VMD e MMSE aggiornano funzione e gravità senza diventare il pretesto di un neurolettico. Si offrono interventi psicosociali. Quetiapina e aloperidolo non partono. Il donepezil resta nel piano già valido. Nessuna TC di controllo.",
+  "examLatencies": {
+    "anamnesi-bpsd": 15,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-cause": 15,
+    "azione-non-farmaco": 10,
+    "azione-no-antipsicotico": 10,
+    "azione-piano": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-distress",
+      "prompt": "C'è aggressività, deliri o allucinazioni con grave distress, o solo cammino?",
+      "critical": true,
+      "expectedKeywords": [
+        "cammino",
+        "no"
+      ],
+      "rationale": "Senza danno o grave distress l'antipsicotico non è indicato."
+    },
+    {
+      "id": "aq-cause",
+      "prompt": "Dolore, stipsi, infezione, rumore o un bisogno non letto spiegano la notte?",
+      "critical": true,
+      "expectedKeywords": [
+        "dolore",
+        "ambiente"
+      ],
+      "rationale": "La raccomandazione 132 chiede di cercare le cause prima del farmaco."
+    },
+    {
+      "id": "aq-piano",
+      "prompt": "Il Donepezil 5 mg ha un piano del CDCD ancora valido?",
+      "critical": true,
+      "expectedKeywords": [
+        "piano",
+        "donepezil"
+      ],
+      "rationale": "Il piano in corso non si sostituisce con un antipsicotico."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Collaborante, nessun segno di delirium acuto, nessun deficit focale nuovo, deambulazione possibile con supervisione. Non segni di dolore alla mobilizzazione."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-004-lg",
+      "source": "LG ISS demenza e MCI, gennaio 2024, raccomandazioni 133 e 144",
+      "quote": "Offrire interventi psicosociali e ambientali come trattamento iniziale del distress. Offrire un antipsicotico solo a chi è a rischio di arrecare danno a sé o agli altri, o ha agitazione, allucinazioni o deliri che procurano grave distress."
+    },
+    {
+      "chunkId": "geria-004-rcp",
+      "source": "RCP Quetiapina Sandoz, AIFA",
+      "quote": "Quetiapina non è autorizzata per il trattamento dei pazienti con psicosi correlate alla demenza. Negli anziani con psicosi correlata alla demenza è stato segnalato un incremento del rischio di decessi."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Cause cliniche e ambientali cercate prima del farmaco.",
+      "VMD e MMSE aggiornati.",
+      "Nessuna Quetiapina 25 mg e nessun Aloperidolo per il cammino.",
+      "Nessuna contenzione abituale e nessuna TC di controllo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: assenza dei criteri della raccomandazione 144, discussione con la figlia, rifiuto di contenzione e di antipsicotico, piano del donepezil invariato.",
+      "legalCriteria": [
+        "Contenzione non usata come risposta organizzativa della RSA.",
+        "Nessun sedativo per il solo cammino.",
+        "La figlia è informata dei rischi, non sostituisce un criterio clinico assente."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 3/6, IADL 1/8, MNA 20, deambulazione possibile, rischio cadute moderato. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "16/30, stabile rispetto a sei mesi. Resta la fascia moderata del piano già in corso. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c. di controllo",
+      "finding": "Atrofia già nota, nessun segno focale. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "Sottotipo già chiaro e nessun segno nuovo: la TC non tratta il cammino.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata da questo sintomo. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non sostituisce gli interventi ambientali.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio geriatrico, richiesta della RSA per il cammino notturno.",
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "132/74",
+      "spo2": 97,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 86,
+      "sex": "F",
+      "name": "Lucia Parini"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Aggressività o deliri",
+        "result": "Nessuna aggressività, nessun delirio, cerca la porta.",
+        "isPositive": false
+      },
+      {
+        "signName": "Delirium fluttuante",
+        "result": "Attenzione mantenuta nel colloquio, non fluttua.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Aggressività o deliri",
+        "result": "Nessuna aggressività, nessun delirio, cerca la porta.",
+        "isPositive": false
+      },
+      {
+        "signName": "Delirium fluttuante",
+        "result": "Attenzione mantenuta nel colloquio, non fluttua.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 3/6, IADL 1/8, MNA 20, deambulazione possibile, rischio cadute moderato. Costo 25 euro.",
+          "normalFinding": "ADL 3/6, IADL 1/8, MNA 20, deambulazione possibile, rischio cadute moderato. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "16/30, stabile rispetto a sei mesi. Resta la fascia moderata del piano già in corso. Costo 15 euro.",
+          "normalFinding": "16/30, stabile rispetto a sei mesi. Resta la fascia moderata del piano già in corso. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tc-encefalo": {
+          "finding": "Atrofia già nota, nessun segno focale. Costo 70 euro.",
+          "normalFinding": "Atrofia già nota, nessun segno focale. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata da questo sintomo. Costo 35 euro.",
+          "normalFinding": "Non indicata da questo sintomo. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "È cortese e perseverante sulla porta. La figlia è ansiosa e chiede le gocce. Accetta un piano concreto della notte se non le si dice solo di pazientare."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Che sintomo è",
+      "prompt": "Cammina di notte e cerca la porta. Non è aggressiva e nega allucinazioni. Come lo chiami prima di prescrivere?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Cammino senza grave distress: non è un'indicazione automatica all'antipsicotico",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Chiamarlo psicosi e iniziare Quetiapina 25 mg alla sera",
+          "next": "res-quetiapina"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale",
+      "prompt": "Il piano del donepezil va letto su funzione e MMSE, non sostituito da un sedativo. Cosa chiedi?",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Saltare le scale e prescrivere Aloperidolo 2 mg/ml gocce",
+          "next": "res-aloperidolo"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cause del distress",
+      "prompt": "La raccomandazione 132 chiede cause cliniche o ambientali prima di qualunque trattamento del distress. Cosa cerchi?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Dolore, stipsi, urine, rumore, luce e un bisogno non riconosciuto",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Passare subito al farmaco senza cercare le cause",
+          "next": "res-aloperidolo"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Primo trattamento",
+      "prompt": "Le cause reversibili non ci sono. Qual è il trattamento iniziale secondo la raccomandazione 133?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Interventi psicosociali e ambientali, attività, compagnia, niente sponde abituali",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Sponde bloccate ogni notte come metodica della RSA",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antipsicotico",
+      "prompt": "Non c'è rischio di danno né grave distress da delirio o allucinazione. L'RCP non autorizza la quetiapina nelle psicosi da demenza e segnala più decessi. Cosa prescrivi?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Nessun antipsicotico. Il Donepezil 5 mg resta quello del piano",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Quetiapina 25 mg ogni sera per il cammino",
+          "next": "res-quetiapina"
+        },
+        {
+          "id": "d5-w2",
+          "label": "Aloperidolo 2 mg/ml gocce a orario",
+          "next": "res-aloperidolo"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Imaging",
+      "prompt": "La demenza e il sottotipo sono già chiari. Non c'è un segno focale. Servono altre immagini?",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non ripetere la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. perché di notte cammina",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Piano scritto",
+      "prompt": "La figlia chiede comunque una scatola di gocce di riserva. Come chiudi?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Piano ambientale scritto, donepezil invariato, rivalutazione se compaiono danno o grave distress",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Quetiapina 25 mg al bisogno, da dare se si alza",
+          "next": "res-quetiapina"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Cammino gestito senza antipsicotico",
+      "prompt": "Cause cercate, interventi ambientali avviati, donepezil lasciato nel piano, nessun sedativo e nessuna TC.",
+      "cost": 40,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-quetiapina",
+      "type": "resolution",
+      "title": "Quetiapina non autorizzata",
+      "prompt": "L'RCP afferma che la quetiapina non è autorizzata nelle psicosi correlate alla demenza e che negli anziani con quella condizione è aumentato il rischio di decesso. Il cammino notturno non è schizofrenia né bipolarità, e non ricorrono i criteri della raccomandazione 144. Quetiapina 25 mg è una prescrizione inappropriata.",
+      "cost": 5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-aloperidolo",
+      "type": "resolution",
+      "title": "Aloperidolo senza i criteri",
+      "prompt": "Aloperidolo 2 mg/ml gocce per il cammino, o al posto della ricerca delle cause, non rispetta le raccomandazioni 132 e 144: l'antipsicotico non è il primo atto e non si offre senza rischio di danno o grave distress.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-contenzione",
+      "type": "resolution",
+      "title": "Sponde come metodica abituale",
+      "prompt": "Il documento EBN, citando il codice deontologico, considera inaccettabile la contenzione come risposta alle necessità istituzionali e ricorda che non previene le cadute.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC di controllo inutile",
+      "prompt": "Diagnosi e sottotipo sono chiari e non c'è un segno focale. La TC encefalo costa 70 euro e non cura il cammino.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

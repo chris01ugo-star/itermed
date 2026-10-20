@@ -1,0 +1,437 @@
+{
+  "id": "GERIA-007",
+  "code": "GERIA-007",
+  "title": "Depressione e carico anticolinergico",
+  "description": "Renato Fabbri, 81 anni, è rallentato, piange, ha smesso di uscire. L'MMSE fatto in questa fase è basso ma la figlia data l'inizio a sei settimane, dopo il lutto della sorella, e assume amitriptilina prescritta per il sonno. La LG chiede di escludere depressione e farmaci a carico anticolinergico prima di inviare al CDCD come demenza. I criteri di Beers sconsigliano l'amitriptilina come antidepressivo di prima scelta e l'uso prolungato di benzodiazepine nella depressione. Non si parte con Donepezil 5 mg.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Declino reversibile: depressione e amitriptilina prima di ogni antidemenza",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "LG demenza ISS 2024 rec. 5 e 31-32; criteri di Beers; Nota AIFA 85",
+  "diagnosis": "Sindrome depressiva e carico anticolinergico da amitriptilina, non Alzheimer da trattare con donepezil.",
+  "pastMedicalHistory": "Lutto sei settimane fa. Amitriptilina 25 mg alla sera da due mesi, più diazepam saltuario. Ipertensione in enalapril. Nessuna diagnosi di demenza. Autonomo fino a maggio.",
+  "presentation": "Ipoespressivo, latenza delle risposte, orientato se stimolato, non fluttuante nell'arco dei minuti. Riferisce insonnia e senso di colpa. Nessun deficit focale.",
+  "redHerrings": [
+    "L'MMSE basso sembra Alzheimer.",
+    "L'amitriptilina viene difesa come già un antidepressivo.",
+    "Il rallentamento viene scambiato per delirium ipoattivo da sedare."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "ROLEPLAY. Sei Renato Fabbri, 81 anni. Parli piano, dici che non vale la pena e che tua sorella è morta. Se chiedono da quando: da sei settimane. Se chiedono le pastiglie della sera: una per il nervo e a volte quella per dormire. Se propongono Donepezil 5 mg, dici che non ti interessa la memoria, ti interessa non svegliarti. Se propongono di togliere l'amitriptilina e di curare il tono dell'umore, accetti con fatica. Non nominare scale.",
+  "correctSolution": "VMD e MMSE come descrizione, non come diagnosi di Alzheimer. Sospendere amitriptilina e diazepam. Curare la depressione senza un triciclico di prima scelta. Non inviare al CDCD finché la causa reversibile non è stata tolta. Niente Donepezil 5 mg. Niente Aloperidolo 2 mg/ml gocce.",
+  "goldStandardPath": [
+    "anamnesi-umore",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-anticolinergico",
+    "azione-depressione",
+    "azione-no-donepezil",
+    "azione-follow-up"
+  ],
+  "goldPathNarrative": "Si data l'esordio e si trova l'amitriptilina. VMD e MMSE descrivono il momento, non autorizzano il donepezil. Si toglie il triciclico e la benzodiazepina. Si cura l'umore e si ricontrolla la cognizione. Nessuna TC encefalo senza segno focale.",
+  "examLatencies": {
+    "anamnesi-umore": 15,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-anticolinergico": 10,
+    "azione-depressione": 10,
+    "azione-no-donepezil": 5,
+    "azione-follow-up": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-tempo",
+      "prompt": "Il rallentamento è iniziato in settimane o è stabile da anni?",
+      "critical": true,
+      "expectedKeywords": [
+        "settimane",
+        "lutto"
+      ],
+      "rationale": "L'esordio recente orienta a una causa reversibile."
+    },
+    {
+      "id": "aq-farmaci",
+      "prompt": "Assume amitriptilina o una benzodiazepina?",
+      "critical": true,
+      "expectedKeywords": [
+        "amitriptilina",
+        "diazepam"
+      ],
+      "rationale": "Il triciclico aumenta il carico anticolinergico e non è la prima scelta."
+    },
+    {
+      "id": "aq-umore",
+      "prompt": "Ci sono tristezza, colpa, anedonia?",
+      "critical": true,
+      "expectedKeywords": [
+        "tristezza",
+        "colpa"
+      ],
+      "rationale": "La depressione va esclusa prima del CDCD, raccomandazione 5."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Umore depresso, latenza, orientamento recuperabile, nessun deficit focale, non fluttuazione tipica del delirium."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-007-lg",
+      "source": "LG ISS demenza e MCI, gennaio 2024, raccomandazioni 5 e 32",
+      "quote": "Riferire al CDCD quando siano state escluse cause reversibili, incluso il declino cognitivo causato da farmaci con aumentato carico anticolinergico. Minimizzare quei farmaci nella revisione della terapia."
+    },
+    {
+      "chunkId": "geria-007-beers",
+      "source": "Criteri di Beers, parte I e parte sulla depressione",
+      "quote": "L'amitriptilina, per i rilevanti effetti sedativi e anticolinergici, è inopportuna come antidepressivo di prima scelta. L'uso prolungato di benzodiazepine può generare o aggravare la depressione."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Esordio e farmaci anticolinergici raccolti prima del CDCD.",
+      "VMD e MMSE eseguiti come descrizione.",
+      "Amitriptilina sospesa. Nessun Donepezil 5 mg.",
+      "Nessuna TC encefalo senza segno focale."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: depressione, amitriptilina, sospensione, divieto di donepezil prima della rivalutazione, nessun invio affrettato al CDCD.",
+      "legalCriteria": [
+        "Nessun sedativo aggiuntivo per il rallentamento.",
+        "Consenso alla sospensione spiegato.",
+        "Non si etichetta demenza una depressione non trattata."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL scese da 6/6 a 4/6 in sei settimane, IADL in calo, MNA 20, umore depresso. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "19/30 oggi, con lentezza. Non va letto come fascia della Nota 85 finché la causa reversibile è in corso. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    },
+    {
+      "examId": "tiroide",
+      "name": "TSH",
+      "finding": "TSH nei limiti. Non spiega il quadro. Costo 22 euro.",
+      "isAbnormal": false,
+      "priceEuro": 22
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c.",
+      "finding": "Nessuna lesione acuta attesa e nessun segno focale. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "Prima si toglie l'anticolinergico. La TC non sostituisce la raccomandazione 5.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non cura il tono dell'umore.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio, rallentamento dopo un lutto.",
+    "vitals": {
+      "heartRate": 70,
+      "bloodPressure": "134/78",
+      "spo2": 97,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 100,
+    "demographics": {
+      "age": 81,
+      "sex": "M",
+      "name": "Renato Fabbri"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Umore depresso",
+        "result": "Colpa, anedonia, insonnia, esordio in sei settimane.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Umore depresso",
+        "result": "Colpa, anedonia, insonnia, esordio in sei settimane.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno focale",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL scese da 6/6 a 4/6 in sei settimane, IADL in calo, MNA 20, umore depresso. Costo 25 euro.",
+          "normalFinding": "ADL scese da 6/6 a 4/6 in sei settimane, IADL in calo, MNA 20, umore depresso. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "19/30 oggi, con lentezza. Non va letto come fascia della Nota 85 finché la causa reversibile è in corso. Costo 15 euro.",
+          "normalFinding": "19/30 oggi, con lentezza. Non va letto come fascia della Nota 85 finché la causa reversibile è in corso. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tiroide": {
+          "finding": "TSH nei limiti. Non spiega il quadro. Costo 22 euro.",
+          "normalFinding": "TSH nei limiti. Non spiega il quadro. Costo 22 euro.",
+          "isAbnormal": false,
+          "price": 22
+        },
+        "tc-encefalo": {
+          "finding": "Nessuna lesione acuta attesa e nessun segno focale. Costo 70 euro.",
+          "normalFinding": "Nessuna lesione acuta attesa e nessun segno focale. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata. Costo 35 euro.",
+          "normalFinding": "Non indicata. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Risponde dopo una pausa. La figlia riempie i silenzi e chiede la pastiglia della memoria. Lui segue se gli si parla del sonno e del lutto."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Da quando e con quali farmaci",
+      "prompt": "Rallentato da sei settimane, amitriptilina alla sera. Prima di parlare di Alzheimer, cosa ricostruisci?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Depressione recente più anticolinergico, non una demenza stabile",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Alzheimer e Donepezil 5 mg in giornata",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "VMD e MMSE",
+      "prompt": "Le scale descrivono funzione e cognizione di oggi. Non sono, da sole, il piano della Nota 85.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE, da ripetere dopo la sospensione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "TC Encefalo senza m.d.c. come primo atto",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Invio al CDCD",
+      "prompt": "La raccomandazione 5 condiziona l'invio all'esclusione di depressione e carico anticolinergico. Quelle cause sono ancora attive.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non inviare come demenza finché non si sono tolte le cause reversibili",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Invio urgente al CDCD per iniziare il donepezil",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Amitriptilina",
+      "prompt": "Beers: inopportuna come antidepressivo di prima scelta per sedazione e effetto anticolinergico. In un disturbo cognitivo i triciclici peggiorano il deficit.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Sospendere l'amitriptilina e non sostituirla con un'altra molecola anticolinergica",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Aumentare l'amitriptilina perché è già un antidepressivo",
+          "next": "res-beers"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Benzodiazepina e neurolettico",
+      "prompt": "Il diazepam può aggravare la depressione. L'Aloperidolo 2 mg/ml gocce non cura il lutto e non è indicato in assenza di pericolo.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Sospendere il diazepam. Niente Aloperidolo 2 mg/ml gocce",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Aloperidolo 2 mg/ml gocce perché è rallentato e la figlia è stanca",
+          "next": "res-aloperidolo"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Donepezil",
+      "prompt": "Senza diagnosi di Alzheimer e senza piano del CDCD il Donepezil 5 mg non è rimborsabile e qui la causa è un'altra.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non prescrivere Donepezil 5 mg",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "Donepezil 5 mg per l'MMSE di 19",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rivalutazione",
+      "prompt": "Dopo la sospensione e la cura dell'umore si rimisura la cognizione. Se resta un sospetto, allora il CDCD.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Controllo di umore, farmaci e MMSE. CDCD solo se il sospetto sopravvive",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Nessun controllo: la diagnosi di demenza è già chiusa",
+          "next": "res-beers"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Causa reversibile trattata",
+      "prompt": "Amitriptilina e diazepam sospesi, umore in cura, donepezil non iniziato, scale da ripetere.",
+      "cost": 62,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-nota85",
+      "type": "resolution",
+      "title": "Donepezil senza Alzheimer",
+      "prompt": "Donepezil 5 mg senza diagnosi di Alzheimer e senza piano del CDCD è fuori Nota 85. La raccomandazione 5 vieta di saltare depressione e anticolinergici.",
+      "cost": 15,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC encefalo al posto della revisione",
+      "prompt": "Non c'è segno focale né sospetto cerebrovascolare. La TC costa 70 euro e non sostituisce la sospensione dell'amitriptilina.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-beers",
+      "type": "resolution",
+      "title": "Triciclico aumentato",
+      "prompt": "Aumentare l'amitriptilina, o chiudere il caso come demenza, lascia in corso un farmaco che Beers giudica inappropriato come prima scelta e che la LG invita a minimizzare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-aloperidolo",
+      "type": "resolution",
+      "title": "Aloperidolo per il rallentamento",
+      "prompt": "Aloperidolo 2 mg/ml gocce non tratta la depressione. Non c'è pericolo per sé o per gli altri né un grave distress psicotico. È una sedazione di comodo.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

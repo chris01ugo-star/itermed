@@ -1,0 +1,414 @@
+{
+  "id": "GERIA-013",
+  "code": "GERIA-013",
+  "title": "Rifiuto capace della PEG",
+  "description": "Maria Esposito, 76 anni, è capace, disfagica dopo un ictus recente già studiato, e rifiuta per iscritto la PEG. I figli insistono. L'art. 1 della Legge 219/2017 include la nutrizione artificiale tra i trattamenti rifiutabili e esonera il medico che rispetta il rifiuto. Non c'è una demenza che cancelli la capacità. Proporre Quetiapina 25 mg per farle accettare il tubo è una costrizione. Una nuova TC encefalo non cambia il rifiuto.",
+  "difficulty": "HARD",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Paziente capace: il rifiuto della PEG vincola, i figli no",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Legge 219/2017 art. 1; LG ISS rec. 12; RCP quetiapina",
+  "diagnosis": "Disfagia dopo ictus già studiato. Rifiuto capace della nutrizione artificiale. Non si posiziona la PEG e non si ripete la TC.",
+  "pastMedicalHistory": "Ictus ischemico dieci giorni fa, TC e percorso stroke già fatti, emiparesi stabile. Nessuna demenza. Ipertensione. Nessuna DAT precedente perché decide adesso, da capace.",
+  "presentation": "Afasia lieve ma comunica il no alla PEG con parole e con un foglio firmato. I figli chiedono di procedere mentre dorme. Saturazione buona, polmonite non in atto.",
+  "redHerrings": [
+    "I figli presentano il rifiuto come depressione da trattare con un sedativo.",
+    "Chiedono una TC nuova per prendere tempo.",
+    "Dicono che senza PEG il medico è responsabile."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Maria Esposito, 76 anni. Parli con fatica ma sei chiara: «Il tubo no». Firmi. I tuoi figli chiedono di farlo mentre dormi. Se il medico rilegge il rifiuto e propone cibo a conforto e logopedia, annuisci. Se propongono Quetiapina 25 mg per calmarti e farti accettare, scuoti la testa. Non citare l'articolo di legge.",
+  "correctSolution": "Verificare la capacità, annotare il rifiuto, VMD e MMSE che la sostengono, niente PEG, niente Quetiapina 25 mg, niente nuova TC, alimentazione a conforto e riabilitazione della deglutizione.",
+  "goldStandardPath": [
+    "anamnesi-rifiuto",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-capacita",
+    "azione-no-peg",
+    "azione-figli",
+    "azione-comfort"
+  ],
+  "goldPathNarrative": "Il rifiuto è attuale e capace. VMD e MMSE non mostrano una demenza che lo invalidi. La PEG non si fa. I figli vengono informati e non sostituiscono la madre. Nessun sedativo per ottenere il consenso. Nessuna TC nuova.",
+  "examLatencies": {
+    "anamnesi-rifiuto": 15,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-capacita": 15,
+    "azione-no-peg": 10,
+    "azione-figli": 10,
+    "azione-comfort": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-capacita",
+      "prompt": "Capisce il tubo, le alternative e le conseguenze?",
+      "critical": true,
+      "expectedKeywords": [
+        "capisce",
+        "rifiuta"
+      ],
+      "rationale": "Il rifiuto di una persona capace vincola."
+    },
+    {
+      "id": "aq-dat",
+      "prompt": "Il rifiuto è attuale, scritto, e revocabile?",
+      "critical": true,
+      "expectedKeywords": [
+        "scritto",
+        "no al tubo"
+      ],
+      "rationale": "Va annotato in cartella, e può essere revocato da lei."
+    },
+    {
+      "id": "aq-ictus",
+      "prompt": "L'ictus è già stato studiato con imaging?",
+      "critical": true,
+      "expectedKeywords": [
+        "già",
+        "dieci giorni"
+      ],
+      "rationale": "Una TC nuova non serve a vincere il rifiuto."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Vigilanza integra, rifiuto coerente, emiparesi stabile, disfagia ai liquidi, nessun distress psicotico."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-013-219",
+      "source": "Legge 219/2017, art. 1 commi 5 e 6",
+      "quote": "Sono considerati trattamenti sanitari la nutrizione artificiale e l'idratazione artificiale. Il medico è tenuto a rispettare la volontà di rifiutare il trattamento ed è esente da responsabilità civile o penale."
+    },
+    {
+      "chunkId": "geria-013-rcp",
+      "source": "RCP Quetiapina Sandoz",
+      "quote": "Quetiapina non è autorizzata per il trattamento dei pazienti con psicosi correlate alla demenza. Le indicazioni registrate sono schizofrenia e disturbo bipolare."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Capacità valutata e rifiuto annotato.",
+      "PEG non eseguita.",
+      "VMD e MMSE a sostegno della capacità.",
+      "Nessun sedativo per forzare il consenso e nessuna TC nuova."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: rifiuto scritto della PEG, informazioni sui rischi, alternative a conforto, figli informati, sedativo non usato.",
+      "legalCriteria": [
+        "PEG non posizionata contro il rifiuto.",
+        "Nessuna sedazione per ottenere un sì.",
+        "I figli non firmano al posto di una madre capace."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL ridotte dall'emiparesi, MNA 18, capacità decisionale presente. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "25/30, afasia lieve che va annotata. Non è una demenza che cancella il rifiuto. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "Nuova TC Encefalo senza m.d.c.",
+      "finding": "Ictus già studiato, nessun segno nuovo. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC non revoca il rifiuto della paziente.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non riguarda la PEG.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Reparto, decisione sulla PEG a dieci giorni dall'ictus.",
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "138/80",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 76,
+      "sex": "F",
+      "name": "Maria Esposito"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Rifiuto capace",
+        "result": "Comprende il tubo e lo rifiuta in modo coerente.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno neurologico nuovo",
+        "result": "Emiparesi invariata da dieci giorni.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Rifiuto capace",
+        "result": "Comprende il tubo e lo rifiuta in modo coerente.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segno neurologico nuovo",
+        "result": "Emiparesi invariata da dieci giorni.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL ridotte dall'emiparesi, MNA 18, capacità decisionale presente. Costo 25 euro.",
+          "normalFinding": "ADL ridotte dall'emiparesi, MNA 18, capacità decisionale presente. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "25/30, afasia lieve che va annotata. Non è una demenza che cancella il rifiuto. Costo 15 euro.",
+          "normalFinding": "25/30, afasia lieve che va annotata. Non è una demenza che cancella il rifiuto. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tc-encefalo": {
+          "finding": "Ictus già studiato, nessun segno nuovo. Costo 70 euro.",
+          "normalFinding": "Ictus già studiato, nessun segno nuovo. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata. Costo 35 euro.",
+          "normalFinding": "Non indicata. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Poche parole, molto chiare sul no. I figli alzano la voce. Si rilassa se il medico sta dalla parte del foglio firmato."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Chi decide",
+      "prompt": "Lei firma il no. I figli chiedono la PEG. Cosa fa l'art. 1?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Rispettare il rifiuto capace di nutrizione artificiale",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Eseguire la PEG perché i figli sono d'accordo tra loro",
+          "next": "res-peg"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Capacità",
+      "prompt": "VMD e MMSE aiutano a mostrare che non c'è una demenza che impedisca di decidere. L'afasia va annotata, non usata per cancellarla.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE, rifiuto annotato",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Quetiapina 25 mg e poi si rifà la domanda",
+          "next": "res-quetiapina"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Informazione",
+      "prompt": "Il comma 5 chiede di prospettare conseguenze e alternative se il rifiuto riguarda la sopravvivenza, e di annotare tutto.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Spiegare le conseguenze, offrire il conforto, annotare il no",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Non informarla per non farle cambiare idea",
+          "next": "res-peg"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "PEG",
+      "prompt": "Il medico che rispetta il rifiuto è esente da responsabilità. Quello che opera contro il foglio no.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non posizionare la PEG",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "PEG in sedazione breve mentre i figli firmano",
+          "next": "res-peg"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sedativo",
+      "prompt": "Quetiapina 25 mg non è indicata per vincere un rifiuto. Non c'è schizofrenia né bipolarità, e non c'è una psicosi.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Niente Quetiapina 25 mg e niente Aloperidolo 2 mg/ml gocce",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Aloperidolo 2 mg/ml gocce finché non dice sì",
+          "next": "res-quetiapina"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC nuova",
+      "prompt": "L'ictus è studiato. Non c'è un segno nuovo. La raccomandazione 12 non chiede di ripetere se il quadro è chiaro.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non ripetere la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. per rimandare la conversazione",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Piano",
+      "prompt": "Cibo a conforto, logopedia, revoca possibile solo da lei.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Lettera con il rifiuto e le alternative, nessun tubo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Appuntamento per la PEG la settimana prossima, senza di lei",
+          "next": "res-peg"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Rifiuto rispettato",
+      "prompt": "PEG non fatta, capacità documentata, figli informati, nessun sedativo e nessuna TC nuova.",
+      "cost": 40,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-peg",
+      "type": "resolution",
+      "title": "PEG contro il rifiuto",
+      "prompt": "Posizionare la PEG contro il rifiuto di una paziente capace viola l'art. 1 della Legge 219/2017. I figli non sostituiscono la sua volontà. Il medico che rispetta il rifiuto non è responsabile per questo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-quetiapina",
+      "type": "resolution",
+      "title": "Sedativo per ottenere il sì",
+      "prompt": "Quetiapina 25 mg o Aloperidolo 2 mg/ml gocce per farle accettare il tubo sono una costrizione, non una cura. L'RCP non autorizza la quetiapina fuori da schizofrenia e disturbo bipolare in questo uso.",
+      "cost": 5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC per rimandare",
+      "prompt": "L'imaging dell'ictus c'è già e non c'è un segno nuovo. Una TC da 70 euro non modifica il rifiuto.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

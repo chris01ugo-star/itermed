@@ -1,0 +1,434 @@
+{
+  "id": "GERIA-017",
+  "code": "GERIA-017",
+  "title": "Protocollo di contenzione per chi cammina",
+  "description": "Giuseppina Ferri, 84 anni, in reparto dopo una polmonite risolta, cammina di notte verso il bagno. Il turno applica a tutti le sponde e chiede Aloperidolo 2 mg/ml gocce in protocollo. Non è aggressiva, non ha deliri, il delirium si è risolto. Bellelli proscrive la contenzione. Il documento EBN la considera inaccettabile come risposta alle necessità istituzionali e ricorda che non previene le cadute. La raccomandazione 144 non è soddisfatta. La VMD in reparto medico è raccomandata per ridurre il ricovero in struttura, non per giustificare le fasce.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Cammino in reparto: niente protocollo di contenzione o di aloperidolo",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "Bellelli; EBN 2008; LG VMD R5a.1; LG ISS rec. 144",
+  "diagnosis": "Cammino notturno dopo delirium risolto. Non è indicata la contenzione né l'Aloperidolo 2 mg/ml gocce. Non si ripete la TC.",
+  "pastMedicalHistory": "Polmonite trattata. Delirium risolto da 48 ore. Ipertensione. Nessuna demenza conclamata. Nessuna DAT. MMSE di ieri, da lucida, 24.",
+  "presentation": "Lucida di giorno, di notte cerca il bagno. Nessuna aggressività. Il protocollo di reparto prevede sponde e gocce per chiunque si alzi.",
+  "redHerrings": [
+    "Il protocollo sembra una copertura legale.",
+    "Il cammino viene chiamato pericolo automatico.",
+    "Una TC viene chiesta per autorizzare le fasce."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Giuseppina Ferri, 84 anni. Di giorno sei lucida. Dici che di notte ti alzi per il bagno e trovi le sponde. Non vuoi le gocce. Se il medico toglie il protocollo e lascia una luce e il campanello, ringrazi. Se insiste per l'Aloperidolo 2 mg/ml gocce, ti arrabbi. Non nominare codici deontologici.",
+  "correctSolution": "VMD, MMSE già lucido da confermare, luce, bagno assistito, revisione farmaci. Niente sponde abituali, niente Aloperidolo 2 mg/ml gocce, niente Quetiapina 25 mg, niente TC.",
+  "goldStandardPath": [
+    "anamnesi-protocollo",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-ambiente",
+    "azione-no-farmaco",
+    "azione-no-fasce",
+    "azione-no-tc"
+  ],
+  "goldPathNarrative": "Il delirium è risolto. VMD e MMSE mostrano una donna che può essere dimessa con un piano, non contenuta. Si tolgono le sponde di protocollo e non si prescrive l'aloperidolo. Nessuna TC.",
+  "examLatencies": {
+    "anamnesi-protocollo": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-ambiente": 10,
+    "azione-no-farmaco": 5,
+    "azione-no-fasce": 5,
+    "azione-no-tc": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-pericolo",
+      "prompt": "È aggressiva o sta andando in bagno?",
+      "critical": true,
+      "expectedKeywords": [
+        "bagno",
+        "no"
+      ],
+      "rationale": "Senza danno o grave distress non scatta la raccomandazione 144."
+    },
+    {
+      "id": "aq-delirium",
+      "prompt": "Il delirium è risolto?",
+      "critical": true,
+      "expectedKeywords": [
+        "risolto",
+        "lucida"
+      ],
+      "rationale": "Non si tratta più un precipitante attivo."
+    },
+    {
+      "id": "aq-protocollo",
+      "prompt": "Le sponde sono un atto sul suo caso o una regola del turno?",
+      "critical": true,
+      "expectedKeywords": [
+        "protocollo",
+        "tutti"
+      ],
+      "rationale": "La contenzione istituzionale è inaccettabile nel documento EBN."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucida, deambulazione possibile, nessun deficit focale, polmonite risolta."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-017-ebn",
+      "source": "Cappuccio et al., Centro Studi EBN, 2008",
+      "quote": "L'infermiere si adopera affinché la contenzione fisica e farmacologica sia evento straordinario e motivato, e non metodica abituale. È inaccettabile quando sia una risposta alle necessità istituzionali. La contenzione non previene le cadute."
+    },
+    {
+      "chunkId": "geria-017-vmd",
+      "source": "LG SIGOT-SIMG sulla valutazione multidimensionale, R5a.1",
+      "quote": "Si raccomanda di usare la valutazione multidimensionale al fine di ridurre il tasso di ricovero in strutture residenziali nei pazienti anziani che afferiscono a reparti di area medica."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Protocollo di contenzione sospeso sul caso singolo.",
+      "VMD e MMSE eseguiti.",
+      "Niente aloperidolo di protocollo.",
+      "Nessuna TC."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: delirium risolto, cammino per il bagno, contenzione non indicata, VMD orientata alla dimissione e non alla fascia.",
+      "legalCriteria": [
+        "Nessuna contenzione di protocollo.",
+        "Nessun sedativo di protocollo.",
+        "Il piano di dimissione non include le gocce."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 5/6, MNA 22, delirium risolto, dimissione possibile con supervisione. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "24/30 da lucida. Non autorizza un neurolettico. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c.",
+      "finding": "Nessun segno focale, delirium risolto. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "La TC non autorizza le sponde.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata stanotte. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non sostituisce il bagno assistito.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Reparto medico, notte, protocollo di contenzione.",
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "128/74",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 70,
+    "demographics": {
+      "age": 84,
+      "sex": "F",
+      "name": "Giuseppina Ferri"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Aggressività",
+        "result": "Assente. Cerca il bagno.",
+        "isPositive": false
+      },
+      {
+        "signName": "Delirium attivo",
+        "result": "Risolto da 48 ore.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Aggressività",
+        "result": "Assente. Cerca il bagno.",
+        "isPositive": false
+      },
+      {
+        "signName": "Delirium attivo",
+        "result": "Risolto da 48 ore.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 5/6, MNA 22, delirium risolto, dimissione possibile con supervisione. Costo 25 euro.",
+          "normalFinding": "ADL 5/6, MNA 22, delirium risolto, dimissione possibile con supervisione. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "24/30 da lucida. Non autorizza un neurolettico. Costo 15 euro.",
+          "normalFinding": "24/30 da lucida. Non autorizza un neurolettico. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tc-encefalo": {
+          "finding": "Nessun segno focale, delirium risolto. Costo 70 euro.",
+          "normalFinding": "Nessun segno focale, delirium risolto. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata stanotte. Costo 35 euro.",
+          "normalFinding": "Non indicata stanotte. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Di giorno è ferma nel rifiuto delle gocce. Il turno invoca il protocollo. Cede se le lasci il campanello e la luce."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Protocollo o caso",
+      "prompt": "Si alza per il bagno. Il turno vuole sponde e gocce per tutti. Cosa valuti prima?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Il caso singolo: niente pericolo, delirium risolto",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Applicare il protocollo senza vedere la paziente",
+          "next": "res-protocollo"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "VMD",
+      "prompt": "In reparto medico la VMD è raccomandata per ridurre l'istituzionalizzazione, non per compilare le fasce.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Saltare le scale: il protocollo basta",
+          "next": "res-protocollo"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Ambiente",
+      "prompt": "Luce, campanello, bagno assistito, calzature. È il primo intervento, non il farmaco.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Misure ambientali e niente contenzione abituale",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Sponde bloccate per tutto il turno",
+          "next": "res-contenzione"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Aloperidolo di protocollo",
+      "prompt": "Non è un pericolo e non ha grave distress psicotico.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non prescrivere Aloperidolo 2 mg/ml gocce",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Aloperidolo 2 mg/ml gocce a ogni paziente che si alza",
+          "next": "res-aloperidolo"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quetiapina",
+      "prompt": "Non è un ipnotico autorizzato e non c'è una psicosi da demenza da trattare.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non prescrivere Quetiapina 25 mg alla sera",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Quetiapina 25 mg nel protocollo del sonno",
+          "next": "res-quetiapina"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC encefalo",
+      "prompt": "Nessun segno focale. Il delirium è risolto.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non eseguire la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. per autorizzare le sponde",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dimissione",
+      "prompt": "La VMD orienta a un rientro sorvegliato, non a una RSA decisa dalle fasce.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Piano di dimissione senza neurolettico e senza contenzione",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "RSA perché si è alzata una notte",
+          "next": "res-protocollo"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Protocollo sospeso",
+      "prompt": "Ambiente adattato, scale fatte, nessun sedativo e nessuna TC.",
+      "cost": 40,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-protocollo",
+      "type": "resolution",
+      "title": "Contenzione istituzionale",
+      "prompt": "Applicare sponde o istituzionalizzare perché un protocollo lo dice, senza un atto eccezionale e motivato sul caso, è la risposta alle necessità istituzionali che il documento EBN giudica inaccettabile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-contenzione",
+      "type": "resolution",
+      "title": "Sponde per il bagno",
+      "prompt": "Bellelli proscrive la contenzione fisica. Il documento EBN ricorda che non previene le cadute.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-aloperidolo",
+      "type": "resolution",
+      "title": "Aloperidolo di protocollo",
+      "prompt": "Aloperidolo 2 mg/ml gocce per chiunque si alzi non rispetta la raccomandazione 144 né il criterio di Bellelli del pericolo. È contenzione farmacologica abituale.",
+      "cost": 3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-quetiapina",
+      "type": "resolution",
+      "title": "Quetiapina nel protocollo",
+      "prompt": "Quetiapina 25 mg non è autorizzata come ipnotico. Metterla in un protocollo di sonno è una spesa inappropriata e un rischio cerebrovascolare segnalato nell'RCP per gli anziani.",
+      "cost": 5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC per le sponde",
+      "prompt": "Non c'è indicazione di Bellelli. La TC costa 70 euro e non rende legittima la contenzione.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}

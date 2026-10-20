@@ -1,0 +1,414 @@
+{
+  "id": "GERIA-021",
+  "code": "GERIA-021",
+  "title": "Demenza vascolare già chiara",
+  "description": "Silvana Conte, 82 anni, ha una demenza vascolare già diagnosticata con criteri clinici e una RM precedente. I figli chiedono una TC encefalo ogni anno e il Donepezil 5 mg. La raccomandazione 12 non ripete la neuroradiologia se diagnosi e sottotipo sono chiari. La 26 vieta di fondare la demenza vascolare solo sul carico lesionale, ma qui i criteri clinici ci sono già. La 97 considera inibitori o memantina solo se si sospetta anche Alzheimer, Parkinson o Lewy. La Nota 85 rimborsa solo l'Alzheimer. Non c'è agitazione che soddisfi la raccomandazione 144.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "Demenza vascolare nota: niente TC seriale e niente Nota 85",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "LG ISS rec. 12, 26 e 97; Nota AIFA 85",
+  "diagnosis": "Demenza vascolare di sottotipo già chiaro. Non si ripete la TC e non si prescrivono Donepezil 5 mg né Memantina 10 mg in Nota 85.",
+  "pastMedicalHistory": "Ictus due anni fa, diagnosi di demenza vascolare al CDCD con criteri clinici, non solo leucoaraiosi. Nessun sospetto di Alzheimer sovrapposto, nessun Parkinson. MMSE 18 stabile. Nessun delirio. I figli vogliono l'antidemenza dell'Alzheimer.",
+  "presentation": "Rallentata, cammina, nessun deficit nuovo rispetto alla visita di sei mesi fa. I figli portano il referto vecchio e chiedono di rifarlo.",
+  "redHerrings": [
+    "Il vecchio ictus sembra un motivo per una TC oggi.",
+    "L'MMSE 18 sembra la fascia della Nota 85.",
+    "La lentezza sembra apatia da trattare con un antipsicotico."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Silvana Conte, 82 anni. Parli poco, cammini, non hai un braccio nuovo che non si muove. I tuoi figli chiedono la TAC e la pastiglia dell'Alzheimer. Se il medico dice che la diagnosi c'è già e che quella pastiglia non è la tua, annuisci. Se propongono gocce perché sei lenta, scuoti la testa. Non nominare raccomandazioni.",
+  "correctSolution": "VMD e MMSE di follow-up. Nessuna TC nuova. Nessun Donepezil 5 mg e nessuna Memantina 10 mg. Nessun Aloperidolo 2 mg/ml gocce per l'apatia. Piano di funzione e carico assistenziale.",
+  "goldStandardPath": [
+    "anamnesi-vad",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-no-tc",
+    "azione-no-farmaco",
+    "azione-no-neurolettico",
+    "azione-piano"
+  ],
+  "goldPathNarrative": "Sottotipo già chiaro. VMD e MMSE seguono la funzione, non riaprono l'imaging. Non si applica la Nota 85. Non si tratta l'apatia con un antipsicotico. Si scrive il piano assistenziale.",
+  "examLatencies": {
+    "anamnesi-vad": 10,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-no-tc": 5,
+    "azione-no-farmaco": 5,
+    "azione-no-neurolettico": 5,
+    "azione-piano": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-sottotipo",
+      "prompt": "La diagnosi e il sottotipo sono già stati chiusi con criteri clinici?",
+      "critical": true,
+      "expectedKeywords": [
+        "sì",
+        "vascolare"
+      ],
+      "rationale": "Se sono chiari la raccomandazione 12 non chiede una nuova TC."
+    },
+    {
+      "id": "aq-mista",
+      "prompt": "C'è un sospetto di Alzheimer, Parkinson o Lewy sovrapposti?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "no"
+      ],
+      "rationale": "Senza quel sospetto la raccomandazione 97 non offre gli antidemenza."
+    },
+    {
+      "id": "aq-agitazione",
+      "prompt": "C'è agitazione con grave distress?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "lenta"
+      ],
+      "rationale": "L'apatia non è la raccomandazione 144."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esiti motori stabili, nessun deficit nuovo, nessun delirium, umore apatico senza deliri."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-021-lg",
+      "source": "LG ISS demenza e MCI, gennaio 2024, raccomandazioni 12, 26 e 97",
+      "quote": "Offrire la neuroradiologia strutturale a meno che diagnosi e sottotipo siano già chiari. Non formulare una demenza vascolare solo sul carico lesionale. Considerare inibitori o memantina nella demenza vascolare solo se si sospetta comorbidità con Alzheimer, Parkinson o Lewy."
+    },
+    {
+      "chunkId": "geria-021-85",
+      "source": "Nota AIFA 85",
+      "quote": "La prescrizione a carico del SSN, su diagnosi e piano dei CDCD, è limitata ai pazienti con malattia di Alzheimer."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Sottotipo già chiaro non ri-scansionato.",
+      "VMD e MMSE di follow-up.",
+      "Niente donepezil e niente memantina.",
+      "Niente antipsicotico per l'apatia."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: demenza vascolare già diagnosticata, farmaci della Nota 85 non indicati, TC non ripetuta, apatia non trattata con neurolettico.",
+      "legalCriteria": [
+        "Nessun sedativo per la lentezza.",
+        "I figli non ottengono un esame inutile al posto di un piano.",
+        "Consenso alla visita, non una TC imposta."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 3/6, IADL 1/8, MNA 20, carico assistenziale alto. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "18/30, stabile. Non è un'indicazione di Nota 85. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC Encefalo senza m.d.c. annuale",
+      "finding": "Esiti noti, nessun segno nuovo. Costo 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "Diagnosi e sottotipo sono già chiari.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata da questo quesito. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non cambia il sottotipo.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio di follow-up di demenza vascolare.",
+    "vitals": {
+      "heartRate": 74,
+      "bloodPressure": "138/76",
+      "spo2": 97,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 82,
+      "sex": "F",
+      "name": "Silvana Conte"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Deficit nuovo",
+        "result": "Assente rispetto a sei mesi fa.",
+        "isPositive": false
+      },
+      {
+        "signName": "Deliri",
+        "result": "Assenti. Apatia.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Deficit nuovo",
+        "result": "Assente rispetto a sei mesi fa.",
+        "isPositive": false
+      },
+      {
+        "signName": "Deliri",
+        "result": "Assenti. Apatia.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 3/6, IADL 1/8, MNA 20, carico assistenziale alto. Costo 25 euro.",
+          "normalFinding": "ADL 3/6, IADL 1/8, MNA 20, carico assistenziale alto. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "18/30, stabile. Non è un'indicazione di Nota 85. Costo 15 euro.",
+          "normalFinding": "18/30, stabile. Non è un'indicazione di Nota 85. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tc-encefalo": {
+          "finding": "Esiti noti, nessun segno nuovo. Costo 70 euro.",
+          "normalFinding": "Esiti noti, nessun segno nuovo. Costo 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata da questo quesito. Costo 35 euro.",
+          "normalFinding": "Non indicata da questo quesito. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "LOW",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Poche parole. I figli riempiono la visita di richieste. Lei segue se le parli di come sta a casa, non della TAC."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sottotipo già chiuso",
+      "prompt": "Demenza vascolare con criteri clinici, nessun segno nuovo. I figli vogliono la TC. Cosa dice la raccomandazione 12?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non ripetere la neuroradiologia: diagnosi e sottotipo sono chiari",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "TC Encefalo senza m.d.c. ogni anno per regola",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Cosa misurare",
+      "prompt": "Funzione e cognizione nel tempo, non un nuovo carico lesionale come unica diagnosi. La raccomandazione 26 vieta di fondare la vasculopatia solo sulle macchie, ma qui il lavoro clinico è già fatto.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "Diagnosi nuova solo contando le lesioni di una TC fresca",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Nota 85",
+      "prompt": "Non c'è Alzheimer. La raccomandazione 97 non offre donepezil o memantina senza quel sospetto o senza Parkinson o Lewy.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non prescrivere Donepezil 5 mg né Memantina 10 mg",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Donepezil 5 mg perché l'MMSE è 18",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Memantina",
+      "prompt": "Stesso limite. La fascia numerica non basta senza la malattia della Nota 85.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non prescrivere Memantina 10 mg in Nota 85",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Memantina 10 mg a carico del SSN lo stesso",
+          "next": "res-nota85"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Apatia",
+      "prompt": "Non c'è grave distress né pericolo. L'antipsicotico non è il trattamento dell'apatia.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Niente Aloperidolo 2 mg/ml gocce e niente Quetiapina 25 mg",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Quetiapina 25 mg perché è lenta",
+          "next": "res-apatia"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Carico dei figli",
+      "prompt": "La VMD orienta gli aiuti. Non una RSA decisa dalla TC.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Piano assistenziale su ADL e MNA",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "RSA immediata senza VMD",
+          "next": "res-apatia"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Prossimo controllo",
+      "prompt": "MMSE e funzione, imaging solo se compare un segno nuovo.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Controllo clinico, TC solo davanti a un segno focale nuovo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "TC Encefalo senza m.d.c. prenotata comunque",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Vascolare seguita senza esami di troppo",
+      "prompt": "Scale fatte, Nota 85 non applicata, TC non ripetuta, apatia non sedata.",
+      "cost": 40,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "TC seriale",
+      "prompt": "Con diagnosi e sottotipo chiari la raccomandazione 12 non chiede una nuova TC. Rifare la diagnosi solo sulle lesioni contraddice anche la 26. Ogni TC costa 70 euro.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-nota85",
+      "type": "resolution",
+      "title": "Antidemenza fuori Alzheimer",
+      "prompt": "Donepezil 5 mg o Memantina 10 mg a carico del SSN richiedono l'Alzheimer. La raccomandazione 97 non li offre nella demenza vascolare senza comorbidità degenerativa sospetta.",
+      "cost": 15,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-apatia",
+      "type": "resolution",
+      "title": "Sedazione o istituzionalizzazione dell'apatia",
+      "prompt": "Quetiapina 25 mg o un ricovero in RSA senza VMD non curano l'apatia. L'RCP non autorizza la quetiapina in questo uso e la raccomandazione 144 non è soddisfatta. La VMD in reparto medico serve a ridurre, non a anticipare, l'istituzionalizzazione.",
+      "cost": 5,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}

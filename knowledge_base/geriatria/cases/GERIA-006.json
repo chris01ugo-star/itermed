@@ -1,0 +1,424 @@
+{
+  "id": "GERIA-006",
+  "code": "GERIA-006",
+  "title": "Mild Cognitive Impairment, non Alzheimer",
+  "description": "Elena Costa, 74 anni, riferisce smemoratezza. Vive sola, guida, gestisce i conti, ADL e IADL conservate. L'MMSE è 27/30 e i test mostrano un disturbo isolato di memoria. La LG ISS, raccomandazione 84, è forte e negativa: non offrire inibitori dell'acetilcolinesterasi né memantina nel Mild Cognitive Impairment. La Nota 85 rimborsa quei farmaci solo nell'Alzheimer con piano del CDCD. Va monitorata, non trattata con Donepezil 5 mg o Memantina 10 mg.",
+  "difficulty": "MEDIUM",
+  "specialty": "geriatria",
+  "specialtyLabel": "Geriatria",
+  "condition": "MCI: niente donepezil e niente memantina, follow-up cognitivo",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "LG demenza ISS 2024 rec. 28-30 e 84; Nota AIFA 85",
+  "diagnosis": "Mild Cognitive Impairment senza perdita funzionale. Donepezil 5 mg e Memantina 10 mg non sono indicati. Non c'è delirium.",
+  "pastMedicalHistory": "Ipertensione controllata. Nessun ictus, nessuna depressione maggiore, udito corretto dagli occhiali acustici che usa. Nessun anticolinergico. Un conoscente le ha consigliato la pastiglia della memoria. Nessuna DAT.",
+  "presentation": "Collaborante, racconto coerente, conferma della figlia: dimentica i nomi ma non si perde e non trascura le medicine. Nessun segno focale, nessun fluctuare.",
+  "redHerrings": [
+    "MMSE non perfetto viene letto come Alzheimer lieve da trattare subito.",
+    "La figlia chiede la memantina perché ha sentito che protegge.",
+    "Una TC normale viene usata per escludere ogni follow-up."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "ROLEPLAY. Sei Elena Costa, 74 anni. Sei precisa e un po' ansiosa. Dimentichi i nomi, non gli appuntamenti. Guidi e paghi le bollette. Se propongono Donepezil 5 mg o Memantina 10 mg, chiedi se servono davvero. Se ti dicono di tornare a controllo senza quelle pastiglie, accetti sollevata. Se propongono una benzodiazepina per l'ansia della memoria, esita. Non nominare linee guida.",
+  "correctSolution": "VMD e MMSE, conferma dell'autonomia, niente Donepezil 5 mg e niente Memantina 10 mg, follow-up, niente TC seriale se il primo imaging strutturale utile è già stato valutato nel percorso e il quadro è MCI clinico senza segno focale nuovo.",
+  "goldStandardPath": [
+    "anamnesi-mci",
+    "valutazione-geriatrica",
+    "mmse",
+    "azione-funzione",
+    "azione-no-farmaco",
+    "azione-follow-up",
+    "azione-no-benzo"
+  ],
+  "goldPathNarrative": "L'autonomia è conservata. VMD e MMSE sostengono il MCI, non la demenza. La raccomandazione 84 vieta donepezil e memantina. Si programma un controllo. Non si aggiunge una benzodiazepina. Non si ripete la TC senza un quesito nuovo.",
+  "examLatencies": {
+    "anamnesi-mci": 15,
+    "valutazione-geriatrica": 45,
+    "mmse": 30,
+    "azione-funzione": 10,
+    "azione-no-farmaco": 10,
+    "azione-follow-up": 10,
+    "azione-no-benzo": 5
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "aq-funzione",
+      "prompt": "Ha perso autonomia in ADL o IADL, o solo prestazioni di memoria?",
+      "critical": true,
+      "expectedKeywords": [
+        "autonomia",
+        "memoria"
+      ],
+      "rationale": "Senza impatto funzionale non è demenza e il MCI non si tratta con gli antidemenza."
+    },
+    {
+      "id": "aq-reversibili",
+      "prompt": "Ci sono depressione, delirium o farmaci anticolinergici?",
+      "critical": true,
+      "expectedKeywords": [
+        "depressione",
+        "farmaci"
+      ],
+      "rationale": "La raccomandazione 5 chiede di escludere le cause reversibili prima di una etichetta."
+    },
+    {
+      "id": "aq-farmaco",
+      "prompt": "Qualcuno ha già proposto donepezil o memantina?",
+      "critical": true,
+      "expectedKeywords": [
+        "donepezil",
+        "memantina"
+      ],
+      "rationale": "Quei farmaci sono fuori dalla raccomandazione 84."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Vigilanza normale, nessun deficit focale, umore reattivo, non inattenzione fluttuante."
+  },
+  "escCitations": [
+    {
+      "chunkId": "geria-006-84",
+      "source": "LG ISS demenza e MCI, gennaio 2024, raccomandazione 84",
+      "quote": "Non offrire inibitori delle acetilcolinesterasi (donepezil, galantamina e rivastigmina) e memantina per il trattamento del Mild Cognitive Impairment."
+    },
+    {
+      "chunkId": "geria-006-85",
+      "source": "Nota AIFA 85",
+      "quote": "La prescrizione a carico del SSN, su diagnosi e piano terapeutico dei CDCD, è limitata ai pazienti con malattia di Alzheimer di grado lieve, moderato o severo secondo l'MMSE."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Autonomia distinta dal sintomo di memoria.",
+      "VMD e MMSE eseguiti.",
+      "Nessun Donepezil 5 mg e nessuna Memantina 10 mg.",
+      "Follow-up programmato, nessuna TC di ripetizione."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "In cartella: MCI, autonomia conservata, raccomandazione 84, farmaci non prescritti, controllo fissato.",
+      "legalCriteria": [
+        "Nessuna benzodiazepina per il disturbo di memoria.",
+        "Consenso al follow-up, non una terapia imposta.",
+        "La figlia non ottiene un farmaco fuori indicazione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "valutazione-geriatrica",
+      "name": "Valutazione Multidimensionale Geriatrica (ADL/IADL/MNA)",
+      "finding": "ADL 6/6, IADL 8/8, MNA 26. Nessuna dipendenza. Costo 25 euro.",
+      "isAbnormal": true,
+      "priceEuro": 25
+    },
+    {
+      "examId": "mmse",
+      "name": "Mini-Mental State Examination (MMSE)",
+      "finding": "27/30, perso un punto al richiamo. Non è la fascia che da sola autorizza un antidemenza. Costo 15 euro.",
+      "isAbnormal": true,
+      "priceEuro": 15
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "Seconda TC Encefalo senza m.d.c.",
+      "finding": "TC già eseguita nel percorso iniziale, senza lesioni trattabili. Una seconda costa 70 euro.",
+      "isAbnormal": false,
+      "priceEuro": 70,
+      "wasteRationale": "Il MCI si segue nel tempo. Una TC duplicata non autorizza il farmaco.",
+      "inappropriate": true
+    },
+    {
+      "examId": "densitometria-ossea",
+      "name": "Densitometria Ossea (MOC)",
+      "finding": "Non indicata da questo quesito cognitivo. Costo 35 euro.",
+      "isAbnormal": false,
+      "priceEuro": 35,
+      "wasteRationale": "La densitometria non diagnostica il MCI.",
+      "inappropriate": true
+    }
+  ],
+  "baselineExamFindings": {
+    "context": "Ambulatorio per smemoratezza isolata.",
+    "vitals": {
+      "heartRate": 72,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.4,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 90,
+    "demographics": {
+      "age": 74,
+      "sex": "F",
+      "name": "Elena Costa"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Perdita delle ADL",
+        "result": "Autonoma in tutte le attività di base.",
+        "isPositive": false
+      },
+      {
+        "signName": "Delirium",
+        "result": "Nessuna fluttuazione e nessuna inattenzione marcata.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Perdita delle ADL",
+        "result": "Autonoma in tutte le attività di base.",
+        "isPositive": false
+      },
+      {
+        "signName": "Delirium",
+        "result": "Nessuna fluttuazione e nessuna inattenzione marcata.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "valutazione-geriatrica": {
+          "finding": "ADL 6/6, IADL 8/8, MNA 26. Nessuna dipendenza. Costo 25 euro.",
+          "normalFinding": "ADL 6/6, IADL 8/8, MNA 26. Nessuna dipendenza. Costo 25 euro.",
+          "isAbnormal": true,
+          "price": 25
+        },
+        "mmse": {
+          "finding": "27/30, perso un punto al richiamo. Non è la fascia che da sola autorizza un antidemenza. Costo 15 euro.",
+          "normalFinding": "27/30, perso un punto al richiamo. Non è la fascia che da sola autorizza un antidemenza. Costo 15 euro.",
+          "isAbnormal": true,
+          "price": 15
+        },
+        "tc-encefalo": {
+          "finding": "TC già eseguita nel percorso iniziale, senza lesioni trattabili. Una seconda costa 70 euro.",
+          "normalFinding": "TC già eseguita nel percorso iniziale, senza lesioni trattabili. Una seconda costa 70 euro.",
+          "isAbnormal": false,
+          "price": 70
+        },
+        "densitometria-ossea": {
+          "finding": "Non indicata da questo quesito cognitivo. Costo 35 euro.",
+          "normalFinding": "Non indicata da questo quesito cognitivo. Costo 35 euro.",
+          "isAbnormal": false,
+          "price": 35
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Fa domande sul perché non le dai la pastiglia. Si rassicura se le spieghi il controllo nel tempo."
+  },
+  "secondary_specialties": [
+    "neurologia"
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Demenza o MCI",
+      "prompt": "Dimentica i nomi, vive sola, guida, IADL integre. Come lo chiami?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Mild Cognitive Impairment: sintomi cognitivi senza perdita dell'autonomia",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w1",
+          "label": "Diagnosi di Alzheimer lieve e ricetta immediata di Donepezil 5 mg",
+          "next": "res-farmaco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scale",
+      "prompt": "Servono funzione e un test cognitivo, non un biomarcatore del MCI. La raccomandazione 29 non offre biomarcatori per il MCI.",
+      "cost": 40,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Valutazione multidimensionale e MMSE, poi follow-up",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w1",
+          "label": "PET o puntura lombare per confermare il MCI",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Cause reversibili",
+      "prompt": "Prima di etichettare, la LG chiede di aver escluso delirium, depressione, deficit sensoriali e carico anticolinergico. Qui non ci sono. Cosa fai?",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Registrare l'assenza di cause reversibili e non iniziare un antidemenza",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w1",
+          "label": "Iniziare comunque Memantina 10 mg in attesa del CDCD",
+          "next": "res-farmaco"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Raccomandazione 84",
+      "prompt": "Il panel è forte e negativo sui due farmaci nel MCI. La Nota 85 non rimborsa fuori dall'Alzheimer.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non prescrivere Donepezil 5 mg né Memantina 10 mg",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w1",
+          "label": "Donepezil 5 mg perché l'MMSE non è 30",
+          "next": "res-farmaco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ansia della memoria",
+      "prompt": "Chiede qualcosa per dormire e non pensarci. Il diazepam, nei criteri di Beers, prolunga la sedazione e aumenta le cadute, e in un disturbo cognitivo peggiora i sintomi.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Niente benzodiazepina a lunga emivita",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w1",
+          "label": "Diazepam ogni sera fino al controllo",
+          "next": "res-benzo"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Immagini",
+      "prompt": "Una TC strutturale utile a escludere cause secondarie può appartenere al primo inquadramento. Ripeterla oggi, senza segno focale, no.",
+      "cost": 0,
+      "score": 10,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non ripetere la TC Encefalo senza m.d.c.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w1",
+          "label": "TC Encefalo senza m.d.c. oggi e un'altra tra un mese",
+          "next": "res-tc"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Cosa programmare",
+      "prompt": "La raccomandazione 30 offre una valutazione regolare per cogliere regressione, stabilità o progressione.",
+      "cost": 0,
+      "score": 15,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Controllo cognitivo ed eventuale invio al CDCD se compare perdita funzionale",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w1",
+          "label": "Nessun controllo: l'MMSE basta a chiudere il caso",
+          "next": "res-follow"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "MCI senza antidemenza",
+      "prompt": "Funzione e MMSE documentati, farmaci della Nota 85 non iniziati, controllo fissato, nessuna benzodiazepina.",
+      "cost": 40,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-farmaco",
+      "type": "resolution",
+      "title": "Antidemenza nel MCI",
+      "prompt": "Donepezil 5 mg o Memantina 10 mg nel Mild Cognitive Impairment contraddicono la raccomandazione 84 e non rientrano nella Nota 85, che limita il SSN all'Alzheimer con piano del CDCD.",
+      "cost": 15,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-tc",
+      "type": "resolution",
+      "title": "Esami ripetuti o biomarcatori del MCI",
+      "prompt": "La raccomandazione 29 non offre biomarcatori per diagnosticare il MCI. Una seconda TC encefalo costa 70 euro e non trasforma il MCI in un'indicazione a farmaco.",
+      "cost": 70,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-benzo",
+      "type": "resolution",
+      "title": "Benzodiazepina per la memoria",
+      "prompt": "Il diazepam è una benzodiazepina a lunga emivita: nei criteri di Beers la sedazione può durare giorni e aumenta cadute e fratture. In un disturbo cognitivo le benzodiazepine peggiorano i sintomi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-follow",
+      "type": "resolution",
+      "title": "Nessun monitoraggio",
+      "prompt": "La raccomandazione 30 chiede una valutazione nel tempo. Chiudere dopo un solo MMSE perde la progressione eventuale a demenza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
+}
