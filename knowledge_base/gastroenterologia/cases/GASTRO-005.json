@@ -80,7 +80,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un emocromo, PT-PTT-INR e programmare un'EGDS urgente.",
+  "correctSolution": "Emorragia da varici: ripristino del volume, trasfusione con emoglobina tra 7 e 8 g/dL, farmaco vasoattivo subito per 2-5 giorni, antibiotico dall'ingresso, EGDS entro 12 ore e legatura se l'emorragia è esofagea. L'IPP iniziato prima dell'endoscopia si sospende dopo, se non c'è un'indicazione stretta.",
   "patientPrompt": "Ho 54 anni e sono qui perché mi sento molto debole e ho notato delle feci scure. Non bevo alcol, ma mi sento molto ansioso e stressato. Non riesco a dormire bene da giorni e mi sento isolato. Non capisco perché mi stia succedendo tutto questo.",
   "id": "GASTRO-005",
   "code": "GASTRO-005",
@@ -191,7 +191,7 @@
   "physicalExam": {
     "summary": "Paziente in stato di shock, con segni di emorragia. Tachicardia, ipotensione, e pallore evidente. Addome non doloroso alla palpazione, ma con segni di ascite."
   },
-  "goldPathNarrative": "Dopo aver eseguito l'emocromo e i test di coagulazione, si procederà a un'EGDS per valutare e trattare le varici esofagee. È fondamentale ottenere il consenso informato del paziente, spiegando l'importanza dell'intervento.",
+  "goldPathNarrative": "1) Volume. 2) Trasfusione conservativa. 3) Vasoattivo subito. 4) Antibiotico dall'ingresso. 5) EGDS entro 12 ore e legatura. 6) Stop dell'IPP dopo l'endoscopia se non c'è indicazione. 7) Non la capsula. Emergenza annotata.",
   "escCitations": [
     {
       "chunkId": "12805924-951f-49bd-80b4-e7b731430d00-3",
@@ -283,5 +283,233 @@
       "socialSupport": "ISOLATED"
     },
     "communicationStyle": "Nega l'alcol. Il moralismo innesca ostilità. Funziona il framing sulla varice come 'vena fragile' e sulla necessità dell'EGDS urgente, senza colpa."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Volume",
+      "prompt": "Cirrosi ed ematemesi. Qual è l'obiettivo della rianimazione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Preservare la perfusione e ripristinare la stabilità emodinamica",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un carico libero di liquidi senza misurare la pressione",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Emoglobina",
+      "prompt": "Quale trasfusione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Conservativa, emoglobina tra 7 e 8 g/dL, tenendo conto di cuore, età e sanguinamento in atto",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Trasfusione fino a 11 g/dL",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Vasoattivo",
+      "prompt": "Quando inizi terlipressina, somatostatina o octreotide?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Subito, appena il sospetto è di sanguinamento varicoso, e lo continui per 2-5 giorni",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Solo dopo l'endoscopia di domani",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antibiotico",
+      "prompt": "Cosa aggiungi dall'ingresso?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Profilassi antibiotica, parte integrante della terapia del cirrotico con emorragia alta",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Nessun antibiotico fino alla febbre",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Endoscopia",
+      "prompt": "Quando fai l'EGDS e con quale emostasi se la varice è esofagea?",
+      "cost": 64.9,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Entro 12 ore dalla presentazione, prima se è instabile; la legatura è la terapia endoscopica raccomandata",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Scleroterapia come prima scelta, tra due giorni",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "IPP e capsula",
+      "prompt": "Hanno già iniziato un IPP e propongono una capsula.",
+      "cost": 863.75,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Dopo l'endoscopia sospendi l'IPP se non c'è un'indicazione stretta, e non fai la capsula",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Capsula da 863,75 euro e IPP a oltranza",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dove e con quale firma",
+      "prompt": "Va gestito in area intensiva o intermedia e non firma.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Lo ricoveri nel setting indicato e tratti, annotando l'emergenza",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Lo tieni in corridoio in attesa dei figli",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Varici trattate secondo Baveno VII",
+      "prompt": "Vasoattivo, antibiotico, endoscopia entro 12 ore e legatura. Nessuna capsula e nessuna attesa dei familiari.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Rianimazione senza obiettivo",
+      "prompt": "Baveno VII: il ripristino del volume va iniziato per restaurare e mantenere la stabilità emodinamica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Trasfusione libera",
+      "prompt": "Baveno VII: le trasfusioni di emazie vanno fatte in modo conservativo, con emoglobina tra 7 e 8 g/dL.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Vasoattivo ritardato",
+      "prompt": "Baveno VII: nel sospetto di sanguinamento varicoso il vasoattivo si inizia il prima possibile e si continua per 2-5 giorni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Profilassi omessa",
+      "prompt": "Baveno VII: la profilassi antibiotica è parte integrante della terapia e va istituita dall'ammissione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Endoscopia fuori dalle 12 ore",
+      "prompt": "Baveno VII: dopo la rianimazione, l'endoscopia alta entro 12 ore. La legatura è la forma raccomandata di terapia endoscopica dell'emorragia esofagea acuta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "Capsula e IPP non indicato",
+      "prompt": "Nomenclatore, codice 45.13.1: enteroscopia con microcamera ingeribile, tariffa 863,75 euro. L'EGDS, codice 45.13, è 64,90 euro. Baveno VII: l'IPP iniziato prima dell'endoscopia si sospende subito dopo, salvo indicazione stretta a continuarlo.",
+      "cost": 863.75,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Setting e firma",
+      "prompt": "Baveno VII: i pazienti con emorragia varicoso acuta vanno gestiti in terapia intensiva o intermedia. Legge 219/2017, art. 1 comma 7: in emergenza o urgenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

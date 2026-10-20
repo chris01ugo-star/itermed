@@ -79,7 +79,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire una paracentesi diagnostica per analizzare il liquido ascitico e avviare un trattamento antibiotico empirico.",
+  "correctSolution": "SBP: paracentesi, neutrofili sopra 250, coltura al letto. Antibiotico endovena subito. In comunità, con resistenze basse, cefalosporina di terza generazione. Albumina 1,5 g/kg alla diagnosi e 1 g/kg al giorno 3. Seconda paracentesi a 48 ore. Durata almeno 5-7 giorni.",
   "patientPrompt": "Mi chiamo Assunta e ho 70 anni. Sono molto confusa e ho caldo. Sento il cuore che batte forte e ho paura di non capire cosa mi sta succedendo. Ho sentito che potrei avere un'infezione, ma non so cosa significhi. Ho bisogno di aiuto, ma mi sento anche molto ansiosa. La mia famiglia è preoccupata e non so come spiegare loro quello che sento.",
   "id": "GASTRO-019",
   "code": "GASTRO-019",
@@ -189,7 +189,7 @@
   "physicalExam": {
     "summary": "Confusione, febbre, tachicardia, ipotensione, segni di ascite."
   },
-  "goldPathNarrative": "Dopo aver valutato le condizioni di Assunta e la sua storia clinica, è stata decisa l'esecuzione di una paracentesi diagnostica. Questo intervento è stato spiegato come un'urgenza per identificare la causa della febbre e della confusione, piuttosto che un'invasività inutile. I risultati della paracentesi saranno fondamentali per confermare o escludere la peritonite batterica spontanea e avviare il trattamento appropriato.",
+  "goldPathNarrative": "1) Paracentesi. 2) Soglia dei 250 neutrofili. 3) Antibiotico immediato. 4) Albumina. 5) Non una TC prima del prelievo. 6) Controllo a 48 ore. 7) Urgenza annotata se non può firmare.",
   "escCitations": [
     {
       "chunkId": "75024bca-c88c-429a-b9c1-bc3294199456-151",
@@ -281,5 +281,233 @@
       "socialSupport": "LIMITED"
     },
     "communicationStyle": "Confusa, febbrile. Il caregiver chiede 'è peritonite?'. Serve spiegare la paracentesi diagnostica come urgenza, non come invasività inutile."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Prelievo",
+      "prompt": "Cirrosi, ascite e dolore. Cosa fai?",
+      "cost": 34.85,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Paracentesi con neutrofili e coltura al letto, 10 ml nei flaconi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "TC e poi, forse, la puntura",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Soglia",
+      "prompt": "I neutrofili del liquido sono 400. Come la chiami?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Peritonite batterica spontanea",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "La aspetti perché l'emocromo è normale",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antibiotico",
+      "prompt": "È una SBP di comunità e le resistenze locali sono basse. Cosa inizi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Subito una cefalosporina di terza generazione endovena",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Un antibiotico per bocca domani, se sale la febbre",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Albumina",
+      "prompt": "Quanto albumina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "1,5 g/kg alla diagnosi e 1 g/kg al giorno 3",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Nessuna albumina",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo",
+      "prompt": "Quando ripungi?",
+      "cost": 34.85,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "A 48 ore. Il fallimento si sospetta se il quadro peggiora o i leucociti del liquido non scendono di almeno il 25%",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Nessun controllo fino alla dimissione",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "De-escalation",
+      "prompt": "La coltura torna sensibile a un farmaco più stretto. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Riduci lo spettro secondo l'antibiogramma",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Tieni il carbapenemico comunque",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Urgenza",
+      "prompt": "È settico e non firma.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Inizi le cure e annoti",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Aspetti i familiari prima dell'antibiotico",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "SBP trattata",
+      "prompt": "Prelievo, antibiotico subito, albumina e controllo a 48 ore. La TC non precede la paracentesi.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "TC prima del liquido",
+      "prompt": "Nomenclatore, codice 88.01.5: TC dell'addome completo, tariffa 119,20 euro. Nomenclatore, codice 54.91: paracentesi, tariffa 34,85 euro. La SBP si diagnostica nel liquido: neutrofili sopra 250 per microlitro.",
+      "cost": 34.85,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Soglia non applicata",
+      "prompt": "EASL 2018: un conteggio di neutrofili sopra 250 per microlitro è richiesto per diagnosticare la SBP.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Antibiotico ritardato",
+      "prompt": "EASL 2018: l'antibiotico endovena empirico si inizia subito dopo la diagnosi. Le cefalosporine di terza generazione sono la prima linea nella SBP di comunità dove le resistenze sono basse.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Albumina omessa",
+      "prompt": "EASL 2018: l'albumina a 1,5 g/kg alla diagnosi e 1 g/kg al giorno 3 è raccomandata nella SBP.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Controllo a 48 ore saltato",
+      "prompt": "EASL 2018: l'efficacia si verifica con una seconda paracentesi a 48 ore. La terapia dura almeno 5-7 giorni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Spettro non ridotto",
+      "prompt": "EASL 2018: la de-escalation secondo la sensibilità è raccomandata per ridurre la pressione selettiva.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Sepsi in attesa della firma",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza o urgenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

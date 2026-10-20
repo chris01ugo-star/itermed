@@ -80,7 +80,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un emocromo, PT-PTT-INR, e successivamente una colonscopia con consenso informato.",
+  "correctSolution": "Emorragia digestiva bassa: rianimazione insieme all'inquadramento. Se l'ematochezia si accompagna a instabilità, va considerata una fonte alta e fatta un'EGDS. La colonscopia, dopo preparazione, entro 24 ore se il rischio è alto e il sanguinamento è in atto.",
   "patientPrompt": "Mi chiamo Vincenzo, ho 76 anni e oggi sono venuto al pronto soccorso perché ho notato del sangue rosso vivo nelle feci. Questo mi preoccupa molto e mi sento ansioso. Ho anche una storia di gastrite e prendo farmaci per l'ipertensione. Ho paura di cosa possa significare e mi vergogno un po' di parlarne. Se mi spiegate bene cosa devo fare per la colonscopia, sono disposto a seguirvi.",
   "id": "GASTRO-003",
   "code": "GASTRO-003",
@@ -191,7 +191,7 @@
   "physicalExam": {
     "summary": "Paziente vigile, ma ansioso. Addome morbido, non doloroso alla palpazione. Segni vitali stabili ma con tachicardia. Non evidenti segni di shock."
   },
-  "goldPathNarrative": "Vincenzo è stato valutato al pronto soccorso. Dopo un'attenta anamnesi e un esame fisico, si è proceduto con un emocromo per valutare la sua emoglobina e il suo stato emodinamico. Sono stati eseguiti anche PT, PTT e INR per escludere anomalie nella coagulazione. Una volta stabilizzato, è stato informato riguardo alla necessità di una colonscopia per identificare la fonte del sanguinamento. È stato ottenuto il consenso informato dopo aver spiegato dettagliatamente la preparazione e il procedimento. La colonscopia ha rivelato la causa del sanguinamento e sono state intraprese le necessarie misure terapeutiche.",
+  "goldPathNarrative": "1) Emodinamica e liquidi. 2) Se instabile, escludere il tratto alto. 3) Preparazione e colonscopia entro 24 ore se alto rischio. 4) Non colonscopia sul colon non preparato in un paziente ancora instabile. 5) Non la capsula come primo esame. 6) Se risanguina, si ripete la colonscopia. 7) Emergenza annotata.",
   "escCitations": [
     {
       "chunkId": "e33ffbde-4995-43cc-9ded-bd4451d2ff75-97",
@@ -283,5 +283,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Si vergogna del sangue nelle feci. Se il medico è giudicante sul vino, si chiude. Accetta la colonscopia se si spiega preparazione e consenso."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Rianimazione",
+      "prompt": "Arriva con ematochezia. Cosa avviene insieme alla diagnosi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Valuti l'emodinamica e inizi la rianimazione di volume",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Prenoti solo la colonscopia e non misuri la pressione",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Fonte alta",
+      "prompt": "È ipoteso e tachicardico, con sangue rosso dal retto. Cosa escludi?",
+      "cost": 64.9,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Una fonte alta: in questo caso l'EGDS viene prima",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Colonscopia subito, senza pensare al tratto alto",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Colonscopia",
+      "prompt": "Si è stabilizzato e il sanguinamento sembra ancora in atto, con caratteri di alto rischio. Quando fai la colonscopia?",
+      "cost": 120,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Dopo una preparazione adeguata, entro 24 ore dalla presentazione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Senza preparazione, in piena instabilità",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Capsula",
+      "prompt": "Chiedono una videocapsula come primo esame.",
+      "cost": 863.75,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No: prima rianimazione e endoscopia indicata",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Microcamera da 863,75 euro",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Risanguinamento",
+      "prompt": "Sanguina di nuovo dopo la prima colonscopia. Cosa consideri?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Una seconda colonscopia, con emostasi se serve",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Lo dimetti perché «una colonscopia basta sempre»",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Firma",
+      "prompt": "È in shock e non firma.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Si rianima e si annota l'urgenza",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Si aspetta un familiare",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo la stabilizzazione",
+      "prompt": "È capace e stabile. Come gli proponi la colonscopia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Gli spieghi benefici, rischi e alternative e documenti il consenso",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Lo porti in sala senza una frase",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Emorragia bassa stratificata",
+      "prompt": "Rianimazione, EGDS se l'ematochezia è instabile, colonscopia preparata entro 24 ore se il rischio è alto. Nessuna capsula di primo livello.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Volume non ripristinato",
+      "prompt": "ACG: la valutazione iniziale e la rianimazione emodinamica vanno fatte insieme. Chi è instabile o sanguina ancora riceve liquidi endovena.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Fonte alta non considerata",
+      "prompt": "ACG: l'ematochezia con instabilità emodinamica può indicare una fonte alta, e va eseguita un'endoscopia alta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Colonscopia fuori indicazione",
+      "prompt": "ACG: nei pazienti ad alto rischio con sanguinamento in atto, dopo la rianimazione si avvia la preparazione e la colonscopia si fa entro 24 ore, a colon pulito. A paziente stabile, la colonscopia si fa dopo la purga.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Capsula nell'emorragia bassa",
+      "prompt": "Nomenclatore, codice 45.13.1: enteroscopia con microcamera ingeribile, tariffa 863,75 euro. L'EGDS, codice 45.13, è 64,90 euro. Nomenclatore, codice 45.23: colonscopia totale con endoscopio flessibile, tariffa 120,00 euro. Il documento indica la colonscopia, non la capsula.",
+      "cost": 863.75,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Recidiva non ricontrollata",
+      "prompt": "ACG: una seconda colonscopia, con emostasi se indicata, va considerata se l'emorragia recidiva.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Shock in attesa della firma",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza o urgenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Colonscopia senza consenso",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

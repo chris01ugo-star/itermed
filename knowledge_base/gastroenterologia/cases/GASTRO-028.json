@@ -90,7 +90,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Seguire il gold path per la gestione del DILI, escludendo le cause virali e considerando la biopsia se indicata.",
+  "correctSolution": "DILI grave: sospendere subito l'agente, classificare la gravità, ricoverare se ci sono encefalopatia o coagulopatia, sorvegliare l'ittero. Non dimettere un'insufficienza epatica. Non una TC prima della sospensione.",
   "patientPrompt": "Ho 42 anni e mi chiamo Nadia. Recentemente ho notato che la mia pelle e i miei occhi sono ingialliti. Sono molto ansiosa riguardo alla mia salute e ho paura di dover affrontare un trapianto di fegato. Vorrei sapere quali sono le percentuali di successo e cosa posso aspettarmi. Ho cercato informazioni online, ma questo mi ha solo fatto sentire più stressata. Ho una buona rete di supporto, ma non riesco a dormire bene per via delle mie preoccupazioni.",
   "id": "GASTRO-028",
   "code": "GASTRO-028",
@@ -201,7 +201,7 @@
   "physicalExam": {
     "summary": "Ittero evidente, ansia marcata, segni vitali stabili."
   },
-  "goldPathNarrative": "Iniziare con la valutazione degli enzimi epatici e della bilirubina. Procedere con i test per HIV, HCV e HBV per escludere cause virali di danno epatico. Se necessario, valutare l'indicazione per una biopsia epatica per confermare la diagnosi di DILI.",
+  "goldPathNarrative": "1) Agente. 2) Stop immediato. 3) Gravità. 4) Ricovero se INR, encefalopatia o ascite da DILI. 5) Esami frequenti. 6) Non TC da 119 euro come primo atto. 7) Informazione. Pianificazione se l'evoluzione è infausta.",
   "escCitations": [
     {
       "chunkId": "8eb70791-e408-4f37-9212-afd90024e23c-205",
@@ -300,5 +300,233 @@
       "socialSupport": "STRONG"
     },
     "communicationStyle": "Ittero e paura del trapianto. Chiede percentuali. Serve SPIKES (Perception/Emotions) e work-up EASL senza catastrophizzare."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Agente",
+      "prompt": "Ittero dopo un farmaco nuovo. Qual è il primo atto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Sospendere l'agente implicato",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Aumentare la dose «per finire la scatola»",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Gravità",
+      "prompt": "Come la classifichi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Con ALT, fosfatasi, bilirubina e INR. Severa se, insieme al rialzo, c'è insufficienza epatica: INR sopra 1,5, ascite o encefalopatia",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Solo un valore di ALT, senza INR",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ricovero",
+      "prompt": "Ha encefalopatia. Dove sta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "In ospedale",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "A domicilio",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC addome",
+      "prompt": "Il primo gesto proposto è una TC addome.",
+      "cost": 119.2,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Prima la sospensione e gli esami. La TC da 119,20 euro non cura il DILI",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "TC come primo atto",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Decorso",
+      "prompt": "Dopo lo stop gli esami peggiorano ancora per qualche giorno. Cosa concludi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Può succedere: il miglioramento non è sempre immediato, e la sorveglianza continua",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Riavvii il farmaco perché «non è sceso subito»",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Informazione",
+      "prompt": "È ancora capace. Come gli dici il quadre?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Gli dici il farmaco responsabile, il rischio e le alternative, in cartella",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Non gli dici il nome del farmaco",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se l'evoluzione è infausta",
+      "prompt": "La prognosi diventa infausta a breve. Cosa non fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non insisti con trattamenti sproporzionati e garantisci la terapia del dolore. Puoi proporre una pianificazione condivisa",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Una cascata di esami inutili",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "DILI grave in ospedale",
+      "prompt": "Farmaco sospeso e paziente ricoverato se l'insufficienza è in atto. Nessuna TC al posto della sospensione.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Farmaco continuato",
+      "prompt": "EASL DILI: il passo iniziale più importante è sospendere l'agente implicato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Gravità non misurata",
+      "prompt": "EASL DILI, tabella di gravità: la forma severa include insufficienza epatica con INR sopra 1,5, ascite o encefalopatia, o insufficienza di un altro organo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Insufficienza a casa",
+      "prompt": "EASL DILI: encefalopatia o coagulopatia vanno in genere ricoverate. L'ittero richiede sorveglianza attiva.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "TC di apertura",
+      "prompt": "Nomenclatore, codice 88.01.5: TC dell'addome completo, tariffa 119,20 euro. Il documento mette la sospensione dell'agente prima di ogni altra misura.",
+      "cost": 119.2,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Farmaco riavviato",
+      "prompt": "EASL DILI: il danno può proseguire o peggiorare nonostante la sospensione. Il recupero completo o quasi avviene in giorni o settimane.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Causa taciuta",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Ostinazione",
+      "prompt": "Legge 219/2017, art. 2: con prognosi infausta a breve termine il medico si astiene da ostinazione irragionevole e da trattamenti inutili o sproporzionati, e garantisce la terapia del dolore. Legge 219/2017, art. 5: nella malattia a evoluzione infausta si può fare una pianificazione condivisa delle cure.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

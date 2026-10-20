@@ -68,7 +68,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire il test per H. pylori e, se positivo, avviare il trattamento di eradicazione.",
+  "correctSolution": "Dispepsia sotto i 50 anni, senza allarmi: test non invasivo per Helicobacter, non l'EGDS. Il test-and-treat è appropriato. L'IPP della Nota N01 dura 10-14 giorni insieme agli antibiotici e poi si sospende se non c'è ulcera attiva. Il controllo si fa con breath test, dopo 14 giorni senza IPP.",
   "patientPrompt": "Ho 48 anni e da mesi soffro di dispepsia. Ho provato a seguire una dieta sana, ma i sintomi non migliorano. Vorrei sapere perché non è necessario un test PET subito e se il test per l'H. pylori è davvero utile. Vorrei anche un piano scritto per l'eradicazione, se necessario.",
   "id": "GASTRO-015",
   "code": "GASTRO-015",
@@ -177,7 +177,7 @@
   "physicalExam": {
     "summary": "Esame obiettivo nella norma, nessun segno di anemia o ittero, addome non dolente alla palpazione."
   },
-  "goldPathNarrative": "Dopo aver discusso i sintomi e l'importanza del test per H. pylori, Daniele accetta di sottoporsi al test. Se il test risulta positivo, gli sarà fornito un piano dettagliato per l'eradicazione dell'infezione, seguendo le linee guida di Maastricht VI.",
+  "goldPathNarrative": "1) Età e allarmi. 2) Breath test, non EGDS. 3) Eradicazione. 4) IPP solo per 10-14 giorni. 5) Non ripetere lo stesso schema alla cieca. 6) Controllo a 4-6 settimane senza antibiotici, bismuto e IPP. 7) Consenso.",
   "escCitations": [
     {
       "chunkId": "36c13be7-8906-48b9-8ec2-bc71bf9dc29c-2",
@@ -262,5 +262,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Dispepsia da mesi. Accetta il test H. pylori se si spiega perché non serve subito la PET. Chiede un piano scritto di eradicazione."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Età e allarmi",
+      "prompt": "Ha meno di 50 anni, dispepsia, niente calo di peso né sanguinamento. Quale strada?",
+      "cost": 20.1,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Test non invasivo per Helicobacter",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "EGDS come primo esame",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Quale test",
+      "prompt": "Quale test non invasivo è nel documento e nel nomenclatore?",
+      "cost": 20.1,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Urea breath test, oppure antigene fecale monoclonale validato",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Sierologia IgG come unico test decisionale in questa dispepsia",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "EGDS di apertura",
+      "prompt": "Insistono per l'EGDS con biopsie multiple.",
+      "cost": 172.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non ora: costa 172,95 euro e non è il primo passo",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "EGDS con biopsia multipla",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Durata dell'IPP",
+      "prompt": "L'infezione è documentata e non c'è ulcera. Quanto dura l'IPP?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "10-14 giorni insieme agli antibiotici, poi sospensione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "IPP per sei mesi dopo lo schema",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Schema",
+      "prompt": "Non conosci la resistenza. Quale durata usi per una quadruplice?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "14 giorni per la quadruplice con bismuto, salvo schemi efficaci da 10 giorni",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Tre giorni di claritromicina",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo",
+      "prompt": "Quando e come verifichi l'eradicazione?",
+      "cost": 20.1,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "A 4-6 settimane, senza antibiotici né bismuto, e con l'IPP sospeso da 14 giorni",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Breath test il giorno dopo l'ultima compressa",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "Come gli dici antibiotici e IPP?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Durata, effetti e alternativa, in cartella",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "La ricetta senza una frase",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Test-and-treat documentato",
+      "prompt": "Sotto i 50 anni e senza allarmi il test è non invasivo. L'EGDS non è il primo esame. L'IPP dell'eradicazione dura 10-14 giorni.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Endoscopia non necessaria",
+      "prompt": "Maastricht VI: sotto i 50 anni, senza rischio specifico e senza sintomi di allarme, è raccomandato il test non invasivo. Il test-and-treat è appropriato nella dispepsia non investigata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Test sbagliato",
+      "prompt": "Nomenclatore, codice 44.19.2: breath test per Helicobacter pylori (urea C13), tariffa 20,10 euro. Maastricht VI: l'urea breath test resta uno strumento importante prima e dopo l'eradicazione. L'antigene fecale monoclonale, se validato, è appropriato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "EGDS nella dispepsia giovane",
+      "prompt": "Nomenclatore, codice 45.16.2: EGDS con biopsia in sede multipla, 172,95 euro. Maastricht VI: nei giovani senza allarmi il test è non invasivo. L'endoscopia è richiesta nei dispeptici sopra i 50 anni.",
+      "cost": 172.95,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "IPP oltre l'eradicazione",
+      "prompt": "Nota AIFA N01: nell'eradicazione documentata l'IPP è rimborsato per 10-14 giorni. Al termine si sospende se non c'è ulcera attiva, salvo persistenza dell'infezione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Durata insufficiente",
+      "prompt": "Maastricht VI: la durata della quadruplice con bismuto è 14 giorni, salvo terapie efficaci da 10 giorni. La triplice con claritromicina, se usata, dura 14 giorni e l'IPP ad alto dosaggio due volte al giorno ne aumenta l'efficacia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Controllo inaffidabile",
+      "prompt": "Maastricht VI: nel controllo a 4-6 settimane non si usano antibiotici né bismuto. L'IPP si sospende 14 giorni prima del test.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Schema senza informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

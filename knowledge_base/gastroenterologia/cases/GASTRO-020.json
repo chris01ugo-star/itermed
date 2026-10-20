@@ -79,7 +79,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "pcr-pct → rm → colonscopia Gold path: pcr-pct → rm → colonscopia. Linea guida: ECCO_2023_IBD_Guidelines.pdf.",
+  "correctSolution": "Fistola perianale complessa di Crohn: prima si controlla la sepsi con esplorazione in anestesia e setone. Infliximab e adalimumab sono controindicati se c'è sepsi attiva. L'approccio è combinato medico e chirurgico. Il setone cronico da solo non è il trattamento superiore.",
   "patientPrompt": "Mi chiamo Lorenzo e ho 31 anni. Da qualche tempo ho notato un fastidio e un dolore nella zona perianale. Ho una fistola che mi preoccupa molto e mi sento imbarazzato a parlarne. Ho già avuto episodi di infiammazione e ho paura che la mia condizione possa peggiorare. Sono ansioso riguardo alla mia salute e, anche se cerco di seguire le terapie, non sempre riesco a farlo come dovrei. A volte mi sveglio nel cuore della notte preoccupato e ho una buona rete di supporto, ma mi sento spesso solo in questo.",
   "id": "GASTRO-020",
   "code": "GASTRO-020",
@@ -189,7 +189,7 @@
   "physicalExam": {
     "summary": "Esame obiettivo mostra dolore alla palpazione della regione perianale, segni di infiammazione locale, ma senza evidenza di ascessi evidenti."
   },
-  "goldPathNarrative": "Dopo aver eseguito i test PCR e PCT, si procederà con una risonanza magnetica per valutare la fistola perianale e successivamente con una colonscopia per una valutazione completa della malattia di Crohn.",
+  "goldPathNarrative": "1) Segni di infezione. 2) Drenaggio della sepsi, subito. 3) Non un anti-TNF sulla sepsi attiva. 4) Approccio combinato. 5) Non la capsula per vedere la fistola. 6) Il setone non è l'unica terapia definitiva. 7) Consenso al gesto.",
   "escCitations": [
     {
       "chunkId": "7935fac8-a1bb-40d6-867b-994b85e4c32e-85",
@@ -281,5 +281,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Si vergogna della fistola perianale. Il tono burocratico lo fa rimandare. Funziona riservatezza, RM/colonscopia spiegate e piano ECCO."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sepsi",
+      "prompt": "Dolore perianale, febbre, fistola nota. Cosa viene prima del farmaco?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Capire se c'è sepsi attiva",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Prenoti adalimumab dalla prima visita",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Gesto",
+      "prompt": "Qual è il ruolo della chirurgia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Controllare la sepsi con esplorazione in anestesia e setone",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Antibiotico a casa e nessun chirurgo",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Strategia",
+      "prompt": "Dopo il drenaggio, medico o chirurgo da soli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Approccio combinato medico e chirurgico per sepsi e attività luminale",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Solo il setone, per sempre, come trattamento superiore",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Capsula",
+      "prompt": "Chiedono una videocapsula per mappare la fistola perianale.",
+      "cost": 863.75,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No: non è l'esame di questa sepsi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Capsula da 863,75 euro",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Altre tecniche",
+      "prompt": "La sepsi è controllata e la fistola è complessa. Cosa puoi discutere, senza venderla come certa?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Lembo di avanzamento, colla di fibrina o LIFT sono opzioni, con efficacia limitata per la colla",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Prometti la guarigione con la colla",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "È capace. Come gli proponi l'esplorazione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Benefici, rischi, anche la continenza, e alternative",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Il setone in sala senza una frase",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rifiuto",
+      "prompt": "Rifiuta il drenaggio dopo la spiegazione, da capace, senza sepsi che gli impedisca di decidere.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Annoti il rifiuto e le conseguenze",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Lo dreni contro la sua volontà",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Sepsi perianale drenata",
+      "prompt": "Esplorazione e setone prima di ogni anti-TNF. Nessuna capsula al posto del drenaggio.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Anti-TNF sulla sepsi",
+      "prompt": "ECCO, terapia chirurgica del Crohn: sepsi attiva o infezione è una controindicazione chiara a infliximab e adalimumab secondo i riassunti delle caratteristiche del prodotto. Ogni gesto che tratti la sepsi perianale va fatto in fretta se ci sono segni di infezione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Sepsi non drenata",
+      "prompt": "ECCO: il ruolo chiave della chirurgia è controllare la sepsi perianale con esplorazione in anestesia e drenaggio con setone.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Setone come unica cura",
+      "prompt": "ECCO: gli studi osservazionali sostengono un approccio combinato. Il setone cronico non va raccomandato come unico trattamento superiore della fistola perianale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Capsula sulla fistola",
+      "prompt": "Nomenclatore, codice 45.13.1: enteroscopia con microcamera ingeribile, tariffa 863,75 euro. L'EGDS, codice 45.13, è 64,90 euro.",
+      "cost": 863.75,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Tecnica sopravvalutata",
+      "prompt": "ECCO: il lembo è un'opzione, la colla ha efficacia limitata, la LIFT è un'opzione. Non c'è uno studio prospettico che confronti da solo medico e chirurgico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Setone senza consenso",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Rifiuto scavalcato",
+      "prompt": "Legge 219/2017, art. 1 commi 5 e 6: il paziente capace può rifiutare il trattamento e il medico deve rispettare il rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

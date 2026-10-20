@@ -68,7 +68,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un emocromo e una coprocultura per escludere altre patologie e confermare la diagnosi di IBS.",
+  "correctSolution": "IBS: criteri di Roma IV, strategia diagnostica positiva. Se c'è diarrea, sierologia per celiachia, calprotectina fecale e PCR. Niente coprocoltura di routine. Colonscopia non di routine sotto i 45 anni senza segni di allarme.",
   "patientPrompt": "Ho 38 anni e da qualche mese soffro di dolore addominale ricorrente e cambiamenti nelle mie abitudini intestinali. Sono molto preoccupata perché ho letto che l'IBS può nascondere un tumore. Ho paura di non essere ascoltata e vorrei esami approfonditi come una colonscopia o una RM. Non riesco a dormire bene e mi sento spesso ansiosa. Ho provato a seguire una dieta, ma non sembra funzionare. La mia rete di supporto è limitata e mi sento spesso sola in questo.",
   "id": "GASTRO-012",
   "code": "GASTRO-012",
@@ -177,7 +177,7 @@
   "physicalExam": {
     "summary": "Esame obiettivo addominale con dolore localizzato, ma senza segni di difesa o rigidità. Nessun segno di anemia o disidratazione evidente."
   },
-  "goldPathNarrative": "Dopo aver ascoltato le preoccupazioni di Federica e averle spiegato che i suoi sintomi sono compatibili con la sindrome dell'intestino irritabile, le ho consigliato di eseguire un emocromo e una coprocultura per escludere altre patologie. Ho sottolineato l'importanza di non ricorrere a esami invasivi non necessari e di adottare un approccio di gestione dei sintomi. Ho anche discusso con lei strategie per affrontare l'ansia e migliorare la qualità del sonno.",
+  "goldPathNarrative": "1) Roma IV. 2) Strategia positiva. 3) Sierologia se diarrea. 4) Calprotectina e PCR. 5) Niente feci per patogeni di routine. 6) Niente colonscopia da 120 euro sotto i 45 anni senza allarmi. 7) Informazione.",
   "escCitations": [
     {
       "chunkId": "8f2a69b8-b356-4ae9-a1ec-8280566b27dc-54",
@@ -262,5 +262,233 @@
       "socialSupport": "LIMITED"
     },
     "communicationStyle": "Ha letto che l'IBS 'nasconde un tumore'. Pretende RM e colonscopia. La de-escalation Roma IV funziona solo se si riconosce la paura e si tengono gli allarmi, senza over-testing."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Criteri",
+      "prompt": "Dolore addominale ricorrente. Quando è Roma IV?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Dolore in media almeno un giorno a settimana negli ultimi 3 mesi, con almeno due tra rapporto con la defecazione, cambio di frequenza e cambio di forma, esordio da almeno 6 mesi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "La chiami IBS al primo episodio di una settimana",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Strategia",
+      "prompt": "Come imposti la diagnosi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Strategia positiva, non una diagnosi di esclusione infinita",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Dieci esami prima di nominare l'IBS",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Diarrea e celiachia",
+      "prompt": "Ha diarrea. Quale esame cerchi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Sierologia per escludere la celiachia",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Niente sierologia",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Infiammazione",
+      "prompt": "Non ha segni di allarme. Cos'altro dosi nella diarrea?",
+      "cost": 120,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Calprotectina fecale, o lattoferrina, e PCR",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Colonscopia come unico esame",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Feci per patogeni",
+      "prompt": "Fai una coprocoltura a tutti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No: il documento raccomanda di non farla di routine",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Pannello infettivo esteso a ogni IBS",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Allarmi",
+      "prompt": "Quali segni ti farebbero cambiare strada?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Ematochezia, melena, calo di peso non intenzionale, esordio in età più avanzata, familiarità per IBD o cancro del colon",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Li ignori e chiudi comunque come IBS",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Terapia spiegata",
+      "prompt": "Come le proponi la dieta a basso contenuto di FODMAP?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Una prova limitata, spiegata, non un divieto a vita non detto",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "La dieta senza una frase e senza alternativa",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "IBS senza esami inutili",
+      "prompt": "Roma IV, sierologia se diarrea, calprotectina e PCR. Colonscopia non di routine sotto i 45 anni senza allarmi.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Criteri non soddisfatti",
+      "prompt": "Roma IV, nel documento ACG: dolore ricorrente almeno 1 giorno a settimana negli ultimi 3 mesi, con due o più tra rapporto con l'evacuazione, cambio di frequenza e cambio di forma, e esordio da almeno 6 mesi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Diagnosi solo per esclusione",
+      "prompt": "ACG: una strategia diagnostica positiva, rispetto a una strategia di esclusione, è raccomandata per arrivare prima alla terapia e per il rapporto costo-efficacia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Celiachia non esclusa",
+      "prompt": "ACG: la sierologia per escludere la celiachia è raccomandata nei pazienti con IBS e diarrea.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Colonscopia al posto della calprotectina",
+      "prompt": "Nomenclatore, codice 45.23: colonscopia totale con endoscopio flessibile, tariffa 120,00 euro. ACG: calprotectina fecale e PCR si suggeriscono, senza allarmi, per escludere una malattia infiammatoria. La colonscopia di routine non è raccomandata sotto i 45 anni senza segni di allarme.",
+      "cost": 120,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "Coprocoltura di routine",
+      "prompt": "ACG: è raccomandato non eseguire di routine la ricerca di patogeni enterici in tutti i pazienti con IBS.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Allarmi ignorati",
+      "prompt": "ACG: i segni di allarme includono ematochezia, melena, calo di peso non intenzionale, esordio in età più avanzata e familiarità per IBD, cancro del colon o altra malattia gastroenterologica rilevante.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Dieta senza informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella. ACG raccomanda una prova limitata di dieta a basso contenuto di FODMAP per i sintomi globali.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

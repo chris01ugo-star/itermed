@@ -79,7 +79,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Amilasi-lipasi → ecografia → colangio-RM",
+  "correctSolution": "Pancreatite biliare lieve, senza colangite: eco all'ingresso, ERCP non indicata, colecistectomia nello stesso ricovero. La colecistectomia si ritarda solo se ci sono raccolte peripancreatiche.",
   "patientPrompt": "Mi chiamo Lucia e ho 68 anni. Sono qui perché ho un forte dolore all'addome e mi sento molto nauseata. Questo dolore è iniziato all'improvviso e sembra peggiorare. Sono un po' ansiosa e mi chiedo se dovrò operare la cistifellea. Vorrei sapere cosa mi aspetta, quali esami farete e se ci sarà bisogno di un intervento. Non mi piace il silenzio mentre aspetto, preferisco avere un piano chiaro.",
   "id": "GASTRO-008",
   "code": "GASTRO-008",
@@ -189,7 +189,7 @@
   "physicalExam": {
     "summary": "Addome dolente alla palpazione, segni di difesa addominale, febbre, tachicardia."
   },
-  "goldPathNarrative": "Dopo aver eseguito le analisi di laboratorio, sono state riscontrate elevate concentrazioni di amilasi e lipasi, suggerendo pancreatite. Successivamente, è stata effettuata un'ecografia addominale che ha evidenziato la presenza di calcoli biliari. Infine, una colangio-RM ha confermato l'ostruzione del dotto biliare comune. Si è quindi deciso di programmare una colecistectomia in un secondo momento, dopo la stabilizzazione clinica.",
+  "goldPathNarrative": "1) Due criteri su tre. 2) Eco e ALT. 3) Niente ERCP se è lieve e non c'è colangite. 4) Niente TC immediata. 5) Colecistectomia nel ricovero indice. 6) Consenso all'intervento. 7) Controllo.",
   "escCitations": [
     {
       "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-70",
@@ -281,5 +281,233 @@
       "socialSupport": "STRONG"
     },
     "communicationStyle": "Chiede se dovrà operare la cistifellea. Preferisce un piano (eco, colangio-RM, timing). Il silenzio procedurale la inquieta."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Diagnosi",
+      "prompt": "Dolore e lipasi alta. Come chiudi la diagnosi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Due criteri su tre, senza pretendere la TC",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "TC immediata obbligatoria",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Origine biliare",
+      "prompt": "Cosa cerchi?",
+      "cost": 44.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Eco del quadrante superiore destro e enzimi epatici. Un'ALT sopra 150 U/L entro 48 ore ha un valore predittivo positivo oltre l'85% per l'origine biliare",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Nessuna eco",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "ERCP",
+      "prompt": "È lieve, senza colangite e senza ostruzione della via biliare. Fai l'ERCP?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No: nell'IAP/APA l'ERCP non è indicata nella pancreatite biliare prevista lieve senza colangite",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "ERCP di routine",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Colecistectomia",
+      "prompt": "Quando togli la colecisti, se il decorso è lieve e non ci sono raccolte?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Nello stesso ricovero",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Tra tre mesi, dopo la dimissione",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Raccolte",
+      "prompt": "Se invece ci sono raccolte peripancreatiche, quando operi la colecisti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "La ritardi finché le raccolte si risolvono o, se persistono, oltre le 6 settimane",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "La operi domani in mezzo alla necrosi",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "È capace e le proponi l'intervento.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Benefici, rischi e alternative, in cartella",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "La metti in lista senza parlarle",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rifiuto",
+      "prompt": "Dopo la spiegazione rifiuta l'intervento.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Annoti il rifiuto e le conseguenze",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "La operi lo stesso",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Colecisti nello stesso ricovero",
+      "prompt": "Pancreatite biliare lieve senza colangite: niente ERCP, colecistectomia prima della dimissione, con consenso.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "TC non indicata ora",
+      "prompt": "Nomenclatore, codice 88.01.5: TC dell'addome completo, tariffa 119,20 euro. Se la diagnosi è già soddisfatto da dolore e lipasi, la TC immediata non è il primo passo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Calcolo non cercato",
+      "prompt": "IAP/APA: l'ecografia transaddominale si fa all'ingresso. Nomenclatore, codice 88.74.1: ecografia dell'addome superiore, tariffa 44,95 euro.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "ERCP non indicata",
+      "prompt": "IAP/APA: l'ERCP non è indicata nella pancreatite biliare prevista lieve senza colangite. È indicata se c'è colangite.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Colecisti rinviata",
+      "prompt": "IAP/APA: la colecistectomia durante il ricovero indice nella pancreatite biliare lieve è sicura ed è raccomandata. L'intervento a distanza si associa a un rischio sostanziale di nuovo evento biliare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Colecisti in corso di raccolta",
+      "prompt": "IAP/APA: in presenza di raccolte peripancreatiche la colecistectomia va ritardata finché le raccolte si risolvono o persistono oltre 6 settimane.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Intervento senza consenso",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Rifiuto non rispettato",
+      "prompt": "Legge 219/2017, art. 1 commi 5 e 6: il paziente capace può rifiutare il trattamento e il medico deve rispettare il rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

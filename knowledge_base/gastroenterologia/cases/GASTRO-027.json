@@ -68,7 +68,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Piano di trattamento di salvataggio secondo le linee guida Maastricht VI.",
+  "correctSolution": "Fallimento della triplice con claritromicina: seconda linea con quadruplice con bismuto, oppure schema con fluorochinolone, oppure duplice ad alto dosaggio con IPP e amoxicillina. Il controllo con breath test si fa a 4-6 settimane, senza antibiotici né bismuto e con IPP sospeso da 14 giorni.",
   "patientPrompt": "Ho 46 anni e mi chiamo Elisa. Ho già provato due volte a curare l'infezione da H. pylori, ma senza successo. Sono preoccupata e non so se posso fidarmi del medico. Ho sintomi come bruciore di stomaco e nausea che non migliorano. Ho paura che ci sia qualcosa di più grave e non so cosa fare.",
   "id": "GASTRO-027",
   "code": "GASTRO-027",
@@ -177,7 +177,7 @@
   "physicalExam": {
     "summary": "Esame fisico nei limiti della norma, senza segni di anemia o disidratazione."
   },
-  "goldPathNarrative": "Dopo aver esaminato la mia storia clinica e i sintomi, il medico ha spiegato che esiste un piano di trattamento di salvataggio basato su evidenze, che può essere utilizzato dopo i fallimenti precedenti. Questo approccio mira a garantire che l'infezione venga finalmente eradicata, senza attribuire colpe a me come paziente.",
+  "goldPathNarrative": "1) Quale schema è fallito. 2) Non ripetere la stessa triplice. 3) Seconda linea del documento. 4) IPP solo per la durata dello schema. 5) Controllo differito. 6) Non un'EGDS da 172,95 euro se basta il breath test. 7) Consenso.",
   "escCitations": [
     {
       "chunkId": "36c13be7-8906-48b9-8ec2-bc71bf9dc29c-329",
@@ -262,5 +262,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Ha già fallito una terapia e dubita del medico. Maastricht rescue va spiegato come piano B evidence-based, non come colpa della paziente."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Schema fallito",
+      "prompt": "Cosa devi sapere prima di riscrivere?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Quale combinazione ha preso e se il controllo è stato fatto nel modo giusto",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Ripeti la stessa triplice con claritromicina",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Durata",
+      "prompt": "Quanto dura la quadruplice con bismuto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "14 giorni, salvo uno schema efficace da 10 giorni",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Una settimana scarsa",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "IPP",
+      "prompt": "Nota N01: quanto tieni l'IPP se non c'è ulcera?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Per i 10-14 giorni dello schema, poi stop se l'infezione non persiste",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Altri tre mesi di IPP pieno",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo",
+      "prompt": "Quando rifai il breath test?",
+      "cost": 20.1,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Tra 4 e 6 settimane, senza antibiotici né bismuto in quel periodo, IPP sospeso da 14 giorni",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Il giorno dopo l'ultima dose",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "EGDS di controllo",
+      "prompt": "Vuole un'EGDS con biopsie multiple per vedere se è eradicato, senza un'indicazione endoscopica.",
+      "cost": 172.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Breath test da 20,10 euro",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "EGDS con biopsia multipla da 172,95 euro",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Resistenza",
+      "prompt": "Se è disponibile un test di sensibilità alla claritromicina, quando lo usi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Prima di prescrivere di nuovo uno schema che la contiene",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Claritromicina comunque, senza chiedere",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "Come gli dici la seconda linea?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Perché la prima è fallita, durata e alternative",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "La seconda scatola senza una frase",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Seconda linea diversa dalla prima",
+      "prompt": "Dopo la triplice fallita non si ripete lo stesso schema. Il controllo è il breath test, non un'EGDS di default.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Stesso schema ripetuto",
+      "prompt": "Maastricht VI: dopo il fallimento della triplice IPP-claritromicina-amoxicillina sono raccomandati una quadruplice con bismuto, una quadruplice o triplice con fluorochinolone, o una duplice ad alto dosaggio IPP-amoxicillina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Durata corta",
+      "prompt": "Maastricht VI: la durata della quadruplice con bismuto dovrebbe essere 14 giorni, a meno che siano disponibili terapie efficaci da 10 giorni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "IPP oltre la Nota",
+      "prompt": "Nota AIFA N01: eradicazione 10-14 giorni, poi sospensione degli IPP se non c'è ulcera attiva, salvo persistenza dell'infezione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Test troppo presto",
+      "prompt": "Maastricht VI: nel follow-up breve non si usano antibiotici né bismuto, per permettere un test ottimale. L'IPP si sospende 14 giorni prima.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "EGDS al posto del breath test",
+      "prompt": "Nomenclatore, codice 44.19.2: breath test per Helicobacter pylori (urea C13), tariffa 20,10 euro. Nomenclatore 45.16.2: 172,95 euro. Maastricht VI: l'urea breath test è lo strumento prima e dopo l'eradicazione.",
+      "cost": 172.95,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Claritromicina cieca",
+      "prompt": "Maastricht VI: il test di sensibilità alla claritromicina, se disponibile con metodi molecolari o coltura, è raccomandato prima di prescrivere una terapia che la contiene.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Seconda linea non spiegata",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

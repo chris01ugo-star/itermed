@@ -79,7 +79,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Colonscopia, dosaggio del CEA e TC addome per valutare l'estensione della malattia.",
+  "correctSolution": "Carcinoma colorettale metastatico: istologia prima della terapia antitumorale, TC con contrasto di torace addome e pelvi, test molecolari, DPYD prima di una fluoropirimidina. A 85 anni si informano alternative, cure palliative e si evita l'ostinazione. Il dolore si tratta sempre.",
   "patientPrompt": "Mi chiamo Giuseppina e ho 85 anni. Ultimamente ho avuto dolore addominale e ho perso peso. Non riesco a dormire bene e mi sento sempre più stanca. La mia nipote è qui con me e cerca di aiutarmi, ma a volte mi sento sopraffatta dalle informazioni che ricevo dai medici. Ho sempre avuto un po' di ansia riguardo alla mia salute, e ora mi preoccupa ancora di più. Non capisco bene cosa stia succedendo e ho bisogno di aiuto per capire le mie condizioni.",
   "id": "GASTRO-030",
   "code": "GASTRO-030",
@@ -189,7 +189,7 @@
   "physicalExam": {
     "summary": "Addome disteso e dolente, massa palpabile in epigastrio, segni di disidratazione, affaticamento evidente."
   },
-  "goldPathNarrative": "Iniziare con una colonscopia per valutare eventuali lesioni colorettali, seguita dal dosaggio del CEA per monitorare i marcatori tumorali. Infine, eseguire una TC addome per valutare l'estensione della malattia e le eventuali metastasi. È fondamentale considerare un bilancio geriatrico prima di intraprendere trattamenti aggressivi.",
+  "goldPathNarrative": "1) Istologia. 2) TC di stadiazione, non la scintigrafia. 3) RAS, BRAF, MSI. 4) DPYD se si usa una fluoropirimidina. 5) Informazione. 6) Niente trattamento sproporzionato. 7) Pianificazione condivisa e terapia del dolore.",
   "escCitations": [
     {
       "chunkId": "1b04c5ce-660a-4a96-be4c-a5dc8e54e272-0",
@@ -281,5 +281,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Grande anziana, si affida alla nipote. Evitare aggressività diagnostica (PET, colonscopia ripetuta) senza bilancio geriatrico. Linguaggio lento e rispettoso."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Istologia",
+      "prompt": "Sospetto metastatico. Cosa precede il farmaco?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La conferma istologica",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Chemioterapia sul referto radiologico",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Staging",
+      "prompt": "Quale imaging?",
+      "cost": 310,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "TC con contrasto di torace, addome e pelvi",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Scintigrafia globale corporea da 310 euro come unico staging",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Molecole",
+      "prompt": "Quali test alla diagnosi metastatica?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "RAS esoni 2, 3 e 4, BRAF V600E, MMR/MSI e, se pertinente, HER2",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Anti-EGFR senza RAS",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "DPYD",
+      "prompt": "Vuoi usare una fluoropirimidina. Cosa manca?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Il test del deficit di diidropirimidina deidrogenasi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "La capecitabina senza test",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Età e alternativa",
+      "prompt": "Ha 85 anni. Come poni la cura?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Le dici cosa può aspettarsi, le alternative e le cure palliative",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Uno schema pieno senza una frase, perché «si fa così»",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Proporzione",
+      "prompt": "La prognosi è infausta a breve e lei, capace, rifiuta una linea ulteriore.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Rispetti il rifiuto e tratti il dolore",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Insisti con un'altra linea non voluta",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Piano scritto",
+      "prompt": "Vuole lasciare scritto cosa desidera se non potrà più decidere.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Pianificazione condivisa in cartella, o informazione sulle DAT",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Le dici che non si può",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Metastatico discusso con la paziente",
+      "prompt": "Istologia e TC prima di ogni antitumorale. Informazione, cure proporzionate e terapia del dolore.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Farmaco senza istologia",
+      "prompt": "ESMO: la diagnosi istologica va confermata prima della terapia antitumorale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "Scintigrafia di stadiazione",
+      "prompt": "Nomenclatore, codice 92.18.1: scintigrafia globale corporea con indicatori positivi di neoplasia o di flogosi, tariffa 310,00 euro. ESMO raccomanda la TC con contrasto di torace, addome e pelvi.",
+      "cost": 310,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "RAS non cercato",
+      "prompt": "ESMO: il test delle mutazioni di KRAS e NRAS, esoni 2, 3 e 4, è raccomandato per identificare chi può beneficiare di un anti-EGFR. MSI-H/dMMR si cerca per l'immunoterapia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "DPYD omesso",
+      "prompt": "ESMO: il test è raccomandato prima di 5-fluorouracile, capecitabina o S-1.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Schema non discusso",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella. Legge 219/2017, art. 5: informazione sull'evoluzione, sulla qualità di vita, sulle possibilità cliniche e sulle cure palliative.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Ostinazione e rifiuto",
+      "prompt": "Legge 219/2017, art. 2: con prognosi infausta a breve termine il medico si astiene da ostinazione irragionevole e da trattamenti inutili o sproporzionati, e garantisce la terapia del dolore. Legge 219/2017, art. 1 commi 5 e 6: il paziente capace può rifiutare il trattamento e il medico deve rispettare il rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Piano negato",
+      "prompt": "Legge 219/2017, art. 4 e art. 5: una persona maggiorenne e capace può esprimere DAT, e con il medico può fare una pianificazione condivisa delle cure.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

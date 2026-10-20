@@ -90,7 +90,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire una paracentesi per drenare il liquido addominale e analizzare il campione per eventuali infezioni o altre patologie.",
+  "correctSolution": "Ascite di nuova comparsa di grado 2 o 3: paracentesi diagnostica con neutrofili, coltura al letto in flaconi per emocoltura e proteine. Restrizione sodica moderata 80-120 mmol/die. Antimineralocorticoide, senza calo di peso oltre 0,5 kg/die se non c'è edema. Non una TC al posto della paracentesi.",
   "patientPrompt": "Ho 62 anni e da qualche tempo ho notato un gonfiore all'addome che mi preoccupa molto. Non so se sia acqua o qualcosa di più grave, come un tumore. Sono ansioso e non riesco a dormire bene. Ho sentito parlare di paracentesi, ma non so cosa sia. Vorrei capire se questa procedura possa aiutarmi a stare meglio.",
   "id": "GASTRO-006",
   "code": "GASTRO-006",
@@ -201,7 +201,7 @@
   "physicalExam": {
     "summary": "Addome disteso, doloroso alla palpazione, segni di ascite evidente, ansioso, stato generale compromesso."
   },
-  "goldPathNarrative": "Dopo aver eseguito gli esami del sangue per valutare gli enzimi epatici e la bilirubina, si è proceduto con un'ecografia addominale che ha confermato la presenza di ascite. Successivamente, è stata effettuata una paracentesi per il drenaggio del liquido e per l'analisi del campione.",
+  "goldPathNarrative": "1) Ascite nuova. 2) Paracentesi. 3) Neutrofili e coltura. 4) Sale moderato, non dieta sotto 40 mmol. 5) Antimineralocorticoide e limite di peso. 6) Non TC da 119,20 euro come primo esame. 7) Consenso.",
   "escCitations": [
     {
       "chunkId": "75024bca-c88c-429a-b9c1-bc3294199456-329",
@@ -300,5 +300,233 @@
       "socialSupport": "LIMITED"
     },
     "communicationStyle": "Il pancione da ascite lo umilia. Chiede se 'è acqua o tumore'. La paracentesi va spiegata come sollievo e analisi, non come puntura punitiva."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Ascite nuova",
+      "prompt": "Addome teso, prima volta, grado 2-3. Quale gesto è indicato?",
+      "cost": 34.85,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Paracentesi diagnostica",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un diuretico al telefono senza un prelievo",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Cosa dosi nel liquido",
+      "prompt": "Quali esami del liquido non salti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Neutrofili e coltura, inoculando al letto almeno 10 ml in flaconi per emocoltura, più le proteine totali",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Solo un'occhiata macroscopica",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sale",
+      "prompt": "Quanta restrizione sodica?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Moderata, 80-120 mmol al giorno, circa 4,6-6,9 g di sale",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Dieta sotto i 40 mmol al giorno",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Diuretico",
+      "prompt": "Qual è il cardine farmacologico?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Un antimineralocorticoide, senza aumentare la dose prima di 72 ore",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Un letto a riposo prolungato come terapia",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC addome",
+      "prompt": "Propongono una TC addome prima di pungere.",
+      "cost": 119.2,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Prima la paracentesi, salvo una controindicazione della tabella EASL",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "TC dell'addome completo da 119,20 euro",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Controindicazione",
+      "prompt": "Quando non pungi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Se c'è infezione cutanea nel punto, gravidanza, coagulopatia grave, distensione intestinale severa o paziente non collaborante",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Pungi comunque su una cute infetta",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "È capace. Come gli proponi la puntura?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Benefici, rischi e alternative, in cartella",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "La esegui senza dirglielo",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Ascite studiata con la paracentesi",
+      "prompt": "Paracentesi diagnostica, sale moderato e antimineralocorticoide. La TC non sostituisce il liquido.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Paracentesi omessa",
+      "prompt": "EASL 2018: la paracentesi diagnostica è raccomandata in ogni ascite di grado 2 o 3 di nuova comparsa e in chi è ricoverato per un peggioramento dell'ascite o per una complicanza della cirrosi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Peritonite non esclusa",
+      "prompt": "EASL 2018: neutrofili e coltura servono a escludere la peritonite batterica. Sopra 250 neutrofili per microlitro si diagnostica la SBP.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Sale troppo ristretto",
+      "prompt": "EASL 2018: la restrizione moderata è raccomandata nell'ascite moderata non complicata. Diete sotto 40 mmol/die vanno evitate.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Riposo al posto del diuretico",
+      "prompt": "EASL 2018: spironolattone, canrenone o canrenoato di potassio sono un cardine. Il riposo a letto prolungato non è raccomandato. Il calo di peso non deve superare 0,5 kg/die senza edemi e 1 kg/die con edemi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "TC al posto del liquido",
+      "prompt": "Nomenclatore, codice 88.01.5: TC dell'addome completo, tariffa 119,20 euro. Nomenclatore, codice 54.91: paracentesi, tariffa 34,85 euro. La diagnosi di SBP e la natura dell'ascite si leggono nel liquido, non in questa TC.",
+      "cost": 119.2,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Controindicazione ignorata",
+      "prompt": "EASL 2018, tabella delle controindicazioni alla paracentesi: paziente non collaborante, infezione cutanea nel sito, gravidanza, coagulopatia grave, grave distensione intestinale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Puntura senza informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

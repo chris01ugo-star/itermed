@@ -79,7 +79,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Colonscopia → biopsia → CEA Gold path: colonscopia → biopsia → cea. Linea guida: ESMO_Colorectal_Cancer_Guidelines.pdf.",
+  "correctSolution": "Sospetto di carcinoma del colon-retto, nel perimetro del documento ESMO sul metastatico: istologia prima di qualunque terapia antitumorale, biopsia in genere entro 2 settimane, TC con contrasto di torace, addome e pelvi per la stadiazione. Non una scintigrafia corporea al posto della biopsia.",
   "patientPrompt": "Ho 67 anni e da qualche mese ho notato sangue occulto nelle feci. Mio padre è morto di cancro al colon e questo mi preoccupa molto. Sono ansioso e ho difficoltà a dormire a causa di queste preoccupazioni. Ho cercato informazioni online, ma questo mi ha solo aumentato l'ansia. Voglio sapere cosa succede e se devo fare esami per capire meglio la mia situazione.",
   "id": "GASTRO-023",
   "code": "GASTRO-023",
@@ -189,7 +189,7 @@
   "physicalExam": {
     "summary": "Esame obiettivo addominale senza segni di rigidità o dolore acuto. Nessuna massa palpabile. Segni vitali stabili."
   },
-  "goldPathNarrative": "Dopo aver discusso le mie preoccupazioni, il medico mi ha consigliato di sottopormi a una colonscopia per valutare la presenza di eventuali lesioni. Sono d'accordo e mi sento rassicurato dal fatto che ci sia un piano chiaro. Se necessario, procederemo con una biopsia e un esame del CEA per ulteriori informazioni.",
+  "goldPathNarrative": "1) Sintomi. 2) Istologia prima della chemioterapia. 3) Biopsia tempestiva. 4) TC di stadiazione. 5) Non scintigrafia da 310 euro come primo staging. 6) Test molecolari alla diagnosi di malattia metastatica. 7) Consenso.",
   "escCitations": [
     {
       "chunkId": "1b04c5ce-660a-4a96-be4c-a5dc8e54e272-0",
@@ -281,5 +281,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Ha notato sangue occulto e pensa al padre morto di K. Serve SPIKES-Perception prima dello staging. Il gergo TNM senza preparazione aumenta l'ansia."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sospetto",
+      "prompt": "Sangue nelle feci, anemia, calo di peso. Cosa non fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non inizi un antitumorale sul sospetto clinico",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Inizi una chemioterapia «intanto»",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Biopsia",
+      "prompt": "In che tempi?",
+      "cost": 120,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "In genere entro 2 settimane dalla prima visita, e il referto istologico possibilmente entro 7 giorni dalla biopsia",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "La rimandi di mesi",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Stadiazione",
+      "prompt": "Con quale imaging stadi?",
+      "cost": 310,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "TC con contrasto di torace, addome e pelvi",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Scintigrafia globale corporea da 310 euro come unico staging",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Molecolare",
+      "prompt": "La malattia è metastatica e l'istologia c'è. Cosa chiedi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Test molecolare sul tumore o sulle metastasi al momento della diagnosi, con esito in genere entro 14 giorni",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Nessun RAS né MSI prima di un anti-EGFR",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ctDNA",
+      "prompt": "La biopsia tissutale non è possibile. Cosa prevede il documento?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Un saggio sul DNA tumorale circolante, quando serve un esito rapido o il tessuto non è ottenibile",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Rinunci a ogni caratterizzazione",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Fluoropirimidina",
+      "prompt": "Prima di 5-fluorouracile, capecitabina o S-1, cosa cerchi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Il deficit di diidropirimidina deidrogenasi",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Il farmaco senza questo test",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "È capace. Come gli proponi biopsia e cura?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Diagnosi, benefici, rischi e alternative, in cartella",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Il consenso implicito",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Istologia prima del farmaco",
+      "prompt": "Nessuna terapia antitumorale senza istologia. Stadiazione con TC. Nessuna scintigrafia corporea al posto della biopsia.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Farmaco senza istologia",
+      "prompt": "ESMO: nel sospetto clinico o radiologico di carcinoma colorettale metastatico, la diagnosi istologica di adenocarcinoma o delle metastasi va confermata prima di somministrare una terapia antitumorale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Biopsia rinviata",
+      "prompt": "ESMO: la biopsia in genere entro 2 settimane dalla prima consulenza. Idealmente almeno l'80% dei referti entro 7 giorni dalla biopsia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Scintigrafia al posto della TC",
+      "prompt": "Nomenclatore, codice 92.18.1: scintigrafia globale corporea con indicatori positivi di neoplasia o di flogosi, tariffa 310,00 euro. ESMO: per la stadiazione è raccomandata la TC con contrasto di torace, addome e pelvi.",
+      "cost": 310,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Molecolare assente",
+      "prompt": "ESMO: il test molecolare è raccomandato in tutti i pazienti alla diagnosi di malattia metastatica. RAS su esoni 2, 3 e 4 va cercato prima di un anticorpo anti-EGFR. Il deficit di mismatch repair e l'MSI-H si cercano per l'immunoterapia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Nessuna caratterizzazione",
+      "prompt": "ESMO: i saggi su DNA tumorale circolante sono raccomandati quando l'esito rapido è importante o la biopsia tissutale non è possibile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "DPYD non cercato",
+      "prompt": "ESMO: il test per il deficit di diidropirimidina deidrogenasi è raccomandato prima di iniziare 5-fluorouracile, capecitabina o S-1.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Cura senza informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

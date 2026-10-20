@@ -68,7 +68,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un emocromo e una EGDS per valutare la situazione attuale e decidere sul trattamento.",
+  "correctSolution": "IPP da molti mesi per sintomi che erano tipici: Nota N01, il primo ciclo è 4-8 settimane poi stop o al bisogno. Il mantenimento solo se le recidive sono frequenti, i sintomi tornano alla sospensione o c'è malattia complicata, al dosaggio minimo, rivalutato ogni 6-12 mesi. Lyon: prima di un mantenimento lungo in chi non ha una diagnosi conclusiva serve il test.",
   "patientPrompt": "Ho 50 anni e da tre anni prendo un inibitore della pompa protonica perché ho trovato su Google che avevo una gastrite cronica. Non mi sento a mio agio a smettere di prenderlo, anche se il medico mi ha detto che dovremmo valutare se è davvero necessario. Ho sintomi di reflusso, ma non ho mai fatto esami per confermare la diagnosi. Sono preoccupata per gli effetti collaterali a lungo termine e voglio capire meglio la Nota AIFA N01.",
   "id": "GASTRO-016",
   "code": "GASTRO-016",
@@ -177,7 +177,7 @@
   "physicalExam": {
     "summary": "Paziente in buone condizioni generali, senza segni di distress respiratorio o addominale acuto."
   },
-  "goldPathNarrative": "Iniziare con un emocromo per escludere anemia o altre complicazioni, seguito da un'EGDS per valutare la mucosa esofagea e confermare la diagnosi di MRGE. Discutere i risultati con la paziente e spiegare la Nota AIFA N01 riguardo all'uso degli IPP.",
+  "goldPathNarrative": "1) Da quanto e perché prende l'IPP. 2) Se era un primo episodio già risolto, si sospende. 3) Mantenimento solo con le indicazioni della Nota. 4) Dose minima. 5) Test se non c'è evidenza conclusiva. 6) Non una capsula. 7) Rivalutazione scritta.",
   "escCitations": [
     {
       "chunkId": "518e9efc-ed72-4bf4-a8b6-7b6f69b6a1a5-35",
@@ -262,5 +262,233 @@
       "socialSupport": "STRONG"
     },
     "communicationStyle": "Assume IPP da tre anni 'perché Google dice gastrite cronica'. Resiste alla deprescrizione. Serve Nota AIFA N01 spiegata senza sdegno, con criterio Lyon."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Storia dell'IPP",
+      "prompt": "Prende un IPP da un anno «per il bruciore», senza una diagnosi. Cosa ricostruisci?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Se ha risposto e da quanto, e se esiste un'esofagite o una stenosi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Rinnovi la scatola senza domande",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Mantenimento",
+      "prompt": "Quando il mantenimento è indicato?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Recidive frequenti, sintomi refrattari alla sospensione, oppure esofagite erosiva moderata-severa o stenosi",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "In chiunque abbia mai avuto un bruciore",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dose",
+      "prompt": "Se il mantenimento è indicato, quale dose?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "La minima efficace, standard o al bisogno",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "La dose piena di attacco per sempre",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Diagnosi non conclusiva",
+      "prompt": "Non ha mai fatto un esame e i sintomi non sono tipici, oppure non ha risposto. Cosa fai prima di altri mesi di IPP?",
+      "cost": 64.9,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Test esofageo. I sintomi da soli non sono una diagnosi conclusiva",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Altri sei mesi alla stessa dose",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Capsula",
+      "prompt": "Propongono una videocapsula per decidere l'IPP.",
+      "cost": 863.75,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "La rifiuti: non decide l'IPP",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Capsula da 863,75 euro",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Effetti",
+      "prompt": "Cosa gli dici dell'uso lungo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Infezioni, disbiosi, B12, magnesio, osso e rene, e la possibilità di sospendere",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "«È come un gastroprotettore, non ha effetti»",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Agenda",
+      "prompt": "Quando lo rivedi se resta in mantenimento?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Ogni 6-12 mesi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Tra tre anni",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "IPP riportato in Nota",
+      "prompt": "Niente cronico senza indicazione. Mantenimento solo nei casi della Nota N01, a dose minima, con test se la diagnosi non è conclusiva.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Rinnovo cieco",
+      "prompt": "Nota AIFA N01: dopo 4-8 settimane, in chi risponde, la terapia si sospende o passa al bisogno. Il cronico si evita senza indicazioni chiare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Mantenimento senza indicazione",
+      "prompt": "Nota AIFA N01: il mantenimento è per recidive frequenti o sintomi refrattari alla sospensione, al dosaggio minimo efficace, e per la malattia complicata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "Dose piena non necessaria",
+      "prompt": "Nota AIFA N01: il mantenimento si fa con il dosaggio minimo efficace. Va rivalutato ogni 6-12 mesi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Lungo termine senza test",
+      "prompt": "Lyon: i sintomi da soli non bastano per una diagnosi conclusiva. Il test si propone prima di una gestione medica a lungo termine e nei non responder.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "Capsula per l'IPP",
+      "prompt": "Nomenclatore, codice 45.13.1: enteroscopia con microcamera ingeribile, tariffa 863,75 euro. L'EGDS, codice 45.13, è 64,90 euro.",
+      "cost": 863.75,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Rischi taciuti",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella. Nota N01 elenca infezioni gastrointestinali, disbiosi, deficit di vitamina B12 e magnesio, osteoporosi e nefropatia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Nessuna rivalutazione",
+      "prompt": "Nota AIFA N01: la necessità di continuare va rivalutata clinicamente ogni 6-12 mesi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

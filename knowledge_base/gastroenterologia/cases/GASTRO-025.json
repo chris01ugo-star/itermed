@@ -68,7 +68,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un emocromo e una coprocultura per escludere altre patologie, evitando colonscopia di prima intenzione.",
+  "correctSolution": "IBS a 18 anni, senza segni di allarme: criteri di Roma IV e strategia positiva. Il documento raccomanda di non fare una colonscopia di routine sotto i 45 anni senza warning signs. Se c'è diarrea: sierologia per celiachia, calprotectina e PCR.",
   "patientPrompt": "Ho 18 anni e da qualche mese ho iniziato a sentire un forte gonfiore addominale. Ho cercato informazioni online e sono molto preoccupato. Ho paura che possa trattarsi di qualcosa di serio come il morbo di Crohn o addirittura un tumore. Vorrei fare una colonscopia o una risonanza magnetica per essere sicuro di non avere nulla di grave. Ho anche notato che i sintomi peggiorano quando sono sotto stress, come durante gli esami. Non ho mai avuto emorragie o perdita di peso, ma sono molto ansioso riguardo alla mia salute.",
   "id": "GASTRO-025",
   "code": "GASTRO-025",
@@ -177,7 +177,7 @@
   "physicalExam": {
     "summary": "Esame obiettivo addominale: addome soffice, non dolente alla palpazione, peristalsi presente. Nessun segno di emorragia o massa palpabile. Nessun segno di ittero o ascite."
   },
-  "goldPathNarrative": "Dopo aver ascoltato attentamente le preoccupazioni di Samuele e aver valutato i suoi sintomi, è stato deciso di eseguire un emocromo e una coprocultura. Questo approccio evita l'uso di esami invasivi non necessari, seguendo le linee guida per la gestione dell'IBS nei giovani.",
+  "goldPathNarrative": "1) Roma IV. 2) Assenza di allarmi. 3) Niente colonscopia da 120 euro. 4) Sierologia se diarrea. 5) Calprotectina e PCR. 6) Prova limitata di dieta. 7) Consenso, e rispetto del rifiuto di esami non indicati.",
   "escCitations": [
     {
       "chunkId": "8f2a69b8-b356-4ae9-a1ec-8280566b27dc-51",
@@ -262,5 +262,233 @@
       "socialSupport": "STRONG"
     },
     "communicationStyle": "Studente, ha chiesto a un chatbot se il gonfiore è Crohn o tumore. Pretende colonscopia e RM. Roma IV: ascolto aperto, criteri di allarme, no over-testing."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Criteri",
+      "prompt": "Dolore e alvo alterno da otto mesi. È Roma IV?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Sì se il dolore c'è almeno un giorno a settimana negli ultimi 3 mesi, con due criteri tra defecazione, frequenza e forma, ed esordio da almeno 6 mesi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "La chiami IBS dopo dieci giorni",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Allarmi",
+      "prompt": "Nega sangue, melena, calo di peso e familiarità. Età 18 anni. Colonscopia?",
+      "cost": 120,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "No: sotto i 45 anni e senza warning signs la colonscopia di routine non è raccomandata",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Colonscopia totale da 120 euro",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Se compare sangue",
+      "prompt": "Se invece riferisce ematochezia, cosa cambia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non è più un percorso senza allarmi: l'ematochezia è un warning sign",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "La archivi ancora come IBS",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Diarrea",
+      "prompt": "Ha diarrea. Quali esami?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Sierologia per celiachia, calprotectina fecale e PCR",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Solo la colonscopia",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Patogeni",
+      "prompt": "Coprocoltura di routine?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No, non di routine",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Pannello infettivo a tutti",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dieta",
+      "prompt": "Quale prova sui sintomi globali?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Una prova limitata di dieta a basso contenuto di FODMAP",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Divieto alimentare permanente non spiegato",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rifiuto degli esami inutili",
+      "prompt": "Rifiuta la colonscopia che non è indicata. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non la imponi. Gli spieghi la diagnosi positiva",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "La pretendi lo stesso",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Giovane senza colonscopia di routine",
+      "prompt": "Sotto i 45 anni e senza allarmi la colonscopia di routine non è raccomandata. Si usano criteri, sierologia se diarrea, calprotectina e PCR.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Criteri anticipati",
+      "prompt": "Roma IV richiede gli ultimi 3 mesi di criteri e un esordio da almeno 6 mesi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "Colonscopia non raccomandata",
+      "prompt": "Nomenclatore, codice 45.23: colonscopia totale con endoscopio flessibile, tariffa 120,00 euro. ACG: è raccomandato non eseguire la colonscopia di routine nei sintomi di IBS sotto i 45 anni senza segni di allarme.",
+      "cost": 120,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Sangue ignorato",
+      "prompt": "ACG: ematochezia, melena, calo di peso, esordio in età avanzata e familiarità per IBD o cancro sono segni di allarme.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Sierologia saltata",
+      "prompt": "ACG: sierologia per celiachia raccomandata se c'è diarrea. Calprotectina e PCR si suggeriscono, senza allarmi, per escludere una malattia infiammatoria.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "Feci di routine",
+      "prompt": "ACG: è raccomandato non cercare di routine i patogeni enterici in tutti i pazienti con IBS.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Dieta senza limite",
+      "prompt": "ACG raccomanda una prova limitata di dieta low-FODMAP per migliorare i sintomi globali.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Esame imposto",
+      "prompt": "Legge 219/2017, art. 1 commi 5 e 6: il paziente capace può rifiutare il trattamento e il medico deve rispettare il rifiuto. Il paziente non può esigere un esame contrario alle buone pratiche, e il medico non ha l'obbligo di eseguirlo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

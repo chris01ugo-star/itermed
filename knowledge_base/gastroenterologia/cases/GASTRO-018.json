@@ -79,7 +79,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire amilasi-lipasi, valutare i lattati e pianificare una TC addominale.",
+  "correctSolution": "Pancreatite severa: niente TC prima di 72-96 ore se la diagnosi è nota, niente antibiotico profilattico, nutrizione enterale se serve un supporto, intervento sulla necrosi infetta rinviato se possibile ad almeno 4 settimane, centro specialistico. Il drenaggio percutaneo o endoscopico viene prima della necrosectomia.",
   "patientPrompt": "Mi chiamo Rocco, ho 51 anni e oggi sono venuto qui per un forte dolore all'addome. Ho pensato fosse solo una colica, ma il dolore è davvero intenso. Ho mangiato cibi grassi recentemente e mi sento molto ansioso. Non voglio rimanere in ospedale, penso che sia esagerato. Non ho nessuno qui con me e mi sento un po' perso. A volte ho difficoltà a capire cosa mi dicono i medici, e questo mi fa sentire ancora più stressato.",
   "id": "GASTRO-018",
   "code": "GASTRO-018",
@@ -189,7 +189,7 @@
   "physicalExam": {
     "summary": "Rocco presenta dolore addominale severo, segni di tachicardia e febbre. L'esame fisico rivela una sensibilità addominale diffusa, specialmente nella regione epigastrica."
   },
-  "goldPathNarrative": "Dopo aver eseguito i test iniziali di amilasi e lipasi, i risultati indicano un'elevata probabilità di pancreatite acuta. Si procede quindi con la valutazione dei lattati per escludere la presenza di shock e si programma una TC addominale per valutare la gravità della condizione. Durante questa fase, è fondamentale rassicurare Rocco e spiegargli l'importanza di un intervento tempestivo.",
+  "goldPathNarrative": "1) Severità e SIRS. 2) TC non prima di 72-96 ore. 3) Niente antibiotico profilattico. 4) Nutrizione enterale. 5) Centro specialistico. 6) Intervento non prima di 4 settimane se la necrosi può diventare capsulata. 7) Consenso o urgenza.",
   "escCitations": [
     {
       "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-23",
@@ -281,5 +281,233 @@
       "socialSupport": "ISOLATED"
     },
     "communicationStyle": "Rifiuta il ricovero ('è solo una colica'). Il paternalismo aumenta la fuga. Serve micro-rassicurazione e spiegare perché la TC non è immediata (IAP/APA)."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Severità",
+      "prompt": "Come leggi il rischio all'ingresso?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "SIRS all'ingresso e SIRS persistente a 48 ore, più la risposta alla terapia",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Uno score unico e poi nessun altro controllo",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC addome",
+      "prompt": "La diagnosi è già certa. Quando fai la prima TC?",
+      "cost": 119.2,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non prima di 72-96 ore, e se serve per severità o mancata risposta",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "TC con contrasto in accettazione",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antibiotico",
+      "prompt": "Necrosi sterile, senza infezione. Profilassi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No, la profilassi non è raccomandata",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Antibiotico endovena preventivo",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Nutrizione",
+      "prompt": "È prevista severa e serve un supporto nutritivo. Quale via?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Nutrizione enterale, per sondino nasodigiunale o nasogastrico. Il parenterale è di seconda linea",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Digiuno e solo parenterale come prima scelta",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Centro",
+      "prompt": "Ha insufficienza d'organo persistente. Dove sta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "In intensiva e, se serve un gesto, in un centro specialistico",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "In un reparto senza radiologia interventistica",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Necrosi infetta",
+      "prompt": "Sospetti necrosi infetta. Quando dreni?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Se possibile non prima di 4 settimane, quando la raccolta è capsulata. Il primo passo è il drenaggio percutaneo o endoscopico",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Laparotomia in seconda giornata",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "È ancora in grado di decidere un drenaggio non urgente.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Informazione e consenso",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Il drenaggio senza una frase",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Severità senza gesti anticipati",
+      "prompt": "Niente TC precoce, niente antibiotico profilattico, nutrizione enterale e nessun drenaggio prima delle 4 settimane se si può aspettare.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Severità non seguita",
+      "prompt": "IAP/APA: la SIRS è consigliata per predire la pancreatite severa all'ingresso e la SIRS persistente a 48 ore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "TC precoce",
+      "prompt": "Nomenclatore, codice 88.01.5: TC dell'addome completo, tariffa 119,20 euro. IAP/APA: il timing della prima TC è almeno 72-96 ore dall'esordio.",
+      "cost": 119.2,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Profilassi non raccomandata",
+      "prompt": "IAP/APA: la profilassi antibiotica endovena non è raccomandata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Parenterale di prima linea",
+      "prompt": "IAP/APA: nella severa prevista che richiede supporto, la prima terapia è la nutrizione enterale. Il parenterale è di seconda linea se il sondino non è tollerato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Centro non adeguato",
+      "prompt": "IAP/APA: la pancreatite severa con insufficienza d'organo persistente si tratta in intensiva. Chi è severo o può aver bisogno di un gesto va in un centro specialistico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Necrosectomia troppo presto",
+      "prompt": "IAP/APA: l'intervento invasivo sulla necrosi infetta va rinviato, se possibile, ad almeno 4 settimane. Il primo passo è il drenaggio percutaneo o endoscopico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Gesto senza consenso",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella. Se invece è in urgenza e non può esprimersi, si assicurano le cure necessarie.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

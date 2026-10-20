@@ -69,7 +69,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Esame obiettivo, emocromo, EGDS, consenso informato",
+  "correctSolution": "Sintomi tipici di reflusso: un ciclo di IPP di 4-8 settimane è coerente con Lyon e con la Nota N01, poi sospensione o regime al bisogno. La diagnosi conclusiva richiede endoscopia e/o pH-metria. L'esofagite di grado B è evidenza conclusiva. Non un PPI cronico senza rivalutazione ogni 6-12 mesi.",
   "patientPrompt": "Salve, sono Valentina e ho 41 anni. Da qualche mese soffro di bruciore di stomaco e rigurgito acido. Ho cercato informazioni online e ho letto di una possibile malattia di Barrett, quindi sono molto preoccupata. Ho portato con me uno screenshot di una conversazione con un chatbot che parlava di questo. Vorrei sapere se posso fare una pH-impedenzometria, perché ho paura di avere qualcosa di grave. Ho provato a seguire alcune diete, ma non sembrano funzionare e mi sento molto ansiosa. Ho anche difficoltà a dormire e mi sento stressata.",
   "id": "GASTRO-011",
   "code": "GASTRO-011",
@@ -179,7 +179,7 @@
   "physicalExam": {
     "summary": "Esame obiettivo nella norma, nessun segno di malattia acuta evidente."
   },
-  "goldPathNarrative": "Dopo aver ascoltato le preoccupazioni di Valentina e aver validato la sua ansia, si procede con un esame obiettivo accurato. Si richiede un emocromo per escludere eventuali complicanze e si programma un'EGDS per valutare la mucosa esofagea. Prima di procedere con l'EGDS, si discute con Valentina riguardo al consenso informato, assicurandosi che comprenda il processo e le opzioni disponibili.",
+  "goldPathNarrative": "1) Sintomi tipici. 2) Prova di 4-8 settimane. 3) Poi stop o al bisogno. 4) Se non risponde, test prima di una terapia lunga. 5) Grado B in endoscopia è conclusivo. 6) Non la capsula. 7) Consenso e rischi dell'uso lungo.",
   "escCitations": [
     {
       "chunkId": "518e9efc-ed72-4bf4-a8b6-7b6f69b6a1a5-1",
@@ -264,5 +264,233 @@
       "socialSupport": "STRONG"
     },
     "communicationStyle": "Arriva con screenshot ChatGPT sul Barrett e chiede subito una pH-impedenzometria. Se si sminuisce Google, si chiude. Serve validare l'ansia e ancorare al Lyon Consensus senza concessioni difensive."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sintomi",
+      "prompt": "Ha pirosi e rigurgito, senza allarmi. Cosa basta per iniziare?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "I sintomi tipici fastidiosi possono giustificare una prova di antisecretore. Da soli non fanno una diagnosi conclusiva",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "EGDS e pH-metria prima di ogni compressa",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Durata Nota N01",
+      "prompt": "Quanto prescrivi a carico del SSN nel primo episodio?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "4-8 settimane, poi rivalutazione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Sei mesi pieni alla prima ricetta",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dopo la risposta",
+      "prompt": "Sta bene all'ottava settimana. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Sospensione o regime al bisogno. Il cronico si evita senza un'indicazione chiara",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Continui la dose piena per sempre",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non risponde",
+      "prompt": "Alla fine delle 8 settimane i sintomi ci sono ancora. Cosa fai prima di un PPI lungo?",
+      "cost": 64.9,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Test esofageo. In un reflusso non provato l'endoscopia si fa senza antisecretore",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Raddoppi la dose a vita senza un esame",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Grado B",
+      "prompt": "L'endoscopia mostra esofagite di Los Angeles grado B. Come la leggi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "È evidenza conclusiva di malattia da reflusso",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "La chiami normale e sospendi ogni cura",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Capsula",
+      "prompt": "Chiede una videocapsula «per vedere il reflusso».",
+      "cost": 863.75,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non è l'esame del reflusso",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Capsula da 863,75 euro",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rischi",
+      "prompt": "Come gli dici un eventuale mantenimento?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Indicazione, dose minima, rivalutazione a 6-12 mesi e rischi dell'uso lungo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Rinnovo muto",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Reflusso secondo Lyon e Nota N01",
+      "prompt": "Prova breve di IPP, poi sospensione o al bisogno. Test solo se i sintomi non sono tipici o non rispondono. Nessuna capsula e nessun PPI cronico cieco.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "Test prima della prova",
+      "prompt": "Lyon: i sintomi tipici fastidiosi possono bastare per una prova di antisecretore. Il test esofageo si propone per le altre categorie di sintomi e per chi non risponde all'IPP, prima di una terapia lunga o di un gesto invasivo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Durata fuori Nota",
+      "prompt": "Nota AIFA N01: nel reflusso la durata è 4-8 settimane, con rivalutazione alla fine. In chi risponde, la terapia si sospende o si riduce al bisogno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "PPI cronico senza indicazione",
+      "prompt": "Nota AIFA N01: la terapia cronica va evitata senza indicazioni chiare. Il mantenimento è per recidive frequenti, sintomi refrattari alla sospensione, o malattia complicata, al dosaggio minimo efficace, rivalutato ogni 6-12 mesi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Non responder non studiato",
+      "prompt": "Lyon: nei non responder all'IPP il test esofageo viene prima della gestione a lungo termine. Nel reflusso non provato l'endoscopia va fatta senza terapia antisecretoria.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Grado B ignorato",
+      "prompt": "Lyon: l'esofagite di grado B è evidenza conclusiva di GERD. La biopsia di routine non è raccomandata né utile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "Capsula nel reflusso",
+      "prompt": "Nomenclatore, codice 45.13.1: enteroscopia con microcamera ingeribile, tariffa 863,75 euro. L'EGDS, codice 45.13, è 64,90 euro. Non è il test del documento Lyon né della Nota N01.",
+      "cost": 863.75,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Mantenimento senza informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella. Nota N01: l'uso cronico si associa a infezioni gastrointestinali, disbiosi, deficit di B12 e magnesio, osteoporosi e nefropatia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

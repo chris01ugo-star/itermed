@@ -91,7 +91,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire un emocromo, PT-PTT-INR, gruppo-rh, e poi procedere con EGDS urgente.",
+  "correctSolution": "Emorragia digestiva alta non varicosa: rianimazione con cristalloidi se instabile, trasfusione restrittiva con emoglobina tra 7 e 9 g/dL, Glasgow-Blatchford, IPP endovena ad alto dosaggio senza ritardare l'EGDS, endoscopia entro 24 ore e prima se l'instabilità persiste. Non lavanda nasogastrica di routine. In emergenza non si attende la firma dei familiari.",
   "patientPrompt": "Mi chiamo Marco e ho 58 anni. Sono venuto qui perché ho vomitato sangue e ho una paura terribile. Non riesco a pensare ad altro che a cosa possa essere. Ho paura che sia un tumore. Mi sento debole e non riesco a respirare bene. Ho bisogno di aiuto e di sapere cosa sta succedendo.",
   "id": "GASTRO-001",
   "code": "GASTRO-001",
@@ -203,7 +203,7 @@
   "physicalExam": {
     "summary": "Marco presenta segni di emorragia attiva, tachicardia, ipotensione e pallore."
   },
-  "goldPathNarrative": "Iniziamo con un emocromo per valutare il livello di emoglobina e la presenza di anemia. Procediamo con PT-PTT-INR per valutare la coagulazione. Dobbiamo anche determinare il gruppo sanguigno e il fattore Rh nel caso fosse necessario un intervento trasfusionale. Infine, programmeremo un'EGDS urgente per identificare la fonte dell'emorragia e trattarla.",
+  "goldPathNarrative": "1) Stato emodinamico e cristalloidi. 2) Trasfusione restrittiva. 3) Glasgow-Blatchford. 4) IPP endovena senza ritardare la sala. 5) EGDS entro 24 ore, prima se resta instabile. 6) Non la capsula da 863,75 euro. 7) Emostasi delle lesioni Forrest ad alto rischio e consenso d'emergenza.",
   "escCitations": [
     {
       "chunkId": "dc15bb7a-174b-4b63-b765-6cbf18d75cd5-1",
@@ -302,5 +302,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Vomita sangue e teme di morire. Chiede se 'è un tumore'. Il tono sbrigativo aumenta il panico; serve validazione e spiegazione dell'EGDS senza gergo Forrest."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Stato emodinamico",
+      "prompt": "Cosa fai appena arriva con ematemesi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Valuti subito pressione e polso e, se è instabile, infondi cristalloidi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Lo mandi in radiologia prima di misurare la pressione",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Trasfusione",
+      "prompt": "L'emoglobina è 6,4 g/dL, senza cardiopatia ischemica. Quale soglia usi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Strategia restrittiva, obiettivo tra 7 e 9 g/dL",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Trasfondi fino a 10 g/dL prima di ogni altra decisione",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Rischio prima dell'endoscopia",
+      "prompt": "Con quale punteggio stratifichi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Glasgow-Blatchford. Un punteggio 0-1 in un ambulatoriale non richiede endoscopia precoce né ricovero",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Nessuno score: tutti in sala subito, anche chi è a rischio bassissimo",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "IPP in attesa",
+      "prompt": "Cosa inizi mentre prepari l'endoscopia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "IPP endovena ad alto dosaggio, bolo poi infusione, senza ritardare l'EGDS",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Aspetti il referto dell'endoscopia prima di ogni IPP",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Timing dell'EGDS",
+      "prompt": "È ancora tachicardico e ipoteso dopo i liquidi. Quando fai l'EGDS?",
+      "cost": 64.9,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Dopo la rianimazione, endoscopia precoce entro 24 ore; se l'instabilità persiste, anche prima delle 12 ore",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "La prenoti tra tre giorni",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame che non ferma il sangue",
+      "prompt": "Propongono una videocapsula prima dell'EGDS.",
+      "cost": 863.75,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "La rifiuti: il primo esame è l'EGDS",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Enteroscopia con microcamera da 863,75 euro",
+          "next": "res-eco-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Firma in emergenza",
+      "prompt": "Non riesce a firmare. I figli chiedono di aspettare.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Si procede con le cure necessarie e si annota l'emergenza",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Si sospende l'endoscopia finché un figlio non firma",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Emorragia alta avviata secondo ESGE",
+      "prompt": "Rianimazione, trasfusione restrittiva, IPP endovena e EGDS precoce. Nessuna capsula al posto dell'endoscopia e nessuna attesa dei familiari.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Rianimazione saltata",
+      "prompt": "ESGE: valutazione immediata dello stato emodinamico e, se c'è instabilità, reintegrazione con cristalloidi. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Trasfusione non restrittiva",
+      "prompt": "ESGE raccomanda una strategia restrittiva con emoglobina bersaglio tra 7 e 9 g/dL. Un bersaglio più alto si considera se c'è comorbidità cardiovascolare ischemica. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Score non usato",
+      "prompt": "ESGE raccomanda il Glasgow-Blatchford prima dell'endoscopia. Gli ambulatoriali a rischio molto basso, punteggio 0-1, non richiedono endoscopia precoce né ricovero.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "IPP rinviato, o endoscopia rinviata all'infusione",
+      "prompt": "ESGE raccomanda l'IPP endovena ad alto dosaggio in attesa dell'endoscopia, ma l'infusione non deve ritardare l'endoscopia precoce.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Endoscopia fuori tempo",
+      "prompt": "Dopo la rianimazione emodinamica, ESGE raccomanda l'endoscopia alta precoce, entro 24 ore. L'endoscopia molto precoce, prima delle 12 ore, si può considerare se l'instabilità persiste.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-6",
+      "type": "resolution",
+      "title": "Capsula al posto dell'EGDS",
+      "prompt": "Nomenclatore, codice 45.13.1: enteroscopia con microcamera ingeribile, tariffa 863,75 euro. L'EGDS, codice 45.13, è 64,90 euro. Nell'emorragia alta il documento indica l'endoscopia alta, non la capsula.",
+      "cost": 863.75,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Sala in attesa dei familiari",
+      "prompt": "Legge 219/2017, art. 1 comma 7: in emergenza o urgenza si assicurano le cure necessarie, senza subordinarle a una firma dei familiari se il paziente non può esprimerla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

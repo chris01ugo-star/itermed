@@ -80,7 +80,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire emocromo, enzimi epatici e gastroscopia per valutare la presenza di varici esofagee.",
+  "correctSolution": "Ipertensione portale compensata, non candidabile ai betabloccanti: endoscopia di screening se l'elastografia è sopra 20 kPa o le piastrine sono sotto 150.000. Se questi criteri non ci sono, controllo annuale di elastografia e piastrine. Se c'è ascite e non è in betabloccante, l'endoscopia di screening è indicata.",
   "patientPrompt": "Mi chiamo Nicola e ho 63 anni. Sono stato ricoverato qui per problemi al fegato e ho notato che la mia pancia è più grande del solito. Sono un po' preoccupato e non riesco a dormire bene. A volte mi sento ansioso e ho difficoltà a seguire le indicazioni dei medici, anche se ci provo. Non ho molti amici o familiari che possano supportarmi in questo momento, e questo mi fa sentire un po' solo.",
   "id": "GASTRO-017",
   "code": "GASTRO-017",
@@ -191,7 +191,7 @@
   "physicalExam": {
     "summary": "Addome disteso, segni di ascite, palpazione dolorosa dell'addome superiore, non segni di ittero."
   },
-  "goldPathNarrative": "Iniziamo con un emocromo per valutare la situazione ematologica, seguito da un'analisi degli enzimi epatici per comprendere meglio la funzionalità del fegato. Sarà poi necessaria una gastroscopia per verificare la presenza di varici esofagee, in modo da poter pianificare un'adeguata profilassi.",
+  "goldPathNarrative": "1) Compensato o ascite. 2) Può prendere un betabloccante? 3) Soglie di elastografia e piastrine. 4) EGDS solo se le soglie sono superate o c'è ascite senza betabloccante. 5) Non la capsula. 6) Follow-up annuale se l'endoscopia si evita. 7) Consenso se l'EGDS si fa.",
   "escCitations": [
     {
       "chunkId": "12805924-951f-49bd-80b4-e7b731430d00-3",
@@ -283,5 +283,233 @@
       "socialSupport": "LIMITED"
     },
     "communicationStyle": "In degenza, accetta le procedure se spiegate in una frase. Il gergo Baveno/HVPG lo spaventa senza migliorare la comprensione."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Compensazione",
+      "prompt": "Cosa distingui prima di prenotare l'EGDS?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Cirrosi compensata oppure ascite, e se può prendere un betabloccante non selettivo",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "EGDS a tutti i cirrotici, sempre",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Soglie",
+      "prompt": "Elastografia 14 kPa e piastrine 180.000, compensato, intollerante ai betabloccanti. Fai l'EGDS?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "No: resti sotto le soglie. Ripeti elastografia e piastrine ogni anno",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "EGDS oggi",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Soglia superata",
+      "prompt": "Elastografia 24 kPa, niente betabloccante. Cosa fai?",
+      "cost": 64.9,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Endoscopia di screening delle varici",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Ancora un anno di attesa",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Ascite",
+      "prompt": "Ha ascite e non prende un betabloccante. L'EGDS?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Sì, endoscopia di screening",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "La rimandi perché «l'ascite basta come informazione»",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Capsula",
+      "prompt": "Propongono la videocapsula per «vedere le varici».",
+      "cost": 863.75,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No: se l'endoscopia è indicata, è l'EGDS",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Capsula da 863,75 euro",
+          "next": "res-eco-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Varici ad alto rischio e ascite",
+      "prompt": "Varici grandi, sopra 5 mm, con ascite. Cosa preferisci per prevenire il primo sanguinamento?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Betabloccante non selettivo o carvedilolo, preferiti alla legatura",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Legatura come unica prima scelta, senza discutere il betabloccante",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "L'EGDS è indicata ed è capace.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Gli spieghi perché e documenti il consenso",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Lo prenoti senza dirglielo",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Screening delle varici selettivo",
+      "prompt": "Endoscopia solo sopra le soglie di Baveno o se c'è ascite senza betabloccante. Nessuna capsula.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Screening indiscriminato",
+      "prompt": "Baveno VII: l'endoscopia di screening, in chi non può iniziare un betabloccante, si fa se l'elastografia è sopra 20 kPa o le piastrine sono sotto 150.000. Con ascite, se non è in betabloccante, l'endoscopia di screening va fatta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "EGDS sotto soglia",
+      "prompt": "Baveno VII: chi evita l'endoscopia si segue con elastografia e piastrine ogni anno. L'EGDS, codice 45.13, costa 64,90 euro e qui i criteri per farla non ci sono.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Varici non cercate",
+      "prompt": "Baveno VII: sopra 20 kPa, o con piastrine sotto 150.000, in chi non è candidato al betabloccante, si fa l'endoscopia di screening.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Ascite senza screening",
+      "prompt": "Baveno VII: i pazienti con ascite che non sono in propranololo, nadololo o carvedilolo devono fare l'endoscopia di screening.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-5",
+      "type": "resolution",
+      "title": "Capsula per le varici",
+      "prompt": "Nomenclatore, codice 45.13.1: enteroscopia con microcamera ingeribile, tariffa 863,75 euro. L'EGDS, codice 45.13, è 64,90 euro.",
+      "cost": 863.75,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Prevenzione invertita",
+      "prompt": "Baveno VII: con ascite e varici ad alto rischio la prevenzione del primo sanguinamento è indicata, e i betabloccanti tradizionali o il carvedilolo sono preferiti alla legatura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Endoscopia senza informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

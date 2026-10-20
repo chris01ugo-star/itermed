@@ -79,7 +79,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "EGDS, biopsia e staging ESMO Gold path: egds → biopsia → cea. Linea guida: ESMO_Gastric_Cancer_Guidelines.pdf.",
+  "correctSolution": "Sospetto carcinoma gastrico: l'endoscopia con 5-8 biopsie è il gold standard. La FDG-PET-TC non è raccomandata di routine per la stadiazione. Lo screening endoscopico di popolazione non è raccomandato nei Paesi a bassa incidenza.",
   "patientPrompt": "Salve, sono Alfonso, ho 71 anni. Da un po' di tempo ho problemi di stomaco, mi sento spesso gonfio e ho perso peso senza volerlo. Non ho mai avuto problemi simili prima. Sono un po' preoccupato e spero che il mio medico possa aiutarmi. Posso fare l'esame solo se mio figlio è qui con me, perché ho bisogno del suo supporto. Non riesco a dormire bene e mi sento stressato per tutto questo.",
   "id": "GASTRO-024",
   "code": "GASTRO-024",
@@ -189,7 +189,7 @@
   "physicalExam": {
     "summary": "Esame addominale con dolore moderato alla palpazione epigastrica, segni di dispepsia, ma senza segni di addome acuto."
   },
-  "goldPathNarrative": "Dopo la valutazione iniziale, si decide di procedere con un'EGDS per esaminare il tratto gastrointestinale superiore. Durante l'EGDS, vengono prelevate biopsie per l'analisi istologica e per la valutazione di eventuali marcatori tumorali come il CEA. Questo percorso è fondamentale per una diagnosi accurata e per pianificare il trattamento.",
+  "goldPathNarrative": "1) Sintomi. 2) EGDS con 5-8 biopsie. 3) Non PET di routine. 4) Non screening di massa. 5) Stadiazione accurata prima di un gesto. 6) Biomarcatori se si arriva alla terapia. 7) Consenso.",
   "escCitations": [
     {
       "chunkId": "74e642d6-96c7-49ca-9b64-d42a993cd756-80",
@@ -281,5 +281,233 @@
       "socialSupport": "LIMITED"
     },
     "communicationStyle": "Dispepsia e calo ponderale minimizzati. Accetta l'EGDS se il figlio è presente. Frasi corte, niente acronimi ESMO."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sintomi",
+      "prompt": "Disfagia, sazietà precoce, anemia. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Endoscopia, non un rinvio generico",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un IPP di prova per tre mesi",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Biopsie",
+      "prompt": "Quante biopsie su una lesione ulcerata?",
+      "cost": 172.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Da 5 a 8, per avere materiale abbastanza ampio",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Una sola biopsia",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "PET",
+      "prompt": "Chiedono una FDG-PET-TC di stadiazione di routine.",
+      "cost": 310,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non di routine",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Scintigrafia corporea da 310 euro come staging di prima scelta",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Screening",
+      "prompt": "Chiede un'EGDS perché «a tutti, a questa età, si fa». Non ha sintomi né metaplasia.",
+      "cost": 64.9,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Nei Paesi a incidenza bassa lo screening endoscopico di popolazione degli asintomatici non è raccomandato",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "EGDS di screening di massa",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Stadiazione",
+      "prompt": "L'istologia è positiva e il tumore sembra resecabile, stadio IB-III. Cosa aggiungi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Stadiazione accurata. Laparoscopia e lavaggio peritoneale sono raccomandati per escludere metastasi peritoneali occulte",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Sala operatoria senza staging",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Biomarcatori",
+      "prompt": "Prima di una terapia a bersaglio, cosa chiedi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "HER2, PD-L1 con CPS e MSI-H/dMMR",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Il farmaco senza un biomarcatore",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "È capace. Come gli dici la diagnosi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Diagnosi, prognosi, alternative, in cartella",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Glissa",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Stomaco biopsiato",
+      "prompt": "Cinque-otto biopsie endoscopiche. Nessuna PET di routine e nessuno screening di popolazione.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Cancro rinviato all'IPP",
+      "prompt": "ESMO: disfagia, astenia, dispepsia, vomito, calo di peso, sazietà precoce e anemia sideropenica sono i sintomi della malattia avanzata. L'endoscopia con biopsie è il gold standard diagnostico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Campione insufficiente",
+      "prompt": "ESMO: la diagnosi si fa con biopsie endoscopiche multiple, da 5 a 8, soprattutto sulle lesioni ulcerate.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "PET di routine",
+      "prompt": "Nomenclatore, codice 92.18.1: scintigrafia globale corporea con indicatori positivi di neoplasia o di flogosi, tariffa 310,00 euro. ESMO: la FDG-PET-TC non è raccomandata di routine per la stadiazione del carcinoma gastrico.",
+      "cost": 310,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "Screening non raccomandato",
+      "prompt": "ESMO: lo screening endoscopico di popolazione degli asintomatici è raccomandato solo nelle regioni a incidenza molto alta.",
+      "cost": 64.9,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Staging saltato",
+      "prompt": "ESMO: la stadiazione accurata è essenziale. Laparoscopia e lavaggio peritoneale sono raccomandati in tutti i carcinomi gastrici stadio IB-III potenzialmente resecabili.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Bersaglio al buio",
+      "prompt": "ESMO: HER2, PD-L1 secondo CPS e MSI-H/dMMR sono biomarcatori predittivi validati per la terapia farmacologica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Diagnosi taciuta",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

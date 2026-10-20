@@ -79,7 +79,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Interrompere immediatamente l'assunzione degli integratori e monitorare i parametri epatici.",
+  "correctSolution": "DILI sospetto: il primo atto è sospendere il prodotto implicato. Si classifica il pattern dagli esami. Ittero sotto controllo. Encefalopatia o coagulopatia: ricovero. Non una TC prima della sospensione.",
   "patientPrompt": "Ho 39 anni e da qualche tempo mi sento molto stanca e nauseata. Ho iniziato a prendere degli integratori a base di curcuma e altri prodotti detox che ho visto sui social media. Sono molto preoccupata per la mia salute e ho letto che alcuni integratori possono causare danni al fegato. Ho portato con me delle informazioni sui danni epatici indotti da farmaci perché voglio capire se i miei sintomi possono essere collegati a questi integratori. Sono ansiosa e ho bisogno di chiarimenti.",
   "id": "GASTRO-022",
   "code": "GASTRO-022",
@@ -189,7 +189,7 @@
   "physicalExam": {
     "summary": "Martina appare ansiosa, con un buon stato di idratazione. Non presenta ittero né segni di encefalopatia. Addome morbido, non dolente alla palpazione, senza segni di ascite."
   },
-  "goldPathNarrative": "Dopo aver esaminato Martina, si decide di eseguire un'analisi degli enzimi epatici e della bilirubina per valutare la funzionalità epatica. Si consiglia di interrompere l'assunzione degli integratori e di monitorare i sintomi. Se i valori degli enzimi epatici risultano elevati, si procederà con ulteriori indagini per escludere altre cause di danno epatico.",
+  "goldPathNarrative": "1) Quale prodotto. 2) Sospensione. 3) Pattern epatocellulare, colestatico o misto. 4) Gravità. 5) Ricovero se insufficienza. 6) Non TC come primo gesto. 7) Informazione e rispetto del rifiuto dopo la spiegazione.",
   "escCitations": [
     {
       "chunkId": "8eb70791-e408-4f37-9212-afd90024e23c-205",
@@ -281,5 +281,233 @@
       "socialSupport": "STRONG"
     },
     "communicationStyle": "Assume curcuma e 'detox' da influencer. Porta stampe su DILI. Se si deride l'integratore, si chiude. Serve validare e fermare il prodotto secondo EASL, senza PET difensiva."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Prodotto",
+      "prompt": "Transaminasi alte dopo un integratore. Cosa chiedi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Nome, dose e data di inizio e di stop",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Una TC prima di chiedere il nome",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sospensione",
+      "prompt": "Il nesso temporale c'è. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Sospendi il prodotto. La ripresa spontanea dopo la sospensione è un criterio di causalità",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Lo lasci perché «è naturale»",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Pattern",
+      "prompt": "Come classifichi il danno?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Epatocellulare, colestatico o misto, sul primo set di esami disponibile rispetto all'evento",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Una sola etichetta «epatite» senza il rapporto degli enzimi",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Ittero",
+      "prompt": "Compare ittero. Come lo segui?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Sorveglianza attiva con esami frequenti",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Un controllo tra due mesi",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Insufficienza",
+      "prompt": "Compaiono encefalopatia o coagulopatia. Dove sta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "In ospedale",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "A casa con un controllo ambulatoriale",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Biopsia subito",
+      "prompt": "Qualcuno vuole la biopsia prima di sospendere l'integratore.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Prima si sospende. La biopsia entra nel sospetto di epatite autoimmune da farmaco, insieme a causalità e sierologia, non al posto della sospensione",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Biopsia come primo e unico atto",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rifiuto",
+      "prompt": "Dopo la spiegazione, da capace, rifiuta di sospendere l'integratore.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Gli dici le conseguenze e annoti il rifiuto",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Glielo sequestri senza una parola, o taci il danno",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Prodotto sospeso",
+      "prompt": "Sospensione dell'agente implicato prima di ogni imaging. Ricovero se compaiono encefalopatia o coagulopatia.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "TC prima della storia",
+      "prompt": "Nomenclatore, codice 88.01.5: TC dell'addome completo, tariffa 119,20 euro. EASL DILI: il passo iniziale più importante è sospendere l'agente implicato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Agente non sospeso",
+      "prompt": "EASL DILI: nella grande maggioranza il recupero è spontaneo dopo la sospensione, senza una terapia specifica. La sospensione è il primo passo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Pattern non classificato",
+      "prompt": "EASL DILI: il DILI va classificato epatocellulare, colestatico o misto secondo il pattern di rialzo enzimatico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Ittero non sorvegliato",
+      "prompt": "EASL DILI: chi ha ittero concomitante va tenuto sotto sorveglianza attiva con controlli frequenti della biochimica epatica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Insufficienza non ricoverata",
+      "prompt": "EASL DILI: segni o dati di insufficienza epatica acuta, come encefalopatia o coagulopatia, in generale richiedono il ricovero.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Biopsia al posto della sospensione",
+      "prompt": "EASL DILI: la sospensione viene prima. La biopsia, quando possibile, è nella valutazione del sospetto di epatite autoimmune da farmaco, insieme a causalità, sierologia e test genetici.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Volontà non gestita",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella. Legge 219/2017, art. 1 commi 5 e 6: il paziente capace può rifiutare il trattamento e il medico deve rispettare il rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

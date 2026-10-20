@@ -90,7 +90,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "egds → biopsia → tc → ca-markers Gold path: egds → biopsia → tc → ca-markers. Linea guida: ESMO_Gastric_Cancer_Guidelines.pdf.",
+  "correctSolution": "Carcinoma gastrico in degenza: diagnosi con 5-8 biopsie, stadiazione prima di un intervento, FDG-PET-TC non di routine, laparoscopia se è IB-III e sembra resecabile. Nessun antitumorale senza istologia. Informazione e, se la prognosi è infausta, niente ostinazione.",
   "patientPrompt": "Mi chiamo Franco e ho 64 anni. Ultimamente ho perso molto peso e non riesco a mangiare come prima. Parlo poco e mi sento ansioso riguardo alla mia salute. È difficile per me affrontare questa situazione, e spesso lascio che il mio caregiver prenda le decisioni per me. Ho sentito che ci sono notizie non buone, ma non so cosa aspettarmi. Vorrei sapere cosa sta succedendo, ma ho paura di chiedere.",
   "id": "GASTRO-029",
   "code": "GASTRO-029",
@@ -201,7 +201,7 @@
   "physicalExam": {
     "summary": "Franco presenta un evidente calo ponderale, segni di malnutrizione, e la palpazione addominale rivela una certa sensibilità. La comunicazione è limitata e il caregiver sembra essere la figura principale nel prendere decisioni."
   },
-  "goldPathNarrative": "Il percorso diagnostico prevede l'esecuzione di un'EGDS per valutare la mucosa gastrica e ottenere campioni per la biopsia. Successivamente, si procederà con una tomografia computerizzata per valutare l'estensione della malattia e infine si eseguiranno marcatori tumorali per completare la valutazione.",
+  "goldPathNarrative": "1) Sintomi e endoscopia. 2) Biopsie multiple. 3) Non PET di routine. 4) Staging e, se resecabile, laparoscopia. 5) Non la scintigrafia da 310 euro come primo esame. 6) Biomarcatori prima del bersaglio. 7) Consenso e terapia del dolore.",
   "escCitations": [
     {
       "chunkId": "74e642d6-96c7-49ca-9b64-d42a993cd756-0",
@@ -300,5 +300,233 @@
       "socialSupport": "LIMITED"
     },
     "communicationStyle": "Calo ponderale avanzato, parla poco. Il caregiver decide. Cattive notizie: setting riservato, invita a chiedere quanto vuole sapere (SPIKES)."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Endoscopia",
+      "prompt": "Qual è il gold standard diagnostico?",
+      "cost": 310,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "EGDS con biopsie",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Una scintigrafia corporea",
+          "next": "res-eco-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Numero",
+      "prompt": "Quante biopsie?",
+      "cost": 172.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Da 5 a 8",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Una sola",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "PET",
+      "prompt": "FDG-PET-TC di routine?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No, non di routine",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "La prenoti a tutti",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Resecabilità",
+      "prompt": "Sembra uno stadio IB-III resecabile. Cosa manca prima della sala?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Laparoscopia e lavaggio peritoneale per escludere metastasi occulte",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Gastrectomia senza laparoscopia",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Bersagli",
+      "prompt": "Prima di un farmaco a bersaglio?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "HER2, PD-L1 CPS e MSI",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Il farmaco senza il test",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dolore",
+      "prompt": "Ha dolore e la prognosi è avanzata. Cosa garantisci comunque?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Una terapia del dolore appropriata",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Niente analgesia «per non mascherare i sintomi»",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Piano",
+      "prompt": "È capace e la malattia può evolvere. Cosa gli proponi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Informazione su evoluzione, qualità di vita e cure, ed eventualmente una pianificazione condivisa scritta",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Decisioni solo con i figli, a sua insaputa",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Gastrico stadiato senza PET di routine",
+      "prompt": "Biopsie, stadiazione, niente PET di routine. Consenso e terapia del dolore se la malattia è avanzata.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-eco-1",
+      "type": "resolution",
+      "title": "Scintigrafia al posto delle biopsie",
+      "prompt": "Nomenclatore, codice 92.18.1: scintigrafia globale corporea con indicatori positivi di neoplasia o di flogosi, tariffa 310,00 euro. ESMO: endoscopia e biopsie con pinza sono il gold standard.",
+      "cost": 310,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Una biopsia sola",
+      "prompt": "ESMO: 5-8 biopsie, in particolare sulle ulcere, per istologia e caratterizzazione molecolare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "PET di routine",
+      "prompt": "ESMO: la FDG-PET-TC non è raccomandata di routine nella stadiazione del carcinoma gastrico. Può non essere informativa nei tumori mucinosi o diffusi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Peritoneo non esplorato",
+      "prompt": "ESMO: laparoscopia e lavaggio sono raccomandati in tutti gli stadi IB-III potenzialmente resecabili. Il beneficio è maggiore per T3-T4 e per i tumori scarsamente coesivi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Bersaglio non cercato",
+      "prompt": "ESMO: HER2, PD-L1 secondo CPS e MSI-H/dMMR sono biomarcatori predittivi validati.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Dolore non trattato",
+      "prompt": "Legge 219/2017, art. 2: è sempre garantita un'appropriata terapia del dolore. Con prognosi infausta a breve termine ci si astiene dall'ostinazione irragionevole.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Paziente escluso",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella. Legge 219/2017, art. 5: la pianificazione condivisa si fa con il paziente.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

@@ -80,7 +80,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Eseguire emocromo, PT, PTT, INR, e successivamente EGDS.",
+  "correctSolution": "Emorragia alta da FANS: stessa rianimazione ESGE e EGDS precoce. Dopo l'ulcera, Nota AIFA N01: profilassi secondaria con IPP per tutta la durata del FANS, al dosaggio più basso utile, con rivalutazione ogni 6-12 mesi. Non una terapia cronica senza indicazione.",
   "patientPrompt": "Sono Rosa, ho 74 anni e sono qui perché ho vomitato sangue e ho avuto feci scure. Ho sempre avuto problemi di artrosi e prendo dei farmaci per il dolore. Sono molto preoccupata e non capisco cosa stia succedendo. Ho anche un po' di ansia e non riesco a dormire bene da qualche giorno. La mia figlia è qui con me, ma non so come spiegare tutto questo a lei.",
   "id": "GASTRO-002",
   "code": "GASTRO-002",
@@ -191,7 +191,7 @@
   "physicalExam": {
     "summary": "Pallore, tachicardia, segni di disidratazione, ansia evidente, addome non doloroso alla palpazione."
   },
-  "goldPathNarrative": "Dopo l'arrivo al pronto soccorso, Rosa è stata sottoposta a un'emocromo per valutare il suo stato ematico. Sono stati eseguiti anche i test di coagulazione (PT, PTT, INR) per escludere problematiche emorragiche. Successivamente, si è proceduto con un'EGDS per identificare la fonte dell'emorragia. È stato ottenuto il consenso informato dalla figlia presente.",
+  "goldPathNarrative": "1) Rianimazione. 2) EGDS precoce. 3) Emostasi se Forrest ad alto rischio. 4) Ulcera: IPP a dosaggio standard per 4-8 settimane. 5) Se il FANS non si può sospendere e c'è storia di sanguinamento, profilassi secondaria per tutta la durata del FANS. 6) Non la scintigrafia corporea. 7) Informazione e rivalutazione a 6-12 mesi.",
   "escCitations": [
     {
       "chunkId": "dc15bb7a-174b-4b63-b765-6cbf18d75cd5-22",
@@ -283,5 +283,233 @@
       "socialSupport": "LIMITED"
     },
     "communicationStyle": "Minimizza i FANS 'per l'artrosi'. Annuisce senza capire coagulazione e trasfusione. Serve linguaggio concreto e coinvolgere la figlia."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Rianimazione",
+      "prompt": "Ha vomitato sangue ed è tachicardica. Cosa fai per primi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Valuti l'emodinamica e reintegri con cristalloidi se è instabile",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un antiacido per bocca e la dimissione",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "EGDS",
+      "prompt": "Quando la endoscopizzi?",
+      "cost": 64.9,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Dopo la rianimazione, entro 24 ore",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Capsula da 863,75 euro",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Stimmate",
+      "prompt": "L'ulcera ha un vaso visibile non sanguinante. Cosa fai in sala?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Emostasi endoscopica: Forrest IIa è ad alto rischio di risanguinamento",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Solo la foto e nessun gesto",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Durata dell'IPP sull'ulcera",
+      "prompt": "L'ulcera è trattata. Quanto dura l'IPP?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "4-8 settimane a dosaggio standard, poi rivalutazione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "IPP a vita a dose piena senza un controllo",
+          "next": "res-eco-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Se il FANS deve continuare",
+      "prompt": "Ha avuto un sanguinamento da ulcera e il FANS non si sospende. Cosa rimborsa la Nota?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Profilassi secondaria per tutta la durata del FANS, al dosaggio più basso utile",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Nessun IPP, perché «il FANS è solo un antinfiammatorio»",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rivalutazione",
+      "prompt": "Ogni quanto ricontrolli l'indicazione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Ogni 6-12 mesi, per vedere se il FANS si può ridurre o sospendere",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Rinnovo automatico senza visita",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Informazione",
+      "prompt": "Come le dici benefici e rischi dell'IPP?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Le spieghi indicazione, durata e effetti di un uso lungo, e annoti il consenso",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Le lasci la scatola senza una frase",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Ulcera da FANS e Nota N01",
+      "prompt": "EGDS precoce, IPP per l'ulcera e, se il FANS continua dopo un sanguinamento, profilassi secondaria rivalutata. Nessuna scintigrafia di primo livello.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Emorragia dimessa",
+      "prompt": "ESGE: valutazione emodinamica immediata. Legge 24/2017, art. 5: ci si attiene alle raccomandazioni delle linee guida, salvo specificità documentata del caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "Capsula nell'emorragia",
+      "prompt": "Nomenclatore, codice 45.13.1: enteroscopia con microcamera ingeribile, tariffa 863,75 euro. L'EGDS, codice 45.13, è 64,90 euro.",
+      "cost": 64.9,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Forrest ad alto rischio non trattato",
+      "prompt": "ESGE raccomanda l'emostasi endoscopica per le ulcere Forrest Ia, Ib e IIa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-4",
+      "type": "resolution",
+      "title": "IPP cronico fuori Nota",
+      "prompt": "Nota AIFA N01: l'ulcera peptica si tratta per 4-8 settimane a dosaggio standard, con rivalutazione clinica o strumentale al termine. La terapia cronica va evitata senza indicazioni chiare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Profilassi secondaria omessa",
+      "prompt": "Nota AIFA N01: in chi ha anamnesi di ulcera peptica o sanguinamento da ulcera, l'IPP va mantenuto per tutta la durata della terapia con FANS.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "IPP rinnovato senza revisione",
+      "prompt": "Nota AIFA N01: si suggerisce la rivalutazione clinica ogni 6-12 mesi per valutare la sospensione dell'IPP se si possono ridurre o sospendere i FANS.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "IPP senza informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella. La Nota ricorda che l'uso cronico si associa a infezioni, disbiosi, deficit di vitamina B12 e magnesio, osteoporosi e nefropatia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

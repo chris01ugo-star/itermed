@@ -79,7 +79,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Emocromo, enzimi epatici, ecografia addominale.",
+  "correctSolution": "Colecistite: appena la diagnosi è fatta, liquidi, digiuno, analgesia endovena e antimicrobico a dose piena. L'ecografia viene prima di TC e risonanza. Colecistectomia laparoscopica urgente o precoce secondo gravità e rischio, con consenso. Se il centro non può farla, si trasferisce.",
   "patientPrompt": "Ho 55 anni e sono molto preoccupato per il dolore che ho nell'addome. È un dolore acuto nell'ipocondrio destro e ho paura che possa essere un infarto. Ho avuto un po' di febbre e mi sento nauseato. Non riesco a capire bene cosa stia succedendo e ho letto alcune cose online che mi hanno fatto aumentare l'ansia. Vorrei sapere se è grave e cosa devo fare.",
   "id": "GASTRO-014",
   "code": "GASTRO-014",
@@ -189,7 +189,7 @@
   "physicalExam": {
     "summary": "Dolore palpatorio nell'ipocondrio destro, segno di Murphy positivo, lieve rigidità addominale."
   },
-  "goldPathNarrative": "Per valutare la situazione di Carmine, è fondamentale eseguire un emocromo per verificare segni di infezione e infiammazione. Successivamente, gli enzimi epatici devono essere controllati per escludere anomalie epatiche. Infine, un'ecografia addominale è essenziale per confermare la diagnosi di colecistite acuta e valutare la presenza di calcoli biliari o altre complicazioni.",
+  "goldPathNarrative": "1) Sospetto. 2) Eco prima della TC. 3) Liquidi, digiuno, analgesia, antibiotico. 4) Gravità ripetuta. 5) Colecistectomia precoce se il rischio lo consente. 6) Trasferimento se manca la sala. 7) Consenso.",
   "escCitations": [
     {
       "chunkId": "d215128e-6e46-4995-8f34-afcc7aa134d5-35",
@@ -281,5 +281,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Il dolore ipocondrio destro lo fa pensare all'infarto. Serve distinguere colecistite da cuore in parole semplici e spiegare l'eco addome."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sospetto",
+      "prompt": "Dolore in ipocondrio destro e febbre. Come procedi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Inquadri la diagnosi e, appena è fatta, inizi la terapia",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Un antispastico a casa e il controllo tra una settimana",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Primo imaging",
+      "prompt": "Quale imaging viene prima?",
+      "cost": 44.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Ecografia dell'addome. TC, risonanza e colangio-RM solo se servono dopo",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "TC addome da 119,20 euro come primo esame",
+          "next": "res-eco-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Terapia iniziale",
+      "prompt": "Cosa prescrivi subito?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Liquidi, digiuno, analgesico endovena e antimicrobico a dose piena",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "Solo digiuno, senza antibiotico e senza analgesia",
+          "next": "res-leg-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Gravità",
+      "prompt": "Ogni quanto rivaluti la gravità?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Alla diagnosi, entro 24 ore e di nuovo tra 24 e 48 ore",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Una volta sola, in accettazione",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Colecistectomia",
+      "prompt": "Il rischio chirurgico lo consente. Quale intervento?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Colecistectomia laparoscopica urgente o precoce, secondo gravità e rischio",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Antibiotico per un mese e nessun chirurgo",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Centro non attrezzato",
+      "prompt": "Non c'è la sala per un intervento urgente. Cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Trasferisci verso un centro che possa farla",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Lo tieni in osservazione per giorni",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "È capace. Come gli proponi l'intervento?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Benefici, rischi e alternative, in cartella",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Lo operi senza parlargli",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Colecistite avviata secondo TG18",
+      "prompt": "Eco, terapia iniziale immediata e colecistectomia precoce secondo gravità, con consenso. La TC non è il primo imaging.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Colecistite rinviata",
+      "prompt": "TG18: appena la diagnosi è fatta si iniziano liquidi, compenso elettrolitico, digiuno, analgesici endovena e antimicrobico a dose piena.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-2",
+      "type": "resolution",
+      "title": "TC prima dell'eco",
+      "prompt": "Nomenclatore, codice 88.74.1: ecografia dell'addome superiore, tariffa 44,95 euro. Nomenclatore, codice 88.01.5: TC dell'addome completo, tariffa 119,20 euro. Nel bundle TG18 l'ecografia addominale precede TC, risonanza e colangio-RM.",
+      "cost": 44.95,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-3",
+      "type": "resolution",
+      "title": "Terapia iniziale incompleta",
+      "prompt": "TG18: il trattamento iniziale è liquidi sufficienti, elettroliti, digiuno, analgesici endovena e antimicrobici a dose piena.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Gravità non ripetuta",
+      "prompt": "TG18: la gravità si rivaluta alla diagnosi, entro 24 ore e di nuovo tra 24 e 48 ore, insieme al rischio chirurgico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Chirurgia non considerata",
+      "prompt": "TG18: colecistectomia laparoscopica urgente o precoce, drenaggio biliare e colture vanno eseguiti secondo gravità e rischio chirurgico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Trasferimento non fatto",
+      "prompt": "TG18: se mancano sala per colecistectomia urgente, drenaggio o intensiva, si considera il trasferimento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Intervento senza consenso",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }

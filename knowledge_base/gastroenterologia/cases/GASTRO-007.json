@@ -79,7 +79,7 @@
       "isAbnormal": false
     }
   },
-  "correctSolution": "Iniziare la fluidoterapia e monitorare i segni vitali, eseguire esami di laboratorio per amilasi e lipasi, e programmare un'ecografia addominale.",
+  "correctSolution": "Pancreatite acuta: diagnosi con 2 criteri su 3 tra dolore, lipasi o amilasi oltre 3 volte il limite e imaging. Eziologia con eco all'ingresso. La TC non si fa subito se la diagnosi è chiara: il timing è 72-96 ore, e solo se c'è incertezza, severità o mancata risposta. Ringer lattato. Niente antibiotico profilattico.",
   "patientPrompt": "Ho 45 anni e sono molto preoccupato. Ho un forte dolore a cintura che non passa, e ho vomitato più volte. Ho preso FANS e amari per lo stomaco, ma non ho avuto sollievo. Questo dolore mi terrorizza e non riesco a pensare ad altro. Ho una buona rete di supporto, ma non riesco a dormire bene da giorni per l'ansia. Cosa potrebbe essere?",
   "id": "GASTRO-007",
   "code": "GASTRO-007",
@@ -189,7 +189,7 @@
   "physicalExam": {
     "summary": "Dolore addominale diffuso, segni di irritazione peritoneale, tachicardia, respirazione superficiale."
   },
-  "goldPathNarrative": "Iniziare con il prelievo di sangue per la valutazione di amilasi e lipasi, seguiti da esami per gli enzimi epatici. Successivamente, eseguire un'ecografia addominale per valutare eventuali complicazioni.",
+  "goldPathNarrative": "1) Due criteri su tre. 2) Eco e laboratori di eziologia. 3) Non TC immediata. 4) Ringer lattato. 5) Niente antibiotico profilattico. 6) Rialimentazione orale se lieve e il dolore cala. 7) Informazione.",
   "escCitations": [
     {
       "chunkId": "ec0d0e09-ffae-479b-96b1-66e480d8351e-23",
@@ -281,5 +281,233 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Ha preso FANS e amari 'per lo stomaco'. Il dolore a cintura lo terrorizza. Serve de-escalation e spiegare lipasi/eco senza catastrophizzare la necrosi."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Diagnosi",
+      "prompt": "Dolore in sede alta e lipasi oltre tre volte il limite. Ti basta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Sì: sono già due criteri su tre. L'imaging non è obbligatorio per la diagnosi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-w",
+          "label": "Pretendi una TC prima di chiamarla pancreatite",
+          "next": "res-leg-1"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eziologia",
+      "prompt": "Cosa cerchi all'ingresso?",
+      "cost": 44.95,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Anamnesi di calcoli, alcol e farmaci, enzimi epatici, calcio, trigliceridi ed ecografia del quadrante superiore destro",
+          "next": "d3"
+        },
+        {
+          "id": "d2-w",
+          "label": "Nessuna eco e nessun laboratorio",
+          "next": "res-leg-2"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC addome",
+      "prompt": "La diagnosi è già chiara e sta bene. Quando fai la TC?",
+      "cost": 119.2,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non ora. Il timing iniziale, se serve, è almeno 72-96 ore dall'esordio, per incertezza, severità o mancata risposta",
+          "next": "d4"
+        },
+        {
+          "id": "d3-w",
+          "label": "TC addome con contrasto in pronto soccorso",
+          "next": "res-eco-3"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Liquidi",
+      "prompt": "Con quale fluido inizi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Ringer lattato",
+          "next": "d5"
+        },
+        {
+          "id": "d4-w",
+          "label": "Un colloide a scelta, senza un obiettivo",
+          "next": "res-leg-4"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antibiotico",
+      "prompt": "Non c'è necrosi infetta. Dai un antibiotico «per prevenzione»?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No: la profilassi antibiotica endovena non è raccomandata",
+          "next": "d6"
+        },
+        {
+          "id": "d5-w",
+          "label": "Carbapenemico di profilassi",
+          "next": "res-leg-5"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cibo",
+      "prompt": "È lieve e il dolore sta calando. Quando mangia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Riavvii l'alimentazione orale quando il dolore diminuisce e gli indici migliorano",
+          "next": "d7"
+        },
+        {
+          "id": "d6-w",
+          "label": "Digiuno per una settimana",
+          "next": "res-leg-6"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Informazione",
+      "prompt": "È capace. Come gli dici diagnosi e digiuno breve?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Gli spieghi il piano e annoti il consenso alle cure",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-w",
+          "label": "Glielo imponi senza una frase",
+          "next": "res-leg-7"
+        }
+      ]
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Pancreatite lieve inquadrata",
+      "prompt": "Diagnosi con due criteri su tre, eco all'ingresso, niente TC nelle prime ore e niente antibiotico profilattico.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    },
+    {
+      "id": "res-leg-1",
+      "type": "resolution",
+      "title": "Diagnosi rinviata alla TC",
+      "prompt": "IAP/APA: la pancreatite acuta si definisce con 2 criteri su 3 tra dolore addominale alto, amilasi o lipasi oltre 3 volte il limite e imaging. La TC di solito non serve a fare la diagnosi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-2",
+      "type": "resolution",
+      "title": "Causa non cercata",
+      "prompt": "IAP/APA: all'ingresso l'eziologia si cerca con anamnesi, enzimi epatici, calcio, trigliceridi ed ecografia. Nomenclatore, codice 88.74.1: ecografia dell'addome superiore, tariffa 44,95 euro.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-eco-3",
+      "type": "resolution",
+      "title": "TC troppo presto",
+      "prompt": "Nomenclatore, codice 88.01.5: TC dell'addome completo, tariffa 119,20 euro. IAP/APA: l'indicazione alla prima TC è incertezza diagnostica, conferma di severità o mancata risposta, e il timing è almeno 72-96 ore.",
+      "cost": 119.2,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-leg-4",
+      "type": "resolution",
+      "title": "Fluido non raccomandato",
+      "prompt": "IAP/APA: il Ringer lattato è raccomandato per la rianimazione iniziale. La fluidoterapia guidata parte da 5-10 ml/kg/h fino agli obiettivi, tra cui frequenza sotto 120 e diuresi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-5",
+      "type": "resolution",
+      "title": "Profilassi antibiotica",
+      "prompt": "IAP/APA: la profilassi antibiotica endovena non è raccomandata per prevenire le complicanze infettive. Anche la profilassi con probiotici non è raccomandata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-6",
+      "type": "resolution",
+      "title": "Digiuno prolungato",
+      "prompt": "IAP/APA: nella pancreatite prevista lieve l'alimentazione orale si riprende quando il dolore diminuisce e gli indici di infiammazione migliorano.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-leg-7",
+      "type": "resolution",
+      "title": "Piano non detto",
+      "prompt": "Legge 219/2017, art. 1 comma 3: il paziente va informato su diagnosi, benefici, rischi e alternative, e il consenso va in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    }
+  ]
 }
