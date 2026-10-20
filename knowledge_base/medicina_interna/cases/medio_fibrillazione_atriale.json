@@ -6,13 +6,15 @@
   "difficulty": "MEDIUM",
   "specialty": "medicina_interna",
   "specialtyLabel": "Medicina Interna",
-  "secondarySpecialties": ["cardiologia"],
+  "secondarySpecialties": [
+    "cardiologia"
+  ],
   "condition": "Fibrillazione atriale di nuova documentazione in uomo iperteso e diabetico",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "INTERMEDIATE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "ESC_2024_Atrial_Fibrillation_Guidelines.pdf; nota-97.pdf",
-  "diagnosis": "Fibrillazione atriale clinica. CHA2DS2-VASc 3 con i pesi della Nota 97 (ipertensione, età 65-74, diabete; sesso maschile 0). CHA2DS2-VA senza sesso: 3.",
+  "guidelineRef": "nota-97.pdf",
+  "diagnosis": "Fibrillazione atriale non valvolare. CHA2DS2-VASc 3 secondo la tabella della Nota 97: ipertensione +1, età 65-74 anni +1, diabete +1, sesso maschile 0. Soglia di anticoagulazione degli uomini: almeno 2.",
   "pastMedicalHistory": "Ipertensione in terapia antipertensiva. Diabete in trattamento, senza il nome del farmaco domiciliare. Non riferisce scompenso cardiaco, ictus, TIA, tromboembolia, cardiopatia ischemica né arteriopatia. Non ha protesi valvolare meccanica né stenosi mitralica. Non è già anticoagulato. Peso e creatinina di partenza non sono dichiarati.",
   "presentation": "Palpitazioni continuative da 48 ore, senza sincope e senza dolore toracico. È preoccupato che possa essere un infarto. Il polso è irregolare a 122 bpm. La pressione è 148/86 mmHg. È stabile, non ipoteso.",
   "redHerrings": [
@@ -21,9 +23,12 @@
   "timeLimitMinutes": 35,
   "patientDeteriorationThreshold": 15,
   "patientPrompt": "Mi chiamo Sergio, ho 72 anni. Da due giorni il cuore va in modo irregolare e ho paura che sia un infarto, anche se il petto non mi fa male. Ho la pressione alta e il diabete, prendo le medicine ma non ricordo i nomi. Non ho mai avuto un ictus e non porto valvole. Se mi dice che cosa succede, me lo dica in modo chiaro e mi chieda che cosa mi spaventa.",
-  "correctSolution": "ECG: fibrillazione atriale (niente onde P ripetute, RR irregolari). Conteggio con la Nota 97: ipertensione +1, età 72 anni +1, diabete in trattamento +1, sesso maschile 0, scompenso 0, ictus 0, vasculopatia 0. CHA2DS2-VASc 3, sopra la soglia ≥2 degli uomini. L'ESC 2024 decide con il CHA2DS2-VA, senza il sesso: resta 3, soglia ≥2. Creatinina e stima della clearance prima di fissare la dose del DOAC: il referto non dichiara una clearance sotto 30 mL/min. Un DOAC tra apixaban, rivaroxaban, dabigatran ed edoxaban, in assenza di protesi meccanica e di stenosi mitralica moderato-severa. Controllo della frequenza con un beta-bloccante. Non è indicata la coronarografia. Dire che è fibrillazione e chiedere che cosa lo preoccupa.",
-  "goldStandardPath": ["ecg", "creat-urea-gfr"],
-  "goldPathNarrative": "Confermare la fibrillazione con l'ECG e calcolare il rischio con i pesi della Nota 97. Chiedere la creatinina con la stima del filtrato prima di scegliere la dose del DOAC. Prescrivere un DOAC e un beta-bloccante per la frequenza. Non inviare in coronarografia: non c'è dolore toracico. Nella comunicazione usare il protocollo SPIKES: nominare la paura e chiedere che cosa lo preoccupa.",
+  "correctSolution": "Nota 97: l'anticoagulazione nella FANV è indicata in tutti i pazienti con CHA2DS2-VASc almeno 2 se uomini e almeno 3 se donne. Sergio è uomo, punteggio 3. AVK e DOAC sono gli unici farmaci di provata efficacia per la prevenzione di ictus ed embolia arteriosa. I quattro DOAC (dabigatran, rivaroxaban, apixaban, edoxaban) sono considerati sovrapponibili nella FANV. Gli AVK sono in genere preferibili se il VFG è sotto 15 mL/min o se ci sono farmaci che interferiscono con i DOAC, e sono l'unico anticoagulante per protesi meccanica o fibrillazione valvolare (stenosi mitralica moderata o grave). Qui non ci sono protesi meccanica né stenosi mitralica, e il referto non mostra un VFG sotto 15. Se si sceglie un AVK, l'INR nella FANV va tenuto fra 2 e 3. Un'emorragia maggiore in atto sconsiglia fortemente l'inizio: qui non c'è. L'aspirina non è tra i farmaci di provata efficacia. I testi non indicano un beta-bloccante.",
+  "goldStandardPath": [
+    "ecg",
+    "creat-urea-gfr"
+  ],
+  "goldPathNarrative": "ECG per confermare la fibrillazione. Punteggio 3 con la tabella della Nota 97. Anticoagulazione, DOAC o AVK, non l'aspirina. Escludere protesi meccanica, stenosi mitralica moderata o grave e VFG sotto 15 prima di un DOAC. Niente coronarografia: non c'è dolore toracico e la Nota 97 non la indica.",
   "examLatencies": {
     "ecg": 10,
     "creat-urea-gfr": 60,
@@ -34,29 +39,49 @@
       "id": "durata-dolore",
       "prompt": "Da quante ore ha le palpitazioni e ha dolore al petto, sincope o mancanza di fiato a riposo?",
       "critical": true,
-      "expectedKeywords": ["ore", "palpitazioni", "petto", "sincope"],
+      "expectedKeywords": [
+        "ore",
+        "palpitazioni",
+        "petto",
+        "sincope"
+      ],
       "rationale": "I sintomi durano da 48 ore. Il dolore toracico non c'è e non va sostituito con una coronarografia."
     },
     {
       "id": "cha2ds2-storia",
       "prompt": "Ha scompenso, ha avuto un ictus o una arteriopatia, e prende già un anticoagulante o una terapia per pressione e diabete?",
       "critical": true,
-      "expectedKeywords": ["scompenso", "ictus", "anticoagul", "diabete", "pressione"],
+      "expectedKeywords": [
+        "scompenso",
+        "ictus",
+        "anticoagul",
+        "diabete",
+        "pressione"
+      ],
       "rationale": "Servono le voci del CHA2DS2-VASc che il caso non mostra all'esame obiettivo."
     },
     {
       "id": "valvole",
       "prompt": "Ha una protesi valvolare meccanica o una stenosi della mitrale?",
       "critical": true,
-      "expectedKeywords": ["protesi", "mitrale", "valvola"],
+      "expectedKeywords": [
+        "protesi",
+        "mitrale",
+        "valvola"
+      ],
       "rationale": "Protesi meccanica e stenosi mitralica moderato-severa sono le eccezioni ESC alla preferenza per il DOAC."
     },
     {
       "id": "paura",
       "prompt": "Che cosa la preoccupa di più di queste palpitazioni?",
       "critical": true,
-      "expectedKeywords": ["preoccup", "infarto", "paura", "ictus"],
-      "rationale": "SPIKES: nominare l'emozione e chiedere il pensiero associato, qui la paura dell'infarto."
+      "expectedKeywords": [
+        "preoccup",
+        "infarto",
+        "paura",
+        "ictus"
+      ],
+      "rationale": "la preoccupazione del paziente: nominare l'emozione e chiedere il pensiero associato, qui la paura dell'infarto."
     }
   ],
   "physicalExam": {
@@ -64,55 +89,36 @@
   },
   "escCitations": [
     {
-      "chunkId": "esc-2024-af-ecg",
-      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
-      "quote": "A standard 12-lead ECG recording or a single-lead ECG tracing of ≥30 s showing heart rhythm with no discernible repeating P waves and irregular RR intervals (when atrioventricular conduction is not impaired) is diagnostic of clinical AF. I B Confirmation by an electrocardiogram (12-lead, multiple, or single leads) is recommended to establish the diagnosis of clinical AF and commence risk stratification and treatment. I A"
-    },
-    {
-      "chunkId": "esc-2024-af-oac-cha2ds2va",
-      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
-      "quote": "Oral anticoagulation is recommended in patients with clinical AF at elevated thromboembolic risk to prevent ischaemic stroke and thromboembolism. I A A CHA2DS2-VA score of 2 or more is recommended as an indicator of elevated thromboembolic risk for decisions on initiating oral anticoagulation. I C"
-    },
-    {
-      "chunkId": "esc-2024-af-doac",
-      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
-      "quote": "Direct oral anticoagulants are recommended in preference to VKAs to prevent ischaemic stroke and thromboembolism, except in patients with mechanical heart valves or moderate-to-severe mitral stenosis. I A"
-    },
-    {
-      "chunkId": "esc-2024-af-rate",
-      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
-      "quote": "Rate control therapy is recommended in patients with AF, as initial therapy in the acute setting, an adjunct to rhythm control therapies, or as a sole treatment strategy to control heart rate and reduce symptoms. I B For acute rate control, beta-blockers (for all LVEF) and diltiazem/verapamil (for LVEF >40%) are preferred over digoxin because of their more rapid onset of action and dose-dependent effects."
-    },
-    {
-      "chunkId": "esc-2024-af-crcl",
-      "source": "knowledge_base/cardiologia/clinical/ESC_2024_Atrial_Fibrillation_Guidelines.pdf",
-      "quote": "DOACs retain their efficacy and safety over VKAs in patients with mild-to-moderate CKD (creatinine clearance [CrCl] >30 mL/min), although specific dosing adjustments apply. In Europe, reduced doses of rivaroxaban, apixaban, and edoxaban are approved in patients with severe CKD (CrCl 15–29 mL/min)."
-    },
-    {
-      "chunkId": "nota-97-soglia-e-pesi",
+      "chunkId": "nota97-soglia",
       "source": "knowledge_base/medicina_interna/economic/nota-97.pdf",
-      "quote": "La diagnosi di FANV deve essere sempre confermata da un eletrocardiogramma e dalla valutazione clinica del paziente. La terapia anticoagulante dovrà essere in tutti i pazienti con punteggio CHA2DS2-VASc: ≥2 (se maschi) e ≥3 (se femmine). Scompenso cardiaco congestizio Segni/sintomi di scompenso cardiaco o riscontro di ridotta frazione di eiezione +1 Ipertensione arteriosa PA sist. >140 e/o PA diast. >90 mmHg a riposo in 2 misure successive o terapia antipertensiva in corso +1 Età ≥75 anni +2 Età 65-74 anni +1 Diabete mellito Glicemia a digiuno >126 mg/dl o trattamento con antidiabetici +1 Pregresso ICTUS o TIA o tromboembolismo arterioso +2 Vasculopatia Cardiopatia ischemica, Arteriopatia periferica +1 Sesso Femminile +1"
+      "quote": "La terapia anticoagulante nella FANV dovrà essere in tutti i pazienti con punteggio CHA2DS2-VASc ≥2 (se maschi) e ≥3 (se femmine)."
     },
     {
-      "chunkId": "empatia-spikes-emozione",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+      "chunkId": "nota97-farmaci",
+      "source": "knowledge_base/medicina_interna/economic/nota-97.pdf",
+      "quote": "Gli anticoagulanti orali inibitori della vit. K (AVK) e inibitori diretti della trombina o del fattore Xa (NAO/DOAC) sono gli unici farmaci attualmente disponibili di provata efficacia per la prevenzione dell'ictus e dell'embolia arteriosa periferica nei pazienti con FANV."
+    },
+    {
+      "chunkId": "nota97-avk-rene-valvola",
+      "source": "knowledge_base/medicina_interna/economic/nota-97.pdf",
+      "quote": "Gli AVK sono generalmente preferibili per i pazienti con grave riduzione della funzionalità renale (VFG <15 mL/min). Gli AVK sono l'unico trattamento anticoagulante indicato per i pazienti con protesi valvolari cardiache meccaniche e/o fibrillazione atriale valvolare."
+    },
+    {
+      "chunkId": "nota97-inr",
+      "source": "knowledge_base/medicina_interna/economic/nota-97.pdf",
+      "quote": "Le dosi sono personalizzate in rapporto al valore di INR, che nella FANV deve essere mantenuto in un range fra 2 e 3."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "ECG diagnostico e creatinina con stima del filtrato prima della dose del DOAC.",
-      "CHA2DS2-VASc 3 secondo i pesi della Nota 97; CHA2DS2-VA 3 senza il sesso, soglia ESC ≥2.",
-      "Un DOAC (apixaban, rivaroxaban, dabigatran o edoxaban) e un beta-bloccante per la frequenza.",
-      "Niente coronarografia. Comunicare la diagnosi partendo dalla paura dell'infarto."
+      "Anticoagulare un uomo con CHA2DS2-VASc almeno 2.",
+      "Non usare un DOAC se il VFG è sotto 15 mL/min o se c'è una protesi meccanica o una stenosi mitralica moderata o grave."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Il percorso usa i brani ESC 2024 e della Nota 97 citati. Il conteggio non aggiunge scompenso, ictus o vasculopatia, che il paziente nega. La dose in milligrammi non è fissata perché la clearance non ha un numero.",
+      "art5Adherence": "La Nota 97 è la regola di rimborsabilità e di scelta dell'anticoagulante nella fibrillazione non valvolare. Non c'è, in queste cartelle, una linea guida che indichi il beta-bloccante per la frequenza.",
       "legalCriteria": [
-        "Documentare l'ECG e il conteggio CHA2DS2-VASc con le voci presenti e assenti.",
-        "Richiedere la creatinina prima di chiudere la dose del DOAC.",
-        "Registrare il DOAC scelto e il beta-bloccante per la frequenza.",
-        "Scrivere che cosa preoccupa il paziente rispetto alle palpitazioni."
+        "Non iniziare l'anticoagulante se c'è un'emorragia maggiore in atto.",
+        "Non prescrivere un DOAC nella fibrillazione valvolare o con protesi meccanica: la Nota 97 dice che non si sono dimostrati efficaci né sicuri."
       ]
     }
   },
@@ -122,7 +128,6 @@
       "name": "ECG",
       "finding": "Ritmo senza onde P ripetute riconoscibili, intervalli RR irregolari, frequenza circa 122/min. Nessuna descrizione di sopraslivellamento del tratto ST.",
       "isAbnormal": true,
-      "priceEuro": 15,
       "isFatal": false
     },
     {
@@ -130,7 +135,6 @@
       "name": "Creatinina, urea e stima del GFR",
       "finding": "Referto disponibile solo dopo il prelievo. Nessun numero di creatinina o di clearance è fissato. Il referto non dichiara una clearance sotto 30 mL/min né un VFG sotto 15 mL/min.",
       "isAbnormal": false,
-      "priceEuro": 4.5,
       "isFatal": false
     }
   ],
@@ -142,7 +146,6 @@
       "isAbnormal": false,
       "inappropriate": true,
       "isFatal": false,
-      "priceEuro": 1800,
       "wasteRationale": "Le palpitazioni con ECG di fibrillazione non sono un'indicazione a uno studio coronarico invasivo in questo caso."
     }
   ],
@@ -154,7 +157,6 @@
       "temperature": 36.6,
       "respiratoryRate": 16
     },
-    "examBudgetEuro": 40,
     "demographics": {
       "age": 72,
       "sex": "M",
@@ -178,118 +180,114 @@
       "values": {
         "ecg": {
           "finding": "Nessuna onda P ripetuta, RR irregolari, frequenza circa 122/min.",
-          "isAbnormal": true,
-          "price": 15
+          "isAbnormal": true
         },
         "creat-urea-gfr": {
           "finding": "Creatinina e filtrato senza numero assegnato. Non è dichiarata una clearance sotto 30 mL/min.",
-          "isAbnormal": false,
-          "price": 4.5
+          "isAbnormal": false
         },
         "coronarografia": {
           "finding": "Esame non indicato in assenza di dolore toracico.",
-          "isAbnormal": false,
-          "price": 1800
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Un DOAC",
+          "label": "Anticoagulante di provata efficacia nella FANV",
           "anyOf": [
             {
               "id": "apixaban",
               "label": "Apixaban",
-              "aliases": ["apixaban", "eliquis"]
+              "aliases": [
+                "apixaban",
+                "eliquis"
+              ]
             },
             {
               "id": "rivaroxaban",
               "label": "Rivaroxaban",
-              "aliases": ["rivaroxaban", "xarelto"]
+              "aliases": [
+                "rivaroxaban",
+                "xarelto"
+              ]
             },
             {
               "id": "dabigatran",
               "label": "Dabigatran",
-              "aliases": ["dabigatran", "pradaxa"]
+              "aliases": [
+                "dabigatran",
+                "pradaxa"
+              ]
             },
             {
               "id": "edoxaban",
               "label": "Edoxaban",
-              "aliases": ["edoxaban", "lixiana"]
+              "aliases": [
+                "edoxaban",
+                "lixiana"
+              ]
+            },
+            {
+              "id": "warfarin",
+              "label": "Warfarin",
+              "aliases": [
+                "warfarin",
+                "coumadin"
+              ]
+            },
+            {
+              "id": "acenocumarolo",
+              "label": "Acenocumarolo",
+              "aliases": [
+                "acenocumarolo",
+                "sintrom"
+              ]
             }
           ]
-        },
+        }
+      ],
+      "inappropriate": [
         {
-          "label": "Beta-bloccante per il controllo della frequenza",
-          "anyOf": [
-            {
-              "id": "bisoprololo",
-              "label": "Bisoprololo",
-              "aliases": ["bisoprololo", "concor", "sequacor"]
-            },
-            {
-              "id": "metoprololo",
-              "label": "Metoprololo",
-              "aliases": ["metoprololo", "seloken", "lopresor"]
-            },
-            {
-              "id": "carvedilolo",
-              "label": "Carvedilolo",
-              "aliases": ["carvedilolo", "dilatrend"]
-            },
-            {
-              "id": "atenololo",
-              "label": "Atenololo",
-              "aliases": ["atenololo", "tenormin"]
-            }
+          "id": "aspirina",
+          "label": "Aspirina al posto dell'anticoagulante",
+          "aliases": [
+            "aspirina",
+            "acido acetilsalicilico",
+            "cardioaspirina"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "ECG di fibrillazione atriale.",
-        "CHA2DS2-VASc 3 e, senza il sesso, CHA2DS2-VA 3.",
-        "Creatinina/eGFR prima di chiudere la dose del DOAC.",
-        "Un DOAC e un beta-bloccante.",
-        "Dire la diagnosi e chiedere che cosa lo preoccupa."
+        "CHA2DS2-VASc 3 con la tabella della Nota 97.",
+        "AVK o uno dei quattro DOAC.",
+        "Niente coronarografia."
       ],
       "penalties": [
         {
-          "id": "coronarografia",
-          "kind": "clinical_economic",
-          "trigger": "Coronarografia in assenza di dolore toracico e di segni ischemici descritti."
-        },
-        {
           "id": "doac-senza-rene",
           "kind": "clinical",
-          "trigger": "Dose del DOAC chiusa senza aver richiesto creatinina e stima del filtrato."
-        }
-      ],
-      "prescriptionPrerequisites": [
+          "trigger": "DOAC con VFG sotto 15 mL/min o con protesi meccanica."
+        },
         {
-          "drugIds": ["apixaban", "rivaroxaban", "dabigatran", "edoxaban"],
-          "requiredExamIds": ["creat-urea-gfr"],
-          "rule": "Il referto di funzione renale precede la dose definitiva."
+          "id": "coronarografia",
+          "kind": "clinical",
+          "trigger": "Coronarografia non indicata dalla Nota 97."
         }
       ],
       "empathy": {
         "namespace": "empatia",
-        "frameworkRequested": "SPIKES",
-        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-        "expectedBehavior": "Dire che si tratta di fibrillazione atriale, nominare la paura e chiedere che cosa lo preoccupa in particolare.",
+        "frameworkRequested": null,
+        "documentUsed": null,
+        "expectedBehavior": "Chiedere che cosa preoccupa il paziente e rispondere a quella preoccupazione. In queste cartelle non c'è un protocollo di comunicazione da citare.",
         "verbatimNurseQuote": null
       },
       "citationLimits": [
-        "Nel text layer della Nota 97 le legature ti/tt sono perse. La citazione ripristina solo quelle lettere (tutti, pazienti, antipertensiva, antidiabetici, anticoagulante).",
-        "La Nota 97 usa il CHA2DS2-VASc. L'ESC 2024 decide con il CHA2DS2-VA, senza il sesso. In quest'uomo il sesso vale 0: entrambi i conteggi fanno 3.",
-        "La tabella dei punti ESC (Table 10) è citata nell'indice del PDF e il reticolo dei punti non è nel testo estratto. I pesi usati sono quelli della Nota 97.",
-        "La voce scompenso della Nota 97 vale +1. Qui non è sommata: il paziente non riferisce scompenso e la frazione di eiezione non è misurata.",
-        "La frase in classe I che mette sullo stesso piano beta-bloccante, diltiazem, verapamil e digossina è scritta per LVEF >40%. L'eiezione non è nota. Il beta-bloccante è accettato perché il brano sul controllo acuto lo indica per qualsiasi LVEF.",
-        "Il manuale Evidencio del CHA2DS2-VASc è nel corpus: dice che un punteggio >0 negli uomini ha avuto un beneficio netto e che il calcolatore non indica tipo o dose dell'anticoagulante. Non è la soglia usata per prescrivere. La soglia operativa è ≥2 della Nota 97 e del CHA2DS2-VA ESC.",
-        "Nessun milligrammo di DOAC è giudicato: peso e clearance numerica non sono nel caso.",
-        "NURSE non compare nei PDF di empatia."
+        "I testi di questa cartella non indicano un beta-bloccante per il controllo della frequenza.",
+        "Il manuale CHA2DS2-VASc in clinical è un manuale d'uso del software, non la tabella dei pesi. I pesi usati sono quelli della Nota 97."
       ]
     }
   },
@@ -303,5 +301,241 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Ansioso, teme un infarto. Se il medico nomina questa paura e gli chiede che cosa lo preoccupa, ascolta la spiegazione sulla fibrillazione e sul perché serve l'anticoagulante."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Punteggio CHA2DS2-VASc",
+      "prompt": "Uomo di 72 anni, iperteso in terapia, diabetico in terapia, senza scompenso, ictus o vasculopatia. Quale punteggio fai con la tabella della Nota 97?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Tre punti: ipertensione +1, età 65-74 +1, diabete +1. Il sesso maschile vale 0",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Zero punti, perché togli ipertensione e diabete e conti il sesso maschile come protettivo",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Punteggio azzerato",
+      "prompt": "La tabella della Nota 97 assegna +1 all'ipertensione in terapia, +1 all'età 65-74 anni e +1 al diabete in trattamento. Il sesso femminile vale +1; il maschile non si sottrae. Il punteggio è 3, non 0.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "screening",
+      "title": "Soglia di anticoagulazione",
+      "prompt": "CHA2DS2-VASc 3 in un uomo. La Nota 97 che cosa impone?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "L'anticoagulazione: negli uomini la soglia è almeno 2, e la scelta finale considera anche il rischio emorragico",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Solo aspirina, perché il punteggio è sotto 4 e la tabella chiama basso o moderato il rischio fino a 4",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "screening",
+      "title": "Aspirina al posto dell'anticoagulante",
+      "prompt": "La Nota 97 dice che l'anticoagulazione dovrà essere instaurata in tutti gli uomini con punteggio almeno 2. AVK e DOAC sono gli unici farmaci di provata efficacia. L'aspirina non è in quell'elenco. La dicitura basso o moderato fino a 4 non cancella la soglia del 2.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valvolare o non valvolare",
+      "prompt": "Non ha protesi meccanica né stenosi mitralica. Come classifichi la fibrillazione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non valvolare: la diagnosi valvolare del testo è la stenosi mitralica moderata o grave su base reumatica",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Valvolare, e prescrivi un DOAC perché i quattro DOAC sono sovrapponibili",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "DOAC in fibrillazione valvolare",
+      "prompt": "Gli AVK sono l'unico anticoagulante indicato per protesi meccanica e fibrillazione valvolare. I DOAC non si sono dimostrati efficaci né sicuri in quei pazienti. La sovrapponibilità dei quattro DOAC è scritta per la FANV, non per la stenosi mitralica moderata o grave.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Funzione renale",
+      "prompt": "Il referto non mostra un VFG sotto 15 mL/min. Quale limite della Nota 97 usi prima di un DOAC?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Il limite che rende in genere preferibile l'AVK è il VFG sotto 15 mL/min: qui non c'è, quindi un DOAC non è escluso da quel criterio",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Prescrivi un DOAC anche se documenti un VFG sotto 15 mL/min",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "DOAC con VFG sotto 15",
+      "prompt": "La Nota 97 dice che gli AVK sono in genere preferibili se il VFG è sotto 15 mL/min. Prescrivere un DOAC in quella fascia è fuori dal criterio di scelta della nota.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Scelta dell'anticoagulante",
+      "prompt": "Non c'è emorragia maggiore in atto, né valvola meccanica, né VFG sotto 15. Che cosa prescrivi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Un AVK oppure uno dei quattro DOAC (dabigatran, rivaroxaban, apixaban, edoxaban), considerati sovrapponibili nella FANV",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Inizi l'anticoagulante nonostante un'emorragia maggiore in atto",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Anticoagulante in emorragia maggiore",
+      "prompt": "La Nota 97 elenca l'emorragia maggiore in atto tra le condizioni che sconsigliano fortemente l'inizio di AVK o DOAC. Qui quell'emorragia non c'è: inventarla per non anticoagulare, o iniziare durante un'emorragia maggiore, contraddice il testo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se scegli l'AVK",
+      "prompt": "Se l'anticoagulante è un AVK, quale intervallo di INR è scritto per la FANV?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "INR fra 2 e 3, con controlli periodici",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Nessun INR, perché l'effetto clinico medio è a 5 giorni e poi la dose resta fissa",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "AVK senza INR",
+      "prompt": "La Nota 97 dice che le dosi dell'AVK si personalizzano per mantenere l'INR fra 2 e 3 nella FANV e che l'attività anticoagulante va determinata periodicamente. Una dose fissa senza INR non è la gestione scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Esame non indicato dalla nota",
+      "prompt": "Sergio teme un infarto ma non ha dolore toracico. La Nota 97 che esame aggiunge?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Nessuna coronarografia: la nota non la indica per questo punteggio",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Coronarografia urgente come condizione per iniziare l'anticoagulante",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Coronarografia non prevista",
+      "prompt": "La Nota 97 lega l'anticoagulazione al CHA2DS2-VASc, al rischio emorragico e alla scelta fra AVK e DOAC. Non condiziona l'inizio a una coronarografia. In assenza di dolore toracico quell'esame non è nel testo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "FANV con CHA2DS2-VASc 3: anticoagulazione con AVK o con uno dei quattro DOAC, INR 2-3 se AVK, niente aspirina e niente DOAC se VFG sotto 15 o valvola meccanica.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

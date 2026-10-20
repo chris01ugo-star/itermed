@@ -11,16 +11,19 @@
   "matrixDifficulty": "BASE",
   "setting": "AMBULATORIO",
   "guidelineRef": "Raccomandazioni SIMTI per l_uso di emocomponenti (1).pdf",
-  "diagnosis": "Anemia da carenza di ferro in ipermenorrea, non urgente.",
+  "diagnosis": "Anemia cronica non urgente, quadro carenziale da ipermenorrea. Nessun valore di emoglobina è fissato. Non c'è un calo dell'ossigenazione da malattia cardiaca o respiratoria.",
   "pastMedicalHistory": "Mestruazioni abbondanti. Nessuna gravidanza in corso dichiarata, nessuna gastroprotezione, nessuna terapia marziale già in corso. Non sono forniti valori precedenti di emoglobina.",
-  "presentation": "Si sente svuotata e si spaventa quando il medico nomina il sangue. Le mestruazioni sono più lunghe e abbondanti del suo solito. Collabora se la si rassicura con parole chiare, senza sminuire la paura.",
+  "presentation": "Stanchezza da settimane e mestruazioni abbondanti. È stabile: saturazione 99%, non è in shock. Il caso non fissa un numero di emoglobina. La trasfusione non è il primo atto.",
   "redHerrings": [],
   "timeLimitMinutes": 25,
   "patientDeteriorationThreshold": 20,
   "patientPrompt": "Mi chiamo Giulia, ho 32 anni. Sono sempre stanca, anche al mattino, e le mestruazioni ultimamente sono molto abbondanti. Ho paura che sia una cosa grave. Se mi spiegate con calma che cosa succede e che cosa posso fare, mi tranquillizzo. Non voglio parole difficili.",
-  "correctSolution": "Chiedere emocromo e assetto marziale. Il quadro è un'anemia da carenza di ferro, senza un numero di emoglobina fissato. Prescrivere ferro per os. Non trasfondere: la correzione non è urgente. Rassicurare Giulia nominando la paura e spiegando che si può correggere. Il brano di comunicazione è SPIKES, nel namespace empatia.",
-  "goldStandardPath": ["emocromo", "assetto-marziale"],
-  "goldPathNarrative": "Emocromo e ferritina. Poi ferro orale. La trasfusione non è la prima scelta perché non c'è urgenza. Dire a Giulia, senza fretta, che la stanchezza ha una causa correggibile e chiedere che cosa la spaventa.",
+  "correctSolution": "SIMTI: nell'anemia cronica è rara la necessità di trasfusione se l'emoglobina è sopra 8 g/dL (1A). Una soglia più alta si considera solo se l'ossigenazione è molto ridotta per un'anormalità cardiocircolatoria o respiratoria (2C+): qui la saturazione è 99% e quel quadro non c'è. Va valutata l'eziopatogenesi e, se è una forma carenziale, trattata con ematinici (ferro, vitamina B12, folati) invece della trasfusione. Il caso non fissa la dose del ferro. Legge 219/2005: il servizio verifica l'appropriatezza della richiesta di sangue. Non trasfondere questa anemia stabile come prima mossa.",
+  "goldStandardPath": [
+    "emocromo",
+    "assetto-marziale"
+  ],
+  "goldPathNarrative": "Chiedere l'emocromo, senza inventare un valore di emoglobina. Non trasfondere: è un'anemia cronica stabile, senza il calo di ossigenazione che giustifica una soglia sopra 8 g/dL. Trattare la carenza con un ematinico tra ferro, B12 e folati. La biopsia midollare non è l'alternativa scritta da SIMTI.",
   "examLatencies": {
     "emocromo": 20,
     "assetto-marziale": 60,
@@ -31,21 +34,35 @@
       "id": "mestruazioni",
       "prompt": "Come sono le mestruazioni: durata, quantità, coaguli?",
       "critical": true,
-      "expectedKeywords": ["mestruazioni", "abbondanti", "durata", "coaguli"],
+      "expectedKeywords": [
+        "mestruazioni",
+        "abbondanti",
+        "durata",
+        "coaguli"
+      ],
       "rationale": "L'ipermenorrea è il dato di partenza e la causa da far emergere."
     },
     {
       "id": "paura",
       "prompt": "Che cosa la spaventa di questa stanchezza?",
       "critical": true,
-      "expectedKeywords": ["paura", "grave", "preoccup", "stanchezza"],
+      "expectedKeywords": [
+        "paura",
+        "grave",
+        "preoccup",
+        "stanchezza"
+      ],
       "rationale": "L'archetipo è ansioso: la rassicurazione parte dalla paura che lei nomina."
     },
     {
       "id": "ferro-gia",
       "prompt": "Ha già preso ferro o ha avuto un'anemia in passato?",
       "critical": false,
-      "expectedKeywords": ["ferro", "anemia", "passato"],
+      "expectedKeywords": [
+        "ferro",
+        "anemia",
+        "passato"
+      ],
       "rationale": "Il caso non dichiara una terapia marziale già in corso."
     }
   ],
@@ -54,28 +71,31 @@
   },
   "escCitations": [
     {
-      "chunkId": "simti-ferro-alternativa-trasfusione",
+      "chunkId": "simti-anemia-cronica-8",
       "source": "knowledge_base/medicina_interna/legal/Raccomandazioni SIMTI per l_uso di emocomponenti (1).pdf",
-      "quote": "ove esista l’indicazione e non sia urgente correggere l’anemia, sono da preferire strategie alternative alla trasfusione, quali l’utilizzo di farmaci emopoietici (ferro, vitamina B12, acido folico, eritropoietina ricombinante)"
+      "quote": "Per questo motivo è rara la necessità trasfusionale in pazienti con valori di Hb > 8 g/dL (Grado di raccomandazione: 1A)."
     },
     {
-      "chunkId": "empatia-spikes-nominare-paura",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+      "chunkId": "simti-ematinici",
+      "source": "knowledge_base/medicina_interna/legal/Raccomandazioni SIMTI per l_uso di emocomponenti (1).pdf",
+      "quote": "In questo tipo di anemia va sempre valutata l'eziopatogenesi allo scopo di trattarla, se possibile, con terapie alternative alla trasfusione [ematinici nelle forme carenziali (ferro, vitamina B12, folati) e/o eritropoietina nell'insufficienza renale cronica o nelle sindromi mielodisplastiche]."
+    },
+    {
+      "chunkId": "legge-219-2005-appropriatezza",
+      "source": "knowledge_base/medicina_interna/legal/LEGGE-21-ottobre-2005-n.-219-con-commenti.pdf",
+      "quote": "2) verifica dell'appropriatezza della richiesta di sangue ed emocomponenti;"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Emocromo e assetto marziale prima del ferro.",
-      "Ferro orale. Niente trasfusione in un quadro non urgente.",
-      "Rassicurare l'ansia nominando la paura, con il protocollo nel namespace empatia."
+      "Non trasfondere un'anemia cronica stabile quando il caso non documenta un'emoglobina sotto 8 g/dL né un'insufficienza cardiaca o respiratoria.",
+      "Trattare la forma carenziale con un ematinico (ferro, vitamina B12 o folati), senza inventare una dose."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "L'unica frase clinica copiata è delle raccomandazioni SIMTI: se la correzione dell'anemia non è urgente, si preferisce il ferro alla trasfusione. Nessun valore di emoglobina è stato inventato.",
+      "art5Adherence": "La richiesta di sangue va valutata sulla soglia SIMTI e sulla legge 219/2005, che affida al servizio la verifica di appropriatezza. Non si applica la legge 219/2017: in questa cartella il file omonimo è la legge trasfusionale del 2005.",
       "legalCriteria": [
-        "Documentare emocromo e assetto marziale.",
-        "Motivare il ferro orale e l'astensione dalla trasfusione.",
-        "Registrare la spiegazione data a Giulia sulla causa della stanchezza."
+        "Verificare l'appropriatezza della richiesta di emocomponenti prima di trasfondere.",
+        "Documentare che si tratta la carenza con un ematinico e non con la trasfusione come primo atto."
       ]
     }
   },
@@ -85,7 +105,6 @@
       "name": "Emocromo completo con formula",
       "finding": "Anemia ipocromica microcitica. Nessun valore di emoglobina è fissato dal caso.",
       "isAbnormal": true,
-      "priceEuro": 4.8,
       "isFatal": false
     },
     {
@@ -93,7 +112,6 @@
       "name": "Ferritina e assetto marziale",
       "finding": "Ferritina ridotta, quadro di carenza di ferro. Nessun numero in ng/mL è fissato.",
       "isAbnormal": true,
-      "priceEuro": 14,
       "isFatal": false
     }
   ],
@@ -116,46 +134,97 @@
       "temperature": 36.5,
       "respiratoryRate": 16
     },
-    "examBudgetEuro": 25,
-    "demographics": { "age": 32, "sex": "F", "context": "Ambulatorio" },
+    "demographics": {
+      "age": 32,
+      "sex": "F",
+      "context": "Ambulatorio"
+    },
     "advancedExams": {
       "values": {
-        "emocromo": { "finding": "Anemia ipocromica microcitica, senza valore di emoglobina fissato.", "isAbnormal": true, "price": 4.8 },
-        "assetto-marziale": { "finding": "Ferritina ridotta, senza numero fissato.", "isAbnormal": true, "price": 14 },
-        "biopsia": { "finding": "Esame non indicato in prima battuta.", "isAbnormal": false }
+        "emocromo": {
+          "finding": "Anemia ipocromica microcitica, senza valore di emoglobina fissato.",
+          "isAbnormal": true
+        },
+        "assetto-marziale": {
+          "finding": "Ferritina ridotta, senza numero fissato.",
+          "isAbnormal": true
+        },
+        "biopsia": {
+          "finding": "Esame non indicato in prima battuta.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "id": "ferro-orale",
-          "label": "Ferro per os",
-          "aliases": ["ferro", "ferroso", "solfato ferroso", "tardyfer", "ferrograd"]
+          "label": "Ematinico della forma carenziale",
+          "anyOf": [
+            {
+              "id": "ferro",
+              "label": "Ferro",
+              "aliases": [
+                "ferro",
+                "ferroso",
+                "solfato ferroso"
+              ]
+            },
+            {
+              "id": "b12",
+              "label": "Vitamina B12",
+              "aliases": [
+                "cianocobalamina",
+                "vitamina b12",
+                "b12"
+              ]
+            },
+            {
+              "id": "folati",
+              "label": "Folati",
+              "aliases": [
+                "acido folico",
+                "folati",
+                "folina"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "trasfusione",
+          "label": "Trasfusione di emazie come primo atto",
+          "aliases": [
+            "trasfusione",
+            "emazie",
+            "concentrato eritrocitario"
+          ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Emocromo e assetto marziale.",
-        "Ferro orale.",
-        "Rassicurazione dell'ansia, senza trasfusione."
+        "Emocromo senza inventare l'emoglobina.",
+        "Ematinico (ferro, B12 o folati), non la trasfusione.",
+        "Nessuna richiesta di sangue in questa anemia stabile."
       ],
       "penalties": [
         {
           "id": "trasfusione-non-urgente",
-          "kind": "clinical_economic",
-          "trigger": "Trasfusione di globuli rossi in un'anemia non urgente da ipermenorrea."
+          "kind": "clinical",
+          "trigger": "Trasfusione in anemia cronica stabile, senza la soglia SIMTI."
         }
       ],
       "empathy": {
         "namespace": "empatia",
-        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-        "expectedBehavior": "Nominare la paura di Giulia e chiedere che cosa la preoccupa, poi spiegare che la stanchezza si può correggere.",
+        "frameworkRequested": null,
+        "documentUsed": null,
+        "expectedBehavior": "Chiedere che cosa preoccupa il paziente e rispondere a quella preoccupazione. In queste cartelle non c'è un protocollo di comunicazione da citare.",
         "verbatimNurseQuote": null
       },
       "citationLimits": [
-        "Il corpus non contiene una linea guida dedicata all'anemia sideropenica ambulatoriale. La frase SIMTI vale quando la correzione non è urgente.",
-        "NURSE non compare nei PDF di empatia."
+        "SIMTI non riporta la dose del ferro.",
+        "La legge in cartella legal è la 219/2005 sul sangue, non la 219/2017 sul consenso di fine vita."
       ]
     }
   },
@@ -163,7 +232,247 @@
     "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
     "communicationStyle": "Ansiosa, teme una malattia grave. Si calma se il medico nomina questa paura, le chiede che cosa la preoccupa e le spiega il piano del ferro con parole semplici."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Inquadramento dell'anemia",
+      "prompt": "Giulia è stabile, saturazione 99%, stanchezza e mestruazioni abbondanti. Il caso non fissa l'emoglobina. Come la inquadri?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Anemia cronica non urgente: misuri l'emoglobina e cerchi la causa, senza trasfondere come primo atto",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Trasfondi subito perché è stanca, senza emocromo e senza chiedere se la richiesta è appropriata",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Trasfusione senza verifica",
+      "prompt": "La legge 21 ottobre 2005 n. 219 affida al servizio la verifica dell'appropriatezza della richiesta di sangue. SIMTI dice che nell'anemia cronica la trasfusione è raramente necessaria sopra 8 g/dL e che la causa va trattata con alternative. Qui non c'è un valore sotto quella soglia né un'urgenza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Soglia trasfusionale",
+      "prompt": "L'emocromo conferma un'anemia, senza un numero che la collochi sotto 8 g/dL. Saturazione 99%, niente scompenso cardiaco o respiratorio. Che decisione prendi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non trasfondi: sopra 8 g/dL la necessità è rara e la soglia più alta vale solo se l'ossigenazione è molto ridotta per causa cardiaca o respiratoria",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Trasfondi comunque, perché una soglia liberale è più sicura in ogni anemia",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Trasfusione non necessaria",
+      "prompt": "SIMTI, grado 1A: è rara la necessità trasfusionale se l'emoglobina è sopra 8 g/dL. La soglia superiore a 8 g/dL si considera solo per una marcata caduta dell'ossigenazione da anormalità cardiocircolatoria o respiratoria (2C+). Quel quadro qui non c'è.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Causa della carenza",
+      "prompt": "SIMTI chiede di valutare l'eziopatogenesi per usare, se possibile, un'alternativa alla trasfusione. L'assetto mostra una carenza di ferro, senza un numero di ferritina.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Tratti la forma carenziale con un ematinico, senza fissare una dose che i testi non riportano",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Chiedi una biopsia osteomidollare come primo esame e rimandi ogni terapia",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Esame che non sostituisce l'ematinico",
+      "prompt": "SIMTI indica, nelle forme carenziali, ferro, vitamina B12 e folati come alternative alla trasfusione. La biopsia midollare non è in quel brano e non è il primo passo di questa anemia da ipermenorrea.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quale ematinico",
+      "prompt": "Quale alternativa alla trasfusione è scritta per una forma carenziale?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Un ematinico tra ferro, vitamina B12 e folati, qui il ferro perché il quadro è carenziale da perdite mestruali",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Eritropoietina, riservata dal testo all'insufficienza renale cronica o alle sindromi mielodisplastiche",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Eritropoietina fuori indicazione del brano",
+      "prompt": "SIMTI nomina l'eritropoietina per l'insufficienza renale cronica o le sindromi mielodisplastiche, non per questa carenza da ipermenorrea. Gli ematinici della forma carenziale sono ferro, B12 e folati.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dose non scritta",
+      "prompt": "Il testo non riporta milligrammi né durata del ferro. Che cosa prescrivi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Il ferro come ematinico della carenza, senza inventare posologia, e spieghi che la causa sono le mestruazioni abbondanti",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Una trasfusione di emazie al posto del ferro, perché la correzione è più rapida",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Emazie al posto dell'ematinico",
+      "prompt": "SIMTI chiede di trattare la forma carenziale con gli ematinici quando è possibile, e dice che la trasfusione è raramente necessaria sopra 8 g/dL. Sostituire il ferro con le emazie, in questa paziente stabile, contraddice quel brano e consuma un emocomponente senza la verifica di appropriatezza della legge 219/2005.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo della causa",
+      "prompt": "Dopo l'avvio dell'ematinico, che follow-up è sostenuto dal testo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Rivaluti l'eziopatogenesi e la risposta, senza programmare trasfusioni di mantenimento",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Programmi trasfusioni periodiche e sospendi l'ematinico",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Trasfusioni di mantenimento",
+      "prompt": "Nell'anemia cronica carenziale l'alternativa scritta è l'ematinico, non un programma trasfusionale. La legge 219/2005 mette l'autosufficienza di sangue tra le finalità e chiede la verifica di appropriatezza di ogni richiesta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Richiesta di sangue",
+      "prompt": "Un collega prepara comunque la richiesta di emazie. Che cosa fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non la invii: la paziente è stabile, la causa è carenziale e va trattata con l'ematinico",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Firmi la richiesta senza verificare se è appropriata",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Richiesta non verificata",
+      "prompt": "La legge 21 ottobre 2005 n. 219 include, tra le prestazioni di medicina trasfusionale, la verifica dell'appropriatezza della richiesta di sangue ed emocomponenti. Firmarla in questa anemia cronica stabile salta quel controllo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Anemia cronica stabile: niente trasfusione come primo atto, ematinico per la carenza, richiesta di sangue solo se appropriata secondo SIMTI e la legge 219/2005.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

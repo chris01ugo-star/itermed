@@ -11,18 +11,21 @@
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
   "guidelineRef": "AMD-Standard-unico1.pdf",
-  "diagnosis": "Chetoacidosi diabetica all'esordio. Glicemia superiore a 400 mg/dL, pH acido, respiro di Kussmaul. Ipokaliemia presente, senza un valore in mmol/L.",
+  "diagnosis": "Chetoacidosi diabetica all'esordio. L'insulina è sempre necessaria. Il PDF non descrive l'ordine potassio-prima-dell'insulina né una velocità di infusione.",
   "pastMedicalHistory": "Nessun diabete noto. Perdita di peso, sete e urine abbondanti da alcune settimane, durata non precisata. Non è in insulina. Non vomita nel brief: la frase AMD sulla chetoacidosi parla di una malattia con vomito e chetosi. Qui il quadro è Kussmaul, glicemia alta e pH acido. Allergie non dichiarate.",
-  "presentation": "Respira ampio e profondo, è spaventato, ha la bocca asciutta. La glicemia capillare supera 400 mg/dL e l'emogasanalisi è acida. Il potassio, quando si chiede, è basso. L'insulina in infusione va dopo la correzione del potassio. Nessuna di queste tre mosse (liquidi abbondanti, insulina in infusione continua, potassio prima dell'insulina) ha una frase di protocollo nel PDF AMD.",
+  "presentation": "Respiro ampio e profondo, sete, calo di peso, glicemia capillare sopra 400 mg/dL, emogasanalisi acida. Il vomito non è nel brief e non va aggiunto. Non è un caso da dimettere con acqua.",
   "redHerrings": [
     "Chiede solo un litro d'acqua da bere e di tornare a casa, perché «è solo sete»."
   ],
   "timeLimitMinutes": 40,
   "patientDeteriorationThreshold": 12,
   "patientPrompt": "Mi chiamo Andrea, ho 20 anni. Bevo tantissimo, ho perso peso e adesso respiro in un modo strano, profondo. Ho paura. Non ho mai avuto il diabete. Non mandatemi a casa con una bottiglia d'acqua. Se mi dite che cosa ho, ditemelo chiaro e chiedetemi che cosa mi spaventa.",
-  "correctSolution": "È una chetoacidosi all'esordio: il PDF AMD dice che è una condizione a rischio di vita e che serve l'intervento medico immediato, nel contesto di una malattia con vomito e chetosi. Quel vomito non è in questo brief. Glicemia, emogasanalisi e potassio vanno chiesti. Il potassio è basso. Correggerlo prima dell'insulina, idratare per via endovenosa in modo abbondante e avviare l'insulina in infusione continua sono il percorso del caso: nel corpus non c'è una frase che li descriva, quindi non hanno citazione. Non dimettere. Dire che è diabete all'esordio e chiedere che cosa lo spaventa.",
-  "goldStandardPath": ["glicemia", "ega", "elettroliti"],
-  "goldPathNarrative": "Glicemia sopra 400 mg/dL, emogasanalisi acida, potassio basso. Prima il potassio, poi l'insulina in infusione continua, insieme a cristalloidi endovena abbondanti. Ricovero. Queste tre terapie non hanno una citazione nel PDF. L'unica frase clinica AMD è l'urgenza della chetoacidosi. SPIKES sulla paura della diagnosi.",
+  "correctSolution": "AMD: la terapia insulinica è sempre necessaria nella chetoacidosi, anche nel diabete di tipo 2, e nella sindrome iperosmolare non chetosica (I A). Una malattia con vomito e chetosi può essere una chetoacidosi a rischio di vita e richiede l'intervento medico immediato: il vomito qui non è dichiarato, il quadro acido e la glicemia alta sì. Va garantito un adeguato introito di liquidi e calorie. Chi è in ipoglicemizzanti orali o sola dieta può aver bisogno di insulina temporanea. Il paziente ricoverato va seguito da un medico con esperienza di diabete. Dopo il raggiungimento dell'obiettivo si rivaluta se l'insulina può essere sostituita da farmaci non insulinici: non durante la chetoacidosi. La Nota 100, metformina di prima linea dopo lo stile di vita, non sostituisce l'insulina in questo quadro. Il PDF non dice di correggere il potassio prima dell'insulina.",
+  "goldStandardPath": [
+    "glicemia",
+    "ega"
+  ],
+  "goldPathNarrative": "Riconoscere la chetoacidosi e iniziare l'insulina, perché è sempre necessaria. Garantire liquidi e calorie. Non dimettere. Non usare la metformina al posto dell'insulina. Il potassio prima dell'insulina non è una frase di questi PDF.",
   "examLatencies": {
     "glicemia": 10,
     "ega": 10,
@@ -34,29 +37,47 @@
       "id": "esordio-diabete",
       "prompt": "Da quando ha sete, urina tanto ed è dimagrito? Le hanno mai detto che ha il diabete?",
       "critical": true,
-      "expectedKeywords": ["sete", "urina", "peso", "diabete"],
+      "expectedKeywords": [
+        "sete",
+        "urina",
+        "peso",
+        "diabete"
+      ],
       "rationale": "È un esordio. La durata precisa non è nel brief e non va inventata."
     },
     {
       "id": "vomito-farmaci",
       "prompt": "Ha vomitato? Ha preso insulina, cortisone o altri farmaci?",
       "critical": true,
-      "expectedKeywords": ["vomit", "insulina", "farmaci"],
+      "expectedKeywords": [
+        "vomit",
+        "insulina",
+        "farmaci"
+      ],
       "rationale": "Il vomito non è nel brief. Se nega, non si aggiunge per far coincidere la frase AMD."
     },
     {
       "id": "potassio-sintomi",
       "prompt": "Ha crampi, debolezza marcata alle gambe o ha perso coscienza?",
       "critical": false,
-      "expectedKeywords": ["crampi", "debolezza", "coscienza"],
+      "expectedKeywords": [
+        "crampi",
+        "debolezza",
+        "coscienza"
+      ],
       "rationale": "L'ipokaliemia è nel referto, non nei sintomi inventati. I crampi non sono dichiarati."
     },
     {
       "id": "paura-diagnosi",
       "prompt": "Che cosa la preoccupa se le diciamo che si tratta di diabete e che resta in ospedale?",
       "critical": true,
-      "expectedKeywords": ["preoccup", "diabete", "ospedale", "paura"],
-      "rationale": "SPIKES sulla diagnosi nuova."
+      "expectedKeywords": [
+        "preoccup",
+        "diabete",
+        "ospedale",
+        "paura"
+      ],
+      "rationale": "la preoccupazione del paziente sulla diagnosi nuova."
     }
   ],
   "physicalExam": {
@@ -64,30 +85,36 @@
   },
   "escCitations": [
     {
-      "chunkId": "amd-2018-dka-urgenza",
+      "chunkId": "amd-insulina-dka",
       "source": "knowledge_base/medicina_interna/clinical/AMD-Standard-unico1.pdf",
-      "quote": "Una malattia con vomito accompagnata da chetosi può indicare una chetoacidosi diabetica, condizione di rischio per la vita che richiede l'immediato intervento medico per prevenire complicanze e morte (Kitabchi AE 2006 e 2009)."
+      "quote": "La terapia insulinica è sempre necessaria in caso di chetoacidosi, anche nel diabete di tipo 2, o di sindrome iperosmolare non chetosica."
     },
     {
-      "chunkId": "empatia-spikes-emozione",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+      "chunkId": "amd-liquidi",
+      "source": "knowledge_base/medicina_interna/clinical/AMD-Standard-unico1.pdf",
+      "quote": "I pazienti trattati con ipoglicemizzanti orali o sola terapia nutrizionale possono necessitare di un temporaneo trattamento con insulina; deve inoltre essere garantito un adeguato introito di liquidi e calorie."
+    },
+    {
+      "chunkId": "amd-urgenza",
+      "source": "knowledge_base/medicina_interna/clinical/AMD-Standard-unico1.pdf",
+      "quote": "Una malattia con vomito accompagnata da chetosi può indicare una chetoacidosi diabetica, condizione di rischio per la vita che richiede l'immediato intervento medico per prevenire complicanze e morte."
+    },
+    {
+      "chunkId": "amd-grado",
+      "source": "knowledge_base/medicina_interna/clinical/AMD-Standard-unico1.pdf",
+      "quote": "La terapia insulinica è necessaria nel caso che sia presente chetoacidosi, oppure sindrome iperosmolare non chetosica. I A"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Glicemia, emogasanalisi e potassio prima dell'insulina.",
-      "Cristalloidi endovena, correzione del potassio, insulina in infusione continua.",
-      "Non dimettere con la sola acqua per bocca.",
-      "Dire la diagnosi e chiedere la paura."
+      "Insulina nella chetoacidosi, non un ipoglicemizzante orale al suo posto.",
+      "Liquidi e calorie adeguati, ricovero, medico con esperienza di diabete."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "L'urgenza della chetoacidosi è la frase AMD citata. Liquidi, insulina in infusione e potassio prima dell'insulina sono nel percorso perché sono il brief, e non hanno una frase nel PDF: non sono presentati come citazione.",
+      "art5Adherence": "Il brano sul potassio prima dell'insulina non è nell'AMD 2018 estratto. Non è un passo del caso. La Nota 100 non si applica al posto dell'insulina in chetoacidosi.",
       "legalCriteria": [
-        "Documentare glicemia sopra 400 mg/dL, pH acido e potassio basso, senza inventare i numeri mancanti.",
-        "Registrare l'ordine: potassio prima dell'insulina.",
-        "Registrare i cristalloidi e l'infusione di insulina.",
-        "Annotare la comunicazione della diagnosi nuova."
+        "Non dimettere con sola acqua un quadro che il testo definisce a rischio di vita quando c'è chetosi.",
+        "Art. 7 legge 38/2010 se è ricoverato e riferisce dolore: annotarlo in cartella."
       ]
     }
   },
@@ -97,7 +124,6 @@
       "name": "Glicemia",
       "finding": "Superiore a 400 mg/dL. Il valore esatto non è fissato.",
       "isAbnormal": true,
-      "priceEuro": 2.1,
       "isFatal": false
     },
     {
@@ -105,15 +131,13 @@
       "name": "Emogasanalisi",
       "finding": "pH acido. Il valore numerico, i bicarbonati e la chetonemia non sono fissati.",
       "isAbnormal": true,
-      "priceEuro": 10,
       "isFatal": false
     },
     {
       "examId": "elettroliti",
       "name": "Elettroliti, compreso il potassio",
-      "finding": "Ipokaliemia. Il valore in mmol/L non è fissato. Va corretto prima di avviare l'insulina.",
+      "finding": "Elettroliti disponibili, senza un protocollo AMD che imponga il potassio prima dell'insulina. Nessun mmol/L è fissato.",
       "isAbnormal": true,
-      "priceEuro": 6.5,
       "isFatal": false
     }
   ],
@@ -125,7 +149,6 @@
       "isAbnormal": false,
       "inappropriate": true,
       "isFatal": false,
-      "priceEuro": 950,
       "wasteRationale": "Il tempo è per glicemia, emogasanalisi, potassio, liquidi e insulina. La PET non tratta l'acidosi."
     }
   ],
@@ -137,7 +160,6 @@
       "temperature": 36.7,
       "respiratoryRate": 32
     },
-    "examBudgetEuro": 40,
     "demographics": {
       "age": 20,
       "sex": "M",
@@ -148,87 +170,73 @@
       "values": {
         "glicemia": {
           "finding": "Superiore a 400 mg/dL, valore esatto non fissato.",
-          "isAbnormal": true,
-          "price": 2.1
+          "isAbnormal": true
         },
         "ega": {
           "finding": "pH acido, senza un numero fissato.",
-          "isAbnormal": true,
-          "price": 10
+          "isAbnormal": true
         },
         "elettroliti": {
           "finding": "Ipokaliemia, senza mmol/L fissati.",
-          "isAbnormal": true,
-          "price": 6.5
+          "isAbnormal": true
         },
         "pet-tc": {
           "finding": "Esame non indicato.",
-          "isAbnormal": false,
-          "price": 950
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "id": "cristalloidi",
-          "label": "Cristalloidi endovena",
-          "aliases": ["soluzione fisiologica", "sodio cloruro", "ringer", "cristalloidi"],
-          "validDosages": ["In infusione continua"]
-        },
-        {
-          "id": "potassio",
-          "label": "Potassio endovena",
-          "aliases": ["potassio cloruro", "potassio", "kcl"],
-          "validDosages": ["In infusione continua"]
-        },
-        {
           "id": "insulina",
-          "label": "Insulina in infusione continua",
-          "aliases": ["insulina", "actrapid", "humulin"],
-          "validDosages": ["In infusione continua"]
+          "label": "Insulina",
+          "aliases": [
+            "insulina",
+            "actrapid",
+            "humulin"
+          ]
+        },
+        {
+          "id": "liquidi",
+          "label": "Liquidi",
+          "aliases": [
+            "cristalloidi",
+            "fisiologica",
+            "ringer",
+            "liquidi"
+          ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Glicemia, emogasanalisi e potassio.",
-        "Potassio corretto prima dell'insulina, perché è basso.",
-        "Cristalloidi endovena e insulina in infusione continua.",
-        "Diagnosi detta e paura esplorata. Ricovero."
+        "Insulina perché c'è chetoacidosi.",
+        "Liquidi e calorie.",
+        "Niente dimissione."
       ],
       "penalties": [
         {
-          "id": "insulina-prima-del-potassio",
-          "kind": "clinical_grave",
-          "trigger": "Insulina avviata senza avere il potassio, o con ipokaliemia non corretta."
-        },
-        {
           "id": "solo-acqua-orale",
           "kind": "clinical_grave",
-          "trigger": "Dimissione con sola idratazione per bocca."
-        }
-      ],
-      "prescriptionPrerequisites": [
+          "trigger": "Dimissione con sola acqua."
+        },
         {
-          "drugIds": ["insulina"],
-          "requiredExamIds": ["elettroliti"],
-          "rule": "Il potassio precede l'insulina."
+          "id": "insulina-prima-del-potassio",
+          "kind": "clinical",
+          "trigger": "Protocollo potassio-prima-dell'insulina presentato come frase AMD: quel protocollo non è nel PDF."
         }
       ],
       "empathy": {
         "namespace": "empatia",
-        "frameworkRequested": "SPIKES",
-        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-        "expectedBehavior": "Dire che è un diabete all'esordio, in chetoacidosi, nominare la paura e chiedere che cosa lo preoccupa del ricovero.",
+        "frameworkRequested": null,
+        "documentUsed": null,
+        "expectedBehavior": "Chiedere che cosa preoccupa il paziente e rispondere a quella preoccupazione. In queste cartelle non c'è un protocollo di comunicazione da citare.",
         "verbatimNurseQuote": null
       },
       "citationLimits": [
-        "L'unica frase AMD sulla chetoacidosi parla di malattia con vomito e chetosi, e dice che è a rischio di vita e richiede intervento immediato. Andrea non vomita nel brief. La frase non è stata riscritta per il respiro di Kussmaul.",
-        "Kitabchi 2006 e 2009 è il richiamo bibliografico dentro quella frase. Il protocollo di quei lavori non è nel PDF e non è stato copiato.",
-        "Nel PDF non ci sono frasi su cristalloidi, insulina endovena in infusione continua, né sulla correzione del potassio prima dell'insulina. Quelle azioni sono nel percorso e non hanno citazione.",
-        "Glicemia, pH e potassio non hanno un numero oltre «superiore a 400», «acido» e «basso».",
-        "NURSE non compare nei PDF di empatia."
+        "AMD non riporta velocità di insulina, potassio prima dell'insulina né litri di fisiologica.",
+        "Il vomito della frase sulla chetosi non è nel brief e non va aggiunto."
       ]
     }
   },
@@ -242,5 +250,241 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Spaventato dal respiro e dalla sete. Se il medico gli dice che è diabete, gli chiede che cosa lo preoccupa e non lo manda a casa con l'acqua, accetta i prelievi e l'infusione."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Riconoscere la chetoacidosi",
+      "prompt": "Glicemia capillare sopra 400 mg/dL, respiro di Kussmaul, emogasanalisi acida, nessun diabete noto. Il vomito non è dichiarato. Come la chiami?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Chetoacidosi: l'insulina è sempre necessaria, anche se fosse un tipo 2",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Solo sete: lo dimetti con una bottiglia d'acqua",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Dimissione della chetoacidosi",
+      "prompt": "AMD: l'insulina è sempre necessaria nella chetoacidosi. Una chetoacidosi è descritta come condizione a rischio di vita che richiede l'intervento medico immediato. L'acqua da bere non è quel trattamento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Insulina",
+      "prompt": "Quale frase di grado I A decide la terapia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Insulina, perché c'è chetoacidosi",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Metformina da sola, come prima linea della Nota 100",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Metformina al posto dell'insulina",
+      "prompt": "AMD, grado I A: l'insulina è necessaria se c'è chetoacidosi o sindrome iperosmolare non chetosica. La Nota 100, metformina di prima linea nel diabete di tipo 2 dopo lo stile di vita, non è il trattamento di questo quadro.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Liquidi e calorie",
+      "prompt": "Oltre all'insulina, che apporto va garantito secondo AMD?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Un introito adeguato di liquidi e di calorie",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Digiuno totale e niente liquidi fino al giorno dopo",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Né liquidi né calorie",
+      "prompt": "AMD: nei pazienti in ipoglicemizzanti orali o sola terapia nutrizionale può servire insulina temporanea e deve essere garantito un adeguato introito di liquidi e calorie.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quello che il PDF non dice",
+      "prompt": "Il referto può mostrare il potassio. Il PDF AMD fissa l'ordine potassio-prima-dell'insulina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. Non insegni quell'ordine come regola di questi testi: l'insulina resta necessaria",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Ritardi l'insulina a tempo indefinito in attesa di un protocollo sul potassio che non è nel PDF",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Insulina rinviata",
+      "prompt": "L'unica regola terapeutica estratta è che l'insulina è sempre necessaria nella chetoacidosi e che servono liquidi e calorie. Rinviarla per un ordine sul potassio assente dal PDF contraddice la frase sull'intervento immediato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Chi lo segue in ospedale",
+      "prompt": "Resta ricoverato. Chi deve gestirlo, secondo AMD?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Un medico con esperienza nella gestione del diabete",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Dimissione in giornata con un ipoglicemizzante orale e senza insulina",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Orale al posto del ricovero",
+      "prompt": "AMD: il paziente ospedalizzato va trattato da un medico con esperienza di diabete. L'insulina nella chetoacidosi è sempre necessaria. Sostituirla subito con un orale non è il follow-up scritto: la sostituzione si rivaluta dopo il raggiungimento dell'obiettivo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo l'obiettivo",
+      "prompt": "Quando il testo consente di chiedere se l'insulina può lasciare il posto a farmaci non insulinici?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Dopo che l'obiettivo terapeutico è stato raggiunto, non durante la chetoacidosi",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Subito, il giorno dell'ingresso, al posto dell'insulina",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Sostituzione prematura",
+      "prompt": "AMD: se si è prescritta insulina, il paziente va rivalutato una volta raggiunto l'obiettivo, per verificare se si può sostituire con farmaci non insulinici. Durante la chetoacidosi l'insulina resta necessaria.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "È ricoverato. Se riferisce dolore, che cosa scrivi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Caratteristiche, evoluzione, tecnica antalgica, farmaci, dosi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Niente, perché il problema è solo la glicemia",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore omesso",
+      "prompt": "Legge 38/2010, art. 7: in cartella vanno le caratteristiche del dolore rilevato e della sua evoluzione, la tecnica antalgica, i farmaci, i dosaggi e il risultato antalgico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Chetoacidosi: insulina sempre necessaria, liquidi e calorie, ricovero con medico esperto di diabete. Il potassio prima dell'insulina non è nel PDF. La metformina non sostituisce l'insulina.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

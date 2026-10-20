@@ -6,13 +6,15 @@
   "difficulty": "MEDIUM",
   "specialty": "medicina_interna",
   "specialtyLabel": "Medicina Interna",
-  "secondarySpecialties": ["cardiologia"],
+  "secondarySpecialties": [
+    "cardiologia"
+  ],
   "condition": "Sospetta trombosi venosa profonda, probabilità di Wells intermedia",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "INTERMEDIATE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "score-di-wells-per-il-sospetto-clinico-di-trombosi-venosa-profonda.pdf",
-  "diagnosis": "Trombosi venosa profonda dell'arto inferiore destro. Wells per TVP = 2 (probabilità intermedia): gonfiore di tutta la gamba e tensione dolorosa lungo il sistema venoso profondo. Il contraccettivo non è una voce dello score.",
+  "guidelineRef": "PIIS0012369221015063.pdf; score-di-wells-per-il-sospetto-clinico-di-trombosi-venosa-profonda.pdf",
+  "diagnosis": "TVP della gamba. Wells 2, probabilità intermedia: gonfiore di tutta la gamba +1 e tensione dolorosa lungo il sistema venoso profondo +1. Il contraccettivo non è una voce del foglio.",
   "pastMedicalHistory": "Contraccettivo orale in corso. Non ha un cancro in atto, non è stata allettata per più di 3 giorni, non ha avuto chirurgia maggiore nelle ultime 4 settimane, non ha paresi né immobilizzazione di un arto. Non riferisce una TVP precedente. Non è incinta secondo quanto dichiara. Non ha sintomi respiratori.",
   "presentation": "La gamba destra è gonfia per tutta la sua lunghezza e duole lungo il decorso venoso. È spaventata e collega il gonfiore alla pillola. Non c'è una diagnosi alternativa più probabile (niente trauma, niente cute calda da cellulite). La differenza di circonferenza del polpaccio non è stata misurata. L'edema a fovea non è descritto. Non ci sono vene superficiali collaterali.",
   "redHerrings": [
@@ -21,9 +23,11 @@
   "timeLimitMinutes": 35,
   "patientDeteriorationThreshold": 15,
   "patientPrompt": "Mi chiamo Chiara, ho 38 anni. La gamba destra è gonfia e mi fa male, e prendo la pillola. Ho paura che sia una trombosi e anche paura di quello che mi direte sulla pillola. Non ho avuto operazioni, non sono stata a letto, non ho un tumore. Il fiato è normale. Non mandatemi a casa solo perché sospendo la pillola: spiegatemi che cosa succede e chiedetemi che cosa mi preoccupa.",
-  "correctSolution": "Calcolare Wells per la TVP, non uno score inventato che dia punti alla pillola. Voci positive: gonfiore di tutta la gamba +1, tensione dolorosa lungo il sistema venoso profondo +1. Cancro, allettamento o chirurgia, paresi, vene collaterali: assenti. Diagnosi alternativa più probabile: no, quindi non si sottraggono 2 punti. Circonferenza del polpaccio non misurata e fovea non descritta: quelle voci non si assegnano. Totale 2, probabilità intermedia. Ecocolordoppler venoso dell'arto: trombosi venosa profonda destra. D-dimero: elevato, senza un numero in ng/mL. Avviare un'eparina a basso peso molecolare. Il foglio di Wells e i PDF estratti non contengono una frase che indichi D-dimero o EBPM: quella terapia è la regola di questo caso, non una citazione. Niente angio-TC polmonare: non ci sono sintomi di embolia. Dire la diagnosi e chiedere che cosa la preoccupa della pillola.",
-  "goldStandardPath": ["ecocolordoppler", "ddimero"],
-  "goldPathNarrative": "Applicare il foglio di Wells per la TVP e ottenere 2, probabilità intermedia, senza dare punti al contraccettivo. Chiedere l'ecocolordoppler venoso e il D-dimero. Il doppler mostra la trombosi profonda destra. Iniziare l'eparina a basso peso molecolare. Non usare l'angio-TC come primo esame: non c'è dispnea. Comunicare con SPIKES.",
+  "correctSolution": "Foglio di Wells: il contraccettivo non dà punti. Non si assegna il polpaccio se non è misurato, né la fovea se non è descritta. Totale 2, probabilità intermedia. CHEST 2021: nella TVP acuta della gamba si suggerisce l'anticoagulante da solo rispetto a trombolisi, terapia meccanica o farmacomeccanica. Si raccomanda di non aggiungere un filtro cavale all'anticoagulante. Il filtro è raccomandato nella TVP prossimale solo se l'anticoagulazione è controindicata: qui non lo è. Per la VTE (TVP della gamba o embolia), nella fase di trattamento dei primi 3 mesi, si raccomandano apixaban, dabigatran, edoxaban o rivaroxaban rispetto all'AVK. Il foglio di Wells non indica l'esame successivo. Legge 38/2010 art. 7: in cartella vanno scritti il dolore, la tecnica antalgica, i farmaci, le dosi e il risultato. Nota 66: la nimesulide a carico del SSN è solo di seconda linea e di breve durata nel dolore acuto.",
+  "goldStandardPath": [
+    "ecocolordoppler"
+  ],
+  "goldPathNarrative": "Wells 2 senza punti per la pillola. Anticoagulante orale diretto per i primi 3 mesi, non trombolisi e non filtro cavale insieme all'anticoagulante. Registrare il dolore in cartella. Non mettere la nimesulide come prima linea SSN.",
   "examLatencies": {
     "ecocolordoppler": 40,
     "ddimero": 60,
@@ -34,29 +38,48 @@
       "id": "wells-negativi",
       "prompt": "Ha un tumore, è stata allettata o operata di recente, ha una paresi o un'ingessatura?",
       "critical": true,
-      "expectedKeywords": ["tumore", "allett", "oper", "paresi"],
+      "expectedKeywords": [
+        "tumore",
+        "allett",
+        "oper",
+        "paresi"
+      ],
       "rationale": "Queste voci del Wells valgono +1 solo se presenti. Qui sono assenti e non vanno sommate."
     },
     {
       "id": "pillola",
       "prompt": "Assume un contraccettivo orale? Sa che questa informazione non è una voce del Wells?",
       "critical": true,
-      "expectedKeywords": ["pillola", "contraccettivo", "wells"],
+      "expectedKeywords": [
+        "pillola",
+        "contraccettivo",
+        "wells"
+      ],
       "rationale": "La pillola è un dato clinico. Nel foglio di Wells estratto non compare e non aggiunge punti."
     },
     {
       "id": "respiro",
       "prompt": "Ha fiatone, dolore al petto o sangue nel catarro?",
       "critical": true,
-      "expectedKeywords": ["fiatone", "petto", "sangue", "catarro"],
+      "expectedKeywords": [
+        "fiatone",
+        "petto",
+        "sangue",
+        "catarro"
+      ],
       "rationale": "I sintomi di embolia polmonare non ci sono. Non spostano il caso sull'angio-TC."
     },
     {
       "id": "paura-pillola",
       "prompt": "Che cosa la preoccupa di più, la gamba o il fatto di prendere la pillola?",
       "critical": true,
-      "expectedKeywords": ["preoccup", "pillola", "gamba", "trombosi"],
-      "rationale": "SPIKES: chiedere il pensiero associato alla paura."
+      "expectedKeywords": [
+        "preoccup",
+        "pillola",
+        "gamba",
+        "trombosi"
+      ],
+      "rationale": "la preoccupazione del paziente: chiedere il pensiero associato alla paura."
     }
   ],
   "physicalExam": {
@@ -64,35 +87,36 @@
   },
   "escCitations": [
     {
-      "chunkId": "wells-voci-usate",
-      "source": "knowledge_base/medicina_interna/clinical/score-di-wells-per-il-sospetto-clinico-di-trombosi-venosa-profonda.pdf",
-      "quote": "SCORE DI WELLS per il sospetto clinico di TVP (JAMA 1998; 279: 1094-9) Tensione dolorosa lungo la distribuzione del sistema venoso profondo 1 Gonfiore a tutta la gamba 1 Diagnosi alternativa più verosimile o più probabile -2"
-    },
-    {
       "chunkId": "wells-interpretazione",
       "source": "knowledge_base/medicina_interna/clinical/score-di-wells-per-il-sospetto-clinico-di-trombosi-venosa-profonda.pdf",
-      "quote": "Punteggio totale >= 3: alta probabilità di TVP Punteggio totale tra 1 e 2: probabilità intermedia di TVP Punteggio totale <= 0: bassa probabilità di TVP"
+      "quote": "Punteggio totale >= 3: alta probabilità di TVP. Punteggio totale tra 1 e 2: probabilità intermedia di TVP. Punteggio totale <= 0: bassa probabilità di TVP."
     },
     {
-      "chunkId": "empatia-spikes-emozione",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+      "chunkId": "chest-dvt-solo-anticoagulante",
+      "source": "knowledge_base/medicina_interna/clinical/PIIS0012369221015063.pdf",
+      "quote": "In patients with acute DVT of the leg we suggest anticoagulant therapy alone over interventional (thrombolytic, mechanical, or pharmacomechanical) therapy (weak recommendation, moderate-certainty evidence)."
+    },
+    {
+      "chunkId": "chest-no-filtro",
+      "source": "knowledge_base/medicina_interna/clinical/PIIS0012369221015063.pdf",
+      "quote": "In patients with acute DVT of the leg, we recommend against the use of an inferior vena cava (IVC) filter in addition to anticoagulants (strong recommendation, moderate-certainty evidence)."
+    },
+    {
+      "chunkId": "chest-doac-3-mesi",
+      "source": "knowledge_base/medicina_interna/clinical/PIIS0012369221015063.pdf",
+      "quote": "In patients with VTE (DVT of the leg or PE) we recommend apixaban, dabigatran, edoxaban, or rivaroxaban over vitamin K antagonist (VKA) as treatment-phase (first 3 months) anticoagulant therapy (strong recommendation, moderate-certainty evidence)."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Wells = 2, probabilità intermedia, senza punti per il contraccettivo.",
-      "Ecocolordoppler venoso e D-dimero.",
-      "Eparina a basso peso molecolare dopo il riscontro della trombosi.",
-      "Niente angio-TC in assenza di sintomi respiratori. Chiedere che cosa la preoccupa."
+      "Wells senza punti per il contraccettivo.",
+      "DOAC per i primi 3 mesi, non filtro cavale aggiunto all'anticoagulante."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Il conteggio di Wells segue solo il foglio presente in knowledge base. D-dimero ed eparina a basso peso molecolare non hanno una frase estratta applicabile a questa TVP isolata e non sono presentati come citazione di linea guida.",
+      "art5Adherence": "Il dolore della gamba va riportato in cartella ai sensi dell'art. 7 della legge 15 marzo 2010 n. 38. La nimesulide non è la prima linea rimborsata: Nota 66.",
       "legalCriteria": [
-        "Scrivere le voci di Wells sommate e quelle non sommate, pillola inclusa tra le non sommate.",
-        "Documentare ecocolordoppler e D-dimero.",
-        "Registrare l'eparina a basso peso molecolare e l'assenza di sintomi di embolia.",
-        "Annotare la preoccupazione per la pillola."
+        "Scrivere in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, le dosi e il risultato.",
+        "Non aggiungere un filtro cavale all'anticoagulante se l'anticoagulazione non è controindicata."
       ]
     }
   },
@@ -102,7 +126,6 @@
       "name": "Ecocolordoppler venoso dell'arto inferiore",
       "finding": "Trombosi venosa profonda dell'arto inferiore destro. Non sono fissati il nome del segmento venoso né un diametro.",
       "isAbnormal": true,
-      "priceEuro": 65,
       "isFatal": false
     },
     {
@@ -110,7 +133,6 @@
       "name": "D-dimero",
       "finding": "D-dimero elevato. Nessun valore in ng/mL è fissato. Non esclude la trombosi.",
       "isAbnormal": true,
-      "priceEuro": 16,
       "isFatal": false
     }
   ],
@@ -122,7 +144,6 @@
       "isAbnormal": false,
       "inappropriate": true,
       "isFatal": false,
-      "priceEuro": 950,
       "wasteRationale": "Il percorso di questa TVP è il Wells, il doppler venoso e il D-dimero. La PET non cambia la decisione sull'eparina."
     }
   ],
@@ -134,7 +155,6 @@
       "temperature": 36.7,
       "respiratoryRate": 16
     },
-    "examBudgetEuro": 100,
     "demographics": {
       "age": 38,
       "sex": "F",
@@ -143,7 +163,10 @@
     "wellsDvt": {
       "score": 2,
       "probability": "intermedia",
-      "positive": ["gonfiore a tutta la gamba", "tensione dolorosa lungo il sistema venoso profondo"],
+      "positive": [
+        "gonfiore a tutta la gamba",
+        "tensione dolorosa lungo il sistema venoso profondo"
+      ],
       "notScored": [
         "cancro",
         "allettamento o chirurgia",
@@ -159,63 +182,106 @@
       "values": {
         "ecocolordoppler": {
           "finding": "Trombosi venosa profonda dell'arto inferiore destro.",
-          "isAbnormal": true,
-          "price": 65
+          "isAbnormal": true
         },
         "ddimero": {
           "finding": "Elevato, senza valore numerico.",
-          "isAbnormal": true,
-          "price": 16
+          "isAbnormal": true
         },
         "pet-tc": {
           "finding": "Esame non indicato.",
-          "isAbnormal": false,
-          "price": 950
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "id": "ebpm",
-          "label": "Eparina a basso peso molecolare",
-          "aliases": ["enoxaparina", "clexane", "nadroparina", "fraxiparina", "dalteparina", "seleparina", "ebpm", "basso peso molecolare"]
+          "label": "DOAC della fase di trattamento",
+          "anyOf": [
+            {
+              "id": "apixaban",
+              "label": "Apixaban",
+              "aliases": [
+                "apixaban",
+                "eliquis"
+              ]
+            },
+            {
+              "id": "dabigatran",
+              "label": "Dabigatran",
+              "aliases": [
+                "dabigatran",
+                "pradaxa"
+              ]
+            },
+            {
+              "id": "edoxaban",
+              "label": "Edoxaban",
+              "aliases": [
+                "edoxaban",
+                "lixiana"
+              ]
+            },
+            {
+              "id": "rivaroxaban",
+              "label": "Rivaroxaban",
+              "aliases": [
+                "rivaroxaban",
+                "xarelto"
+              ]
+            }
+          ]
+        }
+      ],
+      "inappropriate": [
+        {
+          "id": "warfarin",
+          "label": "AVK come prima scelta dei primi 3 mesi",
+          "aliases": [
+            "warfarin",
+            "coumadin",
+            "acenocumarolo"
+          ]
+        },
+        {
+          "id": "nimesulide",
+          "label": "Nimesulide di prima linea SSN",
+          "aliases": [
+            "nimesulide",
+            "aulin"
+          ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Wells 2, probabilità intermedia, pillola senza punti.",
-        "Ecocolordoppler con TVP destra e D-dimero elevato senza numero inventato.",
-        "Eparina a basso peso molecolare.",
-        "Comunicare la diagnosi e la preoccupazione per la pillola."
+        "Wells 2, pillola senza punti.",
+        "DOAC per la fase di trattamento.",
+        "Dolore scritto in cartella."
       ],
       "penalties": [
         {
           "id": "punti-pillola",
           "kind": "clinical",
-          "trigger": "Aggiungere un punto Wells per il contraccettivo: quella voce non è nel foglio."
+          "trigger": "Punto Wells per il contraccettivo."
         },
         {
           "id": "dimissione-senza-eparina",
           "kind": "clinical",
-          "trigger": "Dimissione solo sospendendo la pillola, senza eparina, dopo la TVP al doppler."
+          "trigger": "Dimissione senza anticoagulante."
         }
       ],
       "empathy": {
         "namespace": "empatia",
-        "frameworkRequested": "SPIKES",
-        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-        "expectedBehavior": "Dire che la gamba ha una trombosi, nominare la paura e chiedere che cosa la preoccupa della pillola.",
+        "frameworkRequested": null,
+        "documentUsed": null,
+        "expectedBehavior": "Chiedere che cosa preoccupa il paziente e rispondere a quella preoccupazione. In queste cartelle non c'è un protocollo di comunicazione da citare.",
         "verbatimNurseQuote": null
       },
       "citationLimits": [
-        "Il foglio di Wells non nomina D-dimero, ecocolordoppler né eparina. Quegli atti restano nel percorso del caso e non hanno una citazione.",
-        "ehz405.pdf è la linea guida ESC 2019 sull'embolia polmonare. I brani su D-dimero e sull'anticoagulazione riguardano l'embolia, non questa gamba senza dispnea, dolore toracico o emottisi. Non sono citati.",
-        "Il file ESC_2019_Pulmonary_Embolism_Guidelines.pdf in cardiologia e DOI_Summary_2019_ACUTE_PE.pdf estraggono solo dichiarazioni di conflitto di interessi, non le raccomandazioni.",
-        "Il contraccettivo non è una voce del foglio. Il punteggio non lo include.",
-        "La circonferenza del polpaccio non è misurata e la fovea non è descritta: quei +1 non si assegnano.",
-        "NURSE non compare nei PDF di empatia."
+        "Il foglio di Wells non nomina D-dimero né ecocolordoppler. Quegli esami non sono citati come obbligo.",
+        "CHEST non sceglie una molecola e una dose tra i quattro DOAC."
       ]
     }
   },
@@ -229,5 +295,241 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Spaventata dal gonfiore e dalla pillola. Se il medico le dice che cosa ha la gamba e le chiede che cosa la preoccupa, smette di chiedere di andare a casa senza esami."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Voci di Wells",
+      "prompt": "Gamba destra gonfia per intero e dolente lungo il decorso venoso profondo. Pillola in corso. Niente cancro, allettamento, chirurgia o paresi. Polpaccio non misurato, fovea non descritta. Che punteggio fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Due punti, probabilità intermedia. La pillola non è una voce del foglio e non conti le voci non misurate",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Aggiungi un punto per la pillola e un altro perché una diagnosi alternativa è più probabile, e la mandi a casa",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Wells modificato",
+      "prompt": "Il foglio di Wells non contiene il contraccettivo. La diagnosi alternativa più probabile vale −2, non un punto in più, e qui non c'è una diagnosi alternativa. Con 2 il foglio dice probabilità intermedia, non dimissione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Che cosa non dice il foglio",
+      "prompt": "Il foglio classifica la probabilità e non nomina l'esame successivo. CHEST parla di pazienti con TVP acuta della gamba. Qual è il passo successivo scritto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Tratti la TVP acuta della gamba con l'anticoagulante, non con una trombolisi di prima scelta",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Trombolisi sistemica o meccanica come primo trattamento della gamba",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Trombolisi di prima scelta",
+      "prompt": "CHEST 2021, affermazione 6: nella TVP acuta della gamba si suggerisce l'anticoagulante da solo rispetto alla terapia interventistica, trombolitica, meccanica o farmacomeccanica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Filtro cavale",
+      "prompt": "Non c'è una controindicazione all'anticoagulante. Metti un filtro cavale?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No: il filtro in aggiunta all'anticoagulante è sconsigliato in modo forte. Il filtro è per la TVP prossimale solo se l'anticoagulazione è controindicata",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Filtro cavale insieme all'anticoagulante, per maggiore sicurezza",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Filtro non indicato",
+      "prompt": "CHEST 2021, affermazione 12: nella TVP acuta della gamba si raccomanda di non usare un filtro cavale in aggiunta agli anticoagulanti. L'affermazione 13 riserva il filtro alla TVP prossimale con controindicazione all'anticoagulazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quale anticoagulante",
+      "prompt": "Per i primi 3 mesi di una VTE, CHEST che farmaco raccomanda rispetto all'AVK?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Apixaban, dabigatran, edoxaban o rivaroxaban",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Warfarin come prima scelta della fase di trattamento",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "AVK al posto del DOAC",
+      "prompt": "CHEST 2021, affermazione 15: nella VTE, TVP della gamba o embolia, si raccomandano apixaban, dabigatran, edoxaban o rivaroxaban rispetto all'antagonista della vitamina K per la fase di trattamento, i primi 3 mesi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dolore in cartella",
+      "prompt": "La gamba duole. Se resta in osservazione o in ricovero, che obbligo hai sul dolore?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Scrivi in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, le dosi e il risultato",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Non rilevi il dolore e lasci vuota la sezione della cartella",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dolore non scritto in cartella",
+      "prompt": "Legge 15 marzo 2010 n. 38, art. 7: nella cartella clinica, sezioni medica e infermieristica, vanno riportati le caratteristiche del dolore, la sua evoluzione, la tecnica antalgica, i farmaci, i dosaggi e il risultato antalgico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Nimesulide e SSN",
+      "prompt": "Vuoi un antinfiammatorio a carico del SSN per il dolore acuto della gamba. La Nota 66 che limite mette alla nimesulide?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la usi come prima linea SSN: la nota la ammette solo in seconda linea e per breve durata nel dolore acuto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Nimesulide come primo farmaco rimborsato, a durata non breve",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Nimesulide fuori Nota 66",
+      "prompt": "La newsletter AIFA della Nota 66 dice che la nimesulide può essere dispensata a carico del SSN esclusivamente per il trattamento di seconda linea e di breve durata del dolore acuto. La prima linea rimborsata non è in quella frase.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Durata della fase di trattamento",
+      "prompt": "Quanto dura, nel testo CHEST, la fase di trattamento in cui il DOAC è raccomandato rispetto all'AVK?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "I primi 3 mesi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Sospensione dopo pochi giorni, perché la pillola è stata fermata",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Anticoagulante interrotto subito",
+      "prompt": "CHEST lega la raccomandazione del DOAC rispetto all'AVK alla fase di trattamento, definita come i primi 3 mesi. Sospendere perché è stata tolta la pillola non è scritto nel foglio di Wells né in quella affermazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Wells 2 senza la pillola. Anticoagulante da solo, DOAC per 3 mesi, niente filtro. Dolore in cartella. Nimesulide non di prima linea SSN.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

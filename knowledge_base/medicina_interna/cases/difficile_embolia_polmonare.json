@@ -6,13 +6,16 @@
   "difficulty": "HARD",
   "specialty": "medicina_interna",
   "specialtyLabel": "Medicina Interna",
-  "secondarySpecialties": ["pneumologia", "cardiologia"],
+  "secondarySpecialties": [
+    "pneumologia",
+    "cardiologia"
+  ],
   "condition": "Embolia polmonare ad alto rischio, con instabilità emodinamica",
   "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "ehz405.pdf",
-  "diagnosis": "Embolia polmonare ad alto rischio. Pressione sistolica 85 mmHg, sincope, ipossia grave. Non è un'embolia a rischio intermedio.",
+  "guidelineRef": "ehz405.pdf; PIIS0012369221015063.pdf",
+  "diagnosis": "Embolia polmonare ad alto rischio: pressione sistolica sotto 90 mmHg, non spiegata da aritmia nuova, ipovolemia o sepsi, con ipoperfusione.",
   "pastMedicalHistory": "Nessuna controindicazione alla trombolisi è dichiarata: niente chirurgia recente, niente ictus, niente emorragia in atto. Non è in anticoagulante. Non è nota una neoplasia. Un viaggio lungo o un allettamento non sono nel brief e non vanno inventati. Dopo la sincope è rinvenuto, confuso e dispnoico.",
   "presentation": "Dispnea a esordio brusco, poi sincope. Ora è freddo, sudato, pressione 85/60, saturazione 84%. È troppo instabile per rimandare la riperfusione a un iter lungo. L'ecocardiografia al letto, se mostra disfunzione del ventricolo destro, basta per la riperfusione. L'angio-TC è l'alternativa se è disponibile e fattibile.",
   "redHerrings": [
@@ -21,9 +24,11 @@
   "timeLimitMinutes": 40,
   "patientDeteriorationThreshold": 10,
   "patientPrompt": "Mi chiamo Davide, ho 55 anni. Di colpo non respiravo e sono caduto. Adesso ho ancora il fiatone e ho paura di morire. Non mandatemi a fare esami lunghi se potete capire subito che cosa ho. Ditemi che cosa succede e chiedetemi che cosa mi spaventa, ma non perdete tempo.",
-  "correctSolution": "Alto rischio: sistolica sotto 90 mmHg, non spiegata da aritmia nuova, ipovolemia o sepsi, con ipoperfusione (sincope, cute fredda). Diagnosi: ecocardiografia al letto oppure angio-TC in urgenza, in base a disponibilità e condizioni. In questo paziente instabile, la disfunzione destra all'eco basta per la riperfusione senza altri esami. Eparina non frazionata endovena subito, con bolo. Trombolisi sistemica raccomandata nell'alto rischio: rtPA, 100 mg in 2 ore è la modalità preferita nel testo; il simulatore non giudica i milligrammi. La noradrenalina o la dobutamina vanno considerate (classe IIa): non sono un obbligo di punteggio se eparina e trombolisi sono avviate. Niente dimissione. Dire la diagnosi e chiedere la paura.",
-  "goldStandardPath": ["ecocardio", "lattati"],
-  "goldPathNarrative": "Riconoscere l'instabilità. Eco al letto: disfunzione del ventricolo destro, senza misure inventate. L'angio-TC è l'alternativa se fattibile, non un obbligo quando l'eco già mostra la disfunzione destra. Eparina non frazionata endovena subito e trombolisi sistemica. Considerare noradrenalina o dobutamina. SPIKES sulla paura di morire.",
+  "correctSolution": "ESC 2019: nell'alto rischio sospetto, eco al letto oppure angio-TC in urgenza. Eparina non frazionata, con bolo aggiustato sul peso, senza ritardo. Trombolisi sistemica raccomandata. Il testo indica il rtPA, 100 mg in 2 ore, come preferibile rispetto alle infusioni prolungate di streptochinasi o urochinasi. CHEST non sceglie un agente o una dose. Se la trombolisi è controindicata o è fallita, è raccomandata l'embolectomia chirurgica se ci sono expertise e risorse; qui una controindicazione non è dichiarata. Noradrenalina e/o dobutamina vanno considerate (IIa), non sono un obbligo al posto di eparina e trombolisi. Dopo la stabilizzazione, se il paziente è eleggibile per un NAO, il NAO è raccomandato rispetto all'AVK. Legge 38 art. 7: dolore in cartella.",
+  "goldStandardPath": [
+    "ecocardio"
+  ],
+  "goldPathNarrative": "Alto rischio. Eco al letto o angio-TC. Eparina non frazionata subito e trombolisi sistemica. Non dimettere. Dopo la stabilizzazione, NAO rispetto all'AVK se eleggibile. Dolore e dispnea annotati in cartella.",
   "examLatencies": {
     "ecocardio": 10,
     "lattati": 15,
@@ -35,29 +40,48 @@
       "id": "esordio-sincope",
       "prompt": "Il fiatone è iniziato di colpo? Ha perso coscienza e per quanto?",
       "critical": true,
-      "expectedKeywords": ["colpo", "coscienza", "sincope", "fiatone"],
+      "expectedKeywords": [
+        "colpo",
+        "coscienza",
+        "sincope",
+        "fiatone"
+      ],
       "rationale": "Dispnea improvvisa e sincope sono il quadro di partenza dell'instabilità."
     },
     {
       "id": "controindicazioni-lisi",
       "prompt": "Ha avuto un ictus, un'operazione recente o un sanguinamento in corso?",
       "critical": true,
-      "expectedKeywords": ["ictus", "oper", "sangue", "emorragia"],
+      "expectedKeywords": [
+        "ictus",
+        "oper",
+        "sangue",
+        "emorragia"
+      ],
       "rationale": "Nessuna controindicazione è nel brief. Va chiesta e, se negata, non va inventata."
     },
     {
       "id": "cause-alternative-shock",
       "prompt": "Ha febbre, una aritmia nota da oggi, o ha perso molto sangue?",
       "critical": true,
-      "expectedKeywords": ["febbre", "aritmia", "sangue"],
+      "expectedKeywords": [
+        "febbre",
+        "aritmia",
+        "sangue"
+      ],
       "rationale": "La definizione esclude la caduta di pressione da aritmia nuova, ipovolemia o sepsi. Qui non ci sono."
     },
     {
       "id": "paura",
       "prompt": "Che cosa la preoccupa di più in questo momento?",
       "critical": true,
-      "expectedKeywords": ["preoccup", "morire", "paura", "fiato"],
-      "rationale": "SPIKES, senza ritardare eparina e trombolisi."
+      "expectedKeywords": [
+        "preoccup",
+        "morire",
+        "paura",
+        "fiato"
+      ],
+      "rationale": "la preoccupazione del paziente, senza ritardare eparina e trombolisi."
     }
   ],
   "physicalExam": {
@@ -65,60 +89,36 @@
   },
   "escCitations": [
     {
-      "chunkId": "esc-2019-pe-instabilita",
+      "chunkId": "esc-eco-ct",
       "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
-      "quote": "Systolic BP < 90 mmHg or systolic BP drop >_40 mmHg, lasting longer than 15 min and not caused by new-onset arrhythmia, hypovolaemia, or sepsis And End-organ hypoperfusion (altered mental status; cold, clammy skin; oliguria/anuria; increased serum lactate)"
+      "quote": "In suspected high-risk PE, as indicated by the presence of haemodynamic instability, bedside echocardiography or emergency CTPA (depending on availability and clinical circumstances) is recommended for diagnosis."
     },
     {
-      "chunkId": "esc-2019-pe-eco-ct",
+      "chunkId": "esc-ufh-lisi",
       "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
-      "quote": "In suspected high-risk PE, as indicated by the presence of haemodynamic instability, bedside echocardiography or emergency CTPA (depending on availability and clinical circumstances) is recommended for diagnosis. I C"
+      "quote": "It is recommended that anticoagulation with UFH, including a weight-adjusted bolus injection, be initiated without delay in patients with high-risk PE. Systemic thrombolytic therapy is recommended for high-risk PE."
     },
     {
-      "chunkId": "esc-2019-pe-eco-riperfusione",
-      "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
-      "quote": "In a highly unstable patient, echocardiographic evidence of RV dysfunction is sufficient to prompt immediate reperfusion without further testing."
-    },
-    {
-      "chunkId": "esc-2019-pe-ufh",
-      "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
-      "quote": "It is recommended that i.v. anticoagulation with UFH, including a weight-adjusted bolus injection, be initiated without delay in patients with suspected high-risk PE. I C"
-    },
-    {
-      "chunkId": "esc-2019-pe-trombolisi",
-      "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
-      "quote": "Systemic thrombolytic therapy is recommended for high-risk PE. I B"
-    },
-    {
-      "chunkId": "esc-2019-pe-rtpa",
+      "chunkId": "esc-rtpa",
       "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
       "quote": "Accelerated i.v. administration of recombinant tissue-type plasminogen activator (rtPA; 100 mg over 2 h) is preferable to prolonged infusions of first-generation thrombolytic agents (streptokinase and urokinase)."
     },
     {
-      "chunkId": "esc-2019-pe-norepi",
+      "chunkId": "esc-nao",
       "source": "knowledge_base/medicina_interna/clinical/ehz405.pdf",
-      "quote": "Norepinephrine and/or dobutamine should be considered in patients with high-risk PE. IIa C"
-    },
-    {
-      "chunkId": "empatia-spikes-emozione",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "l'identificazione delle emozioni attraverso la loro verbalizzazione: \"Mi sembra molto spaventato da quello che le ho detto\"; \"Ho dovuto darle una cattiva notizia. Vuole che parliamo del suo stato d'animo?\"; 3) l'identificazione dei pensieri associati all'emozione: \"Cosa la preoccupa in particolare?\""
+      "quote": "When oral anticoagulation is started in a patient with PE who is eligible for a NOAC (apixaban, dabigatran, edoxaban, or rivaroxaban), a NOAC is recommended in preference to a VKA."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Instabilità: sistolica 85 mmHg, sincope, cute fredda, saturazione 84%.",
-      "Eco al letto con disfunzione destra, sufficiente per la riperfusione. Angio-TC se fattibile, non al posto del trattamento.",
-      "Eparina non frazionata endovena subito e trombolisi sistemica.",
-      "Noradrenalina o dobutamina considerate, non sostitutive della trombolisi."
+      "Eparina non frazionata senza ritardo e trombolisi sistemica nell'alto rischio.",
+      "Dopo la stabilizzazione, NAO rispetto all'AVK se il paziente è eleggibile."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Il percorso segue i brani ESC 2019 estratti da ehz405.pdf. I file di sola dichiarazione di conflitti non sono citati. 100 mg in 2 ore è la preferenza del testo e non è un preset del simulatore.",
+      "art5Adherence": "CHEST suggerisce la trombolisi sistemica se c'è ipotensione e non un alto rischio di sanguinamento, e non sceglie l'agente. La dose da citare è solo quella che ESC chiama preferibile: rtPA 100 mg in 2 ore.",
       "legalCriteria": [
-        "Documentare pressione, sincope, saturazione e l'assenza di controindicazioni alla lisi.",
-        "Registrare l'eco al letto e la decisione sulla angio-TC.",
-        "Registrare eparina non frazionata e trombolitico sistemico.",
-        "Annotare la paura detta dal paziente, senza ritardare la riperfusione."
+        "Non dimettere un paziente con sistolica sotto 90 mmHg e ipoperfusione.",
+        "Art. 7 legge 38/2010: annotare il dolore in cartella durante il ricovero."
       ]
     }
   },
@@ -128,7 +128,6 @@
       "name": "Ecocardiografia al letto",
       "finding": "Disfunzione del ventricolo destro. TAPSE, rapporto ventricolare e pressione polmonare stimata non hanno un numero fissato.",
       "isAbnormal": true,
-      "priceEuro": 75,
       "isFatal": false
     },
     {
@@ -136,7 +135,6 @@
       "name": "Lattati",
       "finding": "Lattati aumentati, come segno di ipoperfusione. Nessun valore in mmol/L è fissato.",
       "isAbnormal": true,
-      "priceEuro": 5,
       "isFatal": false
     }
   ],
@@ -148,7 +146,6 @@
       "isAbnormal": false,
       "inappropriate": true,
       "isFatal": false,
-      "priceEuro": 950,
       "wasteRationale": "Nel paziente instabile la diagnosi citata è l'eco al letto o l'angio-TC, e la riperfusione non aspetta una PET."
     }
   ],
@@ -160,7 +157,6 @@
       "temperature": 36.6,
       "respiratoryRate": 32
     },
-    "examBudgetEuro": 450,
     "demographics": {
       "age": 55,
       "sex": "M",
@@ -170,23 +166,19 @@
       "values": {
         "ecocardio": {
           "finding": "Disfunzione del ventricolo destro, senza misure numeriche.",
-          "isAbnormal": true,
-          "price": 75
+          "isAbnormal": true
         },
         "lattati": {
           "finding": "Aumentati, senza mmol/L fissati.",
-          "isAbnormal": true,
-          "price": 5
+          "isAbnormal": true
         },
         "angio": {
           "finding": "Se eseguita ed è fattibile, difetto di riempimento polmonare. Non è obbligatoria se l'eco mostra già la disfunzione destra.",
-          "isAbnormal": true,
-          "price": 350
+          "isAbnormal": true
         },
         "pet-tc": {
           "finding": "Esame non indicato.",
-          "isAbnormal": false,
-          "price": 950
+          "isAbnormal": false
         }
       }
     },
@@ -194,56 +186,53 @@
       "indicated": [
         {
           "id": "ufh",
-          "label": "Eparina non frazionata endovena",
-          "aliases": ["eparina non frazionata", "eparina sodica", "ufh"],
-          "validDosages": ["1 fiala EV", "In infusione continua"]
+          "label": "Eparina non frazionata",
+          "aliases": [
+            "eparina non frazionata",
+            "eparina sodica",
+            "ufh"
+          ]
         },
         {
-          "id": "alteplase",
-          "label": "Trombolisi sistemica con rtPA",
-          "aliases": ["alteplase", "actilyse", "rtpa", "rt-pa"]
+          "id": "trombolisi",
+          "label": "Trombolisi sistemica",
+          "aliases": [
+            "trombolisi",
+            "alteplase",
+            "rtpa",
+            "actilyse"
+          ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Eco al letto con disfunzione destra, in paziente con sistolica 85 mmHg.",
-        "Eparina non frazionata endovena senza ritardo e trombolisi sistemica.",
-        "Angio-TC solo se disponibile e fattibile, non come ritardo della lisi.",
-        "Dire che cosa ha e chiedere la paura, senza dimetterlo."
+        "Eco al letto o angio-TC.",
+        "Eparina non frazionata e trombolisi sistemica.",
+        "Niente dimissione."
       ],
       "penalties": [
         {
           "id": "niente-lisi",
           "kind": "clinical_grave",
-          "trigger": "Alto rischio senza trombolisi sistemica, in assenza di controindicazioni."
-        },
-        {
-          "id": "solo-ebpm",
-          "kind": "clinical",
-          "trigger": "Solo eparina a basso peso molecolare, senza eparina non frazionata endovena e senza trombolisi."
+          "trigger": "Niente trombolisi nell'alto rischio senza controindicazione."
         },
         {
           "id": "dimissione",
           "kind": "clinical_grave",
-          "trigger": "Dimissione dopo la sincope con pressione 85/60."
+          "trigger": "Dimissione con sistolica sotto 90 mmHg."
         }
       ],
       "empathy": {
         "namespace": "empatia",
-        "frameworkRequested": "SPIKES",
-        "documentUsed": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-        "expectedBehavior": "Dire che si tratta di un'embolia grave, nominare la paura di morire e chiedere che cosa lo preoccupa, mentre partono eparina e trombolisi.",
+        "frameworkRequested": null,
+        "documentUsed": null,
+        "expectedBehavior": "Chiedere che cosa preoccupa il paziente e rispondere a quella preoccupazione. In queste cartelle non c'è un protocollo di comunicazione da citare.",
         "verbatimNurseQuote": null
       },
       "citationLimits": [
-        "Nel text layer il simbolo ≥ della caduta di 40 mmHg è stampato >_ . La citazione lo lascia così.",
-        "Eco e angio-TC sono in alternativa. In questo instabile l'eco con disfunzione destra basta per la riperfusione. L'angio-TC non è un esame la cui omissione è un errore.",
-        "100 mg di rtPA in 2 ore è la preferenza rispetto a streptochinasi e urochinasi. Il simulatore non giudica i milligrammi. Il bolo di eparina è nel testo e non ha un preset in unità.",
-        "Noradrenalina o dobutamina sono di classe IIa, da considerare. Non sono nello slot obbligatorio: eparina non frazionata e trombolisi sì.",
-        "I file ESC_2019_Pulmonary_Embolism_Guidelines.pdf e DOI_Summary_2019_ACUTE_PE.pdf estraggono solo conflitti di interessi. Le frasi vengono da ehz405.pdf.",
-        "Il lattato aumentato è nella definizione di ipoperfusione. Il numero in mmol/L non è nel brief e non è stato inventato.",
-        "NURSE non compare nei PDF di empatia."
+        "CHEST non sceglie agente né dose. La frase sui 100 mg in 2 ore è di ESC, come regime preferibile rispetto a streptochinasi e urochinasi.",
+        "Noradrenalina o dobutamina sono da considerare (IIa), non un obbligo al posto della lisi."
       ]
     }
   },
@@ -257,5 +246,241 @@
       "socialSupport": "ADEQUATE"
     },
     "communicationStyle": "Appena rinvenuto è spaventato e chiede di andare a casa. Se il medico gli dice che cosa ha, nomina la paura e non perde tempo sugli esami, accetta eparina e trombolisi."
-  }
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Alto rischio",
+      "prompt": "Sistolica 85 mmHg, sincope, cute fredda, saturazione 84%. Non è un'aritmia nuova, non è ipovolemia, non è sepsi. Come lo classifichi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Embolia ad alto rischio: instabilità emodinamica con ipoperfusione",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Embolia a basso rischio e dimissione con terapia domiciliare",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Dimissione nell'instabilità",
+      "prompt": "ESC definisce l'instabilità come arresto, shock ostruttivo o ipotensione persistente sotto 90 mmHg non causata da aritmia nuova, ipovolemia o sepsi, con ipoperfusione. Il trattamento domiciliare CHEST vale per l'embolia a basso rischio, non per questa pressione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Come confermi",
+      "prompt": "È troppo instabile per un iter lungo. Quale diagnostica raccomanda ESC?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Ecocardiografia al letto oppure angio-TC in urgenza, in base a disponibilità e condizioni",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Nessun esame e nessuna terapia finché non c'è una scintigrafia differita",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Diagnosi rinviata",
+      "prompt": "ESC, classe I: nell'embolia ad alto rischio sospetta, per la presenza di instabilità, si raccomanda l'eco al letto o l'angio-TC in urgenza. L'eparina non frazionata non va ritardata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Eparina",
+      "prompt": "Quale anticoagulante va iniziato senza ritardo nell'alto rischio?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Eparina non frazionata, compreso un bolo aggiustato sul peso",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Nessun anticoagulante fino a dopo la trombolisi e la stabilizzazione",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Eparina ritardata",
+      "prompt": "ESC, classe I C: nell'embolia ad alto rischio si raccomanda l'anticoagulazione con eparina non frazionata, compreso un bolo aggiustato sul peso, senza ritardo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Trombolisi",
+      "prompt": "Non è dichiarata una controindicazione al litico e il rischio di sanguinamento non è descritto come alto. CHEST e ESC che cosa dicono?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Trombolisi sistemica. ESC indica come preferibile il rtPA, 100 mg in 2 ore, rispetto a streptochinasi o urochinasi in infusione prolungata",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Niente trombolisi: solo eparina, perché la pressione può risalire da sola",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Trombolisi omessa",
+      "prompt": "ESC, classe I B: la trombolisi sistemica è raccomandata nell'embolia ad alto rischio. CHEST la suggerisce se c'è ipotensione, per esempio sistolica sotto 90 mmHg, e non c'è un alto rischio di sanguinamento. Ometterla in questo quadro è un ritardo della riperfusione raccomandata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se la lisi non si può fare",
+      "prompt": "Una controindicazione, qui, non è dichiarata. Quando entra l'embolectomia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Solo se la trombolisi è controindicata o è fallita, e se in sede ci sono expertise e risorse",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Chirurgia subito, saltando la trombolisi nonostante non ci sia una controindicazione",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Chirurgia al posto della lisi",
+      "prompt": "ESC: l'embolectomia chirurgica è raccomandata nell'alto rischio quando la trombolisi è controindicata o è fallita, se ci sono expertise e risorse. Non sostituisce la trombolisi in un paziente senza controindicazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo la stabilizzazione",
+      "prompt": "La pressione si è stabilizzata ed è eleggibile per un anticoagulante orale diretto. Che cosa raccomanda ESC rispetto all'AVK?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Un NAO tra apixaban, dabigatran, edoxaban e rivaroxaban, in preferenza all'AVK",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Warfarin come unica scelta, senza considerare il NAO",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "AVK al posto del NAO",
+      "prompt": "ESC, fase acuta dell'embolia a rischio intermedio o basso, da continuare dopo la stabilizzazione dell'alto rischio: se il paziente è eleggibile per un NAO, il NAO è raccomandato rispetto all'AVK.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore e dispnea in cartella",
+      "prompt": "Resta ricoverato. Che cosa va scritto del sintomo doloroso o della sofferenza riferita?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Caratteristiche del dolore, evoluzione, tecnica, farmaci, dosi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Cartella senza alcuna rilevazione del dolore",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non rilevato",
+      "prompt": "Legge 38/2010, art. 7: in cartella vanno le caratteristiche del dolore rilevato, l'evoluzione, la tecnica antalgica, i farmaci, i dosaggi e il risultato antalgico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Alto rischio: eco o angio-TC, eparina non frazionata senza ritardo, trombolisi sistemica, NAO dopo la stabilizzazione se eleggibile, dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }
