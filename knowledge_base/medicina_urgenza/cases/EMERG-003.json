@@ -1,198 +1,480 @@
 {
   "id": "EMERG-003",
   "code": "EMERG-003",
-  "title": "Donna di 60 anni con dolore toracico atipico",
-  "description": "Giulia, 60 anni, arriva in pronto soccorso per un dolore toracico atipico. È stabile. Parametri: PA 128/76 mmHg, FC 78 bpm, FR 16 atti/min, SpO2 98%, temperatura 36.5.",
+  "title": "Donna di 40 anni con dolore toracico e HEART da calcolare",
+  "description": "Chiara, 40 anni, dolore toracico poco tipico da un'ora, ECG normale, nessuna storia di aterosclerosi, non fuma, non e diabetica, non e ipertesa, familiarita negativa, BMI non sopra 30, colesterolo non noto come alto. Troponina nel limite. Parametri: PA 122/74 mmHg, FC 78 bpm, FR 14 atti/min, SpO2 99%, temperatura 36.5. E lucida e rifiuta una coronarografia immediata.",
   "difficulty": "EASY",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["cardiologia"],
-  "condition": "Sospetta sindrome coronarica a basso rischio",
+  "secondarySpecialties": [
+    "cardiologia"
+  ],
+  "condition": "Dolore toracico in pronto soccorso, punteggio HEART da compilare senza una soglia di dimissione nel poster",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "BASE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "04_LG_ESC_ACS (e1-e112).pdf",
-  "diagnosis": "Sospetta sindrome coronarica acuta a basso rischio. Dolore toracico atipico, parametri stabili.",
-  "pastMedicalHistory": "Nessun infarto noto nel racconto di partenza. Non prende già un antiaggregante dichiarato. Non è allergica all'aspirina nel testo di partenza. Il dolore non è traumatico.",
-  "presentation": "Dolore al petto da circa un'ora, non oppressivo, non irradiato al braccio nel racconto iniziale. È tranquilla, parametri stabili, non suda. Vuole sapere se è il cuore.",
-  "redHerrings": [],
-  "timeLimitMinutes": 25,
+  "guidelineRef": "hearth score.pdf; LG-ERC-2021_Capitolo-12_Etica.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Il poster HEART assegna i punti di anamnesi, ECG, eta, fattori di rischio e troponina. Non scrive una soglia chiamata basso rischio ne un numero oltre il quale dimettere. Chiara totalizza 0 se i dati sono quelli del caso. Rifiuta un esame invasivo: la sezione ERC sulle DAT spiega che la scelta di non tentare trattamenti invasivi rifiutati protegge il paziente.",
+  "pastMedicalHistory": "Nessun fattore di rischio aterosclerotico tra quelli elencati nel poster. ECG normale. Eta 40 anni. Troponina non sopra il limite. Lucida.",
+  "presentation": "Dolore poco sospetto. Il poster da 0 alla storia solo leggermente sospetta, 0 all'ECG normale, 0 all'eta di 45 anni o meno, 0 se non ci sono fattori noti, 0 se la troponina e nel limite o sotto.",
+  "redHerrings": [
+    "Un familiare chiede la coronarografia subito, anche se lei la rifiuta."
+  ],
+  "timeLimitMinutes": 20,
   "patientDeteriorationThreshold": 20,
-  "patientPrompt": "Mi chiamo Giulia, ho 60 anni. Ho un dolore al petto, strano, non è un macigno e non mi scende nel braccio. Sto bene in piedi, non sudo. Ho paura che sia il cuore. Fatemi l'elettrocardiogramma e il prelievo, e ditemi che cosa significano.",
-  "correctSolution": "ECG a 12 derivazioni entro 10 minuti dal primo contatto, e prelievo per troponina ad alta sensibilità con risultato entro 60 minuti dal prelievo. Sono le due raccomandazioni di classe I della linea guida ESC sulle sindromi coronariche acute, nella traduzione italiana 2024. Il poster HEART score, nel file hearth score.pdf, descrive lo score per i pazienti con dolore toracico e scrive che predice gli eventi avversi cardiaci maggiori. Non contiene le parole basso rischio né una soglia numerica di dimissione. Il caso non fissa un numero di troponina né un sopraslivellamento del tratto ST.",
-  "goldStandardPath": ["ecg", "troponina-hs"],
-  "goldPathNarrative": "ECG a 12 derivazioni subito, entro 10 minuti, e prelievo della troponina ad alta sensibilità. Dire a Giulia che cosa cercano i due esami. Non avviare una riperfusione d'emergenza: il tracciato del caso non è un STEMI.",
+  "patientPrompt": "Sono Chiara, ho 40 anni. Mi fa male il petto ma il dolore e strano, non come quello che ho letto sull'infarto. L'elettrocardiogramma me l'hanno detto normale. Non voglio un esame nel cuore se non e scritto. Spiegatemi il punteggio, senza inventare una soglia.",
+  "correctSolution": "Compilare il HEART con i punti del poster: storia poco sospetta 0, ECG normale 0, eta 45 anni o meno 0, nessun fattore tra quelli elencati 0, troponina entro il limite 0. Il poster non definisce un cut-off di dimissione: non se ne inventa uno. Non si fa una coronarografia contro il suo rifiuto. Il poster elenca i fattori: ipercolesterolemia, fumo, ipertensione, familiarita, diabete, obesita con BMI sopra 30.",
+  "goldStandardPath": [
+    "ecg",
+    "troponina"
+  ],
+  "goldPathNarrative": "Calcoli i cinque campi del poster. Non dimetti con una soglia che il foglio non ha. Non forzi la coronarografia.",
   "examLatencies": {
-    "ecg": 10,
-    "troponina-hs": 45,
-    "pet-tc": 180
+    "ecg": 5,
+    "troponina": 40,
+    "coronarografia": 120
   },
   "anamnesisQuestions": [
     {
-      "id": "carattere",
-      "prompt": "Com'è il dolore: oppressivo, irradiato, o diverso, e da quanti minuti è iniziato?",
+      "id": "storia",
+      "prompt": "Il dolore le sembra tipico di un infarto o solo un fastidio poco chiaro?",
       "critical": true,
-      "expectedKeywords": ["dolore", "petto", "oppressivo", "minuti"],
-      "rationale": "Il brief è un dolore atipico. L'ora di inizio conta per leggere poi la troponina."
+      "expectedKeywords": [
+        "dolore",
+        "tipico",
+        "petto"
+      ],
+      "rationale": "La storia poco sospetta vale 0 nel poster."
     },
     {
-      "id": "stabilita",
-      "prompt": "Ha sudorazione, fiato corto, o si sente svenire adesso?",
+      "id": "fattori",
+      "prompt": "Fuma, ha pressione alta, diabete, colesterolo alto o familiari con infarto?",
       "critical": true,
-      "expectedKeywords": ["sudore", "fiato", "svenire", "stabile"],
-      "rationale": "I parametri sono stabili. Questi sintomi non sono nel brief e non vanno dati per presenti."
+      "expectedKeywords": [
+        "fuma",
+        "diabete",
+        "pressione"
+      ],
+      "rationale": "Sono i fattori elencati nel poster, insieme al BMI sopra 30."
     },
     {
-      "id": "paura",
-      "prompt": "Che cosa la preoccupa di più di questo dolore?",
-      "critical": true,
-      "expectedKeywords": ["cuore", "preoccup", "paura", "infarto"],
-      "rationale": "Giulia teme un problema cardiaco. La spiegazione accompagna ECG e prelievo."
+      "id": "rifiuto",
+      "prompt": "Vuole un esame invasivo delle coronarie?",
+      "critical": false,
+      "expectedKeywords": [
+        "coronarografia",
+        "rifiuto",
+        "esame"
+      ],
+      "rationale": "Il rifiuto di un trattamento invasivo va rispettato."
     }
   ],
   "physicalExam": {
-    "summary": "Vigilante, collaborante, non sudata. Toni ritmici, soffi assenti. Murmure vescicolare, niente rantoli descritti. Addome trattabile. Polsi simmetrici. Non è descritto un soffio addominale."
+    "summary": "Lucida, dolore non tipico, non dispnoica, non sudata fredda. Toni validi."
   },
   "escCitations": [
     {
-      "chunkId": "esc-acs-ecg-10-min",
-      "source": "knowledge_base/medicina_urgenza/clinic/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "Si raccomanda di ottenere ed interpretare un ECG a 12 derivazioni quanto prima possibile dal FMC ma comunque entro 10 min"
+      "chunkId": "heart-h",
+      "source": "knowledge_base/medicina_urgenza/clinical/hearth score.pdf",
+      "quote": "History. Highly suspicious 2. Moderately suspicious 1. Slightly suspicious 0."
     },
     {
-      "chunkId": "esc-acs-hsctn-60-min",
-      "source": "knowledge_base/medicina_urgenza/clinic/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "Al momento della presentazione si raccomanda di eseguire immediatamente la misurazione delle hs-cTn e di ottenere i risultati entro 60 min dal prelievo di sangue"
+      "chunkId": "heart-e",
+      "source": "knowledge_base/medicina_urgenza/clinical/hearth score.pdf",
+      "quote": "ECG. Significant ST deviation 2. Non-specific repolarisation disturbance, LBBB, PM 1. Normal 0."
     },
     {
-      "chunkId": "esc-acs-hsctn-tutti",
-      "source": "knowledge_base/medicina_urgenza/clinic/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "preferibilmente la hs-cTn, è raccomandata in tutti i pa- zienti con sospetta ACS"
+      "chunkId": "heart-a",
+      "source": "knowledge_base/medicina_urgenza/clinical/hearth score.pdf",
+      "quote": "Age. 65 years or more 2. 45 to 65 years 1. 45 years or less 0."
     },
     {
-      "chunkId": "heart-score-dolore-toracico",
-      "source": "knowledge_base/medicina_urgenza/clinic/hearth score.pdf",
-      "quote": "HEART score for chest pain patients"
+      "chunkId": "heart-t",
+      "source": "knowledge_base/medicina_urgenza/clinical/hearth score.pdf",
+      "quote": "Troponin. 3 times normal limit or more 2. 1 to 3 times normal limit 1. Normal limit or below 0."
     },
     {
-      "chunkId": "heart-score-predice-endpoint",
-      "source": "knowledge_base/medicina_urgenza/clinic/hearth score.pdf",
-      "quote": "HEART score reliably predicts endpoints"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
     },
     {
-      "chunkId": "heart-score-mace",
-      "source": "knowledge_base/medicina_urgenza/clinic/hearth score.pdf",
-      "quote": "MACE = Major Adverse Cardiac Event = Myocardial Infarction, PCI/CABG, all -cause death."
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore-tariffario_1-ottobre-2025.pdf",
+      "quote": "172 Coronarografia + ventricolografia sinistra + cateterismo sinistro. 1.305,00 €"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "ECG a 12 derivazioni entro 10 minuti dal primo contatto.",
-      "Prelievo della troponina ad alta sensibilità alla presentazione.",
-      "Niente triage alla riperfusione d'emergenza senza un tracciato da STEMI."
+      "Assegnare i punti del poster, senza una soglia di dimissione che il foglio non contiene.",
+      "Non eseguire una coronarografia rifiutata."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Le frasi su ECG e troponina sono della linea guida ESC 2023 sulle sindromi coronariche acute, edizione italiana G Ital Cardiol 2024. L'ECG entro 10 minuti e la hs-cTn immediata sono raccomandazioni di classe I. Il poster HEART score dice che lo score predice gli endpoint e definisce il MACE. Non scrive basso rischio e non dà una soglia. Il caso non inventa il valore della troponina.",
+      "art5Adherence": "Il poster HEART elenca i punti. Il capitolo ERC sull'etica collega il rifiuto alla protezione da trattamenti invasivi non voluti. Il poster non cita la legge 219 al comma 7. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Annotare l'orario del primo contatto e l'orario dell'ECG.",
-        "Annotare l'orario del prelievo della troponina ad alta sensibilità.",
-        "Conservare il referto ECG e non chiudere la diagnosi prima di averlo letto."
+        "Non contare un fattore che il poster non elenca.",
+        "Non chiamare basso rischio un totale, perche quelle parole non sono nel poster.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
       "examId": "ecg",
-      "name": "ECG a 12 derivazioni",
-      "finding": "Ritmo sinusale. Non è descritto un sopraslivellamento del tratto ST. Nessun millimetro di ST è fissato.",
+      "name": "Elettrocardiogramma",
+      "finding": "Normale. Nel poster l'ECG normale vale 0. Nessun sopraslivellamento.",
       "isAbnormal": false,
-      "priceEuro": 15,
       "isFatal": false
     },
     {
-      "examId": "troponina-hs",
-      "name": "Troponina ad alta sensibilità",
-      "finding": "Prelievo eseguito alla presentazione. Nessun valore numerico è fissato dal caso. Il referto non è ancora un numero.",
+      "examId": "troponina",
+      "name": "Troponina",
+      "finding": "Entro il limite di riferimento. Nel poster vale 0. Nessun numero assoluto inventato.",
       "isAbnormal": false,
-      "priceEuro": 18,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non fa parte del work-up iniziale della sospetta sindrome coronarica.",
+      "examId": "coronarografia",
+      "name": "Coronarografia immediata",
+      "finding": "Il poster non la indica. Lei la rifiuta.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Le raccomandazioni iniziali copiate nominano l'ECG a 12 derivazioni e la hs-cTn. Non nominano la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "Prenoti il pacchetto da 1.305,00 euro prima di storia ed ECG, che il poster mette per primi. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 1305
     }
   ],
   "baselineExamFindings": {
     "vitals": {
       "heartRate": 78,
-      "bloodPressure": "128/76",
-      "spo2": 98,
+      "bloodPressure": "122/74",
+      "spo2": 99,
       "temperature": 36.5,
-      "respiratoryRate": 16
+      "respiratoryRate": 14
     },
-    "examBudgetEuro": 40,
-    "demographics": { "age": 60, "sex": "F", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Dolore toracico",
-        "result": "Dolore presente, non oppressivo nel racconto, senza irradiazione al braccio descritta all'arrivo.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 40,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
         "ecg": {
-          "finding": "Sinusale, senza sopraslivellamento del tratto ST descritto.",
-          "isAbnormal": false,
-          "price": 15
+          "finding": "Normale. Nel poster l'ECG normale vale 0. Nessun sopraslivellamento.",
+          "isAbnormal": false
         },
-        "troponina-hs": {
-          "finding": "Campione prelevato. Nessun ng/L è fissato.",
-          "isAbnormal": false,
-          "price": 18
+        "troponina": {
+          "finding": "Entro il limite di riferimento. Nel poster vale 0. Nessun numero assoluto inventato.",
+          "isAbnormal": false
         },
-        "pet-tc": { "finding": "Non indicata nel primo passaggio.", "isAbnormal": false, "price": 950 }
+        "coronarografia": {
+          "finding": "Il poster non la indica. Lei la rifiuta.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
-      "indicated": []
+      "indicated": [
+        {
+          "label": "Nessun esame invasivo rifiutato",
+          "anyOf": [
+            {
+              "id": "osservazione",
+              "label": "Osservazione e punteggio",
+              "aliases": [
+                "osservazione",
+                "heart"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "coro",
+          "label": "Coronarografia contro il rifiuto",
+          "aliases": [
+            "coronarografia"
+          ]
+        }
+      ]
     },
     "outcomeRules": {
       "win": [
-        "ECG a 12 derivazioni entro 10 minuti.",
-        "Prelievo della troponina ad alta sensibilità.",
-        "Dire a Giulia che cosa cercano i due esami."
+        "HEART compilato coi punti del poster.",
+        "Nessuna soglia inventata.",
+        "Rifiuto rispettato."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto di ECG e troponina."
+          "id": "soglia",
+          "kind": "clinical",
+          "trigger": "Dimissione con un cut-off che il poster non scrive."
         }
       ],
       "citationLimits": [
-        "FMC nel testo è il primo contatto medico. Il brief parla di triage: la frase citata misura i 10 minuti dal primo contatto medico, non da una parola diversa.",
-        "La frase sulla hs-cTn chiede il risultato entro 60 minuti dal prelievo, non un valore soglia. Nessun numero di troponina è stato inventato.",
-        "Nel PDF la frase è spezzata a fine riga come «pa- zienti» e, prima, «cardiomio- citario». La citazione conserva «pa- zienti» e non ricostruisce la parola.",
-        "La stessa linea guida raccomanda il triage immediato alla riperfusione d'emergenza nei pazienti con sospetto STEMI. L'ECG di questo caso non descrive un sopraslivellamento. Quella raccomandazione non è il percorso premiato.",
-        "È scritto anche di considerare una CCTA o un imaging non invasivo se non c'è dolore ricorrente, la hs-cTn è nella norma o incerta e l'ECG è normale. Qui il valore della troponina non è fissato, quindi quella frase non diventa un esame obbligatorio.",
-        "Non c'è, nel poster HEART, la frase basso rischio, low risk, né un cutoff numerico per dimettere. L'asse del grafico elenca i punteggi da 0 a 10. Basso rischio resta il brief. Lo score, nel testo estraibile, predice il MACE: infarto, PCI/CABG, morte per ogni causa. Nel PDF la morte è scritta «all -cause», con lo spazio prima del trattino."
+        "Il poster non contiene le parole basso rischio ne una soglia numerica di dimissione."
       ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "ANXIOUS",
+    "emotionalState": "DEFENSIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "MEDIUM", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Collabora, è spaventata dall'idea del cuore. Si rassicura se le si dice a che ora arriva l'ECG e che il prelievo della troponina serve a cercare un danno del muscolo cardiaco, senza anticipare un infarto."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole capire il punteggio e non vuole un esame nel cuore. Diventa collaborante se non le si inventa una soglia."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Storia ed ECG",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Dolore poco tipico, ECG normale. Quanti punti sono, nel poster?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Storia leggermente sospetta: 0. ECG normale: 0. Il disturbo aspecifico di ripolarizzazione, il blocco di branca sinistra o il pacemaker varrebbero 1 Non la esegui ora.",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Prenoti il pacchetto da 1.305,00 euro prima di storia ed ECG, che il poster mette per primi",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario a uso dei Soci Fisde, in vigore dal 1 ottobre 2025: 172 Coronarografia + ventricolografia sinistra + cateterismo sinistro. 1.305,00 €. Prenoti il pacchetto da 1.305,00 euro prima di storia ed ECG, che il poster mette per primi. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Eta",
+      "prompt": "Ha 40 anni. Quanti punti di eta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Zero. 45 anni o meno vale 0. Da 45 a 65 vale 1. 65 o piu vale 2",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Le dai 2 punti perche e adulta",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Punti dell'eta sbagliati",
+      "prompt": "Il poster: 65 anni o piu = 2, tra 45 e 65 = 1, 45 anni o meno = 0.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Fattori",
+      "prompt": "Non fuma, non e ipertesa, non e diabetica, niente familiarita, BMI non sopra 30, colesterolo non segnalato alto. Quanti punti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Zero. I fattori del poster sono ipercolesterolemia, fumo, ipertensione, familiarita, diabete e obesita con BMI sopra 30. Nessuno e presente. Tre o piu, o una malattia aterosclerotica gia nota, varrebbero 2",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Conti l'ansia come fattore e le dai 1 punto",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Fattore non elencato",
+      "prompt": "Il poster elenca ipercolesterolemia, fumo, ipertensione, familiarita positiva, diabete e obesita con BMI sopra 30. L'ansia non e in quell'elenco.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Troponina",
+      "prompt": "La troponina e nel limite. Quanti punti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Zero. Nel limite o sotto vale 0. Da 1 a 3 volte il limite vale 1. Tre volte o piu vale 2",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "La tratti come positiva perche c'e dolore toracico",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Troponina riletta",
+      "prompt": "Nel poster la troponina nel limite o sotto vale 0. Non diventa positiva per il solo dolore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Soglia che non c'e",
+      "prompt": "Il totale dei cinque campi e 0. Il poster ti autorizza a chiamarlo basso rischio e a dimetterla con quel numero?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. Il poster mostra che il punteggio predice gli eventi avversi maggiori e non scrive una soglia di dimissione. Non ne inventi una",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "La dimetti perche sotto 3 e basso rischio, soglia che aggiungi tu",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Cut-off assente dal poster",
+      "prompt": "Il poster HEART non contiene le parole basso rischio e non fissa un numero per la dimissione. Aggiungerlo non e il documento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Coronarografia rifiutata",
+      "prompt": "Lei, capace, rifiuta l'esame invasivo. E lucida e rifiuta la coronarografia. Il familiare insiste.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la fai. Il capitolo etico ERC dice che non tentare una RCP rifiutata serve a proteggere da trattamenti invasivi che la persona ha rifiutato. Il poster non indica quell'esame Rispetti il rifiuto.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Esegui coronarografia, ventricolografia e cateterismo perche lo chiede il marito, contro il rifiuto di lei che e capace",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Esegui coronarografia, ventricolografia e cateterismo perche lo chiede il marito, contro il rifiuto di lei che e capace contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Che cosa non citare",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Vuoi scrivere in cartella che la legge 219, comma 7, ti obbliga a un numero di minuti per l'ECG che questo poster non ha.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non lo fai. In questi fascicoli la legge 219 compare nel capitolo etico ERC per le DAT e per il fiduciario all'articolo 4, non come una soglia di minuti dell'ECG. Il poster non ha quei minuti In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Punteggio del poster, rifiuto rispettato",
+      "prompt": "Storia 0, ECG 0, eta 0, fattori 0, troponina 0. Nessuna soglia di dimissione inventata. Coronarografia non eseguita contro il rifiuto.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

@@ -1,237 +1,480 @@
 {
   "id": "EMERG-008",
   "code": "EMERG-008",
-  "title": "Uomo di 68 anni ipoteso, confuso e oligurico",
-  "description": "Franco, 68 anni, arriva in pronto soccorso confuso, cute fredda. Parametri: PA 70/40 mmHg, FC 118 bpm, FR 28 atti/min, SpO2 90%, temperatura 36.2. Oligurico. Non è una sepsi nel brief.",
-  "difficulty": "HARD",
+  "title": "Uomo di 70 anni con BPCO, pH 7,28 e PaCO2 60",
+  "description": "Luigi, 70 anni, riacutizzazione di BPCO. Dopo la terapia medica standard: pH 7,28, PaCO2 60 mmHg, FR 28. Non e in arresto respiratorio, non e agitato da sedare, la pressione e 128/74. Parametri: PA 128/74 mmHg, FC 104 bpm, FR 28 atti/min, SpO2 90% in aria, temperatura 36.8.",
+  "difficulty": "MEDIUM",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["cardiologia"],
-  "condition": "Shock cardiogeno",
-  "frequencyCategory": "LOW",
-  "matrixDifficulty": "ADVANCED",
+  "secondarySpecialties": [
+    "pneumologia"
+  ],
+  "condition": "Acidosi respiratoria acuta da riacutizzazione di BPCO",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "04_LG_ESC_ACS (e1-e112).pdf",
-  "diagnosis": "Shock cardiogeno. Ipotensione 70/40, confusione, oliguria. Non è uno shock settico nel racconto di partenza.",
-  "pastMedicalHistory": "Cardiopatia ischemica nota, senza un orario di dolore fissato. Non è in inotropo all'arrivo. Non ha ricevuto un bolo di liquidi descritto. Oliguria riferita dai familiari: poche gocce da ore.",
-  "presentation": "Confuso, sudato, pressione 70/40. Il letto è instabile. Serve TTE in emergenza sulla funzione biventricolare, non un carico di liquidi alla cieca, poi inotropi e vasopressori secondo l'algoritmo dello scompenso acuto, in attesa della terapia intensiva.",
+  "guidelineRef": "2016 Linea guida niv e IRA.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "ERS/ATS: NIV bilevel se l'insufficienza respiratoria porta ad acidosi acuta o acuta su cronica con pH non superiore a 7,35 da riacutizzazione di BPCO. Va considerata se pH non superiore a 7,35, PaCO2 sopra 45 mmHg e frequenza sopra 20-24 nonostante la terapia standard. Un tentativo e raccomandato se si pensa all'intubazione, salvo deterioramento immediato. Non usarla nell'ipercapnia senza acidosi.",
+  "pastMedicalHistory": "BPCO nota. Terapia medica standard gia avviata. Non in arresto. Nessuna sedazione in corso.",
+  "presentation": "pH 7,28, PaCO2 60, FR 28. Non precipita in arresto.",
   "redHerrings": [
-    "Un collega propone un litro di fisiologica rapida prima di qualsiasi eco.",
-    "Chiede, a tratti lucido, se può firmare e andarsene."
+    "Propongono l'intubazione subito, senza tentare la bilevel."
   ],
-  "timeLimitMinutes": 90,
-  "patientDeteriorationThreshold": 15,
-  "patientPrompt": "Mi chiamo Franco, ho 68 anni. Non sto in piedi, ho freddo, non faccio pipì. Non riempitemi di liquidi se il cuore non pompa. Fatemi l'ecografia sul letto e spiegate alla mia famiglia che cosa succede, senza mandarmi in giro per il piano.",
-  "correctSolution": "Shock o instabilità: TTE in emergenza per funzione sinistra e destra. Nello scompenso acuto si considerano diuretici, vasodilatatori, inotropi e vasopressori. Dobutamina e noradrenalina non sono nominate: restano nel percorso a citazione vuota. I liquidi non sono la prima mossa citata nello shock cardiogeno. Monitoraggio e ICCU. SPIKES verso i familiari.",
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Luigi, ho 70 anni. Ho la BPCO e non respiro. Ho gia fatto le medicine. Se c'e la maschera prima del tubo, ditelo. Non voglio un tubo se il testo dice di provare la maschera.",
+  "correctSolution": "NIV bilevel. Non intubare come primo atto: non sta deteriorando in modo immediato. Non usare la NIV se il pH fosse sopra 7,35 con sola ipercapnia. Tenere pronto l'accesso all'intubazione: piu il pH e basso, piu il fallimento e possibile. Il testo non da i cmH2O.",
   "goldStandardPath": [
-    "ecg",
-    "ecocardio",
-    "lattati",
-    "ega",
-    "monitoraggio-invasivo"
+    "emogas",
+    "saturazione"
   ],
-  "goldPathNarrative": "ECG, TTE al letto sulla funzione biventricolare, lattati, EGA, niente bolo di liquidi alla cieca, avvio di inotropo/vasopressore senza i nomi in citazione, monitoraggio e chiamata della terapia intensiva.",
+  "goldPathNarrative": "Confermi acidosi e ipercapnia. Inizi la bilevel. Non intubi subito.",
   "examLatencies": {
-    "ecg": 8,
-    "ecocardio": 10,
-    "lattati": 15,
-    "ega": 10,
-    "monitoraggio-invasivo": 20,
-    "pet-tc": 180
+    "emogas": 10,
+    "saturazione": 1,
+    "rx-torace": 30
   },
   "anamnesisQuestions": [
     {
-      "id": "pipi",
-      "prompt": "Da quante ore non urina, o urina solo gocce?",
+      "id": "ph",
+      "prompt": "Che pH e che anidride carbonica ha dopo le medicine?",
       "critical": true,
-      "expectedKeywords": ["urina", "pipì", "gocce", "ore"],
-      "rationale": "L'oliguria è nel testo ESC tra i criteri di gravità in ICCU."
+      "expectedKeywords": [
+        "ph",
+        "anidride",
+        "acidosi"
+      ],
+      "rationale": "La soglia scritta e pH non superiore a 7,35 e PaCO2 sopra 45."
     },
     {
-      "id": "dolore-cuore",
-      "prompt": "Ha avuto dolore al petto oggi, o solo debolezza e confusione?",
+      "id": "arresto",
+      "prompt": "Sta smettendo di respirare o e ancora sveglio?",
       "critical": true,
-      "expectedKeywords": ["petto", "dolore", "debolezza", "confus"],
-      "rationale": "Cardiopatia ischemica nota. Lo shock può complicare un'ACS."
+      "expectedKeywords": [
+        "respiro",
+        "sveglio",
+        "arresto"
+      ],
+      "rationale": "Il tentativo di NIV non vale se sta deteriorando subito."
     },
     {
-      "id": "famiglia",
-      "prompt": "Chi deve sapere che cosa sta succedendo al cuore adesso?",
-      "critical": true,
-      "expectedKeywords": ["famiglia", "moglie", "figli", "sapere"],
-      "rationale": "SPIKES Invitation e Knowledge. Franco è confuso."
+      "id": "maschera",
+      "prompt": "Ha gia provato una maschera?",
+      "critical": false,
+      "expectedKeywords": [
+        "maschera",
+        "niv",
+        "tubo"
+      ],
+      "rationale": "La bilevel e la raccomandazione, non il tubo come prima mossa."
     }
   ],
   "physicalExam": {
-    "killipClass": "IV",
-    "summary": "Confuso, cute fredda, sudato. Polsi filiformi, simmetrici. Toni tachicardici, soffi non descritti. Polmoni con rantoli non quantificati. Addome trattabile. Vescica vuota al tatto, senza un residuo misurato."
+    "summary": "Tachipnoico, parlante a fatica, non agitato da sedare, non in arresto. Murmure ridotto."
   },
   "escCitations": [
     {
-      "chunkId": "esc-acs-tte-cs",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "Tutti i pazienti in CS o emodinamicamente instabili devono essere sottoposti a TTE in emergenza nell’ot- tica di identificare la causa sottostante – in particolare per valutare la funzione LV e RV ed evidenziare eventuali compli- canze meccaniche"
+      "chunkId": "rec",
+      "source": "knowledge_base/medicina_urgenza/clinical/2016 Linea guida niv e IRA.pdf",
+      "quote": "We recommend bilevel NIV for patients with ARF leading to acute or acute-on-chronic respiratory acidosis (pH 7.35 or lower) due to COPD exacerbation. (Strong recommendation, high certainty of evidence.)"
     },
     {
-      "chunkId": "esc-acs-inotropi-vasopressori",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "prendendo in considerazione l’impiego di diuretici, vasodilatatori, agenti inotropi e vasopressori se- condo quanto definito nei relativi algoritmi"
+      "chunkId": "trial",
+      "source": "knowledge_base/medicina_urgenza/clinical/2016 Linea guida niv e IRA.pdf",
+      "quote": "We recommend a trial of bilevel NIV in patients considered to require endotracheal intubation and mechanical ventilation, unless the patient is immediately deteriorating."
     },
     {
-      "chunkId": "esc-acs-oliguria-iccu",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "CS, arresto cardiaco con coma, aritmie cardiache maligne (potenzialmente fatali), blocco atrioventricolare di alto grado e insufficienza rena- le acuta (con oliguria)"
+      "chunkId": "impl",
+      "source": "knowledge_base/medicina_urgenza/clinical/2016 Linea guida niv e IRA.pdf",
+      "quote": "Bilevel NIV should be considered when the pH is 7.35 or lower, PaCO2 is >45 mmHg and the respiratory rate is >20-24 breaths per minute despite standard medical therapy."
     },
     {
-      "chunkId": "esc-aorta-pocus-def",
-      "source": "knowledge_base/medicina_urgenza/clinical/Linee guida ESC 2024_Aorta (e1-e169).pdf",
-      "quote": "POCUS, ecografia point-of-care; Rx, radiografia; TEE, ecocardiografia transesofagea; TTE, ecocardiografia transtoracica"
+      "chunkId": "noacid",
+      "source": "knowledge_base/medicina_urgenza/clinical/2016 Linea guida niv e IRA.pdf",
+      "quote": "We suggest NIV not be used in patients with hypercapnia who are not acidotic in the setting of a COPD"
     },
     {
-      "chunkId": "erc7-inotropi-vasoattivi",
-      "source": "knowledge_base/medicina_urgenza/clinical/LINEE.GUIDA_.ERC2021_CAPITOLO7.pdf",
-      "quote": "in caso di uno shock cardiogeno da insufficienza ventricolare sinistra, che persiste nonostante il trattamento con fluidi, inotropi, e farmaci vasoattivi"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
     },
     {
-      "chunkId": "spikes-invitation",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "I = Invitation Invitare il paziente ad esplicitare in che misura vuole essere informato rispetto alla diagnosi, alla prognosi e sui dettagli della malattia"
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI RX 000000701 RX torace (due proiezioni) 40,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "TTE in emergenza sulla funzione biventricolare.",
-      "Inotropi e vasopressori secondo l'algoritmo, senza inventare i nomi in citazione.",
-      "Niente PET-TC e niente carico idrico cieco come prima mossa."
+      "Bilevel se pH non superiore a 7,35 dopo la terapia standard.",
+      "Non intubare subito se non sta precipitando."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "La TTE in emergenza nello shock è classe I C ESC ACS. Inotropi e vasopressori sono nell'algoritmo dello scompenso acuto. Dobutamina e noradrenalina non compaiono in quelle frasi. POCUS è definito nella linea ESC aorta, non come protocollo dello shock.",
+      "art5Adherence": "Le due raccomandazioni forti ERS/ATS coprono l'acidosi da BPCO e il tentativo prima del tubo. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Registrare pressione 70/40, oliguria e stato mentale.",
-        "Allegare il referto TTE al letto.",
-        "Registrare l'avvio di supporto infusivo e la chiamata della terapia intensiva."
+        "Non usare la NIV se c'e ipercapnia senza acidosi.",
+        "Tenere pronta l'intubazione: il pH basso aumenta il fallimento.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ecg",
-      "name": "ECG a 12 derivazioni",
-      "finding": "Tachicardia sinusale. Non è descritto un sopraslivellamento obbligatorio.",
+      "examId": "emogas",
+      "name": "Emogasanalisi",
+      "finding": "pH 7,28, PaCO2 60 mmHg, dopo la terapia standard.",
       "isAbnormal": true,
-      "priceEuro": 15,
-      "isFatal": true
-    },
-    {
-      "examId": "ecocardio",
-      "name": "TTE / POCUS al letto",
-      "finding": "Funzione biventricolare ridotta. Nessuna frazione di eiezione numerica è fissata. Niente complicanza meccanica descritta.",
-      "isAbnormal": true,
-      "priceEuro": 50,
-      "isFatal": true
-    },
-    {
-      "examId": "lattati",
-      "name": "Lattati",
-      "finding": "Ipoperfusione. Nessun mmol/L è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 8,
       "isFatal": false
     },
     {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa",
-      "finding": "Acidosi da ipoperfusione non quantificata. Nessun pH è fissato.",
+      "examId": "saturazione",
+      "name": "Saturazione",
+      "finding": "90% in aria.",
       "isAbnormal": true,
-      "priceEuro": 10,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non è il work-up dello shock cardiogeno in PS.",
+      "examId": "rx-torace",
+      "name": "Radiografia prima della NIV",
+      "finding": "Non e la condizione per iniziare la bilevel e la ritarda.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "La raccomandazione copiata è la TTE in emergenza. Non la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "RX torace due proiezioni a 40,00 euro prima della bilevel, con pH e PaCO2 gia decisi. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 40
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 118,
-      "bloodPressure": "70/40",
+      "heartRate": 104,
+      "bloodPressure": "128/74",
       "spo2": 90,
-      "temperature": 36.2,
+      "temperature": 36.8,
       "respiratoryRate": 28
     },
-    "examBudgetEuro": 100,
-    "demographics": { "age": 68, "sex": "M", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Cute fredda",
-        "result": "Cute fredda, sudata, polsi filiformi, confusione.",
-        "isPositive": true
-      },
-      {
-        "signName": "Oliguria",
-        "result": "Poche gocce da ore, vescica vuota al tatto.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 70,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ecg": { "finding": "Tachicardia sinusale, senza STEMI descritto.", "isAbnormal": true, "price": 15 },
-        "ecocardio": { "finding": "Disfunzione biventricolare, FE non fissata.", "isAbnormal": true, "price": 50 },
-        "lattati": { "finding": "Elevati, senza mmol/L fissati.", "isAbnormal": true, "price": 8 },
-        "ega": { "finding": "Acidosi non numerata.", "isAbnormal": true, "price": 10 },
-        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+        "emogas": {
+          "finding": "pH 7,28, PaCO2 60 mmHg, dopo la terapia standard.",
+          "isAbnormal": true
+        },
+        "saturazione": {
+          "finding": "90% in aria.",
+          "isAbnormal": true
+        },
+        "rx-torace": {
+          "finding": "Non e la condizione per iniziare la bilevel e la ritarda.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Supporto inotropo o vasopressore",
+          "label": "NIV bilevel",
           "anyOf": [
             {
-              "id": "dobutamina",
-              "label": "Dobutamina o noradrenalina",
-              "aliases": ["dobutamina", "noradrenalina", "norepinefrina", "inotropo", "vasopressore"]
+              "id": "bilevel",
+              "label": "NIV bilevel",
+              "aliases": [
+                "bilevel",
+                "niv"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "tubo-subito",
+          "label": "Intubazione immediata senza tentativo",
+          "aliases": [
+            "intubazione"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "TTE al letto.",
-        "Niente carico idrico cieco come prima mossa.",
-        "Avvio di inotropo/vasopressore.",
-        "Chiamata della terapia intensiva.",
-        "Informare i familiari."
+        "Bilevel avviata.",
+        "Intubazione pronta ma non immediata.",
+        "Lastra non prima."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto della TTE."
+          "id": "tubo",
+          "kind": "clinical",
+          "trigger": "Intubazione subito in un paziente che non precipita."
         }
       ],
       "citationLimits": [
-        "La TTE in CS valuta LV, RV e complicanze meccaniche. Non fissa la FE.",
-        "Dobutamina e noradrenalina non sono in quella frase: solo inotropi e vasopressori. I nomi restano nel brief, citazione vuota.",
-        "Il capitolo ERC 7 parla di fluidi, inotropi e vasoattivi nello shock che persiste, in un contesto post-arresto. Non autorizza un litro cieco in questo PS.",
-        "POCUS è una definizione ESC aorta, non un protocollo dello shock cardiogeno."
+        "Nessun cmH2O e scritto."
       ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "LOW",
-    "emotionalState": "PASSIVE",
+    "emotionalState": "ANXIOUS",
     "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Confuso, risponde a spezzoni. La famiglia chiede chiarezza. SPIKES verso chi decide con lui, senza promettere numeri di pompa che i PDF non hanno."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Teme il tubo. Accetta la maschera se gli si dice che il testo la mette prima, e che il tubo resta pronto."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Soglie",
+      "prompt": "pH 7,28, PaCO2 60, FR 28, terapia standard gia fatta. La bilevel e indicata?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Si. pH non superiore a 7,35, PaCO2 sopra 45 e frequenza sopra 20-24",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Aspetti che il pH scenda sotto 7,10, soglia che il testo non usa come divieto",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Soglia di pH inventata",
+      "prompt": "Il testo: considerare la bilevel con pH non superiore a 7,35, PaCO2 sopra 45 mmHg e frequenza sopra 20-24, nonostante la terapia standard. Non c'e un pH sotto il quale il tentativo sia inappropriato: piu e basso, piu serve sorveglianza e accesso rapido al tubo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Tubo subito",
+      "prompt": "E sveglio, non in arresto. Lo intubi ora?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "No. Si raccomanda un tentativo di bilevel se si considera l'intubazione, salvo deterioramento immediato",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Intubazione come primo atto",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Tubo senza tentativo",
+      "prompt": "Raccomandazione forte: tentativo di NIV bilevel nei pazienti per cui si considera l'intubazione, a meno che stiano deteriorando immediatamente.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Senza acidosi",
+      "prompt": "Se il pH fosse 7,40 con PaCO2 50, la NIV sarebbe suggerita?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. Il testo suggerisce di non usarla nell'ipercapnia senza acidosi",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "La metteresti comunque",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "NIV senza acidosi",
+      "prompt": "ERS/ATS suggerisce di non usare la NIV nei pazienti con ipercapnia che non sono acidotici, nel contesto della BPCO.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Lastra prima",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi la radiografia prima della maschera.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. Il criterio per iniziare e gia nell'emogas Non la esegui ora.",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "RX torace due proiezioni a 40,00 euro prima della bilevel, con pH e PaCO2 gia decisi",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI RX 000000701 RX torace (due proiezioni) 40,00. RX torace due proiezioni a 40,00 euro prima della bilevel, con pH e PaCO2 gia decisi. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Sorveglianza",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Il pH e basso. Come lo tieni?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Sorveglianza stretta e accesso rapido all'intubazione se non migliora. Non c'e un pH che vieti il tentativo In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Pressione della maschera",
+      "prompt": "Quanti cmH2O scrivi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Nessuno. Il testo non li da",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Inventa 12 di supporto",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "cmH2O non scritti",
+      "prompt": "La raccomandazione non quantifica i centimetri d'acqua.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se precipita",
+      "prompt": "La moglie chiede di aspettare prima della maschera. Diventa apnoico. Il tentativo di NIV resta la prima scelta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. Se sta deteriorando immediatamente, il tentativo non e la frase da applicare: si intuba Non aspetti la moglie.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Aspetti la moglie prima della bilevel, anche se lui non rifiuta e i criteri di acidosi ci sono",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti la moglie prima della bilevel, anche se lui non rifiuta e i criteri di acidosi ci sono contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Bilevel, tubo pronto ma non subito",
+      "prompt": "pH 7,28, PaCO2 60, FR 28 dopo la terapia: NIV bilevel. Non intubazione immediata. Non NIV se mancasse l'acidosi. Nessun cmH2O inventato.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

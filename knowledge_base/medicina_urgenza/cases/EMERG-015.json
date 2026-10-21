@@ -1,229 +1,480 @@
 {
   "id": "EMERG-015",
   "code": "EMERG-015",
-  "title": "Uomo di 80 anni con febbre, SpO2 82% e rantoli",
-  "description": "Giuseppe, 80 anni, arriva per febbre e dispnea. Parametri: PA 108/64 mmHg, FC 112 bpm, FR 30 atti/min, SpO2 82%, temperatura 38.4. Rantoli a un emitorace.",
+  "title": "Uomo di 72 anni con potassio 7,1 e onde T alte",
+  "description": "Giorgio, 72 anni, dializzato, debole. Potassio 7,1 mmol/L all'emogas, onde T alte, QRS slargato. Glicemia di base 90 mg/dl. Parametri: PA 110/70 mmHg, FC 50 bpm, FR 16 atti/min, SpO2 96% in aria, temperatura 36.4. Non e in arresto. Nessuna DAT.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["pneumologia", "medicina_interna"],
-  "condition": "Insufficienza respiratoria da polmonite severa, fallimento della NIV",
-  "frequencyCategory": "HIGH",
+  "secondarySpecialties": [
+    "nefrologia"
+  ],
+  "condition": "Iperkaliemia grave con alterazioni dell'ECG",
+  "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "2016 Linea guida niv e IRA.pdf",
-  "diagnosis": "Polmonite severa con insufficienza respiratoria ipossiemica. Fallimento della NIV a 2 ore e intubazione. Non è un edema polmonare ipertensivo.",
-  "pastMedicalHistory": "Anziano, senza una BPCO dichiarata con pH. Non è immunocompromesso dichiarato. Non ha ricevuto antibiotico in pronto soccorso. Emocolture non ancora prelevate.",
-  "presentation": "Febbre 38.4, SpO2 82%, rantoli. EGA basale, prova di NIV bilevel se non sta precipitando, emocolture e antibiotico empirico. A due ore la NIV fallisce: intubazione. L'antibiotico entro un'ora e le emocolture non hanno frase in questi PDF: restano nel percorso a citazione vuota.",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Potassio almeno 6,5 con alterazioni tipiche dell'ECG: chiedere subito un esperto, proteggere il cuore con 10 ml di cloruro di calcio al 10% endovena in 2-5 minuti, ripetere l'ECG e un'altra dose se le alterazioni restano. Poi insulina 10 unita e 25 g di glucosio. Glicemia di base sotto 7 mmol/L: infusione di glucosio al 10% per 5 ore. Salbutamolo nebulizzato 10-20 mg, non da solo. Non aspettare il laboratorio se l'ECG gia decide, e non aspettare i familiari.",
+  "pastMedicalHistory": "Dialisi. Glicemia 90 mg/dl, sotto 120. Nessuna DAT.",
+  "presentation": "Bradicardico, onde T alte, potassio 7,1 all'emogas.",
   "redHerrings": [
-    "Un collega propone solo ossigeno a occhialini e dimissione con una compressa.",
-    "Chiede di non essere intubato in nessun caso, prima di qualsiasi EGA."
+    "Propongono solo salbutamolo 5 mg, la dose dell'asma, e di aspettare il potassio del laboratorio."
   ],
-  "timeLimitMinutes": 140,
-  "patientDeteriorationThreshold": 30,
-  "patientPrompt": "Mi chiamo Giuseppe, ho 80 anni. Ho la febbre, non respiro, la saturazione è ottantadue. Fatemi i gas, la maschera, le emocolture e l'antibiotico. Tra due ore, se non va, parlate con mia figlia del tubo. Non voglio falsi rassicurazioni.",
-  "correctSolution": "EGA. Trial di NIV bilevel se si considera l'intubazione, a meno che non stia precipitando subito. Rivalutazione: se a 2 ore fallisce, intubare. CPAP/NIV per edema cardiogeno non è questo quadro. Emocolture e antibiotico empirico entro 1 ora: nessuna frase estraibile, citazione vuota. SPIKES Strategy con la figlia sul tubo.",
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Il figlio dice: mio padre ha 72 anni, e in dialisi, l'emogas segna potassio 7. Non aspettate me per curarlo. Io non sono ancora in ospedale.",
+  "correctSolution": "10 ml di cloruro di calcio al 10% in 2-5 minuti, poi 10 unita di insulina e 25 g di glucosio, e glucosio al 10% per 5 ore perche la glicemia di base e sotto 120 mg/dl. Salbutamolo 10-20 mg nebulizzato solo insieme, non da solo e non a 5 mg. Non aspettare il figlio.",
   "goldStandardPath": [
-    "ega",
-    "rx-torace",
-    "emocolture",
-    "niv-bilevel",
-    "ega-2h",
-    "intubazione"
+    "ecg",
+    "emogas"
   ],
-  "goldPathNarrative": "EGA e radiografia, emocolture, antibiotico empirico senza citazione di timing, trial NIV, EGA a 2 ore, intubazione per fallimento. High-flow come alternativa: citazione vuota.",
+  "goldPathNarrative": "Calcio, poi insulina e glucosio, poi il glucosio continuo. Il salbutamolo non e da solo.",
   "examLatencies": {
-    "ega": 8,
-    "rx-torace": 20,
-    "emocolture": 15,
-    "niv-bilevel": 20,
-    "ega-2h": 120,
-    "intubazione": 130,
-    "pet-tc": 180
+    "ecg": 5,
+    "emogas": 5,
+    "potassio-lab": 50
   },
   "anamnesisQuestions": [
     {
-      "id": "febbre-esordio",
-      "prompt": "Da quanti giorni ha la febbre, e da che parte sente i polmoni pieni?",
+      "id": "potassio",
+      "prompt": "Quanto e il potassio all'emogas?",
       "critical": true,
-      "expectedKeywords": ["febbre", "giorni", "polmoni", "tosse"],
-      "rationale": "Febbre e rantoli inquadrano la polmonite, non l'EPA ipertensivo."
+      "expectedKeywords": [
+        "7,1",
+        "potassio",
+        "emogas"
+      ],
+      "rationale": "Grave e da 6,5 in su."
     },
     {
-      "id": "tubo",
-      "prompt": "Che cosa vuole, e che cosa deve sapere sua figlia, se la maschera non basta?",
+      "id": "glicemia",
+      "prompt": "Che glicemia ha prima del trattamento?",
       "critical": true,
-      "expectedKeywords": ["tubo", "figlia", "maschera", "intub"],
-      "rationale": "SPIKES Strategy summary. Il trial NIV non è un rifiuto preventivo del tubo."
+      "expectedKeywords": [
+        "90",
+        "glicemia",
+        "120"
+      ],
+      "rationale": "Sotto 7 mmol/L serve il glucosio continuo per 5 ore."
     },
     {
-      "id": "allergie-ab",
-      "prompt": "Allergie agli antibiotici, e ha già preso qualcosa oggi?",
+      "id": "figlio",
+      "prompt": "C'e una DAT che rifiuta il calcio?",
       "critical": true,
-      "expectedKeywords": ["allergia", "antibiotico", "penicillina", "oggi"],
-      "rationale": "L'empirico è nel brief. Nessuna molecola è citata nei PDF usati."
+      "expectedKeywords": [
+        "dat",
+        "rifiuta",
+        "no"
+      ],
+      "rationale": "Il figlio assente non e una DAT."
     }
   ],
   "physicalExam": {
-    "summary": "Febbrile, tachipnoico, rantoli a un emitorace, non crepitii simmetrici da EPA. PA 108/64, non 200/110. Sensorio conservato all'arrivo. Addome trattabile."
+    "summary": "Bradifrequente, cosciente, non in arresto. L'ECG ha onde T alte e QRS largo."
   },
   "escCitations": [
     {
-      "chunkId": "ers-ats-trial-niv-pre-intubazione",
-      "source": "knowledge_base/medicina_urgenza/clinical/2016 Linea guida niv e IRA.pdf",
-      "quote": "We recommend a trial of bilevel NIV in patients considered to require endotracheal intubation and mechanical ventilation, unless the patient is immediately deteriorating"
-    },
-    {
-      "chunkId": "ers-ats-cpap-epa-non-questo",
-      "source": "knowledge_base/medicina_urgenza/clinical/2016 Linea guida niv e IRA.pdf",
-      "quote": "We recommend either bilevel NIV or CPAP for patients with ARF due to cardiogenic pulmonary oedema"
-    },
-    {
-      "chunkId": "esc-acs-o2-sotto-90",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "Nei pazienti con ACS ipossiemici (saturazione di ossigeno <90%) è raccomandata la supplementazione di ossigeno"
-    },
-    {
-      "chunkId": "erc6-ega-rischio-vita",
+      "chunkId": "ca",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Se il paziente ha segni di rischio per la vita, esegui un emogasanalisi. Non sono necessari altri test per iniziare un trattamento immediato."
+      "quote": "Proteggere il cuore: Somministrare 10 ml di cloruro di calcio al 10% EV in 2-5 min (inizio d'azione in 1-3 min, ripetere l'ECG, un'ulteriore dose se persistono le alterazioni dell'ECG)."
     },
     {
-      "chunkId": "spikes-strategy",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "S = Strategy summary Negoziare una strategia d’azione che tenga in considerazione le aspettative e i risultati rag- giungibili. Lasciare spazio ad eventuali doman- de. Riassumere. Verificare la comprensione."
+      "chunkId": "ins",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Trattare l'iperkaliemia moderata o severa con 10 unita di insulina e 25 g di glucosio, seguiti da un'infusione continua di glucosio al 10% per 5 ore (25 g di glucosio) in pazienti con un livello di glucosio di base <7,0 mmol/L (120 mg/dl)"
+    },
+    {
+      "chunkId": "sal",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Somministrare 10-20 mg di salbutamolo nebulizzato"
+    },
+    {
+      "chunkId": "mono",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Il salbutamolo puo essere non efficace in alcuni pazienti, comprendenti quelli riceventi beta-bloccanti non selettivi e fino al 40% di pazienti con ESRD, quindi non dovrebbe essere usato come monoterapia."
+    },
+    {
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
+    },
+    {
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DL LB 000002612 Potassiemia 2,80"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "EGA e trial NIV se non precipita subito.",
-      "Rivalutazione a 2 ore e intubazione se la NIV fallisce.",
-      "Emocolture e antibiotico empirico nel percorso, senza timing citato."
+      "Calcio 10 ml al 10% in 2-5 minuti perche l'ECG e alterato e il potassio e almeno 6,5.",
+      "Insulina 10 unita, non 5, piu glucosio continuo perche la glicemia e sotto 120 mg/dl."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Il trial di NIV bilevel prima dell'intubazione, salvo deterioramento immediato, è raccomandazione ERS/ATS 2017. CPAP/NIV per edema cardiogeno non è questo quadro (PA 108/64, febbre, rantoli unilaterali). Antibiotico entro 1 ora ed emocolture: citazione vuota.",
+      "art5Adherence": "L'algoritmo ERC dell'iperkaliemia grave con ECG alterato e il testo sull'insulina fissano dosi e tempi. Il capitolo etico non mette i familiari tra i criteri per non iniziare. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Registrare temperatura 38.4, SpO2 82% e rantoli.",
-        "Allegare EGA basale e a 2 ore.",
-        "Registrare emocolture, antibiotico e l'ora di intubazione dopo il fallimento NIV."
+        "Il salbutamolo 10-20 mg non e monoterapia e non e la dose dell'asma.",
+        "Non aspettare il potassio del laboratorio se emogas ed ECG hanno gia deciso.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa basale",
-      "finding": "Ipossiemia grave. Nessun pH è fissato all'arrivo.",
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Onde T alte, QRS slargato.",
       "isAbnormal": true,
-      "priceEuro": 10,
-      "isFatal": true
-    },
-    {
-      "examId": "rx-torace",
-      "name": "Radiografia del torace",
-      "finding": "Addensamento lobare. Nessuna percentuale di coinvolgimento è fissata.",
-      "isAbnormal": true,
-      "priceEuro": 25,
       "isFatal": false
     },
     {
-      "examId": "emocolture",
-      "name": "Emocolture da due siti",
-      "finding": "Prelevate prima dell'antibiotico. Nessun germe è fissato a 2 ore.",
-      "isAbnormal": false,
-      "priceEuro": 20,
-      "isFatal": false
-    },
-    {
-      "examId": "ega-2h",
-      "name": "EGA a 2 ore sotto NIV",
-      "finding": "Fallimento della NIV: ipossiemia persistente. Nessun pH numerico è fissato. Porta all'intubazione.",
+      "examId": "emogas",
+      "name": "Emogas",
+      "finding": "Potassio 7,1 mmol/L. Glicemia 90 mg/dl.",
       "isAbnormal": true,
-      "priceEuro": 10,
-      "isFatal": true
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non è il work-up della polmonite acuta in insufficienza respiratoria.",
+      "examId": "potassio-lab",
+      "name": "Potassio di laboratorio prima del calcio",
+      "finding": "L'emogas e l'ECG bastano per iniziare. Il laboratorio e lento e ritarda il calcio.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Le raccomandazioni copiate nominano NIV, EGA e imaging radiologico di base. Non la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "Potassiemia a 2,80 euro prima del calcio, con emogas ed ECG gia decisivi. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 2.8
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 112,
-      "bloodPressure": "108/64",
-      "spo2": 82,
-      "temperature": 38.4,
-      "respiratoryRate": 30
+      "heartRate": 50,
+      "bloodPressure": "110/70",
+      "spo2": 96,
+      "temperature": 36.4,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 90,
-    "demographics": { "age": 80, "sex": "M", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Rantoli unilaterali e febbre",
-        "result": "Rantoli a un emitorace, temperatura 38.4, SpO2 82%. Non è un quadro da EPA ipertensivo.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 72,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ega": { "finding": "Ipossiemia, pH non fissato.", "isAbnormal": true, "price": 10 },
-        "rx-torace": { "finding": "Addensamento lobare, estensione non millimetrata.", "isAbnormal": true, "price": 25 },
-        "emocolture": { "finding": "Prelevate, germe non fissato.", "isAbnormal": false, "price": 20 },
-        "ega-2h": { "finding": "Fallimento NIV a 2 ore, numeri non fissati.", "isAbnormal": true, "price": 10 },
-        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+        "ecg": {
+          "finding": "Onde T alte, QRS slargato.",
+          "isAbnormal": true
+        },
+        "emogas": {
+          "finding": "Potassio 7,1 mmol/L. Glicemia 90 mg/dl.",
+          "isAbnormal": true
+        },
+        "potassio-lab": {
+          "finding": "L'emogas e l'ECG bastano per iniziare. Il laboratorio e lento e ritarda il calcio.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Antibiotico empirico",
+          "label": "Calcio e insulina 10 unita",
           "anyOf": [
             {
-              "id": "antibiotico-empirico",
-              "label": "Antibiotico empirico",
-              "aliases": ["antibiotico", "ceftriaxone", "piperacillina", "levofloxacina"]
+              "id": "ca",
+              "label": "Cloruro di calcio",
+              "aliases": [
+                "calcio",
+                "insulina"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "sal-solo",
+          "label": "Salbutamolo da solo",
+          "aliases": [
+            "salbutamolo da solo"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "EGA basale.",
-        "Trial NIV se non precipita.",
-        "Emocolture e antibiotico empirico.",
-        "A 2 ore, intubazione per fallimento NIV.",
-        "Parlare con la figlia del tubo."
+        "Calcio 10 ml.",
+        "Insulina 10 unita e glucosio continuo.",
+        "Niente attesa del figlio."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto di EGA, NIV ed emocolture."
+          "id": "lab",
+          "kind": "clinical",
+          "trigger": "Attesa del laboratorio prima del calcio."
         }
       ],
       "citationLimits": [
-        "Il trial NIV è per chi è considerato da intubare, unless immediately deteriorating. A 2 ore Giuseppe fallisce: si intuba.",
-        "La raccomandazione CPAP/NIV per edema cardiogeno non si applica: pressione 108/64, febbre, rantoli unilaterali.",
-        "Antibiotico entro 1 ora ed emocolture: citazione vuota.",
-        "High-flow vs BiPAP: il PDF raccomanda bilevel NIV nel trial pre-intubazione. High-flow non è in quella frase.",
-        "Ossigeno se SpO2 <90% è una frase ACS. Qui SpO2 è 82%: non sostituisce il trial NIV."
+        "Il salbutamolo dell'iperkaliemia e 10-20 mg, non 5 mg."
       ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "LOW",
-    "emotionalState": "ANXIOUS",
+    "emotionalState": "PASSIVE",
     "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Ha paura del tubo e vuole la figlia. SPIKES Strategy: maschera ora, gas a due ore, se non basta il tubo, senza promettere che la NIV eviti l'intubazione."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "E debole. Il figlio non e in ospedale. Il trattamento non si ferma per aspettarlo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Che fascia",
+      "prompt": "Potassio 7,1 e ECG alterato. Che riga dell'algoritmo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Iperkaliemia grave, almeno 6,5, con alterazioni tipiche dell'ECG",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La tratti come lieve, sotto 6,0, e non fai nulla in urgenza",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Gravita non riconosciuta",
+      "prompt": "Grave e potassio almeno 6,5. Con alterazioni tipiche dell'ECG il riquadro dice di proteggere il cuore. Il trattamento dell'iperkaliemia lieve non rientra in questa linea guida, ma questo caso non e lieve.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Proteggere il cuore",
+      "prompt": "Che calcio, quanto e in quanto tempo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "10 ml di cloruro di calcio al 10% endovena in 2-5 minuti, poi ripeti l'ECG",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Niente calcio, solo una resina per bocca",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Cuore non protetto",
+      "prompt": "Con iperkaliemia grave e ECG alterato: 10 ml di cloruro di calcio al 10% in 2-5 minuti, ripetere l'ECG e un'altra dose se le alterazioni restano. Serve un accesso sicuro, per il rischio di necrosi da stravaso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Insulina",
+      "prompt": "Quante unita, e che glucosio dopo, con glicemia 90 mg/dl?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "10 unita di insulina e 25 g di glucosio, poi glucosio al 10% per 5 ore",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "5 unita, la dose che il testo trova meno efficace",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose di insulina inferiore",
+      "prompt": "Trattare l'iperkaliemia moderata o severa con 10 unita di insulina e 25 g di glucosio. Due studi riportano un'efficacia superiore di 10 unita rispetto a 5. Se la glicemia di base e sotto 7 mmol/L, glucosio al 10% per 5 ore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Salbutamolo",
+      "prompt": "Vuoi solo salbutamolo 5 mg, come nell'asma.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. Qui sono 10-20 mg nebulizzati, e non da solo",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Salbutamolo 5 mg come unico farmaco",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Monoterapia e dose dell'asma",
+      "prompt": "Nell'iperkaliemia grave il salbutamolo nebulizzato e 10-20 mg. Non va usato da solo: fallisce in chi prende beta-bloccanti non selettivi e fino al 40% dei pazienti in dialisi. La combinazione con insulina e glucosio e piu efficace.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Laboratorio",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. L'emogas e 7,1 e l'ECG e diagnostico. Aspetti il potassio del laboratorio?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. Inizi. Il laboratorio e piu lento Non la esegui ora.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Potassiemia a 2,80 euro prima del calcio, con emogas ed ECG gia decisivi",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DL LB 000002612 Potassiemia 2,80. Potassiemia a 2,80 euro prima del calcio, con emogas ed ECG gia decisivi. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Il figlio",
+      "prompt": "Il figlio chiede di non dare il calcio finche non arriva. Nessuna DAT. Il figlio e in viaggio. Aspetti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. Non c'e un criterio per non iniziare Non aspetti il figlio.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Aspetti il figlio e il potassio di laboratorio prima del calcio, con ECG gia alterato",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti il figlio e il potassio di laboratorio prima del calcio, con ECG gia alterato contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se l'ECG si normalizza",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Dopo il calcio le onde T restano. Che fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Un'ulteriore dose di calcio, come scrive il riquadro, e tieni insulina e glucosio In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Calcio, poi insulina, non il salbutamolo da solo",
+      "prompt": "10 ml di cloruro di calcio al 10% in 2-5 minuti, 10 unita di insulina e 25 g di glucosio, glucosio al 10% per 5 ore. Salbutamolo 10-20 mg solo insieme. Non il laboratorio e non il figlio.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

@@ -1,220 +1,477 @@
 {
   "id": "EMERG-005",
   "code": "EMERG-005",
-  "title": "Uomo di 35 anni con taglio alla mano",
-  "description": "Matteo, 35 anni, arriva in pronto soccorso per un taglio accidentale alla mano con un coltello da cucina. Il sanguinamento è controllato. Parametri: PA 126/78 mmHg, FC 88 bpm, FR 16 atti/min, SpO2 99%, temperatura 36.6.",
+  "title": "Uomo di 35 anni con ferita e profilo antitetanico",
+  "description": "Andrea, 35 anni, ferita contaminata alla mano, sanguinamento gia fermo. E lucido. Parametri: PA 128/76 mmHg, FC 84 bpm, FR 14 atti/min, SpO2 99%, temperatura 36.6. Non e in anticoagulante. Dopo l'informazione rifiuta le immunoglobuline.",
   "difficulty": "EASY",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "condition": "Ferita lacero-contusa della mano",
-  "frequencyCategory": "HIGH",
+  "secondarySpecialties": [],
+  "condition": "Lesione potenzialmente contaminata, paziente capace che rifiuta le immunoglobuline antitetaniche",
+  "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "BASE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "atls.pdf",
-  "diagnosis": "Ferita da taglio della mano, sanguinamento controllato. Nessun corpo estraneo conficcato è descritto.",
-  "pastMedicalHistory": "Nessuna vaccinazione antitetanica è dichiarata all'arrivo: va chiesta. Non è in anticoagulante. Il coltello non è rimasto nella ferita. Non è descritta una ferita al torace o all'addome.",
-  "presentation": "Si è tagliato il palmo con un coltello da cucina. Il sangue si è fermato con una garza. Muove le dita e sente il tatto, senza un deficit misurato nel brief. Vuole che la ferita venga guardata, chiusa, e sapere del tetano.",
-  "redHerrings": [],
-  "timeLimitMinutes": 25,
+  "guidelineRef": "antitetanica.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "L'informativa dell'azienda pisana dice che le immunoglobuline sono una profilassi per una lesione potenzialmente contaminata, per via intramuscolare, sito piu indicato il deltoide. Se la via intramuscolare e controindicata, per esempio anticoagulante o disturbo della coagulazione, si usa la sottocute con compressione. Il paziente puo rifiutare e puo revocare. Dopo le immunoglobuline, i vaccini vivi attenuati non si fanno prima di 6 settimane.",
+  "pastMedicalHistory": "Ferita contaminata. Non anticoagulato. Nessuna gravidanza. Capace di intendere.",
+  "presentation": "Sanguinamento controllato. Vuole sapere rischi e puo dire di no.",
+  "redHerrings": [
+    "Un infermiere vuole iniettarle nel gluteo senza chiedere, perche tanto e profilassi."
+  ],
+  "timeLimitMinutes": 15,
   "patientDeteriorationThreshold": 20,
-  "patientPrompt": "Mi chiamo Matteo, ho 35 anni. Mi sono tagliato la mano con un coltello da cucina. Il sangue adesso è fermo, tengo una garza. Guardate dentro la ferita, cucitemi e ditemi se mi serve l'antitetanica. Non so quando ho fatto l'ultimo richiamo.",
-  "correctSolution": "Esplorare la ferita, suturare, chiedere la profilassi antitetanica. Nei PDF, per una ferita superficiale da arma da taglio, è scritto il lavaggio con soluzione fisiologica e il bendaggio con garze. Il consenso dell'Azienda Ospedaliero-Universitaria Pisana dice che il siero antitetanico è un intervento profilattico per una lesione potenzialmente contaminata e che, per le lesioni in atto, è necessario eseguire la profilassi antitetanica. La sutura di questa ferita della mano non ha una frase: le suture cutanee del PDF sul dolore riguardano procedure minori nel bambino. Il sanguinamento è già controllato, quindi non si applica il tourniquet delle emorragie pericolose per la vita.",
-  "goldStandardPath": ["esplorazione-ferita", "lavaggio-ferita"],
-  "goldPathNarrative": "Esplorare la ferita, lavarla con fisiologica, suturarla e chiedere quando è stata l'ultima antitetanica. Il lavaggio e il bendaggio con garze sono nel file atls.pdf. La profilassi antitetanica è nel consenso sulle immunoglobuline. La sutura di questa mano non ha una frase dedicata.",
+  "patientPrompt": "Sono Andrea, ho 35 anni. Mi sono tagliato e la ferita e sporca. Il sangue si e fermato. Spiegatemi il siero. Se dico di no, non fatelo.",
+  "correctSolution": "Informare: immunoglobuline intramuscolo, deltoide come sito piu indicato. Non sottocute, perche non e anticoagulato e non ha un disturbo della coagulazione. Se dopo l'informazione rifiuta, non somministrare: il modulo prevede il dissenso e la revoca del consenso. Non programmare morbillo, parotite o rosolia prima di 6 settimane se invece le accetta. Non inventare una sutura: questo modulo non la descrive.",
+  "goldStandardPath": [
+    "ferita",
+    "consenso"
+  ],
+  "goldPathNarrative": "Informi, proponi il deltoide, e se rifiuta non inietti.",
   "examLatencies": {
-    "esplorazione-ferita": 10,
-    "lavaggio-ferita": 10,
-    "rx-ossa": 30
+    "ferita": 5,
+    "consenso": 10
   },
   "anamnesisQuestions": [
     {
-      "id": "tetano",
-      "prompt": "Quando ha fatto l'ultima vaccinazione antitetanica, o non se lo ricorda?",
+      "id": "contaminata",
+      "prompt": "La ferita e sporca o pulita?",
       "critical": true,
-      "expectedKeywords": ["tetano", "vaccino", "richiamo", "ricorda"],
-      "rationale": "Il brief chiede l'anamnesi per la profilassi antitetanica. Il consenso sulle immunoglobuline antitetaniche dice che, per le lesioni in atto, la profilassi è necessaria. Il PDF non fissa la data del richiamo."
+      "expectedKeywords": [
+        "sporca",
+        "contaminata",
+        "ferita"
+      ],
+      "rationale": "La profilassi e per la lesione potenzialmente contaminata."
     },
     {
-      "id": "sanguinamento",
-      "prompt": "Il sangue esce ancora, o si è fermato con la garza?",
+      "id": "coagulo",
+      "prompt": "Prende un anticoagulante o ha un disturbo della coagulazione?",
       "critical": true,
-      "expectedKeywords": ["sangue", "fermo", "garza", "controllato"],
-      "rationale": "Il brief dice che il sanguinamento è controllato. Non è un'emorragia pericolosa per la vita."
+      "expectedKeywords": [
+        "anticoagulante",
+        "coagulazione",
+        "sangue"
+      ],
+      "rationale": "In quel caso la via non e intramuscolare."
     },
     {
-      "id": "corpo-estraneo",
-      "prompt": "Il coltello è ancora nella ferita, o lo ha tolto?",
+      "id": "no",
+      "prompt": "Dopo la spiegazione, le fa o non le fa?",
       "critical": true,
-      "expectedKeywords": ["coltello", "tolto", "ferita", "estraneo"],
-      "rationale": "Il testo sul trauma penetrante dice di non rimuovere un corpo estraneo ancora conficcato. Qui il coltello non è rimasto dentro."
+      "expectedKeywords": [
+        "no",
+        "rifiuto",
+        "consenso"
+      ],
+      "rationale": "Il modulo prevede il dissenso."
     }
   ],
   "physicalExam": {
-    "summary": "Collaborante, garza sulla mano, sanguinamento fermo. Ferita lineare del palmo, cute interrotta, nessun corpo estraneo visibile. Muove le dita e riferisce di sentire il tatto. Polso radiale presente. Non è descritta una lesione tendinea con un numero."
+    "summary": "Ferita della mano, non sanguina piu. Lucido. Non segni di shock."
   },
   "escCitations": [
     {
-      "chunkId": "atls-ferita-superficiale-lavaggio",
-      "source": "knowledge_base/medicina_urgenza/clinic/atls.pdf",
-      "quote": "Nelle ferite superficiali il sanguinamento in genere è limitato, a meno che il soggetto non faccia uso di anticoagulanti, come l’aspirina. Il trattamento della ferita prevede il lavaggio, con soluzione fisiologica, ed il bendaggio con garze."
+      "chunkId": "im",
+      "source": "knowledge_base/medicina_urgenza/clinical/antitetanica.pdf",
+      "quote": "La somministrazione e effettuata mediante iniezione intramuscolare e il sito piu indicato e il muscolo deltoide, alternativamente il quadrante supero-esterno della natica."
     },
     {
-      "chunkId": "atls-ferite-superficiali-definizione",
-      "source": "knowledge_base/medicina_urgenza/clinic/atls.pdf",
-      "quote": "Ferite superficiali. Interessano solo i primi strati della cute."
+      "chunkId": "sc",
+      "source": "knowledge_base/medicina_urgenza/clinical/antitetanica.pdf",
+      "quote": "Nei soggetti in cui la somministrazione intramuscolare e controindicata (pazienti con disturbi della coagulazione o in trattamento anticoagulante), si somministra per via sottocutanea"
     },
     {
-      "chunkId": "atls-non-rimuovere-corpo-estraneo",
-      "source": "knowledge_base/medicina_urgenza/clinic/atls.pdf",
-      "quote": "In questi casi è bene non rimuovere il corpo estraneo, per evitare una ulteriore lacerazione dei tessuti, ma al contrario si cercherà di stabilizzarlo con garze e bende"
+      "chunkId": "6w",
+      "source": "knowledge_base/medicina_urgenza/clinical/antitetanica.pdf",
+      "quote": "Dopo la somministrazione di immunoglobuline le vaccinazioni con virus attenuati (antimorbillo, antiparotite, antirosolia) NON possono essere somministrate prima che siano trascorse 6 settimane"
     },
     {
-      "chunkId": "antitetanica-siero-lesione-contaminata",
-      "source": "knowledge_base/medicina_urgenza/clinic/antitetanica.pdf",
-      "quote": "La somministrazione del siero è un intervento profi lattico fondamentale per evitare lo sviluppo di mal attia tetanica in un soggetto a rischio con lesione potenzialmente contaminata."
+      "chunkId": "no",
+      "source": "knowledge_base/medicina_urgenza/clinical/antitetanica.pdf",
+      "quote": "NON acconsento a sottopormi a questa procedura. Essere stato informato che in ogni momento posso revocare il consenso."
     },
     {
-      "chunkId": "antitetanica-profilassi-lesioni-in-atto",
-      "source": "knowledge_base/medicina_urgenza/clinic/antitetanica.pdf",
-      "quote": "per le lesioni in atto è nece ssario eseguire la profilassi antitetanica"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
+    },
+    {
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI RX 000000650 RX mano (due proiezioni) 36,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Esplorazione della ferita della mano.",
-      "Lavaggio con soluzione fisiologica, che è la frase disponibile.",
-      "Anamnesi sulla vaccinazione antitetanica, con la frase del consenso sulle immunoglobuline."
+      "Proporre le immunoglobuline nel deltoide per una lesione contaminata.",
+      "Non iniettarle se, informato, rifiuta."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "La frase sul lavaggio e sul bendaggio con garze è nel capitolo del trauma penetrante del file atls.pdf, per le ferite superficiali. La profilassi antitetanica è nel consenso informato dell'Azienda Ospedaliero-Universitaria Pisana: il siero è indicato per una lesione potenzialmente contaminata e, per le lesioni in atto, la profilassi è necessaria. La sutura di questa ferita della mano non è in quel consenso. Il coltello non è conficcato, quindi la frase sul non rimuovere il corpo estraneo non è il gesto da fare ora.",
+      "art5Adherence": "Il modulo di consenso dell'azienda pisana e l'unico testo locale sulla profilassi. Non c'e la legge 219 in cartella legal: il rifiuto capace e scritto in questo modulo. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Descrivere sede, sanguinamento controllato e assenza di corpo estraneo conficcato.",
-        "Registrare lavaggio e, se eseguita, la sutura.",
-        "Registrare la risposta sull'ultima vaccinazione antitetanica, Il PDF non fissa l'intervallo del richiamo."
+        "Via sottocute solo se coagulazione o anticoagulante.",
+        "Niente vaccini vivi prima di 6 settimane se le immunoglobuline sono state date.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "esplorazione-ferita",
-      "name": "Esplorazione della ferita",
-      "finding": "Taglio del palmo, sanguinamento controllato. Nessun corpo estraneo conficcato. Nessuna lesione tendinea è numerata dal caso.",
+      "examId": "ferita",
+      "name": "Ispezione della ferita",
+      "finding": "Lesione contaminata, sanguinamento gia fermo.",
       "isAbnormal": true,
-      "priceEuro": 0,
       "isFatal": false
     },
     {
-      "examId": "lavaggio-ferita",
-      "name": "Lavaggio con soluzione fisiologica",
-      "finding": "Lavaggio previsto per la ferita superficiale. Non è fissato un volume.",
-      "isAbnormal": false,
-      "priceEuro": 0,
+      "examId": "consenso",
+      "name": "Colloquio di consenso",
+      "finding": "Dopo l'informazione rifiuta le immunoglobuline. Il rifiuto va annotato.",
+      "isAbnormal": true,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "rx-ossa",
-      "name": "RX mano",
-      "finding": "Non indicata: taglio di cute, sanguinamento controllato, nessun corpo estraneo ritenuto.",
+      "examId": "sutura-inventata",
+      "name": "Sutura con una tecnica non descritta",
+      "finding": "Questo modulo non descrive la sutura della mano.",
       "isAbnormal": false,
-      "priceEuro": 30,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Per la ferita superficiale il testo disponibile indica lavaggio e bendaggio con garze. Non indica una radiografia."
+      "inappropriate": true,
+      "wasteRationale": "Aggiungere una tecnica operatoria che il testo non contiene."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 88,
-      "bloodPressure": "126/78",
+      "heartRate": 84,
+      "bloodPressure": "128/76",
       "spo2": 99,
       "temperature": 36.6,
-      "respiratoryRate": 16
+      "respiratoryRate": 14
     },
-    "examBudgetEuro": 20,
-    "demographics": { "age": 35, "sex": "M", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Sanguinamento della mano",
-        "result": "Controllato con la garza. Non zampilla.",
-        "isPositive": false
-      }
-    ],
+    "demographics": {
+      "age": 35,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "esplorazione-ferita": {
-          "finding": "Ferita del palmo, senza corpo estraneo conficcato e senza una lesione tendinea numerata.",
-          "isAbnormal": true,
-          "price": 0
+        "ferita": {
+          "finding": "Lesione contaminata, sanguinamento gia fermo.",
+          "isAbnormal": true
         },
-        "lavaggio-ferita": { "finding": "Lavaggio con soluzione fisiologica.", "isAbnormal": false, "price": 0 },
-        "rx-ossa": { "finding": "Non indicata per questo taglio superficiale.", "isAbnormal": false, "price": 30 }
+        "consenso": {
+          "finding": "Dopo l'informazione rifiuta le immunoglobuline. Il rifiuto va annotato.",
+          "isAbnormal": true
+        },
+        "sutura-inventata": {
+          "finding": "Questo modulo non descrive la sutura della mano.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Lavaggio e bendaggio",
+          "label": "Informazione e rispetto del rifiuto",
           "anyOf": [
             {
-              "id": "lavaggio",
-              "label": "Lavaggio con fisiologica e garze",
-              "aliases": ["fisiologica", "lavaggio", "garze", "bendaggio", "medicazione"]
+              "id": "info",
+              "label": "Informazione sul deltoide",
+              "aliases": [
+                "informazione",
+                "deltoide"
+              ]
             }
           ]
-        },
+        }
+      ],
+      "contraindicated": [
         {
-          "label": "Sutura",
-          "anyOf": [
-            {
-              "id": "sutura",
-              "label": "Sutura della ferita",
-              "aliases": ["sutura", "punti", "cucire", "filo"]
-            }
-          ]
-        },
-        {
-          "label": "Profilassi antitetanica secondo l'anamnesi",
-          "anyOf": [
-            {
-              "id": "antitetanica",
-              "label": "Valutazione antitetanica",
-              "aliases": ["tetano", "antitetanica", "vaccino", "immunoglobuline"]
-            }
+          "id": "forzare",
+          "label": "Iniezione contro il rifiuto",
+          "aliases": [
+            "forzare",
+            "contro il rifiuto"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Esplorazione della ferita.",
-        "Lavaggio con soluzione fisiologica.",
-        "Sutura.",
-        "Anamnesi sulla vaccinazione antitetanica."
+        "Informato.",
+        "Rifiuto rispettato.",
+        "Nessuna sutura inventata."
       ],
       "penalties": [
         {
-          "id": "rx-ossa",
-          "kind": "economic",
-          "trigger": "Radiografia della mano per un taglio cutaneo a sanguinamento controllato."
+          "id": "forzare",
+          "kind": "clinical",
+          "trigger": "Immunoglobuline nonostante il dissenso."
         }
       ],
       "citationLimits": [
-        "La profilassi antitetanica è in antitetanica.pdf. Nel testo estratto restano gli spazi di fine riga: «profi lattico», «mal attia», «nece ssario». Il documento è un consenso alle immunoglobuline, non un calendario vaccinale: non dice dopo quanti anni fare il richiamo.",
-        "La sutura di questa ferita della mano non ha una frase. Le suture cutanee nel PDF sul dolore in emergenza sono un esempio di procedura minore nel bambino dai 3 anni, insieme all'anestesia. Non è una indicazione a suturare questo adulto. Esplorazione sistematica della ferita: nessuna frase.",
-        "La frase sul lavaggio riguarda le ferite superficiali. Il brief parla di ferita lacero-contusa: il file distingue superficiale, profonda e penetrante. Con sanguinamento controllato e senza cavità raggiunta, il caso usa la frase delle ferite superficiali. Non è scritto che ogni taglio da coltello sia superficiale.",
-        "La frase sul non rimuovere il corpo estraneo vale se l'oggetto è ancora conficcato. Qui non lo è. Non va trasformata in un divieto di esplorare.",
-        "Nel capitolo ERC di primo soccorso il tourniquet è per il sanguinamento massivo di un arto pericoloso per la vita. Qui il sangue è già fermo. Quella raccomandazione non si applica.",
-        "Nessun PDF fissa il numero di punti, il filo o l'intervallo del richiamo antitetanico. Quei dettagli non sono stati inventati."
+        "Il modulo non descrive punti di sutura ne un anestetico locale."
       ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "COLLABORATIVE",
+    "emotionalState": "DEFENSIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "GOOD", "stressLevel": "MEDIUM", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Collabora, è preoccupato per i punti e per il tetano. Risponde sulla data del vaccino se gliela si chiede prima di cucire, e accetta il lavaggio se gli si dice che il sangue è già fermo."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole decidere. Se gli si leggono i rischi, compreso il tetano se rifiuta, e non lo si forza, resta collaborante."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Indicazione",
+      "prompt": "Ferita potenzialmente contaminata. A che serve il preparato, secondo il modulo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "E una profilassi per evitare il tetano in chi ha una lesione potenzialmente contaminata",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Glielo neghi perche il sangue si e gia fermato",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Profilassi non proposta",
+      "prompt": "Il modulo: la somministrazione e un intervento profilattico per evitare il tetano in un soggetto a rischio con lesione potenzialmente contaminata. Il sanguinamento fermo non cancella quella frase. Va informato, poi puo rifiutare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sito",
+      "prompt": "Non e anticoagulato e non ha un disturbo della coagulazione. Che via e che sito?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Intramuscolo. Il sito piu indicato e il deltoide. In alternativa il quadrante supero-esterno della natica",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Sottocute, come se fosse anticoagulato",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Via sbagliata",
+      "prompt": "La via sottocutanea e per chi ha la intramuscolo controindicata: disturbi della coagulazione o anticoagulante. Lui non e in quel caso. Il sito indicato e il deltoide.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto",
+      "prompt": "Ha firmato il dissenso. E capace. Gli hai spiegato rischi, compresa la mortalita del tetano intorno al 30% se non fa la profilassi. Dice di no. E capace.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non inietti. Il modulo ha la sezione di dissenso e dice che il consenso si puo revocare in ogni momento Rispetti il dissenso.",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Inietti le immunoglobuline nonostante il suo NON acconsento, perche la ferita ti sembra sporca",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Inietti le immunoglobuline nonostante il suo NON acconsento, perche la ferita ti sembra sporca contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Vaccini vivi",
+      "prompt": "Se invece accettasse le immunoglobuline, quando potresti fare morbillo, parotite o rosolia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non prima di 6 settimane",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Lo stesso giorno",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Vaccino vivo troppo presto",
+      "prompt": "Dopo le immunoglobuline, antimorbillo, antiparotite e antirosolia non si somministrano prima che siano trascorse 6 settimane.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Gravidanza",
+      "prompt": "Non e in gravidanza. Il modulo che dice se lo fosse?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "In gravidanza la sicurezza non e stata provata in studi specifici: si consiglia solo se strettamente necessario",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "La faresti di routine in gravidanza senza quella cautela",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Gravidanza senza la cautela",
+      "prompt": "Il modulo: durante la gravidanza se ne consiglia la somministrazione solo nei casi strettamente necessari. Qui non c'e gravidanza, ma la cautela va conosciuta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Sutura non scritta",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi descrivere una tecnica di sutura della mano come se fosse in questo PDF.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non lo fai. Il modulo non la contiene Non la esegui ora.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "RX mano due proiezioni a 36,00 euro prima delle immunoglobuline: il modulo non la chiede e ritarda l'atto",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI RX 000000650 RX mano (due proiezioni) 36,00. RX mano due proiezioni a 36,00 euro prima delle immunoglobuline: il modulo non la chiede e ritarda l'atto. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Minorenne",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Se fosse minorenne, chi firma secondo la nota del modulo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Entrambi i genitori In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Informato, e il no si rispetta",
+      "prompt": "Lesione contaminata: proponi le immunoglobuline nel deltoide. Non e anticoagulato, quindi non la sottocute. Dopo l'informazione rifiuta: non inietti. Nessuna sutura inventata.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

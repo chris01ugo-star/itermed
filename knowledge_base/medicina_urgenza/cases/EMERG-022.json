@@ -1,251 +1,475 @@
 {
   "id": "EMERG-022",
   "code": "EMERG-022",
-  "title": "Ragazzo di 18 anni con respiro di Kussmaul e glicemia 450 mg/dl",
-  "description": "Davide, 18 anni, arriva disidratato, poliurico, con respiro profondo. Parametri: PA 102/64 mmHg, FC 118 bpm, FR 32 atti/min, SpO2 98%, temperatura 36.7. Glicemia capillare 450 mg/dl.",
+  "title": "Uomo di 62 anni in fibrillazione ventricolare",
+  "description": "Aldo, 62 anni, arresto testimoniato, fibrillazione ventricolare, normotermico. Nessuna DAT. I familiari non sono in sala. Parametri all'ultimo rilievo prima del collasso: PA 90/60 mmHg, FC 180 bpm, FR 8 atti/min, SpO2 90% con ossigeno, temperatura 36.6.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["medicina_interna"],
-  "condition": "Chetoacidosi diabetica",
-  "frequencyCategory": "MEDIUM",
+  "secondarySpecialties": [],
+  "condition": "Arresto in fibrillazione ventricolare, ritmo defibrillabile",
+  "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-  "diagnosis": "Chetoacidosi diabetica: respiro di Kussmaul, disidratazione, glicemia 450 mg/dl. Non è un'ipoglicemia. Non è uno stato iperosmolare nominato nei PDF.",
-  "pastMedicalHistory": "Diabete non dichiarato con certezza all'arrivo. Non è in infusione di insulina. I testi ERC nominano la chetoacidosi diabetica come causa endocrina di iperkaliemia. Idratazione aggressiva, insulina ev continua ed emogas oraria della DKA non hanno frase: restano nel percorso a citazione vuota. L'infusione insulina-glucosio ERC è per l'iperkaliemia, non va copiata come protocollo DKA.",
-  "presentation": "Respiro di Kussmaul, secco, glicemia 450. ABCDE, emogas, potassio, fluidi, insulina ev, emogas a 1 ora. Il Kussmaul e i millilitri di soluzione non sono nei PDF.",
+  "guidelineRef": "LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Nel ritmo defibrillabile l'adrenalina 1 mg si da dopo il terzo shock, non prima, e poi ogni 3-5 minuti. L'amiodarone e 300 mg dopo tre shock; 150 mg dopo cinque shock. Se l'amiodarone non c'e, lidocaina 100 mg. Non si aspetta la famiglia: non c'e una DAT che rifiuti la RCP.",
+  "pastMedicalHistory": "Arresto testimoniato. Nessuna DAT. Temperatura normale.",
+  "presentation": "Fibrillazione ventricolare. Non e una PEA.",
   "redHerrings": [
-    "Un collega dà insulina in bolo sottocute e manda il ragazzo a casa.",
-    "Un altro infonde insulina-glucosio come per l'iperkaliemia da arresto, senza un protocollo DKA."
+    "Propongono l'adrenalina prima del primo shock, come nella PEA."
   ],
-  "timeLimitMinutes": 120,
-  "patientDeteriorationThreshold": 25,
-  "patientPrompt": "Mi chiamo Davide, ho 18 anni. Respiro a fondo, ho sete, lo zucchero è quattrocentocinquanta. Riempitemi, datemi l'insulina in vena, controllate il potassio e i gas ogni ora. Non mandatemi a casa.",
-  "correctSolution": "ABCDE. La chetoacidosi diabetica è nominata tra i disturbi endocrini che causano iperkaliemia: controllare il potassio. Idratazione aggressiva, infusione di insulina ev ed emogas oraria: gold path, citazione vuota. Non copiare l'infusione insulina-glucosio da 10 UI dell'iperkaliemia come se fosse la DKA. SPIKES Knowledge.",
+  "timeLimitMinutes": 15,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Il soccorritore dice: Aldo ha 62 anni, e in fibrillazione ventricolare, non ha disposizioni. La moglie non e qui. Non dategli l'adrenalina prima del terzo shock.",
+  "correctSolution": "Shock subito. Adrenalina 1 mg solo dopo il terzo shock, poi ogni 3-5 minuti. Amiodarone 300 mg dopo tre shock. Non aspettare la moglie. Non una TC prima del terzo shock.",
   "goldStandardPath": [
-    "ega",
-    "glicemia",
-    "potassio",
-    "idratazione",
-    "insulina-ev",
-    "ega-oraria"
+    "monitor",
+    "polso"
   ],
-  "goldPathNarrative": "Emogas, glicemia, potassio, idratazione, insulina ev, emogas a 1 ora. Solo DKA-come-causa-di-iperkaliemia e ABCDE hanno citazione. Fluidi aggressivi, insulina continua e gas orari: citazione vuota.",
+  "goldPathNarrative": "Shock. Adrenalina dopo il terzo. Amiodarone 300 mg dopo tre shock.",
   "examLatencies": {
-    "ega": 8,
-    "glicemia": 5,
-    "potassio": 10,
-    "idratazione": 12,
-    "insulina-ev": 20,
-    "ega-oraria": 60,
-    "pet-tc": 180
+    "monitor": 1,
+    "polso": 1,
+    "tc-cranio": 30
   },
   "anamnesisQuestions": [
     {
-      "id": "poliuria",
-      "prompt": "Beve e urina tanto da quanti giorni, e ha già il diabete?",
+      "id": "ritmo",
+      "prompt": "E fibrillazione o un ritmo con attivita elettrica e senza polso?",
       "critical": true,
-      "expectedKeywords": ["sete", "urina", "diabete", "giorni"],
-      "rationale": "Disidratazione e diabete nel brief. Non c'è un protocollo DKA nei PDF."
+      "expectedKeywords": [
+        "fibrillazione",
+        "ventricolare"
+      ],
+      "rationale": "Il momento dell'adrenalina cambia."
     },
     {
-      "id": "respiro",
-      "prompt": "Il respiro profondo è iniziato oggi, e ha nausea?",
+      "id": "dat",
+      "prompt": "C'e una DAT?",
       "critical": true,
-      "expectedKeywords": ["respiro", "nause", "oggi", "fondo"],
-      "rationale": "Kussmaul è del brief, non nominato nei PDF."
+      "expectedKeywords": [
+        "dat",
+        "no"
+      ],
+      "rationale": "Senza DAT si inizia."
     },
     {
-      "id": "insulina-casa",
-      "prompt": "Ha saltato l'insulina, o non ne ha mai presa?",
+      "id": "temp",
+      "prompt": "E freddo, sotto i 30 gradi?",
       "critical": true,
-      "expectedKeywords": ["insulina", "saltato", "mai", "penna"],
-      "rationale": "Conta per la DKA. Lo schema ev non è in questi testi."
-    },
-    {
-      "id": "paura",
-      "prompt": "Che cosa la spaventa di più: lo zucchero o i gas nel sangue?",
-      "critical": true,
-      "expectedKeywords": ["zucchero", "gas", "paura", "coma"],
-      "rationale": "SPIKES Knowledge, senza ritardare fluidi e potassio."
+      "expectedKeywords": [
+        "freddo",
+        "no",
+        "normale"
+      ],
+      "rationale": "Sotto i 30 gradi l'adrenalina non si da. Qui e normotermico."
     }
   ],
   "physicalExam": {
-    "summary": "Disidratato, respiro profondo e rapido, FR 32, glicemia 450 mg/dl. Mucose asciutte. Niente deficit focale. Potassio non ancora noto."
+    "summary": "Non risponde, fibrillazione sul monitor, polso assente, non ipotermico."
   },
   "escCitations": [
     {
-      "chunkId": "erc6-abcde",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Segui l'approccio ABCDE • Dove necessario adotta tutte le misure di sicurezza • È prioritaria la ricerca delle cause reversibili"
+      "chunkId": "dopo",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "In caso di pazienti adulti in arresto cardiaco con ritmo defibrillabile, somministrare adrenalina 1 mg EV (IO) dopo il terzo shock."
     },
     {
-      "chunkId": "erc6-dka-iperkaliemia",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Disturbi endocrini (per esempio, chetoacidosi diabetica, morbo di Addison). • Danno tissutale (per esempio, rabdomiolisi, sindrome da lisi tumorale, emolisi)."
+      "chunkId": "subito",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "In caso di pazienti adulti in arresto cardiaco con ritmo non defibrillabile, somministrare adrenalina 1 mg EV (IO) prima possibile."
     },
     {
-      "chunkId": "erc6-monitor-k",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Monitorare i livelli di potassio e di glucosio nel siero. • Prevenire la recidiva dell’iperkaliemia. Paziente non in arresto cardiaco Valutazione del paziente: • Usare l’approccio ABCDE e correggere ogni eventuale anomalia, ottenere l’accesso EV."
+      "chunkId": "ogni",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "Ripetere la somministrazione di adrenalina 1 mg EV (IO) ogni 3-5 minuti durante l' ALS."
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "amio",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "Somministrare amiodarone 300 mg EV (IO) in caso di pazienti adulti in arresto cardiaco in FV/pTV dopo l'erogazione di tre shock."
+    },
+    {
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
+    },
+    {
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI TC 000004210 TC encefalo senza contrasto 136,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Emogas, glicemia e potassio prima dell'insulina ev.",
-      "Idratazione e insulina ev nel percorso, anche senza frase DKA.",
-      "Emogas a 1 ora."
+      "Adrenalina dopo il terzo shock, non prima.",
+      "Non aspettare la moglie."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "ERC 2021 cap. 6 nomina la chetoacidosi diabetica solo come causa di iperkaliemia e chiede ABCDE, potassio e glucosio. Non c'è un protocollo DKA (fluidi, insulina continua, gas orari). L'insulina-glucosio da 10 UI è per l'iperkaliemia, non va usata come citazione DKA. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "art5Adherence": "Il capitolo ALS separa il ritmo defibrillabile da quello non defibrillabile. Il capitolo etico dice di iniziare se non ci sono criteri per non farlo. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Annotare glicemia, emogas e potassio di arrivo.",
-        "Annotare l'inizio dei fluidi e dell'insulina ev.",
-        "Registrare l'emogas a 1 ora."
+        "Amiodarone 300 mg dopo tre shock, non una dose diversa.",
+        "Non una TC prima degli shock.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ega",
-      "name": "Emogasanalisi",
-      "finding": "Gas all'arrivo. Nessun pH né bicarbonato è fissato. Il Kussmaul è clinico.",
+      "examId": "monitor",
+      "name": "Monitor",
+      "finding": "Fibrillazione ventricolare.",
       "isAbnormal": true,
-      "priceEuro": 10,
-      "isFatal": true
+      "isFatal": false
     },
     {
-      "examId": "glicemia",
-      "name": "Glicemia",
-      "finding": "450 mg/dl nel brief. Non è una soglia copiata da un protocollo DKA nei PDF.",
+      "examId": "polso",
+      "name": "Polso",
+      "finding": "Polso centrale assente.",
       "isAbnormal": true,
-      "priceEuro": 4,
-      "isFatal": true
-    },
-    {
-      "examId": "potassio",
-      "name": "Potassio serico",
-      "finding": "Obbligatorio perché la DKA è elencata tra le cause di iperkaliemia. Nessun mmol/L è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 6,
-      "isFatal": true
-    },
-    {
-      "examId": "ega-oraria",
-      "name": "Emogasanalisi dopo 1 ora",
-      "finding": "Rivalutazione dei gas. Nessuna cadenza oraria è scritta nei PDF: resta nel percorso.",
-      "isAbnormal": true,
-      "priceEuro": 10,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non inquadra la chetoacidosi.",
+      "examId": "tc-cranio",
+      "name": "TC cranio prima del terzo shock",
+      "finding": "Ritarda defibrillazione e adrenalina al momento scritto.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "I testi nominano DKA, potassio e ABCDE. Non la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "TC encefalo senza contrasto a 136,00 euro prima del terzo shock. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 136
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 118,
-      "bloodPressure": "102/64",
-      "spo2": 98,
-      "temperature": 36.7,
-      "respiratoryRate": 32
+      "heartRate": 180,
+      "bloodPressure": "90/60",
+      "spo2": 90,
+      "temperature": 36.6,
+      "respiratoryRate": 8
     },
-    "examBudgetEuro": 60,
-    "demographics": { "age": 18, "sex": "M", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Respiro di Kussmaul",
-        "result": "Respiro profondo e rapido. Disidratazione.",
-        "isPositive": true
-      },
-      {
-        "signName": "Mucose asciutte",
-        "result": "Sete, poliuria riferita.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 62,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ega": {
-          "finding": "Gas all'arrivo. Nessun pH fissato.",
-          "isAbnormal": true,
-          "price": 10
+        "monitor": {
+          "finding": "Fibrillazione ventricolare.",
+          "isAbnormal": true
         },
-        "glicemia": {
-          "finding": "450 mg/dl nel brief.",
-          "isAbnormal": true,
-          "price": 4
+        "polso": {
+          "finding": "Polso centrale assente.",
+          "isAbnormal": true
         },
-        "potassio": {
-          "finding": "Da dosare. Nessun mmol/L fissato.",
-          "isAbnormal": true,
-          "price": 6
-        },
-        "pet-tc": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 950
+        "tc-cranio": {
+          "finding": "Ritarda defibrillazione e adrenalina al momento scritto.",
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Idratazione e insulina ev (citazione vuota sul protocollo DKA)",
+          "label": "Adrenalina dopo il terzo shock",
           "anyOf": [
             {
-              "id": "insulina-ev",
-              "label": "Insulina endovena",
-              "aliases": ["insulina", "infusione"]
+              "id": "adr",
+              "label": "Adrenalina al terzo shock",
+              "aliases": [
+                "adrenalina"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "subito",
+          "label": "Adrenalina prima del primo shock",
+          "aliases": [
+            "subito"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Emogas e potassio prima dell'insulina.",
-        "Idratazione.",
-        "Insulina ev nel percorso.",
-        "Emogas a 1 ora.",
-        "Spiegare a Davide."
+        "Shock.",
+        "Adrenalina dopo il terzo.",
+        "Niente TC prima."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto di gas, potassio e fluidi."
+          "id": "tc",
+          "kind": "clinical",
+          "trigger": "TC prima degli shock."
         }
       ],
       "citationLimits": [
-        "DKA è nominata solo come causa endocrina di iperkaliemia.",
-        "Idratazione aggressiva, insulina ev continua e gas orari: gold path, citazione vuota.",
-        "Insulina 10 UI + glucosio 25 g è il trattamento dell'iperkaliemia, non il protocollo DKA. Non citarla come tale.",
-        "Kussmaul e 450 mg/dl sono del brief.",
-        "Nessun mmol/L di potassio o pH è copiato per questo ragazzo."
+        "Nel ritmo defibrillabile l'adrenalina non e prima possibile."
       ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "MEDIUM",
-    "emotionalState": "ANXIOUS",
-    "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Ha sete e paura del coma. Chiede fluidi, insulina in vena e gas ogni ora, senza essere dimesso con una penna."
-  }
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Non puo decidere. La moglie non c'e. Gli shock non si fermano per aspettarla."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Che regola dell'adrenalina",
+      "prompt": "Fibrillazione, polso assente, non e freddo. Quando il primo milligrammo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Dopo il terzo shock",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Prima possibile, come nella PEA",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Adrenalina troppo presto",
+      "prompt": "Nel ritmo defibrillabile l'adrenalina 1 mg e dopo il terzo shock. Prima possibile e la frase del ritmo non defibrillabile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Poi ogni quanto",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Dopo quel primo milligrammo, ogni quanto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Ogni 3-5 minuti In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Amiodarone",
+      "prompt": "Dopo tre shock e ancora in fibrillazione. Che antiaritmico?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Amiodarone 300 mg. Se non c'e, lidocaina 100 mg",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Amiodarone 900 mg in bolo",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non scritta per l'arresto",
+      "prompt": "300 mg dopo tre shock. 150 mg dopo cinque shock. La lidocaina e 100 mg se l'amiodarone non e disponibile. 900 mg in 24 ore e l'infusione dopo la cardioversione dell'instabile, non questo bolo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC prima",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi la TC prima del terzo shock.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. Ritarda defibrillazione e adrenalina Non la esegui ora.",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "TC encefalo senza contrasto a 136,00 euro prima del terzo shock",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI TC 000004210 TC encefalo senza contrasto 136,00. TC encefalo senza contrasto a 136,00 euro prima del terzo shock. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "La moglie",
+      "prompt": "La moglie chiede di fermare la rianimazione finche non arriva. Non ci sono DAT. Nessuna DAT. La moglie non c'e. Aspetti il primo shock?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. Inizi Non aspetti la moglie.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Aspetti la moglie prima dell'adrenalina del terzo shock, senza DAT",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti la moglie prima dell'adrenalina del terzo shock, senza DAT contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "DAT",
+      "prompt": "Se ci fosse una DAT valida che rifiuta la RCP, continueresti gli shock?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. Sarebbe un criterio per non iniziare. Qui non c'e",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Ignoreresti la DAT",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "DAT ignorata",
+      "prompt": "Le DAT valide e coerenti che rifiutano la RCP sono un criterio per non iniziare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Quinto shock",
+      "prompt": "E ancora in fibrillazione dopo cinque shock e l'amiodarone e gia stato dato. Che altra dose di amiodarone e scritta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "150 mg",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Altri 300 mg",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Seconda dose non scritta",
+      "prompt": "Dopo cinque shock la dose scritta e amiodarone 150 mg, non un secondo bolo da 300.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Adrenalina dopo il terzo shock",
+      "prompt": "FV normotermica, nessuna DAT: shock, adrenalina 1 mg dopo il terzo, poi ogni 3-5 minuti, amiodarone 300 mg dopo tre shock. Non prima e non dopo la moglie.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

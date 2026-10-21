@@ -1,267 +1,475 @@
 {
   "id": "EMERG-021",
   "code": "EMERG-021",
-  "title": "Donna di 75 anni con febbre, confusione e pressione 80/40",
-  "description": "Maria, 75 anni, arriva confusa, febbrile, ipotesa. Parametri: PA 80/40 mmHg, FC 118 bpm, FR 28 atti/min, SpO2 91%, temperatura 38.9. Lattati elevati al punto di cura.",
+  "title": "Donna di 75 anni con febbre, lattati 5 e pressione 80/40",
+  "description": "Teresa, 75 anni, febbre, confusa, lattati 5 mmol/L, pressione 80/40. Parametri: PA 80/40 mmHg, FC 120 bpm, FR 26 atti/min, SpO2 94% in aria, temperatura 38.8. Nessuna DAT. I familiari non sono in sala. Non e in arresto.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["medicina_interna"],
-  "condition": "Shock settico",
+  "secondarySpecialties": [],
+  "condition": "Sepsi con ipotensione e lattati almeno 4 mmol/L",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-  "diagnosis": "Shock settico: febbre, confusione, ipotensione, lattati elevati. Non è un'ipovolemia da sola da riempire senza antibiotico. Non è un'emorragia.",
-  "pastMedicalHistory": "Anziana, febbre. Nessun focolaio nominato oltre il quadro. Non ha ricevuto antibiotico all'arrivo. Emocolture non ancora prelevate. La noradrenalina per nome non è nella bundle ERC della sepsi: restano «vasopressori». qSOFA è in un testo WSES sul trauma intestinale, non in un protocollo Surviving Sepsis dedicato.",
-  "presentation": "38.9, confusa, 80/40, lattati alti. Bundle della prima ora: lattati, emocolture prima degli antibiotici, antibiotici ad ampio spettro, 30 ml/kg di cristalloidi, vasopressori se resta ipotesa per MAP ≥65. Rivalutazione lattati. Noradrenalina: nel percorso, citazione vuota.",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Bundle della prima ora: misurare i lattati, emocolture prima degli antibiotici, antibiotico ad ampio spettro senza un nome che questo brano non da, 30 ml/kg di cristalloidi subito perche e ipotesa e i lattati sono almeno 4, vasopressori se resta ipotesa per una pressione arteriosa media almeno 65 mmHg. Non si aspetta la famiglia.",
+  "pastMedicalHistory": "Febbre da oggi. Nessuna allergia nota. Nessuna DAT.",
+  "presentation": "Ipotesa, lattati 5, confusa. Non e in arresto.",
   "redHerrings": [
-    "Un collega dà l'antibiotico senza emocolture e manda la paziente in radiologia.",
-    "Un altro aspetta il consulto infettivologico prima di qualsiasi vena."
+    "Propongono l'antibiotico prima delle emocolture, e 500 ml invece di 30 ml/kg."
   ],
-  "timeLimitMinutes": 90,
+  "timeLimitMinutes": 15,
   "patientDeteriorationThreshold": 20,
-  "patientPrompt": "Sono la figlia di Maria, ha 75 anni, è confusa, ha la febbre, la pressione è ottanta. Prelevate le emocolture, date l'antibiotico, riempitela, se non alza la pressione usate i vasopressori. Tra un'ora i lattati di nuovo. Ditemi se è uno shock settico.",
-  "correctSolution": "Bundle ERC della prima ora nella sepsi e nello shock settico: misurare i lattati; emocolture prima degli antibiotici; antibiotici ad ampio spettro; 30 ml/kg di cristalloidi se ipotensione o lattati ≥4 mmol/L; vasopressori se resta ipotesa, MAP ≥65 mmHg. qSOFA: menzionato WSES come più sensibile per sepsi o shock settico, in un contesto di trauma intestinale. Noradrenalina per nome: gold path, citazione vuota (ERC 7 la indica nel post-arresto, non in questa bundle). Rivalutazione lattati. SPIKES Knowledge.",
+  "patientPrompt": "La figlia al telefono dice: mia madre ha 75 anni, scotta e la pressione e bassa. Non aspettate che io arrivi. Non so dirvi che antibiotico, e il testo nemmeno.",
+  "correctSolution": "Lattati gia noti. Emocolture, poi antibiotico ad ampio spettro senza inventare la molecola. 30 ml/kg di cristalloidi subito. Se resta ipotesa, vasopressore per una media almeno 65. Non aspettare la figlia.",
   "goldStandardPath": [
-    "qsofa",
     "lattati",
-    "emocolture",
-    "antibiotico-empirico",
-    "bolo-cristalloidi",
-    "noradrenalina",
-    "rivalutazione-lattati"
+    "pressione"
   ],
-  "goldPathNarrative": "qSOFA, lattati, emocolture, antibiotico ad ampio spettro, 30 ml/kg di cristalloidi, vasopressori se resta ipotesa, rivalutazione lattati. Noradrenalina nominata nel brief: citazione vuota.",
+  "goldPathNarrative": "Emocolture prima dell'antibiotico. 30 ml/kg. Vasopressore se serve, per la media di 65.",
   "examLatencies": {
-    "qsofa": 5,
-    "lattati": 8,
-    "emocolture": 10,
-    "antibiotico-empirico": 15,
-    "bolo-cristalloidi": 12,
-    "noradrenalina": 25,
-    "rivalutazione-lattati": 60,
-    "pet-tc": 180
+    "lattati": 5,
+    "pressione": 1,
+    "tc-addome": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "febbre-esordio",
-      "prompt": "Da quante ore ha la febbre, e dove le fa male?",
+      "id": "allergia",
+      "prompt": "Ha allergie a farmaci?",
       "critical": true,
-      "expectedKeywords": ["febbre", "ore", "male", "urina"],
-      "rationale": "Cercare il focolaio. ERC: identificare e trattare il sito di origine se possibile."
+      "expectedKeywords": [
+        "allergia",
+        "no"
+      ],
+      "rationale": "L'antibiotico e ad ampio spettro, ma il brano non ne scrive il nome."
     },
     {
-      "id": "confusione",
-      "prompt": "Da quando è confusa, ed era autonoma ieri?",
+      "id": "dat",
+      "prompt": "C'e una DAT?",
       "critical": true,
-      "expectedKeywords": ["confusa", "ieri", "autonoma", "quando"],
-      "rationale": "Alterazione mentale nel quadro. qSOFA è nominato WSES, senza i tre item copiati."
+      "expectedKeywords": [
+        "dat",
+        "no"
+      ],
+      "rationale": "Senza DAT non si aspetta per iniziare il bundle."
     },
     {
-      "id": "allergie",
-      "prompt": "Ha allergie agli antibiotici?",
-      "critical": true,
-      "expectedKeywords": ["allergie", "antibiotici", "penicillina", "farmaci"],
-      "rationale": "Antibiotico ad ampio spettro nella bundle. Lo schema molecolare non è in questi PDF."
-    },
-    {
-      "id": "figlia",
-      "prompt": "Che cosa vuole sapere adesso sulla madre?",
-      "critical": true,
-      "expectedKeywords": ["shock", "morire", "antibiotico", "pressione"],
-      "rationale": "SPIKES Knowledge con la figlia, senza ritardare la prima ora."
+      "id": "urine",
+      "prompt": "Sta urinando in questo momento?",
+      "critical": false,
+      "expectedKeywords": [
+        "urina",
+        "poco"
+      ],
+      "rationale": "Non cambia i 30 ml/kg scritti per l'ipotensione."
     }
   ],
   "physicalExam": {
-    "summary": "Febbre 38.9, confusa, PA 80/40, FR 28, cute calda. Lattati elevati al punto di cura, senza un mmol/L fissato per questa paziente oltre il brief."
+    "summary": "Confusa, febbrile, ipotesa, estremita fredde. Non e in arresto."
   },
   "escCitations": [
     {
-      "chunkId": "erc6-bundle-sepsi",
+      "chunkId": "lat",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Misurare il livello dei lattati. • Ottenere emocolture prima della somministrazione di antibiotici. • Somministrare antibiotici ad ampio spettro. • Iniziare la somministrazione immediata di 30 ml/kg di cristalloidi per l’ipotensione o per un livello di lattati ≥4 mmol/L."
+      "quote": "Misurare il livello dei lattati."
     },
     {
-      "chunkId": "erc6-vasopressori-map",
+      "chunkId": "col",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Iniziare vasopressori se il paziente rimane ipoteso durante o dopo la somministrazione di fluidi al fine di mantenere la pressione arteriosa media ≥65 mmHg."
+      "quote": "Ottenere emocolture prima della somministrazione di antibiotici."
     },
     {
-      "chunkId": "erc6-antibiotici-tempestivi",
+      "chunkId": "ab",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Identificare e trattare il sito di origine della sepsi, se possibile, e somministrare antibiotici tempestivamente."
+      "quote": "Somministrare antibiotici ad ampio spettro."
     },
     {
-      "chunkId": "wses-qsofa",
-      "source": "knowledge_base/medicina_urgenza/clinical/972-WSES-guidelines-on-blunt-and-penetrating-bowel-injury_-diagnosis-investigations-and-treatment.pdf",
-      "quote": "quick sequential organ failure assessment (qSOFA) score, demonstrate a higher sensitivity for sepsis or sep- tic shock and may play a crucial role during the observa- tion of patients at a higher risk for bowel injuries based on mechanism of injury or CT finings"
+      "chunkId": "flu",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Iniziare la somministrazione immediata di 30 ml/kg di cristalloidi per l'ipotensione o per un livello di lattati almeno 4 mmol/L."
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
+    },
+    {
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI TC 000004199 TC addome superiore e inferiore senza contrasto 240,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Emocolture prima dell'antibiotico. Antibiotico ad ampio spettro nella prima ora.",
-      "30 ml/kg di cristalloidi. Vasopressori se resta ipotesa, MAP ≥65.",
-      "Rivalutazione dei lattati."
+      "Emocolture prima dell'antibiotico, 30 ml/kg, vasopressore per una media di almeno 65 se resta ipotesa.",
+      "Non aspettare la figlia."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "La bundle della prima ora è copiata da ERC 2021 cap. 6 (Surviving Sepsis). qSOFA è in WSES 2022 sul trauma intestinale, non in un capitolo sepsi dedicato. Noradrenalina per nome non è in questa bundle. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "art5Adherence": "Il bundle ERC della prima ora fissa l'ordine e i volumi. Il capitolo etico non mette i familiari tra i motivi per non iniziare. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Annotare ora delle emocolture e dell'antibiotico.",
-        "Annotare i millilitri di cristalloidi e l'avvio dei vasopressori.",
-        "Registrare lattati iniziali e rivalutazione."
+        "Non inventare il nome dell'antibiotico.",
+        "Non sostituire 30 ml/kg con un bolo arbitrario.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "qsofa",
-      "name": "qSOFA / SOFA",
-      "finding": "Confusione, FR 28, PA 80/40. I tre item non sono elencati nel PDF WSES. Nessun punteggio numerico è inventato.",
-      "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": false
-    },
-    {
       "examId": "lattati",
       "name": "Lattati",
-      "finding": "Elevati al punto di cura. La soglia ≥4 mmol/L è della bundle, non un valore misurato copiato per Maria.",
+      "finding": "Lattati 5 mmol/L.",
       "isAbnormal": true,
-      "priceEuro": 12,
-      "isFatal": true
-    },
-    {
-      "examId": "emocolture",
-      "name": "Emocolture",
-      "finding": "Prelievo prima dell'antibiotico. Nessun germe è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 25,
-      "isFatal": true
-    },
-    {
-      "examId": "ega",
-      "name": "Emogasanalisi",
-      "finding": "Gas e lattati. Nessun pH è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 10,
       "isFatal": false
     },
     {
-      "examId": "rivalutazione-lattati",
-      "name": "Rivalutazione lattati dopo 1 ora",
-      "finding": "Controllo dopo fluidi e vasopressori. Nessun delta millimolare è fissato.",
+      "examId": "pressione",
+      "name": "Pressione",
+      "finding": "80/40 mmHg.",
       "isAbnormal": true,
-      "priceEuro": 12,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non fa parte della bundle della prima ora.",
+      "examId": "tc-addome",
+      "name": "TC addome prima di colture e fluidi",
+      "finding": "Non e nel bundle e ritarda emocolture, antibiotico e 30 ml/kg.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "La bundle nomina lattati, emocolture, antibiotici, cristalloidi e vasopressori. Non la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "TC addome superiore e inferiore senza contrasto a 240,00 euro prima del bundle. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 240
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 118,
+      "heartRate": 120,
       "bloodPressure": "80/40",
-      "spo2": 91,
-      "temperature": 38.9,
-      "respiratoryRate": 28
+      "spo2": 94,
+      "temperature": 38.8,
+      "respiratoryRate": 26
     },
-    "examBudgetEuro": 80,
-    "demographics": { "age": 75, "sex": "F", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Confusione",
-        "result": "Non orientata. Febbre.",
-        "isPositive": true
-      },
-      {
-        "signName": "Ipotensione",
-        "result": "80/40. Cute calda.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 75,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
         "lattati": {
-          "finding": "Elevati. Nessun mmol/L fissato per questa paziente.",
-          "isAbnormal": true,
-          "price": 12
+          "finding": "Lattati 5 mmol/L.",
+          "isAbnormal": true
         },
-        "emocolture": {
-          "finding": "Prelievo prima dell'antibiotico.",
-          "isAbnormal": true,
-          "price": 25
+        "pressione": {
+          "finding": "80/40 mmHg.",
+          "isAbnormal": true
         },
-        "ega": {
-          "finding": "Gas. Nessun pH fissato.",
-          "isAbnormal": true,
-          "price": 10
-        },
-        "pet-tc": {
-          "finding": "Non indicata nella prima ora.",
-          "isAbnormal": false,
-          "price": 950
+        "tc-addome": {
+          "finding": "Non e nel bundle e ritarda emocolture, antibiotico e 30 ml/kg.",
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Cristalloidi 30 ml/kg e vasopressori se resta ipotesa",
+          "label": "30 ml/kg e antibiotico dopo le colture",
           "anyOf": [
             {
-              "id": "noradrenalina",
-              "label": "Vasopressori (noradrenalina nel brief)",
-              "aliases": ["noradrenalina", "norepinefrina", "vasopressori", "vasopressore"]
+              "id": "bundle",
+              "label": "Bundle",
+              "aliases": [
+                "cristalloidi",
+                "emocolture"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "ab-prima",
+          "label": "Antibiotico prima delle colture",
+          "aliases": [
+            "prima delle colture"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Emocolture prima dell'antibiotico.",
-        "Antibiotico ad ampio spettro tempestivo.",
-        "Bolo di cristalloidi.",
-        "Vasopressori se resta ipotesa.",
-        "Rivalutazione lattati.",
-        "Spiegare alla figlia."
+        "Colture, poi antibiotico.",
+        "30 ml/kg.",
+        "Niente TC prima."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto della bundle della prima ora."
+          "id": "tc",
+          "kind": "clinical",
+          "trigger": "TC prima del bundle."
         }
       ],
       "citationLimits": [
-        "Bundle ERC: lattati, emocolture prima degli antibiotici, ampio spettro, 30 ml/kg, vasopressori per MAP ≥65. Non nomina la noradrenalina.",
-        "Noradrenalina in ERC 7 è prima linea nel post-arresto ipoteso. Non copiarla come se fosse la frase della sepsi. Resta nel gold path a citazione vuota.",
-        "qSOFA/SOFA: WSES sul trauma intestinale, sensibilità per sepsi o shock settico. Non è il capitolo Surviving Sepsis degli adulti in ED.",
-        "≥4 mmol/L e 30 ml/kg sono della bundle, non i numeri di laboratorio di Maria.",
-        "«Entro 1 ora» è il titolo della bundle ERC (Sequenza - Prima Ora), non un timer copiato da un altro PDF."
+        "Nessun nome di antibiotico e scritto."
       ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "LOW",
     "emotionalState": "PASSIVE",
-    "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Maria è confusa. La figlia chiede emocolture, antibiotico e vasopressori in ordine, senza rassicurazioni vuote."
-  }
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "E confusa. La figlia al telefono chiede di non aspettare. Il bundle inizia lo stesso."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Lattati",
+      "prompt": "Sono 5 mmol/L e la pressione e 80. Il bundle che cosa chiede per primo, tra i punti scritti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Aver misurato i lattati, cosa gia fatta, e non rimandare il resto",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Non misuri i lattati e non li usi per decidere i fluidi",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Lattati ignorati",
+      "prompt": "Il bundle dice di misurare i lattati. Con ipotensione o lattati almeno 4 si iniziano subito 30 ml/kg.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Colture e antibiotico",
+      "prompt": "In che ordine?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Emocolture prima, poi antibiotico ad ampio spettro",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Antibiotico subito, colture dopo, potendo farle ora",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Colture saltate",
+      "prompt": "Ottenere le emocolture prima degli antibiotici, poi somministrare un antibiotico ad ampio spettro.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quanto fluido",
+      "prompt": "Quanti ml/kg, e quando?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "30 ml/kg di cristalloidi, subito",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "500 ml e poi si vede, senza un peso",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Volume non scritto",
+      "prompt": "Somministrazione immediata di 30 ml/kg di cristalloidi per l'ipotensione o per lattati almeno 4 mmol/L.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se resta ipotesa",
+      "prompt": "Durante i fluidi la pressione resta bassa. Che fai, e con che bersaglio?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Vasopressore, per una pressione arteriosa media di almeno 65 mmHg",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Altri esami, senza vasopressore",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Vasopressore omesso",
+      "prompt": "Iniziare i vasopressori se resta ipoteso durante o dopo i fluidi, per mantenere la media almeno a 65 mmHg.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Il nome",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Che antibiotico scrive questo brano?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Nessuno. Solo ad ampio spettro. Non ne inventi il nome In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC prima",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi la TC dell'addome prima di colture e fluidi.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. Ritarda il bundle Non la esegui ora.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "TC addome superiore e inferiore senza contrasto a 240,00 euro prima del bundle",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI TC 000004199 TC addome superiore e inferiore senza contrasto 240,00. TC addome superiore e inferiore senza contrasto a 240,00 euro prima del bundle. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "La figlia",
+      "prompt": "La figlia chiede di non iniziare il bundle finche non arriva. Nessuna DAT. La figlia arriva fra un'ora. Aspetti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. Inizi il bundle Non aspetti la figlia.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Aspetti la figlia prima di colture, antibiotico e fluidi, senza un rifiuto recepibile",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti la figlia prima di colture, antibiotico e fluidi, senza un rifiuto recepibile contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Bundle, senza il nome dell'antibiotico",
+      "prompt": "Lattati, emocolture, poi antibiotico ad ampio spettro senza un nome inventato, 30 ml/kg, vasopressore se serve per una media di almeno 65. Non la TC e non la figlia.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

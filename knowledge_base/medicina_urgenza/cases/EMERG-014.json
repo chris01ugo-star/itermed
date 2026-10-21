@@ -1,253 +1,479 @@
 {
   "id": "EMERG-014",
   "code": "EMERG-014",
-  "title": "Uomo di 35 anni agitato, iperteso, dolore toracico dopo cocaina",
-  "description": "Andrea, 35 anni, arriva agitato, sudato, dopo cocaina. Parametri: PA 188/110 mmHg, FC 128 bpm, FR 22 atti/min, SpO2 97%, temperatura 37.4. Dolore toracico ischemico.",
-  "difficulty": "HARD",
+  "title": "Uomo di 35 anni iperteso e agitato dopo cocaina",
+  "description": "Luca, 35 anni, ha assunto cocaina, pressione 210/120, agitato, dolore toracico, non in crisi comiziale. Parametri: PA 210/120 mmHg, FC 130 bpm, FR 22 atti/min, SpO2 97% in aria, temperatura 37.2. Cosciente e capace. Nessuna DAT.",
+  "difficulty": "MEDIUM",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["cardiologia"],
-  "condition": "Intossicazione da cocaina con ischemia miocardica",
+  "secondarySpecialties": [],
+  "condition": "Emergenza ipertensiva da cocaina",
   "frequencyCategory": "MEDIUM",
-  "matrixDifficulty": "ADVANCED",
+  "matrixDifficulty": "INTERMEDIATE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-  "diagnosis": "Intossicazione da cocaina con agitazione, ipertensione e dolore toracico ischemico. Non è uno STEMI con sopraslivellamento descritto all'arrivo.",
-  "pastMedicalHistory": "Abusatore di cocaina. Nessun infarto dichiarato. Non è in benzodiazepina all'arrivo. Non ha ricevuto nitrati. Il brief vieta i beta-bloccanti: nei PDF usati quella frase di divieto non c'è.",
-  "presentation": "Agitazione, pressione 188/110, dolore al petto. Sedazione con benzodiazepine, vasodilatatori, alfa-antagonisti. Nitrati se ipertensione e/o dolore toracico. ECG e hs-cTn. Monitoraggio. Il beta-bloccante è un check anti-errore del brief, senza citazione di divieto.",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Le emergenze ipertensive da agonisti adrenergici, come la cocaina, si gestiscono con benzodiazepine, vasodilatatori e alfa-antagonisti puri. Nella tabella delle droghe, per la cocaina: benzodiazepine per le crisi, e per l'ipertensione alfa-bloccanti, calcio-antagonisti e nitroglicerina. I beta-bloccanti non sono il trattamento di prima linea. Il testo non da i milligrammi della benzodiazepina.",
+  "pastMedicalHistory": "Uso di cocaina oggi. Nessuna crisi in questo momento. Nessun rifiuto di cure.",
+  "presentation": "Ipertensione grave, agitazione, dolore toracico. Non convulsiona.",
   "redHerrings": [
-    "Un collega propone un beta-bloccante ev per la tachicardia prima di qualsiasi sedazione.",
-    "Chiede di essere dimesso appena il cuore smette di correre."
+    "Propongono un beta-bloccante come primo farmaco."
   ],
-  "timeLimitMinutes": 90,
+  "timeLimitMinutes": 20,
   "patientDeteriorationThreshold": 20,
-  "patientPrompt": "Mi chiamo Andrea, ho 35 anni. Ho tirato, ora non sto fermo, ho un peso al petto, la pressione è alle stelle. Calmatemi senza farmi del male al cuore. Non voglio il beta-bloccante se dite che per la cocaina non si usa: spiegatemi che cosa c'è scritto davvero.",
-  "correctSolution": "Per agonisti adrenergici come la cocaina: sedazione con benzodiazepine, vasodilatatori e alfa-antagonisti puri. Nitrati se ipertensione e/o dolore toracico. ECG entro 10 minuti e hs-cTn. Il file tossicologico elenca anche beta-bloccanti se tachicardia marcata: non è un divieto. Il brief chiede il divieto come anti-errore: nel percorso, campo citazione vuoto. SPIKES Knowledge su che cosa è scritto.",
+  "patientPrompt": "Sono Luca, ho 35 anni. Ho preso cocaina, la testa scoppia e la pressione e altissima. Non datemi un beta-bloccante per primo. Non inventate i milligrammi.",
+  "correctSolution": "Benzodiazepine, vasodilatatori e alfa-antagonisti puri. Per l'ipertensione da cocaina: alfa-bloccanti, calcio-antagonisti, nitroglicerina. Non un beta-bloccante di prima linea. Non inventare i milligrammi della benzodiazepina. Non una TC prima del trattamento della pressione.",
   "goldStandardPath": [
-    "ecg",
-    "troponina-hs",
-    "ega",
-    "sedazione-bdz",
-    "ecg-seriato",
-    "monitoraggio-pa"
+    "pressione",
+    "ecg"
   ],
-  "goldPathNarrative": "Benzodiazepine per agitazione e pressione, nitrati per dolore e ipertensione, ECG e troponina, rivalutazione ECG. Niente beta-bloccante come check del brief, senza citazione di divieto. Non dimettere in acuto.",
+  "goldPathNarrative": "Tratti l'ipertensione con i farmaci della tabella. Non il beta-bloccante per primo.",
   "examLatencies": {
-    "ecg": 8,
-    "troponina-hs": 45,
-    "ega": 15,
-    "sedazione-bdz": 10,
-    "ecg-seriato": 120,
-    "monitoraggio-pa": 30,
-    "pet-tc": 180
+    "pressione": 1,
+    "ecg": 5,
+    "tc-cranio": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "cocaina",
-      "prompt": "Ha assunto cocaina, quanto e da quanto ha il dolore al petto?",
+      "id": "sostanza",
+      "prompt": "Che cosa ha assunto?",
       "critical": true,
-      "expectedKeywords": ["cocaina", "tirato", "petto", "quando"],
-      "rationale": "ERC nomina la cocaina tra gli agonisti adrenergici. Il tempo del dolore conta per l'ECG."
+      "expectedKeywords": [
+        "cocaina",
+        "assunto",
+        "droga"
+      ],
+      "rationale": "La tabella distingue cocaina e altre droghe."
     },
     {
-      "id": "altre-sostanze",
-      "prompt": "Ha preso anche altro, o solo cocaina?",
+      "id": "crisi",
+      "prompt": "Ha avuto una convulsione?",
       "critical": true,
-      "expectedKeywords": ["altro", "alcol", "anfetamin", "solo"],
-      "rationale": "Il capitolo tossicologico elenca più sostanze. Qui il brief è cocaina."
+      "expectedKeywords": [
+        "convulsione",
+        "crisi",
+        "no"
+      ],
+      "rationale": "Le benzodiazepine della tabella, per la cocaina, sono per il controllo delle crisi."
     },
     {
-      "id": "spiegare-beta",
-      "prompt": "Che cosa vuole sapere sui farmaci per la pressione e sul beta-bloccante?",
+      "id": "beta",
+      "prompt": "Le hanno gia dato un beta-bloccante?",
       "critical": true,
-      "expectedKeywords": ["beta", "pressione", "cuore", "farmaco"],
-      "rationale": "SPIKES Knowledge. Dire che cosa è scritto: benzodiazepine e vasodilatatori. Il divieto del beta-bloccante non è in quelle frasi."
+      "expectedKeywords": [
+        "beta",
+        "no"
+      ],
+      "rationale": "Non e il trattamento di prima linea."
     }
   ],
   "physicalExam": {
-    "summary": "Agitato, midriatico non misurato, sudato, tremore. Toni tachicardici, soffi assenti. Polmoni liberi. Polsi simmetrici. Non è descritto un deficit focale."
+    "summary": "Agitato, iperteso, dolore toracico, non in crisi comiziale. Lucido."
   },
   "escCitations": [
     {
-      "chunkId": "erc6-cocaina-bdz-vaso-alfa",
+      "chunkId": "gest",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "possono verificarsi durante avvelenamenti acuti con agonisti adrenergici come la cocaina o le anfetamine. In tal caso, la gestione migliore consiste nella sedazione del paziente con benzodiazepine, vasodilatatori e alfa-antagonisti puri."
+      "quote": "Gestire le emergenze ipertensive con benzodiazepine, vasodilatori e alfa-antagonisti puri."
     },
     {
-      "chunkId": "toss-bdz-agitazione",
-      "source": "knowledge_base/medicina_urgenza/clinical/TOSSICOLOGIA-DI-BASE-PER-EMERGENZA-URGENZA.pdf",
-      "quote": "Trattamento: • benzodiazepine (lorazepam 4 mg fl IM/EV, delorazepam 2-5 mg fl IM/EV, midazolam 5 mg fl EV)  proteggono dalla sintomatologia neurologica (convulsioni) e psichiatrica (allucinazioni, agitazione psico-motoria)."
+      "chunkId": "tab",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Cocaina Benzodiazepine – controllo delle crisi comiziali Alfa-bloccanti, Ca-antagonisti, nitroglicerina – ipertensione"
     },
     {
-      "chunkId": "toss-nitrati-dolore-pa",
-      "source": "knowledge_base/medicina_urgenza/clinical/TOSSICOLOGIA-DI-BASE-PER-EMERGENZA-URGENZA.pdf",
-      "quote": "Nitrati se ipertensione e/o dolore toracico • BDZ nel caso di agitazione e/o di crisi convulsive"
+      "chunkId": "beta",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Beta-bloccanti non come trattamento di prima linea"
     },
     {
-      "chunkId": "esc-acs-ecg-10-min",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "Si raccomanda di ottenere ed interpretare un ECG a 12 derivazioni quanto prima possibile dal FMC ma comunque entro 10 min"
+      "chunkId": "fluidi",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "L'ipotensione indotta da farmaci risponde solitamente alla somministrazione di fluidi EV."
     },
     {
-      "chunkId": "esc-acs-hsctn",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "Al momento della presentazione si raccomanda di eseguire immediatamente la misurazione delle hs-cTn e di ottenere i risultati entro 60 min dal prelievo di sangue"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI TC 000004210 TC encefalo senza contrasto 136,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Benzodiazepine e nitrati/vasodilatatori.",
-      "ECG e hs-cTn.",
-      "Non aprire con un beta-bloccante: check del brief, senza frase di divieto nei PDF."
+      "Benzodiazepine, vasodilatatori e alfa-antagonisti puri, non un beta-bloccante di prima linea.",
+      "Non ritardare il trattamento con una TC."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "ERC 6: benzodiazepine, vasodilatatori e alfa-antagonisti puri nella cocaina. Tossicologia: BDZ per agitazione, nitrati se ipertensione o dolore. Lo stesso file tossicologico elenca beta-bloccanti se tachicardia marcata: non è un divieto. Il check anti-errore è del brief.",
+      "art5Adherence": "Il capitolo ERC sugli agenti tossici e la tabella delle droghe fissano i farmaci, senza i milligrammi della benzodiazepina. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Registrare l'uso di cocaina, PA 188/110 e dolore.",
-        "Registrare benzodiazepina e nitrati con orario.",
-        "Allegare ECG e hs-cTn. Se si omette il beta-bloccante, annotare che il divieto non è citato dai PDF usati."
+        "Non inventare la dose della benzodiazepina.",
+        "Se diventasse ipoteso, i fluidi endovena sono la risposta solita, non un altro schema.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
+      "examId": "pressione",
+      "name": "Pressione",
+      "finding": "210/120 mmHg.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
       "examId": "ecg",
-      "name": "ECG a 12 derivazioni",
-      "finding": "Tachicardia sinusale. Non è descritto un sopraslivellamento. Ischemia da contesto clinico, senza millimetri di ST fissati.",
+      "name": "ECG",
+      "finding": "Tachicardia sinusale, dolore toracico. Nessun sopraslivellamento descritto come STEMI.",
       "isAbnormal": true,
-      "priceEuro": 15,
-      "isFatal": true
-    },
-    {
-      "examId": "troponina-hs",
-      "name": "Troponina ad alta sensibilità",
-      "finding": "Prelievo alla presentazione. Nessun ng/L è fissato.",
-      "isAbnormal": false,
-      "priceEuro": 18,
-      "isFatal": false
-    },
-    {
-      "examId": "ecg-seriato",
-      "name": "ECG seriato a 2 ore",
-      "finding": "Controllo dopo sedazione e nitrati. Nessun millimetro nuovo è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 15,
-      "isFatal": false
-    },
-    {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa",
-      "finding": "Rivalutazione sotto monitoraggio. Nessun pH è fissato.",
-      "isAbnormal": false,
-      "priceEuro": 10,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "beta-bloccante-ev",
-      "name": "Beta-bloccante ev come prima mossa",
-      "finding": "Check anti-errore del brief. ERC indica benzodiazepine, vasodilatatori e alfa-antagonisti. Il file tossicologico elenca i beta-bloccanti se tachicardia marcata: non c'è la frase di divieto.",
+      "examId": "tc-cranio",
+      "name": "TC cranio prima del trattamento della pressione",
+      "finding": "Non e il passo scritto e ritarda i farmaci della tabella.",
       "isAbnormal": false,
-      "priceEuro": 0,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Prima mossa citata: sedazione e vasodilatazione. Il divieto assoluto non è estraibile."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non è il work-up dell'intossicazione acuta.",
-      "isAbnormal": false,
-      "priceEuro": 950,
       "inappropriate": true,
-      "isFatal": false,
-      "wasteRationale": "Le raccomandazioni copiate nominano ECG, hs-cTn e sedazione. Non la PET-TC."
+      "wasteRationale": "TC encefalo senza contrasto a 136,00 euro prima dei farmaci della tabella. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 136
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 128,
-      "bloodPressure": "188/110",
+      "heartRate": 130,
+      "bloodPressure": "210/120",
       "spo2": 97,
-      "temperature": 37.4,
+      "temperature": 37.2,
       "respiratoryRate": 22
     },
-    "examBudgetEuro": 70,
-    "demographics": { "age": 35, "sex": "M", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Agitazione e dolore toracico",
-        "result": "Agitato, sudato, PA 188/110, peso retrosternale dopo cocaina.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 35,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ecg": { "finding": "Tachicardia sinusale, ST non millimetrato.", "isAbnormal": true, "price": 15 },
-        "troponina-hs": { "finding": "Prelievo fatto, ng/L non fissato.", "isAbnormal": false, "price": 18 },
-        "ecg-seriato": { "finding": "Controllo a 2 ore.", "isAbnormal": true, "price": 15 },
-        "ega": { "finding": "pH non fissato.", "isAbnormal": false, "price": 10 },
-        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+        "pressione": {
+          "finding": "210/120 mmHg.",
+          "isAbnormal": true
+        },
+        "ecg": {
+          "finding": "Tachicardia sinusale, dolore toracico. Nessun sopraslivellamento descritto come STEMI.",
+          "isAbnormal": true
+        },
+        "tc-cranio": {
+          "finding": "Non e il passo scritto e ritarda i farmaci della tabella.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Benzodiazepina",
+          "label": "Alfa-bloccante, calcio-antagonista o nitroglicerina",
           "anyOf": [
             {
-              "id": "lorazepam",
-              "label": "Benzodiazepina ev/im",
-              "aliases": ["lorazepam", "midazolam", "diazepam", "benzodiazepina"]
+              "id": "alfa",
+              "label": "Farmaci della tabella",
+              "aliases": [
+                "alfa",
+                "nitroglicerina",
+                "calcio"
+              ]
             }
           ]
-        },
+        }
+      ],
+      "contraindicated": [
         {
-          "label": "Nitrati",
-          "anyOf": [
-            {
-              "id": "nitroglicerina",
-              "label": "Nitrati",
-              "aliases": ["nitrati", "nitroglicerina", "nitroprussiato"]
-            }
+          "id": "beta",
+          "label": "Beta-bloccante di prima linea",
+          "aliases": [
+            "beta-bloccante",
+            "bisoprololo"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Benzodiazepine.",
-        "Nitrati per dolore e pressione.",
-        "ECG e hs-cTn.",
-        "Non aprire con il beta-bloccante.",
-        "Spiegare che cosa è scritto e che cosa no."
+        "Farmaci della tabella.",
+        "Niente beta-bloccante di prima linea.",
+        "Niente TC prima."
       ],
       "penalties": [
         {
-          "id": "beta-bloccante-ev",
+          "id": "beta",
           "kind": "clinical",
-          "trigger": "Beta-bloccante ev come prima mossa, contro il brief. I PDF non contengono il divieto."
+          "trigger": "Beta-bloccante come primo farmaco."
         }
       ],
       "citationLimits": [
-        "ERC: benzodiazepine, vasodilatatori, alfa-antagonisti puri. Non nomina il divieto dei beta-bloccanti.",
-        "Tossicologia: nitrati se ipertensione e/o dolore; BDZ se agitazione. Elenca anche beta-bloccanti se tachicardia marcata.",
-        "Il divieto assoluto è del brief: citazione vuota.",
-        "SpO2 97%: la frase ESC sull'ossigeno sotto 90% non autorizza O2 di routine."
+        "Nessun milligrammo di benzodiazepina e scritto."
       ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "MEDIUM",
-    "emotionalState": "OPPOSITIONAL",
+    "healthLiteracy": "LOW",
+    "emotionalState": "ANXIOUS",
     "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
-    "communicationStyle": "Agitato, mette alla prova. Se gli si dice con onestà che i PDF parlano di benzodiazepine e nitrati, e che il divieto del beta-bloccante è la regola di questo caso, non una frase copiata, collabora di più."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "E agitato ma capisce. Accetta le benzodiazepine se non gli si da un beta-bloccante per primo e non gli si inventa una dose."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Che sostanza",
+      "prompt": "Agitazione e pressione 210 dopo una droga. Quale riga della tabella apri?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Cocaina: benzodiazepine per le crisi, e per l'ipertensione alfa-bloccanti, calcio-antagonisti, nitroglicerina",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La tratti come un'ipertensione essenziale, senza chiedere la sostanza",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Tabella non usata",
+      "prompt": "La tabella ERC delle droghe da abuso dedica alla cocaina benzodiazepine per le crisi e, per l'ipertensione, alfa-bloccanti, calcio-antagonisti e nitroglicerina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima linea",
+      "prompt": "Non sta convulsando, la pressione e 210. Che classe non metti per prima?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Il beta-bloccante: la tabella dice che non e il trattamento di prima linea",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Un beta-bloccante come primo farmaco",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Beta-bloccante di prima linea",
+      "prompt": "Nella riga della cocaina e scritto: beta-bloccanti non come trattamento di prima linea.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Che usi",
+      "prompt": "Quali farmaci sono scritti per questa emergenza ipertensiva?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Benzodiazepine, vasodilatatori e alfa-antagonisti puri",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Solo un diuretico, che il brano non nomina",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco non nel brano",
+      "prompt": "Gestire le emergenze ipertensive con benzodiazepine, vasodilatatori e alfa-antagonisti puri. Il diuretico non e in quella frase.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Milligrammi",
+      "prompt": "Quanti milligrammi di benzodiazepina scrivi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Nessuno. Il brano non li da",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "10 mg, come se fossero scritti",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non scritta",
+      "prompt": "Ne la frase ne la tabella indicano i milligrammi della benzodiazepina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC prima",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi la TC cranio prima di trattare la pressione.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. Ritarda i farmaci scritti Non la esegui ora.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "TC encefalo senza contrasto a 136,00 euro prima dei farmaci della tabella",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI TC 000004210 TC encefalo senza contrasto 136,00. TC encefalo senza contrasto a 136,00 euro prima dei farmaci della tabella. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se crolla la pressione",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Dopo il trattamento la pressione va a 80. Che risposta solita e scritta per l'ipotensione da farmaci?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Fluidi endovena In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Antidoto",
+      "prompt": "L'amico chiede di non trattare la pressione finche non arriva. Se esistesse un antidoto specifico disponibile, quando lo dai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Il piu presto possibile, in aggiunta al resto Non aspetti l'amico.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Aspetti l'amico prima di benzodiazepine e vasodilatatori, senza un rifiuto recepibile",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti l'amico prima di benzodiazepine e vasodilatatori, senza un rifiuto recepibile contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Tabella della cocaina, non il beta-bloccante",
+      "prompt": "Benzodiazepine, vasodilatatori, alfa-antagonisti puri. Per l'ipertensione: alfa-bloccanti, calcio-antagonisti, nitroglicerina. Non un beta-bloccante di prima linea e non una TC prima.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

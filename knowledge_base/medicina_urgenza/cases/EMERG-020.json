@@ -1,270 +1,476 @@
 {
   "id": "EMERG-020",
   "code": "EMERG-020",
-  "title": "Uomo di 40 anni con trauma toracico, dispnea e murmure assente a destra",
-  "description": "Stefano, 40 anni, trauma toracico chiuso. Parametri: PA 78/48 mmHg, FC 132 bpm, FR 36 atti/min, SpO2 84%, temperatura 36.5. Turgore giugulare. Assenza di murmure a destra.",
+  "title": "Donna di 68 anni in PEA, senza DAT",
+  "description": "Rosa, 68 anni, arresto testimoniato, attivita elettrica senza polso. Nessuna DAT. I familiari non sono in sala. Parametri all'ultimo rilievo: PA non rilevabile, FC sul monitor 40 bpm senza polso, FR assente, SpO2 non affidabile, temperatura 36.5.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["pneumologia"],
-  "condition": "Pneumotorace iperteso da trauma toracico chiuso",
-  "frequencyCategory": "MEDIUM",
+  "secondarySpecialties": [],
+  "condition": "Arresto a ritmo non defibrillabile, senza DAT",
+  "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-  "diagnosis": "Pneumotorace iperteso: dispnea, turgore giugulare, murmure assente a destra, ipotensione. Non è un tamponamento isolato da mandare in ecocardio prima della decompressione. Non è un infarto.",
-  "pastMedicalHistory": "Trauma toracico chiuso. Non è penetrante dichiarato. Non ha un drenaggio all'arrivo. La radiografia prima della decompressione contraddice la priorità ERC. La frase «prima della radiografia» non è copiata: resta nel percorso.",
-  "presentation": "Non respira, giugulari piene, silenzio a destra, PA 78/48. Decompressione con ago subito, poi toracostomia o tubo. Rivalutazione della PA. La lastra viene dopo, se serve.",
+  "guidelineRef": "LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf; LG-ERC-2021_Capitolo-12_Etica.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Nel ritmo non defibrillabile l'adrenalina e 1 mg endovena o intraossea prima possibile, poi ogni 3-5 minuti. Non si aspetta la famiglia: non ci sono criteri per non iniziare, e le informazioni si completano dopo. Se ci fosse una DAT valida e coerente che rifiuta la RCP, quello sarebbe un criterio per non iniziare. Qui non c'e.",
+  "pastMedicalHistory": "Arresto testimoniato. Nessuna DAT. Nessun familiare in sala.",
+  "presentation": "Attivita elettrica senza polso. Non e un ritmo da defibrillare e non c'e una DAT.",
   "redHerrings": [
-    "Un collega manda il paziente in radiologia prima di decomprimere.",
-    "Un altro aspetta l'eco per «essere sicuri» mentre la pressione crolla."
+    "Propongono di aspettare il figlio prima della prima adrenalina, e di darla solo dopo tre shock che questo ritmo non prevede."
   ],
-  "timeLimitMinutes": 30,
-  "patientDeteriorationThreshold": 8,
-  "patientPrompt": "Mi chiamo Stefano, ho 40 anni, mi hanno colpito il petto. Non respiro, il collo è gonfio, a destra non sento aria. Foratemi adesso, poi il tubo. Non mandatemi in lastra se sto morendo.",
-  "correctSolution": "Pneumotorace iperteso con ipotensione grave: decompressione toracica con ago come trattamento precoce, aghi adeguati. Poi toracostomia o tubo di drenaggio. La decompressione ha priorità rispetto ad altre misure. ATLS: turgore delle giugulari, ossigeno 12-15 L. Radiografia prima della decompressione: nel brief, citazione vuota sulla sequenza «prima della lastra». Rivalutazione PA. SPIKES Knowledge.",
+  "timeLimitMinutes": 15,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "L'infermiere dice: Rosa ha 68 anni, non ha polso, sul monitor c'e un'attivita elettrica. Non ci sono disposizioni. Il figlio non e ancora qui. Non fermatevi.",
+  "correctSolution": "Inizi la RCP. Adrenalina 1 mg subito, poi ogni 3-5 minuti. Non dopo il terzo shock: quella frase e per il ritmo defibrillabile. Non aspetti il figlio. Se esistesse una DAT valida che rifiuta la RCP, non la inizieresti: qui non esiste.",
   "goldStandardPath": [
-    "abcde",
-    "decompressione-ago",
-    "drenaggio-toracico",
-    "ega",
-    "rivalutazione-pa",
-    "rx-torace"
+    "monitor",
+    "polso"
   ],
-  "goldPathNarrative": "ABCDE, decompressione ad ago, tubo o toracostomia, emogas, rivalutazione PA, radiografia dopo. La lastra non precede la decompressione: la priorità ERC è scritta, la parola «radiografia» no.",
+  "goldPathNarrative": "Confermi la PEA. Adrenalina 1 mg subito. Non aspetti il figlio.",
   "examLatencies": {
-    "abcde": 2,
-    "decompressione-ago": 3,
-    "drenaggio-toracico": 8,
-    "ega": 10,
-    "rivalutazione-pa": 12,
-    "rx-torace": 20,
-    "pet-tc": 180
+    "monitor": 1,
+    "polso": 1,
+    "ecocardiogramma": 15
   },
   "anamnesisQuestions": [
     {
-      "id": "trauma-torace",
-      "prompt": "Che cosa ha colpito il torace, e da che parte manca il respiro?",
+      "id": "ritmo",
+      "prompt": "Che ritmo c'e, e c'e polso?",
       "critical": true,
-      "expectedKeywords": ["torace", "destra", "colpito", "respiro"],
-      "rationale": "Trauma chiuso a destra. ATLS descrive il PNX iperteso come valvola."
+      "expectedKeywords": [
+        "attivita",
+        "polso",
+        "no"
+      ],
+      "rationale": "Senza polso e non defibrillabile, l'adrenalina e prima possibile."
     },
     {
-      "id": "dispnea",
-      "prompt": "La mancanza d'aria è insorta subito dopo il colpo?",
+      "id": "dat",
+      "prompt": "C'e una DAT che rifiuta la RCP?",
       "critical": true,
-      "expectedKeywords": ["subito", "aria", "colpo", "dispnea"],
-      "rationale": "Quadro ostruttivo acuto. Non aspettare imaging."
+      "expectedKeywords": [
+        "dat",
+        "no",
+        "disposizioni"
+      ],
+      "rationale": "Una DAT valida e coerente e un criterio per non iniziare."
     },
     {
-      "id": "collo",
-      "prompt": "Il collo gli si è gonfiato, o le vene del collo sono piene?",
-      "critical": true,
-      "expectedKeywords": ["collo", "vene", "giugulari", "gonfio"],
-      "rationale": "ATLS chiede di escludere turgore delle giugulari."
-    },
-    {
-      "id": "paura",
-      "prompt": "Che cosa la spaventa di più: il foro o non respirare?",
-      "critical": true,
-      "expectedKeywords": ["foro", "respirare", "morire", "paura"],
-      "rationale": "SPIKES Emotions mentre si decomprime."
+      "id": "figlio",
+      "prompt": "Il figlio e in sala?",
+      "critical": false,
+      "expectedKeywords": [
+        "figlio",
+        "no"
+      ],
+      "rationale": "L'assenza del figlio non e un criterio per non iniziare."
     }
   ],
   "physicalExam": {
-    "summary": "Dispnea severa, turgore giugulare, murmure assente a destra, PA 78/48, FC 132, SpO2 84%. Trachea non misurata. Non aspettare la lastra."
+    "summary": "Non risponde, non respira, polso assente, monitor con attivita elettrica organizzata."
   },
   "escCitations": [
     {
-      "chunkId": "erc6-ago",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "La decompressione toracica con ago ha funzione di trattamento precoce e deve essere eseguita con aghi adeguati (più lunghi, non deformabili). • Ogni tentativo di decompressione con ago durante RCP dovrebbe essere seguito da una toracostomia o dal posizionamento di un tubo di drenaggio toracico, se è disponibile personale con l’adeguata competenza."
+      "chunkId": "adr",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "In caso di pazienti adulti in arresto cardiaco con ritmo non defibrillabile, somministrare adrenalina 1 mg EV (IO) prima possibile."
     },
     {
-      "chunkId": "erc6-priorita-pnx",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "La decompressione toracica risolve efficacemente lo pneumotorace iperteso e ha la priorità rispetto ad altre misure."
+      "chunkId": "rip",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "Ripetere la somministrazione di adrenalina 1 mg EV (IO) ogni 3-5 minuti durante l' ALS."
     },
     {
-      "chunkId": "erc6-ipotensione-grave",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "pneumotorace iperteso in presenza di arresto cardiaco o di ipotensione grave. • La decompressione toracica con ago ha funzione di trattamento precoce e deve essere eseguita con aghi adeguati (più lunghi, non deformabili)."
+      "chunkId": "tre",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "In caso di pazienti adulti in arresto cardiaco con ritmo defibrillabile, somministrare adrenalina 1 mg EV (IO) dopo il terzo shock."
     },
     {
-      "chunkId": "atls-turgore",
-      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
-      "quote": "turgore delle giugulari. Messo il collare si somministra ossigeno ad alti flussi (12 – 15 litri/minuto). La somministrazioni di ossigeno in un traumatizzato deve sempre esserci"
+      "chunkId": "start",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-12_Etica.pdf",
+      "quote": "I medici dovrebbero iniziare la RCP nei pazienti per i quali non ricorrano i criteri per non iniziare la RCP. I trattamenti potranno essere quindi resi piu adeguati al caso quando saranno disponibili maggiori informazioni."
     },
     {
-      "chunkId": "atls-pnx-iperteso",
-      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
-      "quote": "pneumotorace iperteso, le ferite si comportano come valvole, si aprono durante l’inspirazione permettendo all’aria di entrare nel cavo pleurico e si richiudono nell’inspirazione, impedendone la fuoriuscita; in questo modo ad ogni inspirazione la quantità di aria che rimane intrappolata nel cavo pleurico aumenta progressivamente"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI EC 000000508 Ecocardiogramma 60,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Decompressione ad ago prima di radiografia o eco dilatori.",
-      "Tubo o toracostomia dopo l'ago.",
-      "Rivalutazione della PA."
+      "Adrenalina 1 mg subito, perche il ritmo non e defibrillabile, e non si aspetta il figlio.",
+      "Se la DAT rifiutasse la RCP, non si inizierebbe. Qui non c'e."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "ERC 2021 cap. 6: ago precoce, poi tubo, priorità della decompressione, quadro con ipotensione grave. ATLS: turgore giugulare e meccanismo a valvola. La parola «radiografia» non è nella sequenza: il brief chiede di non farla prima, citazione vuota su quella frase. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "art5Adherence": "Il capitolo ALS fissa il momento dell'adrenalina. Il capitolo etico dice di iniziare quando non ci sono criteri per non farlo, e mette la DAT valida tra quei criteri. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Annotare ora della decompressione ad ago e del tubo.",
-        "Annotare lato (destra), PA prima e dopo.",
-        "Registrare che la radiografia, se fatta, segue la decompressione."
+        "Non applicare la regola dei tre shock a una PEA.",
+        "Non partecipare a una RCP rallentata di proposito.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "abcde",
-      "name": "Valutazione ABCDE",
-      "finding": "B e C critici: silenzio a destra, turgore giugulare, ipotensione. Decomprimere in B, non andare in lastra.",
+      "examId": "monitor",
+      "name": "Monitor",
+      "finding": "Attivita elettrica organizzata, non una fibrillazione.",
       "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
-      "examId": "decompressione-ago",
-      "name": "Decompressione toracica con ago",
-      "finding": "Ago adeguato, lato destro. Trattamento precoce. Nessun spazio intercostale millimetrico è copiato dai testi adulti ERC usati qui.",
-      "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
-      "examId": "drenaggio-toracico",
-      "name": "Tubo di drenaggio toracico / toracostomia",
-      "finding": "Dopo l'ago. ERC: toracostomia o tubo se c'è competenza. Calibro non fissato.",
-      "isAbnormal": true,
-      "priceEuro": 80,
-      "isFatal": true
-    },
-    {
-      "examId": "ega",
-      "name": "Emogasanalisi",
-      "finding": "Gas dopo decompressione. Nessun pH è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 10,
       "isFatal": false
     },
     {
-      "examId": "rivalutazione-pa",
-      "name": "Rivalutazione pressione dopo decompressione",
-      "finding": "PA dopo ago e tubo. Nessun millimetro di target è copiato.",
+      "examId": "polso",
+      "name": "Polso",
+      "finding": "Polso centrale assente.",
       "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": false
-    },
-    {
-      "examId": "rx-torace",
-      "name": "Radiografia del torace",
-      "finding": "Dopo la decompressione, se serve a confermare il tubo. Non prima.",
-      "isAbnormal": true,
-      "priceEuro": 25,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non ha priorità sullo pneumotorace iperteso.",
+      "examId": "ecocardiogramma",
+      "name": "Ecocardiogramma prima della prima adrenalina",
+      "finding": "Non e il passo che precede l'adrenalina nel ritmo non defibrillabile e la ritarda.",
       "isAbnormal": false,
-      "priceEuro": 950,
+      "isFatal": false,
       "inappropriate": true,
-      "isFatal": true,
-      "wasteRationale": "La decompressione ha priorità rispetto ad altre misure."
+      "wasteRationale": "Ecocardiogramma a 60,00 euro prima del primo milligrammo nella PEA. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 60
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 132,
-      "bloodPressure": "78/48",
-      "spo2": 84,
+      "heartRate": 40,
+      "bloodPressure": "0/0",
+      "spo2": 70,
       "temperature": 36.5,
-      "respiratoryRate": 36
+      "respiratoryRate": 6
     },
-    "examBudgetEuro": 120,
-    "demographics": { "age": 40, "sex": "M", "context": "Pronto soccorso / trauma" },
-    "clinicalSigns": [
-      {
-        "signName": "Turgore giugulare",
-        "result": "Giugulari turgide. Dispnea.",
-        "isPositive": true
-      },
-      {
-        "signName": "Murmure assente a destra",
-        "result": "Silenzio respiratorio emitorace destro.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 68,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ega": {
-          "finding": "Gas dopo decompressione. Nessun pH fissato.",
-          "isAbnormal": true,
-          "price": 10
+        "monitor": {
+          "finding": "Attivita elettrica organizzata, non una fibrillazione.",
+          "isAbnormal": true
         },
-        "rx-torace": {
-          "finding": "Dopo ago e tubo, se eseguita. Non prima.",
-          "isAbnormal": true,
-          "price": 25
+        "polso": {
+          "finding": "Polso centrale assente.",
+          "isAbnormal": true
         },
-        "pet-tc": {
-          "finding": "Non indicata prima della decompressione.",
-          "isAbnormal": false,
-          "price": 950
+        "ecocardiogramma": {
+          "finding": "Non e il passo che precede l'adrenalina nel ritmo non defibrillabile e la ritarda.",
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Decompressione immediata e tubo toracico",
+          "label": "Adrenalina 1 mg subito",
           "anyOf": [
             {
-              "id": "decompressione-ago",
-              "label": "Decompressione con ago",
-              "aliases": ["ago", "decompressione", "needle"]
+              "id": "adr",
+              "label": "Adrenalina",
+              "aliases": [
+                "adrenalina"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "attesa",
+          "label": "Attesa del figlio",
+          "aliases": [
+            "aspettare"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Decompressione ad ago prima della lastra.",
-        "Tubo o toracostomia.",
-        "Rivalutazione della PA.",
-        "Spiegare a Stefano che l'aria compressa il polmone."
+        "RCP iniziata.",
+        "1 mg subito.",
+        "Niente attesa."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "Imaging prima della decompressione."
+          "id": "attesa",
+          "kind": "clinical",
+          "trigger": "Attesa del figlio prima dell'adrenalina."
         }
       ],
       "citationLimits": [
-        "ERC: ago precoce, poi tubo, priorità della decompressione, quadro con ipotensione grave o arresto.",
-        "La sequenza «prima della radiografia» non è scritta: è il brief. Resta nel percorso a citazione vuota.",
-        "ATLS descrive il meccanismo a valvola e il turgore giugulare, non l'ago.",
-        "Lo spazio intercostale di prima scelta nei testi pediatrici ERC non va copiato come se fosse questo adulto."
+        "La regola dei tre shock non vale per la PEA."
       ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "MEDIUM",
-    "emotionalState": "ANXIOUS",
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Ha fame d'aria e chiede il foro subito. Non vuole la lastra se sta morendo. Collabora se gli si dice che dopo l'ago arriva il tubo."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Non puo decidere. Non c'e una DAT. Il figlio non e un motivo per fermare la prima adrenalina."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Che ritmo",
+      "prompt": "Attivita elettrica, polso assente. E defibrillabile?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "No. E un ritmo non defibrillabile",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo shocki come se fosse una fibrillazione",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Shock su una PEA",
+      "prompt": "L'adrenalina prima possibile e scritta per il ritmo non defibrillabile. Lo shock immediato non e quella frase.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima adrenalina",
+      "prompt": "Quando dai il primo milligrammo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Prima possibile, 1 mg endovena o intraossea",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Dopo il terzo shock, anche se non c'e un ritmo da shockare",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Regola dei tre shock sulla PEA",
+      "prompt": "Nel ritmo non defibrillabile l'adrenalina 1 mg e prima possibile. Dopo il terzo shock e la frase del ritmo defibrillabile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Le dosi dopo",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Ogni quanto la ripeti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "1 mg ogni 3-5 minuti In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco prima",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi l'ecocardiogramma prima del primo milligrammo.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. Ritarda una dose da dare prima possibile Non la esegui ora.",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Ecocardiogramma a 60,00 euro prima del primo milligrammo nella PEA",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI EC 000000508 Ecocardiogramma 60,00. Ecocardiogramma a 60,00 euro prima del primo milligrammo nella PEA. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Il figlio",
+      "prompt": "Il figlio chiede di non iniziare il farmaco finche non arriva. Nessuna DAT. Il figlio e in viaggio. Aspetti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. Inizi. Le informazioni si completano dopo Non aspetti il figlio.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Aspetti il figlio prima della prima adrenalina, senza DAT e senza una volonta contraria",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti il figlio prima della prima adrenalina, senza DAT e senza una volonta contraria contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se ci fosse la DAT",
+      "prompt": "Se ci fosse una DAT valida e coerente che rifiuta la RCP, la inizieresti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. Sarebbe un criterio per non iniziare. Qui quella DAT non c'e, quindi continui",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "La ignoreresti anche se fosse valida",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "DAT valida ignorata",
+      "prompt": "Tra i criteri per non iniziare ci sono le DAT valide e coerenti che rifiutano la RCP. Ignorarle non e il capitolo etico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Slow code",
+      "prompt": "Qualcuno propone una RCP piu lenta, per far vedere che si fa qualcosa, senza impegnarsi.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. Non si partecipa ai cosiddetti slow codes",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Rallenti le compressioni di proposito",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Slow code",
+      "prompt": "I medici non dovrebbero partecipare all'effettuazione dei cosiddetti slow codes.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "1 mg subito, senza aspettare",
+      "prompt": "PEA, nessuna DAT: RCP e adrenalina 1 mg prima possibile, poi ogni 3-5 minuti. Non dopo tre shock e non dopo il figlio.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

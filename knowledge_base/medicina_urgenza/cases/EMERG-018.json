@@ -1,261 +1,478 @@
 {
   "id": "EMERG-018",
   "code": "EMERG-018",
-  "title": "Uomo di 30 anni in moto, ipoteso, bacino instabile",
-  "description": "Matteo, 30 anni, incidente in moto. Parametri: PA 82/50 mmHg, FC 128 bpm, FR 28 atti/min, SpO2 92%, temperatura 36.2. Bacino instabile. Sudato.",
+  "title": "Uomo di 30 anni, moto, emorragia esterna e bacino instabile",
+  "description": "Davide, 30 anni, caduta in moto, emorragia esterna alla coscia, bacino instabile, segni di peri-arresto. Parametri: PA 70/40 mmHg, FC 140 bpm, FR 28 atti/min, SpO2 92% in aria, temperatura 36.2. Nessuna DAT. I familiari non ci sono.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["chirurgia"],
-  "condition": "Politrauma della strada con shock emorragico e bacino instabile",
+  "secondarySpecialties": [],
+  "condition": "Peri-arresto traumatico con emorragia esterna e bacino instabile",
   "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "atls.pdf",
-  "diagnosis": "Politrauma da moto con shock emorragico e bacino instabile. Non è uno shock cardiogeno. Non è un pneumotorace iperteso isolato finché ABCDE e eFAST non sono fatti.",
-  "pastMedicalHistory": "Nessuna malattia dichiarata. Non è in anticoagulante. Il sangue 0 negativo non ha frase nei PDF: resta nel protocollo emorragia massiva a citazione vuota. La FAST positiva verso laparotomia è WSES, sul paziente scompensato.",
-  "presentation": "Moto, ipotensione, tachicardia, bacino che si muove. ABCDE (vie aeree prima), eFAST, binder pelvico, emoderivati / protocollo emorragia massiva, rivalutazione della pressione. Ossigeno ad alti flussi. Non mandare in radiologia prima di A-B-C.",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Nel peri-arresto traumatico le cause reversibili si trattano subito e insieme, e hanno priorita sulle compressioni. Non si massaggia un cuore vuoto. L'emorragia si controlla con compressione esterna, garze emostatiche, lacci e cintura pelvica. Il brano non indica il gruppo sanguigno ne i litri di ossigeno.",
+  "pastMedicalHistory": "Trauma della strada. Nessuna DAT. Nessun familiare in sala.",
+  "presentation": "Emorragia esterna e bacino instabile, pressione 70.",
   "redHerrings": [
-    "Un collega manda il paziente in TC total body prima di chiudere il bacino e di dare sangue.",
-    "Chiede di alzarsi per chiamare la madre."
+    "Propongono la TC total body prima di fermare il sangue, e di aspettare i genitori."
   ],
-  "timeLimitMinutes": 90,
-  "patientDeteriorationThreshold": 15,
-  "patientPrompt": "Mi chiamo Matteo, ho 30 anni, sono caduto con la moto. Ho freddo, il bacino trema, la pressione è bassissima. Chiudetemi il bacino, cercate il sangue con l'eco, datemi sangue. Non mandatemi in TAC se sto morendo sul lettino.",
-  "correctSolution": "Metodo ABCDE: anticipazione, scena, primary survey. Pervietà delle vie aeree contemporanea al rachide. Ossigeno 12-15 L/min. Shock da riduzione di volume. WSES: primary survey ed E-FAST; se scompensato e FAST positiva, laparotomia per fermare l'emorragia addominale. ERC trauma: splint pelvico ed emoderivati / protocollo emorragia massiva. Sangue 0 negativo: nel percorso, citazione vuota. Rivalutazione della PA. SPIKES Knowledge.",
+  "timeLimitMinutes": 15,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Il soccorritore dice: Davide ha 30 anni, sanguina dalla coscia e il bacino balla. Pressione 70. Non aspettate una TAC e non aspettate i genitori.",
+  "correctSolution": "Fermare l'emorragia con compressione, garze emostatiche, laccio se serve, e cintura pelvica, insieme alle altre cause reversibili. Non mettere le compressioni prima di questo, e non massaggiare un cuore vuoto. Non la TC prima. Non aspettare i genitori. Non inventare il gruppo sanguigno.",
   "goldStandardPath": [
-    "abcde",
-    "fast",
-    "stabilizzazione-pelvica",
-    "protocollo-trasfusione-massiva",
-    "ega",
-    "rivalutazione-pa"
+    "emorragia",
+    "bacino"
   ],
-  "goldPathNarrative": "ABCDE e ossigeno, eFAST, binder pelvico, protocollo emorragia massiva, emogas, rivalutazione pressoria. Il gruppo 0 negativo non è nominato: resta nel percorso senza citazione.",
+  "goldPathNarrative": "Controlli il sangue e metti la cintura. Non fai la TC prima.",
   "examLatencies": {
-    "abcde": 3,
-    "fast": 5,
-    "stabilizzazione-pelvica": 6,
-    "protocollo-trasfusione-massiva": 10,
-    "ega": 8,
-    "rivalutazione-pa": 20,
-    "pet-tc": 180
+    "emorragia": 1,
+    "bacino": 1,
+    "tc-total": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "dinamica",
-      "prompt": "A che velocità e che cosa ha colpito, il bacino o il torace?",
+      "id": "sangue",
+      "prompt": "Dove sanguina?",
       "critical": true,
-      "expectedKeywords": ["moto", "velocità", "bacino", "torace"],
-      "rationale": "La dinamica guida FAST, bacino e torace. ATLS chiede la scena prima della survey."
+      "expectedKeywords": [
+        "coscia",
+        "sangue",
+        "emorragia"
+      ],
+      "rationale": "L'emorragia esterna si controlla con i mezzi scritti."
     },
     {
-      "id": "perdite",
-      "prompt": "Ha perso sangue visibile, o il bacino è il solo sospetto?",
+      "id": "bacino",
+      "prompt": "Il bacino e instabile?",
       "critical": true,
-      "expectedKeywords": ["sangue", "bacino", "perdite", "addome"],
-      "rationale": "Emorragia esterna da bloccare prima delle altre fasi. Il binder è nell'algoritmo ERC."
+      "expectedKeywords": [
+        "bacino",
+        "instabile",
+        "si"
+      ],
+      "rationale": "La cintura pelvica e nominata."
     },
     {
-      "id": "coscienza",
-      "prompt": "Ricorda l'impatto, o ha perso i sensi?",
+      "id": "dat",
+      "prompt": "C'e una DAT?",
       "critical": true,
-      "expectedKeywords": ["ricorda", "sensi", "sveglio", "impatto"],
-      "rationale": "GCS e vie aeree. Non ritardare C per una storia lunga."
-    },
-    {
-      "id": "paura",
-      "prompt": "Che cosa la spaventa di più adesso?",
-      "critical": true,
-      "expectedKeywords": ["morire", "sangue", "bacino", "paura"],
-      "rationale": "SPIKES Emotions mentre si chiude il bacino e si dà sangue."
+      "expectedKeywords": [
+        "dat",
+        "no"
+      ],
+      "rationale": "Senza DAT non si aspetta per iniziare."
     }
   ],
   "physicalExam": {
-    "summary": "Sudato, tachicardico, PA 82/50. Bacino instabile alla compressione. Addome non descritto come disteso. Murmure presente. Vie aeree pervie. Shock da volume."
+    "summary": "Pallido, ipoteso, ferita che sanguina alla coscia, bacino instabile. Non risponde bene."
   },
   "escCitations": [
     {
-      "chunkId": "atls-abcde",
-      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
-      "quote": "Metodo ABCDE, detto anche Metodo ABC..DE, articolato nei seguenti punti: 1. Anticipazione (preparazione della squadra); 2. Valutazione della scena (sicurezza e triage); 3. Valutazione Primaria e Secondaria (Primary and Secondary Survey); 4. Comunicazione con la centrale operativa 118; 5. Monitoraggio continuo e trattamento in itinere; 6. Trasporto verso il trattamento definitivo (ospedale)."
-    },
-    {
-      "chunkId": "atls-vie-aeree",
-      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
-      "quote": "La pervietà delle vie aeree è sempre la priorità assoluta, infatti l’asfissia può portare alla morte in pochi minuti. Nel traumatizzato, la valutazione ed il ripristino della pervietà delle vie aeree è contemporanea alla protezione/immobilizzazione del rachide cervicale."
-    },
-    {
-      "chunkId": "atls-o2",
-      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
-      "quote": "Messo il collare si somministra ossigeno ad alti flussi (12 – 15 litri/minuto). La somministrazioni di ossigeno in un traumatizzato deve sempre esserci, perché come abbiamo già detto un evento traumatico è in continua evoluzione"
-    },
-    {
-      "chunkId": "wses-efast",
-      "source": "knowledge_base/medicina_urgenza/clinical/972-WSES-guidelines-on-blunt-and-penetrating-bowel-injury_-diagnosis-investigations-and-treatment.pdf",
-      "quote": "Management of the awake and oriented blunt abdominal trauma patient starts with the primary survey, E-FAST, physical examination and the sec- ondary survey, blood chemistry, vital signs followed by contrast-enhanced abdominal CT. (GRADE: High)"
-    },
-    {
-      "chunkId": "wses-fast-laparotomia",
-      "source": "knowledge_base/medicina_urgenza/clinical/972-WSES-guidelines-on-blunt-and-penetrating-bowel-injury_-diagnosis-investigations-and-treatment.pdf",
-      "quote": "Patients who are haemodynami- cally decompensated with a positive Focused Assessment with Sonography for Trauma (FAST) should proceed directly to a trauma laparotomy to stop major abdominal bleeding"
-    },
-    {
-      "chunkId": "erc6-pelvi-mtp",
+      "chunkId": "prio",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Esegui Decompressione Pleurica Bilaterale (Toracostomia) 4. Decomprimi Tamponamento (traumi Toracici Penetranti) 5. Procedi ad occlusione vascolare prossimale (REBOA/compressione aortica manuale) 6. Splint Pelvico 7. Emoderivati /Protocollo Emorragia Massiva"
+      "quote": "Il trattamento simultaneo delle cause reversibili assume la priorita rispetto alle compressioni toraciche. Le compressioni toraciche non devono ritardare il trattamento delle cause reversibili nel TCA."
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "emo",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Controllare un'emorragia con compressione esterna, garze emostatiche, lacci emostatici e cintura pelvica."
+    },
+    {
+      "chunkId": "vuoto",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Non massaggiare un cuore vuoto"
+    },
+    {
+      "chunkId": "start",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-12_Etica.pdf",
+      "quote": "I medici dovrebbero iniziare la RCP nei pazienti per i quali non ricorrano i criteri per non iniziare la RCP. I trattamenti potranno essere quindi resi piu adeguati al caso quando saranno disponibili maggiori informazioni."
+    },
+    {
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
+    },
+    {
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI TC 000004220 TC total body senza contrasto (cranio, torace, addome e pelvi) 320,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "ABCDE prima della TC total body.",
-      "eFAST e splint pelvico. Protocollo emorragia massiva.",
-      "Rivalutazione della pressione dopo binder e sangue."
+      "Emorragia e bacino prima delle compressioni e prima della TC.",
+      "Non aspettare i genitori."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "ABCDE e ossigeno sono dell'ATLS in cartella. E-FAST e FAST positiva verso laparotomia sono WSES 2022. Splint pelvico e protocollo emorragia massiva sono nell'algoritmo ERC trauma. Il gruppo 0 negativo non è scritto. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "art5Adherence": "L'algoritmo ERC del peri-arresto traumatico da priorita alle cause reversibili. Il capitolo etico non mette i familiari tra i criteri per non iniziare. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Annotare ora di arrivo, ABCDE e eFAST.",
-        "Annotare il binder pelvico e l'attivazione del protocollo emorragia massiva.",
-        "Registrare la rivalutazione della PA."
+        "Non massaggiare un cuore vuoto.",
+        "Non inventare il gruppo sanguigno: questo brano non lo scrive.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "abcde",
-      "name": "Valutazione ABCDE",
-      "finding": "A pervie con collare. B: murmure presente, FR 28, SpO2 92%. C: PA 82/50, FC 128, bacino instabile. D: parlante. E: esposto, freddo.",
+      "examId": "emorragia",
+      "name": "Emorragia esterna",
+      "finding": "Sangue dalla coscia, comprimibile.",
       "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
-      "examId": "fast",
-      "name": "Ecografia FAST / eFAST",
-      "finding": "eFAST nel primary survey. Liquido libero: operatore-dipendente nei testi WSES. Nessun millilitro è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 40,
-      "isFatal": true
-    },
-    {
-      "examId": "ega",
-      "name": "Emogasanalisi",
-      "finding": "Controllo dei gas nello shock. Nessun lattato millimolare è fissato in questo PDF per il trauma.",
-      "isAbnormal": true,
-      "priceEuro": 10,
       "isFatal": false
     },
     {
-      "examId": "rivalutazione-pa",
-      "name": "Rivalutazione pressione dopo binder e sangue",
-      "finding": "Controllo della PA dopo splint pelvico e protocollo emorragia massiva. Nessun millimetro di target è copiato.",
+      "examId": "bacino",
+      "name": "Bacino",
+      "finding": "Instabile.",
       "isAbnormal": true,
-      "priceEuro": 0,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non è il passo successivo nello shock emorragico instabile.",
+      "examId": "tc-total",
+      "name": "TC total body prima dell'emostasi",
+      "finding": "Ritarda compressione, laccio e cintura, che sono il primo trattamento.",
       "isAbnormal": false,
-      "priceEuro": 950,
+      "isFatal": false,
       "inappropriate": true,
-      "isFatal": true,
-      "wasteRationale": "WSES manda il scompensato FAST-positivo in laparotomia, non in PET-TC."
+      "wasteRationale": "TC total body senza contrasto a 320,00 euro prima di fermare l'emorragia. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 320
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 128,
-      "bloodPressure": "82/50",
+      "heartRate": 140,
+      "bloodPressure": "70/40",
       "spo2": 92,
       "temperature": 36.2,
       "respiratoryRate": 28
     },
-    "examBudgetEuro": 120,
-    "demographics": { "age": 30, "sex": "M", "context": "Pronto soccorso / trauma" },
-    "clinicalSigns": [
-      {
-        "signName": "Bacino instabile",
-        "result": "Instabile alla compressione. Shock.",
-        "isPositive": true
-      },
-      {
-        "signName": "Cute sudata",
-        "result": "Sudato, pallido, tachicardico.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 30,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "fast": {
-          "finding": "eFAST nel primary survey. Volume di liquido non fissato.",
-          "isAbnormal": true,
-          "price": 40
+        "emorragia": {
+          "finding": "Sangue dalla coscia, comprimibile.",
+          "isAbnormal": true
         },
-        "ega": {
-          "finding": "Gas nello shock. Nessun lattato millimolare copiato per il trauma.",
-          "isAbnormal": true,
-          "price": 10
+        "bacino": {
+          "finding": "Instabile.",
+          "isAbnormal": true
         },
-        "pet-tc": {
-          "finding": "Non indicata nello shock instabile.",
-          "isAbnormal": false,
-          "price": 950
+        "tc-total": {
+          "finding": "Ritarda compressione, laccio e cintura, che sono il primo trattamento.",
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Protocollo emorragia massiva e splint pelvico",
+          "label": "Compressione, laccio e cintura pelvica",
           "anyOf": [
             {
-              "id": "emoderivati",
-              "label": "Emoderivati / protocollo emorragia massiva",
-              "aliases": ["sangue", "trasfusione", "emoderivati", "0 negativo", "protocollo"]
+              "id": "emo",
+              "label": "Controllo dell'emorragia",
+              "aliases": [
+                "laccio",
+                "cintura",
+                "compressione"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "tc",
+          "label": "TC prima",
+          "aliases": [
+            "tc"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "ABCDE prima della TC.",
-        "eFAST.",
-        "Stabilizzazione pelvica.",
-        "Protocollo emorragia massiva.",
-        "Rivalutazione della PA.",
-        "Spiegare a Matteo che è uno shock da sangue."
+        "Sangue fermato.",
+        "Cintura messa.",
+        "Niente TC prima e niente attesa."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC o imaging lento al posto di FAST, binder e sangue."
+          "id": "tc",
+          "kind": "clinical",
+          "trigger": "TC prima dell'emostasi."
         }
       ],
       "citationLimits": [
-        "ATLS in cartella è un testo italiano sul metodo ABCDE, non il manuale ACS originale.",
-        "WSES FAST verso laparotomia vale se scompensato e FAST positiva. Non fissa i millilitri di questo paziente.",
-        "Splint pelvico e protocollo emorragia massiva sono nell'algoritmo ERC di peri-arresto traumatico. Non descrivono il gruppo 0 negativo: citazione vuota.",
-        "Shock emorragico è nominato nella tabella dei picchi di morte ATLS, senza un protocollo trasfusionale 1:1:1."
+        "Il brano non scrive il gruppo 0 negativo ne i litri di ossigeno."
       ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "LOW",
-    "emotionalState": "ANXIOUS",
-    "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
-    "communicationStyle": "Ha freddo e paura di morire. Chiede che gli si chiuda il bacino e che gli si dia sangue, senza mandarlo in macchina da solo. Parla a scatti."
-  }
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Non puo decidere. I genitori non ci sono. L'emostasi non si ferma."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Che viene prima",
+      "prompt": "Peri-arresto, sanguina, bacino instabile. Che ha la priorita sulle compressioni?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Il trattamento simultaneo delle cause reversibili, qui l'emorragia e il bacino",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Inizi le compressioni e lasci il sangue per dopo",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Compressioni che ritardano l'emostasi",
+      "prompt": "Le cause reversibili hanno priorita sulle compressioni. Le compressioni non devono ritardare quel trattamento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Come fermi il sangue",
+      "prompt": "Coscia che sanguina e bacino instabile. Che mezzi sono scritti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Compressione esterna, garze emostatiche, laccio e cintura pelvica",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Solo una medicazione leggera e la TC",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Emorragia non controllata",
+      "prompt": "Controllare l'emorragia con compressione esterna, garze emostatiche, lacci emostatici e cintura pelvica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cuore vuoto",
+      "prompt": "Vuoi massaggiare prima di aver fermato il sangue.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. Non si massaggia un cuore vuoto",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Massaggio subito, sangue dopo",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Massaggio di un cuore vuoto",
+      "prompt": "Il testo mette tra virgolette: non massaggiare un cuore vuoto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC prima",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi la TC total body prima di laccio e cintura.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. Ritarda le cause reversibili Non la esegui ora.",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "TC total body senza contrasto a 320,00 euro prima di fermare l'emorragia",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI TC 000004220 TC total body senza contrasto (cranio, torace, addome e pelvi) 320,00. TC total body senza contrasto a 320,00 euro prima di fermare l'emorragia. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "I genitori",
+      "prompt": "I genitori chiedono di non stringere la cintura finche non arrivano. Nessuna DAT. I genitori non ci sono. Aspetti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. Non c'e un criterio per non iniziare Non aspetti i genitori.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Aspetti i genitori prima di compressione, laccio e cintura, con l'emorragia in corso",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti i genitori prima di compressione, laccio e cintura, con l'emorragia in corso contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Gruppo sanguigno",
+      "prompt": "Il brano scrive di trasfondere sangue 0 negativo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. Non lo inventi. Fermare l'emorragia e gia scritto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Scrivi 0 negativo e lo attribuisci a questo capitolo",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Gruppo non scritto",
+      "prompt": "Questo brano indica compressione, garze, lacci e cintura. Non nomina il gruppo 0 negativo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Toracotomia",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Se perdesse i segni vitali da piu di 15 minuti e non ci fossero strumenti ne esperienza, la toracotomia rianimatoria resterebbe indicata come se nulla fosse?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. Il riquadro chiede esperienza, strumenti, ambiente e tempo, sotto i 15 minuti dalla perdita dei segni. Qui, finche e in peri-arresto, fermi il sangue In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Sangue e bacino prima di tutto",
+      "prompt": "Compressione, garze, laccio e cintura pelvica, prima delle compressioni su un cuore vuoto e prima della TC. Non si aspettano i genitori. Nessun gruppo sanguigno inventato.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

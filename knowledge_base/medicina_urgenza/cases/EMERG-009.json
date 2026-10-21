@@ -1,111 +1,131 @@
 {
   "id": "EMERG-009",
   "code": "EMERG-009",
-  "title": "Donna di 40 anni con sincope, tachicardia e contraccettivi",
-  "description": "Chiara, 40 anni, arriva dopo una sincope. Tachicardica, ipotesa. Parametri: PA 82/50 mmHg, FC 124 bpm, FR 30 atti/min, SpO2 88%, temperatura 36.7. Assume contraccettivi orali.",
+  "title": "Donna di 40 anni con dispnea improvvisa e pressione 85/50",
+  "description": "Sara, 40 anni, dispnea improvvisa, contraccettivo orale, nessun pneumotorace clinico, nessuna anafilassi. Parametri: PA 85/50 mmHg, FC 120 bpm, FR 30 atti/min, SpO2 88% in aria, temperatura 36.5. Nessun segno di emorragia. I familiari non sono in pronto soccorso.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["pneumologia", "cardiologia"],
-  "condition": "Embolia polmonare massiva con instabilità emodinamica",
+  "secondarySpecialties": [
+    "cardiologia"
+  ],
+  "condition": "Embolia polmonare ad alto rischio, instabile, senza emorragia",
   "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-  "diagnosis": "Embolia polmonare ad alto rischio. Sincope, ipotensione, ipossia. Non è un'embolia a rischio intermedio stabile.",
-  "pastMedicalHistory": "Contraccettivo orale. Nessuna chirurgia recente, niente ictus, niente emorragia in atto dichiarati. Non è in anticoagulante. Un viaggio lungo non è nel brief e non va inventato.",
-  "presentation": "Sincope, poi fiatone e pressione 82/50. Instabile. Angio-TC se fattibile, TTE se troppo instabile. Trombolisi sistemica per EP ad alto rischio con instabilità. Poi osservazione per sanguinamento.",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "ABCDE. Ossigeno ad alti flussi se l'ipossia e a rischio vita. ECG, eco al letto, eparina 80 UI/kg endovena durante la diagnosi se non c'e emorragia o controindicazione assoluta, angio-TC per confermare. Trombolisi di salvataggio se deteriora in fretta: il brano non nomina la molecola ne i milligrammi.",
+  "pastMedicalHistory": "Contraccettivo. Nessuna emorragia. Nessuna allergia nota. Nessuna DAT.",
+  "presentation": "Ipotesa, ipossiemica, dispnea ingravescente senza malattia polmonare nota.",
   "redHerrings": [
-    "Chiede se è stato solo uno svenimento da pillola e se può alzarsi.",
-    "Un collega propone eparina sottocute e ricovero ordinario senza lisi."
+    "Propongono di aspettare l'angio-TC prima di qualsiasi eparina, e di aspettare la madre prima di trattare."
   ],
-  "timeLimitMinutes": 90,
-  "patientDeteriorationThreshold": 15,
-  "patientPrompt": "Mi chiamo Chiara, ho 40 anni, prendo la pillola. Sono svenuta, adesso ho il fiatone e paura di morire. Se serve lo scioglimento del coagulo ditelo subito, e state attenti se sangue. Non mandatemi in giro se il cuore non regge.",
-  "correctSolution": "EP instabile: angio-TC in urgenza se fattibile, TTE se troppo instabile (dilatazione RV). Trombolisi associata a riduzione di mortalità o recidiva di EP ad alto rischio con instabilità emodinamica. Agenti fibrino-specifici (alteplase) nella linea ACS sono per lo STEMI, non vanno copiati come dose da EP. Monitoraggio emorragico senza una checklist citata. SPIKES sulla paura di morire.",
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Sara, ho 40 anni. Mi manca il fiato all'improvviso e la pressione e bassa. Prendo la pillola. Non aspettate mia madre per curarmi. Non inventate una dose che il testo non ha.",
+  "correctSolution": "Ossigeno ad alti flussi. ECG per escludere la sindrome coronarica e cercare il sovraccarico destro. Eco al letto. Eparina 80 UI/kg endovena durante il percorso diagnostico, perche non c'e emorragia. Angio-TC per confermare. Se deteriora in fretta, trombolisi di salvataggio senza inventare la molecola. Non aspettare i familiari.",
   "goldStandardPath": [
     "ecg",
-    "ecocardio",
-    "angio",
-    "lattati",
-    "ega",
-    "monitoraggio-emorragia"
+    "eco-bedside"
   ],
-  "goldPathNarrative": "Riconoscere l'instabilità. TTE al letto o angio-TC. Trombolisi sistemica. Monitoraggio per sanguinamento. Contraccettivo come contesto, senza una frase che lo nomini nei PDF usati.",
+  "goldPathNarrative": "Ossigeno, ECG, eco, eparina 80 UI/kg, poi angio-TC. Trombolisi solo se deteriora, senza una dose inventata.",
   "examLatencies": {
-    "ecg": 8,
-    "ecocardio": 10,
-    "angio": 25,
-    "lattati": 15,
-    "ega": 10,
-    "monitoraggio-emorragia": 60,
-    "pet-tc": 180
+    "ecg": 5,
+    "eco-bedside": 10,
+    "angio-tc": 30
   },
   "anamnesisQuestions": [
     {
+      "id": "sangue",
+      "prompt": "Sta sanguinando?",
+      "critical": true,
+      "expectedKeywords": [
+        "sangue",
+        "emorragia",
+        "no"
+      ],
+      "rationale": "L'eparina durante la diagnosi e vietata se c'e emorragia o una controindicazione assoluta."
+    },
+    {
       "id": "pillola",
-      "prompt": "Assume un contraccettivo, ed è svenuta di colpo con il fiatone?",
+      "prompt": "Prende un contraccettivo o ha avuto una trombosi?",
       "critical": true,
-      "expectedKeywords": ["pillola", "contraccett", "svenuta", "fiato"],
-      "rationale": "Il brief ha i contraccettivi. I PDF usati non nominano la pillola in quella frase: resta anamnesi, citazione vuota."
+      "expectedKeywords": [
+        "pillola",
+        "trombosi",
+        "contraccettivo"
+      ],
+      "rationale": "Sono fattori che il testo dice di chiedere."
     },
     {
-      "id": "controindicazioni-lisi",
-      "prompt": "Ha avuto un ictus, un'operazione recente o un sanguinamento in corso?",
-      "critical": true,
-      "expectedKeywords": ["ictus", "oper", "sangue", "emorragia"],
-      "rationale": "Nessuna controindicazione è dichiarata. Va chiesta."
-    },
-    {
-      "id": "paura",
-      "prompt": "Che cosa la spaventa di più: svenire di nuovo o il rischio di sanguinare?",
-      "critical": true,
-      "expectedKeywords": ["svenire", "sangue", "paura", "morire"],
-      "rationale": "SPIKES Emotions, senza ritardare la lisi."
+      "id": "madre",
+      "prompt": "Vuole che si aspetti un familiare prima di iniziare?",
+      "critical": false,
+      "expectedKeywords": [
+        "madre",
+        "aspettare",
+        "familiare"
+      ],
+      "rationale": "L'instabilita non si mette in pausa per i parenti."
     }
   ],
   "physicalExam": {
-    "summary": "Sudata, tachipnoica, confusa dopo la sincope. Polsi rapidi, simmetrici. Giugulari non misurate. Murmure globale, senza un focus. Polpacci senza una circonferenza fissata. Nessun deficit focale."
+    "summary": "Dispnoica, ipotesa, giugulari non valutate come pneumotorace, niente rash. Lucida."
   },
   "escCitations": [
     {
-      "chunkId": "erc6-trombolisi-ep-instabile",
+      "chunkId": "o2",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Una review di RCT ha mostrato che la trombolisi può essere associata ad una riduzione della mortalità o della recidiva di EP in pazienti ad alto rischio con instabilità emodinamica"
+      "quote": "Trattare l'ipossia con pericolo di vita con ossigeno a flussi elevati"
     },
     {
-      "chunkId": "esc-acs-tte-rv-pe",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "La TTE può anche essere utile per suggerire eziologie alternative associate al dolore toracico (es. malattia aortica acuta, segni di dilatazione RV suggestivi di embolia polmonare [PE])"
+      "chunkId": "ep",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Considerare l'embolia polmonare (EP) in tutti i pazienti con insorgenza improvvisa di dispnea ingravescente e assenza di una malattia polmonare nota (escludere sempre pneumotorace e anafilassi)."
     },
     {
-      "chunkId": "esc-acs-ct-pe-dissezione",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "la CT rappresenta spesso la metodica diagnostica preferenziale per escludere diagnosi differenziali alternative dell’ACS potenzialmente fa- tali, come la PE o la dissezione aortica"
+      "chunkId": "eparina",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Iniziare la terapia anticoagulante (80 UI/kg di eparina EV) durante il processo diagnostico, se non sono presenti segni di emorragia o controindicazioni assolute."
     },
     {
-      "chunkId": "esc-acs-tte-instabili",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "Tutti i pazienti in CS o emodinamicamente instabili devono essere sottoposti a TTE in emergenza nell’ot- tica di identificare la causa sottostante – in particolare per valutare la funzione LV e RV"
+      "chunkId": "tc",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Confermare la diagnosi con angiografia polmonare tomografica computerizzata (Angio-TC)."
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
+    },
+    {
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore-tariffario_1-ottobre-2025.pdf",
+      "quote": "8854 Angio TAC torace (arterie o vene polmonari). 135,00 €"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Riconoscere l'instabilità emodinamica.",
-      "Angio-TC o TTE in urgenza.",
-      "Trombolisi nell'EP ad alto rischio instabile, poi osservazione emorragica."
+      "Eparina 80 UI/kg durante la diagnosi se non c'e emorragia.",
+      "Non aspettare i familiari per iniziare ossigeno ed eparina."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "La trombolisi nell'EP instabile è nel capitolo ERC 6. TTE e CT per PE sono frasi ESC ACS di diagnosi differenziale, non la linea ESC 2019 sull'EP (quel PDF non è in questa cartella). Alteplase come dose da EP non è in queste frasi.",
+      "art5Adherence": "Il capitolo ERC sull'embolia fissa dose di eparina, angio-TC e trombolisi di salvataggio senza milligrammi del trombolitico. Il capitolo etico vieta di rimandare l'avvio quando non ci sono criteri per non iniziare. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Registrare sincope, pressione 82/50 e pillola.",
-        "Allegare TTE e/o angio-TC.",
-        "Registrare l'ora della lisi e la sorveglianza per sanguinamento, senza una checklist citata."
+        "Escludere pneumotorace e anafilassi.",
+        "Non inventare i milligrammi dell'alteplase.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
@@ -113,125 +133,348 @@
     {
       "examId": "ecg",
       "name": "ECG a 12 derivazioni",
-      "finding": "Tachicardia sinusale. Nessun S1Q3T3 è fissato.",
+      "finding": "Tachicardia sinusale, segni di sovraccarico destro, nessun sopraslivellamento.",
       "isAbnormal": true,
-      "priceEuro": 15,
       "isFatal": false
     },
     {
-      "examId": "ecocardio",
-      "name": "TTE al letto",
-      "finding": "Segni di sovraccarico destro, senza misure millimetriche fissate.",
+      "examId": "eco-bedside",
+      "name": "Ecocardiografia al letto",
+      "finding": "Ventricolo destro dilatato. Non sostituisce l'angio-TC se la paziente puo farla.",
       "isAbnormal": true,
-      "priceEuro": 50,
-      "isFatal": true
-    },
-    {
-      "examId": "angio",
-      "name": "Angio-TC polmonare",
-      "finding": "Difetti di riempimento centrali. Nessuna percentuale ostruttiva è fissata.",
-      "isAbnormal": true,
-      "priceEuro": 150,
-      "isFatal": true
-    },
-    {
-      "examId": "lattati",
-      "name": "Lattati",
-      "finding": "Ipoperfusione. Nessun mmol/L è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 8,
-      "isFatal": false
-    },
-    {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa",
-      "finding": "Ipossiemia. Nessun pH è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 10,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non è la metodica dell'EP instabile.",
+      "examId": "angio-tc",
+      "name": "Angio-TC prima di ossigeno ed eparina",
+      "finding": "Conferma la diagnosi ma non deve precedere ossigeno ed eparina in chi non sanguina.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Le frasi copiate nominano CT per PE e TTE. Non la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "Angio-TC del torace per arterie o vene polmonari a 135,00 euro prima di ossigeno ed eparina. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 135
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 124,
-      "bloodPressure": "82/50",
+      "heartRate": 120,
+      "bloodPressure": "85/50",
       "spo2": 88,
-      "temperature": 36.7,
+      "temperature": 36.5,
       "respiratoryRate": 30
     },
-    "examBudgetEuro": 250,
-    "demographics": { "age": 40, "sex": "F", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Sincope e ipotensione",
-        "result": "Sincope, PA 82/50, cute sudata, tachipnea.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 40,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ecg": { "finding": "Tachicardia sinusale.", "isAbnormal": true, "price": 15 },
-        "ecocardio": { "finding": "Sovraccarico destro, misure non fissate.", "isAbnormal": true, "price": 50 },
-        "angio": { "finding": "Emboli centrali, percentuale non fissata.", "isAbnormal": true, "price": 150 },
-        "lattati": { "finding": "Elevati, senza numero.", "isAbnormal": true, "price": 8 },
-        "ega": { "finding": "Ipossiemia, pH non fissato.", "isAbnormal": true, "price": 10 },
-        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+        "ecg": {
+          "finding": "Tachicardia sinusale, segni di sovraccarico destro, nessun sopraslivellamento.",
+          "isAbnormal": true
+        },
+        "eco-bedside": {
+          "finding": "Ventricolo destro dilatato. Non sostituisce l'angio-TC se la paziente puo farla.",
+          "isAbnormal": true
+        },
+        "angio-tc": {
+          "finding": "Conferma la diagnosi ma non deve precedere ossigeno ed eparina in chi non sanguina.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Trombolisi sistemica",
+          "label": "Eparina 80 UI/kg",
           "anyOf": [
             {
-              "id": "alteplase",
-              "label": "Fibrinolisi sistemica",
-              "aliases": ["alteplase", "rtpa", "trombolisi", "fibrinolisi"]
+              "id": "eparina",
+              "label": "Eparina 80 UI/kg",
+              "aliases": [
+                "eparina"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "alteplase-dose",
+          "label": "Dose di trombolitico inventata",
+          "aliases": [
+            "alteplase",
+            "100 mg"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Riconoscere l'alto rischio.",
-        "TTE e/o angio-TC.",
-        "Trombolisi sistemica.",
-        "Osservazione per sanguinamento.",
-        "Spiegare a Chiara diagnosi e rischio."
+        "Ossigeno, eparina 80 UI/kg, eco ed ECG.",
+        "Angio-TC per confermare.",
+        "Nessuna dose di trombolitico inventata."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto di angio-TC o TTE."
+          "id": "attesa",
+          "kind": "clinical",
+          "trigger": "Attesa della madre prima dell'eparina."
         }
       ],
       "citationLimits": [
-        "ERC 6 associa la trombolisi a riduzione di mortalità o recidiva in EP alto rischio instabile. Non fissa i milligrammi.",
-        "Alteplase nominato in ESC ACS è per lo STEMI, non copiare quella dose qui.",
-        "I contraccettivi sono nel brief. Non sono in queste citazioni.",
-        "Il monitoraggio emorragico non ha una checklist: citazione vuota."
+        "Il brano non nomina alteplase ne i milligrammi della trombolisi."
       ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "HIGH",
+    "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Chiede i rischi della lisi con parole precise. Accetta se le si dice che è instabile, che la TC o l'eco guidano, e che dopo si guarda il sanguinamento, senza inventare percentuali ostruttive."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ha paura e nomina la madre. Si fida se non si aspetta nessuno per darle ossigeno e se non le si inventa una dose."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Che cosa escludi subito",
+      "prompt": "Dispnea improvvisa, niente malattia polmonare nota. Prima di chiamarla embolia, che escludi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Pneumotorace e anafilassi, come scrive il testo",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La chiami embolia senza aver pensato a pneumotorace e anafilassi",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Diagnosi non distinta",
+      "prompt": "Il testo: considerare l'embolia in chi ha dispnea improvvisa ingravescente senza malattia polmonare nota, escludendo sempre pneumotorace e anafilassi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ossigeno",
+      "prompt": "SpO2 88%, ipotesa. Che ossigeno?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Ossigeno a flussi elevati, perche l'ipossia e a rischio vita",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Cannula a 1 litro e attendi la TC",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Ossigeno rinviato",
+      "prompt": "Trattare l'ipossia con pericolo di vita con ossigeno a flussi elevati. Aspettare la TC non e quel passo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Eparina",
+      "prompt": "Non sanguina e non ha controindicazioni assolute. Quando inizi l'eparina, e a che dose?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Durante il processo diagnostico, 80 UI/kg endovena",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Niente eparina finche l'angio-TC non e refertata",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Anticoagulante rinviato",
+      "prompt": "Iniziare 80 UI/kg di eparina endovena durante il processo diagnostico, se non ci sono emorragia o controindicazioni assolute.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Conferma",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Con che esame confermi, se puo farla?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Angio-TC. L'eco al letto si fa, ma la conferma scritta e l'angio-TC Non la esegui ora.",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Angio-TC del torace per arterie o vene polmonari a 135,00 euro prima di ossigeno ed eparina",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario a uso dei Soci Fisde, in vigore dal 1 ottobre 2025: 8854 Angio TAC torace (arterie o vene polmonari). 135,00 €. Angio-TC del torace per arterie o vene polmonari a 135,00 euro prima di ossigeno ed eparina. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Trombolisi",
+      "prompt": "Peggiora in fretta. Che terapia di salvataggio e scritta, e con quale limite?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Trombolisi di emergenza. Il brano non nomina molecola ne milligrammi: non li inventi. In alternativa, se il gruppo lo decide, embolectomia chirurgica o trattamento endovascolare",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Alteplase 100 mg, dose presa da un altro infarto e non da questo brano",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Milligrammi non scritti",
+      "prompt": "Somministrare terapia trombolitica di emergenza nei pazienti in rapido deterioramento. Considerare embolectomia o trattamento endovascolare come alternativa. I milligrammi non sono in questo brano.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "La madre",
+      "prompt": "La madre chiede di non anticoagulare finche non arriva. Sara e lucida ma ipotesa. La madre non c'e. Aspetti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. Inizi ossigeno ed eparina. Non c'e una DAT che li rifiuti Non aspetti la madre.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Aspetti la madre prima di ossigeno ed eparina, senza una volonta contraria recepibile",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti la madre prima di ossigeno ed eparina, senza una volonta contraria recepibile contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se sanguinasse",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Se comparisse un'emorragia attiva, terreste gli 80 UI/kg?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. La frase vale se non ci sono segni di emorragia o controindicazioni assolute In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Eparina durante la diagnosi, senza attese",
+      "prompt": "Ossigeno ad alti flussi, ECG, eco, eparina 80 UI/kg perche non sanguina, angio-TC per confermare. Trombolisi di salvataggio solo se deteriora, senza milligrammi inventati. Non si aspetta la madre.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

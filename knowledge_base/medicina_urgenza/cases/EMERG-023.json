@@ -1,262 +1,476 @@
 {
   "id": "EMERG-023",
   "code": "EMERG-023",
-  "title": "Uomo di 45 anni con ustioni di II e III grado sul 40% del corpo",
-  "description": "Roberto, 45 anni, ustioni termiche estese. Parametri: PA 108/70 mmHg, FC 120 bpm, FR 26 atti/min, SpO2 93%, temperatura 36.1. Viso e collo coinvolti. Raucedine. Superficie circa 40% con regola del 9.",
+  "title": "Uomo di 50 anni in arresto, temperatura interna 31 gradi",
+  "description": "Stefano, 50 anni, trovato al freddo, in arresto, fibrillazione ventricolare, temperatura interna esofagea 31 gradi. Pressione prima del collasso 80 di sistolica. Parametri: PA 80/50 mmHg, FC 40 bpm, FR 6 atti/min, SpO2 88% con ossigeno, temperatura 31.2. Nessuna DAT.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["chirurgia"],
-  "condition": "Ustione termica estesa con rischio inalatorio",
+  "secondarySpecialties": [],
+  "condition": "Arresto ipotermico con temperatura interna sopra 30 e sotto 35 gradi",
   "frequencyCategory": "LOW",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "atls.pdf",
-  "diagnosis": "Ustioni di 2° e 3° grado su circa 40% della superficie, con viso e collo. Rischio di ostruzione delle vie aeree. Non è un'ustione minore da medicazione ambulatoriale.",
-  "pastMedicalHistory": "Incendio / fiamma. Non è intubato all'arrivo. Parkland non compare nei PDF: restano i fluidi nel percorso a citazione vuota. L'analgesia massiva non ha frase. La regola del 9 e il raffreddamento con medicazione sterile sì.",
-  "presentation": "40%, viso e collo, raucedine. Valutare le vie aeree (peli nasali, sputo carbonaceo, tosse). Raffreddare almeno 20 minuti, coprire con medicazione sterile asciutta. Calcolare l'estensione con regola del 9. Fluidi tipo Parkland e oppioidi: nel percorso, citazione vuota. Rivalutazione delle vie aeree.",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Temperatura interna 31 gradi: non si sospende l'adrenalina, perche il divieto e sotto i 30. Gli intervalli diventano 6-10 minuti, non 3-5. Altri shock dopo i primi tre non si rimandano per la temperatura, perche e gia sopra i 30. Va in un centro ECLS, con RCP continua durante il trasporto. La frequenza di compressioni e ventilazioni e quella del normotermico. Non si aspetta la famiglia.",
+  "pastMedicalHistory": "Esposizione al freddo. Nessuna DAT. Intubato, temperatura esofagea.",
+  "presentation": "Arresto, fibrillazione, 31 gradi interni, sistolica 80 prima del collasso.",
   "redHerrings": [
-    "Un collega applica ghiaccio e aspetta la dermatologia prima delle vie aeree.",
-    "Un altro bagna a lungo un 40% senza coprire e senza pensare al tubo."
+    "Propongono di non dare adrenalina, come se fosse sotto i 30, e di aspettare i parenti."
   ],
-  "timeLimitMinutes": 90,
+  "timeLimitMinutes": 15,
   "patientDeteriorationThreshold": 20,
-  "patientPrompt": "Mi chiamo Roberto, ho 45 anni, sono bruciato. Ho raucedine, viso e collo neri. Guardate le vie aeree, calcolate i nove, coprite sterile, datemi i liquidi e toglietemi il dolore. Tra un'ora rivedete se respiro ancora.",
-  "correctSolution": "Regola del 9: 2° o 3° grado oltre il 30% nell'adulto sono molto gravi. Viso e collo: ostruzione meccanica delle vie aeree; peli bruciati, sputo carbonaceo e tosse fanno sospettare compromissione a breve. ERC primo soccorso: raffreddare con acqua fresca o fredda non ghiacciata almeno 20 minuti, poi medicazione sterile asciutta; attenzione all'ipotermia nelle ustioni estese. Parkland, intubazione precoce nominata e analgesia massiva: gold path, citazione vuota. Rivalutazione vie aeree. SPIKES Knowledge.",
+  "patientPrompt": "Il soccorritore dice: Stefano ha 50 anni, e stato al freddo, la temperatura interna e 31, e in fibrillazione, non ha disposizioni. Non trattatelo come se fosse sotto i 30. Non aspettate la famiglia.",
+  "correctSolution": "Adrenalina con intervalli di 6-10 minuti, non sospesa. Shock non rimandati per la temperatura. Centro ECLS. RCP continua in ambulanza, con la stessa frequenza del normotermico. Non aspettare la famiglia.",
   "goldStandardPath": [
-    "abcde",
-    "valutazione-inalatoria",
-    "regola-del-9",
-    "raffreddamento-medicazione",
-    "fluidi-parkland",
-    "analgesia",
-    "rivalutazione-vie-aeree"
+    "temperatura",
+    "monitor"
   ],
-  "goldPathNarrative": "ABCDE e rischio inalatorio, regola del 9, raffreddamento e medicazione sterile, fluidi (Parkland senza citazione), analgesia, rivalutazione delle vie aeree. Intubazione se raucedine progredisce: citazione sul rischio, non sulla tecnica.",
+  "goldPathNarrative": "Misuri 31 gradi. Non sospendi l'adrenalina. Allunghi l'intervallo a 6-10 minuti. Lo porti in ECLS.",
   "examLatencies": {
-    "abcde": 5,
-    "valutazione-inalatoria": 6,
-    "regola-del-9": 8,
-    "raffreddamento-medicazione": 20,
-    "fluidi-parkland": 15,
-    "analgesia": 10,
-    "rivalutazione-vie-aeree": 60,
-    "pet-tc": 180
+    "temperatura": 2,
+    "monitor": 1,
+    "rx-torace": 25
   },
   "anamnesisQuestions": [
     {
-      "id": "fiamma-chiuso",
-      "prompt": "Era in un ambiente chiuso, e ha inalato fumo?",
+      "id": "gradi",
+      "prompt": "Quanti gradi interni ha?",
       "critical": true,
-      "expectedKeywords": ["chiuso", "fumo", "inalato", "incendio"],
-      "rationale": "ATLS: inalazione di fumi o vapori. Viso e collo."
+      "expectedKeywords": [
+        "31",
+        "gradi",
+        "temperatura"
+      ],
+      "rationale": "Sotto i 30 l'adrenalina non si da. A 31 si da, ogni 6-10 minuti."
     },
     {
-      "id": "voce",
-      "prompt": "La voce è cambiata, tossisce nero, i peli del naso sono bruciati?",
+      "id": "ritmo",
+      "prompt": "Che ritmo ha?",
       "critical": true,
-      "expectedKeywords": ["voce", "tosse", "peli", "nero"],
-      "rationale": "Peli del naso, sputo carbonaceo e tosse nel testo ATLS."
+      "expectedKeywords": [
+        "fibrillazione",
+        "ventricolare"
+      ],
+      "rationale": "L'aritmia ventricolare e un motivo per il centro ECLS."
     },
     {
-      "id": "estensione",
-      "prompt": "Quali distretti sono bruciati: tronco, braccia, gambe, viso?",
+      "id": "dat",
+      "prompt": "C'e una DAT?",
       "critical": true,
-      "expectedKeywords": ["viso", "tronco", "braccia", "nove"],
-      "rationale": "Regola del 9: 4,5% o 9% per distretto."
-    },
-    {
-      "id": "dolore",
-      "prompt": "Quanto gli fa male, e vuole il dolore spento prima delle medicazioni?",
-      "critical": true,
-      "expectedKeywords": ["male", "dolore", "medicazioni", "spento"],
-      "rationale": "Analgesia nel brief, senza frase PDF. SPIKES Emotions."
+      "expectedKeywords": [
+        "dat",
+        "no"
+      ],
+      "rationale": "Senza DAT la RCP continua."
     }
   ],
   "physicalExam": {
-    "summary": "Ustioni di 2° e 3° grado, viso e collo, raucedine. Circa 40% con regola del 9. SpO2 93%. Non intubato all'arrivo."
+    "summary": "Freddo, intubato, fibrillazione, polso assente. Temperatura esofagea 31 gradi."
   },
   "escCitations": [
     {
-      "chunkId": "atls-regola-9",
-      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
-      "quote": "La regola del 9 si basa sulla suddivisione del corpo in porzioni del 4,5% o 9%. Sommando insieme il punteggio delle zone interessate alla lesione, si ricava l’estensione totale dell’ustione. Le ustioni di 2° o 3° grado coinvolgenti più del 30% della superficie corporea nell’adulto e del 20% nel bambino sono molto gravi."
+      "chunkId": "no",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Non somministrare l'adrenalina se la temperatura interna e <30 gradi."
     },
     {
-      "chunkId": "atls-inalazione",
-      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
-      "quote": "le ustioni del capo e del collo possono compromettere rapidamente la meccanica respiratoria attraverso una graduale ostruzione meccanica delle vie aeree, le ustioni al volto con sospetto coinvolgimento delle vie aeree (peli del naso, baffi o barba bruciati, sputo carbonaceo e tosse) devono far sospettare una probabile compromissione a breve termine delle vie aeree"
+      "chunkId": "int",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Aumentare gli intervalli di somministrazione dell'adrenalina a 6-10 min se la temperatura interna e >30 gradi."
     },
     {
-      "chunkId": "erc8-raffreddamento-immediato",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
-      "quote": "Iniziare immediatamente a raffreddare l’ustione con acqua fresca o fredda (non ghiacciata)"
+      "chunkId": "shock",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Se la fibrillazione ventricolare persiste dopo tre scariche di defibrillazione, ritardare ulteriori tentativi fino a quando la temperatura interna e >30 gradi."
     },
     {
-      "chunkId": "erc8-raffreddamento",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
-      "quote": "Continuare il raffreddamento dell’ustione per almeno 20 minuti • Coprire l’ustione con una medicazione sterile asciutta o in alternativa utilizzare della pellicola trasparente."
+      "chunkId": "ecls",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "I pazienti ipotermici con fattori di rischio per imminente arresto cardiaco (temperatura interna <30 gradi, aritmie ventricolari, pressione sistolica <90 mmHg) o in arresto cardiaco devono essere trasferiti preferibilmente in un centro con possibilita di fornire supporto vitale extracorporeo (ECLS)"
     },
     {
-      "chunkId": "erc8-ipotermia-ustioni",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
-      "quote": "Prestare particolare attenzione nel raffreddamento di ustioni termiche estese, nei neonati e nei bambini piccoli, per non indurre l’ipotermia."
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI RX 000000701 RX torace (due proiezioni) 40,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Vie aeree e segni inalatori prima delle medicazioni lunghe.",
-      "Regola del 9. Raffreddamento 20 minuti, medicazione sterile, niente ghiaccio.",
-      "Rivalutazione delle vie aeree a 1 ora."
+      "A 31 gradi l'adrenalina non si sospende: gli intervalli sono 6-10 minuti.",
+      "Centro ECLS e RCP continua durante il trasporto."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Regola del 9 e rischio inalatorio sono ATLS. Raffreddamento 20 minuti e medicazione sterile sono ERC cap. 8. Parkland, dose dei fluidi e analgesia massiva non sono in questi PDF. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "art5Adherence": "Il capitolo ERC sull'ipotermia fissa la soglia dei 30 gradi, l'intervallo e il trasferimento. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Annotare estensione con regola del 9 e segni inalatori.",
-        "Annotare raffreddamento, medicazione sterile e eventuale intubazione.",
-        "Registrare rivalutazione delle vie aeree a 1 ora."
+        "Non rimandare gli shock per una temperatura gia sopra i 30.",
+        "Non aspettare i familiari.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "abcde",
-      "name": "Valutazione ABCDE",
-      "finding": "A a rischio (viso, collo, raucedine). B: FR 26, SpO2 93%. C: FC 120. E: 40% circa.",
+      "examId": "temperatura",
+      "name": "Temperatura interna",
+      "finding": "31 gradi esofagei. Sopra i 30, sotto i 35.",
       "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
-      "examId": "valutazione-inalatoria",
-      "name": "Valutazione rischio inalatorio",
-      "finding": "Viso e collo, raucedine. Cercare peli bruciati, sputo carbonaceo, tosse. Intubazione precoce: nel percorso, senza frase su timing.",
-      "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
-      "examId": "regola-del-9",
-      "name": "Calcolo estensione (regola del 9)",
-      "finding": "Circa 40% nel brief. Distretti da 4,5% o 9%. Oltre 30% di 2°/3° grado: molto grave.",
-      "isAbnormal": true,
-      "priceEuro": 0,
       "isFatal": false
     },
     {
-      "examId": "ega",
-      "name": "Emogasanalisi",
-      "finding": "Gas con SpO2 93%. Nessun COHb è fissato: la carbossiemoglobina non è in questi PDF.",
+      "examId": "monitor",
+      "name": "Monitor",
+      "finding": "Fibrillazione ventricolare. Polso assente.",
       "isAbnormal": true,
-      "priceEuro": 10,
-      "isFatal": false
-    },
-    {
-      "examId": "rivalutazione-vie-aeree",
-      "name": "Rivalutazione vie aeree dopo 1 ora",
-      "finding": "Raucedine e gonfiore da rivedere. Nessun timing di intubazione è copiato.",
-      "isAbnormal": true,
-      "priceEuro": 0,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non valuta estensione né vie aeree dell'ustionato.",
+      "examId": "rx-torace",
+      "name": "Radiografia prima del trasferimento",
+      "finding": "Non e il passo scritto e ritarda ECLS e RCP continua.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "I testi nominano regola del 9, inalazione e medicazione sterile. Non la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "RX torace due proiezioni a 40,00 euro prima del trasferimento nel centro ECLS. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 40
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 120,
-      "bloodPressure": "108/70",
-      "spo2": 93,
-      "temperature": 36.1,
-      "respiratoryRate": 26
+      "heartRate": 40,
+      "bloodPressure": "80/50",
+      "spo2": 88,
+      "temperature": 31.2,
+      "respiratoryRate": 6
     },
-    "examBudgetEuro": 80,
-    "demographics": { "age": 45, "sex": "M", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Ustioni viso e collo",
-        "result": "Raucedine. Sospetto inalatorio.",
-        "isPositive": true
-      },
-      {
-        "signName": "Estensione circa 40%",
-        "result": "2° e 3° grado. Molto grave sopra il 30% adulto.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 50,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ega": {
-          "finding": "Gas. COHb non fissata.",
-          "isAbnormal": true,
-          "price": 10
+        "temperatura": {
+          "finding": "31 gradi esofagei. Sopra i 30, sotto i 35.",
+          "isAbnormal": true
         },
-        "pet-tc": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 950
+        "monitor": {
+          "finding": "Fibrillazione ventricolare. Polso assente.",
+          "isAbnormal": true
+        },
+        "rx-torace": {
+          "finding": "Non e il passo scritto e ritarda ECLS e RCP continua.",
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Raffreddamento, medicazione sterile, fluidi e analgesia",
+          "label": "Adrenalina ogni 6-10 minuti e trasferimento ECLS",
           "anyOf": [
             {
-              "id": "medicazione-sterile",
-              "label": "Medicazione sterile asciutta",
-              "aliases": ["medicazione", "sterile", "pellicola"]
+              "id": "ecls",
+              "label": "ECLS",
+              "aliases": [
+                "ecls",
+                "adrenalina"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "stop",
+          "label": "Sospensione dell'adrenalina a 31 gradi",
+          "aliases": [
+            "sospendere"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Valutare le vie aeree e l'inalazione.",
-        "Regola del 9.",
-        "Raffreddamento non ghiacciato e medicazione sterile.",
-        "Fluidi nel percorso.",
-        "Rivalutazione vie aeree.",
-        "Spiegare a Roberto."
+        "Intervallo 6-10 minuti.",
+        "ECLS.",
+        "Niente lastra prima."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto di vie aeree e medicazione."
+          "id": "rx",
+          "kind": "clinical",
+          "trigger": "Radiografia prima del trasferimento."
         }
       ],
       "citationLimits": [
-        "Regola del 9 e gravità >30% sono ATLS. Il 40% è del brief.",
-        "Parkland non compare: gold path, citazione vuota.",
-        "Intubazione precoce: ATLS descrive il rischio, non un ordine «intuba subito». Resta nel percorso se la raucedine progredisce.",
-        "Analgesia massiva: citazione vuota.",
-        "ERC: acqua non ghiacciata ≥20 minuti, medicazione sterile, attenzione all'ipotermia."
+        "Sotto i 30 gradi l'adrenalina non si da. Qui sono 31."
       ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "MEDIUM",
-    "emotionalState": "ANXIOUS",
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Ha dolore e raucedine. Chiede vie aeree, regola del 9, coperture sterili e liquidi, senza ghiaccio e senza rassicurazioni vuote."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Non puo decidere. I familiari non ci sono. Il trasferimento non si ferma."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Soglia dei 30",
+      "prompt": "Temperatura interna 31, in fibrillazione, in arresto. Sospesi l'adrenalina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "No. Il divieto e sotto i 30 gradi. Qui sono 31",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Niente adrenalina, come se fosse sotto i 30",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Adrenalina sospesa sopra i 30",
+      "prompt": "Non somministrare l'adrenalina se la temperatura interna e sotto i 30 gradi. A 31 la frase non scatta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Che intervallo",
+      "prompt": "Dato che e sopra i 30, ogni quanto l'adrenalina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Ogni 6-10 minuti, non ogni 3-5",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Ogni 3-5 minuti, come nel normotermico",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Intervallo normotermico",
+      "prompt": "Aumentare gli intervalli a 6-10 minuti se la temperatura interna e sopra i 30 gradi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Altri shock",
+      "prompt": "La fibrillazione dura dopo tre shock. Li rimandi perche e freddo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. Si rimandano solo finche la temperatura non supera i 30. Li ha gia superati",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Niente altri shock finche non e normotermico",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Shock rimandati senza motivo",
+      "prompt": "Se la fibrillazione persiste dopo tre scariche, ritardare gli altri tentativi finche la temperatura interna e sopra i 30 gradi. Stefano e gia a 31.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dove lo porti",
+      "prompt": "Arresto, fibrillazione, sistolica 80 prima del collasso. Che centro?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Un centro che possa fare l'ECLS, per il riscaldamento",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "L'ospedale piu vicino senza ECLS, per fare una lastra",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "ECLS non scelto",
+      "prompt": "Chi ha temperatura sotto i 30, aritmie ventricolari o sistolica sotto 90, oppure e in arresto, va preferibilmente in un centro ECLS.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Durante il viaggio",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Come la RCP in ambulanza, e a che frequenza?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Continua, con la stessa frequenza di compressioni e ventilazioni del normotermico In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Lastra prima",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi la radiografia prima di partire.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. Ritarda il trasferimento Non la esegui ora.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "RX torace due proiezioni a 40,00 euro prima del trasferimento nel centro ECLS",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI RX 000000701 RX torace (due proiezioni) 40,00. RX torace due proiezioni a 40,00 euro prima del trasferimento nel centro ECLS. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "I parenti",
+      "prompt": "I parenti chiedono di non trasferire finche non arrivano. Nessuna DAT. Aspetti i parenti prima di partire?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. Inizi e parti Non aspetti i parenti.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Aspetti i parenti prima del trasferimento e interrompi la RCP per parlarne",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti i parenti prima del trasferimento e interrompi la RCP per parlarne contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "31 gradi: adrenalina ogni 6-10 minuti, centro ECLS",
+      "prompt": "Non sospendi l'adrenalina. Intervallo 6-10 minuti. Non rimandi gli shock. Centro ECLS, RCP continua, stessa frequenza del normotermico. Non la lastra e non i parenti.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

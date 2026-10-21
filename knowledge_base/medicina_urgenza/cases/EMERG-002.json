@@ -1,225 +1,240 @@
 {
   "id": "EMERG-002",
   "code": "EMERG-002",
-  "title": "Uomo di 45 anni con dolore al fianco destro",
-  "description": "Andrea, 45 anni, arriva in pronto soccorso agitato per un dolore acuto al fianco destro che scende verso l'inguine. Parametri: PA 148/90 mmHg, FC 108 bpm, FR 18 atti/min, SpO2 98%, temperatura 36.8.",
+  "title": "Uomo di 45 anni con colica renale e dolore moderato",
+  "description": "Marco, 45 anni, dolore al fianco destro da due ore, nausea, nessun febbre. Parametri: PA 138/84 mmHg, FC 88 bpm, FR 16 atti/min, SpO2 98%, temperatura 36.6. NRS 6. Nessuna allergia nota, nessun problema gastrico dichiarato, filtrato non ridotto.",
   "difficulty": "EASY",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "condition": "Colica renale semplice",
+  "secondarySpecialties": [
+    "urologia"
+  ],
+  "condition": "Colica da calcolo, dolore moderato, senza febbre e senza rene unico",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "BASE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
-  "diagnosis": "Colica renale semplice. Dolore al fianco destro irradiato all'inguine, senza febbre.",
-  "pastMedicalHistory": "Nessun calcolo noto nel racconto di partenza. Non è in terapia anticoagulante dichiarata. Non ha già ricevuto un antidolorifico in pronto soccorso. Non è descritta allergia ai FANS.",
-  "presentation": "Dolore a colica dal fianco destro all'inguine, inizio improvviso. È agitato e chiede subito un farmaco. Non ha febbre. L'addome è trattabile, il fianco destro è dolente.",
-  "redHerrings": [],
-  "timeLimitMinutes": 25,
+  "guidelineRef": "calcoli renali.pdf; Raccomandazioni_gestione_del_dolore_in_emergenza.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Dolore moderato da colica renale. I FANS sono indicati dopo un'anamnesi rapida su allergie e controindicazioni. EAU: FANS e paracetamolo sono efficaci e meglio degli oppioidi. L'ecografia precede la TC senza contrasto. L'imaging immediato e scritto per febbre, rene unico o diagnosi incerta.",
+  "pastMedicalHistory": "Nessuna colica nota. Nessun FANS gia dato. Nessuna gastropatia. Due reni. Non e in gravidanza.",
+  "presentation": "Dolore al fianco, NRS 6, afebril. Vuole la TAC subito e un oppioide forte.",
+  "redHerrings": [
+    "Chiede la petidina perche un parente l'ha avuta per un calcolo."
+  ],
+  "timeLimitMinutes": 20,
   "patientDeteriorationThreshold": 20,
-  "patientPrompt": "Mi chiamo Andrea, ho 45 anni. Ho un dolore fortissimo al fianco destro, scende verso l'inguine, non sto fermo. Non ho febbre. Datemi subito qualcosa per il dolore e ditemi se il rene è bloccato. Se mi spiegate che cosa state facendo mentre arriva l'antidolorifico, riesco a collaborare.",
-  "correctSolution": "Analgesia con un FANS, senza ritardarla per l'imaging. Il documento sul dolore in emergenza indica i FANS per il dolore lieve-moderato da colica renale, dopo un'anamnesi rapida su allergie e controindicazioni. Le linee guida EAU 2026 sulla urolitiasi scrivono che l'ecografia è l'indagine di prima scelta e che non va ritardata l'analgesia, e che l'ecografia vede anche la dilatazione della via urinaria alta. Nella stessa linea guida i FANS e il paracetamolo sono efficaci nella colica da calcolo. Ketorolac compare solo nel confronto in cui l'ibuprofene è più rapido: non è scritta la via ev o im. L'idratazione controllata della colica acuta non ha una frase. L'aneurisma dell'aorta non è in quel paragrafo.",
-  "goldStandardPath": ["ecografia"],
-  "goldPathNarrative": "Antidolorifico FANS subito, dopo allergie e controindicazioni, senza aspettare l'imaging. Ecografia come prima indagine, anche per la dilatazione della via urinaria. Idratazione controllata, senza una frase dedicata alla colica acuta. Parlare ad Andrea del dolore mentre parte la terapia.",
+  "patientPrompt": "Sono Marco, ho 45 anni. Il fianco destro mi fa male, sei su dieci. Non ho febbre. Datemi qualcosa che funzioni e non fatemi aspettare la TAC per il dolore. Non voglio un farmaco che il testo sconsiglia.",
+  "correctSolution": "Anamnesi rapida, poi FANS per il dolore muscolo-scheletrico e da colica, oppure paracetamolo 1 g endovena perche l'NRS e sopra 3. EAU: FANS e paracetamolo sono efficaci nella colica e meglio degli oppioidi; l'ibuprofene e piu rapido del ketorolac; gli antispastici aggiunti ai FANS non migliorano il dolore; se serve un oppioide, non la petidina. Ecografia prima, poi TC senza contrasto per confermare. Non c'e febbre ne rene unico: l'imaging immediato di quelle indicazioni non scatta. La TC senza contrasto conferma il calcolo dopo l'ecografia, e non sostituisce l'analgesia gia indicata.",
+  "goldStandardPath": [
+    "ecografia-reni",
+    "stick-urine"
+  ],
+  "goldPathNarrative": "Analgesia dopo l'anamnesi sulle controindicazioni. Ecografia, poi eventuale TC senza contrasto. Non petidina e non antispastico aggiunto come se migliorasse il dolore.",
   "examLatencies": {
-    "ecografia": 15,
-    "urine-sed": 40,
-    "pet-tc": 180
+    "ecografia-reni": 20,
+    "stick-urine": 5,
+    "tc-addome": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "sede",
-      "prompt": "Il dolore è al fianco e scende verso l'inguine, a ondate?",
+      "id": "dolore",
+      "prompt": "Quanto e forte il dolore, da uno a dieci?",
       "critical": true,
-      "expectedKeywords": ["fianco", "inguine", "ondate", "destra"],
-      "rationale": "Sede e irradiazione sono i dati della colica del brief."
+      "expectedKeywords": [
+        "dolore",
+        "dieci",
+        "forte"
+      ],
+      "rationale": "Sopra 3 il paracetamolo endovena da 1 g e una opzione scritta."
     },
     {
-      "id": "fans-controindicazioni",
-      "prompt": "È allergico agli antinfiammatori, o ha ulcera, problemi di coagulazione o un rene che funziona poco?",
+      "id": "contro",
+      "prompt": "Ha allergie, ulcera o reni che filtrano poco?",
       "critical": true,
-      "expectedKeywords": ["allerg", "ulcera", "rene", "stomaco"],
-      "rationale": "Prima dei FANS il testo raccomanda un'anamnesi rapida su allergie, gastropatie, coagulopatie e insufficienza renale."
+      "expectedKeywords": [
+        "allergia",
+        "ulcera",
+        "reni"
+      ],
+      "rationale": "Prima dei FANS serve un'anamnesi rapida su allergie e controindicazioni."
     },
     {
-      "id": "dolore-ora",
-      "prompt": "Quanto è forte il dolore adesso, da 0 a 10?",
+      "id": "febbre",
+      "prompt": "Ha febbre o un solo rene?",
       "critical": true,
-      "expectedKeywords": ["dolore", "forte", "dieci", "adesso"],
-      "rationale": "Il documento distingue il dolore lieve-moderato, per cui indica i FANS, dal dolore severo."
+      "expectedKeywords": [
+        "febbre",
+        "rene",
+        "unico"
+      ],
+      "rationale": "Febbre e rene unico sono indicazioni a imaging immediato."
     }
   ],
   "physicalExam": {
-    "summary": "Agitato, non sta fermo, chiede un antidolorifico. Toni ritmici, tachicardici, soffi assenti. Murmure vescicolare. Addome trattabile, dolente al fianco destro, senza difesa descritta. Polsi femorali presenti, non è descritta una massa pulsante."
+    "summary": "Dolente al fianco destro, Giordano positivo, addome trattabile, afebril, non peritonitico."
   },
   "escCitations": [
     {
-      "chunkId": "dolore-fans-colica-renale",
-      "source": "knowledge_base/medicina_urgenza/clinic/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
-      "quote": "I FANS sono indicati per trattare il dolore lieve -moderato di tipo muscolo- scheletrico, da trauma, da colica renale o biliare e in alcune forme di cefalea acuta"
+      "chunkId": "fans",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "I FANS sono indicati per trattare il dolore lieve-moderato di tipo muscolo-scheletrico, da trauma, da colica renale o biliare"
     },
     {
-      "chunkId": "dolore-anamnesi-prima-dei-fans",
-      "source": "knowledge_base/medicina_urgenza/clinic/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
-      "quote": "Prima di somministrare FANS è raccomandata u n’anamnesi rapida finalizzata all’esclusione di eventuali allergie o controindicazioni (gastropatie, coagulopatie, insufficienza renale)."
+      "chunkId": "anam",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "Prima di somministrare FANS e raccomandata un'anamnesi rapida finalizzata all'esclusione di eventuali allergie o controindicazioni"
     },
     {
-      "chunkId": "dolore-paracetamolo-colica",
-      "source": "knowledge_base/medicina_urgenza/clinic/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
-      "quote": "Nella riduzione del dolore associato alla colica renale, paracetamolo 1g e.v. si è dimostrato efficace se confrontato con una dose di 0,1 mg/kg di morfina"
+      "chunkId": "para",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "Per dolore di maggiore entita (NRS > 3), il paracetamolo e utilizzabile al dosaggio di 1g e.v."
     },
     {
-      "chunkId": "dolore-spiegare-ansia",
-      "source": "knowledge_base/medicina_urgenza/clinic/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
-      "quote": "Questi includono l’apposizione di ghiaccio, l’immobilizzazione delle fratture, la gestione degli aspetti psicologici del paziente, cui è necessario spiegare cause del dolore e possibili evoluzioni allo scopo di ridurne l’ansia"
+      "chunkId": "eau",
+      "source": "knowledge_base/medicina_urgenza/clinical/calcoli renali.pdf",
+      "quote": "Non-steroidal anti-inflammatory drugs (NSAIDs) (including metamizole dipyrone) and paracetamol are effective in patients with acute stone colic and have better analgesic efficacy than opioids."
     },
     {
-      "chunkId": "eau-ecografia-prima-indagine",
-      "source": "knowledge_base/medicina_urgenza/clinic/calcoli renali.pdf",
-      "quote": "Ultrasound (US) should be used as the primary diagnostic imaging tool, although pain relief, or any other emergency measures, should not be delayed by imaging assessments."
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
     },
     {
-      "chunkId": "eau-dilatazione-via-urinaria",
-      "source": "knowledge_base/medicina_urgenza/clinic/calcoli renali.pdf",
-      "quote": "It can identify stones located in the calyces, pelvis, and ureteropelvic junction (UPJ) and vesicoureteral junctions (US with filled bladder), as well as in patients with upper urinary tract (UUT) dilatation."
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     },
     {
-      "chunkId": "eau-fans-colica",
-      "source": "knowledge_base/medicina_urgenza/clinic/calcoli renali.pdf",
-      "quote": "Non-steroidal anti-inflammatory drugs (NSAIDs) (including metamizole dipyrone) and paracetamol are effective in patients with acute stone colic"
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
     },
     {
-      "chunkId": "eau-ketorolac-confronto-ibuprofene",
-      "source": "knowledge_base/medicina_urgenza/clinic/calcoli renali.pdf",
-      "quote": "Compared with ketorolac, ibuprofen is a more rapid-acting drug in controlling pain caused by renal colic, with a similar side effect profile"
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI TC 000004199 TC addome superiore e inferiore senza contrasto 240,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "FANS per la colica renale, dopo anamnesi su allergie e controindicazioni.",
-      "Ecografia come prima indagine, senza ritardare l'analgesia. Il PDF non usa la parola bedside né POCUS.",
-      "Spiegare ad Andrea la causa del dolore mentre si dà l'analgesia."
+      "Analgesia con FANS o paracetamolo 1 g endovena dopo l'anamnesi, non la petidina come prima scelta.",
+      "Ecografia prima della TC senza contrasto."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "I FANS della colica restano nel documento sul dolore in emergenza. Le linee guida EAU 2026 indicano l'ecografia come prima indagine e dicono di non ritardare l'analgesia; l'ecografia identifica anche la dilatazione della via urinaria alta. Ketorolac è nominato solo perché l'ibuprofene risulta più rapido, con effetti avversi simili. Non c'è la via ev o im, né la parola POCUS, né una frase sull'idratazione della colica acuta.",
+      "art5Adherence": "Le raccomandazioni sul dolore in emergenza e il testo EAU sulla urolitiasi fissano farmaco e sequenza di imaging. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Documentare allergie, gastropatia, coagulopatia e funzione renale riferita prima del FANS.",
-        "Registrare il farmaco dato e la risposta sul dolore.",
-        "Scrivere che cosa ha mostrato l'ecografia, senza ritardare l'analgesia."
+        "Chiedere allergie e controindicazioni prima del FANS.",
+        "Non aggiungere un antispastico come se migliorasse il controllo del dolore.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ecografia",
-      "name": "Ecografia al letto",
-      "finding": "Non è descritto un aneurisma dell'aorta addominale. Non è descritta un'idronefrosi. Nessuna misura è fissata.",
-      "isAbnormal": false,
-      "priceEuro": 55,
+      "examId": "ecografia-reni",
+      "name": "Ecografia renale",
+      "finding": "Dilatazione della via urinaria a destra. La TC senza contrasto, se serve, viene dopo questa ecografia.",
+      "isAbnormal": true,
       "isFatal": false
     },
     {
-      "examId": "urine-sed",
-      "name": "Esame urine",
-      "finding": "Richiesto dal caso. Nessun referto numerico è fissato. Non è nominato nel PDF sul dolore.",
-      "isAbnormal": false,
-      "priceEuro": 6,
+      "examId": "stick-urine",
+      "name": "Stick urine",
+      "finding": "Ematuria. Non sostituisce l'ecografia.",
+      "isAbnormal": true,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non indicata nel dolore da colica renale.",
+      "examId": "tc-addome",
+      "name": "TC senza ecografia precedente",
+      "finding": "Il testo chiede la TC senza contrasto dopo la valutazione ecografica iniziale, non al posto di essa.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Il testo sul dolore in emergenza, per la colica renale, parla di analgesia. Non nomina la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "TC addome superiore e inferiore senza contrasto a 240,00 euro al posto dell'ecografia, prima dell'analgesia. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 240
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 108,
-      "bloodPressure": "148/90",
+      "heartRate": 88,
+      "bloodPressure": "138/84",
       "spo2": 98,
-      "temperature": 36.8,
-      "respiratoryRate": 18
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 70,
-    "demographics": { "age": 45, "sex": "M", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Dolore al fianco destro",
-        "result": "Fianco destro dolente, irradiazione all'inguine riferita. Addome trattabile, senza difesa descritta.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 45,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ecografia": {
-          "finding": "Al letto: non è descritto un aneurisma aortico né un'idronefrosi. Nessun millimetro è fissato.",
-          "isAbnormal": false,
-          "price": 55
+        "ecografia-reni": {
+          "finding": "Dilatazione della via urinaria a destra. La TC senza contrasto, se serve, viene dopo questa ecografia.",
+          "isAbnormal": true
         },
-        "urine-sed": { "finding": "Referto senza numeri fissati.", "isAbnormal": false, "price": 6 },
-        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+        "stick-urine": {
+          "finding": "Ematuria. Non sostituisce l'ecografia.",
+          "isAbnormal": true
+        },
+        "tc-addome": {
+          "finding": "Il testo chiede la TC senza contrasto dopo la valutazione ecografica iniziale, non al posto di essa.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "FANS per la colica renale",
+          "label": "FANS o paracetamolo",
           "anyOf": [
             {
-              "id": "fans-colica",
+              "id": "fans",
               "label": "FANS",
-              "aliases": ["fans", "ketorolac", "ketoprofene", "diclofenac", "ibuprofene", "toradol"]
+              "aliases": [
+                "ibuprofene",
+                "fans"
+              ]
+            },
+            {
+              "id": "para",
+              "label": "Paracetamolo 1 g",
+              "aliases": [
+                "paracetamolo"
+              ]
             }
           ]
-        },
+        }
+      ],
+      "contraindicated": [
         {
-          "label": "Idratazione controllata",
-          "anyOf": [
-            {
-              "id": "idratazione",
-              "label": "Idratazione controllata",
-              "aliases": ["idratazione", "fisiologica", "ringer", "liquidi"]
-            }
+          "id": "petidina",
+          "label": "Petidina",
+          "aliases": [
+            "petidina",
+            "meperidina"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "FANS, dopo anamnesi su allergie e controindicazioni.",
-        "Ecografia al letto.",
-        "Idratazione controllata.",
-        "Spiegare la causa del dolore mentre si dà l'analgesia."
+        "Analgesia dopo l'anamnesi.",
+        "Ecografia prima della TC.",
+        "Niente petidina."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC nella colica renale."
+          "id": "petidina",
+          "kind": "clinical",
+          "trigger": "Petidina come oppioide della colica."
         }
       ],
-      "empathy": {
-        "namespace": "medicina_urgenza",
-        "documentUsed": "knowledge_base/medicina_urgenza/clinic/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
-        "expectedBehavior": "Spiegare ad Andrea la causa del dolore e che cosa può succedere, mentre si avvia l'antidolorifico, per ridurre l'ansia.",
-        "verbatimNurseQuote": null
-      },
       "citationLimits": [
-        "Ketorolac compare nelle linee guida EAU solo in questa frase: l'ibuprofene è più rapido del ketorolac nel dolore della colica renale, con un profilo di effetti avversi simile. Non è scritta la via ev o im, e la frase non sceglie il ketorolac.",
-        "La pagina italiana dice che i FANS sono per il dolore lieve-moderato. Andrea è agitato e riferisce un dolore forte: il testo, per il dolore severo, parla di oppioidi in un paragrafo distinto. Il caso premia comunque il FANS del brief. Le EAU aggiungono che FANS e paracetamolo sono efficaci nella colica da calcolo.",
-        "Il paracetamolo 1 g ev è citato come efficace nella colica renale rispetto a morfina 0,1 mg/kg. Non è un errore rispetto a quella frase. Il percorso premiato resta il FANS.",
-        "Nel PDF EAU non compaiono le parole bedside, POCUS o point-of-care. La frase usata dice che l'ecografia è la prima indagine e che il sollievo del dolore non va ritardato dall'imaging. La dilatazione della via urinaria alta è nominata; la parola idronefrosi, in quel paragrafo, no. L'aneurisma dell'aorta non è in quella frase.",
-        "L'idratazione controllata della colica acuta non ha una frase. Le frasi sull'idratazione nello stesso PDF riguardano i calcoli di cistina o la litotrissia, non questo dolore. Restano fuori dalle citazioni.",
-        "Nella linea guida ESC 2024 sull'aorta, gli esami diagnostici dell'aneurisma dell'aorta addominale in una figura includono l'eco-Doppler. Quella figura non è una indicazione a fare l'ecografia al letto in un uomo di 45 anni con colica. Non è usata come citazione di questo caso.",
-        "L'esame urine non è nel PDF sul dolore. È nel caso solo perché lo schema esige due esami.",
-        "La frase sugli aspetti psicologici elenca anche ghiaccio e immobilizzazione delle fratture, che non c'entrano con questa colica. Si usa solo l'invito a spiegare la causa del dolore per ridurre l'ansia."
+        "Non e scritta una dose di ibuprofene in milligrammi in questo uso. Non si inventa. Il confronto dice solo che e piu rapido del ketorolac."
       ]
     }
   },
@@ -227,7 +242,247 @@
     "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Agitato, non sta fermo, chiede il farmaco subito. Si calma se l'antidolorifico parte insieme a una frase che spiega la causa del dolore e che cosa può succedere."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole la TAC e un oppioide. Si calma se gli si dice perche prima il dolore e l'ecografia, e perche la petidina non e la scelta scritta."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima del farmaco",
+      "prompt": "La moglie chiede di non dare nulla finche non vede la TC. NRS 6. Vuoi un FANS. Che cosa fai prima?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Un'anamnesi rapida su allergie e controindicazioni, poi il FANS Non aspetti la moglie.",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Aspetti la moglie prima del FANS o del paracetamolo, anche se Marco, capace, chiede l'analgesia adesso",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti la moglie prima del FANS o del paracetamolo, anche se Marco, capace, chiede l'analgesia adesso contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quale analgesico",
+      "prompt": "Non ha controindicazioni. Che classe e scritta come efficace, e che ne e della petidina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "FANS o paracetamolo. Sono piu efficaci degli oppioidi. Se usi un oppioide, non la petidina. Sopra NRS 3 il paracetamolo endovena e 1 g",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Petidina come prima e unica analgesia",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Petidina di prima scelta",
+      "prompt": "EAU: FANS e paracetamolo sono efficaci nella colica acuta e hanno efficacia analgesica migliore degli oppioidi. Gli oppioidi, specie la petidina, vomitano di piu. Se si usa un oppioide, se ne raccomanda uno diverso dalla petidina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antispastico",
+      "prompt": "Vuoi aggiungere un antispastico al FANS.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. Aggiungerlo non migliora il controllo del dolore",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Lo aggiungi come se fosse parte necessaria della cura",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Antispastico inutile",
+      "prompt": "EAU: l'aggiunta di antispastici ai FANS non migliora il controllo del dolore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Quale imaging prima",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Dolore al fianco, afebril, due reni. Come confermi il calcolo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Ecografia per prima. La TC senza contrasto conferma il calcolo dopo l'ecografia Non la esegui ora.",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "TC addome superiore e inferiore senza contrasto a 240,00 euro al posto dell'ecografia, prima dell'analgesia",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI TC 000004199 TC addome superiore e inferiore senza contrasto 240,00. TC addome superiore e inferiore senza contrasto a 240,00 euro al posto dell'ecografia, prima dell'analgesia. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ketorolac e ibuprofene",
+      "prompt": "Tra ibuprofene e ketorolac, il testo che confronto fa, e che dose fissa?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "L'ibuprofene agisce piu in fretta, con effetti avversi simili. Non e scritta una dose in milligrammi da copiare: non la inventi",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Scegli una dose di ketorolac in milligrammi che il testo non riporta",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non scritta",
+      "prompt": "Il confronto dice che l'ibuprofene e piu rapido del ketorolac, con profilo di effetti simile. Non fornisce i milligrammi da prescrivere. Una dose inventata non e nel documento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se il dolore non passa",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. L'analgesia medica non basta. Che procedura e scritta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Decompressione renale o rimozione ureteroscopica del calcolo In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Diclofenac e cuore",
+      "prompt": "Ha diversi fattori di rischio cardiovascolare e vuoi un ciclo lungo di diclofenac.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Il diclofenac, in chi ha fattori di rischio cardiovascolare importanti, solo dopo attenta valutazione, alla dose efficace piu bassa e per la durata piu breve",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Un ciclo lungo a dose piena, senza quella valutazione",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Diclofenac senza la cautela scritta",
+      "prompt": "EAU: in chi ha fattori di rischio cardiovascolare importanti il diclofenac va usato solo dopo attenta considerazione. Il rischio cresce con dose e durata: la dose efficace piu bassa, per il tempo piu breve.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Analgesia e ecografia, poi la TC se serve",
+      "prompt": "FANS dopo l'anamnesi, o paracetamolo 1 g endovena. Non petidina. Non antispastico aggiunto. Ecografia, e TC senza contrasto solo dopo. Nessuna dose di ibuprofene inventata.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

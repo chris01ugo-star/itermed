@@ -1,221 +1,473 @@
 {
   "id": "EMERG-004",
   "code": "EMERG-004",
-  "title": "Ragazza di 25 anni con distorsione di caviglia",
-  "description": "Chiara, 25 anni, arriva in pronto soccorso dopo una distorsione della caviglia giocando a pallavolo. Cammina per quattro passi. La palpazione dei malleoli non le fa male. Parametri: PA 118/72 mmHg, FC 84 bpm, FR 16 atti/min, SpO2 99%, temperatura 36.6.",
+  "title": "Donna di 28 anni che cammina dopo una distorsione di caviglia",
+  "description": "Giulia, 28 anni, distorsione della caviglia destra. Fa quattro passi in pronto soccorso e li ha fatti anche subito dopo il trauma. Il dolore e sul legamento, non sull'osso dei 6 cm posteriori ne sulla punta dei malleoli. Non e intossicata, non e in gravidanza, non ha altre lesioni dolorose, non ha un trauma cranico, la sensibilita e integra. Parametri: PA 118/70 mmHg, FC 80 bpm, FR 14 atti/min, SpO2 99%, temperatura 36.5.",
   "difficulty": "EASY",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "condition": "Distorsione di caviglia",
+  "secondarySpecialties": [],
+  "condition": "Distorsione di caviglia che non soddisfa le Ottawa Ankle Rules",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "BASE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
-  "diagnosis": "Distorsione di caviglia. Quattro passi possibili, malleoli non dolenti alla palpazione.",
-  "pastMedicalHistory": "Nessuna frattura di caviglia nota. Non è in anticoagulante. Il trauma è una ricaduta in pallavolo, chiuso, senza ferita descritta.",
-  "presentation": "Dopo un salto in pallavolo la caviglia si è piegata. Zoppica ma fa quattro passi. Il malleolo, se lo si preme, non è il punto che le fa male. Vuole il ghiaccio e sapere se serve la lastra.",
-  "redHerrings": [],
-  "timeLimitMinutes": 20,
+  "guidelineRef": "ottawa.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Le Ottawa Ankle Rules chiedono la radiografia della caviglia solo se c'e dolore in regione malleolare e almeno uno tra dolorabilita ossea sui 6 cm distali del bordo posteriore o sulla punta del malleolo, laterale o mediale, oppure incapacita a caricare per 4 passi subito e in pronto soccorso. Giulia non ha questi criteri. Ha piu di 18 anni e non e nelle esclusioni.",
+  "pastMedicalHistory": "Nessuna frattura nota. Nessuna gravidanza. Nessun deficit di sensibilita. E lucida.",
+  "presentation": "Cammina quattro passi. I malleoli, premuti sull'osso, non fanno male. Il dolore e legamentoso.",
+  "redHerrings": [
+    "Vuole la lastra per stare tranquilla, anche se cammina."
+  ],
+  "timeLimitMinutes": 15,
   "patientDeteriorationThreshold": 20,
-  "patientPrompt": "Mi chiamo Chiara, ho 25 anni. Mi sono storta la caviglia a pallavolo. Riesco a fare quattro passi, zoppicando. Se mi premete sull'osso della caviglia non è lì che fa male, fa male più sotto. Mettetemi il ghiaccio. La lastra la fate solo se serve davvero.",
-  "correctSolution": "Non richiedere la radiografia. Le Ottawa Ankle Rules, nel file ottawa.pdf, dicono che la serie radiografica della caviglia è richiesta solo se c'è dolore nella regione malleolare e almeno uno tra: dolorabilità ossea sui 6 cm distali del bordo posteriore o sulla punta del malleolo laterale, la stessa dolorabilità sul malleolo mediale, oppure incapacità di caricare il peso per 4 passi sia subito sia in pronto soccorso. Chiara fa quattro passi e i malleoli, premuti, non fanno male. C'è poi, nel primo soccorso ERC 2021, l'acronimo RICE e una raccomandazione neutrale sul bendaggio compressivo della caviglia. Un manuale di anatomia del trauma in cartella scrive che per fratture, distorsioni o lussazioni serve sempre un accertamento radiologico: quella frase non è usata per ordinare la lastra.",
-  "goldStandardPath": ["deambulazione", "palpazione-malleoli"],
-  "goldPathNarrative": "Far fare quattro passi e palpare i malleoli. La lastra di caviglia, nelle Ottawa Ankle Rules, è richiesta solo se c'è dolore malleolare e dolorabilità ossea oppure incapacità di fare 4 passi. Qui i due rilievi non ci sono, quindi la radiografia non parte. Ghiaccio e bendaggio secondo RICE. Dire a Chiara perché la lastra non parte.",
+  "patientPrompt": "Sono Giulia, ho 28 anni. Ho storto la caviglia ma cammino. I malleoli, se li premete, non fanno male sull'osso. Non voglio una lastra se la regola dice che non serve.",
+  "correctSolution": "Non richiedere la serie radiografica della caviglia. Manca il criterio: dolore malleolare piu dolorabilita ossea oppure incapacita ai 4 passi. Non richiedere la serie del piede: non c'e dolore al mesopiede, ne alla base del quinto metatarso, ne allo scafoide. Non applicare la regola se fosse minorenne, intossicata, con piu lesioni, in gravidanza, con trauma cranico o con sensibilita ridotta: lei non e in queste esclusioni.",
+  "goldStandardPath": [
+    "visita-caviglia"
+  ],
+  "goldPathNarrative": "Visiti i punti ossei e i quattro passi. Non chiedi la radiografia.",
   "examLatencies": {
-    "deambulazione": 5,
-    "palpazione-malleoli": 5,
-    "rx-ossa": 30
+    "visita-caviglia": 5,
+    "passi": 1,
+    "rx-caviglia": 20
   },
   "anamnesisQuestions": [
     {
-      "id": "quattro-passi",
-      "prompt": "Dopo la storta, riesce a fare quattro passi, anche zoppicando?",
+      "id": "passi",
+      "prompt": "Riesce a fare quattro passi, adesso e subito dopo la storta?",
       "critical": true,
-      "expectedKeywords": ["quattro", "passi", "zoppica", "cammina"],
-      "rationale": "Le Ottawa Ankle Rules chiedono la lastra se il paziente non carica il peso per 4 passi, subito e in pronto soccorso. Chiara i quattro passi li fa."
+      "expectedKeywords": [
+        "passi",
+        "camminare",
+        "quattro"
+      ],
+      "rationale": "L'incapacita ai quattro passi e un criterio di radiografia."
     },
     {
-      "id": "malleoli",
-      "prompt": "Il dolore, premendo, è sull'osso del malleolo o più in basso, sul legamento?",
+      "id": "osso",
+      "prompt": "Fa male l'osso del malleolo, dietro o sulla punta, o solo il legamento?",
       "critical": true,
-      "expectedKeywords": ["malleolo", "osso", "legamento", "preme"],
-      "rationale": "Le Ottawa Ankle Rules legano la lastra alla dolorabilità ossea del malleolo laterale o mediale. Qui la palpazione dei malleoli non fa male."
+      "expectedKeywords": [
+        "malleolo",
+        "osso",
+        "legamento"
+      ],
+      "rationale": "La dolorabilita che conta e quella ossea sui 6 cm posteriori o sulla punta."
     },
     {
-      "id": "ferita",
-      "prompt": "C'è una ferita, o la cute è chiusa?",
-      "critical": false,
-      "expectedKeywords": ["ferita", "cute", "chiusa", "sangue"],
-      "rationale": "Il caso è una distorsione chiusa. Una ferita non è descritta e non va aggiunta."
+      "id": "esclusioni",
+      "prompt": "E in gravidanza, ha bevuto, ha altre fratture o un trauma in testa?",
+      "critical": true,
+      "expectedKeywords": [
+        "gravidanza",
+        "testa",
+        "bevuto"
+      ],
+      "rationale": "Sono esclusioni della regola."
     }
   ],
   "physicalExam": {
-    "summary": "Collaborante, zoppica, fa quattro passi. Cute chiusa, gonfiore modesto senza un ematoma misurato. La palpazione dei malleoli non risveglia dolore. Il dolore è riferito sotto il malleolo. Polsi periferici presenti, sensibilità conservata."
+    "summary": "Carica il peso per quattro passi. Nessuna dolorabilita ossea malleolare. Sensibilita integra. Non altre lesioni."
   },
   "escCitations": [
     {
-      "chunkId": "erc8-rice",
-      "source": "knowledge_base/medicina_urgenza/clinic/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
-      "quote": "RICE: Riposo, Immobilizzazione (compressione), Freddo, e Elevazione\" o Riposo, Ghiaccio, Compressione, Elevazione"
+      "chunkId": "ankle",
+      "source": "knowledge_base/medicina_urgenza/clinical/ottawa.pdf",
+      "quote": "An ankle x-ray series is required only if there is pain in the malleolar region and any one of the following: bone tenderness along the distal 6 cm of the posterior edge of the fibula or tip of the lateral malleolus; bone tenderness along the distal 6 cm of the posterior edge or tip of the medial malleolus; inability to weight bear for 4 steps both immediately and in the emergency department."
     },
     {
-      "chunkId": "erc8-bendaggio-neutrale",
-      "source": "knowledge_base/medicina_urgenza/clinic/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
-      "quote": "Nel 2020 il CoSTR della Task Force ILCOR ha formulato una raccomandazione neutrale, suggerendo l’applicazione oppure la non applicazione di un bendaggio compressivo per adulti con un trauma articolare della caviglia (raccomandazione debole, qualità delle prove molto bassa)"
+      "chunkId": "foot",
+      "source": "knowledge_base/medicina_urgenza/clinical/ottawa.pdf",
+      "quote": "A foot x-ray series is required only if there is pain in the midfoot and any one of the following: bone tenderness at the base of the 5th metatarsal; bone tenderness at the navicular bone; inability to weight bear for 4 steps both immediately and in the emergency department."
     },
     {
-      "chunkId": "erc8-distorsione-caviglia",
-      "source": "knowledge_base/medicina_urgenza/clinic/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
-      "quote": "La distorsione laterale della caviglia è una lesione chiusa delle articolazioni che i primi soccorritori si trovano frequentemente a dover gestire."
+      "chunkId": "ex",
+      "source": "knowledge_base/medicina_urgenza/clinical/ottawa.pdf",
+      "quote": "Exclusions. Less than 18 years old. Intoxication. Multiple painful injuries. Pregnant. Head injury. Diminished sensation due to neurological deficit."
     },
     {
-      "chunkId": "ottawa-rx-caviglia-solo-se",
-      "source": "knowledge_base/medicina_urgenza/clinic/ottawa.pdf",
-      "quote": "An ankle x-ray series is required only if there is pain in the malleolar region and any one of the following:"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
     },
     {
-      "chunkId": "ottawa-malleolo-laterale",
-      "source": "knowledge_base/medicina_urgenza/clinic/ottawa.pdf",
-      "quote": "Bone tenderness along the distal 6 cm of the posterior edge of the fibula or tip of the lateral malleolus"
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     },
     {
-      "chunkId": "ottawa-malleolo-mediale",
-      "source": "knowledge_base/medicina_urgenza/clinic/ottawa.pdf",
-      "quote": "Bone tenderness along the distal 6 cm of the posterior edge or tip of the medial malleolus"
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
     },
     {
-      "chunkId": "ottawa-quattro-passi",
-      "source": "knowledge_base/medicina_urgenza/clinic/ottawa.pdf",
-      "quote": "Inability to weight bear for 4 steps both immediately and in the emergency department"
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI RX 000000631 RX caviglia (due proiezioni) 36,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Quattro passi e palpazione dei malleoli prima di decidere sulla lastra.",
-      "Non richiedere la radiografia: le Ottawa Ankle Rules la chiedono solo con dolore malleolare e dolorabilità ossea o incapacità di fare 4 passi.",
-      "Ghiaccio e bendaggio, con la raccomandazione ERC che sul bendaggio è neutrale."
+      "Non richiedere la radiografia se i criteri di Ottawa non sono soddisfatti.",
+      "Non usare la regola nelle esclusioni: qui non ci sono."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Le Ottawa Ankle Rules, file ottawa.pdf, richiedono la serie radiografica della caviglia solo se c'è dolore nella regione malleolare e uno tra dolorabilità ossea del malleolo laterale, dolorabilità del malleolo mediale, o incapacità di caricare il peso per 4 passi subito e in pronto soccorso. Chiara non ha questi rilievi. Il ghiaccio e il bendaggio restano l'acronimo RICE dell'ERC 2021. Il bendaggio ha raccomandazione neutrale. Il testo di anatomia del trauma in cartella dice ancora che la radiografia serve sempre nelle distorsioni: non è la frase usata per ordinare la lastra.",
+      "art5Adherence": "Il foglio ottawa.pdf e la fonte unica di questa decisione. Non contiene una dose di farmaco. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Scrivere quanti passi fa e l'esito della palpazione dei malleoli.",
-        "Scrivere che la radiografia non è stata chiesta perché mancano i criteri di Ottawa Ankle Rules presenti in ottawa.pdf.",
-        "Registrare ghiaccio e bendaggio."
+        "Visitare i 6 cm posteriori e la punta dei malleoli.",
+        "Chiedere i quattro passi subito e in pronto soccorso.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "deambulazione",
-      "name": "Prova dei quattro passi",
-      "finding": "Fa quattro passi, zoppicando. Nessun punteggio è fissato.",
+      "examId": "visita-caviglia",
+      "name": "Visita della caviglia",
+      "finding": "Quattro passi possibili. Nessuna dolorabilita ossea sui malleoli. Dolore legamentoso.",
       "isAbnormal": true,
-      "priceEuro": 0,
       "isFatal": false
     },
     {
-      "examId": "palpazione-malleoli",
-      "name": "Palpazione dei malleoli",
-      "finding": "La palpazione dei malleoli non risveglia dolore. Il dolore è riferito più in basso.",
-      "isAbnormal": true,
-      "priceEuro": 0,
+      "examId": "passi",
+      "name": "Carico sui quattro passi",
+      "finding": "Li compie subito dopo il trauma e anche in pronto soccorso.",
+      "isAbnormal": false,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "rx-ossa",
-      "name": "RX caviglia",
-      "finding": "Non richiesta su questo rilievo: quattro passi e malleoli non dolenti.",
+      "examId": "rx-caviglia",
+      "name": "Radiografia della caviglia",
+      "finding": "I criteri per richiederla non ci sono.",
       "isAbnormal": false,
-      "priceEuro": 30,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Le Ottawa Ankle Rules richiedono la lastra solo con dolore malleolare e dolorabilità ossea o incapacità di fare 4 passi. Qui la paziente fa quattro passi e i malleoli non sono dolenti."
+      "inappropriate": true,
+      "wasteRationale": "RX caviglia due proiezioni a 36,00 euro anche se i criteri di Ottawa per richiederla non ci sono. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 36
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 84,
-      "bloodPressure": "118/72",
+      "heartRate": 80,
+      "bloodPressure": "118/70",
       "spo2": 99,
-      "temperature": 36.6,
-      "respiratoryRate": 16
+      "temperature": 36.5,
+      "respiratoryRate": 14
     },
-    "examBudgetEuro": 15,
-    "demographics": { "age": 25, "sex": "F", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Quattro passi",
-        "result": "Cammina per quattro passi, zoppicando.",
-        "isPositive": true
-      },
-      {
-        "signName": "Palpazione dei malleoli",
-        "result": "Nessun dolore alla palpazione dei malleoli.",
-        "isPositive": false
-      }
-    ],
+    "demographics": {
+      "age": 28,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "deambulazione": { "finding": "Quattro passi possibili, con zoppia.", "isAbnormal": true, "price": 0 },
-        "palpazione-malleoli": { "finding": "Malleoli non dolenti alla palpazione.", "isAbnormal": true, "price": 0 },
-        "rx-ossa": { "finding": "Non richiesta su questi rilievi.", "isAbnormal": false, "price": 30 }
+        "visita-caviglia": {
+          "finding": "Quattro passi possibili. Nessuna dolorabilita ossea sui malleoli. Dolore legamentoso.",
+          "isAbnormal": true
+        },
+        "passi": {
+          "finding": "Li compie subito dopo il trauma e anche in pronto soccorso.",
+          "isAbnormal": false
+        },
+        "rx-caviglia": {
+          "finding": "I criteri per richiederla non ci sono.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Ghiaccio",
+          "label": "Nessuna radiografia",
           "anyOf": [
             {
-              "id": "ghiaccio",
-              "label": "Ghiaccio",
-              "aliases": ["ghiaccio", "ice", "freddo", "crioterapia"]
+              "id": "visita",
+              "label": "Solo visita secondo Ottawa",
+              "aliases": [
+                "visita",
+                "ottawa"
+              ]
             }
           ]
-        },
+        }
+      ],
+      "contraindicated": [
         {
-          "label": "Bendaggio",
-          "anyOf": [
-            {
-              "id": "bendaggio",
-              "label": "Bendaggio compressivo",
-              "aliases": ["bendaggio", "fasciatura", "compressione", "tutore"]
-            }
+          "id": "rx",
+          "label": "Radiografia non indicata",
+          "aliases": [
+            "radiografia",
+            "lastra"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Quattro passi documentati.",
-        "Malleoli non dolenti alla palpazione.",
-        "Niente radiografia.",
-        "Ghiaccio e bendaggio."
+        "Niente radiografia di caviglia.",
+        "Niente radiografia del piede.",
+        "Esclusioni verificate."
       ],
       "penalties": [
         {
-          "id": "rx-ossa",
-          "kind": "economic",
-          "trigger": "Radiografia di caviglia con quattro passi possibili e malleoli non dolenti."
+          "id": "rx",
+          "kind": "clinical",
+          "trigger": "Lastra senza i criteri."
         }
       ],
       "citationLimits": [
-        "Le Ottawa Ankle Rules sono in ottawa.pdf. La lastra di caviglia è richiesta solo se c'è dolore nella regione malleolare e almeno uno tra dolorabilità ossea del malleolo laterale, dolorabilità del malleolo mediale, e incapacità di fare 4 passi subito e in pronto soccorso. Il PDF non contiene la frase «non fare la radiografia»: l'astensione è l'applicazione di quel «only if». Le esclusioni scritte sono età sotto i 18 anni, intossicazione, traumi dolorosi multipli, gravidanza, trauma cranico, deficit di sensibilità. Chiara ha 25 anni e non rientra in queste esclusioni.",
-        "In atls.pdf, nel capitolo di anatomia, è scritto che fratture, distorsioni o lussazioni possono restare nascoste e che per togliere ogni ambiguità è sempre necessario un accertamento radiologico. Quella frase contrasta con il brief. Non è citata come motivo per fare la lastra in questo caso, e non è nascosta.",
-        "Il ghiaccio per lo strappo muscolare, nello stesso atls.pdf, riguarda il punto di unione tra muscolo e tendine, non la distorsione di caviglia. Per il ghiaccio di Chiara si usa solo la voce Freddo/Ghiaccio dell'acronimo RICE dell'ERC.",
-        "La raccomandazione ERC sul bendaggio è neutrale: applicarlo oppure no, evidenza molto bassa, studi fatti in ospedale. Il bendaggio resta nel percorso perché è nel brief e nell'acronimo RICE, non perché il CoSTR lo renda obbligatorio.",
-        "Nel PDF, dopo Elevazione, c'è un segno di virgolette prima di «o Riposo». La citazione lo conserva.",
-        "Riposo ed elevazione sono nell'acronimo e non sono un esame a parte."
+        "Il foglio non indica un farmaco ne una dose."
       ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "HIGH",
+    "healthLiteracy": "MEDIUM",
     "emotionalState": "COLLABORATIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "GOOD", "stressLevel": "MEDIUM", "socialSupport": "STRONG" },
-    "communicationStyle": "Vuole tornare a giocare e chiede esplicitamente di non fare esami inutili. Accetta ghiaccio e bendaggio se le si dice che ha fatto quattro passi e che i malleoli, premuti, non fanno male."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "GOOD",
+      "stressLevel": "LOW",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole evitare la lastra se la regola non la chiede. Accetta il bendaggio spiegato senza inventare una dose."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Si puo usare la regola",
+      "prompt": "Ha 28 anni, non e in gravidanza, non e intossicata, una sola lesione, niente trauma cranico, sensibilita integra. La regola si applica?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Si. Non e in nessuna esclusione del foglio",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La usi anche se fosse incinta o avesse un trauma cranico",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Regola usata dove e esclusa",
+      "prompt": "Il foglio esclude i minori di 18 anni, l'intossicazione, le lesioni dolorose multiple, la gravidanza, il trauma cranico e la sensibilita ridotta da deficit neurologico. In quei casi la regola non decide la lastra.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Quattro passi",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Li fa adesso e li ha fatti subito. Che cosa manca per la lastra della caviglia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Manca l'incapacita a caricare e manca la dolorabilita ossea. La lastra della caviglia non e richiesta Non la esegui ora.",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "RX caviglia due proiezioni a 36,00 euro anche se i criteri di Ottawa per richiederla non ci sono",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI RX 000000631 RX caviglia (due proiezioni) 36,00. RX caviglia due proiezioni a 36,00 euro anche se i criteri di Ottawa per richiederla non ci sono. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Dove premi",
+      "prompt": "Il dolore e sul legamento, non sull'osso. I 6 cm posteriori e la punta contano?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Conta la dolorabilita ossea, non il solo legamento. Qui l'osso non duole: non e un criterio",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Chiami positivo un malleolo che duole solo sul legamento",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Punto osseo scambiato",
+      "prompt": "Il foglio parla di bone tenderness sul bordo posteriore distale o sulla punta del malleolo. Il dolore legamentoso non e quel criterio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Il piede",
+      "prompt": "Non ha dolore al mesopiede, ne alla base del quinto metatarso, ne allo scafoide. Radiografia del piede?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. Anche quella serie ha i suoi tre criteri, e non ci sono",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Fai comunque la serie del piede insieme alla caviglia",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Serie del piede non richiesta",
+      "prompt": "La serie del piede e richiesta solo con dolore al mesopiede e dolorabilita alla base del quinto metatarso o allo scafoide, oppure incapacita ai quattro passi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Nessuna dose inventata",
+      "prompt": "Chiede un antidolorifico. Questo foglio indica una molecola?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. Non inventi una dose. L'atto di questo caso e non chiedere la lastra",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Scrivi una dose di FANS che il foglio di Ottawa non contiene",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco non nel foglio",
+      "prompt": "ottawa.pdf decide la radiografia. Non contiene un farmaco. Una dose aggiunta non e quel documento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se smette di camminare",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Dopo un'ora non carica piu i quattro passi. La regola cambia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Si. L'incapacita ai quattro passi, subito e in pronto soccorso, e un criterio: allora la serie si richiede, se c'e dolore malleolare In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Minorenne ipotetico",
+      "prompt": "Il marito dice di non dare antidolorifici finche non arriva. Se avesse avuto 16 anni, avresti usato la stessa regola per evitarle la lastra?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. Sotto i 18 anni e un'esclusione. Non useresti Ottawa per negare la radiografia Non aspetti il marito.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Aspetti il marito prima di qualsiasi analgesia, anche se lei, capace, la chiede",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti il marito prima di qualsiasi analgesia, anche se lei, capace, la chiede contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Niente lastra: i criteri non ci sono",
+      "prompt": "Cammina quattro passi e i malleoli ossei non fanno male. Niente radiografia di caviglia e niente serie del piede. Le esclusioni non ci sono. Nessun farmaco inventato.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

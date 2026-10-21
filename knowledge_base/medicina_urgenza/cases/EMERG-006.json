@@ -1,129 +1,126 @@
 {
   "id": "EMERG-006",
   "code": "EMERG-006",
-  "title": "Uomo di 55 anni con dolore toracico da 2 ore e STEMI anteriore",
-  "description": "Marco, 55 anni, arriva in pronto soccorso per dolore toracico oppressivo da 2 ore. Sudato, inquieto. Parametri: PA 148/92 mmHg, FC 102 bpm, FR 22 atti/min, SpO2 94%, temperatura 36.8. In osservazione compare una tachicardia ventricolare non sostenuta.",
+  "title": "Uomo di 60 anni con ROSC e sopraslivellamento anteriore",
+  "description": "Marco, 60 anni, arresto testimoniato, ROSC mantenuto, ECG con sopraslivellamento anteriore. Il laboratorio di emodinamica e raggiungibile in 40 minuti dalla diagnosi. Parametri: PA 104/68 mmHg, FC 96 bpm, FR 16 atti/min, SpO2 96% con ossigeno, temperatura 36.4. Nessuna DAT.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["cardiologia"],
-  "condition": "STEMI anteriore con aritmia ventricolare in pronto soccorso",
-  "frequencyCategory": "HIGH",
+  "secondarySpecialties": [
+    "cardiologia"
+  ],
+  "condition": "ROSC mantenuto e STEMI, con PCI possibile entro 120 minuti",
+  "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "04_LG_ESC_ACS (e1-e112).pdf",
-  "diagnosis": "Infarto miocardico anteriore con sopraslivellamento del tratto ST. Complicanza in PS: tachicardia ventricolare non sostenuta. Non è un NSTEMI.",
-  "pastMedicalHistory": "Fumatore. Nessun infarto dichiarato. Non è in antiaggregante. Non ha assunto inibitori della fosfodiesterasi. Nessuna allergia all'aspirina nel racconto. La TV non sostenuta non è nel racconto di partenza: compare in osservazione.",
-  "presentation": "Dolore al petto da due ore, peso, irradiazione al braccio sinistro, sudorazione. Chiede che gli togliate il dolore e che chiamiate il laboratorio di emodinamica. Dopo l'ECG, mentre è monitorato, ha una salva di tachicardia ventricolare che si interrompe da sola.",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf; LG-ERC-2021_Capitolo-12_Etica.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Con ROSC sostenuto e STEMI, se la PCI primaria e possibile entro 120 minuti dalla diagnosi si attiva il laboratorio e si trasferisce. Se non e possibile in quel tempo, trombolisi e trasferimento al centro di PCI. Non c'e una dose di morfina in questo brano.",
+  "pastMedicalHistory": "Arresto extraospedaliero testimoniato. ROSC mantenuto. Nessuna DAT che rifiuti le cure. I familiari non sono ancora arrivati.",
+  "presentation": "ECG post-rianimazione con ST elevato. Il tempo diagnosi-PCI stimato e 40 minuti, quindi sotto i 120.",
   "redHerrings": [
-    "Chiede se può aspettare il figlio e fare l'ECG «tra un quarto d'ora».",
-    "Un collega propone di mandarlo in radiologia per una PET-TC prima della sala."
+    "Un collega vuole la trombolisi in pronto soccorso anche se la sala e a 40 minuti."
   ],
-  "timeLimitMinutes": 90,
+  "timeLimitMinutes": 25,
   "patientDeteriorationThreshold": 20,
-  "patientPrompt": "Mi chiamo Marco, ho 55 anni. Ho un macigno sul petto da due ore, sudo, ho paura di morire. Fatemi subito l'elettrocardiogramma, toglietemi il dolore e chiamate chi mi apre le coronarie. Restatemi accanto: il cuore ha già saltato dei colpi mentre ero sul lettino.",
-  "correctSolution": "ECG a 12 derivazioni quanto prima, comunque entro 10 minuti dal primo contatto medico, e interpretazione immediata. Con sopraslivellamento anteriore: strategia di riperfusione d'emergenza e trasferimento diretto a un centro con emodinamica attiva h24. Oppioide ev (morfina) per il dolore toracico severo. Monitoraggio continuo: lo STEMI ha rischio di aritmie maligne. Secondo ECG se i sintomi cambiano. Dire a Marco la diagnosi e che cosa succede in sala, secondo SPIKES Knowledge. La TV non sostenuta non ha una frase dedicata: resta nel percorso, senza citazione di trattamento specifico.",
+  "patientPrompt": "Il paziente non parla. Il soccorritore dice: ha ripreso il circolo, il tracciato mostra un infarto anteriore. I parenti non ci sono. La sala e a quaranta minuti.",
+  "correctSolution": "Attivare l'emodinamica e trasferire per PCI immediata, perche il tempo e sotto i 120 minuti. Non fare la trombolisi al posto della PCI disponibile in tempo. Non aspettare i familiari: non ci sono criteri per non iniziare il percorso, e le informazioni si completano dopo. Non inventare la morfina: questo brano non la dosa.",
   "goldStandardPath": [
     "ecg",
-    "troponina-hs",
-    "monitoraggio-continuo",
-    "attivazione-pci",
-    "ecg-seriato",
-    "ega"
+    "rosc"
   ],
-  "goldPathNarrative": "ECG entro 10 minuti, prelievo della hs-cTn, sollievo del dolore con oppioide ev, attivazione della PCI primaria, monitoraggio continuo dopo la TV non sostenuta, secondo ECG e rivalutazione dei parametri. La TV non sostenuta non ha una raccomandazione estraibile: va osservata, senza una terapia nominata dai PDF.",
+  "goldPathNarrative": "Riconosci STEMI e ROSC. Attivi la sala entro i 120 minuti. Non trombolisi e non aspetti i parenti.",
   "examLatencies": {
-    "ecg": 8,
-    "troponina-hs": 45,
-    "monitoraggio-continuo": 5,
-    "attivazione-pci": 20,
-    "ecg-seriato": 120,
-    "ega": 15,
-    "pet-tc": 180
+    "ecg": 5,
+    "rosc": 1,
+    "trombolisi": 15
   },
   "anamnesisQuestions": [
     {
-      "id": "esordio",
-      "prompt": "Da quanti minuti è iniziato il dolore, ed è un peso o un bruciore?",
+      "id": "rosc",
+      "prompt": "Il circolo spontaneo e mantenuto?",
       "critical": true,
-      "expectedKeywords": ["due ore", "peso", "petto", "minuti"],
-      "rationale": "L'ora di inizio conta per lo STEMI e per la hs-cTn."
+      "expectedKeywords": [
+        "rosc",
+        "circolo",
+        "mantenuto"
+      ],
+      "rationale": "Il ramo STEMI del testo e per il ROSC sostenuto."
     },
     {
-      "id": "pde5",
-      "prompt": "Ha preso farmaci per l'erezione nelle ultime 24-48 ore?",
+      "id": "tempo",
+      "prompt": "In quanti minuti si arriva in emodinamica?",
       "critical": true,
-      "expectedKeywords": ["erezione", "viagra", "nitrati", "farmaci"],
-      "rationale": "La linea guida ESC avverte di non dare nitrati se ha assunto inibitori della PDE5. Qui non li ha presi."
+      "expectedKeywords": [
+        "minuti",
+        "sala",
+        "tempo"
+      ],
+      "rationale": "La soglia scritta e 120 minuti dalla diagnosi."
     },
     {
-      "id": "palpitazioni",
-      "prompt": "Ha sentito il cuore scappare o svenire mentre era sul lettino?",
+      "id": "dat",
+      "prompt": "C'e una DAT che rifiuta le cure?",
       "critical": true,
-      "expectedKeywords": ["cuore", "scappare", "svenire", "palpit"],
-      "rationale": "La TV non sostenuta compare in osservazione. Va chiesta e monitorata."
-    },
-    {
-      "id": "paura",
-      "prompt": "Che cosa la spaventa di più adesso?",
-      "critical": true,
-      "expectedKeywords": ["morire", "paura", "cuore", "sala"],
-      "rationale": "SPIKES Knowledge ed Emotions, senza ritardare l'attivazione della sala."
+      "expectedKeywords": [
+        "dat",
+        "rifiuta",
+        "parente"
+      ],
+      "rationale": "Senza quel criterio non si aspetta per iniziare."
     }
   ],
   "physicalExam": {
-    "killipClass": "II",
-    "summary": "Sudato, inquieto, parlante. Toni tachicardici, soffi non descritti. Murmure presente, qualche rantolo basale non quantificato. Polsi simmetrici. Addome trattabile. Dopo l'arrivo: salva di TV non sostenuta sul monitor, poi di nuovo sinusale."
+    "summary": "Cosciente dopo il ROSC, perfuso, non in edema. ECG con ST elevato anteriore."
   },
   "escCitations": [
     {
-      "chunkId": "esc-acs-ecg-10-min",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "Si raccomanda di ottenere ed interpretare un ECG a 12 derivazioni quanto prima possibile dal FMC ma comunque entro 10 min"
+      "chunkId": "120",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Strategia d'intervento coronarico percutaneo primario (PCI) in 120 min o meno dalla diagnosi: attivare il laboratorio di emodinamica e trasferire il paziente per la PCI immediata."
     },
     {
-      "chunkId": "esc-acs-riperfusione-emodinamica",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "vi è indicazione per l’avvio di una strategia di riperfusione d’emergenza e per il trasferimento diretto ad un centro do- tato di emodinamica attivo h24/7 giorni"
+      "chunkId": "trombo",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "PCI primaria non possibile in 120 min o meno: eseguire la trombolisi preospedaliera e trasferire il paziente al centro di PCI."
     },
     {
-      "chunkId": "esc-acs-pci-primaria",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "PCI primariaa PCI d’emergenza con palloncino o con impianto di stent o di altro dispositivo approvato eseguita sull’IRA senza precedente fibrinolisi"
+      "chunkId": "start",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-12_Etica.pdf",
+      "quote": "I medici dovrebbero iniziare la RCP nei pazienti per i quali non ricorrano i criteri per non iniziare la RCP. I trattamenti potranno essere quindi resi piu adeguati al caso quando saranno disponibili maggiori informazioni."
     },
     {
-      "chunkId": "esc-acs-morfina-dolore",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "Per alleviare il dolore toracico severo dovrebbe essere presa in considerazione la somministrazione i.v. di oppioidi (es. morfina 5-10 mg)"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
     },
     {
-      "chunkId": "esc-acs-secondo-ecg",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "In caso di sintomi ricorrenti o di incertezza diagnostica si raccomanda di eseguire un secondo ECG a 12 derivazioni"
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     },
     {
-      "chunkId": "esc-acs-aritmie-maligne",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "CS, arresto cardiaco con coma, aritmie cardiache maligne (potenzialmente fatali), blocco atrioventricolare di alto grado e insufficienza rena- le acuta (con oliguria)"
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI TC 000004220 TC total body senza contrasto (cranio, torace, addome e pelvi) 320,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "ECG a 12 derivazioni interpretato entro 10 minuti dal primo contatto.",
-      "Attivazione della strategia di riperfusione verso emodinamica h24.",
-      "Monitoraggio continuo dopo la TV non sostenuta e secondo ECG se i sintomi cambiano."
+      "PCI immediata se il tempo dalla diagnosi e entro 120 minuti.",
+      "Non sostituirla con la trombolisi quando la sala e raggiungibile in quel tempo."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Le frasi su ECG, riperfusione d'emergenza, PCI primaria e morfina ev sono della linea guida ESC 2023 sulle ACS, edizione italiana. La TV non sostenuta non è nominata: resta nel percorso senza citazione di farmaco. SPIKES Knowledge è nel PDF sulla comunicazione della diagnosi.",
+      "art5Adherence": "Il capitolo ERC sulle circostanze speciali fissa i 120 minuti. Il capitolo etico dice di iniziare quando non ci sono criteri per non farlo, e di aggiustare dopo, quando arrivano piu informazioni. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Annotare ora del primo contatto e ora dell'ECG.",
-        "Annotare l'attivazione della sala di emodinamica.",
-        "Registrare la salva di TV non sostenuta sul monitor e gli ECG successivi."
+        "Non aspettare i familiari per attivare la sala.",
+        "Non inventare una dose di morfina assente da questo brano.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
@@ -131,150 +128,348 @@
     {
       "examId": "ecg",
       "name": "ECG a 12 derivazioni",
-      "finding": "Ritmo sinusale. Sopraslivellamento del tratto ST nelle derivazioni precordiali anteriori. Nessun millimetro è fissato oltre il sopraslivellamento descritto.",
+      "finding": "Sopraslivellamento anteriore dopo il ROSC.",
       "isAbnormal": true,
-      "priceEuro": 15,
-      "isFatal": true
-    },
-    {
-      "examId": "troponina-hs",
-      "name": "Troponina ad alta sensibilità",
-      "finding": "Prelievo alla presentazione. Nessun ng/L è fissato. Non ritarda la sala.",
-      "isAbnormal": true,
-      "priceEuro": 18,
       "isFatal": false
     },
     {
-      "examId": "monitoraggio-continuo",
-      "name": "Monitoraggio continuo ECG e pressione",
-      "finding": "In osservazione: salva di tachicardia ventricolare non sostenuta, poi ritorno al sinusale. Nessuna energia di defibrillazione è descritta.",
+      "examId": "rosc",
+      "name": "Circolo spontaneo",
+      "finding": "ROSC mantenuto. Pressione 104/68.",
       "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
-      "examId": "ecg-seriato",
-      "name": "ECG seriato a 2 ore",
-      "finding": "Controllo dopo due ore: persistenza del sopraslivellamento anteriore in attesa della sala, senza un millimetraggio nuovo.",
-      "isAbnormal": true,
-      "priceEuro": 15,
-      "isFatal": false
-    },
-    {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa",
-      "finding": "Rivalutazione dei gas dopo la fase di monitoraggio. Nessun pH è fissato.",
-      "isAbnormal": false,
-      "priceEuro": 10,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non fa parte della strategia di riperfusione d'emergenza dello STEMI.",
+      "examId": "trombolisi",
+      "name": "Trombolisi al posto della PCI in tempo",
+      "finding": "La sala e a 40 minuti, sotto la soglia dei 120.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Le raccomandazioni copiate nominano ECG, hs-cTn e PCI primaria. Non nominano la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "La trombolisi del testo e per quando la PCI primaria non e possibile entro 120 minuti."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 102,
-      "bloodPressure": "148/92",
-      "spo2": 94,
-      "temperature": 36.8,
-      "respiratoryRate": 22
+      "heartRate": 96,
+      "bloodPressure": "104/68",
+      "spo2": 96,
+      "temperature": 36.4,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 80,
-    "demographics": { "age": 55, "sex": "M", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Dolore toracico oppressivo",
-        "result": "Peso retrosternale da 2 ore, irradiazione al braccio sinistro, sudorazione.",
-        "isPositive": true
-      },
-      {
-        "signName": "Polsi periferici",
-        "result": "Polsi simmetrici. Nessuna differenza pressoria è descritta.",
-        "isPositive": false
-      }
-    ],
+    "demographics": {
+      "age": 60,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
         "ecg": {
-          "finding": "Sopraslivellamento ST anteriore. Poi, in osservazione, salva di TV non sostenuta.",
-          "isAbnormal": true,
-          "price": 15
+          "finding": "Sopraslivellamento anteriore dopo il ROSC.",
+          "isAbnormal": true
         },
-        "troponina-hs": {
-          "finding": "Campione prelevato. Nessun ng/L è fissato.",
-          "isAbnormal": true,
-          "price": 18
+        "rosc": {
+          "finding": "ROSC mantenuto. Pressione 104/68.",
+          "isAbnormal": true
         },
-        "ecg-seriato": {
-          "finding": "Controllo a 2 ore: sopraslivellamento anteriore persistente.",
-          "isAbnormal": true,
-          "price": 15
-        },
-        "ega": {
-          "finding": "Nessun pH fissato.",
-          "isAbnormal": false,
-          "price": 10
-        },
-        "pet-tc": {
-          "finding": "Non indicata prima della sala.",
-          "isAbnormal": false,
-          "price": 950
+        "trombolisi": {
+          "finding": "La sala e a 40 minuti, sotto la soglia dei 120.",
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Oppioide ev per il dolore toracico severo",
+          "label": "PCI entro 120 minuti",
           "anyOf": [
             {
-              "id": "morfina",
-              "label": "Morfina ev",
-              "aliases": ["morfina", "oppioide", "oppioidi"]
+              "id": "pci",
+              "label": "Trasferimento in emodinamica",
+              "aliases": [
+                "pci",
+                "emodinamica"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "trombolisi",
+          "label": "Trombolisi con PCI disponibile in tempo",
+          "aliases": [
+            "trombolisi",
+            "fibrinolisi"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "ECG interpretato entro 10 minuti.",
-        "Attivazione della PCI / emodinamica h24.",
-        "Sollievo del dolore con oppioide ev.",
-        "Monitoraggio continuo dopo la TV non sostenuta.",
-        "Spiegare a Marco la diagnosi."
+        "Sala attivata.",
+        "Niente trombolisi.",
+        "Niente attesa dei parenti."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto dell'attivazione della sala."
+          "id": "attesa",
+          "kind": "clinical",
+          "trigger": "Attesa dei familiari prima di attivare la PCI."
         }
       ],
       "citationLimits": [
-        "FMC nel testo è il primo contatto medico. I 10 minuti si misurano da lì.",
-        "La frase sulla PCI primaria definisce la procedura sull'IRA senza fibrinolisi precedente. Non fissa i minuti porta-pallone.",
-        "La TV non sostenuta non è nominata. C'è la fibrillazione ventricolare tra le complicanze immediate e le aritmie maligne in ICCU. Nessuna energia né un antiaritmico è citato per questa salva.",
-        "La morfina è 5-10 mg ev per il dolore toracico severo. Il caso non obbliga i milligrammi.",
-        "I nitrati sublinguali sono per i sintomi ischemici, con avvertenza sui PDE5. Non sostituiscono la sala."
+        "Questo brano non indica i milligrammi della morfina ne dell'agente trombolitico."
       ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "MEDIUM",
-    "emotionalState": "ANXIOUS",
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Ha paura di morire e chiede che gli si dica subito se il cuore è chiuso. Collabora se gli si spiega l'ECG, il dolore e il trasferimento in emodinamica senza giri di parole."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Non puo decidere. I familiari non ci sono. Il piano si spiega a chi arriva dopo, senza aver fermato il trasferimento."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Che ritmo di percorso",
+      "prompt": "ROSC mantenuto e ST elevato. Quale ramo del testo apri?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Pazienti con ROSC sostenuto e STEMI",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo tratti come un dolore toracico stabile, senza attivare la rete",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "STEMI dopo ROSC non attivato",
+      "prompt": "Il testo: nei pazienti STEMI con ROSC sostenuto la strategia dipende dal tempo fra diagnosi e PCI. Non attivarla lascia un infarto senza la riperfusione scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "120 minuti",
+      "prompt": "La sala si raggiunge in 40 minuti. Che fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Attivi il laboratorio e trasferisci per la PCI immediata",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Fai la trombolisi in pronto soccorso e non chiami la sala",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Trombolisi non indicata",
+      "prompt": "PCI possibile entro 120 minuti: attivare il laboratorio e trasferire. La trombolisi preospedaliera e scritta se la PCI primaria non e possibile in quel tempo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "I parenti non ci sono",
+      "prompt": "Il figlio chiede di non chiamare l'emodinamica finche non arriva. Nessuna DAT. I familiari sono in viaggio. Aspetti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. Non ci sono criteri per non iniziare. Le informazioni si completano dopo Non aspetti il figlio.",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Aspetti il figlio prima di attivare la sala, anche se non c'e una volonta contraria recepibile",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti il figlio prima di attivare la sala, anche se non c'e una volonta contraria recepibile contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Morfina",
+      "prompt": "Il dolore residuo c'e. Questo brano da una dose di morfina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. Non la inventi. Il brano decide la riperfusione, non i milligrammi dell'oppioide",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Scrivi 5 mg di morfina e li attribuisci a questo PDF",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non nel brano",
+      "prompt": "Il capitolo sulla trombosi coronarica non riporta una dose di morfina. Aggiungerla non e il testo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG gia fatto",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi una TC torace prima di chiamare la sala, a paziente stabile dopo il ROSC ma con ST elevato.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. Il passo scritto e la PCI, non una TC che ritarda i 120 minuti Non la esegui ora.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "TC total body senza contrasto a 320,00 euro prima di attivare la sala, con la PCI possibile in 40 minuti",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI TC 000004220 TC total body senza contrasto (cranio, torace, addome e pelvi) 320,00. TC total body senza contrasto a 320,00 euro prima di attivare la sala, con la PCI possibile in 40 minuti. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se la sala fosse a tre ore",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Se il tempo diagnosi-PCI fosse sopra i 120 minuti, che cambierebbe?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Trombolisi e trasferimento al centro di PCI In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "DAT",
+      "prompt": "Se esistesse una DAT valida che rifiuta la rianimazione e le cure invasive, e fosse coerente con questo quadro, che faresti prima di trasferirlo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Sarebbe un criterio per non iniziare quel percorso. Qui quella DAT non c'e, quindi trasferisci",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "La ignoreresti anche se fosse valida e coerente",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "DAT coerente ignorata",
+      "prompt": "Tra i criteri per non avviare la RCP ci sono le DAT valide e coerenti che rifiutano la RCP. Ignorarle non e il capitolo etico. In questo caso non ci sono: il trasferimento resta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "PCI, non la trombolisi e non l'attesa",
+      "prompt": "ROSC e STEMI, sala a 40 minuti: attivi l'emodinamica. Non trombolisi. Non aspetti i parenti. Nessuna dose di morfina inventata.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

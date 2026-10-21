@@ -1,258 +1,480 @@
 {
   "id": "EMERG-019",
   "code": "EMERG-019",
-  "title": "Ragazzo di 20 anni caduto dall'alto, GCS 7, anisocoria",
-  "description": "Luca, 20 anni, caduta dall'alto. Parametri: PA 162/90 mmHg, FC 58 bpm, FR 10 atti/min, SpO2 90%, temperatura 36.4. GCS 7. Anisocoria. Non protegge le vie aeree.",
+  "title": "Bambino di 6 anni, caduta, GCS 10",
+  "description": "Pietro, 6 anni, caduta, GCS 10. Nessuna derivazione, nessuna coagulopatia. Parametri: PA 100/60 mmHg, FC 110 bpm, FR 24 atti/min, SpO2 96% in aria, temperatura 36.6. Un genitore e presente e chiede di non aspettare l'altro per stabilizzarlo.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["neurologia"],
-  "condition": "Trauma cranico severo con GCS 7 e anisocoria",
+  "secondarySpecialties": [
+    "pediatria"
+  ],
+  "condition": "Trauma cranico maggiore pediatrico, GCS non superiore a 13",
   "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "atls.pdf",
-  "diagnosis": "Trauma cranico severo: GCS 7, anisocoria. Non è un paziente da mandare in TC prima delle vie aeree. Non è un ictus ischemico da lisare.",
-  "pastMedicalHistory": "Nessuna malattia dichiarata. Caduta dall'alto. Non è intubato all'arrivo. La pressione intracranica e il mannitololo non hanno frase in questi PDF: restano nel percorso a citazione vuota. La TC è nel gold path senza citazione.",
-  "presentation": "GCS 7, anisocoria, FR 10. Intubazione orotracheale (GCS < 8) contemporanea al rachide, ossigeno, poi imaging. Rivalutazione GCS a 1 ora in attesa di trasferimento. Non la TAC prima del tubo.",
+  "guidelineRef": "17.newsletter_simyoung_traumacranico.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "GCS non superiore a 13: dopo la stabilizzazione ABCDE la TC e sempre indicata. Non e un trauma minore, che e GCS 14-15. La radiografia del cranio e l'ecografia transfontanellare non sono raccomandate per la diagnosi di emorragia intracranica. Se poi la TC mostrasse una lesione non rilevante e il GCS restasse 14-15 senza peggiorare, la TC di controllo routinaria non e indicata. I predittori PECARN sono in una tabella non leggibile come testo: non si inventano.",
+  "pastMedicalHistory": "Nessuna derivazione ventricolo-peritoneale, nessuna coagulopatia. Un genitore presente.",
+  "presentation": "GCS 10 dopo una caduta. Non e il gruppo 14-15.",
   "redHerrings": [
-    "Un collega spinge la TC cranio prima di intubare.",
-    "Un altro propone trombolisi per l'anisocoria."
+    "Propongono sei ore di osservazione al posto della TC, e una radiografia del cranio."
   ],
-  "timeLimitMinutes": 60,
-  "patientDeteriorationThreshold": 10,
-  "patientPrompt": "Sono il padre di Luca, ha 20 anni, è caduto. Non risponde, una pupilla è diversa. Intubatelo prima della TAC, poi fatemi vedere le immagini. Tra un'ora rivedete se il coma è lo stesso. Ditemi se può morire.",
-  "correctSolution": "Vie aeree prima di tutto, con protezione del rachide. Tabella ATLS: se GCS inferiore a 8, intubazione orotracheale. Anisocoria tra i segni di trauma cranico; ossigeno e ospedalizzazione rapida. TC e gestione della PIC: nel percorso, citazione vuota. Rivalutazione GCS a 1 ora. SPIKES Knowledge col padre.",
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Il padre dice: Pietro ha 6 anni, e caduto, non parla bene, il Glasgow e 10. Non aspettate sua madre per stabilizzarlo. Non fategli una lastra del cranio al posto della TAC.",
+  "correctSolution": "ABCDE, poi TC, sempre, perche il GCS e 10. Non l'osservazione di 6 ore, che e per il rischio intermedio, non per il GCS sotto o uguale a 13. Non la radiografia del cranio. Non aspettare l'altro genitore per l'ABCDE. Non inventare i predittori PECARN.",
   "goldStandardPath": [
-    "intubazione",
-    "abcde",
-    "ega",
-    "tc",
-    "rivalutazione-gcs-1h",
-    "trasferimento"
+    "gcs",
+    "abcde"
   ],
-  "goldPathNarrative": "Intubazione per GCS 7 prima dell'imaging, ABCDE e ossigeno, emogas, TC, rivalutazione GCS a 1 ora, trasferimento. PIC e osmoterapia: citazione vuota.",
+  "goldPathNarrative": "Stabilizzi con ABCDE. Chiedi la TC. Non la lastra e non le sei ore.",
   "examLatencies": {
-    "intubazione": 4,
-    "abcde": 5,
-    "ega": 8,
-    "tc": 20,
-    "rivalutazione-gcs-1h": 60,
-    "trasferimento": 70,
-    "pet-tc": 180
+    "gcs": 1,
+    "abcde": 2,
+    "rx-cranio": 20
   },
   "anamnesisQuestions": [
     {
-      "id": "altezza-caduta",
-      "prompt": "Da che altezza è caduto, e ha battuto la testa?",
+      "id": "gcs",
+      "prompt": "Che Glasgow ha?",
       "critical": true,
-      "expectedKeywords": ["caduta", "altezza", "testa", "battuto"],
-      "rationale": "Dinamica. I testi ATLS trattano il trauma cranico come sempre pericoloso."
+      "expectedKeywords": [
+        "10",
+        "glasgow",
+        "gcs"
+      ],
+      "rationale": "Sotto o uguale a 13 la TC e sempre indicata dopo l'ABCDE."
     },
     {
-      "id": "gcs-esordio",
-      "prompt": "Ha parlato dopo la caduta, o è rimasto così?",
+      "id": "shunt",
+      "prompt": "Ha una derivazione o una coagulopatia?",
       "critical": true,
-      "expectedKeywords": ["parlato", "coma", "subito", "caduta"],
-      "rationale": "GCS all'arrivo 7. La rivalutazione a 1 ora è nel percorso, non una frase PDF."
+      "expectedKeywords": [
+        "derivazione",
+        "coagulopatia",
+        "no"
+      ],
+      "rationale": "Sono eccezioni del trauma minore, non il motivo della TC in questo GCS."
     },
     {
-      "id": "pupille",
-      "prompt": "Le pupille erano già diverse sul luogo, o è successo dopo?",
+      "id": "madre",
+      "prompt": "Si deve aspettare l'altro genitore prima di stabilizzarlo?",
       "critical": true,
-      "expectedKeywords": ["pupille", "diverse", "anisocoria", "dopo"],
-      "rationale": "ATLS elenca l'anisocoria tra i segni di trauma cranico."
-    },
-    {
-      "id": "padre",
-      "prompt": "Che cosa vuole sapere adesso sul coma di suo figlio?",
-      "critical": true,
-      "expectedKeywords": ["coma", "morire", "tubo", "tac"],
-      "rationale": "SPIKES Knowledge col padre, senza ritardare il tubo."
+      "expectedKeywords": [
+        "madre",
+        "no",
+        "aspettare"
+      ],
+      "rationale": "Il padre chiede di non aspettare. L'ABCDE e il primo passo scritto."
     }
   ],
   "physicalExam": {
-    "summary": "GCS 7, anisocoria, FR 10, SpO2 90%, FC 58. Non protegge le vie aeree. Rachide da immobilizzare. Non convulsioni descritte in atto."
+    "summary": "GCS 10, vie aeree pervie, respiro presente, polso presente. Nessun segno di derivazione."
   },
   "escCitations": [
     {
-      "chunkId": "atls-vie-aeree",
-      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
-      "quote": "La pervietà delle vie aeree è sempre la priorità assoluta, infatti l’asfissia può portare alla morte in pochi minuti. Nel traumatizzato, la valutazione ed il ripristino della pervietà delle vie aeree è contemporanea alla protezione/immobilizzazione del rachide cervicale."
+      "chunkId": "mag",
+      "source": "knowledge_base/medicina_urgenza/clinical/17.newsletter_simyoung_traumacranico.pdf",
+      "quote": "In caso di trauma cranico maggiore (GCS non superiore a 13), previa stabilizzazione del paziente seguendo la sequenza ABCDE, la TC e sempre indicata"
     },
     {
-      "chunkId": "atls-gcs-intubazione",
-      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
-      "quote": "In caso di GCS inferiore a 8 (paziente in stato Pain o Unresponsive) la squadra ALS, medico o infermiere, può decidere se intubare il traumatizzato. GCS è l’acronimo che indica la Glasgow Coma Scale."
+      "chunkId": "min",
+      "source": "knowledge_base/medicina_urgenza/clinical/17.newsletter_simyoung_traumacranico.pdf",
+      "quote": "trauma cranico minore, cioe con un Glasgow Coma Scale (GCS) score di 14-15"
     },
     {
-      "chunkId": "atls-tabella-gcs8",
-      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
-      "quote": "Livello di coscienza AVPU Controllare le vie aeree (se GCS inferiore a 8 intubazione orotracheale)"
+      "chunkId": "rx",
+      "source": "knowledge_base/medicina_urgenza/clinical/17.newsletter_simyoung_traumacranico.pdf",
+      "quote": "La radiografia del cranio e l'ecografia transfontanellare non sono raccomandate per la diagnosi di emorragia intracranica post traumatica."
     },
     {
-      "chunkId": "atls-anisocoria",
-      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
-      "quote": "anisocoria, cioè diversità del diametro delle pupille; emorragia dal naso o dalle orecchie; liquido limpido in uscita da naso o orecchie; paralisi o perdita di forza in una metà del corpo o anche solo di un arto; convulsioni. I traumi del cranio sono sempre molto pericolosi, il paziente va immobilizzato, sottoposto a somministrazione di ossigeno ed ospedalizzato rapidamente."
+      "chunkId": "obs",
+      "source": "knowledge_base/medicina_urgenza/clinical/17.newsletter_simyoung_traumacranico.pdf",
+      "quote": "e raccomandata l'osservazione clinica (6 ore bambini >3 mesi, 24 ore bambini <3 mesi) rispetto all'esecuzione della TC"
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
+    },
+    {
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI RX 000000612 RX cranio (tre proiezioni) 36,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Intubazione per GCS < 8 prima della TC.",
-      "Immobilizzazione, ossigeno, anisocoria riconosciuta.",
-      "Rivalutazione GCS a 1 ora in attesa di trasferimento."
+      "ABCDE e poi TC, perche il GCS e 10.",
+      "Non sostituire la TC con la radiografia del cranio ne con sei ore di osservazione."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Vie aeree, GCS < 8 e anisocoria sono dell'ATLS in cartella. La TC prima del tubo contraddice la priorità delle vie aeree. PIC, mannitololo e target di PaCO2 non sono in questi PDF. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "art5Adherence": "La newsletter sul trauma cranico pediatrico distingue il GCS non superiore a 13 dal trauma minore e vieta la radiografia per diagnosticare l'emorragia. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Annotare GCS, pupille e ora dell'intubazione.",
-        "Annotare che la TC segue la messa in sicurezza delle vie aeree.",
-        "Registrare rivalutazione GCS a 1 ora e trasferimento."
+        "Non inventare i predittori PECARN, che sono in una figura.",
+        "Non aspettare l'altro genitore per iniziare l'ABCDE.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "intubazione",
-      "name": "Intubazione orotracheale",
-      "finding": "GCS 7: tubo prima dell'imaging. Rachide protetto. Nessun millimetro di tubo è fissato.",
+      "examId": "gcs",
+      "name": "Glasgow",
+      "finding": "Glasgow Coma Scale 10.",
       "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
-      "examId": "abcde",
-      "name": "Valutazione ABCDE",
-      "finding": "A: intubato. B: FR bassa prima del tubo. C: FC 58, PA 162/90. D: GCS 7, anisocoria. E: caduta dall'alto.",
-      "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
-      "examId": "ega",
-      "name": "Emogasanalisi",
-      "finding": "Gas dopo il tubo. Nessun PaCO2 target è copiato dai PDF.",
-      "isAbnormal": true,
-      "priceEuro": 10,
       "isFatal": false
     },
     {
-      "examId": "tc",
-      "name": "TC cranio",
-      "finding": "Dopo le vie aeree. Nessuna frase su ematoma o millimetri di shift è estraibile.",
+      "examId": "abcde",
+      "name": "ABCDE",
+      "finding": "Vie aeree pervie, respiro e circolo presenti, da stabilizzare prima della TC.",
       "isAbnormal": true,
-      "priceEuro": 120,
-      "isFatal": true
-    },
-    {
-      "examId": "rivalutazione-gcs-1h",
-      "name": "Rivalutazione GCS dopo 1 ora",
-      "finding": "GCS sotto sedazione da interpretare. Nessun punto è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 0,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non prima del tubo, non al posto della TC cranio.",
+      "examId": "rx-cranio",
+      "name": "Radiografia del cranio",
+      "finding": "Non e raccomandata per la diagnosi di emorragia intracranica e ritarda la TC.",
       "isAbnormal": false,
-      "priceEuro": 950,
+      "isFatal": false,
       "inappropriate": true,
-      "isFatal": true,
-      "wasteRationale": "Le vie aeree hanno priorità assoluta. La PET-TC non è nel percorso del trauma cranico di questi PDF."
+      "wasteRationale": "RX cranio tre proiezioni a 36,00 euro al posto della TC, che nel trauma maggiore e indicata. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 36
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 58,
-      "bloodPressure": "162/90",
-      "spo2": 90,
-      "temperature": 36.4,
-      "respiratoryRate": 10
+      "heartRate": 110,
+      "bloodPressure": "100/60",
+      "spo2": 96,
+      "temperature": 36.6,
+      "respiratoryRate": 24
     },
-    "examBudgetEuro": 150,
-    "demographics": { "age": 20, "sex": "M", "context": "Pronto soccorso / trauma" },
-    "clinicalSigns": [
-      {
-        "signName": "Anisocoria",
-        "result": "Pupille di diametro diverso.",
-        "isPositive": true
-      },
-      {
-        "signName": "GCS 7",
-        "result": "Non protegge le vie aeree. Pain/Unresponsive.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 6,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ega": {
-          "finding": "Gas dopo intubazione. Nessun PaCO2 target copiato.",
-          "isAbnormal": true,
-          "price": 10
+        "gcs": {
+          "finding": "Glasgow Coma Scale 10.",
+          "isAbnormal": true
         },
-        "tc": {
-          "finding": "TC dopo il tubo. Shift millimetrico non copiato.",
-          "isAbnormal": true,
-          "price": 120
+        "abcde": {
+          "finding": "Vie aeree pervie, respiro e circolo presenti, da stabilizzare prima della TC.",
+          "isAbnormal": true
         },
-        "pet-tc": {
-          "finding": "Non indicata prima delle vie aeree.",
-          "isAbnormal": false,
-          "price": 950
+        "rx-cranio": {
+          "finding": "Non e raccomandata per la diagnosi di emorragia intracranica e ritarda la TC.",
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Intubazione orotracheale per GCS < 8",
+          "label": "TC dopo ABCDE",
           "anyOf": [
             {
-              "id": "intubazione",
-              "label": "Intubazione orotracheale",
-              "aliases": ["intubazione", "tubo", "vie aeree", "IOT"]
+              "id": "tc",
+              "label": "TC encefalo",
+              "aliases": [
+                "tc",
+                "tac"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "rx",
+          "label": "Radiografia del cranio",
+          "aliases": [
+            "radiografia"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Intubazione prima della TC.",
-        "Rachide protetto, ossigeno.",
-        "TC dopo le vie aeree.",
-        "Rivalutazione GCS a 1 ora.",
-        "Parlare col padre."
+        "ABCDE fatto.",
+        "TC chiesta.",
+        "Niente lastra e niente attesa."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "Imaging lento o PET prima del tubo."
+          "id": "rx",
+          "kind": "clinical",
+          "trigger": "Radiografia al posto della TC."
         }
       ],
       "citationLimits": [
-        "ATLS: GCS < 8, si può decidere di intubare. Non è scritta la frase «prima dell'imaging»: la priorità delle vie aeree la implica, senza una riga su TAC vs tubo.",
-        "PIC, mannitololo, target di PaCO2 e posizione della testa: citazione vuota.",
-        "Anisocoria è un segno di trauma cranico, non un protocollo di craniotomia.",
-        "GCS 7 e caduta dall'alto sono del brief."
+        "I singoli predittori PECARN non sono nel testo estraibile."
       ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "MEDIUM",
-    "emotionalState": "ANXIOUS",
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
-    "communicationStyle": "Il paziente non parla. Il padre chiede il tubo prima della TAC e se il figlio può morire, senza giri di parole."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Non decide. Il padre chiede di non aspettare la madre per stabilizzarlo. L'ABCDE e la TC non si rimandano."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Minore o maggiore",
+      "prompt": "Ha 6 anni e GCS 10. In che gruppo sta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Trauma maggiore: il GCS non e 14-15",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo chiami minore e lo dimetti",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "GCS 10 trattato come minore",
+      "prompt": "Il trauma minore e GCS 14-15. Il maggiore e GCS non superiore a 13. Pietro e nel secondo gruppo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima della TC",
+      "prompt": "Che sequenza e scritta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Prima stabilizzi con ABCDE, poi la TC, che e sempre indicata",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "TC senza aver guardato vie aeree, respiro e circolo",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "ABCDE saltato",
+      "prompt": "Nel trauma maggiore, previa stabilizzazione secondo ABCDE, la TC e sempre indicata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Lastra del cranio",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Il padre chiede se basta una radiografia.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. Non e raccomandata per la diagnosi di emorragia intracranica Non la esegui ora.",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "RX cranio tre proiezioni a 36,00 euro al posto della TC, che nel trauma maggiore e indicata",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI RX 000000612 RX cranio (tre proiezioni) 36,00. RX cranio tre proiezioni a 36,00 euro al posto della TC, che nel trauma maggiore e indicata. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Sei ore",
+      "prompt": "Un collega propone 6 ore di osservazione al posto della TC.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. Quelle ore sono per il rischio intermedio, non per il GCS 10",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Osservazione al posto della TC",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Osservazione nel GCS maggiore",
+      "prompt": "L'osservazione di 6 ore, nel bambino sopra i 3 mesi, e raccomandata rispetto alla TC nel rischio intermedio. Nel GCS non superiore a 13 la TC e sempre indicata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "L'altro genitore",
+      "prompt": "Manca l'altro genitore e qualcuno propone di fermarsi. La madre non e ancora arrivata. Il padre dice di non aspettare. Che fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Inizi l'ABCDE e chiedi la TC. Non aspetti Non aspetti l'altro genitore.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Aspetti l'altro genitore prima dell'ABCDE e della TC, con il padre gia presente e il GCS a 10",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti l'altro genitore prima dell'ABCDE e della TC, con il padre gia presente e il GCS a 10 contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se la lesione non e rilevante",
+      "prompt": "La TC mostra una lesione che il neurochirurgo giudica non rilevante, il GCS torna a 15 e non peggiora. Fai una seconda TC di routine?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. La TC di controllo routinaria non e indicata. La rifai se peggiora",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Seconda TC subito, senza peggioramento",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Seconda TC senza motivo",
+      "prompt": "Se la lesione non e clinicamente rilevante e non c'e deterioramento, la TC di controllo routinaria non e indicata. Si rifa, con il neurochirurgo, se le condizioni o il GCS peggiorano.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "PECARN",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Un collega ti chiede di elencare i predittori della tabella PECARN, che in questo file e una figura. Li inventi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. Non sono nel testo. Questo caso si decide sul GCS 10 In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "ABCDE, poi TC",
+      "prompt": "GCS 10: stabilizzi con ABCDE e chiedi la TC. Non la radiografia, non le sei ore, non l'attesa dell'altro genitore. Nessun predittore PECARN inventato.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

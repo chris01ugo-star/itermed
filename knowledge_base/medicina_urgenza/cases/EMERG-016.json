@@ -1,273 +1,479 @@
 {
   "id": "EMERG-016",
   "code": "EMERG-016",
-  "title": "Uomo di 65 anni con emiparesi destra e afasia da 2 ore",
-  "description": "Luigi, 65 anni, arriva per emiparesi destra e afasia insorte da 2 ore. Parametri: PA 178/96 mmHg, FC 88 bpm, FR 16 atti/min, SpO2 96%, temperatura 36.6. Collabora a tratti, non articola.",
+  "title": "Uomo di 55 anni che non riprende conoscenza dopo la crisi",
+  "description": "Enrico, 55 anni, crisi da 15 minuti, non ha ripreso conoscenza, sospetto abuso cronico di alcol, glicemia non ancora nota. Parametri: PA 150/90 mmHg, FC 110 bpm, FR 22 atti/min, SpO2 94% con ossigeno, temperatura 36.8. Non ha blocco di secondo grado. Nessuna DAT.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["neurologia"],
-  "condition": "Ictus ischemico acuto in finestra temporale",
-  "frequencyCategory": "HIGH",
+  "secondarySpecialties": [
+    "neurologia"
+  ],
+  "condition": "Stato epilettico iniziale, primi 20-30 minuti",
+  "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
-  "diagnosis": "Ictus ischemico acuto con emiparesi destra e afasia da 2 ore. Non è un'emorragia cerebrale finché la TC non è descritta. Non è una crisi epilettica post-critica isolata.",
-  "pastMedicalHistory": "Ipertensione. Nessun anticoagulante dichiarato. Non ha avuto un ictus precedente nel racconto. L'ora di inizio è chiara: 2 ore. La TC, i millimetri di pressione per la lisi e l'alteplase o il tenecteplase non hanno frase operativa nei PDF di questa cartella.",
-  "presentation": "Non muove il lato destro, non parla da due ore. Riconoscimento con scala FAST (faccia, braccia, parola, tempo). NIHSS nominato nei testi ERC sul primo soccorso, senza istruzioni di calcolo. Ossigeno se ipossia, senza routine. TC in urgenza, target pressori e trombolisi ev: nel percorso, citazione vuota. Rivalutazione a 1 ora.",
+  "guidelineRef": "Linee_guida_SE_italiano_(1).pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Nello stato epilettico iniziale: vie aeree, ossigeno, accesso venoso. Lorazepam 0,05-0,1 mg/kg endovena, massimo 2 mg/min, ripetibile dopo almeno 10 minuti, oppure diazepam 0,1 mg/kg in 60 secondi, ripetibile non prima di 10 minuti. Se si sospetta abuso cronico di alcol, il glucosio endovena e preceduto da tiamina 100 mg intramuscolo. La fenitoina 15-18 mg/kg, non oltre 50 mg/min e non in glucosata, viene dopo dosi adeguate di benzodiazepine.",
+  "pastMedicalHistory": "Crisi non interrotta. Sospetto alcol cronico. Nessun blocco di secondo grado. Nessuna DAT.",
+  "presentation": "Crisi in corso da 15 minuti, nei primi 20-30.",
   "redHerrings": [
-    "Un collega dà aspirina subito, prima di qualsiasi imaging.",
-    "Chiede di aspettare il figlio e di non fare la TAC «perché tanto è uno stiramento»."
+    "Propongono la fenitoina subito, diluita in glucosata, prima della benzodiazepina."
   ],
-  "timeLimitMinutes": 120,
-  "patientDeteriorationThreshold": 25,
-  "patientPrompt": "Mi chiamo Luigi, ho 65 anni. Da due ore non parlo e non muovo la destra. Ditemi se è un ictus, fatemi la scala, la TAC e la cura che c'è scritta. Non voglio aspirina al buio. Tra un'ora rivedetemi.",
-  "correctSolution": "Riconoscere lo stroke con FAST (faccia, braccia, parola, tempo d'insorgenza). NIHSS è nominato nei testi ERC, senza un metodo di calcolo da copiare: va fatto, citazione sul nome della scala. Ossigeno supplementare non è di routine nel primo soccorso; uno studio sul NIHSS lo ritiene sicuro se c'è ipossia. TC cranio in urgenza, target pressori rigidi e trombolisi con alteplase o tenecteplase: il PDF ESO in cartella è sull'ICH, non sull'ictus ischemico; restano nel percorso a citazione vuota. Rivalutazione neurologica a 1 ora. SPIKES Knowledge.",
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "La moglie dice: Enrico ha 55 anni, e da un quarto d'ora che ha la crisi e beve. Non aspettate me per la medicina, io sono gia qui e vi dico di non fermarvi. Non gli fate una TAC prima della benzodiazepina.",
+  "correctSolution": "Ossigeno e accesso. Lorazepam o diazepam alle dosi scritte. Tiamina 100 mg intramuscolo prima del glucosio, perche si sospetta l'alcol cronico. Non fenitoina prima di benzodiazepine adeguate, non in glucosata, non oltre 50 mg/min. Non una TC prima del farmaco.",
   "goldStandardPath": [
-    "scala-fast",
-    "nihss",
     "glicemia",
-    "tc",
-    "controllo-pa",
-    "trombolisi-ev",
-    "rivalutazione-nihss-1h"
+    "ecg"
   ],
-  "goldPathNarrative": "FAST, NIHSS, glicemia, TC in urgenza, controllo pressorio, avvio della trombolisi ev se i criteri ci sono, rivalutazione NIHSS a 1 ora. TC, target pressori e alteplase/tenecteplase non hanno frase estraibile dai PDF ESO/ERC di questa cartella: restano nel percorso senza citazione.",
+  "goldPathNarrative": "Benzodiazepina subito. Tiamina prima del glucosio. La fenitoina viene dopo.",
   "examLatencies": {
-    "scala-fast": 5,
-    "nihss": 10,
-    "glicemia": 8,
-    "tc": 20,
-    "controllo-pa": 25,
-    "trombolisi-ev": 40,
-    "rivalutazione-nihss-1h": 60,
-    "pet-tc": 180
+    "glicemia": 5,
+    "ecg": 5,
+    "tc-cranio": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "ora-inizio",
-      "prompt": "A che ora esatto ha smesso di parlare e di muovere il braccio destro?",
+      "id": "durata",
+      "prompt": "Da quanti minuti dura la crisi?",
       "critical": true,
-      "expectedKeywords": ["due ore", "parlare", "destra", "inizio"],
-      "rationale": "FAST include il tempo d'insorgenza. La finestra di 2 ore è nel brief, non una soglia copiata dai PDF."
+      "expectedKeywords": [
+        "15",
+        "minuti",
+        "quarto"
+      ],
+      "rationale": "I primi 20-30 minuti sono lo stato iniziale, con la benzodiazepina."
     },
     {
-      "id": "anticoagulanti",
-      "prompt": "Assume anticoagulanti o ha avuto un ictus prima d'ora?",
+      "id": "alcol",
+      "prompt": "Beve in modo cronico?",
       "critical": true,
-      "expectedKeywords": ["anticoagul", "ictus", "sangue", "farmaci"],
-      "rationale": "Conta per la lisi. I criteri di esclusione non sono in questi PDF: la domanda resta, la citazione no."
+      "expectedKeywords": [
+        "beve",
+        "alcol",
+        "si"
+      ],
+      "rationale": "La tiamina 100 mg intramuscolo precede il glucosio in quel sospetto."
     },
     {
-      "id": "glicemia-sintomi",
-      "prompt": "Ha il diabete, o si è sentito strano prima di non parlare più?",
+      "id": "blocco",
+      "prompt": "Ha un blocco di secondo grado?",
       "critical": true,
-      "expectedKeywords": ["diabete", "zucchero", "glicemia", "strano"],
-      "rationale": "Le scale MASS e LAPSS nei testi ERC richiedono la misurazione del glucosio. FAST no."
-    },
-    {
-      "id": "paura",
-      "prompt": "Che cosa la spaventa di più adesso, non parlare o non muovere il braccio?",
-      "critical": true,
-      "expectedKeywords": ["parlare", "braccio", "paura", "ictus"],
-      "rationale": "SPIKES Knowledge ed Emotions, senza ritardare imaging e percorso."
+      "expectedKeywords": [
+        "blocco",
+        "no"
+      ],
+      "rationale": "La fenitoina e controindicata nel blocco di secondo grado o nell'ipotensione grave."
     }
   ],
   "physicalExam": {
-    "summary": "Afasia, emiparesi destra. Faccia e braccio coinvolti. Non articola. Pupille non descritte anisocoriche. Nuca non rigida nel racconto. PA 178/96, senza un target millimetrico citato per la lisi."
+    "summary": "Crisi in corso, non risponde. Ossigeno gia dato. Non ipoteso."
   },
   "escCitations": [
     {
-      "chunkId": "erc8-fast-stroke",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
-      "quote": "FAST - Face Arm Speech Time to call (faccia, braccia, parola, tempo d’insorgenza) • MASS - Melbourne Ambulance Stroke Scale • CPSS - Cincinnati Prehospital Stroke Scale • LAPSS - Los Angeles Prehospital Stroke Scale • Le scale MASS e LAPSS richiedono la misurazione del glucosio ematico."
+      "chunkId": "bz",
+      "source": "knowledge_base/medicina_urgenza/clinical/Linee_guida_SE_italiano_(1).pdf",
+      "quote": "Lorazepam 0.05-0.1 mg/kg e.v. (velocita massima 2 mg/min) ripetibile dopo almeno 10 minuti oppure Diazepam 0.1 mg/kg e.v.(in 60 sec) ripetibile dopo non meno di 10 minuti."
     },
     {
-      "chunkId": "erc8-fast-raccomandazione",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
-      "quote": "Le scale FAST, CPSS, LAPSS e MASS sono comunemente usate nel setting preospedaliero (raccomandazione forte, prove di efficacia molto basse)."
+      "chunkId": "resp",
+      "source": "knowledge_base/medicina_urgenza/clinical/Linee_guida_SE_italiano_(1).pdf",
+      "quote": "La somministrazione di benzodiazepine puo indurre insufficienza respiratoria, oltre che sedazione."
     },
     {
-      "chunkId": "erc8-nihss",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
-      "quote": "National Institutes of Health Stroke Scale (NIHSS). Uno studio osservazionale retrospettivo ha riportato che nel confronto di tre gruppi con stroke acuto (somministrato di ossigeno per ipossia, somministrazione di ossigeno di routine, nessuna somministrazione di ossigeno) non vi è stato un aumento di complicanze respiratorie o di complicanze neurologiche alla dimissione dall’ospedale"
+      "chunkId": "tia",
+      "source": "knowledge_base/medicina_urgenza/clinical/Linee_guida_SE_italiano_(1).pdf",
+      "quote": "in assenza di controindicazioni somministrare e.v. glucosio (preceduto da tiamina 100 mg i.m. in pazienti con sospetto abuso cronico di alcool)"
     },
     {
-      "chunkId": "erc8-o2-non-routine",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG_-ERC_2021_Capitolo_8_PrimoSoccorso.pdf",
-      "quote": "la somministrazione di ossigeno supplementare non può essere considerato un intervento di routine nel primo soccorso, in quanto richiede la fornitura e l’utilizzo di un equipaggiamento e la comprensione dei meccanismi e dei rischi legati al suo utilizzo."
+      "chunkId": "fe",
+      "source": "knowledge_base/medicina_urgenza/clinical/Linee_guida_SE_italiano_(1).pdf",
+      "quote": "Fenitoina: 15-18 mg/kg e.v. deve essere somministrata ad una velocita non superiore a 50 mg/min. non deve essere assolutamente diluita in soluzione glucosata perche la soluzione precipita."
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
+    },
+    {
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI TC 000004210 TC encefalo senza contrasto 136,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Riconoscimento dello stroke con scala FAST (faccia, braccia, parola, tempo).",
-      "NIHSS nominato; calcolo per item senza frase da copiare.",
-      "Niente aspirina prima dell'imaging. Rivalutazione neurologica a 1 ora."
+      "Benzodiazepina alle dosi dello stato iniziale, prima della fenitoina.",
+      "Tiamina 100 mg intramuscolo prima del glucosio se si sospetta l'alcol cronico."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "FAST e NIHSS sono nel capitolo ERC 2021 sul primo soccorso. Il PDF ESO in cartella è l'ICH 2025, non l'ictus ischemico: alteplase, tenecteplase e target pressori della lisi non si copiano da lì. SPIKES Knowledge è nel PDF sulla comunicazione della diagnosi.",
+      "art5Adherence": "La linea guida sullo stato epilettico fissa dosi, tempi e il divieto di diluire la fenitoina in glucosata. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Annotare ora di inizio sintomi e ora del primo contatto.",
-        "Annotare FAST, NIHSS e l'eventuale avvio della lisi.",
-        "Registrare la rivalutazione neurologica a 1 ora."
+        "Non superare 50 mg/min e non darla nel blocco di secondo grado.",
+        "Non una TC prima della benzodiazepina.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "scala-fast",
-      "name": "Scala FAST",
-      "finding": "Faccia, braccio e parola alterati. Tempo d'insorgenza: 2 ore. Nessun punteggio numerico FAST è fissato oltre il deficit descritto.",
-      "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
-      "examId": "nihss",
-      "name": "NIHSS",
-      "finding": "Deficit motorio destro e afasia. Il PDF nomina la scala, non assegna i punti. Nessun totale è inventato.",
-      "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
       "examId": "glicemia",
-      "name": "Glicemia capillare",
-      "finding": "Controllo del glucosio. Nessun mg/dl è fissato. MASS e LAPSS lo richiedono; FAST no.",
-      "isAbnormal": false,
-      "priceEuro": 4,
+      "name": "Glicemia",
+      "finding": "Non ancora nota. Va misurata, e il glucosio e preceduto dalla tiamina.",
+      "isAbnormal": true,
       "isFatal": false
     },
     {
-      "examId": "tc",
-      "name": "TC cranio in urgenza",
-      "finding": "Imaging urgente nel percorso. Nessuna frase sui millimetri di iperdensità è estraibile. Non ritardare il riconoscimento FAST.",
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Nessun blocco di secondo grado. Tachicardia sinusale.",
       "isAbnormal": true,
-      "priceEuro": 120,
-      "isFatal": true
-    },
-    {
-      "examId": "rivalutazione-nihss-1h",
-      "name": "Rivalutazione NIHSS dopo 1 ora",
-      "finding": "Controllo del deficit a 1 ora. Nessun delta di punti è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 0,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non è lo strumento di riconoscimento dello stroke acuto nei testi ERC sul primo soccorso.",
+      "examId": "tc-cranio",
+      "name": "TC prima della benzodiazepina",
+      "finding": "Non e il trattamento dei primi 20-30 minuti e ritarda il lorazepam o il diazepam.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Le frasi copiate nominano FAST, NIHSS e ossigeno. Non nominano la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "TC encefalo senza contrasto a 136,00 euro prima della benzodiazepina dei primi 20-30 minuti. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 136
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 88,
-      "bloodPressure": "178/96",
-      "spo2": 96,
-      "temperature": 36.6,
-      "respiratoryRate": 16
+      "heartRate": 110,
+      "bloodPressure": "150/90",
+      "spo2": 94,
+      "temperature": 36.8,
+      "respiratoryRate": 22
     },
-    "examBudgetEuro": 150,
-    "demographics": { "age": 65, "sex": "M", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Emiparesi destra",
-        "result": "Non muove arto superiore e inferiore destri da 2 ore.",
-        "isPositive": true
-      },
-      {
-        "signName": "Afasia",
-        "result": "Non articola. Comprende a tratti.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 55,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "scala-fast": {
-          "finding": "Faccia, braccio, parola: deficit. Tempo: 2 ore.",
-          "isAbnormal": true,
-          "price": 0
-        },
-        "nihss": {
-          "finding": "Scala nominata. Nessun totale inventato.",
-          "isAbnormal": true,
-          "price": 0
-        },
         "glicemia": {
-          "finding": "Controllo eseguito. Nessun mg/dl fissato.",
-          "isAbnormal": false,
-          "price": 4
+          "finding": "Non ancora nota. Va misurata, e il glucosio e preceduto dalla tiamina.",
+          "isAbnormal": true
         },
-        "tc": {
-          "finding": "TC in urgenza nel percorso. Reperto millimetrico non copiato dai PDF.",
-          "isAbnormal": true,
-          "price": 120
+        "ecg": {
+          "finding": "Nessun blocco di secondo grado. Tachicardia sinusale.",
+          "isAbnormal": true
         },
-        "pet-tc": {
-          "finding": "Non indicata per lo stroke acuto di questo brief.",
-          "isAbnormal": false,
-          "price": 950
+        "tc-cranio": {
+          "finding": "Non e il trattamento dei primi 20-30 minuti e ritarda il lorazepam o il diazepam.",
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Trombolisi endovenosa se i criteri sono soddisfatti",
+          "label": "Lorazepam o diazepam",
           "anyOf": [
             {
-              "id": "alteplase",
-              "label": "Alteplase ev",
-              "aliases": ["alteplase", "r-tPA", "trombolisi", "tenecteplase"]
+              "id": "bz",
+              "label": "Benzodiazepina",
+              "aliases": [
+                "lorazepam",
+                "diazepam"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "glucosata",
+          "label": "Fenitoina in glucosata",
+          "aliases": [
+            "glucosata"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Riconoscimento FAST.",
-        "NIHSS eseguito.",
-        "TC in urgenza prima della lisi.",
-        "Niente aspirina prima dell'imaging.",
-        "Rivalutazione a 1 ora.",
-        "Spiegare a Luigi la diagnosi."
+        "Benzodiazepina alle dosi scritte.",
+        "Tiamina prima del glucosio.",
+        "Niente TC prima."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto della TC cranio in urgenza."
+          "id": "tc",
+          "kind": "clinical",
+          "trigger": "TC prima della benzodiazepina."
         }
       ],
       "citationLimits": [
-        "FAST è una scala preospedaliera ERC, non un protocollo di trombolisi.",
-        "NIHSS è nominato in uno studio sull'ossigeno. Non c'è una tabella di item da copiare.",
-        "Il PDF ESO 2025 in cartella è sull'emorragia intracerebrale, non sull'ictus ischemico. Non usare la soglia sistolica <140 mmHg dell'ICH come target della lisi.",
-        "Alteplase compare in bibliografia ERC (metanalisi sulla lisi) e nelle ACS ESC per lo STEMI. Non c'è una raccomandazione operativa ESO su alteplase o tenecteplase per questo caso: restano nel gold path a citazione vuota.",
-        "TC cranio in urgenza: nessuna frase estraibile. Resta nel percorso.",
-        "I 2 ore sono del brief, non una finestra 4,5 ore copiata dai PDF."
+        "La fenitoina non si diluisce in glucosata e non precede le benzodiazepine adeguate."
       ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "MEDIUM",
-    "emotionalState": "ANXIOUS",
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Non parla bene, indica il braccio destro. Il figlio traduce. Vuole sapere se è un ictus e se c'è una cura a tempo, senza giri e senza aspirina prima della TAC."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Non puo decidere durante la crisi. La moglie chiede di non fermarsi. La benzodiazepina non aspetta la TC."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Primo farmaco",
+      "prompt": "Crisi da 15 minuti, nei primi 20-30. Che farmaco?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Lorazepam 0,05-0,1 mg/kg, massimo 2 mg/min, oppure diazepam 0,1 mg/kg in 60 secondi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Fenitoina subito, prima di qualsiasi benzodiazepina",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Fenitoina prima della benzodiazepina",
+      "prompt": "Nello stato iniziale le dosi scritte sono lorazepam o diazepam. La fenitoina e per chi ha gia ricevuto dosi adeguate di benzodiazepine.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quando la ripeti",
+      "prompt": "La moglie chiede di non ripetere il farmaco finche non arriva. Non si ferma. Dopo quanto puoi ripetere?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Lorazepam dopo almeno 10 minuti, diazepam non prima di 10 minuti Non aspetti la moglie.",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Aspetti la moglie prima di ripetere la benzodiazepina, con la crisi che continua",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti la moglie prima di ripetere la benzodiazepina, con la crisi che continua contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Alcol e glucosio",
+      "prompt": "Si sospetta abuso cronico di alcol e dai il glucosio. Che precede?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Tiamina 100 mg intramuscolo",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Glucosio da solo",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Tiamina omessa",
+      "prompt": "In assenza di controindicazioni il glucosio endovena e preceduto da tiamina 100 mg intramuscolo se si sospetta abuso cronico di alcol.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Fenitoina",
+      "prompt": "Dopo benzodiazepine adeguate la crisi continua. Come la infondi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "15-18 mg/kg, non oltre 50 mg/min, non diluita in glucosata, in un grosso vaso",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Diluita in glucosata, a 100 mg/min",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Diluizione e velocita vietate",
+      "prompt": "15-18 mg/kg, velocita non superiore a 50 mg/min, mai in soluzione glucosata perche precipita, in un accesso indipendente su un grosso vaso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC prima",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi la TC prima della benzodiazepina.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. Ritarda il farmaco dei primi 20-30 minuti Non la esegui ora.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "TC encefalo senza contrasto a 136,00 euro prima della benzodiazepina dei primi 20-30 minuti",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI TC 000004210 TC encefalo senza contrasto 136,00. TC encefalo senza contrasto a 136,00 euro prima della benzodiazepina dei primi 20-30 minuti. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Respiro",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Dopo la benzodiazepina il respiro cala. Che rischi e scritto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Insufficienza respiratoria e sedazione: lo sorvegli e tratti il respiro In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Blocco",
+      "prompt": "Se comparisse un blocco di secondo grado, terresti la fenitoina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. E controindicata nel blocco di secondo grado o nell'ipotensione grave. Qui il blocco non c'e",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "La infonderesti lo stesso",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Fenitoina nel blocco",
+      "prompt": "La fenitoina e controindicata nel blocco atrioventricolare di secondo grado o nella grave ipotensione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Benzodiazepina prima, tiamina prima del glucosio",
+      "prompt": "Lorazepam o diazepam alle dosi scritte. Tiamina 100 mg intramuscolo prima del glucosio. Fenitoina solo dopo, 15-18 mg/kg, non oltre 50 mg/min, non in glucosata. Niente TC prima.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

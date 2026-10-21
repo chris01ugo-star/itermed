@@ -1,261 +1,478 @@
 {
   "id": "EMERG-025",
   "code": "EMERG-025",
-  "title": "Uomo di 60 anni recuperato in strada d'inverno, confuso e bradicardico",
-  "description": "Franco, 60 anni, trovato in strada d'inverno. Parametri: PA 88/54 mmHg, FC 42 bpm, FR 10 atti/min, SpO2 92%, temperatura 30.5. Confuso, bradicardico. Circolo spontaneo.",
-  "difficulty": "HARD",
+  "title": "Uomo di 70 anni, tamponamento, collo indolore, GCS 15",
+  "description": "Sergio, 70 anni, tamponamento semplice, e sceso dall'auto, GCS 15, niente dolore sulla linea mediana, niente parestesie, niente intossicazione. Il servizio usa la Canadian C-spine Rule. Parametri: PA 140/80 mmHg, FC 78 bpm, FR 16 atti/min, SpO2 98% in aria, temperatura 36.5. Cosciente e capace. Chiede di togliere il collare.",
+  "difficulty": "MEDIUM",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["medicina_interna"],
-  "condition": "Ipotermia accidentale grave",
-  "frequencyCategory": "LOW",
-  "matrixDifficulty": "ADVANCED",
+  "secondarySpecialties": [],
+  "condition": "Trauma in paziente sopra i 65 anni, regola canadese del rachide",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-  "diagnosis": "Ipotermia accidentale con circolo spontaneo: confusione, bradicardia, temperatura centrale 30.5. Non è un infarto da mandare in sala prima del riscaldamento. Non è un'intossicazione isolata finché non è valutata.",
-  "pastMedicalHistory": "Esposto al freddo. Non è in arresto. Il brief chiedeva 29 °C: lo schema vitals del caso richiede temperatura >30, quindi 30.5. ERC: rischio di arresto imminente se temperatura interna <30 °C, aritmie ventricolari o sistolica <90. Onde di Osborn e manipolazione delicata per evitare FV: gold path, citazione vuota.",
-  "presentation": "Strada, inverno, confuso, FC 42, 30.5 °C. Isolamento, riscaldamento esterno (aria forzata / dispositivi) e fluidi caldi ev 38-42 °C. ECG. Trasferimento verso centro ECLS se instabile. Rivalutazione della temperatura. Niente scuotimenti da eroe.",
+  "guidelineRef": "04.A.Adduci-Canadian-spine-o-nexus.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Canadian C-spine Rule, per pazienti stabili e con sensorio integro: prima i fattori di rischio elevato. Eta sopra i 65 anni, oppure dinamica pericolosa, oppure parestesie, rendono l'immobilizzazione obbligatoria. I fattori minori e la rotazione di 45 gradi vengono dopo, e non cancellano l'eta. Il NEXUS, da solo, non si usa per togliere il collare a un settantenne quando la regola in uso e la Canadian.",
+  "pastMedicalHistory": "Tamponamento semplice. E sceso dall'auto. Collo indolore. Cosciente.",
+  "presentation": "70 anni, GCS 15, collare gia messo. Chiede di toglierlo.",
   "redHerrings": [
-    "Un collega lo scuote per svegliarlo e gli infonde liquidi freddi.",
-    "Un altro attiva l'emodinamica per la bradicardia prima di misurare la temperatura centrale."
+    "Propongono di togliere il collare perche non ha dolore mediano, usando solo il NEXUS."
   ],
-  "timeLimitMinutes": 120,
-  "patientDeteriorationThreshold": 25,
-  "patientPrompt": "Mi chiamo Franco, ho 60 anni, mi hanno trovato per terra, ho freddo, sono confuso, il cuore va piano. Scalldatemi fuori e dentro con liquidi caldi, fatemi l'elettrocardiogramma, non scuotetemi. Tra un'ora la temperatura di nuovo. Ditemi se posso fibrillare.",
-  "correctSolution": "Ipotermia grave può ridurre le funzioni vitali fino all'arresto. Con circolo spontaneo: isolamento, triage, trasferimento e riscaldamento. Riscaldamento chimico, elettrico o ad aria forzata e fluidi caldi EV (38-42 °C). Se temperatura interna <30, aritmie ventricolari o sistolica <90: centro con ECLS. Se FV persiste dopo tre scariche, ritardare fino a temperatura >30 °C; niente adrenalina sotto 30 °C. Onde di Osborn e «non scuotere per la FV»: gold path, citazione vuota. SPIKES Knowledge.",
+  "timeLimitMinutes": 15,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Sergio, ho 70 anni. Mi hanno tamponato, sono sceso da solo, il collo non mi fa male. Toglietemi il collare se la regola lo permette. Se l'eta lo vieta, ditemelo.",
+  "correctSolution": "Il collare resta. Sopra i 65 anni l'immobilizzazione e obbligatoria nella Canadian, anche senza dolore e anche se e sceso dall'auto. Non applichi la rotazione di 45 gradi al posto di quel fattore. Non gli fai una risonanza lombare: non c'entra e non toglie l'obbligo.",
   "goldStandardPath": [
-    "abcde",
-    "temperatura-centrale",
-    "ecg",
-    "riscaldamento-esterno",
-    "fluidi-caldi-ev",
-    "rivalutazione-temperatura"
+    "eta",
+    "collo"
   ],
-  "goldPathNarrative": "ABCDE delicato, temperatura centrale, ECG, riscaldamento esterno e fluidi caldi 38-42 °C, rivalutazione termica. Osborn e manipolazione anti-FV: citazione vuota. PA 88 e bradicardia: valutare centro ECLS.",
+  "goldPathNarrative": "Leggi l'eta prima del resto. Il collare resta. Non la risonanza.",
   "examLatencies": {
-    "abcde": 5,
-    "temperatura-centrale": 6,
-    "ecg": 8,
-    "riscaldamento-esterno": 10,
-    "fluidi-caldi-ev": 12,
-    "rivalutazione-temperatura": 60,
-    "pet-tc": 180
+    "eta": 1,
+    "collo": 2,
+    "rmn-lombare": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "esposizione",
-      "prompt": "Da quanto è all'aperto, e aveva bevuto o preso farmaci?",
+      "id": "anni",
+      "prompt": "Quanti anni ha?",
       "critical": true,
-      "expectedKeywords": ["aperto", "freddo", "bevuto", "farmaci"],
-      "rationale": "Ipotermia primaria da esposizione. ERC distingue primaria e secondaria."
+      "expectedKeywords": [
+        "70",
+        "anni"
+      ],
+      "rationale": "Sopra i 65 l'immobilizzazione e obbligatoria."
     },
     {
-      "id": "coscienza",
-      "prompt": "Ricorda dove si è seduto, o si è addormentato per terra?",
+      "id": "parestesie",
+      "prompt": "Ha formicolii alle braccia o alle gambe?",
       "critical": true,
-      "expectedKeywords": ["ricorda", "terra", "addormentato", "confuso"],
-      "rationale": "Confusione nel brief. Circolo spontaneo: non è un arresto."
+      "expectedKeywords": [
+        "formicolii",
+        "parestesie",
+        "no"
+      ],
+      "rationale": "Le parestesie sono un altro fattore elevato. Qui manca, ma l'eta basta."
     },
     {
-      "id": "bradicardia",
-      "prompt": "Ha sentito il cuore lento, o ha avuto pause?",
+      "id": "collare",
+      "prompt": "Vuole togliere il collare?",
       "critical": true,
-      "expectedKeywords": ["lento", "cuore", "pause", "svenire"],
-      "rationale": "Aritmie ventricolari e sistolica <90 sono fattori di rischio ERC."
-    },
-    {
-      "id": "paura",
-      "prompt": "Che cosa lo spaventa di più: il freddo o che il cuore si fermi?",
-      "critical": true,
-      "expectedKeywords": ["freddo", "cuore", "fermi", "paura"],
-      "rationale": "SPIKES Knowledge. Dire che può fibrillare, senza scuoterlo."
+      "expectedKeywords": [
+        "collare",
+        "togliere",
+        "si"
+      ],
+      "rationale": "La richiesta non cancella il fattore eta."
     }
   ],
   "physicalExam": {
-    "summary": "Confuso, cute fredda, FC 42, PA 88/54, temperatura 30.5. Circolo spontaneo. Non in arresto. Manipolazione da tenere delicata, anche senza frase PDF."
+    "summary": "GCS 15, collo indolore in mediana, e arrivato camminando, niente parestesie, niente alcol. Collare in sede."
   },
   "escCitations": [
     {
-      "chunkId": "erc6-ipotermia-grave",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "l’ipotermia grave può ridurre le funzioni vitali fino anche all’arresto cardiaco. Nei pazienti ipotermici con circolo spontaneo, l’isolamento, il triage ospedaliero seguito da trasferimento e riscaldamento, sono interventi cardine."
+      "chunkId": "eta",
+      "source": "knowledge_base/medicina_urgenza/clinical/04.A.Adduci-Canadian-spine-o-nexus.pdf",
+      "quote": "Prima di tutto si ricercano i fattori di rischio elevato: trauma con dinamica suggestiva, oppure eta > 65 anni, oppure presenza di parestesie alle estremita, che rendono l'immobilizzazione mandatoria."
     },
     {
-      "chunkId": "erc6-ecls-soglia",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "I pazienti ipotermici con fattori di rischio per imminente arresto cardiaco (temperatura interna <30 °C, aritmie ventricolari, pressione sistolica <90 mmHg) o in arresto cardiaco devono essere trasferiti preferibilmente in un centro con possibilità di fornire supporto vitale extracorporeo (ECLS) per il riscaldamento."
+      "chunkId": "dopo",
+      "source": "knowledge_base/medicina_urgenza/clinical/04.A.Adduci-Canadian-spine-o-nexus.pdf",
+      "quote": "In subordine, si ricercano fattori di rischio minori"
     },
     {
-      "chunkId": "erc6-fluidi-caldi",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "riscaldamento ad attivazione chimica, elettrici o ad aria forzata e fluidi caldi EV (38–42 °C). Nel caso di instabilità cardiaca refrattaria al trattamento medico, considerare il riscaldamento con ECLS."
+      "chunkId": "rot",
+      "source": "knowledge_base/medicina_urgenza/clinical/04.A.Adduci-Canadian-spine-o-nexus.pdf",
+      "quote": "Quindi si valuta la capacita di ruotare il collo di 45 gradi a dx e sn"
     },
     {
-      "chunkId": "erc6-fv-30",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Se la fibrillazione ventricolare (FV) persiste dopo tre scariche di defibrillazione, ritardare ulteriori tentativi fino a quando la temperatura interna è >30 °C. • Non somministrare l’adrenalina se la temperatura interna è <30 °C."
+      "chunkId": "nex",
+      "source": "knowledge_base/medicina_urgenza/clinical/04.A.Adduci-Canadian-spine-o-nexus.pdf",
+      "quote": "Sono non a rischio per una lesione cervicale significativa quei pazienti che presentano contemporaneamente tutti i 5 criteri"
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
+    },
+    {
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI RM 000003888 RM rachide e midollo segmento lombo-sacrale senza contrasto 185,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Temperatura centrale, isolamento, riscaldamento esterno e fluidi caldi 38-42 °C.",
-      "ECG. Non scuotere. Non liquidi freddi.",
-      "Rivalutazione della temperatura. Valutare ECLS se sistolica <90 o aritmie."
+      "Collare obbligatorio perche ha piu di 65 anni, nella Canadian.",
+      "Non toglierlo con il solo NEXUS e non sostituire la regola con una risonanza."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Isolamento, riscaldamento, fluidi caldi 38-42 °C, soglia <30 °C / FV / sistolica <90 verso ECLS e ritardo shock dopo tre scariche sono ERC 2021 cap. 6. Onde di Osborn e manipolazione delicata anti-FV non sono in quel testo. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "art5Adherence": "Le slide della Canadian mettono l'eta sopra i 65 anni tra i fattori che rendono l'immobilizzazione obbligatoria, prima dei fattori minori. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Annotare temperatura centrale e metodo di misura.",
-        "Annotare riscaldamento esterno, temperatura dei fluidi e ECG.",
-        "Registrare rivalutazione termica e l'eventuale trasferimento ECLS."
+        "La rotazione di 45 gradi viene dopo e non cancella l'eta.",
+        "Il paziente capace va informato: la richiesta di togliere il collare non e un rifiuto di una cura salvavita, e la regola non consente di toglierlo.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "abcde",
-      "name": "Valutazione ABCDE",
-      "finding": "Circolo spontaneo, FR 10, FC 42, PA 88/54, confuso. Non in arresto. Manipolazione delicata nel percorso, senza frase PDF.",
+      "examId": "eta",
+      "name": "Eta",
+      "finding": "Eta anagrafica: 70 anni.",
       "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
-      "examId": "temperatura-centrale",
-      "name": "Temperatura centrale",
-      "finding": "30.5 °C. Il brief chiedeva 29; lo schema vitals richiede >30. ERC: <30 è rischio di arresto imminente.",
-      "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
-      "examId": "ecg",
-      "name": "ECG",
-      "finding": "Bradicardia. Onde di Osborn: da cercare, citazione vuota. Nessun millivolt è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 15,
-      "isFatal": true
-    },
-    {
-      "examId": "ega",
-      "name": "Emogasanalisi",
-      "finding": "Gas. Nessun pH è fissato. ERC cita il potassio se si fa scalo verso ECLS.",
-      "isAbnormal": true,
-      "priceEuro": 10,
       "isFatal": false
     },
     {
-      "examId": "rivalutazione-temperatura",
-      "name": "Rivalutazione temperatura dopo 1 ora",
-      "finding": "Controllo della temperatura centrale sotto riscaldamento. Nessun grado/ora è copiato.",
-      "isAbnormal": true,
-      "priceEuro": 0,
+      "examId": "collo",
+      "name": "Collo e sensorio",
+      "finding": "GCS 15, niente dolore mediano, niente parestesie. E sceso dall'auto.",
+      "isAbnormal": false,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non scalda e non sostituisce ECG e temperatura centrale.",
+      "examId": "rmn-lombare",
+      "name": "Risonanza lombare",
+      "finding": "Non e nella regola cervicale e non toglie l'obbligo del collare.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "I testi nominano isolamento, riscaldamento e fluidi caldi. Non la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "RM del rachide lombo-sacrale senza contrasto a 185,00 euro: non sta nella regola cervicale. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 185
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 42,
-      "bloodPressure": "88/54",
-      "spo2": 92,
-      "temperature": 30.5,
-      "respiratoryRate": 10
+      "heartRate": 78,
+      "bloodPressure": "140/80",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 50,
-    "demographics": { "age": 60, "sex": "M", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Cute fredda",
-        "result": "Esposto, confuso, bradicardico.",
-        "isPositive": true
-      },
-      {
-        "signName": "Bradicardia",
-        "result": "FC 42. Circolo spontaneo.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 70,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ecg": {
-          "finding": "Bradicardia. Osborn da cercare, senza citazione.",
-          "isAbnormal": true,
-          "price": 15
+        "eta": {
+          "finding": "Eta anagrafica: 70 anni.",
+          "isAbnormal": true
         },
-        "ega": {
-          "finding": "Gas. Nessun pH fissato.",
-          "isAbnormal": true,
-          "price": 10
+        "collo": {
+          "finding": "GCS 15, niente dolore mediano, niente parestesie. E sceso dall'auto.",
+          "isAbnormal": false
         },
-        "pet-tc": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 950
+        "rmn-lombare": {
+          "finding": "Non e nella regola cervicale e non toglie l'obbligo del collare.",
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Riscaldamento esterno e fluidi caldi ev",
+          "label": "Immobilizzazione mantenuta",
           "anyOf": [
             {
-              "id": "fluidi-caldi-ev",
-              "label": "Fluidi caldi EV 38-42 °C",
-              "aliases": ["fluidi caldi", "riscaldamento", "aria forzata"]
+              "id": "collare",
+              "label": "Collare",
+              "aliases": [
+                "collare",
+                "immobilizzazione"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "togliere",
+          "label": "Rimozione del collare",
+          "aliases": [
+            "togliere",
+            "nexus"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Temperatura centrale.",
-        "ECG.",
-        "Riscaldamento esterno e fluidi caldi 38-42 °C.",
-        "Non scuotere, non liquidi freddi.",
-        "Rivalutazione termica.",
-        "Spiegare a Franco il rischio di FV."
+        "Collare mantenuto per l'eta.",
+        "Niente risonanza.",
+        "Regola spiegata."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto di riscaldamento ed ECG."
+          "id": "rmn",
+          "kind": "clinical",
+          "trigger": "Risonanza al posto della regola."
         }
       ],
       "citationLimits": [
-        "Ipotermia: temperatura centrale <35 °C nei testi ERC. Grave può arrivare all'arresto.",
-        "Brief 29 °C vs schema vitals >30: usata 30.5. Sistolica 88 e rischio ECLS restano (soglia scritta <90 mmHg).",
-        "Onde di Osborn: nessuna frase. Gold path, citazione vuota.",
-        "Manipolazione delicata anti-FV: nessuna frase. Gold path, citazione vuota. La FV è trattata solo come ritardo degli shock dopo tre scariche se temperatura ≤30.",
-        "Fluidi caldi 38-42 °C e dispositivi esterni (chimici, elettrici, aria forzata) sono scritti.",
-        "Non copiare HOPE/ICE sui bambini in questo adulto."
+        "Il NEXUS non cancella l'eta della Canadian."
       ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "PASSIVE",
-    "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ISOLATED" },
-    "communicationStyle": "Confuso, parla piano, ha freddo. Chiede di essere scaldato senza scossoni. Se capisce, vuole sapere se il cuore può fibrillare."
-  }
+    "healthLiteracy": "HIGH",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "GOOD",
+      "stressLevel": "LOW",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "E lucido e chiede di togliere il collare. Gli si spiega che sopra i 65 anni la regola lo rende obbligatorio, e non lo si toglie."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Che regola, e che fattore guardi prima",
+      "prompt": "Il servizio usa la Canadian. Sergio ha 70 anni, GCS 15, collo indolore. Che cerchi per primo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "I fattori elevati: l'eta sopra i 65 anni basta a rendere il collare obbligatorio",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Salti l'eta e guardi solo se il collo duole",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Eta non letta",
+      "prompt": "Prima si cercano i fattori elevati: dinamica suggestiva, oppure eta sopra i 65 anni, oppure parestesie. Rendono l'immobilizzazione obbligatoria.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Il collare",
+      "prompt": "Non ha dolore, e sceso dall'auto, non ha parestesie. Lo togli?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "No. L'eta e gia un fattore elevato. I fattori minori vengono dopo e non lo cancellano",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo togli perche e un tamponamento semplice e cammina",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Collare tolto sopra i 65 anni",
+      "prompt": "I fattori minori, tra cui il tamponamento semplice e l'aver camminato, si cercano in subordine. Non cancellano l'eta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "NEXUS al posto della Canadian",
+      "prompt": "Un collega usa solo il NEXUS: GCS 15, niente dolore mediano, niente deficit. Toglie il collare.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. Con la Canadian l'eta resta obbligatoria. Il NEXUS non la sostituisce",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Togli il collare perche i cinque criteri NEXUS ci sarebbero",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "NEXUS al posto della Canadian",
+      "prompt": "Il NEXUS definisce non a rischio chi ha insieme cinque criteri, e non include l'eta. La Canadian, che e la regola in uso, mette l'eta sopra i 65 anni prima di tutto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Rotazione",
+      "prompt": "Vuoi fargli ruotare il collo di 45 gradi e, se ci riesce, togliere il collare.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. La rotazione viene dopo i fattori elevati, che qui ci sono gia",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Se ruota, togli il collare",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Rotazione che cancella l'eta",
+      "prompt": "La rotazione di 45 gradi si valuta dopo. Non e il modo per aggirare un fattore elevato gia presente.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Risonanza",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi una risonanza lombare prima di decidere il collare.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. Non e nella regola e non cambia l'eta Non la esegui ora.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "RM del rachide lombo-sacrale senza contrasto a 185,00 euro: non sta nella regola cervicale",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI RM 000003888 RM rachide e midollo segmento lombo-sacrale senza contrasto 185,00. RM del rachide lombo-sacrale senza contrasto a 185,00 euro: non sta nella regola cervicale. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Glielo spieghi",
+      "prompt": "La moglie chiede di togliere il collare. Lui, informato, accetta di tenerlo. E capace e vuole toglierlo. Che fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Gli spieghi che sopra i 65 anni la regola lo vieta, e il collare resta Il collare resta: non lo togli su richiesta della moglie.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Togli il collare perche lo chiede la moglie, dopo che lui, informato dell'eta, accetta di tenerlo",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Togli il collare perche lo chiede la moglie, dopo che lui, informato dell'eta, accetta di tenerlo contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se avesse 40 anni",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Se avesse 40 anni, nessun fattore elevato, i fattori minori del tamponamento e camminasse, che faresti dopo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Valuteresti la rotazione di 45 gradi. Qui ha 70 anni, quindi quel passaggio non si apre In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Collare obbligatorio sopra i 65 anni",
+      "prompt": "Canadian: l'eta sopra i 65 anni rende l'immobilizzazione obbligatoria. Non la togli con il NEXUS, non fai la rotazione al posto dell'eta, non chiedi la risonanza lombare.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

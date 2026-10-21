@@ -1,154 +1,170 @@
 {
   "id": "EMERG-001",
   "code": "EMERG-001",
-  "title": "Ragazzo di 22 anni con dispnea sibilante",
-  "description": "Luca, 22 anni, arriva in pronto soccorso per dispnea sibilante. Parla a frasi intere, non è esausto. Parametri: PA 124/76 mmHg, FC 92 bpm, FR 20 atti/min, SpO2 96%, temperatura 36.7.",
+  "title": "Ragazzo di 22 anni con asma acuto, frasi intere e saturazione 96%",
+  "description": "Luca, 22 anni, in pronto soccorso per dispnea sibilante. Parla a frasi intere. Parametri: PA 124/76 mmHg, FC 92 bpm, FR 20 atti/min, SpO2 96% in aria, temperatura 36.7. Non e esausto. Nessun sospetto di pneumotorace.",
   "difficulty": "EASY",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["pneumologia"],
-  "condition": "Crisi asmatica lieve",
+  "secondarySpecialties": [
+    "pneumologia"
+  ],
+  "condition": "Asma acuto in ospedale, senza segni di rischio per la vita",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "BASE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-  "diagnosis": "Crisi asmatica lieve. SpO2 96%, parla a frasi intere, nessun segno di esaurimento.",
-  "pastMedicalHistory": "Sibili noti, senza un ricovero descritto. Non è in ossigeno all'arrivo. Non è dichiarata una terapia steroidea già presa oggi. Nessuna allergia è nel racconto di partenza.",
-  "presentation": "Dispnea con sibili, da poche ore. In pronto soccorso parla a frasi intere, non usa i muscoli accessori in modo descritto come esaurimento, saturazione 96%. Vuole il suo spray e tornare a casa.",
-  "redHerrings": [],
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Asma acuto senza i segni di severita o di rischio per la vita della figura ERC. Il trattamento immediato in ospedale e comunque quello del riquadro: ossigeno solo per restare tra 94 e 98%, salbutamolo 5 mg e ipratropio 0,5 mg in nebulizzatore, prednisone 40-50 mg o idrocortisone 100 mg. Niente sedazione. La radiografia solo se si sospetta pneumotorace o consolidamento o se serve la ventilazione. L'emogas solo se ci sono segni di rischio per la vita.",
+  "pastMedicalHistory": "Sibili noti. Non ha gia ricevuto in pronto soccorso salbutamolo, ipratropio o steroide. Nessuna allergia dichiarata. E lucido.",
+  "presentation": "Parla a frasi intere, frequenza respiratoria 20, frequenza cardiaca 92, saturazione 96%. Non e il quadro che la figura chiama incapacita di terminare la frase, frequenza respiratoria sopra 25 o frequenza cardiaca sopra 110.",
+  "redHerrings": [
+    "Chiede di tornare a casa con il solo spray, senza lo steroide del riquadro."
+  ],
   "timeLimitMinutes": 25,
   "patientDeteriorationThreshold": 20,
-  "patientPrompt": "Mi chiamo Luca, ho 22 anni. Mi manca il fiato e sento un fischio quando respiro, ma riesco a parlare. Non sono sfinito. Datemi l'inalatore e, se serve, la compressa, e ditemi se posso andare a casa. Non voglio una lastra o un prelievo dal polso se non servono.",
-  "correctSolution": "Salbutamolo per via inalatoria e steroide orale, poi dimissione. Nel riquadro ERC/SIGN il trattamento immediato dell'asma acuto in ospedale indica salbutamolo 5 mg in nebulizzatore e prednisone 40-50 mg per os (o idrocortisone ev). L'adattamento italiano GINA 2017 definisce lievi le riacutizzazioni che richiedono solo un rafforzamento della terapia inalatoria o dei SABA. Nello stesso documento la valutazione del PEF è scritta nel paragrafo delle riacutizzazioni gravi, come alternativa alla curva flusso-volume: non è una soglia di dimissione e non fissa un numero. L'emogas è scritto per i segni di rischio per la vita; qui SpO2 è 96% e non c'è esaurimento. La radiografia del torace, nella figura ERC/SIGN, è indicata se si sospetta pneumotorace o consolidamento o se serve la ventilazione meccanica: qui non è descritto nessuno di questi tre casi.",
-  "goldStandardPath": ["spirometria"],
-  "goldPathNarrative": "Picco di flusso, salbutamolo inalatorio e steroide orale. Non emogas e non radiografia del torace in questo quadro lieve. Spiegare a Luca che la saturazione è 96% e che parla a frasi intere.",
+  "patientPrompt": "Sono Luca, ho 22 anni. Fischio ma parlo. Non voglio un prelievo dal polso ne una lastra se il testo non li chiede. Se c'e una dose scritta, datemela e spiegatemela.",
+  "correctSolution": "Trattamento immediato del riquadro ERC: ossigeno solo per tenere la saturazione tra 94 e 98% (e gia 96%), salbutamolo 5 mg e ipratropio 0,5 mg nebulizzati con ossigeno, prednisone 40-50 mg per os o idrocortisone 100 mg endovena. Nessuna sedazione. Non emogas: i segni di rischio per la vita non ci sono, e non servono altri test per iniziare il trattamento. Non radiografia: non c'e sospetto di pneumotorace, consolidamento o ventilazione meccanica. Il magnesio 1,2-2 g in 20 minuti e nel riquadro dei criteri di rischio vita, non qui.",
+  "goldStandardPath": [
+    "saturazione",
+    "peak-flow"
+  ],
+  "goldPathNarrative": "Inizi il trattamento del riquadro senza emogas e senza lastra. Non sedi. Non dai il magnesio di un quadro a rischio vita.",
   "examLatencies": {
-    "spirometria": 15,
-    "emocromo": 20,
-    "rx-torace": 30,
-    "ega": 10
+    "saturazione": 1,
+    "peak-flow": 10,
+    "ega": 10,
+    "rx-torace": 30
   },
   "anamnesisQuestions": [
     {
       "id": "frasi",
-      "prompt": "Riesce a finire una frase con un solo respiro, o si interrompe?",
+      "prompt": "Riesce a finire una frase con un solo respiro?",
       "critical": true,
-      "expectedKeywords": ["frase", "parlare", "respiro", "fiato"],
-      "rationale": "La figura SIGN distingue l'asma severo dall'incapacità di terminare la frase. Luca parla a frasi intere."
+      "expectedKeywords": [
+        "frase",
+        "parlare",
+        "respiro"
+      ],
+      "rationale": "L'incapacita di terminare la frase e un segno di asma acuto severo."
     },
     {
-      "id": "esaurimento",
-      "prompt": "Si sente sfinito, o sta solo fischiando ma è lucido?",
+      "id": "numeri",
+      "prompt": "Quanti atti al minuto e che polso ha?",
       "critical": true,
-      "expectedKeywords": ["sfinito", "esausto", "lucido", "fischio"],
-      "rationale": "L'esaurimento è tra i segni di rischio per la vita della stessa figura. Qui non c'è."
+      "expectedKeywords": [
+        "frequenza",
+        "polso",
+        "atti"
+      ],
+      "rationale": "Sopra 25 atti o sopra 110 battiti la figura parla di severita."
     },
     {
-      "id": "inalatore",
-      "prompt": "Ha già usato uno spray per l'asma, e quando è stata l'ultima dose?",
-      "critical": true,
-      "expectedKeywords": ["spray", "inalatore", "salbutamolo", "dose"],
-      "rationale": "Il trattamento immediato della figura parte dal broncodilatatore. Il caso non dichiara una dose già fatta in pronto soccorso."
+      "id": "lastra",
+      "prompt": "Che cosa le hanno detto della radiografia?",
+      "critical": false,
+      "expectedKeywords": [
+        "lastra",
+        "radiografia",
+        "pneumotorace"
+      ],
+      "rationale": "La lastra del riquadro ha tre indicazioni, non e di routine."
     }
   ],
   "physicalExam": {
-    "summary": "Parla a frasi intere, non è esausto, collabora. Sibili espiratori diffusi, murmure presente, niente cianosi descritta. Toni ritmici, soffi assenti. Addome trattabile."
+    "summary": "Parla a frasi intere, non usa i muscoli fino all'esaurimento, sibili presenti, murmure presente. Non cianosi. Lucido."
   },
   "escCitations": [
     {
-      "chunkId": "erc6-salbutamolo-nebulizzato",
-      "source": "knowledge_base/medicina_urgenza/clinic/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Broncodilatatori Beta2 (Salbutamolo 5 mg) attraverso un nebulizzatore ad ossigeno"
+      "chunkId": "imm",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Trattamento immediato. Ossigeno per mantenere SPO2 tra 94-98%. Broncodilatatori Beta2 (Salbutamolo 5 mg) attraverso un nebulizzatore ad ossigeno. Ipratropio Bromuro 0.5 mg attraverso un nebulizzatore ad ossigeno. Prednisone 40-50 mg os o Idrocortisone 100mg e.v. Nessuna sedazione."
     },
     {
-      "chunkId": "erc6-prednisone-os",
-      "source": "knowledge_base/medicina_urgenza/clinic/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Prednisone 40-50 mg os o Idrocortisone 100mg e.v."
-    },
-    {
-      "chunkId": "erc6-steroidi",
-      "source": "knowledge_base/medicina_urgenza/clinic/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Somministrare steroidi (40-50 mg di Prednisolone o 100 mg di idrocortisone)."
-    },
-    {
-      "chunkId": "erc6-emogas-se-rischio-vita",
-      "source": "knowledge_base/medicina_urgenza/clinic/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Se il paziente ha segni di rischio per la vita, esegui un emogasanalisi. Non sono necessari altri test per iniziare un trattamento immediato."
-    },
-    {
-      "chunkId": "erc6-rx-condizionale",
-      "source": "knowledge_base/medicina_urgenza/clinic/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "chunkId": "rx",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
       "quote": "Rx del torace se si sospetta pneumotorace o consolidamento o il paziente richiede ventilazione meccanica"
     },
     {
-      "chunkId": "erc6-spo2-rischio-vita",
-      "source": "knowledge_base/medicina_urgenza/clinic/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Segni di rischio per la vita • PEF <33% del valore migliore o predetto • SpO2 <92% • Torace silente all’ascultazione, cianosi o scarsi sforzi respiratori"
+      "chunkId": "ega",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Se il paziente ha segni di rischio per la vita, esegui un emogasanalisi. Non sono necessari altri test per iniziare un trattamento immediato."
     },
     {
-      "chunkId": "gina-riacutizzazione-lieve-saba",
-      "source": "knowledge_base/medicina_urgenza/clinic/GINA_adattamento_ita_2017_doc.pdf",
-      "quote": "Lievi: se richiedono solo un rafforzamento della terapia inalatoria o dell’uso dei SABA."
+      "chunkId": "sev",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
+      "quote": "Segni di asma acuto severo. Incapacita di terminare la frase con un respiro. Frequenza respiratoria >25 atti/min. Frequenza cardiaca >100 battiti/min"
     },
     {
-      "chunkId": "gina-valutazione-pef",
-      "source": "knowledge_base/medicina_urgenza/clinic/GINA_adattamento_ita_2017_doc.pdf",
-      "quote": "Curva flusso-volume, in alternativa valutazione del PEF"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
+    },
+    {
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI RX 000000701 RX torace (due proiezioni) 40,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Salbutamolo inalatorio e steroide orale.",
-      "Niente emogas: SpO2 96%, nessun esaurimento, non è il riquadro del rischio per la vita.",
-      "Niente radiografia del torace: non c'è sospetto di pneumotorace, consolidamento o ventilazione meccanica."
+      "Iniziare salbutamolo 5 mg, ipratropio 0,5 mg e steroide del riquadro senza aspettare l'emogas.",
+      "Non eseguire la radiografia se non c'e uno dei tre motivi scritti."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Salbutamolo, steroide, emogas e radiografia restano le frasi della figura BTS/SIGN 2019 nel capitolo ERC 2021. GINA 2017, adattamento italiano, definisce lievi le riacutizzazioni trattate con terapia inalatoria o SABA. La valutazione del PEF, nello stesso GINA, è nel paragrafo 10.3.2 delle riacutizzazioni gravi, come alternativa alla curva flusso-volume. Non è una soglia per dimettere Luca e non porta un numero di PEF.",
+      "art5Adherence": "La figura ERC sull'asma acuto in ospedale fissa dosi, saturazione e gli esami che non sono di routine. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Documentare SpO2 96%, capacità di parlare a frasi intere e assenza di esaurimento.",
-        "Registrare salbutamolo e steroide orale, con la risposta.",
-        "Motivare l'astensione da emogas e da radiografia del torace sui criteri della figura."
+        "Non sedare: il riquadro dice nessuna sedazione.",
+        "Non dare il magnesio del riquadro a rischio vita in un quadro che non lo e.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "spirometria",
-      "name": "Picco di flusso espiratorio",
-      "finding": "Misura del picco di flusso richiesta dalla figura. Nessun valore numerico di PEF è fissato dal caso.",
-      "isAbnormal": true,
-      "priceEuro": 25,
+      "examId": "saturazione",
+      "name": "Saturazione",
+      "finding": "96% in aria. Il bersaglio scritto e 94-98%, non il 100%.",
+      "isAbnormal": false,
       "isFatal": false
     },
     {
-      "examId": "emocromo",
-      "name": "Emocromo",
-      "finding": "Nella norma. Nessun numero è fissato. Non cambia salbutamolo né steroide.",
-      "isAbnormal": false,
-      "priceEuro": 4.8,
+      "examId": "peak-flow",
+      "name": "Picco di flusso",
+      "finding": "Da misurare prima e dopo il broncodilatatore. Nessuna percentuale inventata oltre la soglia di dimissione scritta.",
+      "isAbnormal": true,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "rx-torace",
-      "name": "RX torace",
-      "finding": "Non indicata: nessun sospetto di pneumotorace o consolidamento, e non c'è indicazione a ventilare.",
+      "examId": "ega",
+      "name": "Emogasanalisi immediata",
+      "finding": "Non ci sono i segni di rischio per la vita per cui la figura chiede l'emogas.",
       "isAbnormal": false,
-      "priceEuro": 25,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Nella figura SIGN la radiografia del torace è prevista se si sospetta pneumotorace o consolidamento o se il paziente richiede ventilazione meccanica. Qui non ricorre nessuno di questi casi."
+      "inappropriate": true,
+      "wasteRationale": "Ritarda il trattamento immediato. Il testo dice che non servono altri test per iniziarlo."
     },
     {
-      "examId": "ega",
-      "name": "Emogasanalisi",
-      "finding": "Non indicata: SpO2 96%, parla a frasi intere, non è esausto.",
+      "examId": "rx-torace",
+      "name": "Radiografia del torace",
+      "finding": "Nessun sospetto di pneumotorace o consolidamento e nessuna ventilazione meccanica.",
       "isAbnormal": false,
-      "priceEuro": 10,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "La figura dice di eseguire l'emogas se ci sono segni di rischio per la vita. Tra quei segni c'è SpO2 inferiore a 92%. Qui la saturazione è 96%."
+      "inappropriate": true,
+      "wasteRationale": "Radiografia del torace a 40,00 euro prima del nebulizzatore, senza i tre motivi del riquadro. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 40
     }
   ],
   "baselineExamFindings": {
@@ -159,74 +175,71 @@
       "temperature": 36.7,
       "respiratoryRate": 20
     },
-    "examBudgetEuro": 40,
-    "demographics": { "age": 22, "sex": "M", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Parola a frasi intere",
-        "result": "Completa le frasi. Non è descritto l'uso dei muscoli accessori come esaurimento.",
-        "isPositive": false
-      }
-    ],
+    "demographics": {
+      "age": 22,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "spirometria": { "finding": "Picco di flusso senza valore numerico fissato.", "isAbnormal": true, "price": 25 },
-        "emocromo": { "finding": "Nella norma, senza numeri fissati.", "isAbnormal": false, "price": 4.8 },
-        "rx-torace": { "finding": "Non indicata in questo quadro.", "isAbnormal": false, "price": 25 },
-        "ega": { "finding": "Non indicata con SpO2 96% e senza segni di rischio per la vita.", "isAbnormal": false, "price": 10 }
+        "saturazione": {
+          "finding": "96% in aria. Il bersaglio scritto e 94-98%, non il 100%.",
+          "isAbnormal": false
+        },
+        "peak-flow": {
+          "finding": "Da misurare prima e dopo il broncodilatatore. Nessuna percentuale inventata oltre la soglia di dimissione scritta.",
+          "isAbnormal": true
+        },
+        "ega": {
+          "finding": "Non ci sono i segni di rischio per la vita per cui la figura chiede l'emogas.",
+          "isAbnormal": false
+        },
+        "rx-torace": {
+          "finding": "Nessun sospetto di pneumotorace o consolidamento e nessuna ventilazione meccanica.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Salbutamolo inalatorio",
+          "label": "Salbutamolo e steroide del riquadro",
           "anyOf": [
             {
-              "id": "salbutamolo",
-              "label": "Salbutamolo inalatorio",
-              "aliases": ["salbutamolo", "ventolin", "nebulizzazione", "beta2", "saba"]
+              "id": "saba",
+              "label": "Salbutamolo 5 mg",
+              "aliases": [
+                "salbutamolo"
+              ]
             }
           ]
-        },
+        }
+      ],
+      "contraindicated": [
         {
-          "label": "Steroide orale",
-          "anyOf": [
-            {
-              "id": "steroide-orale",
-              "label": "Prednisone o prednisolone orale",
-              "aliases": ["prednisone", "prednisolone", "deltacortene", "steroide orale", "cortisone orale"]
-            }
+          "id": "sedazione",
+          "label": "Sedazione",
+          "aliases": [
+            "sedazione",
+            "benzodiazepina"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Salbutamolo per via inalatoria.",
-        "Steroide orale.",
-        "Dimissione di questo attacco lieve.",
-        "Niente radiografia del torace e niente emogas."
+        "Trattamento immediato senza emogas e senza lastra.",
+        "Niente sedazione e niente magnesio da rischio vita."
       ],
       "penalties": [
         {
-          "id": "rx-torace",
-          "kind": "economic",
-          "trigger": "Radiografia del torace senza sospetto di pneumotorace, consolidamento o ventilazione meccanica."
-        },
-        {
           "id": "ega",
-          "kind": "economic",
-          "trigger": "Emogas con SpO2 96% e senza segni di rischio per la vita."
+          "kind": "clinical",
+          "trigger": "Emogas prima del trattamento in un quadro senza segni di rischio vita."
         }
       ],
       "citationLimits": [
-        "Il capitolo ERC è sull'arresto in circostanze speciali. La figura riproduce la linea BTS/SIGN 2019 sulla gestione intraospedaliera dell'asma acuto, non un percorso scritto per la sola crisi lieve ambulatoriale.",
-        "Lo stesso capitolo, prima della figura, nel punto Respirazione di asma e BPCO, scrive di richiedere una radiografia del torace senza la condizione pneumotorace/consolidamento/ventilazione. La scelta di non farla in questo caso segue la frase condizionata della figura e il brief, non quella riga.",
-        "Il riquadro del trattamento immediato elenca anche ipratropio bromuro 0,5 mg in nebulizzatore e ossigeno per SpO2 tra 94 e 98%. La saturazione di Luca è già 96%. L'ipratropio non è richiesto per chiudere il caso.",
-        "La dimissione della figura ERC/SIGN chiede PEF superiore al 75% e terapia osservata per 12-24 ore prima di lasciare l'ospedale. Nessun numero di PEF è fissato qui. Quella checklist non è soddisfatta.",
-        "In GINA la frase «Curva flusso-volume, in alternativa valutazione del PEF» sta sotto «10.3.2 Le riacutizzazioni gravi», insieme a pulsiossimetria ed emogas. Non è la regola della forma lieve e non autorizza l'emogas con SpO2 96%.",
-        "La definizione GINA di forma lieve («rafforzamento della terapia inalatoria o dell’uso dei SABA») copre il trattamento, non una frase che dica di dimettere senza altri criteri. La dimissione resta il brief del quadro lieve.",
-        "L'emocromo non è nominato. È nel caso solo perché lo schema esige due esami; il referto è normale e non guida la terapia."
+        "Il magnesio 1,2-2 g in 20 minuti e scritto per i criteri di rischio vita."
       ]
     }
   },
@@ -234,7 +247,247 @@
     "healthLiteracy": "MEDIUM",
     "emotionalState": "COLLABORATIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "GOOD", "stressLevel": "MEDIUM", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Collabora e vuole tornare a casa. Ascolta se gli si dice che parla a frasi intere, che la saturazione è 96% e perché spray e compressa bastano senza lastra né prelievo dal polso."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole la dose scritta e non vuole esami che il riquadro non chiede. Resta collaborante se gli si dice che cosa si fa subito."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Quanto e grave",
+      "prompt": "Parla a frasi intere, FR 20, FC 92, SpO2 96%. E il quadro severo della figura?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "No. La figura mette tra i segni severi l'incapacita di finire la frase, piu di 25 atti e piu di 110 battiti. Qui non ci sono",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo chiami a rischio vita e prepari l'intubazione come prima mossa",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Gravita non scritta",
+      "prompt": "I segni di asma acuto severo della figura sono l'incapacita di terminare la frase, la frequenza respiratoria sopra 25 e la frequenza cardiaca sopra 110, oltre al picco di flusso. Attribuirgli un rischio vita che la figura non descrive cambia il piano, compreso il magnesio, senza i criteri.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Che cosa inizi subito",
+      "prompt": "La madre chiede di non iniziare finche non arriva. Qual e il trattamento immediato scritto, prima di altri test?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Ossigeno solo per restare tra 94 e 98%, salbutamolo 5 mg e ipratropio 0,5 mg nebulizzati, prednisone 40-50 mg o idrocortisone 100 mg. Nessuna sedazione Non aspetti la madre.",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Aspetti la madre al telefono prima di salbutamolo, ipratropio e steroide, anche se Luca e lucido e accetta",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti la madre al telefono prima di salbutamolo, ipratropio e steroide, anche se Luca e lucido e accetta contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Emogas",
+      "prompt": "Vuoi l'emogas prima di nebulizzare.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. L'emogas e per i segni di rischio vita, e non servono altri test per iniziare il trattamento",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Aspetti il prelievo arterioso prima del salbutamolo",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Emogas che ritarda la cura",
+      "prompt": "La figura: se ci sono segni di rischio per la vita, esegui l'emogas. Non sono necessari altri test per iniziare un trattamento immediato. Qui quei segni non ci sono.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Radiografia",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Nessun sospetto di pneumotorace o di consolidamento. Non e in ventilazione. Fai la lastra?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. Il riquadro la limita a quei tre casi Non la esegui ora.",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Radiografia del torace a 40,00 euro prima del nebulizzatore, senza i tre motivi del riquadro",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI RX 000000701 RX torace (due proiezioni) 40,00. Radiografia del torace a 40,00 euro prima del nebulizzatore, senza i tre motivi del riquadro. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Magnesio",
+      "prompt": "Un collega prepara magnesio solfato 1,2-2 g in 20 minuti.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non ora. Quel dosaggio sta nel riquadro dei criteri di rischio vita, se non gia dato",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo infondi subito, come se i criteri di rischio vita ci fossero",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Magnesio fuori dal riquadro",
+      "prompt": "Il magnesio solfato 1,2-2 g in infusione lenta di 20 minuti e scritto se sono presenti criteri di rischio vita. Il quadro di Luca non e quello.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sedazione",
+      "prompt": "E agitato ma lucido. Il riquadro che dice della sedazione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Nessuna sedazione",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Gli dai un sedativo per farlo stare fermo durante la nebulizzazione",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sedazione vietata dal riquadro",
+      "prompt": "Nel trattamento immediato e scritto: nessuna sedazione. Un sedativo non e nel piano e puo peggiorare il respiro che la figura ti dice di non deprimere.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Prima di mandarlo a casa",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Migliora. La figura, prima della dimissione dall'ospedale, che cosa chiede sul picco di flusso e sullo steroide?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Picco di flusso sopra il 75% del migliore o del predetto, variabilita diurna sotto il 25% salvo diverso accordo del medico respiratorio, e prednisolone 40-50 mg fino a risoluzione per almeno 5 giorni, piu steroide inalatorio In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Trattamento immediato, senza esami di troppo",
+      "prompt": "Salbutamolo 5 mg, ipratropio 0,5 mg, prednisone 40-50 mg o idrocortisone 100 mg. Saturazione gia nel bersaglio 94-98%. Niente sedazione, niente emogas, niente lastra, niente magnesio da rischio vita.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

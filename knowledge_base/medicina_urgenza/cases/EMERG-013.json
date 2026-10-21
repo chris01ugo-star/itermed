@@ -1,209 +1,229 @@
 {
   "id": "EMERG-013",
   "code": "EMERG-013",
-  "title": "Donna di 30 anni con stridore, rash e shock dopo un farmaco",
-  "description": "Martina, 30 anni, arriva per reazione a un antibiotico preso a casa. Stridore, rash, ipotesa. Parametri: PA 78/42 mmHg, FC 132 bpm, FR 28 atti/min, SpO2 91%, temperatura 36.8.",
+  "title": "Donna di 30 anni con sibili, edema e pressione 80/40",
+  "description": "Anna, 30 anni, dopo un farmaco: edema della glottide, sibili, pressione 80/40. Parametri: PA 80/40 mmHg, FC 120 bpm, FR 28 atti/min, SpO2 90% in aria, temperatura 36.6. Non e in arresto. Nessuna DAT. I familiari non sono in pronto soccorso.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["pneumologia"],
-  "condition": "Shock anafilattico severo",
+  "secondarySpecialties": [],
+  "condition": "Anafilassi con compromissione di vie aeree, respiro e circolo",
   "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-  "diagnosis": "Anafilassi: vie aeree (stridore), respiro e circolo (ipotensione) dopo farmaco. Non è un'asma isolata.",
-  "pastMedicalHistory": "Ha preso un antibiotico. Non è in beta-bloccante dichiarato. La prima adrenalina IM in PS non ha ancora dato risposta: va ripetuta. Non è seduta: va tenuta supina.",
-  "presentation": "Stridore, pomfi, pressione 78/42. Adrenalina IM 0,5 mg nella coscia appena si sospetta, ripetere dopo circa 5 minuti se non migliora. Bolo di cristalloidi, anche grandi volumi. Restare supina. Cortisonici e anti-istaminici non hanno prove nella gestione precoce: restano nel percorso a citazione vuota.",
+  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Si riconosce l'anafilassi da edema delle vie aeree, sibili e ipotensione, anche senza storia di allergia. Adrenalina intramuscolo 0,5 mg (0,5 mL di 1 mg/mL) nella coscia anterolaterale appena si sospetta, da ripetere dopo circa 5 minuti se non migliora. Resta supina. Bolo di cristalloidi subito: possono servire grandi volumi. L'adrenalina endovena 20-50 mcg e per il caso refrattario o per un ambiente specialistico, non come prima dose. Non si aspetta un familiare.",
+  "pastMedicalHistory": "Nessuna allergia nota prima di oggi. Non assume beta-bloccanti. Nessuna DAT.",
+  "presentation": "Edema, sibili e ipotensione insieme. Non e in arresto.",
   "redHerrings": [
-    "Un collega propone solo un antistaminico e di farla sedere per respirare meglio.",
-    "Chiede di alzarsi per chiamare il fidanzato."
+    "Propongono 1 mg di adrenalina endovena come prima dose, e di aspettare il marito."
   ],
-  "timeLimitMinutes": 80,
-  "patientDeteriorationThreshold": 8,
-  "patientPrompt": "Mi chiamo Martina, ho 30 anni. Ho preso l'antibiotico, ora fischio in gola, ho le macchie, sto svenendo. Fatemela l'adrenalina nella gamba, e di nuovo se non basta. Non fatemi alzare. Ditelo al mio fidanzato.",
-  "correctSolution": "Riconoscere l'anafilassi da vie aeree, respiro e/o circolo. Adrenalina IM 0,5 mg in regione anterolaterale di coscia, ripetere dopo circa 5 minuti se non migliora. Supina, non sedersi né alzarsi. Bolo di cristalloidi EV, anche grandi volumi. Vasopressori alternativi se refrattaria. Steroidi e anti-istaminici: il testo ERC dice che non vi sono prove nella gestione precoce. Il brief li chiede: nel percorso, citazione vuota. SPIKES verso il fidanzato.",
+  "timeLimitMinutes": 15,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Anna, ho 30 anni. Mi si chiude la gola e la pressione e bassa. Non aspettate mio marito. Non voglio una dose da arresto se ho ancora il polso.",
+  "correctSolution": "Adrenalina 0,5 mg intramuscolo nella coscia, subito, da ripetere dopo circa 5 minuti se non migliora. Supina. Cristalloidi in bolo. Non 1 mg endovena come prima dose: i 20-50 mcg endovena sono per il refrattario o per un ambiente specialistico. Non aspettare il marito.",
   "goldStandardPath": [
-    "adrenalina-im",
-    "adrenalina-im-5min",
-    "fluidi-ev",
-    "ega",
-    "monitoraggio-continuo"
+    "pressione",
+    "vie-aeree"
   ],
-  "goldPathNarrative": "Adrenalina IM subito, ripetizione a 5 minuti, cristalloidi a grandi volumi, posizione supina, monitoraggio. Cortisonici senza citazione di efficacia precoce. Non farla alzare.",
+  "goldPathNarrative": "Riconosci l'anafilassi. Adrenalina intramuscolo 0,5 mg. Supina. Fluidi. Non aspetti il marito.",
   "examLatencies": {
-    "adrenalina-im": 2,
-    "adrenalina-im-5min": 7,
-    "fluidi-ev": 5,
-    "ega": 10,
-    "monitoraggio-continuo": 15,
-    "pet-tc": 180
+    "pressione": 1,
+    "vie-aeree": 1,
+    "tryptasi": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "farmaco",
-      "prompt": "Che farmaco ha preso, e da quanti minuti sono comparsi stridore e macchie?",
+      "id": "polso",
+      "prompt": "Ha ancora il polso?",
       "critical": true,
-      "expectedKeywords": ["antibiotico", "farmaco", "macchie", "gola"],
-      "rationale": "Allontanare il trigger se possibile. ERC: fattore scatenante."
+      "expectedKeywords": [
+        "polso",
+        "si",
+        "pressione"
+      ],
+      "rationale": "Con il polso la prima adrenalina e intramuscolo, non la dose dell'arresto."
     },
     {
-      "id": "beta-bloccante",
-      "prompt": "Assume un beta-bloccante a casa?",
+      "id": "beta",
+      "prompt": "Prende un beta-bloccante?",
       "critical": true,
-      "expectedKeywords": ["beta", "cuore", "pressione", "farmaco"],
-      "rationale": "ERC considera glucagone ev nei pazienti che assumono beta-bloccanti. Qui non è dichiarato."
+      "expectedKeywords": [
+        "beta",
+        "no"
+      ],
+      "rationale": "Il glucagone endovena si considera in chi assume beta-bloccanti."
     },
     {
-      "id": "fidanzato",
-      "prompt": "Chi deve sapere che le stiamo dando l'adrenalina di nuovo?",
-      "critical": true,
-      "expectedKeywords": ["fidanzato", "famiglia", "sapere", "adrenalina"],
-      "rationale": "SPIKES Invitation. Non farla alzare per telefonare."
+      "id": "marito",
+      "prompt": "Vuole che si aspetti qualcuno prima della puntura?",
+      "critical": false,
+      "expectedKeywords": [
+        "marito",
+        "aspettare",
+        "no"
+      ],
+      "rationale": "Il testo dice di dare l'adrenalina appena si sospetta."
     }
   ],
   "physicalExam": {
-    "summary": "Stridore, pomfi diffusi, sudata, ipotesa. Edema labiale non millimetrato. Polmoni con sibili. Polsi rapidi e filiformi. Addome trattabile."
+    "summary": "Edema delle labbra, sibili, ipotesa, cosciente, supina. Polso presente."
   },
   "escCitations": [
     {
-      "chunkId": "erc6-riconoscere-anafilassi",
+      "chunkId": "ric",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Riconoscere l’anafilassi dalla presenza di problemi a livello delle vie aeree (edema), della respirazione (sibili o tosse persistente) e/o della circolazione (ipotensione)"
+      "quote": "Riconoscere l'anafilassi dalla presenza di problemi a livello delle vie aeree (edema), della respirazione (sibili o tosse persistente) e/o della circolazione (ipotensione)"
     },
     {
-      "chunkId": "erc6-adrenalina-im-05",
+      "chunkId": "adr",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Somministrare per via intramuscolare (IM) adrenalina (0,5 mg sono 0,5 mL di 1 mg in una fiala da 1 mL di adrenalina) nella regione anterolaterale della coscia appena si sospetta l’anafilassi."
+      "quote": "Somministrare per via intramuscolare (IM) adrenalina (0,5 mg sono 0,5 mL di 1 mg in una fiala da 1 mL di adrenalina) nella regione anterolaterale della coscia appena si sospetta l'anafilassi. Ripetere l'adrenalina IM se non si verifica un miglioramento delle condizioni del paziente dopo circa 5 min."
     },
     {
-      "chunkId": "erc6-ripetere-5-min",
+      "chunkId": "sup",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Ripetere l’adrenalina IM se non si verifica un miglioramento delle condizioni del paziente dopo circa 5 min."
+      "quote": "Assicurarsi che il paziente rimanga supino e che non si sieda o si alzi improvvisamente."
     },
     {
-      "chunkId": "erc6-supina",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Assicurarsi che il paziente rimanga supino e che non si sieda o si alzi improvvisa"
-    },
-    {
-      "chunkId": "erc6-fluidi-cristalloidi",
+      "chunkId": "flu",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
       "quote": "Somministrare immediatamente un bolo di fluidi (cristalloidi) EV e monitorare la risposta – possono essere necessari grandi volumi di fluidi."
     },
     {
-      "chunkId": "erc6-steroidi-no-prove-precoce",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Ruolo degli steroidi e degli anti-istaminici nella gestione precoce dell’anafilassi Non vi sono prove che su"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
     },
     {
-      "chunkId": "spikes-invitation",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "I = Invitation Invitare il paziente ad esplicitare in che misura vuole essere informato rispetto alla diagnosi, alla prognosi e sui dettagli della malattia"
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DL LB 000003522 Triptasi 24,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Adrenalina IM immediata, ripetuta a 5 minuti.",
-      "Supina, cristalloidi a volume.",
-      "Niente alzarsi. Cortisonici senza prova di efficacia precoce nel testo ERC."
+      "Adrenalina 0,5 mg intramuscolo appena si sospetta, senza aspettare i familiari.",
+      "Non usare 1 mg endovena come prima dose in chi ha il polso."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Riconoscimento, adrenalina IM 0,5 mg, ripetizione a 5 minuti, posizione supina e cristalloidi sono nel capitolo ERC 6. Steroidi e anti-istaminici: il PDF dice che non vi sono prove nella gestione precoce. Il brief li chiede comunque, senza citazione di beneficio.",
+      "art5Adherence": "Il capitolo ERC sull'anafilassi fissa via, dose e tempi. Il capitolo etico dice di non rimandare l'avvio quando non ci sono criteri per non iniziare. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Registrare farmaco scatenante, stridore e PA 78/42.",
-        "Registrare ora e sede delle due adrenalina IM.",
-        "Registrare i volumi di cristalloidi e che è restata supina."
+        "Ripetere l'intramuscolo dopo circa 5 minuti se non migliora.",
+        "I 20-50 mcg endovena sono per il refrattario o per un ambiente specialistico.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa",
-      "finding": "Ipossiemia da vie aeree. Nessun pH è fissato. Non ritarda l'adrenalina.",
+      "examId": "pressione",
+      "name": "Pressione",
+      "finding": "80/40 mmHg. Ipotensione.",
       "isAbnormal": true,
-      "priceEuro": 10,
       "isFatal": false
     },
     {
-      "examId": "monitoraggio-continuo",
-      "name": "Monitoraggio continuo",
-      "finding": "PA e SpO2 dopo la seconda adrenalina. Nessun numero di recupero è fissato.",
+      "examId": "vie-aeree",
+      "name": "Vie aeree e respiro",
+      "finding": "Edema e sibili. Polso presente.",
       "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non è il work-up dell'anafilassi.",
+      "examId": "tryptasi",
+      "name": "Triptasi prima dell'adrenalina",
+      "finding": "Il follow-up diagnostico viene dopo. Non e il primo passo e ritarda l'adrenalina.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Le raccomandazioni copiate nominano adrenalina IM e fluidi. Non la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "Triptasi a 24,00 euro prima dell'adrenalina intramuscolo. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 24
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 132,
-      "bloodPressure": "78/42",
-      "spo2": 91,
-      "temperature": 36.8,
+      "heartRate": 120,
+      "bloodPressure": "80/40",
+      "spo2": 90,
+      "temperature": 36.6,
       "respiratoryRate": 28
     },
-    "examBudgetEuro": 40,
-    "demographics": { "age": 30, "sex": "F", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Stridore e rash",
-        "result": "Stridore laringeo, pomfi, ipotensione.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 30,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ega": { "finding": "Ipossiemia, pH non fissato.", "isAbnormal": true, "price": 10 },
-        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+        "pressione": {
+          "finding": "80/40 mmHg. Ipotensione.",
+          "isAbnormal": true
+        },
+        "vie-aeree": {
+          "finding": "Edema e sibili. Polso presente.",
+          "isAbnormal": true
+        },
+        "tryptasi": {
+          "finding": "Il follow-up diagnostico viene dopo. Non e il primo passo e ritarda l'adrenalina.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Adrenalina intramuscolo",
+          "label": "Adrenalina 0,5 mg intramuscolo",
           "anyOf": [
             {
-              "id": "adrenalina-im",
-              "label": "Adrenalina IM 0,5 mg",
-              "aliases": ["adrenalina", "epinefrina", "intramuscolo"]
+              "id": "im",
+              "label": "Adrenalina IM",
+              "aliases": [
+                "adrenalina",
+                "0,5"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "1mg",
+          "label": "1 mg endovena come prima dose",
+          "aliases": [
+            "1 mg"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Adrenalina IM immediata.",
-        "Seconda dose a circa 5 minuti.",
-        "Cristalloidi, posizione supina.",
-        "Non farla alzare.",
-        "Informare il fidanzato."
+        "0,5 mg intramuscolo.",
+        "Supina e fluidi.",
+        "Niente attesa del marito."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto dell'adrenalina."
+          "id": "attesa",
+          "kind": "clinical",
+          "trigger": "Attesa del marito prima dell'adrenalina."
         }
       ],
       "citationLimits": [
-        "0,5 mg IM in coscia anterolaterale, non ev come prima mossa. L'ev è considerata se refrattaria in ambiente specialistico.",
-        "Ripetere dopo circa 5 minuti: è scritto due volte.",
-        "Steroidi e anti-istaminici: «Non vi sono prove» nella gestione precoce. Il brief li tiene nel percorso, citazione di beneficio vuota.",
-        "Alzarsi è contro il testo. Farla sedere è un errore."
+        "La prima dose endovena non e 1 mg."
       ]
     }
   },
@@ -211,7 +231,247 @@
     "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "GOOD", "stressLevel": "HIGH", "socialSupport": "STRONG" },
-    "communicationStyle": "Ha paura di soffocare. Accetta l'adrenalina se le si dice che è nella gamba e che se non basta si ripete a cinque minuti, e che deve restare sdraiata."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ha paura e nomina il marito. Accetta la puntura se non si aspetta nessuno e se non le si da la dose dell'arresto."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "E anafilassi",
+      "prompt": "Edema, sibili e pressione 80, senza allergie note. La chiami anafilassi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Si. Vie aeree, respiro e circolo bastano, anche senza storia di allergia",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Aspetti il rash, che qui non c'e, prima di trattare",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Anafilassi non riconosciuta",
+      "prompt": "Si riconosce da edema delle vie aeree, sibili o tosse persistente, e/o ipotensione, con o senza segni cutanei, anche senza allergia precedente.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima dose",
+      "prompt": "Ha il polso. Che adrenalina, dove e quando?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "0,5 mg intramuscolo nella coscia anterolaterale, appena si sospetta",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "1 mg endovena subito, la dose dell'arresto",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose dell'arresto in chi ha il polso",
+      "prompt": "La prima dose scritta e 0,5 mg intramuscolo. L'endovena da 20 a 50 mcg si considera se l'anafilassi e refrattaria o in ambiente specialistico. 1 mg endovena non e quella frase.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Posizione e fluidi",
+      "prompt": "Vuole sedersi. Che fai, e che liquidi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "La tieni supina. Bolo di cristalloidi subito: possono servire grandi volumi",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "La fai sedere e aspetti la pressione prima di qualsiasi fluido",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Seduta e senza fluidi",
+      "prompt": "Deve restare supina e non sedersi o alzarsi di colpo. Il bolo di cristalloidi e immediato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "A 5 minuti",
+      "prompt": "Non migliora dopo circa 5 minuti. Che fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Ripeti l'adrenalina intramuscolo",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Passi a 1 mg endovena come seconda mossa ordinaria",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Seconda dose sbagliata",
+      "prompt": "Ripetere l'adrenalina intramuscolo se non c'e miglioramento dopo circa 5 minuti. I 20-50 mcg endovena restano per il refrattario o per un ambiente specialistico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Triptasi prima",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi il prelievo per la triptasi prima della puntura.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. L'adrenalina si da appena si sospetta. Gli esami di follow-up vengono dopo Non la esegui ora.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Triptasi a 24,00 euro prima dell'adrenalina intramuscolo",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DL LB 000003522 Triptasi 24,00. Triptasi a 24,00 euro prima dell'adrenalina intramuscolo. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Il marito",
+      "prompt": "Il marito chiede di non pungere finche non arriva. Nessuna DAT. Il marito non c'e. Aspetti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. Non c'e un criterio per non iniziare Non aspetti il marito.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Aspetti il marito prima dell'adrenalina intramuscolo, in shock",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti il marito prima dell'adrenalina intramuscolo, in shock contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Beta-bloccante",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Se prendesse un beta-bloccante e l'adrenalina non bastasse, che consideri?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Il glucagone endovena. Qui non lo prende, quindi non lo aggiungi In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "0,5 mg intramuscolo, subito",
+      "prompt": "Adrenalina 0,5 mg nella coscia, supina, cristalloidi. Ripeti dopo circa 5 minuti se non migliora. Non 1 mg endovena e non il marito.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

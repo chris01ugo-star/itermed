@@ -1,245 +1,472 @@
 {
   "id": "EMERG-017",
   "code": "EMERG-017",
-  "title": "Donna di 50 anni con cefalea a rombo di tuono e rigidità nucale",
-  "description": "Elena, 50 anni, arriva per cefalea improvvisa a rombo di tuono, vomito e rigidità nucale. Parametri: PA 188/102 mmHg, FC 96 bpm, FR 20 atti/min, SpO2 97%, temperatura 36.9. Fotofobia. GCS 14.",
-  "difficulty": "HARD",
+  "title": "Ragazzo di 20 anni, trauma chiuso, GCS 15, collo non dolente",
+  "description": "Matteo, 20 anni, caduta dalla bici, GCS 15, niente dolore sulla linea mediana posteriore del collo, niente deficit, niente intossicazione, niente lesione distraente. Parametri: PA 120/70 mmHg, FC 80 bpm, FR 14 atti/min, SpO2 99% in aria, temperatura 36.5. Cosciente e capace.",
+  "difficulty": "EASY",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["neurologia"],
-  "condition": "Emorragia subaracnoidea sospetta",
-  "frequencyCategory": "LOW",
-  "matrixDifficulty": "ADVANCED",
+  "secondarySpecialties": [],
+  "condition": "Trauma chiuso che soddisfa tutti e cinque i criteri NEXUS",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-  "diagnosis": "Sospetta emorragia subaracnoidea: cefalea a rombo di tuono, vomito, rigidità nucale. Non è un'emicrania ordinaria. Non è un ictus ischemico da lisare prima della TC.",
-  "pastMedicalHistory": "Ipertensione. Nessun aneurisma noto nel racconto. Non è in anticoagulante dichiarato. GCS 14 all'arrivo, non 3. La TC senza mdc, il target pressorio dell'ESA e la consulenza neurochirurgica non hanno frase operativa nei PDF di questa cartella.",
-  "presentation": "Cefalea improvvisa, vomito, nuca rigida. ABCDE, TC senza mezzo di contrasto, controllo della pressione, chiamata al neurochirurgo, rivalutazione GCS a 1 ora. L'ESA è nominata tra le morti cerebrali improvvise ERC. Imaging, target millimetrici e consulenza restano nel percorso a citazione vuota.",
+  "guidelineRef": "04.A.Adduci-Canadian-spine-o-nexus.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "NEXUS: non e a rischio di lesione cervicale significativa chi ha insieme i cinque criteri: niente dolore sulla linea mediana posteriore, niente deficit focale, GCS 15, niente intossicazione, niente lesione distraente. L'obiettivo e evitare radiogrammi inutili. Il servizio che usa la Canadian C-spine Rule, invece, rende obbligatoria l'immobilizzazione se l'eta e sopra i 65 anni: Matteo ha 20 anni, quindi quel fattore non c'e.",
+  "pastMedicalHistory": "Trauma chiuso. Nessun altro dolore importante. Non ha bevuto. Cosciente.",
+  "presentation": "GCS 15, collo non dolente in mediana, esame neurologico senza deficit.",
   "redHerrings": [
-    "Un collega propone trombolisi come per un ictus ischemico, prima della TC.",
-    "Chiede un antinfiammatorio e di tornare a casa se il vomito passa."
+    "Propongono tre radiogrammi del collo e una TC, perche e caduto."
   ],
-  "timeLimitMinutes": 120,
-  "patientDeteriorationThreshold": 25,
-  "patientPrompt": "Mi chiamo Elena, ho 50 anni. Mi è esplosa la testa, vomito, non fletto il collo. Fatemi la TAC senza contrasto, tenete la pressione, chiamate i neurochirurghi. Tra un'ora rivedete se sto sveglia. Non datemi la lisi al buio.",
-  "correctSolution": "Trattare come emergenza neurologica. L'emorragia subaracnoidea è nominata nei testi ERC tra le cause di morte cerebrale improvvisa, insieme alla rottura di aneurisma. TC senza mdc, controllo rigoroso della PA e consulenza neurochirurgica: nessuna frase operativa estraibile, restano nel gold path a citazione vuota. Non lisare come un ictus ischemico prima dell'imaging. Rivalutazione GCS a 1 ora. SPIKES Knowledge.",
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Matteo, ho 20 anni. Sono caduto in bici, mi fa male un ginocchio, il collo no. Sono lucido. Non voglio lastre del collo se la regola dice che non servono.",
+  "correctSolution": "Non fare i radiogrammi del collo: i cinque criteri ci sono tutti. Non applicare l'eta sopra i 65, che e della Canadian e qui non ricorre. Se mancasse anche un solo criterio, la radiografia tornerebbe indicata.",
   "goldStandardPath": [
-    "abcde",
-    "tc",
-    "ega",
-    "controllo-pa",
-    "consulenza-nch",
-    "rivalutazione-gcs-1h"
+    "collo",
+    "gcs"
   ],
-  "goldPathNarrative": "ABCDE, TC senza mdc, emogas, controllo pressorio, consulenza neurochirurgica, rivalutazione GCS a 1 ora. Solo l'ESA come causa di morte improvvisa ha citazione ERC. TC, target PA e NCH: citazione vuota.",
+  "goldPathNarrative": "Verifichi i cinque criteri. Non chiedi le lastre.",
   "examLatencies": {
-    "abcde": 5,
-    "tc": 15,
-    "ega": 10,
-    "controllo-pa": 20,
-    "consulenza-nch": 30,
-    "rivalutazione-gcs-1h": 60,
-    "pet-tc": 180
+    "collo": 2,
+    "gcs": 1,
+    "rx-collo": 25
   },
   "anamnesisQuestions": [
     {
-      "id": "esordio-cefalea",
-      "prompt": "La cefalea è esplosa di colpo, o è cresciuta in ore?",
+      "id": "dolore",
+      "prompt": "Le fa male la linea mediana del collo?",
       "critical": true,
-      "expectedKeywords": ["esplosa", "improvvisa", "tuono", "colpo"],
-      "rationale": "Il rombo di tuono distingue l'ESA dall'emicrania. Non c'è una frase PDF su questo esordio: la domanda resta."
+      "expectedKeywords": [
+        "collo",
+        "mediana",
+        "no"
+      ],
+      "rationale": "Il primo criterio e l'assenza di quel dolore."
     },
     {
-      "id": "vomito-nuca",
-      "prompt": "Ha vomitato, e riesce a flettere il collo?",
+      "id": "bevuto",
+      "prompt": "Ha bevuto o preso droghe?",
       "critical": true,
-      "expectedKeywords": ["vomito", "nuca", "collo", "rigida"],
-      "rationale": "Rigidità nucale e vomito sono nel brief. Non copiati da un protocollo ESA nei PDF."
+      "expectedKeywords": [
+        "bevuto",
+        "no",
+        "droghe"
+      ],
+      "rationale": "L'intossicazione toglie un criterio."
     },
     {
-      "id": "perdita-coscienza",
-      "prompt": "Ha perso conoscenza, anche per pochi secondi?",
+      "id": "eta",
+      "prompt": "Quanti anni ha?",
       "critical": true,
-      "expectedKeywords": ["coscienza", "svenire", "secondi", "sveglia"],
-      "rationale": "ERC elenca l'ESA tra le morti cerebrali improvvise. GCS va seguito nel tempo."
-    },
-    {
-      "id": "paura",
-      "prompt": "Che cosa la spaventa di più: che sia rotto un vaso o che la mandino in sala?",
-      "critical": true,
-      "expectedKeywords": ["vaso", "rotto", "sala", "paura"],
-      "rationale": "SPIKES Knowledge ed Emotions, senza ritardare la TC."
+      "expectedKeywords": [
+        "20",
+        "anni"
+      ],
+      "rationale": "Sopra i 65 anni la Canadian rende obbligatoria l'immobilizzazione. Qui no."
     }
   ],
   "physicalExam": {
-    "summary": "Fotofobia, rigidità nucale, vomito. GCS 14. Non afasia. Non emiparesi descritta. PA 188/102. Nessun millimetro di target ESA è citato."
+    "summary": "GCS 15, collo indolore in mediana, forza e sensibilita simmetriche, non puzza di alcol, ginocchio escoriato ma non e una lesione distraente."
   },
   "escCitations": [
     {
-      "chunkId": "erc6-esa-morte-improvvisa",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "potendosi verificare in caso di emorragia subaracnoidea, emorragia intracranica, convulsioni e ictus ischemico.582 In uno studio statunitense condotto su 335 casi di morte cardiaca improvvisa, 18 (5,4%) erano morti cerebrali improvvise (emorragia intracranica, morte improvvisa ed inattesa in stato epilettico, emorragia secondaria a rottura di aneurisma cerebrale, ictus acuto"
+      "chunkId": "cinque",
+      "source": "knowledge_base/medicina_urgenza/clinical/04.A.Adduci-Canadian-spine-o-nexus.pdf",
+      "quote": "Sono non a rischio per una lesione cervicale significativa quei pazienti che presentano contemporaneamente tutti i 5 criteri: no dolore alla palpazione sulla linea mediana posteriore della colonna cervicale, no deficit neurologici focali, livello di coscienza normale (GCS 15), nessun segno di intossicazione, nessuna lesione distraente concomitante."
     },
     {
-      "chunkId": "erc6-abcde",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-6_CircSpeciali.pdf.pdf",
-      "quote": "Segui l'approccio ABCDE • Dove necessario adotta tutte le misure di sicurezza • È prioritaria la ricerca delle cause reversibili"
+      "chunkId": "inutili",
+      "source": "knowledge_base/medicina_urgenza/clinical/04.A.Adduci-Canadian-spine-o-nexus.pdf",
+      "quote": "evitare l'esecuzione di radiogrammi inutili del rachide cervicale."
     },
     {
-      "chunkId": "atls-gcs",
-      "source": "knowledge_base/medicina_urgenza/clinical/atls.pdf",
-      "quote": "GCS è l’acronimo che indica la Glasgow Coma Scale. È una scala che attribuisce un punteggio allo stato di coscienza del paziente e quindi alla gravità del coma. È analoga alla scala AVPU, ma più dettagliata. Può andare da un valore massimo di 15 (vittima completamente orientata e cosciente) ad un minimo di 3"
+      "chunkId": "ccr",
+      "source": "knowledge_base/medicina_urgenza/clinical/04.A.Adduci-Canadian-spine-o-nexus.pdf",
+      "quote": "Eta > 65 anni, oppure Presenza di parestesie alle estremita Che rendono l'immobilizzazione mandatoria."
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
+    },
+    {
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI RX 000000633 RX colonna vertebrale cervicale (due proiezioni) 36,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Non lisare prima della TC.",
-      "TC senza mdc e chiamata al neurochirurgo nel percorso, anche senza frase da copiare.",
-      "Rivalutazione GCS a 1 ora."
+      "Niente radiogrammi se i cinque criteri NEXUS ci sono tutti.",
+      "Non usare l'eta della Canadian su un ventenne."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "ERC 2021 cap. 6 nomina l'ESA e la rottura di aneurisma tra le morti cerebrali improvvise, senza un protocollo di TC o di pressione. Il PDF ESO 2025 è ICH, non ESA: non copiare la soglia sistolica <140 mmHg come se fosse scritta per l'ESA. SPIKES Knowledge è nel PDF sulla comunicazione.",
+      "art5Adherence": "Le slide NEXUS dicono che l'obiettivo e evitare radiogrammi inutili quando i cinque criteri sono insieme. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Annotare ora di esordio della cefalea e GCS di arrivo.",
-        "Annotare TC senza mdc e l'ora della consulenza neurochirurgica.",
-        "Registrare la rivalutazione GCS a 1 ora e i valori di pressione."
+        "Se ne manca uno, la radiografia torna indicata.",
+        "Non scambiare NEXUS e Canadian: sopra i 65 anni l'immobilizzazione della Canadian e obbligatoria.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "abcde",
-      "name": "Valutazione ABCDE",
-      "finding": "Vie aeree pervie, GCS 14, nuca rigida, vomito. Nessuna intubazione all'arrivo.",
-      "isAbnormal": true,
-      "priceEuro": 0,
-      "isFatal": true
-    },
-    {
-      "examId": "tc",
-      "name": "TC cranio senza mdc",
-      "finding": "Imaging senza contrasto nel percorso. Nessuna frase su sangue negli spazi subaracnoidei è estraibile. Non ritardare per una PET.",
-      "isAbnormal": true,
-      "priceEuro": 120,
-      "isFatal": true
-    },
-    {
-      "examId": "ega",
-      "name": "Emogasanalisi",
-      "finding": "Controllo dei gas. Nessun pH è fissato.",
+      "examId": "collo",
+      "name": "Palpazione del collo",
+      "finding": "Niente dolore sulla linea mediana posteriore.",
       "isAbnormal": false,
-      "priceEuro": 10,
       "isFatal": false
     },
     {
-      "examId": "rivalutazione-gcs-1h",
-      "name": "Rivalutazione GCS dopo 1 ora",
-      "finding": "GCS ricalcolato a 1 ora. Nessun punto di calo è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 0,
+      "examId": "gcs",
+      "name": "Glasgow e neurologico",
+      "finding": "GCS 15, niente deficit, niente intossicazione, niente lesione distraente.",
+      "isAbnormal": false,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non sostituisce la TC senza mdc nell'ESA sospetta.",
+      "examId": "rx-collo",
+      "name": "Radiogrammi del rachide",
+      "finding": "I cinque criteri ci sono tutti. Le slide chiamano questi radiogrammi inutili.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "I testi nominano l'ESA come causa di morte improvvisa, non la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "RX colonna cervicale due proiezioni a 36,00 euro con tutti e cinque i criteri NEXUS. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 36
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 96,
-      "bloodPressure": "188/102",
-      "spo2": 97,
-      "temperature": 36.9,
-      "respiratoryRate": 20
+      "heartRate": 80,
+      "bloodPressure": "120/70",
+      "spo2": 99,
+      "temperature": 36.5,
+      "respiratoryRate": 14
     },
-    "examBudgetEuro": 160,
-    "demographics": { "age": 50, "sex": "F", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Rigidità nucale",
-        "result": "Non flette il collo. Fotofobia.",
-        "isPositive": true
-      },
-      {
-        "signName": "Cefalea a rombo di tuono",
-        "result": "Esordio improvviso, la peggiore della vita, vomito.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 20,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "tc": {
-          "finding": "TC senza mdc nel percorso. Reperto millimetrico non copiato.",
-          "isAbnormal": true,
-          "price": 120
+        "collo": {
+          "finding": "Niente dolore sulla linea mediana posteriore.",
+          "isAbnormal": false
         },
-        "ega": {
-          "finding": "Nessun pH fissato.",
-          "isAbnormal": false,
-          "price": 10
+        "gcs": {
+          "finding": "GCS 15, niente deficit, niente intossicazione, niente lesione distraente.",
+          "isAbnormal": false
         },
-        "pet-tc": {
-          "finding": "Non indicata al posto della TC senza mdc.",
-          "isAbnormal": false,
-          "price": 950
+        "rx-collo": {
+          "finding": "I cinque criteri ci sono tutti. Le slide chiamano questi radiogrammi inutili.",
+          "isAbnormal": false
         }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Controllo della pressione arteriosa",
+          "label": "Nessun radiogramma cervicale",
           "anyOf": [
             {
-              "id": "controllo-pa",
-              "label": "Controllo pressorio",
-              "aliases": ["pressione", "antipertensivo", "urapidil", "labetalolo"]
+              "id": "no-rx",
+              "label": "Niente lastre",
+              "aliases": [
+                "osservazione"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "rx",
+          "label": "Radiogrammi con i cinque criteri",
+          "aliases": [
+            "radiografia",
+            "tc collo"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "TC senza mdc prima di qualsiasi lisi.",
-        "Controllo della pressione nel percorso.",
-        "Consulenza neurochirurgica.",
-        "Rivalutazione GCS a 1 ora.",
-        "Spiegare a Elena il sospetto di ESA."
+        "Cinque criteri verificati.",
+        "Niente lastre.",
+        "Canadian non applicata per l'eta."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto della TC senza mdc."
+          "id": "rx",
+          "kind": "clinical",
+          "trigger": "Radiogrammi con tutti i criteri NEXUS."
         }
       ],
       "citationLimits": [
-        "ERC nomina l'ESA e la rottura di aneurisma tra le morti cerebrali improvvise. Non c'è un protocollo di TC, di pressione o di clip/coil.",
-        "Il PDF ESO 2025 è ICH spontanea, non ESA. Non copiare «sistolica sotto 140 mmHg» come se fosse scritta per l'ESA.",
-        "TC senza mdc, consulenza NCH e target pressori: gold path, citazione vuota.",
-        "GCS 14 e PA 188/102 sono del brief, non soglie copiate."
+        "L'eta sopra i 65 non e un criterio NEXUS."
       ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "HIGH",
-    "emotionalState": "ANXIOUS",
+    "emotionalState": "COLLABORATIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
-    "communicationStyle": "Ha paura che sia rotto un aneurisma. Chiede TC, pressione e neurochirurgo in ordine, senza rassicurazioni vuote e senza lisi prima dell'imaging."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "GOOD",
+      "stressLevel": "LOW",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "E lucido e chiede di non fare lastre inutili. Gli si spiega che i cinque criteri ci sono e che la lastra non cambia nulla."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Quanti criteri",
+      "prompt": "GCS 15, collo indolore in mediana, niente deficit, niente alcol, niente lesione distraente. Quanti criteri servono?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Tutti e cinque, insieme",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Ne basta uno per evitare le lastre",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Criteri incompleti",
+      "prompt": "Sono non a rischio i pazienti che presentano contemporaneamente tutti i cinque criteri. Uno solo non basta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Le lastre",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. I cinque ci sono. Chiedi i radiogrammi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "No. L'obiettivo della regola e evitare radiogrammi inutili Non la esegui ora.",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "RX colonna cervicale due proiezioni a 36,00 euro con tutti e cinque i criteri NEXUS",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI RX 000000633 RX colonna vertebrale cervicale (due proiezioni) 36,00. RX colonna cervicale due proiezioni a 36,00 euro con tutti e cinque i criteri NEXUS. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Se mancasse il GCS 15",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Se fosse GCS 14, le lastre resterebbero inutili?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. Manca un criterio: la radiografia torna indicata In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eta",
+      "prompt": "Un collega applica la Canadian e vuole il collare perche ha piu di 65 anni. Quanti anni ha Matteo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "20. Quel fattore non c'e. L'immobilizzazione obbligatoria per eta non scatta",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Gli metti il collare obbligatorio della Canadian come se avesse 70 anni",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Regola dell'eta sbagliata",
+      "prompt": "Nella Canadian l'eta sopra i 65 anni rende l'immobilizzazione obbligatoria. Matteo ha 20 anni: quel fattore non ricorre, e i cinque criteri NEXUS ci sono.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Intossicazione",
+      "prompt": "Se avesse bevuto, terresti le lastre inutili?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. L'intossicazione toglie un criterio",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Le eviteresti anche da ubriaco",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Intossicazione ignorata",
+      "prompt": "Il quarto criterio e l'assenza di segni di intossicazione. Se c'e, non e piu non a rischio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Lesione distraente",
+      "prompt": "Lui, capace, rifiuta i radiogrammi. Chi lo accompagna li pretende. Il ginocchio e una escoriazione, non una lesione distraente. La conti come quinto criterio mancante?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. Il quinto criterio, nessuna lesione distraente, e soddisfatto Rispetti il rifiuto dei radiogrammi.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Fai i radiogrammi del collo perche li chiede chi lo accompagna, contro il rifiuto di lui che e capace",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Fai i radiogrammi del collo perche li chiede chi lo accompagna, contro il rifiuto di lui che e capace contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se avesse 70 anni",
+      "prompt": "Se il servizio usa la Canadian e il paziente avesse 70 anni, il collare resterebbe facoltativo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. Sopra i 65 anni l'immobilizzazione e obbligatoria. Questo caso ha 20 anni, quindi non scatta",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "A 70 anni useresti solo il NEXUS e toglieresti il collare",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Eta della Canadian ignorata",
+      "prompt": "La Canadian mette l'eta sopra i 65 anni tra i fattori che rendono l'immobilizzazione obbligatoria, prima degli altri passaggi. Togliere il collare con il solo NEXUS, in quel caso, non e quella regola.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Cinque criteri, niente lastre",
+      "prompt": "GCS 15, niente dolore mediano, niente deficit, niente intossicazione, niente lesione distraente: non fai i radiogrammi. Ha 20 anni, non 65.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

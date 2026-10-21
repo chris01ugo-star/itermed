@@ -1,240 +1,228 @@
 {
   "id": "EMERG-007",
   "code": "EMERG-007",
-  "title": "Donna di 75 anni con dispnea severa e pressione 200/110",
-  "description": "Elena, 75 anni, arriva in pronto soccorso con dispnea severa. Siede dritta, usa i muscoli accessori. Parametri: PA 200/110 mmHg, FC 118 bpm, FR 32 atti/min, SpO2 86%, temperatura 36.6. Crepitii bibasilari.",
+  "title": "Donna di 75 anni con edema polmonare, senza shock e senza infarto",
+  "description": "Elena, 75 anni, dispnea acuta, rantoli, SpO2 86% in aria, pressione 160/95, non dolore toracico ischemico, ECG senza sopraslivellamento, non shock. Parametri: PA 160/95 mmHg, FC 110 bpm, FR 32 atti/min, SpO2 86%, temperatura 36.6.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["cardiologia", "pneumologia"],
-  "condition": "Edema polmonare acuto cardiogeno ipertensivo",
+  "secondarySpecialties": [
+    "cardiologia"
+  ],
+  "condition": "Insufficienza respiratoria acuta da edema polmonare cardiogeno, senza sindrome coronarica acuta e senza shock",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "2016 Linea guida niv e IRA.pdf",
-  "diagnosis": "Edema polmonare acuto cardiogeno. Ipertensione 200/110, crepitii bibasilari, ipossiemia. Non è un'asma isolata.",
-  "pastMedicalHistory": "Ipertensione nota, senza un infarto dichiarato oggi. Non è in dialisi. Non ha preso un diuretico in pronto soccorso. Non è descritta una BPCO da trattenere l'anidride carbonica con un numero.",
-  "presentation": "Dispnea a esordio notturno, non riesce a parlare a frasi. Tosse rosata non quantificata. Chiede aria e di non essere stesa. La pressione è 200/110. Serve CPAP o NIV bilevel, diuretici e vasodilatatori secondo l'algoritmo dello scompenso acuto, poi EGA di controllo.",
+  "guidelineRef": "2016 Linea guida niv e IRA.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "ERS/ATS: si raccomanda CPAP oppure NIV bilevel nell'insufficienza respiratoria acuta da edema polmonare cardiogeno. La raccomandazione non si applica a sindrome coronarica acuta o shock cardiogeno. Qui quei due quadri non ci sono.",
+  "pastMedicalHistory": "Scompenso noto. Nessun infarto in corso. Pressione tenuta, non shock. Nessuna DAT.",
+  "presentation": "Edema polmonare, ipossiemica, non coronaropatia acuta e non shock: e il gruppo della raccomandazione.",
   "redHerrings": [
-    "Un infermiere propone solo ossigeno a bassi flussi e di aspettare la radiografia prima di qualsiasi pressione positiva.",
-    "Chiede se può prendere la sua compressa di casa e tornare a letto."
+    "Propongono di non ventilarla in modo non invasivo perche uno studio vecchio temeva l'infarto."
   ],
-  "timeLimitMinutes": 100,
-  "patientDeteriorationThreshold": 25,
-  "patientPrompt": "Mi chiamo Elena, ho 75 anni. Non respiro, ho la pressione altissima, sento i polmoni pieni d'acqua. Mettetemi la maschera che mi spinge l'aria, datemi il diuretico e non stendetemi. Controllate i gas dopo un'ora: ho paura di finire intubata.",
-  "correctSolution": "Edema polmonare cardiogeno: CPAP o NIV bilevel per l'insufficienza respiratoria acuta, secondo la raccomandazione ERS/ATS 2017. Lo scompenso acuto, nella linea guida ESC ACS, considera diuretici, vasodilatatori, inotropi e vasopressori. I nitrati sublinguali dell'ACS alleviano i sintomi ischemici: non sono la titolazione ev nominata dal brief. L'EGA oraria non ha una frase: la rivalutazione resta nel percorso senza citazione di intervallo. Ossigeno se SpO2 <90%. SPIKES sulla paura dell'intubazione.",
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Elena, ho 75 anni. Non respiro, ho il fiato grosso. Non ho un dolore da infarto. Non mandatemi a fare una TAC prima di aiutarmi a respirare.",
+  "correctSolution": "CPAP o NIV bilevel. Non intubare come prima mossa se non sta precipitando in arresto. Non applicare questa raccomandazione se ci fossero SCA o shock: qui non ci sono. Non ritardare la ventilazione per una TC non necessaria. Il testo non fissa i centimetri d'acqua: non si inventano.",
   "goldStandardPath": [
-    "ega",
-    "rx-torace",
     "ecg",
-    "cpap-niv",
-    "ega-1h",
-    "ega-2h"
+    "saturazione"
   ],
-  "goldPathNarrative": "EGA e radiografia, ECG per escludere uno STEMI concomitante, avvio di CPAP o NIV bilevel, diuretico dell'ansa e vasodilatazione per lo scompenso acuto. Rivalutazione emogas a 1 e 2 ore per lo svezzamento. L'intervallo orario non è citato: resta nel percorso a citazione vuota.",
+  "goldPathNarrative": "Escludi SCA e shock. Inizi CPAP o bilevel. Non aspetti la TC.",
   "examLatencies": {
-    "ega": 10,
-    "rx-torace": 20,
-    "ecg": 10,
-    "cpap-niv": 15,
-    "ega-1h": 60,
-    "ega-2h": 120,
-    "pet-tc": 180
+    "ecg": 5,
+    "saturazione": 1,
+    "tc-torace": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "ortopnea",
-      "prompt": "Il fiatone è peggiorato sdraiata, e da quante ore non riesce a finire una frase?",
+      "id": "dolore",
+      "prompt": "Ha un dolore da infarto in questo momento?",
       "critical": true,
-      "expectedKeywords": ["sdraia", "frase", "notte", "fiato"],
-      "rationale": "Ortopnea e frasi spezzate inquadrano l'edema polmonare acuto."
+      "expectedKeywords": [
+        "dolore",
+        "infarto",
+        "petto"
+      ],
+      "rationale": "La raccomandazione non copre la sindrome coronarica acuta."
     },
     {
-      "id": "cuore-noto",
-      "prompt": "Ha una pressione alta nota, un infarto o una terapia diuretica di casa?",
+      "id": "shock",
+      "prompt": "La pressione e tenuta o e in shock?",
       "critical": true,
-      "expectedKeywords": ["pressione", "infarto", "diuretico", "cuore"],
-      "rationale": "Ipertensione nota. Nessun infarto dichiarato oggi."
+      "expectedKeywords": [
+        "pressione",
+        "shock",
+        "tenuta"
+      ],
+      "rationale": "Lo shock cardiogeno e fuori dalla raccomandazione."
     },
     {
-      "id": "paura-intubazione",
-      "prompt": "Che cosa la spaventa di più della maschera o del tubo?",
-      "critical": true,
-      "expectedKeywords": ["tubo", "maschera", "paura", "intub"],
-      "rationale": "SPIKES Emotions. La NIV è il primo passo citato, non l'intubazione immediata."
+      "id": "fiato",
+      "prompt": "Da quanto non riesce a parlare per il fiato?",
+      "critical": false,
+      "expectedKeywords": [
+        "fiato",
+        "respirare",
+        "minuti"
+      ],
+      "rationale": "L'insufficienza respiratoria e il motivo della NIV."
     }
   ],
   "physicalExam": {
-    "killipClass": "III",
-    "summary": "Siede dritta, muscoli accessori, parlata a parole. Crepitii bibasilari. Toni tachicardici, galloppo non quantificato. Polsi presenti, simmetrici. Caviglie con edema non misurato. Cute sudata."
+    "summary": "Ortopnoica, rantoli bilaterali, non turgore da shock, non dolore toracico. Lucida, spaventata."
   },
   "escCitations": [
     {
-      "chunkId": "ers-ats-cpap-niv-epa",
+      "chunkId": "niv",
       "source": "knowledge_base/medicina_urgenza/clinical/2016 Linea guida niv e IRA.pdf",
-      "quote": "We recommend either bilevel NIV or CPAP for patients with ARF due to cardiogenic pulmonary oedema"
+      "quote": "We recommend either bilevel NIV or CPAP for patients with ARF due to cardiogenic pulmonary oedema. (Strong recommendation, moderate certainty of evidence.)"
     },
     {
-      "chunkId": "esc-acs-hf-diuretici-vasodilatatori",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "prendendo in considerazione l’impiego di diuretici, vasodilatatori, agenti inotropi e vasopressori se- condo quanto definito nei relativi algoritmi"
+      "chunkId": "no",
+      "source": "knowledge_base/medicina_urgenza/clinical/2016 Linea guida niv e IRA.pdf",
+      "quote": "the above recommendation does not apply to these subgroups"
     },
     {
-      "chunkId": "esc-acs-o2-sotto-90",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "Nei pazienti con ACS ipossiemici (saturazione di ossigeno <90%) è raccomandata la supplementazione di ossigeno, mentre in quelli che non presentano ipossiemia (saturazione di ossigeno >90%) la supplementazione di ossigeno non è associata ad un beneficio clinico"
+      "chunkId": "sub",
+      "source": "knowledge_base/medicina_urgenza/clinical/2016 Linea guida niv e IRA.pdf",
+      "quote": "Given the justifiable reluctance to include patients with acute coronary syndrome or cardiogenic shock in studies evaluating NIV for cardiogenic pulmonary oedema, the above recommendation does not apply to these subgroups."
     },
     {
-      "chunkId": "esc-acs-nitrati-sl",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "La somministrazione di nitrati per via sublinguale può essere utile per alleviare i sintomi ischemici"
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
     },
     {
-      "chunkId": "esc-acs-ecg-10-min",
-      "source": "knowledge_base/medicina_urgenza/clinical/04_LG_ESC_ACS (e1-e112).pdf",
-      "quote": "Si raccomanda di ottenere ed interpretare un ECG a 12 derivazioni quanto prima possibile dal FMC ma comunque entro 10 min"
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     },
     {
-      "chunkId": "spikes-emotions",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "E = Emotions Facilitare l’espressione delle emozioni, in modo ta- le da comprendere la reazione emotiva e rispon- dervi in modo empatico"
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
+    },
+    {
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI TC 000004219 TC torace senza contrasto (Polmoni, aorta toracica, trachea, esofago, sterno, coste, mediastino) 136,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "CPAP o NIV bilevel per ARF da edema polmonare cardiogeno.",
-      "Diuretici e vasodilatatori nello scompenso acuto.",
-      "ECG entro 10 minuti. Rivalutazione emogas nel tempo, senza un intervallo citato."
+      "CPAP o bilevel nell'edema polmonare senza SCA e senza shock.",
+      "Non ritardare la ventilazione con una TC."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "CPAP/NIV bilevel è raccomandazione ERS/ATS 2017 sull'IRA. Diuretici e vasodilatatori sono nella gestione ESC dello scompenso acuto in ACS. I nitrati ev titolati e l'EGA oraria non hanno frase: restano nel percorso a citazione vuota.",
+      "art5Adherence": "La raccomandazione ERS/ATS 2016 e forte, con certezza moderata, e dichiara i due sottogruppi esclusi. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Registrare ora di avvio della CPAP/NIV e i parametri.",
-        "Registrare diuretico e vasodilatatore, con la pressione 200/110.",
-        "Allegare EGA seriate. L'intervallo di un'ora non è nei PDF."
+        "Chiedere dolore ischemico e segni di shock prima di applicare la frase.",
+        "Non inventare i centimetri d'acqua: il testo non li da.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa basale",
-      "finding": "Ipossiemia. Nessun pH numerico è fissato all'arrivo.",
-      "isAbnormal": true,
-      "priceEuro": 10,
-      "isFatal": true
-    },
-    {
-      "examId": "rx-torace",
-      "name": "Radiografia del torace",
-      "finding": "Ridistribuzione e hili ingranditi, coerenti con edema. Nessun millimetro di versamento è fissato.",
-      "isAbnormal": true,
-      "priceEuro": 25,
-      "isFatal": false
-    },
-    {
       "examId": "ecg",
-      "name": "ECG a 12 derivazioni",
-      "finding": "Tachicardia sinusale. Non è descritto un sopraslivellamento.",
-      "isAbnormal": true,
-      "priceEuro": 15,
-      "isFatal": true
-    },
-    {
-      "examId": "ega-1h",
-      "name": "EGA a 1 ora",
-      "finding": "Rivalutazione sotto CPAP. Nessun numero di pH è fissato. Serve a decidere se continuare.",
-      "isAbnormal": true,
-      "priceEuro": 10,
+      "name": "Elettrocardiogramma",
+      "finding": "Nessun sopraslivellamento. Serve a non applicare la NIV a una SCA.",
+      "isAbnormal": false,
       "isFatal": false
     },
     {
-      "examId": "ega-2h",
-      "name": "EGA a 2 ore",
-      "finding": "Seconda rivalutazione per lo svezzamento. Nessun criterio numerico di svezzamento è citato nei PDF.",
+      "examId": "saturazione",
+      "name": "Saturazione",
+      "finding": "86% in aria. Insufficienza respiratoria acuta.",
       "isAbnormal": true,
-      "priceEuro": 10,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non è il work-up dell'edema polmonare acuto.",
+      "examId": "tc-torace",
+      "name": "TC torace prima della ventilazione",
+      "finding": "Non e il passo della raccomandazione e ritarda la CPAP o la bilevel.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Le raccomandazioni copiate nominano NIV/CPAP, diuretici e ECG. Non nominano la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "TC torace senza contrasto a 136,00 euro prima della CPAP o della bilevel. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 136
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 118,
-      "bloodPressure": "200/110",
+      "heartRate": 110,
+      "bloodPressure": "160/95",
       "spo2": 86,
       "temperature": 36.6,
       "respiratoryRate": 32
     },
-    "examBudgetEuro": 90,
-    "demographics": { "age": 75, "sex": "F", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Crepitii bibasilari",
-        "result": "Crepitii a entrambe le basi, dispnea, posizione eretta obbligata.",
-        "isPositive": true
-      },
-      {
-        "signName": "Ortopnea",
-        "result": "Non tollera il decubito. Parla a parole.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 75,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ega": { "finding": "Ipossiemia, pH non fissato.", "isAbnormal": true, "price": 10 },
-        "rx-torace": { "finding": "Quadro da edema polmonare, senza millimetri fissati.", "isAbnormal": true, "price": 25 },
-        "ecg": { "finding": "Sinusale tachicardico, senza sopraslivellamento descritto.", "isAbnormal": true, "price": 15 },
-        "ega-1h": { "finding": "Controllo a 1 ora sotto CPAP. Numeri non fissati.", "isAbnormal": true, "price": 10 },
-        "ega-2h": { "finding": "Controllo a 2 ore per lo svezzamento. Numeri non fissati.", "isAbnormal": true, "price": 10 },
-        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+        "ecg": {
+          "finding": "Nessun sopraslivellamento. Serve a non applicare la NIV a una SCA.",
+          "isAbnormal": false
+        },
+        "saturazione": {
+          "finding": "86% in aria. Insufficienza respiratoria acuta.",
+          "isAbnormal": true
+        },
+        "tc-torace": {
+          "finding": "Non e il passo della raccomandazione e ritarda la CPAP o la bilevel.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Diuretico dell'ansa",
+          "label": "CPAP o NIV bilevel",
           "anyOf": [
             {
-              "id": "furosemide",
-              "label": "Furosemide ev",
-              "aliases": ["furosemide", "lasix", "diuretico"]
+              "id": "cpap",
+              "label": "CPAP o bilevel",
+              "aliases": [
+                "cpap",
+                "niv",
+                "bilevel"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "shock-niv",
+          "label": "NIV nello shock",
+          "aliases": [
+            "shock"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Avvio di CPAP o NIV bilevel.",
-        "Diuretico e vasodilatazione per lo scompenso acuto.",
-        "ECG entro 10 minuti.",
-        "EGA ripetuta nel tempo.",
-        "Parlare della maschera e della paura del tubo."
+        "CPAP o bilevel.",
+        "SCA e shock esclusi.",
+        "Niente TC prima."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto di NIV e diuretico."
+          "id": "ritardo",
+          "kind": "clinical",
+          "trigger": "TC prima della ventilazione."
         }
       ],
       "citationLimits": [
-        "La raccomandazione ERS/ATS è CPAP o NIV bilevel per ARF da edema polmonare cardiogeno. Non fissa i cmH2O.",
-        "I nitrati ev titolati non sono in quella frase. I nitrati ESC sono sublinguali per i sintomi ischemici.",
-        "L'EGA oraria non è scritta. Resta nel brief, citazione vuota.",
-        "Ossigeno se SpO2 <90%: Elena è a 86%. Non è un sostituto della NIV."
+        "Il testo non indica i cmH2O."
       ]
     }
   },
@@ -242,7 +230,247 @@
     "healthLiteracy": "LOW",
     "emotionalState": "ANXIOUS",
     "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
-    "communicationStyle": "Ha paura del tubo. Accetta la maschera se le si dice che spinge aria per asciugare i polmoni e che i gas si rivedono dopo un'ora, senza promettere numeri che i PDF non hanno."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ha paura della maschera. Accetta se le si dice che serve a respirare e che non la si manda prima a fare una TAC."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "E il gruppo della raccomandazione",
+      "prompt": "SpO2 86%, rantoli, pressione 160/95, niente ST, niente shock. La frase sulla NIV si applica?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Si. E insufficienza respiratoria acuta da edema polmonare cardiogeno, senza i due sottogruppi esclusi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Non la ventili perche uno studio vecchio temeva l'infarto, anche se l'ECG e senza ST",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Raccomandazione non applicata",
+      "prompt": "ERS/ATS raccomanda CPAP o bilevel in questo quadro. L'esclusione vale per la sindrome coronarica acuta o lo shock, che qui non ci sono. Le revisioni citate non associano la NIV a un aumento di infarto con certezza sufficiente da cancellare la raccomandazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quale modalita",
+      "prompt": "CPAP o bilevel: il testo ne impone una sola?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "No. Raccomanda l'una o l'altra. L'evidenza non basta a preferirne una",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Rifiuti la CPAP perche solo la bilevel sarebbe lecita",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Una modalita esclusa senza testo",
+      "prompt": "La raccomandazione include sia la bilevel sia la CPAP: il riassunto delle evidenze mostra beneficio di entrambe rispetto alla cura standard, e non basta a raccomandarne una sola.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC prima",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi la TC torace prima di mettere la maschera.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. Ritarda il trattamento raccomandato Non la esegui ora.",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "TC torace senza contrasto a 136,00 euro prima della CPAP o della bilevel",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI TC 000004219 TC torace senza contrasto (Polmoni, aorta toracica, trachea, esofago, sterno, coste, mediastino) 136,00. TC torace senza contrasto a 136,00 euro prima della CPAP o della bilevel. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Shock ipotetico",
+      "prompt": "La figlia chiede di non mettere la maschera finche non arriva. Se la pressione crollasse a 80 sistolica e comparisse shock, terreste la stessa frase?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. La raccomandazione non si applica allo shock cardiogeno Non aspetti la figlia.",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Aspetti la figlia prima di CPAP o bilevel, anche se non c'e un rifiuto recepibile",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Aspetti la figlia prima di CPAP o bilevel, anche se non c'e un rifiuto recepibile contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Centimetri d'acqua",
+      "prompt": "Il testo quanti cmH2O indica?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non li indica. Non ne inventi",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Scrivi 10 cmH2O come se fossero nella linea guida",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Pressione non scritta",
+      "prompt": "La raccomandazione nomina CPAP e bilevel e non fissa i centimetri d'acqua.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Intubazione subito",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. E lucida, non in arresto respiratorio. La intubi come primo atto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. La raccomandazione e la ventilazione non invasiva. L'intubazione immediata non e la prima frase di questo quadro In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "SCA",
+      "prompt": "Se l'ECG mostrasse uno STEMI, useresti la stessa raccomandazione?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. La sindrome coronarica acuta e esclusa",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Metteresti la NIV e non attiveresti il percorso dello STEMI",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "SCA trattata come edema semplice",
+      "prompt": "Il testo dice che la raccomandazione non si applica alla sindrome coronarica acuta. Uno STEMI cambia percorso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "CPAP o bilevel, senza ritardi",
+      "prompt": "Edema polmonare, niente SCA e niente shock: CPAP o NIV bilevel. Non una TC prima. Nessuna pressione in centimetri d'acqua inventata.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

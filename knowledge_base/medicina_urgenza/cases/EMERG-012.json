@@ -1,221 +1,233 @@
 {
   "id": "EMERG-012",
   "code": "EMERG-012",
-  "title": "Uomo di 70 anni con palpitazioni, FC 160 e pressione 85/50",
-  "description": "Giovanni, 70 anni, arriva per palpitazioni e dolore toracico. Parametri: PA 85/50 mmHg, FC 160 bpm, FR 24 atti/min, SpO2 93%, temperatura 36.4. È vigile ma sudato.",
+  "title": "Uomo di 70 anni in fibrillazione, pressione 85/50, ancora cosciente",
+  "description": "Carlo, 70 anni, palpitazioni, fibrillazione atriale, pressione 85/50, sudato, cosciente. Parametri: PA 85/50 mmHg, FC 160 bpm, FR 22 atti/min, SpO2 94% in aria, temperatura 36.5. Nessuna DAT che rifiuti la cardioversione.",
   "difficulty": "HARD",
   "specialty": "medicina_urgenza",
   "specialtyLabel": "Medicina d'Emergenza-Urgenza",
-  "secondarySpecialties": ["cardiologia"],
-  "condition": "Fibrillazione atriale con instabilità emodinamica",
+  "secondarySpecialties": [
+    "cardiologia"
+  ],
+  "condition": "Fibrillazione atriale instabile con segni di pericolo di vita",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
-  "diagnosis": "Fibrillazione atriale instabile. FC 160, PA 85/50, dolore toracico. Non è una FA stabile da controllo di frequenza per via orale.",
-  "pastMedicalHistory": "FA non dichiarata come già anticoagulata. Nessun pasto recente fissato per la sedazione. Non è in edema polmonare franco. Il dolore toracico è da ipoperfusione, senza un sopraslivellamento descritto.",
-  "presentation": "Palpitazioni, dolore, pressione 85/50. Segni di allarme da paziente instabile. Sedazione o anestesia, poi cardioversione elettrica sincronizzata, shock sull'onda R, per la FA alla massima potenza. Poi terapia post-CV e osservazione, senza una checklist post-shock citata.",
+  "guidelineRef": "LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf; L.219/2017 art.1 c.7; L.38/2010 art.7; Nomenclatore",
+  "diagnosis": "Lo shock con sistolica sotto 90 e un segno di instabilita. La cardioversione elettrica e preferenziale. Il paziente cosciente va anestetizzato o sedato prima. Nella fibrillazione lo shock iniziale e alla massima potenza, non i 70-120 J del flutter. Se fallisce e resta instabile: amiodarone 300 mg in 10-20 minuti, poi un nuovo shock.",
+  "pastMedicalHistory": "Ipertensione. Nessuna allergia nota agli anestetici. Cosciente e capace. Accetta la cardioversione se gli si spiega.",
+  "presentation": "Ipoteso, sudato, cosciente, ritmo irregolare.",
   "redHerrings": [
-    "Un collega propone un beta-bloccante orale e di aspettare tre ore.",
-    "Chiede di chiamare il cardiologo di fiducia prima di qualsiasi scarica."
+    "Propongono 70 joule, come per il flutter, e lo shock da sveglio."
   ],
-  "timeLimitMinutes": 80,
-  "patientDeteriorationThreshold": 12,
-  "patientPrompt": "Mi chiamo Giovanni, ho 70 anni. Il cuore va a centosessanta, ho male al petto, la pressione è caduta. Se dovete darmi la scarica, addormentatemi prima e spiegatemi che è sincronizzata. Dopo voglio sapere se il ritmo tiene.",
-  "correctSolution": "Instabile: shock, sincope, scompenso o ischemia. Cardioversione elettrica preferenziale. Paziente cosciente: anestetizzare o sedare prima della cardioversione sincronizzata. Shock sull'onda R. Per la FA: shock sincronizzato iniziale alla massima potenza. Amiodarone se inefficace dopo shock, nel diagramma ALS. La terapia anticoagulante post-CV se durata >48 h è nel ramo stabile: qui è instabile, citazione da non copiare come obbligo prima dello shock. SPIKES Knowledge.",
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Carlo, ho 70 anni. Il cuore va forte e mi gira la testa. Sono sveglio: non datemi la scossa senza addormentarmi. Se il testo dice la potenza massima, non una dose da flutter.",
+  "correctSolution": "Cardioversione sincronizzata alla massima energia del defibrillatore, dopo anestesia o sedazione. Non i 70-120 J del flutter. Se non torna il ritmo e resta instabile, amiodarone 300 mg in 10-20 minuti e nuovo shock. Non aspetti i familiari: non c'e una DAT che rifiuti la procedura, e lui, capace, la accetta.",
   "goldStandardPath": [
     "ecg",
-    "sedazione-cv",
-    "cardioversione-sincronizzata",
-    "ecg-post-cv",
-    "ega",
-    "monitoraggio-post-cv"
+    "pressione"
   ],
-  "goldPathNarrative": "ECG, riconoscimento dell'instabilità, sedazione, cardioversione sincronizzata, ECG dopo lo shock, monitoraggio. Anticoagulazione e farmaci post-CV restano nel percorso se indicati, con citazione vuota sul ramo instabile.",
+  "goldPathNarrative": "Riconosci l'instabilita. Sedi. Shock alla massima energia, sincronizzato. Non la dose del flutter.",
   "examLatencies": {
     "ecg": 5,
-    "sedazione-cv": 8,
-    "cardioversione-sincronizzata": 10,
-    "ecg-post-cv": 15,
-    "ega": 15,
-    "monitoraggio-post-cv": 60,
-    "pet-tc": 180
+    "pressione": 1,
+    "ecocardiogramma": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "quando-inizio",
-      "prompt": "Da quanto le batte così, e ha male al petto o ha svenuto?",
+      "id": "cosciente",
+      "prompt": "E sveglio e capisce la procedura?",
       "critical": true,
-      "expectedKeywords": ["palpit", "petto", "svenuto", "quando"],
-      "rationale": "Durata e segni di instabilità. L'anticoagulazione >48 h è scritta nel ramo stabile, non ritarda lo shock."
+      "expectedKeywords": [
+        "sveglio",
+        "capisce",
+        "si"
+      ],
+      "rationale": "Il cosciente va sedato o anestetizzato prima dello shock."
     },
     {
-      "id": "cibo",
-      "prompt": "Ha mangiato da poco, per la sedazione prima della scarica?",
+      "id": "rifiuto",
+      "prompt": "Rifiuta la cardioversione?",
       "critical": true,
-      "expectedKeywords": ["mangiato", "digiuno", "sedazione", "stomaco"],
-      "rationale": "Deve essere sedato o anestetizzato. Il digiuno non ha una frase: citazione vuota."
+      "expectedKeywords": [
+        "rifiuta",
+        "accetta",
+        "no"
+      ],
+      "rationale": "Un rifiuto di un paziente capace si rispetta. Qui accetta."
     },
     {
-      "id": "paura-scarica",
-      "prompt": "Che cosa vuole sapere della scarica, prima che la addormentiamo?",
+      "id": "flutter",
+      "prompt": "Il tracciato e fibrillazione o flutter?",
       "critical": true,
-      "expectedKeywords": ["scarica", "paura", "addorment", "cuore"],
-      "rationale": "SPIKES Knowledge. La CV non aspetta il cardiologo di fiducia."
+      "expectedKeywords": [
+        "fibrillazione",
+        "flutter",
+        "irregolare"
+      ],
+      "rationale": "I joule iniziali non sono gli stessi."
     }
   ],
   "physicalExam": {
-    "summary": "Sudato, vigile, parlante. Polso irregolare a 160, PA 85/50. Toni irregolari, soffi non descritti. Polmoni senza rantoli obbligatori. Deficit neurologico assente."
+    "summary": "Sudato, cosciente, polso irregolare, non in edema. Capisce e accetta."
   },
   "escCitations": [
     {
-      "chunkId": "erc5-cv-instabile",
+      "chunkId": "inst",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
-      "quote": "La cardioversione elettrica è il trattamento preferenziale per la tachiaritmia nel paziente instabile che presenta segni pericolo di vita."
+      "quote": "Shock - si manifesta con ipotensione (ad es. pressione sistolica < 90 mmHg) e sintomi dati dall'aumento dell'attivita simpatica e dalla riduzione del flusso ematico cerebrale."
     },
     {
-      "chunkId": "erc5-sedazione-cv",
+      "chunkId": "pref",
+      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
+      "quote": "La cardioversione elettrica e il trattamento preferenziale per la tachiaritmia nel paziente instabile che presenta segni pericolo di vita."
+    },
+    {
+      "chunkId": "sed",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
       "quote": "I pazienti coscienti devono essere anestetizzati o sedati prima di procedere con la cardioversione sincronizzata."
     },
     {
-      "chunkId": "erc5-sync-onda-r",
+      "chunkId": "max",
       "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
-      "quote": "Per cardiovertire le tachiaritmie atriali o ventricolari, lo shock deve essere sincronizzato in modo da cadere sull’onda R dell’elettrocardiogramma (ECG)."
+      "quote": "uno shock sincronizzato iniziale alla massima potenza del defibrillatore e una strategia ragionevole preferibile ad un approccio incrementale."
     },
     {
-      "chunkId": "erc5-fa-max-potenza",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
-      "quote": "Per la fibrillazione atriale: ◦ In base ai dati attualmente disponibili, uno shock sincronizzato iniziale alla massima potenza del defibrillatore è una strategia ragionevole preferibile ad un approccio incrementale."
+      "chunkId": "l219-17",
+      "source": "knowledge_base/medicina_urgenza/legal/allegato115290.pdf",
+      "quote": "Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla."
     },
     {
-      "chunkId": "erc5-segni-instabile",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
-      "quote": "I segni di allarme in un paziente instabile includono: ◦ Shock - si manifesta con ipotensione (ad es. pressione sistolica < 90 mmHg) e sintomi dati dall’aumento dell’attività simpatica e dalla riduzione del flusso ematico cerebrale."
+      "chunkId": "l38-7",
+      "source": "knowledge_base/medicina_urgenza/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     },
     {
-      "chunkId": "erc5-amiodarone-se-inefficace",
-      "source": "knowledge_base/medicina_urgenza/clinical/LG-ERC-2021_Capitolo-5_Supporto-vitale-avanzato.pdf",
-      "quote": "CARDIOVERSIONE ELETTRICA SINCRONIZZATA FINO A 3 SHOCK • Sedazione o anestesia, se paziente cosciente Se inefficaci: • Amiodarone 300 mg EV in 10-20 min"
+      "chunkId": "triage-dolore",
+      "source": "knowledge_base/medicina_urgenza/clinical/Raccomandazioni_gestione_del_dolore_in_emergenza.pdf",
+      "quote": "In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118)"
     },
     {
-      "chunkId": "spikes-knowledge",
-      "source": "knowledge_base/empatia/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
-      "quote": "K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica"
+      "chunkId": "tariffa",
+      "source": "knowledge_base/medicina_urgenza/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI EC 000000508 Ecocardiogramma 60,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Riconoscere PA 85/50 come instabilità.",
-      "Sedazione poi cardioversione sincronizzata, non un beta-bloccante orale in attesa.",
-      "ECG dopo lo shock e monitoraggio."
+      "Cardioversione alla massima energia, dopo sedazione, perche e instabile e cosciente.",
+      "Non usare i 70-120 J, che il testo riserva a flutter e tachicardia parossistica."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Le frasi su instabilità, sedazione, sincronizzazione sull'onda R e massima potenza nella FA sono del capitolo ERC 5 ALS. La terapia post-CV anticoagulante >48 h è nel ramo stabile del diagramma: non ritarda lo shock.",
+      "art5Adherence": "Il capitolo ALS distingue l'energia della fibrillazione da quella del flutter e vieta lo shock sul cosciente non sedato. Si applicano l'art. 1 comma 7 della legge 219/2017 e l'art. 7 della legge 38/2010.",
       "legalCriteria": [
-        "Registrare PA 85/50, FC 160 e dolore.",
-        "Registrare sedazione e numero/energia degli shock, senza inventare joule se il PDF dice massima potenza.",
-        "Allegare ECG pre e post."
+        "Se fallisce e resta instabile, amiodarone 300 mg in 10-20 minuti e nuovo shock.",
+        "Se lui, capace, rifiutasse, la DNACPR del capitolo etico protegge da un trattamento invasivo rifiutato. Qui accetta.",
+        "Art. 1 comma 7 legge 219/2017: cure necessarie in emergenza e rispetto della volonta se recepibile.",
+        "Art. 7 legge 38/2010: dolore, tecnica, farmaci, dosaggi e risultato in cartella."
       ]
     }
   },
   "mandatoryExams": [
     {
       "examId": "ecg",
-      "name": "ECG a 12 derivazioni",
-      "finding": "Fibrillazione atriale a 160 bpm. Nessun sopraslivellamento descritto.",
+      "name": "ECG",
+      "finding": "Fibrillazione atriale a 160. Non e flutter.",
       "isAbnormal": true,
-      "priceEuro": 15,
-      "isFatal": true
-    },
-    {
-      "examId": "ecg-post-cv",
-      "name": "ECG dopo cardioversione",
-      "finding": "Controllo del ritmo dopo lo shock. Nessun intervallo di sinusale è fissato.",
-      "isAbnormal": false,
-      "priceEuro": 15,
       "isFatal": false
     },
     {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa",
-      "finding": "Rivalutazione dopo la CV. Nessun pH è fissato.",
-      "isAbnormal": false,
-      "priceEuro": 10,
+      "examId": "pressione",
+      "name": "Pressione",
+      "finding": "85/50 mmHg. Sistolica sotto 90.",
+      "isAbnormal": true,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Non è il work-up della FA instabile.",
+      "examId": "ecocardiogramma",
+      "name": "Ecocardiogramma prima dello shock",
+      "finding": "Non e il passo scritto e ritarda la cardioversione di un instabile.",
       "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
       "isFatal": false,
-      "wasteRationale": "Le raccomandazioni copiate nominano ECG e cardioversione. Non la PET-TC."
+      "inappropriate": true,
+      "wasteRationale": "Ecocardiogramma a 60,00 euro prima dello shock, in un instabile gia identificato. Tariffa del nomenclatore citata nel nodo.",
+      "priceEuro": 60
     }
   ],
   "baselineExamFindings": {
     "vitals": {
       "heartRate": 160,
       "bloodPressure": "85/50",
-      "spo2": 93,
-      "temperature": 36.4,
-      "respiratoryRate": 24
+      "spo2": 94,
+      "temperature": 36.5,
+      "respiratoryRate": 22
     },
-    "examBudgetEuro": 60,
-    "demographics": { "age": 70, "sex": "M", "context": "Pronto soccorso" },
-    "clinicalSigns": [
-      {
-        "signName": "Polso irregolare ipoteso",
-        "result": "Polso irregolare a 160, PA 85/50, dolore toracico, sudorazione.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 70,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "ecg": { "finding": "FA a 160 bpm, senza STEMI descritto.", "isAbnormal": true, "price": 15 },
-        "ecg-post-cv": { "finding": "ECG dopo shock, ritmo non numerato.", "isAbnormal": false, "price": 15 },
-        "ega": { "finding": "pH non fissato.", "isAbnormal": false, "price": 10 },
-        "pet-tc": { "finding": "Non indicata.", "isAbnormal": false, "price": 950 }
+        "ecg": {
+          "finding": "Fibrillazione atriale a 160. Non e flutter.",
+          "isAbnormal": true
+        },
+        "pressione": {
+          "finding": "85/50 mmHg. Sistolica sotto 90.",
+          "isAbnormal": true
+        },
+        "ecocardiogramma": {
+          "finding": "Non e il passo scritto e ritarda la cardioversione di un instabile.",
+          "isAbnormal": false
+        }
       }
     },
     "therapyMatrix": {
       "indicated": [
         {
-          "label": "Sedazione per cardioversione",
+          "label": "Shock alla massima energia dopo sedazione",
           "anyOf": [
             {
-              "id": "midazolam",
-              "label": "Sedazione o anestesia",
-              "aliases": ["midazolam", "propofol", "sedazione", "anestesia"]
+              "id": "dc",
+              "label": "Cardioversione",
+              "aliases": [
+                "cardioversione",
+                "shock"
+              ]
             }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "70j",
+          "label": "70-120 J come prima scelta nella FA",
+          "aliases": [
+            "70",
+            "flutter"
           ]
         }
       ]
     },
     "outcomeRules": {
       "win": [
-        "Riconoscere l'instabilità.",
-        "Sedare.",
-        "Cardioversione sincronizzata.",
-        "ECG dopo lo shock.",
-        "Spiegare la scarica."
+        "Sedazione.",
+        "Massima energia.",
+        "Niente ecocardiogramma prima."
       ],
       "penalties": [
         {
-          "id": "pet-tc",
-          "kind": "economic",
-          "trigger": "PET-TC al posto della cardioversione."
+          "id": "sveglio",
+          "kind": "clinical",
+          "trigger": "Shock senza sedazione in un cosciente."
         }
       ],
       "citationLimits": [
-        "Shock sincronizzato, non asincrono, sull'onda R.",
-        "Massima potenza iniziale nella FA, non uno schema incrementale obbligatorio.",
-        "Fino a 3 shock nel diagramma. Amiodarone se inefficaci.",
-        "Anticoagulante se durata >48 h è nel ramo stabile. Non ritarda la CV instabile. Post-CV: citazione vuota sul ramo instabile."
+        "I 70-120 J non sono la dose iniziale della fibrillazione atriale."
       ]
     }
   },
@@ -223,7 +235,247 @@
     "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Ha paura della scarica. Collabora se gli si dice che prima lo si addormenta e che lo shock cade sull'onda R, poi si rivede l'ECG."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "E capace e spaventato. Accetta lo shock se prima lo si seda. Rifiuterebbe lo shock da sveglio."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "E instabile",
+      "prompt": "Pressione 85/50, sudato, capogiro. Il testo lo considera instabile?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Si. La sistolica sotto 90 con quei sintomi e lo shock, segno di allarme",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo consideri stabile perche parla",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Instabilita non vista",
+      "prompt": "Lo shock del capitolo ALS e ipotensione, per esempio sistolica sotto 90, con sintomi da attivita simpatica e da riduzione del flusso cerebrale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Che trattamento",
+      "prompt": "Tachiaritmia e segni di pericolo di vita. Che e preferenziale?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "La cardioversione elettrica",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Solo un farmaco, senza cardioversione, mentre resta ipoteso",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Cardioversione non fatta",
+      "prompt": "La cardioversione elettrica e il trattamento preferenziale per la tachiaritmia instabile con segni di pericolo di vita. Il farmaco come opzione e scritto per il paziente stabile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "E cosciente",
+      "prompt": "Capisce e accetta. Lo shock lo fai da sveglio?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. Va anestetizzato o sedato prima della cardioversione sincronizzata",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Shock da sveglio per non perdere tempo",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Shock senza sedazione",
+      "prompt": "I pazienti coscienti devono essere anestetizzati o sedati prima della cardioversione sincronizzata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quanta energia",
+      "prompt": "E fibrillazione, non flutter. Che shock iniziale?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Sincronizzato, alla massima potenza del defibrillatore",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "70-120 J, la dose del flutter",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Energia del flutter sulla fibrillazione",
+      "prompt": "Per la fibrillazione lo shock iniziale alla massima potenza e ragionevole e preferibile all'incrementale. I 70-120 J sono lo shock iniziale di flutter e tachicardia parossistica sopraventricolare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eco prima",
+      "prompt": "Questa prestazione ha una tariffa e, se inutile o prematura, ritarda la stabilizzazione. Vuoi l'ecocardiogramma prima dello shock, con pressione 85.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. Ritarda il trattamento preferenziale Non la esegui ora.",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Ecocardiogramma a 60,00 euro prima dello shock, in un instabile gia identificato",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa del nomenclatore",
+      "prompt": "Nomenclatore tariffario FASDAC, aggiornamento 01-01-2025: DI EC 000000508 Ecocardiogramma 60,00. Ecocardiogramma a 60,00 euro prima dello shock, in un instabile gia identificato. La prestazione costa la tariffa scritta e, fatta prima della stabilizzazione o fuori indicazione, ritarda la cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se lo shock fallisce",
+      "prompt": "In cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Resta a 85 di sistolica e il ritmo non torna. Che farmaco e in quanto tempo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Amiodarone 300 mg endovena in 10-20 minuti, poi ritenti lo shock. Dopo, 900 mg in 24 ore In cartella: dolore, tecnica, farmaci, dosi e risultato.",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Chiudi il caso senza annotare in cartella le caratteristiche del dolore, la tecnica antalgica, i farmaci, i dosaggi e il risultato",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Legge 38, articolo 7",
+      "prompt": "Art. 7, comma 1, della legge 15 marzo 2010, n. 38: All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Raccomandazioni sul dolore in emergenza: In tutti i pazienti sin dal loro arrivo in PS dovrebbero essere valutate le eventuali allergie ed intolleranze, misurato il livello di dolore e trascritto tale valore sul documento clinico (cartella clinica, scheda di triage e scheda del 118) Chiudere senza quelle annotazioni lascia vuote cartella e scheda di triage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se rifiutasse",
+      "prompt": "Se rifiuta lo shock, e capace e informato. Lui e capace. Se dicesse di no alla cardioversione, la faresti lo stesso?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. Un trattamento invasivo rifiutato da un paziente capace non si impone. Qui, invece, accetta: procedi dopo la sedazione Rispetti il rifiuto dello shock.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Cardioverti lo stesso, capace e informato, dopo che ha rifiutato lo shock",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 219, art. 1 comma 7",
+      "prompt": "Art. 1, comma 7, della legge 22 dicembre 2017, n. 219: Nelle situazioni di emergenza o di urgenza il medico e i componenti dell'equipe sanitaria assicurano le cure necessarie, nel rispetto della volonta' del paziente ove le sue condizioni cliniche e le circostanze consentano di recepirla. Cardioverti lo stesso, capace e informato, dopo che ha rifiutato lo shock contraddice quel comma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Massima energia, dopo la sedazione",
+      "prompt": "Instabile e cosciente: sedazione, shock sincronizzato alla massima energia. Non 70-120 J. Se fallisce, amiodarone 300 mg in 10-20 minuti. Niente eco prima.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }
