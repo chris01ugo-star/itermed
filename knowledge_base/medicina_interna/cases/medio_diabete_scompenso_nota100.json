@@ -1,0 +1,460 @@
+{
+  "id": "INTMED-002",
+  "code": "INTMED-002",
+  "title": "Uomo di 66 anni con diabete tipo 2, scompenso e HbA1c sopra target",
+  "description": "Paolo, 66 anni, viene in ambulatorio stanco e rassegnato. Ha diabete tipo 2 da otto anni, in metformina da più di un anno, e uno scompenso cardiaco già noto, stabile, senza edema nuovo. Lo stile di vita è stato rinforzato da oltre tre mesi. HbA1c 64 mmol/mol. Parametri: PA 132/78 mmHg, FC 78 bpm, FR 16 atti/min, SpO2 96% in aria, temperatura 36.6°C.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "cardiologia"
+  ],
+  "condition": "Diabete mellito tipo 2 non a target, con scompenso cardiaco, scelta del farmaco in Nota 100",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "nota-100.pdf; allegato115290.pdf",
+  "diagnosis": "HbA1c sopra 53 mmol/mol nonostante stile di vita e metformina. Nella Nota 100, in chi ha scompenso, l'inibitore di SGLT2 va considerato in preferenza. Non è un'emergenza glicemica.",
+  "pastMedicalHistory": "Diabete tipo 2. Metformina in corso, tollerata. Scompenso cardiaco noto, non una riacutizzazione. Niente controindicazione dichiarata agli SGLT2. Lo stile di vita è già stato affrontato per più di tre mesi.",
+  "presentation": "Controllo programmato, non dispnea a riposo. L'HbA1c è 64 mmol/mol, sopra la soglia di 53 mmol/mol (7,0%) della Nota. Il punto D della Nota indica l'inibitore di SGLT2 in preferenza nel paziente con scompenso, per i principi attivi che hanno dimostrato un beneficio.",
+  "redHerrings": [
+    "Chiede se deve passare subito all'insulina perché un parente lo ha fatto in urgenza."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Paolo, ho 66 anni. Prendo la metformina, ma mi dicono che lo zucchero non è a posto. Ho anche il cuore stanco. Non voglio un farmaco in più se non mi spiegate a che serve. Ditemi le cose con calma.",
+  "correctSolution": "La Nota 100 mette lo stile di vita come primo passo e la metformina come prima scelta, salvo controindicazione. Se l'HbA1c non è a target, nello scompenso si considera in preferenza un inibitore di SGLT2 tra quelli con beneficio dimostrato (dapagliflozin o empagliflozin sono nominati nella Nota), non un DPP4 come scelta preferenziale. Il GLP-1 e il doppio agonista GIP/GLP1 richiedono la scheda. L'insulina è l'opzione dell'emergenza glicemica, che qui non c'è. Si informa e si annota il consenso. Nessuna dose in milligrammi è fissata da questi testi per l'SGLT2.",
+  "goldStandardPath": [
+    "hba1c",
+    "creatinina"
+  ],
+  "goldPathNarrative": "Confermi che l'HbA1c è sopra 53 mmol/mol e che la metformina è già in corso. Aggiungi un SGLT2 rimborsabile nello scompenso, non un DPP4 come prima associazione e non un GLP-1 senza scheda. Non passi all'insulina d'urgenza.",
+  "examLatencies": {
+    "hba1c": 60,
+    "creatinina": 30,
+    "peptide-c": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "metformina",
+      "prompt": "La metformina la tollera e da quanto la prende?",
+      "critical": true,
+      "expectedKeywords": [
+        "metformina",
+        "tollera",
+        "mesi"
+      ],
+      "rationale": "La Nota indica la metformina come prima scelta se non è controindicata o non tollerata."
+    },
+    {
+      "id": "scompenso",
+      "prompt": "Lo scompenso come si è manifestato e è stabile adesso?",
+      "critical": true,
+      "expectedKeywords": [
+        "scompenso",
+        "fiato",
+        "stabile"
+      ],
+      "rationale": "Lo scompenso è lo scenario 4 in cui l'SGLT2 è preferenziale."
+    },
+    {
+      "id": "stile",
+      "prompt": "Alimentazione, cammino e fumo: che cosa è già stato cambiato?",
+      "critical": false,
+      "expectedKeywords": [
+        "dieta",
+        "cammino",
+        "fumo"
+      ],
+      "rationale": "Lo stile di vita è il primo passo della Nota, prima di un secondo farmaco."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Rassegnato, non dispnoico a riposo. Non edemi nuovi. Toni ritmici, non rantoli. Addome trattabile. Glicemia capillare non in emergenza."
+  },
+  "escCitations": [
+    {
+      "chunkId": "nota100-scompenso",
+      "source": "knowledge_base/medicina_interna/economic/nota-100.pdf",
+      "quote": "Un inibitore del SGLT2 (quando non controindicato e ben tollerato) dovrebbe essere considerato preferenzialmente nei seguenti scenari clinici: Paziente con scompenso cardiaco."
+    },
+    {
+      "chunkId": "nota100-target",
+      "source": "knowledge_base/medicina_interna/economic/nota-100.pdf",
+      "quote": "la prescrizione a carico del SSN di un secondo farmaco con dimostrato beneficio clinico è da considerare (anche nei pazienti in prevenzione secondaria) solo se l'HbA1c non è a target."
+    },
+    {
+      "chunkId": "nota100-glp1",
+      "source": "knowledge_base/medicina_interna/economic/nota-100.pdf",
+      "quote": "Rimane l'obbligo di compilazione della scheda di valutazione e prescrizione (All.1) per i medicinali agonisti recettoriali del GLP1 e doppi agonisti recettoriali GIP/GLP1."
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Nello scompenso con HbA1c sopra target, preferire un SGLT2 e non un DPP4 come scelta di prima associazione.",
+      "Non prescrivere un GLP-1 a carico SSN senza la scheda della Nota 100."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La Nota 100 definisce la rimborsabilità. La legge 219/2017 chiede il consenso informato prima di iniziare il nuovo farmaco. Non esiste in questa cartella la linea guida ESC sullo scompenso: non si inventa una dose di diuretico.",
+      "legalCriteria": [
+        "Verificare HbA1c sopra 53 mmol/mol prima del secondo farmaco a carico SSN.",
+        "Annotare informazione e consenso sul farmaco scelto."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "hba1c",
+      "name": "Emoglobina glicata",
+      "finding": "HbA1c 64 mmol/mol, sopra 53 mmol/mol.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "creatinina",
+      "name": "Creatinina e filtrato",
+      "finding": "Filtrato compatibile con l'uso di un SGLT2 secondo scheda tecnica, senza un numero che lo controindichi. Nessuna soglia inventata.",
+      "isAbnormal": false,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "peptide-c",
+      "name": "Peptide C",
+      "finding": "Non richiesto dalla Nota 100 per scegliere l'associazione nello scompenso.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "La Nota decide in base a HbA1c, stile di vita, metformina e scenario clinico, non al peptide C."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "132/78",
+      "spo2": 96,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "demographics": {
+      "age": 66,
+      "sex": "M",
+      "context": "Ambulatorio"
+    },
+    "advancedExams": {
+      "values": {
+        "hba1c": {
+          "finding": "HbA1c 64 mmol/mol, sopra 53 mmol/mol.",
+          "isAbnormal": true
+        },
+        "creatinina": {
+          "finding": "Filtrato compatibile con l'uso di un SGLT2 secondo scheda tecnica, senza un numero che lo controindichi. Nessuna soglia inventata.",
+          "isAbnormal": false
+        },
+        "peptide-c": {
+          "finding": "Non richiesto dalla Nota 100 per scegliere l'associazione nello scompenso.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Inibitore SGLT2 nello scompenso",
+          "anyOf": [
+            {
+              "id": "sglt2",
+              "label": "Dapagliflozin o empagliflozin",
+              "aliases": [
+                "dapagliflozin",
+                "empagliflozin",
+                "sglt2"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "dpp4-preferito",
+          "label": "DPP4 come scelta preferenziale nello scompenso",
+          "aliases": [
+            "sitagliptin",
+            "linagliptin",
+            "dpp4"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "SGLT2 perché c'è scompenso e l'HbA1c non è a target.",
+        "Niente GLP-1 senza scheda.",
+        "Consenso annotato. Nessuna dose inventata."
+      ],
+      "penalties": [
+        {
+          "id": "dpp4",
+          "kind": "clinical",
+          "trigger": "DPP4 come farmaco preferenziale nello scompenso."
+        }
+      ],
+      "citationLimits": [
+        "La Nota non riporta i milligrammi di dapagliflozin o empagliflozin. Non si cita una linea guida ESC sullo scompenso che non è in cartella."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "PASSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Minimizza e accetta solo se gli si dice a che serve il farmaco nuovo e se gli si chiede il consenso. Teme l'insulina."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Primo passo della Nota",
+      "prompt": "Paolo è già in metformina, tollerata, e lo stile di vita è stato rinforzato da più di tre mesi. HbA1c 64 mmol/mol. Che inquadramento fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Il primo passo è già stato fatto: la metformina non basta e l'HbA1c è sopra 53 mmol/mol, quindi si valuta un secondo farmaco",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Sospendi la metformina e passi subito all'insulina perché un parente è stato trattato così in urgenza",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Insulina al posto del percorso della Nota",
+      "prompt": "La Nota 100: lo stile di vita è il primo step e la metformina è il farmaco di prima scelta salvo controindicazione o intolleranza. L'insulina è l'opzione di scelta per l'emergenza glicemica. Qui non c'è emergenza e la metformina è tollerata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Soglia di rimborso",
+      "prompt": "Un secondo farmaco a carico del SSN, in questo testo, quando si considera?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Solo se l'HbA1c non è a target: qui 64 mmol/mol è sopra 53 mmol/mol",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo aggiungi a carico SSN anche se l'HbA1c fosse già sotto 53 mmol/mol, perché ha lo scompenso",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Secondo farmaco con HbA1c a target",
+      "prompt": "La Nota scrive che la prescrizione a carico del SSN di un secondo farmaco con beneficio clinico si considera, anche in prevenzione secondaria, solo se l'HbA1c non è a target. Lo scompenso orienta la classe, non cancella la soglia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Classe nello scompenso",
+      "prompt": "Non ci sono controindicazioni note agli SGLT2. Quale classe è preferenziale nel paziente con scompenso?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Un inibitore di SGLT2, per i principi attivi con beneficio dimostrato. La Nota nomina tra gli altri dapagliflozin ed empagliflozin, senza una dose in questo testo",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Un inibitore del DPP4 come scelta preferenziale, perché abbassa l'HbA1c ed è più semplice",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "DPP4 al posto dell'SGLT2",
+      "prompt": "Punto D della Nota: nello scompenso l'inibitore di SGLT2, se non controindicato e tollerato, dovrebbe essere considerato in preferenza. I DPP4 si considerano soprattutto quando i farmaci con beneficio su esiti hard sono controindicati o non tollerati.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Scheda GLP-1",
+      "prompt": "Paolo chiede un'iniezione settimanale di cui ha letto. Che condizione mette la Nota sul GLP-1?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Un GLP-1 o un doppio agonista GIP/GLP1 a carico SSN richiede la scheda di valutazione e prescrizione, e nello scompenso non scavalca l'SGLT2 se questo è utilizzabile",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Prescrivi semaglutide o tirzepatide a carico SSN senza scheda",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "GLP-1 senza scheda",
+      "prompt": "La Nota 100: gli SGLT2 e i DPP4 non obbligano la scheda; resta l'obbligo della scheda per gli agonisti del GLP-1 e per i doppi agonisti GIP/GLP1, anche in associazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso al nuovo farmaco",
+      "prompt": "Paolo è capace e vuole capire il farmaco prima di prenderlo. Che fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Gli spieghi a che serve, gli effetti che la Nota ti impone di considerare e annoti il consenso",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Glielo metti in terapia senza spiegazione, perché la Nota basta da sola",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco senza consenso",
+      "prompt": "Legge 219/2017, art. 1: nessun trattamento sanitario può essere iniziato senza il consenso libero e informato, fuori dai casi di legge. Una nota di rimborso non sostituisce quel consenso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo dell'HbA1c",
+      "prompt": "Dopo il cambio di terapia, ogni quanto la Nota vuole l'HbA1c?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Ogni 3 mesi finché l'obiettivo non è stabile; almeno due volte l'anno in ogni persona con diabete",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "La ricontrolli una sola volta dopo due anni",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Follow-up fuori dalla Nota",
+      "prompt": "La Nota: l'HbA1c si valuta non meno di due volte l'anno. Se la terapia è stata modificata o l'obiettivo non è stabile, la valutazione va fatta ogni 3 mesi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Quello che i testi non dicono",
+      "prompt": "Vuoi aggiungere una dose di diuretico d'ansa «come da ESC sullo scompenso». Che testo hai in cartella?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inventi una dose di diuretico: in questa cartella non c'è la linea guida ESC sullo scompenso. Ti fermi a quanto scrive la Nota 100",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Prescrivi una fiala di furosemide con una posologia che nessun PDF di questa cartella riporta",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dose non scritta nei documenti",
+      "prompt": "Il PDF cardiologico presente è la guida ESC 2022 sulle aritmie ventricolari, non la guida sullo scompenso. La Nota 100 non riporta milligrammi di furosemide. Inventare quella dose non è un trattamento ancorato ai testi, e l'art. 1 della legge 219 chiede un'informazione veritiera.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Associazione coerente con la Nota 100",
+      "prompt": "Stile di vita e metformina già fatti, HbA1c sopra target, scompenso: SGLT2 in preferenza, scheda solo se si sceglie un GLP-1, consenso annotato. Nessuna dose inventata.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

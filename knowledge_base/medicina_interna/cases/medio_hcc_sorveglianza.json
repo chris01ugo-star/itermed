@@ -1,0 +1,458 @@
+{
+  "id": "INTMED-010",
+  "code": "INTMED-010",
+  "title": "Donna di 59 anni con cirrosi e sorveglianza per epatocarcinoma",
+  "description": "Maria, 59 anni, cirrosi da epatite C già guarita virologicamente, in ambulatorio è precisa e preoccupata. Non ha nodi noti. Le hanno proposto di controllarsi solo con l'alfafetoproteina una volta l'anno, senza ecografia. Parametri: PA 124/76 mmHg, FC 74 bpm, FR 14 atti/min, SpO2 98%, temperatura 36.5°C.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "gastroenterologia"
+  ],
+  "condition": "Cirrosi a rischio di epatocarcinoma, sorveglianza non ancora avviata in modo corretto",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "EASL-CPG-Management-of-hepatocellular-carcinoma-.pdf",
+  "diagnosis": "Paziente ad alto rischio: la sorveglianza è l'ecografia addominale ogni sei mesi, fatta da personale esperto. I biomarcatori, tra cui l'AFP, non sono costo-efficaci per la sorveglianza di routine dell'HCC precoce.",
+  "pastMedicalHistory": "Cirrosi. HCV con risposta virologica sostenuta. Nessun nodulo già caratterizzato. Non è in lista di trapianto. Non è una NAFLD senza cirrosi.",
+  "presentation": "Alto rischio per la cirrosi. Nessun sintomo di tumore avanzato. La domanda è come sorvegliare, non come trattare un nodulo già noto.",
+  "redHerrings": [
+    "Porta un referto di AFP dell'anno scorso, normale, e lo considera sufficiente."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Maria, ho 59 anni. Il fegato è malato ma il virus dicono che è spento. Ho paura del tumore. L'analisi del sangue di un anno fa era normale: basta quella, o devo fare l'ecografia?",
+  "correctSolution": "EASL: chi è ad alto rischio entra in un programma di sorveglianza. L'ecografia addominale ogni sei mesi, da personale esperto, è la raccomandazione forte. AFP, AFP-L3 e DCP sono subottimali come sorveglianza di routine dell'HCC precoce. Dopo SVR da HCV, se c'era fibrosi avanzata o cirrosi, la sorveglianza dell'HCC non si interrompe. Il ruolo della sorveglianza nella NAFLD senza cirrosi è incerto: qui la cirrosi c'è, quindi il programma si fa. Consenso all'ecografia.",
+  "goldStandardPath": [
+    "ecografia-addome",
+    "visita-epatologica"
+  ],
+  "goldPathNarrative": "Imposti l'ecografia ogni sei mesi. Non sostituirla con l'AFP annuale. Le spieghi che la guarigione del virus non chiude la sorveglianza.",
+  "examLatencies": {
+    "ecografia-addome": 40,
+    "visita-epatologica": 20,
+    "tc-trifasica": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "cirrosi",
+      "prompt": "Le hanno detto che il fegato è cirrotico, e il virus è stato trattato?",
+      "critical": true,
+      "expectedKeywords": [
+        "cirrosi",
+        "virus",
+        "guarito"
+      ],
+      "rationale": "La cirrosi tiene alto il rischio anche dopo la risposta virologica."
+    },
+    {
+      "id": "eco",
+      "prompt": "Quando ha fatto l'ultima ecografia dell'addome?",
+      "critical": true,
+      "expectedKeywords": [
+        "ecografia",
+        "mesi",
+        "addome"
+      ],
+      "rationale": "L'intervallo scritto è sei mesi."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la preoccupa di più del controllo?",
+      "critical": false,
+      "expectedKeywords": [
+        "paura",
+        "tumore",
+        "analisi"
+      ],
+      "rationale": "Va risposto alla paura che lei nomina, con l'esame giusto."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Precisa, non itterica in modo marcato, non ascite tesa, non massa palpabile. Orientata."
+  },
+  "escCitations": [
+    {
+      "chunkId": "hcc-us",
+      "source": "knowledge_base/medicina_interna/clinical/EASL-CPG-Management-of-hepatocellular-carcinoma-.pdf",
+      "quote": "Surveillance should be performed by experienced personnel in all high-risk populations using abdominal ultrasound every six months ( evidence moderate; recommendation strong )"
+    },
+    {
+      "chunkId": "hcc-afp",
+      "source": "knowledge_base/medicina_interna/clinical/EASL-CPG-Management-of-hepatocellular-carcinoma-.pdf",
+      "quote": "The data available show that the biomarkers tested (i.e. AFP, AFP-L3 and DCP) are suboptimal in terms of cost-effectiveness for routine surveillance of early HCC ( evidence low )."
+    },
+    {
+      "chunkId": "hcv-surv",
+      "source": "knowledge_base/medicina_interna/clinical/EASL-recommendations-on-treatment-of-hepatitis-C.pdf",
+      "quote": "in these patients, surveillance for HCC must be continued."
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Ecografia ogni sei mesi, non l'AFP da sola.",
+      "Continuare la sorveglianza dopo la guarigione virologica se resta la cirrosi."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "EASL indica l'ecografia semestrale. L'AFP di routine è uno spreco secondo lo stesso testo. La legge 219 chiede il consenso all'accertamento.",
+      "legalCriteria": [
+        "Informare che l'AFP normale non chiude il programma.",
+        "Annotare il consenso all'ecografia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecografia-addome",
+      "name": "Ecografia addome",
+      "finding": "Fegato a margini bozzuti, nessun nodulo descritto in questo controllo. Esame da ripetere a sei mesi.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "visita-epatologica",
+      "name": "Inquadramento epatologico",
+      "finding": "Cirrosi confermata. Nessuna indicazione a bioptizzare un nodulo che non c'è.",
+      "isAbnormal": false,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-trifasica",
+      "name": "TC trifasica di sorveglianza",
+      "finding": "Non è l'esame di sorveglianza scritto per chi non ha un nodulo.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "La raccomandazione forte è l'ecografia ogni sei mesi. La TC non è la sorveglianza di routine di questo testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 74,
+      "bloodPressure": "124/76",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "demographics": {
+      "age": 59,
+      "sex": "F",
+      "context": "Ambulatorio"
+    },
+    "advancedExams": {
+      "values": {
+        "ecografia-addome": {
+          "finding": "Fegato a margini bozzuti, nessun nodulo descritto in questo controllo. Esame da ripetere a sei mesi.",
+          "isAbnormal": true
+        },
+        "visita-epatologica": {
+          "finding": "Cirrosi confermata. Nessuna indicazione a bioptizzare un nodulo che non c'è.",
+          "isAbnormal": false
+        },
+        "tc-trifasica": {
+          "finding": "Non è l'esame di sorveglianza scritto per chi non ha un nodulo.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Sorveglianza ecografica semestrale",
+          "anyOf": [
+            {
+              "id": "eco6",
+              "label": "Ecografia ogni sei mesi",
+              "aliases": [
+                "ecografia",
+                "sei mesi"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "solo-afp",
+          "label": "Solo alfafetoproteina",
+          "aliases": [
+            "alfafetoproteina",
+            "afp"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Ecografia ogni 6 mesi.",
+        "AFP non usata da sola.",
+        "Sorveglianza mantenuta dopo SVR."
+      ],
+      "penalties": [
+        {
+          "id": "solo-afp",
+          "kind": "clinical",
+          "trigger": "Sorveglianza solo con AFP."
+        }
+      ],
+      "citationLimits": [
+        "Non si inventa una terapia del nodulo: in questo caso il nodulo non c'è."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "GOOD",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Si fida dei numeri di laboratorio. Va corretto con calma: l'ecografia ogni sei mesi è il controllo, l'AFP da sola no."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "È ad alto rischio",
+      "prompt": "Cirrosi, anche se l'HCV ha risposto. Entra in sorveglianza?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Sì. I pazienti ad alto rischio vanno inseriti in un programma. Dopo fibrosi avanzata o cirrosi la sorveglianza dell'HCC continua nonostante la risposta virologica",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La chiudi perché il virus è spento e l'AFP era normale",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Sorveglianza interrotta",
+      "prompt": "EASL HCC: chi è ad alto rischio entra in sorveglianza, raccomandazione forte. EASL HCV: in fibrosi F3 e cirrosi la risposta virologica riduce ma non abolisce il rischio di HCC, e la sorveglianza va continuata. Non dirglielo contraddice l'informazione dell'art. 1 della legge 219.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Quale esame e ogni quanto",
+      "prompt": "Con che esame e con che intervallo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Ecografia addominale ogni sei mesi, eseguita da personale esperto",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "TC trifasica ogni anno come esame di sorveglianza",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC al posto dell'ecografia",
+      "prompt": "EASL: la sorveglianza si fa con ecografia addominale ogni sei mesi, evidenza moderata, raccomandazione forte. La TC annuale non è quella raccomandazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "AFP",
+      "prompt": "Maria vuole solo ripetere l'alfafetoproteina. Ti basta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. AFP, AFP-L3 e DCP sono subottimali, anche sui costi, per la sorveglianza di routine dell'HCC precoce",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Programmi solo l'AFP una volta l'anno e salti l'ecografia",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Biomarcatore non costo-efficace",
+      "prompt": "EASL: i biomarcatori testati, AFP, AFP-L3 e DCP, sono subottimali quanto a costo-efficacia per la sorveglianza di routine dell'HCC precoce. Non sostituiscono l'ecografia semestrale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "NAFLD senza cirrosi, non il suo caso",
+      "prompt": "Una parente senza cirrosi e con solo steatosi chiede lo stesso programma. Il testo che dice?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Il ruolo della sorveglianza nella NAFLD senza cirrosi è incerto. A Maria, che è cirrotica, il programma resta",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Iscrivi anche la parente senza cirrosi allo stesso calendario, come se la guida lo imponesse",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Sorveglianza non sostenuta",
+      "prompt": "EASL: il ruolo della sorveglianza nei pazienti con NAFLD senza cirrosi è incerto, evidenza bassa. Estendere il programma a quella parente non è la raccomandazione forte, che vale per le popolazioni ad alto rischio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso all'ecografia",
+      "prompt": "Maria accetta l'ecografia se le spieghi perché l'analisi non basta.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Glielo spieghi e annoti il consenso al programma semestrale",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Le prenoti l'ecografia senza dirle che cosa state sorvegliando",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Accertamento senza informazione",
+      "prompt": "Legge 219, art. 1: l'informazione riguarda diagnosi, prognosi, benefici e rischi degli accertamenti, e il consenso precede l'atto, fuori dai casi di legge.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Niente terapia di un nodulo assente",
+      "prompt": "Non c'è un nodulo. Un collega propone comunque una terapia locoregionale «preventiva».",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la fai. Il compito di oggi è la sorveglianza, non un trattamento di un tumore che l'ecografia non mostra",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Prenoti un'ablazione preventiva",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Trattamento sproporzionato",
+      "prompt": "Senza un nodulo, un'ablazione è un trattamento non indicato da questa visita. Legge 219, art. 2: il medico si astiene dai trattamenti inutili o sproporzionati. Art. 1 comma 6: il paziente non può esigere trattamenti contrari alle buone pratiche, e il medico non ha l'obbligo di farli.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Appuntamento",
+      "prompt": "Come chiudi la visita?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Fissi l'ecografia successiva a sei mesi e le dici di non sostituirla con un prelievo isolato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "La rivedi fra due anni con i soli esami del sangue",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Intervallo diverso dai sei mesi",
+      "prompt": "L'intervallo scritto è l'ecografia ogni sei mesi. Due anni di solo laboratorio perdono la finestra e ripetono il biomarcatore che il testo giudica non costo-efficace da solo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Sorveglianza con l'ecografia",
+      "prompt": "Alto rischio per la cirrosi: ecografia ogni sei mesi, anche dopo la risposta virologica. L'AFP non sostituisce l'ecografia. Consenso annotato. Niente TC di routine.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

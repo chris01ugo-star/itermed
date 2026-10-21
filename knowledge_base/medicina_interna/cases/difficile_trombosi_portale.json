@@ -1,0 +1,459 @@
+{
+  "id": "INTMED-019",
+  "code": "INTMED-019",
+  "title": "Donna di 46 anni con trombosi portale acuta",
+  "description": "Chiara, 46 anni, dolore addominale da cinque giorni, diagnosi di trombosi portale acuta senza cirrosi e senza un disordine protrombotico già noto. È lucida. Parametri: PA 118/74 mmHg, FC 96 bpm, FR 16 atti/min, SpO2 99%, temperatura 36.8°C.",
+  "difficulty": "HARD",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "gastroenterologia"
+  ],
+  "condition": "Trombosi portale acuta, senza disordine protrombotico noto",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "VDL-English-report.pdf",
+  "diagnosis": "Nella trombosi portale acuta la terapia anticoagulante è data per 6 mesi. Il trattamento per tutta la vita è scritto per la sindrome di Budd-Chiari. Nella trombosi portale la durata dipende dal rischio di recidiva e da un eventuale stato protrombotico, che qui non è noto. Il testo non nomina la molecola né la dose.",
+  "pastMedicalHistory": "Nessuna cirrosi. Nessun fattore protrombotico già diagnosticato. Nessuna emorragia in atto descritta. Capacità di consenso conservata.",
+  "presentation": "Dolore addominale e trombosi portale acuta. EASL distingue la durata: 6 mesi nella PVT acuta, a vita nel Budd-Chiari. Un trattamento lungo si valuta sul disturbo di base e sul rischio di recidiva.",
+  "redHerrings": [
+    "Un parente ha la sindrome di Budd-Chiari e prende l'anticoagulante da anni: lei chiede lo stesso piano."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Chiara, ho 46 anni. Mi fa male la pancia e mi hanno detto che una vena del fegato è tappata. Ho paura di un farmaco che fluidifica il sangue per sempre. Spiegatemi per quanto, e non iniziate se non sono d'accordo.",
+  "correctSolution": "Anticoagulazione nella PVT acuta per 6 mesi. Non a vita solo perché un parente ha il Budd-Chiari: lì il testo dice trattamento a vita per la gravità di quella sindrome. Cercare un fattore eziologico, perché uno stato protrombotico può allungare la durata ed è predittore di recidiva. Non si nomina un DOAC o una dose: il brano dice «anticoagulant therapy» senza molecola. Consenso. Dolore addominale annotato.",
+  "goldStandardPath": [
+    "eco-doppler-portale",
+    "trombo-screening"
+  ],
+  "goldPathNarrative": "Confermi la trombosi acuta. Inizi l'anticoagulante per 6 mesi, non a vita. Cerchi un fattore protrombotico prima di prolungare. Non inventi la molecola. Annoti consenso e dolore.",
+  "examLatencies": {
+    "eco-doppler-portale": 40,
+    "trombo-screening": 180,
+    "tc-addome": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "dolore",
+      "prompt": "Da quanti giorni le fa male la pancia e com'è il dolore?",
+      "critical": true,
+      "expectedKeywords": [
+        "dolore",
+        "giorni",
+        "pancia"
+      ],
+      "rationale": "Il dolore è il sintomo e va annotato."
+    },
+    {
+      "id": "cirrosi",
+      "prompt": "Le hanno mai detto che ha una cirrosi o un problema del sangue che fa coagulare?",
+      "critical": true,
+      "expectedKeywords": [
+        "cirrosi",
+        "trombosi",
+        "sangue"
+      ],
+      "rationale": "Cirrosi e stato protrombotico cambiano la durata."
+    },
+    {
+      "id": "durata",
+      "prompt": "Che cosa le hanno detto su un farmaco da prendere per sempre?",
+      "critical": false,
+      "expectedKeywords": [
+        "sempre",
+        "mesi",
+        "farmaco"
+      ],
+      "rationale": "La paura della durata va corretta sui 6 mesi della PVT acuta."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucida, addome dolente in epigastrio, non difesa, non ascite, non ittero marcato. Non segni di emorragia in corso."
+  },
+  "escCitations": [
+    {
+      "chunkId": "vdl-6mesi",
+      "source": "knowledge_base/medicina_interna/clinical/VDL-English-report.pdf",
+      "quote": "In individuals with acute PVT, anticoagulant therapy is given for 6 months. However, long-term treatment is sometimes given, depending upon the underlying disorder."
+    },
+    {
+      "chunkId": "vdl-bcs",
+      "source": "knowledge_base/medicina_interna/clinical/VDL-English-report.pdf",
+      "quote": "For patients with BCS, lifelong anticoagulant treatment is warranted considering the severity of the disorder."
+    },
+    {
+      "chunkId": "vdl-recidiva",
+      "source": "knowledge_base/medicina_interna/clinical/VDL-English-report.pdf",
+      "quote": "an underlying prothrombotic state was an independent predictor of recurrent thrombosis"
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Anticoagulare la PVT acuta per 6 mesi, non a vita in assenza di un disturbo che lo giustifichi.",
+      "Non trasferire su di lei la durata del Budd-Chiari."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "EASL fissa le due durate. La legge 219 chiede il consenso a un farmaco che aumenta il rischio di sanguinamento, e un'informazione che non confonda le due malattie.",
+      "legalCriteria": [
+        "Distinguere PVT acuta e Budd-Chiari.",
+        "Non inventare molecola e dose assenti dal brano."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "eco-doppler-portale",
+      "name": "Eco-Doppler portale",
+      "finding": "Trombosi portale acuta, senza segni di cirrosi in questo esame.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "trombo-screening",
+      "name": "Ricerca di un fattore protrombotico",
+      "finding": "Nessun disordine protrombotico noto all'ingresso. Il testo dice di cercarlo perché influenza la durata.",
+      "isAbnormal": false,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-addome",
+      "name": "TC addome ripetuta lo stesso giorno",
+      "finding": "L'eco-Doppler ha già mostrato la trombosi. Una seconda TC immediata non cambia i 6 mesi.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "La decisione sulla durata è clinica e dipende dal disturbo di base, non da un secondo imaging lo stesso giorno."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "118/74",
+      "spo2": 99,
+      "temperature": 36.8,
+      "respiratoryRate": 16
+    },
+    "demographics": {
+      "age": 46,
+      "sex": "F",
+      "context": "Reparto"
+    },
+    "advancedExams": {
+      "values": {
+        "eco-doppler-portale": {
+          "finding": "Trombosi portale acuta, senza segni di cirrosi in questo esame.",
+          "isAbnormal": true
+        },
+        "trombo-screening": {
+          "finding": "Nessun disordine protrombotico noto all'ingresso. Il testo dice di cercarlo perché influenza la durata.",
+          "isAbnormal": false
+        },
+        "tc-addome": {
+          "finding": "L'eco-Doppler ha già mostrato la trombosi. Una seconda TC immediata non cambia i 6 mesi.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Anticoagulazione per 6 mesi",
+          "anyOf": [
+            {
+              "id": "anticoag-6",
+              "label": "Terapia anticoagulante, durata 6 mesi",
+              "aliases": [
+                "anticoagulante",
+                "sei mesi"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "a-vita",
+          "label": "Anticoagulazione a vita senza disturbo di base",
+          "aliases": [
+            "a vita",
+            "lifelong",
+            "per sempre"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Anticoagulante per 6 mesi.",
+        "Ricerca del fattore prima di prolungare.",
+        "Nessuna molecola inventata."
+      ],
+      "penalties": [
+        {
+          "id": "a-vita",
+          "kind": "clinical",
+          "trigger": "Durata da Budd-Chiari applicata a una PVT acuta senza fattore."
+        }
+      ],
+      "citationLimits": [
+        "Il brano non nomina eparina, warfarin o DOAC, né una dose. Non si inventano."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Teme un farmaco per sempre. Si rassicura se le si distingue il suo caso da quello del parente e se le si chiede il consenso."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Quale trombosi",
+      "prompt": "Eco-Doppler: trombosi portale acuta, non Budd-Chiari, non cirrosi. Come la chiami ai fini della durata?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "PVT acuta. La durata di partenza scritta è 6 mesi, non quella del Budd-Chiari",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La tratti come Budd-Chiari perché «è sempre una vena del fegato»",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Diagnosi scambiata",
+      "prompt": "EASL: nel Budd-Chiari l'anticoagulazione è a vita per la gravità di quella sindrome. Nella PVT acuta è data per 6 mesi. Scambiare le due diagnosi informa male e viola l'art. 1 della legge 219.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Durata iniziale",
+      "prompt": "Nessun disordine protrombotico è noto oggi. Che durata avvii?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Terapia anticoagulante per 6 mesi. Un prolungamento si valuta solo se emerge un disturbo di base",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "La metti a vita da subito, come il parente",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Anticoagulazione a vita non indicata",
+      "prompt": "EASL: nella PVT acuta l'anticoagulante si dà per 6 mesi. Il trattamento a lungo termine si dà a volte, in base al disturbo sottostante. Senza quel disturbo, la durata a vita è un costo e un rischio di sanguinamento non scritti per lei.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Cercare la causa",
+      "prompt": "Perché cercare un fattore protrombotico?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Perché può cambiare la durata e, negli studi citati, lo stato protrombotico predice la recidiva",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Non lo cerchi: la durata è comunque a vita",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Causa non cercata",
+      "prompt": "EASL: diagnosticare il fattore eziologico conta, perché un disordine protrombotico può influenzare la durata nella PVT, ed è risultato predittore indipendente di recidiva. Saltare la ricerca fissa una durata alla cieca.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Molecola non scritta",
+      "prompt": "Il brano quale farmaco nomina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Nessuno. Parla di terapia anticoagulante, senza molecola e senza dose. Non ne inventi una",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Scegli un DOAC con una dose che il brano non contiene e lo metti a carico SSN come se la Nota lo dicesse",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco e dose non nel testo",
+      "prompt": "Il brano dice «anticoagulant therapy» per 6 mesi e non nomina la molecola. Una Nota AIFA di questa cartella non autorizza, in queste pagine, un DOAC per la trombosi portale. Inventare dose e rimborso non è nel documento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso",
+      "prompt": "È lucida e teme il sanguinamento. Come inizi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Le spieghi beneficio, rischio di sanguinare e la durata di 6 mesi, e annoti il consenso",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Fai partire l'infusione senza dirglielo",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Anticoagulante senza consenso",
+      "prompt": "Legge 219, art. 1: il trattamento non si inizia senza consenso informato, e l'informazione include rischi e alternative. Non è un'urgenza che impedisca di recepire la volontà: è lucida.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore",
+      "prompt": "Il dolore di pancia è il motivo del ricovero. Che annoti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Caratteristiche, evoluzione, che cosa usi e il risultato, in cartella medica e infermieristica",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Non lo scrivi: conta solo l'eco-Doppler",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non in cartella",
+      "prompt": "Legge 38/2010, art. 7: in cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Legge 219, art. 2: la terapia del dolore è sempre garantita.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo della durata",
+      "prompt": "A sei mesi il fattore protrombotico non è emerso e non ci sono state recidive. Che fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Rivaluti la sospensione. Non trasformi i 6 mesi in un'abitudine a vita senza un disturbo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Rinnovi per sempre senza rivalutare",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Rinnovo automatico",
+      "prompt": "La durata dipende dal rischio di recidiva e dal disturbo di base. Senza questi elementi, rinnovare a vita non è la frase sui 6 mesi della PVT acuta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Sei mesi, non la durata del Budd-Chiari",
+      "prompt": "PVT acuta: anticoagulante per 6 mesi. Il vita natural durante è per il Budd-Chiari. Si cerca un fattore prima di allungare. Nessuna molecola inventata. Consenso e dolore annotati.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

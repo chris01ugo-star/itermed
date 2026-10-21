@@ -1,0 +1,461 @@
+{
+  "id": "INTMED-018",
+  "code": "INTMED-018",
+  "title": "Uomo di 55 anni con cirrosi e virus B ancora rilevabile",
+  "description": "Luca, 55 anni, cirrosi e HBsAg positivo, in ambulatorio è collaborante. HBV-DNA rilevabile. Gli propongono l'interferone peghilato come prima e unica scelta. Parametri: PA 122/74 mmHg, FC 70 bpm, FR 15 atti/min, SpO2 98%, temperatura 36.5°C.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "malattie_infettive",
+    "gastroenterologia"
+  ],
+  "condition": "Cirrosi con HBV-DNA rilevabile, non ancora in analogo nucleos(t)idico",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "HepB-English-report.pdf",
+  "diagnosis": "Tutti i cirrotici con HBV-DNA rilevabile vanno trattati. La scelta di fondo è un analogo ad alta barriera: entecavir, tenofovir disoproxil o tenofovir alafenamide. L'interferone peghilato può essere considerato, ma non è descritto come la scelta di base.",
+  "pastMedicalHistory": "Cirrosi. HBsAg positivo. DNA rilevabile. Nessuna terapia antivirale in corso. Non è in chemioterapia. Nessuna gravidanza.",
+  "presentation": "Il sommario EASL: indicazione tipica se DNA sopra 2.000 UI/ml con ALT alte e/o lesioni almeno moderate; in più, tutti i cirrotici con DNA rilevabile vanno trattati. L'endpoint è la soppressione a lungo termine. La perdita dell'HBsAg è un endpoint ottimale, non la condizione per iniziare.",
+  "redHerrings": [
+    "Vuole sospendere tutto appena le transaminasi scendono, anche se il DNA è ancora presente."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Luca, ho 55 anni. Ho la cirrosi e il virus B. Mi hanno parlato di punture di interferone. Se c'è una compressa che il testo preferisce, ditemela. Non voglio smettere di colpo senza capire.",
+  "correctSolution": "Trattare perché è cirrotico e il DNA è rilevabile. Scelta: entecavir, tenofovir disoproxil o tenofovir alafenamide, somministrazione a lungo termine. Non si usa l'interferone come unica prima scelta al posto dell'analogo. Non si sospende appena le ALT scendono: l'endpoint è la soppressione duratura. Nessuna dose in milligrammi è in questo sommario. Consenso. La sorveglianza dell'HCC resta perché la cirrosi tiene il rischio: il sommario dice che tutti i pazienti con HBV cronica hanno un rischio aumentato di cirrosi e HCC.",
+  "goldStandardPath": [
+    "hbv-dna",
+    "transaminasi"
+  ],
+  "goldPathNarrative": "Confermi il DNA. Inizi un analogo ad alta barriera, non l'interferone come piano unico. Non fissi una dose assente dal sommario. Annoti il consenso e non programmi una sospensione al primo calo delle ALT.",
+  "examLatencies": {
+    "hbv-dna": 180,
+    "transaminasi": 40,
+    "biopsia-epatica": 240
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "dna",
+      "prompt": "Le hanno detto se il virus nel sangue è ancora presente?",
+      "critical": true,
+      "expectedKeywords": [
+        "dna",
+        "virus",
+        "presente"
+      ],
+      "rationale": "Nel cirrotico basta il DNA rilevabile per trattare."
+    },
+    {
+      "id": "farmaco",
+      "prompt": "Ha già preso entecavir, tenofovir o interferone?",
+      "critical": true,
+      "expectedKeywords": [
+        "entecavir",
+        "tenofovir",
+        "interferone"
+      ],
+      "rationale": "La scelta di fondo è l'analogo, non un ciclo già fatto di interferone."
+    },
+    {
+      "id": "sospensione",
+      "prompt": "Che cosa le hanno detto sullo sospendere appena le analisi del fegato migliorano?",
+      "critical": false,
+      "expectedKeywords": [
+        "sospendere",
+        "analisi",
+        "migliorano"
+      ],
+      "rationale": "L'endpoint è la soppressione a lungo termine, non un singolo calo delle ALT."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Collaborante, segni di epatopatia cronica senza encefalopatia. Non ascite tesa oggi. Orientato."
+  },
+  "escCitations": [
+    {
+      "chunkId": "hbv-cirrosi",
+      "source": "knowledge_base/medicina_interna/clinical/HepB-English-report.pdf",
+      "quote": "all cirrhotic patients with detectable HBV DNA should be treated."
+    },
+    {
+      "chunkId": "hbv-na",
+      "source": "knowledge_base/medicina_interna/clinical/HepB-English-report.pdf",
+      "quote": "The long-term administration of a potent nucleos(t)ide analogue with high barrier to resistance, i.e., entecavir, tenofovir disoproxil or tenofovir alafenamide, represents the treatment of choice."
+    },
+    {
+      "chunkId": "hbv-endpoint",
+      "source": "knowledge_base/medicina_interna/clinical/HepB-English-report.pdf",
+      "quote": "The induction of long-term suppression of HBV replication represents the main endpoint of current treatment strategies, while HBsAg loss is an optimal endpoint."
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Trattare il cirrotico con DNA rilevabile con entecavir o tenofovir, non lasciare l'infezione senza terapia.",
+      "Non sostituire l'analogo con il solo interferone come scelta di base."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il sommario EASL è la fonte. La legge 219 chiede consenso e vieta di presentare l'interferone come unica via se il testo indica l'analogo come treatment of choice.",
+      "legalCriteria": [
+        "Informare che la cura è a lungo termine.",
+        "Non inventare i milligrammi della compressa."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "hbv-dna",
+      "name": "HBV-DNA",
+      "finding": "Rilevabile. Nessuna cifra in UI/ml è fissata oltre il dato qualitativo.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "transaminasi",
+      "name": "Transaminasi",
+      "finding": "Alterate. Il sommario non chiede che siano normali per trattare un cirrotico con DNA rilevabile.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "biopsia-epatica",
+      "name": "Biopsia prima di ogni cura",
+      "finding": "Nel cirrotico con DNA rilevabile l'indicazione a trattare non aspetta un altro prelievo istologico.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Il sommario tratta tutti i cirrotici con DNA rilevabile. La biopsia non è la condizione."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 70,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 15
+    },
+    "demographics": {
+      "age": 55,
+      "sex": "M",
+      "context": "Ambulatorio"
+    },
+    "advancedExams": {
+      "values": {
+        "hbv-dna": {
+          "finding": "Rilevabile. Nessuna cifra in UI/ml è fissata oltre il dato qualitativo.",
+          "isAbnormal": true
+        },
+        "transaminasi": {
+          "finding": "Alterate. Il sommario non chiede che siano normali per trattare un cirrotico con DNA rilevabile.",
+          "isAbnormal": true
+        },
+        "biopsia-epatica": {
+          "finding": "Nel cirrotico con DNA rilevabile l'indicazione a trattare non aspetta un altro prelievo istologico.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Analogo ad alta barriera",
+          "anyOf": [
+            {
+              "id": "na",
+              "label": "Entecavir o tenofovir",
+              "aliases": [
+                "entecavir",
+                "tenofovir",
+                "taf",
+                "tdf"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "ifn-unico",
+          "label": "Solo interferone come scelta di base",
+          "aliases": [
+            "interferone",
+            "peginterferone"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Analogo ad alta barriera.",
+        "Niente sospensione al primo calo delle ALT.",
+        "Consenso, nessuna dose inventata."
+      ],
+      "penalties": [
+        {
+          "id": "no-treat",
+          "kind": "clinical",
+          "trigger": "Cirrotico con DNA rilevabile lasciato senza terapia."
+        }
+      ],
+      "citationLimits": [
+        "Il sommario non riporta i milligrammi di entecavir o tenofovir."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole una compressa e teme le punture. Accetta la cura lunga se gli si dice che sospendere al primo miglioramento non è l'obiettivo del testo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Indicazione",
+      "prompt": "Cirrosi e HBV-DNA rilevabile. Lo tratti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Sì. Tutti i cirrotici con DNA rilevabile vanno trattati, anche senza aspettare un'altra condizione",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Aspetti che le ALT siano molto alte e che compaia un'ascite prima di iniziare",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Cirrotico non trattato",
+      "prompt": "EASL HBV: tutti i pazienti cirrotici con HBV-DNA rilevabile devono essere trattati. Rimandare non è quel testo. Non informarlo del rischio di progressione e di HCC contraddice l'art. 1 della legge 219.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quale farmaco",
+      "prompt": "Che classe è la scelta di fondo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Un analogo potente ad alta barriera: entecavir, tenofovir disoproxil o tenofovir alafenamide, a lungo termine. Il sommario non fissa i milligrammi",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Interferone peghilato come unica scelta, senza discutere l'analogo",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Interferone al posto della scelta di fondo",
+      "prompt": "Il sommario: la somministrazione a lungo termine di un analogo ad alta barriera, cioè entecavir, tenofovir disoproxil o tenofovir alafenamide, rappresenta la scelta di trattamento. L'interferone peghilato può essere considerato, ma non è descritto come quella scelta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Endpoint",
+      "prompt": "Le ALT migliorano al primo mese e il DNA è ancora rilevabile. Sospendi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. L'endpoint principale è la soppressione a lungo termine della replicazione. La perdita dell'HBsAg è un endpoint ottimale, non il segnale per smettere al primo calo delle ALT",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Sospesi la cura perché «le analisi del fegato sono meglio»",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sospensione prematura",
+      "prompt": "EASL: l'endpoint principale è la soppressione a lungo termine. Interrompere al primo calo delle ALT spreca il ciclo e lascia la replicazione, che è ciò che la terapia deve controllare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Biopsia",
+      "prompt": "Vuoi la biopsia prima di consegnare la ricetta. Il sommario la esige nel cirrotico con DNA rilevabile?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. L'indicazione è già scritta",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Ritardi l'analogo fino all'istologia",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Biopsia che ritarda l'analogo",
+      "prompt": "Nel cirrotico il DNA rilevabile basta. La biopsia non è la condizione scritta in quel periodo del sommario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso",
+      "prompt": "Luca è capace e vuole capire se sono punture o compresse.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Gli spieghi l'analogo, la durata e il fatto che può rifiutare, e annoti il consenso",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Gli fai ritirare l'interferone senza dirglielo, perché «tanto va trattato»",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Cura senza consenso e farmaco diverso",
+      "prompt": "Legge 219, art. 1: niente trattamento senza consenso informato. Proporre l'interferone come fatto compiuto, quando la scelta scritta è l'analogo, non è neppure un'informazione aderente al testo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rischio di tumore",
+      "prompt": "Che gli dici sul tumore del fegato, senza inventare un calendario che questo sommario non numera?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Tutti i pazienti con infezione cronica da HBV hanno un rischio aumentato di cirrosi e di HCC, legato a fattori del virus e dell'ospite. Non inventi un intervallo in mesi che questo brano non scrive",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Gli dici che con la compressa il rischio di tumore è zero e che non serviranno più controlli",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Rischio azzerato, cosa che il testo non dice",
+      "prompt": "Il sommario: tutti i pazienti con HBV cronica hanno un rischio aumentato di progressione a cirrosi e HCC. Non dice che la terapia lo porta a zero. L'art. 1 della legge 219 vieta un'informazione che il testo non sostiene.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Milligrammi",
+      "prompt": "La ricetta chiede una dose. Il sommario la riporta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. Nomini il principio e non inventi i milligrammi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Scrivi una dose giornaliera assente dal sommario",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dose non nel documento",
+      "prompt": "Entecavir, tenofovir disoproxil e tenofovir alafenamide sono nominati. I milligrammi no. Una dose inventata non è rimborsabile su una base che il testo non dà e non è informazione veritiera.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Analogo ad alta barriera",
+      "prompt": "Cirrosi e DNA rilevabile: si tratta. Scelta entecavir o tenofovir disoproxil o alafenamide, a lungo termine. L'interferone non è il piano unico. Consenso annotato. Nessun milligrammo inventato.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

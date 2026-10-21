@@ -1,0 +1,490 @@
+{
+  "id": "INTMED-003",
+  "code": "INTMED-003",
+  "title": "Uomo di 58 anni con oliguria dopo molte bustine di nimesulide",
+  "description": "Marco, 58 anni, muratore, arriva in pronto soccorso ostile e abituato a curarsi da solo. Da due giorni urina pochissimo. Per il mal di schiena ha preso nimesulide ogni giorno da dieci giorni, come primo farmaco. Non ha edemi. Parametri: PA 168/98 mmHg, FC 88 bpm, FR 16 atti/min, SpO2 98%, temperatura 36.6°C. La creatinina è salita di oltre 0,3 mg/dL in 48 ore rispetto a un valore recente. Il potassio non è a livelli che il caso definisca come pericolo di vita.",
+  "difficulty": "HARD",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "nefrologia"
+  ],
+  "condition": "Danno renale acuto dopo nimesulide protratta, senza sovraccarico e senza indicazione urgente alla dialisi",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Sezione_2.pdf; Sezione_3.pdf; Sezione_5.pdf; nota aifa 66.pdf",
+  "diagnosis": "AKI secondo KDIGO: aumento della creatinina di almeno 0,3 mg/dL in due giorni. Niente sovraccarico. La nimesulide va sospesa. I diuretici non trattano l'AKI fuori dal sovraccarico. La dopamina a basse dosi non si usa. La dialisi non parte da un singolo numero di creatinina.",
+  "pastMedicalHistory": "Lombalgia. Nessuna malattia renale nota prima di questa risalita. Nessun sovraccarico, nessun edema polmonare. Nessuna DAT che rifiuti la dialisi: il punto è che l'indicazione urgente non c'è.",
+  "presentation": "Oliguria e rialzo della creatinina dopo nimesulide quotidiana da dieci giorni, usata come primo antidolorifico. Pressione alta, non in edema. Il potassio e l'equilibrio acido-base non sono descritti come pericolo di vita.",
+  "redHerrings": [
+    "Chiede un'altra bustina «più forte» perché la schiena fa ancora male."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Marco, ho 58 anni. La schiena mi ha fatto prendere tante bustine, e adesso urino poco. Non fatemi la predica. Ditemi chiaro che cosa sospendete e che cosa non serve. Se dovete farmi un esame, spiegatemelo prima.",
+  "correctSolution": "KDIGO: AKI se la creatinina sale di 0,3 mg/dL in 2 giorni, del 50% in 7 giorni, o se c'è oliguria. Si sospende la nimesulide. Nota 66: a carico SSN solo come seconda linea e per breve durata del dolore acuto, non per l'artrosi e non come uso protratto. Non si usano i diuretici per trattare l'AKI se non c'è sovraccarico (2C) e non si usano per prevenirla (1B). Non si usa la dopamina a basse dosi (1A). La RRT in emergenza è per un pericolo di vita idroelettrolitico o acido-base; un singolo valore di creatinina non basta. Consenso prima degli atti non urgenti. Dolore di schiena annotato, senza un altro FANS.",
+  "goldStandardPath": [
+    "creatinina",
+    "potassio",
+    "ecografia-renale"
+  ],
+  "goldPathNarrative": "Confermi l'AKI e sospendi la nimesulide. Non dai furosemide per «far ripartire il rene» e non dai dopamina renale. Non inizi la dialisi su un numero isolato. Tratti il dolore di schiena senza un FANS di prima linea protratto.",
+  "examLatencies": {
+    "creatinina": 30,
+    "potassio": 30,
+    "ecografia-renale": 60,
+    "biopsia-renale": 240
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "farmaco",
+      "prompt": "Quale bustina ha preso, da quanti giorni e come primo farmaco?",
+      "critical": true,
+      "expectedKeywords": [
+        "nimesulide",
+        "bustine",
+        "giorni"
+      ],
+      "rationale": "Il nefrotossico e la durata decidono la sospensione e la Nota 66."
+    },
+    {
+      "id": "urina",
+      "prompt": "Quanta urina fa da ieri e ha gonfiore o fame d'aria?",
+      "critical": true,
+      "expectedKeywords": [
+        "urina",
+        "poco",
+        "gonfiore"
+      ],
+      "rationale": "L'oliguria entra nella definizione e il sovraccarico è l'unica eccezione ai diuretici."
+    },
+    {
+      "id": "dolore",
+      "prompt": "Il male alla schiena quanto è forte adesso?",
+      "critical": false,
+      "expectedKeywords": [
+        "schiena",
+        "dolore",
+        "forte"
+      ],
+      "rationale": "La legge 38 chiede di rilevare il dolore, senza rispondere con un altro FANS improprio."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ostile, lucido. Mucose non secche in modo marcato. Non edemi declivi, non rantoli. Dolore lombare alla palpazione dei muscoli, non segno di Giordano. Vescica non globosa."
+  },
+  "escCitations": [
+    {
+      "chunkId": "kdigo-def",
+      "source": "knowledge_base/medicina_interna/clinical/Sezione_2.pdf",
+      "quote": "AKI Aumento SCr del 50% entro 7 giorni, o Aumento SCr di 0,3 mg/dl (26,5 µmol/l) entro 2 giorni, o Oliguria"
+    },
+    {
+      "chunkId": "kdigo-diuretici",
+      "source": "knowledge_base/medicina_interna/clinical/Sezione_3.pdf",
+      "quote": "3.4.2: Si suggerisce di non utilizzare i diuretici per il trattamento dell'AKI, tranne in caso di sovraccarico. (2C)"
+    },
+    {
+      "chunkId": "kdigo-dopamina",
+      "source": "knowledge_base/medicina_interna/clinical/Sezione_3.pdf",
+      "quote": "3.5.1: Si raccomanda di non utilizzare la dopamina a basse dosi per la prevenzione o la terapia dell'AKI. (1A)"
+    },
+    {
+      "chunkId": "kdigo-rrt",
+      "source": "knowledge_base/medicina_interna/clinical/Sezione_5.pdf",
+      "quote": "5.1.2: Nella decisione di iniziare una RRT, considerare il contesto clinico complessivo, la presenza di condizioni che possono essere modificate con la RRT e il trend degli esami di laboratorio, piuttosto che un singolo valore soglia di BUN o creatinina."
+    },
+    {
+      "chunkId": "nota66",
+      "source": "knowledge_base/medicina_interna/economic/nota aifa 66.pdf",
+      "quote": "il farmaco antinfiammatorio nimesulide potrà essere prescritto a carico del SSN per il trattamento di breve durata del dolore acuto"
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Sospendere la nimesulide e non ripeterla come prima linea protratta a carico SSN.",
+      "Non usare diuretici né dopamina a basse dosi per curare questa AKI senza sovraccarico."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La Nota 66 limita la nimesulide rimborsata. KDIGO vieta dopamina renale e diuretici fuori dal sovraccarico. La dialisi senza pericolo di vita e senza consenso viola la legge 219 e la raccomandazione 5.1.2.",
+      "legalCriteria": [
+        "Annotare sospensione del nefrotossico e consenso agli atti.",
+        "Non iniziare la RRT su una sola creatinina, in assenza di pericolo di vita idroelettrolitico."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "creatinina",
+      "name": "Creatinina",
+      "finding": "Aumento di almeno 0,3 mg/dL entro 48 ore rispetto al valore recente. Quadro di AKI.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "potassio",
+      "name": "Potassio",
+      "finding": "Non è descritto un valore che costituisca pericolo di vita. Nessun numero inventato.",
+      "isAbnormal": false,
+      "isFatal": false
+    },
+    {
+      "examId": "ecografia-renale",
+      "name": "Ecografia renale",
+      "finding": "Non ostruzione. Reni in sede, senza idronefrosi.",
+      "isAbnormal": false,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "biopsia-renale",
+      "name": "Biopsia renale immediata",
+      "finding": "Non è il primo atto di questa AKI da farmaco, senza un'indicazione scritta in questi testi.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "KDIGO chiede di trattare in base a stadio e causa. La causa qui è il farmaco, non una biopsia d'urgenza."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "168/98",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "demographics": {
+      "age": 58,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
+    "advancedExams": {
+      "values": {
+        "creatinina": {
+          "finding": "Aumento di almeno 0,3 mg/dL entro 48 ore rispetto al valore recente. Quadro di AKI.",
+          "isAbnormal": true
+        },
+        "potassio": {
+          "finding": "Non è descritto un valore che costituisca pericolo di vita. Nessun numero inventato.",
+          "isAbnormal": false
+        },
+        "ecografia-renale": {
+          "finding": "Non ostruzione. Reni in sede, senza idronefrosi.",
+          "isAbnormal": false
+        },
+        "biopsia-renale": {
+          "finding": "Non è il primo atto di questa AKI da farmaco, senza un'indicazione scritta in questi testi.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Sospensione della nimesulide",
+          "anyOf": [
+            {
+              "id": "stop-nime",
+              "label": "Sospensione nimesulide",
+              "aliases": [
+                "sospendere nimesulide",
+                "stop nimesulide",
+                "nimesulide sospesa"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "dopamina",
+          "label": "Dopamina a basse dosi",
+          "aliases": [
+            "dopamina",
+            "dopamina renale"
+          ]
+        },
+        {
+          "id": "furosemide-aki",
+          "label": "Diuretico per trattare l'AKI senza sovraccarico",
+          "aliases": [
+            "furosemide",
+            "diuretico dell'ansa"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "AKI riconosciuta e nimesulide sospesa.",
+        "Niente dopamina renale e niente diuretico senza sovraccarico.",
+        "Niente dialisi su un solo numero."
+      ],
+      "penalties": [
+        {
+          "id": "dopamina",
+          "kind": "clinical",
+          "trigger": "Dopamina a basse dosi per l'AKI."
+        }
+      ],
+      "citationLimits": [
+        "KDIGO non fissa in questi brani una dose di liquido in ml/kg. Non si inventa."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "SELF_MEDICATED",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Si arrabbia se lo si giudica. Accetta la sospensione se gli si dice che la bustina è la causa e se il dolore di schiena viene comunque preso sul serio."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "È un'AKI",
+      "prompt": "La creatinina è salita di almeno 0,3 mg/dL in 48 ore e l'urina è scarsa. Come la chiami?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "AKI secondo i criteri KDIGO: aumento di 0,3 mg/dL in due giorni oppure del 50% in sette giorni, oppure oliguria",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Non è danno acuto finché la creatinina non triplica, quindi lo rimandi a casa con la stessa bustina",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "AKI non riconosciuta",
+      "prompt": "Sezione 2, tabella 2.10: l'AKI è un aumento della creatinina del 50% in 7 giorni, oppure di 0,3 mg/dL in 2 giorni, oppure oliguria. Rimandarlo con la nimesulide ignora la causa e l'art. 1 della legge 219, perché non lo informi del rischio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Nimesulide",
+      "prompt": "La prende da dieci giorni come primo farmaco per la schiena, a carico del SSN. Che fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "La sospendi. A carico SSN la Nota 66 la ammette solo come seconda linea e per breve durata del dolore acuto, e non più per l'artrosi dolorosa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "La rinnovi per un mese come primo farmaco, perché il dolore non è passato",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Nota 66 violata",
+      "prompt": "Nota 66, aggiornamento in Gazzetta: nimesulide a carico SSN per il trattamento di breve durata del dolore acuto, come seconda linea. Il CHMP raccomanda di circoscriverla all'acuto e di non usarla più nel trattamento sistemico dell'osteoartrosi dolorosa. Dieci giorni come prima scelta non rientrano.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Diuretico",
+      "prompt": "Non ha edemi né edema polmonare. Un collega vuole furosemide «per far ripartire il rene».",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non la usi: i diuretici non si usano per trattare l'AKI, tranne nel sovraccarico, e non si usano per prevenirla",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Infondi furosemide per convertire l'oliguria, anche senza sovraccarico",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Diuretico fuori indicazione KDIGO",
+      "prompt": "KDIGO 3.4.1: non usare i diuretici per prevenire l'AKI (1B). 3.4.2: si suggerisce di non utilizzarli per trattare l'AKI, tranne in caso di sovraccarico (2C). Qui il sovraccarico non c'è.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dopamina renale",
+      "prompt": "Propongono dopamina a 2 microgrammi/kg/min per proteggere il rene. È scritto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. La raccomandazione 3.5.1 vieta la dopamina a basse dosi per prevenire o trattare l'AKI",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "La avvii comunque, a dose «renale»",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dopamina a basse dosi",
+      "prompt": "KDIGO 3.5.1, grado 1A: si raccomanda di non utilizzare la dopamina a basse dosi per la prevenzione o la terapia dell'AKI. Il testo ricorda tachiaritmie e ischemia anche a quelle dosi, e l'assenza di beneficio su sopravvivenza e dialisi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dialisi",
+      "prompt": "La creatinina è alta, ma potassio, acidosi ed edema polmonare non sono un pericolo di vita. Si dializza ora?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. L'emergenza è il pericolo di vita idroelettrolitico o acido-base. Un singolo numero di creatinina non è la soglia",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Inizi subito la dialisi perché la creatinina ha superato un numero che ti sei dato",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dialisi sproporzionata",
+      "prompt": "KDIGO 5.1.1: RRT in emergenza se c'è pericolo di vita da alterazione idroelettrolitica o acido-base. 5.1.2: decidere sul contesto e sul trend, non su una sola soglia di BUN o creatinina. Legge 219, art. 2: astenersi da trattamenti inutili o sproporzionati. Art. 1: senza consenso non si inizia un trattamento, e qui l'urgenza che impedisce di recepire la volontà non c'è.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore senza un altro FANS",
+      "prompt": "La schiena fa ancora male. Come lo gestisci in reparto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Annoti intensità, evoluzione e che cosa usi al posto del FANS, e il risultato",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Gli ridai un antinfiammatorio sistemico e non scrivi nulla in cartella",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non annotato e FANS ripetuto",
+      "prompt": "Legge 38/2010, art. 7: in cartella vanno caratteristiche del dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Un altro FANS sistemico ripete il nefrotossico che la sezione 4 KDIGO indica di sospendere prima di un ulteriore insulto renale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Codifica di dimissione",
+      "prompt": "Alla dimissione, che cosa può entrare nella SDO?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "La diagnosi che hai realmente trattato, codificata con la ICD-9-CM, senza una biopsia o una dialisi non eseguite",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Codifichi una biopsia renale e una seduta di dialisi che non hai fatto",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Procedure non eseguite in SDO",
+      "prompt": "Il decreto 28 ottobre 2020 richiama la codifica della scheda di dimissione con la ICD-9-CM 2007, che è il contenuto del file C_17. Le informazioni devono riguardare ciò che è stato fatto. Una procedura non eseguita non si codifica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "AKI senza cure dannose",
+      "prompt": "Nimesulide sospesa, niente diuretico senza sovraccarico, niente dopamina, dialisi solo se compare un pericolo di vita, dolore annotato senza un altro FANS di prima linea, consenso agli atti.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

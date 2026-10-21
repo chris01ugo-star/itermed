@@ -1,0 +1,459 @@
+{
+  "id": "INTMED-012",
+  "code": "INTMED-012",
+  "title": "Uomo di 48 anni con epatite C mai trattata",
+  "description": "Davide, 48 anni, in ambulatorio è diffidente. HCV cronica, non ha mai fatto una terapia. Fibrosi non cirrotica, METAVIR F2. Vuole «aspettare». Un reparto gli ha proposto interferone peghilato e ribavirina, che sono disponibili. I regimi senza interferone e senza ribavirina di questo documento sono disponibili. Parametri: PA 128/80 mmHg, FC 76 bpm, FR 14 atti/min, SpO2 99%, temperatura 36.6°C.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "malattie_infettive"
+  ],
+  "condition": "Epatite C cronica, mai trattata, con regimi senza interferone disponibili",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "EASL-recommendations-on-treatment-of-hepatitis-C.pdf",
+  "diagnosis": "HCV da trattare senza ritardo. Se i regimi senza interferone e senza ribavirina proposti nel documento sono disponibili, non si torna all'interferone. In F3-F4 la sorveglianza dell'HCC resta anche dopo la risposta; qui la fibrosi è F2, e questo obbligo di sorveglianza del brano è legato a F3-F4.",
+  "pastMedicalHistory": "HCV cronica. Nessuna terapia precedente. Fibrosi F2, non cirrosi. Nessuna coinfezione descritta. I DAA senza interferone sono disponibili nel centro.",
+  "presentation": "Infezione nota, paziente che rimanda. Il testo dice di trattare senza ritardo tutti i naive e gli experienced, con infezione recente o cronica.",
+  "redHerrings": [
+    "Teme di «dover fare le punture di interferone per un anno, come un cugino dieci anni fa»."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Davide, ho 48 anni. Ho l'epatite C da anni e non ho mai voluto curarmi, perché mi hanno raccontato dell'interferone. Se oggi la cura è un'altra, ditemelo chiaro. Non iniziate nulla se non sono d'accordo.",
+  "correctSolution": "EASL: tutti i pazienti naive o experienced con HCV recente o cronica vanno trattati senza ritardo. L'urgenza è maggiore in F2, F3 e cirrosi. I regimi delle versioni precedenti, non più raccomandati, restano accettabili solo dove nessuna opzione senza interferone e senza ribavirina di questo documento è disponibile. Qui quelle opzioni ci sono: non si inizia l'interferone. La risposta sostenuta è una cura virologica nella grande maggioranza; in F3-F4 la sorveglianza HCC continua, obbligo che questo brano lega a quella fibrosi, non a F2. Consenso prima della cura. Nessuna dose di DAA è inventata: il testo della visita non fissa i milligrammi della compressa.",
+  "goldStandardPath": [
+    "hcv-rna",
+    "fibrosi"
+  ],
+  "goldPathNarrative": "Confermi RNA e fibrosi F2. Proponi un regime senza interferone, senza rimandare e senza tornare all'interferone. Annoti il consenso. Non prometti una dose che il brano usato non quantifica.",
+  "examLatencies": {
+    "hcv-rna": 180,
+    "fibrosi": 60,
+    "biopsia-epatica": 240
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "cura",
+      "prompt": "Ha già preso una terapia per l'epatite C, e quale?",
+      "critical": true,
+      "expectedKeywords": [
+        "interferone",
+        "mai",
+        "cura"
+      ],
+      "rationale": "Naive o experienced cambia la definizione, non l'indicazione a trattare."
+    },
+    {
+      "id": "fegato",
+      "prompt": "Le hanno detto se il fegato è fibrotico o cirrotico?",
+      "critical": true,
+      "expectedKeywords": [
+        "fibrosi",
+        "cirrosi",
+        "fegato"
+      ],
+      "rationale": "F2 è già un motivo di urgenza nel testo."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la ha tenuta lontana dalla cura?",
+      "critical": false,
+      "expectedKeywords": [
+        "paura",
+        "interferone",
+        "punture"
+      ],
+      "rationale": "La paura dell'interferone va nominata, perché quel regime non è più la scelta se i DAA ci sono."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Diffidente, non itterico, fegato non debordante in modo grossolano, non ascite, non encefalopatia."
+  },
+  "escCitations": [
+    {
+      "chunkId": "hcv-treat",
+      "source": "knowledge_base/medicina_interna/clinical/EASL-recommendations-on-treatment-of-hepatitis-C.pdf",
+      "quote": "All treatment-naïve and treatment-experienced patients with recently acquired or chronic HCV infection should be treated without delay."
+    },
+    {
+      "chunkId": "hcv-ifn",
+      "source": "knowledge_base/medicina_interna/clinical/EASL-recommendations-on-treatment-of-hepatitis-C.pdf",
+      "quote": "In settings where none of the IFN-free, ribavirin-free options proposed in this document are available, options proposed in previous versions of these recommendations remain acceptable"
+    },
+    {
+      "chunkId": "hcv-svr",
+      "source": "knowledge_base/medicina_interna/clinical/EASL-recommendations-on-treatment-of-hepatitis-C.pdf",
+      "quote": "Long-term follow-up studies have shown that an SVR corresponds to a definitive cure of HCV infection in the vast majority of cases."
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Trattare senza ritardo con un regime senza interferone, perché quelle opzioni sono disponibili.",
+      "Non iniziare interferone peghilato e ribavirina come prima proposta."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "EASL riserva i regimi non più raccomandati ai contesti in cui il senza interferone non c'è. La legge 219 chiede consenso e informazione veritiera: promettere l'interferone come unica via è falso in questo centro.",
+      "legalCriteria": [
+        "Dire che la cura di oggi non è l'interferone del cugino.",
+        "Non avviare il farmaco senza il consenso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "hcv-rna",
+      "name": "HCV-RNA",
+      "finding": "RNA rilevabile. Infezione cronica confermata. Nessun numero di UI/ml inventato.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "fibrosi",
+      "name": "Stadiazione della fibrosi",
+      "finding": "METAVIR F2. Non cirrosi.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "biopsia-epatica",
+      "name": "Biopsia epatica immediata",
+      "finding": "La fibrosi è già F2. La biopsia non è il passo che sblocca la terapia in questo scenario.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Il testo indica di trattare senza ritardo. La biopsia non sostituisce l'avvio quando lo stadio è già noto."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "128/80",
+      "spo2": 99,
+      "temperature": 36.6,
+      "respiratoryRate": 14
+    },
+    "demographics": {
+      "age": 48,
+      "sex": "M",
+      "context": "Ambulatorio"
+    },
+    "advancedExams": {
+      "values": {
+        "hcv-rna": {
+          "finding": "RNA rilevabile. Infezione cronica confermata. Nessun numero di UI/ml inventato.",
+          "isAbnormal": true
+        },
+        "fibrosi": {
+          "finding": "METAVIR F2. Non cirrosi.",
+          "isAbnormal": true
+        },
+        "biopsia-epatica": {
+          "finding": "La fibrosi è già F2. La biopsia non è il passo che sblocca la terapia in questo scenario.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Regime senza interferone",
+          "anyOf": [
+            {
+              "id": "daa",
+              "label": "Antivirale ad azione diretta senza interferone",
+              "aliases": [
+                "daa",
+                "antivirale diretto",
+                "senza interferone"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "ifn",
+          "label": "Interferone peghilato e ribavirina come prima scelta",
+          "aliases": [
+            "interferone",
+            "ribavirina peginterferone"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Terapia senza ritardo.",
+        "Niente interferone se il regime senza interferone c'è.",
+        "Consenso."
+      ],
+      "penalties": [
+        {
+          "id": "ifn",
+          "kind": "clinical",
+          "trigger": "Interferone quando i DAA senza interferone sono disponibili."
+        }
+      ],
+      "citationLimits": [
+        "Non si inventano i milligrammi del DAA: questo caso non fissa una compressa."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Rifiuta le punture di interferone. Accetta una compressa se gli si dice che l'interferone non è la cura di questo centro e se gli si chiede il consenso."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Va trattato",
+      "prompt": "Naive, HCV cronica, fibrosi F2. Rimanda da mesi. Che indicazione è scritta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Trattare senza ritardo. L'urgenza vale anche per la fibrosi significativa, e F2 è già in quel gruppo",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Aspetti un altro anno, perché non è cirrotico",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Ritardo non scritto",
+      "prompt": "EASL: tutti i naive e gli experienced con infezione recente o cronica vanno trattati senza ritardo. Il trattamento urgente si considera in fibrosi significativa F2 o F3 o in cirrosi. Rimandare non è quel testo, e non informarlo del beneficio contraddice l'art. 1 della legge 219.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Interferone",
+      "prompt": "I regimi senza interferone e senza ribavirina di questo documento sono disponibili. Lui teme le punture.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non proponi interferone e ribavirina. Gli dici che la cura di oggi è un regime senza interferone",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Inizi peginterferone e ribavirina, perché «funzionavano»",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Regime non più raccomandato",
+      "prompt": "EASL: i regimi delle versioni precedenti, non più raccomandati, restano accettabili solo dove nessuna opzione senza interferone e senza ribavirina di questo documento è disponibile. Qui lo è. Usare l'interferone è uno spreco e un danno evitabile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Che cosa promette la risposta",
+      "prompt": "Che esito gli descrivi, senza inventare una percentuale che il brano non dà oltre alla «grande maggioranza»?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "La risposta virologica sostenuta corrisponde a una cura definitiva nella grande maggioranza dei casi",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Gli garantisci che non potrà mai più infettarsi e che il fegato torna quello di un ventenne",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione oltre il testo",
+      "prompt": "Il brano parla di cura definitiva dell'infezione nella grande maggioranza, non di un fegato restituito né di impossibilità di reinfezione. L'art. 1 della legge 219 chiede un'informazione completa e aggiornata, non una promessa che il testo non fa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Sorveglianza del tumore",
+      "prompt": "È F2, non F3 e non cirrosi. Gli dici che dopo la cura dovrà comunque l'ecografia semestrale dell'HCC, come negli F3?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. Quel brano lega l'obbligo di continuare la sorveglianza dell'HCC a fibrosi F3 e cirrosi. Glielo distingui",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Gli imposti la sorveglianza dell'HCC con la stessa forza scritta per la cirrosi",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Sorveglianza non richiesta da questo stadio",
+      "prompt": "EASL HCV: in F3 e F4 la risposta riduce ma non abolisce l'HCC, e la sorveglianza va continuata. Il brano non estende quell'obbligo all'F2. Un programma intensivo non sostenuto è un costo senza quella indicazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso",
+      "prompt": "Dice che non si inizia nulla se non è d'accordo. È capace.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Gli spieghi regime, alternative e il fatto che può rifiutare, e annoti il consenso solo se lo dà",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Fai partire la cura lo stesso giorno, senza il suo sì, «perché la guida dice senza ritardo»",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Antivirale senza consenso",
+      "prompt": "«Senza ritardo» non cancella l'art. 1 della legge 219: il trattamento non si inizia senza consenso libero e informato. Il rifiuto, se lo esprime, va rispettato e annotato, e lo si informa delle conseguenze.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Biopsia non necessaria per partire",
+      "prompt": "La fibrosi è già F2 con un metodo non invasivo. Chiedi una biopsia prima di ogni compressa?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "No. Lo stadio che rende urgente la cura è già noto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Blocchi la terapia finché non c'è l'istologia",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Biopsia che ritarda la cura",
+      "prompt": "Il testo chiede di trattare senza ritardo quando l'infezione è confermata e, nel suo caso, la fibrosi F2 è già un motivo di urgenza. La biopsia non è scritta come ostacolo preliminare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dose",
+      "prompt": "Vuoi scrivere i milligrammi della compressa. Il brano che stai usando li riporta per il suo regime?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. Indichi la classe, regime senza interferone, e non inventi i milligrammi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Scrivi una dose giornaliera che questo documento, nel brano usato, non fissa",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Milligrammi non nel brano",
+      "prompt": "Il caso si ancora alle frasi lette: trattare senza ritardo e non usare l'interferone se il regime senza interferone c'è. I milligrammi della singola compressa non sono in quelle frasi. Inventarli non è informazione veritiera.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Cura senza interferone e senza ritardo",
+      "prompt": "HCV cronica: trattamento senza ritardo. I regimi senza interferone ci sono, quindi non si usa l'interferone delle versioni superate. Consenso annotato. Nessuna dose inventata. La sorveglianza HCC obbligatoria del brano resta legata a F3-F4, non a questo F2.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

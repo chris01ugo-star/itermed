@@ -1,0 +1,472 @@
+{
+  "id": "INTMED-008",
+  "code": "INTMED-008",
+  "title": "Uomo di 63 anni con ascite nuova e cirrosi",
+  "description": "Pietro, 63 anni, cirrosi nota, arriva in reparto con pancia aumentata da due settimane, prima ascite di grado 3. Non ha febbre. Ha male alla schiena e vorrebbe una bustina di nimesulide. Parametri: PA 104/64 mmHg, FC 92 bpm, FR 18 atti/min, SpO2 96% in aria, temperatura 36.7°C. È lucido. L'ascite è refrattaria e serve una paracentesi evacuativa di grosso volume.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "gastroenterologia"
+  ],
+  "condition": "Ascite di nuova comparsa in cirrosi, poi refrattaria, con indicazione a paracentesi",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "decompensated-cirrhosis-English-report.pdf; nota aifa 66.pdf",
+  "diagnosis": "Ascite grado 3 di nuova comparsa: paracentesi diagnostica con neutrofili e coltura. Se si evacua un grosso volume per ascite refrattaria, albumina 8 g per litro rimosso. I FANS non si usano. L'amido non sostituisce l'albumina.",
+  "pastMedicalHistory": "Cirrosi. Prima ascite. Nessun episodio precedente di peritonite batterica. Dolore lombare muscolare. Nessuna allergia nota. Lucido, capace di consenso.",
+  "presentation": "Addome teso, ascite di grado 3, prima volta. EASL raccomanda la paracentesi diagnostica in ogni ascite di grado 2 o 3 di nuova comparsa e in ogni ricovero per peggioramento dell'ascite o complicanza della cirrosi.",
+  "redHerrings": [
+    "Chiede nimesulide perché «è solo un antinfiammatorio leggero»."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Pietro, ho 63 anni. La pancia è diventata dura in due settimane e la schiena mi fa male. Ho paura dell'ago. Spiegatemi che cosa cercate nel liquido e che cosa non devo prendere.",
+  "correctSolution": "Paracentesi diagnostica con conta dei neutrofili e coltura in flaconi da emocoltura, 10 ml. Per l'ascite refrattaria, paracentesi evacuative ripetute più albumina 8 g per litro rimosso sono il primo trattamento. Dopo la evacuativa, la dose minima di diuretico per evitare che l'ascite torni. I FANS non si usano: possono dare insufficienza renale, iponatriemia e resistenza ai diuretici. La Nota 66 limita comunque la nimesulide. L'amido non è il sostituto dell'albumina. Consenso all'ago. Dolore annotato senza FANS.",
+  "goldStandardPath": [
+    "paracentesi",
+    "neutrofili-ascite"
+  ],
+  "goldPathNarrative": "Fai la paracentesi diagnostica, poi l'evacuativa con albumina 8 g/L. Niente FANS e niente amido. Annoti consenso e dolore.",
+  "examLatencies": {
+    "paracentesi": 30,
+    "neutrofili-ascite": 60,
+    "tc-addome": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "prima",
+      "prompt": "È la prima volta che la pancia si gonfia così, o era già successo?",
+      "critical": true,
+      "expectedKeywords": [
+        "prima",
+        "pancia",
+        "settimane"
+      ],
+      "rationale": "L'esordio di grado 2-3 è indicazione alla paracentesi diagnostica."
+    },
+    {
+      "id": "febbre",
+      "prompt": "Ha avuto febbre, brividi o un mal di pancia nuovo?",
+      "critical": true,
+      "expectedKeywords": [
+        "febbre",
+        "brividi",
+        "pancia"
+      ],
+      "rationale": "Neutrofili e coltura servono a escludere l'infezione del liquido."
+    },
+    {
+      "id": "fans",
+      "prompt": "Per la schiena ha preso antinfiammatori, e quali?",
+      "critical": true,
+      "expectedKeywords": [
+        "nimesulide",
+        "antinfiammatorio",
+        "schiena"
+      ],
+      "rationale": "I FANS sono controindicati nell'ascite."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucido, ittero lieve. Addome teso con ascite, ottusità mobile. Non difesa. Non edemi tesi agli arti che cambino la decisione. Dolore lombare muscolare."
+  },
+  "escCitations": [
+    {
+      "chunkId": "easl-tap",
+      "source": "knowledge_base/medicina_interna/clinical/decompensated-cirrhosis-English-report.pdf",
+      "quote": "A diagnostic paracentesis is recommended in all patients with new onset grade 2 or 3 ascites, or in those hospitalised for worsening of ascites or any complication of cirrhosis (II-2;1)."
+    },
+    {
+      "chunkId": "easl-albumina",
+      "source": "knowledge_base/medicina_interna/clinical/decompensated-cirrhosis-English-report.pdf",
+      "quote": "Repeated LVP plus albumin (8 g/L of ascites removed) are recommended as first line treatment for refractory ascites (I;1)."
+    },
+    {
+      "chunkId": "easl-fans",
+      "source": "knowledge_base/medicina_interna/clinical/decompensated-cirrhosis-English-report.pdf",
+      "quote": "As non-steroidal anti-inflammatory drugs inhibit renal prostaglandin synthesis, they should not be used in patients with cirrhosis and ascites"
+    },
+    {
+      "chunkId": "nota66",
+      "source": "knowledge_base/medicina_interna/economic/nota aifa 66.pdf",
+      "quote": "nimesulide potrà essere dispensato a carico del SSN esclusivamente per il trattamento di seconda linea e di breve durata del dolore acuto."
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Paracentesi diagnostica all'esordio dell'ascite di grado 3, con neutrofili e coltura.",
+      "Albumina 8 g per litro rimosso se si evacua un'ascite refrattaria, non amido e non FANS."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "EASL fissa paracentesi, albumina e divieto dei FANS. La Nota 66 chiude la nimesulide come prima linea. La legge 219 chiede il consenso all'ago.",
+      "legalCriteria": [
+        "Informare su diagnosi, rischi dell'ago e alternativa, e annotare il consenso.",
+        "Non somministrare un FANS nell'ascite."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "paracentesi",
+      "name": "Paracentesi diagnostica",
+      "finding": "Liquido citrino. La manovra è indicata all'esordio.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "neutrofili-ascite",
+      "name": "Neutrofili e coltura del liquido",
+      "finding": "Neutrofili non in range di peritonite batterica spontanea. Coltura in corso, inoculo al letto in flaconi da emocoltura.",
+      "isAbnormal": false,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-addome",
+      "name": "TC addome prima della paracentesi",
+      "finding": "Non sostituisce la paracentesi diagnostica raccomandata.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "EASL indica la paracentesi, non la TC, come accertamento dell'ascite di nuova comparsa."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 92,
+      "bloodPressure": "104/64",
+      "spo2": 96,
+      "temperature": 36.7,
+      "respiratoryRate": 18
+    },
+    "demographics": {
+      "age": 63,
+      "sex": "M",
+      "context": "Reparto"
+    },
+    "advancedExams": {
+      "values": {
+        "paracentesi": {
+          "finding": "Liquido citrino. La manovra è indicata all'esordio.",
+          "isAbnormal": true
+        },
+        "neutrofili-ascite": {
+          "finding": "Neutrofili non in range di peritonite batterica spontanea. Coltura in corso, inoculo al letto in flaconi da emocoltura.",
+          "isAbnormal": false
+        },
+        "tc-addome": {
+          "finding": "Non sostituisce la paracentesi diagnostica raccomandata.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Albumina dopo paracentesi evacuativa",
+          "anyOf": [
+            {
+              "id": "albumina",
+              "label": "Albumina 8 g per litro rimosso",
+              "aliases": [
+                "albumina"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "fans",
+          "label": "FANS",
+          "aliases": [
+            "nimesulide",
+            "ibuprofene",
+            "fans",
+            "diclofenac"
+          ]
+        },
+        {
+          "id": "amido",
+          "label": "Amido come espansore",
+          "aliases": [
+            "amido",
+            "hydroxyethyl"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Paracentesi con neutrofili e coltura.",
+        "Albumina 8 g/L.",
+        "Niente FANS."
+      ],
+      "penalties": [
+        {
+          "id": "fans",
+          "kind": "clinical",
+          "trigger": "FANS in cirrosi con ascite."
+        }
+      ],
+      "citationLimits": [
+        "L'albumina è 8 g per litro di ascite rimosso, come scritto. Non si cambia il rapporto."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Teme l'ago. Collabora se gli si dice che cosa si cerca nel liquido e se il male alla schiena viene ascoltato senza una bustina."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Paracentesi diagnostica",
+      "prompt": "Prima ascite di grado 3, ricovero per il peggioramento. Qual è l'atto scritto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Paracentesi diagnostica in tutti i pazienti con ascite di grado 2 o 3 di nuova comparsa, o ricoverati per peggioramento dell'ascite",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Rimandi ogni puntura e chiedi solo una TC",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC al posto della paracentesi",
+      "prompt": "EASL, raccomandazione II-2;1: la paracentesi diagnostica è raccomandata in ogni ascite di grado 2 o 3 di nuova comparsa e in chi è ricoverato per peggioramento dell'ascite o per una complicanza della cirrosi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Che cosa sul liquido",
+      "prompt": "Sul campione, che esami sono espliciti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Conta dei neutrofili e coltura, con inoculo al letto di 10 ml in flaconi da emocoltura",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Solo un'ispezione a occhio, senza neutrofili e senza coltura",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Infezione del liquido non cercata",
+      "prompt": "EASL: neutrofili e coltura del liquido, inoculo al letto in flaconi da emocoltura con 10 ml, per escludere l'infezione. Ometterli lascia una peritonite batterica senza diagnosi. L'art. 1 della legge 219 chiede di informare anche di questo accertamento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Albumina dopo evacuativa",
+      "prompt": "L'ascite è refrattaria e rimuovi un grosso volume. Che espansione è di prima linea?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Paracentesi evacuative ripetute più albumina, 8 g per ogni litro rimosso",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Solo soluzione fisiologica o un colloide di amido, senza albumina",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Espansore che non è l'albumina",
+      "prompt": "EASL, grado I;1: paracentesi evacuative ripetute più albumina 8 g per litro rimosso sono il primo trattamento dell'ascite refrattaria. Il testo segnala che l'amido non va usato per rimpiazzare il volume. Gli altri espansori eguagliano l'albumina al 20% solo in condizioni limitate, non come prima scelta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "FANS",
+      "prompt": "Vuole la nimesulide per la schiena. Gliela dai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. I FANS non si usano nella cirrosi con ascite. La Nota 66, in più, non la rimborsa come prima linea protratta",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Gli lasci la nimesulide a carico SSN per un mese",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "FANS e Nota 66",
+      "prompt": "EASL: i FANS inibiscono le prostaglandine renali e non vanno usati in cirrosi con ascite: possono causare insufficienza renale acuta, iponatriemia e resistenza ai diuretici. Nota 66: nimesulide a carico SSN solo come seconda linea e per breve durata del dolore acuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso all'ago",
+      "prompt": "È lucido e ha paura. Come procedi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Gli spieghi perché pungi, che cosa cerchi e i rischi, e annoti il consenso",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Pungi senza spiegare, perché «l'ascite si tratta così»",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Paracentesi senza consenso",
+      "prompt": "Legge 219/2017, art. 1: nessun trattamento sanitario, e il comma 5 include gli accertamenti diagnostici, si inizia senza il consenso libero e informato, fuori dai casi di legge. Lui è capace e non è un'urgenza che impedisca di recepire la volontà.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo la evacuativa",
+      "prompt": "Finita la paracentesi di grosso volume, che mantenimento è scritto per i diuretici?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "La dose minima di diuretico necessaria a evitare che l'ascite si riformi. Non inventi un milligrammo che il brano non dà",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Sospendi per sempre ogni diuretico e programmi evacuative settimanali senza albumina",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Evacuative senza la regola dell'albumina",
+      "prompt": "EASL: dopo la paracentesi di grosso volume si usa la dose minima di diuretico per prevenire la riformazione. L'albumina resta 8 g per litro. Togliere i diuretici del tutto e omettere l'albumina non è quella raccomandazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Il male alla schiena resta. È ricoverato. Che annoti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Caratteristiche, evoluzione, che cosa usi al posto del FANS, e il risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non scrivi il dolore e gli dici di sopportare",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore omesso",
+      "prompt": "Legge 38/2010, art. 7: in cartella vanno dolore, evoluzione, tecnica, farmaci, dosaggi e risultato. Legge 219, art. 2: la terapia del dolore è garantita anche se un altro trattamento non è appropriato. Il FANS resta escluso dal testo EASL.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Paracentesi, albumina, niente FANS",
+      "prompt": "Paracentesi diagnostica, neutrofili e coltura, evacuativa dell'ascite refrattaria con albumina 8 g per litro, niente FANS e niente amido, consenso e dolore annotati.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

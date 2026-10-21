@@ -1,0 +1,481 @@
+{
+  "id": "INTMED-006",
+  "code": "INTMED-006",
+  "title": "Uomo di 72 anni con riacutizzazione di BPCO e acidosi",
+  "description": "Luigi, 72 anni, fumatore, BPCO nota, arriva in pronto soccorso dispnoico da tre giorni, con più tosse. L'espettorato non è purulento. Parla a parole, usa i muscoli accessori. Parametri: PA 146/84 mmHg, FC 110 bpm, FR 28 atti/min, SpO2 88% in aria, temperatura 36.8°C. Emogas: pH 7,30, PaCO2 52 mmHg. Eosinofili non elevati. Ha una DAT, con fiduciario, che rifiuta l'intubazione e accetta la ventilazione non invasiva.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "pneumologia"
+  ],
+  "condition": "Riacutizzazione grave di BPCO con acidosi respiratoria, senza espettorato purulento",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "GOLD_Pocket_Guide_2026.pdf; allegato115290.pdf",
+  "diagnosis": "Riacutizzazione con insufficienza respiratoria ipercapnica. Indicata la NIV. I corticosteroidi sistemici durano 5 giorni. Gli antibiotici non sono indicati: manca l'espettorato purulento e non è ancora in ventilazione. Le metilxantine non si usano. La DAT rifiuta l'intubazione.",
+  "pastMedicalHistory": "BPCO. Fumo attivo. Nessuna polmonite clinica descritta. Eosinofili ematici non elevati. DAT valide che rifiutano l'intubazione e accettano la NIV. Fiduciario indicato.",
+  "presentation": "Dispnea in aumento, tachipnea e tachicardia, espettorato non purulento. pH arterioso 7,30 e PaCO2 52 mmHg: criterio di NIV. Non è una controindicazione alla NIV.",
+  "redHerrings": [
+    "Il figlio chiede «la flebo di teofillina, come anni fa»."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Luigi, ho 72 anni. Non respiro. Ho scritto che non voglio il tubo in gola. La maschera, se serve, sì. Ditemi che cosa fate e non parlate solo con mio figlio.",
+  "correctSolution": "GOLD: SABA con o senza anticolinergico a breve azione come primo broncodilatatore. Corticosteroidi sistemici per 5 giorni nelle riacutizzazioni moderate o gravi. Antibiotici per 5 giorni solo con espettorato purulento, coltura positiva o necessità di ventilazione: qui l'espettorato non è purulento. Metilxantine non raccomandate. NIV se acidosi con PaCO2 almeno 45 mmHg e pH non superiore a 7,35, o se c'è fatica muscolare, salvo controindicazioni. Non si intuba contro la DAT: la NIV è accettata e indicata. Alla dimissione, LABD presto; l'ICS si aggiunge al doppio broncodilatatore se c'è stata almeno una riacutizzazione moderata o grave e gli eosinofili sono elevati: qui non lo sono. Consenso alla NIV. Dolore o dispnea annotati se resta ricoverato.",
+  "goldStandardPath": [
+    "emogas",
+    "rx-torace"
+  ],
+  "goldPathNarrative": "Broncodilatatori a breve azione, steroide per 5 giorni, niente antibiotico e niente teofillina. NIV, non il tubo. Rispetti la DAT. Non aggiungi l'ICS alla dimissione senza eosinofili elevati.",
+  "examLatencies": {
+    "emogas": 15,
+    "rx-torace": 30,
+    "tc-torace": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "espettorato",
+      "prompt": "L'espettorato è aumentato ed è giallo o verde, o è solo più tosse?",
+      "critical": true,
+      "expectedKeywords": [
+        "espettorato",
+        "colore",
+        "purulento"
+      ],
+      "rationale": "Il colore decide l'antibiotico secondo GOLD."
+    },
+    {
+      "id": "dat",
+      "prompt": "Che cosa ha scritto nelle disposizioni anticipate sul tubo e sulla maschera?",
+      "critical": true,
+      "expectedKeywords": [
+        "dat",
+        "intubazione",
+        "maschera"
+      ],
+      "rationale": "La DAT rifiuta l'intubazione e accetta la NIV."
+    },
+    {
+      "id": "fumo",
+      "prompt": "Fuma ancora e quante riacutizzazioni ha avuto nell'ultimo anno?",
+      "critical": false,
+      "expectedKeywords": [
+        "fumo",
+        "riacutizz"
+      ],
+      "rationale": "Il fumo è un fattore modificabile e le riacutizzazioni orientano l'ICS alla dimissione."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dispnoico, frasi di poche parole, muscoli accessori in uso. Sibili diffusi. Non edemi declivi marcati. Coscienza conservata. Il fiduciario è presente e conferma la DAT."
+  },
+  "escCitations": [
+    {
+      "chunkId": "gold-saba",
+      "source": "knowledge_base/medicina_interna/clinical/GOLD_Pocket_Guide_2026.pdf",
+      "quote": "I farmaci b2-agonisti a breve durata d'azione, con o senza anticolinergici a breve durata d'azione, sono raccomandati come farmaci broncodilatatori di prima linea per trattare una riacutizzazione acuta (Evidenza C)."
+    },
+    {
+      "chunkId": "gold-atb",
+      "source": "knowledge_base/medicina_interna/clinical/GOLD_Pocket_Guide_2026.pdf",
+      "quote": "Gli antibiotici sono indicati nei pazienti con espettorato purulento, precedente coltura batterica dell'espettorato positiva o che necessitano di ventilazione meccanica (invasiva o non invasiva) (Evidenza A)."
+    },
+    {
+      "chunkId": "gold-niv",
+      "source": "knowledge_base/medicina_interna/clinical/GOLD_Pocket_Guide_2026.pdf",
+      "quote": "Acidosi respiratoria (PaCO2 ≥6,0 kPa o 45 mmHg e pH arterioso ≤7,35)."
+    },
+    {
+      "chunkId": "gold-metil",
+      "source": "knowledge_base/medicina_interna/clinical/GOLD_Pocket_Guide_2026.pdf",
+      "quote": "Le metilxantine non sono raccomandate, a causa del profilo farmacologico con elevati effetti collaterali."
+    },
+    {
+      "chunkId": "l219-dat",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "il medico e' tenuto al rispetto delle DAT, le quali possono essere disattese, in tutto o in parte, dal medico stesso, in accordo con il fiduciario, qualora esse appaiano palesemente incongrue o non corrispondenti alla condizione clinica attuale del paziente"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "NIV per acidosi ipercapnica, non l'intubazione contro la DAT.",
+      "Niente antibiotico senza espettorato purulento, coltura o ventilazione già in corso."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "GOLD fissa NIV, durata dello steroide e divieto delle metilxantine. La legge 219 art. 4 impone il rispetto della DAT, che qui rifiuta il tubo e accetta la maschera.",
+      "legalCriteria": [
+        "Verificare la DAT con il fiduciario prima di un'intubazione.",
+        "Non prolungare lo steroide oltre i 5 giorni scritti da GOLD."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emogas",
+      "name": "Emogasanalisi arteriosa",
+      "finding": "pH 7,30 e PaCO2 52 mmHg. Ipossiemia.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "rx-torace",
+      "name": "Radiografia del torace",
+      "finding": "Iperinflazione, non focolaio pneumonico e non pneumotorace. GOLD chiede di cercare polmonite, scompenso ed embolia come simulatori.",
+      "isAbnormal": false,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-torace",
+      "name": "TC torace immediata",
+      "finding": "Non è il primo atto con un quadro già indirizzato alla NIV e una radiografia senza focolaio.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Ritarda la NIV. GOLD chiede la valutazione clinica e, se servono, pulsossimetria, laboratorio ed emogas."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "146/84",
+      "spo2": 88,
+      "temperature": 36.8,
+      "respiratoryRate": 28
+    },
+    "demographics": {
+      "age": 72,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
+    "advancedExams": {
+      "values": {
+        "emogas": {
+          "finding": "pH 7,30 e PaCO2 52 mmHg. Ipossiemia.",
+          "isAbnormal": true
+        },
+        "rx-torace": {
+          "finding": "Iperinflazione, non focolaio pneumonico e non pneumotorace. GOLD chiede di cercare polmonite, scompenso ed embolia come simulatori.",
+          "isAbnormal": false
+        },
+        "tc-torace": {
+          "finding": "Non è il primo atto con un quadro già indirizzato alla NIV e una radiografia senza focolaio.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "SABA e NIV",
+          "anyOf": [
+            {
+              "id": "saba",
+              "label": "Salbutamolo",
+              "aliases": [
+                "salbutamolo",
+                "saba"
+              ]
+            },
+            {
+              "id": "niv",
+              "label": "Ventilazione non invasiva",
+              "aliases": [
+                "niv",
+                "ventilazione non invasiva",
+                "cpap",
+                "bipap"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "teofillina",
+          "label": "Metilxantine",
+          "aliases": [
+            "teofillina",
+            "aminofillina",
+            "metilxantina"
+          ]
+        },
+        {
+          "id": "intubazione",
+          "label": "Intubazione contro la DAT",
+          "aliases": [
+            "intubazione",
+            "tubo"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "SABA, steroide 5 giorni, NIV.",
+        "Niente antibiotico e niente teofillina.",
+        "DAT rispettata."
+      ],
+      "penalties": [
+        {
+          "id": "intubazione",
+          "kind": "clinical",
+          "trigger": "Intubazione nonostante la DAT e con NIV indicata."
+        }
+      ],
+      "citationLimits": [
+        "GOLD in questi punti chiave non fissa i milligrammi del corticosteroide. Non si inventano. La durata scritta è 5 giorni."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole decidere lui sul tubo. Si fida se gli si legge la DAT e se gli si dice che la maschera è la cura indicata, non una punizione."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "È una riacutizzazione",
+      "prompt": "Dispnea, tosse e tachipnea da tre giorni, BPCO nota. L'espettorato non è purulento. Che altro escludi prima di chiamarla solo BPCO?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Cerchi segni di polmonite, scompenso, embolia o pneumotorace, che GOLD elenca come simulatori, e intanto prepari broncodilatatore ed emogas",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La chiami riacutizzazione e chiedi solo una TC, rimandando broncodilatatore ed emogas",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "TC al posto del primo trattamento",
+      "prompt": "GOLD: altre condizioni possono simulare la riacutizzazione, tra cui polmonite, embolia, scompenso acuto e pneumotorace. Il broncodilatatore a breve azione è la prima terapia e va iniziato presto. La TC non sostituisce quel passo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Primo farmaco",
+      "prompt": "Quale broncodilatatore è di prima linea, e che ne è della teofillina chiesta dal figlio?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "SABA, con o senza anticolinergico a breve azione. Le metilxantine non sono raccomandate",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Aminofillina in flebo come prima scelta",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Metilxantine",
+      "prompt": "GOLD, punti chiave: i SABA con o senza anticolinergico a breve azione sono la prima terapia della riacutizzazione. Le metilxantine non sono raccomandate per gli effetti collaterali.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Steroide e antibiotico",
+      "prompt": "Espettorato non purulento, nessuna coltura positiva, non è ancora ventilato. Che terapia aggiungi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Corticosteroide sistemico per 5 giorni. Niente antibiotico",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Corticosteroide per tre settimane e un antibiotico per 10 giorni «per sicurezza»",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Antibiotico e steroide fuori testo",
+      "prompt": "GOLD: i corticosteroidi sistemici durano 5 giorni (evidenza A). Gli antibiotici, quando indicati, durano 5 giorni e sono per espettorato purulento, coltura positiva o paziente che necessita di ventilazione. Qui quei criteri non ci sono.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "NIV o tubo",
+      "prompt": "pH 7,30 e PaCO2 52 mmHg. È affaticato, senza controindicazioni alla NIV. La DAT rifiuta l'intubazione e accetta la maschera.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Inizi la NIV. Non lo intubi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Lo intubi subito, perché la saturazione è 88% e la DAT «non vale in urgenza»",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Intubazione contro le DAT",
+      "prompt": "GOLD: la NIV è indicata nell'acidosi respiratoria con PaCO2 almeno 45 mmHg e pH non superiore a 7,35, e riduce le intubazioni. Legge 219, art. 4 comma 5: il medico è tenuto al rispetto delle DAT. Si disattendono solo se palesemente incongrue o non corrispondenti al quadro attuale, in accordo con il fiduciario. Qui la NIV è proprio la cura indicata e la DAT la accetta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso alla maschera",
+      "prompt": "Luigi è ancora lucido e vuole sapere che cosa gli mettete sul viso.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Gli spieghi la NIV, gli dici che il tubo non si farà come da DAT, e annoti il consenso alla maschera",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Gli applichi la NIV senza una parola, parlando solo col figlio",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "NIV senza informazione",
+      "prompt": "Legge 219, art. 1: il consenso è necessario fuori dai casi di legge, e in urgenza si rispetta la volontà se le condizioni permettono di recepirla. Lui è lucido. L'art. 1 comma 8 dice che il tempo della comunicazione è tempo di cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dimissione e ICS",
+      "prompt": "Si stabilizza. Eosinofili non elevati. Alla dimissione che mantenimento è scritto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Broncodilatatore a lunga durata il prima possibile. Non aggiungi l'ICS al doppio broncodilatatore: manca l'eosinofilia, anche se la riacutizzazione c'è stata",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Aggiungi comunque uno steroide inalatorio «perché ha riacutizzato»",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "ICS senza eosinofili",
+      "prompt": "GOLD: alla dimissione, in chi ha avuto almeno una riacutizzazione moderata o grave e ha eosinofili elevati, si considera l'ICS sul doppio broncodilatatore. Senza eosinofili elevati quel criterio non è soddisfatto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore e fame d'aria in cartella",
+      "prompt": "Resta ricoverato una notte. Come registri la dispnea che lui chiama dolore al petto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Annoti caratteristiche, evoluzione e che cosa hai usato, compreso l'esito",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non scrivi nulla: la dispnea non è dolore e la legge non c'entra",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Sintomo non riportato",
+      "prompt": "Legge 38/2010, art. 7: in cartella medica e infermieristica vanno il dolore, la sua evoluzione, la tecnica, i farmaci, i dosaggi e il risultato. Legge 219, art. 2: anche se un trattamento è rifiutato, la terapia del dolore resta garantita.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "NIV e steroide breve, senza tubo",
+      "prompt": "SABA, corticosteroide per 5 giorni, niente antibiotico e niente metilxantine, NIV per l'acidosi, intubazione non eseguita perché la DAT la rifiuta e la NIV è accettata e indicata. Alla dimissione niente ICS aggiunto senza eosinofili elevati.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

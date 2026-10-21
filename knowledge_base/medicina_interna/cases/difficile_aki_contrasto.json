@@ -1,0 +1,476 @@
+{
+  "id": "INTMED-021",
+  "code": "INTMED-021",
+  "title": "Donna di 74 anni diabetica prima di una TC con contrasto",
+  "description": "Silvia, 74 anni, diabete e filtrato ridotto, deve fare una TC con mezzo di contrasto iodato per un dubbio non rinviabile, ma non è un'emergenza di minuti. Prende ibuprofene da una settimana. È lucida. Parametri: PA 142/78 mmHg, FC 80 bpm, FR 16 atti/min, SpO2 97%, temperatura 36.5°C.",
+  "difficulty": "HARD",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "nefrologia"
+  ],
+  "condition": "Rischio di danno renale da mezzo di contrasto in diabete e funzione renale ridotta",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Sezione_4.pdf; Sezione_3.pdf",
+  "diagnosis": "Rischio di CI-AKI. Si usa la dose più bassa, un mezzo iso-osmolare o a bassa osmolarità, non ad alta osmolarità. L'espansione di volume per via parenterale è tra le misure ritenute certe. Si sospendono i FANS e le alte dosi di diuretico dell'ansa. Non si usa la dopamina a basse dosi. Una nuova esposizione, se il rene peggiora, si rimanda finché la creatinina non torna al basale; in chi ha diabete o disfunzione renale l'esposizione ripetuta si ritarda di 72 ore.",
+  "pastMedicalHistory": "Diabete. Filtrato ridotto già noto. Ibuprofene da sette giorni per un'artrosi. Nessuna allergia al contrasto dichiarata. Lucida.",
+  "presentation": "Esame necessario, non immediato al punto da impedire prevenzione e consenso. Il diabete e la disfunzione renale sono i fattori che allungano l'intervallo prima di una seconda dose.",
+  "redHerrings": [
+    "Propongono furosemide «per proteggere il rene» prima del contrasto, e un mezzo ad alta osmolarità perché «è quello in magazzino»."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Silvia, ho 74 anni. Mi devono fare la TAC con il liquido. I reni già non sono perfetti e prendo una pastiglia per le ginocchia. Spiegatemi se si può fare in modo più sicuro. Senza spiegazione non firmo.",
+  "correctSolution": "Dose minima di mezzo di contrasto. Mezzo iodato iso-osmolare o a bassa osmolarità, non ad alta osmolarità (1B). Espansione parenterale del volume. Sospensione di FANS e di alte dosi di diuretico dell'ansa. Niente dopamina a basse dosi (1A) e niente diuretici per prevenire l'AKI (1B). Consenso all'esame. Se la creatinina sale dopo, niente secondo contrasto finché non torna al basale. Dolore articolare annotato senza riprendere il FANS prima dell'esame.",
+  "goldStandardPath": [
+    "creatinina",
+    "ibuprofene-stop"
+  ],
+  "goldPathNarrative": "Misuri la creatinina, sospendi l'ibuprofene, idrati per via parenterale, usi la dose minima di un mezzo non ad alta osmolarità. Non dai furosemide né dopamina. Chiedi il consenso.",
+  "examLatencies": {
+    "creatinina": 30,
+    "ibuprofene-stop": 5,
+    "doppler-renale": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "fans",
+      "prompt": "Quale antinfiammatorio prende e fino a quando?",
+      "critical": true,
+      "expectedKeywords": [
+        "ibuprofene",
+        "antinfiammatorio",
+        "giorni"
+      ],
+      "rationale": "I FANS vanno sospesi prima del contrasto."
+    },
+    {
+      "id": "diabete",
+      "prompt": "Ha il diabete e le hanno detto che i reni filtrano poco?",
+      "critical": true,
+      "expectedKeywords": [
+        "diabete",
+        "reni",
+        "filtrato"
+      ],
+      "rationale": "Diabete e disfunzione renale allungano a 72 ore il ritardo di una seconda esposizione."
+    },
+    {
+      "id": "consenso",
+      "prompt": "Che cosa vuole sapere prima di firmare la TC?",
+      "critical": false,
+      "expectedKeywords": [
+        "rischio",
+        "reni",
+        "firmare"
+      ],
+      "rationale": "L'esame è un accertamento che richiede consenso."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucida, collaborante. Non edemi polmonari. Ginocchia artrosiche, non un quadro addominale acuto. Accesso venoso disponibile per l'idratazione."
+  },
+  "escCitations": [
+    {
+      "chunkId": "kdigo-dose",
+      "source": "knowledge_base/medicina_interna/clinical/Sezione_4.pdf",
+      "quote": "4.3.1: Utilizzare la più bassa dose possibile di mdc nei pazienti a rischio di CI-AKI."
+    },
+    {
+      "chunkId": "kdigo-osm",
+      "source": "knowledge_base/medicina_interna/clinical/Sezione_4.pdf",
+      "quote": "4.3.2: Si raccomanda di utilizzare sia mdc iodati iso-osmolari che a bassa osmolarità, piuttosto che mdc iodati ad alta osmolarità nei pazienti ad aumentato rischio di CI-AKI. (1B)"
+    },
+    {
+      "chunkId": "kdigo-fans",
+      "source": "knowledge_base/medicina_interna/clinical/Sezione_4.pdf",
+      "quote": "La concomitante somministrazione di farmaci nefrotossici - tra cui, in particolare, i FANS, gli aminoglicosidi, l'amfotericina B, alte dosi di diuretici dell'ansa e farmaci antivirali come l'aciclovir e il foscarnet – dovrebbe preferibilmente essere sospesa."
+    },
+    {
+      "chunkId": "kdigo-volume",
+      "source": "knowledge_base/medicina_interna/clinical/Sezione_4.pdf",
+      "quote": "Tra le varie strategie, questi autori ritengono certe unicamente: l'espansione della volemia per via parenterale, la riduzione al minimo del volume del mdc utilizzato, l'uso di mdc a bassa osmolarità (o iso-osmolari) e non-iodati."
+    },
+    {
+      "chunkId": "kdigo-dopamina",
+      "source": "knowledge_base/medicina_interna/clinical/Sezione_3.pdf",
+      "quote": "3.5.1: Si raccomanda di non utilizzare la dopamina a basse dosi per la prevenzione o la terapia dell'AKI. (1A)"
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Mezzo iso-osmolare o a bassa osmolarità, alla dose minima, con espansione di volume.",
+      "Sospendere FANS e non usare dopamina o diuretici come prevenzione."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "KDIGO sezione 4 e 3 sono la fonte clinica. La legge 219 include gli accertamenti diagnostici nel consenso.",
+      "legalCriteria": [
+        "Informare sul rischio renale prima della TC.",
+        "Non ripetere il contrasto a 48 ore: in diabete o malattia renale l'intervallo scritto è 72 ore, e dopo un peggioramento si attende il ritorno al basale."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "creatinina",
+      "name": "Creatinina",
+      "finding": "Filtrato ridotto, valore basale da confrontare dopo l'esame. Nessun numero inventato oltre il dato «ridotto».",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "ibuprofene-stop",
+      "name": "Sospensione dell'ibuprofene",
+      "finding": "FANS sospeso prima del mezzo di contrasto.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "doppler-renale",
+      "name": "Eco-Doppler renale immediato come prevenzione",
+      "finding": "Non è una delle misure certe elencate prima del contrasto.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Le misure certe citate sono l'espansione di volume, la dose minima e il mezzo a bassa o iso-osmolarità."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 80,
+      "bloodPressure": "142/78",
+      "spo2": 97,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "demographics": {
+      "age": 74,
+      "sex": "F",
+      "context": "Reparto"
+    },
+    "advancedExams": {
+      "values": {
+        "creatinina": {
+          "finding": "Filtrato ridotto, valore basale da confrontare dopo l'esame. Nessun numero inventato oltre il dato «ridotto».",
+          "isAbnormal": true
+        },
+        "ibuprofene-stop": {
+          "finding": "FANS sospeso prima del mezzo di contrasto.",
+          "isAbnormal": true
+        },
+        "doppler-renale": {
+          "finding": "Non è una delle misure certe elencate prima del contrasto.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Idratazione e mezzo a bassa osmolarità",
+          "anyOf": [
+            {
+              "id": "idratazione",
+              "label": "Espansione parenterale di volume",
+              "aliases": [
+                "fisiologica",
+                "idratazione",
+                "espansione"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "alta-osm",
+          "label": "Mezzo ad alta osmolarità",
+          "aliases": [
+            "alta osmolarità",
+            "ad alta osmolarita"
+          ]
+        },
+        {
+          "id": "dopamina",
+          "label": "Dopamina a basse dosi",
+          "aliases": [
+            "dopamina"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Dose minima, mezzo non ad alta osmolarità, idratazione.",
+        "FANS sospeso.",
+        "Niente dopamina né furosemide preventiva."
+      ],
+      "penalties": [
+        {
+          "id": "alta-osm",
+          "kind": "clinical",
+          "trigger": "Mezzo iodato ad alta osmolarità in paziente a rischio."
+        }
+      ],
+      "citationLimits": [
+        "Il brano non fissa i ml/kg dell'idratazione. Non si inventano."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole firmare solo dopo la spiegazione sul rene. Accetta di sospendere la pastiglia del ginocchio se le si dice perché."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaci da sospendere",
+      "prompt": "Prende ibuprofene. Prima del contrasto che fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Lo sospendi. Il testo include i FANS e le alte dosi di diuretico dell'ansa tra i nefrotossici da sospendere",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Aumenti l'ibuprofene il giorno della TC per il dolore del lettino",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "FANS il giorno del contrasto",
+      "prompt": "Sezione 4: FANS, aminoglicosidi, amfotericina B, alte dosi di diuretici dell'ansa e alcuni antivirali andrebbero sospesi. Tenerle l'ibuprofene aggiunge un insulto evitabile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quale mezzo",
+      "prompt": "In magazzino c'è anche un iodato ad alta osmolarità. Lei è a rischio aumentato.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Usi un iso-osmolare o a bassa osmolarità, alla dose più bassa possibile",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Usi quello ad alta osmolarità, a dose piena, perché è già aperto",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Mezzo ad alta osmolarità",
+      "prompt": "KDIGO 4.3.2, grado 1B: nei pazienti a rischio aumentato di CI-AKI si raccomanda un mezzo iodato iso-osmolare o a bassa osmolarità, piuttosto che ad alta osmolarità. 4.3.1: la dose più bassa possibile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Idratazione, non il diuretico",
+      "prompt": "Quale prevenzione è tra le misure certe, e che ne è di furosemide e dopamina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Espansione della volemia per via parenterale. Niente furosemide per prevenire e niente dopamina a basse dosi. Il brano non fissa i ml/kg: non li inventi",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Dopamina «renale» e una fiala di furosemide prima del contrasto, senza liquidi",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Prevenzione dannosa",
+      "prompt": "Le misure certe citate sono l'espansione parenterale, la dose minima e il mezzo a bassa o iso-osmolarità. KDIGO 3.4.1 vieta i diuretici per prevenire l'AKI (1B). 3.5.1 vieta la dopamina a basse dosi (1A).",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso alla TC",
+      "prompt": "È lucida e non firma senza spiegazione. L'esame non è questione di minuti.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Le spieghi il rischio renale, le misure e l'alternativa di rimandare se l'esame non è questo, e annoti il consenso",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "La porti in radiologia senza parlare, perché il letto è prenotato",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Accertamento senza consenso",
+      "prompt": "Legge 219, art. 1 comma 5: può rifiutare qualsiasi accertamento diagnostico. Il comma 1 vieta di iniziare un atto senza consenso, fuori dai casi di legge. Qui si può recepire la volontà.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Seconda dose",
+      "prompt": "Il radiologo vuole ripetere l'esame dopodomani. Ha diabete e il filtrato è già ridotto. La creatinina non è stata ricontrollata.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. In diabete o disfunzione renale l'esposizione ripetuta si ritarda di 72 ore. Se la creatinina peggiora, si aspetta il ritorno al basale",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Ripeti il contrasto a 48 ore",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Seconda dose troppo presto",
+      "prompt": "Sezione 4: l'esposizione ripetuta si ritarda di 48 ore senza fattori di rischio e di 72 ore in diabete o disfunzione renale. Se la funzione peggiora, una nuova esposizione si rimanda finché la creatinina non torna al basale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore senza FANS",
+      "prompt": "Il ginocchio fa male e il FANS è sospeso. È in struttura.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Annoti il dolore e usi un'alternativa che non sia un FANS prima del contrasto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Le ridai l'ibuprofene e non scrivi il dolore",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "FANS e dolore omesso",
+      "prompt": "Legge 38, art. 7: il dolore si riporta in cartella. Il FANS resta tra i farmaci da sospendere prima del mezzo di contrasto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Codifica",
+      "prompt": "Alla dimissione la TC è stata fatta con le misure di prevenzione. Che cosa non codifichi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non codifichi una dialisi o una biopsia renale che non hai eseguito",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Inserisci in SDO una seduta dialitica preventiva non fatta",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dialisi inesistente in SDO",
+      "prompt": "Il decreto 28 ottobre 2020 richiama la codifica della SDO con la ICD-9-CM 2007. Una dialisi non eseguita non è un'informazione clinica di questo ricovero. KDIGO non indica la dialisi come prevenzione del contrasto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Contrasto con le misure certe",
+      "prompt": "FANS sospeso, espansione di volume, dose minima di mezzo iso-osmolare o a bassa osmolarità, niente dopamina e niente diuretico preventivo, consenso alla TC. Seconda dose non prima di 72 ore, e mai prima del ritorno della creatinina se peggiora.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

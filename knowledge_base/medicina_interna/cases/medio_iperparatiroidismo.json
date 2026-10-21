@@ -1,0 +1,475 @@
+{
+  "id": "INTMED-020",
+  "code": "INTMED-020",
+  "title": "Uomo di 61 anni con iperparatiroidismo e filtrato sotto 60",
+  "description": "Roberto, 61 anni, iperparatiroidismo primario sporadico, calcemia alta, PTH alto. eGFR sotto 60 mL/min. È candidabile all'intervento: nessun ostacolo clinico. In ambulatorio è diffidente verso la chirurgia. Parametri: PA 138/82 mmHg, FC 76 bpm, FR 14 atti/min, SpO2 98%, temperatura 36.6°C.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "endocrinologia"
+  ],
+  "condition": "Iperparatiroidismo primario con indicazione chirurgica e filtrato ridotto",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "LG-GESTIONE-TERAPEUTICA-DELLIPERPARATIROIDISMO_versione-sintetica.pdf",
+  "diagnosis": "Con eGFR sotto 60 mL/min la paratiroidectomia è indicata. Il cinacalcet, in Italia, si prescrive per ridurre l'ipercalcemia quando la chirurgia sarebbe indicata ma non è clinicamente appropriata o è controindicata. Qui l'intervento è appropriato. Le indagini di localizzazione non servono a chi non è candidato alla chirurgia: lui lo è, quindi la localizzazione precede l'intervento, non lo sostituisce.",
+  "pastMedicalHistory": "Iperparatiroidismo primario sporadico. Nessuna controindicazione operatoria dichiarata. EGRF sotto 60 mL/min. Non assume cinacalcet.",
+  "presentation": "Calcio e PTH alti, funzione renale ridotta. Il testo ritiene indicata la paratiroidectomia sotto quella soglia di filtrato, pur ricordando che le evidenze non sono conclusive. L'obiettivo della chirurgia è normalizzare calcemia e PTH.",
+  "redHerrings": [
+    "Ha letto che una compressa «scioglie» il problema senza sala operatoria e vuole solo quella."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Roberto, ho 61 anni. Il calcio è alto e i reni non vanno benissimo. Non voglio operarmi se una pastiglia basta. Se l'intervento è quello che il testo indica, spiegatemelo e lasciatemi decidere.",
+  "correctSolution": "Paratiroidectomia perché eGFR < 60. Il cinacalcet normalizza la calcemia in molti ma il PTH solo in una minoranza, e non ha dimostrato effetti sulle sequele, sulla densità ossea e sulla funzione renale. In Italia è RRL, per l'ipercalcemia quando la chirurgia sarebbe indicata ma non è appropriata o è controindicata. La dose iniziale scritta, 30 mg due volte al giorno, vale in quella condizione, non in un operabile. Le localizzazioni servono perché è candidato all'intervento; non si fanno al posto dell'intervento. Consenso.",
+  "goldStandardPath": [
+    "calcemia",
+    "pth",
+    "creatinina"
+  ],
+  "goldPathNarrative": "Confermi calcio, PTH e filtrato sotto 60. Proponi la paratiroidectomia. Non usi il cinacalcet come alternativa in un operabile. Le indagini di localizzazione preparano la chirurgia, non la evitano.",
+  "examLatencies": {
+    "calcemia": 30,
+    "pth": 120,
+    "creatinina": 30,
+    "scintigrafia": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "reni",
+      "prompt": "Le hanno detto come filtrano i reni, sopra o sotto 60?",
+      "critical": true,
+      "expectedKeywords": [
+        "reni",
+        "filtrato",
+        "60"
+      ],
+      "rationale": "Sotto 60 il testo indica la paratiroidectomia."
+    },
+    {
+      "id": "chirurgia",
+      "prompt": "C'è un motivo clinico per cui l'intervento sarebbe pericoloso?",
+      "critical": true,
+      "expectedKeywords": [
+        "intervento",
+        "operatorio",
+        "controindic"
+      ],
+      "rationale": "Il cinacalcet si riserva a chi non può operarsi."
+    },
+    {
+      "id": "ossa",
+      "prompt": "Ha avuto calcoli o fratture?",
+      "critical": false,
+      "expectedKeywords": [
+        "calcoli",
+        "ossa",
+        "fratture"
+      ],
+      "rationale": "Nefrolitiasi e danno d'organo fanno parte del quadro, senza cambiare la soglia del filtrato."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Diffidente, lucido. Non segni di crisi ipercalcemica. Non dolore osseo acuto. Addome trattabile."
+  },
+  "escCitations": [
+    {
+      "chunkId": "pth-ptx",
+      "source": "knowledge_base/medicina_interna/clinical/LG-GESTIONE-TERAPEUTICA-DELLIPERPARATIROIDISMO_versione-sintetica.pdf",
+      "quote": "Pur se non sono disponibili evidenze conclusive, valori di eGFR < 60 mL/min costituiscono un'indicazione alla PTX, che si associa a stabilizzazione della funzione renale in coloro in cui era già presente una compromissione."
+    },
+    {
+      "chunkId": "pth-cinacalcet",
+      "source": "knowledge_base/medicina_interna/clinical/LG-GESTIONE-TERAPEUTICA-DELLIPERPARATIROIDISMO_versione-sintetica.pdf",
+      "quote": "La prescrizione in Italia è autorizzata per ottenere la riduzione dell'ipercalcemia in pazienti adulti con IPP, nei quali la PTX sarebbe indicata sulla base dei valori di calcemia (in accordo con le relative LG di trattamento), ma nei quali l'intervento chirurgico non è clinicamente appropriato o è controindicato."
+    },
+    {
+      "chunkId": "pth-dose",
+      "source": "knowledge_base/medicina_interna/clinical/LG-GESTIONE-TERAPEUTICA-DELLIPERPARATIROIDISMO_versione-sintetica.pdf",
+      "quote": "La dose iniziale di cinacalcet raccomandata nell'adulto per la gestione dell'ipercalcemia da IPP è pari a 30 mg per due volte al giorno per os, preferibilmente durante o subito dopo il pasto."
+    },
+    {
+      "chunkId": "pth-localizzazione",
+      "source": "knowledge_base/medicina_interna/clinical/LG-GESTIONE-TERAPEUTICA-DELLIPERPARATIROIDISMO_versione-sintetica.pdf",
+      "quote": "le indagini di localizzazione non sono necessarie nei pazienti non candidati a chirurgia"
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Indicare la paratiroidectomia con filtrato sotto 60, se l'intervento è clinicamente appropriato.",
+      "Non prescrivere il cinacalcet a un candidato chirurgico."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La guida ISS e la nota regolatoria italiana limitano il cinacalcet. La legge 219 chiede di informare sull'alternativa chirurgica e di rispettare un rifiuto, senza sostituirlo con un farmaco fuori indicazione.",
+      "legalCriteria": [
+        "Dire che la compressa non sostituisce l'intervento in chi può operarsi.",
+        "Se rifiuta, annotare il rifiuto e non imporre la sala."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "calcemia",
+      "name": "Calcemia",
+      "finding": "Elevata. Quadro di ipercalcemia dell'iperparatiroidismo. Nessun decimale inventato.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "pth",
+      "name": "PTH",
+      "finding": "Elevato, non soppresso.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "creatinina",
+      "name": "Creatinina e filtrato",
+      "finding": "eGFR sotto 60 mL/min.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "scintigrafia",
+      "name": "Scintigrafia come alternativa all'intervento",
+      "finding": "La localizzazione prepara la chirurgia. Non è una terapia e non serve a chi rifiuta l'intervento in modo definitivo.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Se non è candidato, o se rifiuta in modo fermo, la guida dice che le indagini di localizzazione non sono necessarie."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "138/82",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 14
+    },
+    "demographics": {
+      "age": 61,
+      "sex": "M",
+      "context": "Ambulatorio"
+    },
+    "advancedExams": {
+      "values": {
+        "calcemia": {
+          "finding": "Elevata. Quadro di ipercalcemia dell'iperparatiroidismo. Nessun decimale inventato.",
+          "isAbnormal": true
+        },
+        "pth": {
+          "finding": "Elevato, non soppresso.",
+          "isAbnormal": true
+        },
+        "creatinina": {
+          "finding": "eGFR sotto 60 mL/min.",
+          "isAbnormal": true
+        },
+        "scintigrafia": {
+          "finding": "La localizzazione prepara la chirurgia. Non è una terapia e non serve a chi rifiuta l'intervento in modo definitivo.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Paratiroidectomia",
+          "anyOf": [
+            {
+              "id": "ptx",
+              "label": "Paratiroidectomia",
+              "aliases": [
+                "paratiroidectomia",
+                "intervento"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "cinacalcet",
+          "label": "Cinacalcet in un candidato chirurgico",
+          "aliases": [
+            "cinacalcet"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Chirurgia proposta perché il filtrato è sotto 60 ed è operabile.",
+        "Niente cinacalcet al posto dell'intervento.",
+        "Consenso o rifiuto annotati."
+      ],
+      "penalties": [
+        {
+          "id": "cinacalcet",
+          "kind": "clinical",
+          "trigger": "Cinacalcet come sostituto in un operabile."
+        }
+      ],
+      "citationLimits": [
+        "I 30 mg due volte al giorno sono la dose iniziale scritta, lecita solo se l'intervento non è appropriato o è controindicato."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole evitare la sala. Accetta di sentirne parlare se gli si dice quando la compressa è autorizzata e se la decisione resta sua."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Filtrato e intervento",
+      "prompt": "eGFR sotto 60 mL/min, IPP, nessun ostacolo operatorio. Che proposta è scritta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La paratiroidectomia. Il testo la ritiene indicata sotto quella soglia, anche ricordando che le evidenze non sono conclusive",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Non proponi l'intervento perché «non ci sono evidenze conclusive», e chiudi la pratica",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Indicazione non discussa",
+      "prompt": "La guida: pur in assenza di evidenze conclusive, si ritiene che con IPP ed eGFR sotto 60 mL/min sia indicata la paratiroidectomia. Non dirglielo è un'informazione incompleta rispetto all'art. 1 della legge 219.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cinacalcet",
+      "prompt": "È candidabile. Vuole solo la compressa. La prescrivi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "No. In Italia il cinacalcet per questo scopo è per chi avrebbe l'indicazione chirurgica ma in cui l'intervento non è appropriato o è controindicato",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Glielo prescrivi al posto della sala, con ricetta di specialista, come se fosse equivalente",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Cinacalcet fuori dalla condizione italiana",
+      "prompt": "La guida: il cinacalcet è RRL e la prescrizione è autorizzata per ridurre l'ipercalcemia quando la PTX sarebbe indicata ma l'intervento non è clinicamente appropriato o è controindicato. Qui l'intervento è appropriato. Inoltre non sono dimostrati effetti sulle sequele, sulla densità ossea e sulla funzione renale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Localizzazione",
+      "prompt": "Accetta di valutare l'intervento. Le indagini di localizzazione a che servono?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "A preparare la chirurgia, perché è candidato. Non sono una terapia e non servono a chi non è candidato",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Fai scintigrafia e TC e le chiami trattamento, senza proporre la sala",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Imaging che non cura",
+      "prompt": "La guida: le indagini di localizzazione non sono necessarie nei pazienti non candidati alla chirurgia. Farle al posto dell'intervento, in chi invece è candidato, non normalizza calcio e PTH: quello è l'obiettivo della chirurgia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Obiettivo della sala",
+      "prompt": "Che risultato gli descrivi, senza promettere ciò che il cinacalcet non ha dimostrato?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "La chirurgia punta a normalizzare calcemia e PTH. Il cinacalcet normalizza la calcemia spesso, il PTH solo in una minoranza, e non le sequele renali",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Gli dici che la compressa protegge i reni quanto l'intervento",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Effetto sul rene non dimostrato",
+      "prompt": "La revisione citata: calcemia normalizzata nel 90%, PTH solo nel 10%, e nessun effetto dimostrato sulle sequele, sulla BMD e sulla funzione renale. Attribuire al cinacalcet una protezione renale è un'informazione che il testo non dà.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto",
+      "prompt": "Dopo la spiegazione rifiuta l'intervento. È capace. Che fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Annoti il rifiuto. Non lo operi. Il cinacalcet si ridiscute solo se l'intervento diventa non appropriato o controindicato, non per scavalcare un rifiuto informato con una ricetta equivalente",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo metti in lista lo stesso",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Intervento contro il rifiuto",
+      "prompt": "Legge 219, art. 1 comma 5 e 6: può rifiutare l'atto, il rifiuto si annota, e il medico rispetta la volontà. Operarlo contro il rifiuto non è consentito. Il cinacalcet non diventa lecito solo perché lui rifiuta: la condizione regolatoria è che l'intervento non sia clinicamente appropriato o sia controindicato, non il semplice rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Crisi",
+      "prompt": "Oggi non ha una crisi ipercalcemica. Il testo come la definisce, e che fai adesso?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "La crisi è un evento raro da tenere presente. Oggi non c'è: non lo ricoveri d'urgenza per una crisi assente",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo ricoveri in urgenza come crisi ipercalcemica, senza i segni",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Ricovero per una crisi che non c'è",
+      "prompt": "La guida chiama crisi ipercalcemica un evento raro. Senza quel quadro, il ricovero urgente non è l'atto scritto. La decisione di oggi è l'indicazione chirurgica elettiva.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "La dose nel paziente sbagliato",
+      "prompt": "Il testo indica 30 mg due volte al giorno come dose iniziale del cinacalcet nell'adulto. La usi su Roberto, che può operarsi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. Quei 30 mg due volte al giorno valgono per l'ipercalcemia quando l'intervento non è appropriato o è controindicato. Qui la paratiroidectomia è indicata e appropriata",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Prescrivi cinacalcet 30 mg due volte al giorno al posto della paratiroidectomia",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dose di scheda fuori indicazione",
+      "prompt": "La guida riporta 30 mg per due volte al giorno come dose iniziale nell'adulto per l'ipercalcemia da IPP. La prescrizione italiana è autorizzata solo se la PTX sarebbe indicata e l'intervento non è clinicamente appropriato o è controindicato. Roberto è operabile: la dose scritta non rende lecita la ricetta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Chirurgia, non il cinacalcet",
+      "prompt": "Filtrato sotto 60 e intervento appropriato: paratiroidectomia. Il cinacalcet resta per chi non può operarsi. Localizzazione solo in funzione della chirurgia. Consenso o rifiuto annotati. Nessuna dose inventata.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

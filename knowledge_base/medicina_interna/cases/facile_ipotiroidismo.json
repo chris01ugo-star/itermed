@@ -1,0 +1,460 @@
+{
+  "id": "INTMED-007",
+  "code": "INTMED-007",
+  "title": "Donna di 54 anni con ipotiroidismo primario e stanchezza",
+  "description": "Anna, 54 anni, in ambulatorio è collaborante ma sfiduciata. Stanchezza, freddo, pelle secca. Non è in gravidanza e non ha avuto una tiroidectomia. TSH alto e FT4 sotto il riferimento: ipotiroidismo primario conclamato. Parametri: PA 110/70 mmHg, FC 58 bpm, FR 14 atti/min, SpO2 98%, temperatura 36.2°C.",
+  "difficulty": "EASY",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "endocrinologia"
+  ],
+  "condition": "Ipotiroidismo primario conclamato, non in gravidanza e non dopo tiroidectomia",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Linea-Guida-ipotir-ultrashort.pdf",
+  "diagnosis": "Ipotiroidismo primario con TSH elevato e FT4 bassa. La raccomandazione forte è la sola levotiroxina, a digiuno. La dose 1,5-1,9 µg/kg è scritta per chi ha avuto una tiroidectomia totale: qui non si applica. Il TSH si ricontrolla dopo 4-6 settimane.",
+  "pastMedicalHistory": "Nessuna gravidanza. Tiroide in sede, nessuna chirurgia. Nessuna terapia tiroidea in corso. Non assume calcio o ferro a ridosso di un'eventuale compressa.",
+  "presentation": "Quadro clinico compatibile e conferma biochimica di ipotiroidismo primario conclamato. La linea guida non tratta l'ipotiroidismo subclinico né la gravidanza.",
+  "redHerrings": [
+    "Un sito le propone l'estratto di tiroide e la combinazione con la liotironina «per dimagrire»."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Anna, ho 54 anni. Sono sempre stanca e ho freddo. Ho paura delle pastiglie. Se mi dite che cosa prendo, a digiuno o no, e quando ripetiamo le analisi, collaboro.",
+  "correctSolution": "Raccomandazione 1, forte: monoterapia con LT4, non la combinazione LT4+LT3. Raccomandazione 2: LT4 orale a digiuno. La dose in µg/kg della raccomandazione 3 vale dopo tiroidectomia totale, non qui: non si inventa un numero. Raccomandazione 4: TSH dopo 4-6 settimane. Le raccomandazioni vanno condivise. Obiettivi: sintomi, TSH e FT4 nella norma, qualità di vita. Il ricovero per una forma non complicata non è la regola del testo, che cita il DRG 301 solo se la gestione diventa ospedaliera.",
+  "goldStandardPath": [
+    "tsh",
+    "ft4"
+  ],
+  "goldPathNarrative": "Confermi TSH e FT4. Prescrivi la sola levotiroxina a digiuno, senza liotironina e senza una dose da tiroidectomia. Programmi il TSH a 4-6 settimane e annoti il consenso.",
+  "examLatencies": {
+    "tsh": 120,
+    "ft4": 120,
+    "ecografia-tiroide": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "chirurgia",
+      "prompt": "Le hanno tolto la tiroide o è in gravidanza?",
+      "critical": true,
+      "expectedKeywords": [
+        "tiroide",
+        "gravidanza",
+        "operazione"
+      ],
+      "rationale": "La dose in µg/kg è solo dopo tiroidectomia totale e la guida esclude la gravidanza."
+    },
+    {
+      "id": "sintomi",
+      "prompt": "Freddo, stanchezza, pelle: che cosa la limita di più?",
+      "critical": true,
+      "expectedKeywords": [
+        "stanchezza",
+        "freddo",
+        "pelle"
+      ],
+      "rationale": "L'obiettivo include la risoluzione dei sintomi, non solo il numero."
+    },
+    {
+      "id": "digiuno",
+      "prompt": "A che ora fa colazione e prende calcio o ferro?",
+      "critical": false,
+      "expectedKeywords": [
+        "colazione",
+        "digiuno",
+        "ferro"
+      ],
+      "rationale": "La LT4 si prende a digiuno."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Collaborante, bradisfigmia, pelle secca, non mixedema. Tiroide non nodulare alla palpazione. Non segni di scompenso."
+  },
+  "escCitations": [
+    {
+      "chunkId": "tiro-lt4",
+      "source": "knowledge_base/medicina_interna/clinical/Linea-Guida-ipotir-ultrashort.pdf",
+      "quote": "Nel paziente adulto con ipotiroidismo primario il panel raccomanda la mono-terapia con LT4 rispetto alla terapia combinata LT4 + LT3."
+    },
+    {
+      "chunkId": "tiro-digiuno",
+      "source": "knowledge_base/medicina_interna/clinical/Linea-Guida-ipotir-ultrashort.pdf",
+      "quote": "Nel paziente adulto con ipotiroidismo primario il panel suggerisce la somministrazione della LT4 orale a digiuno."
+    },
+    {
+      "chunkId": "tiro-tsh",
+      "source": "knowledge_base/medicina_interna/clinical/Linea-Guida-ipotir-ultrashort.pdf",
+      "quote": "Nel paziente adulto con ipotiroidismo primario dopo l'inizio della terapia sostitutiva il panel suggerisce la determinazione del TSH sierico dopo 4-6 settimane per la verifica dell'adeguatezza della terapia."
+    },
+    {
+      "chunkId": "tiro-condivisione",
+      "source": "knowledge_base/medicina_interna/clinical/Linea-Guida-ipotir-ultrashort.pdf",
+      "quote": "Il Panel ha formulato le seguenti raccomandazioni, che devono comunque essere condivise con il paziente, come tutte le scelte cliniche, tenendo conto della sua volontà dopo adeguata informazione."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Monoterapia con levotiroxina, non LT4 più LT3 come prima scelta.",
+      "Non applicare la dose 1,5-1,9 µg/kg: è scritta per la tiroidectomia totale."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La linea guida ISS chiede di condividere la scelta. La legge 219/2017 rende obbligatorio il consenso informato. La combinazione costa di più senza i benefici che il panel ha cercato su sintomi e qualità di vita.",
+      "legalCriteria": [
+        "Informare che la terapia è la sola levotiroxina a digiuno.",
+        "Ricontrollare il TSH a 4-6 settimane."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "tsh",
+      "name": "TSH",
+      "finding": "TSH sopra l'intervallo di riferimento. Nessun decimale inventato oltre il dato «alto».",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "ft4",
+      "name": "FT4",
+      "finding": "FT4 sotto l'intervallo: ipotiroidismo primario conclamato, non la forma subclinica esclusa da questa guida.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ecografia-tiroide",
+      "name": "Ecografia tiroidea come prima cura",
+      "finding": "Non sostituisce TSH, FT4 e la levotiroxina in un ipotiroidismo già confermato, senza un nodo sospetto.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "La guida fonda diagnosi e terapia su TSH e FT4. L'ecografia non è il trattamento."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 58,
+      "bloodPressure": "110/70",
+      "spo2": 98,
+      "temperature": 36.2,
+      "respiratoryRate": 14
+    },
+    "demographics": {
+      "age": 54,
+      "sex": "F",
+      "context": "Ambulatorio"
+    },
+    "advancedExams": {
+      "values": {
+        "tsh": {
+          "finding": "TSH sopra l'intervallo di riferimento. Nessun decimale inventato oltre il dato «alto».",
+          "isAbnormal": true
+        },
+        "ft4": {
+          "finding": "FT4 sotto l'intervallo: ipotiroidismo primario conclamato, non la forma subclinica esclusa da questa guida.",
+          "isAbnormal": true
+        },
+        "ecografia-tiroide": {
+          "finding": "Non sostituisce TSH, FT4 e la levotiroxina in un ipotiroidismo già confermato, senza un nodo sospetto.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Levotiroxina a digiuno",
+          "anyOf": [
+            {
+              "id": "lt4",
+              "label": "Levotiroxina",
+              "aliases": [
+                "levotiroxina",
+                "lt4",
+                "eutirox"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "lt3",
+          "label": "Combinazione con liotironina come prima scelta",
+          "aliases": [
+            "liotironina",
+            "lt3",
+            "combinata"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Sola LT4 a digiuno.",
+        "TSH a 4-6 settimane.",
+        "Nessuna dose in µg/kg."
+      ],
+      "penalties": [
+        {
+          "id": "lt3",
+          "kind": "clinical",
+          "trigger": "LT3 in combinazione come prima scelta."
+        }
+      ],
+      "citationLimits": [
+        "La dose 1,5-1,9 µg/kg è solo dopo tiroidectomia totale. Qui non si usa."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ha paura delle pastiglie. Accetta la levotiroxina se le si dice che è una sola compressa a digiuno e quando si ripete il prelievo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Conclamato, non subclinico",
+      "prompt": "TSH alto e FT4 bassa. Non è in gravidanza. Questa guida che quadro copre?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "L'ipotiroidismo primario conclamato dell'adulto fuori dalla gravidanza. La forma subclinica non è l'oggetto della guida",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo chiami subclinico e non tratti, perché la guida «non parla di TSH alto»",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Forma conclamata lasciata senza cura",
+      "prompt": "La guida definisce il conclamato come TSH sopra il riferimento con FT4 bassa, e il subclinico come TSH alto con FT4 normale: il subclinico non è l'oggetto della guida. Qui la FT4 è bassa. La terapia sostitutiva è essenziale per sintomi, TSH, FT4 e qualità di vita. Non informarla di questa distinzione contraddice l'art. 1 della legge 219.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sola LT4",
+      "prompt": "Quale raccomandazione forte sceglie il farmaco?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Monoterapia con levotiroxina, non la combinazione con la liotironina",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Inizi subito LT4 più LT3 perché un sito promette il dimagrimento",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Combinazione non raccomandata",
+      "prompt": "Raccomandazione 1, forte a favore: monoterapia con LT4 rispetto a LT4+LT3. Il panel segnala che la combinazione non migliora qualità di vita, sintomi e peso, e che il suo costo di follow-up è più alto: la sola LT4 riduce i costi del 61% rispetto alla combinazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Digiuno",
+      "prompt": "Come si assume la compressa?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Per bocca, a digiuno, come suggerisce la raccomandazione 2",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "A stomaco pieno, insieme alla colazione e al ferro",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Assunzione che ne riduce l'effetto",
+      "prompt": "Raccomandazione 2: LT4 orale a digiuno. Il testo ricorda che il mancato digiuno ostacola l'assorbimento e può portare a formulazioni diverse solo dopo quel problema, non come prima mossa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dose che non è la sua",
+      "prompt": "Non ha avuto una tiroidectomia. Un collega scrive 1,7 µg/kg. È il suo caso?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "No. Quell'intervallo, 1,5-1,9 µg/kg, è il suggerimento dopo tiroidectomia totale. Qui non inventi quel numero",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Le prescrivi 1,7 µg/kg come se fosse tiroidectomizzata",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose di un'altra raccomandazione",
+      "prompt": "Raccomandazione 3: la dose iniziale 1,5-1,9 µg/kg è suggerita nell'adulto con ipotiroidismo primario da pregressa tiroidectomia totale. Anna non è in quella condizione. Applicarla è un'informazione non corrispondente al testo e all'art. 1 della legge 219.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Quando ripetere il TSH",
+      "prompt": "Dopo l'inizio, che controllo è suggerito?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "TSH sierico dopo 4-6 settimane",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Il primo controllo dopo un anno",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Controllo fuori tempo",
+      "prompt": "Raccomandazione 4: dopo l'inizio della terapia sostitutiva, TSH dopo 4-6 settimane per verificare se la dose è adeguata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Condividere la scelta",
+      "prompt": "Anna teme la pastiglia. La guida che cosa chiede oltre al farmaco?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Condividi la raccomandazione, spieghi digiuno e controllo, e annoti il consenso",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Le lasci la ricetta senza parlare, perché la raccomandazione è forte",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Scelta non condivisa",
+      "prompt": "La guida: le raccomandazioni vanno condivise con il paziente, tenendo conto della volontà dopo adeguata informazione. Legge 219, art. 1: niente trattamento senza consenso informato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Ricovero non necessario",
+      "prompt": "È stabile, forma non complicata. Un letto è libero. La ricoveri?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "No. La gestisci in ambulatorio. Il testo dice che solo in gravità o con comorbidità gravi la patologia diventa ospedaliera",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "La ricoveri per «titolare la compressa» e punti a un DRG di endocrinopatia complicata",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Ricovero e DRG non sostenuti",
+      "prompt": "La guida: solo in particolari gravità o con comorbidità la patologia è gestita in ospedale, e allora può produrre il DRG 301 se non complicata o il 300 se associata a patologie gravi. Ricoverare questa forma stabile per ottenere il DRG 300 non corrisponde al quadro.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Sola levotiroxina, condivisa",
+      "prompt": "Monoterapia con LT4 a digiuno, niente combinazione, niente dose da tiroidectomia, TSH a 4-6 settimane, scelta condivisa e consenso annotato.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

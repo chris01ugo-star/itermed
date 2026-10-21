@@ -1,0 +1,465 @@
+{
+  "id": "INTMED-022",
+  "code": "INTMED-022",
+  "title": "Uomo di 79 anni con AKI e DAT che rifiutano la dialisi",
+  "description": "Giovanni, 79 anni, AKI in peggioramento, creatinina in salita ma potassio, acidosi ed edema polmonare non sono un pericolo di vita. È soporoso da stamattina. Ha DAT redatte per atto pubblico, con fiduciario presente: rifiuta la dialisi. Ha dolore da una metastasi ossea nota, malattia a prognosi infausta breve. Parametri: PA 108/64 mmHg, FC 98 bpm, FR 20 atti/min, SpO2 95% in aria, temperatura 36.8°C.",
+  "difficulty": "HARD",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "nefrologia"
+  ],
+  "condition": "AKI senza indicazione urgente alla dialisi, con DAT che la rifiutano",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Sezione_5.pdf; allegato115290.pdf; LEGGE n. 38 del 15 marzo 2010.pdf",
+  "diagnosis": "La RRT d'emergenza è per un pericolo di vita idroelettrolitico o acido-base. Un singolo valore di creatinina non basta. Le DAT rifiutano la dialisi e non sono incongrue rispetto a questo quadro. Prognosi infausta a breve: niente ostinazione. Il dolore va trattato e annotato.",
+  "pastMedicalHistory": "Neoplasia metastatica con prognosi infausta a breve termine, già comunicata. DAT che rifiutano la dialisi. Fiduciario accetta la nomina ed è presente. Nessuna iperpotassiemia o edema polmonare descritti come pericolo di vita.",
+  "presentation": "Creatinina in trend sfavorevole, senza il pericolo che KDIGO usa per la dialisi d'emergenza. Le DAT sono chiare e il fiduciario le conferma. Il dolore osseo è presente.",
+  "redHerrings": [
+    "Un figlio non fiduciario chiede di dializzare «almeno una volta, per provare»."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Il paziente è soporoso. Il fiduciario dice: Giovanni ha scritto di non volere la dialisi. Vuole che gli togliate il male all'osso. Non vuole accanimento. Io sono il fiduciario, non il figlio che è appena arrivato.",
+  "correctSolution": "Non iniziare la RRT: manca il pericolo di vita idroelettrolitico o acido-base, e la decisione non si prende su una sola creatinina. Le DAT si rispettano. Si disattendono solo se palesemente incongrue o non corrispondenti al quadro, in accordo col fiduciario: qui la dialisi non è l'atto salvavita del 5.1.1, quindi non sono incongrue. Prognosi infausta breve: astensione da cure sproporzionate. Terapia del dolore garantita e annotata in cartella, anche se la dialisi è rifiutata. Il figlio non fiduciario non revoca le DAT.",
+  "goldStandardPath": [
+    "potassio",
+    "emogas"
+  ],
+  "goldPathNarrative": "Verifichi che non ci sia pericolo di vita. Non dializzi. Rispetti le DAT con il fiduciario. Tratti e annoti il dolore. Non avvii una seduta «di prova».",
+  "examLatencies": {
+    "potassio": 20,
+    "emogas": 15,
+    "biopsia-renale": 240
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "dat",
+      "prompt": "Le DAT che cosa dicono sulla dialisi e chi è il fiduciario?",
+      "critical": true,
+      "expectedKeywords": [
+        "dat",
+        "dialisi",
+        "fiduciario"
+      ],
+      "rationale": "Art. 4: le DAT si rispettano e il fiduciario rappresenta il paziente."
+    },
+    {
+      "id": "pericolo",
+      "prompt": "Potassio, acidosi ed edema polmonare sono un pericolo di vita in questo momento?",
+      "critical": true,
+      "expectedKeywords": [
+        "potassio",
+        "acidosi",
+        "edema"
+      ],
+      "rationale": "È il criterio KDIGO per la RRT d'emergenza."
+    },
+    {
+      "id": "dolore",
+      "prompt": "Il dolore all'osso com'è e che cosa è già stato dato?",
+      "critical": true,
+      "expectedKeywords": [
+        "dolore",
+        "osso",
+        "farmaco"
+      ],
+      "rationale": "La terapia del dolore resta dovuta anche se la dialisi è rifiutata."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Soporoso, non in edema polmonare acuto. Dolore alla mobilizzazione di un tratto osseo metastatico. Fiduciario presente con copia delle DAT. Il figlio non è il fiduciario."
+  },
+  "escCitations": [
+    {
+      "chunkId": "kdigo-rrt-emergenza",
+      "source": "knowledge_base/medicina_interna/clinical/Sezione_5.pdf",
+      "quote": "5.1.1: Iniziare la RRT in emergenza quando esiste un pericolo di vita legato ad alterazioni del bilancio idroelettrolitico e dell'equilibrio acido-base."
+    },
+    {
+      "chunkId": "kdigo-soglia",
+      "source": "knowledge_base/medicina_interna/clinical/Sezione_5.pdf",
+      "quote": "5.1.2: Nella decisione di iniziare una RRT, considerare il contesto clinico complessivo, la presenza di condizioni che possono essere modificate con la RRT e il trend degli esami di laboratorio, piuttosto che un singolo valore soglia di BUN o creatinina."
+    },
+    {
+      "chunkId": "l219-dat",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "il medico e' tenuto al rispetto delle DAT, le quali possono essere disattese, in tutto o in parte, dal medico stesso, in accordo con il fiduciario, qualora esse appaiano palesemente incongrue o non corrispondenti alla condizione clinica attuale del paziente"
+    },
+    {
+      "chunkId": "l219-ostinazione",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "Nei casi di paziente con prognosi infausta a breve termine o di imminenza di morte, il medico deve astenersi da ogni ostinazione irragionevole nella somministrazione delle cure e dal ricorso a trattamenti inutili o sproporzionati."
+    },
+    {
+      "chunkId": "l38-dolore",
+      "source": "knowledge_base/medicina_interna/legal/LEGGE n. 38 del 15 marzo 2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Non dializzare in assenza del pericolo di vita KDIGO e contro DAT che rifiutano la dialisi.",
+      "Trattare e annotare il dolore anche se la dialisi non si fa."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "KDIGO 5.1 limita l'emergenza dialitica. La legge 219 art. 4 impone il rispetto delle DAT e l'art. 2 vieta l'ostinazione. La legge 38 art. 7 obbliga la rilevazione del dolore in cartella.",
+      "legalCriteria": [
+        "Parlare col fiduciario, non solo col figlio.",
+        "Annotare dolore, farmaci, dosaggi e risultato."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "potassio",
+      "name": "Potassio",
+      "finding": "Non a livelli descritti come pericolo di vita. Nessun numero inventato.",
+      "isAbnormal": false,
+      "isFatal": false
+    },
+    {
+      "examId": "emogas",
+      "name": "Emogasanalisi",
+      "finding": "Nessuna acidosi descritta come pericolo di vita. Nessun pH inventato.",
+      "isAbnormal": false,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "biopsia-renale",
+      "name": "Biopsia renale",
+      "finding": "Non cambia la decisione: le DAT rifiutano la dialisi e l'emergenza dialitica non c'è.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Accertamento invasivo sproporzionato rispetto a prognosi breve e DAT."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 98,
+      "bloodPressure": "108/64",
+      "spo2": 95,
+      "temperature": 36.8,
+      "respiratoryRate": 20
+    },
+    "demographics": {
+      "age": 79,
+      "sex": "M",
+      "context": "Reparto"
+    },
+    "advancedExams": {
+      "values": {
+        "potassio": {
+          "finding": "Non a livelli descritti come pericolo di vita. Nessun numero inventato.",
+          "isAbnormal": false
+        },
+        "emogas": {
+          "finding": "Nessuna acidosi descritta come pericolo di vita. Nessun pH inventato.",
+          "isAbnormal": false
+        },
+        "biopsia-renale": {
+          "finding": "Non cambia la decisione: le DAT rifiutano la dialisi e l'emergenza dialitica non c'è.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Terapia del dolore",
+          "anyOf": [
+            {
+              "id": "analgesia",
+              "label": "Analgesia annotata",
+              "aliases": [
+                "analgesia",
+                "morfina",
+                "dolore"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "dialisi",
+          "label": "Dialisi contro le DAT",
+          "aliases": [
+            "dialisi",
+            "rrt",
+            "emodialisi"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Niente dialisi.",
+        "DAT rispettate col fiduciario.",
+        "Dolore trattato e scritto."
+      ],
+      "penalties": [
+        {
+          "id": "dialisi",
+          "kind": "clinical",
+          "trigger": "Dialisi di prova contro le DAT, senza pericolo di vita."
+        }
+      ],
+      "citationLimits": [
+        "Non si inventa una soglia di potassio in mEq/L: il caso dice solo che non è un pericolo di vita."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Non può parlare. Il fiduciario riferisce la sua volontà: niente dialisi, sì al controllo del dolore. Il tono con la famiglia è fermo e non giudicante."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "C'è l'emergenza dialitica?",
+      "prompt": "Creatinina in salita. Potassio, acidosi ed edema polmonare non sono un pericolo di vita. Si dializza per il numero?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "No. L'emergenza è il pericolo di vita idroelettrolitico o acido-base. Una sola soglia di creatinina non decide",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Inizi la dialisi perché la creatinina «è troppo alta»",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Dialisi su un solo numero",
+      "prompt": "KDIGO 5.1.1: RRT in emergenza per pericolo di vita da squilibrio idroelettrolitico o acido-base. 5.1.2: contesto e trend, non un singolo valore di BUN o creatinina. Una seduta non indicata è un trattamento costoso e non scritto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Chi rappresenta Giovanni",
+      "prompt": "Il figlio chiede la dialisi. Il fiduciario legge le DAT, che la rifiutano. A chi dai retta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Alle DAT e al fiduciario. Il figlio non le revoca",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Dializzi perché il figlio insiste ed è un familiare",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "DAT scavalcate dal figlio",
+      "prompt": "Legge 219, art. 4: le DAT esprimono consenso o rifiuto, e il fiduciario rappresenta la persona. Il comma 5: il medico è tenuto al rispetto delle DAT. Un familiare non fiduciario non le sostituisce.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sono incongrue?",
+      "prompt": "Puoi disattendere le DAT. Qui la dialisi non è l'atto che manca per un pericolo immediato. Il fiduciario è d'accordo con le DAT.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non le disattendi. Non sono palesemente incongrue né estranee al quadro attuale, e non c'è accordo col fiduciario per scavalcarle",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Le dichiari incongrue da solo e dializzi",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "DAT disattese senza i presupposti",
+      "prompt": "Art. 4 comma 5: le DAT si disattendono, in tutto o in parte, in accordo con il fiduciario, solo se palesemente incongrue o non corrispondenti alla condizione attuale, oppure se esistono terapie non prevedibili capaci di un miglioramento concreto. Qui il fiduciario conferma il rifiuto e l'urgenza KDIGO non c'è.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ostinazione",
+      "prompt": "La prognosi oncologica è infausta a breve. Che limite mette l'art. 2?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Ti astieni dall'ostinazione e dai trattamenti inutili o sproporzionati. La dialisi, in questo quadro, lo sarebbe",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Imposti un ciclo dialitico quotidiano «finché il cuore regge»",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Accanimento",
+      "prompt": "Legge 219, art. 2 comma 2: con prognosi infausta a breve o imminenza di morte, il medico si astiene dall'ostinazione irragionevole e dai trattamenti inutili o sproporzionati.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dolore",
+      "prompt": "Il rifiuto della dialisi che cosa non sospende?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "La terapia del dolore. La annoti in cartella: caratteristiche, evoluzione, tecnica, farmaci, dosaggi, risultato",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Non dai analgesici, perché «tanto ha rifiutato le cure»",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dolore negato",
+      "prompt": "Legge 219, art. 2 comma 1: anche se il consenso a un trattamento è rifiutato, si adoperano mezzi appropriati per alleviare le sofferenze ed è sempre garantita la terapia del dolore, con le cure palliative della legge 38. Art. 7 della legge 38: il dolore si scrive in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Sedazione",
+      "prompt": "Il dolore diventa refrattario. La sedazione palliativa profonda che condizione ha?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Si può proporre, con il consenso, e la scelta si motiva e si annota. Non la inizi di nascosto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "La inizi senza annotarla e senza il consenso previsto",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Sedazione non annotata",
+      "prompt": "Art. 2 comma 2 e 3: nella sofferenza refrattaria il medico può ricorrere alla sedazione palliativa profonda continua insieme alla terapia del dolore, con il consenso del paziente. Il ricorso o il rifiuto si motivano e si annotano in cartella e nel fascicolo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "SDO",
+      "prompt": "Non hai dializzato. Alla dimissione o al decesso, che codifica eviti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non codifichi sedute di dialisi non eseguite",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Inserisci in SDO un ciclo dialitico che non c'è stato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dialisi fantasma in SDO",
+      "prompt": "Il decreto 28 ottobre 2020 richiama la codifica delle informazioni cliniche della SDO con la ICD-9-CM 2007. Una procedura non eseguita non è un dato di questo ricovero.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "DAT rispettate, dolore trattato",
+      "prompt": "Niente RRT: manca il pericolo di vita e le DAT rifiutano la dialisi in modo coerente con questo quadro. Il fiduciario è l'interlocutore. Cure sproporzionate evitate. Dolore annotato e trattato.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

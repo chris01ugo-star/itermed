@@ -1,0 +1,472 @@
+{
+  "id": "INTMED-024",
+  "code": "INTMED-024",
+  "title": "Uomo di 81 anni con polmonite al settimo giorno di ricovero",
+  "description": "Antonio, 81 anni, ricoverato da sette giorni per un altro motivo, sviluppa febbre, tosse e un infiltrato nuovo. Non è in ventilazione. DRIP score sotto 4. Nessun fattore specifico per MRSA: niente dialisi, niente influenza recente, niente MRSA precedente. Nessuna allergia alle betalattamine. Tampone influenzale negativo. Parametri: PA 110/68 mmHg, FC 104 bpm, FR 24 atti/min, SpO2 93% in aria, temperatura 38.4°C. Ha dolore toracico.",
+  "difficulty": "MEDIUM",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "pneumologia",
+    "malattie_infettive"
+  ],
+  "condition": "Polmonite ospedaliera oltre il quinto giorno, non da ventilatore: schema del punto 4 senza macrolide",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "PGSGQ129-Diagnosi-e-trattamento-polmoniti.pdf",
+  "diagnosis": "HAP non da ventilatore, oltre 5 giorni: schema del punto 4 senza macrolide. Il punto 4 è piperacillina-tazobactam 4,5 g per 3-4 volte, in infusione di 3-4 ore, oppure ceftazidime o cefepime, senza aggiungere il macrolide. La levofloxacina del ricoverato per CAP è solo se c'è allergia a tutte le betalattamine. Vancomicina o linezolid solo con i fattori MRSA, che non ci sono. Oseltamivir no: il tampone è negativo.",
+  "pastMedicalHistory": "Ricovero in corso dal giorno 7. Non ventilato. DRIP inferiore a 4. Nessun fattore MRSA. Nessuna allergia alle betalattamine. Influenza esclusa.",
+  "presentation": "Polmonite che compare in ospedale dopo 5 giorni. Il protocollo distingue la CAP e, per la HAP, toglie il macrolide. Oltre 5 giorni rimanda al punto 4 senza macrolide.",
+  "redHerrings": [
+    "Un collega propone la stessa amoxicillina orale della CAP dimessa dal DEA, più azitromicina."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Antonio, ho 81 anni. Ero qui per un altro motivo e adesso ho la febbre e mi fa male il petto quando tossisco. Ditemi che medicina cambia e perché non è la stessa di chi sta a casa.",
+  "correctSolution": "HAP oltre 5 giorni, non da ventilatore: come il punto 4 senza macrolide, quindi piperacillina-tazobactam 4,5 g per 3-4 volte al giorno in infusione prolungata di 3-4 ore, oppure ceftazidime 2 g per 3 o cefepime 2 g per 2-3, senza azitromicina o claritromicina. Non amoxicillina orale da CAP. Non levofloxacina: non è allergico a tutte le betalattamine. Non vancomicina: mancano i fattori MRSA. Non oseltamivir: tampone negativo. Consenso. Dolore toracico in cartella. Alla fine non codificare un'influenza o una ventilazione che non ci sono.",
+  "goldStandardPath": [
+    "rx-torace",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Riconosci la HAP oltre il quinto giorno. Togli il macrolide dallo schema del punto 4. Non usi lo schema orale della CAP, non copri lo MRSA e non dai oseltamivir.",
+  "examLatencies": {
+    "rx-torace": 30,
+    "emocromo": 20,
+    "broncoscopia": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "giorni",
+      "prompt": "Da quanti giorni è in ospedale quando è comparsa la febbre?",
+      "critical": true,
+      "expectedKeywords": [
+        "giorni",
+        "ospedale",
+        "febbre"
+      ],
+      "rationale": "Il taglio dei 5 giorni sceglie il punto 4."
+    },
+    {
+      "id": "mrsa",
+      "prompt": "Ha fatto dialisi, ha avuto l'influenza o un MRSA in passato?",
+      "critical": true,
+      "expectedKeywords": [
+        "dialisi",
+        "influenza",
+        "mrsa"
+      ],
+      "rationale": "Sono i fattori per cui il protocollo inizia linezolid o vancomicina."
+    },
+    {
+      "id": "dolore",
+      "prompt": "Il dolore al petto quanto è forte?",
+      "critical": false,
+      "expectedKeywords": [
+        "dolore",
+        "petto",
+        "forte"
+      ],
+      "rationale": "Va annotato in cartella."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Febbrile, tosse, dolore toracico alla tosse. Non in ventilazione. Lucido. Accesso venoso già presente."
+  },
+  "escCitations": [
+    {
+      "chunkId": "hap-5",
+      "source": "knowledge_base/medicina_interna/clinical/PGSGQ129-Diagnosi-e-trattamento-polmoniti.pdf",
+      "quote": "Oltre 5 giorni dall'arrivo in ospedale: come punto 4 senza macrolide"
+    },
+    {
+      "chunkId": "hap-p4",
+      "source": "knowledge_base/medicina_interna/clinical/PGSGQ129-Diagnosi-e-trattamento-polmoniti.pdf",
+      "quote": "Paziente ricoverato in ospedale con fattori di rischio per germi MDR (DRIP score ≥ 4): piperacillina-tazobactam 4,5 x 3-4 in infusione di prolungata di 3-4 ore + azitromicina 500 mg"
+    },
+    {
+      "chunkId": "hap-levo",
+      "source": "knowledge_base/medicina_interna/clinical/PGSGQ129-Diagnosi-e-trattamento-polmoniti.pdf",
+      "quote": "levofloxacina 500-1000 mg ev/os solo in caso di allergia a tutte le betalattamine"
+    },
+    {
+      "chunkId": "hap-mrsa",
+      "source": "knowledge_base/medicina_interna/clinical/PGSGQ129-Diagnosi-e-trattamento-polmoniti.pdf",
+      "quote": "se fattori di rischio specifici per MRSA (emodialisi, recente influenza, pregresso isolamento di MRSA) indicato eseguire tampone nasale per MRSA e iniziare terapia con linezolid 600 mg x 2 o vancomicina 15mg/kg ogni 12 ore"
+    },
+    {
+      "chunkId": "l38-dolore",
+      "source": "knowledge_base/medicina_interna/legal/LEGGE n. 38 del 15 marzo 2010.pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "HAP oltre 5 giorni: schema del punto 4 senza macrolide.",
+      "Niente vancomicina senza i fattori MRSA e niente levofloxacina senza allergia a tutte le betalattamine."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il protocollo PGSGQ129 fissa molecole e durate di infusione. La legge 219 chiede il consenso al cambio di antibiotico. La legge 38 chiede il dolore in cartella.",
+      "legalCriteria": [
+        "Non riusare l'amoxicillina orale della CAP dimessa dal DEA.",
+        "Sospendere l'anti-MRSA se il tampone nasale è negativo: qui i fattori per iniziarlo non ci sono."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "rx-torace",
+      "name": "Radiografia del torace",
+      "finding": "Infiltrato nuovo comparso in ospedale.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Leucocitosi. Nessun valore assoluto inventato.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "broncoscopia",
+      "name": "Broncoscopia immediata",
+      "finding": "Non è nel protocollo di questa HAP non ventilata, prima dello schema antibiotico.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Il protocollo sceglie l'antibiotico in base ai giorni e ai fattori di rischio, non alla broncoscopia come primo atto."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 104,
+      "bloodPressure": "110/68",
+      "spo2": 93,
+      "temperature": 38.4,
+      "respiratoryRate": 24
+    },
+    "demographics": {
+      "age": 81,
+      "sex": "M",
+      "context": "Reparto"
+    },
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "Infiltrato nuovo comparso in ospedale.",
+          "isAbnormal": true
+        },
+        "emocromo": {
+          "finding": "Leucocitosi. Nessun valore assoluto inventato.",
+          "isAbnormal": true
+        },
+        "broncoscopia": {
+          "finding": "Non è nel protocollo di questa HAP non ventilata, prima dello schema antibiotico.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Piperacillina-tazobactam senza macrolide",
+          "anyOf": [
+            {
+              "id": "pip",
+              "label": "Piperacillina-tazobactam",
+              "aliases": [
+                "piperacillina",
+                "tazobactam"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "macro",
+          "label": "Macrolide aggiunto",
+          "aliases": [
+            "azitromicina",
+            "claritromicina"
+          ]
+        },
+        {
+          "id": "vanco",
+          "label": "Vancomicina senza fattori MRSA",
+          "aliases": [
+            "vancomicina",
+            "linezolid"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Punto 4 senza macrolide.",
+        "Niente MRSA cover e niente oseltamivir.",
+        "Consenso e dolore annotati."
+      ],
+      "penalties": [
+        {
+          "id": "cap-orale",
+          "kind": "clinical",
+          "trigger": "Schema orale della CAP in una HAP oltre il quinto giorno."
+        }
+      ],
+      "citationLimits": [
+        "Le dosi sono solo quelle del protocollo: piperacillina-tazobactam 4,5 g per 3-4 volte in infusione di 3-4 ore. Non si aggiungono altre."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Si affida. Va informato che l'antibiotico cambia perché la polmonite è nata in ospedale, e va chiesto il consenso. Il dolore al petto va nominato."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "CAP o HAP",
+      "prompt": "Febbre e infiltrato nuovo al settimo giorno di ricovero. Non è ventilato. Come la classifichi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Polmonite acquisita in ospedale, non associata al ventilatore, oltre i 5 giorni",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La tratti come la CAP di chi torna a casa dal DEA, con amoxicillina orale",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Schema della CAP domiciliare",
+      "prompt": "PGSGQ129 separa la CAP dimessa dal DEA, che usa amoxicillina, dalla HAP. Oltre 5 giorni dall'arrivo: come il punto 4 senza macrolide. L'amoxicillina orale non è quello schema.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Senza macrolide",
+      "prompt": "Quale molecola e che ne è di azitromicina?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Piperacillina-tazobactam 4,5 g per 3-4 volte, infusione di 3-4 ore, oppure ceftazidime o cefepime, senza macrolide",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Aggiungi azitromicina 500 mg come nella CAP ricoverata",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Macrolide non previsto nella HAP",
+      "prompt": "Il protocollo: oltre 5 giorni, come il punto 4 senza macrolide. Il punto 4 aggiunge azitromicina nella CAP con rischio MDR; per la HAP quel macrolide si toglie.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Levofloxacina",
+      "prompt": "Non è allergico alle betalattamine. Un collega vuole solo levofloxacina.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No. Nel ricoverato la levofloxacina 500-1000 mg è scritta solo se c'è allergia a tutte le betalattamine",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Sostituisci lo schema con levofloxacina",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Fluorochinolone senza allergia",
+      "prompt": "PGSGQ129, paziente ricoverato: levofloxacina 500-1000 mg solo in caso di allergia a tutte le betalattamine. L'allergia non c'è.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "MRSA e influenza",
+      "prompt": "Niente dialisi, niente influenza recente, niente MRSA precedente. Tampone influenzale negativo.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non inizi linezolid né vancomicina. Non dai oseltamivir",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Vancomicina 15 mg/kg e oseltamivir «per copertura»",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Coperture non indicate",
+      "prompt": "Anti-MRSA, linezolid 600 mg per 2 o vancomicina 15 mg/kg ogni 12 ore, solo con emodialisi, influenza recente o pregresso MRSA, e si sospende se il tampone nasale è negativo. Oseltamivir 75 mg per 2 per 5 giorni è legato al tampone influenzale positivo. Qui entrambi i presupposti mancano.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso al cambio",
+      "prompt": "Antonio è lucido. L'antibiotico di prima, per l'altro motivo del ricovero, cambia.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Gli spieghi perché lo schema è quello ospedaliero e annoti il consenso",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Cambi la flebo senza dirglielo",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Antibiotico cambiato senza consenso",
+      "prompt": "Legge 219, art. 1: un trattamento non si inizia o non si prosegue senza consenso informato, fuori dai casi di legge. Lui è lucido.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore toracico",
+      "prompt": "Gli fa male il petto quando tossisce. Che annoti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato, in cartella medica e infermieristica",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Non lo scrivi",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "Legge 38/2010, art. 7: quei dati vanno in cartella per tutto il ricovero.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "SDO",
+      "prompt": "Non è stato ventilato e l'influenza è negativa. Che cosa non codifichi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non codifichi una ventilazione meccanica né un'influenza che non ci sono state",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Codifichi ventilazione e influenza per alzare la complessità della scheda",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Codici di atti non avvenuti",
+      "prompt": "Il decreto 28 ottobre 2020 richiama la codifica della SDO con la ICD-9-CM 2007 sulle informazioni cliniche realmente contenute nel ricovero. Ventilazione e influenza non avvenute non si codificano.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "HAP oltre cinque giorni, senza macrolide",
+      "prompt": "Schema del punto 4 senza macrolide: piperacillina-tazobactam 4,5 g per 3-4 volte in infusione di 3-4 ore, oppure ceftazidime o cefepime, senza azitromicina. Niente levofloxacina, niente anti-MRSA, niente oseltamivir. Consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

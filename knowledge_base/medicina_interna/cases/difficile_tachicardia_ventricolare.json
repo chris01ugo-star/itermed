@@ -1,0 +1,467 @@
+{
+  "id": "INTMED-025",
+  "code": "INTMED-025",
+  "title": "Uomo di 63 anni con tachicardia ventricolare tollerata e infarto pregresso",
+  "description": "Matteo, 63 anni, in pronto soccorso ha una tachicardia regolare a QRS largo da 40 minuti, emodinamicamente tollerata. È lucido, digiuno, vie aeree facili, anestesista disponibile: il rischio di sedazione è basso. Infarto pregresso, non un infarto acuto. Non ha scompenso grave né uremia terminale. Parametri: PA 128/78 mmHg, FC 160 bpm, FR 18 atti/min, SpO2 97% in aria, temperatura 36.6°C.",
+  "difficulty": "HARD",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "cardiologia"
+  ],
+  "condition": "Tachicardia ventricolare emodinamicamente tollerata, in cardiopatia significativa",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "1c4f7a7508.pdf (ESC 2022 aritmie ventricolari)",
+  "diagnosis": "Tachicardia ventricolare sostenuta tollerata, con infarto pregresso. Se il rischio di anestesia o sedazione è basso, la cardioversione è la prima linea. La procainamide si può considerare nella cardiopatia, ma non nello scompenso grave, nell'infarto acuto e nell'uremia terminale. Flecainide, ajmalina e sotalolo solo senza cardiopatia significativa.",
+  "pastMedicalHistory": "Infarto pregresso, non scompenso grave. Nessun infarto acuto in corso. Nessuna dialisi. Nessun ICD già impiantato. Lucido, digiuno, rischio di sedazione basso.",
+  "presentation": "QRS largo regolare, tollerato, cardiopatia già nota. ESC 2022: cardioversione di prima linea nella TV sostenuta tollerata se il rischio di anestesia o sedazione è basso. La flecainide non è per chi ha una cardiopatia significativa. Il 2 mg/kg del PDF è la dose del test per la sindrome di Brugada, non la cura di questa tachicardia.",
+  "redHerrings": [
+    "In borsa ha una vecchia ricetta di flecainide prescritta anni fa per extrasistoli, prima dell'infarto."
+  ],
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Matteo, ho 63 anni. Il cuore corre forte ma sono sveglio e la pressione regge. Ho avuto un infarto anni fa. Non datemi una medicina vecchia senza dirmi che cos'è. Se serve la scossa, spiegatemela prima.",
+  "correctSolution": "Cardioversione elettrica come prima linea, perché la TV sostenuta è tollerata e il rischio di anestesia o sedazione è basso. Consenso: è lucido e stabile. Non flecainide, ajmalina o sotalolo: si considerano solo in assenza di cardiopatia significativa, e lui ha un infarto pregresso. Non i 2 mg/kg in 10 minuti: nel PDF sono la dose del test con flecainide, come per l'ajmalina, non lo schema per spegnere questa TV. La procainamide endovena si può considerare nella TV tollerata con cardiopatia nota o sospetta, ma non nello scompenso grave, nell'infarto acuto e nell'uremia terminale, e spesso non è disponibile in Europa: non sostituisce la cardioversione quando il rischio di sedazione è basso. Il brano non indica i joule. Niente ICD prima di terminare la tachicardia. Niente dose di diuretico presa da una guida sullo scompenso che in cartella non c'è.",
+  "goldStandardPath": [
+    "ecg",
+    "troponina"
+  ],
+  "goldPathNarrative": "ECG e esclusione dell'infarto acuto. Cardioversione perché il rischio di sedazione è basso, dopo il consenso. Niente flecainide. La procainamide non prende il posto della scossa e resta vietata se comparissero scompenso grave, infarto acuto o uremia terminale.",
+  "examLatencies": {
+    "ecg": 5,
+    "troponina": 40,
+    "studio-elettrofisiologico": 240
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "pressione",
+      "prompt": "Si sente svenire o la pressione è stabile e resta lucido?",
+      "critical": true,
+      "expectedKeywords": [
+        "svenire",
+        "lucido",
+        "pressione"
+      ],
+      "rationale": "La tolleranza emodinamica sceglie il farmaco rispetto all'urgenza della scossa."
+    },
+    {
+      "id": "infarto",
+      "prompt": "L'infarto è di anni fa o ha dolore da infarto adesso?",
+      "critical": true,
+      "expectedKeywords": [
+        "infarto",
+        "anni",
+        "dolore"
+      ],
+      "rationale": "L'infarto acuto vieta la procainamide; quello pregresso è comunque cardiopatia significativa per la flecainide."
+    },
+    {
+      "id": "flecainide",
+      "prompt": "La flecainide in borsa da quando la prende e chi gliel'ha data?",
+      "critical": false,
+      "expectedKeywords": [
+        "flecainide",
+        "anni",
+        "extrasistoli"
+      ],
+      "rationale": "Una ricetta vecchia non autorizza il farmaco dopo l'infarto."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucido, perfuso, non dispnoico, non in edema polmonare. Tachicardia. Nessun dolore toracico ischemico in atto. Cicatrice di infarto solo anamnestica."
+  },
+  "escCitations": [
+    {
+      "chunkId": "esc-cv",
+      "source": "knowledge_base/medicina_interna/clinical/1c4f7a7508.pdf",
+      "quote": "DC cardioversion is recommended as the first-line treatment for patients presenting with tolerated SMVT provided that the anaesthetic/sedation risk is low."
+    },
+    {
+      "chunkId": "esc-procainamide",
+      "source": "knowledge_base/medicina_interna/clinical/1c4f7a7508.pdf",
+      "quote": "Intravenous procainamide should not be used in patients with severe heart failure, acute MI, and end-stage renal disease."
+    },
+    {
+      "chunkId": "esc-shd",
+      "source": "knowledge_base/medicina_interna/clinical/1c4f7a7508.pdf",
+      "quote": "In patients presenting with a haemodynamically tolerated SMVT and known or suspected SHD, intravenous procainamide should be considered."
+    },
+    {
+      "chunkId": "esc-flecainide",
+      "source": "knowledge_base/medicina_interna/clinical/1c4f7a7508.pdf",
+      "quote": "In patients presenting with a haemodynamically tolerated SMVT in the absence of significant SHD, flecainide, ajmaline, or sotalol may be considered."
+    },
+    {
+      "chunkId": "esc-test",
+      "source": "knowledge_base/medicina_interna/clinical/1c4f7a7508.pdf",
+      "quote": "Flecainide Same as ajmaline. 2 mg/kg over 10 min"
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Cardioversione di prima linea nella TV sostenuta tollerata, perché il rischio di sedazione è basso.",
+      "Niente flecainide dopo un infarto: il testo la riserva a chi non ha cardiopatia significativa."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il PDF 1c4f7a7508 è la guida ESC 2022 sulle aritmie ventricolari e la morte improvvisa, non la guida sullo scompenso. La legge 219 chiede il consenso perché è lucido e stabile.",
+      "legalCriteria": [
+        "Distinguere la cardioversione di prima linea dalla flecainide.",
+        "Non usare i 2 mg/kg del test di Brugada come cura, e non inventare i joule."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "Elettrocardiogramma",
+      "finding": "Tachicardia regolare a QRS largo. Nessun sopraslivellamento di infarto acuto descritto.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "troponina",
+      "name": "Troponina",
+      "finding": "Non un rialzo da infarto acuto. Serve a non scambiare il quadro con uno STEMI in corso.",
+      "isAbnormal": false,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "studio-elettrofisiologico",
+      "name": "Studio elettrofisiologico immediato",
+      "finding": "Non termina la tachicardia in pronto soccorso.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "La guida indica cardioversione, farmaci o pacing per terminare. Lo studio non è il primo atto di questi minuti."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 160,
+      "bloodPressure": "128/78",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 18
+    },
+    "demographics": {
+      "age": 63,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "Tachicardia regolare a QRS largo. Nessun sopraslivellamento di infarto acuto descritto.",
+          "isAbnormal": true
+        },
+        "troponina": {
+          "finding": "Non un rialzo da infarto acuto. Serve a non scambiare il quadro con uno STEMI in corso.",
+          "isAbnormal": false
+        },
+        "studio-elettrofisiologico": {
+          "finding": "Non termina la tachicardia in pronto soccorso.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Cardioversione elettrica",
+          "anyOf": [
+            {
+              "id": "cardioversione",
+              "label": "Cardioversione sincronizzata",
+              "aliases": [
+                "cardioversione",
+                "scossa"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "flecainide",
+          "label": "Flecainide in cardiopatia significativa",
+          "aliases": [
+            "flecainide"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Cardioversione perché il rischio di sedazione è basso.",
+        "Consenso.",
+        "Niente flecainide e niente dose del test."
+      ],
+      "penalties": [
+        {
+          "id": "flecainide",
+          "kind": "clinical",
+          "trigger": "Flecainide dopo un infarto, o 2 mg/kg del test usati come cura."
+        }
+      ],
+      "citationLimits": [
+        "Il brano non indica i joule della cardioversione. Non si inventano. I 2 mg/kg sono la dose del test, non della TV."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole decidere sulla scossa. Si fida se gli si dice perché la flecainide in borsa non si usa dopo l'infarto e se la scelta gli viene spiegata prima."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "È una TV tollerata",
+      "prompt": "QRS largo regolare, PA 128/78, lucido, infarto di anni fa, nessun dolore da infarto acuto. Come la inquadri?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Tachicardia ventricolare sostenuta tollerata, in cardiopatia già nota. Escludi l'infarto acuto con ECG e troponina, poi termini la tachicardia",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La tratti come un'extrasistole e lo rimandi a casa con la flecainide della vecchia ricetta",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TV scambiata per un disturbo minore",
+      "prompt": "È una tachicardia sostenuta tollerata, non un'extrasistole. Rimandarlo senza terminarla e senza informarlo contraddice la raccomandazione di prima linea e l'art. 1 della legge 219.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima linea",
+      "prompt": "Il rischio di anestesia e sedazione è basso: è digiuno, le vie aeree sono facili, l'anestesista è disponibile. Qual è la prima linea scritta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "La cardioversione elettrica. Il brano non indica i joule: non li inventi",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Flecainide, perché è in borsa e «è un antiaritmico»",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Flecainide al posto della prima linea",
+      "prompt": "ESC 2022: la cardioversione è raccomandata come prima linea nella TV sostenuta tollerata se il rischio di anestesia o sedazione è basso. Flecainide, ajmalina o sotalolo si possono considerare solo in assenza di cardiopatia significativa. L'infarto pregresso è cardiopatia significativa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Procainamide",
+      "prompt": "Un collega vuole la procainamide al posto della scossa. In ospedale la fiala spesso non c'è. Scompenso grave, infarto acuto e uremia terminale non ci sono.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non la sostituisci alla cardioversione: con rischio di sedazione basso la prima linea resta la scossa. La procainamide si può considerare nella TV tollerata con cardiopatia nota, ma non nello scompenso grave, nell'infarto acuto e nell'uremia terminale, e in molti Paesi europei non è disponibile",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Aspetti la fiala e, se l'ECG diventasse un infarto acuto, la useresti lo stesso",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Procainamide fuori dai limiti del testo",
+      "prompt": "Nella TV tollerata con cardiopatia nota o sospetta la procainamide endovena si può considerare, ma non va usata nello scompenso grave, nell'infarto acuto e nella malattia renale terminale. Con rischio di sedazione basso non prende il posto della cardioversione di prima linea.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso alla scossa",
+      "prompt": "È lucido e chiede di capire prima della sedazione.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Gli spieghi che la cardioversione è la prima linea e annoti il consenso",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Lo sedi e cardioverti senza una parola",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Cardioversione senza consenso",
+      "prompt": "Legge 219, art. 1: niente trattamento senza consenso quando la volontà si può recepire. È lucido e stabile. Il comma 7 non cancella il consenso in un paziente che può esprimerlo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "I 2 mg/kg",
+      "prompt": "Nel PDF, accanto alla flecainide, c'è scritto 2 mg/kg in 10 minuti. Li usi per spegnere questa TV?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "No. È la dose del test, sulla stessa riga dell'ajmalina, per la ricerca della sindrome di Brugada. Non è lo schema di questa tachicardia",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Gli infondi flecainide 2 mg/kg in 10 minuti per interrompere la TV",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose di un test usata come cura",
+      "prompt": "Nella tabella dei test la flecainide è «come l'ajmalina», 2 mg/kg in 10 minuti, dose massima 150 mg, in chi ha familiarità per Brugada o morte improvvisa. Non è la terminazione di una TV in un cuore già infartuato, e la flecainide della TV tollerata è prevista solo senza cardiopatia significativa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "ICD non come primo atto",
+      "prompt": "La tachicardia non è ancora terminata. Un collega vuole l'impianto di un defibrillatore in questa stessa ora.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Prima la terminazione. L'impianto non è il passo di questi minuti e il brano sulla TV acuta tollerata non lo mette come prima linea",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo porti in sala per l'ICD prima della cardioversione",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "ICD al posto della cardioversione",
+      "prompt": "La raccomandazione di questi minuti è la cardioversione, se il rischio di sedazione è basso. Anticipare l'impianto non termina la tachicardia ed è un intervento non deciso da questo passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Guida che non c'è",
+      "prompt": "Vuoi aggiungere una dose di diuretico «dalla guida ESC sullo scompenso». Lui non è in scompenso grave.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non lo fai. Il PDF ESC in cartella è la guida 2022 sulle aritmie ventricolari e la morte improvvisa. La guida sullo scompenso non c'è e il brano non dà una dose di diuretico",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Scrivi una posologia di furosemide presa da una guida assente",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dose da una guida assente",
+      "prompt": "Il file 1c4f7a7508 è la guida ESC 2022 sulle aritmie ventricolari. Non contiene una posologia dello scompenso. Attribuirgli una dose di furosemide non è un'informazione veritiera, e l'art. 1 della legge 219 chiede un'informazione aderente.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Cardioversione, non la flecainide",
+      "prompt": "TV sostenuta tollerata e rischio di sedazione basso: cardioversione di prima linea, con consenso. Niente flecainide, ajmalina o sotalolo: ha un infarto pregresso. I 2 mg/kg sono il test, non la cura. La procainamide non sostituisce la scossa e resta vietata in scompenso grave, infarto acuto e uremia terminale. Nessun joule inventato. Niente ICD come primo atto.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

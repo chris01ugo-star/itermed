@@ -1,0 +1,461 @@
+{
+  "id": "INTMED-005",
+  "code": "INTMED-005",
+  "title": "Ragazza di 24 anni con asma e il solo salbutamolo",
+  "description": "Sara, 24 anni, in ambulatorio è ansiosa. Ha asma noto, sintomi due o tre volte a settimana, e usa solo salbutamolo al bisogno. Nell'ultimo anno ha ritirato quattro bombolette. Non è in riacutizzazione oggi. Parametri: PA 118/72 mmHg, FC 82 bpm, FR 14 atti/min, SpO2 98% in aria, temperatura 36.4°C.",
+  "difficulty": "EASY",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "pneumologia"
+  ],
+  "condition": "Asma lieve trattata con solo SABA",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "GINA_pocket_ita_2020.pdf",
+  "diagnosis": "Asma che richiede un trattamento di controllo con corticosteroide inalatorio. GINA non consiglia più di iniziare con i soli SABA. Quattro bombolette in un anno sono un abuso associato a riacutizzazioni gravi.",
+  "pastMedicalHistory": "Asma. Nessun ricovero. Nessuna terapia con ICS. Riferisce bruciore di stomaco solo se ne parla il medico; oggi non ha sintomi da reflusso.",
+  "presentation": "Sintomi non quotidiani, sollievo breve col salbutamolo, nessuna fase acuta in questo momento. Il problema è la terapia di fondo, non l'ossigeno.",
+  "redHerrings": [
+    "Ha letto che un inibitore di pompa «cura l'asma» anche senza bruciore."
+  ],
+  "timeLimitMinutes": 20,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Sara, ho 24 anni. Quando mi manca il fiato prendo la bomboletta blu e mi passa. Quest'anno ne ho finite diverse. Ho paura che sia grave. Spiegatemi se la bomboletta da sola basta.",
+  "correctSolution": "GINA: per sicurezza non si inizia più con i soli SABA. Tutti gli adulti e gli adolescenti con asma ricevono un controllo che contenga ICS. Nell'asma lieve: bassa dose di ICS-formoterolo al bisogno (evidenze con budesonide-formoterolo) oppure ICS ogni volta che si usa un SABA, oppure ICS regolare più SABA al bisogno. L'abuso di SABA, per esempio almeno 3 bombolette in un anno, aumenta le riacutizzazioni gravi. Non si tratta un reflusso asintomatico per controllare l'asma. Si consegna un piano scritto. Consenso sul nuovo inalatore. Nessuna dose in microgrammi è fissata da questo caso oltre a quanto GINA non quantifica nel pocket per lo step 1.",
+  "goldStandardPath": [
+    "spirometria",
+    "peak-flow"
+  ],
+  "goldPathNarrative": "Togli il solo SABA. Introduci un ICS, in forma di ICS-formoterolo al bisogno se disponibile. Non aggiungere un IPP senza sintomi. Consegna il piano scritto e annota il consenso.",
+  "examLatencies": {
+    "spirometria": 30,
+    "peak-flow": 10,
+    "ph-metria": 180
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "bombolette",
+      "prompt": "Quante bombolette di salbutamolo ha ritirato nell'ultimo anno?",
+      "critical": true,
+      "expectedKeywords": [
+        "bombolette",
+        "salbutamolo",
+        "anno"
+      ],
+      "rationale": "Almeno 3 bombolette in un anno sono abuso di SABA per GINA."
+    },
+    {
+      "id": "notte",
+      "prompt": "Si sveglia di notte per il fiato e quanto spesso ha sintomi di giorno?",
+      "critical": true,
+      "expectedKeywords": [
+        "notte",
+        "sintomi",
+        "settimana"
+      ],
+      "rationale": "Frequenza dei sintomi e risvegli orientano il controllo."
+    },
+    {
+      "id": "stomaco",
+      "prompt": "Ha bruciore o rigurgito, o le hanno parlato di reflusso senza sintomi?",
+      "critical": false,
+      "expectedKeywords": [
+        "bruciore",
+        "reflusso",
+        "stomaco"
+      ],
+      "rationale": "GINA tratta il reflusso sintomatico, non quello asintomatico."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ansiosa, parla a frasi intere. Torace eupnoico, sibili non presenti a riposo. Saturazione 98%. Nessun uso dei muscoli accessori."
+  },
+  "escCitations": [
+    {
+      "chunkId": "gina-no-saba",
+      "source": "knowledge_base/medicina_interna/clinical/GINA_pocket_ita_2020.pdf",
+      "quote": "Per ragioni di sicurezza, GINA non consiglia più di iniziare il trattamento con soli SABA. GINA raccomanda che tutti gli adulti e gli adolescenti con asma debbano ricevere una terapia di controllo che contenga ICS."
+    },
+    {
+      "chunkId": "gina-abuso",
+      "source": "knowledge_base/medicina_interna/clinical/GINA_pocket_ita_2020.pdf",
+      "quote": "L'abuso di SABA (ad esempio, ≥3 bombolette erogate in un anno) è associato ad un aumentato rischio di gravi riacutizzazioni."
+    },
+    {
+      "chunkId": "gina-mrge",
+      "source": "knowledge_base/medicina_interna/clinical/GINA_pocket_ita_2020.pdf",
+      "quote": "Il reflusso sintomatico dovrebbe essere trattato per i benefici che arreca in termini di salute generale, ma non vi sono benefici nel trattare un reflusso asintomatico nell'asmatico."
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Non lasciare un adulto con asma in solo SABA.",
+      "Non prescrivere un IPP per un reflusso senza sintomi allo scopo di controllare l'asma."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "GINA 2020 è la fonte clinica. La legge 219/2017 richiede il consenso prima di cambiare la terapia inalatoria.",
+      "legalCriteria": [
+        "Informare sul rischio delle bombolette di solo SABA.",
+        "Annotare il consenso al corticosteroide inalatorio."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "spirometria",
+      "name": "Spirometria",
+      "finding": "Ostruzione reversibile compatibile con asma. Nessun numero di FEV1 è fissato.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "peak-flow",
+      "name": "Picco di flusso",
+      "finding": "Valore da usare come riferimento personale. Nessuna percentuale inventata.",
+      "isAbnormal": false,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ph-metria",
+      "name": "pH-metria esofagea",
+      "finding": "Non indicata per un reflusso senza sintomi in questa visita.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "GINA non trova benefici nel trattare il reflusso asintomatico dell'asmatico."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 82,
+      "bloodPressure": "118/72",
+      "spo2": 98,
+      "temperature": 36.4,
+      "respiratoryRate": 14
+    },
+    "demographics": {
+      "age": 24,
+      "sex": "F",
+      "context": "Ambulatorio"
+    },
+    "advancedExams": {
+      "values": {
+        "spirometria": {
+          "finding": "Ostruzione reversibile compatibile con asma. Nessun numero di FEV1 è fissato.",
+          "isAbnormal": true
+        },
+        "peak-flow": {
+          "finding": "Valore da usare come riferimento personale. Nessuna percentuale inventata.",
+          "isAbnormal": false
+        },
+        "ph-metria": {
+          "finding": "Non indicata per un reflusso senza sintomi in questa visita.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Controllo con ICS",
+          "anyOf": [
+            {
+              "id": "ics-form",
+              "label": "ICS-formoterolo o ICS più SABA",
+              "aliases": [
+                "budesonide",
+                "formoterolo",
+                "beclometasone",
+                "cortisone inalatorio",
+                "ics"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "solo-saba",
+          "label": "Solo salbutamolo",
+          "aliases": [
+            "solo salbutamolo",
+            "solo saba"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Un ICS entra in terapia.",
+        "Niente IPP per reflusso asintomatico.",
+        "Piano scritto e consenso."
+      ],
+      "penalties": [
+        {
+          "id": "solo-saba",
+          "kind": "clinical",
+          "trigger": "Prosecuzione del solo SABA."
+        }
+      ],
+      "citationLimits": [
+        "Il pocket non fissa i microgrammi della bassa dose in questo brano. Non si inventano."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Teme che l'asma sia grave. Si calma se le si dice che la bomboletta blu da sola non la protegge e se le si mostra un piano scritto."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Solo SABA",
+      "prompt": "Sara usa soltanto salbutamolo e nell'anno ha ritirato quattro bombolette. Come inquadri la terapia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Il solo SABA non è più l'avvio consigliato: le serve un controllo che contenga un ICS. Quattro bombolette sono già un abuso",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Le rinnovi solo il salbutamolo, perché i sintomi non sono quotidiani",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Rinnovo del solo SABA",
+      "prompt": "GINA 2020: non si consiglia più di iniziare con i soli SABA. Tutti gli adulti e gli adolescenti con asma ricevono un controllo con ICS, per ridurre le riacutizzazioni gravi. L'abuso, per esempio almeno 3 bombolette in un anno, è associato a quelle riacutizzazioni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quale controllo",
+      "prompt": "Quale opzione di controllo è scritta per l'asma lieve?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Bassa dose di ICS-formoterolo al bisogno, con evidenze per budesonide-formoterolo; se non disponibile, ICS ogni volta che assume un SABA; oppure ICS regolare più SABA al bisogno",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Un corticosteroide orale tutti i giorni come terapia di fondo dell'asma lieve",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Cortisone orale di fondo",
+      "prompt": "Per l'asma lieve GINA elenca ICS-formoterolo al bisogno, ICS a ogni SABA, oppure ICS o ICS-LABA regolari più SABA. Il corticosteroide orale quotidiano non è quella terapia di controllo. Il prednisolone 40-50 mg è scritto per la riacutizzazione, non per il fondo di una forma lieve.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Reflusso senza sintomi",
+      "prompt": "Non ha bruciore. Un familiare insiste per l'inibitore di pompa «per l'asma».",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non lo prescrivi per controllare l'asma: GINA non trova benefici nel trattare un reflusso asintomatico",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Aggiungi l'inibitore di pompa anche senza sintomi da reflusso",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "IPP non indicato",
+      "prompt": "GINA: il reflusso sintomatico si tratta per la salute generale, ma non vi sono benefici nel trattare un reflusso asintomatico nell'asmatico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Piano scritto",
+      "prompt": "Che strumento di auto-gestione è raccomandato?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Un piano terapeutico scritto, così riconosce un peggioramento e sa che cosa aumentare",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Le dici di tornare solo se finisce in pronto soccorso",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Nessun piano e nessuna informazione",
+      "prompt": "GINA: ogni paziente dovrebbe avere un piano scritto adeguato al suo controllo. La mancanza del piano è elencata tra i fattori di rischio di morte correlata all'asma. Legge 219, art. 1 comma 3: informazione su diagnosi, benefici, rischi e alternative.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso all'inalatore",
+      "prompt": "Sara è capace e chiede se deve proprio cambiare. Come prescrivi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Le spieghi perché il solo SABA non basta e annoti il consenso al nuovo inalatore",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Le cambi la terapia in ricetta senza dirglielo",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Inalatore senza consenso",
+      "prompt": "Legge 219/2017, art. 1: nessun trattamento si inizia senza consenso libero e informato, fuori dai casi di legge. Qui non c'è urgenza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esami inutili",
+      "prompt": "Vuoi una pH-metria oggi, senza sintomi da reflusso e con la spirometria ancora da leggere.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la chiedi. Ti bastano la spirometria e il picco di flusso come riferimento",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Prenoti la pH-metria come esame di primo livello",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "pH-metria non sostenuta",
+      "prompt": "GINA non indica la pH-metria per iniziare il controllo dell'asma lieve, e sconsiglia di trattare il reflusso asintomatico. L'esame non cambia la decisione sull'ICS.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dose non scritta",
+      "prompt": "Il pocket, in questo brano, non fissa i microgrammi della bassa dose. Che cosa scrivi in ricetta?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Il principio, ICS con o senza formoterolo, senza inventare una dose che il brano non riporta",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Inventi una posologia in microgrammi che questo testo non contiene",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Posologia inventata",
+      "prompt": "Il brano GINA cita la bassa dose e, per le evidenze, budesonide-formoterolo o beclometasone-formoterolo, ma non i microgrammi. Una dose inventata non è informazione veritiera ai sensi dell'art. 1 della legge 219.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Asma con un controllo a base di ICS",
+      "prompt": "Niente solo SABA. ICS-formoterolo al bisogno oppure ICS ogni volta che usa il SABA, o ICS regolare. Niente IPP senza sintomi. Piano scritto e consenso.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

@@ -1,0 +1,459 @@
+{
+  "id": "INTMED-001",
+  "code": "INTMED-001",
+  "title": "Donna di 70 anni con tosse, febbre e saturazione 94%",
+  "description": "Elena, 70 anni, arriva in ambulatorio collaborante. Da quattro giorni ha tosse con espettorato giallastro, febbre 38.2°C e un dolore toracico che aumenta con la tosse. Non è confusa. Parametri: PA 128/76 mmHg, FC 96 bpm, FR 22 atti/min, SpO2 94% in aria, temperatura 38.2°C. Non ha scompenso, neoplasia, epatite cronica né insufficienza renale nota.",
+  "difficulty": "EASY",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "pneumologia"
+  ],
+  "condition": "Polmonite acquisita in comunità, punteggio di severità lieve",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Polmonite_Adulti.pdf; PGSGQ129; Indicazioni operative polmoniti",
+  "diagnosis": "CAP lieve: un solo punto al DS-CRB-65 (età) e CURB-65 non superiore a 1. Terapia orale ambulatoriale, non uno schema da ricovero o da MDR.",
+  "pastMedicalHistory": "Nessuna comorbidità tra quelle elencate nel DS-CRB-65. Nessuna allergia alle betalattamine. Nessun ricovero recente. Il caso non riporta l'urea.",
+  "presentation": "Tosse nuova, febbre sopra 38°C, espettorato purulento e dolore toracico. È stabile: saturazione 94%, frequenza respiratoria 22, pressione non ipotensiva, non confusa. Il documento di polmonite considera il punteggio 0-1 come forma lieve, da trattare in ambulatorio.",
+  "redHerrings": [
+    "Il dolore toracico fa pensare a un'embolia, ma manca un fattore di Wells e la tosse con febbre è il quadro di partenza."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Mi chiamo Elena, ho 70 anni. Tossisco da quattro giorni, ho la febbre e mi fa male il petto quando tossisco. Vorrei capire se posso curarmi a casa. Spiegatemi che cosa prendiamo e perché, senza parole difficili.",
+  "correctSolution": "DS-CRB-65 = 1 (solo l'età): trattamento ambulatoriale. Nelle forme lievi la radiologia e la microbiologia non sono necessarie di routine. Terapia di prima scelta del protocollo ambulatoriale CURB 65 0-1: amoxicillina 1 g ogni 8 ore per 5-7 giorni più claritromicina 500 mg ogni 12 ore per 5-7 giorni, oppure azitromicina 500 mg il primo giorno poi 250 mg al giorno per 4 giorni. Non piperacillina-tazobactam. Consenso prima di iniziare. Il dolore toracico va nominato; se si ricovera, la legge 38 chiede di annotarlo in cartella.",
+  "goldStandardPath": [
+    "emocromo",
+    "pcr"
+  ],
+  "goldPathNarrative": "Inquadri la forma come lieve. Non chiedi una TC come primo esame. Prescrivi amoxicillina più macrolide alle dosi scritte nel protocollo ambulatoriale, non uno schema da germi MDR. Informi Elena e annoti il consenso.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pcr": 30,
+    "tc-torace": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "tosse",
+      "prompt": "Da quanti giorni tossisce e com'è l'espettorato?",
+      "critical": true,
+      "expectedKeywords": [
+        "tosse",
+        "espettorato",
+        "giorni"
+      ],
+      "rationale": "La tosse nuova e l'espettorato purulento sono criteri del documento sulla CAP."
+    },
+    {
+      "id": "confusione",
+      "prompt": "Si è sentita confusa o disorientata in questi giorni?",
+      "critical": true,
+      "expectedKeywords": [
+        "confusione",
+        "disorient"
+      ],
+      "rationale": "La confusione è un punto del DS-CRB-65 e del CURB-65."
+    },
+    {
+      "id": "dolore",
+      "prompt": "Il dolore al petto quanto è forte e quando compare?",
+      "critical": false,
+      "expectedKeywords": [
+        "dolore",
+        "petto",
+        "tosse"
+      ],
+      "rationale": "Il dolore toracico è un sintomo elencato e va rilevato."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Collaborante, orientata. Tosse, febbre. Dolore toracico alla tosse, non pleurico a riposo. Murmure ridotto in base a destra, non rantoli diffusi descritti. Non cianosi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "cap-dscrb",
+      "source": "knowledge_base/medicina_interna/clinical/Polmonite_Adulti.pdf",
+      "quote": "Punteggio 0-1 (lieve): considerare trattamento ambulatoriale. Punteggio 2 (moderato): valutare se è opportuno il trattamento ospedaliero. Punteggio ≥3 (severo): trattamento ospedaliero."
+    },
+    {
+      "chunkId": "cap-lieve-test",
+      "source": "knowledge_base/medicina_interna/clinical/Polmonite_Adulti.pdf",
+      "quote": "Test solitamente non necessari nelle forme lievi. Non necessario nei casi lievi. Nei casi moderati l'esecuzione di ecografia o radiografia del torace possono essere necessari per la diagnostica differenziale."
+    },
+    {
+      "chunkId": "cap-amox",
+      "source": "knowledge_base/medicina_interna/clinical/Indicazioni operative al trattamento delle Polmoniti nell'adulto.pdf",
+      "quote": "Senza comorbidità e senza fattori di rischio per P. aeruginosa o MRSA: AMOXICILLINA 1 gr ogni 8 ore per 5-7 giorni PLUS CLARITROMICINA 500 mg p.o ogni 12 ore per 5-7 giorni oppure AZITROMICINA 500 mg p.o. il primo giorno poi 250 mg/die p.o. per 4 gg."
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Non ricoverare una CAP con DS-CRB-65 0-1 se la paziente assume la terapia orale.",
+      "Usare amoxicillina più macrolide alle dosi del protocollo ambulatoriale, non piperacillina-tazobactam."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il consenso informato della legge 22 dicembre 2017 n. 219 precede l'avvio dell'antibiotico. La scelta del farmaco segue il protocollo della CAP lieve, non uno schema da ricovero MDR.",
+      "legalCriteria": [
+        "Documentare il consenso prima di iniziare amoxicillina e macrolide.",
+        "Non usare uno schema riservato al rischio MDR in una forma lieve senza quei fattori."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo con formula",
+      "finding": "Leucocitosi neutrofila. Nessun valore assoluto è fissato oltre il quadro descritto.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "pcr",
+      "name": "Proteina C reattiva",
+      "finding": "PCR aumentata. Il documento dice che emocromo e PCR possono aiutare a distinguere infezione batterica e virale.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-torace",
+      "name": "TC torace come primo esame",
+      "finding": "Non indicata come primo accertamento in una forma lieve.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Nelle forme lievi il documento non chiede imaging di routine; la TC non è il primo passo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "128/76",
+      "spo2": 94,
+      "temperature": 38.2,
+      "respiratoryRate": 22
+    },
+    "demographics": {
+      "age": 70,
+      "sex": "F",
+      "context": "Ambulatorio"
+    },
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Leucocitosi neutrofila. Nessun valore assoluto è fissato oltre il quadro descritto.",
+          "isAbnormal": true
+        },
+        "pcr": {
+          "finding": "PCR aumentata. Il documento dice che emocromo e PCR possono aiutare a distinguere infezione batterica e virale.",
+          "isAbnormal": true
+        },
+        "tc-torace": {
+          "finding": "Non indicata come primo accertamento in una forma lieve.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "Amoxicillina più macrolide orale",
+          "anyOf": [
+            {
+              "id": "amox-macro",
+              "label": "Amoxicillina e claritromicina o azitromicina",
+              "aliases": [
+                "amoxicillina",
+                "claritromicina",
+                "azitromicina"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "pip-tazo",
+          "label": "Piperacillina-tazobactam in CAP lieve",
+          "aliases": [
+            "piperacillina",
+            "tazobactam",
+            "pip-tazo"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Severità lieve e cura ambulatoriale.",
+        "Amoxicillina più macrolide alle dosi scritte.",
+        "Consenso prima della terapia."
+      ],
+      "penalties": [
+        {
+          "id": "schema-mdr",
+          "kind": "clinical",
+          "trigger": "Schema da MDR o ricovero in una CAP lieve."
+        }
+      ],
+      "citationLimits": [
+        "Le dosi sono solo quelle scritte nei protocolli di polmonite. Non si aggiungono milligrammi di altri antibiotici."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole sapere se resta a casa. Si rassicura se le si spiega il punteggio e il nome dei due farmaci, e se le si chiede il consenso."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Severità della polmonite",
+      "prompt": "Elena ha 70 anni, non è confusa, FR 22, PA 128/76, SpO2 94%. Nessuna delle comorbidità del DS-CRB-65. Come la collochi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Punteggio lieve, un solo punto per l'età: valuti la cura ambulatoriale, non il ricovero d'obbligo",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La ricoveri subito perché ha 70 anni, senza calcolare il punteggio",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Ricovero non richiesto dal punteggio",
+      "prompt": "Polmonite_Adulti: punteggio 0-1, trattamento ambulatoriale; il ricovero è per il punteggio severo, da 3 in su. Il protocollo aziendale ospedalizza se CURB-65 è superiore a 1. Qui l'unico punto certo è l'età.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esami della forma lieve",
+      "prompt": "Quali accertamenti sono scritti come non necessari in una forma lieve?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non chiedi TC né broncoscopia: nelle forme lievi test e imaging non sono necessari di routine. Emocromo e PCR possono aiutare",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Chiedi una TC torace con contrasto come primo esame",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC non di prima linea",
+      "prompt": "Il documento dice che i test di solito non servono nelle forme lievi e che l'imaging non è necessario nei casi lievi. La TC con contrasto non è quel primo passo e espone a un mezzo di contrasto senza l'indicazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antibiotico ambulatoriale",
+      "prompt": "Niente comorbidità e niente fattori per Pseudomonas o MRSA. Nessuna allergia alle betalattamine. Che schema usi?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Amoxicillina 1 g ogni 8 ore per 5-7 giorni più claritromicina 500 mg ogni 12 ore per 5-7 giorni, oppure azitromicina 500 mg il primo giorno e poi 250 mg al giorno per 4 giorni",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Piperacillina-tazobactam 4,5 g in infusione prolungata, come nel ricovero con rischio MDR",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Schema da rischio MDR",
+      "prompt": "Nel protocollo ambulatoriale CURB 0-1 senza fattori per Pseudomonas o MRSA la prima scelta è amoxicillina più claritromicina o azitromicina, alle dosi scritte. Piperacillina-tazobactam è lo schema del ricovero con DRIP score almeno 4.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Levofloxacina senza allergia",
+      "prompt": "Un collega propone solo levofloxacina, senza betalattamina. Elena non è allergica. Che fai?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Restano amoxicillina e macrolide. Nel ricoverato la levofloxacina è scritta solo se c'è allergia a tutte le betalattamine",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Sostituisci tutto con levofloxacina, anche senza allergia",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Fluorochinolone al posto della betalattamina",
+      "prompt": "PGSGQ129 riserva levofloxacina 500-1000 mg al ricoverato solo in caso di allergia a tutte le betalattamine. Qui l'allergia non c'è e lo schema ambulatoriale di prima scelta è amoxicillina più macrolide.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso all'antibiotico",
+      "prompt": "Elena è capace di decidere e chiede che cosa sta per prendere. Come avvii la cura?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Le spieghi diagnosi, farmaco e alternative e annoti il consenso prima di iniziare",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Fai partire l'antibiotico senza spiegarglielo e senza annotare il consenso",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Cura senza consenso",
+      "prompt": "Legge 22 dicembre 2017 n. 219, art. 1: nessun trattamento sanitario può essere iniziato se privo del consenso libero e informato, fuori dai casi previsti dalla legge. Qui non c'è un'urgenza che impedisca di recepire la volontà.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore toracico",
+      "prompt": "Il dolore alla tosse è il sintomo che la preoccupa. Se la tieni in osservazione in struttura, che cosa annoti?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Rilevi il dolore, la tecnica usata e l'esito, e glielo spieghi con parole semplici",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Non annoti il dolore perché la polmonite si giudica solo con la febbre",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "Legge 15 marzo 2010 n. 38, art. 7: in cartella, parte medica e infermieristica, vanno caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato. La legge 219, art. 2, garantisce comunque un'appropriata terapia del dolore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dimissione e codifica",
+      "prompt": "Resta a domicilio. Se in seguito una scheda di ricovero venisse compilata per questa visita, che codifica è ammessa?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non apri una SDO per una cura ambulatoriale e non codifichi una procedura non fatta",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Compili una SDO di ricovero con una procedura di drenaggio che non hai eseguito",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "SDO non corrispondente",
+      "prompt": "Il decreto 28 ottobre 2020 richiama l'obbligo di codificare le informazioni cliniche della scheda di dimissione con la ICD-9-CM versione italiana 2007. Una procedura non eseguita non è un'informazione clinica di quel ricovero. Il nomenclatore C_17 è quella classificazione, non un listino.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "CAP lieve curata a domicilio",
+      "prompt": "Forma lieve: ambulatorio, amoxicillina più macrolide alle dosi del protocollo, niente schema da MDR, consenso annotato.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

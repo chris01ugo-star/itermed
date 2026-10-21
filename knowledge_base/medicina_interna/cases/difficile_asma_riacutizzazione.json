@@ -1,0 +1,472 @@
+{
+  "id": "INTMED-023",
+  "code": "INTMED-023",
+  "title": "Donna di 34 anni con asma acuto e saturazione 90%",
+  "description": "Beatrice, 34 anni, in pronto soccorso parla solo a parole, asma noto in solo salbutamolo. Parametri: PA 138/86 mmHg, FC 120 bpm, FR 32 atti/min, SpO2 90% in aria, temperatura 36.7°C. Non è sonnolenta. Nessun rumore di anafilassi. È lucida e spaventata.",
+  "difficulty": "HARD",
+  "specialty": "medicina_interna",
+  "specialtyLabel": "Medicina Interna",
+  "secondarySpecialties": [
+    "pneumologia"
+  ],
+  "condition": "Riacutizzazione grave di asma",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "GINA_pocket_ita_2020.pdf",
+  "diagnosis": "Riacutizzazione grave: SABA ripetuti, ossigeno con bersaglio 93-95%, ipratropio, corticosteroide orale. Prednisolone 40-50 mg negli adulti, di solito per 5-7 giorni, senza scalaggio se dura meno di due settimane. Niente radiografia, emogas o antibiotico di routine. Il magnesio endovena si considera se non risponde al trattamento iniziale, in struttura per acuti.",
+  "pastMedicalHistory": "Asma in solo SABA, più di un inalatore al mese. Nessuna polmonite clinica. Nessuna allergia alimentare nota. Lucida, capace.",
+  "presentation": "Dispnea grave, frasi di una parola, saturazione 90%, non confusa. GINA: trasferire in struttura per acuti se la riacutizzazione è grave; in intensiva se sonnolenza, confusione o silenzio respiratorio. Lei non è in quel secondo gruppo, ma è grave.",
+  "redHerrings": [
+    "Un collega vuole azitromicina e una TC «perché è dispnoica»."
+  ],
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 20,
+  "patientPrompt": "Sono Beatrice, ho 34 anni. Non respiro. La bomboletta blu non mi basta più. Ho paura. Ditemi che cosa mi date e non lasciatemi da sola senza spiegare.",
+  "correctSolution": "Valutare la gravità mentre si iniziano SABA e ossigeno. Bersaglio di saturazione 93-95% nell'adulto. Nella forma grave: ipratropio inalatorio e corticosteroidi sistemici, prednisolone 40-50 mg per 5-7 giorni. Non fare di routine RX, emogas o antibiotici. Magnesio e.v. solo se non risponde al trattamento iniziale intenso. Prima della dimissione: rivedere il controllo, non lasciare il solo SABA, consegnare un piano scritto. Consenso per quanto è lucida. Il solo SABA e l'uso di più di un inalatore al mese sono fattori di rischio di morte correlata all'asma.",
+  "goldStandardPath": [
+    "peak-flow",
+    "saturazione"
+  ],
+  "goldPathNarrative": "Ossigeno fino a 93-95%, SABA ripetuti, ipratropio, prednisolone 40-50 mg per 5-7 giorni. Niente antibiotico e niente TC di routine. Se non risponde, magnesio. Alla dimissione un ICS e un piano scritto.",
+  "examLatencies": {
+    "peak-flow": 10,
+    "saturazione": 1,
+    "tc-torace": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "parole",
+      "prompt": "Riesce a fare una frase o solo parole?",
+      "critical": true,
+      "expectedKeywords": [
+        "parole",
+        "frase",
+        "fiato"
+      ],
+      "rationale": "GINA valuta la dispnea anche così, insieme a frequenza, polso e saturazione."
+    },
+    {
+      "id": "bomboletta",
+      "prompt": "Quante bombolette blu ha usato questo mese?",
+      "critical": true,
+      "expectedKeywords": [
+        "bomboletta",
+        "salbutamolo",
+        "mese"
+      ],
+      "rationale": "Più di un inalatore al mese è uso eccessivo di SABA e fattore di rischio."
+    },
+    {
+      "id": "paura",
+      "prompt": "Che cosa la spaventa di più in questo momento?",
+      "critical": false,
+      "expectedKeywords": [
+        "paura",
+        "respiro",
+        "sola"
+      ],
+      "rationale": "È lucida: la paura va nominata mentre si cura."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Spaventata, parole singole, muscoli accessori, sibili. Non sonnolenta, non silenzio respiratorio. Nessun rash da anafilassi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "gina-o2",
+      "source": "knowledge_base/medicina_interna/clinical/GINA_pocket_ita_2020.pdf",
+      "quote": "Dosare l'ossigeno, se necessario, per mantenere il target di saturazione a 93-95% negli adulti e negli adolescenti"
+    },
+    {
+      "chunkId": "gina-steroid",
+      "source": "knowledge_base/medicina_interna/clinical/GINA_pocket_ita_2020.pdf",
+      "quote": "Per Adulti, prednisolone 40-50 mg, normalmente per 5-7 giorni."
+    },
+    {
+      "chunkId": "gina-no-atb",
+      "source": "knowledge_base/medicina_interna/clinical/GINA_pocket_ita_2020.pdf",
+      "quote": "Non eseguire come routine RX torace o emogasanalisi, o prescrivere antibiotici per le riacutizzazioni dell'asma."
+    },
+    {
+      "chunkId": "gina-grave",
+      "source": "knowledge_base/medicina_interna/clinical/GINA_pocket_ita_2020.pdf",
+      "quote": "In questi pazienti bisogna immediatamente somministrare SABA inalatori, ipratropio bromuro inalatorio, ossigeno e corticosteroidi sistemici."
+    },
+    {
+      "chunkId": "l219-consenso",
+      "source": "knowledge_base/medicina_interna/legal/allegato115290.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Ossigeno con bersaglio 93-95%, non la saturazione a 100% come obiettivo.",
+      "Niente antibiotico, RX o emogas di routine nella riacutizzazione d'asma."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "GINA quantifica prednisolone e saturazione. La legge 219, finché è lucida, chiede informazione e consenso. La legge 38 chiede di annotare il sintomo se resta in struttura.",
+      "legalCriteria": [
+        "Non lasciare il solo SABA alla dimissione.",
+        "Scalare il prednisolone solo se dura almeno due settimane: sotto le due settimane GINA dice che lo scalaggio non serve."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "peak-flow",
+      "name": "Picco di flusso",
+      "finding": "Ridotto rispetto al suo migliore. GINA chiede di rivalutarlo dopo un'ora di terapia. Nessuna percentuale inventata.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "saturazione",
+      "name": "Saturazione",
+      "finding": "90% all'ingresso. Bersaglio di terapia 93-95%, non 100%.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-torace",
+      "name": "TC torace di routine",
+      "finding": "GINA: niente RX di routine, quindi neppure la TC come primo atto della riacutizzazione d'asma.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Ritarda SABA, ossigeno e steroide. L'antibiotico di routine è escluso dallo stesso brano."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 120,
+      "bloodPressure": "138/86",
+      "spo2": 90,
+      "temperature": 36.7,
+      "respiratoryRate": 32
+    },
+    "demographics": {
+      "age": 34,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
+    "advancedExams": {
+      "values": {
+        "peak-flow": {
+          "finding": "Ridotto rispetto al suo migliore. GINA chiede di rivalutarlo dopo un'ora di terapia. Nessuna percentuale inventata.",
+          "isAbnormal": true
+        },
+        "saturazione": {
+          "finding": "90% all'ingresso. Bersaglio di terapia 93-95%, non 100%.",
+          "isAbnormal": true
+        },
+        "tc-torace": {
+          "finding": "GINA: niente RX di routine, quindi neppure la TC come primo atto della riacutizzazione d'asma.",
+          "isAbnormal": false
+        }
+      }
+    },
+    "therapyMatrix": {
+      "indicated": [
+        {
+          "label": "SABA, ipratropio e prednisolone",
+          "anyOf": [
+            {
+              "id": "saba",
+              "label": "Salbutamolo ripetuto",
+              "aliases": [
+                "salbutamolo",
+                "saba"
+              ]
+            },
+            {
+              "id": "pred",
+              "label": "Prednisolone 40-50 mg",
+              "aliases": [
+                "prednisolone",
+                "prednisone"
+              ]
+            }
+          ]
+        }
+      ],
+      "contraindicated": [
+        {
+          "id": "antibiotico",
+          "label": "Antibiotico di routine",
+          "aliases": [
+            "azitromicina",
+            "antibiotico",
+            "amoxicillina"
+          ]
+        }
+      ]
+    },
+    "outcomeRules": {
+      "win": [
+        "Ossigeno 93-95%, SABA, ipratropio, prednisolone 40-50 mg per 5-7 giorni.",
+        "Niente antibiotico di routine.",
+        "Alla dimissione un controllo con ICS."
+      ],
+      "penalties": [
+        {
+          "id": "antibiotico",
+          "kind": "clinical",
+          "trigger": "Antibiotico di routine nella riacutizzazione d'asma."
+        }
+      ],
+      "citationLimits": [
+        "Il magnesio è solo se non risponde al trattamento iniziale. La dose del magnesio non è in questo brano: non si inventa."
+      ]
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "È spaventata e parla a fatica. Si aggrappa se le si dice che cosa sta arrivando, a voce breve, e se non la si lascia senza una spiegazione."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Quanto è grave",
+      "prompt": "Parole singole, FR 32, FC 120, SpO2 90%, non sonnolenta, non silenzio respiratorio. Dove la curi e che cosa inizi subito?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Struttura per acuti. Subito SABA, ipratropio, ossigeno e corticosteroide sistemico. L'intensiva è se c'è sonnolenza, confusione o silenzio respiratorio: ora non c'è",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La rimandi a casa col solo salbutamolo, perché non è in intensiva",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Grave rimandata a casa",
+      "prompt": "GINA: se la riacutizzazione è grave si trasferisce in struttura per acuti e si danno subito SABA, ipratropio, ossigeno e corticosteroidi sistemici. Il solo SABA e più di un inalatore al mese sono fattori di rischio di morte correlata all'asma. Rimandarla senza trattamento è anche un'omissione di informazione e di cura rispetto all'art. 1 della legge 219.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ossigeno",
+      "prompt": "A che saturazione miri nell'adulto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "93-95%. Non cerchi il 100% come bersaglio",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Ossigeno a flusso libero finché la saturazione è 100%",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Bersaglio di ossigeno sbagliato",
+      "prompt": "GINA: dosare l'ossigeno per mantenere 93-95% negli adulti e negli adolescenti. Il 100% non è il bersaglio scritto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Steroide",
+      "prompt": "Quale corticosteroide orale è quantificato per l'adulto?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Prednisolone 40-50 mg, di solito per 5-7 giorni. Sotto le due settimane non serve lo scalaggio",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Un ciclo di 40 giorni a scalare, con una dose che il testo non usa",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Cortisone fuori schema",
+      "prompt": "GINA: negli adulti prednisolone 40-50 mg, normalmente per 5-7 giorni. Lo scalaggio non è necessario se la durata è inferiore a 2 settimane.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Che cosa non è di routine",
+      "prompt": "Vuoi RX, emogas e azitromicina subito.",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non di routine. GINA lo scrive per la riacutizzazione d'asma",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "TC, emogas e antibiotico prima ancora del SABA",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Esami e antibiotico di routine",
+      "prompt": "GINA: non eseguire come routine RX torace o emogasanalisi, e non prescrivere antibiotici per le riacutizzazioni dell'asma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se non risponde",
+      "prompt": "Dopo il trattamento iniziale intenso non migliora, ed è già in struttura per acuti. Che cosa puoi aggiungere, e con quale limite?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Ipratropio se non è già in corso, SABA in aerosol, e puoi considerare il solfato di magnesio endovena. Il brano non dà la dose del magnesio: non la inventi",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Inventi una dose di magnesio in grammi e salti il resto",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose di magnesio non scritta",
+      "prompt": "GINA: in struttura per acuti si può dare solfato di magnesio endovena se non risponde al trattamento iniziale intenso. Il brano non quantifica i grammi. Inventarli non è l'informazione dell'art. 1 della legge 219.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "È lucida",
+      "prompt": "Non è confusa. Come le parli mentre parte la terapia?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Le dici in breve che cosa le stai dando e annoti il consenso per quanto le condizioni permettono di recepirlo",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Non le parli: l'asma acuto cancella sempre il consenso",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Consenso scartato in una paziente lucida",
+      "prompt": "Legge 219, art. 1 comma 7: in urgenza si assicurano le cure necessarie, nel rispetto della volontà se le condizioni e le circostanze permettono di recepirla. Lei è lucida. Il comma 8: il tempo della comunicazione è tempo di cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dimissione",
+      "prompt": "Migliora. Che lasci come terapia di fondo?",
+      "cost": 0,
+      "score": 14,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non il solo SABA. Un controllo con ICS, tecnica inalatoria controllata, piano scritto. Il cortisone orale di questa crisi non diventa il fondo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d7-bad",
+          "label": "La dimetti con la sola bomboletta blu e senza piano",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Di nuovo il solo SABA",
+      "prompt": "GINA non consiglia più il solo SABA. Dopo la riacutizzazione molti pazienti hanno bisogno di un controllo regolare, e ogni paziente dovrebbe avere un piano scritto. La mancanza del piano è un fattore di rischio di morte correlata all'asma.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Riacutizzazione trattata come da GINA",
+      "prompt": "SABA, ossigeno a 93-95%, ipratropio, prednisolone 40-50 mg per 5-7 giorni senza scalaggio sotto le due settimane. Niente RX, emogas o antibiotico di routine. Magnesio solo se non risponde, senza una dose inventata. Alla dimissione ICS e piano scritto. Consenso per quanto è lucida.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

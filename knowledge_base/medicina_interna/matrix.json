@@ -1,5 +1,32 @@
 [
   {
+    "id": "INTMED-001",
+    "title": "Donna di 70 anni con tosse, febbre e saturazione 94%",
+    "condition": "Polmonite acquisita in comunità, punteggio di severità lieve",
+    "frequencyCategory": "HIGH",
+    "difficulty": "BASE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Polmonite_Adulti.pdf; PGSGQ129; Indicazioni operative polmoniti"
+  },
+  {
+    "id": "INTMED-002",
+    "title": "Uomo di 66 anni con diabete tipo 2, scompenso e HbA1c sopra target",
+    "condition": "Diabete mellito tipo 2 non a target, con scompenso cardiaco, scelta del farmaco in Nota 100",
+    "frequencyCategory": "HIGH",
+    "difficulty": "INTERMEDIATE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "nota-100.pdf; allegato115290.pdf"
+  },
+  {
+    "id": "INTMED-003",
+    "title": "Uomo di 58 anni con oliguria dopo molte bustine di nimesulide",
+    "condition": "Danno renale acuto dopo nimesulide protratta, senza sovraccarico e senza indicazione urgente alla dialisi",
+    "frequencyCategory": "HIGH",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Sezione_2.pdf; Sezione_3.pdf; Sezione_5.pdf; nota aifa 66.pdf"
+  },
+  {
     "id": "INTMED-004",
     "title": "Donna di 32 anni con astenia e ipermenorrea",
     "condition": "Anemia sideropenica da ipermenorrea",
@@ -7,6 +34,42 @@
     "difficulty": "BASE",
     "setting": "AMBULATORIO",
     "guidelineRef": "Raccomandazioni SIMTI per l_uso di emocomponenti (1).pdf"
+  },
+  {
+    "id": "INTMED-005",
+    "title": "Ragazza di 24 anni con asma e il solo salbutamolo",
+    "condition": "Asma lieve trattata con solo SABA",
+    "frequencyCategory": "HIGH",
+    "difficulty": "BASE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "GINA_pocket_ita_2020.pdf"
+  },
+  {
+    "id": "INTMED-006",
+    "title": "Uomo di 72 anni con riacutizzazione di BPCO e acidosi",
+    "condition": "Riacutizzazione grave di BPCO con acidosi respiratoria, senza espettorato purulento",
+    "frequencyCategory": "HIGH",
+    "difficulty": "INTERMEDIATE",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "GOLD_Pocket_Guide_2026.pdf; allegato115290.pdf"
+  },
+  {
+    "id": "INTMED-007",
+    "title": "Donna di 54 anni con ipotiroidismo primario e stanchezza",
+    "condition": "Ipotiroidismo primario conclamato, non in gravidanza e non dopo tiroidectomia",
+    "frequencyCategory": "HIGH",
+    "difficulty": "BASE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Linea-Guida-ipotir-ultrashort.pdf"
+  },
+  {
+    "id": "INTMED-008",
+    "title": "Uomo di 63 anni con ascite nuova e cirrosi",
+    "condition": "Ascite di nuova comparsa in cirrosi, poi refrattaria, con indicazione a paracentesi",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "REPARTO",
+    "guidelineRef": "decompensated-cirrhosis-English-report.pdf; nota aifa 66.pdf"
   },
   {
     "id": "INTMED-009",
@@ -18,6 +81,15 @@
     "guidelineRef": "nota-97.pdf"
   },
   {
+    "id": "INTMED-010",
+    "title": "Donna di 59 anni con cirrosi e sorveglianza per epatocarcinoma",
+    "condition": "Cirrosi a rischio di epatocarcinoma, sorveglianza non ancora avviata in modo corretto",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "EASL-CPG-Management-of-hepatocellular-carcinoma-.pdf"
+  },
+  {
     "id": "INTMED-011",
     "title": "Donna di 38 anni con gamba destra gonfia e dolente in pillola",
     "condition": "Sospetta trombosi venosa profonda, probabilità di Wells intermedia",
@@ -25,6 +97,15 @@
     "difficulty": "INTERMEDIATE",
     "setting": "PRONTO_SOCCORSO",
     "guidelineRef": "PIIS0012369221015063.pdf; score-di-wells-per-il-sospetto-clinico-di-trombosi-venosa-profonda.pdf"
+  },
+  {
+    "id": "INTMED-012",
+    "title": "Uomo di 48 anni con epatite C mai trattata",
+    "condition": "Epatite C cronica, mai trattata, con regimi senza interferone disponibili",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "EASL-recommendations-on-treatment-of-hepatitis-C.pdf"
   },
   {
     "id": "INTMED-013",
@@ -70,5 +151,77 @@
     "difficulty": "ADVANCED",
     "setting": "PRONTO_SOCCORSO",
     "guidelineRef": "AMD-Standard-unico1.pdf"
+  },
+  {
+    "id": "INTMED-018",
+    "title": "Uomo di 55 anni con cirrosi e virus B ancora rilevabile",
+    "condition": "Cirrosi con HBV-DNA rilevabile, non ancora in analogo nucleos(t)idico",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "HepB-English-report.pdf"
+  },
+  {
+    "id": "INTMED-019",
+    "title": "Donna di 46 anni con trombosi portale acuta",
+    "condition": "Trombosi portale acuta, senza disordine protrombotico noto",
+    "frequencyCategory": "LOW",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "VDL-English-report.pdf"
+  },
+  {
+    "id": "INTMED-020",
+    "title": "Uomo di 61 anni con iperparatiroidismo e filtrato sotto 60",
+    "condition": "Iperparatiroidismo primario con indicazione chirurgica e filtrato ridotto",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "LG-GESTIONE-TERAPEUTICA-DELLIPERPARATIROIDISMO_versione-sintetica.pdf"
+  },
+  {
+    "id": "INTMED-021",
+    "title": "Donna di 74 anni diabetica prima di una TC con contrasto",
+    "condition": "Rischio di danno renale da mezzo di contrasto in diabete e funzione renale ridotta",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "Sezione_4.pdf; Sezione_3.pdf"
+  },
+  {
+    "id": "INTMED-022",
+    "title": "Uomo di 79 anni con AKI e DAT che rifiutano la dialisi",
+    "condition": "AKI senza indicazione urgente alla dialisi, con DAT che la rifiutano",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "Sezione_5.pdf; allegato115290.pdf; LEGGE n. 38 del 15 marzo 2010.pdf"
+  },
+  {
+    "id": "INTMED-023",
+    "title": "Donna di 34 anni con asma acuto e saturazione 90%",
+    "condition": "Riacutizzazione grave di asma",
+    "frequencyCategory": "HIGH",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "GINA_pocket_ita_2020.pdf"
+  },
+  {
+    "id": "INTMED-024",
+    "title": "Uomo di 81 anni con polmonite al settimo giorno di ricovero",
+    "condition": "Polmonite ospedaliera oltre il quinto giorno, non da ventilatore: schema del punto 4 senza macrolide",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "REPARTO",
+    "guidelineRef": "PGSGQ129-Diagnosi-e-trattamento-polmoniti.pdf"
+  },
+  {
+    "id": "INTMED-025",
+    "title": "Uomo di 63 anni con tachicardia ventricolare tollerata e infarto pregresso",
+    "condition": "Tachicardia ventricolare emodinamicamente tollerata, in cardiopatia significativa",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "1c4f7a7508.pdf (ESC 2022 aritmie ventricolari)"
   }
 ]
