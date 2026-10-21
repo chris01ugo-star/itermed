@@ -1,257 +1,441 @@
 {
   "id": "ONCO-003",
   "code": "ONCO-003",
-  "title": "Vomita anche l'acqua — emesi da chemio",
-  "description": "Elena V., 61 anni, day hospital, secondo giorno dopo AC per carcinoma mammario. Vomita da stanotte, non tiene neanche l'acqua, ha già preso metoclopramide in compresse e l'ha rimessa. Mucose secche, tachicardia, sete.",
-  "difficulty": "EASY",
+  "title": "Melanoma avanzato: BRAF prima della target therapy",
+  "description": "Uomo di 52 anni, melanoma stadio IV. Propongono dabrafenib e trametinib prima del BRAF. Non e un melanoma acrale.",
+  "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "condition": "Emesi indotta da chemioterapia con impossibilità della via orale",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
+  "condition": "Melanoma stadio IV, determinazione di BRAF prima della target therapy",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
   "setting": "AMBULATORIO",
-  "guidelineRef": "MASCC/ESMO: setroni endovenosi e idratazione se la via orale fallisce",
-  "diagnosis": "Emesi da chemioterapia, paziente disidratata, via orale inutilizzabile. Idratazione endovenosa e antiserotoninergico endovenoso. La metoclopramide orale, da sola, viene vomita ed è la trappola.",
-  "pastMedicalHistory": "Carcinoma mammario operato, primo ciclo di doxorubicina e ciclofosfamide ieri. Schema antiemetico domiciliare con metoclopramide compresse, che stanotte non ha tenuto. Nessuna metastasi nota. Non diabete. Non allergie. Beve poco da ieri sera. Non ha diarrea, non ha febbre.",
-  "presentation": "Pallida, seduta con la bacinella, un conato appena le si parla a lungo. Lingua secca, occhi infossati, tachicardia. Addome morbido, non peritonitico. Se le mettono in mano un'altra compressa di metoclopramide, la guarda e vomita. Parametri: PA 98/62, FC 112, SpO2 98%, FR 18, temperatura 36,7.",
+  "guidelineRef": "melanoma.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Nello stadio III o IV va determinata la mutazione BRAF. Se e indicata una target therapy e c'e BRAF V600, la prima opzione e BRAF inibitore piu MEK inibitore. c-KIT si cerca nel melanoma acrale o mucosale, stadio IV o III non operabile, e solo in assenza di BRAF. Questo caso non e acrale ne mucosale.",
+  "pastMedicalHistory": "Escissione di melanoma del tronco un anno fa. Ora metastasi. Capace. Dolore alla coscia.",
+  "presentation": "Noduli sottocutanei e una lesione epatica. Nessun referto BRAF. Chiede il 'farmaco doppio' sentito in rete.",
   "redHerrings": [
-    "Ha già «preso l'antiemetico»: è la compressa che non sta giù, non una prova che il farmaco sia quello giusto.",
-    "L'addome morbido non è un'occlusione da studiare con la TC prima dei liquidi.",
-    "Un marcatore o una PET non curano il vomito di oggi."
+    "Dabrafenib e trametinib in giornata.",
+    "Test c-KIT al posto del BRAF, pur non essendo un melanoma acrale."
   ],
-  "timeLimitMinutes": 40,
+  "timeLimitMinutes": 50,
   "patientDeteriorationThreshold": 35,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: NAUSEA INTRATTABILE, DISIDRATAZIONE. Sei Elena, 61 anni, day hospital, giorno dopo la chemio rossa. Parli a mezze frasi perché un discorso lungo ti fa vomitare. Alla «Come sta?»: «[conato] Non... tengo niente. Neanche l'acqua.» Pausa, deglutisci a vuoto. La metoclopramide in compresse l'hai presa e l'hai rimessa: lo dici se ti chiedono che cosa hai già provato. Sete sì, pipì poca e scura, solo se chiedono. Niente febbre, niente diarrea, niente sangue, e lo dici secco se te lo chiedono. Se ti danno un'altra pastiglia: «[conato] La rimetto. Datemela in vena.» Se aprono una flebo e un antivomito in vena, dopo qualche minuto la voce torna un poco: «Così... sì.» Se ordinano una PET o una TAC prima della flebo, chiudi gli occhi: «Fate presto. Sto male.» Non nominare tu setroni, AC, linee guida. Esempio: Medico: «Rifaccia la metoclopramide per bocca.» Elena: «[conato] L'ho già rimessa. La pastiglia non resta.»",
-  "correctSolution": "Elettroliti e funzione renale, poi fisiologica endovenosa e ondansetron endovenoso. Non un'altra metoclopramide orale da sola. Non imaging di stadiazione.",
+  "patientPrompt": "Sono Luca. Fate il test BRAF prima. Non voglio c-KIT se non serve. Il dolore alla gamba va in cartella. Rifiuto una PET oggi.",
+  "correctSolution": "Determinare BRAF nello stadio III-IV. Se V600 e la target therapy e indicata: BRAF inibitore piu MEK inibitore. c-KIT solo se acrale o mucosale, avanzato, e BRAF non mutato. Niente PET al posto del test. Consenso e dolore.",
   "goldStandardPath": [
-    "elettroliti",
-    "creat-urea-gfr",
-    "idratazione",
-    "ondansetron"
+    "istologia",
+    "braf"
   ],
-  "goldPathNarrative": "1) Elettroliti e creatinina: il vomito prolungato sposta potassio e rene, 14 euro. 2) Fisiologica endovenosa, subito, perché la via orale è chiusa. 3) Ondansetron endovenoso, non la metoclopramide in compressa che ha già rimesso. Ideale circa 26 euro di laboratorio più il setrone, budget 90. Una TC da 150 euro o una RM da 220 sfora. La PET sfora di un ordine di grandezza.",
+  "goldPathNarrative": "Il BRAF precede la target therapy. La combinazione e la prima opzione solo se V600 e la terapia e indicata.",
   "examLatencies": {
-    "elettroliti": 10,
-    "creat-urea-gfr": 10,
-    "glicemia": 8,
-    "emocromo": 10,
-    "ondansetron": 5,
-    "idratazione": 5,
-    "pet-tc": 180,
-    "tc-addome": 40,
-    "rm-rachide": 60,
-    "ngs-panel": 200
+    "istologia": 15,
+    "braf": 30,
+    "pet-total": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-via",
-      "prompt": "Riesce a tenere acqua o compresse, e che antiemetico ha già preso?",
+      "id": "q1",
+      "prompt": "Che stadio e e dov'e il primitivo?",
       "critical": true,
-      "expectedKeywords": ["compresse", "rimessa", "acqua"],
-      "rationale": "La via orale fallita è il motivo per cui un'altra metoclopramide in pastiglia è l'errore."
+      "expectedKeywords": [
+        "stadio",
+        "tronco",
+        "metastasi"
+      ],
+      "rationale": "BRAF si determina nello stadio III o IV. c-KIT riguarda acrale o mucosale."
     },
     {
-      "id": "aq-ciclo",
-      "prompt": "Quando è stata la chemioterapia e che schema era?",
+      "id": "q2",
+      "prompt": "C'e gia il BRAF?",
       "critical": true,
-      "expectedKeywords": ["ieri", "chemio"],
-      "rationale": "Il nesso temporale chiude la diagnosi di emesi indotta e toglie spazio a una PET."
-    },
-    {
-      "id": "aq-allarme",
-      "prompt": "Ha febbre, diarrea, sangue nel vomito o un dolore a colica?",
-      "critical": true,
-      "expectedKeywords": ["febbre", "diarrea", "sangue"],
-      "rationale": "L'assenza di questi segni evita di trattare un'occlusione o una sepsi come semplice nausea."
+      "expectedKeywords": [
+        "BRAF",
+        "V600",
+        "referto"
+      ],
+      "rationale": "La combinazione e scritta in presenza di BRAF V600."
     }
   ],
   "physicalExam": {
-    "summary": "Disidratata, tachicardica, pressione ai limiti bassi. Mucose secche, plica cutanea lenta. Addome trattabile, peristalsi presente, non erie metalliche, non difesa. Nessun segno di addome acuto. Il problema è il vomito che impedisce la via orale."
+    "summary": "Nodulo sottocutaneo dolente. ECOG buono. Nessun referto molecolare."
   },
   "escCitations": [
     {
-      "chunkId": "onco-003-ev",
-      "source": "Antiemesi — sintesi operativa",
-      "quote": "Sintesi operativa: se la paziente vomita anche l'acqua, l'antiemetico si dà in vena. Un'altra compressa di metoclopramide ripete il fallimento della notte."
+      "chunkId": "braf",
+      "source": "knowledge_base/oncologia/clinic/melanoma.pdf",
+      "quote": "Nei pazienti con melanomi in stadio III o IV dovrebbe essere presa in considerazione la determinazione dello stato mutazionale di BRAF"
     },
     {
-      "chunkId": "onco-003-fluidi",
-      "source": "Disidratazione da emesi — sintesi operativa",
-      "quote": "Sintesi operativa: tachicardia, sete e mucose secche dopo la chemio si correggono con liquidi endovenosi. La stadiazione non precede la flebo."
+      "chunkId": "combo",
+      "source": "knowledge_base/oncologia/clinic/melanoma.pdf",
+      "quote": "Nei pazienti in stadio IV o III non operabile, in presenza di mutazione BRAF V600, qualora indicata target therapy, il trattamento con BRAF inibitore + MEK inibitore dovrebbe essere preso in considerazione come prima opzione"
+    },
+    {
+      "chunkId": "kit",
+      "source": "knowledge_base/oncologia/clinic/melanoma.pdf",
+      "quote": "Nei pazienti con melanoma acrale o mucosale in stadio IV o III non operabile e in assenza di mutazioni BRAF la determinazione dello stato mutazionale di c-KIT dovrebbe essere presa in considerazione"
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l219-3",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Riconoscere che la via orale è fallita.",
-      "Idratazione endovenosa prima di nuovi esami.",
-      "Antiserotoninergico endovenoso.",
-      "Nessuna metoclopramide orale come unico gesto."
+      "BRAF prima di dabrafenib e trametinib.",
+      "Combinazione, non il solo BRAF inibitore, se la target therapy e indicata."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: nell'emesi che non tiene la bocca, aderenza è flebo e setrone in vena. La compressa già rimessa è lo scostamento.",
+      "art5Adherence": "BRAF e la combinazione sono nella linea guida melanoma. c-KIT ha un perimetro ristretto. Consenso e dolore sono nelle leggi in cartella.",
       "legalCriteria": [
-        "Annotare quante volte ha vomito e che la compressa non è stata ritenuta.",
-        "Controllare potassio e creatinina senza far aspettare la flebo al referto cartaceo.",
-        "Non sostituire il trattamento con una TC addome di prima linea."
+        "BRAF nello stadio III o IV prima della target therapy.",
+        "c-KIT solo nel perimetro acrale o mucosale senza BRAF.",
+        "Dolore in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "elettroliti",
-      "name": "Elettroliti sierici",
-      "finding": "Sodio 133 mmol/L, potassio 3,2 mmol/L, cloro 96. Ipopotassiemia lieve da perdite. Nessun quadro di lisi.",
-      "isAbnormal": true,
-      "priceEuro": 8
+      "examId": "istologia",
+      "name": "Istologia",
+      "finding": "Melanoma. Stadio IV. Non acrale e non mucosale.",
+      "isAbnormal": true
     },
     {
-      "examId": "creat-urea-gfr",
-      "name": "Creatinina e urea",
-      "finding": "Creatinina 1,3 mg/dL, urea 58 mg/dL. Rene sofferente per la sete, non un'insufficienza che vieti la fisiologica.",
-      "isAbnormal": true,
-      "priceEuro": 6
+      "examId": "braf",
+      "name": "BRAF",
+      "finding": "Stato mutazionale di BRAF, da avere prima della target therapy.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC total body",
-      "finding": "PET non eseguita in urgenza: non spiega il vomito del giorno dopo la chemio e costa 950 euro.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "Il budget è 90 euro. La PET lo sfora e ritarda la flebo."
-    },
-    {
-      "examId": "tc-addome",
-      "name": "TC addome con mezzo di contrasto",
-      "finding": "TC addome: anse non dilatate, non livelli, non occlusione. L'addome clinico era già morbido. Costo 150 euro.",
-      "isAbnormal": false,
-      "priceEuro": 150,
-      "inappropriate": true,
-      "wasteRationale": "Senza segni di occlusione la TC da 150 euro sfora i 90 euro di budget e non è il primo atto."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello genetico NGS",
-      "finding": "NGS non pertinente all'emesi acuta. Costo 1200 euro.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "Un pannello da 1200 euro non ferma un conato."
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac 780 euro. Non sostituisce la determinazione di BRAF.",
+      "isAbnormal": true,
+      "priceEuro": 780,
+      "wasteRationale": "Tariffa al posto del test BRAF."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 112,
-      "bloodPressure": "98/62",
-      "spo2": 98,
-      "temperature": 36.7,
-      "respiratoryRate": 18
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 90,
     "demographics": {
-      "age": 61,
-      "sex": "F",
-      "name": "Elena V.",
-      "context": "Day hospital oncologico"
+      "age": 52,
+      "sex": "M",
+      "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Idratazione",
-        "result": "Mucose secche, plica cutanea lenta, sete.",
-        "isPositive": true
-      },
-      {
-        "signName": "Addome",
-        "result": "Trattabile, peristalsi presente, non difesa e non erie metalliche.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Idratazione",
-        "result": "Mucose secche, plica cutanea lenta, sete.",
-        "isPositive": true
-      },
-      {
-        "signName": "Addome",
-        "result": "Trattabile, peristalsi presente, non difesa e non erie metalliche.",
-        "isPositive": false
-      }
-    ],
     "advancedExams": {
       "values": {
-        "elettroliti": {
-          "finding": "Sodio 133, potassio 3,2, cloro 96 mmol/L.",
-          "isAbnormal": true,
-          "price": 8
+        "istologia": {
+          "finding": "Melanoma. Stadio IV. Non acrale e non mucosale.",
+          "isAbnormal": true
         },
-        "creat-urea-gfr": {
-          "finding": "Creatinina 1,3 mg/dL, urea 58 mg/dL.",
-          "isAbnormal": true,
-          "price": 6
+        "braf": {
+          "finding": "Stato mutazionale di BRAF, da avere prima della target therapy.",
+          "isAbnormal": true
         },
-        "glicemia": {
-          "finding": "Glicemia 108 mg/dL.",
-          "isAbnormal": false,
-          "price": 5
-        },
-        "pet-tc": {
-          "finding": "Non indicata per l'emesi del giorno dopo.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "tc-addome": {
-          "finding": "Anse non dilatate, non occlusione.",
-          "isAbnormal": false,
-          "price": 150
-        },
-        "rm-rachide": {
-          "finding": "RM non indicata.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "ngs-panel": {
-          "finding": "NGS non pertinente.",
-          "isAbnormal": false,
-          "price": 1200
+        "pet-total": {
+          "finding": "Fasdac 780 euro. Non sostituisce la determinazione di BRAF.",
+          "isAbnormal": true
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Antiserotoninergico endovenoso",
-          "anyOf": [
-            {
-              "id": "ondansetron",
-              "label": "Ondansetron ev",
-              "aliases": ["ondansetron", "zofran", "setrone"],
-              "priceEuro": 12
-            }
-          ]
-        }
-      ],
-      "inappropriate": [
-        {
-          "id": "metoclopramide-orale",
-          "label": "Metoclopramide orale come unico atto",
-          "aliases": ["metoclopramide", "plasil"],
-          "priceEuro": 3
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "PASSIVE",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
     "adherence": "FULL",
     "lifestyleAndSocial": {
-      "sleepQuality": "POOR",
+      "sleepQuality": "FAIR",
       "stressLevel": "HIGH",
       "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Frasi spezzate, conati, non tiene l'acqua. Se le ridanno la pastiglia vomita. Se arriva la flebo si quieta un poco."
-  }
+    "communicationStyle": "Sono Luca. Fate il test BRAF prima. Non voglio c-KIT se non serve. Il dolore alla gamba va in cartella. Rifiuto una PET oggi."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Stadio e sede",
+      "prompt": "Stadio IV, primitivo del tronco. Non acrale, non mucosale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Imposti la determinazione di BRAF. Non inizi da c-KIT",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Chieda solo c-KIT e salti il BRAF",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "c-KIT fuori sede",
+      "prompt": "c-KIT si considera nel melanoma acrale o mucosale, stadio IV o III non operabile, e in assenza di mutazioni BRAF. Qui il passo e il BRAF dello stadio III o IV.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Non sostituisce la determinazione di BRAF.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Non sostituisce la determinazione di BRAF.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "BRAF prima del farmaco",
+      "prompt": "Il BRAF non e ancora uscito. Propongono dabrafenib piu trametinib.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Attenda il BRAF. Nello stadio III o IV la determinazione va presa in considerazione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Inizi la combinazione senza il referto",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Target senza BRAF",
+      "prompt": "La combinazione BRAF inibitore piu MEK inibitore e prima opzione in presenza di mutazione BRAF V600, qualora la target therapy sia indicata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "V600 e target indicata",
+      "prompt": "BRAF V600 presente. La target therapy e indicata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "BRAF inibitore piu MEK inibitore come prima opzione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Solo un BRAF inibitore, senza MEK inibitore",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Manca il MEK inibitore",
+      "prompt": "In presenza di BRAF V600, qualora indicata la target therapy, il trattamento con BRAF inibitore piu MEK inibitore dovrebbe essere la prima opzione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se BRAF non e mutato",
+      "prompt": "Referto alternativo: BRAF non mutato. Sempre tronco, non acrale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non usi la target BRAF/MEK. Non faccia c-KIT solo perche il BRAF e negativo",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "c-KIT e poi un inibitore di c-KIT",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "c-KIT non indicato qui",
+      "prompt": "La determinazione di c-KIT e scritta per il melanoma acrale o mucosale, in assenza di BRAF. Questo primitivo e del tronco.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Quante informazioni vuole",
+      "prompt": "Chiede di sapere diagnosi e prognosi per intero. Un familiare chiede di addolcire.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Risponda a lui su diagnosi, prognosi, benefici, rischi e alternative",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Dica al familiare una versione piu lieve e a lui nulla",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Prognosi filtrata",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una biopsia di un nodulo che lui rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in ambulatorio, poi ricovero breve il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

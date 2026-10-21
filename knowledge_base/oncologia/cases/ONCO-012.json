@@ -1,330 +1,435 @@
 {
   "id": "ONCO-012",
   "code": "ONCO-012",
-  "title": "Acido urico e un tracciato brutto — lisi",
-  "description": "Davide C., 23 anni, arriva in pronto soccorso per astenia e gengive che sanguinano. I leucociti sono già 90.000, con blasti allo striscio del medico di base. Nausea, crampi, un'extrasistole che lui sente. Non ha ancora fatto chemioterapia: la lisi è spontanea, all'esordio.",
+  "title": "Frazione di eiezione prima di antracicline o anti-HER2",
+  "description": "Donna di 54 anni, carcinoma mammario HER2-positivo, candidata a trastuzumab. Nessuna frazione di eiezione in cartella. Poi risulta 52%.",
   "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "secondary_specialties": ["medicina_urgenza"],
-  "condition": "Sindrome da lisi tumorale spontanea all'esordio di leucemia acuta",
-  "frequencyCategory": "LOW",
+  "condition": "Avvio di anti-HER2 o antracicline, valutazione basale della frazione di eiezione",
+  "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "ESMO/BCSH lisi tumorale: idratazione, rasburicase, trattamento dell'iperpotassiemia",
-  "diagnosis": "Lisi tumorale spontanea con iperuricemia, danno renale e iperpotassiemia. Idratazione massiva e rasburicase. Il potassio alto con alterazioni ECG non si sottovaluta: calcio gluconato se il tracciato è instabile. L'allopurinolo, da solo, non è il farmaco di una lisi già conclamata.",
-  "pastMedicalHistory": "Sano fino a tre settimane fa. Astenia, febbricola serale, gengive sanguinanti, petecchie alle gambe. Ieri emocromo dal curante: leucociti 90.000, blasti, piastrine basse, emoglobina bassa. Non chemioterapia ancora. Non gotta. Non famigliarità. Beve poco perché ha nausea.",
-  "presentation": "Pallido, petecchie, nauseato, si tiene un polpaccio per un crampo. Il monitor mostra onde T alte e un QRS un po' largo. Non è in edema polmonare. Se gli si dice che il potassio «si vede dopo» e si prenota solo l'allopurinolo per domani, il crampo torna e la frase si accorcia. Parametri: PA 108/68, FC 118, SpO2 97%, FR 22, temperatura 37,8.",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "cardioncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Prima di antracicline o di un anti-HER2 la valutazione basale della frazione di eiezione e opzione di prima intenzione. Se e tra 50 e 55%, si puo considerare un controllo prima dell'inizio, ogni 6 settimane per 3 mesi, poi ogni 3 mesi durante la terapia e a 18 e 24 mesi dalla fine.",
+  "pastMedicalHistory": "Carcinoma mammario operato, HER2 positivo. Nessun ecocardiogramma. Capace. Dolore alla cicatrice.",
+  "presentation": "Sta per firmare trastuzumab. L'eco non c'e. Quando si fa, la frazione di eiezione e 52%.",
   "redHerrings": [
-    "Non ha ancora fatto la chemio: la lisi «da trattamento» sembra impossibile. All'esordio con 90.000 bianchi è già in corso.",
-    "L'allopurinolo è il farmaco della prevenzione, non dell'acido urico già alle stelle con rene fermo.",
-    "Una PET per tipizzare la leucemia prima dei liquidi è tempo rubato al potassio."
+    "Inizio subito, l'eco si fa al terzo mese.",
+    "Scintigrafia SPET da 180 euro al posto dell'eco."
   ],
-  "timeLimitMinutes": 35,
-  "patientDeteriorationThreshold": 20,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: NAUSEA, CRAMPI, PAURA DEL CUORE. Sei Davide, 23 anni, pronto soccorso. Frasi corte. Alla «Come sta?»: «[sospiro] Ho la nausea. I polpacci tirano. E il cuore fa un salto.» Pausa. Le gengive sanguinano se ti chiedono la bocca. I bianchi alti li sai dal medico di ieri, lo dici se chiedono gli esami: «Novantamila. Hanno detto blasti.» Non hai fatto chemio, e lo dici se te lo chiedono. Se ti attaccano tanta flebo e ti parlano di un farmaco per l'acido urico e del potassio, hai paura: «È leucemia? Quanto mi resta?» e però ti fidi. Se sottovalutano il potassio, «lo ricontrolliamo domani», o ti danno solo una pastiglia per la gotta: «[crampo] Mi si ferma un attimo il fiato.» Non nominare tu lisi, rasburicase, iperpotassiemia. Esempio: Medico: «Il potassio lo rivediamo con calma. Intanto allopurinolo.» Davide: «[crampo] Il cuore. Non domani.»",
-  "correctSolution": "ECG, elettroliti, uricemia, creatinina, emocromo, LDH. Idratazione massiva senza potassio. Rasburicase. Se il tracciato mostra onde T alte o QRS largo: calcio gluconato, e il resto della correzione del potassio. Non allopurinolo come unico farmaco. Non PET.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Marta. Fate l'eco prima del trastuzumab. Se il cuore e al limite, ditemi i controlli. Scrivete il dolore. Rifiuto la scintigrafia.",
+  "correctSolution": "Frazione di eiezione prima di iniziare. Se 50-55%: controllo prima, ogni 6 settimane per 3 mesi, ogni 3 mesi in terapia, poi a 18 e 24 mesi. Niente SPET al posto dell'eco. Consenso e dolore.",
   "goldStandardPath": [
-    "ecg",
-    "elettroliti",
-    "uricemia",
-    "creat-urea-gfr",
-    "idratazione",
-    "rasburicase",
-    "calcio-gluconato"
+    "her2",
+    "fe"
   ],
-  "goldPathNarrative": "1) ECG subito: onde T alte, il potassio è già un problema di ritmo. 2) Elettroliti, uricemia, creatinina, LDH, emocromo. 3) Fisiologica massiva, senza potassio aggiunto. 4) Rasburicase, non allopurinolo, perché l'acido urico è già alto e il rene è già colpito. 5) Calcio gluconato per il tracciato, senza raccontarsi che il potassio può aspettare. Laboratorio circa 53 euro, farmaci compresi nel budget di 280. Una RM da 220 euro in più sfora. La PET sfora.",
+  "goldPathNarrative": "Senza la frazione di eiezione non si parte. Se e 50-55% il calendario dei controlli e quello scritto.",
   "examLatencies": {
-    "ecg": 5,
-    "elettroliti": 8,
-    "uricemia": 10,
-    "creat-urea-gfr": 10,
-    "emocromo": 8,
-    "ldh": 10,
-    "pet-tc": 180,
-    "rm-rachide": 60,
-    "ngs-panel": 200,
-    "rx-torace": 20
+    "her2": 10,
+    "fe": 20,
+    "spet": 60
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-chemio",
-      "prompt": "Ha già fatto chemioterapia, o i blasti sono di ieri e basta?",
+      "id": "q1",
+      "prompt": "Il tumore e HER2 positivo?",
       "critical": true,
-      "expectedKeywords": ["chemio", "blasti", "ieri"],
-      "rationale": "La lisi spontanea all'esordio si perde se si pensa che serva per forza una chemio già data."
+      "expectedKeywords": [
+        "HER2",
+        "positivo"
+      ],
+      "rationale": "L'anti-HER2 e il contesto della raccomandazione."
     },
     {
-      "id": "aq-cuore",
-      "prompt": "Ha crampi, palpitazioni, o un attimo in cui le manca il fiato?",
+      "id": "q2",
+      "prompt": "C'e gia un eco?",
       "critical": true,
-      "expectedKeywords": ["crampi", "cuore", "fiato"],
-      "rationale": "Il sintomo muscolare e il cuore sono l'iperpotassiemia, non un'ansia da pronto soccorso."
-    },
-    {
-      "id": "aq-diuresi",
-      "prompt": "Quanto ha bevuto e quanto ha urinato oggi?",
-      "critical": true,
-      "expectedKeywords": ["bevuto", "pipì", "nausea"],
-      "rationale": "L'oliguria con nausea è il rene della lisi e impone i liquidi subito."
+      "expectedKeywords": [
+        "eco",
+        "frazione",
+        "no"
+      ],
+      "rationale": "La valutazione basale e di prima intenzione."
     }
   ],
   "physicalExam": {
-    "summary": "Pallore, petecchie agli arti, gengive sanguinanti. Tachicardia. Non edema polmonare. Crampi ai polpacci. Monitor con onde T appuntite. È una lisi con iperpotassiemia, non una gastroenterite e non una gotta."
+    "summary": "Cicatrice dolente. Nessun segno di scompenso. HER2 positivo gia referto."
   },
   "escCitations": [
     {
-      "chunkId": "onco-012-rasburicase",
-      "source": "Lisi tumorale — sintesi operativa",
-      "quote": "Sintesi operativa: con acido urico alto e rene già colpito si idrata in modo massivo e si dà la rasburicase. L'allopurinolo non smonta un urato già precipitato."
+      "chunkId": "fe",
+      "source": "knowledge_base/oncologia/clinic/cardioncologia.pdf",
+      "quote": "antracicline e/o farmaci anti-HER2, la valutazione basale della F E dovrebbe essere presa in considerazione come opzione di prima intenzione (6-12) Forte a favore COI: nessun conflitto dichiarato Bibliografia 1. Tarantini L, Gulizia MM, Di Lenarda A, et al."
     },
     {
-      "chunkId": "onco-012-potassio",
-      "source": "Iperpotassiemia — sintesi operativa",
-      "quote": "Sintesi operativa: onde T alte e QRS largo in corso di lisi non si ricontrollano l'indomani. Il calcio gluconato protegge il cuore mentre si corregge il potassio."
+      "chunkId": "mon",
+      "source": "knowledge_base/oncologia/clinic/cardioncologia.pdf",
+      "quote": "FE basale 50-55% e rischio di sviluppo di cardiotossicità (disfunzione ventricolare sinistra asintomatica/sintomatica) associata a trattamento anti -HER2."
+    },
+    {
+      "chunkId": "spet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003547 Tomoscintigrafia SPET miocardica 180,00"
+    },
+    {
+      "chunkId": "l219-3",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "ECG nella prima valutazione, non a corollario.",
-      "Uricemia, potassio e creatinina letti insieme.",
-      "Idratazione massiva e rasburicase.",
-      "Iperpotassiemia trattata, non rinviata."
+      "Niente trastuzumab senza frazione di eiezione.",
+      "Controlli alle scadenze scritte se il valore e 50-55%."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: lisi conclamata, aderenza è liquidi, rasburicase e protezione cardiaca. Sottovalutare il potassio è lo scostamento mortale.",
+      "art5Adherence": "La frazione di eiezione e il calendario 50-55% sono in cardioncologia. Non ho usato una soglia di stop che il testo non mette in quella raccomandazione.",
       "legalCriteria": [
-        "Allegare l'ECG e il valore del potassio con l'orario.",
-        "Non aggiungere potassio nella flebo.",
-        "Non sostituire la rasburicase con l'allopurinolo quando l'uricemia è già critica."
+        "Eco prima di antracicline o anti-HER2.",
+        "Calendario ravvicinato se la frazione e 50-55%.",
+        "Informazione su benefici e rischi, legge 219/2017 art. 1."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ecg",
-      "name": "ECG",
-      "finding": "Ritmo sinusale a 118. Onde T alte e simmetriche, QRS 120 ms. Tracciato da iperpotassiemia, non un ECG da ripetere domani.",
-      "isAbnormal": true,
-      "priceEuro": 15
+      "examId": "her2",
+      "name": "HER2",
+      "finding": "Positivo. E candidata a un anti-HER2.",
+      "isAbnormal": true
     },
     {
-      "examId": "elettroliti",
-      "name": "Elettroliti",
-      "finding": "Potassio 6,8 mmol/L, fosforo 8,1 mg/dL, calcio corretto 7,2 mg/dL. Iperpotassiemia e iperfosforemia da lisi.",
-      "isAbnormal": true,
-      "priceEuro": 8
-    },
-    {
-      "examId": "uricemia",
-      "name": "Uricemia",
-      "finding": "Acido urico 16,4 mg/dL. Lisi già conclamata.",
-      "isAbnormal": true,
-      "priceEuro": 8
-    },
-    {
-      "examId": "creat-urea-gfr",
-      "name": "Creatinina",
-      "finding": "Creatinina 2,9 mg/dL, urea 98 mg/dL. Danno renale acuto.",
-      "isAbnormal": true,
-      "priceEuro": 6
-    },
-    {
-      "examId": "emocromo",
-      "name": "Emocromo",
-      "finding": "Leucociti 94.000/µL con blasti, emoglobina 7,8 g/dL, piastrine 18.000. Esordio di leucemia acuta.",
-      "isAbnormal": true,
-      "priceEuro": 8
-    },
-    {
-      "examId": "ldh",
-      "name": "LDH",
-      "finding": "LDH 2400 U/L. Turnover cellulare massiccio.",
-      "isAbnormal": true,
-      "priceEuro": 8
+      "examId": "fe",
+      "name": "Frazione di eiezione",
+      "finding": "52%, dunque nell'intervallo 50-55% che cambia il calendario.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET inutile all'esordio leucemico e pericolosa per il tempo che ruba. 950 euro.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "La PET sfora il budget di 280 e non abbassa il potassio."
-    },
-    {
-      "examId": "rm-rachide",
-      "name": "RM whole body",
-      "finding": "RM non indicata. 220 euro che, aggiunti al laboratorio, sforano i 280.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Una RM ingiustificata da 220 euro porta il percorso oltre il massimale."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello NGS",
-      "finding": "L'NGS sul clone verrà, non in questa ora. 1200 euro.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "L'NGS non tratta la lisi e sfora il budget."
-    },
-    {
-      "examId": "rx-torace",
-      "name": "RX torace",
-      "finding": "Non edema polmonare. Non è il quesito. Il cuore è sull'ECG.",
-      "isAbnormal": false,
-      "priceEuro": 25,
-      "inappropriate": true,
-      "wasteRationale": "La lastra non vede il potassio. Dispone minuti e un costo fuori percorso."
+      "examId": "spet",
+      "name": "SPET miocardica",
+      "finding": "Fasdac 180 euro. Il passo scritto e la frazione di eiezione, non questa scintigrafia.",
+      "isAbnormal": true,
+      "priceEuro": 180,
+      "wasteRationale": "Tariffa al posto dell'eco."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 118,
-      "bloodPressure": "108/68",
+      "heartRate": 88,
+      "bloodPressure": "128/76",
       "spo2": 97,
-      "temperature": 37.8,
-      "respiratoryRate": 22
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 280,
     "demographics": {
-      "age": 23,
-      "sex": "M",
-      "name": "Davide C.",
-      "context": "Pronto soccorso"
+      "age": 54,
+      "sex": "F",
+      "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Petecchie",
-        "result": "Petecchie agli arti inferiori, gengive sanguinanti.",
-        "isPositive": true
-      },
-      {
-        "signName": "Crampi",
-        "result": "Crampi ai polpacci, riferisce un salto al cuore.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Petecchie",
-        "result": "Petecchie agli arti inferiori, gengive sanguinanti.",
-        "isPositive": true
-      },
-      {
-        "signName": "Crampi",
-        "result": "Crampi ai polpacci, riferisce un salto al cuore.",
-        "isPositive": true
-      }
-    ],
     "advancedExams": {
       "values": {
-        "ecg": {
-          "finding": "Onde T alte simmetriche, QRS 120 ms, tachicardia sinusale.",
-          "isAbnormal": true,
-          "price": 15
+        "her2": {
+          "finding": "Positivo. E candidata a un anti-HER2.",
+          "isAbnormal": true
         },
-        "elettroliti": {
-          "finding": "Potassio 6,8 mmol/L, fosforo 8,1 mg/dL, calcio corretto 7,2 mg/dL.",
-          "isAbnormal": true,
-          "price": 8
+        "fe": {
+          "finding": "52%, dunque nell'intervallo 50-55% che cambia il calendario.",
+          "isAbnormal": true
         },
-        "uricemia": {
-          "finding": "Acido urico 16,4 mg/dL.",
-          "isAbnormal": true,
-          "price": 8
-        },
-        "creat-urea-gfr": {
-          "finding": "Creatinina 2,9 mg/dL, urea 98 mg/dL.",
-          "isAbnormal": true,
-          "price": 6
-        },
-        "emocromo": {
-          "finding": "Leucociti 94000 con blasti, emoglobina 7,8, piastrine 18000.",
-          "isAbnormal": true,
-          "price": 8
-        },
-        "ldh": {
-          "finding": "LDH 2400 U/L.",
-          "isAbnormal": true,
-          "price": 8
-        },
-        "pet-tc": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "rm-rachide": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "ngs-panel": {
-          "finding": "Non è l'esame di questa ora.",
-          "isAbnormal": false,
-          "price": 1200
-        },
-        "rx-torace": {
-          "finding": "Non edema. Non è il quesito.",
-          "isAbnormal": false,
-          "price": 25
+        "spet": {
+          "finding": "Fasdac 180 euro. Il passo scritto e la frazione di eiezione, non questa scintigrafia.",
+          "isAbnormal": true
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Rasburicase",
-          "anyOf": [
-            {
-              "id": "rasburicase",
-              "label": "Rasburicase",
-              "aliases": ["rasburicase", "fasturtec"],
-              "priceEuro": 90
-            }
-          ]
-        },
-        {
-          "label": "Calcio gluconato per il tracciato",
-          "anyOf": [
-            {
-              "id": "calcio-gluconato",
-              "label": "Calcio gluconato",
-              "aliases": ["calcio gluconato", "gluconato di calcio"],
-              "priceEuro": 8
-            }
-          ]
-        }
-      ],
-      "inappropriate": [
-        {
-          "id": "allopurinolo",
-          "label": "Allopurinolo come unico uricolitico",
-          "aliases": ["allopurinolo", "zyloric"],
-          "priceEuro": 4
-        }
-      ]
-    },
-    "killerRules": {
-      "fatalIfOmitted": [
-        ["rasburicase", "fasturtec"],
-        ["calcio gluconato", "gluconato di calcio", "insulina", "glucosio"]
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
+    "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
     "adherence": "FULL",
     "lifestyleAndSocial": {
-      "sleepQuality": "POOR",
+      "sleepQuality": "FAIR",
       "stressLevel": "HIGH",
-      "socialSupport": "STRONG"
+      "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Frasi corte, nausea, crampi, sente il cuore. Se gli rinviano il potassio si spaventa e il fiato si ferma un attimo. Chiede se è leucemia e quanto gli resta."
-  }
+    "communicationStyle": "Sono Marta. Fate l'eco prima del trastuzumab. Se il cuore e al limite, ditemi i controlli. Scrivete il dolore. Rifiuto la scintigrafia."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Prima di partire",
+      "prompt": "HER2 positivo. Nessuna frazione di eiezione. Vogliono il trastuzumab oggi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Faccia prima la valutazione della frazione di eiezione",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Inizi trastuzumab e rimandi l'eco",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Anti-HER2 senza frazione di eiezione",
+      "prompt": "Prima di antracicline o anti-HER2 la valutazione basale della frazione di eiezione dovrebbe essere presa in considerazione come prima intenzione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia SPET miocardica, voce Fasdac DI MN 000003547, 180 euro. Non misura la frazione di eiezione richiesta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 180 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003547 Tomoscintigrafia SPET miocardica 180 euro. Non misura la frazione di eiezione richiesta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore 52%",
+      "prompt": "L'eco dice 52%.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Imposti il calendario: prima dell'inizio, ogni 6 settimane per 3 mesi, ogni 3 mesi in terapia, a 18 e 24 mesi dalla fine",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Un eco all'anno, come per qualunque cuore",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Calendario non quello del 50-55%",
+      "prompt": "Con frazione di eiezione basale 50-55% si puo considerare un controllo prima dell'inizio, ogni 6 settimane per i primi 3 mesi, poi ogni 3 mesi e a 18 e 24 mesi dalla fine.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Si puo partire, con i controlli",
+      "prompt": "52%, asintomatica, calendario accettato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Puo iniziare l'anti-HER2 dentro quel monitoraggio",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Blocchi per sempre l'anti-HER2 solo perche il valore e 52%, senza il monitoraggio scritto",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Stop non scritto",
+      "prompt": "La raccomandazione per 50-55% e un monitoraggio piu ravvicinato, non una sospensione automatica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Antracicline, stesso paletto",
+      "prompt": "Un'altra paziente deve iniziare doxorubicina, eco assente.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Anche li, frazione di eiezione prima",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "L'antraciclina si inizia e l'eco si fa se compare affanno",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Antraciclina senza baseline",
+      "prompt": "La stessa raccomandazione vale per chi inizia antracicline, non solo per l'anti-HER2.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dirle il rischio sul cuore",
+      "prompt": "Chiede se il trastuzumab puo danneggiare il cuore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Dica benefici, rischi cardiaci e alternative",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Dica che il cuore non c'entra",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Rischio cardiaco negato",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una risonanza cardiaca che lei rifiuta, avendo gia l'ecocardiogramma. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in ambulatorio il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

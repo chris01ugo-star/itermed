@@ -1,0 +1,431 @@
+{
+  "id": "ONCO-017",
+  "code": "ONCO-017",
+  "title": "Versamento pericardico neoplastico: non solo lo svuotamento",
+  "description": "Donna di 66 anni, tumore del polmone, tamponamento. Dopo la pericardiocentesi chiedono se aggiungere il farmaco nel pericardio.",
+  "difficulty": "HARD",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "condition": "Versamento pericardico neoplastico, chemioterapia intrapericardica aggiunta alla pericardiocentesi",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Nel versamento pericardico di origine neoplastica l'infusione intrapericardica di chemioterapici aggiunta alla pericardiocentesi puo essere considerata, in alternativa alla sola pericardiocentesi. Il testo non fissa il nome della molecola ne i milligrammi in quella raccomandazione.",
+  "pastMedicalHistory": "Carcinoma polmonare. Nessuna pericardiocentesi precedente. Capace. Dolore toracico.",
+  "presentation": "Ipotesa, tachicardia, giugulari tese. Eco: versamento pericardico.",
+  "redHerrings": [
+    "Solo un diuretico.",
+    "PET prima dello svuotamento."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Rosa. Mi manca il fiato e ho male. Svuotate il pericardio se serve. Spiegatemi se mettete anche il farmaco dentro. Scrivete il dolore. Rifiuto la PET adesso.",
+  "correctSolution": "Pericardiocentesi. Poi, in un caso selezionato, si puo aggiungere l'infusione intrapericardica di un chemioterapico, senza inventare farmaco o dose che la raccomandazione non scrive. Consenso e dolore. Niente PET prima del gesto.",
+  "goldStandardPath": [
+    "eco",
+    "visita"
+  ],
+  "goldPathNarrative": "Il versamento si svuota. L'aggiunta intrapericardica e un'opzione, non uno schema con un milligrammo letto.",
+  "examLatencies": {
+    "eco": 15,
+    "visita": 10,
+    "pet-total": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "L'eco mostra versamento?",
+      "critical": true,
+      "expectedKeywords": [
+        "versamento",
+        "pericardio",
+        "eco"
+      ],
+      "rationale": "La raccomandazione parte dal versamento neoplastico."
+    },
+    {
+      "id": "q2",
+      "prompt": "E instabile?",
+      "critical": true,
+      "expectedKeywords": [
+        "pressione",
+        "fiato",
+        "si"
+      ],
+      "rationale": "Il gesto non aspetta una PET."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Pressione bassa, tachicardia, dolore toracico, dispnea."
+  },
+  "escCitations": [
+    {
+      "chunkId": "ipc",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "in pazienti con versamento pericardico di origine neoplastica, I: il trattamento con infusione intrapericardica di agenti chemioterapici in aggiunta alla pericardiocentesi C: è raccomandabile in alternativa alla sola pericardiocentesi O: con riferimento agli outcome di beneficio/danno: - tempo alla recidiva del versame"
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l219-3",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Non lasciare il tamponamento senza svuotamento.",
+      "Non inventare il milligrammo intrapericardico."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La raccomandazione non nomina il farmaco ne la dose. Il caso non li inventa.",
+      "legalCriteria": [
+        "Pericardiocentesi come base.",
+        "Aggiunta intrapericardica solo come opzione scritta, senza una dose inventata.",
+        "Dolore in cartella, legge 38/2010 art. 7."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "eco",
+      "name": "Ecocardiogramma",
+      "finding": "Versamento pericardico con segni di riempimento difficile.",
+      "isAbnormal": true
+    },
+    {
+      "examId": "visita",
+      "name": "Visita",
+      "finding": "Ipotesa e dispnea. Urgenza.",
+      "isAbnormal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac 780 euro. Ritarda lo svuotamento.",
+      "isAbnormal": true,
+      "priceEuro": 780,
+      "wasteRationale": "PET in un tamponamento."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 112,
+      "bloodPressure": "90/60",
+      "spo2": 94,
+      "temperature": 36.6,
+      "respiratoryRate": 24
+    },
+    "demographics": {
+      "age": 66,
+      "sex": "F",
+      "context": "Reparto di oncologia"
+    },
+    "advancedExams": {
+      "values": {
+        "eco": {
+          "finding": "Versamento pericardico con segni di riempimento difficile.",
+          "isAbnormal": true
+        },
+        "visita": {
+          "finding": "Ipotesa e dispnea. Urgenza.",
+          "isAbnormal": true
+        },
+        "pet-total": {
+          "finding": "Fasdac 780 euro. Ritarda lo svuotamento.",
+          "isAbnormal": true
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Sono Rosa. Mi manca il fiato e ho male. Svuotate il pericardio se serve. Spiegatemi se mettete anche il farmaco dentro. Scrivete il dolore. Rifiuto la PET adesso."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Svuotare",
+      "prompt": "Tamponamento, versamento neoplastico noto come contesto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Pericardiocentesi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Solo un diuretico e la PET",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Tamponamento non svuotato",
+      "prompt": "L'opzione scritta parte dalla pericardiocentesi. La PET total body e una tariffa e non svuota il pericardio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Non tratta il tamponamento.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Non tratta il tamponamento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Aggiunta",
+      "prompt": "Il liquido e neoplastico. Chiedono se instillare un chemioterapico.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Puo considerarla in aggiunta, in un caso selezionato, senza inventare molecola o dose assenti dalla raccomandazione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Scelga un farmaco e un milligrammo non scritti in quella raccomandazione",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose intrapericardica inventata",
+      "prompt": "La raccomandazione dice che l'infusione intrapericardica di agenti chemioterapici aggiunta alla pericardiocentesi puo essere considerata. Non scrive il nome ne i milligrammi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dirle i rischi",
+      "prompt": "Chiede se puo sanguinare o se il versamento torna.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Dica benefici, rischi e alternative",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Punga senza spiegare",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Puntura non spiegata",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Puo rifiutare l'instillazione",
+      "prompt": "Accetta lo svuotamento e rifiuta il farmaco dentro.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Svuoti e non instilli",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Instilli lo stesso",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Instillazione senza consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore toracico",
+      "prompt": "Il dolore c'e e non e in cartella.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Lo scriva con tecnica, farmaci, dosaggi e risultato",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo tratti e non scriva nulla",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non scritto",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una seconda puntura di controllo che lei rifiuta, dopo lo svuotamento efficace. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in pronto soccorso il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

@@ -1,294 +1,441 @@
 {
   "id": "ONCO-007",
   "code": "ONCO-007",
-  "title": "Otto scariche — colite da immunoterapia",
-  "description": "Marco S., 58 anni, melanoma metastatico in nivolumab da tre mesi. Da quattro giorni diarrea, oggi otto scariche liquide, crampi, si alza di notte. Un collega gli ha detto «gastroenterite, prenda la loperamide». Non ha febbre alta. È spaventato e anche arrabbiato: «la cura mi sta avvelenando».",
-  "difficulty": "MEDIUM",
+  "title": "Ipercalcemia maligna: zoledronato 4 mg",
+  "description": "Donna di 70 anni, carcinoma mammario con metastasi ossee, calcio 13 mg/dL, sintomatica. Creatinina dentro il range degli studi, clearance stimata ridotta. Propongono furosemide 20 mg o zoledronato 8 mg.",
+  "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "secondary_specialties": ["gastroenterologia"],
-  "condition": "Colite grado 3 da inibitore del checkpoint",
+  "condition": "Ipercalcemia maligna sintomatica, zoledronato come prima opzione con aggiustamento sulla clearance",
   "frequencyCategory": "MEDIUM",
-  "matrixDifficulty": "INTERMEDIATE",
+  "matrixDifficulty": "ADVANCED",
   "setting": "REPARTO",
-  "guidelineRef": "ESMO tossicità da immunoterapia: sospendere il farmaco e steroide ad alto dosaggio",
-  "diagnosis": "Colite grado 3 da nivolumab. Sospendere l'immunoterapia, escludere il Clostridioides, metilprednisolone ad alto dosaggio. La loperamide, come per una tossinfezione, è la trappola mortale.",
-  "pastMedicalHistory": "Melanoma metastatico, nivolumab ogni due settimane, ultima dose sei giorni fa. Nessuna diarrea prima del farmaco. Non antibiotici recenti. Non viaggi. Quattro giorni di scariche, oggi otto, notturne, con crampi e urgenza. Una volta striatura di sangue. Peso meno due chili in una settimana. Non ha preso ancora loperamide, gliel'hanno solo consigliata.",
-  "presentation": "Seduto sul letto, si alza durante il colloquio per il bagno, torna più pallido. Addome diffuso, dolorabilità senza difesa. Non settico. Se gli si parla di loperamide si aggrappa al nome perché è una pastiglia e non un ricovero. Parametri: PA 112/70, FC 108, SpO2 98%, FR 16, temperatura 37,2.",
+  "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Ipercalcemia dell'adulto se calcio totale >10,5 mg/dL. Gli studi sul zoledronato arruolavano calcio almeno 12 mg/dL e creatinina fino a 4,5 mg/dL. Lo zoledronato e opzione di prima intenzione. La dose raccomandata richiamata e 4 mg, non 8 mg, e l'aggiustamento sulla clearance e pratica clinica raccomandata. La furosemide a 20-40 mg al giorno e inefficace come trattamento e resta per la ritenzione durante l'idratazione.",
+  "pastMedicalHistory": "Carcinoma mammario noto. Niente diuretico dell'ansa a casa. Capace. Nausea e dolore osseo.",
+  "presentation": "Confusione lieve, calcio 13 mg/dL, creatinina 1,3 mg/dL. Chiedono se basta una compressa di furosemide.",
   "redHerrings": [
-    "Sembra una gastroenterite. Manca la febbre alta e c'è un farmaco che infiamma il colon.",
-    "Il sangue sulla carta non è un motivo per la loperamide: è un motivo per non chiudere la diarrea a forza.",
-    "La colonscopia immediata, prima dello steroide, ritarda la cura e costa 180 euro."
+    "Furosemide 20-40 mg come cura.",
+    "Zoledronato 8 mg senza guardare la clearance."
   ],
-  "timeLimitMinutes": 45,
-  "patientDeteriorationThreshold": 30,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: DIARREA SEVERA, RABBIA E PAURA. Sei Marco, 58 anni, reparto. Ti alzi, ti tieni la pancia. Alla «Come sta?»: «Otto volte. [sospiro] È acqua. Questa cura mi sta ammazzando.» Pausa, un crampo, stringi i denti. Se ti chiedono da quando, quattro giorni, peggio oggi, anche di notte. Il sangue, una striatura, solo se chiedono del water. Il nivolumab lo dici se chiedono le cure: «L'ultima volta sei giorni fa.» Se ti propongono la loperamide o «è un virus, dieta in bianco», ti illumini e ti arrabbi insieme: «Finalmente una pastiglia. Me la dia.» Se invece sospendono l'immunoterapia e ti parlano di cortisone in vena, hai paura: «E il melanoma? Lo lasciate andare?» poi, se ti spiegano che il colon viene prima, accetti. Non nominare tu grado 3, checkpoint, steroide ad alto dosaggio. Se passa tempo e ti danno solo loperamide: «[crampo] Sto peggio. Non arrivo al bagno.» Esempio: Medico: «È una tossinfezione. Loperamide e a casa.» Marco: «Sì. Datemi quella. Però... otto volte non è un virus?»",
-  "correctSolution": "Sospendere il nivolumab. Emocromo, elettroliti, creatinina, tossina del Clostridioides. Metilprednisolone endovenoso ad alto dosaggio, circa 1-2 mg/kg. Non loperamide. Non colonscopia come primo atto. Non PET.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Anna. Ho sete e mal di ossa. Scrivete il dolore. Non voglio 8 mg se la dose scritta e 4. Rifiuto la PET.",
+  "correctSolution": "Zoledronato come prima opzione, 4 mg, dose aggiustata sulla clearance, con l'idratazione degli studi. Furosemide solo se compare ritenzione durante l'idratazione, non a 20-40 mg come cura. Niente PET. Consenso e dolore in cartella.",
   "goldStandardPath": [
-    "cdiff",
-    "elettroliti",
-    "emocromo",
-    "sospensione-immunoterapia",
-    "metilprednisolone"
+    "calcio",
+    "creatinina"
   ],
-  "goldPathNarrative": "1) Si sospende il nivolumab, a voce, prima di nuovi cicli. 2) Tossina di Clostridioides, 30 euro, per non coprire un'infezione con lo steroide da solo. 3) Elettroliti e emocromo, 16 euro: le scariche spostano il potassio. 4) Metilprednisolone endovenoso ad alto dosaggio. Ideale di esami 52 euro più lo steroide, budget 160. La colonscopia da 180 euro, aggiunta, sfora. PET e RM sfonano. La loperamide non sfora il budget: sfora il paziente.",
+  "goldPathNarrative": "Il calcio si tratta con lo zoledronato alla dose raccomandata e con la clearance, non con la furosemide a basso dosaggio.",
   "examLatencies": {
-    "cdiff": 15,
-    "elettroliti": 10,
-    "emocromo": 10,
-    "creat-urea-gfr": 10,
-    "colonscopia": 40,
-    "pet-tc": 180,
-    "rm-rachide": 60,
-    "ngs-panel": 200,
-    "metilprednisolone": 5
+    "calcio": 10,
+    "creatinina": 10,
+    "pet-total": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-numero",
-      "prompt": "Quante scariche al giorno, anche di notte, e c'è sangue?",
+      "id": "q1",
+      "prompt": "Quanto e il calcio?",
       "critical": true,
-      "expectedKeywords": ["otto", "notte", "sangue"],
-      "rationale": "Otto scariche con urgenza notturna sono grado 3, non una dieta in bianco."
+      "expectedKeywords": [
+        "13",
+        "calcio",
+        "alto"
+      ],
+      "rationale": "Gli studi partivano da calcio almeno 12 mg/dL. La definizione adulta e sopra 10,5."
     },
     {
-      "id": "aq-farmaco",
-      "prompt": "Quale immunoterapia e quando è stata l'ultima dose?",
+      "id": "q2",
+      "prompt": "Com'e la funzione renale?",
       "critical": true,
-      "expectedKeywords": ["nivolumab", "giorni"],
-      "rationale": "Il nesso col checkpoint è la diagnosi. Senza quella domanda si cura un virus che non c'è."
-    },
-    {
-      "id": "aq-loperamide",
-      "prompt": "Ha già preso loperamide o un antibiotico?",
-      "critical": true,
-      "expectedKeywords": ["loperamide", "antibiotico"],
-      "rationale": "Sapere che non l'ha ancora presa permette di non prescriverla."
+      "expectedKeywords": [
+        "creatinina",
+        "clearance",
+        "rene"
+      ],
+      "rationale": "L'aggiustamento sulla clearance e pratica raccomandata. 8 mg ha piu eventi renali."
     }
   ],
   "physicalExam": {
-    "summary": "Tachicardia, pressione tenuta, non febbre alta. Addome diffuso, meteorismo, dolorabilità senza difesa e senza segni di perforazione. Cute turgida ai limiti. Si alza per urgenza. Quadro di colite, non di addome chirurgico."
+    "summary": "Sete, nausea, dolore osseo. Cosciente, capace di rifiutare."
   },
   "escCitations": [
     {
-      "chunkId": "onco-007-steroide",
-      "source": "Colite da checkpoint — sintesi operativa",
-      "quote": "Sintesi operativa: nella diarrea grado 3 da immunoterapia si sospende il farmaco e si inizia lo steroide ad alto dosaggio. Non si aspetta la colonscopia per la prima dose."
+      "chunkId": "def",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "L'ipercalcemia nel soggetto adulto e definita da concentrazioni plasmatiche di calcio totale > 10.5"
     },
     {
-      "chunkId": "onco-007-loperamide",
-      "source": "Antidiarroici — sintesi operativa",
-      "quote": "Sintesi operativa: la loperamide nella colite da checkpoint chiude una diarrea infiammatoria e può precipitare il quadro. Non è il trattamento di una tossinfezione."
+      "chunkId": "zol",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "Nei pazienti affetti da ipercalcemia maligna l'utilizzo di zoledronato puo essere preso in considerazione come opzione terapeutica di prima intenzione"
+    },
+    {
+      "chunkId": "dose",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "Va tuttavia sottolineata la minore incidenza nel gruppo di trattamento con zoledronato 4mg (dose raccomandata), e il mancato aggiustamento della dose in base alla creatinina clearance stimata (pratica clinica raccomandata)."
+    },
+    {
+      "chunkId": "fur",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "utilizzo di furosemide risulta inefficace se a bassi dosaggi (20-40mg die) e richiede un monitoraggio intensivo dei disordini elettrolitici secondari (ipernatriemia, ipofosfatemia, ipomagnesemia). Risulta dunque limitato ai pazienti che sviluppano ritenzione idrica durante l’idratazione 8."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Sospensione esplicita del nivolumab.",
-      "Esclusione del Clostridioides.",
-      "Steroide ad alto dosaggio per via venosa.",
-      "Nessuna loperamide."
+      "Zoledronato prima della furosemide.",
+      "4 mg, non 8 mg, con la clearance."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: grado 3 da checkpoint, aderenza è stop e steroide. La loperamide è lo scostamento che fa danno.",
+      "art5Adherence": "Dose 4 mg, aggiustamento e limite della furosemide sono frasi della linea guida delle emergenze oncologiche. Non ho aggiunto litri di fisiologica che il PDF non quantifica.",
       "legalCriteria": [
-        "Contare le scariche e scrivere il grado, non «un po' di diarrea».",
-        "Orario della sospensione e orario della prima dose di steroide.",
-        "Non dimettere con loperamide e dieta in bianco."
+        "Zoledronato 4 mg con aggiustamento sulla clearance.",
+        "Furosemide non come cura a 20-40 mg.",
+        "Dolore in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "cdiff",
-      "name": "Tossina Clostridioides",
-      "finding": "Tossina di Clostridioides difficile negativa. La diarrea non è una colite da antibiotico.",
-      "isAbnormal": false,
-      "priceEuro": 30
+      "examId": "calcio",
+      "name": "Calcemia",
+      "finding": "13 mg/dL. Sopra 10,5 e nel range degli studi, che partivano da 12.",
+      "isAbnormal": true
     },
     {
-      "examId": "elettroliti",
-      "name": "Elettroliti",
-      "finding": "Sodio 134 mmol/L, potassio 3,1 mmol/L. Perdite intestinali, da reintegrare insieme allo steroide.",
-      "isAbnormal": true,
-      "priceEuro": 8
-    },
-    {
-      "examId": "emocromo",
-      "name": "Emocromo",
-      "finding": "Leucociti 11200, emoglobina 12,8 g/dL, piastrine 310000. Non neutropenia. Non è una tossinfezione settica.",
-      "isAbnormal": false,
-      "priceEuro": 8
-    },
-    {
-      "examId": "creat-urea-gfr",
+      "examId": "creatinina",
       "name": "Creatinina",
-      "finding": "Creatinina 1,1 mg/dL. Disidratazione lieve, non una controindicazione allo steroide.",
-      "isAbnormal": true,
-      "priceEuro": 6
+      "finding": "1,3 mg/dL, sotto 4,5 degli studi. La clearance stimata e ridotta: la dose si aggiusta.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "colonscopia",
-      "name": "Colonscopia",
-      "finding": "Mucosa eritematosa, fragile, non una perforazione. Il referto conferma la colite ma arriva dopo lo steroide, non prima. Costo 180 euro.",
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac 780 euro. Non cura il calcio di oggi.",
       "isAbnormal": true,
-      "priceEuro": 180,
-      "inappropriate": true,
-      "wasteRationale": "Nel grado 3 lo steroide non aspetta la colonscopia. 180 euro in più sforano il budget di 160."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET non richiesta per una tossicità acuta. 950 euro.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "La PET non cura la colite e sfora il massimale."
-    },
-    {
-      "examId": "rm-rachide",
-      "name": "RM whole body",
-      "finding": "RM non indicata sulla diarrea. 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Una RM da 220 euro sfora il budget di 160."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello NGS",
-      "finding": "NGS irrilevante sulla tossicità acuta. 1200 euro.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "L'NGS non è il trattamento della colite immune."
+      "priceEuro": 780,
+      "wasteRationale": "Tariffa che ritarda lo zoledronato."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 108,
-      "bloodPressure": "112/70",
-      "spo2": 98,
-      "temperature": 37.2,
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 97,
+      "temperature": 36.6,
       "respiratoryRate": 16
     },
-    "examBudgetEuro": 160,
     "demographics": {
-      "age": 58,
-      "sex": "M",
-      "name": "Marco S.",
+      "age": 70,
+      "sex": "F",
       "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Addome",
-        "result": "Dolorabilità diffusa, meteorismo, peristalsi vivace, non difesa.",
-        "isPositive": true
-      },
-      {
-        "signName": "Perforazione",
-        "result": "Non difesa, non silenzio addominale, non peritonismo.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Addome",
-        "result": "Dolorabilità diffusa, meteorismo, peristalsi vivace, non difesa.",
-        "isPositive": true
-      },
-      {
-        "signName": "Perforazione",
-        "result": "Non difesa, non silenzio addominale, non peritonismo.",
-        "isPositive": false
-      }
-    ],
     "advancedExams": {
       "values": {
-        "cdiff": {
-          "finding": "Tossina Clostridioides negativa.",
-          "isAbnormal": false,
-          "price": 30
+        "calcio": {
+          "finding": "13 mg/dL. Sopra 10,5 e nel range degli studi, che partivano da 12.",
+          "isAbnormal": true
         },
-        "elettroliti": {
-          "finding": "Sodio 134, potassio 3,1 mmol/L.",
-          "isAbnormal": true,
-          "price": 8
+        "creatinina": {
+          "finding": "1,3 mg/dL, sotto 4,5 degli studi. La clearance stimata e ridotta: la dose si aggiusta.",
+          "isAbnormal": true
         },
-        "emocromo": {
-          "finding": "Leucociti 11200, emoglobina 12,8, non neutropenia.",
-          "isAbnormal": false,
-          "price": 8
-        },
-        "creat-urea-gfr": {
-          "finding": "Creatinina 1,1 mg/dL.",
-          "isAbnormal": true,
-          "price": 6
-        },
-        "colonscopia": {
-          "finding": "Mucosa eritematosa e fragile, biopsie compatibili con colite. Non è il primo atto.",
-          "isAbnormal": true,
-          "price": 180
-        },
-        "pet-tc": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "rm-rachide": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "ngs-panel": {
-          "finding": "Non pertinente.",
-          "isAbnormal": false,
-          "price": 1200
+        "pet-total": {
+          "finding": "Fasdac 780 euro. Non cura il calcio di oggi.",
+          "isAbnormal": true
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Metilprednisolone ad alto dosaggio",
-          "anyOf": [
-            {
-              "id": "metilprednisolone",
-              "label": "Metilprednisolone ev",
-              "aliases": ["metilprednisolone", "solumedrol", "steroide"],
-              "priceEuro": 12
-            }
-          ]
-        }
-      ],
-      "contraindicated": [
-        {
-          "id": "loperamide",
-          "label": "Loperamide",
-          "aliases": ["loperamide", "imodium", "loperamida"],
-          "priceEuro": 4
-        }
-      ]
-    },
-    "killerRules": {
-      "fatalIfPrescribed": [
-        ["loperamide", "imodium", "loperamida"]
-      ],
-      "fatalIfOmitted": [
-        ["metilprednisolone", "solumedrol", "prednisone", "steroide", "desametasone"]
-      ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "OPPOSITIONAL",
-    "adherence": "PARTIAL",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
     "lifestyleAndSocial": {
-      "sleepQuality": "POOR",
+      "sleepQuality": "FAIR",
       "stressLevel": "HIGH",
       "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Arrabbiato e spaventato, conta le scariche, crampi. Vuole la pastiglia della loperamide se gliela offrono. Se gli sospendono la cura ha paura per il melanoma."
-  }
+    "communicationStyle": "Sono Anna. Ho sete e mal di ossa. Scrivete il dolore. Non voglio 8 mg se la dose scritta e 4. Rifiuto la PET."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Definizione",
+      "prompt": "Calcio 13 mg/dL, sintomi. Creatinina 1,3 mg/dL.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La chiami ipercalcemia maligna e prepari lo zoledronato, non un diuretico come cura",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Furosemide 20 mg e osservazione, senza bifosfonato",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Furosemide al posto dello zoledronato",
+      "prompt": "Lo zoledronato puo essere la prima opzione. La furosemide a 20-40 mg al giorno e inefficace e resta per la ritenzione durante l'idratazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Non modifica la calcemia di oggi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Non modifica la calcemia di oggi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "4 mg e la clearance",
+      "prompt": "Propongono 8 mg in 5 minuti, senza guardare la clearance.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Zoledronato 4 mg, dose aggiustata sulla clearance stimata",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Zoledronato 8 mg, dose piena, clearance ignorata",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose e rene",
+      "prompt": "4 mg e la dose raccomandata. Il mancato aggiustamento sulla creatinina clearance e contrario alla pratica clinica raccomandata. A 8 mg gli eventi renali gravi erano piu frequenti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Idratazione e diuretico",
+      "prompt": "Negli studi lo zoledronato era associato a idratazione endovenosa. Durante l'infusione compare ritenzione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Idratazione come negli studi. Furosemide solo per la ritenzione comparsa durante l'idratazione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Niente idratazione e furosemide subito, a 20 mg, come schema fisso",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Diuretico fuori indicazione del testo",
+      "prompt": "La furosemide e limitata a chi sviluppa ritenzione durante l'idratazione. A 20-40 mg al giorno e descritta come inefficace.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non lo steroide del linfoma",
+      "prompt": "Qualcuno aggiunge idrocortisone 200-300 mg al giorno 'per ogni ipercalcemia'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo usi qui: quel regime e suggerito per l'ipercalcemia da calcitriolo delle malattie linfoproliferative",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Idrocortisone 200-300 mg per 3-5 giorni in questo carcinoma mammario",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Steroide fuori dal meccanismo",
+      "prompt": "I corticosteroidi sono descritti per l'ipercalcemia da calcitriolo delle malattie linfoproliferative, con idrocortisone 200-300 mg al giorno per 3-5 giorni. Non e il caso del carcinoma mammario osteolitico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Spiegare il rene",
+      "prompt": "Chiede perche la dose cambia con la clearance e cosa rischia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Spieghi benefici, rischi, anche renali, e le alternative",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Infonda 8 mg e non parli del rene",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Rischio renale taciuto",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una dialisi immediata che lei rifiuta, con calcio che si sta gia impostando per lo zoledronato. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in reparto il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

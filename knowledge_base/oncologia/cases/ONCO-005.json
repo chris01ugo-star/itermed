@@ -1,300 +1,431 @@
 {
   "id": "ONCO-005",
   "code": "ONCO-005",
-  "title": "Il sangue che non si vede — colon",
-  "description": "Anna P., 71 anni, viene in pronto soccorso perché «non si regge in piedi». È pallida, stanca da sei settimane, la ricerca del sangue occulto fatta dal medico di base è positiva. Non ha visto sangue rosso. Pensa sia l'età.",
-  "difficulty": "MEDIUM",
+  "title": "Prostata resistente: BRCA e poi solo olaparib",
+  "description": "Uomo di 71 anni, mCRPC. Ha gia fatto docetaxel e poi un ARSI. Propongono un PARP-inibitore senza BRCA, e non olaparib.",
+  "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "secondary_specialties": ["gastroenterologia"],
-  "condition": "Anemia sideropenica e sangue occulto positivo, sospetto carcinoma del colon",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "INTERMEDIATE",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "AIOM colon: emocromo, colonscopia e TC di stadiazione",
-  "diagnosis": "Anemia da sanguinamento occulto, massa del sigma. Emocromo, assetto marziale, CEA, colonscopia e TC torace e addome con mezzo di contrasto. PET e NGS non sono la prima stadiazione.",
-  "pastMedicalHistory": "Ipertensione e artrosi. FANS saltuari per le ginocchia. Da sei settimane si siede per vestirsi, fiato corto sulle scale, feci un po' più sottili che non ha detto a nessuno. Sangue occulto fecale positivo la settimana scorsa. Non colonscopie prima. Non familiarità nota. Non anticoagulanti. Vive col marito.",
-  "presentation": "Pallida, congiuntive scolorite, si tiene al bordo della barella per non girare la testa. Addome morbido, lieve fastidio in fossa iliaca sinistra, non peritonismo. Rettale non fatto ancora: se lo si fa, non c'è sangue rosso vivo sul guanto, feci scure. Parametri: PA 108/64, FC 104, SpO2 97%, FR 18, temperatura 36,5.",
+  "condition": "mCRPC dopo docetaxel e ARSI, PARP solo se BRCA e solo olaparib rimborsato",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "tumore prostata.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Nel mCRPC con mutazione somatica o germinale di BRCA1/2, dopo docetaxel in sequenza con un ARSI e senza un PARP precedente, un PARP-inibitore puo essere considerato. Al momento della linea guida l'unico PARP rimborsato in Italia e olaparib. Senza BRCA quel passo non c'e.",
+  "pastMedicalHistory": "mHSPC trattato, poi resistenza alla castrazione. Docetaxel e in seguito enzalutamide. Dolore osseo. Capace.",
+  "presentation": "PSA in salita, lesioni ossee note. Nessun test BRCA. Il figlio ha letto di 'un PARP qualsiasi'.",
   "redHerrings": [
-    "I FANS spiegano un po' di bruciore, non un'emoglobina sotto gli 8 con sangue occulto.",
-    "«È l'età» è rassegnazione, non una diagnosi.",
-    "Una PET prima della colonscopia fotografa senza dare l'istologia e costa 950 euro."
+    "Un PARP diverso da olaparib.",
+    "Olaparib prima del test BRCA."
   ],
-  "timeLimitMinutes": 55,
-  "patientDeteriorationThreshold": 70,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: ASTENIA GRAVE, PALLORE, RASSEGNAZIONE. Sei Anna, 71 anni, pronto soccorso. Parli piano, ti manca il fiato se la frase è lunga. Alla «Come sta?»: «[sospiro] Non mi reggo. Sarà l'età... lasci stare.» Pausa. Se ti chiedono da quando, sei settimane, le scale le fai sedendoti. Il sangue nelle feci non l'hai visto rosso: lo dici solo se chiedono del bagno o del colore. Le feci più sottili, solo se insistono sull'alvo. Il sangue occulto positivo lo sai perché il medico te l'ha detto: lo dici se chiedono esami già fatti. I FANS per le ginocchia, se chiedono le medicine. Se ti parlano di colonscopia hai paura: «Mi farà male? E se è un tumore, quanto mi resta?» Se ti propongono una PET prima di tutto, ti aggrappi: «Sì, senza il tubo.» Se ti spiegano il sangue, la colonscopia e la TAC, [sospiro], accetti. Non nominare tu sigma, adenocarcinoma, stadio. Esempio: Medico: «È solo un po' di anemia dai FANS.» Anna: «[sospiro] Allora me ne vado a casa. Sono solo vecchia.»",
-  "correctSolution": "Emocromo, assetto marziale, CEA, colonscopia e TC torace più TC addome con mezzo di contrasto. Dire che il sangue occulto e il pallore non sono l'età. Non PET di prima linea.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Franco. Fate il test BRCA. Se non c'e la mutazione non voglio il PARP. Il dolore alle ossa va in cartella. Rifiuto la PET di oggi.",
+  "correctSolution": "Test BRCA1/2 somatico o germinale. Solo se mutato, dopo docetaxel e ARSI e senza PARP precedente: olaparib, l'unico PARP rimborsato nel testo. Consenso e dolore. Niente PET al posto del test.",
   "goldStandardPath": [
-    "emocromo",
-    "assetto-marziale",
-    "cea",
-    "colonscopia",
-    "tc-torace",
-    "tc-addome"
+    "storia",
+    "brca"
   ],
-  "goldPathNarrative": "1) Emocromo: anemia grave, 8 euro. 2) Assetto marziale: sideropenia, 12 euro. 3) CEA, 12 euro, da leggere dopo l'istologia e non al posto della colonscopia. 4) Colonscopia, 180 euro, con biopsia sulla lesione. 5) TC torace 150 e TC addome 150 per la stadiazione. Ideale 512 euro, budget 640. Una RM da 220 porta il conto a 732 e sfora. La PET da 950 sfora da sola oltre il percorso.",
+  "goldPathNarrative": "Il PARP sta dopo il BRCA e dentro il rimborso scritto: olaparib.",
   "examLatencies": {
-    "emocromo": 10,
-    "assetto-marziale": 15,
-    "cea": 20,
-    "colonscopia": 40,
-    "tc-torace": 30,
-    "tc-addome": 30,
-    "creat-urea-gfr": 10,
-    "pet-tc": 180,
-    "rm-rachide": 60,
-    "ngs-panel": 200,
-    "egds": 40
+    "storia": 10,
+    "brca": 40,
+    "pet-total": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-alvo",
-      "prompt": "Le feci sono cambiate, ha visto sangue, e il sangue occulto che esito ha dato?",
+      "id": "q1",
+      "prompt": "Quali linee ha gia fatto?",
       "critical": true,
-      "expectedKeywords": ["feci", "sangue", "occulto"],
-      "rationale": "Sangue occulto positivo e alvo cambiato portano alla colonscopia, non a una PET."
+      "expectedKeywords": [
+        "docetaxel",
+        "ARSI",
+        "enzalutamide"
+      ],
+      "rationale": "Il quesito chiede docetaxel in sequenza con un ARSI."
     },
     {
-      "id": "aq-astenia",
-      "prompt": "Da quando non si regge, e ha perso peso?",
+      "id": "q2",
+      "prompt": "C'e una mutazione BRCA?",
       "critical": true,
-      "expectedKeywords": ["settimane", "scale", "peso"],
-      "rationale": "Sei settimane di astenia con pallore è un sanguinamento, non una giornata storta."
-    },
-    {
-      "id": "aq-fans",
-      "prompt": "Prende antinfiammatori o fluidifica il sangue?",
-      "critical": false,
-      "expectedKeywords": ["fans", "ginocchia"],
-      "rationale": "I FANS sono un'esca. Non spiegano da soli emoglobina sotto 8 e sangue occulto."
+      "expectedKeywords": [
+        "BRCA",
+        "mutazione",
+        "test"
+      ],
+      "rationale": "Senza BRCA il PARP di quel quesito non parte."
     }
   ],
   "physicalExam": {
-    "summary": "Pallore marcato di cute e congiuntive. Tachicardia. Addome morbido, lieve dolorabilità in fossa iliaca sinistra, non masse chiaramente palpabili, non difesa. Esplorazione rettale: feci scure, non sangue rosso vivo. Non segni di shock. È un sanguinamento cronico, non un'emorragia in atto da sala operatoria."
+    "summary": "Dolore osseo, deambulante. Terapie precedenti note in cartella."
   },
   "escCitations": [
     {
-      "chunkId": "onco-005-colon",
-      "source": "Sangue occulto e anemia — sintesi operativa",
-      "quote": "Sintesi operativa: anemia sideropenica e sangue occulto positivo nell'anziano si studiano con colonscopia. I FANS non chiudono il caso."
+      "chunkId": "parp",
+      "source": "knowledge_base/oncologia/clinic/tumore prostata.pdf",
+      "quote": "unico PARP-inibitore rimborsato in Italia è olaparib Condizionata a favore COI: nessun conflitto dichiarato Bibliografia quesito 10 1. Robinson D, Van Allen EM, Wu YM, et al. Integrative clinical genomics of advanced prostate cancer. Cell. 2015; 162:454. 2."
     },
     {
-      "chunkId": "onco-005-stadio",
-      "source": "Stadiazione del colon — sintesi operativa",
-      "quote": "Sintesi operativa: dopo la lesione endoscopica la stadiazione è TC torace e addome con mezzo di contrasto. La PET non è l'esame di prima linea del colon non metastatico clinico."
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l219-3",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Emocromo e sideropenia letti come sanguinamento.",
-      "Colonscopia, non PET, come diagnosi.",
-      "TC torace e TC addome per la stadiazione.",
-      "Risposta alla frase «sarà l'età»."
+      "Test BRCA prima del PARP.",
+      "Olaparib, non un altro PARP-inibitore."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: sangue occulto e anemia grave impongono la colonscopia. Chiudere con i FANS o aprire con la PET è scostamento.",
+      "art5Adherence": "Olaparib come unico PARP rimborsato e una frase della linea guida della prostata. Non ho assegnato un numero di Nota AIFA che il PDF non riporta.",
       "legalCriteria": [
-        "Documentare sangue occulto, alvo e pallore prima della scelta.",
-        "Consenso alla colonscopia: beneficio diagnostico, rischio di sanguinamento e perforazione.",
-        "Creatinina prima del mezzo di contrasto della TC, senza sostituire la TC con la PET."
+        "BRCA prima del PARP-inibitore.",
+        "Solo olaparib risulta rimborsato nel testo.",
+        "Dolore in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "emocromo",
-      "name": "Emocromo",
-      "finding": "Emoglobina 7,6 g/dL, MCV 72 fL, piastrine 410000. Anemia microcitica grave.",
-      "isAbnormal": true,
-      "priceEuro": 8
+      "examId": "storia",
+      "name": "Linee precedenti",
+      "finding": "Docetaxel e poi un ARSI. Nessun PARP precedente.",
+      "isAbnormal": true
     },
     {
-      "examId": "assetto-marziale",
-      "name": "Assetto marziale",
-      "finding": "Ferritina 8 ng/mL, ferro 22 µg/dL, transferrina satura 6%. Sideropenia vera, non anemia dell'età.",
-      "isAbnormal": true,
-      "priceEuro": 12
-    },
-    {
-      "examId": "cea",
-      "name": "CEA",
-      "finding": "CEA 28 ng/mL. Utile dopo la diagnosi, non al posto della colonscopia.",
-      "isAbnormal": true,
-      "priceEuro": 12
-    },
-    {
-      "examId": "colonscopia",
-      "name": "Colonscopia",
-      "finding": "Colonscopia: a 28 cm dall'ano lesione ulcerata stenosante del sigma, che non lascia passare lo strumento. Biopsie: adenocarcinoma. Il resto del colon esplorato a monte non è valutabile oggi.",
-      "isAbnormal": true,
-      "priceEuro": 180
-    },
-    {
-      "examId": "tc-torace",
-      "name": "TC torace con mezzo di contrasto",
-      "finding": "TC torace: non noduli polmonari. Non versamento.",
-      "isAbnormal": false,
-      "priceEuro": 150
-    },
-    {
-      "examId": "tc-addome",
-      "name": "TC addome con mezzo di contrasto",
-      "finding": "TC addome: ispessimento parietale del sigma, linfonodi locoregionali centimetrici, fegato senza lesioni focali. Non occlusione completa.",
-      "isAbnormal": true,
-      "priceEuro": 150
+      "examId": "brca",
+      "name": "BRCA1/2",
+      "finding": "Mutazione somatica o germinale da documentare prima del PARP.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC total body",
-      "finding": "PET: accumulo sul sigma, fegato senza focolai chiari. Costa 950 euro e non sostituisce colonscopia e TC in questa fase.",
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac 780 euro. Non sostituisce BRCA.",
       "isAbnormal": true,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "Aggiunta al percorso da 512 euro, la PET sfora il budget di 640 e non è la prima stadiazione."
-    },
-    {
-      "examId": "rm-rachide",
-      "name": "RM whole body",
-      "finding": "RM whole body senza metastasi ossee. Nessun dolore osseo. 220 euro di troppo.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "512 più 220 fa 732, oltre i 640 euro di massimale."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello genetico NGS",
-      "finding": "NGS non indicato prima dell'istologia e della stadiazione TC. Costo 1200 euro.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "L'NGS sfora il budget e non trova la lesione che sanguina."
-    },
-    {
-      "examId": "egds",
-      "name": "EGDS",
-      "finding": "EGDS: gastrite erosiva lieve, non una fonte che spieghi emoglobina 7,6. Costa quanto una strada sbagliata mentre il sangue occulto punta al colon.",
-      "isAbnormal": true,
-      "priceEuro": 140,
-      "inappropriate": true,
-      "wasteRationale": "Con sangue occulto e alvo cambiato la prima endoscopia è la colonscopia. L'EGDS da 140 euro, in più, consuma il margine del budget."
+      "priceEuro": 780,
+      "wasteRationale": "Tariffa al posto del test BRCA."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 104,
-      "bloodPressure": "108/64",
+      "heartRate": 88,
+      "bloodPressure": "128/76",
       "spo2": 97,
-      "temperature": 36.5,
-      "respiratoryRate": 18
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 640,
     "demographics": {
       "age": 71,
-      "sex": "F",
-      "name": "Anna P.",
-      "context": "Pronto soccorso"
+      "sex": "M",
+      "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Pallore",
-        "result": "Congiuntive e palmo scoloriti. Tachicardia.",
-        "isPositive": true
-      },
-      {
-        "signName": "Esplorazione rettale",
-        "result": "Feci scure sul guanto, non sangue rosso vivo, non massa raggiungibile dal dito.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Pallore",
-        "result": "Congiuntive e palmo scoloriti. Tachicardia.",
-        "isPositive": true
-      },
-      {
-        "signName": "Esplorazione rettale",
-        "result": "Feci scure sul guanto, non sangue rosso vivo, non massa raggiungibile dal dito.",
-        "isPositive": true
-      }
-    ],
     "advancedExams": {
       "values": {
-        "emocromo": {
-          "finding": "Emoglobina 7,6 g/dL, MCV 72 fL, piastrine 410000.",
-          "isAbnormal": true,
-          "price": 8
+        "storia": {
+          "finding": "Docetaxel e poi un ARSI. Nessun PARP precedente.",
+          "isAbnormal": true
         },
-        "assetto-marziale": {
-          "finding": "Ferritina 8 ng/mL, saturazione transferrina 6%.",
-          "isAbnormal": true,
-          "price": 12
+        "brca": {
+          "finding": "Mutazione somatica o germinale da documentare prima del PARP.",
+          "isAbnormal": true
         },
-        "cea": {
-          "finding": "CEA 28 ng/mL.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "colonscopia": {
-          "finding": "Lesione ulcerata stenosante del sigma a 28 cm. Biopsie: adenocarcinoma.",
-          "isAbnormal": true,
-          "price": 180
-        },
-        "tc-torace": {
-          "finding": "Non noduli polmonari.",
-          "isAbnormal": false,
-          "price": 150
-        },
-        "tc-addome": {
-          "finding": "Ispessimento del sigma, linfonodi locoregionali, fegato indenne.",
-          "isAbnormal": true,
-          "price": 150
-        },
-        "creat-urea-gfr": {
-          "finding": "Creatinina 0,8 mg/dL. Contrasto possibile.",
-          "isAbnormal": false,
-          "price": 6
-        },
-        "pet-tc": {
-          "finding": "Accumulo sul sigma, fegato senza focolai chiari. Non è la prima stadiazione.",
-          "isAbnormal": true,
-          "price": 950
-        },
-        "rm-rachide": {
-          "finding": "Scheletro indenne. Non indicata.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "rm": {
-          "finding": "Scheletro indenne. Non indicata.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "ngs-panel": {
-          "finding": "Non indicato prima dell'istologia.",
-          "isAbnormal": false,
-          "price": 1200
-        },
-        "egds": {
-          "finding": "Gastrite erosiva lieve, non la fonte dell'anemia.",
-          "isAbnormal": true,
-          "price": 140
+        "pet-total": {
+          "finding": "Fasdac 780 euro. Non sostituisce BRCA.",
+          "isAbnormal": true
         }
       }
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "PASSIVE",
-    "adherence": "PARTIAL",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
     "lifestyleAndSocial": {
-      "sleepQuality": "POOR",
-      "stressLevel": "MEDIUM",
-      "socialSupport": "STRONG"
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Rassegnata, frasi lente, «sarà l'età». Ha paura del tubo. Se le offrono la PET al posto della colonscopia accetta. Se le spiegano il sangue, cede."
-  }
+    "communicationStyle": "Sono Franco. Fate il test BRCA. Se non c'e la mutazione non voglio il PARP. Il dolore alle ossa va in cartella. Rifiuto la PET di oggi."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sequenza gia fatta",
+      "prompt": "mCRPC. Docetaxel e poi enzalutamide. Nessun PARP alle spalle.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Riconosca la sequenza docetaxel/ARSI richiesta dal quesito",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Proponga il PARP come prima linea, senza quella sequenza",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "PARP fuori sequenza",
+      "prompt": "Il quesito riguarda chi ha gia ricevuto docetaxel in sequenza con un ARSI e non ha gia ricevuto un PARP-inibitore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Il passo scritto e il BRCA, non questa PET.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Il passo scritto e il BRCA, non questa PET.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "BRCA prima del PARP",
+      "prompt": "BRCA non testato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Cerchi la mutazione somatica o germinale di BRCA1/2",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Inizi olaparib senza il test",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PARP senza BRCA",
+      "prompt": "Il trattamento con PARP-inibitore di quel quesito e per chi ha mutazione somatica e/o germinale di BRCA1/2.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Solo olaparib",
+      "prompt": "BRCA2 germinale presente.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Olaparib. Nel testo e l'unico PARP-inibitore rimborsato",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Un altro PARP-inibitore, non olaparib",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "PARP non rimborsato nel testo",
+      "prompt": "Al momento della stesura di queste linee guida, l'unico PARP-inibitore rimborsato in Italia e olaparib.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se BRCA e assente",
+      "prompt": "Referto alternativo: BRCA non mutato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non usi un PARP-inibitore su questo quesito",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Olaparib lo stesso, 'tanto e rimborsato'",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Rimborso senza la mutazione",
+      "prompt": "Il rimborso di olaparib non cancella il requisito della mutazione BRCA1/2 scritto nel quesito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Alternative dette",
+      "prompt": "Chiede che altre strade ci sono se rifiuta olaparib.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Dica benefici, rischi, alternative e conseguenze del rifiuto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Dica che non ci sono alternative e faccia firmare",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Alternative negate",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: un secondo prelievo per il BRCA su tessuto, che lui rifiuta perche accetta solo il test sul sangue gia proposto. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in ambulatorio il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

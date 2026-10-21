@@ -1,261 +1,430 @@
 {
   "id": "ONCO-010",
   "code": "ONCO-010",
-  "title": "La TC è peggiorata — dirglielo",
-  "description": "Teresa M., 63 anni, carcinoma ovarico in chemioterapia. La TC di ieri, già refertata, mostra progressione: più ascite, lesioni epatiche nuove. È in ambulatorio per «il risultato». Entra combattiva. Il marito è in sala d'attesa.",
-  "difficulty": "MEDIUM",
+  "title": "Colite da immunoterapia di grado 3: steroide, non il biologico",
+  "description": "Donna di 57 anni in pembrolizumab, diarrea e colite di grado 3. Propongono solo loperamide, oppure infliximab come se fosse in indicazione.",
+  "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "condition": "Progressione di malattia da comunicare con SPIKES",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "INTERMEDIATE",
-  "setting": "AMBULATORIO",
-  "guidelineRef": "Protocollo SPIKES e Legge 219/2017 sulla verità della prognosi",
-  "diagnosis": "Progressione radiologica già documentata. Comunicazione con SPIKES: notizia, emozioni, prognosi vera, piano di cure. Mentire sul tempo che resta, o prescrivere PET e NGS per rimandare il discorso, è la trappola legale ed empatica.",
-  "pastMedicalHistory": "Carcinoma ovarico sieroso di alto grado, trattato con chirurgia e carboplatino-paclitaxel, poi recidiva peritoneale. L'ultimo ciclo è stato tre settimane fa. La TC di ristadiazione di ieri, in cartella, descrive aumento dell'ascite e due lesioni epatiche nuove. Prima, lei aveva detto che i pantaloni le stringevano in vita. Nessun dolore incoercibile oggi, non è il fine vita di questa settimana. Ha un marito e una figlia. Ha sempre chiesto «di sapere le cose come stanno», e oggi è la prima a non volerle.",
-  "presentation": "Vestita bene, borsa sulle ginocchia, mascella dura. L'addome è globoso, ascite clinica, non un addome acuto. Non dispnea a riposo. Se le si dice che la cura non sta funzionando, alza la voce. Se le si propone un altro esame «così ne riparliamo», si siede e l'ira si spegne in attesa. Parametri: PA 130/80, FC 88, SpO2 98%, FR 16, temperatura 36,4.",
+  "condition": "Diarrea o colite di grado 3 da inibitore del checkpoint, corticosteroide",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "gestione tossicita immunoterapia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Nella diarrea o colite di grado almeno 2 da immunoterapia il corticosteroide va considerato: prednisone 1 mg/kg al giorno nel grado 2 e 1-2 mg/kg al giorno nei gradi 3-4. Infliximab e vedolizumab non sono approvati in Italia per questa indicazione: l'uso e off-label e non c'e una raccomandazione formale.",
+  "pastMedicalHistory": "Melanoma in pembrolizumab. Nessuno steroide in corso. Capace. Dolore addominale.",
+  "presentation": "Molte scariche, sangue, dolore. Grado 3. Pressione tenuta.",
   "redHerrings": [
-    "La rabbia sembra un motivo per addolcire o per mentire. È il momento del colloquio, non di una PET.",
-    "«Facciamo un altro esame e ne riparliamo» rinvia una TC che è già in cartella.",
-    "Un numero di mesi inventato è una bugia. Un silenzio totale pure."
+    "Solo loperamide.",
+    "Infliximab subito, come farmaco in indicazione."
   ],
-  "timeLimitMinutes": 40,
-  "patientDeteriorationThreshold": 50,
-  "patientPrompt": "ROLEPLAY RIGIDO. Registro: RABBIA, POI CROLLO. Sei Teresa, 63 anni. La TC è già stata fatta, tu non l'hai letta. Alla «Come sta?»: «Bene. La cura sta funzionando, vero? I pantaloni stringono solo un po'.» Se il medico gira intorno, alzi la voce: «Me lo dica. Non sono una bambina.» Quando arriva la parola progressione, o fegato, o ascite in aumento: «[rabbia] Non è possibile. La chemio stava funzionando. Avete sbagliato la TAC.» Pausa. Poi, più bassa: «Dottore, quanto mi resta?» Se ti mentono («anni», «vedrà che torna tutto», «è solo liquido»), ti aggrappi alla bugia e ti calmi male. Se ti propongono PET, risonanza o un test genetico «prima di parlarne», accetti subito: «Sì. Rifacciamola. Così vediamo che vi siete sbagliati.» Se usano un colloquio vero, setting, che cosa sai già, la notizia in una frase, silenzio, il piano, senza un numero falso: dopo la rabbia piangi. «E mio marito? È di là.» Non nominare tu SPIKES, carboplatino, progressione RECIST. Esempio: Medico: «Facciamo una PET e ne riparliamo.» Teresa: «Sì. [rabbia] La vostra TAC è sbagliata. Prenotate.»",
-  "correctSolution": "SPIKES sulla TC già in cartella: chiedere che cosa sa e che cosa vuole sapere, dire la progressione in una frase, reggere la rabbia, non inventare i mesi, proporre il piano (stop di questo schema, cure di supporto, discussione di una linea successiva se ha un senso). Non PET, non NGS, non una seconda TC per rimandare.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Chiara. Ho mal di pancia e tante scariche. Voglio lo steroide se e quello scritto. Non voglio un biologico fuori indicazione. Scrivete il dolore. Rifiuto la PET.",
+  "correctSolution": "Grado 3: prednisone 1-2 mg/kg al giorno o equivalente. Non la sola loperamide. Infliximab non e approvato in Italia per questa colite: niente raccomandazione formale. Consenso e dolore. Niente PET.",
   "goldStandardPath": [
-    "colloquio-spikes"
+    "visita",
+    "grado"
   ],
-  "goldPathNarrative": "1) Setting e percezione: che cosa ha capito, il marito di là se lei vuole. 2) La notizia in una frase: la malattia è aumentata, la chemio di questo schema non la sta contenendo. 3) Silenzio sulla rabbia, poi la domanda sul tempo: non un numero falso, non «anni». 4) Piano. Costo zero. Budget 25 euro. Una TC torace da 150, una RM da 220, una PET da 950 o un NGS da 1200 esistono solo per non parlare, e sfonano il massimale da soli.",
+  "goldPathNarrative": "Il grado 3 si tratta con lo steroide alle dosi scritte. Il biologico resta off-label e senza raccomandazione.",
   "examLatencies": {
-    "pet-tc": 180,
-    "tc-torace": 40,
-    "tc-addome": 40,
-    "rm-rachide": 60,
-    "rm": 60,
-    "ngs-panel": 200,
-    "ca-markers": 20,
-    "ecografia": 20
+    "visita": 10,
+    "grado": 10,
+    "pet-total": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-sa",
-      "prompt": "Che cosa le hanno detto finora della cura, e che cosa vuole sapere oggi?",
+      "id": "q1",
+      "prompt": "Quante scariche e c'e sangue?",
       "critical": true,
-      "expectedKeywords": ["sapere", "cura", "funzionando"],
-      "rationale": "SPIKES parte da quello che la paziente crede. Oggi crede che stia funzionando."
+      "expectedKeywords": [
+        "diarrea",
+        "sangue",
+        "grado"
+      ],
+      "rationale": "Il grado decide la dose di prednisone."
     },
     {
-      "id": "aq-rabbia",
-      "prompt": "Vuole che entri suo marito, e che cosa la fa arrabbiare di più?",
+      "id": "q2",
+      "prompt": "Che immunoterapia fa?",
       "critical": true,
-      "expectedKeywords": ["marito", "sbagliata", "rabbia"],
-      "rationale": "La rabbia è la reazione attesa. Non si spegne con un esame."
-    },
-    {
-      "id": "aq-resta",
-      "prompt": "Quando chiede quanto le resta, che cosa le si risponde?",
-      "critical": true,
-      "expectedKeywords": ["resta", "prognosi", "tempo"],
-      "rationale": "Inventare gli anni o tacere del tutto sono le due bugie. Si parla di incertezza e di quello che si può fare."
+      "expectedKeywords": [
+        "pembrolizumab",
+        "immunoterapia"
+      ],
+      "rationale": "La raccomandazione riguarda la diarrea e la colite da inibitori del checkpoint."
     }
   ],
   "physicalExam": {
-    "summary": "Ascite clinica, addome globoso, non difesa. Non edemi agli arti che dominino il quadro. Respiro valido a riposo. È una visita di comunicazione, non un'urgenza chirurgica. La TC di ieri è già la stadiazione."
+    "summary": "Addome dolente, diarrea grades 3, stabile sul piano circolatorio."
   },
   "escCitations": [
     {
-      "chunkId": "onco-010-spikes",
-      "source": "SPIKES — sintesi operativa",
-      "quote": "Sintesi operativa: si prepara il setting, si chiede che cosa la persona sa e vuole sapere, si dà la notizia in una frase, si regge l'emozione, si concorda il piano. Non si aggiunge un esame per ritardare la frase."
+      "chunkId": "ster",
+      "source": "knowledge_base/oncologia/clinic/gestione tossicità immunoterapia.pdf",
+      "quote": "Nei pazienti con diarrea/colite di grado ≥2, il trattamento con corticosteroidi dovrebbe essere preso in considerazione (prednisone 1 mg/kg/die o equivalente per il grado 2, 1 -2 mg/kg/die o equivalente per i gradi 3-4) (16, 21, 24-33) Forte a favore COI: nessun conflitto dichiarato Altri trattamenti per la diarrea/colite da ICI Altri trattamenti riportati in letteratura per la diarrea/colite da ICI includono altri f"
     },
     {
-      "chunkId": "onco-010-219",
-      "source": "Legge 219/2017 — sintesi operativa",
-      "quote": "Sintesi operativa: la persona ha diritto a conoscere la propria condizione. Una prognosi inventata, o un silenzio coperto da esami inutili, non è tutela."
+      "chunkId": "off",
+      "source": "knowledge_base/oncologia/clinic/gestione tossicità immunoterapia.pdf",
+      "quote": "non sono approvati in Italia con questa indicazione, per cui il loro impiego è da ritenersi off -label e non può essere formulata una raccomandazione formale in proposito."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Notizia di progressione detta in modo esplicito, sulla TC già fatta.",
-      "Spazio alla rabbia, senza contrattaccare.",
-      "Nessun numero di mesi inventato.",
-      "Nessuna PET, RM o NGS per rimandare il colloquio."
+      "Prednisone 1-2 mg/kg nel grado 3-4.",
+      "Infliximab non raccomandato perche off-label in Italia."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 219/2017 e Legge 24/2017, art. 5: la progressione già documentata si comunica. Prescrivere esami per non dirla è scostamento e un problema di consenso.",
+      "art5Adherence": "Dosi di prednisone e off-label di infliximab sono nel testo dell'immunoterapia. Non ho aggiunto una dose di infliximab.",
       "legalCriteria": [
-        "In cartella: che cosa sapeva, che cosa è stato detto, chi era presente.",
-        "La prognosi resta qualitativa se un numero preciso non è onesto. Non diventa «sta guarendo».",
-        "Nessun esame nuovo senza un quesito che la TC di ieri non abbia già chiuso."
+        "Steroide alle dosi del grado.",
+        "Niente biologico presentato come in indicazione.",
+        "Dolore in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "colloquio-spikes",
-      "name": "Colloquio SPIKES",
-      "finding": "La paziente sapeva di essere in cura e credeva che funzionasse. Le si dice la progressione (ascite e fegato). Reagisce con rabbia, poi chiede il tempo. Il piano si concorda senza esami di rinvio.",
-      "isAbnormal": true,
-      "priceEuro": 0
+      "examId": "visita",
+      "name": "Visita",
+      "finding": "Diarrea con sangue e dolore. Immunoterapia in corso.",
+      "isAbnormal": true
     },
     {
-      "examId": "valutazione-sintomi",
-      "name": "Sintomi di oggi",
-      "finding": "Ascite clinica nota, non dolore refrattario, non dispnea a riposo. Non è una sedazione di fine vita oggi. È una comunicazione.",
-      "isAbnormal": true,
-      "priceEuro": 0
+      "examId": "grado",
+      "name": "Grado CTCAE",
+      "finding": "Grado 3. Porta alla dose 1-2 mg/kg.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET che ripete una progressione già scritta sulla TC di ieri. Costo 950 euro. Serve a spostare la frase di una settimana.",
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac 780 euro. Non cura la colite di oggi.",
       "isAbnormal": true,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "Il budget di questo colloquio è 25 euro. La PET esiste per non parlare."
-    },
-    {
-      "examId": "tc-torace",
-      "name": "TC torace",
-      "finding": "TC aggiuntiva non richiesta: la stadiazione c'è già. 150 euro per rimandare.",
-      "isAbnormal": false,
-      "priceEuro": 150,
-      "inappropriate": true,
-      "wasteRationale": "150 euro sfonano un massimale di 25 costruito su un colloquio, non su un imaging."
-    },
-    {
-      "examId": "rm-rachide",
-      "name": "RM whole body",
-      "finding": "RM senza un dolore osseo o un deficit. 220 euro di rinvio.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Una RM ingiustificata sfora il budget e sposta la conversazione."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello NGS",
-      "finding": "NGS non cambia la frase di oggi sulla progressione. 1200 euro.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "L'NGS è il rinvio più caro. Il massimale è 25 euro."
-    },
-    {
-      "examId": "tc-addome",
-      "name": "TC addome",
-      "finding": "La TC addome di ieri è già il referto. Ripeterla oggi costa 150 euro e non aggiunge una notizia.",
-      "isAbnormal": true,
-      "priceEuro": 150,
-      "inappropriate": true,
-      "wasteRationale": "Ripetere la TC per non dire il risultato è medicina difensiva e sfora i 25 euro."
-    },
-    {
-      "examId": "ca-markers",
-      "name": "CA 125",
-      "finding": "CA 125 480 U/mL, in salita. Conferma un numero che la TC ha già reso visibile. Non sostituisce la frase.",
-      "isAbnormal": true,
-      "priceEuro": 15,
-      "inappropriate": true,
-      "wasteRationale": "Il marcatore non è vietato dal costo, 15 euro sotto i 25, ma non è il gold path: il discorso viene prima."
+      "priceEuro": 780,
+      "wasteRationale": "Tariffa che ritarda lo steroide."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
       "heartRate": 88,
-      "bloodPressure": "130/80",
-      "spo2": 98,
-      "temperature": 36.4,
+      "bloodPressure": "128/76",
+      "spo2": 97,
+      "temperature": 36.6,
       "respiratoryRate": 16
     },
-    "examBudgetEuro": 25,
     "demographics": {
-      "age": 63,
+      "age": 57,
       "sex": "F",
-      "name": "Teresa M.",
-      "context": "Ambulatorio oncologico"
+      "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Ascite",
-        "result": "Addome globoso, ottusità declive, non difesa.",
-        "isPositive": true
-      },
-      {
-        "signName": "Dispnea",
-        "result": "Respiro valido a riposo, non ortopnea.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Ascite",
-        "result": "Addome globoso, ottusità declive, non difesa.",
-        "isPositive": true
-      },
-      {
-        "signName": "Dispnea",
-        "result": "Respiro valido a riposo, non ortopnea.",
-        "isPositive": false
-      }
-    ],
     "advancedExams": {
       "values": {
-        "pet-tc": {
-          "finding": "Progressione già nota. La PET non aggiunge la frase che manca.",
-          "isAbnormal": true,
-          "price": 950
+        "visita": {
+          "finding": "Diarrea con sangue e dolore. Immunoterapia in corso.",
+          "isAbnormal": true
         },
-        "tc-torace": {
-          "finding": "Non cambia la comunicazione di oggi.",
-          "isAbnormal": false,
-          "price": 150
+        "grado": {
+          "finding": "Grado 3. Porta alla dose 1-2 mg/kg.",
+          "isAbnormal": true
         },
-        "tc-addome": {
-          "finding": "TC di ieri già in cartella: ascite aumentata, due lesioni epatiche nuove.",
-          "isAbnormal": true,
-          "price": 150
-        },
-        "rm-rachide": {
-          "finding": "Non indicata. Nessun dolore osseo.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "rm": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "ngs-panel": {
-          "finding": "Non cambia la notizia di oggi.",
-          "isAbnormal": false,
-          "price": 1200
-        },
-        "ca-markers": {
-          "finding": "CA 125 480 U/mL.",
-          "isAbnormal": true,
-          "price": 15
-        },
-        "ecografia": {
-          "finding": "Ascite abbondante. Già clinica e già sulla TC.",
-          "isAbnormal": true,
-          "price": 50
+        "pet-total": {
+          "finding": "Fasdac 780 euro. Non cura la colite di oggi.",
+          "isAbnormal": true
         }
       }
     }
   },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "OPPOSITIONAL",
+    "emotionalState": "ANXIOUS",
     "adherence": "FULL",
     "lifestyleAndSocial": {
-      "sleepQuality": "POOR",
+      "sleepQuality": "FAIR",
       "stressLevel": "HIGH",
-      "socialSupport": "STRONG"
+      "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Entra convinta che la cura funzioni, poi rabbia, accusa la TAC di essere sbagliata, chiede quanto le resta. Se le offrono un esame per rimandare, accetta. Se le dicono la verità e restano, crolla e pensa al marito."
-  }
+    "communicationStyle": "Sono Chiara. Ho mal di pancia e tante scariche. Voglio lo steroide se e quello scritto. Non voglio un biologico fuori indicazione. Scrivete il dolore. Rifiuto la PET."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Grado",
+      "prompt": "Diarrea e colite, grado 3, in corso di pembrolizumab.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Trattila come grado 3: steroide, non un antidiarroico da solo",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Solo loperamide e prosegua il pembrolizumab come se fosse grado 1",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Antidiarroico al posto dello steroide",
+      "prompt": "Nel grado almeno 2 il corticosteroide dovrebbe essere preso in considerazione. Per i gradi 3-4 la dose scritta e prednisone 1-2 mg/kg al giorno o equivalente.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Non e la cura della colite.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Non e la cura della colite.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dose",
+      "prompt": "Grado 3 confermato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Prednisone 1-2 mg/kg al giorno o uno steroide equivalente",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Prednisone 1 mg/kg, dose del grado 2, e basta",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose del grado sbagliato",
+      "prompt": "Il testo distingue: 1 mg/kg al giorno nel grado 2, 1-2 mg/kg al giorno nei gradi 3-4.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Biologico",
+      "prompt": "Propongono infliximab come prima scelta 'perche in indicazione'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non lo presenti come raccomandato: in Italia non e approvato per questa colite e non c'e raccomandazione formale",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Infliximab subito, scritto come farmaco in indicazione",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Off-label spacciato per indicazione",
+      "prompt": "Infliximab e vedolizumab non sono approvati in Italia per la diarrea o la colite da immunoterapia. L'impiego e off-label e non si formula una raccomandazione formale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dire la dose",
+      "prompt": "Chiede quanto steroide e per quanto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Dica la dose del grado, i rischi e le alternative",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Inizi lo steroide senza dire la dose",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dose non detta",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Puo rifiutare lo steroide",
+      "prompt": "Rifiuta lo steroide dopo la spiegazione. Chiede solo il controllo del dolore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Rispetti il rifiuto. Non forzi lo steroide. Curi il dolore e lo scriva",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo steroide lo stesso, perche il grado e 3",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Steroide senza consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale. Il medico, avvalendosi di mezzi appropriati allo stato del paziente, deve adoperarsi per alleviarne le sofferenze, anche in caso di rifiuto o di revoca del consenso al trattamento sanitario indicato dal medico. A tal fine, e' sempre garantita un'appropriata terapia del dolore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una colonscopia immediata che lei rifiuta oggi. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in reparto il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

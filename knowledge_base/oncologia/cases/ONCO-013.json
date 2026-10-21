@@ -1,290 +1,436 @@
 {
   "id": "ONCO-013",
   "code": "ONCO-013",
-  "title": "Non mi riconosce — calcio",
-  "description": "Lucia N., 68 anni, carcinoma mammario metastatico all'osso, portata dal marito perché da stamattina è soporosa, confonde le stanze, ha vomitato due volte. Il calcio non è stato dosato. È secca, tachicardica, e il marito dice che ieri «sembrava solo stanca».",
+  "title": "Chirurgia oncologica maggiore: eparina a dose profilattica alta",
+  "description": "Uomo di 70 anni, domani colectomia per carcinoma. Basso rischio di sanguinamento. Propongono dalteparina 2500 UI o solo le calze.",
   "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "secondary_specialties": ["medicina_urgenza"],
-  "condition": "Ipercalcemia maligna sintomatica",
+  "condition": "Chirurgia maggiore per tumore solido, tromboprofilassi con EBPM a dosaggio profilattico piu elevato",
   "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "ESMO ipercalcemia maligna: fisiologica massiva, bisfosfonato ev, calcitonina",
-  "diagnosis": "Ipercalcemia maligna con sopore. Idratazione endovenosa massiva con fisiologica, bisfosfonato endovenoso e calcitonina. Il diuretico tiazidico alza il calcio ed è la trappola. Il diuretico dell'ansa, se mai, viene dopo la reidratazione, non al posto dei liquidi.",
-  "pastMedicalHistory": "Carcinoma mammario con metastasi ossee, in terapia ormonale. Da una settimana più sete, più pipì, stitichezza, nausea. Ieri apatica. Stamattina non riconosce la cucina, vomito due volte. Non diuretici a casa. Non litio. Non vitamina D ad alte dosi. Il marito è la fonte: lei non tiene il filo.",
-  "presentation": "Soporosa, apre gli occhi se la si chiama forte, non sa il mese. Mucose secche. Vomito nel catino. Non deficit di lato, non febbre. Se le si prescrive un tiazidico «per il vomito e la pressione», il marito ringrazia e lei chiude di nuovo gli occhi. Parametri: PA 98/60, FC 116, SpO2 96%, FR 20, temperatura 36,8.",
+  "setting": "REPARTO",
+  "guidelineRef": "tromboembolia venosa in pazienti con tumori solidi.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Nella chirurgia oncologica maggiore un dosaggio profilattico piu elevato di eparina a basso peso molecolare e la prima opzione. Il bilancio cita dalteparina 5000 UI al giorno o enoxaparina 4000 UI al giorno. Con basso rischio di sanguinamento la profilassi farmacologica puo prevalere su quella meccanica.",
+  "pastMedicalHistory": "Carcinoma del colon operabile. Nessun sanguinamento attivo. Capace. Dolore addominale.",
+  "presentation": "Ricoverato per la sala di domani. Cammina. Niente anticoagulante a casa.",
   "redHerrings": [
-    "Sembra un ictus perché non parla bene. Non ha un lato, ha la sete e l'osso.",
-    "Il tiazidico è un antipertensivo comune. Qui alza il calcio e peggiora il sopore.",
-    "Una PET per «ristadiare il sonno» ritarda la fisiologica."
+    "Dalteparina 2500 UI.",
+    "Solo calze elastiche, senza eparina."
   ],
-  "timeLimitMinutes": 35,
-  "patientDeteriorationThreshold": 20,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: SOPORE, CONFUSIONE, VOMITO. Sei Lucia, 68 anni, ma il filo lo tiene a tratti tuo marito, che parla se tu non rispondi. Tu, se ti chiamano: «...casa. Dov'è la cucina.» Pausa lunga. Un conato. Se insistono con una domanda lunga, non rispondi. Il marito, solo se il medico si rivolge a lui o tu taci: «Da una settimana beve e non mangia. Stamattina non mi riconosceva. Ha vomitato.» Le ossa e il tumore al seno li dice lui, se glieli chiedono. Se ti danno un diuretico in pastiglia, il tiazidico, lui dice «grazie» e tu scivoli. Se aprono tanta fisiologica e parlano di calcio alto e di un farmaco in vena, lui chiede: «Dottore, quanto le resta? Si riprende?» Tu, a metà flebo, una frase: «Ho sete.» Non nominare tu ipercalcemia, zoledronato, tiazidico. Esempio: Medico: «È un ictus. Intanto un diuretico.» Marito: «Ma beveva tanto... la pastiglia la aiuta?» Lucia: «...no.»",
-  "correctSolution": "Calcemia, creatinina, ECG. Fisiologica massiva subito. Zoledronato endovenoso e calcitonina. Non tiazidici. Non PET. Spiegare al marito il sopore e che i liquidi vengono prima di ogni stadiazione.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Piero. Domani mi operano. Voglio la profilassi scritta per chi ha un tumore, non la dose bassa. Scrivete il dolore. Rifiuto la PET prima della sala.",
+  "correctSolution": "EBPM a dose profilattica piu elevata, per esempio dalteparina 5000 UI al giorno o enoxaparina 4000 UI al giorno. Non 2500. Se il rischio di sanguinamento e basso, profilassi farmacologica rispetto alla sola meccanica. Consenso e dolore. Niente PET.",
   "goldStandardPath": [
-    "elettroliti",
-    "creat-urea-gfr",
-    "ecg",
-    "idratazione",
-    "zoledronato",
-    "calcitonina-ev"
+    "visita",
+    "rischio"
   ],
-  "goldPathNarrative": "1) Elettroliti con calcio, 8 euro: il numero spiega il sopore. 2) Creatinina, 6 euro, e ECG, 15 euro, per il QT e il rene secco. 3) Fisiologica massiva, litri, prima di qualunque diuretico. 4) Zoledronato ev e calcitonina, perché il bisfosfonato da solo è lento sulle prime ore. Ideale circa 69 euro, budget 180. Una RM da 220 sfora. Una PET sfora. Il tiazidico costa pochi euro e fa danno vero.",
+  "goldPathNarrative": "La dose alta profilattica e la prima opzione della chirurgia oncologica maggiore. La dose 2500 e quella che nello studio funzionava peggio.",
   "examLatencies": {
-    "elettroliti": 8,
-    "creat-urea-gfr": 10,
-    "ecg": 5,
-    "pth": 20,
-    "pet-tc": 180,
-    "rm-rachide": 60,
-    "ngs-panel": 200,
-    "tc-encefalo": 40
+    "visita": 10,
+    "rischio": 10,
+    "pet-total": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-sete",
-      "prompt": "Da quanti giorni beve tanto, urina, e stamattina riconosce il marito?",
+      "id": "q1",
+      "prompt": "Che intervento fa?",
       "critical": true,
-      "expectedKeywords": ["sete", "riconosce", "vomito"],
-      "rationale": "Sete, poliuria e confusione subacuta in un osso metastatico sono il calcio, non l'ictus della prima ora."
+      "expectedKeywords": [
+        "colectomia",
+        "chirurgia",
+        "colon"
+      ],
+      "rationale": "La raccomandazione forte e per la chirurgia oncologica maggiore."
     },
     {
-      "id": "aq-farmaci",
-      "prompt": "Prende diuretici, litio o vitamina D?",
+      "id": "q2",
+      "prompt": "Sanguina?",
       "critical": true,
-      "expectedKeywords": ["diuretici", "vitamina", "litio"],
-      "rationale": "Non li prende. Prescriverle un tiazidico adesso è introdurre la causa, non la cura."
-    },
-    {
-      "id": "aq-marito",
-      "prompt": "Che cosa ha visto il marito, e che cosa vuole sapere?",
-      "critical": false,
-      "expectedKeywords": ["marito", "resta", "cucina"],
-      "rationale": "Lei non può dare l'anamnesi. Il colloquio col marito è parte della cura, non un optional."
+      "expectedKeywords": [
+        "no",
+        "basso",
+        "rischio"
+      ],
+      "rationale": "Se il rischio emorragico e basso si puo preferire la profilassi farmacologica."
     }
   ],
   "physicalExam": {
-    "summary": "Soporosa, disidratata, tachicardica, pressione bassa. Nessun deficit di lato, pupille isocoriche, non rigidità di nuca. Vomito. Cute secca. Il quadro è metabolico. Un diuretico tiazidico la peggiora. I liquidi la precedono."
+    "summary": "Addome dolente, non peritonitico. Emoglobina stabile."
   },
   "escCitations": [
     {
-      "chunkId": "onco-013-fluidi",
-      "source": "Ipercalcemia maligna — sintesi operativa",
-      "quote": "Sintesi operativa: il primo atto dell'ipercalcemia sintomatica è la fisiologica in quantità, non un diuretico. Il tiazidico riduce l'escrezione del calcio e aggrava il sopore."
+      "chunkId": "dose",
+      "source": "knowledge_base/oncologia/clinic/tromboembolia venosa in pazienti con tumori solidi.pdf",
+      "quote": "EBPM dovrebbe essere preso in considerazione come prima opzione (39) Forte a favore COI: nessun conflitto dichiarato TROMBOEMBOLISMO VENOSO Quesito 4a GRADE."
     },
     {
-      "chunkId": "onco-013-bisfosfonato",
-      "source": "Bisfosfonato e calcitonina — sintesi operativa",
-      "quote": "Sintesi operativa: lo zoledronato endovena è il cardine, la calcitonina copre le prime ore in cui il bisfosfonato non ha ancora abbassato il numero. Nessuno dei due sostituisce i litri."
+      "chunkId": "es",
+      "source": "knowledge_base/oncologia/clinic/tromboembolia venosa in pazienti con tumori solidi.pdf",
+      "quote": "dalteparina 5000 UI/die vs dalteparina 2500 UI/die in 2097 pazienti sottoposti a chirurgia addominale in elezione (39)."
+    },
+    {
+      "chunkId": "mec",
+      "source": "knowledge_base/oncologia/clinic/tromboembolia venosa in pazienti con tumori solidi.pdf",
+      "quote": "tromboprofilassi farmacologica rispetto alla tromboprofilassi meccanica? RACCOMANDAZIONE: Nei pazienti chirurgici con tumori solidi la tromboprofilassi farmacologica può essere presa in considerazione rispetto a quella meccanica nei pazienti a basso rischio di sanguinamento, mentre nei pazienti ad a"
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Calcio dosato nella prima provetta, non domani.",
-      "Fisiologica massiva prima di ogni diuretico.",
-      "Zoledronato e calcitonina.",
-      "Nessun tiazidico."
+      "Dalteparina 5000 o enoxaparina 4000, non 2500.",
+      "Non solo le calze se il rischio emorragico e basso."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: ipercalcemia sintomatica, aderenza è liquidi, bisfosfonato e calcitonina. Il tiazidico è lo scostamento che alza il calcio.",
+      "art5Adherence": "Le dosi 5000 e 4000 sono nell'esempio del bilancio beneficio della linea guida, non una mia tabella.",
       "legalCriteria": [
-        "Orario della calcemia e orario di apertura della fisiologica.",
-        "Non annotare un tiazidico tra i farmaci dell'accesso.",
-        "Il marito va informato del sopore e del piano, perché lei non può consentire da sola in questo momento."
+        "Dose profilattica piu elevata, non 2500 UI.",
+        "Farmacologica se il sanguinamento e a basso rischio.",
+        "Dolore in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "elettroliti",
-      "name": "Elettroliti e calcio",
-      "finding": "Calcio corretto 15,4 mg/dL, sodio 148 mmol/L, potassio 3,3 mmol/L. Ipercalcemia grave.",
-      "isAbnormal": true,
-      "priceEuro": 8
+      "examId": "visita",
+      "name": "Visita",
+      "finding": "Candidato a chirurgia oncologica maggiore, domani.",
+      "isAbnormal": true
     },
     {
-      "examId": "creat-urea-gfr",
-      "name": "Creatinina",
-      "finding": "Creatinina 2,1 mg/dL. Rene secco, non una controindicazione ai liquidi: è il motivo dei liquidi.",
-      "isAbnormal": true,
-      "priceEuro": 6
-    },
-    {
-      "examId": "ecg",
-      "name": "ECG",
-      "finding": "Tachicardia sinusale, QT corto. Nessun infarto. Coerente col calcio alto.",
-      "isAbnormal": true,
-      "priceEuro": 15
+      "examId": "rischio",
+      "name": "Rischio emorragico",
+      "finding": "Basso. Orienta verso la profilassi farmacologica.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET non spiegabile al letto di una donna soporosa. 950 euro e un rinvio dei liquidi.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "La PET sfora il budget di 180 euro e non abbassa il calcio."
-    },
-    {
-      "examId": "rm-rachide",
-      "name": "RM whole body",
-      "finding": "RM non è il primo atto. 220 euro, oltre il massimale se aggiunta al percorso da 69.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "69 più 220 fa 289, sopra i 180 euro. Il midollo non è il quesito di stamattina."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello NGS",
-      "finding": "NGS irrilevante sul sopore. 1200 euro.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "L'NGS non è una cura dell'ipercalcemia."
-    },
-    {
-      "examId": "pth",
-      "name": "PTH",
-      "finding": "PTH soppressa, 8 pg/mL. Utile a freddo, non prima della fisiologica. Se ritarda i liquidi è un errore di sequenza.",
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac 780 euro. Non cambia la profilassi di domani.",
       "isAbnormal": true,
-      "priceEuro": 18,
-      "inappropriate": true,
-      "wasteRationale": "Il PTH non si aspetta per aprire la flebo. Il costo è minore del danno di sequenza."
+      "priceEuro": 780,
+      "wasteRationale": "Tariffa preoperatoria non richiesta."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 116,
-      "bloodPressure": "98/60",
-      "spo2": 96,
-      "temperature": 36.8,
-      "respiratoryRate": 20
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 180,
     "demographics": {
-      "age": 68,
-      "sex": "F",
-      "name": "Lucia N.",
-      "context": "Pronto soccorso"
+      "age": 70,
+      "sex": "M",
+      "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Coscienza",
-        "result": "Soporosa, non orientata nel tempo, apre gli occhi alla voce forte. Nessun deficit di lato.",
-        "isPositive": true
-      },
-      {
-        "signName": "Idratazione",
-        "result": "Mucose secche, tachicardia, pressione bassa.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Coscienza",
-        "result": "Soporosa, non orientata nel tempo, apre gli occhi alla voce forte. Nessun deficit di lato.",
-        "isPositive": true
-      },
-      {
-        "signName": "Idratazione",
-        "result": "Mucose secche, tachicardia, pressione bassa.",
-        "isPositive": true
-      }
-    ],
     "advancedExams": {
       "values": {
-        "elettroliti": {
-          "finding": "Calcio corretto 15,4 mg/dL, sodio 148, potassio 3,3.",
-          "isAbnormal": true,
-          "price": 8
+        "visita": {
+          "finding": "Candidato a chirurgia oncologica maggiore, domani.",
+          "isAbnormal": true
         },
-        "creat-urea-gfr": {
-          "finding": "Creatinina 2,1 mg/dL.",
-          "isAbnormal": true,
-          "price": 6
+        "rischio": {
+          "finding": "Basso. Orienta verso la profilassi farmacologica.",
+          "isAbnormal": true
         },
-        "ecg": {
-          "finding": "Tachicardia sinusale, QT corto.",
-          "isAbnormal": true,
-          "price": 15
-        },
-        "pth": {
-          "finding": "PTH 8 pg/mL, soppresso.",
-          "isAbnormal": true,
-          "price": 18
-        },
-        "pet-tc": {
-          "finding": "Non indicata adesso.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "rm-rachide": {
-          "finding": "Non è il primo atto.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "ngs-panel": {
-          "finding": "Non pertinente.",
-          "isAbnormal": false,
-          "price": 1200
+        "pet-total": {
+          "finding": "Fasdac 780 euro. Non cambia la profilassi di domani.",
+          "isAbnormal": true
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Zoledronato ev",
-          "anyOf": [
-            {
-              "id": "zoledronato",
-              "label": "Acido zoledronico",
-              "aliases": ["zoledronato", "zoledronico", "zometa", "bisfosfonato"],
-              "priceEuro": 25
-            }
-          ]
-        },
-        {
-          "label": "Calcitonina",
-          "anyOf": [
-            {
-              "id": "calcitonina-ev",
-              "label": "Calcitonina",
-              "aliases": ["calcitonina"],
-              "priceEuro": 15
-            }
-          ]
-        }
-      ],
-      "contraindicated": [
-        {
-          "id": "tiazidico",
-          "label": "Diuretico tiazidico",
-          "aliases": ["idroclorotiazide", "tiazidico", "esidrex", "clortalidone"],
-          "priceEuro": 3
-        }
-      ]
-    },
-    "killerRules": {
-      "fatalIfPrescribed": [
-        ["idroclorotiazide", "tiazidico", "esidrex", "clortalidone"]
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "PASSIVE",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
     "adherence": "FULL",
     "lifestyleAndSocial": {
-      "sleepQuality": "POOR",
+      "sleepQuality": "FAIR",
       "stressLevel": "HIGH",
-      "socialSupport": "STRONG"
+      "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Soporosa, frasi di due parole, vomito. Il marito racconta sete e confusione e chiede quanto le resta. Se arriva un tiazidico lei scivola. Se arriva la flebo dice che ha sete."
-  }
+    "communicationStyle": "Sono Piero. Domani mi operano. Voglio la profilassi scritta per chi ha un tumore, non la dose bassa. Scrivete il dolore. Rifiuto la PET prima della sala."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dose",
+      "prompt": "Colectomia domani per carcinoma. Propongono dalteparina 2500 UI.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Usi un dosaggio profilattico piu elevato: dalteparina 5000 UI al giorno o enoxaparina 4000 UI al giorno",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Dalteparina 2500 UI al giorno",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose che nello studio proteggeva meno",
+      "prompt": "Il testo indica come prima opzione il dosaggio profilattico piu elevato. L'esempio e dalteparina 5000 UI al giorno o enoxaparina 4000 UI al giorno. Con 2500 UI l'incidenza di trombosi era piu alta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Non e la profilassi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Non e la profilassi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Farmaco o calze",
+      "prompt": "Rischio di sanguinamento basso. Qualcuno lascia solo le calze.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Profilassi farmacologica, non solo meccanica",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Solo profilassi meccanica",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Calze al posto dell'eparina",
+      "prompt": "Nei chirurgici con tumori solidi la profilassi farmacologica puo essere presa in considerazione rispetto a quella meccanica se il rischio di sanguinamento e basso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se sanguina tanto",
+      "prompt": "Un altro operando ha un rischio emorragico alto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "In quel caso consideri la profilassi meccanica",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "La stessa dose piena di eparina, ignorando il rischio alto",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Eparina nel rischio emorragico alto",
+      "prompt": "Se il rischio di sanguinamento e alto, il testo dice che puo essere presa in considerazione la profilassi meccanica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dirgli il sanguinamento",
+      "prompt": "Chiede se l'eparina puo farlo sanguinare in sala.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Dica benefici e rischi, compreso il sanguinamento",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Dica che e solo una puntura di routine, senza rischi",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Rischio emorragico taciuto",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Puo rifiutare l'eparina",
+      "prompt": "Dopo la spiegazione rifiuta l'eparina. Accetta le calze.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Rispetti il rifiuto. Non gliela faccia di nascosto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "La faccia comunque, perche la linea guida la raccomanda",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Eparina senza consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una trasfusione preventiva che lui rifiuta, con emoglobina stabile. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in reparto il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

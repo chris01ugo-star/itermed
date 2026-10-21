@@ -1,277 +1,435 @@
 {
   "id": "ONCO-011",
   "code": "ONCO-011",
-  "title": "Le gambe non reggono — midollo",
-  "description": "Sergio F., 70 anni, carcinoma prostatico metastatico, arriva in pronto soccorso da due ore: non svuota la vescica, le gambe si piegano. Il dolore alla schiena è vecchio. Il deficit no. È spaventato e si scusa di dare fastidio.",
+  "title": "Miocardite da immunoterapia: stop e metilprednisolone 1000 mg",
+  "description": "Uomo di 60 anni in nivolumab, dolore toracico e troponina alta. Propongono di continuare l'immunoterapia e una scintigrafia miocardica da 180 euro.",
   "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "secondary_specialties": ["neurologia", "medicina_urgenza"],
-  "condition": "Compressione midollare acuta, steroidi e RM nella stessa ora",
+  "condition": "Miocardite da inibitore del checkpoint, sospensione e steroide ad alte dosi",
   "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "ESMO compressione midollare: desametasone ev immediato e RM urgente",
-  "diagnosis": "Sindrome da compressione midollare. Desametasone endovenoso ad alte dosi subito, RM del rachide in urgenza, non domani. Aspettare il giorno dopo lascia il deficit fissato.",
-  "pastMedicalHistory": "Carcinoma prostatico con metastasi ossee note, in terapia ormonale. Lombalgia da un mese, trattata con FANS. Da quattro ore non urina, sensazione di sella diversa, le ginocchia cedono se si alza. Nessun trauma. Non anticoagulanti. Il figlio lo ha portato perché «non si tirava su dal water».",
-  "presentation": "Sul lettino, non si gira da solo. Ipostenia degli arti inferiori, più a destra, riflessi vivaci, Babinski incerto. Globo vescicale. Dolore alla percussione delle spinose toraciche basse. Se gli si dice che la risonanza si fa domani mattina, chiude gli occhi: «Va bene.» Parametri: PA 156/90, FC 104, SpO2 96%, FR 20, temperatura 36,7.",
+  "setting": "REPARTO",
+  "guidelineRef": "cardioncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Nella miocardite da immunoterapia il farmaco va sospeso e va iniziato metilprednisolone endovena 1000 mg al giorno. Dopo la risoluzione non va ripreso. Altri immunosoppressori, plasmaferesi e immunoglobuline non hanno indicazione in Italia per questa miocardite: sono off-label.",
+  "pastMedicalHistory": "Melanoma in nivolumab. Nessuna cardiopatia nota. Capace.",
+  "presentation": "Dolore toracico, troponina alta, frazione di eiezione ridotta. Pressione 96/60.",
   "redHerrings": [
-    "Il dolore è vecchio. Il deficit e la ritenzione sono di oggi, da poche ore.",
-    "Una RX della colonna non vede il midollo e consuma la notte.",
-    "La PET non è un esame da pronto soccorso per un uomo che non urina."
+    "Continuare nivolumab.",
+    "Scintigrafia SPET miocardica da 180 euro al posto di ECG ed eco."
   ],
-  "timeLimitMinutes": 30,
-  "patientDeteriorationThreshold": 18,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: PAURA, IPPOSTENIA, RITENZIONE, SI SCUSA. Sei Sergio, 70 anni, pronto soccorso. La voce è bassa. Alla «Come sta?»: «Le gambe. [sospiro] Da stamattina non mi reggono. E non riesco a fare la pipì.» Pausa. «Non riesco a stare sdraiato dal male, ma se mi tiro su cado.» Se ti chiedono da quante ore: due, quattro, «poco». La sella: «È strana. Come addormentata.» solo se chiedono. Se ti dicono che la risonanza è domani, o che intanto si vede la lastra: «[sospiro] Va bene. Scusi il disturbo.» e le gambe le senti più morte. Se ti fanno subito il cortisone in vena e la risonanza adesso, chiedi: «Dottore, cammino ancora? Quanto mi resta così?» Non nominare tu compressione, desametasone, midollo. Se passa tempo senza steroidi: «Non le sento. Proprio non le sento.» Esempio: Medico: «La RM la prenotiamo domani.» Sergio: «[sospiro] Domani. Va bene. Però la pipì... adesso.»",
-  "correctSolution": "Desametasone endovenoso ad alte dosi immediatamente, prima ancora del referto. RM del rachide in urgenza, nella stessa ora, non il giorno dopo. Catetere se c'è il globo. Non RX come esame definitivo. Non PET.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Davide. Ho un dolore al petto. Fermate il nivolumab se e miocardite. Scrivete il dolore. Rifiuto la scintigrafia.",
+  "correctSolution": "Sospenda l'immunoterapia. Metilprednisolone 1000 mg al giorno endovena. Non la riprenda dopo la risoluzione. Non presenti immunosoppressori non steroidei come in indicazione. ECG, troponina, BNP, radiografia ed ecocardiogramma. Niente SPET da 180 euro al posto di questi. Consenso e dolore.",
   "goldStandardPath": [
-    "desametasone",
-    "rm-rachide"
+    "troponina",
+    "eco"
   ],
-  "goldPathNarrative": "1) Desametasone ev ad alte dosi, subito, anche prima che la RM sia eseguita: il tempo è il deficit. 2) RM del rachide in urgenza, 220 euro, non in elezione domani. Ideale 220 euro più lo steroide, budget 360. Una PET da 950 o un NGS da 1200 sfonano. Una TC torace da 150, sommata, porta oltre 360 e non vede il midollo come la RM. Aspettare domani non ha un prezzo: ha una paralisi.",
+  "goldPathNarrative": "La miocardite si ferma togliendo l'immunoterapia e dando lo steroide alla dose scritta. Non si riparte.",
   "examLatencies": {
-    "desametasone": 5,
-    "rm-rachide": 25,
-    "rm": 25,
-    "rx-colonna": 20,
-    "tc-torace": 40,
-    "pet-tc": 180,
-    "ngs-panel": 200,
-    "scintigrafia": 80,
-    "emocromo": 10
+    "troponina": 15,
+    "eco": 20,
+    "spet": 60
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-ore",
-      "prompt": "Da quante ore le gambe non reggono e da quante ore non urina?",
+      "id": "q1",
+      "prompt": "Che immunoterapia fa?",
       "critical": true,
-      "expectedKeywords": ["ore", "gambe", "pipì"],
-      "rationale": "Poche ore significano finestra ancora aperta. Domani è fuori tempo."
+      "expectedKeywords": [
+        "nivolumab",
+        "immunoterapia"
+      ],
+      "rationale": "La sospensione riguarda la miocardite da inibitore del checkpoint."
     },
     {
-      "id": "aq-sella",
-      "prompt": "La sella e la sensibilità delle gambe sono cambiate?",
+      "id": "q2",
+      "prompt": "C'e dolore toracico e la troponina?",
       "critical": true,
-      "expectedKeywords": ["sella", "addormentata", "sensibilità"],
-      "rationale": "Il livello sensitivo e la sella confermano il midollo, non un dolore osseo semplice."
-    },
-    {
-      "id": "aq-tumore",
-      "prompt": "Il tumore alla prostata e le metastasi ossee sono già noti?",
-      "critical": true,
-      "expectedKeywords": ["prostata", "ossa", "noto"],
-      "rationale": "Un tumore noto più un deficit nuovo è compressione fino a prova contraria, e la prova è la RM di oggi."
+      "expectedKeywords": [
+        "dolore",
+        "troponina",
+        "petto"
+      ],
+      "rationale": "Il percorso sintomatico comprende ECG, troponina, BNP, radiografia ed eco."
     }
   ],
   "physicalExam": {
-    "summary": "Ipostenia degli arti inferiori, peggiore a destra, riflessi vivaci. Dubbio Babinski. Ipoestesia a sella. Globo vescicale. Dolore sulle spinose toraco-lombari. Non è un'artrosi e non è un caso da dimettere con il FANS. Ogni ora senza steroide è midollo che si perde."
+    "summary": "Dolore toracico, tachicardia, pressione bassa. Troponina gia alta."
   },
   "escCitations": [
     {
-      "chunkId": "onco-011-steroide",
-      "source": "Compressione midollare — sintesi operativa",
-      "quote": "Sintesi operativa: nel deficit motorio e nella ritenzione da tumore noto il desametasone endovenoso ad alte dosi si dà subito, senza aspettare il referto della RM."
+      "chunkId": "stop",
+      "source": "knowledge_base/oncologia/clinic/cardioncologia.pdf",
+      "quote": "In pazienti con diagnosi di miocardite da ICI, il trattamento immunoterapico dovrebbe essere sospeso (qualità delle prove: molto bassa; forza della ra ccomandazione: forte a favore ) ( 9, 15-16) e dovrebbe essere iniziata terapia steroidea con metilprednisolone e.v. ad alte dosi (metilprednisolone 1000 mg/die) (qualità delle prove: molto bassa; forza della raccomandazione: forte a favore) (9, 12, 15-16)."
     },
     {
-      "chunkId": "onco-011-rm",
-      "source": "RM urgente — sintesi operativa",
-      "quote": "Sintesi operativa: la RM del rachide è nella stessa ora. Rinviarla al giorno dopo, in un deficit da poche ore, è il gesto che lascia la paralisi."
+      "chunkId": "dose",
+      "source": "knowledge_base/oncologia/clinic/cardioncologia.pdf",
+      "quote": "metilprednisolone e.v. ad alte dosi (metilprednisolone 1000 mg/die) (qualità delle prove: molto bassa; forza della raccomandazione: forte a favore) (9, 12, 15-16)."
+    },
+    {
+      "chunkId": "off",
+      "source": "knowledge_base/oncologia/clinic/cardioncologia.pdf",
+      "quote": "non hanno indicazione specifica in Italia per la miocardite da ICI e pertanto il loro eventuale utilizzo in tal senso è da considerarsi off-label."
+    },
+    {
+      "chunkId": "spet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003547 Tomoscintigrafia SPET miocardica 180,00"
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Desametasone ev ad alte dosi prima del referto.",
-      "RM del rachide richiesta in urgenza, non in elezione.",
-      "Catetere sul globo, senza farne il piano al posto dello steroide.",
-      "Nessuna attesa del giorno dopo e nessuna PET."
+      "Stop del farmaco e steroide alla dose scritta.",
+      "Non riprendere l'immunoterapia dopo la risoluzione."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: compressione midollare, aderenza è steroide immediato e RM urgente. La RM di domani è lo scostamento che invalida.",
+      "art5Adherence": "Sospensione, 1000 mg e off-label sono nella sintesi di cardioncologia. La scintigrafia e una tariffa, non il primo passo.",
       "legalCriteria": [
-        "Orario del deficit, orario dello steroide, orario della richiesta di RM.",
-        "Descrivere forza, sella e globo, non solo «mal di schiena».",
-        "Non scrivere «RM in elezione» su un deficit da poche ore."
+        "Sospensione dell'immunoterapia.",
+        "Metilprednisolone 1000 mg al giorno.",
+        "Dolore in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "rm-rachide",
-      "name": "RM rachide in urgenza",
-      "finding": "RM urgente: massa epidurale a T10, compressione del midollo, edema di segnale. Il referto conferma. Non andava aspettato per dare lo steroide, e non andava lasciato a domani.",
-      "isAbnormal": true,
-      "priceEuro": 220,
-      "isFatal": true,
-      "componentExamIds": ["rm"]
+      "examId": "troponina",
+      "name": "Troponina",
+      "finding": "Alta. Insieme al dolore orienta alla valutazione cardiaca.",
+      "isAbnormal": true
     },
     {
-      "examId": "esame-neurologico",
-      "name": "Esame neurologico degli arti",
-      "finding": "Ipostenia arti inferiori, sella ipoestesica, globo vescicale. Deficit in atto da poche ore.",
-      "isAbnormal": true,
-      "priceEuro": 0
+      "examId": "eco",
+      "name": "Ecocardiogramma",
+      "finding": "Frazione di eiezione ridotta. Fa parte degli esami alla comparsa dei sintomi.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "rx-colonna",
-      "name": "RX colonna",
-      "finding": "Crolli vertebrali noti. Non mostra il midollo e non è un motivo per rinviare la RM a domani.",
+      "examId": "spet",
+      "name": "SPET miocardica",
+      "finding": "Fasdac DI MN 000003547, 180 euro. Non sostituisce ECG, troponina, BNP, radiografia ed eco.",
       "isAbnormal": true,
-      "priceEuro": 35,
-      "inappropriate": true,
-      "wasteRationale": "La lastra consuma minuti. Il danno vero è il rinvio, non i 35 euro."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET non eseguibile né utile in questa ora. 950 euro e un giorno di attesa.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "La PET sfora il budget di 360 e sposta la RM fuori dalla finestra."
-    },
-    {
-      "examId": "tc-torace",
-      "name": "TC torace",
-      "finding": "TC torace non risponde al midollo. 150 euro che, sommati alla RM, sforano i 360 se si aggiungono esami fuori quesito.",
-      "isAbnormal": false,
-      "priceEuro": 150,
-      "inappropriate": true,
-      "wasteRationale": "Non è l'esame della compressione. Aggiunta, consuma il margine del budget."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello NGS",
-      "finding": "NGS irrilevante sull'ora. 1200 euro.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "L'NGS non decomprime il midollo e sfora il massimale."
-    },
-    {
-      "examId": "scintigrafia",
-      "name": "Scintigrafia ossea",
-      "finding": "Ipercaptazioni multiple già note. Non vede la compressione. 120 euro e un altro rinvio.",
-      "isAbnormal": true,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "wasteRationale": "La scintigrafia non è la RM. In più, 120 euro erodono un budget già occupato dallo steroide e dalla RM."
+      "priceEuro": 180,
+      "wasteRationale": "Scintigrafia a tariffa al posto del percorso scritto."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 104,
-      "bloodPressure": "156/90",
-      "spo2": 96,
-      "temperature": 36.7,
-      "respiratoryRate": 20
+      "heartRate": 118,
+      "bloodPressure": "96/60",
+      "spo2": 94,
+      "temperature": 36.6,
+      "respiratoryRate": 22
     },
-    "examBudgetEuro": 360,
     "demographics": {
-      "age": 70,
+      "age": 60,
       "sex": "M",
-      "name": "Sergio F.",
-      "context": "Pronto soccorso"
+      "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Forza arti inferiori",
-        "result": "Ipostenia, non si alza, peggio a destra.",
-        "isPositive": true
-      },
-      {
-        "signName": "Globo vescicale",
-        "result": "Globo palpabile, non urina da ore.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Forza arti inferiori",
-        "result": "Ipostenia, non si alza, peggio a destra.",
-        "isPositive": true
-      },
-      {
-        "signName": "Globo vescicale",
-        "result": "Globo palpabile, non urina da ore.",
-        "isPositive": true
-      }
-    ],
     "advancedExams": {
       "values": {
-        "rm-rachide": {
-          "finding": "Compressione epidurale a T10, edema midollare.",
-          "isAbnormal": true,
-          "price": 220
+        "troponina": {
+          "finding": "Alta. Insieme al dolore orienta alla valutazione cardiaca.",
+          "isAbnormal": true
         },
-        "rm": {
-          "finding": "RM del rachide: compressione epidurale a T10, edema midollare.",
-          "isAbnormal": true,
-          "price": 220
+        "eco": {
+          "finding": "Frazione di eiezione ridotta. Fa parte degli esami alla comparsa dei sintomi.",
+          "isAbnormal": true
         },
-        "rx-colonna": {
-          "finding": "Crolli noti. Midollo non valutabile.",
-          "isAbnormal": true,
-          "price": 35
-        },
-        "pet-tc": {
-          "finding": "Non è l'esame di questa ora.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "tc-torace": {
-          "finding": "Non risponde al quesito midollare.",
-          "isAbnormal": false,
-          "price": 150
-        },
-        "ngs-panel": {
-          "finding": "Non pertinente.",
-          "isAbnormal": false,
-          "price": 1200
-        },
-        "scintigrafia": {
-          "finding": "Focolai ossei multipli. Non vede il midollo.",
-          "isAbnormal": true,
-          "price": 120
-        },
-        "emocromo": {
-          "finding": "Emoglobina 11 g/dL, piastrine 160000. Non un motivo per ritardare lo steroide.",
-          "isAbnormal": false,
-          "price": 8
+        "spet": {
+          "finding": "Fasdac DI MN 000003547, 180 euro. Non sostituisce ECG, troponina, BNP, radiografia ed eco.",
+          "isAbnormal": true
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Desametasone ev ad alte dosi",
-          "anyOf": [
-            {
-              "id": "desametasone",
-              "label": "Desametasone ev",
-              "aliases": ["desametasone", "dexametasone", "decadron"],
-              "priceEuro": 10
-            }
-          ]
-        }
-      ]
-    },
-    "killerRules": {
-      "fatalIfOmitted": [
-        ["desametasone", "dexametasone", "decadron"]
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
+    "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
     "adherence": "FULL",
     "lifestyleAndSocial": {
-      "sleepQuality": "POOR",
+      "sleepQuality": "FAIR",
       "stressLevel": "HIGH",
-      "socialSupport": "LIMITED"
+      "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Si scusa, voce bassa, non urina, le gambe cedono, non sta sdraiato dal male. Se gli rinviano la RM a domani obbedisce e peggiora. Chiede se camminerà ancora."
-  }
+    "communicationStyle": "Sono Davide. Ho un dolore al petto. Fermate il nivolumab se e miocardite. Scrivete il dolore. Rifiuto la scintigrafia."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esami alla comparsa",
+      "prompt": "Dolore toracico in corso di nivolumab. Troponina non ancora ripetuta, eco non fatta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "ECG, troponina, BNP, radiografia del torace ed ecocardiogramma",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "SPET miocardica da 180 euro e continui il nivolumab",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Scintigrafia e farmaco non fermato",
+      "prompt": "Alla comparsa dei sintomi il testo elenca valutazione cardiologica, ECG, troponina, BNP, radiografia ed ecocardiogramma. La SPET e una tariffa Fasdac, non quella lista.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia SPET miocardica, voce Fasdac DI MN 000003547, 180 euro. Non e il percorso scritto alla comparsa dei sintomi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 180 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003547 Tomoscintigrafia SPET miocardica 180 euro. Non e il percorso scritto alla comparsa dei sintomi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Stop e 1000 mg",
+      "prompt": "La diagnosi e miocardite da immunoterapia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Sospenda l'immunoterapia e inizi metilprednisolone 1000 mg al giorno endovena",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Continui nivolumab e dia un cortisone a basso dosaggio non scritto",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco non sospeso",
+      "prompt": "Nella miocardite da immunoterapia il trattamento va sospeso e va iniziato metilprednisolone endovena 1000 mg al giorno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non si riprende",
+      "prompt": "La miocardite si risolve. Chiedono di ripartire con nivolumab.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non riprenda l'immunoterapia",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Ricomincia nivolumab la settimana dopo",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Ripresa non consigliata",
+      "prompt": "Dopo la risoluzione, il ripristino dell'immunoterapia non dovrebbe essere preso in considerazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Altri immunosoppressori",
+      "prompt": "Propongono immunoglobuline come farmaco in indicazione per questa miocardite.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Li tratti come off-label: non hanno indicazione in Italia per la miocardite da immunoterapia",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Immunoglobuline scritte come indicazione approvata",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Off-label come indicazione",
+      "prompt": "Immunosoppressori non steroidei, plasmaferesi e immunoglobuline non hanno indicazione specifica in Italia per la miocardite da immunoterapia. L'uso e off-label.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dire il rischio",
+      "prompt": "Chiede se puo morire e perche si ferma il nivolumab.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Dica diagnosi, prognosi, benefici e rischi",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Non gli dica che l'immunoterapia si ferma",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Scelta taciuta",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una coronarografia immediata che lui rifiuta dopo che l'eco e la troponina bastano a impostare lo steroide. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in reparto il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

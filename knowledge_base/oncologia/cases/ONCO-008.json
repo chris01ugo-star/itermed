@@ -1,244 +1,155 @@
 {
   "id": "ONCO-008",
   "code": "ONCO-008",
-  "title": "Il nodulo con TSH normale",
-  "description": "Francesca L., 44 anni, nodulo tiroideo di 18 mm trovato a un'ecografia fatta per un fastidio al collo. Il TSH, già dosato, è normale. È convinta che serva la scintigrafia «per vedere se è caldo», come le ha detto un'amica, e ha paura di un ago.",
-  "difficulty": "MEDIUM",
+  "title": "Compressione midollare: risonanza, poi chirurgia entro 48 ore",
+  "description": "Donna di 68 anni, carcinoma mammario, dolore dorsale e deficit alle gambe da 12 ore. Propongono la radiografia della colonna, voce Fasdac, al posto della risonanza.",
+  "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "condition": "Nodulo tiroideo sospetto con TSH normale",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "INTERMEDIATE",
-  "setting": "AMBULATORIO",
-  "guidelineRef": "AIOM/ETA: con TSH normale si fa ecografia e agoaspirato, non la scintigrafia di prima linea",
-  "diagnosis": "Nodulo EU-TIRADS 5, TSH normale. Ecografia e agoaspirato. La scintigrafia tiroidea di prima linea, con TSH normale, è la trappola economica. PET, RM e NGS non c'entrano.",
-  "pastMedicalHistory": "Nessuna iper o ipo tireosi. TSH 1,6 µUI/mL dosato dieci giorni fa, FT4 nella norma, riferiti dal medico di base. Non radiazioni al collo, non familiarità per midollare. Un fastidio a deglutire da un mese, non vero dolore, non raucedine, non diarrea, non vampate. L'ecografia esterna, portata in copia, descrive un nodulo destro di 18 mm, ma senza punteggio e senza immagini affidabili: va rifatta qui.",
-  "presentation": "Tesa, si tocca il collo. Alla palpazione un nodulo duro, mobile con la deglutizione, lobo destro. Non linfonodi laterocervicali grossolani. Voce ferma. Non esoftalmo, non tremore, polso ritmico. Parametri: PA 122/74, FC 76, SpO2 99%, FR 14, temperatura 36,5.",
+  "condition": "Compressione midollare da metastasi, RM con contrasto e chirurgia entro 48 ore se eleggibile",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "La RM con mezzo di contrasto e l'esame di scelta della compressione midollare. Se il deficit neurologico peggiora e la persona e eleggibile, la decompressione e la stabilizzazione possono essere prese in considerazione entro 48 ore. La radiografia lombo-sacrale a tariffa non e quell'esame.",
+  "pastMedicalHistory": "Carcinoma mammario metastatico all'osso. Camminava ieri. Capace. Dolore nuovo alla schiena.",
+  "presentation": "Da 12 ore non tiene le gambe. Dolore dorsale. Un tumore solido noto, non un linfoma. Una sola zona dolente.",
   "redHerrings": [
-    "«Voglio sapere se è caldo» è una richiesta di scintigrafia. Col TSH normale il nodulo caldo non è il quesito.",
-    "Il fastidio a deglutire non è un ipertiroidismo.",
-    "Un NGS sul sangue non sostituisce le cellule sotto l'ago."
+    "Radiografia lombo-sacrale da 36 euro al posto della RM.",
+    "Chirurgia rimandata a dopo il weekend, oltre le 48 ore."
   ],
-  "timeLimitMinutes": 40,
-  "patientDeteriorationThreshold": 70,
-  "patientPrompt": "ROLEPLAY RIGIDO. Registro: ANSIA, PAURA DELL'AGO, RICHIESTA SBAGLIATA. Sei Francesca, 44 anni, ambulatorio. Ti tocchi il collo. Alla «Come sta?»: «Ho un nodulo. L'amica ha fatto la scintigrafia. La voglio anch'io, per vedere se è caldo. L'ago no, mi fa impressione.» [sospiro] Se ti chiedono calore, tremori, diarrea, chili persi: «No. Solo un fastidio quando ingoio.» Il TSH normale lo sai, te l'ha detto il medico: lo dici se chiedono gli esami del sangue. Se insistono per la scintigrafia, ti rilassi: «Ecco, bravi.» Se ti spiegano che col TSH a posto serve rifare l'eco e poi l'ago, ti si mozza la voce: «[sospiro] L'ago... fa male? È tumore?» Se restano su quella paura e non ti mandano in medicina nucleare, accetti. Non nominare tu TIRADS, Bethesda, papillare. Esempio: Medico: «Prenoto la scintigrafia.» Francesca: «Sì. Grazie. L'ago lasciamolo stare.»",
-  "correctSolution": "Confermare il TSH normale, ecografia con punteggio di rischio, agoaspirato sul nodulo. Non scintigrafia di prima linea. Non PET, non RM, non NGS.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Elena. Le gambe non mi tengono da stamattina. Fate la risonanza, non la lastra. Il dolore va scritto. Se decidete la sala, spiegatemelo: posso rifiutare un sondino.",
+  "correctSolution": "RM con contrasto subito. Se eleggibile e il deficit peggiora, chirurgia di decompressione e stabilizzazione entro 48 ore. Niente radiografia lombo-sacrale al posto della RM. Consenso sull'atto rifiutato. Dolore in cartella.",
   "goldStandardPath": [
-    "tiroide",
-    "ecografia",
-    "fna"
+    "visita",
+    "rm"
   ],
-  "goldPathNarrative": "1) TSH, 15 euro: è normale, quindi la scintigrafia non è il primo esame. 2) Ecografia, 50 euro: caratteri di sospetto e bersaglio. 3) Agoaspirato, 60 euro. Ideale 125 euro, budget 240. La scintigrafia da 120 euro porta il conto a 245 e sfora di poco, apposta. RM 220, PET 950 e NGS 1200 sfonano in modo grossolano.",
+  "goldPathNarrative": "L'esame di scelta e la RM. La finestra chirurgica scritta e 48 ore dall'inizio del deficit che peggiora, se la persona e eleggibile.",
   "examLatencies": {
-    "tiroide": 15,
-    "ecografia": 20,
-    "fna": 25,
-    "scintigrafia": 80,
-    "calcitonina": 20,
-    "pet-tc": 180,
-    "rm-rachide": 60,
-    "ngs-panel": 200
+    "visita": 10,
+    "rm": 40,
+    "rx-colonna": 20
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-tsh",
-      "prompt": "Il TSH è già stato dosato, ed è alto, basso o normale?",
+      "id": "q1",
+      "prompt": "Da quante ore non muove le gambe?",
       "critical": true,
-      "expectedKeywords": ["tsh", "normale"],
-      "rationale": "TSH normale toglie l'indicazione alla scintigrafia di prima linea."
+      "expectedKeywords": [
+        "ore",
+        "12",
+        "gambe"
+      ],
+      "rationale": "La chirurgia si considera entro 48 ore dall'inizio del deficit che peggiora."
     },
     {
-      "id": "aq-locali",
-      "prompt": "Ha cambiato la voce, fatica a respirare, o ha diarrea e vampate?",
+      "id": "q2",
+      "prompt": "Che tumore ha?",
       "critical": true,
-      "expectedKeywords": ["voce", "diarrea", "ingoio"],
-      "rationale": "La raucedine sposterebbe l'urgenza. Vampate e diarrea farebbero pensare al midollare. Qui non ci sono."
-    },
-    {
-      "id": "aq-ago",
-      "prompt": "Che cosa la spaventa dell'ago, e che cosa spera dalla scintigrafia?",
-      "critical": false,
-      "expectedKeywords": ["ago", "caldo"],
-      "rationale": "La paura dell'ago è il motivo per cui accetterebbe l'esame sbagliato."
+      "expectedKeywords": [
+        "mammella",
+        "solido",
+        "osso"
+      ],
+      "rationale": "Gli studi della chirurgia riguardano tumori solidi, non i tumori radiosensibili esclusi da quei lavori."
     }
   ],
   "physicalExam": {
-    "summary": "Nodulo duro di circa due centimetri nel lobo destro, mobile alla deglutizione, non fisso. Non linfonodi laterocervicali. Non segni di ipertiroidismo. Voce chiara. Il TSH già noto è normale: la mano non sostituisce l'eco e l'ago."
+    "summary": "Paraparesi ingravescente, dolore dorsale, vescica ancora continente. Cosciente."
   },
   "escCitations": [
     {
-      "chunkId": "onco-008-tsh",
-      "source": "Nodulo tiroideo — sintesi operativa",
-      "quote": "Sintesi operativa: con TSH normale la scintigrafia non è l'esame di prima linea. Si caratterizza il nodulo con l'ecografia e, se è sospetto, con l'agoaspirato."
+      "chunkId": "rm",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "La RM con mdc ev costituisce l’esame di scelta per l’identificazione delle lesioni e per la valutazione del danno compressivo midollare."
     },
     {
-      "chunkId": "onco-008-fna",
-      "source": "Agoaspirato — sintesi operativa",
-      "quote": "Sintesi operativa: l'agoaspirato è il prelievo che distingue un nodulo da operare da un nodulo da controllare. Costa meno di una scintigrafia inutile e risponde al quesito."
+      "chunkId": "48",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "Nei pazienti con compressione midollare da metastasi vertebrale eleggibili per trattamento chirurgico di decompressione e stabilizzazione, questo può essere preso in considerazione entro 48h dall’insorgenza del deficit neurologico ingravescente (ref."
+    },
+    {
+      "chunkId": "rx",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI RX 000000639 RX colonna vertebrale lombo-sacrale (due proiezioni) 36,00"
+    },
+    {
+      "chunkId": "l219-1",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "TSH letto prima di qualunque medicina nucleare.",
-      "Ecografia con caratteri di sospetto.",
-      "Agoaspirato sul nodulo.",
-      "Nessuna scintigrafia di prima linea a TSH normale."
+      "RM prima della lastra.",
+      "Decisione chirurgica dentro le 48 ore."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: TSH normale e nodulo sospetto, aderenza è eco e FNA. La scintigrafia chiesta dall'amica è scostamento.",
+      "art5Adherence": "RM e finestra di 48 ore sono nella linea guida delle emergenze. La radiografia e una voce Fasdac, non l'esame di scelta.",
       "legalCriteria": [
-        "Riportare il TSH già noto in cartella prima di scartare la scintigrafia.",
-        "Consenso all'agoaspirato: fastidio, rischio di campione inadeguato, beneficio di evitare un intervento alla cieca.",
-        "Non scrivere «scintigrafia per tranquillizzare»."
+        "RM con contrasto come esame di scelta.",
+        "Chirurgia entro 48 ore solo se eleggibile e il deficit peggiora.",
+        "Dolore in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "tiroide",
-      "name": "TSH, FT4",
-      "finding": "TSH 1,6 µUI/mL, FT4 1,2 ng/dL. Eutiroidismo. Nessuna indicazione a cercare un nodulo caldo come primo passo.",
-      "isAbnormal": false,
-      "priceEuro": 15
+      "examId": "visita",
+      "name": "Visita neurologica",
+      "finding": "Deficit motorio alle gambe da 12 ore, in peggioramento. Dolore dorsale.",
+      "isAbnormal": true
     },
     {
-      "examId": "ecografia",
-      "name": "Ecografia tiroidea",
-      "finding": "Nodulo solido ipoecogeno di 18 mm al lobo destro, più alto che largo, microcalcificazioni, margini irregolari. EU-TIRADS 5. Non linfonodi sospetti. Indicato l'agoaspirato.",
-      "isAbnormal": true,
-      "priceEuro": 50
-    },
-    {
-      "examId": "fna",
-      "name": "Agoaspirato",
-      "finding": "Agoaspirato adeguato, Bethesda V, sospetto per carcinoma papillare. La chirurgia si discute su questo, non sulla scintigrafia.",
-      "isAbnormal": true,
-      "priceEuro": 60
+      "examId": "rm",
+      "name": "RM con contrasto",
+      "finding": "Esame di scelta per vedere la compressione del midollo.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "scintigrafia",
-      "name": "Scintigrafia tiroidea",
-      "finding": "Scintigrafia: captazione tenue del nodulo, non un nodulo caldo autonomo. Con TSH normale non era il primo esame. Costo 120 euro.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "wasteRationale": "125 euro di percorso più 120 di scintigrafia fanno 245, oltre il budget di 240. È la trappola disegnata sul TSH normale."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET non indicata su un nodulo ancora senza citologia. 950 euro.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "La PET sfora il budget di 240 euro prima ancora di rispondere al nodulo."
-    },
-    {
-      "examId": "rm-rachide",
-      "name": "RM whole body",
-      "finding": "RM whole body negativa. Nessun sintomo a distanza. 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Una RM da 220 euro, aggiunta a 125, sfora i 240."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello NGS",
-      "finding": "NGS su sangue senza un quesito di midollare familiare. 1200 euro. Non sostituisce l'ago.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "L'NGS sfora il massimale e non classifica il nodulo."
+      "examId": "rx-colonna",
+      "name": "RX colonna lombo-sacrale",
+      "finding": "Fasdac DI RX 000000639, 36 euro. Non e l'esame di scelta.",
+      "isAbnormal": true,
+      "priceEuro": 36,
+      "wasteRationale": "Lastra a tariffa al posto della RM."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 76,
-      "bloodPressure": "122/74",
-      "spo2": 99,
-      "temperature": 36.5,
-      "respiratoryRate": 14
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 240,
     "demographics": {
-      "age": 44,
+      "age": 68,
       "sex": "F",
-      "name": "Francesca L.",
-      "context": "Ambulatorio"
+      "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Nodulo tiroideo",
-        "result": "Nodulo duro di circa 2 cm nel lobo destro, mobile alla deglutizione.",
-        "isPositive": true
-      },
-      {
-        "signName": "Tireotossicosi",
-        "result": "Non tremore, non tachicardia, non esoftalmo. Voce chiara.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Nodulo tiroideo",
-        "result": "Nodulo duro di circa 2 cm nel lobo destro, mobile alla deglutizione.",
-        "isPositive": true
-      },
-      {
-        "signName": "Tireotossicosi",
-        "result": "Non tremore, non tachicardia, non esoftalmo. Voce chiara.",
-        "isPositive": false
-      }
-    ],
     "advancedExams": {
       "values": {
-        "tiroide": {
-          "finding": "TSH 1,6 µUI/mL, FT4 1,2 ng/dL.",
-          "isAbnormal": false,
-          "price": 15
-        },
-        "ecografia": {
-          "finding": "Nodulo 18 mm, più alto che largo, microcalcificazioni, EU-TIRADS 5.",
-          "isAbnormal": true,
-          "price": 50
-        },
-        "fna": {
-          "finding": "Bethesda V, sospetto per carcinoma papillare. Campione adeguato.",
-          "isAbnormal": true,
-          "price": 60
-        },
-        "scintigrafia": {
-          "finding": "Nodulo non caldo. TSH normale: esame non di prima linea.",
-          "isAbnormal": false,
-          "price": 120
-        },
-        "calcitonina": {
-          "finding": "Calcitonina 4 pg/mL, nella norma. Non c'erano vampate né diarrea.",
-          "isAbnormal": false,
-          "price": 12
-        },
-        "pet-tc": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "rm-rachide": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 220
+        "visita": {
+          "finding": "Deficit motorio alle gambe da 12 ore, in peggioramento. Dolore dorsale.",
+          "isAbnormal": true
         },
         "rm": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 220
+          "finding": "Esame di scelta per vedere la compressione del midollo.",
+          "isAbnormal": true
         },
-        "ngs-panel": {
-          "finding": "Nessuna indicazione familiare. Non sostituisce l'ago.",
-          "isAbnormal": false,
-          "price": 1200
+        "rx-colonna": {
+          "finding": "Fasdac DI RX 000000639, 36 euro. Non e l'esame di scelta.",
+          "isAbnormal": true
         }
       }
     }
@@ -246,12 +157,280 @@
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
-    "adherence": "PARTIAL",
+    "adherence": "FULL",
     "lifestyleAndSocial": {
       "sleepQuality": "FAIR",
       "stressLevel": "HIGH",
       "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Vuole la scintigrafia perché l'amica l'ha fatta, ha paura dell'ago, sospira. Se le spiegano il TSH, accetta il prelievo a malincuore."
-  }
+    "communicationStyle": "Sono Elena. Le gambe non mi tengono da stamattina. Fate la risonanza, non la lastra. Il dolore va scritto. Se decidete la sala, spiegatemelo: posso rifiutare un sondino."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Deficit e orologio",
+      "prompt": "Dolore e gambe che cedono da 12 ore. Tumore solido noto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Segni l'ora di inizio e chieda la RM con contrasto, esame di scelta",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Prenoti solo la radiografia e rivaluti tra due giorni",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Lastra al posto della RM",
+      "prompt": "La RM con mezzo di contrasto e l'esame di scelta per la compressione midollare. La radiografia lombo-sacrale e una voce Fasdac da 36 euro, non quell'esame.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso RX colonna vertebrale lombo-sacrale (due proiezioni), voce Fasdac DI RX 000000639, 36 euro. Non sostituisce la RM con contrasto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 36 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI RX 000000639 RX colonna vertebrale lombo-sacrale (due proiezioni) 36 euro. Non sostituisce la RM con contrasto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Chirurgia entro 48 ore",
+      "prompt": "La RM conferma la compressione. E eleggibile. Il deficit peggiora. Sono passate 12 ore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Consideri decompressione e stabilizzazione entro 48 ore dall'inizio del deficit",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Rimandi la sala a dopo 48 ore perche il letto si libera lunedi",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Fuori dalla finestra scritta",
+      "prompt": "Se e eleggibile, decompressione e stabilizzazione possono essere prese in considerazione entro 48 ore dall'insorgenza del deficit neurologico ingravescente.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Chi e eleggibile",
+      "prompt": "Un altro paziente ha un linfoma, tumore che quegli studi escludevano.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non applichi a quel linfoma la stessa indicazione chirurgica degli studi sui solidi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Stessa sala urgente, come se gli studi includessero il linfoma",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Studio letto sul tumore sbagliato",
+      "prompt": "Gli studi citati per la chirurgia entro 48 ore escludevano i tumori radiosensibili, tra cui il linfoma. Il caso di Elena e un carcinoma solido.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore, primo segno",
+      "prompt": "Il dolore alla schiena c'era prima della paralisi. Non e in cartella.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Lo riporti subito, con tecnica, farmaci, dosaggi e risultato",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Si occupi solo delle gambe e lasci il dolore non scritto",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non in cartella",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dire la posta in gioco",
+      "prompt": "Chiede se senza la sala il danno puo restare.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Dica benefici, rischi e le conseguenze del rifiuto, in modo comprensibile",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "La porti in sala senza spiegare",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Sala senza informazione",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: un sondino nasogastrico che lei rifiuta, mentre accetta la risonanza. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in pronto soccorso il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

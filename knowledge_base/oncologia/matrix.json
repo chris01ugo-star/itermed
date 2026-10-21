@@ -1,137 +1,227 @@
 [
   {
     "id": "ONCO-001",
-    "title": "La lettera dello screening — BIRADS 4",
-    "condition": "Mammografia di screening BIRADS 4, biopsia ecoguidata prima di ogni stadiazione",
-    "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "AIOM/ESMO carcinoma mammario: biopsia prima della stadiazione"
+    "title": "Adenocarcinoma del polmone: biologia prima del bersaglio",
+    "condition": "NSCLC avanzato, istotipo adenocarcinoma, prima linea dopo il pannello molecolare",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "tumori polmone.pdf; Anexo02_ECOG_PSS.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
   },
   {
     "id": "ONCO-002",
-    "title": "Il neo tolto — melanoma stadio I",
-    "condition": "Follow-up di melanoma stadio IA asintomatico, solo esame cutaneo e linfonodale",
-    "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "AIOM melanoma: follow-up clinico nello stadio I"
+    "title": "Colon metastatico: RAS e MSI prima dell'anti-EGFR",
+    "condition": "Carcinoma del colon-retto metastatico, test RAS/BRAF/MSI prima della terapia",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "tumori colon.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
   },
   {
     "id": "ONCO-003",
-    "title": "Vomita anche l'acqua — emesi da chemio",
-    "condition": "Emesi indotta da chemioterapia, via orale impossibile",
-    "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
+    "title": "Melanoma avanzato: BRAF prima della target therapy",
+    "condition": "Melanoma stadio IV, determinazione di BRAF prima della target therapy",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "MASCC/ESMO antiemesi: setroni e idratazione endovenosa"
+    "guidelineRef": "melanoma.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
   },
   {
     "id": "ONCO-004",
-    "title": "La macchia sulla lastra — massa polmonare",
-    "condition": "Massa polmonare in forte fumatore, stadiazione TC e diagnosi istologica",
-    "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
+    "title": "Rene metastatico: combinazione dentro il rimborso",
+    "condition": "Carcinoma renale metastatico, prima linea secondo categoria IMDC e rimborso AIFA",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "AIOM/ESMO NSCLC: TC torace-addome e biopsia"
+    "guidelineRef": "tumore rene.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
   },
   {
     "id": "ONCO-005",
-    "title": "Il sangue che non si vede — colon",
-    "condition": "Anemia sideropenica e sangue occulto, carcinoma del colon",
-    "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "AIOM carcinoma del colon: colonscopia e TC di stadiazione"
+    "title": "Prostata resistente: BRCA e poi solo olaparib",
+    "condition": "mCRPC dopo docetaxel e ARSI, PARP solo se BRCA e solo olaparib rimborsato",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "tumore prostata.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
   },
   {
     "id": "ONCO-006",
-    "title": "Febbre al giorno dieci — neutropenia a basso rischio",
-    "condition": "Neutropenia febbrile MASCC alto, antibiotico empirico senza attendere le colture",
-    "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
+    "title": "Prostata ormonosensibile ad alto volume: tripletta",
+    "condition": "mHSPC M1 ad alto volume, tripletta con ARSI, docetaxel e ADT",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
     "setting": "REPARTO",
-    "guidelineRef": "IDSA/AIOM neutropenia febbrile a basso rischio"
+    "guidelineRef": "tumore prostata.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
   },
   {
     "id": "ONCO-007",
-    "title": "Otto scariche — colite da immunoterapia",
-    "condition": "Colite grado 3 da inibitori del checkpoint",
+    "title": "Ipercalcemia maligna: zoledronato 4 mg",
+    "condition": "Ipercalcemia maligna sintomatica, zoledronato come prima opzione con aggiustamento sulla clearance",
     "frequencyCategory": "MEDIUM",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "ADVANCED",
     "setting": "REPARTO",
-    "guidelineRef": "ESMO tossicità da immunoterapia: steroidi, non loperamide"
+    "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
   },
   {
     "id": "ONCO-008",
-    "title": "Il nodulo con TSH normale",
-    "condition": "Nodulo tiroideo EU-TIRADS 5, TSH normale, FNA e non scintigrafia",
-    "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "AIOM/ETA nodulo tiroideo: eco e agoaspirato se TSH normale"
+    "title": "Compressione midollare: risonanza, poi chirurgia entro 48 ore",
+    "condition": "Compressione midollare da metastasi, RM con contrasto e chirurgia entro 48 ore se eleggibile",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
   },
   {
     "id": "ONCO-009",
-    "title": "Non riesce a stare sdraiato — osso",
-    "condition": "Dolore osseo da metastasi di carcinoma prostatico, senza deficit neurologico",
-    "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "ESMO dolore oncologico e metastasi ossee: RM, oppioide, radioterapia"
+    "title": "Vena cava superiore: TC con contrasto, poi stent",
+    "condition": "Sindrome della vena cava superiore, TC con contrasto e stent come primo approccio possibile",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
   },
   {
     "id": "ONCO-010",
-    "title": "La TC è peggiorata — dirglielo",
-    "condition": "Progressione di malattia, comunicazione con protocollo SPIKES",
-    "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "SPIKES e Legge 219/2017: verità sulla prognosi"
-  },
-  {
-    "id": "ONCO-011",
-    "title": "Le gambe non reggono — midollo",
-    "condition": "Compressione midollare in atto, steroidi e RM nella stessa ora",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "ADVANCED",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "ESMO compressione midollare: desametasone ev e RM urgente"
-  },
-  {
-    "id": "ONCO-012",
-    "title": "Acido urico e un tracciato brutto — lisi",
-    "condition": "Sindrome da lisi tumorale all'esordio di leucemia acuta",
-    "frequencyCategory": "LOW",
-    "difficulty": "ADVANCED",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "BCSH/ESMO lisi tumorale: idratazione, rasburicase, iperpotassiemia"
-  },
-  {
-    "id": "ONCO-013",
-    "title": "Non mi riconosce — calcio",
-    "condition": "Ipercalcemia maligna sintomatica",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "ADVANCED",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "ESMO ipercalcemia: fisiologica, bisfosfonato, calcitonina"
-  },
-  {
-    "id": "ONCO-014",
-    "title": "La faccia gonfia — vena cava",
-    "condition": "Sindrome della vena cava superiore da massa ilare",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "ADVANCED",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "ESMO SVCS: TC con mezzo di contrasto e radioterapia o stent"
-  },
-  {
-    "id": "ONCO-015",
-    "title": "Il rantolo e la figlia — fine vita",
-    "condition": "Agitazione terminale e dolore refrattario, sedazione palliativa",
+    "title": "Colite da immunoterapia di grado 3: steroide, non il biologico",
+    "condition": "Diarrea o colite di grado 3 da inibitore del checkpoint, corticosteroide",
     "frequencyCategory": "MEDIUM",
     "difficulty": "ADVANCED",
     "setting": "REPARTO",
-    "guidelineRef": "SICP/Legge 219/2017: sedazione palliativa, no accanimento"
+    "guidelineRef": "gestione tossicita immunoterapia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-011",
+    "title": "Miocardite da immunoterapia: stop e metilprednisolone 1000 mg",
+    "condition": "Miocardite da inibitore del checkpoint, sospensione e steroide ad alte dosi",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "cardioncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-012",
+    "title": "Frazione di eiezione prima di antracicline o anti-HER2",
+    "condition": "Avvio di anti-HER2 o antracicline, valutazione basale della frazione di eiezione",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "cardioncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-013",
+    "title": "Chirurgia oncologica maggiore: eparina a dose profilattica alta",
+    "condition": "Chirurgia maggiore per tumore solido, tromboprofilassi con EBPM a dosaggio profilattico piu elevato",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "tromboembolia venosa in pazienti con tumori solidi.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-014",
+    "title": "Cisplatino: aprepitant e desametasone dimezzato",
+    "condition": "Primo cisplatino ad alto potenziale emetogeno, NK1 e riduzione del desametasone",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "terapia antiemetica.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-015",
+    "title": "Glioblastoma sotto i 70 anni: temozolomide con la radioterapia",
+    "condition": "Glioblastoma, eta inferiore a 70 anni, temozolomide concomitante e adiuvante",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "neoplasie cerebrali.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-016",
+    "title": "Mesotelioma: toracoscopia, poi il dolore di parete",
+    "condition": "Sospetto mesotelioma pleurico operabile, toracoscopia diagnostica",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "mesotelioma pleurico.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-017",
+    "title": "Versamento pericardico neoplastico: non solo lo svuotamento",
+    "condition": "Versamento pericardico neoplastico, chemioterapia intrapericardica aggiunta alla pericardiocentesi",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-018",
+    "title": "Stravaso di antraciclina: dexrazoxane",
+    "condition": "Stravaso di antracicline, dexrazoxane come prima opzione possibile",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-019",
+    "title": "Linfoma ad alto carico: rasburicase prima della chemio",
+    "condition": "Alto rischio di lisi tumorale, fluidi e rasburicase prima della chemioterapia",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-020",
+    "title": "Neutropenia febbrile instabile: antibiotico entro 6 ore",
+    "condition": "Neutropenia febbrile con shock, antibiotico ad ampio spettro entro 6 ore",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-021",
+    "title": "Mammella operata HER2-negativa: chemio dose-dense",
+    "condition": "Carcinoma mammario operato HER2-negativo con linfonodi positivi, antracicline e taxani dose-dense",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "tumore mammella.pdf; cardioncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-022",
+    "title": "Dire la prognosi: SPIKES, infermiere dedicato, dolore in cartella",
+    "condition": "Comunicazione della diagnosi e della prognosi, supporto infermieristico e dolore in cartella",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "COMUNICAZIONE DIAGNOSI SPIKES.pdf; assistenza psicosociale; legge 22-17.pdf; Legge 38/2010"
+  },
+  {
+    "id": "ONCO-023",
+    "title": "DAT: niente intubazione, sedazione solo con il consenso",
+    "condition": "Fine vita, rispetto delle DAT e sedazione palliativa con consenso e nota in cartella",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-024",
+    "title": "Prostata a rischio molto basso: sorveglianza, non la PET",
+    "condition": "Carcinoma prostatico localizzato a rischio molto basso, sorveglianza attiva",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "tumore prostata.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
+  },
+  {
+    "id": "ONCO-025",
+    "title": "Ipertensione da anti-angiogenico: un farmaco sul sistema renina",
+    "condition": "Ipertensione in corso di farmaco anti-angiogenico",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025"
   }
 ]

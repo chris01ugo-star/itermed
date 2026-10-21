@@ -1,0 +1,430 @@
+{
+  "id": "ONCO-025",
+  "code": "ONCO-025",
+  "title": "Ipertensione da anti-angiogenico: un farmaco sul sistema renina",
+  "description": "Uomo di 61 anni, in bevacizumab, pressione 168/102. Propongono di non trattarla o di fare una PET.",
+  "difficulty": "HARD",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "condition": "Ipertensione in corso di farmaco anti-angiogenico",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Nell'ipertensione di chi e in terapia con un anti-angiogenico, un inibitore del sistema renina-angiotensina puo essere preso in considerazione. Il testo non fissa la molecola ne i milligrammi. La pressione va detta, con benefici e rischi.",
+  "pastMedicalHistory": "Carcinoma del colon metastatico in bevacizumab. Pressione normale prima. Capace. Cefalea.",
+  "presentation": "168/102 a due misure. Cefalea. Nessun dolore toracico.",
+  "redHerrings": [
+    "Non trattare, tanto 'e l'effetto del farmaco'.",
+    "PET total body per la cefalea."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Ugo. La testa mi scoppia e la pressione e alta da quando ho iniziato la cura. Trattatela se e scritto. Non voglio la PET. Scrivete il male.",
+  "correctSolution": "Consideri un inibitore del sistema renina-angiotensina, senza molecola o dose inventate. Spieghi benefici e rischi. Niente PET. Dolore in cartella. Se rifiuta l'antipertensivo, non lo forzi e tratti comunque il dolore.",
+  "goldStandardPath": [
+    "pressione",
+    "farmaco"
+  ],
+  "goldPathNarrative": "L'ipertensione da anti-angiogenico si puo trattare con un farmaco sul sistema renina-angiotensina. Non si lascia e non si studia con una PET.",
+  "examLatencies": {
+    "pressione": 5,
+    "farmaco": 5,
+    "pet-total": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Che antitumorale fa?",
+      "critical": true,
+      "expectedKeywords": [
+        "bevacizumab",
+        "anti-angiogenico"
+      ],
+      "rationale": "La raccomandazione e per chi ha ipertensione in corso di anti-angiogenico."
+    },
+    {
+      "id": "q2",
+      "prompt": "Quanto e la pressione?",
+      "critical": true,
+      "expectedKeywords": [
+        "168",
+        "alta",
+        "pressione"
+      ],
+      "rationale": "Senza il numero non si sa se trattare."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Cefalea, pressione alta, niente dolore toracico."
+  },
+  "escCitations": [
+    {
+      "chunkId": "raas",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "Nei pazienti con ipertensione in terapia con farmaci anti-angiogenici, I: il trattamento con inibitori del sistema renina-angiotensina (ACE inibitori e sartani) C: è raccomandabile rispetto ad altri farmaci anti-ipertensivi, O: in termini di sopravvivenza libera da progressione e"
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l219-3",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Trattare la pressione, non ignorarla.",
+      "Niente PET per questo sintomo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La raccomandazione non sceglie ramipril ne una dose. Il caso non li aggiunge.",
+      "legalCriteria": [
+        "Inibitore del sistema renina-angiotensina come opzione.",
+        "Niente dose inventata.",
+        "Dolore in cartella, legge 38/2010 art. 7."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "pressione",
+      "name": "Pressione",
+      "finding": "168/102. Ipertensione in corso di anti-angiogenico.",
+      "isAbnormal": true
+    },
+    {
+      "examId": "farmaco",
+      "name": "Farmaco in corso",
+      "finding": "Bevacizumab, anti-angiogenico.",
+      "isAbnormal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac 780 euro. Non cura la pressione.",
+      "isAbnormal": true,
+      "priceEuro": 780,
+      "wasteRationale": "PET al posto dell'antipertensivo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "168/102",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "demographics": {
+      "age": 61,
+      "sex": "M",
+      "context": "Reparto di oncologia"
+    },
+    "advancedExams": {
+      "values": {
+        "pressione": {
+          "finding": "168/102. Ipertensione in corso di anti-angiogenico.",
+          "isAbnormal": true
+        },
+        "farmaco": {
+          "finding": "Bevacizumab, anti-angiogenico.",
+          "isAbnormal": true
+        },
+        "pet-total": {
+          "finding": "Fasdac 780 euro. Non cura la pressione.",
+          "isAbnormal": true
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Sono Ugo. La testa mi scoppia e la pressione e alta da quando ho iniziato la cura. Trattatela se e scritto. Non voglio la PET. Scrivete il male."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Trattare",
+      "prompt": "Bevacizumab in corso, pressione 168/102, cefalea.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Consideri un inibitore del sistema renina-angiotensina",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Non tratti, perche e un effetto atteso",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Ipertensione lasciata",
+      "prompt": "In chi ha ipertensione ed e in terapia con un anti-angiogenico, un inibitore del sistema renina-angiotensina puo essere preso in considerazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Non misura ne cura la pressione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Non misura ne cura la pressione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente milligrammi inventati",
+      "prompt": "Chiedono quale molecola e quanti milligrammi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Dica che la raccomandazione non fissa ne l'una ne gli altri",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Scriva ramipril 5 mg come se fosse nella raccomandazione",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non letta",
+      "prompt": "La raccomandazione indica la classe, gli inibitori del sistema renina-angiotensina. Non scrive una molecola ne un milligrammo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dirgli i rischi",
+      "prompt": "Chiede se il farmaco per la pressione puo fargli male ai reni.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Dica benefici, rischi e alternative",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Glielo faccia senza spiegare",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Antipertensivo non spiegato",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Puo rifiutarlo",
+      "prompt": "Rifiuta l'antipertensivo. La cefalea resta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non forzi il farmaco. Curi e scriva il dolore",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Glielo dia di nascosto",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Farmaco senza consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Cartella",
+      "prompt": "La cefalea non e in cartella.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Scriva caratteristiche, tecnica, farmaci, dosaggi e risultato",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Non scriva",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Cefalea non scritta",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una PET che lui rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in ambulatorio il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

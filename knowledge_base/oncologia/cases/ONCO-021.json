@@ -1,0 +1,436 @@
+{
+  "id": "ONCO-021",
+  "code": "ONCO-021",
+  "title": "Mammella operata HER2-negativa: chemio dose-dense",
+  "description": "Donna di 52 anni, carcinoma mammario operato, HER2 negativo, linfonodi positivi, candidata a chemioterapia. Propongono trastuzumab e uno schema non dose-dense.",
+  "difficulty": "HARD",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "condition": "Carcinoma mammario operato HER2-negativo con linfonodi positivi, antracicline e taxani dose-dense",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "tumore mammella.pdf; cardioncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Se e operata, HER2-negativa, con linfonodi positivi e candidata a chemioterapia, gli schemi con antracicline e taxani dose-dense sono la prima intenzione. Il trastuzumab, nello schema del testo, sta con la malattia HER2-positiva. Prima dell'antraciclina serve la frazione di eiezione.",
+  "pastMedicalHistory": "Mastectomia, linfonodi positivi, HER2 negativo, recettori da discutere. Eco cardiaca non fatta. Capace. Dolore alla ferita.",
+  "presentation": "Vuole iniziare la chemio. Nessun trastuzumab in nota. Nessuna frazione di eiezione.",
+  "redHerrings": [
+    "Trastuzumab perche 'tutte lo fanno'.",
+    "Schema ogni 21 giorni come unica scelta."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Lucia. Il mio tumore non ha HER2. Non voglio un farmaco per chi ce l'ha. Fate lo schema scritto e l'eco del cuore. Scrivete il dolore.",
+  "correctSolution": "Dose-dense con antracicline e taxani. Niente trastuzumab. Frazione di eiezione prima dell'antraciclina. Consenso e dolore. Niente PET al posto della scelta.",
+  "goldStandardPath": [
+    "istologia",
+    "fe"
+  ],
+  "goldPathNarrative": "HER2 negativo e linfonodi positivi portano al dose-dense, non al trastuzumab. Il cuore si misura prima.",
+  "examLatencies": {
+    "istologia": 10,
+    "fe": 20,
+    "pet-total": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "HER2 e linfonodi?",
+      "critical": true,
+      "expectedKeywords": [
+        "HER2",
+        "negativo",
+        "linfonodi"
+      ],
+      "rationale": "Il quesito 17 e per HER2 negativo e linfonodi positivi."
+    },
+    {
+      "id": "q2",
+      "prompt": "C'e l'eco?",
+      "critical": true,
+      "expectedKeywords": [
+        "eco",
+        "frazione",
+        "no"
+      ],
+      "rationale": "Prima dell'antraciclina la frazione di eiezione e di prima intenzione."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ferita dolente. HER2 negativo in referto. Linfonodi positivi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "dd",
+      "source": "knowledge_base/oncologia/clinic/tumore mammella.pdf",
+      "quote": "dose-dense dovrebbero essere presi in considerazione come opzione terapeutica di prima intenzione."
+    },
+    {
+      "chunkId": "h2",
+      "source": "knowledge_base/oncologia/clinic/tumore mammella.pdf",
+      "quote": "CT + trastuzumab (± pertuzumab) + ET pT >1 cm e/o pN+: CT + trastuzumab pT1a-b e pN0/pN1mi : non esistono ad oggi dati prospettici derivanti da studi randomizzati relativi al ben"
+    },
+    {
+      "chunkId": "fe",
+      "source": "knowledge_base/oncologia/clinic/cardioncologia.pdf",
+      "quote": "antracicline e/o farmaci anti-HER2, la valutazione basale della F E dovrebbe essere presa in considerazione come opzione di prima intenzione (6-12) Forte a favore COI: nessun conflitto dichiarato Bibliografia 1."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Schema dose-dense, non quello convenzionale come unica scelta.",
+      "Eco prima dell'antraciclina."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il dose-dense e il trastuzumab legato all'HER2 positivo sono nel testo della mammella. La frazione di eiezione e in cardioncologia.",
+      "legalCriteria": [
+        "Dose-dense come prima intenzione in questo profilo.",
+        "Niente trastuzumab se HER2 e negativo.",
+        "Dolore in cartella, legge 38/2010 art. 7."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "istologia",
+      "name": "Referto",
+      "finding": "HER2 negativo, linfonodi positivi, operata.",
+      "isAbnormal": true
+    },
+    {
+      "examId": "fe",
+      "name": "Frazione di eiezione",
+      "finding": "Da fare prima dell'antraciclina. Ancora assente.",
+      "isAbnormal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac 780 euro. Non sceglie lo schema adiuvante.",
+      "isAbnormal": true,
+      "priceEuro": 780,
+      "wasteRationale": "PET al posto della scelta scritta."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "demographics": {
+      "age": 52,
+      "sex": "F",
+      "context": "Reparto di oncologia"
+    },
+    "advancedExams": {
+      "values": {
+        "istologia": {
+          "finding": "HER2 negativo, linfonodi positivi, operata.",
+          "isAbnormal": true
+        },
+        "fe": {
+          "finding": "Da fare prima dell'antraciclina. Ancora assente.",
+          "isAbnormal": true
+        },
+        "pet-total": {
+          "finding": "Fasdac 780 euro. Non sceglie lo schema adiuvante.",
+          "isAbnormal": true
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Sono Lucia. Il mio tumore non ha HER2. Non voglio un farmaco per chi ce l'ha. Fate lo schema scritto e l'eco del cuore. Scrivete il dolore."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quale schema",
+      "prompt": "Operata, HER2 negativo, linfonodi positivi, candidata a chemio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Antracicline e taxani dose-dense come prima intenzione",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Solo lo schema convenzionale ogni 21 giorni",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Schedula non dose-dense",
+      "prompt": "In questo profilo gli schemi dose-dense con antracicline e taxani dovrebbero essere la prima intenzione rispetto alla modalita convenzionale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Non sceglie l'adiuvante.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Non sceglie l'adiuvante.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente trastuzumab",
+      "prompt": "Propongono trastuzumab 'per sicurezza'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non lo dia: nel testo il trastuzumab sta con l'HER2 positivo",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Trastuzumab anche se HER2 e negativo",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Anti-HER2 fuori dal profilo",
+      "prompt": "Lo schema del testo mette la chemioterapia piu trastuzumab nel HER2 positivo. Questo tumore e HER2 negativo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Cuore",
+      "prompt": "Lo schema dose-dense contiene un'antraciclina. L'eco non c'e.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Frazione di eiezione prima di iniziare",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Inizi la doxorubicina senza eco",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Antraciclina senza frazione di eiezione",
+      "prompt": "Prima di antracicline la valutazione basale della frazione di eiezione e opzione di prima intenzione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Spiegare",
+      "prompt": "Chiede perche lo schema e ravvicinato e che rischi ha.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Dica benefici, rischi e alternative",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Faccia firmare solo la data",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Schema non spiegato",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Puo rifiutare la chemio",
+      "prompt": "Dopo la spiegazione rifiuta la chemioterapia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la inizi. Annoti il rifiuto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "La inizi perche i linfonodi sono positivi",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Chemio senza consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una PET che lei rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in ambulatorio il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

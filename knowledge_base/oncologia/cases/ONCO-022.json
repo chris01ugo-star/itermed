@@ -1,0 +1,441 @@
+{
+  "id": "ONCO-022",
+  "code": "ONCO-022",
+  "title": "Dire la prognosi: SPIKES, infermiere dedicato, dolore in cartella",
+  "description": "Uomo di 58 anni, tumore del pancreas metastatico appena confermato. Chiede quanto tempo ha. Un collega vuole una versione addolcita. Ha anche un umore depresso e dolore.",
+  "difficulty": "HARD",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "condition": "Comunicazione della diagnosi e della prognosi, supporto infermieristico e dolore in cartella",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "COMUNICAZIONE DIAGNOSI SPIKES.pdf; assistenza psicosociale; legge 22-17.pdf; Legge 38/2010",
+  "diagnosis": "La legge 219 riconosce il diritto a diagnosi, prognosi, benefici, rischi e alternative, e dice che il tempo della comunicazione e tempo di cura. SPIKES ordina il colloquio: contesto, percezione, invito, conoscenza, emozioni, strategia. Un infermiere formato puo accompagnare tutto il percorso. Se c'e un disturbo depressivo, un intervento farmacologico puo essere considerato. Il dolore va in cartella.",
+  "pastMedicalHistory": "Adenocarcinoma del pancreas con metastasi epatiche, appena detto in corridoio a meta. Vive con la moglie. Capace. Dolore addominale. Umore chiuso.",
+  "presentation": "Chiede la prognosi per intero. La moglie chiede di non dirgliela. Dolore 7 su 10 non scritto.",
+  "redHerrings": [
+    "Dire che si guarisce.",
+    "PET total body prima di sedersi a parlare."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Nino. Voglio sapere la verita, anche se e brutta. Fatemi parlare con calma. Scrivete il male alla pancia. Non voglio una PET adesso.",
+  "correctSolution": "Colloquio SPIKES, prognosi vera, infermiere formato sul percorso, eventuale cura della depressione senza un farmaco inventato, dolore in cartella con dosi e risultato. Niente PET al posto del colloquio. Rispetti un rifiuto di informazioni se fosse lui a chiederlo: qui le vuole.",
+  "goldStandardPath": [
+    "colloquio",
+    "dolore"
+  ],
+  "goldPathNarrative": "La prognosi si dice a lui, nel modo di SPIKES. Il dolore si scrive. L'infermiere dedicato e un'opzione forte del percorso.",
+  "examLatencies": {
+    "colloquio": 30,
+    "dolore": 10,
+    "pet-total": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Quanto vuole sapere?",
+      "critical": true,
+      "expectedKeywords": [
+        "tutto",
+        "prognosi",
+        "verita"
+      ],
+      "rationale": "L'invito di SPIKES chiede quanto vuole sapere. La legge gli da diritto alla prognosi."
+    },
+    {
+      "id": "q2",
+      "prompt": "C'e dolore e com'e l'umore?",
+      "critical": true,
+      "expectedKeywords": [
+        "dolore",
+        "umore",
+        "depresso"
+      ],
+      "rationale": "Dolore in cartella. Un disturbo depressivo puo avere un intervento farmacologico."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dolente, lucido, chiede la prognosi. Moglie presente."
+  },
+  "escCitations": [
+    {
+      "chunkId": "spk",
+      "source": "knowledge_base/oncologia/legal/COMUNICAZIONE DIAGNOSI SPIKES.pdf",
+      "quote": "S = Setting Iniziare, preparando il contesto e disponendosi al- l’ascolto P = Perception Capire il punto di vista del paziente circa la pro- pria situazione (che idea si è fatto, cosa sa riguar- do alla malattia) I = Invitation Invitare il paziente ad esplicitare in che misura vuole essere informato rispetto alla diagnosi, alla prognosi e sui dettagli della malattia K = Knowledge Fornire le informazioni necessarie a comprendere la situazione clinica E = Emotions Facilitare l’espressione delle em"
+    },
+    {
+      "chunkId": "nur",
+      "source": "knowledge_base/oncologia/clinic/assistenza psicosociale paziente oncologici.pdf",
+      "quote": "personale infermieristico adeguatamente formato (specialist nurse) dovrebbe essere preso in considerazione per tutto il percorso di cura [17, 18] Forte a favore COI: nessun conflitto dichiarato 1."
+    },
+    {
+      "chunkId": "dep",
+      "source": "knowledge_base/oncologia/clinic/assistenza psicosociale paziente oncologici.pdf",
+      "quote": "disturbi depressivi, interventi farmacologici possono essere considerati come opzione terapeutica [20] Condizionata a favore COI: nessun conflitto dichiarato 4."
+    },
+    {
+      "chunkId": "l219-3",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Prognosi detta a lui, non una versione falsa.",
+      "Dolore scritto con tecnica e risultato."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "SPIKES e il testo di Del Piccolo in cartella legal. L'infermiere formato e la depressione sono nella linea guida psicosociale. Nessun antidepressivo con un nome non letto.",
+      "legalCriteria": [
+        "Diritto a diagnosi e prognosi, legge 219/2017 art. 1 comma 3.",
+        "Infermiere formato sul percorso.",
+        "Dolore in cartella, legge 38/2010 art. 7."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "colloquio",
+      "name": "Colloquio",
+      "finding": "Chiede la prognosi. La moglie chiede di tacerla.",
+      "isAbnormal": true
+    },
+    {
+      "examId": "dolore",
+      "name": "Dolore",
+      "finding": "7 su 10, non in cartella.",
+      "isAbnormal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac 780 euro. Non sostituisce il colloquio.",
+      "isAbnormal": true,
+      "priceEuro": 780,
+      "wasteRationale": "PET al posto della comunicazione."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "demographics": {
+      "age": 58,
+      "sex": "M",
+      "context": "Reparto di oncologia"
+    },
+    "advancedExams": {
+      "values": {
+        "colloquio": {
+          "finding": "Chiede la prognosi. La moglie chiede di tacerla.",
+          "isAbnormal": true
+        },
+        "dolore": {
+          "finding": "7 su 10, non in cartella.",
+          "isAbnormal": true
+        },
+        "pet-total": {
+          "finding": "Fasdac 780 euro. Non sostituisce il colloquio.",
+          "isAbnormal": true
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Sono Nino. Voglio sapere la verita, anche se e brutta. Fatemi parlare con calma. Scrivete il male alla pancia. Non voglio una PET adesso."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Quanto vuole sapere",
+      "prompt": "Chiede la prognosi. La moglie dice di addolcirla.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Chieda a lui quanto vuole sapere e poi gli dica diagnosi e prognosi in modo comprensibile",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Dica alla moglie una versione lieve e a lui che si guarisce",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Prognosi falsa",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario. SPIKES: invito su quanto vuole sapere, poi le informazioni per capire la situazione clinica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Il passo e il colloquio, non la PET.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Il passo e il colloquio, non la PET.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Come sedersi",
+      "prompt": "Il corridoio e rumoroso. La cartella non e li.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Prepari il contesto, ascolti cosa ha gia capito, lasci le emozioni, poi negozi un piano e verifichi che abbia capito",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Due frasi in corridoio e se ne vada",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "SPIKES saltato",
+      "prompt": "SPIKES: contesto e ascolto, punto di vista del paziente, quanto vuole sapere, informazioni, emozioni, poi una strategia con spazio alle domande e una verifica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Infermiere formato",
+      "prompt": "Servono informazioni ripetute lungo il percorso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Coinvolga un infermiere adeguatamente formato per tutto il percorso",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Nessun riferimento infermieristico",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso senza il supporto scritto",
+      "prompt": "Un supporto informativo e psicosociale da personale infermieristico formato dovrebbe essere considerato per tutto il percorso di cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Umore",
+      "prompt": "Il quadro e un disturbo depressivo, non solo la paura del giorno.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Consideri un intervento farmacologico, senza inventare molecola o dose assenti dal testo",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Un antidepressivo a una dose non letta, come se la linea guida la fissasse",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose di antidepressivo inventata",
+      "prompt": "Nei disturbi depressivi un intervento farmacologico puo essere considerato. Il testo non fissa la molecola ne i milligrammi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto",
+      "prompt": "Dolore 7 su 10, niente in cartella.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Scriva caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Gli dia una compressa e non scriva",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non in cartella",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una PET che lui rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in reparto il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

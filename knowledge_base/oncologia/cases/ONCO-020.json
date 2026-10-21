@@ -1,0 +1,436 @@
+{
+  "id": "ONCO-020",
+  "code": "ONCO-020",
+  "title": "Neutropenia febbrile instabile: antibiotico entro 6 ore",
+  "description": "Donna di 67 anni, chemio una settimana fa, febbre e pressione 82/50. Neutrofili bassi. Propongono di aspettare le colture prima dell'antibiotico.",
+  "difficulty": "HARD",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "condition": "Neutropenia febbrile con shock, antibiotico ad ampio spettro entro 6 ore",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Nello shock settico l'antibiotico endovena va iniziato entro 6 ore. Se il germe non e noto: piperacillina/tazobactam o meropenem o imipenem/cilastatina. Nel neutropenico va considerato anche un aminoglicoside. Non e il paziente stabile a basso rischio CISNE, che potrebbe essere gestito fuori dal ricovero.",
+  "pastMedicalHistory": "Carcinoma in chemioterapia recente. Nessuna allergia nota. Capace a tratti. Dolore.",
+  "presentation": "Febbre 38,8, pressione 82/50, neutrofili 200. Confusa ma rifiuta con un cenno un esame.",
+  "redHerrings": [
+    "Attendere l'emocoltura prima di ogni antibiotico.",
+    "Dimissione con una compressa, come se fosse a basso rischio."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Teresa. Ho la febbre e mi gira la testa. Datemi l'antibiotico in vena. Non mandatemi a casa. Scrivete il dolore.",
+  "correctSolution": "Ricovero. Antibiotico endovena entro 6 ore: piperacillina/tazobactam o meropenem o imipenem/cilastatina, e consideri un aminoglicoside perche e neutropenica. Non aspetti le colture. Non la dimetta. Consenso su un atto diverso e dolore in cartella.",
+  "goldStandardPath": [
+    "emocromo",
+    "emocoltura"
+  ],
+  "goldPathNarrative": "Instabile e neutropenica: antibiotico subito, non il percorso ambulatoriale del CISNE basso rischio.",
+  "examLatencies": {
+    "emocromo": 15,
+    "emocoltura": 10,
+    "pet-total": 90
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Da quante ore ha la febbre e com'e la pressione?",
+      "critical": true,
+      "expectedKeywords": [
+        "febbre",
+        "pressione",
+        "ore"
+      ],
+      "rationale": "L'antibiotico endovena dovrebbe partire entro 6 ore dai sintomi dello shock."
+    },
+    {
+      "id": "q2",
+      "prompt": "I neutrofili?",
+      "critical": true,
+      "expectedKeywords": [
+        "neutrofili",
+        "bassi",
+        "200"
+      ],
+      "rationale": "Nel neutropenico si considera l'associazione con un aminoglicoside."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ipotesa, febbre, tachipnea. Neutropenica."
+  },
+  "escCitations": [
+    {
+      "chunkId": "ab",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "antibioticoterapia endovenosa dovrebbe essere intrapresa entro 6 ore dai sintomi. Quando il patogeno o la fonte d’infezione non sono noti, occorre impostare una terapia antibiotica ad ampio spettro diretta contro batteri gram positivi e negativi 4. È raccomandato il trattamento iniziale con piperacillina/tazobactam o meropenem o imipenem/ciclastatina."
+    },
+    {
+      "chunkId": "cisne",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "clinicamente stabili e nella categoria a basso rischio sulla base del CISNE score, la gestione ambulatoriale può essere presa in considerazione (in alternativa al ricovero in regime ospedaliero) (ref."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l219-1",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Piperacillina/tazobactam o meropenem o imipenem/cilastatina.",
+      "Aminoglicoside da considerare perche e neutropenica."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "I tre antibiotici e le 6 ore sono nel testo delle emergenze. Il CISNE ambulatoriale e per lo stabile a basso rischio, non per questo shock.",
+      "legalCriteria": [
+        "Antibiotico entro 6 ore, senza aspettare il germe.",
+        "Non dimettere chi e instabile.",
+        "Dolore in cartella, legge 38/2010 art. 7."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Neutrofili 200. Febbre. Definisce la neutropenia febbrile.",
+      "isAbnormal": true
+    },
+    {
+      "examId": "emocoltura",
+      "name": "Emocolture",
+      "finding": "Vanno prese, ma non ritardano l'antibiotico.",
+      "isAbnormal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac 780 euro. Ritarda l'antibiotico.",
+      "isAbnormal": true,
+      "priceEuro": 780,
+      "wasteRationale": "Imaging a tariffa nello shock."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 124,
+      "bloodPressure": "82/50",
+      "spo2": 91,
+      "temperature": 38.8,
+      "respiratoryRate": 28
+    },
+    "demographics": {
+      "age": 67,
+      "sex": "F",
+      "context": "Reparto di oncologia"
+    },
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Neutrofili 200. Febbre. Definisce la neutropenia febbrile.",
+          "isAbnormal": true
+        },
+        "emocoltura": {
+          "finding": "Vanno prese, ma non ritardano l'antibiotico.",
+          "isAbnormal": true
+        },
+        "pet-total": {
+          "finding": "Fasdac 780 euro. Ritarda l'antibiotico.",
+          "isAbnormal": true
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Sono Teresa. Ho la febbre e mi gira la testa. Datemi l'antibiotico in vena. Non mandatemi a casa. Scrivete il dolore."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Entro 6 ore",
+      "prompt": "Febbre, pressione 82/50, neutrofili 200. Sintomi da poche ore. Colture non ancora positive.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Antibiotico endovena subito: piperacillina/tazobactam o meropenem o imipenem/cilastatina",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Aspetti l'emocoltura di domani",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Antibiotico in ritardo",
+      "prompt": "Nello shock l'antibiotico endovena dovrebbe iniziare entro 6 ore. Se il germe non e noto e raccomandato piperacillina/tazobactam o meropenem o imipenem/cilastatina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Ritarda l'antibiotico.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Ritarda l'antibiotico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Aminoglicoside",
+      "prompt": "E neutropenica. L'antibiotico scelto e uno dei tre.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Consideri l'aggiunta di un aminoglicoside",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Escluda l'aminoglicoside perche 'basta uno'",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Associazione non considerata",
+      "prompt": "Nei pazienti neutropenici un trattamento combinato con aminoglicosidi dovrebbe essere considerato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non a casa",
+      "prompt": "Qualcuno la manda a casa con una compressa, citando il CISNE.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "La ricoveri: non e stabile ne a basso rischio",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Dimissione ambulatoriale",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "CISNE letto sullo shock",
+      "prompt": "La gestione ambulatoriale si puo considerare nei pazienti clinicamente stabili e a basso rischio secondo il CISNE. Qui la pressione e 82/50.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dirle cosa sta succedendo",
+      "prompt": "Riprende lucidita e chiede la prognosi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Dica diagnosi, rischi e alternative",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Non le parli",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Shock non spiegato",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Un atto rifiutato",
+      "prompt": "Accetta l'antibiotico e rifiuta un catetere centrale immediato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Tenga l'antibiotico in periferica e non forzi il catetere",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Metta il catetere perche la famiglia lo chiede",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Catetere senza consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: la PET che lei rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in pronto soccorso il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

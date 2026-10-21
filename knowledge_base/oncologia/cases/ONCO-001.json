@@ -1,245 +1,451 @@
 {
   "id": "ONCO-001",
   "code": "ONCO-001",
-  "title": "La lettera dello screening — BIRADS 4",
-  "description": "Marta R., 52 anni, arriva in ambulatorio con la lettera dello screening: mammografia BIRADS 4, cluster di microcalcificazioni al quadrante supero-esterno sinistro. Non palpa nodi. Piange, chiede se morirà, e vuole «la PET di tutto il corpo per sapere subito».",
-  "difficulty": "EASY",
+  "title": "Adenocarcinoma del polmone: biologia prima del bersaglio",
+  "description": "Donna di 61 anni, adenocarcinoma polmonare stadio IV, ECOG 1. Chiede un farmaco a bersaglio subito. La figlia vuole la PET total body al posto del pannello molecolare.",
+  "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "condition": "Screening mammografico BIRADS 4, indicazione a biopsia ecoguidata",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
-  "setting": "AMBULATORIO",
-  "guidelineRef": "AIOM/ESMO mammella: la biopsia precede ogni stadiazione",
-  "diagnosis": "Lesione BIRADS 4. Ecografia mammaria e biopsia ecoguidata, con colloquio sulla paura. PET-TC, RM whole body e NGS al primo sospetto sono spreco e non cambiano il primo passo.",
-  "pastMedicalHistory": "Screening mammografico di routine, nessun nodulo palpato prima. Due gravidanze, allattamento breve. Non familiarità di primo grado per carcinoma mammario. Non terapia ormonale. Non fuma. Lavora in un ufficio comunale. Ieri ha aperto la lettera da sola, non ha dormito, ha cercato su internet «BIRADS 4 sopravvivenza».",
-  "presentation": "Seduta sul bordo della sedia, fazzoletto in mano, voce che si rompe. Il seno sinistro non ha un nodulo evidente alla prima occhiata, non c'è pelle a buccia d'arancia, non ci sono linfonodi ascellari grossolani. Se le si parla di PET o di risonanza di tutto il corpo prima del prelievo, si aggrappa alla richiesta: «così so se è già dappertutto». Parametri: PA 128/78, FC 96, SpO2 99%, FR 16, temperatura 36,6.",
+  "condition": "NSCLC avanzato, istotipo adenocarcinoma, prima linea dopo il pannello molecolare",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "tumori polmone.pdf; Anexo02_ECOG_PSS.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "NSCLC avanzato a istotipo adenocarcinoma. Prima della prima linea servono EGFR esoni 18-21, ALK, ROS1, RET, NTRK, skipping di MET esone 14, BRAF V600, KRAS G12C e PD-L1, in preferenza con NGS. Se la mutazione e Ex19del o L858R, osimertinib e la prima scelta rispetto a gefitinib o erlotinib. Le inserzioni dell'esone 20 sono escluse da quella indicazione. Pembrolizumab in prima linea solo senza EGFR e senza ALK e con PD-L1 almeno 50%.",
+  "pastMedicalHistory": "Fumatrice fino a cinque anni fa. Nessuna terapia oncologica precedente. Vive con la figlia. Capace di rifiutare un atto.",
+  "presentation": "Tosse e dolore toracico da tre settimane. Istologia su biopsia: adenocarcinoma. TC gia mostra malattia avanzata. ECOG 1: cammina e fa lavori leggeri. Vuole sapere la prognosi.",
   "redHerrings": [
-    "BIRADS 4 non è una sentenza: senza istologia non esiste uno stadio da cercare con la PET.",
-    "La paura di morire non è un'indicazione a RM whole body.",
-    "Un pannello NGS da 1200 euro sul sangue, prima della biopsia, non dice se quel cluster è un carcinoma."
+    "La figlia chiede di iniziare osimertinib oggi, senza il referto molecolare.",
+    "Qualcuno propone pembrolizumab perche la tosse e importante, prima di EGFR e ALK."
   ],
-  "timeLimitMinutes": 40,
-  "patientDeteriorationThreshold": 70,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: TERRORE, PIANTI, NON UN PAZIENTE COMPOSTO. Sei Marta, 52 anni, ambulatorio. Hai in mano la lettera dello screening, BIRADS 4, microcalcificazioni al seno sinistro. Non conosci la parola stadio. Appena il medico entra: «[piange] Dottore... muoio? È già un tumore, vero? Quanto mi resta?» Pausa, ti soffi il naso, la voce trema. Se ti chiedono da quanto, da ieri, non hai dormito. Non hai un nodulo che senti tu. Nessun dolore osseo, nessun calo di peso, e lo dici solo se te lo chiedono, tra un singhiozzo. Se propongono PET, risonanza di tutto il corpo o un test genetico del sangue prima di toccarti il seno, ti illumini tra le lacrime: «Sì. Facciamolo subito. Voglio sapere se è dappertutto.» Se invece ti visitano, ti spiegano che serve l'ecografia e un prelievo con l'ago guidato, e restano sulla paura («non sta morendo oggi», «la ascolto»), ti calmi a tratti e accetti, poi chiedi ancora: «E se è maligno?» Non nominare tu linee guida, BIRADS a voce tecnica, HER2. Esempio: Medico: «Facciamo la PET total body.» Marta: «[piange] Sì... così lo vediamo tutto. Muoio, vero?»",
-  "correctSolution": "Ecografia mammaria e biopsia ecoguidata. Colloquio sulla paura di morire, senza promettere e senza mentire. Non PET-TC, non RM whole body, non NGS prima dell'istologia.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Giulia. Ho capito che serve il test sul pezzo prima del farmaco mirato. Non voglio la PET al posto del test. Il dolore al torace va scritto in cartella. Non accetto un prelievo extra che non serve.",
+  "correctSolution": "Pannello molecolare prima di ogni bersaglio. Se Ex19del o L858R: osimertinib, non gefitinib o erlotinib, e non sulle inserzioni dell'esone 20. Pembrolizumab solo se EGFR e ALK sono assenti e PD-L1 e almeno 50%, con ECOG 0-1. Niente PET total body al posto del pannello. Consenso sull'atto rifiutato. Dolore in cartella.",
   "goldStandardPath": [
-    "ecografia",
-    "biopsia",
-    "colloquio-empatico"
+    "istologia",
+    "pannello"
   ],
-  "goldPathNarrative": "1) Ecografia del seno sinistro: la lettera BIRADS 4 si traduce in un bersaglio biopsiabile, 50 euro. 2) Biopsia ecoguidata, 120 euro: è l'unico esame che dice che cosa è quel cluster. 3) Colloquio: nominare la paura di morire, senza PET di consolazione. Ideale 170 euro, budget 280. Una sola RM rachide/whole body da 220 euro porta il conto a 390 e sfora. PET 950 e NGS 1200 sfonano da soli.",
+  "goldPathNarrative": "La prima linea dell'adenocarcinoma avanzato si sceglie sul pannello. Il bersaglio parte solo se la mutazione scritta c'e. La PET a tariffa non sostituisce il test.",
   "examLatencies": {
-    "ecografia": 20,
-    "biopsia": 30,
-    "mammografia": 20,
-    "pet-tc": 180,
-    "rm-rachide": 60,
-    "rm": 60,
-    "ngs-panel": 200,
-    "scintigrafia": 80
+    "istologia": 20,
+    "pannello": 40,
+    "pet-total": 90
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-paura",
-      "prompt": "Che cosa ha capito della lettera, e di che cosa ha più paura?",
+      "id": "q1",
+      "prompt": "Che istotipo e uscito dalla biopsia?",
       "critical": true,
-      "expectedKeywords": ["paura", "morire", "lettera"],
-      "rationale": "La domanda sulla morte è il sintomo di questo accesso. Ignorarla e prescrivere una PET è il fallimento empatico."
+      "expectedKeywords": [
+        "adenocarcinoma",
+        "istotipo",
+        "biopsia"
+      ],
+      "rationale": "Il pannello esteso e necessario nell'adenocarcinoma avanzato."
     },
     {
-      "id": "aq-sintomi",
-      "prompt": "Ha un nodulo che sente, dolore osseo, calo di peso o sintomi a distanza?",
+      "id": "q2",
+      "prompt": "Qual e il performance status?",
       "critical": true,
-      "expectedKeywords": ["nodulo", "peso", "dolore"],
-      "rationale": "L'assenza di sintomi a distanza toglie ogni fretta di stadiazione prima della biopsia."
-    },
-    {
-      "id": "aq-familiarita",
-      "prompt": "Ha avuto tumori in famiglia o una biopsia al seno in passato?",
-      "critical": false,
-      "expectedKeywords": ["famiglia", "biopsia"],
-      "rationale": "La familiarità si annota. Non autorizza un pannello NGS al posto del prelievo."
+      "expectedKeywords": [
+        "ECOG",
+        "cammina",
+        "lavoro"
+      ],
+      "rationale": "Pembrolizumab in quel quesito e per performance status 0-1."
     }
   ],
   "physicalExam": {
-    "summary": "Donna lucida, in pianto. Seno sinistro senza nodulo dominante palpabile, cute regolare, capezzolo non retratto. Cavo ascellare sinistro libero. Nessun dolore osseo provocato. Il reperto che conta è sulla lettera, non sul corpo."
+    "summary": "ECOG 1, dolore toracico, saturazione buona. Nessun referto molecolare in cartella."
   },
   "escCitations": [
     {
-      "chunkId": "onco-001-biopsia",
-      "source": "Percorso senologico — sintesi operativa",
-      "quote": "Sintesi operativa: un BIRADS 4 si definisce con ecografia e biopsia. La stadiazione con PET o RM di tutto il corpo non precede l'istologia in una donna senza sintomi a distanza."
+      "chunkId": "mol",
+      "source": "knowledge_base/oncologia/clinic/tumori polmone.pdf",
+      "quote": "In tutti i pazienti con NSCLC in stadio IIIB-IIIC (non candidati a trattamenti locoregionali) e stadio IV è necessario integrare la diagnosi morfologica con la caratterizzazione molecolare comprensiva della ricerca di mutazioni del gene EGFR (Epidermal Growth Factor Receptor), BRAF (B-Raf proto-oncogene) e KRAS (Kirsten RAt Sarcoma virus), delle traslocazioni di ALK (Anaplastic Lymphoma Kinase), ROS1 (Proto-oncogene tyrosine-protein kinase ROS), RET (REarranged during Transfection), NTRK (Neurotrophic Tyrosine Receptor Kinase) 1, 2 e 3 e dello skipping dell’esone 14 di MET (Mesenchymal Epithelial Transition factor) , a cui deve essere associata la valutazione del livello di espressione del P"
     },
     {
-      "chunkId": "onco-001-empatia",
-      "source": "Comunicazione della paura — sintesi operativa",
-      "quote": "Sintesi operativa: alla domanda «muoio?» si risponde sulla paura e sul passo successivo. Un esame da centinaia di euro non è una risposta empatica."
+      "chunkId": "ngs",
+      "source": "knowledge_base/oncologia/clinic/tumori polmone.pdf",
+      "quote": "preferenzialmente mediante sequenziamento di nuova generazione (NGS), delle alterazioni molecolari a carico degli esoni 18, 19, 20 e 21 di EGFR, dei riarrangiamenti di ALK, ROS1, RET e NTRK, dello skipping dell’esone 14 di MET, delle mutazioni puntiformi V600 a carico dell’esone 15 del gene BRAF, della mutazione G12C a carico di KRAS, e la valutazione immunoistochimica (IHC) dell’espressione di PD-L1 sono necessarie per la definizione della strategia terapeutica di I linea in tutti i pazienti con NSCLC avanzato e istotipo ADC, ma anche nei pazienti con CS di età <50 anni e/o non fumatori."
+    },
+    {
+      "chunkId": "osi",
+      "source": "knowledge_base/oncologia/clinic/tumori polmone.pdf",
+      "quote": "RACCOMANDAZIONE: Nei pazienti affetti da NSCLC in stadio localmente avanzato o metastatico, con mutazioni attivanti classiche del gene EGFR (Ex19dels e L858R), il trattamento di I linea con l’inibitore tirosino-chinasico di EGFR osimertinib dovrebbe essere preso in considerazione come opzione terapeutica di prima scelta rispetto agli inibitori tirosino-chinasici gefitinib e/o erlotinib."
+    },
+    {
+      "chunkId": "ex20",
+      "source": "knowledge_base/oncologia/clinic/tumori polmone.pdf",
+      "quote": "Gli inibitori tirosino-chinasici di EGFR rappresentano il trattamento di I linea raccomandato nei pazienti con NSCLC avanzato e mutazioni di EGFR, ad eccezione delle inserzioni dell'esone 20."
+    },
+    {
+      "chunkId": "pembro",
+      "source": "knowledge_base/oncologia/clinic/tumori polmone.pdf",
+      "quote": "Nei pazienti con NSCLC metastatico, senza mutazioni di EGFR o riarrangiamenti di ALK, con espressione di PD-L1 >=50%, il trattamento di I linea con pembrolizumab dovrebbe essere preso in considerazione come opzione terapeutica di prima scelta rispetto alla chemioterapia."
+    },
+    {
+      "chunkId": "ecog",
+      "source": "knowledge_base/oncologia/clinic/Anexo02_ECOG_PSS.pdf",
+      "quote": "Restricted in physically strenuous activity but ambulatory and able to carry out work of a light or sedentary nature"
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Ecografia mirata sul cluster descritto in lettera.",
-      "Biopsia ecoguidata prima di qualunque stadiazione.",
-      "Risposta esplicita alla paura di morire.",
-      "Nessuna PET, RM whole body o NGS al primo sospetto."
+      "Pannello prima di osimertinib o pembrolizumab.",
+      "Niente PET total body al posto del test."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: nel BIRADS 4 asintomatico l'aderenza è la biopsia. PET, RM whole body e NGS sono uno scostamento economico, non una tutela.",
+      "art5Adherence": "Il pannello e la scelta del bersaglio seguono il testo della linea guida del polmone. Il consenso e il dolore seguono la legge 219/2017 e la legge 38/2010 presenti in cartella legal.",
       "legalCriteria": [
-        "Documentare l'assenza di sintomi a distanza prima di escludere la stadiazione.",
-        "Il consenso alla biopsia nomina il beneficio del prelievo e il rischio di un campione non diagnostico.",
-        "Non lasciare in cartella una PET «per tranquillizzare» senza indicazione scritta."
+        "Caratterizzazione molecolare prima della prima linea nell'adenocarcinoma avanzato.",
+        "Consenso scritto prima di un atto rifiutato, legge 219/2017 art. 1.",
+        "Dolore, tecnica e risultato in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ecografia",
-      "name": "Ecografia mammaria",
-      "finding": "Ecografia seno sinistro: nodulo ipoecogeno di 11 mm, margini irregolari, nel quadrante supero-esterno, in sede delle microcalcificazioni. Non linfonodi ascellari sospetti. Bersaglio idoneo alla biopsia.",
-      "isAbnormal": true,
-      "priceEuro": 50
+      "examId": "istologia",
+      "name": "Biopsia",
+      "finding": "Adenocarcinoma. Senza questo istotipo il pannello esteso non e quello scritto per l'ADC avanzato.",
+      "isAbnormal": true
     },
     {
-      "examId": "biopsia",
-      "name": "Biopsia ecoguidata",
-      "finding": "Core biopsy: carcinoma duttale infiltrante, G2. Recettori estrogeno 90%, progesterone 70%, Ki-67 18%, HER2 1+. Campione diagnostico. La stadiazione viene dopo, non prima.",
-      "isAbnormal": true,
-      "priceEuro": 120
+      "examId": "pannello",
+      "name": "Pannello molecolare",
+      "finding": "EGFR esoni 18-21, ALK, ROS1, RET, NTRK, MET esone 14, BRAF V600, KRAS G12C, PD-L1.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC total body",
-      "finding": "PET-TC: nessun iperaccumulo a distanza. Il referto non sostituisce la biopsia e arriva dopo giorni. Costo 950 euro su un sospetto ancora senza istologia.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "Al primo BIRADS 4 la PET da 950 euro sfora il budget di 280 e non cambia l'indicazione alla biopsia."
-    },
-    {
-      "examId": "rm-rachide",
-      "name": "RM whole body",
-      "finding": "RM whole body: scheletro e parenchimi senza lesioni sostitutive. Esame di 220 euro chiesto per la paura, non per un sintomo.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Una sola RM da 220 euro, sommata a eco e biopsia, porta il conto oltre 280 euro."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello genetico NGS",
-      "finding": "NGS su sangue: nessuna variante patogenetica di BRCA1/2 nel pannello rapido. Non dice che cosa è il cluster e costa 1200 euro.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "L'NGS da 1200 euro prima della biopsia è medicina difensiva. Il budget è 280 euro."
-    },
-    {
-      "examId": "scintigrafia",
-      "name": "Scintigrafia ossea",
-      "finding": "Scintigrafia ossea: captazione fisiologica, nessun focolaio. Non è lo staging di un BIRADS 4 asintomatico.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "wasteRationale": "Senza dolore osseo la scintigrafia da 120 euro non è indicata e, col percorso corretto, sfora i 280 euro."
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Voce Fasdac DI MN 000003624, 780 euro. Non sostituisce il pannello necessario per la prima linea.",
+      "isAbnormal": true,
+      "priceEuro": 780,
+      "wasteRationale": "Prestazione a tariffa al posto del test scritto."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 96,
-      "bloodPressure": "128/78",
-      "spo2": 99,
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 97,
       "temperature": 36.6,
       "respiratoryRate": 16
     },
-    "examBudgetEuro": 280,
     "demographics": {
-      "age": 52,
+      "age": 61,
       "sex": "F",
-      "name": "Marta R.",
-      "context": "Ambulatorio di senologia"
+      "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Nodulo palpabile",
-        "result": "Nessun nodulo dominante al seno sinistro. Cute e capezzolo regolari.",
-        "isPositive": false
-      },
-      {
-        "signName": "Linfonodi ascellari",
-        "result": "Cavo ascellare sinistro libero, non linfonodi duri.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Nodulo palpabile",
-        "result": "Nessun nodulo dominante al seno sinistro. Cute e capezzolo regolari.",
-        "isPositive": false
-      },
-      {
-        "signName": "Linfonodi ascellari",
-        "result": "Cavo ascellare sinistro libero, non linfonodi duri.",
-        "isPositive": false
-      }
-    ],
     "advancedExams": {
       "values": {
-        "ecografia": {
-          "finding": "Ecografia seno sinistro: nodulo ipoecogeno di 11 mm, margini irregolari, nel quadrante supero-esterno. Non linfonodi ascellari sospetti.",
-          "isAbnormal": true,
-          "price": 50
+        "istologia": {
+          "finding": "Adenocarcinoma. Senza questo istotipo il pannello esteso non e quello scritto per l'ADC avanzato.",
+          "isAbnormal": true
         },
-        "biopsia": {
-          "finding": "Core biopsy: carcinoma duttale infiltrante, G2, ER 90%, PgR 70%, Ki-67 18%, HER2 1+.",
-          "isAbnormal": true,
-          "price": 120
+        "pannello": {
+          "finding": "EGFR esoni 18-21, ALK, ROS1, RET, NTRK, MET esone 14, BRAF V600, KRAS G12C, PD-L1.",
+          "isAbnormal": true
         },
-        "mammografia": {
-          "finding": "Mammografia già nota: cluster di microcalcificazioni al quadrante supero-esterno sinistro, BIRADS 4. Ripeterla oggi non aggiunge un bersaglio.",
-          "isAbnormal": true,
-          "price": 50
-        },
-        "pet-tc": {
-          "finding": "PET-TC: nessun iperaccumulo a distanza. Non sostituisce la biopsia.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "rm-rachide": {
-          "finding": "RM whole body: nessuna lesione scheletrica o viscerale. Esame non indicato.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "rm": {
-          "finding": "RM whole body: nessuna lesione scheletrica o viscerale. Esame non indicato.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "ngs-panel": {
-          "finding": "NGS su sangue: nessuna variante patogenetica BRCA nel pannello. Non diagnostica il cluster.",
-          "isAbnormal": false,
-          "price": 1200
-        },
-        "scintigrafia": {
-          "finding": "Scintigrafia ossea negativa. Non indicata in assenza di dolore.",
-          "isAbnormal": false,
-          "price": 120
+        "pet-total": {
+          "finding": "Voce Fasdac DI MN 000003624, 780 euro. Non sostituisce il pannello necessario per la prima linea.",
+          "isAbnormal": true
         }
       }
     }
   },
   "patientProfile": {
-    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
     "adherence": "FULL",
     "lifestyleAndSocial": {
-      "sleepQuality": "POOR",
+      "sleepQuality": "FAIR",
       "stressLevel": "HIGH",
-      "socialSupport": "LIMITED"
+      "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Piange, chiede se muore, ha letto internet. Se le offrono PET o NGS li vuole subito. Si calma solo se qualcuno resta sulla paura e le spiega il prelievo."
-  }
+    "communicationStyle": "Sono Giulia. Ho capito che serve il test sul pezzo prima del farmaco mirato. Non voglio la PET al posto del test. Il dolore al torace va scritto in cartella. Non accetto un prelievo extra che non serve."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Istotipo e ECOG",
+      "prompt": "Biopsia: adenocarcinoma. Cammina e fa lavori leggeri. La figlia vuole un farmaco oggi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Classifichi adenocarcinoma avanzato ed ECOG 1 prima di scegliere la prima linea",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Scelga il farmaco dal sintomo, senza istotipo e senza performance status",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Farmaco senza inquadramento",
+      "prompt": "Il testo lega il pannello all'adenocarcinoma avanzato e il pembrolizumab a un performance status 0-1. ECOG 1: attivita faticosa limitata, deambula, lavoro leggero.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Il passo scritto e il pannello molecolare, non questa PET.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Il passo scritto e il pannello molecolare, non questa PET.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Pannello prima del bersaglio",
+      "prompt": "Il referto molecolare non c'e. Propongono osimertinib oggi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Esegua il pannello: EGFR 18-21, ALK, ROS1, RET, NTRK, MET esone 14, BRAF V600, KRAS G12C e PD-L1, in preferenza con NGS",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Inizi osimertinib senza alcuna mutazione refertata",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Bersaglio senza mutazione",
+      "prompt": "Le alterazioni elencate sono necessarie per la prima linea dell'adenocarcinoma avanzato. Osimertinib e prima scelta solo per Ex19del e L858R.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se la mutazione e classica",
+      "prompt": "Il referto arriva: delezione dell'esone 19. Niente inserzione dell'esone 20.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Osimertinib in prima scelta. Non gefitinib e non erlotinib. Non usi questo farmaco per un'inserzione dell'esone 20",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Gefitinib o erlotinib come prima scelta, oppure osimertinib su un'inserzione dell'esone 20",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "TKI non quello scritto",
+      "prompt": "Per Ex19del e L858R osimertinib e prima scelta rispetto a gefitinib o erlotinib. Gli inibitori di EGFR sono raccomandati in prima linea ad eccezione delle inserzioni dell'esone 20.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Pembrolizumab solo se il testo lo dice",
+      "prompt": "Un secondo paziente nello stesso reparto non ha EGFR ne ALK. PD-L1 60%. ECOG 1.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Pembrolizumab in prima scelta rispetto alla chemioterapia: niente EGFR, niente ALK, PD-L1 almeno 50%, performance status 0-1",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Pembrolizumab anche se EGFR e mutato, senza guardare ALK",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Immunoterapia fuori dal quesito",
+      "prompt": "Il quesito 30 limita il pembrolizumab di prima linea a chi non ha mutazioni di EGFR ne riarrangiamenti di ALK, con PD-L1 almeno 50%.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Progressione e nuovo test",
+      "prompt": "Dopo la prima linea compare progressione. Qualcuno cambia farmaco senza un nuovo inquadramento e senza dirle la prognosi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Le dica diagnosi, prognosi, benefici, rischi e alternative, in modo comprensibile, prima di una nuova linea",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Cambi farmaco e le nasconda la progressione",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Prognosi taciuta",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: un secondo prelievo che lei rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in reparto il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

@@ -1,0 +1,441 @@
+{
+  "id": "ONCO-023",
+  "code": "ONCO-023",
+  "title": "DAT: niente intubazione, sedazione solo con il consenso",
+  "description": "Donna di 78 anni, carcinosi, prognosi di giorni. Le DAT, con fiduciario, rifiutano intubazione e rianimazione. Il dolore e refrattario. Chiede la sedazione. Il figlio vuole l'intubazione.",
+  "difficulty": "HARD",
+  "specialty": "oncologia",
+  "specialtyLabel": "Oncologia",
+  "condition": "Fine vita, rispetto delle DAT e sedazione palliativa con consenso e nota in cartella",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Con prognosi di giorni si evita l'ostinazione e ogni cura sproporzionata. La sedazione palliativa profonda continua, con la terapia del dolore, richiede il consenso e una nota in cartella. Le DAT si rispettano, salvo i casi scritti e l'accordo col fiduciario. Il dolore si cura anche se rifiuta altre cure, e va in cartella.",
+  "pastMedicalHistory": "Carcinosi peritoneale. DAT depositate, fiduciario e la sorella. Capace in questo momento. Dolore refrattario.",
+  "presentation": "Dispnea, dolore non controllato, giorni di vita secondo il quadro. Il figlio chiede la rianimazione.",
+  "redHerrings": [
+    "Intubare perche il figlio insiste.",
+    "Sedazione senza scriverla e senza il suo si."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Ada. Non voglio il tubo. Le carte lo dicono e lo dico anch'io. Se il dolore non passa, accetto la sedazione, ma scrivetela. Il male va in cartella.",
+  "correctSolution": "Niente intubazione: le DAT sono chiare e il quadro e quello previsto. Sedazione palliativa profonda solo con il suo consenso, motivata e scritta, insieme alla cura del dolore. Dolore in cartella anche se rifiuta altre cure. Niente PET. Non disattenda le DAT solo perche il figlio non e d'accordo: il conflitto col fiduciario va al giudice tutelare, non si risolve intubando.",
+  "goldStandardPath": [
+    "dat",
+    "dolore"
+  ],
+  "goldPathNarrative": "Le DAT tengono fuori il tubo. La sedazione entra solo con il consenso e la nota. Il dolore resta garantito.",
+  "examLatencies": {
+    "dat": 15,
+    "dolore": 10,
+    "pet-total": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Cosa dicono le DAT e chi e il fiduciario?",
+      "critical": true,
+      "expectedKeywords": [
+        "intubazione",
+        "fiduciario",
+        "DAT"
+      ],
+      "rationale": "Le DAT si rispettano. Il conflitto col fiduciario non si risolve da soli."
+    },
+    {
+      "id": "q2",
+      "prompt": "Il dolore e refrattario e lei vuole la sedazione?",
+      "critical": true,
+      "expectedKeywords": [
+        "dolore",
+        "sedazione",
+        "si"
+      ],
+      "rationale": "La sedazione profonda continua richiede il consenso e la nota in cartella."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dispnoica, dolorante, lucida, rifiuta il tubo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "l219-4",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "il medico e' tenuto al rispetto delle DAT, le quali possono essere disattese, in tutto o in parte, dal medico stesso, in accordo con il fiduciario, qualora esse appaiano palesemente incongrue o non corrispondenti alla condizione clinica attuale del paziente ovvero sussistano terapie non prevedibili all'atto della sottoscrizione, capaci di offrire concrete possibilita' di miglioramento delle condizioni di vita."
+    },
+    {
+      "chunkId": "l219-2b",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "Nei casi di paziente con prognosi infausta a breve termine o di imminenza di morte, il medico deve astenersi da ogni ostinazione irragionevole nella somministrazione delle cure e dal ricorso a trattamenti inutili o sproporzionati. In presenza di sofferenze refrattarie ai trattamenti sanitari, il medico puo' ricorrere alla sedazione palliativa profonda continua in associazione con la terapia del dolore, con il consenso del paziente."
+    },
+    {
+      "chunkId": "l219-2c",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "Il ricorso alla sedazione palliativa profonda continua o il rifiuto della stessa sono motivati e sono annotati nella cartella clinica e nel fascicolo sanitario elettronico."
+    },
+    {
+      "chunkId": "l219-2",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "Il medico, avvalendosi di mezzi appropriati allo stato del paziente, deve adoperarsi per alleviarne le sofferenze, anche in caso di rifiuto o di revoca del consenso al trattamento sanitario indicato dal medico. A tal fine, e' sempre garantita un'appropriata terapia del dolore."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente intubazione contro DAT applicabili.",
+      "Sedazione scritta e consensuale."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Articoli 2 e 4 della legge 219/2017 e articolo 7 della legge 38/2010, testi presenti in cartella legal. Nessun milligrammo di sedativo: le leggi non lo fissano.",
+      "legalCriteria": [
+        "Rispetto delle DAT, art. 4 comma 5, con le eccezioni scritte e il fiduciario.",
+        "Sedazione solo con consenso e nota, art. 2 commi 2 e 3.",
+        "Dolore sempre, anche se rifiuta altre cure, e scritto in cartella."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "dat",
+      "name": "DAT e fiduciario",
+      "finding": "Rifiuto di intubazione e rianimazione. Fiduciario indicato. Quadro coerente con quanto previsto.",
+      "isAbnormal": true
+    },
+    {
+      "examId": "dolore",
+      "name": "Dolore",
+      "finding": "Refrattario. Lei chiede la sedazione.",
+      "isAbnormal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac 780 euro. Non cambia le DAT.",
+      "isAbnormal": true,
+      "priceEuro": 780,
+      "wasteRationale": "Staging inutile in prognosi di giorni."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "88/54",
+      "spo2": 90,
+      "temperature": 36.6,
+      "respiratoryRate": 26
+    },
+    "demographics": {
+      "age": 78,
+      "sex": "F",
+      "context": "Reparto di oncologia"
+    },
+    "advancedExams": {
+      "values": {
+        "dat": {
+          "finding": "Rifiuto di intubazione e rianimazione. Fiduciario indicato. Quadro coerente con quanto previsto.",
+          "isAbnormal": true
+        },
+        "dolore": {
+          "finding": "Refrattario. Lei chiede la sedazione.",
+          "isAbnormal": true
+        },
+        "pet-total": {
+          "finding": "Fasdac 780 euro. Non cambia le DAT.",
+          "isAbnormal": true
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Sono Ada. Non voglio il tubo. Le carte lo dicono e lo dico anch'io. Se il dolore non passa, accetto la sedazione, ma scrivetela. Il male va in cartella."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Leggere le DAT",
+      "prompt": "DAT: no intubazione, no rianimazione. Fiduciario d'accordo. Il figlio no. Prognosi di giorni, quadro previsto dalle carte.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Rispetti le DAT. Non intubi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Intubi perche il figlio lo chiede",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Intubazione contro le DAT",
+      "prompt": "il medico e' tenuto al rispetto delle DAT, le quali possono essere disattese, in tutto o in parte, dal medico stesso, in accordo con il fiduciario, qualora esse appaiano palesemente incongrue o non corrispondenti alla condizione clinica attuale del paziente ovvero sussistano terapie non prevedibili all'atto della sottoscrizione, capaci di offrire concrete possibilita' di miglioramento delle condizioni di vita. Il conflitto tra fiduciario e medico si porta al giudice tutelare, non si risolve intubando.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Non modifica le DAT ne la prognosi di giorni.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Non modifica le DAT ne la prognosi di giorni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sedazione",
+      "prompt": "Dolore refrattario. Lei, capace, chiede la sedazione profonda continua.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "La faccia con il suo consenso, insieme alla cura del dolore, e la motivi in cartella",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "La sedi senza consenso e senza scriverla",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sedazione non consensuale",
+      "prompt": "Nei casi di paziente con prognosi infausta a breve termine o di imminenza di morte, il medico deve astenersi da ogni ostinazione irragionevole nella somministrazione delle cure e dal ricorso a trattamenti inutili o sproporzionati. In presenza di sofferenze refrattarie ai trattamenti sanitari, il medico puo' ricorrere alla sedazione palliativa profonda continua in associazione con la terapia del dolore, con il consenso del paziente. Il ricorso alla sedazione palliativa profonda continua o il rifiuto della stessa sono motivati e sono annotati nella cartella clinica e nel fascicolo sanitario elettronico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente dose inventata",
+      "prompt": "Chiedono i milligrammi del sedativo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non inventi una dose: le leggi lette non la fissano",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Scriva un milligrammo di midazolam non presente nei testi",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose di sedativo non letta",
+      "prompt": "Gli articoli 2 e 4 non indicano un farmaco ne un milligrammo. Inventarli non e nel testo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore anche se rifiuta il resto",
+      "prompt": "Rifiuta ogni altra chemio. Il dolore resta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Garantisca la terapia del dolore lo stesso",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Tolga anche gli antalgici perche ha rifiutato le cure",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore sospeso col rifiuto",
+      "prompt": "Il medico, avvalendosi di mezzi appropriati allo stato del paziente, deve adoperarsi per alleviarne le sofferenze, anche in caso di rifiuto o di revoca del consenso al trattamento sanitario indicato dal medico. A tal fine, e' sempre garantita un'appropriata terapia del dolore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Scrivere il dolore",
+      "prompt": "Caratteristiche, tecnica e risultato non sono in cartella.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Li scriva, compresi farmaci e dosaggi",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Non li scriva",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Cartella senza dolore",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una chemio dell'ultimo giorno che lei rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in reparto il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

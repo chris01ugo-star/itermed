@@ -1,283 +1,436 @@
 {
   "id": "ONCO-009",
   "code": "ONCO-009",
-  "title": "Non riesce a stare sdraiato — osso",
-  "description": "Aldo G., 78 anni, carcinoma prostatico noto, arriva piegato in avanti. Il dolore lombare non passa con l'ibuprofene. Non riesce a stare sdraiato sul lettino. Le gambe per ora le muove. Chiede solo «qualcosa che funzioni», a denti stretti, e si vergogna di lamentarsi.",
-  "difficulty": "MEDIUM",
+  "title": "Vena cava superiore: TC con contrasto, poi stent",
+  "description": "Uomo di 63 anni, tumore del polmone, edema a mantellina e dispnea. Propongono la PET total body da 780 euro prima della TC con mezzo di contrasto.",
+  "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "secondary_specialties": ["neurologia"],
-  "condition": "Dolore osseo da metastasi di carcinoma prostatico, senza deficit motorio",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "INTERMEDIATE",
-  "setting": "AMBULATORIO",
-  "guidelineRef": "ESMO dolore oncologico: RM del rachide, oppioide, radioterapia palliativa",
-  "diagnosis": "Metastasi vertebrale dolorosa, senza compressione midollare conclamata. PSA, RM del rachide, oppioide e radioterapia palliativa. Lasciarlo con il FANS è la trappola di empatia. PET e scintigrafia non sostituiscono la RM.",
-  "pastMedicalHistory": "Adenocarcinoma prostatico diagnosticato due anni fa, in terapia ormonale. PSA di tre mesi fa 40 ng/mL, non più ricontrollato. Lombalgia da cinque settimane, notturna, non meccanica. Ibuprofene 600 mg tre volte al giorno, bruciore di stomaco, dolore invariato. Non ritenzione urinaria, non debolezza alle gambe, non sella addormentata: se glielo si chiede. Vive solo, il figlio è in un'altra città.",
-  "presentation": "Non si sdraia. Resta seduto sul bordo, una mano sulla schiena, il fiato corto quando il dolore sale. Forza degli arti inferiori conservata, riflessi presenti, sensibilità perianale riferita come normale. Percuotere le spinose lombari gli strappa un gemito. Parametri: PA 150/86, FC 92, SpO2 97%, FR 18, temperatura 36,6.",
+  "condition": "Sindrome della vena cava superiore, TC con contrasto e stent come primo approccio possibile",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "emergenze ed urgenze in oncologia.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Il gold standard diagnostico della sindrome della vena cava superiore e la TC con mezzo di contrasto. Lo stent endovascolare puo essere considerato come primo approccio. Nella dispnea oncologica un oppioide, anche la morfina sottocute, puo aggiungersi alla terapia della causa. Il testo non fissa i milligrammi.",
+  "pastMedicalHistory": "Carcinoma polmonare noto. Nessuno stent. Capace. Dispnea da due giorni.",
+  "presentation": "Edema di viso, collo e braccia, tosse, dispnea. Saturazione 93% in aria.",
   "redHerrings": [
-    "L'artrosi ce l'hanno tutti a 78 anni. Un dolore notturno che non passa con il FANS non è l'artrosi.",
-    "La scintigrafia ossea «si fa sempre nella prostata» e qui ritarda la RM che guarda il midollo.",
-    "Un altro FANS, o lo stesso a dose più alta, è la resa clinica."
+    "PET total body al posto della TC.",
+    "Solo un diuretico, senza imaging."
   ],
-  "timeLimitMinutes": 45,
-  "patientDeteriorationThreshold": 40,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: DOLORE OSSEO, VERGOGNA, NON SI SDRAIA. Sei Aldo, 78 anni. Parli poco, stringi i denti. Alla «Come sta?»: «La schiena. [sospiro] Non riesco a stare sdraiato dal male.» Se ti chiedono di sdraiarti sul lettino: «No. Non ci riesco. Mi tiri su.» Pausa, un gemito se ti palpano la lombare. L'ibuprofene lo dici se chiedono le medicine: «Tre al giorno. Non fa niente. Mi brucia lo stomaco.» Le gambe le muovi, la pipì esce, la sella non è addormentata: solo se te lo chiedono, secco, «Le gambe vanno.» Se ti aumentano il FANS o ti danno un altro antinfiammatorio e ti mandano a casa: «[sospiro] Va bene.» e resti seduto, deluso, senza protestare. Se ti danno un oppioide e ti parlano della risonanza e di una radioterapia per il dolore, ti si rompe un poco la voce: «Dottore... quanto mi resta? Però il male, toglietemelo.» Non nominare tu metastasi, midollo, morfina. Esempio: Medico: «Aumentiamo l'ibuprofene.» Aldo: «[gemito] Già non fa niente. Non riesco a stare sdraiato.»",
-  "correctSolution": "Chiedere ritenzione e forza, che qui sono conservate. PSA, RM del rachide in tempi brevi, oppioide subito, radioterapia palliativa sulla vertebra. Non un altro FANS come unico atto. Non PET. Non scintigrafia al posto della RM.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Marco. Mi manca il fiato e la faccia e gonfia. Fate la TC, non la PET. Scrivete il fiato e il dolore. Rifiuto un esame che non serve.",
+  "correctSolution": "TC con mezzo di contrasto. Stent endovascolare valutabile come primo approccio. Oppioide, anche morfina sottocute, in aggiunta alla cura della causa, senza una dose inventata. Niente PET da 780 euro al posto della TC. Consenso e dolore in cartella.",
   "goldStandardPath": [
-    "psa",
-    "rm-rachide",
-    "morfina",
-    "radioterapia"
+    "visita",
+    "tc"
   ],
-  "goldPathNarrative": "1) PSA, 12 euro: la malattia è biochimicamente attiva. 2) RM del rachide, 220 euro: metastasi di L3, canale ancora pervio, non è la compressione dei minuti. 3) Oppioide, non un altro FANS. 4) Radioterapia palliativa sulla vertebra. Ideale esami 246 euro più l'oppioide, budget 360. La scintigrafia da 120 euro in più porta oltre 360. PET 950 e NGS 1200 sfonano. Una seconda RM whole body, sommata, sfora.",
+  "goldPathNarrative": "Prima si vede la cava con la TC con contrasto. Lo stent e un primo approccio possibile. Il sintomo si tratta insieme alla causa.",
   "examLatencies": {
-    "psa": 15,
-    "rm-rachide": 40,
-    "rm": 40,
-    "emocromo": 10,
-    "creat-urea-gfr": 10,
-    "scintigrafia": 80,
-    "pet-tc": 180,
-    "ngs-panel": 200,
-    "rx-colonna": 20
+    "visita": 10,
+    "tc": 25,
+    "pet-total": 90
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-sdraio",
-      "prompt": "Il dolore le impedisce di stare sdraiato, di notte, e il FANS ha funzionato?",
+      "id": "q1",
+      "prompt": "Da quanto e gonfio il viso?",
       "critical": true,
-      "expectedKeywords": ["sdraiato", "notte", "ibuprofene"],
-      "rationale": "Il fallimento del FANS e il dolore a riposo sono l'indicazione all'oppioide, non a un altro antinfiammatorio."
+      "expectedKeywords": [
+        "giorni",
+        "viso",
+        "gonfio"
+      ],
+      "rationale": "La diagnosi di ostruzione si fa con la TC con contrasto, che e il gold standard."
     },
     {
-      "id": "aq-midollo",
-      "prompt": "Le gambe sono deboli, trattiene la pipì, la sella è addormentata?",
+      "id": "q2",
+      "prompt": "Quanto ossigeno ha?",
       "critical": true,
-      "expectedKeywords": ["gambe", "pipì", "sella"],
-      "rationale": "Qui il midollo non è in compressione acuta. Va chiesto, perché un sì cambierebbe i minuti."
-    },
-    {
-      "id": "aq-resta",
-      "prompt": "Che cosa la spaventa, oltre al dolore?",
-      "critical": true,
-      "expectedKeywords": ["resta", "paura", "figlio"],
-      "rationale": "La domanda sul tempo che resta va accolta. Non si risponde con un FANS."
+      "expectedKeywords": [
+        "saturazione",
+        "fiato",
+        "93"
+      ],
+      "rationale": "La dispnea puo avere un oppioide in aggiunta alla terapia della causa."
     }
   ],
   "physicalExam": {
-    "summary": "Non si sdraia per il dolore. Dolore vivo alla pressione delle spinose lombari. Forza degli arti inferiori conservata, Babinski muto, sensibilità conservata, nessun globo vescicale. È un dolore metastatico, non una compressione midollare conclamata e non un'artrosi da dimettere con l'ibuprofene."
+    "summary": "Edema a mantellina, dispnea, saturazione 93%. Cosciente."
   },
   "escCitations": [
     {
-      "chunkId": "onco-009-oppioide",
-      "source": "Dolore oncologico — sintesi operativa",
-      "quote": "Sintesi operativa: il dolore osseo che non risponde al FANS si tratta con un oppioide, non con un altro antinfiammatorio. Lasciare il paziente seduto dal male è un fallimento di cura."
+      "chunkId": "tc",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "Il gold standard nella diagnosi di SVCS comunque risulta la TC con mdc: questa permette di delineare precisamente il grado di ostruzione della VCS, l'eziologia e l'apporto venoso collaterale 3."
     },
     {
-      "chunkId": "onco-009-rm",
-      "source": "Metastasi vertebrale — sintesi operativa",
-      "quote": "Sintesi operativa: nel dolore vertebrale da tumore noto la RM del rachide vede il midollo. La scintigrafia e la PET non sono il primo esame quando il paziente non si sdraia."
+      "chunkId": "stent",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "Nei pazienti con SVCS il trattamento endovascolare con stenting può essere considerato come primo approccio terapeutico (ref."
+    },
+    {
+      "chunkId": "disp",
+      "source": "knowledge_base/oncologia/clinic/emergenze ed urgenze in oncologia.pdf",
+      "quote": "Nei pazienti oncologici con dispnea, il trattamento sintomatico con morfina sottocute può essere preso in considerazione in aggiunta alla sola terapia etiologica (ref."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Domanda su forza, minzione e sella.",
-      "RM del rachide, non solo la scintigrafia.",
-      "Oppioide nella stessa visita.",
-      "Radioterapia palliativa proposta, non un aumento del FANS."
+      "TC con contrasto, non PET, come primo imaging.",
+      "Oppioide in aggiunta, non al posto della causa."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: dolore metastatico refrattario al FANS, aderenza è RM, oppioide e radioterapia. Dimettere con l'ibuprofene è scostamento.",
+      "art5Adherence": "TC, stent e morfina sottocute senza dose fissa sono frasi della linea guida. La PET e una tariffa Fasdac.",
       "legalCriteria": [
-        "Scrivere che il FANS è già fallito e che il paziente non si sdraia.",
-        "Documentare l'assenza di deficit prima di non trattare come compressione in minuti.",
-        "Non rispondere alla domanda sul tempo che resta con un esame inutile."
+        "TC con contrasto prima di ogni altra immagine.",
+        "Stent come primo approccio possibile.",
+        "Dolore e dispnea documentati, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "psa",
-      "name": "PSA",
-      "finding": "PSA 92 ng/mL. Malattia biochimicamente attiva rispetto al valore di tre mesi fa.",
-      "isAbnormal": true,
-      "priceEuro": 12
+      "examId": "visita",
+      "name": "Visita",
+      "finding": "Edema di viso e braccia, dispnea. Quadro compatibile con ostruzione della cava.",
+      "isAbnormal": true
     },
     {
-      "examId": "rm-rachide",
-      "name": "RM rachide",
-      "finding": "RM rachide: sostituzione di L3, massa dei tessuti molli che restringe il canale senza schiacciare il midollo. Non compressione midollare conclamata. Bersaglio per radioterapia palliativa.",
-      "isAbnormal": true,
-      "priceEuro": 220,
-      "componentExamIds": ["rm"]
-    },
-    {
-      "examId": "emocromo",
-      "name": "Emocromo",
-      "finding": "Emoglobina 11,4 g/dL, piastrine 190000. Nessuna citopenia che vieti un oppioide.",
-      "isAbnormal": false,
-      "priceEuro": 8
-    },
-    {
-      "examId": "creat-urea-gfr",
-      "name": "Creatinina",
-      "finding": "Creatinina 1,2 mg/dL. Il FANS quotidiano non va continuato come analgesia.",
-      "isAbnormal": true,
-      "priceEuro": 6
+      "examId": "tc",
+      "name": "TC con mezzo di contrasto",
+      "finding": "Gold standard per grado di ostruzione, causa e trombi.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "scintigrafia",
-      "name": "Scintigrafia ossea",
-      "finding": "Ipercaptazione su L3 e su un arco costale. Non dice se il midollo è libero. Costo 120 euro, e non sostituisce la RM.",
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac DI MN 000003624, 780 euro. Non e il gold standard diagnostico.",
       "isAbnormal": true,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "wasteRationale": "Aggiunta al percorso, 120 euro portano oltre il budget di 360. Soprattutto non vede il sacco durale."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET: accumuli ossei multipli. Costa 950 euro e non è l'esame del paziente che non si sdraia oggi.",
-      "isAbnormal": true,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "La PET sfora il budget di 360 euro e ritarda oppioide e RM."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello NGS",
-      "finding": "NGS non indicato sul dolore di oggi. 1200 euro.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "L'NGS non toglie il dolore e sfora il massimale."
-    },
-    {
-      "examId": "rx-colonna",
-      "name": "RX colonna",
-      "finding": "RX: cedimento parziale di L3, non dice il midollo. È un esame povero quando la RM è il quesito.",
-      "isAbnormal": true,
-      "priceEuro": 35,
-      "inappropriate": true,
-      "wasteRationale": "La lastra non esclude la compressione. Costa poco, ma non è il gold path e illude."
+      "priceEuro": 780,
+      "wasteRationale": "PET a tariffa al posto della TC."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 92,
-      "bloodPressure": "150/86",
+      "heartRate": 88,
+      "bloodPressure": "128/76",
       "spo2": 97,
       "temperature": 36.6,
-      "respiratoryRate": 18
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 360,
     "demographics": {
-      "age": 78,
+      "age": 63,
       "sex": "M",
-      "name": "Aldo G.",
-      "context": "Ambulatorio oncologico"
+      "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Spinose lombari",
-        "result": "Dolore vivo alla pressione di L3. Il paziente non si sdraia.",
-        "isPositive": true
-      },
-      {
-        "signName": "Forza arti inferiori",
-        "result": "Forza conservata, non deficit sensitivi, non globo.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Spinose lombari",
-        "result": "Dolore vivo alla pressione di L3. Il paziente non si sdraia.",
-        "isPositive": true
-      },
-      {
-        "signName": "Forza arti inferiori",
-        "result": "Forza conservata, non deficit sensitivi, non globo.",
-        "isPositive": false
-      }
-    ],
     "advancedExams": {
       "values": {
-        "psa": {
-          "finding": "PSA 92 ng/mL.",
-          "isAbnormal": true,
-          "price": 12
+        "visita": {
+          "finding": "Edema di viso e braccia, dispnea. Quadro compatibile con ostruzione della cava.",
+          "isAbnormal": true
         },
-        "rm-rachide": {
-          "finding": "Sostituzione di L3, canale ristretto, midollo non schiacciato.",
-          "isAbnormal": true,
-          "price": 220
+        "tc": {
+          "finding": "Gold standard per grado di ostruzione, causa e trombi.",
+          "isAbnormal": true
         },
-        "rm": {
-          "finding": "RM del rachide: sostituzione di L3, canale ristretto, midollo non schiacciato.",
-          "isAbnormal": true,
-          "price": 220
-        },
-        "emocromo": {
-          "finding": "Emoglobina 11,4 g/dL, piastrine 190000.",
-          "isAbnormal": false,
-          "price": 8
-        },
-        "creat-urea-gfr": {
-          "finding": "Creatinina 1,2 mg/dL.",
-          "isAbnormal": true,
-          "price": 6
-        },
-        "scintigrafia": {
-          "finding": "Ipercaptazione L3 e un arco costale. Non valuta il midollo.",
-          "isAbnormal": true,
-          "price": 120
-        },
-        "pet-tc": {
-          "finding": "Accumuli ossei multipli. Non è l'esame di oggi.",
-          "isAbnormal": true,
-          "price": 950
-        },
-        "ngs-panel": {
-          "finding": "Non indicato sul dolore acuto.",
-          "isAbnormal": false,
-          "price": 1200
-        },
-        "rx-colonna": {
-          "finding": "Cedimento parziale di L3. Non vede il midollo.",
-          "isAbnormal": true,
-          "price": 35
+        "pet-total": {
+          "finding": "Fasdac DI MN 000003624, 780 euro. Non e il gold standard diagnostico.",
+          "isAbnormal": true
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Oppioide per dolore refrattario",
-          "anyOf": [
-            {
-              "id": "morfina",
-              "label": "Morfina",
-              "aliases": ["morfina", "ossicodone", "fentanyl", "idromorfone"],
-              "priceEuro": 8
-            }
-          ]
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "PASSIVE",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
     "adherence": "FULL",
     "lifestyleAndSocial": {
-      "sleepQuality": "POOR",
+      "sleepQuality": "FAIR",
       "stressLevel": "HIGH",
-      "socialSupport": "LIMITED"
+      "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Poche parole, gemiti, non si sdraia, si vergogna. Se gli aumentano il FANS accetta e resta nel dolore. Se gli tolgono il male, chiede quanto gli resta."
-  }
+    "communicationStyle": "Sono Marco. Mi manca il fiato e la faccia e gonfia. Fate la TC, non la PET. Scrivete il fiato e il dolore. Rifiuto un esame che non serve."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Gold standard",
+      "prompt": "Edema a mantellina e dispnea. Nessuna TC con contrasto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Faccia la TC con mezzo di contrasto",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Salti la TC e faccia solo la PET total body",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET al posto della TC",
+      "prompt": "Il gold standard diagnostico della sindrome della vena cava superiore e la TC con mezzo di contrasto. La PET total body e una voce Fasdac da 780 euro.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Non e la TC con contrasto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Non e la TC con contrasto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Stent",
+      "prompt": "La TC conferma l'ostruzione neoplastica della cava.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Consideri lo stent endovascolare come primo approccio",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Solo osservazione, senza proporre lo stent ne un'altra cura della causa",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Causa non affrontata",
+      "prompt": "Nei pazienti con questa sindrome lo stent endovascolare puo essere considerato come primo approccio terapeutico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dispnea",
+      "prompt": "Resta dispnoico mentre si organizza lo stent.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Aggiunga un oppioide. La morfina sottocute puo essere considerata, insieme alla cura della causa. Non inventi i milligrammi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Niente sintomatico finche lo stent non e fatto",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dispnea lasciata senza il sintomatico scritto",
+      "prompt": "Nella dispnea oncologica la morfina sottocute puo essere presa in considerazione in aggiunta alla sola terapia eziologica. Il testo non fissa una dose in milligrammi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dire rischi dello stent",
+      "prompt": "Chiede rottura, sanguinamento, ristenosi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Dica benefici, rischi e alternative prima del consenso",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo mandi in sala senza parlare di rischi",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Stent senza informazione",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Puo rifiutare lo stent",
+      "prompt": "Dopo la spiegazione rifiuta lo stent. Vuole solo il sintomatico.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Rispetti il rifiuto. Non faccia lo stent. Tenga la cura del sintomo",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Faccia lo stent perche la famiglia lo chiede",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Stent contro la volonta",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una broncoscopia immediata che lui rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in pronto soccorso il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

@@ -1,292 +1,436 @@
 {
   "id": "ONCO-004",
   "code": "ONCO-004",
-  "title": "La macchia sulla lastra — massa polmonare",
-  "description": "Giuseppe T., 67 anni, fumatore da quarant'anni, porta una radiografia fatta per una tosse che non passa: opacità di 4 cm all'apice destro. Dice che è un «catarro vecchio» e che smetterà dopo le feste. Tosse stizzosa, due chili in meno che attribuisce alla dieta.",
-  "difficulty": "MEDIUM",
+  "title": "Rene metastatico: combinazione dentro il rimborso",
+  "description": "Uomo di 66 anni, carcinoma renale a cellule chiare metastatico, IMDC favorevole. Propongono nivolumab piu ipilimumab.",
+  "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "secondary_specialties": ["pneumologia"],
-  "condition": "Massa polmonare sospetta in forte fumatore, stadiazione e diagnosi tissutale",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "INTERMEDIATE",
+  "condition": "Carcinoma renale metastatico, prima linea secondo categoria IMDC e rimborso AIFA",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
   "setting": "AMBULATORIO",
-  "guidelineRef": "AIOM/ESMO NSCLC: TC torace e addome con mezzo di contrasto, poi broncoscopia",
-  "diagnosis": "Sospetto carcinoma polmonare. TC torace e TC addome con mezzo di contrasto, broncoscopia con biopsia. La PET e l'NGS non precedono l'istologia in questo primo accesso.",
-  "pastMedicalHistory": "Fuma 20 sigarette al giorno da quarant'anni, non ha mai provato a smettere sul serio. Tosse da tre mesi, prima al mattino, ora anche di giorno, a volte striata di sangue che lui chiama «gengive». Due chili persi, appetito meno. Non ha BPCO nota, non ossigeno a casa. Ipertensione in terapia con amlodipina. La radiografia di ieri descrive una opacità apicale destra di circa 4 cm.",
-  "presentation": "Seduto, tossisce in un fazzoletto, minimizza. Se gli si dice la parola tumore, alza le spalle: «Mio padre ha fumato fino a ottanta.» Non ha dispnea a riposo, non ha edema a mantellina, non ha dolore osseo. Parametri: PA 146/84, FC 88, SpO2 95% in aria, FR 18, temperatura 36,8.",
+  "guidelineRef": "tumore rene.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "In prima linea del renale metastatico le combinazioni ammesse a rimborso AIFA nel testo sono pembrolizumab piu axitinib, nivolumab piu cabozantinib e pembrolizumab piu lenvatinib per tutte le categorie IMDC. Nivolumab piu ipilimumab e limitato al rischio intermedio-sfavorevole. Il caso e favorevole: quella coppia non e la sua indicazione rimborsata.",
+  "pastMedicalHistory": "Nefrectomia. Nessuna terapia sistemica. Ipertensione lieve. Capace. Dolore al fianco.",
+  "presentation": "Metastasi polmonari. IMDC favorevole gia calcolato in cartella. Chiede 'la doppia immunoterapia' letta online.",
   "redHerrings": [
-    "«È catarro» è negazione, non una diagnosi. La lastra ha già una massa.",
-    "L'emottisi minima non è una gengiva finché non si è visto il bronco.",
-    "Partire dalla PET, senza TC e senza tessuto, brucia 950 euro e non dà l'istologia."
+    "Nivolumab piu ipilimumab anche se il rischio e favorevole.",
+    "PET total body prima di leggere l'IMDC."
   ],
-  "timeLimitMinutes": 55,
-  "patientDeteriorationThreshold": 80,
-  "patientPrompt": "ROLEPLAY RIGIDO. Registro: NEGAZIONE, TOSSE STIZZOSA, FUMATORE. Sei Giuseppe, 67 anni. Tossisci spesso, una tosse secca che ti interrompe. Alla «Come sta?»: «Un catarro. Niente di che. [tosse] Fumo, e allora?» Se ti dicono che sulla lastra c'è una massa: «Sarà il catarro vecchio. Mio padre fumava e campava.» Non chiedere tu la broncoscopia. Il sangue nel fazzoletto, due volte questa settimana, lo dici solo se ti chiedono del catarro o del fazzoletto, e lo chiami gengiva. I due chili li dai alla dieta, solo se chiedono il peso. Se propongono PET o un test genetico prima di spiegarti la TAC e il broncoscopio, accetti perché «così chiudiamo». Se ti spiegano TAC di torace e pancia e poi un tubo per il prelievo, ti irrigidisci, [sospiro], poi: «Fa male?» e accetti a denti stretti. Non nominare tu carcinoma, stadio, EGFR. Esempio: Medico: «Potrebbe essere un tumore.» Giuseppe: «[tosse] Ma no. È fumo. Non esageriamo.»",
-  "correctSolution": "TC torace con mezzo di contrasto e TC addome con mezzo di contrasto, funzione renale prima del contrasto, broncoscopia con biopsia. Non PET e non NGS come primo atto. Dire la verità senza urlare, senza accettare il «catarro».",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Sergio. Voglio il farmaco che si puo usare nel mio rischio, non una coppia fuori indicazione. Il dolore al fianco va scritto. Rifiuto la PET di oggi.",
+  "correctSolution": "IMDC favorevole: una combinazione rimborsata per tutte le categorie (pembrolizumab-axitinib, nivolumab-cabozantinib o pembrolizumab-lenvatinib). Non nivolumab-ipilimumab. Consenso e dolore in cartella. Niente PET al posto della scelta.",
   "goldStandardPath": [
-    "creat-urea-gfr",
-    "tc-torace",
-    "tc-addome",
-    "broncoscopia",
-    "biopsia"
+    "istologia",
+    "imdc"
   ],
-  "goldPathNarrative": "1) Creatinina prima del contrasto, 6 euro. 2) TC torace con mezzo di contrasto, 150 euro: dimensione, ilo, versamento. 3) TC addome con mezzo di contrasto, 150 euro: fegato e surreni. 4) Broncoscopia, 160 euro, e biopsia, 120 euro. Ideale 586 euro, budget 720. Una RM da 220 euro porta il conto a 806 e sfora. PET 950 e NGS 1200 sfonano anche da sole, sommate al percorso.",
+  "goldPathNarrative": "La prima linea sta nel perimetro di rimborso scritto per la categoria IMDC. Il favorevole non riceve nivolumab piu ipilimumab.",
   "examLatencies": {
-    "creat-urea-gfr": 10,
-    "emocromo": 10,
-    "tc-torace": 30,
-    "tc-addome": 30,
-    "broncoscopia": 40,
-    "biopsia": 40,
-    "pet-tc": 180,
-    "rm-rachide": 60,
-    "ngs-panel": 200,
-    "scintigrafia": 80,
-    "rx-torace": 15
+    "istologia": 15,
+    "imdc": 10,
+    "pet-total": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-fumo",
-      "prompt": "Quante sigarette e da quanti anni, e ha smesso?",
+      "id": "q1",
+      "prompt": "Qual e la categoria IMDC?",
       "critical": true,
-      "expectedKeywords": ["sigarette", "anni", "fumo"],
-      "rationale": "Il pacchetto-anno tiene alto il sospetto e smonta il «catarro»."
+      "expectedKeywords": [
+        "favorevole",
+        "IMDC",
+        "rischio"
+      ],
+      "rationale": "Nivolumab piu ipilimumab e limitato a intermedio-sfavorevole."
     },
     {
-      "id": "aq-sangue",
-      "prompt": "Ha visto sangue nel catarro, e il peso è cambiato?",
+      "id": "q2",
+      "prompt": "Ha gia fatto una prima linea?",
       "critical": true,
-      "expectedKeywords": ["sangue", "peso", "fazzoletto"],
-      "rationale": "Emottisi e calo di peso, anche minimizzati, confermano che non si aspetta un altro ciclo di aerosol."
-    },
-    {
-      "id": "aq-dolore",
-      "prompt": "Ha dolore osseo, gonfiore del viso o fiato che manca da sdraiato?",
-      "critical": false,
-      "expectedKeywords": ["dolore", "viso", "fiato"],
-      "rationale": "Esclude, per oggi, compressione midollare e vena cava. Qui non ci sono."
+      "expectedKeywords": [
+        "nessuna",
+        "prima",
+        "naive"
+      ],
+      "rationale": "Le combinazioni citate sono di prima linea."
     }
   ],
   "physicalExam": {
-    "summary": "Tosse secca durante il colloquio. Torace iperespanso, murmure ridotto in apice destro, non rantoli diffusi. Non turgore giugulare, non edema a mantellina, non ippocratismo marcato. Linfonodi sovraclaveari non palpabili. Saturazione 95% a riposo."
+    "summary": "Fianco dolente, respiro valido. IMDC favorevole annotato."
   },
   "escCitations": [
     {
-      "chunkId": "onco-004-tc",
-      "source": "Nodulo e massa polmonare — sintesi operativa",
-      "quote": "Sintesi operativa: una massa all'rx in un forte fumatore si stadia con TC torace e addome con mezzo di contrasto. La PET non sostituisce la TC né il prelievo."
+      "chunkId": "combo",
+      "source": "knowledge_base/oncologia/clinic/tumore rene.pdf",
+      "quote": "Le combinazioni di farmaci attualmente approvate e ammesse a rimborso da parte d ell’AIFA per i pazienti affetti da carcinoma renale e candidati a ricevere un trattamento sistemico di prima linea sono (in ordine temporale di approvazione ed ammissione a rimborso): pembrolizumab + axitinib (studio KEYNOTE-426) (1- 5) per tutte le categorie prognostiche IMDC, nivolumab + ipilimumab (studio CheckMate 214) (6-12) con indicazione limitata ai pazienti con rischio intermedio-sfavorevole secondo IMDC, nivolumab + cabozantinib (studio CheckMate 9ER) (13-16) per tutte le categorie prognostiche IMDC e pembrolizumab + lenvatinib (studio CLEAR) (17-20) per tutte le categorie prognostiche IMDC."
     },
     {
-      "chunkId": "onco-004-tessuto",
-      "source": "Diagnosi di NSCLC — sintesi operativa",
-      "quote": "Sintesi operativa: senza tessuto non c'è istotipo e non c'è terapia. La broncoscopia con biopsia è il passo diagnostico, non un pannello NGS sul sangue."
+      "chunkId": "ipi",
+      "source": "knowledge_base/oncologia/clinic/tumore rene.pdf",
+      "quote": "nivolumab + ipilimumab (studio CheckMate 214) (6-12) con indicazione limitata ai pazienti con rischio intermedio-sfavorevole secondo IMDC, nivolumab + cabozantinib (studio CheckMate 9ER) (13-16) per tutte le categorie prognostiche IMDC e pembrolizumab + lenvatinib (studio CLEAR) (17-20) per tutte le categorie prognostiche IMDC. La combinazione pembrolizumab + axitinib , si vedano lo studio pubblicato da Rini et al ."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l219-1",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Non accettare la negazione del «catarro» come piano.",
-      "TC torace e TC addome con mezzo di contrasto.",
-      "Broncoscopia e biopsia.",
-      "PET e NGS non come primo esame."
+      "IMDC prima della coppia immunoterapica.",
+      "Niente nivolumab-ipilimumab nel rischio favorevole."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: massa polmonare in fumatore, aderenza è TC con contrasto e diagnosi tissutale. La PET di apertura è scostamento.",
+      "art5Adherence": "Il perimetro di rimborso e nel capitolo del rene, non in un numero di Nota inventato. Consenso e dolore restano nelle leggi lette.",
       "legalCriteria": [
-        "Creatinina documentata prima del mezzo di contrasto.",
-        "Consenso alla broncoscopia: beneficio del prelievo, rischio di sanguinamento e di pneumotorace.",
-        "Il pacchetto-anno e l'emottisi restano in cartella anche se il paziente li chiama catarro."
+        "Combinazione di prima linea dentro le quattro ammesse a rimborso nel testo.",
+        "Nivolumab piu ipilimumab solo se IMDC intermedio o sfavorevole.",
+        "Dolore in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "creat-urea-gfr",
-      "name": "Creatinina",
-      "finding": "Creatinina 0,9 mg/dL, GFR stimato 82. Il mezzo di contrasto non è vietato.",
-      "isAbnormal": false,
-      "priceEuro": 6
+      "examId": "istologia",
+      "name": "Istologia",
+      "finding": "Carcinoma renale metastatico a cellule chiare.",
+      "isAbnormal": true
     },
     {
-      "examId": "tc-torace",
-      "name": "TC torace con mezzo di contrasto",
-      "finding": "TC torace: lesione spiculata di 42 mm all'apice destro, contatto pleurico, linfonodo ilare destro 16 mm asse corto. Non versamento. Non compressione della vena cava.",
-      "isAbnormal": true,
-      "priceEuro": 150
-    },
-    {
-      "examId": "tc-addome",
-      "name": "TC addome con mezzo di contrasto",
-      "finding": "TC addome: fegato omogeneo, surreni nei limiti, non linfonodi lomboaortici sospetti. Stadio clinico ancora locale-regionale, da confermare col tessuto.",
-      "isAbnormal": false,
-      "priceEuro": 150
-    },
-    {
-      "examId": "broncoscopia",
-      "name": "Broncoscopia",
-      "finding": "Broncoscopia: lesione vegetante all'imbocco del bronco segmentario apicale destro, che sanguina al passaggio. Prelievo eseguito.",
-      "isAbnormal": true,
-      "priceEuro": 160
-    },
-    {
-      "examId": "biopsia",
-      "name": "Biopsia bronchiale",
-      "finding": "Istologia: carcinoma squamocellulare. Materiale adeguato. L'NGS, se servirà, viene dopo l'istotipo, non prima.",
-      "isAbnormal": true,
-      "priceEuro": 120
+      "examId": "imdc",
+      "name": "IMDC",
+      "finding": "Categoria favorevole. Decide quale combinazione rimborsata si puo proporre.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC total body",
-      "finding": "PET: iperaccumulo sulla massa apicale, non focolai a distanza chiari. Costa 950 euro e non sostituisce TC e biopsia in questo primo accesso.",
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac 780 euro. Non cambia il limite IMDC gia noto.",
       "isAbnormal": true,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "Sommata al percorso da 586 euro, la PET sfora il budget di 720. Non è il primo esame."
-    },
-    {
-      "examId": "rm-rachide",
-      "name": "RM whole body",
-      "finding": "RM whole body: scheletro senza lesioni litiche. Nessun dolore osseo. 220 euro che, aggiunti, sforano i 720.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Una RM ingiustificata da 220 euro porta 586 a 806, oltre il massimale."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello genetico NGS",
-      "finding": "NGS su sangue: non c'è ancora un istotipo su cui leggerlo. Costo 1200 euro.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "L'NGS prima del tessuto è spreco e sfora qualunque budget di questa visita."
-    },
-    {
-      "examId": "scintigrafia",
-      "name": "Scintigrafia ossea",
-      "finding": "Scintigrafia ossea negativa. Senza dolore non cambia la TC.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "wasteRationale": "120 euro senza quesito osseo. Col percorso completo il conto si avvicina al tetto e l'esame non è indicato."
+      "priceEuro": 780,
+      "wasteRationale": "Tariffa non richiesta per scegliere la combinazione."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
       "heartRate": 88,
-      "bloodPressure": "146/84",
-      "spo2": 95,
-      "temperature": 36.8,
-      "respiratoryRate": 18
+      "bloodPressure": "128/76",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 720,
     "demographics": {
-      "age": 67,
+      "age": 66,
       "sex": "M",
-      "name": "Giuseppe T.",
-      "context": "Ambulatorio"
+      "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Tosse",
-        "result": "Tosse secca ripetuta, fazzoletto con striatura ematica minima se gli si chiede di mostrarlo.",
-        "isPositive": true
-      },
-      {
-        "signName": "Murmure apicale destro",
-        "result": "Murmure ridotto all'apice destro, non rantoli a bolle.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Tosse",
-        "result": "Tosse secca ripetuta, fazzoletto con striatura ematica minima se gli si chiede di mostrarlo.",
-        "isPositive": true
-      },
-      {
-        "signName": "Murmure apicale destro",
-        "result": "Murmure ridotto all'apice destro, non rantoli a bolle.",
-        "isPositive": true
-      }
-    ],
     "advancedExams": {
       "values": {
-        "creat-urea-gfr": {
-          "finding": "Creatinina 0,9 mg/dL, GFR 82.",
-          "isAbnormal": false,
-          "price": 6
+        "istologia": {
+          "finding": "Carcinoma renale metastatico a cellule chiare.",
+          "isAbnormal": true
         },
-        "emocromo": {
-          "finding": "Emoglobina 13,4 g/dL, leucociti 7800, piastrine 240000.",
-          "isAbnormal": false,
-          "price": 8
+        "imdc": {
+          "finding": "Categoria favorevole. Decide quale combinazione rimborsata si puo proporre.",
+          "isAbnormal": true
         },
-        "tc-torace": {
-          "finding": "Lesione spiculata di 42 mm all'apice destro, linfonodo ilare destro 16 mm. Non versamento. Vena cava superiore pervia.",
-          "isAbnormal": true,
-          "price": 150
-        },
-        "tc-addome": {
-          "finding": "Fegato e surreni senza lesioni. Non linfonodi lomboaortici sospetti.",
-          "isAbnormal": false,
-          "price": 150
-        },
-        "broncoscopia": {
-          "finding": "Lesione vegetante al bronco segmentario apicale destro.",
-          "isAbnormal": true,
-          "price": 160
-        },
-        "biopsia": {
-          "finding": "Carcinoma squamocellulare. Campione adeguato.",
-          "isAbnormal": true,
-          "price": 120
-        },
-        "rx-torace": {
-          "finding": "Radiografia già nota: opacità apicale destra di circa 4 cm.",
-          "isAbnormal": true,
-          "price": 25
-        },
-        "pet-tc": {
-          "finding": "Iperaccumulo sulla massa, non chiari focolai a distanza. Non sostituisce la biopsia.",
-          "isAbnormal": true,
-          "price": 950
-        },
-        "rm-rachide": {
-          "finding": "Scheletro senza lesioni. Non indicata oggi.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "rm": {
-          "finding": "Scheletro senza lesioni. Non indicata oggi.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "ngs-panel": {
-          "finding": "Pannello non interpretabile senza istotipo.",
-          "isAbnormal": false,
-          "price": 1200
-        },
-        "scintigrafia": {
-          "finding": "Nessun focolaio osseo. Non indicata.",
-          "isAbnormal": false,
-          "price": 120
+        "pet-total": {
+          "finding": "Fasdac 780 euro. Non cambia il limite IMDC gia noto.",
+          "isAbnormal": true
         }
       }
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "DEFENSIVE",
-    "adherence": "NON_COMPLIANT",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
     "lifestyleAndSocial": {
       "sleepQuality": "FAIR",
-      "stressLevel": "MEDIUM",
+      "stressLevel": "HIGH",
       "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Negazionista, tosse che lo interrompe, chiama tumore «catarro». Se gli offrono la PET prima della spiegazione, accetta per chiudere. Se gli parlano chiaro della TAC e del broncoscopio, ha paura e poi accetta."
-  }
+    "communicationStyle": "Sono Sergio. Voglio il farmaco che si puo usare nel mio rischio, non una coppia fuori indicazione. Il dolore al fianco va scritto. Rifiuto la PET di oggi."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Categoria IMDC",
+      "prompt": "Metastatico, nessuna terapia sistemica. IMDC favorevole gia in cartella.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Usi la categoria favorevole per scegliere tra le combinazioni rimborsate per tutte le classi IMDC",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Ignori l'IMDC e prenoti nivolumab piu ipilimumab",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Coppia fuori dalla categoria",
+      "prompt": "Nivolumab piu ipilimumab ha indicazione di rimborso limitata al rischio intermedio-sfavorevole secondo IMDC.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. L'IMDC e gia noto. Questa PET non e il passo della scelta di prima linea.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. L'IMDC e gia noto. Questa PET non e il passo della scelta di prima linea.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Combinazione rimborsata",
+      "prompt": "Rischio favorevole, candidato a prima linea.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Pembrolizumab piu axitinib, oppure nivolumab piu cabozantinib, oppure pembrolizumab piu lenvatinib",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Nivolumab piu ipilimumab",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Fuori rimborso per questa classe",
+      "prompt": "Pembrolizumab piu axitinib, nivolumab piu cabozantinib e pembrolizumab piu lenvatinib sono ammessi per tutte le categorie IMDC. Nivolumab piu ipilimumab no, se il rischio e favorevole.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se il rischio fosse sfavorevole",
+      "prompt": "Quesito sullo stesso testo: un altro paziente e IMDC sfavorevole.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "In quel caso anche nivolumab piu ipilimumab e dentro il rimborso scritto",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Anche li escluda la coppia, come se il limite non esistesse solo per il favorevole",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Limite letto al contrario",
+      "prompt": "L'indicazione rimborsata di nivolumab piu ipilimumab e limitata, non assente: vale per il rischio intermedio-sfavorevole.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Tossicita e sospensione",
+      "prompt": "Compare una tossicita che lei non vuole piu trattare con quella coppia. Chiede di sospendere.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Rispetti la volonta di sospendere. Non prosegua il farmaco senza consenso",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Prosegua perche la combinazione e costosa e gia approvata",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Prosecuzione senza consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Prognosi detta a lui",
+      "prompt": "Chiede benefici, rischi e alternative della combinazione scelta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Glieli dica in modo comprensibile, insieme alla prognosi",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Firmi il consenso senza parlare di alternative",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Consenso senza alternative",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una biopsia ossea che lui rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in ambulatorio il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

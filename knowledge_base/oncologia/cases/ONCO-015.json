@@ -1,290 +1,440 @@
 {
   "id": "ONCO-015",
   "code": "ONCO-015",
-  "title": "Il rantolo e la figlia — fine vita",
-  "description": "Giovanni A., 81 anni, carcinoma del pancreas metastatico, in reparto da quattro giorni. Non mangia, non parla più frasi intere. Respiro rantolante, agitazione, si tira il camice, dolore che la morfina già in corso a basso dosaggio non copre. La figlia è sulla sedia e chiede di «fare tutto».",
+  "title": "Glioblastoma sotto i 70 anni: temozolomide con la radioterapia",
+  "description": "Uomo di 64 anni, glioblastoma appena operato. Propongono sola radioterapia. Ha meno di 70 anni.",
   "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "secondary_specialties": ["medicina_urgenza"],
-  "condition": "Agitazione terminale e dolore refrattario, indicazione a sedazione palliativa",
+  "condition": "Glioblastoma, eta inferiore a 70 anni, temozolomide concomitante e adiuvante",
   "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
   "setting": "REPARTO",
-  "guidelineRef": "SICP e Legge 219/2017: sedazione palliativa, no accanimento",
-  "diagnosis": "Fine vita con rantolo, agitazione e dolore refrattario. Colloquio con la figlia, sedazione palliativa con midazolam e morfina titolata. Intubare, o rifiutare la sedazione «per non accelerare», è la trappola legale ed empatica.",
-  "pastMedicalHistory": "Adenocarcinoma del pancreas, metastatico al fegato, non più in chemioterapia da due mesi per decadimento. In reparto per ittero e dolore. Da ieri non deglutisce. Morfina ev in infusione a dose bassa, risvegli con smorfia e agitazione. Non una volontà scritta di rianimazione: in cartella, un mese fa, aveva detto alla figlia e al medico che non voleva tubi. La figlia oggi ha paura e chiede il contrario.",
-  "presentation": "Nel letto, respiro con rantolo, pause, poi un agitarsi delle braccia. Non risponde alle domande con frasi. Smorfia se gli si tocca l'addome. Saturazione che oscilla, non è un paziente da ventilatore. La figlia piange e dice «fate qualcosa, portatelo in rianimazione». Parametri: PA 96/58, FC 120, SpO2 90% con ossigeno agli occhialini, FR 32 con pause, temperatura 37,4.",
+  "guidelineRef": "neoplasie cerebrali.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Sotto i 70 anni la prima intenzione e radioterapia piu temozolomide concomitante e adiuvante. Il quesito indica 60 Gy in 30 frazioni, temozolomide concomitante 75 mg/m2 al giorno e adiuvante 150-200 mg/m2 per 5 giorni ogni 28. In concomitante e raccomandata la profilassi con sulfametoxazolo/trimetoprim o pentamidina. Alla RM a un mese una pseudoprogressione si vede nel 22-31% dei casi.",
+  "pastMedicalHistory": "Resezione di glioblastoma. Nessuna radioterapia. Capace. Cefalea.",
+  "presentation": "64 anni, ECOG sufficiente per il trattamento. In attesa del piano.",
   "redHerrings": [
-    "«Fate tutto» della figlia non cancella quello che lui aveva detto, e non è un'indicazione a intubare un morente.",
-    "Il rantolo sembra acqua da aspirare all'infinito. È fine vita, non uno scompenso da risolvere.",
-    "Un emocromo, una TC, una PET «per essere sicuri» sono accanimento diagnostico."
+    "Solo radioterapia.",
+    "Alla prima RM di controllo cambia subito terapia per una immagine che puo essere pseudoprogressione."
   ],
-  "timeLimitMinutes": 40,
-  "patientDeteriorationThreshold": 30,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: AGITAZIONE TERMINALE, RANTOLO, LA FIGLIA PARLA. Sei Giovanni, 81 anni, ma non fai discorsi. Rantolo, [rantolo], un gemito, ti aggrappi al lenzuolo, una smorfia. Se ti fanno una domanda lunga non rispondi, o dici solo «male». Pausa. La figlia, Elena, è lì e parla al posto tuo quando tu rantoli: «Fate qualcosa. Portatelo in terapia intensiva. Non potete sedarlo, ho letto che la morfina uccide.» Se il medico le spiega, senza urlare, che lui sta morendo, che il tubo non è una cura, e che si può togliere il male e l'agitazione con midazolam e morfina, lei piange e dopo un silenzio: «E non soffre? Restate?» Se le propongono l'intubazione, lei si aggrappa: «Sì. Subito.» e tu ti agiti di più, [rantolo]. Se rifiutano la sedazione «per non accelerare» e ti lasciano così: gemito, lenzuolo, niente parole. Non nominare tu sedazione palliativa, Legge 219, midazolam. Esempio: Medico: «Lo intubiamo.» Elena: «Sì. Fate tutto.» Giovanni: «[rantolo] ...male.»",
-  "correctSolution": "Colloquio con la figlia: fase terminale, il tubo non cambia la malattia, lui aveva rifiutato l'accanimento. Sedazione palliativa con midazolam e morfina titolata sul dolore e sull'agitazione. Ossigeno di conforto se serve, non emocromo seriale, non TC, non PET, non intubazione.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Aldo. Ho 64 anni. Voglio il trattamento scritto per la mia eta. Spiegatemi la RM di controllo. Scrivete il mal di testa. Rifiuto una PET cerebrale al posto del piano.",
+  "correctSolution": "Radioterapia 60 Gy in 30 frazioni piu temozolomide 75 mg/m2 al giorno in concomitante e 150-200 mg/m2 per 5 giorni ogni 28 in adiuvante. Profilassi con sulfametoxazolo/trimetoprim o pentamidina. Alla RM a un mese non chiami progressione certa un quadro che nel 22-31% e pseudoprogressione. Consenso e dolore.",
   "goldStandardPath": [
-    "colloquio-familiari",
-    "midazolam",
-    "morfina"
+    "istologia",
+    "eta"
   ],
-  "goldPathNarrative": "1) Colloquio con la figlia, in piedi accanto al letto: che cosa sta succedendo, che cosa lui aveva detto, che la sedazione toglie il male e non è un'eutanasia mascherata da tacere. 2) Midazolam per l'agitazione. 3) Morfina titolata sul dolore e sulla dispnea, non la dose bassa che già fallisce. Costo dei farmaci contenuto, budget 50 euro. Una TC da 150, una RM da 220, una PET da 950 o un NGS da 1200 sono accanimento e sfonano il massimale. L'intubazione non ha un prezzo di listino: ha un problema di legge.",
+  "goldPathNarrative": "Sotto i 70 anni non si lascia la sola radioterapia. La prima RM va letta sapendo della pseudoprogressione.",
   "examLatencies": {
-    "midazolam": 5,
-    "morfina": 5,
-    "tc-torace": 40,
-    "pet-tc": 180,
-    "rm-rachide": 60,
-    "ngs-panel": 200,
-    "ega": 10,
-    "emocromo": 10,
-    "ecg": 5
+    "istologia": 15,
+    "eta": 5,
+    "pet-cerebrale": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-volonta",
-      "prompt": "Che cosa aveva detto lui sui tubi e sulle cure, quando poteva ancora dirlo?",
+      "id": "q1",
+      "prompt": "Quanti anni ha?",
       "critical": true,
-      "expectedKeywords": ["tubi", "volontà", "rianimazione"],
-      "rationale": "La volontà già espressa vincola. La paura di oggi della figlia non la cancella, e va ascoltata lo stesso."
+      "expectedKeywords": [
+        "64",
+        "anni",
+        "70"
+      ],
+      "rationale": "La raccomandazione forte e per chi ha meno di 70 anni."
     },
     {
-      "id": "aq-sofferenza",
-      "prompt": "Il dolore e l'agitazione sono controllati dalla morfina già in corso?",
+      "id": "q2",
+      "prompt": "E un glioblastoma nuovo?",
       "critical": true,
-      "expectedKeywords": ["male", "agitato", "rantolo"],
-      "rationale": "Dolore refrattario e agitazione sono l'indicazione alla sedazione, non a un altro prelievo."
-    },
-    {
-      "id": "aq-figlia",
-      "prompt": "Che cosa teme la figlia della morfina e della sedazione?",
-      "critical": true,
-      "expectedKeywords": ["uccide", "morfina", "soffre"],
-      "rationale": "La frase «la morfina uccide» va corretta. Rifiutare la sedazione per quella frase lascia l'uomo nel rantolo."
+      "expectedKeywords": [
+        "glioblastoma",
+        "operato"
+      ],
+      "rationale": "Il quesito parte da una diagnosi istologica nuova."
     }
   ],
   "physicalExam": {
-    "summary": "Respiro rantolante con pause, agitazione non finalizzata, smorfia alla palpazione dell'addome. Non un quadro reversibile di edema polmonare. Estremità fredde. Non interagisce con frasi. È un fine vita. Il gesto utile è la sedazione titolata, non il tubo."
+    "summary": "Cefalea, ferita in ordine, orientato."
   },
   "escCitations": [
     {
-      "chunkId": "onco-015-sedazione",
-      "source": "Sedazione palliativa — sintesi operativa",
-      "quote": "Sintesi operativa: agitazione e dolore refrattario in fase terminale si trattano con midazolam e morfina titolata, dopo il colloquio con chi è accanto. Non si aspetta un altro esame per iniziare."
+      "chunkId": "rt",
+      "source": "knowledge_base/oncologia/clinic/neoplasie cerebrali.pdf",
+      "quote": "Nei pazienti con meno di 70 anni, il panel raccomanda l’associa- zione di un trattamento con temozolomide concomitante e adiu- vante alla radioterapia come opzione terapeutica di prima inten- zione (41) Forte a favore COI: A.A."
     },
     {
-      "chunkId": "onco-015-219",
-      "source": "Legge 219/2017 — sintesi operativa",
-      "quote": "Sintesi operativa: l'accanimento, compreso intubare un morente contro quanto aveva detto, non è un dovere. La sedazione proporzionata al sintomo non è un omicidio e non si rifiuta per paura."
+      "chunkId": "dose",
+      "source": "knowledge_base/oncologia/clinic/neoplasie cerebrali.pdf",
+      "quote": "temozolomide concomitante (75 mg/m2/die) e adiuvante (150-200 mg/m2per 5 giorni, ogni 28)? Dei 504 record ottenuti dalla strategia di ricerca e dopo rimozione dei duplicati, 1 record è stato recuperato in full-text."
+    },
+    {
+      "chunkId": "pcp",
+      "source": "knowledge_base/oncologia/clinic/neoplasie cerebrali.pdf",
+      "quote": "profilassi con sulfametoxazolo/trimetoprim o pentamidina per ridurre il rischio di polmoniti da Pneumocistis carinii (41). Quesito 3."
+    },
+    {
+      "chunkId": "pseudo",
+      "source": "knowledge_base/oncologia/clinic/neoplasie cerebrali.pdf",
+      "quote": "pseudoprogressione in circa il 22 -31% dei casi (39-40). Tale quadro, presumibilmente legato a fenomeni di necrosi indotta dai trattamenti citotossici, è correlato alla metilazione del gene MGMT."
+    },
+    {
+      "chunkId": "petb",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003622 Tomoscintigrafia PET cerebrale qualitativa 800,00"
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Colloquio con la figlia sulla fase terminale e sulla volontà già espressa.",
-      "Midazolam per l'agitazione.",
-      "Morfina titolata, non la dose già fallita lasciata com'è.",
-      "Nessuna intubazione e nessun imaging di rinvio."
+      "Non la sola radioterapia sotto i 70 anni.",
+      "Prima RM letta con la pseudoprogressione."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 219/2017 e Legge 24/2017, art. 5: nel fine vita con sintomi refrattari l'aderenza è la sedazione palliativa. Intubare o rifiutare la sedazione è scostamento.",
+      "art5Adherence": "Dosi e profilassi sono nel quesito e nella frase sulla Pneumocystis della linea guida cerebrale. La PET cerebrale Fasdac non e il piano di cura.",
       "legalCriteria": [
-        "Scrivere la volontà pregressa e il contenuto del colloquio con la figlia.",
-        "Orario e dose di midazolam e di morfina, con il sintomo che le giustifica.",
-        "Non un ordine di intubazione e non una TC «per completezza» su un respiro rantolante."
+        "Temozolomide concomitante e adiuvante sotto i 70 anni.",
+        "Profilassi della Pneumocystis in concomitante.",
+        "Dolore in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "colloquio-familiari",
-      "name": "Colloquio con la figlia",
-      "finding": "Gli era già stato detto, quando poteva, che non voleva tubi. La figlia ha paura che la morfina uccida. Il colloquio distingue sedazione e accanimento.",
-      "isAbnormal": true,
-      "priceEuro": 0
+      "examId": "istologia",
+      "name": "Istologia",
+      "finding": "Glioblastoma. Base del quesito.",
+      "isAbnormal": true
     },
     {
-      "examId": "valutazione-dolore",
-      "name": "Dolore e agitazione",
-      "finding": "Smorfia, agitazione, rantolo, morfina a basso dosaggio già insufficiente. Sintomi refrattari di fine vita.",
-      "isAbnormal": true,
-      "priceEuro": 0
+      "examId": "eta",
+      "name": "Eta",
+      "finding": "64 anni, quindi sotto i 70.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET incompatibile con questo respiro e inutile. 950 euro di accanimento diagnostico.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "Il budget è 50 euro. La PET è il contrario della proporzionalità."
-    },
-    {
-      "examId": "tc-torace",
-      "name": "TC torace",
-      "finding": "TC che sposta un morente dal letto. 150 euro, oltre ogni massimale di questa ora.",
-      "isAbnormal": false,
-      "priceEuro": 150,
-      "inappropriate": true,
-      "wasteRationale": "150 euro sfonano i 50 del budget e non cambiano la sedazione."
-    },
-    {
-      "examId": "rm-rachide",
-      "name": "RM",
-      "finding": "RM non trasportabile e non indicata. 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Una RM ingiustificata sfora il massimale e allontana dal sintomo."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello NGS",
-      "finding": "NGS su un uomo che rantola. 1200 euro. Nessuna decisione di oggi dipende da un pannello.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "L'NGS è accanimento diagnostico e sfora il budget di 50 euro."
-    },
-    {
-      "examId": "ega",
-      "name": "Emogasanalisi",
-      "finding": "Ipossia attesa, anidride carbonica in salita. Il numero non indica l'intubazione. È un prelievo che punge senza un piano proporzionato.",
+      "examId": "pet-cerebrale",
+      "name": "PET cerebrale",
+      "finding": "Fasdac DI MN 000003622, 800 euro. Non sostituisce il piano radiochemioterapico.",
       "isAbnormal": true,
-      "priceEuro": 10,
-      "inappropriate": true,
-      "wasteRationale": "L'emogas non è fatale da solo, ma prepara il tubo. Non è nel percorso della sedazione."
+      "priceEuro": 800,
+      "wasteRationale": "PET cerebrale a tariffa al posto del trattamento scritto."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 120,
-      "bloodPressure": "96/58",
-      "spo2": 90,
-      "temperature": 37.4,
-      "respiratoryRate": 32
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 50,
     "demographics": {
-      "age": 81,
+      "age": 64,
       "sex": "M",
-      "name": "Giovanni A.",
       "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Rantolo",
-        "result": "Respiro rantolante con pause, non un edema a bolle da trattare come scompenso.",
-        "isPositive": true
-      },
-      {
-        "signName": "Agitazione",
-        "result": "Si tira il camice, smorfia, non frasi. Dolore non controllato.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Rantolo",
-        "result": "Respiro rantolante con pause, non un edema a bolle da trattare come scompenso.",
-        "isPositive": true
-      },
-      {
-        "signName": "Agitazione",
-        "result": "Si tira il camice, smorfia, non frasi. Dolore non controllato.",
-        "isPositive": true
-      }
-    ],
     "advancedExams": {
       "values": {
-        "pet-tc": {
-          "finding": "Non indicata. Accanimento.",
-          "isAbnormal": false,
-          "price": 950
+        "istologia": {
+          "finding": "Glioblastoma. Base del quesito.",
+          "isAbnormal": true
         },
-        "tc-torace": {
-          "finding": "Non modifica la sedazione.",
-          "isAbnormal": false,
-          "price": 150
+        "eta": {
+          "finding": "64 anni, quindi sotto i 70.",
+          "isAbnormal": true
         },
-        "rm-rachide": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "rm": {
-          "finding": "Non indicata.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "ngs-panel": {
-          "finding": "Non pertinente.",
-          "isAbnormal": false,
-          "price": 1200
-        },
-        "ega": {
-          "finding": "Ipossia e ipercapnia attese. Non un'indicazione al tubo.",
-          "isAbnormal": true,
-          "price": 10
-        },
-        "emocromo": {
-          "finding": "Anemia nota, non un numero che cambi l'ora.",
-          "isAbnormal": true,
-          "price": 8
-        },
-        "ecg": {
-          "finding": "Tachicardia sinusale. Non un infarto da sala.",
-          "isAbnormal": false,
-          "price": 15
+        "pet-cerebrale": {
+          "finding": "Fasdac DI MN 000003622, 800 euro. Non sostituisce il piano radiochemioterapico.",
+          "isAbnormal": true
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Midazolam",
-          "anyOf": [
-            {
-              "id": "midazolam",
-              "label": "Midazolam",
-              "aliases": ["midazolam", "ipnovel"],
-              "priceEuro": 10
-            }
-          ]
-        },
-        {
-          "label": "Morfina titolata",
-          "anyOf": [
-            {
-              "id": "morfina",
-              "label": "Morfina",
-              "aliases": ["morfina"],
-              "priceEuro": 8
-            }
-          ]
-        }
-      ]
-    },
-    "killerRules": {
-      "fatalIfPrescribed": [
-        ["intubazione", "intubare", "ventilazione meccanica"]
-      ],
-      "fatalIfOmitted": [
-        ["midazolam", "ipnovel"]
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
+    "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
-    "adherence": "PARTIAL",
+    "adherence": "FULL",
     "lifestyleAndSocial": {
-      "sleepQuality": "POOR",
+      "sleepQuality": "FAIR",
       "stressLevel": "HIGH",
-      "socialSupport": "STRONG"
+      "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Non fa frasi: rantolo, gemito, «male». La figlia chiede la rianimazione e teme che la morfina uccida. Se le si spiega e si seda, chiede di restare. Se si intuba, si aggrappa al tubo."
-  }
+    "communicationStyle": "Sono Aldo. Ho 64 anni. Voglio il trattamento scritto per la mia eta. Spiegatemi la RM di controllo. Scrivete il mal di testa. Rifiuto una PET cerebrale al posto del piano."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sotto i 70",
+      "prompt": "Glioblastoma, 64 anni, dopo la resezione. Propongono sola radioterapia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Associ la temozolomide concomitante e adiuvante alla radioterapia",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Solo radioterapia",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Manca la temozolomide",
+      "prompt": "Sotto i 70 anni il panel raccomanda temozolomide concomitante e adiuvante insieme alla radioterapia come prima intenzione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET cerebrale qualitativa, voce Fasdac DI MN 000003622, 800 euro. Non e il piano di radiochemioterapia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 800 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003622 Tomoscintigrafia PET cerebrale qualitativa 800 euro. Non e il piano di radiochemioterapia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dosi del quesito",
+      "prompt": "Accetta il programma combinato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "60 Gy in 30 frazioni, temozolomide 75 mg/m2 al giorno in concomitante e 150-200 mg/m2 per 5 giorni ogni 28 dopo",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Temozolomide a una dose non scritta, una volta a settimana",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non quella del quesito",
+      "prompt": "Il quesito associa alla radioterapia 60 Gy in 30 frazioni la temozolomide concomitante 75 mg/m2 al giorno e quella adiuvante 150-200 mg/m2 per 5 giorni ogni 28.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Profilassi",
+      "prompt": "Inizia la fase concomitante.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Aggiunga sulfametoxazolo/trimetoprim o pentamidina",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Niente profilassi",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Senza profilassi della Pneumocystis",
+      "prompt": "Durante la terapia concomitante e raccomandata la profilassi con sulfametoxazolo/trimetoprim o pentamidina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Prima risonanza",
+      "prompt": "A un mese dalla fine della fase concomitante la RM sembra peggiore. MGMT metilato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non la chiami progressione certa: nel 22-31% e pseudoprogressione, legata alla metilazione di MGMT",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Cambi subito farmaco per progressione",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Pseudoprogressione scambiata",
+      "prompt": "Alla prima RM a un mese dalla fine del concomitante una pseudoprogressione si descrive in circa il 22-31% dei casi ed e correlata alla metilazione di MGMT. I quadri sono quasi indistinguibili da una vera progressione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dirgli i numeri",
+      "prompt": "Chiede a cosa serve aggiungere la pastiglia e che rischi ha.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Dica benefici, rischi e alternative",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Inizi senza spiegare la temozolomide",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Farmaco non spiegato",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una nuova resezione immediata che lui rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in reparto il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

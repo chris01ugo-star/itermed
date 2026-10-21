@@ -1,237 +1,176 @@
 {
   "id": "ONCO-002",
   "code": "ONCO-002",
-  "title": "Il neo tolto — melanoma stadio I",
-  "description": "Luca B., 46 anni, controllo a 14 mesi dall'exeresi di un melanoma del tronco, Breslow 0,4 mm, stadio IA. Sta bene. Non ha nei nuovi che lui veda. Vuole comunque «la TAC e la PET, perché il melanoma viaggia nel sangue».",
-  "difficulty": "EASY",
+  "title": "Colon metastatico: RAS e MSI prima dell'anti-EGFR",
+  "description": "Uomo di 58 anni, adenocarcinoma del colon metastatico. Il laboratorio propone cetuximab oggi. Il RAS non e in cartella. La moglie chiede la PET total body.",
+  "difficulty": "HARD",
   "specialty": "oncologia",
   "specialtyLabel": "Oncologia",
-  "condition": "Follow-up di melanoma stadio IA asintomatico",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
-  "setting": "AMBULATORIO",
-  "guidelineRef": "AIOM melanoma stadio I: esame cutaneo e linfonodale, non PET",
-  "diagnosis": "Follow-up di melanoma stadio IA asintomatico. Esame della cute e delle stazioni linfonodali. TC, PET, RM e NGS non sono indicati e sforano il budget.",
-  "pastMedicalHistory": "Quattordici mesi fa exeresi di melanoma del dorso, Breslow 0,4 mm, non ulcerato, margini liberi, stadio IA. Nessun linfonodo sentinella, non indicato a quel spessore. Nessuna terapia adiuvante. Fototipo chiaro, vacanze al mare da ragazzo. Non altri tumori. Oggi è asintomatico: niente tosse, niente cefalea, niente nodi in inguine che lui abbia notato.",
-  "presentation": "Seduto composto, gamba che balla, sguardo sul telefono. Risponde a monosillabi se non gli si chiede dei nei. La cicatrice del dorso è lineare, morbida, senza noduli. Cute senza una lesione che urli melanoma. Ascelle e inguini liberi. Se gli si dice che oggi non serve la PET, stringe la mascella: «E se c'è e non lo vedete?» Parametri: PA 124/76, FC 82, SpO2 99%, FR 14, temperatura 36,4.",
+  "condition": "Carcinoma del colon-retto metastatico, test RAS/BRAF/MSI prima della terapia",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "tumori colon.pdf; legge 22-17.pdf; Legge 38/2010; Fasdac 2025",
+  "diagnosis": "Nel colon-retto metastatico, prima del trattamento vanno valutati MSI/MMR e lo stato di KRAS, NRAS e BRAF. KRAS e NRAS si cercano sui codoni 12, 13, 59, 61, 117 e 146. EMA e AIFA limitano panitumumab e cetuximab al RAS wild-type. Se dMMR/MSI, pembrolizumab e lo standard di prima linea. Lo screening del deficit MMR/MSI e raccomandato in tutti i CRC per la sindrome di Lynch.",
+  "pastMedicalHistory": "Emicolectomia destra due mesi fa. Nessuna terapia sistemica. Capace. Dolore addominale.",
+  "presentation": "Metastasi epatiche alla TC. Istologia: adenocarcinoma. Nessun referto RAS ne MSI. Vuole sapere se il farmaco 'per il recettore' si puo fare subito.",
   "redHerrings": [
-    "L'ansia non è un sintomo di recidiva. Il paziente è clinicamente muto.",
-    "«Il melanoma viaggia nel sangue» è una frase letta online, non un'indicazione a PET.",
-    "Una TC torace-addome in un IA asintomatico trova incidentalomi, non una recidiva attesa."
+    "Cetuximab in attesa del RAS.",
+    "PET total body al posto della determinazione molecolare."
   ],
-  "timeLimitMinutes": 35,
-  "patientDeteriorationThreshold": 80,
-  "patientPrompt": "ROLEPLAY RIGIDO. Registro: ANSIOSO MA CLINICAMENTE MUTO. Sei Luca, 46 anni, controllo melanoma. Non piangi. Non racconti sintomi che non hai. Alla «Come sta?»: «Bene. Però voglio la TAC e la PET. Il melanoma viaggia, l'ho letto.» Pausa. Se ti chiedono tosse, mal di testa, nodi, fiato, peso: «No.» Una parola. Se ti chiedono di spogliarti e di guardare i nei e le ascelle, ti irrigidisci, poi accetti. La cicatrice non ti tira. Non hai un neo nero nuovo, e lo dici solo se guardano la cute. Se ti negano gli esami radiologici e ti spiegano che nello stadio I il controllo è la pelle e i linfonodi, sbuffi: «Quindi non fate niente.» Se però ti visitano davvero, alla fine: «Va bene. Però tra un anno la PET me la fate?» Non nominare tu Breslow, stadio IA, sentinella. Non inventare un dolore. Esempio: Medico: «Ha qualcosa che non va?» Luca: «No. Fate la PET.»",
-  "correctSolution": "Esame di tutta la cute e delle stazioni linfonodali, cicatrice inclusa. Nessuna TC, PET, RM o NGS. Si spiega perché, senza prendere in giro la paura.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Paolo. Non iniziate cetuximab se non sapete il RAS. Il dolore alla pancia va scritto. Rifiuto un esame che non cambia la scelta di oggi.",
+  "correctSolution": "MSI/MMR, KRAS, NRAS e BRAF prima del trattamento. Codoni 12, 13, 59, 61, 117 e 146. Cetuximab o panitumumab solo se RAS wild-type. Se dMMR/MSI, pembrolizumab in prima linea. Niente PET al posto del test. Consenso e dolore in cartella.",
   "goldStandardPath": [
-    "esame-cute",
-    "esame-linfonodi"
+    "istologia",
+    "ras"
   ],
-  "goldPathNarrative": "1) Cute intera e cicatrice: nessun neo sospetto, costo zero. 2) Ascelle e inguini: nessuna adenopatia, costo zero. Nello stadio IA asintomatico il follow-up è questo. Budget 40 euro. TC torace 150, RM 220, PET 950 e NGS 1200 sfonano il massimale da soli. La scintigrafia da 120 euro pure.",
+  "goldPathNarrative": "Il trattamento del metastatico parte dai test scritti. L'anti-EGFR resta nel perimetro AIFA del RAS wild-type.",
   "examLatencies": {
-    "pet-tc": 180,
-    "tc-torace": 40,
-    "tc-addome": 40,
-    "rm-rachide": 60,
-    "rm": 60,
-    "ngs-panel": 200,
-    "scintigrafia": 80,
-    "ecografia": 20
+    "istologia": 15,
+    "ras": 40,
+    "pet-total": 90
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-sintomi",
-      "prompt": "Ha tosse, cefalea, dolore osseo, un nodo nuovo o calo di peso?",
+      "id": "q1",
+      "prompt": "Il tumore e metastatico?",
       "critical": true,
-      "expectedKeywords": ["tosse", "nodo", "dolore"],
-      "rationale": "L'assenza di sintomi tiene il caso nello stadio I clinico. Un sì sposterebbe l'imaging."
+      "expectedKeywords": [
+        "metastasi",
+        "fegato",
+        "stadio"
+      ],
+      "rationale": "I test RAS e MSI sono richiesti al momento di iniziare il trattamento della malattia metastatica."
     },
     {
-      "id": "aq-cute",
-      "prompt": "Ha notato un neo nuovo, o la cicatrice è cambiata?",
+      "id": "q2",
+      "prompt": "C'e gia un referto RAS o MSI?",
       "critical": true,
-      "expectedKeywords": ["neo", "cicatrice"],
-      "rationale": "La recidiva locale e un secondo primario si cercano sulla pelle, non sulla PET."
-    },
-    {
-      "id": "aq-perche-pet",
-      "prompt": "Che cosa spera di vedere con la PET?",
-      "critical": false,
-      "expectedKeywords": ["paura", "sangue"],
-      "rationale": "Capire la frase letta online permette di rispondere senza prescrivere l'esame."
+      "expectedKeywords": [
+        "RAS",
+        "MSI",
+        "referto"
+      ],
+      "rationale": "Senza referto l'anti-EGFR non e nel perimetro scritto da EMA e AIFA."
     }
   ],
   "physicalExam": {
-    "summary": "Cute chiara, fotodanno lieve. Cicatrice del dorso lineare, senza noduli di recidiva. Nessuna lesione pigmentata sospetta al resto del tegumento. Ascelle e inguini senza linfonodi patologici. Addome trattabile, torace libero. Paziente asintomatico."
+    "summary": "Addome dolente, fegato irregolare. Nessun segno di occlusione. Cosciente e capace."
   },
   "escCitations": [
     {
-      "chunkId": "onco-002-followup",
-      "source": "Follow-up melanoma stadio I — sintesi operativa",
-      "quote": "Sintesi operativa: nel melanoma stadio I asintomatico il controllo è l'esame della cute e dei linfonodi. TC e PET non sono esami di routine e generano reperti inutili."
+      "chunkId": "pre",
+      "source": "knowledge_base/oncologia/clinic/tumori colon.pdf",
+      "quote": "Nel paziente con tumore del colon-retto metastatico, al momento di intraprendere un trattamento deve essere effettuata la valutazione dell'instabilita dei microsatelliti/mismatch repair e dello stato mutazionale di KRAS, NRAS e BRAF."
     },
     {
-      "chunkId": "onco-002-budget",
-      "source": "Appropriatezza prescrittiva — sintesi operativa",
-      "quote": "Sintesi operativa: l'ansia del paziente non è un'indicazione di imaging. Un solo esame radiologico non indicato supera un budget costruito sull'esame clinico."
+      "chunkId": "cod",
+      "source": "knowledge_base/oncologia/clinic/tumori colon.pdf",
+      "quote": "L'analisi mutazionale di KRAS e NRAS puo essere condotta con diverse metodiche e deve riguardare i codoni 12, 13, 59, 61, 117 e 146 di entrambi i geni."
+    },
+    {
+      "chunkId": "aifa",
+      "source": "knowledge_base/oncologia/clinic/tumori colon.pdf",
+      "quote": "EMA ed AIFA hanno ristretto l'impiego di panitumumab e di cetuximab ai soli pazienti con carcinoma del colon-retto metastatico RAS wild-type."
+    },
+    {
+      "chunkId": "pembro",
+      "source": "knowledge_base/oncologia/clinic/tumori colon.pdf",
+      "quote": "pembrolizumab rappresenta il nuovo standard terapeutico di I linea in pazienti con carcinoma del colon-retto metastatico con dMMR/MSI."
+    },
+    {
+      "chunkId": "lynch",
+      "source": "knowledge_base/oncologia/clinic/tumori colon.pdf",
+      "quote": "Lo screening universale della sindrome di Lynch mediante ricerca del deficit del MMR/MSI sul tessuto tumorale dovrebbe essere preso in considerazione in tutti i pazienti con CRC."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/oncologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI MN 000003624 Tomoscintigrafia PET total body 780,00"
+    },
+    {
+      "chunkId": "l219-1",
+      "source": "knowledge_base/oncologia/legal/legge 22-17.pdf",
+      "quote": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/oncologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (1).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Ispezione di cute e cicatrice.",
-      "Palpazione di ascelle e inguini.",
-      "Nessuna TC o PET in paziente asintomatico stadio I.",
-      "Risposta alla paura senza un esame di consolazione."
+      "RAS prima di cetuximab.",
+      "Pembrolizumab in prima linea se dMMR/MSI."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: il follow-up dello stadio I è clinico. Prescrivere TC o PET «per sicurezza» è scostamento, non prudenza.",
+      "art5Adherence": "I test e il limite AIFA su cetuximab e panitumumab sono nel testo del colon. Consenso e dolore sono nelle leggi 219/2017 e 38/2010.",
       "legalCriteria": [
-        "Annotare l'assenza di sintomi prima di chiudere senza imaging.",
-        "Descrivere cute, cicatrice e stazioni linfonodali.",
-        "Non promettere una PET annuale senza indicazione."
+        "Test KRAS, NRAS, BRAF e MSI/MMR prima del trattamento metastatico.",
+        "Anti-EGFR solo nel RAS wild-type, come ristretto da AIFA nel testo.",
+        "Dolore in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "esame-cute",
-      "name": "Esame della cute e della cicatrice",
-      "finding": "Cute integra per lesioni sospette. Cicatrice del dorso morbida, piana, senza noduli. Nessun secondo melanoma clinico.",
-      "isAbnormal": false,
-      "priceEuro": 0
+      "examId": "istologia",
+      "name": "Istologia",
+      "finding": "Adenocarcinoma del colon. Base per MMR/MSI e per il test RAS.",
+      "isAbnormal": true
     },
     {
-      "examId": "esame-linfonodi",
-      "name": "Stazioni linfonodali",
-      "finding": "Ascelle e inguini senza linfonodi duri, fissi o aumentati di volume. Non adenopatia clinica.",
-      "isAbnormal": false,
-      "priceEuro": 0
+      "examId": "ras",
+      "name": "RAS BRAF MSI",
+      "finding": "KRAS e NRAS codoni 12, 13, 59, 61, 117 e 146, BRAF, e MSI/MMR.",
+      "isAbnormal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC total body",
-      "finding": "PET-TC: fisiologica captazione, nessun reliquato. In uno stadio IA asintomatico è un esame da 950 euro senza quesito.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "Il budget del follow-up è 40 euro. La PET da 950 lo sfora da sola."
-    },
-    {
-      "examId": "tc-torace",
-      "name": "TC torace con mezzo di contrasto",
-      "finding": "TC torace: parenchima libero, non noduli. Non indicata nel controllo dello stadio I senza tosse né altro sintomo.",
-      "isAbnormal": false,
-      "priceEuro": 150,
-      "inappropriate": true,
-      "wasteRationale": "150 euro di TC torace superano il massimale di 40 euro di un controllo solo clinico."
-    },
-    {
-      "examId": "rm-rachide",
-      "name": "RM whole body",
-      "finding": "RM whole body negativa. Nessun dolore osseo, nessun segno neurologico. 220 euro di medicina difensiva.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "La RM da 220 euro sfora un budget di 40 euro costruito sull'esame obiettivo."
-    },
-    {
-      "examId": "ngs-panel",
-      "name": "Pannello genetico NGS",
-      "finding": "NGS: nessuna variante che cambi il follow-up di un melanoma sottile già asportato. Costo 1200 euro.",
-      "isAbnormal": false,
-      "priceEuro": 1200,
-      "inappropriate": true,
-      "wasteRationale": "L'NGS non è il follow-up dello stadio I e sfora il budget di due ordini di grandezza."
+      "examId": "pet-total",
+      "name": "PET total body",
+      "finding": "Fasdac DI MN 000003624, 780 euro. Non sostituisce RAS e MSI.",
+      "isAbnormal": true,
+      "priceEuro": 780,
+      "wasteRationale": "Tariffa al posto del test richiesto prima del trattamento."
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 82,
-      "bloodPressure": "124/76",
-      "spo2": 99,
-      "temperature": 36.4,
-      "respiratoryRate": 14
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 40,
     "demographics": {
-      "age": 46,
+      "age": 58,
       "sex": "M",
-      "name": "Luca B.",
-      "context": "Ambulatorio di follow-up oncologico"
+      "context": "Reparto di oncologia"
     },
-    "clinicalSigns": [
-      {
-        "signName": "Cicatrice",
-        "result": "Cicatrice del dorso lineare, morbida, senza noduli.",
-        "isPositive": false
-      },
-      {
-        "signName": "Linfonodi",
-        "result": "Ascelle e inguini liberi.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Cicatrice",
-        "result": "Cicatrice del dorso lineare, morbida, senza noduli.",
-        "isPositive": false
-      },
-      {
-        "signName": "Linfonodi",
-        "result": "Ascelle e inguini liberi.",
-        "isPositive": false
-      }
-    ],
     "advancedExams": {
       "values": {
-        "pet-tc": {
-          "finding": "PET-TC negativa. Non indicata.",
-          "isAbnormal": false,
-          "price": 950
+        "istologia": {
+          "finding": "Adenocarcinoma del colon. Base per MMR/MSI e per il test RAS.",
+          "isAbnormal": true
         },
-        "tc-torace": {
-          "finding": "TC torace: non noduli. Non indicata.",
-          "isAbnormal": false,
-          "price": 150
+        "ras": {
+          "finding": "KRAS e NRAS codoni 12, 13, 59, 61, 117 e 146, BRAF, e MSI/MMR.",
+          "isAbnormal": true
         },
-        "tc-addome": {
-          "finding": "TC addome: fegato omogeneo, non lesioni. Non indicata.",
-          "isAbnormal": false,
-          "price": 150
-        },
-        "rm-rachide": {
-          "finding": "RM whole body negativa. Non indicata.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "rm": {
-          "finding": "RM negativa. Non indicata.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "ngs-panel": {
-          "finding": "NGS non dirimente per il follow-up dello stadio I.",
-          "isAbnormal": false,
-          "price": 1200
-        },
-        "scintigrafia": {
-          "finding": "Scintigrafia ossea negativa. Non indicata.",
-          "isAbnormal": false,
-          "price": 120
-        },
-        "ecografia": {
-          "finding": "Ecografia dei cavi: linfonodi ovali, ilo conservato. Non aggiunge nulla alla palpazione normale.",
-          "isAbnormal": false,
-          "price": 50
+        "pet-total": {
+          "finding": "Fasdac DI MN 000003624, 780 euro. Non sostituisce RAS e MSI.",
+          "isAbnormal": true
         }
       }
     }
   },
   "patientProfile": {
-    "healthLiteracy": "CYBERCHONDRIA_AI",
+    "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
     "adherence": "FULL",
     "lifestyleAndSocial": {
@@ -239,6 +178,274 @@
       "stressLevel": "HIGH",
       "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Monosillabi. Sta bene e lo dice solo se glielo tirano fuori. Vuole TAC e PET perché l'ha letto. Se lo visitano sulla pelle, accetta a malincuore."
-  }
+    "communicationStyle": "Sono Paolo. Non iniziate cetuximab se non sapete il RAS. Il dolore alla pancia va scritto. Rifiuto un esame che non cambia la scelta di oggi."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Malattia metastatica",
+      "prompt": "Metastasi epatiche. Nessuna terapia sistemica alle spalle. Propongono cetuximab in giornata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Prima di ogni farmaco richieda MSI/MMR, KRAS, NRAS e BRAF",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Inizi cetuximab e rimandi i test al secondo ciclo",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Anti-EGFR senza RAS",
+      "prompt": "Al momento di intraprendere un trattamento metastatico la valutazione di MSI/MMR e di KRAS, NRAS e BRAF deve essere effettuata. AIFA e EMA limitano cetuximab e panitumumab al RAS wild-type.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa non indicato ora",
+      "prompt": "Qualcuno propone adesso Tomoscintigrafia PET total body, voce Fasdac DI MN 000003624, 780 euro. Non e il test RAS/MSI richiesto prima del trattamento.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito, al costo Fasdac di 780 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Prestazione a tariffa fuori passo",
+      "prompt": "Nomenclatore Fasdac, non un listino SSN: DI MN 000003624 Tomoscintigrafia PET total body 780 euro. Non e il test RAS/MSI richiesto prima del trattamento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Codoni e Lynch",
+      "prompt": "Il laboratorio offre un KRAS solo sull'esone 2.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "KRAS e NRAS sui codoni 12, 13, 59, 61, 117 e 146, piu BRAF e MMR/MSI, anche per lo screening di Lynch",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Si accontenti del solo esone 2 di KRAS e salti l'MSI",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Pannello RAS incompleto",
+      "prompt": "L'analisi di KRAS e NRAS deve riguardare i codoni 12, 13, 59, 61, 117 e 146 di entrambi i geni. Lo screening MMR/MSI va considerato in tutti i pazienti con CRC.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "RAS mutato",
+      "prompt": "NRAS e mutato. MSI stabile.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non usi cetuximab ne panitumumab. Scelga una prima linea che non sia un anti-EGFR",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Cetuximab lo stesso, perche la mutazione e solo su NRAS",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Anti-EGFR fuori dal RAS wild-type",
+      "prompt": "EMA ed AIFA hanno ristretto panitumumab e cetuximab ai soli pazienti con carcinoma del colon-retto metastatico RAS wild-type.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se invece e dMMR",
+      "prompt": "Un referto alternativo, sullo stesso quesito: dMMR/MSI, RAS non mutato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Pembrolizumab come standard di prima linea del metastatico dMMR/MSI",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Chemioterapia e cetuximab, ignorando il dMMR",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Prima linea non quella del dMMR",
+      "prompt": "Pembrolizumab rappresenta il nuovo standard terapeutico di prima linea nel carcinoma del colon-retto metastatico con dMMR/MSI.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Informazione sulla prognosi",
+      "prompt": "Chiede quanto puo durare e quali alternative ha. Un collega dice di non parlarne.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Informi su diagnosi, prognosi, benefici, rischi, alternative e conseguenze di un rifiuto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Taccia la prognosi e faccia firmare solo il nome del farmaco",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Informazione incompleta",
+      "prompt": "Ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto del trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'atto rifiutato",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: una nuova biopsia epatica che lui rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non inizi l'atto rifiutato. Annoti il rifiuto in cartella. Non lo esegui perche lo chiedono i familiari",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono, senza il consenso della persona",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto senza il consenso",
+      "prompt": "nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore scritto in cartella",
+      "prompt": "Durante il ricovero in reparto il dolore e presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scrivi in cartella medica e infermieristica caratteristiche del dolore, evoluzione, tecnica antalgica, farmaci, dosaggi e risultato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un antalgico e non riporti nulla in cartella",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, in uso presso tutte le strutture sanitarie, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Gli otto passi restano dentro le frasi delle linee guida e delle leggi lette: stadiazione, biologia, prima linea, tossicita, progressione, consenso e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }
