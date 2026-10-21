@@ -1,0 +1,445 @@
+{
+  "id": "NEURO-021",
+  "code": "NEURO-021",
+  "title": "Guillain-Barre: immunoglobuline, non il cortisone",
+  "description": "Pietro, 58 anni, debolezza ascendente da cinque giorni, riflessi assenti, niente febbre. Respiro ancora valido. Deglutisce male i solidi. Non e anticoagulato.",
+  "difficulty": "HARD",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Poliradicoloneuropatia acuta, terapia con immunoglobuline e controllo del respiro",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "guillan barre.pdf; modulo rachicentesi; RM paganti",
+  "diagnosis": "Immunoglobuline endovena: 1 g/kg per due giorni consecutivi oppure 400 mg/kg per cinque giorni, dose totale 2 g/kg. Plasmaferesi di pari efficacia; sommarle non aumenta l'efficacia. Il cortisone non e efficace e non e raccomandato. Monitorare il respiro. Se il bulbo e interessato: dieta liquida, e nei gravi sondino o parenterale.",
+  "pastMedicalHistory": "Nessun anticoagulante. Nessuna infezione cutanea sulla schiena. Una RM encefalo non spiega la debolezza delle gambe.",
+  "presentation": "Ascesa in giorni, areflessia, ingombro bulbare lieve, respiro ancora autonomo.",
+  "redHerrings": [
+    "Propongono cortisone perche la frase iniziale elenca gli steroidi.",
+    "Propongono RM encefalo al posto della terapia."
+  ],
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Pietro. Le gambe non mi reggono e faccio fatica a ingoiare la carne. Accetto le immunoglobuline alla dose scritta. Non voglio il cortisone se il testo dice che non serve. Non voglio una risonanza della testa al posto della cura.",
+  "correctSolution": "Immunoglobuline 1 g/kg per due giorni oppure 400 mg/kg per cinque giorni. Non il cortisone. Non sommi plasmaferesi e immunoglobuline. Controlli il respiro. Liquidi, e sondino solo se la deglutizione e grave. La rachicentesi e un'indicazione delle poliradicoloneuropatie, non sostituisce la terapia. Niente RM encefalo come cura.",
+  "goldStandardPath": [
+    "forza-riflessi",
+    "respiro"
+  ],
+  "goldPathNarrative": "Il paragrafo di terapia sceglie le immunoglobuline e dice che il cortisone non e raccomandato. Il respiro si guarda.",
+  "examLatencies": {
+    "forza-riflessi": 15,
+    "respiro": 10,
+    "rm-encefalo": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "salita",
+      "prompt": "In quanti giorni e salita la debolezza, e i riflessi ci sono?",
+      "critical": true,
+      "expectedKeywords": [
+        "giorni",
+        "assenti",
+        "gambe"
+      ],
+      "rationale": "Il quadro e la poliradicoloneuropatia del testo, non un ictus da RM."
+    },
+    {
+      "id": "antico",
+      "prompt": "Prende un anticoagulante?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "anticoagulante",
+        "farmaco"
+      ],
+      "rationale": "La rachicentesi e controindicata in terapia anticoagulante."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Forza ridotta in senso prossimale alle gambe, riflessi assenti, respiro autonomo, tosse valida, solidi difficili."
+  },
+  "escCitations": [
+    {
+      "chunkId": "d",
+      "source": "knowledge_base/neurologia/clinic/guillan barrè.pdf",
+      "quote": "La dose consigliata e di 1 g/kg per due giorni consecutivi o di 400 mg/kg per cinque giorni (dose totale 2 g/kg)."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/neurologia/clinic/guillan barrè.pdf",
+      "quote": "Il cortisone non e efficace e non viene raccomandato in questi pazienti."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/neurologia/clinic/guillan barrè.pdf",
+      "quote": "plasmaferesi e immunoglobuline hanno la stessa efficacia e la combinazione della plasmaferesi con le immunoglobuline non ne aumenta l'efficacia."
+    },
+    {
+      "chunkId": "r",
+      "source": "knowledge_base/neurologia/clinic/guillan barrè.pdf",
+      "quote": "E importante assicurare un attento monitoraggio dei parametri vitali e in particolare di quelli respiratori."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/neurologia/clinic/guillan barrè.pdf",
+      "quote": "Nei casi con interessamento bulbare l'alimentazione deve essere principalmente liquida e nei pazienti piu gravi, che presentano alterazioni della deglutizione, deve essere somministrata tramite sondino gastrico o per via parenterale."
+    },
+    {
+      "chunkId": "rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Immunoglobuline 1 g/kg per due giorni o 400 mg/kg per cinque giorni. Niente cortisone.",
+      "Non sostituire la terapia con una RM encefalo a 300 euro piu bollo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
+      "legalCriteria": [
+        "Il cortisone non e raccomandato, anche se l'elenco iniziale lo nomina.",
+        "Non sommare plasmaferesi e immunoglobuline.",
+        "Sondino solo se la deglutizione e grave, e se lui, capace, non lo rifiuta."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "forza-riflessi",
+      "name": "Forza e riflessi",
+      "finding": "Debolezza ascendente, riflessi assenti.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "respiro",
+      "name": "Respiro",
+      "finding": "Autonomo, da monitorare. Non e ancora il caso del supporto ventilatorio.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm-encefalo",
+      "name": "RM encefalo",
+      "finding": "Chiesta al posto delle immunoglobuline.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Non e la terapia scritta. Tariffa 300 euro piu bollo.",
+      "priceEuro": 300
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "138/84",
+      "spo2": 96,
+      "temperature": 36.8,
+      "respiratoryRate": 20
+    },
+    "demographics": {
+      "age": 58,
+      "sex": "M",
+      "context": "Neurologia"
+    },
+    "advancedExams": {
+      "values": {
+        "forza-riflessi": {
+          "finding": "Debolezza ascendente, riflessi assenti.",
+          "isAbnormal": true
+        },
+        "respiro": {
+          "finding": "Autonomo, da monitorare. Non e ancora il caso del supporto ventilatorio.",
+          "isAbnormal": true
+        },
+        "rm-encefalo": {
+          "finding": "Chiesta al posto delle immunoglobuline.",
+          "isAbnormal": false
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ha paura di non respirare. Accetta le immunoglobuline. Rifiuta cortisone e RM."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quale dose",
+      "prompt": "Debolezza ascendente, areflessia. Deve iniziare la terapia di scelta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Immunoglobuline 1 g/kg per due giorni consecutivi, oppure 400 mg/kg per cinque giorni",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Cortisone, perche la prima riga del paragrafo elenca gli steroidi",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Cortisone non raccomandato",
+      "prompt": "La dose consigliata e di 1 g/kg per due giorni consecutivi o di 400 mg/kg per cinque giorni. Il cortisone non e efficace e non viene raccomandato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non sommarle",
+      "prompt": "Propongono plasmaferesi e, lo stesso giorno, anche le immunoglobuline.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Scelga una. La combinazione non aumenta l'efficacia. L'efficacia e la stessa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Le faccia entrambe",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Combinazione inutile",
+      "prompt": "plasmaferesi e immunoglobuline hanno la stessa efficacia e la combinazione non ne aumenta l'efficacia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Respiro",
+      "prompt": "Adesso respira. Il testo chiede di monitorare i parametri respiratori.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Li controlli in modo ravvicinato e sia pronto al supporto ventilatorio se cedono",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Lo mandi a casa a controllarsi la tosse",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Respiro non monitorato",
+      "prompt": "attento monitoraggio dei parametri vitali e in particolare di quelli respiratori. La terapia elenca anche il supporto ventilatorio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Deglutizione",
+      "prompt": "I solidi sono difficili, i liquidi passano. Non e il paziente grave con deglutizione abolita.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Dieta principalmente liquida. Il sondino nei piu gravi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Sondino subito, anche se i liquidi passano e lui non lo vuole",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sondino non indicato ancora",
+      "prompt": "Nei casi con interessamento bulbare l'alimentazione deve essere principalmente liquida e nei piu gravi, con alterazioni della deglutizione, tramite sondino o parenterale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM encefalo 300 euro piu bollo. Non sostituisce le immunoglobuline ne il controllo del respiro.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo prenoti subito: RM encefalo 300 euro piu bollo",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. Non sostituisce le immunoglobuline ne il controllo del respiro. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: cortisone, che lui rifiuta e che il testo non raccomanda. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Rachicentesi",
+      "prompt": "Il modulo elenca le poliradicoloneuropatie fra le indicazioni diagnostiche. Lui non e anticoagulato, non ha infezione della cute, non ha una massa. Il volume scritto e 5-10 ml. Non cura la malattia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Puo farla per la diagnosi, 5-10 ml, senza farle sostituire le immunoglobuline",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "La usi al posto delle immunoglobuline",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Puntura al posto della terapia",
+      "prompt": "Indicazione: poliradicoloneuropatie. Vengono prelevati 5-10 ml di liquor. La terapia di scelta restano le immunoglobuline.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo, la fatica",
+      "prompt": "Il testo dice che negli adulti puo restare facile stancabilita, e disabilita dopo un anno in oltre il 20%. Mortalita citata fra 4% e 15%.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Glielo dica e programmi il controllo, senza promettere una guarigione certa",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Gli dica che a un mese e come prima, sempre",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Prognosi inventata",
+      "prompt": "negli adulti l'affezione lascia residui rilevabili, come la facile stancabilita. In oltre il 20% persiste disabilita dopo un anno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Immunoglobuline e respiro",
+      "prompt": "Ha dato 1 g/kg per due giorni o 400 mg/kg per cinque, non ha dato il cortisone, ha guardato il respiro e non ha sostituito la cura con la RM.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

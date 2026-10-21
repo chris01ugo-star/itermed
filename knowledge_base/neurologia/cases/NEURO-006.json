@@ -1,204 +1,455 @@
 {
   "id": "NEURO-006",
   "code": "NEURO-006",
-  "title": "Sindrome del tunnel carpale",
-  "description": "Elena P., 47 anni, sarta, da quattro mesi si sveglia di notte con formicolio al pollice, all'indice e al medio della mano destra, e scuote la mano per farli passare. Di giorno il fastidio compare cucendo e guidando. Il collo non le fa male. Non ha dolore che scende dalla spalla. Phalen e Tinel sono positivi, c'è un iniziale appiattimento dell'eminenza tenar, la forza del collo e il riflesso bicipitale sono normali. È un tunnel carpale, non una radicolopatia C6. Il percorso è l'esame clinico del polso e l'EMG, che conferma il rallentamento del mediano al polso. La trappola è chiamarla cervicale e prescrivere un FANS per settimane, oppure prenotare una RM del rachide cervicale (220 euro) senza EMG (70 euro). Il budget della visita è 110 euro: l'EMG ci sta, la RM no.",
-  "difficulty": "EASY",
+  "title": "Ictus al risveglio: trombolisi solo se la perfusione mostra penombra",
+  "description": "Sara, 69 anni, si sveglia con emiplegia. Meta del sonno stimata 6 ore fa. TC senza sangue. Non ha ancora una perfusione automatica.",
+  "difficulty": "HARD",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Intrappolamento del nervo mediano al polso destro",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
-  "setting": "AMBULATORIO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-  "diagnosis": "Sindrome del tunnel carpale destro, con impegno motorio iniziale del tenar. Conferma elettrofisiologica al polso. Non è una radicolopatia cervicale.",
-  "pastMedicalHistory": "Ipotiroidismo in levotiroxina, TSH recente nella norma. Nessun diabete. Nessun trauma al polso. Due gravidanze in passato, formicolii simili nell'ultimo trimestre poi spariti. Lavoro ripetitivo con forbici e ferro da stiro. Non fuma. Assume ibuprofene 600 mg da tre settimane, ogni sera, con bruciore epigastrico e beneficio nullo sulla notte. Allergie: nessuna. Un ortopedico le ha detto «forse è la cervicale» senza visitarle il polso.",
-  "presentation": "Mostra la mano destra e descrive la notte. Se il medico guarda solo il collo, lei conferma che «ogni tanto tira» dopo il lavoro, e la pista cervicale si apre a vuoto. Il dolore vero è palmare e sulle prime tre dita, non a fascia sull'avambraccio fino al collo. Parametri: PA 128/78 mmHg, FC 74, SpO2 99%, FR 14, temperatura 36,6 °C. Vuole una soluzione prima del matrimonio della figlia, tra due mesi, e accetta qualunque esame le venga proposto, compresa una RM che non può permettersi.",
+  "condition": "Ictus al risveglio, entro 9 ore dal punto medio del sonno, penombra da documentare prima del farmaco",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "linne guida ictus aha.pdf classe 2a; Cochrane wake-up; RM paganti",
+  "diagnosis": "Classe 2a: trombolisi endovena ragionevole se la perfusione automatica mostra penombra salvabile e (a) sintomi al risveglio entro 9 ore dal punto medio del sonno, oppure (b) 4,5-9 ore dall'ultimo benessere. Cochrane: i sette studi hanno selezionato con imaging avanzato. Una TC semplice a 7 ore non basta per dare il farmaco.",
+  "pastMedicalHistory": "Dorme sola, l'ora esatta dell'esordio non c'e. Nessun trauma.",
+  "presentation": "Deficit presente al risveglio. Punto medio del sonno circa 6 ore fa. TC senza emorragia. Perfusione non fatta.",
   "redHerrings": [
-    "Un ortopedico ha già nominato la cervicale senza esaminare il mediano.",
-    "Un vago fastidio al collo dopo il lavoro non è un dolore radicolare.",
-    "L'ibuprofene già in corso sembra un piano, ed è inutile e gastrolesivo.",
-    "Il tenar appiattito può essere scambiato per «artrosi» e non per deficit motorio del mediano."
+    "Vogliono alteplase subito sulla sola TC.",
+    "Vogliono una RM del ginocchio."
   ],
-  "timeLimitMinutes": 50,
-  "patientDeteriorationThreshold": 40,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: STABILE, carattere seccato e pratico. Sei Elena, 47 anni, sarta, ambulatorio. Non sei gentile da manuale: sei stanca, infastidita, vai al sodo. Alla «Come sta?»: «Non dormo. La mano mi sveglia. E non ho tempo per esami inutili.» Se ti chiedono del collo, dici che a fine giornata tira un po' e non aggiungi altro. Pollice, indice, medio, risvegli notturni e il gesto di scuotere la mano li racconti solo se ti chiedono quali dita, se di notte, e se il fastidio è al polso o scende dal collo. Non hai dolore al collo che irradia. Se ti fanno piegare il polso, il formicolio arriva in pochi secondi e lo dici secca: «Ecco. Adesso.» Se ti prescrivono un antinfiammatorio per un mese, dici che lo prendi già e che ti brucia lo stomaco, ma obbedisci se insistono. Se ti chiedono l'esame dei nervi, accetti. Se ti chiedono la risonanza del collo, ti preoccupi per il costo e chiedi se è proprio necessaria: se il medico dice di sì, la prenoti. Non nominare tu tunnel carpale o radicolopatia. A fine visita, se nessuno ha parlato della notte e delle tre dita: «Comunque non dormo.»",
-  "correctSolution": "Tunnel carpale destro. Clinica mediana (notturna, prime tre dita, Phalen, Tinel, tenar) più EMG con rallentamento al polso. Tutore notturno, sospensione del FANS cronico, invio per valutazione di rilascio se il motore è già impegnato. Non RM cervicale come primo esame. Non diagnosi di radicolopatia C6 senza un dolore radicolare e senza imaging, e comunque qui l'imaging del collo non è il gold.",
-  "goldStandardPath": ["esame-clinico-polso", "emg"],
-  "goldPathNarrative": "1) Esame: territorio mediano, paraestesie notturne, Phalen e Tinel positivi, tenar iniziale, collo senza deficit radicolare e senza dolore a fascia. 2) EMG/elettroneurografia: rallentamento della conduzione sensitiva e motoria del mediano al polso, ulnar e radiale risparmiati, no denervazione radicolare cervicale. Costo ideale 71 euro (visita clinica 1 euro + EMG 70). La RM del rachide cervicale costa 220 euro, non mostra una compressione radicolare e non sostituisce l'EMG. Prescrivere FANS per settimane, senza EMG, è la diagnosi sbagliata di «cervicale» curata con un farmaco inutile. Budget: 110 euro.",
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Sara. Mi sono svegliata cosi. Non so l'ora precisa. Accetto il farmaco solo se l'esame che il testo chiede lo permette. Non voglio la risonanza del ginocchio.",
+  "correctSolution": "Non dia il farmaco sulla sola TC. Faccia la perfusione automatica. Se c'e penombra salvabile e il risveglio e entro 9 ore dal punto medio del sonno, la trombolisi puo essere ragionevole. Se la penombra non c'e, non la dia. Non usi 0,4 mg/kg.",
+  "goldStandardPath": [
+    "tc-encefalo",
+    "perfusione"
+  ],
+  "goldPathNarrative": "Ora di esordio ignota. Il farmaco della finestra estesa sta in piedi solo con la penombra alla perfusione automatica.",
   "examLatencies": {
-    "esame-clinico-polso": 10,
-    "emg": 20,
-    "rm": 80,
-    "rx-colonna": 15,
-    "ecocolordoppler": 20
+    "tc-encefalo": 15,
+    "perfusione": 25,
+    "rm-ginocchio": 60
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-dita",
-      "prompt": "Quali dita formicolano, e il fastidio la sveglia di notte?",
+      "id": "sonno",
+      "prompt": "A che ora si e addormentata e a che ora si e svegliata?",
       "critical": true,
-      "expectedKeywords": ["pollice", "notte", "tre dita"],
-      "rationale": "Il territorio mediano notturno è il cuore del tunnel carpale. Senza questa domanda resta solo il collo."
+      "expectedKeywords": [
+        "sonno",
+        "risveglio",
+        "ore"
+      ],
+      "rationale": "La classe 2a usa il punto medio del sonno, entro 9 ore."
     },
     {
-      "id": "aq-collo",
-      "prompt": "Il dolore parte dal collo e scende a fascia, o nasce dalla mano?",
+      "id": "img",
+      "prompt": "Ha gia una perfusione o solo la TC?",
       "critical": true,
-      "expectedKeywords": ["collo", "mano", "notte"],
-      "rationale": "Distingue la radicolopatia cervicale dall'intrappolamento al polso. Qui nasce dalla mano."
-    },
-    {
-      "id": "aq-fans",
-      "prompt": "Da quanto prende l'ibuprofene e le ha cambiato le notti?",
-      "critical": false,
-      "expectedKeywords": ["ibuprofene", "stomaco", "notti"],
-      "rationale": "Il FANS cronico è già fallito e le ha dato epigastralgia. Continuarlo non è un piano."
+      "expectedKeywords": [
+        "perfusione",
+        "TC",
+        "penombra"
+      ],
+      "rationale": "Senza penombra alla perfusione automatica la classe 2a non si applica."
     }
   ],
   "physicalExam": {
-    "summary": "Phalen positivo a destra in meno di 20 secondi, Tinel positivo sul legamento trasverso del carpo, ipoestesia pulpare su pollice indice e medio, eminenza tenar lievemente appiattita, opposizione del pollice lievemente ridotta. Collo mobile, Spurling negativo, riflesso bicipitale e stiloradiale simmetrici, forza del deltoide e del bicipite conservata. Non c'è un livello radicolare da inseguire con la RM come primo atto."
+    "summary": "Emiplegia al risveglio, TC senza sangue, perfusione ancora da fare."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-006-clinica",
-      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-      "quote": "Sintesi operativa: il tunnel carpale si riconosce dal territorio mediano, dal prevalere notturno e dai segni al polso. L'EMG conferma il livello dell'intrappolamento. Una RM cervicale non è il primo esame se il collo è clinicamente silente."
+      "chunkId": "w",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In patients with AIS who have salvageable ischemic penumbra detected on automated perfusion imaging and who (a) awake with stroke symptoms within 9 hours from the midpoint of sleep or (b) are 4.5-9 hours from last known well, IV thrombolysis may be reasonable to improve functional outcomes."
     },
     {
-      "chunkId": "neuro-006-rm",
+      "chunkId": "c",
+      "source": "knowledge_base/neurologia/clinic/Trattamento-trombolitico-per-via-venosa-e-trombectomia-endovascolare-per-lictus-ischemico-al-risveglio.pdf",
+      "quote": "Tutti gli studi hanno utilizzato sistemi avanzati di imaging per selezionare i pazienti da trattare."
+    },
+    {
+      "chunkId": "coch2",
+      "source": "knowledge_base/neurologia/clinic/Trattamento-trombolitico-per-via-venosa-e-trombectomia-endovascolare-per-lictus-ischemico-al-risveglio.pdf",
+      "quote": "In pazienti selezionati con ictus ischemico acuto al risveglio, sia il trattamento trombolitico endovenoso che la trombectomia endovascolare per occlusione di un grosso vaso hanno migliorato l'outcome funzionale senza aumentare il rischio di morte."
+    },
+    {
+      "chunkId": "ich",
+      "source": "knowledge_base/neurologia/clinic/Trattamento-trombolitico-per-via-venosa-e-trombectomia-endovascolare-per-lictus-ischemico-al-risveglio.pdf",
+      "quote": "un possibile aumento del rischio di emorragia cerebrale sintomatica associato con il trattamento trombolitico non puo essere escluso."
+    },
+    {
+      "chunkId": "dose",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In adult patients with AIS presenting within 4.5 hours of symptom onset or last known well and eligible for IVT, tenecteplase at a dose of 0.25 mg/kg body weight (max 25 mg) or alteplase at a dose of 0.9 mg/kg body weight is recommended to improve functional outcomes."
+    },
+    {
+      "chunkId": "nor",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "the Norwegian Tenecteplase Stroke Trial (NOR-TEST) 2 trial, which compared tenecteplase 0.4 mg/kg with alteplase 0.9 mg/kg, was prematurely terminated due to worse safety and functional outcomes in the tenecteplase group."
+    },
+    {
+      "chunkId": "ng",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "Delay placement of nasogastric tubes, indwelling bladder catheters, or intraarterial pressure catheters if the patient can be safely managed without them"
+    },
+    {
+      "chunkId": "gin",
       "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
-      "quote": "Sintesi operativa sul costo: la RM del rachide è una prestazione costosa. Prenotarla al posto dell'EMG, in un quadro di mediano al polso, sposta la spesa senza rispondere alla domanda clinica."
-    },
-    {
-      "chunkId": "neuro-006-tariffa",
-      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
-      "quote": "Sintesi operativa: l'elettroneurografia del mediano sta nel budget di questa visita. La RM muscoloscheletrica del collo, aggiunta per una diagnosi di radicolopatia non sostenuta dall'esame, no."
+      "quote": "RM muscoloscheletriche tariffe. GINOCCHIO 280+bollo"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Territorio sensitivo e segni al polso raccolti prima dell'imaging del collo.",
-      "EMG richiesta e letta come conferma del livello al polso.",
-      "Nessuna diagnosi di radicolopatia C6 senza dolore radicolare e senza un imaging che comunque qui non è il gold.",
-      "FANS cronico sospeso, non rinnovato."
+      "Nel risveglio il farmaco endovena e ragionevole solo con penombra alla perfusione automatica e dentro le 9 ore dal punto medio del sonno.",
+      "Non aggiungere la RM del ginocchio a 280 euro piu bollo."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Chiamare cervicale una acroparestesia mediana notturna, e curarla con FANS, non aderisce al percorso dell'intrappolamento. L'EMG è l'esame che rende difendibile il livello diagnostico.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Distribuzione delle dita e segni di Phalen e Tinel scritti.",
-        "EMG prima di una diagnosi alternativa di radicolopatia.",
-        "Nessun FANS a lungo termine come unica cura.",
-        "Informazione sul tutore notturno e sul possibile invio chirurgico se il tenar è già debole."
+        "Classe 2a AHA: penombra e finestra del risveglio o delle 4,5-9 ore.",
+        "Cochrane: selezione con imaging avanzato in tutti gli studi.",
+        "Non usare 0,4 mg/kg di tenecteplase."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "esame-clinico-polso",
-      "name": "Esame clinico del polso e del territorio mediano",
-      "finding": "Paraestesie notturne su pollice, indice e medio destri. Phalen positivo, Tinel positivo, tenar lievemente appiattito, opposizione del pollice ridotta. Collo senza Spurling e senza deficit miomerico C6. Quadro di tunnel carpale, non di radicolopatia.",
-      "isAbnormal": true,
-      "priceEuro": 1
+      "examId": "tc-encefalo",
+      "name": "TC encefalo",
+      "finding": "Niente emorragia. Da sola non seleziona la finestra estesa.",
+      "isAbnormal": false,
+      "isFatal": false
     },
     {
-      "examId": "emg",
-      "name": "EMG ed elettroneurografia",
-      "finding": "Elettroneurografia: latenza distale motoria del mediano destro allungata, velocità sensitiva del mediano palmo-polso rallentata, conduzione dell'ulnare normale, confronto mediano-ulnare sul quarto dito patologico. EMG ad ago: iniziale denervazione del muscolo abduttore breve del pollice, muscoli del miomero C6 indenni. Conclusione: intrappolamento del mediano al polso, grado moderato-severo. Nessuna radicolopatia cervicale.",
+      "examId": "perfusione",
+      "name": "Perfusione automatica",
+      "finding": "Penombra salvabile presente. Punto medio del sonno a 6 ore.",
       "isAbnormal": true,
-      "priceEuro": 70
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "rm",
-      "name": "RM rachide cervicale",
-      "finding": "RM cervicale: lieve protusione C5-C6 senza conflitto radicolare, forami pervii, midollo normale. Non spiega le notti e le tre dita. Costo 220 euro. Il livello resta il polso, che questa RM non studia.",
+      "examId": "rm-ginocchio",
+      "name": "RM ginocchio",
+      "finding": "Dolore di ginocchio non legato al risveglio neurologico.",
       "isAbnormal": false,
-      "priceEuro": 220,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Diagnosi errata di radicolopatia perseguita con la RM, senza EMG. 220 euro contro un percorso ideale di 71: sforamento oltre il 50%, e il referto non cambia la clinica del mediano."
-    },
-    {
-      "examId": "rx-colonna",
-      "name": "RX colonna cervicale",
-      "finding": "RX cervicale: rettilineizzazione e iniziale uncoartrosi. Non vede il nervo mediano e non vede una radice. Costo 35 euro. Inutile come primo esame del tunnel carpale.",
-      "isAbnormal": false,
-      "priceEuro": 35,
-      "inappropriate": true,
-      "wasteRationale": "La radiografia del collo non conferma né esclude il tunnel carpale. Alimenta la diagnosi sbagliata di cervicale."
+      "wasteRationale": "SIRM: niente RM di ginocchio di routine. Tariffa 280 euro piu bollo.",
+      "priceEuro": 280
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 74,
-      "bloodPressure": "128/78",
-      "spo2": 99,
+      "heartRate": 86,
+      "bloodPressure": "162/90",
+      "spo2": 97,
       "temperature": 36.6,
-      "respiratoryRate": 14
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 110,
-    "demographics": { "age": 47, "sex": "F", "name": "Elena P." },
-    "clinicalSigns": [
-      {
-        "signName": "Phalen",
-        "result": "Positivo a destra in meno di 20 secondi, formicolio sul mediano.",
-        "isPositive": true
-      },
-      {
-        "signName": "Tinel al polso",
-        "result": "Positivo sul legamento trasverso del carpo destro.",
-        "isPositive": true
-      },
-      {
-        "signName": "Spurling",
-        "result": "Negativo. Nessun dolore radicolare.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Phalen",
-        "result": "Positivo a destra.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 69,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "emg": {
-          "finding": "EMG: rallentamento del mediano al polso destro, ulnare risparmiato, niente denervazione radicolare cervicale. Tunnel carpale moderato-severo. Costo 70 euro.",
-          "isAbnormal": true,
-          "price": 70
+        "tc-encefalo": {
+          "finding": "Niente emorragia. Da sola non seleziona la finestra estesa.",
+          "isAbnormal": false
         },
-        "rm": {
-          "finding": "RM cervicale: piccola protusione C5-C6 senza conflitto. Non spiega il quadro. Costo 220 euro, sopra il budget di 110.",
-          "isAbnormal": false,
-          "price": 220
+        "perfusione": {
+          "finding": "Penombra salvabile presente. Punto medio del sonno a 6 ore.",
+          "isAbnormal": true
         },
-        "rx-colonna": {
-          "finding": "RX cervicale con uncoartrosi iniziale. Non diagnostica il tunnel carpale. Costo 35 euro.",
-          "isAbnormal": false,
-          "price": 35
+        "rm-ginocchio": {
+          "finding": "Dolore di ginocchio non legato al risveglio neurologico.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Tutore notturno e invio dopo EMG se il tenar è debole",
-          "anyOf": [{ "id": "tutore", "label": "Tutore notturno", "aliases": ["tutore", "splint"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "FANS a lungo termine come unica terapia", "ids": ["fans-cronico", "ibuprofene-cronico"] }
-      ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "COLLABORATIVE",
+    "emotionalState": "ANXIOUS",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "MEDIUM", "socialSupport": "STRONG" },
-    "communicationStyle": "STABILE, SECCATA. Sarta pratica, arrabbiata per le notti in bianco, diffida dei costi. Le tre dita e il risveglio notturno escono solo se chiesti. Non è una paziente gentile e generica."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sola, spaventata, capace. Vuole sapere se l'esame autorizza il farmaco."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Punto medio del sonno",
+      "prompt": "Si e addormentata verso mezzanotte, sveglia alle 6 con il deficit. Il punto medio del sonno cade circa 6 ore fa. L'ora esatta dell'ictus non c'e.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La tratti come risveglio, non come esordio testimoniato a un minuto preciso",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Segni l'esordio alle 6 del mattino come se qualcuno l'avesse vista stare male in quel minuto, e dia il farmaco della finestra delle 4,5 ore sulla sola TC",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Ora inventata",
+      "prompt": "In patients with AIS who have salvageable ischemic penumbra detected on automated perfusion imaging and who (a) awake with stroke symptoms within 9 hours from the midpoint of sleep or (b) are 4.5-9 hours from last known well, IV thrombolysis may be reasonable to improve functional outcomes.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Perfusione prima del farmaco",
+      "prompt": "TC senza sangue. La perfusione automatica non e stata fatta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "La faccia. Il farmaco della classe 2a si discute solo se c'e penombra salvabile",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Dia alteplase sulla sola TC",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Farmaco senza penombra",
+      "prompt": "In patients with AIS who have salvageable ischemic penumbra detected on automated perfusion imaging and who (a) awake with stroke symptoms within 9 hours from the midpoint of sleep or (b) are 4.5-9 hours from last known well, IV thrombolysis may be reasonable to improve functional outcomes. Cochrane: Tutti gli studi hanno utilizzato sistemi avanzati di imaging per selezionare i pazienti da trattare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Penombra presente",
+      "prompt": "La perfusione mostra penombra salvabile. Siamo a 6 ore dal punto medio del sonno, dentro le 9.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "La trombolisi endovena puo essere ragionevole. Usi 0,25 mg/kg di tenecteplase max 25 mg o 0,9 mg/kg di alteplase, non 0,4",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Usi tenecteplase 0,4 mg/kg",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose 0,4 mg/kg",
+      "prompt": "the Norwegian Tenecteplase Stroke Trial (NOR-TEST) 2 trial, which compared tenecteplase 0.4 mg/kg with alteplase 0.9 mg/kg, was prematurely terminated due to worse safety and functional outcomes in the tenecteplase group. In adult patients with AIS presenting within 4.5 hours of symptom onset or last known well and eligible for IVT, tenecteplase at a dose of 0.25 mg/kg body weight (max 25 mg) or alteplase at a dose of 0.9 mg/kg body weight is recommended to improve functional outcomes.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se la penombra non ci fosse stata",
+      "prompt": "Nel referto alternativo, che non e il suo, la penombra manca.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Senza penombra non applichi la classe 2a e non dia il farmaco",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Lo dia lo stesso perche tanto e un risveglio",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco senza il criterio di imaging",
+      "prompt": "La classe 2a richiede la penombra alla perfusione automatica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM ginocchio 280 euro piu bollo. Non c'entra con la selezione del risveglio. SIRM non la vuole di routine.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo prenoti subito: RM ginocchio 280 euro piu bollo",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: GINOCCHIO 280+bollo. Non c'entra con la selezione del risveglio. SIRM non la vuole di routine. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dire anche il rischio",
+      "prompt": "Cochrane: l'emorragia sintomatica e stata 3% contro 1%, e un possibile aumento non si puo escludere. Gli studi sono piccoli e 6 su 7 si sono fermati prima.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Glielo dica, e proceda solo perche i criteri della classe 2a ci sono",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Le dica che il rischio di sanguinamento e uguale a zero",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Rischio taciuto",
+      "prompt": "Cochrane: un possibile aumento del rischio di emorragia cerebrale sintomatica associato con il trattamento trombolitico non puo essere escluso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: sondino nasogastrico: deglutisce e la tabella 7 dice di rimandarlo se si puo essere gestiti senza. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Unita e cefalea",
+      "prompt": "Parte l'alteplase. Se viene cefalea forte o l'esame peggiora?",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Ferma l'infusione e fai la TC. Ricovero in stroke unit",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Finisci l'infusione e rimandi la TC",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Infusione non fermata",
+      "prompt": "If the patient develops severe headache, acute hypertension, nausea, or vomiting or has a worsening neurological examination, discontinue the infusion (if IV alteplase is being administered) and obtain an emergency head CT scan. Admit the patient to an intensive care or stroke unit for monitoring",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Risveglio selezionato con la perfusione",
+      "prompt": "Non ha dato il farmaco sulla sola TC. Con penombra e dentro le 9 ore dal punto medio del sonno ha usato la dose della classe 1, ha detto il rischio di sanguinamento e non ha fatto la RM del ginocchio.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

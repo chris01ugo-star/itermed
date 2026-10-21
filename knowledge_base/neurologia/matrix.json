@@ -1,164 +1,227 @@
 [
   {
     "id": "NEURO-001",
-    "title": "Corsa contro il tempo — ictus ischemico acuto",
-    "condition": "Ictus ischemico iperacuto del territorio silviano sinistro, finestra trombolitica ancora aperta",
+    "title": "Ictus a 90 minuti: farmaco endovena prima di angio e risonanza",
+    "condition": "Ictus ischemico dell'adulto entro 4,5 ore, eleggibile alla trombolisi endovenosa",
     "frequencyCategory": "HIGH",
     "difficulty": "ADVANCED",
     "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "linne guida ictus aha.pdf"
+    "guidelineRef": "linne guida ictus aha.pdf; linee guida iso spread.pdf; RM paganti; 61302046_est.pdf"
   },
   {
     "id": "NEURO-002",
-    "title": "L'insidia della medicina difensiva — sospetta ESA",
-    "condition": "Cefalea a rombo di tuono con TC negativa: emorragia subaracnoidea da escludere col liquor",
-    "frequencyCategory": "MEDIUM",
+    "title": "Dopo la trombolisi: non spingere la sistolica sotto 140",
+    "condition": "Ictus ischemico lieve-moderato gia trattato con trombolisi endovenosa, senza trombectomia",
+    "frequencyCategory": "HIGH",
     "difficulty": "ADVANCED",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "RACHICENTESI-Informativa-e-consenso.pdf"
+    "setting": "REPARTO",
+    "guidelineRef": "linne guida ictus aha.pdf tabella 7 e classe 3 sulla pressione; RM paganti"
   },
   {
     "id": "NEURO-003",
-    "title": "Il tranello burocratico — prima crisi comiziale",
-    "condition": "Prima crisi tonico-clonica non provocata dopo deprivazione di sonno",
-    "frequencyCategory": "HIGH",
+    "title": "Occlusione di M1 a due ore: farmaco endovena e trombectomia, non il tirofiban",
+    "condition": "Occlusione prossimale M1 entro 6 ore, NIHSS almeno 6, mRS 0-1, ASPECTS 3-10, ancora in finestra per il farmaco endovena",
+    "frequencyCategory": "MEDIUM",
     "difficulty": "ADVANCED",
     "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "Beghi_Epilessia.pdf"
+    "guidelineRef": "linne guida ictus aha.pdf; linee guida iso spread.pdf; RM paganti"
   },
   {
     "id": "NEURO-004",
-    "title": "Emicrania senz'aura o cefalea tensiva",
-    "condition": "Emicrania senz'aura a profilo stabile, esame neurologico negativo",
-    "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "cefalee primarie.pdf"
+    "title": "Occlusione a 10 ore: trombectomia solo se i criteri della finestra 6-24 sono tutti veri",
+    "condition": "Occlusione prossimale anteriore fra 6 e 24 ore, eta sotto 80, NIHSS almeno 6, mRS 0-1, ASPECTS 3-5, senza effetto massa",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "linne guida ictus aha.pdf classe 1 finestra 6-24 ore; RM paganti"
   },
   {
     "id": "NEURO-005",
-    "title": "Vertigine posizionale benigna",
-    "condition": "VPPB del canale semicircolare posteriore destro",
-    "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "lineeguida.pdf"
+    "title": "Basilare a cinque ore, farmaco gia dato e senza effetto: trombectomia entro sei ore",
+    "condition": "Occlusione basilare, mRS 0-1, NIHSS almeno 10, PC-ASPECTS almeno 6, ancora entro 6 ore e il farmaco endovena non ha funzionato",
+    "frequencyCategory": "LOW",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "linne guida ictus aha.pdf; linee guida iso spread.pdf; RM paganti"
   },
   {
     "id": "NEURO-006",
-    "title": "Sindrome del tunnel carpale",
-    "condition": "Intrappolamento del nervo mediano al polso destro",
-    "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "lineeguida.pdf"
+    "title": "Ictus al risveglio: trombolisi solo se la perfusione mostra penombra",
+    "condition": "Ictus al risveglio, entro 9 ore dal punto medio del sonno, penombra da documentare prima del farmaco",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "linne guida ictus aha.pdf classe 2a; Cochrane wake-up; RM paganti"
   },
   {
     "id": "NEURO-007",
-    "title": "Attacco ischemico transitorio",
-    "condition": "TIA emisferico sinistro ad alto rischio ABCD2, stenosi carotidea",
+    "title": "Ictus minore non cardioembolico: doppia antiaggregazione per 21 giorni, non la trombolisi gia fatta",
+    "condition": "Ictus ischemico minore non cardioembolico, NIHSS 4-5, entro 24 ore, senza trombolisi, causa aterosclerotica presunta",
     "frequencyCategory": "HIGH",
     "difficulty": "INTERMEDIATE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "tia-abcd2-tool.pdf"
+    "setting": "REPARTO",
+    "guidelineRef": "linne guida ictus aha.pdf classe 2a antiaggregazione; tia-abcd2-tool.pdf"
   },
   {
     "id": "NEURO-008",
-    "title": "Neurite ottica, esordio di sclerosi multipla",
-    "condition": "Neurite ottica retrobulbare come prima manifestazione demielinizzante",
-    "frequencyCategory": "MEDIUM",
+    "title": "TIA con ABCD2 gia a 6: osservazione, esami entro 48 ore, niente anticoagulante",
+    "condition": "TIA con ABCD2 fra 6 e 7, senza fibrillazione nuova",
+    "frequencyCategory": "HIGH",
     "difficulty": "INTERMEDIATE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "LG-340-SIN_SM.pdf"
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "tia-abcd2-tool.pdf; Scheda SIRM; RM paganti"
   },
   {
     "id": "NEURO-009",
-    "title": "Parkinson all'esordio tremorigeno",
-    "condition": "Malattia di Parkinson idiopatica, esordio unilaterale tremorigeno",
-    "frequencyCategory": "HIGH",
+    "title": "TIA e stenosi carotidea 80%: endoarterectomia entro due settimane, niente bypass",
+    "condition": "TIA cerebrale attribuito a stenosi della carotide interna fra 70 e 99%",
+    "frequencyCategory": "MEDIUM",
     "difficulty": "INTERMEDIATE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "lineeguida.pdf"
+    "setting": "REPARTO",
+    "guidelineRef": "tia-abcd2-tool.pdf; RM paganti; Scheda SIRM"
   },
   {
     "id": "NEURO-010",
-    "title": "Radicolopatia lombare con deficit motorio",
-    "condition": "Radicolopatia S1 destra da ernia discale, con deficit motorio",
-    "frequencyCategory": "HIGH",
+    "title": "Ricaduta di sclerosi multipla: steroide in ospedale, non il kit per casa",
+    "condition": "Ricaduta di sclerosi multipla dell'adulto, steroide da decidere con il neurologo della SM",
+    "frequencyCategory": "MEDIUM",
     "difficulty": "INTERMEDIATE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf"
+    "setting": "REPARTO",
+    "guidelineRef": "LG-340-SIN_SM.pdf; scala EDSS; all_4_neurologia.pdf; RM paganti"
   },
   {
     "id": "NEURO-011",
-    "title": "Miastenia gravis con ptosi serale",
-    "condition": "Miastenia gravis oculare-bulbare, da escludere un timoma",
+    "title": "Sospetta sclerosi multipla: non basta la risonanza, servono il neurologo e i McDonald 2017",
+    "condition": "Sospetto di sclerosi multipla recidivante, diagnosi non ancora posta",
     "frequencyCategory": "MEDIUM",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "lineeguida.pdf"
+    "guidelineRef": "LG-340-SIN_SM.pdf; RM paganti; Scheda SIRM"
   },
   {
     "id": "NEURO-012",
-    "title": "Polineuropatia diabetica e piede a rischio",
-    "condition": "Polineuropatia distale simmetrica diabetica con piede a rischio",
+    "title": "Parkinson iniziale: levodopa a dose minima, non l'ergot e non l'anticolinergico",
+    "condition": "Malattia di Parkinson allo stadio iniziale con sintomi motori",
     "frequencyCategory": "HIGH",
     "difficulty": "INTERMEDIATE",
     "setting": "AMBULATORIO",
-    "guidelineRef": "lineeguida.pdf"
+    "guidelineRef": "lineeguida.pdf SNLG Parkinson 2013; Scheda SIRM; RM paganti"
   },
   {
     "id": "NEURO-013",
-    "title": "Nevralgia del trigemino",
-    "condition": "Nevralgia trigeminale classica, conflitto neurovascolare da documentare",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "INTERMEDIATE",
+    "title": "Emicrania senz'aura stabile: triptano nella crisi forte, niente RM encefalo",
+    "condition": "Emicrania senz'aura ICHD-3 1.1, senza segni di allarme, attacco moderato-forte",
+    "frequencyCategory": "HIGH",
+    "difficulty": "BASE",
     "setting": "AMBULATORIO",
-    "guidelineRef": "cefalee primarie.pdf"
+    "guidelineRef": "ICHD-3-Italian.pdf; cefalee primarie.pdf; Scheda SIRM; RM paganti"
   },
   {
     "id": "NEURO-014",
-    "title": "Sindrome di Guillain-Barré",
-    "condition": "Poliradicoloneuropatia infiammatoria acuta con rischio respiratorio",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "ADVANCED",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "lineeguida.pdf"
+    "title": "Lombalgia da due settimane, senza allarmi: niente RM",
+    "condition": "Lombalgia nelle prime sei settimane senza segni di allarme",
+    "frequencyCategory": "HIGH",
+    "difficulty": "BASE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Scheda-SIRM-1-2022_gen_23.pdf; RM paganti; Fasdac"
   },
   {
     "id": "NEURO-015",
-    "title": "Encefalite erpetica",
-    "condition": "Encefalite da HSV, terapia antivirale empirica immediata",
-    "frequencyCategory": "LOW",
-    "difficulty": "ADVANCED",
+    "title": "Trauma lieve, GCS 15, solo dolore sul punto dell'urto: niente radiografia e niente TC subito",
+    "condition": "Trauma cranico lieve con GCS 15, senza fattori di rischio e con solo dolore locale",
+    "frequencyCategory": "HIGH",
+    "difficulty": "BASE",
     "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "RACHICENTESI-Informativa-e-consenso.pdf"
+    "guidelineRef": "Scheda-SIRM-1-2022_gen_23.pdf; Fasdac RX cranio e TC encefalo"
   },
   {
     "id": "NEURO-016",
-    "title": "Sclerosi laterale amiotrofica, esordio bulbare",
-    "condition": "Malattia del motoneurone a esordio bulbare",
-    "frequencyCategory": "LOW",
-    "difficulty": "ADVANCED",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "lineeguida.pdf"
+    "title": "Trauma lieve con GCS 14: la TC e il riferimento, la lastra del cranio no",
+    "condition": "Trauma cranico lieve con GCS 14, senza i criteri di esclusione, in cui la TC e l'esame di riferimento",
+    "frequencyCategory": "HIGH",
+    "difficulty": "INTERMEDIATE",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "Scheda-SIRM-1-2022_gen_23.pdf; Fasdac RX cranio"
   },
   {
     "id": "NEURO-017",
-    "title": "Stato di male epilettico",
-    "condition": "Stato di male epilettico convulsivo generalizzato",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "ADVANCED",
+    "title": "Prima crisi non provocata: non e gia epilessia, e la patente aspetta sei mesi",
+    "condition": "Prima crisi epilettica non provocata, gruppo 1 della patente",
+    "frequencyCategory": "HIGH",
+    "difficulty": "INTERMEDIATE",
     "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "updated-classification-of-epileptic-seizures-2025.pdf"
+    "guidelineRef": "web_2023_guida_alle_epilessie.pdf; Beghi_Epilessia.pdf; RM paganti"
   },
   {
     "id": "NEURO-018",
-    "title": "Trombosi venosa cerebrale",
-    "condition": "Trombosi del seno sagittale superiore con infarcimento emorragico venoso",
+    "title": "Epilessia gia nota: la patente di gruppo 1 dopo un anno senza crisi, certificato",
+    "condition": "Epilessia con un anno senza crisi, patente di gruppo 1",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "INTERMEDIATE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Beghi_Epilessia.pdf; web_2023_guida_alle_epilessie.pdf"
+  },
+  {
+    "id": "NEURO-019",
+    "title": "Crisi solo nel sonno, poi una da sveglio, poi un calo della terapia",
+    "condition": "Crisi in sonno e poi in veglia, e riduzione della terapia decisa dal medico, patente di gruppo 1",
     "frequencyCategory": "LOW",
     "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Beghi_Epilessia.pdf"
+  },
+  {
+    "id": "NEURO-020",
+    "title": "Due crisi spontanee a piu di un giorno: e epilessia, e non si chiama Grande Male",
+    "condition": "Due crisi spontanee a distanza superiore alle 24 ore",
+    "frequencyCategory": "HIGH",
+    "difficulty": "INTERMEDIATE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "web_2023_guida_alle_epilessie.pdf; Beghi_Epilessia.pdf; all_4_neurologia.pdf"
+  },
+  {
+    "id": "NEURO-021",
+    "title": "Guillain-Barre: immunoglobuline, non il cortisone",
+    "condition": "Poliradicoloneuropatia acuta, terapia con immunoglobuline e controllo del respiro",
+    "frequencyCategory": "LOW",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "guillan barre.pdf; modulo rachicentesi; RM paganti"
+  },
+  {
+    "id": "NEURO-022",
+    "title": "Rachicentesi: il consenso si ritira, e in anticoagulante non si punge",
+    "condition": "Indicazione diagnostica alla rachicentesi in una paziente anticoagulata che ritira il consenso",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
     "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "linee guida iso spread.pdf"
+    "guidelineRef": "RACHICENTESI-Informativa-e-consenso.pdf; 61302046_est.pdf; RM paganti"
+  },
+  {
+    "id": "NEURO-023",
+    "title": "Delirium nell'anziano: prima le cause, non la contenzione e non la benzodiazepina",
+    "condition": "Delirium nell'anziano senza indicazione a neuroimaging",
+    "frequencyCategory": "HIGH",
+    "difficulty": "INTERMEDIATE",
+    "setting": "REPARTO",
+    "guidelineRef": "Item-8 delirium SIGG; RM paganti; capitolo sul rifiuto"
+  },
+  {
+    "id": "NEURO-024",
+    "title": "Lamenta la memoria: anamnesi, IADL e MMSE corretto, non la RM per prima",
+    "condition": "Disturbo soggettivo di memoria nell'anziano, senza un MMSE corretto per eta e scolarita",
+    "frequencyCategory": "HIGH",
+    "difficulty": "INTERMEDIATE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Item-7 performance cognitive SIGG; RM paganti"
+  },
+  {
+    "id": "NEURO-025",
+    "title": "Morte encefalica dopo anossia: EEG obbligatorio e sei ore, non la risonanza",
+    "condition": "Sospetta morte con criteri neurologici dopo insulto anossico, accertamento non ancora apribile",
+    "frequencyCategory": "LOW",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "la morte encefalica.pdf; legge 578/1993 e decreto 2008 citati nelle slide; RM paganti"
   }
 ]

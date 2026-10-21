@@ -1,239 +1,455 @@
 {
   "id": "NEURO-010",
   "code": "NEURO-010",
-  "title": "Radicolopatia lombare con deficit motorio",
-  "description": "Salvatore D., 46 anni, magazziniere, ha un dolore lombare irradiato alla gamba destra da dieci giorni, dopo un carico. Da ieri non sta sulla punta del piede destro e inciampa. È una radicolopatia S1 con deficit motorio, red flag, non una lombalgia da trattare solo con analgesici. Il percorso è l'esame della forza (gastrocnemio e flessione plantare), la RM del rachide lombosacrale (220 euro) e l'EMG (70 euro) per il livello e l'impegno assonale. Il budget è 400 euro e contiene questi due esami. La trappola è mandarlo a casa con FANS e riposo perché «l'ernia si cura col tempo», senza misurare il piede. PET e scintigrafia sono le spese che sfondano il percorso.",
+  "title": "Ricaduta di sclerosi multipla: steroide in ospedale, non il kit per casa",
+  "description": "Marta, 34 anni, SM gia nota, nuova neurite ottica da due giorni. Cammina da sola per piu di 500 metri. Il neurologo della SM, sentito, conferma la ricaduta e lo steroide.",
   "difficulty": "MEDIUM",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Radicolopatia S1 destra da ernia discale, con deficit motorio",
-  "frequencyCategory": "HIGH",
+  "condition": "Ricaduta di sclerosi multipla dell'adulto, steroide da decidere con il neurologo della SM",
+  "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "INTERMEDIATE",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
-  "diagnosis": "Ernia del disco L5-S1 destra con conflitto sulla radice S1 e deficit della flessione plantare. Indicazione a RM urgente e EMG, non a sola analgesia. Nessuna sindrome della cauda su questo esame, ma il deficit motorio è già una red flag.",
-  "pastMedicalHistory": "Lombalgia meccanica episodica da anni, sempre senza irradiazione e sempre passata in pochi giorni. Nessun pregresso intervento vertebrale. Nessun tumore, nessuna febbre, nessun uso di droghe endovena, nessun anticoagulante. Fuma 15 sigarette. Assume ibuprofene da dieci giorni, dolore ancora 7/10, e da ieri il piede «non spinge». Allergie: nessuna. Lavora su turni, vuole il certificato e tornare in magazzino domani.",
-  "presentation": "Zoppica, non esegue la flessione plantare destra contro resistenza, il riflesso achilleo destro è assente, la sensibilità è ridotta sul bordo laterale del piede. Lasègue positivo a 40 gradi a destra. Forza della dorsiflessione conservata (L5 risparmiata). Non ha ritenzione, non ha anestesia a sella, non ha febbre. Se il medico non gli fa alzare il tallone, lui parla solo del mal di schiena e sembra una lombalgia comune. Parametri: PA 142/86 mmHg, FC 82, SpO2 98%, FR 16, temperatura 36,6 °C.",
+  "setting": "REPARTO",
+  "guidelineRef": "LG-340-SIN_SM.pdf; scala EDSS; all_4_neurologia.pdf; RM paganti",
+  "diagnosis": "Non ogni ricaduta vuole lo steroide: va discusso con il neurologo esperto di SM. Se si tratta, metilprednisolone 1 g endovena per 3-5 giorni, o fino a 7-10 se la ricaduta e grave, sotto controllo medico. L'orale 0,5-1 g al giorno per 3-5 giorni e un'alternativa debole solo se l'endovena e difficile. Niente kit di steroide a casa per le prossime ricadute.",
+  "pastMedicalHistory": "SM recidivante nota. Niente gravidanza. Funzione renale gia nota, non serve un contrasto oggi.",
+  "presentation": "Calo del visus e dolore all'occhio da due giorni. EDSS compatibile con deambulazione autonoma: il punteggio 4 del modello descrive circa 500 metri senza aiuto e senza riposo.",
   "redHerrings": [
-    "Anni di mal di schiena meccanico fanno sembrare anche questo episodio «il solito».",
-    "Chiede un certificato e un antinfiammatorio, non un ricovero né una RM.",
-    "Non ha i segni della cauda: il medico può convincersi che non ci sia alcuna red flag.",
-    "Il dolore risponde poco al FANS, e la tentazione è alzare l'oppioide invece di guardare il piede."
+    "Le lasciano le compresse a casa per la prossima volta.",
+    "Chiedono una RM encefalo senza aver parlato con il neurologo della SM e senza un quesito di oggi."
   ],
-  "timeLimitMinutes": 70,
-  "patientDeteriorationThreshold": 35,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: STABILE, carattere seccato e pratico, dolore alla schiena ma parli. Sei Salvatore, 46 anni, magazziniere, Pronto Soccorso. Non fare il paziente collaborativo da manuale. Alla «Come sta?»: «La schiena. Domani ho il turno. Mi serve il certificato, non un discorso.» Il piede che non spinge lo dici solo se ti chiedono di camminare in punta o se la gamba si è indebolita: allora, infastidito, «Da ieri inciampo. Il tallone destro non sale.» Niente sella addormentata, niente ritenzione, niente febbre, e lo dici solo se te lo chiedono, secco. Se ti danno solo un antinfiammatorio e il riposo, ringrazi in una frase e chiedi il certificato. Se ti visitano la forza e ti spiegano la risonanza, accetti anche se hai paura dell'operazione. Se ti offrono morfina senza visitarti, accetti il sollievo e non ricordi tu il piede. Non nominare tu ernia, S1 o red flag. Se passano troppi minuti senza che nessuno guardi la gamba: «Il piede è più freddo. Più debole.»",
-  "correctSolution": "Radicolopatia S1 destra con deficit motorio. RM lombosacrale urgente, EMG, non sola analgesia, valutazione neurochirurgica. Cauda esclusa all'esame ma da richiedere comunque. Il deficit di flessione plantare è la red flag che vieta la dimissione con soli FANS.",
-  "goldStandardPath": ["esame-motorio", "rm", "emg"],
-  "goldPathNarrative": "1) Esame della forza: non sta sulla punta a destra, achilleo assente, ipoestesia S1, Lasègue positivo, L5 conservata, niente sella e niente ritenzione. Il deficit motorio è la red flag, anche senza cauda. 2) RM rachide lombosacrale: ernia L5-S1 paramediana destra che comprime S1. Costo 220 euro. È l'imaging appropriato, non una TC «tanto per» e non una PET. 3) EMG: denervazione nel miomero S1, conferma l'impegno assonale. Costo 70 euro. Ideale circa 291 euro, budget 400. Trattare solo con analgesici, senza RM, è il mancato riconoscimento della red flag. PET 950 e scintigrafia 250 non hanno indicazione e sfondano il budget.",
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Marta. L'occhio e calato. Voglio lo steroide in controllo, non una scorta da prendere da sola la prossima volta. Se parliamo di fatica, non inventate i milligrammi dell'amantadina.",
+  "correctSolution": "Confermi la ricaduta con il neurologo della SM. Metilprednisolone 1 g endovena per 3-5 giorni sotto controllo. Non prescriva il kit domiciliare. Non usi l'orale se l'endovena e fattibile. L'amantadina e solo l'estensione di indicazione per la fatica, senza dose in questo allegato.",
+  "goldStandardPath": [
+    "visita-sm",
+    "creatinina"
+  ],
+  "goldPathNarrative": "Ricaduta confermata dallo specialista. Steroide endovena al grammo, sotto controllo, senza scorta per casa.",
   "examLatencies": {
-    "esame-motorio": 8,
-    "rm": 35,
-    "emg": 25,
-    "tc": 25,
-    "rx-colonna": 15,
-    "pet-tc": 240,
-    "scintigrafia": 180
+    "visita-sm": 30,
+    "creatinina": 20,
+    "rm-encefalo": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-forza",
-      "prompt": "Riesce a stare sulla punta del piede, e da quando inciampa?",
+      "id": "spec",
+      "prompt": "Il neurologo della SM ha confermato ricaduta e steroide?",
       "critical": true,
-      "expectedKeywords": ["punta", "inciampa", "ieri"],
-      "rationale": "Il deficit di S1 è la red flag. Se si chiede solo del dolore lombare, si perde."
+      "expectedKeywords": [
+        "si",
+        "neurologo",
+        "ricaduta"
+      ],
+      "rationale": "Non tutte le ricadute vogliono lo steroide: lo decide con lo specialista."
     },
     {
-      "id": "aq-cauda",
-      "prompt": "Ha ritenzione, incontinenza o la sella addormentata?",
+      "id": "via",
+      "prompt": "Riesce a fare l'endovena in ospedale?",
       "critical": true,
-      "expectedKeywords": ["ritenzione", "sella", "urine"],
-      "rationale": "La cauda va cercata. Qui è assente, ma il deficit motorio resta sufficiente a non dimettere con soli analgesici."
-    },
-    {
-      "id": "aq-febbre",
-      "prompt": "Ha febbre, tumori noti o un'infezione recente?",
-      "critical": false,
-      "expectedKeywords": ["febbre", "tumore", "infezione"],
-      "rationale": "Esclude le red flag infettive e neoplastiche, qui non presenti, senza abbassare l'urgenza del deficit."
+      "expectedKeywords": [
+        "si",
+        "endovena",
+        "ospedale"
+      ],
+      "rationale": "L'orale e solo se l'endovena e difficile."
     }
   ],
   "physicalExam": {
-    "summary": "Flessione plantare destra 3/5, non sta sulla punta, achilleo destro assente, ipoestesia del bordo laterale del piede e della pianta, Lasègue destro a 40 gradi. Dorsiflessione conservata. Forza prossimale normale. Nessuna anestesia a sella, tono anale non esplorato se non lo si cerca: se si cerca, è conservato e non c'è globo. Non febbre. Il dolore lombare è presente ma non è il dato decisionale."
+    "summary": "Visus ridotto da un occhio, dolore, resto stabile, cammina senza aiuto."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-010-rm",
+      "chunkId": "d",
+      "source": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+      "quote": "Gli operatori non specialisti di SM dovrebbero discutere con uno specialista neurologo esperto di SM la diagnosi di riesacerbazione e se considerare il trattamento con steroidi, poiche non tutte le ricadute di malattia necessitano di terapia steroidea."
+    },
+    {
+      "chunkId": "mp",
+      "source": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+      "quote": "Prescrivere metilprednisolone 1 gr per 3-5 gg e.v. o, in relazione alla gravita della ricaduta, sino a 7-10 gg, da effettuarsi sotto controllo medico"
+    },
+    {
+      "chunkId": "or",
+      "source": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+      "quote": "In caso di difficolta ad eseguire somministrazione e.v., considerare di trattare la ricaduta di SM con metilprednisolone per via orale 0.5-1g/die per 3-5 gg."
+    },
+    {
+      "chunkId": "h",
+      "source": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+      "quote": "Non prescrivere alle persone con SM una supplementazione steroide da autosomministrarsi a casa in caso di nuove riesacerbazioni."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+      "quote": "Sviluppare percorsi clinico-assistenziali locali per un trattamento tempestivo della riesacerbazione della SM, includendo anche il follow-up."
+    },
+    {
+      "chunkId": "ed",
+      "source": "knowledge_base/neurologia/clinic/Modello-scala-Expanded-Disability-Status-Scale-EDSS.pdf",
+      "quote": "4 Paziente autonomo, deambulante senza aiuto e senza riposo, per circa 500 metri."
+    },
+    {
+      "chunkId": "am",
+      "source": "knowledge_base/neurologia/economic/all_4_neurologia.pdf",
+      "quote": "Amantadina. Morbo di Parkinson, parkinsonismi. Estensione: Fatica nella sclerosi multipla."
+    },
+    {
+      "chunkId": "rm",
       "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
-      "quote": "Sintesi operativa: con un deficit motorio radicolare la RM del rachide è l'imaging che mostra il conflitto. Non si sostituisce con un analgesico né con una scintigrafia. Il costo della RM, in questo caso, è parte del percorso, non uno spreco."
-    },
-    {
-      "chunkId": "neuro-010-clinica",
-      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-      "quote": "Sintesi operativa: una lombalgia irradiata con perdita di forza non è la lombalgia meccanica degli anni precedenti. Il deficit motorio è una red flag anche in assenza di sindrome della cauda, e vieta la sola terapia sintomatica."
-    },
-    {
-      "chunkId": "neuro-010-costi",
-      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
-      "quote": "Sintesi operativa sul costo: RM lombare ed EMG stanno nel budget di questo accesso. PET e scintigrafia no, e non rispondono alla domanda sul disco e sulla radice."
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Flessione plantare e achilleo esaminati, non solo il dolore.",
-      "Cauda cercata e risultata assente, senza usare questa assenza per dimettere.",
-      "RM lombosacrale richiesta per il deficit.",
-      "EMG non sostituita da una PET.",
-      "Nessuna dimissione con soli analgesici."
+      "Metilprednisolone 1 g endovena per 3-5 giorni sotto controllo, dopo il confronto con il neurologo della SM.",
+      "Non aggiungere una RM encefalo a 300 euro piu bollo se il quesito di oggi e la ricaduta gia inquadrata e lo steroide."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Dimettere con FANS un deficit di S1, perché il mal di schiena è cronico e non c'è cauda, non aderisce al percorso della radicolopatia con deficit. La RM è l'esame difendibile, l'oppioide da solo no.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Forza segmentaria scritta, non solo la VAS del dolore.",
-        "Domande sulla cauda documentate.",
-        "RM richiesta in urgenza per il deficit motorio.",
-        "Analgesia data insieme al piano diagnostico, non al posto della RM."
+        "Raccomandazione forte: niente steroide da autosomministrare a casa.",
+        "L'orale 0,5-1 g e raccomandazione debole, solo se l'endovena e difficile.",
+        "Non tutte le ricadute richiedono lo steroide."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "esame-motorio",
-      "name": "Esame della forza radicolare",
-      "finding": "Non sta sulla punta del piede destro, flessione plantare 3/5, achilleo assente, ipoestesia S1, Lasègue positivo. Dorsiflessione conservata. Nessuna anestesia a sella, nessun globo. Red flag di deficit motorio presente anche senza cauda.",
+      "examId": "visita-sm",
+      "name": "Consulto del neurologo SM",
+      "finding": "Conferma la ricaduta e l'indicazione allo steroide.",
       "isAbnormal": true,
-      "priceEuro": 1,
       "isFatal": false
     },
     {
-      "examId": "rm",
-      "name": "RM rachide lombosacrale",
-      "finding": "RM lombosacrale: ernia del disco L5-S1 paramediana destra, migrazione caudale contenuta, conflitto sulla radice S1 destra, forame parzialmente impegnato. Cono midollare in sede, nessun ematoma, nessun processo infettivo. Indicazione a valutazione neurochirurgica urgente per il deficit, non a dimissione con FANS. Costo 220 euro.",
-      "isAbnormal": true,
-      "priceEuro": 220
-    },
-    {
-      "examId": "emg",
-      "name": "EMG",
-      "finding": "EMG: denervazione attiva nel gastrocnemio mediale e nel soleo di destra, muscoli L5 risparmiati. Radicolopatia S1 assonale in atto. Conferma che il deficit non è solo dolore. Costo 70 euro.",
-      "isAbnormal": true,
-      "priceEuro": 70
+      "examId": "creatinina",
+      "name": "Creatinina",
+      "finding": "Funzione renale gia nota, utile se si dovesse usare contrasto. Oggi lo steroide non richiede la RM.",
+      "isAbnormal": false,
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET-TC non indicata in un'ernia con deficit. Nessun iperaccumulo utile. Costo 950 euro.",
+      "examId": "rm-extra",
+      "name": "RM encefalo non richiesta",
+      "finding": "Ricaduta clinica gia confermata, steroide gia indicato, nessun nuovo quesito di diagnosi.",
       "isAbnormal": false,
-      "priceEuro": 950,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Medicina difensiva. Non vede il conflitto meglio della RM e sfonda il budget di 400 euro."
-    },
-    {
-      "examId": "scintigrafia",
-      "name": "Scintigrafia ossea",
-      "finding": "Scintigrafia: captazione aspecifica lombare, nessun dato sulla radice. Costo 250 euro. Non sostituisce la RM in un deficit motorio acuto.",
-      "isAbnormal": false,
-      "priceEuro": 250,
-      "inappropriate": true,
-      "wasteRationale": "Esame sbagliato per la domanda clinica. Aggiunta al percorso ideale porta lo scostamento oltre il 50% senza vedere il disco."
-    },
-    {
-      "examId": "rx-colonna",
-      "name": "RX colonna lombare",
-      "finding": "RX: lieve restringimento dello spazio L5-S1. Non mostra l'ernia né la radice. Costo 35 euro. Insufficiente come unico imaging.",
-      "isAbnormal": false,
-      "priceEuro": 35,
-      "inappropriate": true,
-      "wasteRationale": "Usata al posto della RM, rassicura a torto. Non è l'imaging del deficit motorio radicolare."
+      "wasteRationale": "Tariffa 300 euro piu bollo. Il percorso della ricaduta qui e lo steroide sotto controllo, non un'altra RM.",
+      "priceEuro": 300
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 82,
-      "bloodPressure": "142/86",
+      "heartRate": 76,
+      "bloodPressure": "118/72",
       "spo2": 98,
-      "temperature": 36.6,
-      "respiratoryRate": 16
+      "temperature": 36.4,
+      "respiratoryRate": 14
     },
-    "examBudgetEuro": 400,
-    "demographics": { "age": 46, "sex": "M", "name": "Salvatore D." },
-    "clinicalSigns": [
-      {
-        "signName": "Flessione plantare",
-        "result": "Non sta sulla punta a destra. Forza 3/5.",
-        "isPositive": true
-      },
-      {
-        "signName": "Riflesso achilleo",
-        "result": "Assente a destra, presente a sinistra.",
-        "isPositive": true
-      },
-      {
-        "signName": "Anestesia a sella",
-        "result": "Assente. Nessun globo vescicale.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Flessione plantare",
-        "result": "Deficit a destra, red flag motoria.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 34,
+      "sex": "F",
+      "context": "Day hospital neurologico"
+    },
     "advancedExams": {
       "values": {
-        "rm": {
-          "finding": "RM lombosacrale: ernia L5-S1 destra con conflitto su S1. Cono indenne. Costo 220 euro. Esame appropriato.",
-          "isAbnormal": true,
-          "price": 220
+        "visita-sm": {
+          "finding": "Conferma la ricaduta e l'indicazione allo steroide.",
+          "isAbnormal": true
         },
-        "emg": {
-          "finding": "EMG: denervazione S1 destra, L5 risparmiata. Costo 70 euro.",
-          "isAbnormal": true,
-          "price": 70
+        "creatinina": {
+          "finding": "Funzione renale gia nota, utile se si dovesse usare contrasto. Oggi lo steroide non richiede la RM.",
+          "isAbnormal": false
         },
-        "tc": {
-          "finding": "TC lombare senza contrasto: il disco si vede male, nessun dato affidabile sulla radice. Non sostituisce la RM. Costo 120 euro.",
-          "isAbnormal": false,
-          "price": 120
-        },
-        "rx-colonna": {
-          "finding": "RX: spazio L5-S1 ridotto. Non mostra l'ernia. Costo 35 euro.",
-          "isAbnormal": false,
-          "price": 35
-        },
-        "pet-tc": {
-          "finding": "PET-TC non indicata. Costo 950 euro.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "scintigrafia": {
-          "finding": "Scintigrafia aspecifica. Costo 250 euro. Non sostituisce la RM.",
-          "isAbnormal": false,
-          "price": 250
+        "rm-extra": {
+          "finding": "Ricaduta clinica gia confermata, steroide gia indicato, nessun nuovo quesito di diagnosi.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Analgesia insieme a RM, non al posto della RM",
-          "anyOf": [{ "id": "rm", "label": "RM lombosacrale", "aliases": ["rm rachide", "risonanza lombare"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "Solo FANS o oppioide e dimissione, con deficit motorio non studiato", "ids": ["fans-e-casa", "oppioide-e-casa"] }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "DEFENSIVE",
-    "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "STABILE, SECCATO. Magazziniere, vuole il certificato per il turno di domani. Parla della schiena e nasconde il piede debole finché non glielo fanno provare. Preferisce una pastiglia al ricovero."
-  }
+    "healthLiteracy": "HIGH",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Vuole lo schema scritto. Rifiuta la scorta domiciliare e una RM non spiegata."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Non decidere lo steroide da solo",
+      "prompt": "Sintomi nuovi da due giorni in SM nota. Lei non e il neurologo di riferimento della SM.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Ne parli con lo specialista: non tutte le ricadute vogliono lo steroide. Qui lui conferma ricaduta e steroide",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Inizi lo steroide senza quel confronto",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Steroide senza lo specialista",
+      "prompt": "Gli operatori non specialisti di SM dovrebbero discutere con uno specialista neurologo esperto di SM la diagnosi di riesacerbazione e se considerare il trattamento con steroidi, poiche non tutte le ricadute di malattia necessitano di terapia steroidea.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Grammo endovena",
+      "prompt": "L'endovena in ospedale e fattibile. La ricaduta non e descritta come tale da arrivare a 7-10 giorni.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Metilprednisolone 1 g endovena per 3-5 giorni, sotto controllo medico",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Compresse a casa, a dose libera",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Schema diverso dal grammo endovena",
+      "prompt": "Prescrivere metilprednisolone 1 gr per 3-5 gg e.v. o, in relazione alla gravita della ricaduta, sino a 7-10 gg, da effettuarsi sotto controllo medico",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quando l'orale",
+      "prompt": "L'accesso venoso c'e. La raccomandazione orale e debole e vale se l'endovena e difficile: 0,5-1 g al giorno per 3-5 giorni.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Restare sull'endovena. L'orale solo se l'endovena non si puo fare",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Passi all'orale anche se la vena e disponibile",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Orale al posto di un'endovena fattibile",
+      "prompt": "In caso di difficolta ad eseguire somministrazione e.v., considerare di trattare la ricaduta di SM con metilprednisolone per via orale 0.5-1g/die per 3-5 gg.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente kit",
+      "prompt": "Chiede una scatola da tenere in frigo per la prossima ricaduta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non la prescriva",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Le consegni il kit domiciliare",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Steroide da autosomministrare",
+      "prompt": "Non prescrivere alle persone con SM una supplementazione steroide da autosomministrarsi a casa in caso di nuove riesacerbazioni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Percorso e EDSS",
+      "prompt": "Cammina circa 500 metri senza aiuto e senza riposo: il modello EDSS assegna 4 a quel quadro. Il percorso locale della ricaduta include il follow-up.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Lo scriva e fissi il controllo. Non chiami carrozzina un 4",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Le dica che con 500 metri e gia obbligata alla carrozzina",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "EDSS letto male",
+      "prompt": "4 Paziente autonomo, deambulante senza aiuto e senza riposo, per circa 500 metri. Sviluppare percorsi clinico-assistenziali locali per un trattamento tempestivo della riesacerbazione della SM, includendo anche il follow-up.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM encefalo 300 euro piu bollo, senza un quesito nuovo. La ricaduta e gia confermata e lo steroide e gia indicato. Questa RM non e il passaggio di oggi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo prenoti subito: RM encefalo 300 euro piu bollo, senza un quesito nuovo",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. La ricaduta e gia confermata e lo steroide e gia indicato. Questa RM non e il passaggio di oggi. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: kit di steroide per casa. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Fatica, senza milligrammi",
+      "prompt": "Riferisce fatica. L'allegato degli usi consolidati estende l'amantadina alla fatica della SM. Non c'e una dose in quella tabella. La tossina botulinica in tabella non e il farmaco di questa ricaduta visiva.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Puo considerare l'indicazione, senza inventare i milligrammi, e non al posto dello steroide della ricaduta",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Scriva un dosaggio di amantadina che l'allegato non contiene",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dose non scritta",
+      "prompt": "Amantadina, estensione di indicazione: Fatica nella sclerosi multipla. Nella tabella non ci sono milligrammi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Steroide della ricaduta sotto controllo",
+      "prompt": "Ha concordato la ricaduta con il neurologo della SM, ha dato 1 g endovena per 3-5 giorni, non ha lasciato il kit a casa e non ha inventato la dose dell'amantadina.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

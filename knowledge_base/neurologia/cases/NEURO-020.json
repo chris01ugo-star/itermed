@@ -1,0 +1,440 @@
+{
+  "id": "NEURO-020",
+  "code": "NEURO-020",
+  "title": "Due crisi spontanee a piu di un giorno: e epilessia, e non si chiama Grande Male",
+  "description": "Lucia, 22 anni, due crisi tonico-cloniche, la prima tre settimane fa e la seconda ieri, entrambe senza un fattore provocante. Vuole un nome e vuole sapere se puo guidare domani. Nessun farmaco ancora.",
+  "difficulty": "MEDIUM",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Due crisi spontanee a distanza superiore alle 24 ore",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "web_2023_guida_alle_epilessie.pdf; Beghi_Epilessia.pdf; all_4_neurologia.pdf",
+  "diagnosis": "Due crisi spontanee a piu di 24 ore consentono la diagnosi di epilessia. Il 60% e solo l'alternativa della crisi singola, e lo calcola l'epilettologo. Grande Male non si usa. Per la patente serve un anno senza crisi certificato. Carbamazepina autorizzata per le epilessie e per le nevralgie del trigemino, senza milligrammi in allegato, e non per le assenze.",
+  "pastMedicalHistory": "Nessuna nevralgia del trigemino. Nessun assenza nota. Patente gruppo 1 appena presa.",
+  "presentation": "Due eventi chiari, morso della lingua, testimoni, a distanza di settimane.",
+  "redHerrings": [
+    "Vogliono chiamarla Grande Male e farla guidare.",
+    "Vogliono la carbamazepina a una dose inventata, e una RM per la patente."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Lucia. Sono caduta due volte, a settimane di distanza. Voglio il nome giusto. Non chiamatelo Grande Male. Non firmatemi la guida. Se c'e un farmaco autorizzato, non inventate i milligrammi.",
+  "correctSolution": "Diagnosi di epilessia per le due crisi. Niente Grande Male. Niente guida fino a un anno senza crisi, certificato. Se usa carbamazepina, e un'indicazione autorizzata per le epilessie, senza dose in questo allegato, e non per le assenze. Niente RM come permesso di guida.",
+  "goldStandardPath": [
+    "storia-due",
+    "visita"
+  ],
+  "goldPathNarrative": "Due crisi spontanee bastano. La patente no. I milligrammi della carbamazepina non sono nell'allegato.",
+  "examLatencies": {
+    "storia-due": 15,
+    "visita": 20,
+    "rm-encefalo": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "distanza",
+      "prompt": "Le due crisi a quante ore di distanza, ed erano provocate?",
+      "critical": true,
+      "expectedKeywords": [
+        "settimane",
+        "no",
+        "spontanee"
+      ],
+      "rationale": "Servono piu di 24 ore e crisi spontanee."
+    },
+    {
+      "id": "nome",
+      "prompt": "Come la chiamavano in famiglia?",
+      "critical": true,
+      "expectedKeywords": [
+        "grande",
+        "male",
+        "tonico"
+      ],
+      "rationale": "Grande Male non si usa piu."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame normale fra le crisi. Nessun segno di assenza. Nessun trigger."
+  },
+  "escCitations": [
+    {
+      "chunkId": "d",
+      "source": "knowledge_base/neurologia/clinic/web_2023_guida_alle_epilessie.pdf",
+      "quote": "per porre una diagnosi di Epilessia e necessario che il soggetto abbia avuto almeno due crisi epilettiche a distanza di tempo superiore alle 24 ore e che le crisi siano avvenute spontaneamente, cioe non siano state provocate."
+    },
+    {
+      "chunkId": "g",
+      "source": "knowledge_base/neurologia/clinic/web_2023_guida_alle_epilessie.pdf",
+      "quote": "crisi tonico-clonica, conosciuta come crisi di Grande Male, dizione questa che pero non deve essere piu utilizzata."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
+      "quote": "idoneo alla guida dopo un periodo, documentato e certificato dal neurologo, di un anno senza ulteriori crisi."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/neurologia/economic/all_4_neurologia.pdf",
+      "quote": "Carbamazepina. COMPRESSE: epilessie. Nevralgie essenziali del trigemino. Di norma carbamazepina non agisce sul piccolo male. In qualche caso e stata riferita una occasionale intensificazione degli accessi in pazienti affetti da forme di assenza atipica."
+    },
+    {
+      "chunkId": "rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Due crisi spontanee a piu di 24 ore: diagnosi di epilessia. Patente solo dopo un anno certificato.",
+      "Non fare la RM encefalo a 300 euro piu bollo per firmare la guida."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
+      "legalCriteria": [
+        "Non usare Grande Male.",
+        "Non inventare i milligrammi della carbamazepina.",
+        "Non usarla come farmaco delle assenze."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "storia-due",
+      "name": "Storia delle due crisi",
+      "finding": "Tre settimane fa e ieri, entrambe spontanee, con perdita di coscienza.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "visita",
+      "name": "Visita",
+      "finding": "Esame normale oggi. Nessuna assenza.",
+      "isAbnormal": false,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm-encefalo",
+      "name": "RM encefalo per la patente",
+      "finding": "Chiesta al posto dell'anno senza crisi.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Il requisito letto e l'anno certificato. Tariffa 300 euro piu bollo.",
+      "priceEuro": 300
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 80,
+      "bloodPressure": "116/72",
+      "spo2": 99,
+      "temperature": 36.6,
+      "respiratoryRate": 15
+    },
+    "demographics": {
+      "age": 22,
+      "sex": "F",
+      "context": "Ambulatorio"
+    },
+    "advancedExams": {
+      "values": {
+        "storia-due": {
+          "finding": "Tre settimane fa e ieri, entrambe spontanee, con perdita di coscienza.",
+          "isAbnormal": true
+        },
+        "visita": {
+          "finding": "Esame normale oggi. Nessuna assenza.",
+          "isAbnormal": false
+        },
+        "rm-encefalo": {
+          "finding": "Chiesta al posto dell'anno senza crisi.",
+          "isAbnormal": false
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Vuole il nome corretto. Rifiuta Grande Male, la guida domani e una dose inventata."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Due crisi",
+      "prompt": "Distanza di settimane, niente provocazione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Ponga epilessia. Non le servono il calcolo del 60%, che e per la crisi singola",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Aspetti una terza crisi per usare la parola epilessia",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Soglia di due crisi non usata",
+      "prompt": "almeno due crisi epilettiche a distanza di tempo superiore alle 24 ore, spontanee.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Il nome",
+      "prompt": "In cartella c'e Grande Male.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Lo corregga in tonico-clonica. Quella dizione non si usa piu",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo lasci come diagnosi ufficiale",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Grande Male",
+      "prompt": "dizione questa che pero non deve essere piu utilizzata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Guida",
+      "prompt": "Vuole l'auto domani. E epilessia, ultima crisi ieri.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No: un anno senza ulteriori crisi, certificato dal neurologo",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "La dichiari idonea perche e giovane e l'esame di oggi e normale",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Idoneita senza l'anno",
+      "prompt": "un anno senza ulteriori crisi, documentato e certificato dal neurologo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Carbamazepina, senza milligrammi",
+      "prompt": "L'allegato la autorizza per le epilessie, compresse, e per le nevralgie essenziali del trigemino. Non ci sono milligrammi. Di norma non agisce sul piccolo male e puo intensificare assenze atipiche. Lei non ha assenze ne nevralgia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Se la sceglie, lo faccia come antiepilettico autorizzato, senza inventare la dose e senza usarla per un'assenza che non c'e",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Scriva 400 mg due volte al giorno, cifra che l'allegato non contiene",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non scritta",
+      "prompt": "Carbamazepina, compresse: epilessie. Nevralgie essenziali del trigemino. Di norma non agisce sul piccolo male. Nessun milligrammo nella tabella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM encefalo per la patente. Non sostituisce l'anno certificato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo prenoti subito: RM encefalo per la patente",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. Non sostituisce l'anno certificato. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: idoneita alla guida domani. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "In una crisi davanti a voi",
+      "prompt": "Se ne ha un'altra in sala.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non fermi i movimenti, non apra la bocca, non infili oggetti. Ambulanza se si prolunga, non riprende, si ripete o si ferisce",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Le metta un oggetto fra i denti",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Oggetto in bocca",
+      "prompt": "non bisogna tentare di fermare i movimenti, ne di aprire la bocca o cercare di inserire in bocca alcun tipo di oggetto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Nevralgia, se un giorno ci fosse",
+      "prompt": "Oggi non ha nevralgia del trigemino. L'allegato autorizza la carbamazepina anche per le nevralgie essenziali del trigemino, sempre senza milligrammi, e l'estensione al dolore neuropatico non e una dose.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Non le tratti una nevralgia che non ha. Non usi quella riga per giustificare una dose",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Le diagnosti nevralgia del trigemino per poter scrivere una dose",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Indicazione spostata",
+      "prompt": "Nevralgie essenziali del trigemino sono fra le indicazioni gia autorizzate. L'estensione cita il dolore neuropatico, senza milligrammi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Epilessia nominata bene, guida no",
+      "prompt": "Ha posto epilessia sulle due crisi, ha tolto Grande Male, non ha firmato la guida e non ha inventato i milligrammi della carbamazepina.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

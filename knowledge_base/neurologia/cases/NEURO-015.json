@@ -1,226 +1,454 @@
 {
   "id": "NEURO-015",
   "code": "NEURO-015",
-  "title": "Encefalite erpetica",
-  "description": "Nadia K., 54 anni, è portata in Pronto Soccorso perché da un giorno confonde le parole, ha febbre a 38,6 °C e non riconosce il reparto. Il marito riferisce un mal di testa frontale da tre giorni e un episodio in cui fissava il vuoto masticando. È un'encefalite erpetica fino a prova contraria. Il percorso è la rachicentesi urgente, la PCR per HSV sul liquor, e l'aciclovir endovena subito, prima dei risultati. Aspettare la PCR o la RM per dare l'antivirale è la trappola mortale. La RM, se si fa, mostra l'edema temporale e non deve precedere il farmaco. PET e angio non hanno alcun ruolo in questa ora.",
-  "difficulty": "HARD",
+  "title": "Trauma lieve, GCS 15, solo dolore sul punto dell'urto: niente radiografia e niente TC subito",
+  "description": "Enrico, 23 anni, urto alla testa un'ora fa. GCS 15. Niente perdita di coscienza, niente amnesia, niente deficit, niente segni di frattura della base o di frattura affondata. Gli fa male solo il punto dell'urto.",
+  "difficulty": "EASY",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Encefalite da HSV, terapia antivirale empirica immediata",
-  "frequencyCategory": "LOW",
-  "matrixDifficulty": "ADVANCED",
+  "condition": "Trauma cranico lieve con GCS 15, senza fattori di rischio e con solo dolore locale",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/RACHICENTESI-Informativa-e-consenso.pdf",
-  "diagnosis": "Encefalite erpetica temporale sinistra. Liquor infiammatorio, PCR HSV positiva a referto successivo. Aciclovir da iniziare prima di quel referto. Ritardarlo è l'errore che aggrava il danno.",
-  "pastMedicalHistory": "Ipertensione in ramipril. Nessuna immunodepressione nota, nessun HIV noto, nessuna neurochirurgia, nessun herpes labiale in questo momento. Non viaggi recenti. Marito riferisce che ieri ha detto frasi senza senso e ha avuto un episodio di masticazione a vuoto di un minuto. Allergie: nessuna. Assume solo la pressione. Non anticoagulanti: la puntura non ha questa controindicazione.",
-  "presentation": "Febbricitante, GCS 13 (occhi aperti al richiamo, parole inappropriate, localizza il dolore), afasia fluente con neologismi, non esegue un ordine complesso. Rigida di nuca in modo lieve. Nessun deficit motorio franco, ma non collabora alle prove. Parametri: PA 150/90 mmHg, FC 108, SpO2 97%, FR 20, temperatura 38,6 °C. Se il medico dice «aspettiamo la risonanza e il laboratorio», Nadia smette di nominare gli oggetti e il marito non sa più trattenerla nel letto.",
+  "guidelineRef": "Scheda-SIRM-1-2022_gen_23.pdf; Fasdac RX cranio e TC encefalo",
+  "diagnosis": "Trauma lieve: GCS 14 o 15, esclusi deficit focale, sospetto di frattura affondata e segni di frattura della base. La radiografia del cranio non vede il sanguinamento e non e di routine. Con GCS 15, senza fattori di rischio e con solo dolore nel punto di impatto, e controindicata anche la TC immediata.",
+  "pastMedicalHistory": "Sano. Nessun anticoagulante.",
+  "presentation": "GCS 15, dolore locale, esame senza i criteri di esclusione del trauma lieve.",
   "redHerrings": [
-    "La febbre e la confusione possono essere archiviate come «infezione delle vie urinarie» senza guardare il linguaggio.",
-    "L'afasia isolata può sembrare un ictus, e la RM diventa il primo atto al posto dell'aciclovir.",
-    "La PCR ha un tempo di referto di ore: aspettare quel foglio è l'errore.",
-    "Una TC negativa precoce rassicura e non esclude l'encefalite."
+    "Il triage ha gia chiesto la radiografia del cranio.",
+    "I genitori vogliono la TC per sicurezza."
   ],
-  "timeLimitMinutes": 40,
-  "patientDeteriorationThreshold": 12,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: CONFUSIONALE. Nadia, 54 anni, non può dare una storia. Se parla lei, solo parole lente e senza nesso, o sminuisce. Alla «Come sta?»: Nadia: «Sonno... no... acqua.» Marito: «Dottore, da tre giorni la testa. Adesso non mi segue.» Il marito (premetti «Marito:») racconta, spaventato e a frasi corte, non come un referto: mal di testa da tre giorni, febbre, frasi senza senso, un minuto in cui masticava a vuoto. Nadia non ricostruisce nulla e non diventa lucida a metà colloquio. Se il medico cerca un'infezione urinaria e ignora il linguaggio, il marito non lo corregge con una diagnosi: si fida e aspetta. Se propone l'aciclovir subito, prima dei risultati, il marito chiede se è pericoloso ma accetta quando gli dicono che aspettare è peggio. Se propone di attendere gli esami o la risonanza prima del farmaco, si fida: Nadia peggiora e non risponde più al nome, solo un mugolio. Non nominare tu herpes, PCR o temporale. Se fanno la puntura, il marito le tiene la mano e firma se gli spiegano.",
-  "correctSolution": "Encefalite da HSV fino a prova contraria. Rachicentesi urgente, PCR HSV richiesta, aciclovir endovena immediato senza aspettare il referto né la RM. La RM temporale è compatibile e si fa dopo, o in parallelo, senza ritardare la prima dose. Niente PET, niente angio.",
-  "goldStandardPath": ["liquidi", "pcr-hsv", "aciclovir"],
-  "goldPathNarrative": "1) Rachicentesi: liquor limpido o appena torbido, linfociti, proteine alte, glucosio normale, emazie presenti se c'è necrosi. Costo 60 euro. Il consenso si raccoglie in pochi minuti, non in un turno. 2) PCR per HSV sul liquor: va richiesta subito e il referto arriva dopo, latenza lunga. Costo 48 euro. 3) Aciclovir endovena alla prima ipotesi, prima della PCR e prima della RM. È l'atto salvavita. Ideale circa 109 euro, budget 450, così una RM temporale a 220 euro, giustificata ma successiva, non è la penalità. La penalità mortale è attendere. PET 950 euro e angio 350 euro sono medicina difensiva e rubano i minuti della prima dose. Soglia di peggioramento: 12 minuti senza antivirale.",
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Enrico. Ho preso una botta, sono sveglio, mi fa male solo li. Non voglio la lastra del cranio ne la TC se il testo dice di no. I miei non decidono per me.",
+  "correctSolution": "Non faccia la radiografia del cranio. Non faccia la TC immediata. Osservi. Se compaiono deficit, vomito, o un GCS che scende, il quadro non e piu questo. Rispetti il suo no.",
+  "goldStandardPath": [
+    "gcs",
+    "esame-trauma"
+  ],
+  "goldPathNarrative": "GCS 15 e solo dolore locale. Lastra e TC immediata sono le due cose che la scheda sconsiglia, e hanno una tariffa.",
   "examLatencies": {
-    "liquidi": 15,
-    "pcr-hsv": 180,
-    "aciclovir": 5,
-    "rm": 70,
-    "tc": 20,
-    "pet-tc": 240,
-    "angio": 60,
-    "eeg": 25
+    "gcs": 5,
+    "esame-trauma": 10,
+    "rx-cranio": 20
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-febbre",
-      "prompt": "Da quando ha febbre, mal di testa e parole senza senso?",
+      "id": "gcs15",
+      "prompt": "Qual e il GCS e c'e stato uno svenimento?",
       "critical": true,
-      "expectedKeywords": ["febbre", "mal di testa", "parole"],
-      "rationale": "Febbre più afasia acuta non è un ictus da mandare solo in RM, ed è il profilo dell'encefalite."
+      "expectedKeywords": [
+        "quindici",
+        "no",
+        "GCS"
+      ],
+      "rationale": "GCS 15 senza fattori di rischio controindica la TC immediata."
     },
     {
-      "id": "aq-crisi",
-      "prompt": "Ha fissato il vuoto, masticato o avuto una crisi?",
+      "id": "base",
+      "prompt": "Ci sono segni di frattura della base o un deficit?",
       "critical": true,
-      "expectedKeywords": ["masticava", "vuoto", "crisi"],
-      "rationale": "La crisi focale temporale rafforza l'HSV e non è un motivo per ritardare l'aciclovir."
-    },
-    {
-      "id": "aq-attesa",
-      "prompt": "Il farmaco antivirale è partito prima del referto della PCR?",
-      "critical": true,
-      "expectedKeywords": ["aciclovir", "prima", "referto"],
-      "rationale": "La domanda di controllo: se la risposta è no, la trappola mortale si è chiusa."
+      "expectedKeywords": [
+        "no",
+        "deficit",
+        "base"
+      ],
+      "rationale": "Quei segni escludono il trauma lieve della scheda."
     }
   ],
   "physicalExam": {
-    "summary": "GCS 13, afasia fluente, febbre 38,6 °C, rigidità nucale lieve, nessuna emiplegia franca, pupille reagenti, masticazione a vuoto riferita. Non è un paziente da dimettere in attesa di un appuntamento di RM. Il linguaggio va descritto, non archiviato come confusione generica."
+    "summary": "GCS 15, pupille uguali, forza simmetrica, niente otorragia, niente ecchimosi periorbitaria, dolore solo sul cuoio capelluto."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-015-lp",
-      "source": "knowledge_base/neurologia/clinic/RACHICENTESI-Informativa-e-consenso.pdf",
-      "quote": "Sintesi operativa: nel sospetto di encefalite la puntura è urgente e il consenso si spiega in breve. Il liquor orienta, ma l'antivirale non aspetta il foglio della PCR."
+      "chunkId": "x",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "Non eseguire di routine radiografia del cranio nel trauma cranico lieve."
     },
     {
-      "chunkId": "neuro-015-farmaco",
-      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-      "quote": "Sintesi operativa: l'aciclovir endovena si inizia appena l'encefalite erpetica è un'ipotesi credibile, prima della conferma di laboratorio e senza usare la RM come cancello. Il ritardo è il danno."
+      "chunkId": "c",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "Un punteggio GCS di 15 (paziente pienamente cosciente) e assenza di fattori di rischio e di sintomatologia tranne dolore nel punto di impatto controindicano peraltro anche la effettuazione immediata di TC."
     },
     {
-      "chunkId": "neuro-015-costi",
+      "chunkId": "r",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "La Radiografia del cranio puo identificare fratture che sono associate a un aumentato rischio di sanguinamento intracranico, ma non identifica il sanguinamento intracranico."
+    },
+    {
+      "chunkId": "rx",
       "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
-      "quote": "Sintesi operativa sul costo: liquor e PCR sono il percorso. PET e angio-RM non diagnosticano l'HSV in tempo utile e spostano minuti e spesa lontano dalla prima dose di aciclovir."
+      "quote": "DI RX 000000612 RX cranio (tre proiezioni) 36,00"
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI TC 000004210 TC encefalo senza contrasto 136,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Febbre, cefalea e afasia lette come encefalite, non come infezione urinaria.",
-      "Rachicentesi urgente con consenso.",
-      "PCR HSV richiesta.",
-      "Aciclovir partito prima del referto.",
-      "RM non usata come condizione per la prima dose."
+      "GCS 15, solo dolore locale, nessun fattore di rischio: niente radiografia e niente TC immediata.",
+      "RX cranio Fasdac 36 euro; TC encefalo 136 euro."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Attendere la PCR o una RM negativa-precoce prima dell'aciclovir, in una paziente febbrile e afasica, non aderisce al percorso dell'encefalite erpetica. È l'omissione che il caso tratta come mortale.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Orario della prima dose di aciclovir scritto, precedente al referto.",
-        "Consenso alla rachicentesi documentato.",
-        "PCR HSV richiesta, non usata come cancello.",
-        "Nessuna dimissione con febbre e afasia acuta."
+        "La lastra non vede il sangue e ritarda la TC quando la TC servisse.",
+        "I genitori non superano il rifiuto di un adulto capace.",
+        "Se compaiono deficit il caso esce da questa scheda."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "liquidi",
-      "name": "Rachicentesi urgente",
-      "finding": "Liquor: 86 linfociti/mm3, 12 eritrociti/mm3, proteine 78 mg/dL, glucosio 62 mg/dL con glicemia 108. Gram negativo. Quadro virale, compatibile con HSV, non atteso un batterio. Costo 60 euro. Si manda la PCR e non si aspetta per il farmaco.",
-      "isAbnormal": true,
-      "priceEuro": 60
-    },
-    {
-      "examId": "pcr-hsv",
-      "name": "PCR per HSV sul liquor",
-      "finding": "PCR HSV-1 positiva. Il referto arriva dopo ore (latenza di simulazione 180 minuti). È la conferma, non il permesso di iniziare. Chi ha aspettato questo foglio ha perso la finestra. Costo 48 euro.",
-      "isAbnormal": true,
-      "priceEuro": 48
-    },
-    {
-      "examId": "aciclovir",
-      "name": "Aciclovir endovena empirico",
-      "finding": "Aciclovir endovena al dosaggio per l'encefalite, iniziato subito, prima della PCR e senza attendere la RM. Idratazione e controllo della funzione renale in parallelo. Se questa dose manca, o parte dopo il referto, il caso è l'errore mortale. Costo dell'atto decisionale trascurabile rispetto al ritardo.",
+      "examId": "gcs",
+      "name": "Glasgow Coma Scale",
+      "finding": "15. Nessuna perdita di coscienza riferita.",
       "isAbnormal": false,
-      "priceEuro": 1,
-      "isFatal": true
+      "isFatal": false
+    },
+    {
+      "examId": "esame-trauma",
+      "name": "Esame del trauma lieve",
+      "finding": "Niente deficit focale, niente segni di frattura della base, niente sospetto di frattura affondata. Dolore solo sul punto di impatto.",
+      "isAbnormal": false,
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET-TC non indicata e non disponibile in tempi compatibili. Costo 950 euro. Nessun effetto sulla prima dose.",
+      "examId": "rx-cranio",
+      "name": "Radiografia del cranio",
+      "finding": "Trauma lieve, GCS 15.",
       "isAbnormal": false,
-      "priceEuro": 950,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Medicina difensiva che ritarda l'aciclovir. 950 euro contro un ideale di circa 109, molto oltre il 50%."
+      "wasteRationale": "SIRM: non di routine. Fasdac 36 euro. Non identifica il sanguinamento.",
+      "priceEuro": 36
     },
     {
-      "examId": "angio",
-      "name": "Angio-RM",
-      "finding": "Angio-RM negativa. Non spiega la febbre e l'afasia e consuma tempo. Costo 350 euro.",
+      "examId": "tc-subito",
+      "name": "TC encefalo immediata",
+      "finding": "GCS 15 senza fattori di rischio e con solo dolore locale.",
       "isAbnormal": false,
-      "priceEuro": 350,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Esame vascolare senza ipotesi vascolare primaria. Supera il 50% del percorso ideale e sposta l'orario della prima dose."
+      "wasteRationale": "SIRM: controindicata la TC immediata. Fasdac 136 euro.",
+      "priceEuro": 136
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 108,
-      "bloodPressure": "150/90",
-      "spo2": 97,
-      "temperature": 38.6,
-      "respiratoryRate": 20
+      "heartRate": 76,
+      "bloodPressure": "120/74",
+      "spo2": 99,
+      "temperature": 36.6,
+      "respiratoryRate": 14
     },
-    "examBudgetEuro": 450,
-    "demographics": { "age": 54, "sex": "F", "name": "Nadia K." },
-    "clinicalSigns": [
-      {
-        "signName": "Afasia",
-        "result": "Linguaggio fluente inappropriato, non esegue ordini complessi.",
-        "isPositive": true
-      },
-      {
-        "signName": "Rigidità nucale",
-        "result": "Lieve. Febbre presente.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Afasia",
-        "result": "Presente, con febbre.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 23,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "liquidi": {
-          "finding": "Liquor linfocitario, proteine alte, glucosio normale, qualche eritrocita. Si manda la PCR. Costo 60 euro. Non aspettare per l'aciclovir.",
-          "isAbnormal": true,
-          "price": 60
+        "gcs": {
+          "finding": "15. Nessuna perdita di coscienza riferita.",
+          "isAbnormal": false
         },
-        "rm": {
-          "finding": "RM encefalo: edema e restrizione del lobo temporale sinistro e dell'insula, compatibile con encefalite erpetica. Referto utile e tardivo se ha ritardato la prima dose. Costo 220 euro. Non è un esame da evitare, è un esame da non mettere davanti all'aciclovir.",
-          "isAbnormal": true,
-          "price": 220
+        "esame-trauma": {
+          "finding": "Niente deficit focale, niente segni di frattura della base, niente sospetto di frattura affondata. Dolore solo sul punto di impatto.",
+          "isAbnormal": false
         },
-        "tc": {
-          "finding": "TC cranio precoce sostanzialmente negativa, lieve ipodensità temporale dubbia. Non esclude l'encefalite e non autorizza ad aspettare. Costo 120 euro.",
-          "isAbnormal": false,
-          "price": 120
+        "rx-cranio": {
+          "finding": "Trauma lieve, GCS 15.",
+          "isAbnormal": false
         },
-        "eeg": {
-          "finding": "EEG: attività lenta periodica sulla regione temporale sinistra. Compatibile, non è il permesso per il farmaco. Costo 90 euro.",
-          "isAbnormal": true,
-          "price": 90
-        },
-        "pet-tc": {
-          "finding": "PET-TC non indicata. Costo 950 euro.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "angio": {
-          "finding": "Angio-RM negativa. Non indicata in questa ora. Costo 350 euro.",
-          "isAbnormal": false,
-          "price": 350
+        "tc-subito": {
+          "finding": "GCS 15 senza fattori di rischio e con solo dolore locale.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Aciclovir endovena prima dei referti",
-          "anyOf": [{ "id": "aciclovir", "label": "Aciclovir", "aliases": ["aciclovir", "antivirale"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "Attendere PCR o RM prima dell'antivirale", "ids": ["attesa-referto"] }
-      ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "ANXIOUS",
+    "emotionalState": "OPPOSITIONAL",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
-    "communicationStyle": "CONFUSIONALE. Nadia non dà una storia: parole senza nesso, lente, «ho sonno». Il marito racconta mal di testa, febbre e frasi incongrue, spaventato e corto. Non corregge il medico se perde tempo."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "GOOD",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Non vuole esami inutili. I genitori insistono. Lui e capace e rifiuta lastra e TC."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "E il trauma lieve della scheda?",
+      "prompt": "GCS 15, niente perdita di coscienza, niente deficit, niente segni di base, niente frattura affondata. Solo dolore locale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Si: e il quadro in cui lastra di routine e TC immediata non si fanno",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo tratti come un trauma con deficit e chieda tutto",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Quadro peggiore di quello reale",
+      "prompt": "Il trauma cranico minore o lieve e definito con GCS di 14 o 15. Sono esclusi deficit focali, sospetto di frattura affondata o segni di frattura della base.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente lastra",
+      "prompt": "Il triage ha prenotato tre proiezioni del cranio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "La cancelli: non vede il sangue",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "La faccia per escludere un'emorragia",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Radiografia del cranio",
+      "prompt": "non identifica il sanguinamento intracranico. Pertanto non e indicata di routine nel trauma cranico lieve. DI RX 000000612 RX cranio (tre proiezioni) 36,00",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC immediata",
+      "prompt": "GCS 15, nessun fattore di rischio, solo dolore sul punto dell'urto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non faccia la TC adesso",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "La faccia per tranquillita",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC immediata non indicata",
+      "prompt": "Un punteggio GCS di 15 e assenza di fattori di rischio e di sintomatologia tranne dolore nel punto di impatto controindicano anche la effettuazione immediata di TC. DI TC 000004210 TC encefalo senza contrasto 136,00",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "La lastra ritarda",
+      "prompt": "Se piu tardi comparisse un motivo per la TC, la lastra fatta prima quanto costa in tempo?",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non la metta davanti: ritarderebbe la TC e gli altri esami urgenti",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Faccia prima tutte le proiezioni e poi, se serve, la TC",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Lastra che ritarda la TC",
+      "prompt": "L'effettuazione inappropriata di radiografia cranica nel trauma cranico puo ritardare l'effettuazione di TC e di altri esami urgenti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RX cranio in tre proiezioni, 36 euro. Trauma lieve: la scheda non la vuole di routine.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo prenoti subito: RX cranio in tre proiezioni, 36 euro",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: DI RX 000000612 RX cranio (tre proiezioni) 36,00. Trauma lieve: la scheda non la vuole di routine. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: TC encefalo, che lui rifiuta e che in questo quadro non e immediata. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Cosa guardare",
+      "prompt": "Resta in osservazione clinica. I genitori chiedono di firmare loro la TC contro il suo no.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Osservi lui. Non faccia la TC perche la chiedono i genitori",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "La faccia con la firma dei genitori",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Genitori al posto di un adulto capace",
+      "prompt": "Nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Dopo l'informazione puo non aderirvi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se il quadro cambia",
+      "prompt": "Compare vomito a getto e un deficit. Non e piu solo dolore locale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Allora esca da questa controindicazione e usi la TC, che e l'esame di riferimento per le lesioni di immediata importanza",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Restare sulla regola del GCS 15 anche dopo il deficit",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Regola del GCS 15 tenuta fuori dal suo campo",
+      "prompt": "la Tomografia Computerizzata (TC) e considerata l'esame di riferimento per l'individuazione di lesioni di immediata importanza clinica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Trauma lieve senza lastra e senza TC",
+      "prompt": "Ha riconosciuto il GCS 15 con solo dolore locale, non ha fatto ne lastra ne TC immediata e non ha lasciato decidere i genitori.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

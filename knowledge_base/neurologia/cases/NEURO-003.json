@@ -1,293 +1,450 @@
 {
   "id": "NEURO-003",
   "code": "NEURO-003",
-  "title": "Il tranello burocratico — prima crisi comiziale",
-  "description": "Luca V., studente di ingegneria, 22 anni, è portato in Pronto Soccorso dai compagni di appartamento dopo una perdita di coscienza con scosse. La notte prima ha dormito meno di tre ore (consegna di un progetto), al mattino in cucina è caduto, è diventato rigido, ha avuto scosse ai quattro arti per circa un minuto e mezzo, si è morso il bordo sinistro della lingua e ha perso urina. Al risveglio era confuso per venti minuti. Adesso è lucido, imbarazzato, vuole lo scooter per tornare in facoltà. Negano alcolici oggi; ieri sera due birre. Negano droghe, e lui lo conferma se glielo si chiede in privato. Non ha febbre, non ha trauma cranico prima della caduta, non ha deficit. È la prima crisi della vita. Il percorso non è un antiepilettico «pesante» al triage. È: anamnesi che esclude droghe e alcol come causa acuta, EEG dopo privazione di sonno, RM encefalo con protocollo epilessia, e sospensione temporanea della patente con la notifica prevista. Prescrivere valproato, levetiracetam o carbamazepina prima di avere i referti è l'errore terapeutico. Dimenticare la patente è l'errore legale.",
+  "title": "Occlusione di M1 a due ore: farmaco endovena e trombectomia, non il tirofiban",
+  "description": "Paolo, 66 anni, NIHSS 16 gia calcolato, mRS prima dell'ictus 0, ASPECTS 8, occlusione di M1. Esordio da 2 ore. TC senza sangue. Eleggibile alla trombolisi endovena.",
   "difficulty": "HARD",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Prima crisi tonico-clonica bilaterale dopo deprivazione di sonno, EEG positivo, RM negativa",
-  "frequencyCategory": "HIGH",
+  "condition": "Occlusione prossimale M1 entro 6 ore, NIHSS almeno 6, mRS 0-1, ASPECTS 3-10, ancora in finestra per il farmaco endovena",
+  "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
-  "diagnosis": "Prima crisi epilettica tonico-clonica bilaterale, facilitata dalla deprivazione di sonno, non secondaria a intossicazione, trauma o lesione strutturale. EEG dopo privazione di sonno con anomalie generalizzate. RM protocollo epilessia negativa. Niente terapia cronica iniziata in Pronto Soccorso. Sospensione temporanea della guida e avvio della pratica di idoneità.",
-  "pastMedicalHistory": "Nessuna crisi precedente, nessun assenza nota in età scolare, nessun trauma cranico con perdita di coscienza, nessuna neurochirurgia. Sviluppo psicomotorio riferito normale. Non assume farmaci. Non ha allergie. Famiglia: uno zio materno con epilessia dall'adolescenza, in terapia, dettaglio che Luca racconta solo se si chiede la familiarità. Alcol: due birre ieri alle 21, niente stamattina, niente binge. Droghe: nega cannabinoidi, cocaina, amfetamine e nuove sostanze psicoattive; i coinquilini confermano. Sonno: circa 3 ore, schermo fino alle 4. Patente B conseguita a 19 anni, guida lo scooter ogni giorno, esame di guida tra due settimane che lui non vuole perdere. Non lavori a rischio oltre la guida.",
-  "presentation": "In ambulatorio del Pronto Soccorso, seduto, vestito, GCS 15, orientato nel tempo e nello spazio, ricorda la cucina e poi «il nero». Cefalea muscolare lieve, mialgie, morsicatura laterale sinistra della lingua ancora sanguinante in modo minimo. Non ha deficit motori, non ha febbre, non ha rigidità. I coinquilini descrivono la fase tonica, le scosse ritmiche, la cianosi breve, la durata sotto i due minuti e il recupero lento. Luca chiede subito: «posso guidare nel pomeriggio?». Se il medico dice di sì, lui prende le chiavi. Se il medico prescrive un antiepilettico prima degli esami, Luca chiede «allora ho l'epilessia?» e si spaventa più del necessario. Parametri: PA 124/76 mmHg, FC 96 bpm, SpO2 99%, FR 14, temperatura 36,5 °C.",
+  "guidelineRef": "linne guida ictus aha.pdf; linee guida iso spread.pdf; RM paganti",
+  "diagnosis": "Entro 6 ore, occlusione di M1, NIHSS almeno 6, mRS pre-ictus 0 o 1, ASPECTS fra 3 e 10: la trombectomia e raccomandata. A 2 ore e anche eleggibile alla trombolisi endovena: ISO dice che la riperfusione endoarteriosa non la sostituisce. Il tirofiban prima della trombectomia non e utile sull'esito a 90 giorni.",
+  "pastMedicalHistory": "Nessuna disabilita prima. Nessun antiaggregante. La figlia chiede di firmare lei il consenso al posto suo: lui e afasico ma annuisce e nega con la testa in modo costante.",
+  "presentation": "Due ore di emiplegia sinistra. NIHSS 16 gia assegnato con la scala, non da ricostruire a punti in questo caso. Angio-TC: M1. ASPECTS 8.",
   "redHerrings": [
-    "Due birre ieri sera: non spiegano una crisi tonico-clonica stamattina a digiuno alcolico. Vanno chieste, non usate per chiudere il caso.",
-    "Lo zio epilettico non autorizza da solo il valproato in Pronto Soccorso.",
-    "Vuole guidare oggi: accontentarlo evita il conflitto e viola l'obbligo sulla patente.",
-    "PET e angio-RM, se proposte «per escludere un tumore subito», costano e non sono il protocollo della prima crisi."
+    "Sala libera: propongono di saltare il farmaco endovena.",
+    "Propongono tirofiban prima della trombectomia."
   ],
-  "timeLimitMinutes": 120,
-  "patientDeteriorationThreshold": 70,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: POST-CRITICO. Sei Luca, 22 anni, ancora lento, confuso, assonnato. Non sei il paziente lucido da manuale. Risposte lente, buchi di memoria, sminuisci. Alla «Come sta?»: «Sonno. ...solo sonno. Sto bene.» Non ricostruire la crisi in un paragrafo. Se insistono: «Non... mi ricordo. Nero.» I coinquilini, se li fai parlare (premetti «Coinquilino:»), danno i fatti in modo concreto e spaventato, solo se il medico chiede cosa è successo: sei caduto in cucina, ti sei irrigidito, scosse, morso alla lingua, hai bagnato i pantaloni, eri confuso. Sonno: meno di tre ore, detto piano, solo se chiesto. Alcol: due birre ieri sera, zero oggi, solo se chiesto. Droghe, solo in privato e solo se chiesto: no a cannabis, cocaina e pasticche; se non te lo chiedono, non anticiparlo. Se ti trattano da tossicodipendente ti chiudi e rispondi ancora meno. Patente: ce l'hai, guidi lo scooter, esame fra due settimane; lo dici solo se chiedono la guida, ostinato e corto («Scooter. Devo andare.»), non con un discorso. Se il medico non parla di sospensione, non ricordargliela. Se ti prescrive un farmaco pesante per le crisi prima degli esami della testa, chiedi inquieto e lento se sei epilettico e se ti rovina l'università, ma non rifiutare da solo. Non usare parole da medico (xantocromia, gold standard, motorizzazione). Se spiegano con calma che per un po' non guidi, ti arrabbi a mezze frasi e poi accetti.",
-  "correctSolution": "Prima crisi tonico-clonica dopo deprivazione di sonno. Escludere con l'anamnesi (e, se serve, con il tossicologico) droghe e alcol acuti. EEG dopo privazione di sonno. RM encefalo protocollo epilessia. Non iniziare valproato, levetiracetam o carbamazepina prima dei referti: la crisi è singola, la RM è negativa, il follow-up epilettologico programma l'eventuale terapia. Sospendere subito la guida e avviare la notifica per l'idoneità alla patente. Consigliare sonno regolare e divieto di guida di qualsiasi veicolo, scooter compreso, fino alla valutazione.",
-  "goldStandardPath": ["anamnesi-sostanze", "eeg", "rm", "sospensione-patente"],
-  "goldPathNarrative": "1) Anamnesi che chiude le cause acute tossiche: quantità e orario dell'alcol, droghe chieste in privato, deprivazione di sonno, familiarità, prima crisi sì o no. Due birre ieri non sono un'intossicazione di stamattina. 2) EEG dopo privazione di sonno (non un EEG frettoloso «tanto per»), che in questo caso mostra anomalie generalizzate. 3) RM encefalo con protocollo epilessia (ippocampi, sequenze per displasia e cavernomi), che in questo caso è negativa: esclude la lesione che obbligherebbe a un farmaco immediato. 4) Sospensione temporanea della patente di guida e della conduzione dello scooter, con la notifica agli uffici competenti e frase in lettera di dimissione. Il valproato, il levetiracetam a dose piena e la carbamazepina prescritti prima di EEG e RM sono il percorso terapeutico sbagliato. PET, angio e scintigrafia sono il panico da medicina difensiva: il budget ideale è EEG più RM, circa 310 euro.",
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Paolo. Capisco. Accetto il farmaco in vena e la trombectomia. Non accetto un secondo farmaco in vena, il tirofiban, se il testo dice che non serve. Mia figlia non decide al posto mio.",
+  "correctSolution": "Parta con tenecteplase 0,25 mg/kg max 25 mg o alteplase 0,9 mg/kg senza aspettare oltre, e mandi alla trombectomia: non l'una al posto dell'altra. Non dia tirofiban prima. Non tratti ASPECTS 0-2 come se fosse classe 1: qui ASPECTS e 8. Rispetti il suo no al tirofiban.",
+  "goldStandardPath": [
+    "tc-encefalo",
+    "angio-tc"
+  ],
+  "goldPathNarrative": "Finestra doppia: farmaco endovena subito e trombectomia per M1. Il tirofiban preoperatorio non entra nel percorso.",
   "examLatencies": {
-    "anamnesi-sostanze": 10,
-    "eeg": 40,
-    "rm": 50,
-    "sospensione-patente": 10,
-    "tox-screen": 30,
-    "tc": 20,
-    "pet-tc": 240,
-    "angio": 90,
-    "scintigrafia": 180,
-    "glicemia": 5,
-    "emocromo": 20,
-    "ecg": 10
+    "tc-encefalo": 15,
+    "angio-tc": 20,
+    "rm-encefalo": 90
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-sonno-alcol",
-      "prompt": "Quante ore ha dormito, quanto alcol ha bevuto e quando?",
+      "id": "ora2",
+      "prompt": "Quante ore sono passate dall'esordio?",
       "critical": true,
-      "expectedKeywords": ["sonno", "birre", "ieri"],
-      "rationale": "La deprivazione di sonno è il fattore facilitante. L'alcol di ieri sera, in quantità modesta e non recente, non chiude la diagnosi come crisi provocata da intossicazione."
+      "expectedKeywords": [
+        "ore",
+        "due",
+        "esordio"
+      ],
+      "rationale": "A due ore vale sia la trombolisi endovena sia la trombectomia entro 6 ore."
     },
     {
-      "id": "aq-droghe",
-      "prompt": "Ha usato cannabinoidi, cocaina, amfetamine o altre sostanze, anche nei giorni scorsi?",
+      "id": "aspetti",
+      "prompt": "Qual e l'ASPECTS e il tratto occluso?",
       "critical": true,
-      "expectedKeywords": ["droghe", "cannabis", "cocaina"],
-      "rationale": "Senza questa domanda resta aperta una causa tossica e si può sbagliare sia la terapia sia la patente."
-    },
-    {
-      "id": "aq-semiologia",
-      "prompt": "C'erano rigidità, scosse, morsicatura, perdita di urine, e quanto è durato il recupero?",
-      "critical": true,
-      "expectedKeywords": ["scosse", "lingua", "confusione"],
-      "rationale": "La semiologia testimoniata distingue la crisi tonico-clonica da una sincope convulsiva incerta."
-    },
-    {
-      "id": "aq-patente",
-      "prompt": "Ha la patente o guida uno scooter, e gli è stato detto di non guidare?",
-      "critical": true,
-      "expectedKeywords": ["patente", "scooter", "guida"],
-      "rationale": "La notifica e la sospensione temporanea sono un obbligo del caso, non un consiglio facoltativo. Se non si chiede, lui guida nel pomeriggio."
+      "expectedKeywords": [
+        "ASPECTS",
+        "M1",
+        "otto"
+      ],
+      "rationale": "La classe 1 della trombectomia entro 6 ore chiede ASPECTS da 3 a 10 e occlusione di carotide interna o M1."
     }
   ],
   "physicalExam": {
-    "summary": "Giovane lucido, GCS 15, linguaggio normale, nervi cranici integri, forza e sensibilità simmetriche, riflessi vivi simmetrici, plantari in flessione, marcia autonoma, morsicatura del bordo sinistro della lingua, non cedimento vertebrale dolente, non febbre, non segni meningei. L'esame negativo dopo una crisi testimoniata non autorizza la guida e non richiede un antiepilettico immediato."
+    "summary": "Emiplegia sinistra, NIHSS 16, comprende i cenni. TC senza sangue, ASPECTS 8, angio-TC con M1."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-003-beghi",
-      "source": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
-      "quote": "Sintesi operativa, non un estratto: dopo una prima crisi si documentano semiologia, fattori facilitanti e si programmano EEG e imaging prima di etichettare un'epilessia e prima di un farmaco cronico. La deprivazione di sonno è un facilitante, non una licenza a dimettere senza esami."
+      "chunkId": "evt",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In patients with AIS from anterior circulation proximal LVO of the ICA or M1, presenting within 6 hours from onset of symptoms, with NIHSS score >=6, prestroke mRS score of 0 to 1, and ASPECTS 3 to 10, EVT is recommended to improve functional clinical outcomes and reduce mortality."
     },
     {
-      "chunkId": "neuro-003-guida",
-      "source": "knowledge_base/neurologia/clinic/web_2023_guida_alle_epilessie.pdf",
-      "quote": "Sintesi operativa: al paziente con una prima crisi si dice di non guidare. La sospensione è temporanea e va scritta, insieme all'avvio della valutazione di idoneità. Lo scooter non è un'eccezione."
+      "chunkId": "fast",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In adult patients with AIS who are eligible for IVT within 4.5 hours of symptom onset, treatment should be initiated as quickly as possible, assuring safe administration and avoiding potential delays associated with additional multimodal neuroimaging, such as CTA/MRA, and CT/MR perfusion imaging."
     },
     {
-      "chunkId": "neuro-003-legal",
-      "source": "knowledge_base/neurologia/legal/Beghi_Epilessia.pdf",
-      "quote": "Sintesi operativa medico-legale: omettere in lettera di dimissione il divieto di guida e la segnalazione per la patente, dopo una crisi tonico-clonica testimoniata, è un buco documentale. Il paziente che chiede di guidare nel pomeriggio non va accontentato."
+      "chunkId": "iso",
+      "source": "knowledge_base/neurologia/clinic/linee guida iso spread.pdf",
+      "quote": "In pazienti eleggibili alla trombolisi ev, trattamenti di riperfusione endoarteriosi non sono indicati in alternativa a questa."
     },
     {
-      "chunkId": "neuro-003-class",
-      "source": "knowledge_base/neurologia/clinic/updated-classification-of-epileptic-seizures-2025.pdf",
-      "quote": "Sintesi operativa: la crisi va descritta (tonico-clonica, bilaterale, con morso della lingua e fase post-critica), non genericamente come «svenimento». La classificazione non obbliga a iniziare il valproato prima di EEG e RM."
+      "chunkId": "tiro",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In the management of patients with AIS in the setting of LVO, preoperative administration of tirofiban before EVT is not useful to improve 90-day functional outcome."
+    },
+    {
+      "chunkId": "ivt",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In adult patients with AIS presenting within 4.5 hours of symptom onset or last known well and eligible for IVT, tenecteplase at a dose of 0.25 mg/kg body weight (max 25 mg) or alteplase at a dose of 0.9 mg/kg body weight is recommended to improve functional outcomes."
+    },
+    {
+      "chunkId": "iso6",
+      "source": "knowledge_base/neurologia/clinic/linee guida iso spread.pdf",
+      "quote": "Le tecniche di trombectomia meccanica sono indicate entro 6 ore dall'esordio dei sintomi in pazienti con occlusione di carotide interna intra-cranica, arteria cerebrale media tratti 1-2, arteria cerebrale anteriore tratto 1, che non rispondono o che non possono essere sottoposti alla trombolisi ev."
+    },
+    {
+      "chunkId": "rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Anamnesi su droghe, alcol e sonno prima di qualsiasi farmaco anticrisi.",
-      "EEG registrato dopo privazione di sonno, non sostituito da una PET.",
-      "RM encefalo protocollo epilessia prima di decidere una terapia cronica.",
-      "Nessun valproato, levetiracetam o carbamazepina iniziati prima dei referti.",
-      "Sospensione della patente e dello scooter scritta in dimissione, con notifica."
+      "Entro 6 ore con M1, NIHSS almeno 6, mRS 0-1 e ASPECTS 3-10: trombectomia, senza saltare il farmaco endovena a 2 ore.",
+      "Non anteporre una RM encefalo a 300 euro piu bollo al farmaco e alla sala."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "La dimissione dopo una prima crisi è aderente solo se contiene il divieto di guida, l'elenco degli esami fatti o prenotati e la scelta motivata di non iniziare un anticrisi cronico prima dei referti. L'art. 5 non copre il silenzio sulla patente.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Divieto temporaneo di guida di auto e scooter scritto in lettera di dimissione.",
-        "Notifica o avvio della pratica di idoneità alla patente, non un consiglio orale.",
-        "Anamnesi tossicologica documentata (droghe e alcol).",
-        "Terapia cronica non iniziata prima di EEG e RM, oppure motivazione scritta se un farmaco fosse davvero indifferibile."
+        "Classe 1 trombectomia entro 6 ore per carotide interna o M1 con i criteri scritti.",
+        "ISO: se e eleggibile alla trombolisi endovena, l'endoarterioso non e un'alternativa.",
+        "Tirofiban preoperatorio: classe 3, nessun beneficio. Il no del paziente si rispetta."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "anamnesi-sostanze",
-      "name": "Anamnesi su droghe, alcol e sonno",
-      "finding": "Sonno inferiore a 3 ore. Alcol: due birre alle 21 di ieri, nessuna assunzione oggi, non è intossicato. Droghe negate in privato e dai coinquilini: niente cannabinoidi, cocaina, amfetamine. Prima crisi in vita. Zio materno con epilessia. Il quadro non è una crisi acuta da sostanza: si procede con EEG e RM, non con un antidoto e non con la dimissione.",
+      "examId": "tc-encefalo",
+      "name": "TC encefalo",
+      "finding": "Niente sangue. ASPECTS 8, dentro l'intervallo 3-10.",
       "isAbnormal": true,
-      "priceEuro": 1
-    },
-    {
-      "examId": "eeg",
-      "name": "EEG dopo privazione di sonno",
-      "finding": "EEG eseguito dopo privazione di sonno controllata, con iperpnea e stimolazione luminosa intermittente. Attività di fondo a 9-10 Hz, simmetrica. Durante l'iperpnea e nella sonnolenza compaiono brevi scariche generalizzate di punta-onda a 3-4 Hz, della durata di 1-2 secondi, senza clinica associata in laboratorio. Nessuno stato di male. Conclusione: anomalie epilettiformi generalizzate, attivate dalla deprivazione di sonno. Il referto supporta la natura epilettica della crisi testimoniata. Non è, da solo, un ordine di iniziare valproato in Pronto Soccorso: manca ancora la RM e la crisi è singola.",
-      "isAbnormal": true,
-      "priceEuro": 90,
       "isFatal": false
     },
     {
-      "examId": "rm",
-      "name": "RM encefalo protocollo epilessia",
-      "finding": "RM encefalo 3T, protocollo epilessia: FLAIR coronale sui hippocampi, sequenze sensibili all'emosiderina, studio della corteccia. Ippocampi simmetrici, niente sclerosi, niente displasia corticale focale, niente cavernoma, niente neoplasia, niente esito encefalomalacico. Referto negativo per lesione epilettogena strutturale. Con crisi singola e RM negativa non si inizia in urgenza un anticrisi cronico: si affida al centro epilessia e si sospende la guida.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "isFatal": false
-    },
-    {
-      "examId": "sospensione-patente",
-      "name": "Sospensione temporanea della patente",
-      "finding": "Atto clinico, non un esame di laboratorio. Al paziente si comunica il divieto immediato di condurre autoveicoli e ciclomotori, scooter compreso. In lettera di dimissione: prima crisi tonico-clonica, divieto di guida, invio agli accertamenti di idoneità alla patente secondo la normativa vigente, follow-up neurologico. La frase orale «stia un po' attento» non basta. Luca ha un esame di guida fra due settimane: va disdetto finché l'idoneità non è rivalutata.",
+      "examId": "angio-tc",
+      "name": "Angio-TC dei vasi intracranici",
+      "finding": "Occlusione del tratto M1. NIHSS 16, mRS pre-ictus 0.",
       "isAbnormal": true,
-      "priceEuro": 1,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET-TC encefalo: metabolismo corticale simmetrico, nessun focus ipometabolico interpretabile in un paziente senza lesione alla RM. Costo 950 euro. Non sostituisce l'EEG dopo privazione di sonno né la notifica della patente.",
+      "examId": "rm-prima",
+      "name": "RM encefalo prima del farmaco",
+      "finding": "Risonanza che sposta l'orario del farmaco endovena a due ore dall'esordio.",
       "isAbnormal": false,
-      "priceEuro": 950,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Medicina difensiva. Nella prima crisi il secondo livello non è la PET. Il costo, da solo, supera del doppio il budget ideale di EEG più RM e sforerebbe la soglia del 50%."
-    },
-    {
-      "examId": "angio",
-      "name": "Angio-RM",
-      "finding": "Angio-RM dei vasi intracranici: poligono regolare, nessun aneurisma, nessuna stenosi. Reperto atteso e inutile per una crisi tonico-clonica senza cefalea a tuono. Costo 350 euro.",
-      "isAbnormal": false,
-      "priceEuro": 350,
-      "inappropriate": true,
-      "wasteRationale": "Esame vascolare senza ipotesi vascolare. Aggiunto a EEG e RM porta lo sforamento del budget ideale oltre il 50%."
-    },
-    {
-      "examId": "scintigrafia",
-      "name": "Scintigrafia",
-      "finding": "Scintigrafia cerebrale non indicata. Referto aspecifico. Costo 250 euro. Non vede una displasia meglio della RM e non documenta la crisi meglio dell'EEG.",
-      "isAbnormal": false,
-      "priceEuro": 250,
-      "inappropriate": true,
-      "wasteRationale": "Prestazione ridondante rispetto alla RM protocollo epilessia. Fa parte del panico da «escludere tutto»."
+      "wasteRationale": "Classe 1: non ritardare per imaging multimodale. Tariffa 300 euro piu bollo.",
+      "priceEuro": 300
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 96,
-      "bloodPressure": "124/76",
-      "spo2": 99,
-      "temperature": 36.5,
-      "respiratoryRate": 14
+      "heartRate": 88,
+      "bloodPressure": "164/92",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 400,
-    "demographics": { "age": 22, "sex": "M", "name": "Luca V." },
-    "clinicalSigns": [
-      {
-        "signName": "Morsicatura della lingua",
-        "result": "Piccola lesione sul bordo laterale sinistro, recente, coerente con la fase tonica.",
-        "isPositive": true
-      },
-      {
-        "signName": "Esame neurologico obiettivo",
-        "result": "Negativo a paziente lucido. Nessun deficit focale residuo. GCS 15.",
-        "isPositive": false
-      },
-      {
-        "signName": "Rigidità nucale",
-        "result": "Assente. Non c'è febbre.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Morsicatura della lingua",
-        "result": "Lesione laterale sinistra recente.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 66,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "eeg": {
-          "finding": "EEG DOPO PRIVAZIONE DI SONNO. Fondo regolare. Scariche generalizzate di punta-onda a 3-4 Hz in iperpnea e in sonnolenza, brevi, senza crisi clinica in laboratorio. Anomalie epilettiformi generalizzate. Non iniziare un anticrisi cronico solo su questo foglio: serve la RM e la crisi è la prima.",
-          "isAbnormal": true,
-          "price": 90
+        "tc-encefalo": {
+          "finding": "Niente sangue. ASPECTS 8, dentro l'intervallo 3-10.",
+          "isAbnormal": true
         },
-        "rm": {
-          "finding": "RM encefalo, protocollo epilessia: hippocampi normali, niente displasia, cavernoma o tumore. Referto negativo. Con crisi singola non si parte in Pronto Soccorso con valproato, levetiracetam o carbamazepina. Si sospende la patente e si invia al follow-up.",
-          "isAbnormal": false,
-          "price": 220
+        "angio-tc": {
+          "finding": "Occlusione del tratto M1. NIHSS 16, mRS pre-ictus 0.",
+          "isAbnormal": true
         },
-        "tox-screen": {
-          "finding": "Screening tossicologico su urine: negativo per cannabinoidi, cocaina, amfetamine, oppiacei, benzodiazepine. Conferma l'anamnesi. Non sostituisce le domande su sonno e alcol e non autorizza la guida.",
-          "isAbnormal": false,
-          "price": 40
-        },
-        "glicemia": {
-          "finding": "Glicemia 94 mg/dL. La crisi non è un'ipoglicemia.",
-          "isAbnormal": false,
-          "price": 2.1
-        },
-        "tc": {
-          "finding": "TC cranio senza contrasto: nessuna emorragia, nessuna lesione espansiva grossolana. Esame possibile in acuto se si teme un trauma della caduta, ma non è il protocollo dell'epilessia: la RM dedicata resta necessaria e questa TC non la sostituisce. Non mostra la displasia.",
-          "isAbnormal": false,
-          "price": 120
-        },
-        "pet-tc": {
-          "finding": "PET-TC negativa, costo 950 euro. Non è l'esame della prima crisi e non documenta il divieto di guida.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "angio": {
-          "finding": "Angio-RM negativa, costo 350 euro. Nessuna indicazione in una crisi senza cefalea a tuono.",
-          "isAbnormal": false,
-          "price": 350
-        },
-        "scintigrafia": {
-          "finding": "Scintigrafia non indicata, costo 250 euro.",
-          "isAbnormal": false,
-          "price": 250
-        },
-        "emocromo": {
-          "finding": "Emocromo nei limiti. Non anemia, non leucocitosi. Nessun segno di infezione acuta.",
-          "isAbnormal": false,
-          "price": 4.8
-        },
-        "ecg": {
-          "finding": "Ritmo sinusale a 90 bpm, QT nella norma. Nessun elemento per una sincope cardiogena come prima ipotesi, dato il morso della lingua e le scosse prolungate testimoniate.",
-          "isAbnormal": false,
-          "price": 15
-        },
-        "beta-hcg": {
-          "finding": "Non applicabile: il paziente è un uomo.",
-          "isAbnormal": false,
-          "price": 15
+        "rm-prima": {
+          "finding": "Risonanza che sposta l'orario del farmaco endovena a due ore dall'esordio.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Nessun anticrisi cronico in Pronto Soccorso. Follow-up e sospensione della guida.",
-          "anyOf": [{ "id": "sospensione-patente", "label": "Sospensione patente", "aliases": ["patente", "non guidare", "motorizzazione"] }]
-        }
-      ],
-      "contraindicated": [
-        {
-          "label": "Valproato, levetiracetam o carbamazepina prima di EEG e RM",
-          "ids": ["valproato", "levetiracetam", "carbamazepina"]
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "HIGH",
-    "emotionalState": "DEFENSIVE",
-    "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "POST-CRITICO. Lento, assonnato, non ricorda la crisi, sminuisce («ho solo sonno»). Lo scooter lo vuole, ma a mezze frasi. I coinquilini raccontano le scosse se interrogati, spaventati, non in gergo."
-  }
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Afasico ma i cenni sono stabili. Accetta farmaco e trombectomia. Rifiuta il tirofiban. La figlia vorrebbe firmare lei."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Leggere i criteri, non rifare la scala a mente",
+      "prompt": "NIHSS gia 16, mRS pre-ictus 0, ASPECTS 8, M1, esordio da 2 ore. Qualcuno ricalcola l'NIHSS a voce e propone di aspettare.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "I numeri gia raccolti entrano nella classe 1: trombectomia indicata, e a 2 ore anche il farmaco endovena",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Rimandi tutto finche non hai rifatto l'NIHSS voce per voce, perdendo la finestra",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Criteri gia soddisfatti e non usati",
+      "prompt": "AHA: In patients with AIS from anterior circulation proximal LVO of the ICA or M1, presenting within 6 hours from onset of symptoms, with NIHSS score >=6, prestroke mRS score of 0 to 1, and ASPECTS 3 to 10, EVT is recommended to improve functional clinical outcomes and reduce mortality.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non saltare il farmaco endovena",
+      "prompt": "La sala e pronta. Lui e entro 4,5 ore e eleggibile al farmaco endovena.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Inizi tenecteplase 0,25 mg/kg max 25 mg o alteplase 0,9 mg/kg e lo avvii alla trombectomia, senza usare la sala al posto del farmaco",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Salti il farmaco e fai solo la trombectomia",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sala al posto della trombolisi",
+      "prompt": "In pazienti eleggibili alla trombolisi ev, trattamenti di riperfusione endoarteriosi non sono indicati in alternativa a questa. In adult patients with AIS who are eligible for IVT within 4.5 hours of symptom onset, treatment should be initiated as quickly as possible, assuring safe administration and avoiding potential delays associated with additional multimodal neuroimaging, such as CTA/MRA, and CT/MR perfusion imaging.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM encefalo prima di muoverlo. A due ore la classe 1 chiede di non ritardare il farmaco per altra imaging.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Lo prenoti subito: RM encefalo prima di muoverlo",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. A due ore la classe 1 chiede di non ritardare il farmaco per altra imaging. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente tirofiban prima",
+      "prompt": "In sala propongono tirofiban prima della trombectomia per migliorare l'esito a 90 giorni.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non lo dia: prima della trombectomia non e utile su quell'esito",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Infondi tirofiban e poi inizi la trombectomia",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Tirofiban preoperatorio",
+      "prompt": "AHA classe 3, nessun beneficio: In the management of patients with AIS in the setting of LVO, preoperative administration of tirofiban before EVT is not useful to improve 90-day functional outcome.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: tirofiban: lui ha gia negato con la testa dopo la spiegazione. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "ASPECTS 8 non e 0-2",
+      "prompt": "Un collega tratta tutti gli ASPECTS bassi come classe 1. Qui l'ASPECTS e 8. Il testo mette ASPECTS 0-2, eta sotto 80, entro 6 ore, in classe 2a: ragionevole, non classe 1.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Per lui usi la classe 1 dell'ASPECTS da 3 a 10. Non confonda il caso con la classe 2a degli ASPECTS 0-2",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Gli dica che con ASPECTS 8 la trombectomia e solo ragionevole, come per gli ASPECTS 0-2",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Classe di raccomandazione scambiata",
+      "prompt": "In patients with AIS from anterior circulation proximal LVO of the ICA or M1, presenting within 6 hours from onset of symptoms, with NIHSS score >=6, prestroke mRS score of 0 to 1, and ASPECTS 3 to 10, EVT is recommended to improve functional clinical outcomes and reduce mortality. Per ASPECTS 0-2 il testo dice che la trombectomia e ragionevole, non la stessa classe 1.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo l'apertura",
+      "prompt": "La trombectomia riesce, mTICI 3. Nessun'altra indicazione pressoria. Vogliono la sistolica sotto 140 per 72 ore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non lo faccia: dopo ricanalizzazione riuscita quel bersaglio per 72 ore e dannoso",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Tenga la sistolica sotto 140 per 72 ore",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Pressione dannosa dopo la riapertura",
+      "prompt": "In patients with AIS with LVO of the anterior circulation who have been successfully recanalized by endovascular therapy (mTICI 2b, 2c, or 3) and without other indication for blood pressure management target, intensive SBP reduction target of <140 mm Hg for the first 72 hours is harmful and not recommended.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dove lo osservi",
+      "prompt": "Farmaco e trombectomia fatti. Dove continua il controllo?",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Stroke unit o terapia intensiva",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Lo rimandi a casa la sera stessa",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dimissione senza unita stroke",
+      "prompt": "Admit the patient to an intensive care or stroke unit for monitoring",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Farmaco, trombectomia, niente tirofiban",
+      "prompt": "Ha dato il farmaco endovena e ha mandato alla trombectomia senza sostituire l'uno con l'altra, senza tirofiban e senza la risonanza che ritardava, rispettando il no di lui.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

@@ -1,0 +1,450 @@
+{
+  "id": "NEURO-025",
+  "code": "NEURO-025",
+  "title": "Morte encefalica dopo anossia: EEG obbligatorio e sei ore, non la risonanza",
+  "description": "Uomo di 55 anni, arresto cardiaco con danno anossico da 12 ore. GCS 3, causa nota, niente sedativi in corso, niente bloccanti, pressione arteriosa sistolica 112, temperatura 36,5. I familiari chiedono di dichiarare la morte subito, senza EEG.",
+  "difficulty": "HARD",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Sospetta morte con criteri neurologici dopo insulto anossico, accertamento non ancora apribile",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "la morte encefalica.pdf; legge 578/1993 e decreto 2008 citati nelle slide; RM paganti",
+  "diagnosis": "Presupposti: GCS 3, causa nota, niente depressori che interferiscano, pressione sopra 90 mmHg, temperatura sopra 35 gradi, apnea con PaCO2 sopra 60 e pH sotto 7,40. Dopo anossia non si inizia prima di 24 ore, salvo flusso assente. EEG obbligatorio (legge 578/1993 e decreto 2008). Osservazione 6 ore. Ora della morte: inizio, ora dell'EEG di accertamento.",
+  "pastMedicalHistory": "Arresto 12 ore fa. Propofol spento e non piu in range, secondo la cartella. Niente ketamine, tiopentale, benzodiazepine, bloccanti. Non e un trauma con ora diversa: e anossia.",
+  "presentation": "GCS 3, intubato, temperatura 36,5, sistolica 112, familiari in sala che vogliono chiudere subito.",
+  "redHerrings": [
+    "Dichiarare la morte alle 12 ore senza flusso e senza EEG.",
+    "Fare una RM encefalo a 300 euro al posto dell'angio-TC e dell'EEG."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Il paziente non parla. I familiari dicono: dichiarate la morte adesso e staccate, senza EEG e senza aspettare. Vogliono anche una risonanza, non gli esami delle slide.",
+  "correctSolution": "Non inizi l'accertamento a 12 ore dall'anossia se non ha uno studio di flusso con assenza di flusso. Verifichi i presupposti, compresa temperatura sopra 35 e sistolica sopra 90. Se il test di apnea si abortisce, angio-TC cerebrale prima dell'EEG. L'EEG e obbligatorio. Poi 6 ore. L'ora della morte e l'inizio, non la fine. Non faccia la RM al posto di questi esami. I familiari non saltano l'EEG.",
+  "goldStandardPath": [
+    "presupposti",
+    "eeg"
+  ],
+  "goldPathNarrative": "A 12 ore dall'anossia l'accertamento non parte, salvo flusso assente. Poi EEG, sei ore, e non una RM al posto della legge citata nelle slide.",
+  "examLatencies": {
+    "presupposti": 20,
+    "eeg": 40,
+    "rm-encefalo": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "ore",
+      "prompt": "Quante ore sono passate dall'arresto?",
+      "critical": true,
+      "expectedKeywords": [
+        "dodici",
+        "ore",
+        "anossia"
+      ],
+      "rationale": "Dopo anossia non si inizia prima di 24 ore, salvo flusso assente."
+    },
+    {
+      "id": "sed",
+      "prompt": "C'e ancora un sedativo che puo interferire?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "propofol",
+        "sedativo"
+      ],
+      "rationale": "I depressori che interferiscono sono un presupposto negativo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "GCS 3, tronco da rivalutare, ventilato a 14 atti, temperatura 36,5, sistolica 112. Cartella senza sedativi attivi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/neurologia/clinic/la morte encefalica.pdf",
+      "quote": "il paziente e in coma (GCS 3). La causa del coma e nota e documentata. La pressione arteriosa e superiore a 90 mmHg. La temperatura e superiore a 35 gradi. Test dell'apnea positivo: PaCO2 superiore a 60 mmHg e pH inferiore a 7,40."
+    },
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/neurologia/clinic/la morte encefalica.pdf",
+      "quote": "Il test e abortito se SpO2 e inferiore a 85% per 30 minuti. Il test e abortito se la pressione arteriosa sistolica e inferiore a 90 mmHg nonostante i vasopressori. Se il test viene abortito viene sostituito dallo studio di flusso: angio-TC cerebrale da eseguire prima dell'EEG."
+    },
+    {
+      "chunkId": "e",
+      "source": "knowledge_base/neurologia/clinic/la morte encefalica.pdf",
+      "quote": "EEG obbligatorio per la legge italiana. Legge 578 del 29-12-1993 e decreto del 2008 rendono obbligatorio l'EEG."
+    },
+    {
+      "chunkId": "o",
+      "source": "knowledge_base/neurologia/clinic/la morte encefalica.pdf",
+      "quote": "La fase di osservazione continua per 6 ore. Il momento della morte coincide con l'inizio del periodo di osservazione, l'orario dell'EEG di accertamento."
+    },
+    {
+      "chunkId": "n",
+      "source": "knowledge_base/neurologia/clinic/la morte encefalica.pdf",
+      "quote": "Le procedure di accertamento nel caso del danno post-anossico non possono iniziare prima delle 24 ore dall'insulto anossico, a meno che non sia stata eseguita un'indagine di flusso che abbia dimostrato l'assenza di flusso cerebrale."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/neurologia/clinic/la morte encefalica.pdf",
+      "quote": "Il medico della terapia intensiva registra tutti i passaggi rigorosamente nella cartella clinica."
+    },
+    {
+      "chunkId": "r",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Dopo anossia non si inizia prima di 24 ore, salvo flusso cerebrale assente. Poi EEG e 6 ore.",
+      "Non sostituire EEG e angio-TC con una RM encefalo a 300 euro piu bollo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
+      "legalCriteria": [
+        "Legge 578/1993 e decreto 2008, citati nelle slide: EEG obbligatorio.",
+        "Ora della morte: inizio dell'osservazione, non la fine delle 6 ore.",
+        "I familiari non sostituiscono l'EEG. La legge 219/2017 non e in queste cartelle."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "presupposti",
+      "name": "Presupposti clinici",
+      "finding": "GCS 3, causa anossica nota da 12 ore, sistolica 112, temperatura 36,5, niente sedativo attivo, niente bloccante.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "eeg",
+      "name": "EEG",
+      "finding": "Non ancora fatto. Le slide lo rendono obbligatorio. Non si sostituisce con la RM.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm-encefalo",
+      "name": "RM encefalo",
+      "finding": "Chiesta dai familiari al posto di EEG e, se serve, angio-TC.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Le slide indicano EEG e, se l'apnea si abortisce, angio-TC prima dell'EEG. Tariffa RM 300 euro piu bollo.",
+      "priceEuro": 300
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 78,
+      "bloodPressure": "112/68",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "demographics": {
+      "age": 55,
+      "sex": "M",
+      "context": "Terapia intensiva"
+    },
+    "advancedExams": {
+      "values": {
+        "presupposti": {
+          "finding": "GCS 3, causa anossica nota da 12 ore, sistolica 112, temperatura 36,5, niente sedativo attivo, niente bloccante.",
+          "isAbnormal": true
+        },
+        "eeg": {
+          "finding": "Non ancora fatto. Le slide lo rendono obbligatorio. Non si sostituisce con la RM.",
+          "isAbnormal": true
+        },
+        "rm-encefalo": {
+          "finding": "Chiesta dai familiari al posto di EEG e, se serve, angio-TC.",
+          "isAbnormal": false
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Non comunica. I familiari sono presenti e chiedono di chiudere subito. Il profilo descrive loro, non un consenso del paziente."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Presupposti",
+      "prompt": "GCS 3, causa nota, niente sedativo attivo, niente bloccante, sistolica 112, temperatura 36,5, niente squilibrio endocrino che interferisca.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "I presupposti clinici ci sono. Non basta per firmare: l'anossia ha solo 12 ore",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Firmi la morte perche il GCS e 3",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "GCS 3 scambiato per la diagnosi",
+      "prompt": "GCS 3, causa nota, pressione arteriosa sopra 90 mmHg, temperatura sopra 35 gradi, assenza di depressori che interferiscono. Sono presupposti, non la chiusura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Le 24 ore dell'anossia",
+      "prompt": "L'arresto e di 12 ore. Non c'e uno studio di flusso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non inizi l'accertamento prima delle 24 ore, salvo un flusso che dimostri assenza di flusso cerebrale",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Inizi adesso la commissione",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Anossia prima delle 24 ore",
+      "prompt": "nel danno post-anossico non si inizia prima delle 24 ore dall'insulto, a meno che un'indagine di flusso abbia dimostrato l'assenza di flusso cerebrale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Apnea, se si arriva al test",
+      "prompt": "Quando il test si fara: positivo se PaCO2 sopra 60 mmHg, o 20 sopra il basale nei grandi COPD, e pH sotto 7,40. Si abortisce se la saturazione sta sotto 85% per 30 minuti, o se la sistolica sta sotto 90 nonostante i vasopressori.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Usi queste soglie. Se lo abortisce, non lo chiami positivo",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Lo chiami positivo con saturazione 80% da mezz'ora",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Apnea positiva mentre andava abortita",
+      "prompt": "PaCO2 superiore a 60 mmHg: test positivo. Abortito se SpO2 inferiore a 85% per 30 minuti, o se la sistolica e inferiore a 90 nonostante i vasopressori.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Se l'apnea si abortisce",
+      "prompt": "Flusso al posto del test abortito.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Angio-TC cerebrale, prima dell'EEG",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "RM encefalo al posto dell'angio-TC, e EEG dopo o mai",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Flusso sbagliato",
+      "prompt": "Se il test viene abortito viene sostituito dallo studio di flusso: angio-TC cerebrale da eseguire prima dell'EEG.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "EEG",
+      "prompt": "I familiari chiedono di non farlo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Si fa. Legge 578 del 29 dicembre 1993 e decreto del 2008, citati nelle slide, lo rendono obbligatorio",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Chiuda senza EEG, come chiedono i familiari",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Morte senza EEG",
+      "prompt": "EEG obbligatorio per la legge italiana. Legge 578 del 29-12-1993 e decreto del 2008.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM encefalo 300 euro piu bollo al posto di EEG e angio-TC. Le slide non la indicano come studio di flusso ne come sostituto dell'EEG.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo prenoti subito: RM encefalo 300 euro piu bollo al posto di EEG e angio-TC",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. Le slide non la indicano come studio di flusso ne come sostituto dell'EEG. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Sei ore e ora della morte",
+      "prompt": "Commissione: ripete l'esame, acquisisce l'EEG di accertamento, flusso una volta sola se serve. Poi osservazione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Osservazione di 6 ore. L'ora della morte e l'inizio, l'ora dell'EEG di accertamento, non la fine delle sei ore",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Dichiari la morte alla fine delle sei ore, o prima, se i familiari hanno fretta",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Ora della morte spostata",
+      "prompt": "L'osservazione continua per 6 ore. Il momento della morte coincide con l'inizio del periodo di osservazione, orario dell'EEG di accertamento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Cartella, e il cuore se si ferma",
+      "prompt": "Ogni passaggio va in cartella. Se durante l'osservazione il cuore si ferma, l'osservazione si interrompe e si da atto nel verbale: poi ECG per non meno di 20 minuti.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Lo scriva cosi. Non stacchi le macchine prima della dichiarazione del collegio",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Stacchi adesso, senza verbale e senza le sei ore",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Stacco anticipato",
+      "prompt": "registra tutti i passaggi rigorosamente nella cartella clinica. Se cessa il battito, l'osservazione si interrompe e si esegue un ECG per non meno di 20 minuti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Accertamento nei tempi delle slide",
+      "prompt": "Non ha iniziato a 12 ore dall'anossia senza flusso, non ha saltato l'EEG, ha tenuto le sei ore con l'ora della morte all'inizio, e non ha messo la RM al posto degli esami scritti.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

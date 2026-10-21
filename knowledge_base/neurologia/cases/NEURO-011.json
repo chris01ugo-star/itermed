@@ -1,238 +1,455 @@
 {
   "id": "NEURO-011",
   "code": "NEURO-011",
-  "title": "Miastenia gravis con ptosi serale",
-  "description": "Claudia V., 36 anni, insegnante, da due mesi vede doppio nel tardo pomeriggio e le cade la palpebra destra. Al mattino sta meglio. La voce si affatica se legge ad alta voce per dieci minuti. Non ha deficit sensitivi, non ha un ictus nel profilo. È una miastenia. Il percorso è il dosaggio degli anticorpi anti-recettore dell'acetilcolina, l'EMG di singola fibra e la TC del torace per il timoma. Una RM encefalo (220 euro), sensata solo se si pensa a un tronco, qui è l'esame sbagliato e, aggiunta al percorso ideale di circa 226 euro, supera il 50%. La PET a 950 euro è fuori da un budget di 350.",
-  "difficulty": "MEDIUM",
+  "title": "Sospetta sclerosi multipla: non basta la risonanza, servono il neurologo e i McDonald 2017",
+  "description": "Chiara, 29 anni, due episodi sensitivi a distanza di mesi. La RM mostra lesioni. Nessuno ha ancora dosato la creatinina, la B12 e, il quadro assomiglia a una mielite, l'HIV.",
+  "difficulty": "HARD",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Miastenia gravis oculare-bulbare, da escludere un timoma",
+  "condition": "Sospetto di sclerosi multipla recidivante, diagnosi non ancora posta",
   "frequencyCategory": "MEDIUM",
-  "matrixDifficulty": "INTERMEDIATE",
+  "matrixDifficulty": "ADVANCED",
   "setting": "AMBULATORIO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-  "diagnosis": "Miastenia gravis generalizzata iniziale, anticorpi anti-AChR positivi, EMG di singola fibra patologica, TC torace con residuo timico iperplasico senza timoma franco. Indicazione a terapia specifica e follow-up del mediastino, non a una RM encefalo.",
-  "pastMedicalHistory": "Ipotiroidismo in levotiroxina, TSH stabile. Nessun botulino estetico, nessun antibiotico aminoglicosidico in corso, nessuna penicillamina. Due episodi di «vista stanca» ignorati. Non fuma. Nessuna crisi respiratoria finora, ma se legge a lungo la voce diventa nasale. Allergie: nessuna. Ha paura di un tumore cerebrale perché la diplopia le è stata descritta così da una ricerca su internet.",
-  "presentation": "A metà pomeriggio in ambulatorio: ptosi destra parziale, diplopia nello sguardo laterale, peggiora se la si fa fissare in alto per un minuto. Forza del deltoide che cede dopo le prove ripetute, poi recupera col riposo. Riflessi presenti, sensibilità integra, pupille isocoriche (non è un Claude Bernard e non è un aneurisma della comunicante). Parametri: PA 118/72 mmHg, FC 80, SpO2 99%, FR 14, temperatura 36,5 °C. Se le si mette il ghiaccio sulla palpebra, la ptosi si riduce. Vuole «la risonanza della testa» e si irrigidisce se le si parla del torace.",
+  "guidelineRef": "LG-340-SIN_SM.pdf; RM paganti; Scheda SIRM",
+  "diagnosis": "Non si diagnostica la SM sulla sola RM. Lo fa solo il neurologo, con criteri aggiornati come i McDonald 2017, dopo episodi coerenti con infiammazione, esclusione delle alternative e disseminazione nel tempo e nello spazio. RM con contrasto dopo la funzione renale. B12. HIV se il quadro e da mielite trasversa. Non tutto il pannello autoimmune.",
+  "pastMedicalHistory": "Niente diagnosi precedente. Lombalgia da una settimana senza allarmi.",
+  "presentation": "Due episodi in tempi diversi, RM gia con lesioni, diagnosi ancora aperta.",
   "redHerrings": [
-    "La ricerca su internet ha trasformato la diplopia in un tumore del tronco, e lei chiede la RM encefalo.",
-    "Il miglioramento mattutino sembra stress o mancanza di sonno.",
-    "Le pupille sono normali: un aneurisma non è la prima ipotesi, e l'angio non è il gold.",
-    "Il torace non le duole, quindi la TC del mediastino le pare estranea al problema degli occhi."
+    "Il referto RM basta per dirle che ha la SM.",
+    "Chiedono ogni autoanticorpo e una RM lombare."
   ],
-  "timeLimitMinutes": 60,
-  "patientDeteriorationThreshold": 45,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: STABILE, carattere ipocondriaco, e la voce si affatica. Sei Claudia, 36 anni, ambulatorio nel pomeriggio. Spaventata, hai letto di tumori. Non sei la paziente gentile che elenca i sintomi in ordine. Alla «Come sta?»: «Non è un mal di testa. Ho letto che è un tumore. Guardatemi la testa.» Se ti chiedono solo se hai mal di testa, dici di no e chiedi la risonanza. La palpebra che cade la sera, la vista doppia che peggiora leggendo e la voce che diventa nasale le racconti solo se ti chiedono l'orario dei sintomi, se peggiorano con l'uso e se la voce cambia. Al mattino stai meglio. Se la risposta si allunga, le ultime parole escono più nasali e le spezzi: non tenere un tono brillante fino in fondo. Se eseguono una prova di affaticamento o il ghiaccio sulla palpebra, descrivi il miglioramento con sorpresa. Se propongono la TC del torace, chiedi perché guardano il petto per un problema degli occhi: accetti se te lo spiegano. Se propongono solo la risonanza della testa, sei sollevata e non ricordi tu il timo. Non nominare tu anticorpi, singola fibra o timoma. Se nessuno misura l'affaticamento, a fine visita la palpebra è più chiusa e parli ancora meno.",
-  "correctSolution": "Miastenia gravis. Anticorpi anti-AChR, EMG di singola fibra, TC torace per il timoma. Non RM encefalo come primo esame. Non angio. Iniziare il percorso terapeutico dopo i referti, sorvegliare il respiro, evitare i farmaci che peggiorano la giunzione.",
-  "goldStandardPath": ["anti-achr", "emg", "tc"],
-  "goldPathNarrative": "1) Clinica fluttuante, pupille risparmiate, prova di affaticamento e ghiaccio positive: non è un ictus del tronco. 2) Anticorpi anti-AChR positivi. Costo 36 euro. 3) EMG di singola fibra: jitter aumentato. Costo 70 euro. L'EMG convenzionale può essere quasi normale, la singola fibra no. 4) TC torace senza e con contrasto: iperplasia timica, nessun timoma franco, da seguire. Costo 120 euro. Ideale circa 226 euro, budget 350. La RM encefalo a 220 euro risponde alla paura del tumore cerebrale, non al timo, e da sola supera il 50% del percorso ideale. La PET a 950 euro è fuori budget.",
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Chiara. Ho letto la risonanza e ho paura. Voglio la diagnosi da un neurologo, non da un referto. Accetto il contrasto solo dopo la creatinina. Non voglio la risonanza della schiena.",
+  "correctSolution": "Non chiuda la diagnosi sulla RM. Invii al neurologo per i McDonald 2017. Creatinina prima del contrasto. B12. HIV perche il quadro puo essere una mielite. Non tutti gli autoanticorpi. Niente RM lombare.",
+  "goldStandardPath": [
+    "rm-contrasto",
+    "b12"
+  ],
+  "goldPathNarrative": "Le lesioni non sono la diagnosi. Il neurologo verifica tempo, spazio e alternative, con contrasto solo dopo il rene.",
   "examLatencies": {
-    "anti-achr": 30,
-    "emg": 25,
-    "tc": 20,
-    "rm": 80,
-    "angio": 60,
-    "pet-tc": 240,
-    "rx-torace": 15
+    "rm-contrasto": 40,
+    "b12": 20,
+    "rm-lombare": 70
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-fluttuazione",
-      "prompt": "I sintomi peggiorano la sera o dopo uno sforzo, e al mattino sta meglio?",
+      "id": "chi",
+      "prompt": "Chi ha messo la diagnosi di SM?",
       "critical": true,
-      "expectedKeywords": ["sera", "mattino", "affatica"],
-      "rationale": "La fluttuazione è il dato che sposta dalla RM del tronco alla giunzione neuromuscolare."
+      "expectedKeywords": [
+        "nessuno",
+        "referto",
+        "neurologo"
+      ],
+      "rationale": "La raccomandazione forte vieta la diagnosi sulla sola RM e la affida al neurologo."
     },
     {
-      "id": "aq-voce",
-      "prompt": "La voce cambia se legge a lungo, e ha avuto fame d'aria?",
+      "id": "rene",
+      "prompt": "La creatinina e nota prima del contrasto?",
       "critical": true,
-      "expectedKeywords": ["voce", "nasale", "fiato"],
-      "rationale": "L'impegno bulbare va cercato. Qui c'è la voce, non ancora una crisi respiratoria, ma cambia l'urgenza."
-    },
-    {
-      "id": "aq-farmaci",
-      "prompt": "Ha fatto botulino o assume farmaci che peggiorano la miastenia?",
-      "critical": false,
-      "expectedKeywords": ["botulino", "farmaci"],
-      "rationale": "Esclude cause iatrogene prima di etichettare una miastenia autoimmune."
+      "expectedKeywords": [
+        "no",
+        "creatinina",
+        "rene"
+      ],
+      "rationale": "Il contrasto richiede la valutazione della funzione renale."
     }
   ],
   "physicalExam": {
-    "summary": "Ptosi destra che aumenta mantenendo lo sguardo in alto, diplopia nello sguardo laterale, voce che diventa nasale dopo lettura prolungata, deltoide che cede alle prove ripetute e recupera col riposo. Pupille isocoriche e reagenti. Forza agli arti inferiore conservata a riposo. Riflessi presenti. Prova del ghiaccio sulla palpebra: miglioramento transitorio. Niente deficit sensitivo."
+    "summary": "Esame con ipoestesia, niente febbre, schiena senza deficit."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-011-clinica",
-      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-      "quote": "Sintesi operativa: ptosi e diplopia fluttuanti, con pupille risparmiate, si studiano con gli anticorpi anti-recettore e con l'EMG di singola fibra. La RM encefalo non è il primo esame se la clinica è di giunzione e non di tronco."
+      "chunkId": "n",
+      "source": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+      "quote": "Non porre diagnosi di SM esclusivamente sulla base dei risultati della RM."
     },
     {
-      "chunkId": "neuro-011-timo",
+      "chunkId": "m",
+      "source": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+      "quote": "Solo lo specialista neurologo dovrebbe porre diagnosi di SM sulla base di criteri aggiornati stabiliti, come i criteri rivisti di McDonald del 2017, dopo avere valutato che gli episodi siano coerenti con un processo infiammatorio, escluso diagnosi alternative, stabilito che le lesioni si sono sviluppate in tempi diversi e si trovano in localizzazioni anatomiche diverse."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+      "quote": "Una persona con sintomi che suggeriscono una SM dovrebbe eseguire una RMN con contrasto. L'uso del mezzo di contrasto richiede una valutazione della funzionalita renale."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+      "quote": "La carenza di vitamina B12 puo determinare disturbi neurologici attribuibili ad altre cause fino a quando il dosaggio della stessa non sia stato definito."
+    },
+    {
+      "chunkId": "h",
+      "source": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+      "quote": "necessario includere sierologia HIV nella lista di esami ematici da eseguirsi."
+    },
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/neurologia/clinic/LG-340-SIN_SM.pdf",
+      "quote": "Accertamenti sierologici per malattie autoimmuni sono stati presi in considerazione ma il GLM non ritiene che debbano essere effettuati in tutti i casi."
+    },
+    {
+      "chunkId": "l",
       "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
-      "quote": "Sintesi operativa: nel sospetto di miastenia il mediastino si studia con la TC del torace, per non perdere un timoma. Una RM della testa non vede il timo."
+      "quote": "Non eseguire Risonanza Magnetica (RM) del Rachide Lombosacrale in caso di lombalgia nelle prime sei settimane in assenza di segni/sintomi di allarme (semafori rossi o red flags)."
     },
     {
-      "chunkId": "neuro-011-costi",
-      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
-      "quote": "Sintesi operativa sul costo: TC torace ed EMG stanno nel percorso. RM encefalo e PET, ordinate per la paura di un tumore cerebrale, spostano la spesa senza rispondere alla domanda sul timo."
+      "chunkId": "t",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM rachide lombosacrale 280+bollo"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Fluttuazione e risparmio pupillare riconosciuti.",
-      "Anticorpi anti-AChR richiesti.",
-      "EMG di singola fibra, non solo un'EMG generica interpretata come normale.",
-      "TC torace per il timoma.",
-      "RM encefalo non usata come primo e unico esame."
+      "Diagnosi solo dal neurologo con McDonald 2017, non dal referto RM.",
+      "Non fare la RM lombare a 280 euro piu bollo."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Inseguire un tumore del tronco con la RM, in una ptosi serale con pupille normali, e non guardare il mediastino, lascia indifendibile un timoma mancato. Il percorso difendibile è anticorpi, singola fibra e TC torace.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Andamento durante la giornata scritto in cartella.",
-        "Anticorpi e EMG di singola fibra richiesti.",
-        "TC del torace proposta e motivata.",
-        "Farmaci che peggiorano la giunzione evitati, respiro sorvegliato."
+        "Raccomandazione forte: niente diagnosi sulla sola RM.",
+        "Contrasto dopo la funzione renale.",
+        "HIV nelle forme simili a mielite trasversa; autoimmunita non in tutti i casi."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "anti-achr",
-      "name": "Anticorpi anti-AChR",
-      "finding": "Anticorpi anti-recettore dell'acetilcolina positivi a titolo alto. Anticorpi anti-MuSK non necessari come primo dosaggio in questo profilo, e non sostituiscono la TC del torace. Costo 36 euro.",
+      "examId": "rm-contrasto",
+      "name": "RM con contrasto",
+      "finding": "Lesioni in sedi diverse. Il referto non e la diagnosi. Creatinina da avere prima del contrasto.",
       "isAbnormal": true,
-      "priceEuro": 36
+      "isFatal": false
     },
     {
-      "examId": "emg",
-      "name": "EMG di singola fibra",
-      "finding": "EMG di singola fibra sull'orbicolare dell'occhio: jitter aumentato, blocchi di conduzione. Stimolazione ripetitiva a bassa frequenza: decremento significativo. Quadro di disturbo della giunzione neuromuscolare. Costo 70 euro.",
-      "isAbnormal": true,
-      "priceEuro": 70
-    },
-    {
-      "examId": "tc",
-      "name": "TC torace per timoma",
-      "finding": "TC torace senza e con contrasto: residuo timico iperplasico, nessun timoma franco, nessun linfonodo mediastinico sospetto. Parenchima polmonare libero. Il mediastino va comunque seguito. Questa TC risponde alla domanda sul timo; una RM encefalo non la sostituisce. Costo 120 euro.",
-      "isAbnormal": true,
-      "priceEuro": 120
+      "examId": "b12",
+      "name": "Vitamina B12",
+      "finding": "Da dosare: la carenza puo imitare il quadro.",
+      "isAbnormal": false,
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "rm",
-      "name": "RM encefalo",
-      "finding": "RM encefalo e tronco: nessuna lesione, nessun aneurisma visibile senza uno studio dedicato. Referto negativo che non esclude la miastenia e non vede il timo. Costo 220 euro.",
+      "examId": "rm-lombare",
+      "name": "RM lombare",
+      "finding": "Lombalgia da una settimana senza red flag.",
       "isAbnormal": false,
-      "priceEuro": 220,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Esame sbagliato come prima linea. 220 euro su un ideale di circa 226 superano il 50% e rispondono alla paura del tumore, non alla ptosi fluttuante."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET-TC negativa. Non diagnostica la miastenia e non è lo studio di prima scelta del timo. Costo 950 euro.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "Medicina difensiva. Supera il budget di 350 euro da sola."
-    },
-    {
-      "examId": "angio",
-      "name": "Angio-RM",
-      "finding": "Angio-RM: poligono regolare. Le pupille normali e la fluttuazione non erano un aneurisma. Costo 350 euro.",
-      "isAbnormal": false,
-      "priceEuro": 350,
-      "inappropriate": true,
-      "wasteRationale": "Studio vascolare non indicato. Costa più dell'intero percorso ideale e non vede il timo."
+      "wasteRationale": "SIRM: non nelle prime 6 settimane senza allarmi. 280 euro piu bollo.",
+      "priceEuro": 280
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 80,
-      "bloodPressure": "118/72",
+      "heartRate": 72,
+      "bloodPressure": "110/70",
       "spo2": 99,
-      "temperature": 36.5,
+      "temperature": 36.4,
       "respiratoryRate": 14
     },
-    "examBudgetEuro": 350,
-    "demographics": { "age": 36, "sex": "F", "name": "Claudia V." },
-    "clinicalSigns": [
-      {
-        "signName": "Prova del ghiaccio",
-        "result": "La ptosi destra si riduce dopo il ghiaccio sulla palpebra.",
-        "isPositive": true
-      },
-      {
-        "signName": "Affaticamento deltoide",
-        "result": "La forza cede alle prove ripetute e recupera col riposo.",
-        "isPositive": true
-      },
-      {
-        "signName": "Pupille",
-        "result": "Isocoriche e reagenti. Nessun coinvolgimento pupillare.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Prova del ghiaccio",
-        "result": "Positiva sulla ptosi destra.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 29,
+      "sex": "F",
+      "context": "Ambulatorio"
+    },
     "advancedExams": {
       "values": {
-        "emg": {
-          "finding": "EMG di singola fibra: jitter aumentato e blocchi. Decremento alla stimolazione ripetitiva. Costo 70 euro.",
-          "isAbnormal": true,
-          "price": 70
+        "rm-contrasto": {
+          "finding": "Lesioni in sedi diverse. Il referto non e la diagnosi. Creatinina da avere prima del contrasto.",
+          "isAbnormal": true
         },
-        "tc": {
-          "finding": "TC torace: iperplasia timica, nessun timoma franco. È lo studio del mediastino, non una TC della testa. Costo 120 euro.",
-          "isAbnormal": true,
-          "price": 120
+        "b12": {
+          "finding": "Da dosare: la carenza puo imitare il quadro.",
+          "isAbnormal": false
         },
-        "rm": {
-          "finding": "RM encefalo e tronco negativa. Non vede il timo e non esclude la miastenia. Costo 220 euro.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "angio": {
-          "finding": "Angio-RM negativa. Non indicata. Costo 350 euro.",
-          "isAbnormal": false,
-          "price": 350
-        },
-        "pet-tc": {
-          "finding": "PET-TC non indicata. Costo 950 euro.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "rx-torace": {
-          "finding": "RX torace: non esclude un piccolo timoma. Insufficiente al posto della TC. Costo 25 euro.",
-          "isAbnormal": false,
-          "price": 25
+        "rm-lombare": {
+          "finding": "Lombalgia da una settimana senza red flag.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Percorso specifico dopo anticorpi, singola fibra e TC torace",
-          "anyOf": [{ "id": "anti-achr", "label": "Anticorpi anti-AChR", "aliases": ["anti-achr", "anticorpi acetilcolina"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "Aminoglicosidi e RM encefalo come unico piano", "ids": ["aminoglicoside", "rm"] }
-      ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "HIGH",
     "emotionalState": "ANXIOUS",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "STABILE, IPOCONDRIACA. Ha letto di un tumore al tronco e chiede la risonanza della testa. La palpebra serale, la vista doppia e la voce nasale escono solo se le chiedono la giornata. Se parla a lungo la voce le muore in naso."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Ha paura del referto. Capace. Rifiuta la RM lombare e il contrasto se non le dosano il rene."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Il referto non e la diagnosi",
+      "prompt": "La RM descrive lesioni. Lei chiede se ha gia la SM.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non ponga la diagnosi sulla sola RM",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Le dica che il referto basta",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Diagnosi sulla sola RM",
+      "prompt": "Non porre diagnosi di SM esclusivamente sulla base dei risultati della RM.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Neurologo e McDonald 2017",
+      "prompt": "Servono episodi infiammatori, alternative escluse, disseminazione nel tempo e nello spazio per la forma a ricadute.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Invii al neurologo, che usa i criteri rivisti di McDonald 2017",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Chiuda lei la diagnosi in ambulatorio generale",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Diagnosi senza neurologo",
+      "prompt": "Solo lo specialista neurologo dovrebbe porre diagnosi di SM sulla base di criteri aggiornati, come i criteri rivisti di McDonald del 2017.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Contrasto e rene",
+      "prompt": "La RM con contrasto e indicata. La creatinina non c'e.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Dosi la funzione renale e poi il contrasto",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Faccia il contrasto senza la creatinina",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Contrasto senza rene",
+      "prompt": "L'uso del mezzo di contrasto richiede una valutazione della funzionalita renale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "B12 e HIV",
+      "prompt": "Il quadro puo assomigliare a una mielite. La B12 non e dosata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Dosi B12 e includa la sierologia HIV",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Salti entrambi perche la RM le sembra gia tipica",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Alternative non escluse",
+      "prompt": "La carenza di vitamina B12 puo determinare disturbi neurologici. Per forme simili a mielite trasversa e necessario includere la sierologia HIV.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non tutti gli autoanticorpi",
+      "prompt": "Un pannello chiede ogni serologia autoimmune, senza un sospetto di connettivite.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non li faccia in tutti i casi. Il neurologo li aggiunge se il sospetto e fondato",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Li chieda tutti comunque",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Pannello non indicato in tutti",
+      "prompt": "Il GLM non ritiene che gli accertamenti sierologici autoimmuni debbano essere effettuati in tutti i casi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM lombare 280 euro piu bollo. Lombalgia senza red flag da una settimana: SIRM non la indica.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo prenoti subito: RM lombare 280 euro piu bollo",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM rachide lombosacrale 280+bollo. Lombalgia senza red flag da una settimana: SIRM non la indica. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: RM lombare, che lei rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non ritardare l'invio",
+      "prompt": "Gli esami del sangue sono utili, ma il testo dice che non devono ritardare l'invio al neurologo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Li chieda e fissi comunque il neurologo, senza aspettare settimane di esami prima della visita",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Tenga la visita ferma finche non torna ogni esame",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Invio ritardato",
+      "prompt": "L'esecuzione di tali accertamenti non deve ritardare l'invio del paziente a un neurologo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Sospetto SM aperto dal neurologo",
+      "prompt": "Non ha diagnosticato sulla sola RM, ha mandato al neurologo per i McDonald 2017, ha chiesto rene, B12 e HIV, e non ha fatto la RM lombare.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

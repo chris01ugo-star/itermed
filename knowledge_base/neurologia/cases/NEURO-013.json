@@ -1,222 +1,455 @@
 {
   "id": "NEURO-013",
   "code": "NEURO-013",
-  "title": "Nevralgia del trigemino",
-  "description": "Teresa M., 62 anni, da tre mesi ha scosse dolorose di pochi secondi sulla guancia e sul mascellare destri, a partenza da un punto vicino all'ala del naso, scatenate dal lavarsi i denti, dal vento e dal parlare. Tra una scossa e l'altra il dolore è zero. Non ha deficit sensitivi stabili, non ha deficit motorio masticatorio, l'esame neurologico è negativo. È una nevralgia del trigemino classica, da confermare con RM encefalo mirata al conflitto neurovascolare e da trattare con carbamazepina, non con un oppioide. La TC (120 euro) non vede il conflitto. La PET (950 euro) non ha ruolo. Il percorso ideale è circa 222 euro, il budget 340: la RM c'è, l'oppioide e la PET no.",
-  "difficulty": "MEDIUM",
+  "title": "Emicrania senz'aura stabile: triptano nella crisi forte, niente RM encefalo",
+  "description": "Lucia, 38 anni, almeno otto attacchi l'anno, 8-12 ore, unilaterale, pulsante, forte, peggiora salendo le scale, con nausea e fotofobia. Esame normale. Nessun segno di allarme. Crisi di oggi forte.",
+  "difficulty": "EASY",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Nevralgia trigeminale classica, conflitto neurovascolare da documentare",
-  "frequencyCategory": "MEDIUM",
-  "matrixDifficulty": "INTERMEDIATE",
+  "condition": "Emicrania senz'aura ICHD-3 1.1, senza segni di allarme, attacco moderato-forte",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
   "setting": "AMBULATORIO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/cefalee primarie.pdf",
-  "diagnosis": "Nevralgia del trigemino destro, prima e seconda branca, con contatto neurovascolare all'emergenza del nervo in RM. Indicazione a carbamazepina. Nessuna lesione occupante spazio. L'oppioide non è la terapia.",
-  "pastMedicalHistory": "Ipertensione in ramipril. Nessuna sclerosi multipla nota, nessun herpes zoster facciale, nessuna chirurgia dentaria recente: il dentista ha già escluso un ascesso e lei ha speso due visite. Non assume anticoagulanti. Allergie: rash da un sulfamidico vent'anni fa, da chiedere prima della carbamazepina. Ha provato ibuprofene e tramadolo prescritti dal curante: il tramadolo la stordisce e non toglie la scossa. Vive con la sorella.",
-  "presentation": "Durante la visita ha una scossa se le si sfiora l'ala del naso: si blocca, non parla per cinque secondi, poi sta bene. Non tiene la mano sulla faccia in modo continuo. Nessuna ipoestesia, riflesso corneale presente, masticazione simmetrica. Parametri: PA 148/86 mmHg, FC 76, SpO2 98%, FR 14, temperatura 36,5 °C. Se il medico propone morfina «per il dolore forte», lei accetta perché ha paura della scossa successiva. Se le si spiega un farmaco specifico e una RM, chiede se potrà lavarsi i denti.",
+  "guidelineRef": "ICHD-3-Italian.pdf; cefalee primarie.pdf; Scheda SIRM; RM paganti",
+  "diagnosis": "Criteri 1.1: almeno 5 attacchi, 4-72 ore, almeno due fra unilaterale, pulsante, medio-forte, aggravato dal movimento, e nausea oppure foto-fonofobia, non meglio spiegata altrove. Crisi medio-forte: triptano, livello I. Non insieme a un ergot. Dose minima utile. Niente RM encefalo senza segni di allarme.",
+  "pastMedicalHistory": "Attacchi simili da anni. Nessun deficit, nessuna cefalea a tuono, nessun trauma.",
+  "presentation": "Profilo stabile, esame neurologico normale, attacco di oggi di intensita forte.",
   "redHerrings": [
-    "Il dentista negativo la spinge a pensare a un dolore «inventato» o a chiedere un oppioide più forte.",
-    "Il tramadolo già in corso sembra un piano terapeutico, ed è inutile.",
-    "Una TC dei seni, proposta per il naso, non vede il conflitto all'angolo ponto-cerebellare.",
-    "Il rash antico ai sulfamidici va chiesto, ma non è un motivo per passare all'oppioide."
+    "Chiede la RM per stare tranquilla.",
+    "Ha in borsa un derivato dell'ergot e vuole sommarlo al triptano."
   ],
-  "timeLimitMinutes": 50,
-  "patientDeteriorationThreshold": 40,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: DOLORE ESTREMO A SCOSSE. Sei Teresa, 62 anni, ambulatorio. Hai paura di muovere la bocca. VIETATE le frasi complete e il tono cortese. Monosillabi, pause, un lamento se la domanda è lunga. Alla «Come sta?»: «Nnh. Zitta. ...scossa.» Se ti sfiorano il naso o ti chiedono di raccontare il lavaggio dei denti, ti blocchi, un gemito, poi a pezzi: scosse brevissime, vento, parlare, guancia e mascella destre, niente dolore tra una scossa e l'altra. Se ti chiedono solo «quanto è forte da 0 a 10», dici «Dieci» e accetti la morfina, senza spiegare. Il tramadolo già preso, inutile, lo dici se ti chiedono i farmaci, in due parole. Il rash antico lo dici se ti chiedono allergie. Se propongono la carbamazepina e la risonanza, chiedi solo «I denti... posso?» e accetti. Se propongono la TC dei seni, pensi che c'entri col naso e accetti con un cenno. Non nominare tu conflitto neurovascolare o nevralgia. Se la visita non protegge il trigger, resti in silenzio per non parlare.",
-  "correctSolution": "Nevralgia trigeminale classica. RM encefalo con studio dell'angolo ponto-cerebellare, carbamazepina dopo verifica delle allergie e del monitoraggio previsto, stop all'oppioide. La TC non sostituisce la RM. Nessuna lesione secondaria in questo referto, c'è un contatto vascolare.",
-  "goldStandardPath": ["anamnesi-dolore", "rm", "carbamazepina"],
-  "goldPathNarrative": "1) Anamnesi: scosse di secondi, trigger tattili e del vento, territorio V2-V3 destro, intervalli liberi, esame senza deficit. Non è una nevralgia post-erpetica e non è un dolore dentario continuo. 2) RM encefalo mirata: contatto tra un vaso e il trigemino destro all'emergenza, nessuna lesione demielinizzante, nessun tumore dell'angolo. Costo 220 euro. È l'imaging appropriato. La TC a 120 euro non risolve il conflitto. 3) Carbamazepina, dopo l'anamnesi sulle allergie, non tramadolo e non morfina. Ideale circa 222 euro, budget 340. PET 950 euro è medicina difensiva. L'oppioide è la trappola clinica: non modifica la scarica e seduta la paziente.",
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Lucia. E il solito mal di testa, forte, con nausea. Non voglio la risonanza se non ci sono allarmi. Non voglio mischiare il triptano con l'ergot. Non inventate i milligrammi: datemi la dose minima che funziona.",
+  "correctSolution": "Inquadri 1.1. Per la crisi forte un triptano, livello I, il piu presto possibile, un solo principio, dose minima utile, non insieme all'ergot. Non faccia la RM encefalo. Se un triptano fallisce si puo cambiarne uno della classe, o un FANS nella recidiva. Non le fissi una dose in milligrammi che il testo non sceglie come unica.",
+  "goldStandardPath": [
+    "diario-cefalea",
+    "esame-neurologico"
+  ],
+  "goldPathNarrative": "I criteri 1.1 ci sono e non ci sono allarmi. Si tratta l'attacco forte con un triptano e non si paga la RM.",
   "examLatencies": {
-    "anamnesi-dolore": 10,
-    "rm": 40,
-    "carbamazepina": 5,
-    "tc": 25,
-    "pet-tc": 240,
-    "angio": 60
+    "diario-cefalea": 10,
+    "esame-neurologico": 15,
+    "rm-encefalo": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-scossa",
-      "prompt": "Il dolore dura secondi, ha un punto che lo scatena, e tra una crisi e l'altra è zero?",
+      "id": "allarmi",
+      "prompt": "Ha deficit, esordio a tuono, febbre o un esame neurologico alterato?",
       "critical": true,
-      "expectedKeywords": ["secondi", "denti", "vento"],
-      "rationale": "Durata, trigger e intervallo libero definiscono la nevralgia e la distinguono da un dolore continuo da oppioide."
+      "expectedKeywords": [
+        "no",
+        "tuono",
+        "deficit"
+      ],
+      "rationale": "Senza segni di allarme la SIRM non vuole la RM encefalo nella cefalea non traumatica."
     },
     {
-      "id": "aq-territorio",
-      "prompt": "Quale parte della faccia, ed è sempre lo stesso lato?",
+      "id": "quanti",
+      "prompt": "Quanti attacchi simili ha avuto e quanto durano?",
       "critical": true,
-      "expectedKeywords": ["guancia", "destra", "mascella"],
-      "rationale": "Il territorio trigeminale unilaterale orienta la RM sull'angolo, non sui seni in generale."
-    },
-    {
-      "id": "aq-farmaci",
-      "prompt": "Cosa ha già preso, e ha allergie a farmaci?",
-      "critical": true,
-      "expectedKeywords": ["tramadolo", "allergia", "rash"],
-      "rationale": "L'oppioide è già fallito. L'allergia va chiesta prima della carbamazepina, senza usarla come scusa per restare sull'oppioide."
+      "expectedKeywords": [
+        "cinque",
+        "ore",
+        "attacchi"
+      ],
+      "rationale": "Servono almeno cinque attacchi di 4-72 ore per 1.1. Sotto cinque e emicrania probabile."
     }
   ],
   "physicalExam": {
-    "summary": "Trigger all'ala nasale destra con scossa di pochi secondi. Nessuna ipoestesia facciale, corneale presente, massetere simmetrico, nessun deficit degli altri nervi cranici, nessun segno di zoster. Esame negativo tra le scosse. Il dolore intenso non è un motivo per saltare la RM né per scegliere un oppioide."
+    "summary": "Esame neurologico normale. Dolore unilaterale pulsante, nausea, fotofobia. Nessun segno meningeo."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-013-ichd",
+      "chunkId": "i",
       "source": "knowledge_base/neurologia/clinic/ICHD-3-Italian.pdf",
-      "quote": "Sintesi operativa: la nevralgia del trigemino è una scarica di secondi nel territorio di una o più branche, con trigger innocui e intervalli liberi. Il trattamento di prima linea è la carbamazepina, non un oppioide."
+      "quote": "Disturbo cefalalgico ricorrente che si manifesta in attacchi della durata di 4-72 ore. Almeno 5 attacchi che soddisfino i criteri B-D. La cefalea dura 4-72 ore (non trattata o trattata senza successo)."
     },
     {
-      "chunkId": "neuro-013-rm",
+      "chunkId": "t",
+      "source": "knowledge_base/neurologia/clinic/cefalee primarie.pdf",
+      "quote": "Esso prevede la somministrazione di analgesici o FANS nelle crisi medio-lievi e di triptani in quelle medio-forti."
+    },
+    {
+      "chunkId": "l",
+      "source": "knowledge_base/neurologia/clinic/cefalee primarie.pdf",
+      "quote": "Sono farmaci di prima scelta per il trattamento degli attacchi emicranici (Livello di raccomandazione I per tutti i triptani)."
+    },
+    {
+      "chunkId": "e",
+      "source": "knowledge_base/neurologia/clinic/cefalee primarie.pdf",
+      "quote": "Deve essere evitata l'assunzione contemporanea di un triptano e di un derivato dell'ergot."
+    },
+    {
+      "chunkId": "d",
+      "source": "knowledge_base/neurologia/clinic/cefalee primarie.pdf",
+      "quote": "Il farmaco piu appropriato deve essere assunto al minor dosaggio utile a raggiungere la completa risoluzione delle crisi."
+    },
+    {
+      "chunkId": "s",
       "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
-      "quote": "Sintesi operativa: la RM è l'esame che cerca il contatto neurovascolare e esclude una causa secondaria nell'angolo ponto-cerebellare. La TC non ha la stessa risoluzione sul nervo."
+      "quote": "Non eseguire Risonanza Magnetica (RM) dell'encefalo per cefalea non traumatica in assenza di segni clinici di allarme."
     },
     {
-      "chunkId": "neuro-013-costi",
+      "chunkId": "r",
       "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
-      "quote": "Sintesi operativa sul costo: la RM encefalo, in questo caso, è giustificata. PET e TC dei seni, aggiunte o usate al suo posto, non rispondono alla stessa domanda e spostano la spesa."
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
+    },
+    {
+      "chunkId": "f",
+      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
+      "quote": "DI RM 000003877 RM cervello e tronco encefalico senza contrasto 200,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Scossa, trigger e intervallo libero raccolti.",
-      "RM dell'angolo ponto-cerebellare richiesta.",
-      "Carbamazepina proposta, oppioide sospeso.",
-      "TC non usata come equivalente della RM.",
-      "Allergie chieste prima del farmaco."
+      "Crisi forte: triptano di livello I, senza ergot insieme, alla dose minima utile.",
+      "Non fare la RM encefalo: 300 euro piu bollo, Fasdac 200 euro."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Prescrivere un oppioide per una nevralgia trigeminale, senza RM e senza un farmaco che agisca sulla scarica, non aderisce al percorso. La RM è l'imaging difendibile, la TC dei seni no.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Trigger e territorio scritti.",
-        "RM richiesta per conflitto e per escludere una causa secondaria.",
-        "Oppioide non lasciato come terapia di fondo.",
-        "Allergie e monitoraggio della carbamazepina menzionati."
+        "SIRM: niente RM encefalo per cefalea non traumatica senza segni di allarme.",
+        "Non sommare triptano ed ergot.",
+        "Sotto i cinque attacchi non si chiude 1.1."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "anamnesi-dolore",
-      "name": "Anamnesi del dolore facciale",
-      "finding": "Scosse di pochi secondi in territorio V2-V3 destro, trigger al lavaggio dei denti, al vento e al parlare, dolore zero nell'intervallo. Tramadolo già inefficace. Rash antico ai sulfamidici da considerare prima della carbamazepina, senza sostituirla con un oppioide. Dentista negativo.",
+      "examId": "diario-cefalea",
+      "name": "Diario degli attacchi",
+      "finding": "Otto attacchi, durata 8-12 ore, unilaterali, pulsanti, forti, con nausea e fotofobia.",
       "isAbnormal": true,
-      "priceEuro": 1
+      "isFatal": false
     },
     {
-      "examId": "rm",
-      "name": "RM encefalo per conflitto neurovascolare",
-      "finding": "RM encefalo con sequenze sull'angolo ponto-cerebellare: contatto tra un'ansa vascolare e il nervo trigemino destro all'emergenza dal ponte. Nessuna lesione demielinizzante, nessun neurinoma, nessuna malformazione. Reperto compatibile con nevralgia classica. Costo 220 euro. La TC non avrebbe mostrato questo contatto.",
-      "isAbnormal": true,
-      "priceEuro": 220
-    },
-    {
-      "examId": "carbamazepina",
-      "name": "Carbamazepina",
-      "finding": "Avvio di carbamazepina a basso dosaggio, con le avvertenze su sonnolenza, controllo dell'emocromo e delle transaminasi, e verifica del rash antico. Sospeso il tramadolo. Il farmaco è quello della scarica, non un oppioide. Costo di avvio trascurabile rispetto all'imaging.",
+      "examId": "esame-neurologico",
+      "name": "Esame neurologico",
+      "finding": "Normale. Nessun segno di allarme raccolto nella storia.",
       "isAbnormal": false,
-      "priceEuro": 1
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc",
-      "name": "TC cranio e seni",
-      "finding": "TC dei seni e del cranio: seni aerei, nessuna sinusite, nessun dato sul nervo trigemino. Referto «negativo» che non esclude il conflitto. Costo 120 euro.",
+      "examId": "rm-encefalo",
+      "name": "RM encefalo",
+      "finding": "Cefalea primaria stabile, senza allarmi.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Imaging sbagliato. La TC non vede il conflitto neurovascolare. Usata al posto della RM è un falso negativo; aggiunta, sposta la spesa senza rispondere alla domanda."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET-TC negativa. Non studia il contatto vascolo-nervoso. Costo 950 euro.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "Medicina difensiva. 950 euro contro un ideale di circa 222: molto oltre il 50% e oltre il budget di 340 euro."
-    },
-    {
-      "examId": "angio",
-      "name": "Angio-RM isolata senza studio del nervo",
-      "finding": "Angio-RM arteriosa del poligono, senza le sequenze sull'emergenza del trigemino: vasi regolari, conflitto non valutabile. Costo 350 euro. Non sostituisce la RM mirata.",
-      "isAbnormal": false,
-      "priceEuro": 350,
-      "inappropriate": true,
-      "wasteRationale": "Studio vascolare incompleto per questa domanda. Supera il 50% del percorso ideale e non documenta il contatto sul nervo."
+      "wasteRationale": "SIRM. Tariffa 300 euro piu bollo; Fasdac 200 euro.",
+      "priceEuro": 300
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 76,
-      "bloodPressure": "148/86",
-      "spo2": 98,
-      "temperature": 36.5,
+      "heartRate": 74,
+      "bloodPressure": "118/74",
+      "spo2": 99,
+      "temperature": 36.4,
       "respiratoryRate": 14
     },
-    "examBudgetEuro": 340,
-    "demographics": { "age": 62, "sex": "F", "name": "Teresa M." },
-    "clinicalSigns": [
-      {
-        "signName": "Trigger nasale",
-        "result": "Sfiorando l'ala nasale destra si scatena una scossa di pochi secondi.",
-        "isPositive": true
-      },
-      {
-        "signName": "Ipoestesia trigeminale",
-        "result": "Assente. Corneale presente. Masseteri simmetrici.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Trigger nasale",
-        "result": "Positivo a destra.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 38,
+      "sex": "F",
+      "context": "Ambulatorio"
+    },
     "advancedExams": {
       "values": {
-        "rm": {
-          "finding": "RM: contatto vascolare sul trigemino destro, nessuna lesione secondaria. Costo 220 euro. Esame appropriato.",
-          "isAbnormal": true,
-          "price": 220
+        "diario-cefalea": {
+          "finding": "Otto attacchi, durata 8-12 ore, unilaterali, pulsanti, forti, con nausea e fotofobia.",
+          "isAbnormal": true
         },
-        "tc": {
-          "finding": "TC seni e cranio negativa. Il conflitto non si vede. Costo 120 euro.",
-          "isAbnormal": false,
-          "price": 120
+        "esame-neurologico": {
+          "finding": "Normale. Nessun segno di allarme raccolto nella storia.",
+          "isAbnormal": false
         },
-        "pet-tc": {
-          "finding": "PET-TC non indicata. Costo 950 euro.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "angio": {
-          "finding": "Angio-RM del poligono senza studio del nervo: conflitto non valutabile. Costo 350 euro.",
-          "isAbnormal": false,
-          "price": 350
+        "rm-encefalo": {
+          "finding": "Cefalea primaria stabile, senza allarmi.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Carbamazepina, non un oppioide",
-          "anyOf": [{ "id": "carbamazepina", "label": "Carbamazepina", "aliases": ["carbamazepina", "tegretol"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "Oppioide come terapia della scossa trigeminale", "ids": ["tramadolo", "morfina", "oppioide"] }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "MEDIUM",
+    "healthLiteracy": "HIGH",
     "emotionalState": "ANXIOUS",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "DOLORE A SCOSSE. Paura di aprire la bocca. Monosillabi, lamento se la domanda è lunga o se le sfiorano il naso. Non racconta il dolore in prosa e non regge un colloquio lungo."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole stare tranquilla con una RM. Capace. Rifiuta la RM e la somma con l'ergot."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Criteri 1.1",
+      "prompt": "Almeno otto attacchi, 8-12 ore, un lato, pulsante, forte, peggiora con le scale, nausea e fotofobia. Nient'altro lo spiega meglio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Lo chiami 1.1 emicrania senz'aura",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo chiami emicrania con meno di cinque attacchi, cioe solo probabile",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Soglia dei cinque attacchi ignorata",
+      "prompt": "A. Almeno 5 attacchi. In caso contrario, pazienti che soddisfino i criteri per 1.1 ma che ne abbiano presentato meno di cinque episodi devono essere codificati come emicrania probabile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Allarmi",
+      "prompt": "Niente deficit, niente tuono, niente febbre, esame normale, profilo stabile da anni.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non c'e un segno di allarme che chieda la RM",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "La prenoti lo stesso al primo attacco di un profilo gia noto",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "RM senza allarme",
+      "prompt": "Non eseguire Risonanza Magnetica (RM) dell'encefalo per cefalea non traumatica in assenza di segni clinici di allarme. Tariffa: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. Fasdac: DI RM 000003877 RM cervello e tronco encefalico senza contrasto 200,00",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Crisi forte",
+      "prompt": "Oggi il dolore e forte, grado alto, con nausea.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Un triptano, livello di raccomandazione I, presto, un solo principio attivo",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Solo un analgesico blando, come se la crisi fosse lieve, e in combinazione di piu principi",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Scelta non stratificata",
+      "prompt": "analgesici o FANS nelle crisi medio-lievi e triptani in quelle medio-forti. L'approccio graduale e stato abbandonato a favore dell'approccio stratificato. E consigliabile assumere formulazioni contenenti un solo principio attivo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non con l'ergot",
+      "prompt": "Ha gia preso un derivato dell'ergot stamattina e chiede di aggiungere il triptano.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non li sommi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Li dia insieme",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Triptano piu ergot",
+      "prompt": "Deve essere evitata l'assunzione contemporanea di un triptano e di un derivato dell'ergot.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dose minima utile",
+      "prompt": "Il testo non incorona un solo milligrammo. Chiede il minor dosaggio utile alla risoluzione completa, il piu presto possibile.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Scelga il minor dosaggio utile e non inventi una dose unica obbligatoria",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Imponga 100 mg a tutti, come unica dose scritta",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Milligrammi non scelti dal testo",
+      "prompt": "Il farmaco piu appropriato deve essere assunto al minor dosaggio utile a raggiungere la completa risoluzione delle crisi. Deve essere assunto il piu precocemente possibile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM encefalo 300 euro piu bollo. Cefalea non traumatica senza allarmi: SIRM dice di non farla.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo prenoti subito: RM encefalo 300 euro piu bollo",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. Cefalea non traumatica senza allarmi: SIRM dice di non farla. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: RM encefalo, che lei rifiuta dopo la spiegazione. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se il triptano non basta",
+      "prompt": "Circa il 25-40% ha una recidiva. Una seconda dose di triptano e efficace nella maggioranza. Se un triptano non risponde, un altro della classe puo funzionare. Nella recidiva si puo usare un FANS. L'efficacia si segue col diario.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Preveda una seconda dose in caso di recidiva, o un altro triptano se il primo fallisce, e il diario",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Le dica che se il primo triptano fallisce l'emicrania e finita e non c'e alternativa",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Fallimento letto come fine delle cure",
+      "prompt": "In caso di recidiva una seconda dose di triptano e efficace nella maggioranza dei casi. Quando si ha una scarsa risposta a un triptano, si puo considerare l'utilizzo di un altro farmaco della classe.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Emicrania trattata senza RM",
+      "prompt": "Ha chiuso i criteri 1.1, ha scelto il triptano per la crisi forte senza ergot e senza una dose inventata, e non ha fatto la RM encefalo.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

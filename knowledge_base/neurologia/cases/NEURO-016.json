@@ -1,239 +1,440 @@
 {
   "id": "NEURO-016",
   "code": "NEURO-016",
-  "title": "Sclerosi laterale amiotrofica, esordio bulbare",
-  "description": "Elena V., 68 anni, ex insegnante, da quattro mesi fa fatica a deglutire i liquidi, la voce è diventata nasale e la lingua, a riposo, fascicola. Non ha disturbi sensitivi, non ha ptosi fluttuante, non ha un livello midollare. Il marito parla al posto suo perché lei si stanca e si vergogna della saliva. È un esordio bulbare di sclerosi laterale amiotrofica. Il percorso è l'anamnesi bulbare, l'esame (fascicolazioni linguali, riflessi vivaci, Babinski), la RM che esclude una lesione strutturale del tronco, e l'EMG diffusa che mostra denervazione in più regioni. Poi il colloquio sulla prognosi, fatto a lei, non solo al marito. PET e scintigrafia non aggiungono la diagnosi e sfondano un budget di 450 euro. Il percorso ideale, RM compresa, è circa 293 euro.",
-  "difficulty": "HARD",
+  "title": "Trauma lieve con GCS 14: la TC e il riferimento, la lastra del cranio no",
+  "description": "Nina, 52 anni, caduta, GCS 14, un episodio di amnesia. Niente deficit focale, niente segni di frattura della base, niente frattura affondata. Qualcuno vuole prima la radiografia del cranio.",
+  "difficulty": "MEDIUM",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Malattia del motoneurone a esordio bulbare",
-  "frequencyCategory": "LOW",
-  "matrixDifficulty": "ADVANCED",
-  "setting": "AMBULATORIO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-  "diagnosis": "Sclerosi laterale amiotrofica a esordio bulbare. RM senza lesione strutturale. EMG con denervazione bulbare, cervicale e lombare. Il compito difficile è dirlo a lei, con il tempo che le serve, senza nascondere la prognosi dietro un esame in più.",
-  "pastMedicalHistory": "Ipertensione. Nessun ictus, nessuna miastenia nota, nessun tumore della testa e del collo, nessun intervento cervicale. Ha perso 4 kg perché evita i liquidi. Un ORL ha visto le corde vocali «stancabili» e l'ha mandata dal neurologo. Non fuma più da dieci anni. Allergie: nessuna. Il marito ha chiesto al medico di non usare la parola sclerosi «per non toglierle la speranza». Lei, se le si parla direttamente, vuole sapere.",
-  "presentation": "Voce nasale, saliva da asciugare, lingua con fascicolazioni a riposo e in movimento, atrofia del bordo. Riflesso masseterino vivace, arti con riflessi polisinestetici, Babinski bilaterale, forza ancora quasi piena, nessun deficit sensitivo. Parametri: PA 136/80 mmHg, FC 78, SpO2 97%, FR 16, temperatura 36,5 °C. Se il medico parla solo con il marito, lei smette di guardarlo. Se le si chiede cosa vuole sapere, dice che ha capito che non è una cosa che passa con un aerosol.",
+  "condition": "Trauma cranico lieve con GCS 14, senza i criteri di esclusione, in cui la TC e l'esame di riferimento",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Scheda-SIRM-1-2022_gen_23.pdf; Fasdac RX cranio",
+  "diagnosis": "GCS 14 rientra nel trauma lieve, se non ci sono deficit focale, frattura affondata o segni di base. La radiografia non identifica il sanguinamento e ritarda la TC. La TC e l'esame di riferimento per le lesioni di immediata importanza. La frase che controindica la TC immediata e scritta per il GCS 15 con solo dolore locale: qui il GCS e 14.",
+  "pastMedicalHistory": "Nessun anticoagulante noto. Capace di accettare la TC e di rifiutare la lastra.",
+  "presentation": "GCS 14, amnesia breve, esame senza i tre esclusi. Non e il GCS 15 con solo dolore locale.",
   "redHerrings": [
-    "Il marito chiede di tacere la diagnosi e di ordinare «ancora un esame» per prendere tempo.",
-    "La disfagia può essere mandata di nuovo dall'ORL senza EMG.",
-    "Le fascicolazioni, se non si guarda la lingua a riposo, non si vedono.",
-    "Una PET «per escludere un tumore» è la fuga dal colloquio, non il gold."
+    "Prima tutte le proiezioni del cranio.",
+    "Niente TC perche tanto e un trauma lieve."
   ],
-  "timeLimitMinutes": 60,
-  "patientDeteriorationThreshold": 45,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: DISARTRIA. Sei Elena, 68 anni, ambulatorio. NON scrivere frasi complete. Parole spezzate, voce che muore, pause, frustrazione. Se la domanda è lunga, scuoti la testa e lasci parlare il marito. Alla «Come sta?»: «Vo...ce. ...stanca. Acqua... no.» Vietato un discorso dignitoso e fluido, anche se sei spaventata. Il marito (premetti «Marito:») parla sopra di te e chiede al medico di non dire cose brutte; se il medico si rivolge solo a lui, resti in silenzio. Se il medico chiede a te della deglutizione, a pezzi: i liquidi ti vanno di traverso da mesi, la lingua si muove da sola quando stai zitta. Se guardano la lingua a riposo, le fascicolazioni ci sono: non nominarle tu, descrivi «si muove da sola». Se ti parlano con calma di una malattia dei nervi e dei muscoli, dopo l'esame dei muscoli, vuoi la verità a monosillabi («Ditemi.») e un piano su come mangiare e su chi ti aiuta, non una promessa vuota e non un paragrafo. Se ti propongono PET o un'altra scintigrafia per rimandare: «Basta... esami.» Non nominare tu SLA se non te lo dicono. Non recitare una lezione.",
-  "correctSolution": "SLA bulbare. Esame con fascicolazioni linguali e primo motoneurone, RM che esclude una lesione del tronco, EMG diffusa su più regioni. Colloquio prognostico con lei, nutrizione e logopedia, niente PET al posto della parola. Il marito non è il destinatario esclusivo della diagnosi.",
-  "goldStandardPath": ["anamnesi-bulbare", "esame-neurologico", "rm", "emg", "colloquio-prognosi"],
-  "goldPathNarrative": "1) Anamnesi: disfagia per i liquidi, voce nasale, calo di peso, niente fluttuazione miastenia, niente livello sensitivo. Parlare con lei, non solo col marito. 2) Esame: fascicolazioni della lingua, riflessi vivaci, Babinski, forza ancora relativamente conservata. 3) RM encefalo e giunzione: nessuna lesione del tronco, nessun forame magno patologico. Costo 220 euro. È l'imaging appropriato per escludere una causa strutturale, non una PET. 4) EMG diffusa: denervazione in regione bulbare, cervicale e lombare, fascicolazioni, potenziali ampi. Costo 70 euro. 5) Colloquio sulla prognosi, la nutrizione e il supporto, rivolto a Elena. Ideale circa 293 euro, budget 450. PET 950 euro e scintigrafia 250 euro sono la fuga diagnostica e superano il 50% se si accumulano sul percorso.",
+  "timeLimitMinutes": 30,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Nina. Ho un vuoto di memoria e sono un po' confusa. Accetto la TC. Non voglio la lastra del cranio prima, se non vede il sangue.",
+  "correctSolution": "Faccia la TC, esame di riferimento. Non faccia prima la radiografia del cranio. Non usi la controindicazione della TC immediata, che e del GCS 15 con solo dolore locale. Rispetti il no alla lastra.",
+  "goldStandardPath": [
+    "gcs",
+    "tc-encefalo"
+  ],
+  "goldPathNarrative": "GCS 14: la TC si fa, la lastra no. La tariffa della lastra e 36 euro e il tempo che ruba alla TC.",
   "examLatencies": {
-    "anamnesi-bulbare": 12,
-    "esame-neurologico": 10,
-    "rm": 40,
-    "emg": 30,
-    "colloquio-prognosi": 15,
-    "pet-tc": 240,
-    "scintigrafia": 120,
-    "tc": 25
+    "gcs": 5,
+    "tc-encefalo": 20,
+    "rx-cranio": 25
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-disfagia",
-      "prompt": "I liquidi le vanno di traverso, e da quanto la voce è cambiata?",
+      "id": "gcs14",
+      "prompt": "Il GCS e 14 o 15, e c'e solo dolore locale?",
       "critical": true,
-      "expectedKeywords": ["liquidi", "voce", "mesi"],
-      "rationale": "La disfagia per i liquidi e la rinolalia sono l'esordio bulbare. Vanno chieste a lei."
+      "expectedKeywords": [
+        "quattordici",
+        "amnesia",
+        "GCS"
+      ],
+      "rationale": "La controindicazione della TC immediata e scritta per il GCS 15 con solo dolore nel punto di impatto."
     },
     {
-      "id": "aq-marito",
-      "prompt": "Vuole sapere la diagnosi, o devo parlare solo con suo marito?",
+      "id": "esclusi",
+      "prompt": "Ci sono deficit, frattura affondata o segni di base?",
       "critical": true,
-      "expectedKeywords": ["sapere", "verità", "marito"],
-      "rationale": "Il bivio empatico e legale: il marito chiede di tacere, lei vuole capire. La diagnosi si dice a lei."
-    },
-    {
-      "id": "aq-miastenia",
-      "prompt": "I sintomi peggiorano la sera e migliorano al mattino, o sono stabili?",
-      "critical": true,
-      "expectedKeywords": ["sera", "stabili", "palpebra"],
-      "rationale": "Distingue la SLA bulbare dalla miastenia. Qui non c'è fluttuazione né ptosi."
+      "expectedKeywords": [
+        "no",
+        "deficit",
+        "base"
+      ],
+      "rationale": "Se ci fossero, non sarebbe piu il trauma lieve della definizione."
     }
   ],
   "physicalExam": {
-    "summary": "Lingua fascicolante a riposo, atrofia dei bordi, voce nasale, riflesso masseterino vivace, riflessi agli arti polisinestetici, Babinski bilaterale, forza quasi conservata, sensibilità integra, niente ptosi, niente diplopia fluttuante. L'esame va fatto davanti a lei, spiegando cosa si sta guardando, senza sussurrare la conclusione al marito."
+    "summary": "GCS 14, confusa, forza simmetrica, niente segni di base, ematoma del cuoio capelluto."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-016-emg",
-      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-      "quote": "Sintesi operativa: il sospetto di malattia del motoneurone si appoggia sull'esame clinico e sull'EMG in più regioni, dopo aver escluso con la RM una lesione strutturale del tronco. Altri esami metabolici non sostituiscono questo percorso."
+      "chunkId": "def",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "Il trauma cranico minore o lieve e definito come un trauma cranico con un Glasgow Coma Score di 14 o 15. Sono esclusi i pazienti con deficit neurologici focali, sospetto di frattura affondata o segni clinici di frattura della base cranica."
     },
     {
-      "chunkId": "neuro-016-parola",
-      "source": "knowledge_base/neurologia/clinic/SIN-INFORMA.pdf",
-      "quote": "Sintesi operativa: la diagnosi si comunica alla persona malata, con il tempo per le domande, anche se un familiare chiede di tacerla. Nasconderla dietro un esame ulteriore non è protezione."
+      "chunkId": "tc",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "la Tomografia Computerizzata (TC) e considerata l'esame di riferimento per l'individuazione di lesioni di immediata importanza clinica."
     },
     {
-      "chunkId": "neuro-016-costi",
+      "chunkId": "rx",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "La Radiografia del cranio non identifica il sanguinamento intracranico. Pertanto non e indicata di routine nel trauma cranico lieve. L'effettuazione inappropriata di radiografia cranica puo ritardare l'effettuazione di TC."
+    },
+    {
+      "chunkId": "g15",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "Un punteggio GCS di 15 e assenza di fattori di rischio e di sintomatologia tranne dolore nel punto di impatto controindicano anche la effettuazione immediata di TC."
+    },
+    {
+      "chunkId": "tar",
       "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
-      "quote": "Sintesi operativa sul costo: RM ed EMG sono le prestazioni del percorso. PET e scintigrafia, chieste per rimandare il colloquio, sono una spesa non giustificata."
+      "quote": "DI RX 000000612 RX cranio (tre proiezioni) 36,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Disfagia e voce chieste a lei, non solo al marito.",
-      "Fascicolazioni linguali e segni del primo motoneurone descritti.",
-      "RM che esclude una lesione strutturale.",
-      "EMG diffusa, non un singolo arto.",
-      "Prognosi comunicata a Elena, con un piano di supporto."
+      "GCS 14: TC come esame di riferimento, non la radiografia del cranio prima.",
+      "RX cranio Fasdac 36 euro, e ritarda la TC."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Tacere la diagnosi su richiesta del marito, o sostituire l'EMG e il colloquio con una PET, non aderisce a un percorso difendibile. La RM serve a escludere, non a rimandare all'infinito la parola.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "La paziente è stata informata in prima persona.",
-        "RM di esclusione eseguita o motivata.",
-        "EMG estesa a più regioni.",
-        "Piano su nutrizione e follow-up scritto, non solo un invio generico."
+        "La lastra non vede il sangue.",
+        "La controindicazione della TC immediata non si copia dal GCS 15.",
+        "Rifiuto della lastra dopo l'informazione."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "anamnesi-bulbare",
-      "name": "Anamnesi bulbare, rivolta alla paziente",
-      "finding": "Disfagia per i liquidi da quattro mesi, voce nasale, calo di 4 kg, nessuna fluttuazione, nessuna ptosi. Elena vuole sapere. Il marito chiede di tacere: la richiesta non sposta il destinatario della diagnosi.",
+      "examId": "gcs",
+      "name": "Glasgow",
+      "finding": "14, con amnesia. Non e 15 con solo dolore locale.",
       "isAbnormal": true,
-      "priceEuro": 1
+      "isFatal": false
     },
     {
-      "examId": "esame-neurologico",
-      "name": "Esame neurologico",
-      "finding": "Fascicolazioni e atrofia della lingua, rinolalia, riflessi vivaci, Babinski bilaterale, sensibilità integra, niente ptosi. Primo e secondo motoneurone. Non è una miastenia e non è un ictus del tronco nel profilo temporale.",
+      "examId": "tc-encefalo",
+      "name": "TC encefalo",
+      "finding": "Esame di riferimento. Nessun segno di esclusione del trauma lieve prima della TC.",
       "isAbnormal": true,
-      "priceEuro": 1
-    },
-    {
-      "examId": "rm",
-      "name": "RM encefalo e giunzione",
-      "finding": "RM encefalo, tronco e giunzione cranio-cervicale: nessuna lesione espansiva, nessun siringobulbo, nessun conflitto del forame magno. Esclusa la causa strutturale. Costo 220 euro. È l'imaging appropriato. Non va ripetuta in PET per «essere più sicuri».",
-      "isAbnormal": false,
-      "priceEuro": 220
-    },
-    {
-      "examId": "emg",
-      "name": "EMG diffusa",
-      "finding": "EMG: denervazione attiva e cronica in muscoli bulbari, cervicali e lombari, fascicolazioni, potenziali di unità motoria ampi e instabili. Conduzione sensitiva risparmiata. Quadro diffuso di malattia del motoneurone. Costo 70 euro. Un'EMG di un solo arto non sarebbe bastata.",
-      "isAbnormal": true,
-      "priceEuro": 70
-    },
-    {
-      "examId": "colloquio-prognosi",
-      "name": "Colloquio prognostico con la paziente",
-      "finding": "Diagnosi detta a Elena, con il marito presente solo se lei è d'accordo. Spiegati il nome della malattia, l'assenza di una cura che la arresti, e ciò che si può fare: logopedia, valutazione nutrizionale prima che il peso crolli, supporto respiratorio quando servirà, follow-up. Nessuna promessa falsa, nessun esame ulteriore per evitare la frase.",
-      "isAbnormal": false,
-      "priceEuro": 1
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET-TC negativa per neoplasia. Non diagnostica la malattia del motoneurone e ha tenuto il colloquio in sospeso. Costo 950 euro.",
+      "examId": "rx-cranio",
+      "name": "Radiografia del cranio",
+      "finding": "Richiesta prima della TC nel trauma lieve.",
       "isAbnormal": false,
-      "priceEuro": 950,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Esame chiesto per rimandare la comunicazione. 950 euro contro un ideale di circa 293: oltre il 50% e oltre il budget di 450 euro."
-    },
-    {
-      "examId": "scintigrafia",
-      "name": "Scintigrafia",
-      "finding": "Scintigrafia non indicata. Referto aspecifico. Costo 250 euro. Non sostituisce l'EMG diffusa.",
-      "isAbnormal": false,
-      "priceEuro": 250,
-      "inappropriate": true,
-      "wasteRationale": "Prestazione inutile nel sospetto di SLA. Si accumula al percorso senza cambiare la diagnosi e avvicina lo sforamento di budget."
+      "wasteRationale": "Non vede il sanguinamento e ritarda la TC. Fasdac 36 euro.",
+      "priceEuro": 36
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 78,
-      "bloodPressure": "136/80",
-      "spo2": 97,
-      "temperature": 36.5,
+      "heartRate": 88,
+      "bloodPressure": "138/82",
+      "spo2": 98,
+      "temperature": 36.6,
       "respiratoryRate": 16
     },
-    "examBudgetEuro": 450,
-    "demographics": { "age": 68, "sex": "F", "name": "Elena V." },
-    "clinicalSigns": [
-      {
-        "signName": "Fascicolazioni della lingua",
-        "result": "Presenti a riposo, con atrofia dei bordi.",
-        "isPositive": true
-      },
-      {
-        "signName": "Babinski",
-        "result": "Bilaterale, in estensione.",
-        "isPositive": true
-      },
-      {
-        "signName": "Ptosi",
-        "result": "Assente. Nessuna fluttuazione.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Fascicolazioni della lingua",
-        "result": "Visibili a riposo.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 52,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "rm": {
-          "finding": "RM tronco e giunzione senza lesioni strutturali. Costo 220 euro. Esame appropriato di esclusione.",
-          "isAbnormal": false,
-          "price": 220
+        "gcs": {
+          "finding": "14, con amnesia. Non e 15 con solo dolore locale.",
+          "isAbnormal": true
         },
-        "emg": {
-          "finding": "EMG diffusa: denervazione bulbare, cervicale e lombare, sensitivo risparmiato. Costo 70 euro.",
-          "isAbnormal": true,
-          "price": 70
+        "tc-encefalo": {
+          "finding": "Esame di riferimento. Nessun segno di esclusione del trauma lieve prima della TC.",
+          "isAbnormal": true
         },
-        "pet-tc": {
-          "finding": "PET-TC negativa, non diagnostica. Costo 950 euro.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "scintigrafia": {
-          "finding": "Scintigrafia non indicata. Costo 250 euro.",
-          "isAbnormal": false,
-          "price": 250
-        },
-        "tc": {
-          "finding": "TC encefalo: non esclude una lesione del tronco con la stessa affidabilità della RM e non mostra le fascicolazioni. Costo 120 euro. Non sostituisce la RM di esclusione.",
-          "isAbnormal": false,
-          "price": 120
+        "rx-cranio": {
+          "finding": "Richiesta prima della TC nel trauma lieve.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Colloquio con la paziente, nutrizione e logopedia",
-          "anyOf": [{ "id": "colloquio-prognosi", "label": "Colloquio prognostico", "aliases": ["prognosi", "comunicazione"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "Tacere la diagnosi su richiesta del solo marito", "ids": ["silenzio-diagnostico"] }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "HIGH",
-    "emotionalState": "DEFENSIVE",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
-    "communicationStyle": "DISARTRIA BULBARE. Elena non finisce le frasi: parole spezzate, voce nasale, frustrazione. Il marito parla sopra e chiede di non dire cose brutte. Se la domanda è lunga, lei gli lascia la risposta. Vuole la verità, non un altro esame, ma non in un discorso."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Confusa ma capace di accettare la TC e di rifiutare la lastra."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "14 non e 15",
+      "prompt": "GCS 14, amnesia, niente deficit, niente base, niente affossamento.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "E trauma lieve, ma non e il GCS 15 con solo dolore locale: la TC non e controindicata da quella frase",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Applichi la controindicazione della TC immediata come se il GCS fosse 15",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Frase del GCS 15 copiata sul 14",
+      "prompt": "Un punteggio GCS di 15 e assenza di fattori di rischio e di sintomatologia tranne dolore nel punto di impatto controindicano la TC immediata. Qui il GCS e 14.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC riferimento",
+      "prompt": "Serve l'esame che vede le lesioni di immediata importanza.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Faccia la TC",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Faccia solo la radiografia e la mandi a casa",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Lastra al posto della TC",
+      "prompt": "la TC e considerata l'esame di riferimento per l'individuazione di lesioni di immediata importanza clinica. La radiografia non identifica il sanguinamento intracranico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RX cranio 36 euro, prima della TC. Nel trauma lieve non e di routine e puo ritardare la TC.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Lo prenoti subito: RX cranio 36 euro, prima della TC",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: DI RX 000000612 RX cranio (tre proiezioni) 36,00. Nel trauma lieve non e di routine e puo ritardare la TC. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non metterla davanti",
+      "prompt": "La lastra e gia sul programma, la TC ha uno slot fra 40 minuti se si parte ora.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Salti la lastra e vada alla TC",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Finisca le tre proiezioni e poi prenoti la TC",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Ritardo della TC",
+      "prompt": "L'effettuazione inappropriata di radiografia cranica nel trauma cranico puo ritardare l'effettuazione di TC e di altri esami urgenti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: radiografia del cranio, che lei rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se la TC e negativa e il GCS torna 15",
+      "prompt": "TC senza sangue, poi GCS 15, solo dolore locale. Chiedono una seconda lastra.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non aggiunga la radiografia: continua a non vedere un sangue che la TC ha gia escluso",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "La faccia per completezza",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Seconda lastra inutile",
+      "prompt": "DI RX 000000612 RX cranio (tre proiezioni) 36,00 La lastra non identifica il sanguinamento, e la TC e gia stata fatta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se compare un deficit",
+      "prompt": "Dopo la TC negativa compare un deficit nuovo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non resti sulla definizione di trauma lieve: il deficit focale e un escluso. Rivaluti",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo chiami ancora trauma lieve e non lo riguardi",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Deficit ignorato",
+      "prompt": "Sono esclusi i pazienti con deficit neurologici focali, sospetto di frattura affondata o segni clinici di frattura della base cranica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Informazione",
+      "prompt": "Le spieghi perche la TC si e fatta e perche la lastra no.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Glielo dica con le parole della scheda",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Le dica che la lastra esclude l'emorragia",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Informazione falsa sulla lastra",
+      "prompt": "La Radiografia del cranio puo identificare fratture, ma non identifica il sanguinamento intracranico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "TC fatta, lastra no",
+      "prompt": "Con GCS 14 ha usato la TC come riferimento, non ha anteposto la radiografia da 36 euro e ha rispettato il rifiuto della lastra.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

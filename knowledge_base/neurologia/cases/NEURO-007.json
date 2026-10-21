@@ -1,233 +1,445 @@
 {
   "id": "NEURO-007",
   "code": "NEURO-007",
-  "title": "Attacco ischemico transitorio",
-  "description": "Paolo N., 71 anni, diabetico e iperteso, ha avuto venti minuti di incapacità a parlare e di debolezza del braccio destro mentre era al bar. All'arrivo in Pronto Soccorso il deficit è sparito. La moglie vuole portarlo a casa «perché ora sta bene». ABCD2 è alto: età, pressione 168/96, clinica di linguaggio e forza, durata oltre dieci minuti, diabete. Il percorso è il punteggio, l'ecocolordoppler dei tronchi sovraortici (stenosi circa 70% della carotide interna sinistra), l'ECG per cercare la fibrillazione atriale, e l'avvio dell'antiaggregante prima della dimissione, con invio vascolare. Dimetterlo senza terapia, o senza aver guardato il ritmo, è la trappola. La RM encefalo (220 euro) e la PET (950) non sono il primo gradino: il budget è 160 euro, il percorso ideale circa 82.",
+  "title": "Ictus minore non cardioembolico: doppia antiaggregazione per 21 giorni, non la trombolisi gia fatta",
+  "description": "Carlo, 71 anni, NIHSS 5, esordio da 20 ore, aterosclerosi presunta con stenosi extracranica del 70%. Non ha ricevuto trombolisi. Niente fibrillazione.",
   "difficulty": "MEDIUM",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "TIA emisferico sinistro ad alto rischio ABCD2, stenosi carotidea",
+  "condition": "Ictus ischemico minore non cardioembolico, NIHSS 4-5, entro 24 ore, senza trombolisi, causa aterosclerotica presunta",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "INTERMEDIATE",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/tia-abcd2-tool.pdf",
-  "diagnosis": "TIA del territorio carotideo sinistro, ABCD2 alto, stenosi della carotide interna sinistra intorno al 70%, ritmo sinusale su questo ECG. Indicazione a antiaggregante immediato, statina, avvio del percorso carotideo. Non una dimissione «perché è passato».",
-  "pastMedicalHistory": "Diabete tipo 2 in metformina, ultima HbA1c 58 mmol/mol. Ipertensione irregolarmente curata, dimentica spesso il ramipril. Ex fumatore, 40 pack-year, stop da un anno. Dislipidemia non trattata. Nessun ictus precedente noto. Nessuna fibrillazione nota, ma la moglie riferisce «batticuore» saltuari se glielo si chiede. Non assume antiaggreganti. Allergie: nessuna. Vive al secondo piano senza ascensore.",
-  "presentation": "In barella, ora asintomatico, parla fluente, muove il braccio destro con forza piena. Minimizza: «è stato un abbassamento di pressione». La moglie conferma afasia e braccio cadente per una ventina di minuti, inizio alle 11:10, recupero completo alle 11:30, arrivo alle 12:05. Parametri: PA 168/96 mmHg, FC 88 ritmica, SpO2 97%, FR 16, temperatura 36,5 °C. Se il medico dice che può andare, si alza subito. Se gli si spiega il rischio di ictus nelle ore successive, si siede e ascolta. Non ha cefalea a tuono, non ha trauma.",
+  "setting": "REPARTO",
+  "guidelineRef": "linne guida ictus aha.pdf classe 2a antiaggregazione; tia-abcd2-tool.pdf",
+  "diagnosis": "NIHSS 4 o 5 entro 24 ore, senza trombolisi, causa aterosclerotica presunta: doppia antiaggregazione con clopidogrel e aspirina per 21 giorni, poi un solo antiaggregante, e ragionevole. Non si aggiunge a chi ha gia avuto il farmaco endovena. Nel TIA aterotrombotico l'anticoagulazione non e raccomandata.",
+  "pastMedicalHistory": "Fuma. Niente fibrillazione all'ECG. Non ha fatto trombolisi perche e arrivato a 20 ore.",
+  "presentation": "Deficit lieve, NIHSS 5, stenosi del 70% coerente con i sintomi. ECG senza fibrillazione.",
   "redHerrings": [
-    "Il deficit è già risolto e la famiglia legge la guarigione come fine del problema.",
-    "L'ipotensione raccontata dal paziente non c'è: la pressione è alta.",
-    "I batticuori saltuari si scoprono solo se si chiede del ritmo, e l'ECG di questo momento è sinusale.",
-    "Una RM «per vedere se è rimasto qualcosa» ritarda l'antiaggregante e il doppler."
+    "Vogliono warfarin come se fosse un TIA cardioembolico.",
+    "Vogliono ripetere la trombolisi fuori tempo."
   ],
-  "timeLimitMinutes": 90,
-  "patientDeteriorationThreshold": 40,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: STABILE in questo momento, carattere che sminuisce ed è seccato. Sei Paolo, 71 anni, in Pronto Soccorso, adesso senza sintomi. Non fare l'afasico e non fare il paziente collaborativo da manuale. Alla «Come sta?»: «Sto bene. È passato. Andiamo a casa.» Se non interroghi la moglie Anna, resti su questa frase. Anna, solo se la fai parlare (premetti «Anna:»), descrive venti minuti in cui non trovava le parole e il braccio destro non reggeva la tazzina, dalle 11:10 alle 11:30. È concreta e spaventata, non clinica. Farmaci, solo se chiesti: metformina, ramipril quando si ricorda, niente aspirina. I batticuori li racconta Anna solo se chiedi palpitazioni. Se proponi la dimissione senza terapia, accetti subito. Se proponi l'aspirina e un eco del collo oggi, accetti dopo una spiegazione breve, ancora di fretta. Se proponi la risonanza come primo atto, Anna dice «meglio l'esame più preciso» e tu perdi di vista la pastiglia. Non nominare tu TIA, ABCD2 o stenosi. Se passa troppo tempo senza una decisione, ti si addormenta il braccio destro per pochi minuti e Anna si spaventa: allora sì, due parole in meno, poi torna il «sto bene».",
-  "correctSolution": "TIA ad alto ABCD2. Doppler TSA in urgenza, ECG per escludere la fibrillazione su questo tracciato, antiaggregante subito, statina, non dimissione senza terapia. La stenosi intorno al 70% va nel percorso chirurgico-endovascolare, non gestita con una RM cerebrale al posto del vaso.",
-  "goldStandardPath": ["abcd2", "ecocolordoppler", "ecg", "antiaggregante"],
-  "goldPathNarrative": "1) ABCD2: età ≥60 (1), PA ≥140/90 (1), clinica con afasia e deficit motorio (2), durata 20 minuti (1), diabete (1). Totale 6, rischio alto, niente dimissione «tranquilla». 2) Ecocolordoppler TSA: stenosi della carotide interna sinistra intorno al 70%. 3) ECG: qui è ritmo sinusale, ma va eseguito. Non cercarlo significa non aver indagato la fibrillazione. 4) Antiaggregante prima di uscire, più statina e invio per la carotide. Costo ideale circa 82 euro (doppler 65, ECG 15, atti clinici 2). RM 220 e PET 950 sono fuori: una RM da sola supera il 50% del percorso ideale. Una TC cranio, se serve a escludere un mimico emorragico, non è il bersaglio della penalità. Budget 160 euro.",
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Carlo. Il braccio e debole da ieri sera. Non voglio un anticoagulante se il testo parla di aspirina e clopidogrel. Non voglio una risonanza della schiena.",
+  "correctSolution": "Clopidogrel piu aspirina per 21 giorni, poi un solo antiaggregante. Non anticoagulare un evento aterotrombotico. Non dare il farmaco endovena a 20 ore. Non fare la RM lombare.",
+  "goldStandardPath": [
+    "ecg",
+    "doppler-carotide"
+  ],
+  "goldPathNarrative": "Minore, non cardioembolico, fuori dalla trombolisi. La doppia antiaggregazione di 21 giorni e il passaggio scritto.",
   "examLatencies": {
-    "abcd2": 5,
-    "ecocolordoppler": 20,
-    "ecg": 8,
-    "antiaggregante": 5,
-    "tc": 20,
-    "rm": 100,
-    "pet-tc": 240,
-    "ecocardio": 30
+    "ecg": 10,
+    "doppler-carotide": 30,
+    "rm-lombare": 70
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-tempo-tia",
-      "prompt": "Quanto è durato il deficit, quali funzioni ha perso, ed è tornato del tutto?",
+      "id": "ivtno",
+      "prompt": "Ha gia ricevuto il farmaco endovena per l'ictus?",
       "critical": true,
-      "expectedKeywords": ["venti", "parole", "braccio"],
-      "rationale": "Durata e clinica entrano nell'ABCD2. Senza la moglie il paziente cancella l'episodio."
+      "expectedKeywords": [
+        "no",
+        "trombolisi",
+        "ore"
+      ],
+      "rationale": "La doppia antiaggregazione di quella classe 2a e per chi non ha ricevuto la trombolisi."
     },
     {
-      "id": "aq-fa",
-      "prompt": "Ha palpitazioni, fibrillazione nota, o assume già un antiaggregante?",
+      "id": "fa",
+      "prompt": "L'ECG mostra fibrillazione?",
       "critical": true,
-      "expectedKeywords": ["palpitazioni", "fibrillazione", "aspirina"],
-      "rationale": "Non cercare la fibrillazione, e non chiedere se è già in antiaggregante, è la trappola della dimissione incompleta."
-    },
-    {
-      "id": "aq-rischio",
-      "prompt": "Ha diabete, fuma o dimentica la pressione?",
-      "critical": true,
-      "expectedKeywords": ["diabete", "pressione", "fumo"],
-      "rationale": "I fattori di rischio completano l'ABCD2 e motivano la statina insieme all'antiaggregante."
+      "expectedKeywords": [
+        "no",
+        "seno",
+        "ECG"
+      ],
+      "rationale": "La fibrillazione sposterebbe verso l'anticoagulazione del TIA cardioembolico, che qui non c'e."
     }
   ],
   "physicalExam": {
-    "summary": "All'arrivo esame neurologico negativo: linguaggio fluente, forza piena, NIHSS 0. Soffio carotideo sinistro se si ausculta il collo. Toni ritmici in questo momento. Non segni meningei. L'esame normale dopo un deficit testimoniato non autorizza la dimissione senza terapia e senza studio del vaso e del ritmo."
+    "summary": "Deficit lieve, NIHSS 5, ritmo sinusale, soffio carotideo."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-007-abcd2",
+      "chunkId": "dapt",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In patients with minor (NIHSS score <=5) noncardioembolic AIS or high-risk TIA (ABCD2 score >=4) within 24 to 72 hours from stroke onset, or NIHSS score of 4 to 5 within 24 hours from onset, who did not receive IVT, with presumed atherosclerotic cause, DAPT (clopidogrel and aspirin) for 21 days followed by SAPT is reasonable to reduce the 90-day risk of recurrent stroke."
+    },
+    {
+      "chunkId": "anti",
       "source": "knowledge_base/neurologia/clinic/tia-abcd2-tool.pdf",
-      "quote": "Sintesi operativa: l'ABCD2 si calcola su età, pressione, clinica, durata e diabete. Un punteggio alto non si dimette come malore risolto. Il deficit già passato non abbassa da solo il rischio delle ore successive."
+      "quote": "Atherothrombotic TIA: Daily long-term antiplatelet therapy: combination extended-release dipyridamole plus aspirin (reasonable as first choice), clopidogrel, or aspirin alone. Anticoagulation is not recommended"
     },
     {
-      "chunkId": "neuro-007-ictus",
-      "source": "knowledge_base/neurologia/clinic/linee guida iso spread.pdf",
-      "quote": "Sintesi operativa: dopo un TIA si cercano la stenosi carotidea e una sorgente cardiaca, e si avvia la prevenzione secondaria prima della dimissione. L'antiaggregante non si rimanda al curante «lunedì»."
+      "chunkId": "af",
+      "source": "knowledge_base/neurologia/clinic/tia-abcd2-tool.pdf",
+      "quote": "Cardioembolic TIA: Long-term anticoagulation for atrial fibrillation (continuous or paroxysmal)."
     },
     {
-      "chunkId": "neuro-007-costi",
+      "chunkId": "ivt",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In adult patients with AIS presenting within 4.5 hours of symptom onset or last known well and eligible for IVT, tenecteplase at a dose of 0.25 mg/kg body weight (max 25 mg) or alteplase at a dose of 0.9 mg/kg body weight is recommended to improve functional outcomes."
+    },
+    {
+      "chunkId": "lomb",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "Non eseguire Risonanza Magnetica (RM) del Rachide Lombosacrale in caso di lombalgia nelle prime sei settimane in assenza di segni/sintomi di allarme (semafori rossi o red flags)."
+    },
+    {
+      "chunkId": "tar",
       "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
-      "quote": "Sintesi operativa sul costo: la RM encefalo non sostituisce il doppler dei tronchi sovraortici in un deficit già risolto. Il vaso del collo è l'esame che cambia la destinazione del paziente."
+      "quote": "RM rachide lombosacrale 280+bollo"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "ABCD2 calcolato e scritto, non solo intuito.",
-      "Ecocolordoppler TSA in urgenza.",
-      "ECG eseguito per cercare la fibrillazione, anche se questo tracciato è sinusale.",
-      "Antiaggregante avviato prima della dimissione.",
-      "Nessuna dimissione senza terapia."
+      "NIHSS 5, niente trombolisi, causa aterosclerotica: clopidogrel e aspirina per 21 giorni, poi un solo farmaco.",
+      "Non fare la RM lombare a 280 euro piu bollo."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Dimettere un TIA ad ABCD2 alto senza antiaggregante e senza aver cercato fibrillazione e stenosi non aderisce al percorso dell'attacco ischemico transitorio. Il fatto che il deficit sia passato non è una giustificazione scritta sufficiente.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Orario, durata e clinica del deficit testimoniati in cartella.",
-        "ABCD2 riportato con il punteggio.",
-        "ECG e doppler eseguiti o motivata l'impossibilità, prima della dimissione.",
-        "Antiaggregante prescritto e consegnato, non solo consigliato a voce."
+        "Classe 2a: doppia antiaggregazione 21 giorni solo senza trombolisi gia fatta.",
+        "TIA aterotrombotico: anticoagulazione non raccomandata.",
+        "Rifiuto dell'anticoagulante dopo l'informazione."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "abcd2",
-      "name": "Punteggio ABCD2",
-      "finding": "ABCD2 = 6. Età 71 (1), PA 168/96 (1), afasia e deficit motorio (2), durata 20 minuti (1), diabete (1). Rischio alto di ictus a breve. La risoluzione del deficit non autorizza la dimissione senza prevenzione.",
-      "isAbnormal": true,
-      "priceEuro": 1
-    },
-    {
-      "examId": "ecocolordoppler",
-      "name": "Ecocolordoppler TSA",
-      "finding": "Stenosi della carotide interna sinistra stimata intorno al 70%, placca ipoecogena, velocità aumentate. Carotide destra con irregolarità senza stenosi significativa. Vertebrali perviei. Reperto che spiega il TIA emisferico sinistro e richiede il percorso di rivascolarizzazione, oltre all'antiaggregante.",
-      "isAbnormal": true,
-      "priceEuro": 65
-    },
-    {
       "examId": "ecg",
-      "name": "ECG per ricerca di fibrillazione atriale",
-      "finding": "Ritmo sinusale a 86 bpm. Nessuna fibrillazione su questo tracciato. Onde T aspecifiche. L'ECG andava fatto: non averlo richiesto significa non aver indagato la fibrillazione. I batticuori anamnestici restano da seguire, ma questo tracciato non sposta la terapia sull'anticoagulante.",
+      "name": "ECG",
+      "finding": "Ritmo sinusale, niente fibrillazione.",
       "isAbnormal": false,
-      "priceEuro": 15
+      "isFatal": false
     },
     {
-      "examId": "antiaggregante",
-      "name": "Avvio dell'antiaggregante",
-      "finding": "Acido acetilsalicilico 300 mg ora, poi 100 mg al giorno, più atorvastatina ad alta intensità. Niente dimissione senza la prima dose. Invio al percorso carotideo per la stenosi intorno al 70%. Se l'ECG avesse mostrato fibrillazione, il piano sarebbe stato l'anticoagulante: qui il ritmo è sinusale.",
-      "isAbnormal": false,
-      "priceEuro": 1,
+      "examId": "doppler-carotide",
+      "name": "Doppler carotideo",
+      "finding": "Stenosi extracranica del 70% coerente con il lato del deficit.",
+      "isAbnormal": true,
       "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "rm",
-      "name": "RM encefalo",
-      "finding": "RM encefalo: piccolo focolaio di restrizione in diffusione corticale frontale sinistra, senza lesione FLAIR estesa. Conferma ischemia recente ma non dice nulla sulla carotide e ritarda doppler e aspirina di circa 100 minuti. Costo 220 euro.",
-      "isAbnormal": true,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Come primo esame, al posto del doppler e dell'antiaggregante, la RM è ridondante e cara. 220 euro contro un ideale di circa 82: sforamento oltre il 50%."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET-TC non indicata nel TIA. Nessun dato sul vaso. Costo 950 euro.",
+      "examId": "rm-lombare",
+      "name": "RM lombare",
+      "finding": "Lombalgia recente senza red flag, non spiega l'ictus.",
       "isAbnormal": false,
-      "priceEuro": 950,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Medicina difensiva. La PET non stratifica l'ABCD2 e sfonda il budget di 160 euro."
+      "wasteRationale": "SIRM: niente RM lombare nelle prime 6 settimane senza allarmi. Tariffa 280 piu bollo.",
+      "priceEuro": 280
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 88,
-      "bloodPressure": "168/96",
+      "heartRate": 76,
+      "bloodPressure": "148/86",
       "spo2": 97,
       "temperature": 36.5,
       "respiratoryRate": 16
     },
-    "examBudgetEuro": 160,
-    "demographics": { "age": 71, "sex": "M", "name": "Paolo N." },
-    "clinicalSigns": [
-      {
-        "signName": "Esame neurologico obiettivo",
-        "result": "Negativo all'arrivo. NIHSS 0. Il deficit si è risolto prima del triage.",
-        "isPositive": false
-      },
-      {
-        "signName": "Soffio carotideo",
-        "result": "Soffio sul collo a sinistra.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Soffio carotideo",
-        "result": "Presente a sinistra.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 71,
+      "sex": "M",
+      "context": "Stroke unit"
+    },
     "advancedExams": {
       "values": {
-        "ecocolordoppler": {
-          "finding": "Stenosi circa 70% della carotide interna sinistra, placca ipoecogena. Costo 65 euro. Esame del gold path.",
-          "isAbnormal": true,
-          "price": 65
-        },
         "ecg": {
-          "finding": "Ritmo sinusale, niente fibrillazione su questo tracciato. L'esame andava richiesto. Costo 15 euro.",
-          "isAbnormal": false,
-          "price": 15
+          "finding": "Ritmo sinusale, niente fibrillazione.",
+          "isAbnormal": false
         },
-        "tc": {
-          "finding": "TC cranio senza contrasto: nessuna emorragia, nessun infarto esteso già visibile. Accettabile per escludere un mimico emorragico. Non sostituisce doppler, ECG e aspirina. Costo 120 euro.",
-          "isAbnormal": false,
-          "price": 120
+        "doppler-carotide": {
+          "finding": "Stenosi extracranica del 70% coerente con il lato del deficit.",
+          "isAbnormal": true
         },
-        "rm": {
-          "finding": "RM: piccola restrizione corticale sinistra. Non studia la carotide e ritarda la prevenzione. Costo 220 euro.",
-          "isAbnormal": true,
-          "price": 220
-        },
-        "pet-tc": {
-          "finding": "PET-TC non indicata. Costo 950 euro.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "ecocardio": {
-          "finding": "Ecocardiogramma: ventricolo sinistro nei limiti, nessuna trombosi visibile, atrio non dilatato. Utile in un secondo tempo, non al posto dell'ECG e del doppler. Costo 75 euro.",
-          "isAbnormal": false,
-          "price": 75
+        "rm-lombare": {
+          "finding": "Lombalgia recente senza red flag, non spiega l'ictus.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Antiaggregante prima della dimissione, ritmo sinusale",
-          "anyOf": [{ "id": "antiaggregante", "label": "Aspirina", "aliases": ["aspirina", "cardioaspirina", "clopidogrel"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "Dimissione senza alcun antitrombotico", "ids": ["dimissione-senza-terapia"] }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "DEFENSIVE",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
     "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "MEDIUM", "socialSupport": "STRONG" },
-    "communicationStyle": "STABILE ADESSO, MINIMIZZA. Paolo è seccato, vuole andare a casa, dice che è passato. Anna, solo se interrogata, è precisa sui venti minuti in cui non trovava le parole. In questo momento lui non è afasico."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Collabora. Non vuole l'anticoagulante. Chiede di non fare esami della schiena."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Ore e NIHSS",
+      "prompt": "NIHSS 5, esordio 20 ore fa. Non e stato trombolisato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Lo riconosca come minore, fuori dalle 4,5 ore, candidato alla frase sulla doppia antiaggregazione",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Gli dia alteplase adesso",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Trombolisi fuori dalle 4,5 ore",
+      "prompt": "In adult patients with AIS presenting within 4.5 hours of symptom onset or last known well and eligible for IVT, tenecteplase at a dose of 0.25 mg/kg body weight (max 25 mg) or alteplase at a dose of 0.9 mg/kg body weight is recommended to improve functional outcomes.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Escludere la causa cardiaca",
+      "prompt": "ECG in ritmo sinusale. La stenosi e il 70% ed e sul lato giusto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Causa aterosclerotica presunta, non cardioembolica",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo anticoaguli come fibrillazione anche con l'ECG in ritmo sinusale",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Anticoagulazione senza fibrillazione",
+      "prompt": "Atherothrombotic TIA: Daily long-term antiplatelet therapy: combination extended-release dipyridamole plus aspirin (reasonable as first choice), clopidogrel, or aspirin alone. Anticoagulation is not recommended Cardioembolic TIA: Long-term anticoagulation for atrial fibrillation (continuous or paroxysmal).",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "21 giorni poi un farmaco",
+      "prompt": "Non ha avuto la trombolisi. NIHSS 5. Stenosi presunta responsabile.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Clopidogrel e aspirina per 21 giorni, poi un solo antiaggregante",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Un solo antiaggregante da subito, oppure la doppia terapia per mesi",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Durata diversa da 21 giorni",
+      "prompt": "In patients with minor (NIHSS score <=5) noncardioembolic AIS or high-risk TIA (ABCD2 score >=4) within 24 to 72 hours from stroke onset, or NIHSS score of 4 to 5 within 24 hours from onset, who did not receive IVT, with presumed atherosclerotic cause, DAPT (clopidogrel and aspirin) for 21 days followed by SAPT is reasonable to reduce the 90-day risk of recurrent stroke.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non sommarla alla trombolisi",
+      "prompt": "Un collega dice di dare comunque la doppia terapia anche a chi ha appena avuto il farmaco endovena. Lui non l'ha avuto, ma la regola va detta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Confermi che la frase vale per chi non ha ricevuto la trombolisi, e nel suo caso e cosi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Scriva che la doppia terapia si somma sempre al farmaco endovena",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Doppia terapia estesa a chi e gia trombolisato",
+      "prompt": "Il testo dice: who did not receive IVT.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM lombare 280 euro piu bollo. Lombalgia senza red flag nelle prime settimane: SIRM non la indica.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo prenoti subito: RM lombare 280 euro piu bollo",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM rachide lombosacrale 280+bollo. Lombalgia senza red flag nelle prime settimane: SIRM non la indica. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: anticoagulante, che lui rifiuta e che il TIA aterotrombotico non raccomanda. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Pressione e statina del percorso TIA",
+      "prompt": "La pressione e 148/86. LDL da iniziare. Il foglio TIA indica pressione sotto 140/90, o sotto 130/80 se diabetico, e una statina con LDL sotto 100 mg/dL. Lui non e diabetico.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Ace-inibitore, da solo o con diuretico, o sartano, verso sotto 140/90, e una statina quotidiana",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non tocchi pressione e colesterolo",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Prevenzione secondaria omessa",
+      "prompt": "Lower blood pressure to <140/90 mm Hg or <130/80 mm Hg for diabetics, with an ACE inhibitor alone or in combination with a diuretic, or with an angiotensin-receptor blocker Initiate a daily statin. Goal LDL-cholesterol level <2.59 mmol/l (<100mg/dl)",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Stenosi 70-99 e i tempi",
+      "prompt": "La stenosi e 70%. Il foglio TIA raccomanda l'endoarterectomia, di preferenza entro 2 settimane, per il 70-99%. Il bypass no.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "La invii per endoarterectomia, di preferenza entro 2 settimane. Niente bypass",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Proporre un bypass extra-intracranico",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Bypass non raccomandato",
+      "prompt": "70-99% internal carotid artery stenosis: Recommended Preferably within 2 weeks of cerebral or retinal TIA in those with TIA attributed to a high-grade internal carotid artery stenosis Bypass surgery: Not recommended",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Doppia antiaggregazione per 21 giorni",
+      "prompt": "Non ha trombolisato a 20 ore, non ha anticoagulato un aterotrombotico, ha impostato 21 giorni di clopidogrel e aspirina e non ha fatto la RM lombare.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

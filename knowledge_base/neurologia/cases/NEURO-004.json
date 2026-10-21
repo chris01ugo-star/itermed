@@ -1,213 +1,440 @@
 {
   "id": "NEURO-004",
   "code": "NEURO-004",
-  "title": "Emicrania senz'aura o cefalea tensiva",
-  "description": "Marta G., 29 anni, grafica, chiede una visita perché da otto anni ha mal di testa che lei chiama «da cervicale». Gli attacchi, tre o quattro al mese, durano da mezza giornata a un giorno intero: dolore pulsante all'emitemporale destra, nausea, fastidio per la luce, peggiora se sale le scale. Tra un attacco e l'altro sta bene. Non è mai stato a rombo di tuono, non ha febbre, non ha deficit, non ha cambiato profilo. L'esame neurologico è negativo. La diagnosi è emicrania senz'aura, non cefalea tensiva: la tensione del collo compare durante l'attacco ed è un accompagnamento, non la causa. Il percorso è anamnesi sul profilo temporale, esame obiettivo, terapia acuta con triptano. TC e RM, che lei chiede perché una collega «aveva un tumore», non sono indicate e sforano un budget ambulatoriale di 40 euro.",
-  "difficulty": "EASY",
+  "title": "Occlusione a 10 ore: trombectomia solo se i criteri della finestra 6-24 sono tutti veri",
+  "description": "Elena, 72 anni, occlusione di carotide interna intracranica da 10 ore. NIHSS 14, mRS pre-ictus 0, ASPECTS 4, niente effetto massa. Non e piu nella finestra del farmaco endovena.",
+  "difficulty": "HARD",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Emicrania senz'aura a profilo stabile, esame neurologico negativo",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
-  "setting": "AMBULATORIO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/cefalee primarie.pdf",
-  "diagnosis": "Emicrania senz'aura (attacchi ricorrenti, unilaterali, pulsanti, con nausea e fotofobia, durata 4-72 ore, esame negativo, nessuna red flag). Non è cefalea tensiva e non richiede neuroimaging.",
-  "pastMedicalHistory": "Cefalea dallo stesso profilo dagli anni dell'università. Nessun trauma, nessuna neoplasia, nessun immunodepressore. Ciclo regolare, non usa estroprogestinico. Non fuma. Assume ibuprofene 400 mg da banco, spesso tardi, con sollievo incompleto. Madre con emicrania. Non ha mai avuto aura visiva, non ha crisi epilettiche, non ha glaucoma noto. Allergie: nessuna. Lavoro al computer, dorme circa 6 ore, salta il pranzo nei giorni di consegna.",
-  "presentation": "In ambulatorio, lucida, collaborante, oggi senza dolore perché l'ultimo attacco è stato tre giorni fa. Descrive il collo rigido solo quando pulsa la tempia, non un dolore nucale continuo. Se il medico si ferma a «è stress?» risponde di sì e il caso sembra una cefalea tensiva. Se si chiede lato, qualità, durata, nausea e luce, emerge l'emicrania. Non ha deficit, non ha papilledema, non ha febbre. Parametri: PA 118/74 mmHg, FC 76, SpO2 99%, FR 14, temperatura 36,5 °C. Porta una stampa di internet sulla risonanza «per escludere qualcosa di brutto» e si aspetta che il medico la prenoti.",
+  "condition": "Occlusione prossimale anteriore fra 6 e 24 ore, eta sotto 80, NIHSS almeno 6, mRS 0-1, ASPECTS 3-5, senza effetto massa",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "linne guida ictus aha.pdf classe 1 finestra 6-24 ore; RM paganti",
+  "diagnosis": "Fra 6 e 24 ore la trombectomia e raccomandata nei selezionati con eta sotto 80 anni, NIHSS almeno 6, mRS 0 o 1, ASPECTS da 3 a 5 e senza effetto massa. ASPECTS 0-2 entro 6 ore e solo classe 2a, e lei non e in quella finestra. Il tirofiban prima non e utile.",
+  "pastMedicalHistory": "Autonoma prima dell'ictus. Nessuna malattia renale nota da usare come scusa per allargare la raccomandazione: la nota AHA limita la generalizzabilita sopra gli 80 anni, nell'insufficienza renale e con pressione refrattaria.",
+  "presentation": "Dieci ore dall'esordio. Eta 72. ASPECTS 4, niente effetto massa. NIHSS 14. mRS 0.",
   "redHerrings": [
-    "Chiama il dolore «cervicale» perché le si irrigidisce il collo durante l'attacco.",
-    "Lo stress lavorativo c'è, ma non trasforma un profilo emicranico in cefalea tensiva.",
-    "La collega operata per un meningioma la spinge a chiedere TC o RM a ogni visita.",
-    "L'ibuprofene parziale la convince che serva un antidolorifico più forte, non un triptano."
+    "Propongono di trattarla come ASPECTS 0-2 in classe 1.",
+    "Propongono una RM muscoloscheletrica del ginocchio per un dolore vecchio."
   ],
-  "timeLimitMinutes": 45,
-  "patientDeteriorationThreshold": 35,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: STABILE ma con carattere, non il paziente neutro. Sei Marta, 29 anni, ambulatorio, oggi senza dolore. Sei lucida, però ipocondriaca e sulla difensiva: una collega aveva un tumore e all'inizio le dicevano che era stress. Alla «Come sta?»: «Oggi niente. Però la mia collega aveva un tumore e le dicevano che era stress. Io non ci dormo.» Vietato «abbastanza bene, grazie, un po' preoccupata». Se ti chiedono solo se sei stressata o se ti fa male il collo, rispondi sì e fermati: non regalare nausea, luce e pulsazione. Se ti chiedono come inizia, quanto dura, da che lato sta, se hai nausea o se la luce ti dà fastidio, allora racconti, concreta: tempia destra, batte, dura almeno mezza giornata, nausea, stanza buia, peggiora con le scale, da otto anni, tre o quattro volte al mese, tra un attacco e l'altro stai bene, niente lampi prima. Se propongono TC o risonanza, accetti subito e citi la collega. Se ti spiegano che l'esame è normale e che il profilo è il tuo mal di testa solito, e ti propongono una pastiglia da prendere all'inizio più un antinfiammatorio preso presto, ti rilassi e non insisti per la risonanza. Se ti danno un oppioide o un antinfiammatorio tutti i giorni, chiedi se diventerai dipendente. Non nominare tu emicrania senz'aura, ICHD o red flag. Se la visita si perde in esami e nessuno ti cura l'attacco, ti innervosisci: «Ho buttato la mattinata.»",
-  "correctSolution": "Emicrania senz'aura su criteri clinici. Esame neurologico negativo e storia stabile: niente TC, niente RM. Triptano all'esordio dell'attacco, antinfiammatorio precoce, diario degli attacchi, igiene del sonno. Rivalutare solo se compaiono red flag o se gli attacchi superano la soglia della profilassi.",
-  "goldStandardPath": ["anamnesi-cefalea", "esame-neurologico", "triptano"],
-  "goldPathNarrative": "1) Anamnesi sul profilo: unilateralità, qualità pulsante, durata 4-72 ore, nausea, fotofobia, peggioramento con l'attività, ricorrenza da anni, intervalli liberi. Il collo rigido non basta per la diagnosi di cefalea tensiva. 2) Esame neurologico, fondo oculare compreso: negativo. Nessuna red flag (niente tuono, deficit, febbre, esordio dopo i 50, cambiamento di profilo). 3) Terapia acuta con triptano, non un imaging. Costo ideale circa 3 euro. TC cranio 120 euro e RM encefalo 220 euro sono medicina difensiva: il budget della visita è 40 euro. Una sola delle due supera il 50% del percorso ideale.",
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Elena. Sono passate dieci ore. Accetto la trombectomia se i criteri ci sono. Non accetto un farmaco in piu, il tirofiban, e non voglio una risonanza del ginocchio oggi.",
+  "correctSolution": "Eta 72, NIHSS 14, mRS 0, ASPECTS 4, niente effetto massa, occlusione di carotide interna, 10 ore: trombectomia raccomandata. Non la classifichi come la classe 2a degli ASPECTS 0-2. Non dia tirofiban prima. Non faccia la RM del ginocchio.",
+  "goldStandardPath": [
+    "tc-encefalo",
+    "angio-tc"
+  ],
+  "goldPathNarrative": "La finestra del farmaco endovena e chiusa. La trombectomia resta indicata perche tutti i criteri scritti per le 6-24 ore ci sono.",
   "examLatencies": {
-    "anamnesi-cefalea": 12,
-    "esame-neurologico": 8,
-    "triptano": 2,
-    "tc": 40,
-    "rm": 90,
-    "pet-tc": 240,
-    "fundus": 8
+    "tc-encefalo": 15,
+    "angio-tc": 20,
+    "rm-ginocchio": 60
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-profilo",
-      "prompt": "Il dolore è pulsante e da un lato, quanto dura, e c'è nausea o fastidio per la luce?",
+      "id": "eta",
+      "prompt": "Quanti anni ha e quante ore sono passate?",
       "critical": true,
-      "expectedKeywords": ["pulsante", "nausea", "luce", "unilaterale"],
-      "rationale": "Senza lato, qualità, durata e sintomi associati la cefalea tensiva e l'emicrania si confondono."
+      "expectedKeywords": [
+        "anni",
+        "ore",
+        "dieci"
+      ],
+      "rationale": "La classe 1 fra 6 e 24 ore chiede eta sotto 80."
     },
     {
-      "id": "aq-storia",
-      "prompt": "Da quanti anni ha lo stesso mal di testa e sta bene tra un attacco e l'altro?",
+      "id": "aspetti4",
+      "prompt": "ASPECTS ed effetto massa?",
       "critical": true,
-      "expectedKeywords": ["anni", "intervallo", "stesso"],
-      "rationale": "Un profilo identico da otto anni, con intervalli liberi, abbassa il sospetto di lesione occupante spazio."
-    },
-    {
-      "id": "aq-redflag",
-      "prompt": "Il dolore è mai esploso in secondi, ha avuto deficit, febbre o un cambiamento recente?",
-      "critical": true,
-      "expectedKeywords": ["secondi", "deficit", "febbre"],
-      "rationale": "Le red flag si chiedono per escluderle, non per prenotare comunque la RM."
+      "expectedKeywords": [
+        "ASPECTS",
+        "massa",
+        "quattro"
+      ],
+      "rationale": "Servono ASPECTS da 3 a 5 e assenza di effetto massa significativo."
     }
   ],
   "physicalExam": {
-    "summary": "Vigile, collaborante, nervi cranici integri, campi visivi per confrontazione integri, fondo oculare senza edema di papilla, forza e sensibilità simmetriche, riflessi vivi simmetrici, marcia e coordinazione normali, rigidità nucale assente, non soffi cervicali. L'esame negativo, insieme alla storia stabile, chiude l'indicazione all'imaging."
+    "summary": "Emiplegia, NIHSS 14, TC con ASPECTS 4 senza effetto massa, angio con occlusione di carotide interna intracranica."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-004-ichd",
-      "source": "knowledge_base/neurologia/clinic/ICHD-3-Italian.pdf",
-      "quote": "Sintesi operativa: l'emicrania senz'aura si riconosce da attacchi ricorrenti di dolore unilaterale pulsante, aggravato dall'attività, con nausea o foto-fonofobia, della durata di ore. Non serve un'immagine per applicare il criterio se l'esame è negativo."
+      "chunkId": "e24",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In selected patients with AIS from anterior circulation proximal LVO of the ICA or M1, presenting between 6 and 24 hours from onset of symptoms, with age <80 years, NIHSS score >=6, prestroke mRS score 0 to 1, ASPECTS 3 to 5, and without significant mass effect on imaging, EVT is recommended to improve functional clinical outcomes and reduce mortality."
     },
     {
-      "chunkId": "neuro-004-primarie",
-      "source": "knowledge_base/neurologia/clinic/cefalee primarie.pdf",
-      "quote": "Sintesi operativa: la cefalea tensiva è bilaterale, gravativa, lieve o moderata, senza nausea significativa. Un dolore pulsante con nausea e fotofobia non diventa tensivo solo perché la paziente nomina il collo o lo stress."
+      "chunkId": "a02",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In selected patients with AIS from anterior circulation proximal LVO of the ICA or M1 presenting within 6 hours from onset of symptoms, with age <80 years, NIHSS score >=6, prestroke mRS 0 to 1, ASPECTS 0 to 2, and without significant mass effect on imaging, EVT is reasonable to improve functional clinical outcomes and reduce mortality."
     },
     {
-      "chunkId": "neuro-004-costi",
+      "chunkId": "tiro",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In the management of patients with AIS in the setting of LVO, preoperative administration of tirofiban before EVT is not useful to improve 90-day functional outcome."
+    },
+    {
+      "chunkId": "gin",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "Non eseguire di routine Risonanza Magnetica (RM) del ginocchio in caso di dolore acuto da trauma o di dolore cronico."
+    },
+    {
+      "chunkId": "tar",
       "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
-      "quote": "Sintesi operativa sul costo: la RM encefalo non è il primo atto di una cefalea primaria a profilo stabile. Ordinarla per rassicurare, con esame negativo, è una spesa non giustificata rispetto al percorso clinico."
+      "quote": "RM muscoloscheletriche tariffe. GINOCCHIO 280+bollo"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Profilo emicranico distinto dalla cefalea tensiva prima di qualsiasi imaging.",
-      "Esame neurologico negativo documentato, fondo compreso.",
-      "Nessuna TC e nessuna RM in assenza di red flag.",
-      "Triptano come terapia dell'attacco, non un oppioide cronico."
+      "Fra 6 e 24 ore trombectomia solo con eta sotto 80, NIHSS almeno 6, mRS 0-1, ASPECTS 3-5 e senza effetto massa.",
+      "Non eseguire la RM del ginocchio a 280 euro piu bollo durante l'ictus."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "La scelta di non fare imaging va scritta: storia stabile, esame negativo, assenza di red flag, criterio di cefalea primaria. Prenotare TC o RM «per sicurezza» non è aderenza alle raccomandazioni sulle cefalee primarie.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Red flag cercate e risultate assenti, scritte in cartella.",
-        "Diagnosi di emicrania senz'aura motivata sul profilo, non sulla parola cervicale.",
-        "Nessun neuroimaging di routine con obiettivo negativo.",
-        "Piano acuto spiegato e compreso dalla paziente."
+        "Classe 1 della finestra 6-24 ore, non la classe 2a degli ASPECTS 0-2.",
+        "Tirofiban prima della trombectomia: nessun beneficio a 90 giorni.",
+        "Rifiuto del tirofiban dopo l'informazione."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "anamnesi-cefalea",
-      "name": "Anamnesi sul profilo della cefalea",
-      "finding": "Otto anni di attacchi identici, 3-4 al mese, durata 12-24 ore, pulsazione emitemporale destra, nausea, fotofobia, peggioramento con l'attività, intervalli liberi. Il collo si irrigidisce durante l'attacco. Nessun esordio a tuono, nessun deficit, nessuna febbre, nessun cambiamento recente. Profilo di emicrania senz'aura, non di cefalea tensiva.",
+      "examId": "tc-encefalo",
+      "name": "TC encefalo",
+      "finding": "ASPECTS 4, niente effetto massa. Dentro 3-5.",
       "isAbnormal": true,
-      "priceEuro": 1
+      "isFatal": false
     },
     {
-      "examId": "esame-neurologico",
-      "name": "Esame neurologico",
-      "finding": "Esame negativo. Nessun deficit focale, papilla a margini netti, assenza di segni meningei. Non c'è un reperto che autorizzi TC o RM.",
-      "isAbnormal": false,
-      "priceEuro": 1
-    },
-    {
-      "examId": "triptano",
-      "name": "Triptano all'esordio dell'attacco",
-      "finding": "Sumatriptan 50 mg al bisogno, all'inizio del dolore, non più di quanto indicato in scheda, insieme a un antinfiammatorio preso presto. Diario degli attacchi. Nessuna profilassi oggi: frequenza sotto la soglia che la rende obbligatoria in questa visita. Niente oppioidi.",
-      "isAbnormal": false,
-      "priceEuro": 1
+      "examId": "angio-tc",
+      "name": "Angio-TC",
+      "finding": "Occlusione prossimale di carotide interna. NIHSS 14, mRS 0, eta 72, ora 10.",
+      "isAbnormal": true,
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc",
-      "name": "TC cranio",
-      "finding": "TC encefalo senza contrasto: parenchima omogeneo, sistema ventricolare normale, nessuna lesione. Referto negativo atteso. Costo 120 euro. Non ha cambiato la diagnosi, che era già clinica.",
+      "examId": "rm-ginocchio",
+      "name": "RM ginocchio",
+      "finding": "Dolore cronico di ginocchio senza un quesito che cambi la cura dell'ictus di oggi.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Con esame negativo e cefalea primaria stabile la TC non è indicata. Costa 120 euro contro un percorso ideale di circa 3 euro: sforamento ben oltre il 50%."
-    },
-    {
-      "examId": "rm",
-      "name": "RM encefalo",
-      "finding": "RM encefalo senza contrasto: nessuna lesione espansiva, nessun enhancement da chiedere perché il contrasto non era indicato, segnale regolare. Costo 220 euro. Referto rassicurante e non necessario.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Neuroimaging ingiustificato. La RM per ansia, con obiettivo negativo e storia di otto anni identica, è medicina difensiva e sfonda il budget ambulatoriale di 40 euro."
+      "wasteRationale": "SIRM: niente RM di ginocchio di routine. Tariffa 280 euro piu bollo.",
+      "priceEuro": 280
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 76,
-      "bloodPressure": "118/74",
-      "spo2": 99,
+      "heartRate": 84,
+      "bloodPressure": "150/88",
+      "spo2": 96,
       "temperature": 36.5,
-      "respiratoryRate": 14
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 40,
-    "demographics": { "age": 29, "sex": "F", "name": "Marta G." },
-    "clinicalSigns": [
-      {
-        "signName": "Esame neurologico obiettivo",
-        "result": "Negativo. Nessun deficit, papille nette, assenza di rigidità.",
-        "isPositive": false
-      },
-      {
-        "signName": "Fondo oculare",
-        "result": "Papille a margini netti, nessun edema.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Esame neurologico obiettivo",
-        "result": "Negativo.",
-        "isPositive": false
-      }
-    ],
+    "demographics": {
+      "age": 72,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "tc": {
-          "finding": "TC cranio negativa. Nessuna indicazione clinica. Costo 120 euro, fuori dal budget di 40 euro di questa visita.",
-          "isAbnormal": false,
-          "price": 120
+        "tc-encefalo": {
+          "finding": "ASPECTS 4, niente effetto massa. Dentro 3-5.",
+          "isAbnormal": true
         },
-        "rm": {
-          "finding": "RM encefalo negativa. Non indicata in un'emicrania senz'aura stabile con esame normale. Costo 220 euro.",
-          "isAbnormal": false,
-          "price": 220
+        "angio-tc": {
+          "finding": "Occlusione prossimale di carotide interna. NIHSS 14, mRS 0, eta 72, ora 10.",
+          "isAbnormal": true
         },
-        "pet-tc": {
-          "finding": "PET-TC non indicata. Costo 950 euro. Nessun iperaccumulo. Prestazione fuori da ogni percorso di cefalea primaria.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "fundus": {
-          "finding": "Fondo oculare: papille nette, nessun edema. Coerente con l'esame clinico già negativo.",
-          "isAbnormal": false,
-          "price": 60
+        "rm-ginocchio": {
+          "finding": "Dolore cronico di ginocchio senza un quesito che cambi la cura dell'ictus di oggi.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Triptano all'esordio dell'attacco",
-          "anyOf": [{ "id": "triptano", "label": "Triptano", "aliases": ["sumatriptan", "almotriptan", "triptano"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "Oppioide o FANS quotidiano come piano della cefalea primaria", "ids": ["oppioide", "fans-cronico"] }
-      ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
-    "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "STABILE, IPOCONDRIACA. Lucida, oggi senza dolore, sospettosa perché una collega aveva un tumore e le dicevano che era stress. Precisa e diffidente, non cortese-generica. Nausea, luce e pulsazione escono solo se chieste."
-  }
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Spaventata ma capace. Accetta la trombectomia. Rifiuta tirofiban e risonanza del ginocchio."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Contare le ore e gli anni",
+      "prompt": "Esordio da 10 ore. Eta 72. Il farmaco endovena delle 4,5 ore non e piu proponibile su quest'ora.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La metta nella finestra 6-24 ore e verifichi uno per uno i criteri della classe 1",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Le dia comunque alteplase come se fossero passate tre ore",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Finestra del farmaco gia chiusa",
+      "prompt": "La classe 1 del farmaco endovena vale entro 4,5 ore. Qui sono 10. In adult patients with AIS presenting within 4.5 hours of symptom onset or last known well and eligible for IVT, tenecteplase at a dose of 0.25 mg/kg body weight (max 25 mg) or alteplase at a dose of 0.9 mg/kg body weight is recommended to improve functional outcomes.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "I cinque criteri",
+      "prompt": "Eta 72, NIHSS 14, mRS 0, ASPECTS 4, niente effetto massa, occlusione di carotide interna.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Trombectomia raccomandata: i criteri scritti per le 6-24 ore ci sono tutti",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "La escluda perche sono passate piu di 6 ore",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Finestra 6-24 non applicata",
+      "prompt": "In selected patients with AIS from anterior circulation proximal LVO of the ICA or M1, presenting between 6 and 24 hours from onset of symptoms, with age <80 years, NIHSS score >=6, prestroke mRS score 0 to 1, ASPECTS 3 to 5, and without significant mass effect on imaging, EVT is recommended to improve functional clinical outcomes and reduce mortality.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non e la classe degli ASPECTS 0-2",
+      "prompt": "ASPECTS 4. Un collega dice che sotto 6 si usa la frase ragionevole degli ASPECTS 0-2.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "ASPECTS 4 sta nella classe 1 delle 6-24 ore. La classe 2a degli ASPECTS 0-2 e un altro testo, ed e entro 6 ore",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Le dica che l'indicazione e solo ragionevole, come per ASPECTS 0 o 2",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Classe 2a usata al posto della classe 1",
+      "prompt": "In selected patients with AIS from anterior circulation proximal LVO of the ICA or M1 presenting within 6 hours from onset of symptoms, with age <80 years, NIHSS score >=6, prestroke mRS 0 to 1, ASPECTS 0 to 2, and without significant mass effect on imaging, EVT is reasonable to improve functional clinical outcomes and reduce mortality.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM del ginocchio, 280 euro piu bollo. SIRM: non eseguire di routine la RM del ginocchio nel dolore acuto da trauma o nel dolore cronico. Oggi il quesito e l'ictus.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Lo prenoti subito: RM del ginocchio, 280 euro piu bollo",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: GINOCCHIO 280+bollo. SIRM: non eseguire di routine la RM del ginocchio nel dolore acuto da trauma o nel dolore cronico. Oggi il quesito e l'ictus. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente tirofiban",
+      "prompt": "Prima di pungere vogliono tirofiban per l'esito a 90 giorni.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo dia",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo infonda prima della trombectomia",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Tirofiban senza beneficio",
+      "prompt": "In the management of patients with AIS in the setting of LVO, preoperative administration of tirofiban before EVT is not useful to improve 90-day functional outcome.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: tirofiban, che lei rifiuta dopo la spiegazione. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se la riapertura riesce",
+      "prompt": "mTICI 3. Nessun'altra indicazione pressoria. Ordine: sistolica sotto 140 per 72 ore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non lo faccia: e dannoso",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Tenga la sistolica sotto 140 per tre giorni",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Pressione dopo ricanalizzazione",
+      "prompt": "In patients with AIS with LVO of the anterior circulation who have been successfully recanalized by endovascular therapy (mTICI 2b, 2c, or 3) and without other indication for blood pressure management target, intensive SBP reduction target of <140 mm Hg for the first 72 hours is harmful and not recommended.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Osservazione",
+      "prompt": "Dove resta dopo la procedura?",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Stroke unit o terapia intensiva",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Osservazione in corridoio senza monitoraggio",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Niente unita adeguata",
+      "prompt": "Admit the patient to an intensive care or stroke unit for monitoring",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Trombectomia nella finestra 6-24 ore",
+      "prompt": "Ha verificato eta, NIHSS, mRS, ASPECTS ed effetto massa, ha indicato la trombectomia, ha escluso tirofiban e risonanza del ginocchio e ha rispettato il rifiuto.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

@@ -1,213 +1,440 @@
 {
   "id": "NEURO-005",
   "code": "NEURO-005",
-  "title": "Vertigine posizionale benigna",
-  "description": "Giorgio L., 58 anni, idraulico, da cinque giorni ha giramenti di pochi secondi quando si gira nel letto verso destra o quando alza la testa per guardare un pensile. Tra un episodio e l'altro sta fermo e non ha vertigine. Non ha calo dell'udito, non ha acufeni, non ha diplopia, non ha deficit, non ha cefalea. Ha già fatto una TAC due anni fa per un altro motivo, negativa, e il cognato gli ha detto di pretendere la risonanza e il doppler dei vasi del collo. Il percorso è la manovra di Dix-Hallpike, positiva a destra per il canale semicircolare posteriore, e il riposizionamento di Epley. RM encefalo (220 euro) ed ecocolordoppler dei tronchi sovraortici (65 euro) non spiegano una vertigine posizionale di secondi e sforano un budget di 30 euro.",
-  "difficulty": "EASY",
+  "title": "Basilare a cinque ore, farmaco gia dato e senza effetto: trombectomia entro sei ore",
+  "description": "Luigi, 70 anni, occlusione basilare. NIHSS 18, mRS pre-ictus 0, PC-ASPECTS 8. Trombolisi endovena a tre ore, senza miglioramento. Adesso sono le cinque ore dall'esordio.",
+  "difficulty": "HARD",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "VPPB del canale semicircolare posteriore destro",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
-  "setting": "AMBULATORIO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-  "diagnosis": "Vertigine parossistica posizionale benigna del canale posteriore destro. Dix-Hallpike positivo, Epley efficace. Non è una vertigine centrale e non è un'insufficienza vertebro-basilare.",
-  "pastMedicalHistory": "Ipertensione lieve in ramipril 2,5 mg, PA di solito a target. Nessun diabete, nessuna cardiopatia, nessun trauma cranico recente, nessuna chirurgia otologica. Non fuma. Un episodio simile tre anni fa, durato una settimana e passato da solo, mai inquadrato. Udito riferito stabile, niente fullness auricolare. Allergie: nessuna. Lavora in quota sui ponteggi: ha paura di cadere e per questo chiede «esami seri».",
-  "presentation": "Entra camminando, un po' guardingo nei cambi di posizione. Se resta seduto fermo non ha vertigine. Racconta il letto e il pensile solo se gli si chiede in che posizione gira. Se gli si chiede «le gira la testa in generale?» risponde sì e il caso sembra una vertigine aspecifica da vasi. Non ha nistagmo spontaneo a sguardo primario. Parametri: PA 136/84 mmHg, FC 72, SpO2 98%, FR 14, temperatura 36,4 °C. Ha in mano il numero di una risonanza prenotata dal medico di base «per scrupolo» fra tre settimane.",
+  "condition": "Occlusione basilare, mRS 0-1, NIHSS almeno 10, PC-ASPECTS almeno 6, ancora entro 6 ore e il farmaco endovena non ha funzionato",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "linne guida ictus aha.pdf; linee guida iso spread.pdf; RM paganti",
+  "diagnosis": "AHA: occlusione basilare, mRS 0 o 1, NIHSS almeno 10, PC-ASPECTS almeno 6, trombectomia entro 24 ore. ISO-SPREAD 2017: trombectomia meccanica entro 6 ore su vertebrale, basilare o cerebrale posteriore tratto 1 se non rispondono o non possono ricevere la trombolisi endovena. A cinque ore, dopo farmaco senza risposta, le due frasi convergono. Non aspettare l'ora 20.",
+  "pastMedicalHistory": "Autonomo. Il farmaco endovena e gia stato dato. Nessuna controindicazione nuova inventata.",
+  "presentation": "Vertigine, quadriparestesia e calo della vigilanza da cinque ore. NIHSS 18. PC-ASPECTS 8. Angio: basilare chiusa. Nessun guadagno dopo il farmaco.",
   "redHerrings": [
-    "Dice «vertigini» senza precisare i secondi e il letto, e sembra un problema vascolare.",
-    "L'ipertensione spinge verso l'ecocolordoppler dei tronchi sovraortici.",
-    "La prenotazione di RM già fissata dal curante sembra un percorso già deciso.",
-    "Lavora in quota: l'ansia di cadere non è una indicazione alla RM."
+    "Propongono di aspettare le 23 ore perche AHA dice 24.",
+    "Propongono tirofiban."
   ],
   "timeLimitMinutes": 40,
   "patientDeteriorationThreshold": 30,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: STABILE, carattere seccato, non cortese. Sei Giorgio, 58 anni, idraulico, in ambulatorio. Brusco, concreto, infastidito dalle domande lunghe e dalle prediche. Alla «Come sta?»: «Male. Gira. E ho il ponteggio fermo. Non mi faccia la predica sulla pressione.» Se ti chiedono solo se hai la pressione alta o se vuoi la risonanza, rispondi che la pressione c'è e che il cognato vuole la risonanza e il doppler del collo. I secondi, il letto e il lato destro li racconti solo se ti chiedono quando gira, quanto dura e in che posizione. Durata: meno di mezzo minuto. Niente udito calato, niente fischi, niente vista doppia, niente svenimento. Se eseguono la manovra della testa verso destra, ti viene una vertigine forte, la stanza gira, e dopo il riposizionamento dici, ancora brusco, che al secondo tentativo si è spenta. Se ti mandano a RM o doppler senza muoverti la testa, accetti perché ti sembra più scientifico, ma resti vertiginoso e arrabbiato per l'attesa. Non nominare tu otoliti, canale posteriore o Epley. Se nessuno ti muove la testa, a fine visita: «E adesso come ci salgo sul ponteggio?»",
-  "correctSolution": "VPPB del canale posteriore destro. Dix-Hallpike positivo a destra con nistagmo verticale-torsionale che si esaurisce, poi Epley. Spiegare la recidiva possibile e la manovra. Non prenotare RM encefalo né ecocolordoppler TSA. Niente betahistina come sostituto della manovra.",
-  "goldStandardPath": ["anamnesi-vertigine", "dix-hallpike", "epley"],
-  "goldPathNarrative": "1) Anamnesi: secondi, non ore; scatenata dalla posizione (letto, sguardo in alto); niente ipoacusia, acufeni, cefalea, diplopia o deficit. Questo allontana Ménière, emicrania vestibolare e vertigine centrale. 2) Dix-Hallpike a destra: nistagmo verticale-torsionale, latenza breve, esauribile, con vertigine intensa. A sinistra negativo. 3) Epley destro, ripetuto se serve, con controllo. Costo ideale circa 3 euro. RM encefalo 220 euro ed ecocolordoppler TSA 65 euro non vedono gli otoliti e, da soli, superano il 50% di un percorso che non li prevede. Budget della visita: 30 euro.",
+  "patientPrompt": "Sono Luigi. Il primo farmaco non ha cambiato nulla. Se la sala serve, accetto. Non accetto di aspettare fino a stanotte. Non voglio una risonanza di colonna.",
+  "correctSolution": "Trombectomia ora: entro 6 ore per ISO e entro 24 per AHA, con NIHSS 18, mRS 0, PC-ASPECTS 8. Non aspetti l'ora 20. Non dia tirofiban. Non faccia una RM lombare.",
+  "goldStandardPath": [
+    "angio-tc",
+    "nihss"
+  ],
+  "goldPathNarrative": "Il farmaco non ha riaperto. A cinque ore la trombectomia della basilare e ancora dentro entrambe le frasi lette, 6 ore e 24 ore.",
   "examLatencies": {
-    "anamnesi-vertigine": 8,
-    "dix-hallpike": 5,
-    "epley": 8,
-    "rm": 90,
-    "ecocolordoppler": 25,
-    "tc": 40,
-    "angio": 80
+    "angio-tc": 20,
+    "nihss": 10,
+    "rm-lombare": 70
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-tempo",
-      "prompt": "Quanto dura il giramento e in che posizione compare?",
+      "id": "risposta",
+      "prompt": "Il farmaco endovena ha cambiato il deficit?",
       "critical": true,
-      "expectedKeywords": ["secondi", "letto", "posizione"],
-      "rationale": "La durata in secondi e il trigger posizionale distinguono la VPPB dalla vertigine continua centrale o dalla Ménière."
+      "expectedKeywords": [
+        "no",
+        "invariato",
+        "farmaco"
+      ],
+      "rationale": "ISO indica la trombectomia meccanica entro 6 ore in chi non risponde alla trombolisi endovena."
     },
     {
-      "id": "aq-orecchio",
-      "prompt": "Ha calo dell'udito, fischi, fullness o una cefalea insieme al giramento?",
+      "id": "pc",
+      "prompt": "NIHSS e PC-ASPECTS?",
       "critical": true,
-      "expectedKeywords": ["udito", "acufeni", "cefalea"],
-      "rationale": "I sintomi cocleari e la cefalea spostano la diagnosi. Qui sono assenti."
-    },
-    {
-      "id": "aq-centrale",
-      "prompt": "Ha vista doppia, disfagia, deficit di forza o una vertigine che non passa da fermo?",
-      "critical": true,
-      "expectedKeywords": ["diplopia", "deficit", "fermo"],
-      "rationale": "I segni centrali, se presenti, cambierebbero l'indicazione all'imaging. Vanno cercati e qui non ci sono."
+      "expectedKeywords": [
+        "NIHSS",
+        "PC-ASPECTS",
+        "basilare"
+      ],
+      "rationale": "AHA chiede NIHSS almeno 10 e PC-ASPECTS almeno 6."
     }
   ],
   "physicalExam": {
-    "summary": "Marcia autonoma, Romberg negativo a occhi aperti, nistagmo spontaneo assente, nervi cranici integri, nessun deficit di forza, dito-naso corretto, otoscopia non infiammata se si guarda l'orecchio. La diagnosi non si chiude senza Dix-Hallpike. Il doppler del collo e la RM non sostituiscono la manovra."
+    "summary": "Vigilanza ridotta, segni del circolo posteriore, NIHSS 18, PC-ASPECTS 8, basilare occlusa."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-005-vppb",
-      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-      "quote": "Sintesi operativa: la vertigine di secondi scatenata dal decubito si conferma con Dix-Hallpike e si tratta con il riposizionamento. L'imaging non vede il canalolitiasi e non è il primo atto se l'esame neurologico è silente."
+      "chunkId": "bas",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In patients with AIS, with basilar artery occlusion, a baseline mRS score of 0 to 1, NIHSS score >=10 at presentation, and PC-ASPECTS >=6 (mild ischemic damage), EVT within 24 hours from onset of symptoms is recommended to achieve better functional outcome and reduce mortality."
     },
     {
-      "chunkId": "neuro-005-costi",
-      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
-      "quote": "Sintesi operativa sul costo: ecocolordoppler dei tronchi sovraortici e RM encefalo hanno un tariffario proprio. In una VPPB tipica non rientrano nel percorso e ne spostano la spesa molto sopra il costo della manovra."
+      "chunkId": "iso",
+      "source": "knowledge_base/neurologia/clinic/linee guida iso spread.pdf",
+      "quote": "Le tecniche di trombectomia meccanica sono indicate entro 6 ore dall'esordio dei sintomi in pazienti con occlusione di arteria vertebrale, basilare o cerebrale posteriore tratto 1, che non rispondono o che non possono essere sottoposti alla trombolisi ev."
     },
     {
-      "chunkId": "neuro-005-rm",
+      "chunkId": "tiro",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In the management of patients with AIS in the setting of LVO, preoperative administration of tirofiban before EVT is not useful to improve 90-day functional outcome."
+    },
+    {
+      "chunkId": "lomb",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "Non eseguire Risonanza Magnetica (RM) del Rachide Lombosacrale in caso di lombalgia nelle prime sei settimane in assenza di segni/sintomi di allarme (semafori rossi o red flags)."
+    },
+    {
+      "chunkId": "tar",
       "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
-      "quote": "Sintesi operativa: la RM encefalo si giustifica se compaiono segni centrali, non perché la vertigine posizionale preoccupa il paziente o un familiare."
+      "quote": "RM rachide lombosacrale 280+bollo"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Durata in secondi e trigger posizionale raccolti prima degli esami.",
-      "Dix-Hallpike eseguita, non solo descritta.",
-      "Epley sul lato positivo.",
-      "Nessuna RM e nessun doppler TSA in assenza di segni centrali o cocleari."
+      "Basilare con mRS 0, NIHSS almeno 10 e PC-ASPECTS almeno 6: trombectomia, qui ancora dentro le 6 ore di ISO.",
+      "Non fare la RM lombare a 280 euro piu bollo."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "La manovra è l'atto diagnostico e terapeutico. Scriverla in cartella, con il lato e l'esito, aderisce alla pratica sulla VPPB. Inviare a RM e doppler senza aver posizionato la testa non è prudenza, è un percorso diverso da quello indicato.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Segni centrali cercati e assenti, scritti in cartella.",
-        "Dix-Hallpike con lato e tipo di nistagmo documentati.",
-        "Riposizionamento eseguito o rifiuto motivato.",
-        "Nessun imaging vestibolare di routine prenotato al posto della manovra."
+        "AHA: trombectomia della basilare entro 24 ore con i criteri scritti.",
+        "ISO: entro 6 ore se non risponde al farmaco endovena.",
+        "Tirofiban preoperatorio non utile."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "anamnesi-vertigine",
-      "name": "Anamnesi della vertigine",
-      "finding": "Giramenti di meno di 30 secondi, solo nel passaggio al decubito destro e nello sguardo verso l'alto. Da fermo, seduto, nessuna vertigine. Udito stabile, niente acufeni, niente diplopia, niente cefalea, niente deficit. Profilo periferico posizionale.",
+      "examId": "angio-tc",
+      "name": "Angio-TC",
+      "finding": "Occlusione dell'arteria basilare. Farmaco endovena gia dato, deficit invariato a 5 ore.",
       "isAbnormal": true,
-      "priceEuro": 1
+      "isFatal": false
     },
     {
-      "examId": "dix-hallpike",
-      "name": "Manovra di Dix-Hallpike",
-      "finding": "Dix-Hallpike destra: dopo 2-3 secondi, vertigine intensa e nistagmo verticale in alto con componente torsionale, che si esaurisce in circa 15 secondi. Dix-Hallpike sinistra: negativa. Reperto del canale semicircolare posteriore destro.",
+      "examId": "nihss",
+      "name": "NIHSS e PC-ASPECTS",
+      "finding": "NIHSS 18, PC-ASPECTS 8, mRS pre-ictus 0.",
       "isAbnormal": true,
-      "priceEuro": 1
-    },
-    {
-      "examId": "epley",
-      "name": "Manovra di Epley",
-      "finding": "Epley sul lato destro. Al primo posizionamento la vertigine si ripresenta, al controllo successivo la Dix-Hallpike è negativa o molto attenuata. Si spiegano possibili recidive e come rialzarsi dal letto. Non serve betahistina al posto della manovra.",
-      "isAbnormal": false,
-      "priceEuro": 1
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "rm",
-      "name": "RM encefalo",
-      "finding": "RM encefalo negativa, fosse posteriori comprese, nessun conflitto, nessun ictus. Costo 220 euro. Non spiega gli otoliti e arriva a settimane di distanza, con il paziente ancora non manovrato.",
+      "examId": "rm-lombare",
+      "name": "RM rachide lombosacrale",
+      "finding": "Mal di schiena vecchio, senza allarmi, non e il quesito di oggi.",
       "isAbnormal": false,
-      "priceEuro": 220,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "RM non indicata nella VPPB tipica senza segni centrali. 220 euro contro un percorso di pochi euro: sforamento molto oltre il 50%."
-    },
-    {
-      "examId": "ecocolordoppler",
-      "name": "Ecocolordoppler TSA",
-      "finding": "Ecocolordoppler dei tronchi sovraortici: piccole irregolarità parietali, nessuna stenosi emodinamicamente significativa. Costo 65 euro. Non c'entra con la vertigine di secondi nel letto.",
-      "isAbnormal": false,
-      "priceEuro": 65,
-      "inappropriate": true,
-      "wasteRationale": "Il doppler cervicale non diagnostica la VPPB. Costa 65 euro, oltre il doppio del percorso ideale, e sposta la visita verso una falsa pista vascolare."
+      "wasteRationale": "SIRM: niente RM lombare nelle prime sei settimane senza red flag. Tariffa 280 euro piu bollo.",
+      "priceEuro": 280
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 72,
-      "bloodPressure": "136/84",
-      "spo2": 98,
-      "temperature": 36.4,
-      "respiratoryRate": 14
+      "heartRate": 90,
+      "bloodPressure": "168/96",
+      "spo2": 96,
+      "temperature": 36.8,
+      "respiratoryRate": 18
     },
-    "examBudgetEuro": 30,
-    "demographics": { "age": 58, "sex": "M", "name": "Giorgio L." },
-    "clinicalSigns": [
-      {
-        "signName": "Manovra di Dix-Hallpike",
-        "result": "Positiva a destra: nistagmo verticale-torsionale esauribile dopo breve latenza. Sinistra negativa.",
-        "isPositive": true
-      },
-      {
-        "signName": "Nistagmo spontaneo",
-        "result": "Assente a sguardo primario.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Manovra di Dix-Hallpike",
-        "result": "Positiva a destra per il canale posteriore.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 70,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "rm": {
-          "finding": "RM encefalo negativa. Non indicata. Costo 220 euro. La vertigine posizionale resta da trattare con la manovra, non con questo referto.",
-          "isAbnormal": false,
-          "price": 220
+        "angio-tc": {
+          "finding": "Occlusione dell'arteria basilare. Farmaco endovena gia dato, deficit invariato a 5 ore.",
+          "isAbnormal": true
         },
-        "ecocolordoppler": {
-          "finding": "Ecocolordoppler TSA senza stenosi significativa. Costo 65 euro. Reperto inutile per la VPPB.",
-          "isAbnormal": false,
-          "price": 65
+        "nihss": {
+          "finding": "NIHSS 18, PC-ASPECTS 8, mRS pre-ictus 0.",
+          "isAbnormal": true
         },
-        "tc": {
-          "finding": "TC cranio negativa. Non vede gli otoliti. Costo 120 euro, fuori budget.",
-          "isAbnormal": false,
-          "price": 120
-        },
-        "angio": {
-          "finding": "Angio-RM del circolo posteriore nella norma. Costo 350 euro. Non è l'esame di una vertigine di secondi nel letto.",
-          "isAbnormal": false,
-          "price": 350
+        "rm-lombare": {
+          "finding": "Mal di schiena vecchio, senza allarmi, non e il quesito di oggi.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Riposizionamento di Epley sul lato positivo",
-          "anyOf": [{ "id": "epley", "label": "Epley", "aliases": ["epley", "riposizionamento", "manovra liberatoria"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "Betahistina o RM al posto della manovra", "ids": ["betahistina-al-posto", "rm"] }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "ANXIOUS",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "MEDIUM", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "STABILE, SECCATO. Idraulico brusco, pensa al ponteggio, non vuole prediche sulla pressione. I secondi e il letto escono solo se gli chiedono quando gira e in che posizione. Diffida della manovra finché non gli toglie il giramento."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Stanco, ancora capace di accettare la sala e di rifiutare tirofiban e risonanza della schiena."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Ore e risposta al farmaco",
+      "prompt": "Sono le cinque ore. Il farmaco endovena non ha modificato l'esame. L'occlusione e la basilare.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Lo consideri non rispondente e ancora dentro le 6 ore della trombectomia meccanica di ISO, e dentro le 24 ore AHA",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Aspetti fino all'ora 20 perche il testo AHA arriva a 24",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Attesa che esce dalle 6 ore di ISO",
+      "prompt": "Le tecniche di trombectomia meccanica sono indicate entro 6 ore dall'esordio dei sintomi in pazienti con occlusione di arteria vertebrale, basilare o cerebrale posteriore tratto 1, che non rispondono o che non possono essere sottoposti alla trombolisi ev. In patients with AIS, with basilar artery occlusion, a baseline mRS score of 0 to 1, NIHSS score >=10 at presentation, and PC-ASPECTS >=6 (mild ischemic damage), EVT within 24 hours from onset of symptoms is recommended to achieve better functional outcome and reduce mortality.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Numeri della classe 1",
+      "prompt": "mRS pre-ictus 0, NIHSS 18, PC-ASPECTS 8.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "I tre numeri richiesti ci sono: trombectomia",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "La rimandi perche il NIHSS e sopra 10 e le sembra troppo grave",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "NIHSS alto letto come esclusione",
+      "prompt": "In patients with AIS, with basilar artery occlusion, a baseline mRS score of 0 to 1, NIHSS score >=10 at presentation, and PC-ASPECTS >=6 (mild ischemic damage), EVT within 24 hours from onset of symptoms is recommended to achieve better functional outcome and reduce mortality.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM lombosacrale 280 euro piu bollo. Il mal di schiena non ha red flag e non e il quesito. SIRM sconsiglia la RM lombare nelle prime sei settimane.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Lo prenoti subito: RM lombosacrale 280 euro piu bollo",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM rachide lombosacrale 280+bollo. Il mal di schiena non ha red flag e non e il quesito. SIRM sconsiglia la RM lombare nelle prime sei settimane. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sala ora",
+      "prompt": "La sala puo prenderlo entro l'ora.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Lo mandi ora, senza consumare le ore che restano fino a sei",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Lo metta in lista per domani mattina",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Lista che supera le 6 ore",
+      "prompt": "ISO scrive entro 6 ore dall'esordio per vertebrale, basilare o cerebrale posteriore tratto 1.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente tirofiban",
+      "prompt": "Prima della puntura propongono tirofiban.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo dia",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo dia per l'esito a 90 giorni",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Tirofiban preoperatorio",
+      "prompt": "In the management of patients with AIS in the setting of LVO, preoperative administration of tirofiban before EVT is not useful to improve 90-day functional outcome.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: tirofiban. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo la riapertura del posteriore",
+      "prompt": "La procedura riesce. Non c'e un'altra indicazione pressoria scritta per lui nel testo della classe 3, che parla del circolo anteriore dopo mTICI 2b o meglio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non gli applichi in automatico il bersaglio sotto 140 per 72 ore del circolo anteriore: quel danno e scritto per l'anteriore",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Gli copi il protocollo della sistolica sotto 140 per 72 ore dell'occlusione anteriore",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Protocollo anteriore copiato sulla basilare",
+      "prompt": "In patients with AIS with LVO of the anterior circulation who have been successfully recanalized by endovascular therapy (mTICI 2b, 2c, or 3) and without other indication for blood pressure management target, intensive SBP reduction target of <140 mm Hg for the first 72 hours is harmful and not recommended.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Unita",
+      "prompt": "Dove lo tieni?",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Terapia intensiva o stroke unit",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Reparto ordinario senza monitoraggio",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Niente monitoraggio",
+      "prompt": "Admit the patient to an intensive care or stroke unit for monitoring",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Basilare riaperta dentro le sei ore",
+      "prompt": "Ha indicato la trombectomia a cinque ore, con i numeri AHA e senza aspettare di uscire dalle sei ore di ISO, senza tirofiban e senza RM lombare.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

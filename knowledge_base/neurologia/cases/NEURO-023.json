@@ -1,0 +1,449 @@
+{
+  "id": "NEURO-023",
+  "code": "NEURO-023",
+  "title": "Delirium nell'anziano: prima le cause, non la contenzione e non la benzodiazepina",
+  "description": "Aldo, 82 anni, confuso da ieri in reparto, dopo un dolore all'anca non trattato. Niente caduta recente, niente segni focali, niente sospetto di ictus o infezione del sistema nervoso. Non e in astinenza da alcol. Urea/creatinina sopra 25.",
+  "difficulty": "MEDIUM",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Delirium nell'anziano senza indicazione a neuroimaging",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "REPARTO",
+  "guidelineRef": "Item-8 delirium SIGG; RM paganti; capitolo sul rifiuto",
+  "diagnosis": "Il neuroimaging si fa solo dopo caduta recente, se si sospetta un evento cerebrovascolare o infettivo, o se la coscienza cala in modo non chiaro e ci sono segni focali. Prima si cercano le cause, dolore compreso. Le benzodiazepine sono riservate all'astinenza alcolica. L'aloperidolo, se serve, a dosaggio basso, senza milligrammi nel testo, e si sospende appena possibile. La contenzione si rimuove. Il delirium si scrive in cartella clinica e infermieristica.",
+  "pastMedicalHistory": "Politerapia. Anca dolente. No alcol. Ieri, ancora lucido, aveva rifiutato un neurolettico.",
+  "presentation": "Confusione fluttuante, attenzione ridotta, niente deficit focale, niente caduta.",
+  "redHerrings": [
+    "Lo legano. Gli danno una benzodiazepina. Prenotano la RM encefalo."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Aldo. Non so che ora e e mi fa male l'anca. Ieri ho detto che non volevo quel farmaco per la testa. Non legatemi. Mia figlia non puo chiederlo contro quello che ho detto.",
+  "correctSolution": "Cerchi il dolore e le altre cause dell'acronimo, idrati se urea/creatinina e sopra 25, almeno 35 kcal/kg. Non la RM: mancano le tre indicazioni. Non la benzodiazepina. Non lo contenga. Se un farmaco serve perche e un pericolo, aloperidolo a dose bassa, ma non contro un rifiuto che ha espresso da lucido. Scriva il delirium in cartella.",
+  "goldStandardPath": [
+    "cam",
+    "dolore-anca"
+  ],
+  "goldPathNarrative": "Il delirium si documenta e si cerca la causa, a partire dal dolore. La RM non ha le indicazioni scritte.",
+  "examLatencies": {
+    "cam": 15,
+    "dolore-anca": 10,
+    "rm-encefalo": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "caduta",
+      "prompt": "E caduto di recente, o c'e un segno focale?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "caduta",
+        "focale"
+      ],
+      "rationale": "Senza quelle indicazioni la RM non e indicata."
+    },
+    {
+      "id": "alcol",
+      "prompt": "Beveva e ha smesso di colpo?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "alcol",
+        "astinenza"
+      ],
+      "rationale": "La benzodiazepina e per l'astinenza alcolica."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Attenzione fluttuante, niente deficit, anca dolente alla mobilizzazione, cute integra."
+  },
+  "escCitations": [
+    {
+      "chunkId": "n",
+      "source": "knowledge_base/neurologia/clinic/Item-8_Paziente-demente-o-con-delirium-valutazione-e-trattamento-non-farmacologico.pdf",
+      "quote": "Il neuroimaging e indicato soltanto nei pazienti con storia di recente caduta, quando si sospettino eventi cerebrovascolari o infettivi, o nei casi di riduzione dello stato di coscienza a genesi non chiara e in presenza di segni neurologici focali."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/neurologia/clinic/Item-8_Paziente-demente-o-con-delirium-valutazione-e-trattamento-non-farmacologico.pdf",
+      "quote": "Le benzodiazepine sono da proscrivere e vanno riservate soltanto a casi specifici, come il delirium da astinenza alcolica."
+    },
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/neurologia/clinic/Item-8_Paziente-demente-o-con-delirium-valutazione-e-trattamento-non-farmacologico.pdf",
+      "quote": "Il farmaco maggiormente utilizzato e l'aloperidolo, da iniziare a dosaggio basso con una lenta titolazione e da sospendere appena possibile."
+    },
+    {
+      "chunkId": "d",
+      "source": "knowledge_base/neurologia/clinic/Item-8_Paziente-demente-o-con-delirium-valutazione-e-trattamento-non-farmacologico.pdf",
+      "quote": "il dolore e molto spesso causa di delirium e deve dunque essere sempre sospettato."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/neurologia/clinic/Item-8_Paziente-demente-o-con-delirium-valutazione-e-trattamento-non-farmacologico.pdf",
+      "quote": "E opportuno documentare sempre la presenza di delirium in cartella clinica e infermieristica. Rimuovere mezzi di contenzione se in uso."
+    },
+    {
+      "chunkId": "k",
+      "source": "knowledge_base/neurologia/clinic/Item-8_Paziente-demente-o-con-delirium-valutazione-e-trattamento-non-farmacologico.pdf",
+      "quote": "apporto calorico da assicurare di almeno 35 kcal/kg/die. urea/creatinina maggiore di 25."
+    },
+    {
+      "chunkId": "rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente RM senza caduta, senza sospetto vascolare o infettivo e senza calo di coscienza con segni focali.",
+      "RM encefalo 300 euro piu bollo non indicata."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
+      "legalCriteria": [
+        "Benzodiazepina solo nell'astinenza alcolica.",
+        "Contenzione da rimuovere.",
+        "Rifiuto espresso da lucido: non lo supera la figlia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "cam",
+      "name": "Valutazione del delirium",
+      "finding": "Confusione fluttuante, attenzione ridotta. Da scrivere in cartella clinica e infermieristica.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "dolore-anca",
+      "name": "Dolore",
+      "finding": "Anca dolente, non trattata. Possibile causa precipitante.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm-encefalo",
+      "name": "RM encefalo",
+      "finding": "Niente caduta, niente sospetto vascolare o infettivo, niente segni focali.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Item 8: neuroimaging solo in quei casi. 300 euro piu bollo.",
+      "priceEuro": 300
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "148/86",
+      "spo2": 95,
+      "temperature": 37.2,
+      "respiratoryRate": 20
+    },
+    "demographics": {
+      "age": 82,
+      "sex": "M",
+      "context": "Reparto"
+    },
+    "advancedExams": {
+      "values": {
+        "cam": {
+          "finding": "Confusione fluttuante, attenzione ridotta. Da scrivere in cartella clinica e infermieristica.",
+          "isAbnormal": true
+        },
+        "dolore-anca": {
+          "finding": "Anca dolente, non trattata. Possibile causa precipitante.",
+          "isAbnormal": true
+        },
+        "rm-encefalo": {
+          "finding": "Niente caduta, niente sospetto vascolare o infettivo, niente segni focali.",
+          "isAbnormal": false
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Confuso ora. Ieri, lucido, aveva rifiutato il neurolettico. La figlia chiede di legarlo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Prima le cause",
+      "prompt": "Dolore all'anca, urea/creatinina sopra 25, politerapia. Niente caduta. L'acronimo ricorda farmaci, sensi, ossigeno, infezione, ritenzione, crisi, nutrizione, metabolismo, trauma.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Li passi in rassegna e tratti il dolore. Idrati. Almeno 35 kcal per chilo al giorno",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Prenoti subito la RM e salti il dolore",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Causa non cercata",
+      "prompt": "il dolore e molto spesso causa di delirium. Neuroimaging solo per caduta recente, sospetto vascolare o infettivo, o calo di coscienza non chiaro con segni focali.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "La RM non e indicata",
+      "prompt": "Niente caduta, niente segno focale, niente sospetto di ictus o di infezione del nervoso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non la faccia",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "La faccia per completezza",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "RM senza indicazione",
+      "prompt": "Il neuroimaging e indicato soltanto in quei casi. Tariffa: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non la benzodiazepina",
+      "prompt": "Non e un'astinenza alcolica. E agitato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non usi la benzodiazepina. Prima i provvedimenti non farmacologici",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Gli dia una benzodiazepina per sedarlo",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Benzodiazepina fuori indicazione",
+      "prompt": "Le benzodiazepine sono da proscrivere e vanno riservate al delirium da astinenza alcolica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Aloperidolo, se mai, senza milligrammi",
+      "prompt": "Diventa un pericolo per se. Ieri, lucido, aveva rifiutato un neurolettico. Il testo dice dosaggio basso, titolazione lenta, stop appena possibile. Non ci sono milligrammi. L'efficacia dei farmaci antidemenza non e dimostrata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Rispetti il rifiuto di ieri. Non inventi i milligrammi. Non usi un antidemenza come cura del delirium",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Gli inietti una dose in milligrammi che il testo non scrive, contro il rifiuto",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose inventata e rifiuto ignorato",
+      "prompt": "aloperidolo a dosaggio basso, da sospendere appena possibile. Nessun milligrammo nel capitolo. Ieri il rifiuto era di una persona ancora capace.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Contenzione",
+      "prompt": "La figlia chiede di legarlo. Il testo dice di rimuovere i mezzi di contenzione se in uso, e di favorire la mobilizzazione. Il familiare e un alleato, non chi ordina la legatura.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo leghi. Informi la figlia e la faccia restare",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo leghi perche lo chiede la figlia",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Contenzione su richiesta",
+      "prompt": "Rimuovere mezzi di contenzione se in uso. Il familiare e un importante alleato nella prevenzione non farmacologica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM encefalo 300 euro piu bollo. Mancano caduta, sospetto vascolare o infettivo e segni focali.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo prenoti subito: RM encefalo 300 euro piu bollo",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. Mancano caduta, sospetto vascolare o infettivo e segni focali. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: neurolettico, rifiutato ieri da lucido. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Cartella e calorie",
+      "prompt": "Urea/creatinina sopra 25. Nessuno ha scritto delirium.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Lo scriva in cartella clinica e infermieristica. Idratazione e almeno 35 kcal/kg/die. Protegga il respiro se la coscienza cala",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non lo scriva, per non allungare la degenza",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Delirium non documentato",
+      "prompt": "documentare sempre la presenza di delirium in cartella clinica e infermieristica. Apporto calorico di almeno 35 kcal/kg/die.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Delirium trattato dalle cause",
+      "prompt": "Ha cercato il dolore e la disidratazione, non ha fatto la RM, non ha dato la benzodiazepina, non lo ha legato e ha rispettato il rifiuto del neurolettico.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

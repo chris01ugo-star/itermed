@@ -1,0 +1,440 @@
+{
+  "id": "NEURO-024",
+  "code": "NEURO-024",
+  "title": "Lamenta la memoria: anamnesi, IADL e MMSE corretto, non la RM per prima",
+  "description": "Teresa, 78 anni, 3 anni di scuola, dice che dimentica i nomi da un anno. Il figlio dice che non sa piu gestire i soldi e le medicine, e non e per l'artrosi. Nessuna caduta, nessun deficit acuto. Un MMSE grezzo fatto in corridoio e 22.",
+  "difficulty": "MEDIUM",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Disturbo soggettivo di memoria nell'anziano, senza un MMSE corretto per eta e scolarita",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Item-7 performance cognitive SIGG; RM paganti",
+  "diagnosis": "La lamentela di memoria chiede anamnesi e valutazione multidimensionale. Le IADL non spiegate da una malattia somatica pesano per MCI o demenza. Un deficit recente va visto per depressione e delirium. Il MMSE va da 0 a 30 e la soglia di normalita e messa a 24/30, ma dipende da eta e scolarita: c'e la correzione di Magni 1996. Non si chiama demenza un 22 grezzo. L'item 7 non mette la RM come primo atto.",
+  "pastMedicalHistory": "Artrosi lieve, non spiega la perdita dei soldi e delle medicine. Niente ictus recente. Bassa scolarita.",
+  "presentation": "Declino riferito da un anno, IADL compromesse, MMSE grezzo 22 non corretto.",
+  "redHerrings": [
+    "Le dicono che sotto 24 e demenza certa.",
+    "Le prenotano la RM encefalo prima di anamnesi e correzione."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Teresa. Dimentico i nomi. Mio figlio dice che sbaglio le pastiglie. Non voglio una risonanza prima che mi facciate le domande e il test giusto. Se dico no alla risonanza, fermatevi.",
+  "correctSolution": "Anamnesi, IADL, depressione e delirium se il quadro e recente, MMSE e correzione di Magni per eta e scolarita prima di usare 24/30. Non chiami demenza il 22 grezzo. Non faccia la RM come primo atto: 300 euro piu bollo, e l'item 7 non la mette li. Se lei rifiuta la RM, non la faccia.",
+  "goldStandardPath": [
+    "iadl",
+    "mmse"
+  ],
+  "goldPathNarrative": "Il 22 grezzo non e la diagnosi. Prima la storia, le IADL e il punteggio corretto. La RM non apre il percorso.",
+  "examLatencies": {
+    "iadl": 15,
+    "mmse": 15,
+    "rm-encefalo": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "scuola",
+      "prompt": "Quanti anni di scuola ha, e da quanto dimentica?",
+      "critical": true,
+      "expectedKeywords": [
+        "scuola",
+        "anni",
+        "memoria"
+      ],
+      "rationale": "La soglia 24/30 dipende da eta e scolarita."
+    },
+    {
+      "id": "soldi",
+      "prompt": "Riesce a gestire soldi e medicine, o e l'artrosi a impedirglielo?",
+      "critical": true,
+      "expectedKeywords": [
+        "soldi",
+        "medicine",
+        "no"
+      ],
+      "rationale": "Le IADL non spiegate da una malattia somatica pesano per MCI o demenza."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Vigile, niente deficit acuto, cammina. Non e un delirium concesso in questo momento: attenzione conservata oggi."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/neurologia/clinic/Item-7_Valutazione-delle-performance-cognitive.pdf",
+      "quote": "Se un anziano lamenta diminuzione soggettiva della memoria richiede un'anamnesi accurata e una valutazione multidimensionale."
+    },
+    {
+      "chunkId": "i",
+      "source": "knowledge_base/neurologia/clinic/Item-7_Valutazione-delle-performance-cognitive.pdf",
+      "quote": "L'incapacita di gestire alcune IADL, se non chiaramente secondaria ad altre patologie somatiche, rappresenta un aspetto cruciale per la diagnosi di MCI o demenza."
+    },
+    {
+      "chunkId": "r",
+      "source": "knowledge_base/neurologia/clinic/Item-7_Valutazione-delle-performance-cognitive.pdf",
+      "quote": "ogni anziano con deficit cognitivi di recente insorgenza dovrebbe essere valutato per la presenza di depressione o delirium."
+    },
+    {
+      "chunkId": "m",
+      "source": "knowledge_base/neurologia/clinic/Item-7_Valutazione-delle-performance-cognitive.pdf",
+      "quote": "il punteggio totale varia da 0 a 30. Il punteggio soglia per la normalita viene posto a 24/30; tuttavia, tale limite e influenzato da eta e scolarita. Correzione del punteggio del MMSE secondo Magni e coll. 1996."
+    },
+    {
+      "chunkId": "t",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Non diagnosticare demenza su un MMSE grezzo sotto 24, senza correzione per eta e scolarita.",
+      "Non aprire con la RM encefalo a 300 euro piu bollo: l'item 7 non la mette come primo atto."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
+      "legalCriteria": [
+        "IADL non spiegate da malattia somatica: pesano per MCI o demenza.",
+        "Deficit recente: depressione e delirium.",
+        "Rifiuto della RM dopo l'informazione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "iadl",
+      "name": "IADL",
+      "finding": "Non gestisce soldi e medicine. L'artrosi non lo spiega.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "mmse",
+      "name": "MMSE",
+      "finding": "Grezzo 22 su 30, 78 anni, 3 anni di scuola. Non ancora corretto con Magni 1996.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm-encefalo",
+      "name": "RM encefalo come primo atto",
+      "finding": "Prenotata prima di anamnesi, IADL e correzione del MMSE.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "L'item 7 non la indica come primo passo. Tariffa 300 euro piu bollo.",
+      "priceEuro": 300
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 74,
+      "bloodPressure": "136/78",
+      "spo2": 97,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "demographics": {
+      "age": 78,
+      "sex": "F",
+      "context": "Ambulatorio"
+    },
+    "advancedExams": {
+      "values": {
+        "iadl": {
+          "finding": "Non gestisce soldi e medicine. L'artrosi non lo spiega.",
+          "isAbnormal": true
+        },
+        "mmse": {
+          "finding": "Grezzo 22 su 30, 78 anni, 3 anni di scuola. Non ancora corretto con Magni 1996.",
+          "isAbnormal": true
+        },
+        "rm-encefalo": {
+          "finding": "Prenotata prima di anamnesi, IADL e correzione del MMSE.",
+          "isAbnormal": false
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "LOW",
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "STRONG"
+    },
+    "communicationStyle": "Si affida al figlio. Capace di dire no alla risonanza. Vuole che le spieghino il test."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Non partire dalla RM",
+      "prompt": "Dimentica i nomi da un anno. Nessun deficit acuto, nessuna caduta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Faccia anamnesi e valutazione multidimensionale, non la RM come primo atto",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Prenoti la RM e rimandi le domande",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "RM prima del percorso",
+      "prompt": "richiede un'anamnesi accurata e una valutazione multidimensionale. Tariffa se la RM parte subito: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "IADL",
+      "prompt": "Non gestisce soldi e medicine. L'artrosi non le impedisce quelle due cose.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Lo segni come elemento cruciale per MCI o demenza, non come effetto dell'artrosi",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo attribuisca all'artrosi e chiuda",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "IADL spiegate male",
+      "prompt": "L'incapacita di gestire alcune IADL, se non chiaramente secondaria ad altre patologie somatiche, e un aspetto cruciale per la diagnosi di MCI o demenza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Depressione e delirium",
+      "prompt": "Il disturbo e comparso nell'ultimo anno, non in un'ora. Va comunque chiesto se c'e depressione o delirium.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Li valuti, e non chiami demenza prima",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Salti entrambi perche il MMSE grezzo le basta",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Cause recenti non viste",
+      "prompt": "ogni anziano con deficit cognitivi di recente insorgenza dovrebbe essere valutato per la presenza di depressione o delirium.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Il 22 grezzo",
+      "prompt": "MMSE 22, 78 anni, 3 anni di scuola. La soglia scritta e 24/30, ma dipende da eta e scolarita. La tabella di Magni 1996 e nel PDF.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Applichi la correzione prima di usare 24/30. Non chiami demenza il grezzo",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Scriva demenza perche 22 e sotto 24",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Soglia usata senza correzione",
+      "prompt": "Il punteggio soglia per la normalita viene posto a 24/30; tuttavia, tale limite e influenzato da eta e scolarita. Correzione secondo Magni e coll. 1996.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non inventare la cella",
+      "prompt": "La tabella c'e, con eta e anni di scuola. Lei non ha ancora applicato la cella giusta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "La applichi lei sulla tabella, senza farsi dettare un punteggio corretto da chi non l'ha letta",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Dica che ogni 22 grezzo diventa 28, senza aprire la tabella",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Correzione inventata",
+      "prompt": "Sono stati elaborati dei fattori di correzione. Correzione del punteggio del MMSE secondo Magni e coll. 1996.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM encefalo 300 euro piu bollo come primo atto. L'item 7 inizia da anamnesi, IADL e MMSE, non da questa risonanza. Non e la scheda SIRM della cefalea: qui semplicemente non e il primo passo scritto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo prenoti subito: RM encefalo 300 euro piu bollo come primo atto",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. L'item 7 inizia da anamnesi, IADL e MMSE, non da questa risonanza. Non e la scheda SIRM della cefalea: qui semplicemente non e il primo passo scritto. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Il no alla RM",
+      "prompt": "Dopo la spiegazione lei non vuole la RM. Il figlio la vuole lo stesso. E capace.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non la faccia. Puo non aderire",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "La faccia con la firma del figlio",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Figlio al posto suo",
+      "prompt": "Una volta informata, puo decidere di non aderire. Nessuno puo essere obbligato a un trattamento sanitario se non per disposizione di legge.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Chi e a rischio",
+      "prompt": "Ha 78 anni e bassa scolarita. Il testo richiama attenzione a bassa scolarita, diabete, esiti di ictus, depressione, multipatologia. La prevalenza citata e circa 3% a 65 anni e raddoppia ogni 5 anni.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Tenga conto della scolarita nel giudizio, senza trasformare la prevalenza in una diagnosi individuale",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Le dica che a 78 anni la demenza e certa per la sola eta",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Prevalenza usata come diagnosi",
+      "prompt": "Una particolare attenzione dovrebbe essere posta agli anziani con bassa scolarita. La prevalenza non sostituisce anamnesi, IADL e MMSE corretto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Memoria valutata prima della RM",
+      "prompt": "Ha fatto anamnesi e IADL, non ha chiamato demenza il 22 grezzo, ha chiesto la correzione di Magni e non ha fatto la RM come primo atto ne contro il suo no.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

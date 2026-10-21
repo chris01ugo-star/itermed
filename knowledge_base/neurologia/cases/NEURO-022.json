@@ -1,0 +1,445 @@
+{
+  "id": "NEURO-022",
+  "code": "NEURO-022",
+  "title": "Rachicentesi: il consenso si ritira, e in anticoagulante non si punge",
+  "description": "Rosa, 61 anni, cefalea e sospetto di emorragia subaracnoidea dopo una TC senza sangue. E in warfarin. Capace. Chiede informazioni e poi dice di no.",
+  "difficulty": "HARD",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Indicazione diagnostica alla rachicentesi in una paziente anticoagulata che ritira il consenso",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "RACHICENTESI-Informativa-e-consenso.pdf; 61302046_est.pdf; RM paganti",
+  "diagnosis": "L'emorragia subaracnoidea e fra le indicazioni. La terapia anticoagulante e una controindicazione, insieme ai disturbi della coagulazione e all'infezione nel punto della puntura. Se c'e una massa emisferica o della fossa posteriore, prima il fondo dell'occhio o una indagine neuroradiologica, per il rischio di ernia. Il volume e 5-10 ml. Il consenso si ritira in qualsiasi momento senza motivazione.",
+  "pastMedicalHistory": "Warfarin per una fibrillazione nota. Niente infezione cutanea. TC senza massa. Non e incinta.",
+  "presentation": "Cefalea intensa, TC senza sangue, INR non corretto, lei capace.",
+  "redHerrings": [
+    "Il marito firma e chiede di pungere lo stesso.",
+    "Propongono una RM con contrasto a 390 euro per aggirare il warfarin."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Rosa. Ho mal di testa forte. Prendo il warfarin. Spiegatemi la puntura. Se dico no, fermatevi, anche se mio marito insiste. Non voglio una risonanza con contrasto solo per non parlare dell'anticoagulante.",
+  "correctSolution": "Non punga: e in anticoagulante, ed e una controindicazione del modulo. Anche se non lo fosse, lei puo ritirare il consenso senza motivazione. Non faccia la RM con contrasto a 390 euro per saltare questa regola. Se un giorno l'anticoagulante non ci fosse e lei accettasse, 5-10 ml, e prima fondo o neuroradiologia se ci fosse una massa.",
+  "goldStandardPath": [
+    "tc-encefalo",
+    "inr"
+  ],
+  "goldPathNarrative": "L'indicazione c'e, la controindicazione anche, e il no pure. Non si punge e non si paga un contrasto per aggirarla.",
+  "examLatencies": {
+    "tc-encefalo": 20,
+    "inr": 15,
+    "rm-mdc": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "war",
+      "prompt": "Che anticoagulante prende?",
+      "critical": true,
+      "expectedKeywords": [
+        "warfarin",
+        "anticoagulante",
+        "INR"
+      ],
+      "rationale": "La terapia anticoagulante e controindicazione."
+    },
+    {
+      "id": "no",
+      "prompt": "Dopo la spiegazione, accetta la puntura?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "rifiuto",
+        "consenso"
+      ],
+      "rationale": "Il consenso si ritira senza motivazione."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Vigile, capace, rigidita di nuca dubbia, TC senza sangue e senza massa. INR fuori range."
+  },
+  "escCitations": [
+    {
+      "chunkId": "i",
+      "source": "knowledge_base/neurologia/clinic/RACHICENTESI-Informativa-e-consenso.pdf",
+      "quote": "Emorragia subaracnoidea. Poliradicoloneuropatie. Stati comatosi di genesi incerta."
+    },
+    {
+      "chunkId": "k",
+      "source": "knowledge_base/neurologia/clinic/RACHICENTESI-Informativa-e-consenso.pdf",
+      "quote": "Controindicazioni: terapia anticoagulante. Disturbi della coagulazione. Infezioni nella sede della puntura."
+    },
+    {
+      "chunkId": "m",
+      "source": "knowledge_base/neurologia/clinic/RACHICENTESI-Informativa-e-consenso.pdf",
+      "quote": "Ipertensione endocranica dovuta a masse occupanti spazio emisferiche o una localizzazione in fossa cranica posteriore per il rischio di ernie cerebrali. E consigliata la preventiva valutazione del fundus oculi o l'esecuzione di una indagine neuroradiologica."
+    },
+    {
+      "chunkId": "v",
+      "source": "knowledge_base/neurologia/clinic/RACHICENTESI-Informativa-e-consenso.pdf",
+      "quote": "Vengono quindi prelevati 5-10 ml di liquor."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/neurologia/clinic/RACHICENTESI-Informativa-e-consenso.pdf",
+      "quote": "E stato informato del diritto di poter ritirare il suo consenso in qualsiasi momento senza fornire alcuna motivazione."
+    },
+    {
+      "chunkId": "r",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM cervello e tronco encefalico+mdc, incluso distretto vascolare 390+bollo"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Non pungere in terapia anticoagulante. Il consenso si puo ritirare senza motivazione.",
+      "Non fare la RM con contrasto a 390 euro piu bollo per aggirare il warfarin."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
+      "legalCriteria": [
+        "Controindicazione: terapia anticoagulante.",
+        "Ritiro del consenso senza motivazione, modulo e capitolo sul rifiuto.",
+        "Massa o fossa posteriore: prima fondo o neuroradiologia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC encefalo",
+      "finding": "Niente sangue e niente massa. Non toglie la controindicazione dell'anticoagulante.",
+      "isAbnormal": false,
+      "isFatal": false
+    },
+    {
+      "examId": "inr",
+      "name": "Coagulazione",
+      "finding": "Warfarin in corso, coagulazione non normale.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm-mdc",
+      "name": "RM encefalo con contrasto",
+      "finding": "Proposta per non gestire warfarin e rifiuto.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "Non rimuove la controindicazione. Tariffa 390 euro piu bollo.",
+      "priceEuro": 390
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "150/90",
+      "spo2": 98,
+      "temperature": 36.7,
+      "respiratoryRate": 16
+    },
+    "demographics": {
+      "age": 61,
+      "sex": "F",
+      "context": "Pronto soccorso"
+    },
+    "advancedExams": {
+      "values": {
+        "tc-encefalo": {
+          "finding": "Niente sangue e niente massa. Non toglie la controindicazione dell'anticoagulante.",
+          "isAbnormal": false
+        },
+        "inr": {
+          "finding": "Warfarin in corso, coagulazione non normale.",
+          "isAbnormal": true
+        },
+        "rm-mdc": {
+          "finding": "Proposta per non gestire warfarin e rifiuto.",
+          "isAbnormal": false
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole capire. Dopo la spiegazione dice no. Il marito insiste."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "L'indicazione c'e",
+      "prompt": "TC senza sangue, sospetto di emorragia subaracnoidea. Il modulo la elenca.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La riconosca come indicazione, e poi guardi le controindicazioni",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Dica che la puntura non c'entra mai con l'emorragia subaracnoidea",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Indicazione negata",
+      "prompt": "Fra le indicazioni diagnostiche c'e l'emorragia subaracnoidea. L'ipertensione endocranica non e controindicazione assoluta nell'emorragia subaracnoidea.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "L'anticoagulante",
+      "prompt": "Prende warfarin. INR non normale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non punga. La terapia anticoagulante e controindicazione, come i disturbi della coagulazione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Punga lo stesso, correggendo dopo",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Puntura in anticoagulante",
+      "prompt": "Controindicazioni: terapia anticoagulante. Disturbi della coagulazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Se ci fosse una massa",
+      "prompt": "Nella sua TC la massa non c'e. La regola, se ci fosse, e un'altra.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Con massa emisferica o fossa posteriore: prima il fondo dell'occhio o una indagine neuroradiologica, per il rischio di ernia",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Pungere una fossa posteriore senza quel passaggio",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Ernia non considerata",
+      "prompt": "masse occupanti spazio emisferiche o localizzazione in fossa cranica posteriore: rischio di ernie cerebrali. Preventiva valutazione del fundus o indagine neuroradiologica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Il no",
+      "prompt": "Lei, dopo la spiegazione, ritira il consenso e non da un motivo. Il marito firma.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Si ferma. Il modulo le consente di ritirarlo senza motivazione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Punga con la firma del marito",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Consenso del familiare",
+      "prompt": "diritto di poter ritirare il suo consenso in qualsiasi momento senza fornire alcuna motivazione. Nessuno puo essere obbligato a un trattamento sanitario se non per disposizione di legge.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM encefalo con contrasto, 390 euro piu bollo. Non toglie il warfarin e non sostituisce il no.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo prenoti subito: RM encefalo con contrasto, 390 euro piu bollo",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico+mdc, incluso distretto vascolare 390+bollo. Non toglie il warfarin e non sostituisce il no. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: rachicentesi. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se un giorno si potesse fare",
+      "prompt": "Anticoagulante sospeso, coagulazione a posto, lei accetta, niente massa, niente infezione della cute.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Allora 5-10 ml, e dopo posizione clinostatica per la cefalea post-puntura",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Prelevi 30 ml e la faccia alzare subito",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Volume e posizione diversi dal modulo",
+      "prompt": "prelevati 5-10 ml di liquor. La prevenzione della cefalea post-puntura consiste nel mantenimento della posizione clinostatica nelle ore successive.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Gravidanza, non e il suo caso",
+      "prompt": "Non e incinta. La riga del modulo: in gravidanza non e controindicata, ma solo se la necessita e reale e non differibile.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Non usi quella riga per pungerla oggi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Dica che in anticoagulante si punge se il dolore e forte, come in gravidanza",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Regole mescolate",
+      "prompt": "In gravidanza l'esame dovrebbe essere effettuato solo dopo attenta valutazione e in caso di reale e non differibile necessita diagnostica. L'anticoagulante resta una controindicazione a parte.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Non punta: anticoagulante e rifiuto",
+      "prompt": "Ha riconosciuto l'indicazione, non ha punto in warfarin, ha rispettato il ritiro del consenso e non ha fatto la RM con contrasto da 390 euro.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

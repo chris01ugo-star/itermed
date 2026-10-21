@@ -1,241 +1,440 @@
 {
   "id": "NEURO-018",
   "code": "NEURO-018",
-  "title": "Trombosi venosa cerebrale",
-  "description": "Chiara D., 28 anni, da cinque giorni ha una cefalea che non passa con nulla, peggiore da sdraiata, con nausea. Usa un contraccettivo orale da un anno. All'esame c'è papilledema bilaterale e un lieve deficit del braccio sinistro comparso stamattina. È una trombosi venosa cerebrale. Il percorso è il fondo oculare, l'angio-RM venosa (350 euro) e l'eparina, anche se la TC mostra un piccolo infarcimento emorragico venoso. Sospendere l'anticoagulante per paura di quel sanguinamento è la trappola clinica. La puntura lombare, con papilledema e senza aver visto i seni, è pericolosa. La PET non ha ruolo. Il percorso ideale costa circa 411 euro, il budget 560.",
-  "difficulty": "HARD",
+  "title": "Epilessia gia nota: la patente di gruppo 1 dopo un anno senza crisi, certificato",
+  "description": "Silvia, 41 anni, epilessia focale nota, ultima crisi 13 mesi fa, in terapia stabile. Vuole rinnovare la patente dell'auto. Non chiede il camion.",
+  "difficulty": "MEDIUM",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Trombosi del seno sagittale superiore con infarcimento emorragico venoso",
-  "frequencyCategory": "LOW",
-  "matrixDifficulty": "ADVANCED",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/linee guida iso spread.pdf",
-  "diagnosis": "Trombosi del seno sagittale superiore in donna che assume estroprogestinico. Papilledema, cefalea intrattabile, piccolo ematoma venoso parasagittale. Eparina indicata nonostante l'emorragia. Non è una emorragia ipertensiva da non anticoagulare.",
-  "pastMedicalHistory": "Estroprogestinico da 12 mesi, mai un evento trombotico noto. Fuma 8 sigarette. Nessuna trombofilia nota in famiglia, da chiedere. Nessun trauma, nessuna febbre, nessuna ipertensione cronica: le pressioni di oggi sono 128/76. Emicrania negata: questo dolore è continuo da cinque giorni, non a attacchi. Allergie: nessuna. Ha già preso tre FANS diversi, inutili. Il compagno chiede una «TAC e a casa» perché domani ha un esame universitario.",
-  "presentation": "Sofferente, al buio, vomita se si alza in fretta. Fondo: papille con margini sfumati, bilaterali. Forza dell'arto superiore sinistro 4/5, riflessi vivaci a sinistra, resto integro. Nessuna rigidità franca. Parametri: PA 128/76 mmHg, FC 92, SpO2 99%, FR 16, temperatura 36,7 °C. La TC, se richiesta, mostra un'ipodensità parasagittale destra con un piccolo stravaso emorragico: è il reperto che spaventa e che non deve far sospendere l'eparina. Senza l'angio venosa quel sanguinamento viene chiamato «emorragia cerebrale» e trattato al contrario.",
+  "condition": "Epilessia con un anno senza crisi, patente di gruppo 1",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "INTERMEDIATE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Beghi_Epilessia.pdf; web_2023_guida_alle_epilessie.pdf",
+  "diagnosis": "Per il gruppo 1 il conducente con epilessia puo essere idoneo dopo un periodo, documentato e certificato dal neurologo, di un anno senza ulteriori crisi. Non e idoneo il mese dopo l'ultima crisi. Chi e libero da crisi da 10 anni senza farmaci non ha piu quelle restrizioni. Il gruppo 2, se lo chiedesse, non si rinnova restando in trattamento: servono 10 anni senza crisi e senza farmaci.",
+  "pastMedicalHistory": "Due crisi spontanee a distanza di mesi, anni fa. Terapia stabile. Ultima crisi 13 mesi fa, documentata.",
+  "presentation": "Vuole il rinnovo dell'auto. Porta il diario: 13 mesi liberi. Non vuole il gruppo 2.",
   "redHerrings": [
-    "La piccola emorragia alla TC sembra una controindicazione assoluta all'eparina.",
-    "La pressione normale e l'età allontanano l'ictus arterioso classico e fanno sottovalutare il seno venoso.",
-    "Il contraccettivo esce solo se si chiedono i farmaci, non se si chiede solo il dolore.",
-    "Il compagno spinge per la dimissione dopo una TC, senza studio venoso."
+    "Il datore di lavoro le chiede di firmare oggi un camion.",
+    "Chiedono una RM encefalo per il rinnovo."
   ],
-  "timeLimitMinutes": 80,
+  "timeLimitMinutes": 30,
   "patientDeteriorationThreshold": 30,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: DOLORE CON FOTOFOBIA, non la paziente che spiega cinque giorni in ordine. Sei Chiara, 28 anni, Pronto Soccorso, al buio. Frasi di quattro o sei parole, un lamento se c'è luce, interrompi le domande lunghe. Alla «Come sta?»: «Buio. Testa. ...non parlare tanto.» Il mal di testa è continuo da cinque giorni: lo dici solo se chiedono da quando, ancora corto. Il contraccettivo e le sigarette li dici solo se ti chiedono farmaci e abitudini. Se ti guardano il fondo dell'occhio e ti spiegano che la testa è sotto pressione, ti spaventi ma collabori, a pezzi. Se dopo la TC ti dicono che c'è un po' di sangue e che per questo non ti danno l'eparina, ti senti sollevata a torto e chiedi di andare a casa («Allora... a casa?»). Se ti spiegano che quel sangue viene da una vena chiusa e che l'eparina serve proprio per quello, accetti. Se propongono la puntura lombare prima di aver visto le vene, hai paura e firmi solo se insistono. Non nominare tu trombosi venosa o seno sagittale. Se nessuno studia le vene e ti mandano a casa, il braccio sinistro diventa più debole e parli ancora meno.",
-  "correctSolution": "Trombosi venosa cerebrale. Fondo con papilledema, angio-RM venosa del seno sagittale, eparina anche con il piccolo infarcimento emorragico visto alla TC. Stop al contraccettivo. Non sospendere l'anticoagulante per quel sangue. Non puntura lombare prima dello studio venoso. Non PET.",
-  "goldStandardPath": ["fundus", "angio", "eparina"],
-  "goldPathNarrative": "1) Fondo oculare: papilledema bilaterale. La cefalea intrattabile della giovane con contraccettivo non è un'emicrania. Costo 60 euro. 2) Angio-RM venosa, non una angio arteriosa generica e non una TC da sola: trombosi del seno sagittale superiore. Costo 350 euro. È l'imaging appropriato, caro e giustificato. 3) Eparina subito, anche se la TC mostra un piccolo sanguinamento venoso parasagittale. Sospenderla o non iniziarla per paura è l'errore clinico. Ideale circa 411 euro, budget 560. La TC a 120 euro può essere il primo colpo e mostra l'emorragia: non è inappropriata, è incompleta se ci si ferma lì. La PET a 950 euro è lo spreco. La rachicentesi con papilledema, prima delle vene, è la manovra pericolosa.",
+  "patientPrompt": "Sono Silvia. Sono 13 mesi che non ho crisi. Voglio l'auto, non il camion. Se serve la certificazione del neurologo, la faccio. Non voglio una risonanza solo per la motorizzazione.",
+  "correctSolution": "Gruppo 1: idoneita dopo un anno senza crisi, documentato e certificato dal neurologo. Qui i 13 mesi ci sono, se lei certifica. Non firmi un gruppo 2: in trattamento non si rinnova, servono 10 anni senza farmaci. Niente RM come requisito.",
+  "goldStandardPath": [
+    "diario-crisi",
+    "certificazione"
+  ],
+  "goldPathNarrative": "L'anno c'e. Si certifica il gruppo 1. Il camion no. La RM non e nella norma letta.",
   "examLatencies": {
-    "fundus": 8,
-    "angio": 35,
-    "eparina": 5,
-    "tc": 20,
-    "rm": 50,
-    "pet-tc": 240,
-    "liquidi": 30
+    "diario-crisi": 10,
+    "certificazione": 20,
+    "rm-encefalo": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-profilo",
-      "prompt": "Il dolore è continuo da giorni, peggiora da sdraiata, e non assomiglia a un'emicrania?",
+      "id": "ultima",
+      "prompt": "Quando e stata l'ultima crisi, ed e documentata?",
       "critical": true,
-      "expectedKeywords": ["continuo", "giorni", "sdraiata"],
-      "rationale": "Il profilo continuo con peggioramento da supina e papilledema non è una cefalea primaria."
+      "expectedKeywords": [
+        "mesi",
+        "anno",
+        "diario"
+      ],
+      "rationale": "Serve un anno senza ulteriori crisi, documentato e certificato."
     },
     {
-      "id": "aq-pillola",
-      "prompt": "Usa un contraccettivo, fuma, o ha avuto trombosi?",
+      "id": "gruppo",
+      "prompt": "Chiede l'auto o un veicolo del gruppo 2?",
       "critical": true,
-      "expectedKeywords": ["contraccettivo", "pillola", "fuma"],
-      "rationale": "Il fattore di rischio protrombotico non emerge dal solo dolore. Senza questa domanda la TC emorragica viene letta come emorragia primitiva."
-    },
-    {
-      "id": "aq-eparina",
-      "prompt": "L'emorragia vista alla TC le è stata spiegata come motivo per non dare eparina, o come conseguenza della vena chiusa?",
-      "critical": true,
-      "expectedKeywords": ["eparina", "sangue", "vena"],
-      "rationale": "È il bivio del caso. La paura del sanguinamento non deve sospendere l'anticoagulante."
+      "expectedKeywords": [
+        "auto",
+        "gruppo",
+        "camion"
+      ],
+      "rationale": "Il gruppo 2 in trattamento non si rinnova."
     }
   ],
   "physicalExam": {
-    "summary": "Cefalea, nausea, papilledema bilaterale, lieve paresis dell'arto superiore sinistro, riflessi vivaci a sinistra, nessun segno meningeo franco, pressione arteriosa non ipertensiva. Il fondo cambia la diagnosi da emicrania a ipertensione intracranica. Non si fa la puntura prima di aver visto i seni venosi."
+    "summary": "Esame normale. Diario coerente. Terapia invariata."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-018-tv",
-      "source": "knowledge_base/neurologia/clinic/linee guida iso spread.pdf",
-      "quote": "Sintesi operativa: la trombosi venosa cerebrale si cerca con uno studio venoso, in una cefalea persistente con papilledema e fattore di rischio. L'eparina resta indicata anche quando c'è un infarcimento emorragico venoso."
+      "chunkId": "a",
+      "source": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
+      "quote": "Il conducente o il candidato puo essere dichiarato idoneo alla guida dopo un periodo, documentato e certificato da parte dello specialista neurologo, di un anno senza ulteriori crisi."
     },
     {
-      "chunkId": "neuro-018-sirm",
-      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
-      "quote": "Sintesi operativa: la TC può mostrare il sanguinamento e non il seno. L'angio-RM venosa è l'esame che chiude la diagnosi. Una PET non mappa i seni durali."
+      "chunkId": "g2",
+      "source": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
+      "quote": "Il candidato non deve assumere farmaci antiepilettici per tutto il prescritto periodo di 10 anni senza crisi."
     },
     {
-      "chunkId": "neuro-018-costi",
-      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
-      "quote": "Sintesi operativa sul costo: l'angio-RM è una prestazione cara e, in questo caso, appropriata. Va nel percorso ideale. La PET no, e non si aggiunge per scrupolo dopo che il seno è già il sospetto."
+      "chunkId": "lib",
+      "source": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
+      "quote": "Le persone considerate clinicamente guarite su certificazione rilasciata da uno specialista in neurologia e che non hanno presentato crisi epilettiche da almeno 10 anni in assenza di trattamento farmacologico non sono piu soggette a restrizioni."
+    },
+    {
+      "chunkId": "due",
+      "source": "knowledge_base/neurologia/clinic/web_2023_guida_alle_epilessie.pdf",
+      "quote": "per porre una diagnosi di Epilessia e necessario almeno due crisi epilettiche a distanza di tempo superiore alle 24 ore, spontanee."
+    },
+    {
+      "chunkId": "rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Contraccettivo e profilo della cefalea raccolti.",
-      "Papilledema visto al fondo.",
-      "Angio-RM venosa, non solo TC.",
-      "Eparina avviata nonostante la piccola emorragia venosa.",
-      "Nessuna puntura lombare prima dello studio dei seni."
+      "Gruppo 1: un anno senza crisi, certificato dal neurologo.",
+      "Non fare la RM encefalo a 300 euro piu bollo per il rinnovo."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Vedere un piccolo sangue alla TC e sospendere o non iniziare l'eparina, in una trombosi del seno, è il contrario del percorso. L'emorragia venosa non è una controindicazione automatica. La puntura con papilledema, senza imaging venoso, non è difendibile.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Fattore di rischio ormonale scritto.",
-        "Studio venoso eseguito, non solo TC.",
-        "Eparina prescritta e motivata anche in presenza dell'infarcimento emorragico.",
-        "Contraccettivo sospeso e detto in lettera.",
-        "Puntura lombare non eseguita prima dell'imaging, con papilledema."
+        "Non si firma l'idoneita a un mese dall'ultima crisi.",
+        "Gruppo 2: 10 anni senza farmaci.",
+        "La certificazione e dello specialista, non della RM."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "fundus",
-      "name": "Fondo oculare",
-      "finding": "Papilledema bilaterale, margini sfumati, nessun sanguinamento preretinico esteso. Segno di ipertensione intracranica. Costo 60 euro. Cambia la cefalea da «virus» a urgenza vascolare venosa.",
+      "examId": "diario-crisi",
+      "name": "Diario delle crisi",
+      "finding": "Ultima crisi 13 mesi fa. Nessuna da allora.",
       "isAbnormal": true,
-      "priceEuro": 60
+      "isFatal": false
     },
     {
-      "examId": "angio",
-      "name": "Angio-RM venosa",
-      "finding": "Angio-RM venosa: mancata opacizzazione del seno sagittale superiore nel suo terzo medio-posteriore, circoli collaterali corticali. Trombo venoso. Non è uno studio arterioso normale. Costo 350 euro. È il gold imaging: la TC da sola non bastava.",
+      "examId": "certificazione",
+      "name": "Certificazione neurologica",
+      "finding": "Il periodo libero e documentabile. Manca solo la certificazione dello specialista, non un'altra imaging.",
       "isAbnormal": true,
-      "priceEuro": 350
-    },
-    {
-      "examId": "eparina",
-      "name": "Eparina",
-      "finding": "Eparina a dose anticoagulante avviata subito dopo lo studio venoso, nonostante il piccolo infarcimento emorragico parasagittale visto alla TC. Il contraccettivo si sospende. Non ridurre né sospendere l'eparina per quel sangue: è la conseguenza della vena chiusa, non una controindicazione. Omettere l'eparina è l'errore clinico centrale del caso.",
-      "isAbnormal": false,
-      "priceEuro": 1,
-      "isFatal": true
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "liquidi",
-      "name": "Rachicentesi prima dello studio venoso",
-      "finding": "Puntura lombare eseguita con papilledema e seni non ancora studiati. Manovra a rischio, non necessaria per la diagnosi se l'angio-RM venosa è disponibile. Il liquor, se comunque prelevato, mostra pressione alta e composizione non infettiva, e non cambia l'indicazione all'eparina. Non andava fatta adesso.",
-      "isAbnormal": true,
-      "priceEuro": 60,
-      "inappropriate": true,
-      "isFatal": true,
-      "wasteRationale": "Con papilledema la puntura prima dell'imaging è pericolosa. Non diagnostica la trombosi meglio dell'angio-RM venosa e non autorizza a sospendere l'eparina."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET-TC non indicata. Non visualizza il seno trombizzato. Costo 950 euro.",
+      "examId": "rm-encefalo",
+      "name": "RM encefalo",
+      "finding": "Richiesta come se fosse il requisito del rinnovo.",
       "isAbnormal": false,
-      "priceEuro": 950,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Medicina difensiva. 950 euro contro un ideale di circa 411: oltre il 50% e oltre il budget di 560 euro, senza rispondere alla domanda sul seno."
-    },
-    {
-      "examId": "scintigrafia",
-      "name": "Scintigrafia",
-      "finding": "Scintigrafia non indicata nella trombosi dei seni. Costo 250 euro.",
-      "isAbnormal": false,
-      "priceEuro": 250,
-      "inappropriate": true,
-      "wasteRationale": "Esame fuori indicazione. Si accumula senza vedere il trombo e sposta spesa e tempo lontano dall'eparina."
+      "wasteRationale": "La norma letta chiede l'anno certificato, non la RM. 300 euro piu bollo.",
+      "priceEuro": 300
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 92,
-      "bloodPressure": "128/76",
+      "heartRate": 74,
+      "bloodPressure": "118/74",
       "spo2": 99,
-      "temperature": 36.7,
-      "respiratoryRate": 16
+      "temperature": 36.5,
+      "respiratoryRate": 14
     },
-    "examBudgetEuro": 560,
-    "demographics": { "age": 28, "sex": "F", "name": "Chiara D." },
-    "clinicalSigns": [
-      {
-        "signName": "Papilledema",
-        "result": "Bilaterale, margini papillari sfumati.",
-        "isPositive": true
-      },
-      {
-        "signName": "Paresi arto superiore sinistro",
-        "result": "Forza 4/5, comparsa stamattina.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Papilledema",
-        "result": "Presente bilateralmente.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 41,
+      "sex": "F",
+      "context": "Ambulatorio"
+    },
     "advancedExams": {
       "values": {
-        "fundus": {
-          "finding": "Papilledema bilaterale. Costo 60 euro.",
-          "isAbnormal": true,
-          "price": 60
+        "diario-crisi": {
+          "finding": "Ultima crisi 13 mesi fa. Nessuna da allora.",
+          "isAbnormal": true
         },
-        "angio": {
-          "finding": "Angio-RM venosa: trombosi del seno sagittale superiore. Costo 350 euro. È l'esame decisivo.",
-          "isAbnormal": true,
-          "price": 350
+        "certificazione": {
+          "finding": "Il periodo libero e documentabile. Manca solo la certificazione dello specialista, non un'altra imaging.",
+          "isAbnormal": true
         },
-        "tc": {
-          "finding": "TC cranio: ipodensità parasagittale destra con piccolo stravaso emorragico. Non è una controindicazione all'eparina. Non mostra il seno con certezza. Costo 120 euro. Utile come primo colpo, incompleta se è l'ultimo.",
-          "isAbnormal": true,
-          "price": 120
-        },
-        "rm": {
-          "finding": "RM parenchimale: infarcimento venoso parasagittale con componente emorragica. Senza sequenze venose il seno non è dimostrato. Costo 220 euro. Va completata con l'angio-RM venosa, non sostituita da una PET.",
-          "isAbnormal": true,
-          "price": 220
-        },
-        "liquidi": {
-          "finding": "Puntura con papilledema: pressione di apertura molto alta, liquor non infettivo. Manovra non indicata prima dello studio venoso.",
-          "isAbnormal": true,
-          "price": 60
-        },
-        "pet-tc": {
-          "finding": "PET-TC non indicata. Costo 950 euro.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "scintigrafia": {
-          "finding": "Scintigrafia non indicata. Costo 250 euro.",
-          "isAbnormal": false,
-          "price": 250
+        "rm-encefalo": {
+          "finding": "Richiesta come se fosse il requisito del rinnovo.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Eparina anche con piccolo infarcimento emorragico venoso",
-          "anyOf": [{ "id": "eparina", "label": "Eparina", "aliases": ["eparina", "enoxaparina", "anticoagulante"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "Sospensione dell'anticoagulante per paura del sanguinamento venoso", "ids": ["sospensione-eparina", "niente-eparina"] }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "MEDIUM",
-    "emotionalState": "ANXIOUS",
+    "healthLiteracy": "HIGH",
+    "emotionalState": "COLLABORATIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "DOLORE E FOTOFOBIA. Frasi di poche parole, chiede il buio, si irrita se la domanda è lunga. Il contraccettivo e le sigarette non li cita da sola. Non racconta i cinque giorni in modo ordinato."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "GOOD",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Collabora. Vuole l'auto. Rifiuta camion e RM non richiesti dalla norma."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Contare l'anno",
+      "prompt": "Ultima crisi 13 mesi fa, diario chiaro, terapia stabile.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "L'anno senza ulteriori crisi c'e. Si puo certificare il gruppo 1",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Le dica che ne servono due di anni, inventando una soglia",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Soglia diversa dall'anno",
+      "prompt": "idoneo dopo un periodo, documentato e certificato dal neurologo, di un anno senza ulteriori crisi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Chi certifica",
+      "prompt": "La motorizzazione vuole un nome.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Certifica lo specialista neurologo, o disciplina equipollente",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Firmi lei, medico non specialista, senza quella valutazione",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Certificazione senza specialista",
+      "prompt": "documentato e certificato da parte dello specialista neurologo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non il camion",
+      "prompt": "Il datore le chiede il gruppo 2. Lei e ancora in farmaco. Non ha 10 anni liberi senza terapia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non lo firmi. Il gruppo 2 vuole 10 anni senza crisi e senza farmaci",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Le estenda l'idoneita al camion perche l'auto e a posto",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Gruppo 2 in trattamento",
+      "prompt": "Il candidato non deve assumere farmaci antiepilettici per tutto il prescritto periodo di 10 anni senza crisi. Per i soggetti liberi da crisi da almeno 10 anni ma in trattamento non e previsto rinnovare la patente del gruppo 2.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "I dieci anni senza farmaci",
+      "prompt": "Se un giorno sara senza crisi e senza farmaci da 10 anni, con certificazione, le restrizioni del gruppo 1 cadono.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Glielo dica come orizzonte, non come situazione di oggi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Le tolga oggi ogni limite perche sono passati 13 mesi",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Guarigione clinica anticipata",
+      "prompt": "chi non ha presentato crisi da almeno 10 anni in assenza di trattamento farmacologico non e piu soggetto a restrizioni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM encefalo per la motorizzazione. Non e il requisito scritto per l'idoneita.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo prenoti subito: RM encefalo per la motorizzazione",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. Non e il requisito scritto per l'idoneita. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: patente del gruppo 2, che lei informata non chiede e che il datore vorrebbe. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "La diagnosi di partenza",
+      "prompt": "All'epoca ebbe due crisi spontanee a piu di 24 ore. Qualcuno nel vecchio referto scrisse Grande Male.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Confermi epilessia per quelle due crisi. Non rinnovi la dizione Grande Male",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Riscriva Grande Male nel certificato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Dizione da non usare",
+      "prompt": "dizione questa che pero non deve essere piu utilizzata. Servono almeno due crisi spontanee a piu di 24 ore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Crisi provocata, se lo fosse stata",
+      "prompt": "Non e il suo caso: non c'era un fattore scatenante. La regola, se lo fosse, e diversa: idoneita individuale solo con parere neurologico, e per il gruppo 2 solo veicoli privati non per terzi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Tenga la sua crisi come non provocata e non applichi la scorciatoia della crisi provocata",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "La riclassifichi provocata per firmarle la guida subito",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Crisi riclassificata",
+      "prompt": "Il candidato con una crisi provocata da un fattore scatenante identificabile puo essere dichiarato idoneo su base individuale, subordinatamente a un parere neurologico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Gruppo 1 certificato, gruppo 2 no",
+      "prompt": "Ha certificato l'anno senza crisi per l'auto, ha negato il camion e non ha fatto la RM come permesso di guida.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

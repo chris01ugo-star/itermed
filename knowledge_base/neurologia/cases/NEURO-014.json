@@ -1,243 +1,435 @@
 {
   "id": "NEURO-014",
   "code": "NEURO-014",
-  "title": "Sindrome di Guillain-Barré",
-  "description": "Marco T., 29 anni, dieci giorni dopo una gastroenterite ha formicolii ai piedi che in tre giorni sono saliti alle ginocchia e alle mani. Da stamattina fatica a salire le scale e, se gli si chiede di contare, la voce si affievolisce. I riflessi sono assenti. È una Guillain-Barré. Il percorso è la rachicentesi (dissociazione albumino-citologica), l'EMG, la spirometria in Pronto Soccorso per la capacità vitale, e le immunoglobuline o la plasmaferesi. Non misurare il respiro è la trappola mortale: la capacità vitale sta scendendo e, se la si ignora, il passo successivo del caso è l'intubazione d'urgenza. Una RM del rachide, se serve a escludere una compressione, non sostituisce la spirometria e non va fatta per prima. PET e angio non hanno indicazione.",
-  "difficulty": "HARD",
+  "title": "Lombalgia da due settimane, senza allarmi: niente RM",
+  "description": "Davide, 44 anni, mal di schiena da 14 giorni dopo un sforzo. Niente deficit, niente febbre, niente trauma maggiore, niente ritenzione, niente storia di cancro. Esame senza red flag.",
+  "difficulty": "EASY",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Poliradicoloneuropatia infiammatoria acuta con rischio respiratorio",
-  "frequencyCategory": "MEDIUM",
-  "matrixDifficulty": "ADVANCED",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-  "diagnosis": "Sindrome di Guillain-Barré post-infettiva, dissociazione albumino-citologica, EMG con segni di demielinizzazione, capacità vitale ai limiti. Indicazione a immunoglobuline e a monitoraggio respiratorio in ambiente idoneo. Non è una mielopatia.",
-  "pastMedicalHistory": "Gastroenterite con diarrea cinque-dieci giorni fa, risolta. Nessun vaccino nella settimana scorsa. Nessun diabete, nessuna tossina, nessun tick bite noto, nessuna febbre ora. Non fuma. Sportivo, correva fino a due settimane fa. Allergie: nessuna. Convive, la compagna è in sala d'attesa e minimizza: «è solo la stanchezza dopo il virus».",
-  "presentation": "Seduto, ansioso, conta fino a 15 e la voce si spegne. Non sta a lungo sulle punte, la presa delle mani è debole, i riflessi rotulei e achillei sono assenti, la sensibilità è ridotta alle dita in modo distale, non c'è un livello netto da lesione midollare, non c'è Babinski. Parametri: PA 128/78 mmHg, FC 102, SpO2 96% in aria, FR 22, temperatura 36,8 °C. La saturazione ancora accettabile non autorizza a saltare la capacità vitale. Se nessuno la misura, nel corso della permanenza non completa più la frase e la FR sale.",
+  "condition": "Lombalgia nelle prime sei settimane senza segni di allarme",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "BASE",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Scheda-SIRM-1-2022_gen_23.pdf; RM paganti; Fasdac",
+  "diagnosis": "SIRM: niente RM del rachide lombosacrale per lombalgia nelle prime sei settimane senza red flag. Se non ci sono sintomi neurologici o sistemici gravi, la RM si considera dopo almeno 6 settimane di terapia fisica e medica. Se negativa, non si ripete prima di 24 mesi.",
+  "pastMedicalHistory": "Sano. Nessun precedente di RM lombare.",
+  "presentation": "Dolore meccanico da due settimane, esame senza deficit e senza segni sistemici.",
   "redHerrings": [
-    "La compagna attribuisce tutto alla gastroenterite appena passata e chiede la dimissione.",
-    "La SpO2 a 96% sembra rassicurante e non misura la capacità vitale.",
-    "Una RM del midollo «per non perdere una compressione» diventa il primo atto e fa perdere il monitoraggio.",
-    "Il dolore neuropatico agli arti inferiori spinge a un oppioide e distrae dal respiro."
+    "Vuole la RM per l'assicurazione.",
+    "Una RM fatta altrove l'anno scorso era negativa e chiedono di ripeterla."
   ],
-  "timeLimitMinutes": 70,
-  "patientDeteriorationThreshold": 20,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: FATICA RESPIRATORIA, non un paziente che spiega. Sei Marco, 29 anni, Pronto Soccorso. Puoi iniziare una frase e la devi lasciare a metà perché manca l'aria. Massimo sei parole, poi un respiro nel testo («...»). Vietato il paragrafo lucido. Alla «Come sta?»: «Piedi... formicolio. Aria... non...» I formicolii partiti dai piedi dopo la diarrea li racconti, spezzati, solo se ti chiedono da dove è iniziato e se c'è stata un'infezione. La compagna, se interviene (premetti «Compagna:»), dice che è stanchezza e che volete andare a casa: lei parla intero, tu no. Se ti chiedono di inspirare a fondo o ti fanno la spirometria: «L'aria... non entra.» Se ti propongono le immunoglobuline, hai paura del sangue e firmi se ti spiegano il respiro, a singulti. Se ti mandano prima di tutto a fare una risonanza lunga, la voce ti muore in corridoio. Non nominare tu Guillain-Barré, dissociazione o capacità vitale. Se nessuno misura il respiro entro pochi passi, non finisci più le frasi.",
-  "correctSolution": "Guillain-Barré. Liquor con proteine alte e cellule basse, EMG demielinizzante, capacità vitale misurata subito e ripetuta, immunoglobuline endovena o plasmaferesi, ricovero monitorato. La RM midollare non è il primo atto e non sostituisce la spirometria. Niente dimissione.",
-  "goldStandardPath": ["liquidi", "emg", "spirometria", "immunoglobuline"],
-  "goldPathNarrative": "1) Rachicentesi: proteine elevate, cellule poche, dissociazione albumino-citologica. Costo 60 euro. 2) EMG: rallentamento e dispersione, blocco parziale, compatibile con demielinizzazione acuta. Costo 70 euro. 3) Spirometria in Pronto Soccorso: capacità vitale circa 15 ml/kg e in calo, voce che si spegne sul conteggio. È l'atto che evita l'intubazione in ritardo. Costo 25 euro. Ometterla è l'errore mortale. 4) Immunoglobuline endovena, o plasmaferesi se le immunoglobuline non sono disponibili, in ambiente monitorato. Ideale circa 156 euro, budget 280. PET 950 euro e angio 350 euro non cambiano la decisione. Una RM del rachide può escludere una compressione, ma se precede la spirometria il paziente peggiora in tunnel: non è uno spreco economico automatico, è un errore di sequenza.",
+  "timeLimitMinutes": 25,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Davide. Mi fa male la schiena da due settimane, le gambe vanno. Non voglio una risonanza se il testo non la chiede. Se me la proponete, rifiuto.",
+  "correctSolution": "Niente RM ora. Terapia conservativa. La RM si ridiscute se i sintomi resistono almeno 6 settimane. Se una RM fosse negativa, non prima di 24 mesi. Rispetti il rifiuto.",
+  "goldStandardPath": [
+    "esame-schiena",
+    "storia-allarmi"
+  ],
+  "goldPathNarrative": "Due settimane, nessun semaforo rosso. La RM lombare non e il primo passo e ha una tariffa.",
   "examLatencies": {
-    "liquidi": 25,
-    "emg": 20,
-    "spirometria": 5,
-    "immunoglobuline": 15,
-    "rm": 90,
-    "pet-tc": 240,
-    "angio": 70,
-    "tc": 25
+    "esame-schiena": 15,
+    "storia-allarmi": 10,
+    "rm-lombare": 70
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-infezione",
-      "prompt": "I formicolii sono saliti dai piedi, e c'è stata una infezione nei giorni precedenti?",
+      "id": "tempo",
+      "prompt": "Da quanti giorni dura e c'e un deficit o febbre?",
       "critical": true,
-      "expectedKeywords": ["piedi", "diarrea", "giorni"],
-      "rationale": "L'andamento ascendente post-infettivo è il profilo della Guillain-Barré. Senza questa domanda resta una stanchezza."
+      "expectedKeywords": [
+        "giorni",
+        "no",
+        "febbre"
+      ],
+      "rationale": "Sotto le sei settimane e senza red flag la RM non e indicata."
     },
     {
-      "id": "aq-respiro",
-      "prompt": "La voce si affievolisce, e quanta aria riesce a prendere?",
+      "id": "gia",
+      "prompt": "Ha gia una RM negativa recente?",
       "critical": true,
-      "expectedKeywords": ["voce", "aria", "fiato"],
-      "rationale": "Il respiro è la red flag mortale. La saturazione da sola non basta."
-    },
-    {
-      "id": "aq-livello",
-      "prompt": "C'è un livello netto sotto cui non sente, o ritenzione?",
-      "critical": true,
-      "expectedKeywords": ["livello", "urine", "schiena"],
-      "rationale": "Un livello midollare sposterebbe verso la RM d'urgenza. Qui i riflessi assenti e la distribuzione distale restano neuropatici, e il respiro viene prima."
+      "expectedKeywords": [
+        "anno",
+        "negativa",
+        "no"
+      ],
+      "rationale": "Se negativa, non si ripete prima di 24 mesi."
     }
   ],
   "physicalExam": {
-    "summary": "Tetraparesi flaccida prevalente agli arti inferiori, riflessi assenti ai quattro arti, ipoestesia distale senza livello netto, Babinski assente, nervi cranici con voce ipofonica, conta che si interrompe. FR 22, SpO2 96%. Nessun segno di compressione midollare acuta, ma la capacità vitale non si deduce dalla saturazione."
+    "summary": "Lassegue negativo, forza e riflessi presenti, niente livello sensitivo, niente globo."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-014-gb",
-      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-      "quote": "Sintesi operativa: nella debolezza ascendente post-infettiva si cercano la dissociazione albumino-citologica e i segni elettrofisiologici, e si tratta con immunoglobuline o plasmaferesi. La capacità vitale si misura subito: la saturazione può restare accettabile fino a tardi."
+      "chunkId": "s",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "Non eseguire Risonanza Magnetica (RM) del Rachide Lombosacrale in caso di lombalgia nelle prime sei settimane in assenza di segni/sintomi di allarme (semafori rossi o red flags)."
     },
     {
-      "chunkId": "neuro-014-respiro",
-      "source": "knowledge_base/neurologia/clinic/SIN-INFORMA.pdf",
-      "quote": "Sintesi operativa: non monitorare il respiro in una poliradicoloneuropatia acuta è l'omissione che porta all'intubazione in emergenza, non una scelta conservativa. Il conteggio e la spirometria vengono prima di un imaging lungo."
+      "chunkId": "w",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "la RM lombosacrale in caso di lombalgia e sciatalgia sia acuta sia cronica non e indicata di routine ma deve essere presa in considerazione solo in caso di sintomi resistenti a terapia fisica e medica per almeno 6 settimane. In caso di negativita non deve essere ripetuta prima di 24 mesi."
     },
     {
-      "chunkId": "neuro-014-costi",
+      "chunkId": "r",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM rachide lombosacrale 280+bollo"
+    },
+    {
+      "chunkId": "f",
       "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
-      "quote": "Sintesi operativa sul costo: liquor, EMG e spirometria stanno nel percorso. PET e angio-RM non aggiungono nulla alla decisione sulle immunoglobuline e non vanno accumulate per prudenza."
+      "quote": "DI RM 000003888 RM rachide e midollo segmento lombo-sacrale senza contrasto 185,00"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Andamento ascendente e infezione precedente raccolti.",
-      "Rachicentesi con lettura della dissociazione.",
-      "EMG richiesta.",
-      "Capacità vitale misurata in Pronto Soccorso, non solo la SpO2.",
-      "Immunoglobuline o plasmaferesi avviate in ambiente monitorato."
+      "Niente RM lombare nelle prime sei settimane senza red flag.",
+      "Tariffa 280 euro piu bollo, Fasdac 185 euro."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Affidarsi alla saturazione e a una RM prenotata, senza spirometria, in una debolezza ascendente con voce che si spegne, non aderisce al percorso della Guillain-Barré ed è l'omissione che rende inevitabile l'intubazione d'urgenza.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Capacità vitale o prova di conteggio scritta, con l'orario.",
-        "Decisione su immunoglobuline o plasmaferesi documentata.",
-        "Nessuna dimissione con riflessi assenti e voce ipofonica.",
-        "Consenso al trattamento immunomodulante."
+        "Red flag assenti: la RM non cambia la cura nelle prime settimane.",
+        "Se negativa, non prima di 24 mesi.",
+        "Rifiuto della RM dopo l'informazione."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "liquidi",
-      "name": "Rachicentesi",
-      "finding": "Liquor limpido. Proteine 128 mg/dL, cellule 4/mm3, glucosio normale. Dissociazione albumino-citologica. Nessun germe all'esame diretto. Costo 60 euro. Il referto conferma e non va atteso per iniziare a misurare il respiro: la spirometria viene in parallelo, non dopo.",
-      "isAbnormal": true,
-      "priceEuro": 60
-    },
-    {
-      "examId": "emg",
-      "name": "EMG",
-      "finding": "EMG precoce: prolungamento delle latenze distali, dispersione dei potenziali, blocco di conduzione parziale sul peroneo, onda F assente. Compatibile con demielinizzazione acquisita. Può essere ancora incompleta nei primi giorni, ma qui è già informativa. Costo 70 euro.",
-      "isAbnormal": true,
-      "priceEuro": 70
-    },
-    {
-      "examId": "spirometria",
-      "name": "Spirometria, capacità vitale",
-      "finding": "Capacità vitale 1,1 litri, circa 15 ml/kg, in calo rispetto a un tentativo di pochi minuti prima. Non completa un conteggio oltre 12. SpO2 ancora 96%. Indicazione a monitoraggio in ambiente con possibilità di intubazione immediata, non a dimissione e non a una RM prima di questo numero. Se questo esame manca, il caso evolve verso l'intubazione d'urgenza. Costo 25 euro.",
-      "isAbnormal": true,
-      "priceEuro": 25,
-      "isFatal": true
-    },
-    {
-      "examId": "immunoglobuline",
-      "name": "Immunoglobuline endovena",
-      "finding": "Avvio delle immunoglobuline endovena al dosaggio previsto per la Guillain-Barré, oppure plasmaferesi se le immunoglobuline non sono disponibili. Non aspettare una RM per iniziare. Monitoraggio di pressione e respiro durante l'infusione. Il costo del farmaco non va contato come spreco: è il trattamento.",
+      "examId": "esame-schiena",
+      "name": "Esame neurologico del rachide",
+      "finding": "Forza, riflessi e sensibilita integri. Nessun segno di coda equina.",
       "isAbnormal": false,
-      "priceEuro": 1
+      "isFatal": false
+    },
+    {
+      "examId": "storia-allarmi",
+      "name": "Storia dei red flag",
+      "finding": "Niente cancro, febbre, trauma maggiore, deficit, ritenzione. Dolore da 14 giorni.",
+      "isAbnormal": false,
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET-TC non eseguibile in un paziente con capacità vitale in calo e comunque non indicata. Costo 950 euro.",
+      "examId": "rm-lombare",
+      "name": "RM lombosacrale",
+      "finding": "Lombalgia da 14 giorni senza allarmi.",
       "isAbnormal": false,
-      "priceEuro": 950,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Medicina difensiva pericolosa: toglie tempo al respiro e costa 950 euro contro un ideale di circa 156, molto oltre il 50%."
-    },
-    {
-      "examId": "angio",
-      "name": "Angio-RM",
-      "finding": "Angio-RM non indicata. Nessun dato sulla radice né sul diaframma. Costo 350 euro. L'attesa peggiora la capacità vitale.",
-      "isAbnormal": false,
-      "priceEuro": 350,
-      "inappropriate": true,
-      "wasteRationale": "Esame vascolare senza ipotesi vascolare. Supera il 50% del percorso ideale e ritarda spirometria e immunoglobuline."
+      "wasteRationale": "SIRM. 280 euro piu bollo; Fasdac 185 euro.",
+      "priceEuro": 280
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 102,
-      "bloodPressure": "128/78",
-      "spo2": 96,
-      "temperature": 36.8,
-      "respiratoryRate": 22
+      "heartRate": 72,
+      "bloodPressure": "124/78",
+      "spo2": 99,
+      "temperature": 36.5,
+      "respiratoryRate": 14
     },
-    "examBudgetEuro": 280,
-    "demographics": { "age": 29, "sex": "M", "name": "Marco T." },
-    "clinicalSigns": [
-      {
-        "signName": "Riflessi osteotendinei",
-        "result": "Assenti ai quattro arti.",
-        "isPositive": true
-      },
-      {
-        "signName": "Conta ad alta voce",
-        "result": "La voce si spegne prima di 15. Capacità vitale da misurare.",
-        "isPositive": true
-      },
-      {
-        "signName": "Livello sensitivo netto",
-        "result": "Assente. Distribuzione distale, non un livello midollare.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Conta ad alta voce",
-        "result": "Si interrompe. Il respiro non è affidabile.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 44,
+      "sex": "M",
+      "context": "Ambulatorio"
+    },
     "advancedExams": {
       "values": {
-        "liquidi": {
-          "finding": "Proteine 128 mg/dL, cellule 4/mm3. Dissociazione albumino-citologica. Costo 60 euro.",
-          "isAbnormal": true,
-          "price": 60
+        "esame-schiena": {
+          "finding": "Forza, riflessi e sensibilita integri. Nessun segno di coda equina.",
+          "isAbnormal": false
         },
-        "emg": {
-          "finding": "Segni di demielinizzazione acquisita, onda F assente. Costo 70 euro.",
-          "isAbnormal": true,
-          "price": 70
+        "storia-allarmi": {
+          "finding": "Niente cancro, febbre, trauma maggiore, deficit, ritenzione. Dolore da 14 giorni.",
+          "isAbnormal": false
         },
-        "spirometria": {
-          "finding": "Capacità vitale 1,1 litri, circa 15 ml/kg, in calo. Non dimettere. Costo 25 euro.",
-          "isAbnormal": true,
-          "price": 25
-        },
-        "rm": {
-          "finding": "RM midollo: nessun conflitto, radici addossate senza compressione. Può escludere una mielopatia ma non sostituisce la spirometria e non va fatta per prima. Costo 220 euro.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "pet-tc": {
-          "finding": "PET-TC non indicata. Costo 950 euro.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "angio": {
-          "finding": "Angio-RM non indicata. Costo 350 euro.",
-          "isAbnormal": false,
-          "price": 350
-        },
-        "tc": {
-          "finding": "TC encefalo negativa. Non spiega la debolezza ascendente. Costo 120 euro.",
-          "isAbnormal": false,
-          "price": 120
+        "rm-lombare": {
+          "finding": "Lombalgia da 14 giorni senza allarmi.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Immunoglobuline o plasmaferesi, dopo o insieme al monitoraggio del respiro",
-          "anyOf": [{ "id": "immunoglobuline", "label": "Immunoglobuline", "aliases": ["immunoglobuline", "plasmaferesi", "ivig"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "Dimissione o solo analgesico, senza capacità vitale", "ids": ["dimissione", "solo-oppioide"] }
-      ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "ANXIOUS",
+    "emotionalState": "DEFENSIVE",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
-    "communicationStyle": "FAME D'ARIA. Marco inizia la frase e la lascia a metà. La compagna dice che è solo stanchezza e vuole andare a casa. Non racconta in modo fluido diarrea e formicolii: le parole gli mancano col fiato."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole una lastra per l'assicurazione. Capace. Rifiuta la RM quando gli si dice che non e indicata."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Cercare i red flag",
+      "prompt": "Quattordici giorni, sforzo, niente febbre, niente cancro, niente trauma maggiore, niente ritenzione, forza presente.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Li registri come assenti",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Chieda la RM senza averli cercati",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Allarmi non cercati",
+      "prompt": "Non eseguire Risonanza Magnetica (RM) del Rachide Lombosacrale in caso di lombalgia nelle prime sei settimane in assenza di segni/sintomi di allarme (semafori rossi o red flags).",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non ora",
+      "prompt": "Sono le prime sei settimane.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non faccia la RM. Terapia fisica e medica",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "La prenoti oggi",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "RM lombare precoce",
+      "prompt": "Non e indicata di routine ma deve essere presa in considerazione solo in caso di sintomi resistenti a terapia fisica e medica per almeno 6 settimane. Tariffa RM rachide lombosacrale 280+bollo",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Se resistesse",
+      "prompt": "Ipotesi: il dolore e ancora li dopo sei settimane di cura, sempre senza red flag.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Solo allora la RM si puo prendere in considerazione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Anche dopo sei settimane la escluda per sempre",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Soglia delle sei settimane cancellata",
+      "prompt": "solo in caso di sintomi resistenti a terapia fisica e medica per almeno 6 settimane.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Se fosse negativa",
+      "prompt": "Una RM dell'anno scorso, fuori da questo episodio, era negativa. Ne chiedono un'altra.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non la ripeta prima di 24 mesi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "La ripeta a un anno",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "RM ripetuta prima di 24 mesi",
+      "prompt": "In caso di negativita non deve essere ripetuta prima di 24 mesi. Fasdac: DI RM 000003888 RM rachide e midollo segmento lombo-sacrale senza contrasto 185,00",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM lombosacrale 280 euro piu bollo. Quattordici giorni e nessun red flag.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo prenoti subito: RM lombosacrale 280 euro piu bollo",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM rachide lombosacrale 280+bollo. Quattordici giorni e nessun red flag. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: RM lombare. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cosa si fa intanto",
+      "prompt": "Il testo dice che senza allarmi l'imaging nelle prime 6 settimane non modifica l'approccio terapeutico.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Prosegua la cura fisica e medica, senza imaging",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Fermi la cura finche non c'e la RM",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Cura sospesa in attesa di un esame non indicato",
+      "prompt": "l'utilizzo di RM e di altre tecniche di diagnostica per immagini almeno nelle prime 6 settimane non modifica l'approccio terapeutico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Costo e reperti casuali",
+      "prompt": "La scheda ricorda reperti incidentali, altri esami e interventi non necessari.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Glielo spieghi e non apra quella catena",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Gli dica che la RM e obbligatoria per non perdere un tumore in assenza di allarmi",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Paura usata per un esame non indicato",
+      "prompt": "puo portare alla scoperta di reperti incidentali, a ulteriori esami e a interventi chirurgici non necessari, e rappresenta un costo elevato per la collettivita.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Lombalgia senza RM precoce",
+      "prompt": "Ha escluso i red flag, non ha chiesto la RM a due settimane, non l'ha ripetuta prima di 24 mesi e ha rispettato il rifiuto.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

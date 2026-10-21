@@ -1,225 +1,440 @@
 {
   "id": "NEURO-017",
   "code": "NEURO-017",
-  "title": "Stato di male epilettico",
-  "description": "Davide R., 40 anni, è in Pronto Soccorso e convulsiva da più di cinque minuti, cronometro del triage alla mano. Le scosse tonico-cloniche non si sono interrotte, non risponde, la saturazione scende. È uno stato di male epilettico convulsivo. Il percorso è lorazepam endovena subito, poi fenitoina se non cessa, poi propofol e intubazione se è refrattario. Fare prima una TC, una RM o una PET è la trappola mortale di tempo: l'imaging viene dopo che le convulsioni si sono fermate. Il budget di questo accesso è 50 euro proprio perché il gold non è un esame radiologico. Il percorso ideale costa circa 3 euro di atti, non perché la cura sia gratuita, ma perché la penalità scatta sull'imaging ordinato al posto del minuto del benzo.",
-  "difficulty": "HARD",
+  "title": "Prima crisi non provocata: non e gia epilessia, e la patente aspetta sei mesi",
+  "description": "Matteo, 27 anni, una crisi tonico-clonica unica, non provocata, ieri sera. Oggi sta bene. Guida l'auto. Nessuna crisi precedente.",
+  "difficulty": "MEDIUM",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Stato di male epilettico convulsivo generalizzato",
-  "frequencyCategory": "MEDIUM",
-  "matrixDifficulty": "ADVANCED",
+  "condition": "Prima crisi epilettica non provocata, gruppo 1 della patente",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "INTERMEDIATE",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/updated-classification-of-epileptic-seizures-2025.pdf",
-  "diagnosis": "Stato di male epilettico convulsivo. Controllo con lorazepam, fenitoina di seconda linea, intubazione e propofol se refrattario. Causa da cercare dopo, non prima, del primo farmaco. Glicemia in parallelo, non al posto della benzodiazepina.",
-  "pastMedicalHistory": "Epilessia focale nota, in levetiracetam, la moglie non sa se ha preso le dosi degli ultimi due giorni. Nessun trauma prima dell'esordio delle scosse. Non è in gravidanza: è un uomo. Alcol: la moglie nega un binge di oggi. Allergie: nessuna nota. Ultima crisi un anno fa, breve, ferma da sola. Questa non si ferma.",
-  "presentation": "Sul lettino, scosse ai quattro arti continue da 6 minuti all'arrivo del medico, trisma, respiro stertoroso, SpO2 89% con maschera, non risponde al richiamo. Un infermiere chiede se «intanto facciamo la TAC». La moglie urla il nome del farmaco di casa e non sa la dose. Parametri: PA 160/95 mmHg, FC 130, SpO2 89%, FR irregolare, temperatura 37,2 °C. Glicemia da stick, se qualcuno la fa in parallelo: 110 mg/dL, non è l'ipoglicemia. Ogni minuto senza benzo è un minuto di stato.",
+  "guidelineRef": "web_2023_guida_alle_epilessie.pdf; Beghi_Epilessia.pdf; RM paganti",
+  "diagnosis": "Una sola crisi non provocata non e epilessia, salvo un rischio di ricorrenza di almeno il 60% calcolato dall'epilettologo su clinica ed EEG. Per la patente di gruppo 1 l'idoneita dopo una prima crisi non provocata si valuta dopo 6 mesi senza crisi e solo dopo una valutazione specialistica appropriata. L'osservazione puo arrivare a 5 anni. Non si rimette in guida il giorno dopo.",
+  "pastMedicalHistory": "Niente alcol come fattore scatenante identificato. Niente trauma. Patente gruppo 1, non camion.",
+  "presentation": "Crisi unica ieri, recupero, oggi normale. Vuole tornare al lavoro in auto domani.",
   "redHerrings": [
-    "La richiesta di TC «intanto che convulsiona» sembra organizzazione e invece è un ritardo.",
-    "Cercare la causa (alcol, aderenza, trauma) prima del lorazepam inverte l'ordine.",
-    "Un EEG subito, con il paziente che scuote, non sostituisce la benzodiazepina.",
-    "La fenitoina data per prima, senza benzo, è la sequenza sbagliata."
+    "I colleghi gli hanno messo un cucchiaio in bocca.",
+    "Chiede la RM encefalo per farsi firmare la guida."
   ],
-  "timeLimitMinutes": 20,
-  "patientDeteriorationThreshold": 8,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: CRISI IN ATTO. L'uomo di 40 anni NON parla. Zero frasi sue, zero cortesia, zero riassunto. Al massimo una riga di corpo: scosse, non risponde. Parla solo la moglie (premetti «Moglie:»), gridando, a domande secche, non un referto. Alla «Come sta?»: (lui non risponde, trema). Moglie: «Trema! Da più di cinque minuti! Fate qualcosa!» Se le fanno una domanda secca: prende il levetiracetam, forse ha saltato due giorni, niente trauma prima, niente alcol oggi. Se il medico dà il lorazepam subito, le scosse calano; se dopo un minuto ripartono, lei lo dice urlando. Se ordinano prima la TAC o la risonanza, le scosse continuano, la saturazione scende, e lei chiede perché lo portano via ancora mentre trema. Non nominare tu stato di male, propofol o sequenza. Se danno la fenitoina senza aver dato la benzodiazepina, le scosse non cessano. Se dopo benzo e fenitoina trema ancora, resta incosciente e serve l'intubazione: non opporsi, chiedi solo di restare fuori dalla porta, ancora in panico, frasi corte.",
-  "correctSolution": "Stato di male convulsivo. Lorazepam ev immediato, glucosio solo in parallelo se lo stick è basso (qui non lo è), fenitoina se persiste, propofol e intubazione se refrattario. TC solo a convulsioni fermate. Niente RM e niente PET in questa fase.",
-  "goldStandardPath": ["lorazepam", "fenitoina", "intubazione"],
-  "goldPathNarrative": "Orologio già oltre i 5 minuti. 1) Lorazepam endovena subito, e si ripete secondo schema se le scosse non cessano. È l'atto che non si rimanda. 2) Se persiste, fenitoina (o fosfenitoina) in infusione, non come primo farmaco al posto del benzo. 3) Se ancora refrattario, propofol e intubazione, rianimazione. La glicemia si misura in parallelo: qui è 110, non cambia l'ordine. La TC si fa dopo che ha smesso di scuotere, per la causa, e non è nel gold di questi minuti. RM (latenza 80) e PET (240) ordinate adesso fanno scadere la soglia degli 8 minuti e sono inappropriate. EEG dopo il controllo, non prima. Ideale di questi tre atti: circa 3 euro di decisione. Budget dell'accesso acuto: 50 euro. Una TC a 120 euro fatta durante le scosse è già oltre il 50% e oltre il budget, ed è l'errore di tempo.",
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Matteo. Ieri sera sono caduto e ho avuto una crisi. Oggi sto bene e domani devo guidare. Se il testo dice di no, non firmatemi l'idoneita. Non voglio una risonanza solo per la patente.",
+  "correctSolution": "Non la chiami epilessia per una sola crisi, se l'epilettologo non calcola un rischio di almeno il 60%. Non lo dichiari idoneo domani: servono 6 mesi senza crisi e la valutazione specialistica. Non gli metta oggetti in bocca in una crisi. Non faccia la RM encefalo come se fosse il requisito della patente.",
+  "goldStandardPath": [
+    "anamnesi-crisi",
+    "visita-neurologica"
+  ],
+  "goldPathNarrative": "Una crisi, non provocata. La guida di gruppo 1 aspetta sei mesi e lo specialista. La RM a 300 euro non e quel passaggio.",
   "examLatencies": {
-    "lorazepam": 1,
-    "fenitoina": 8,
-    "intubazione": 5,
-    "glicemia": 2,
-    "tc": 25,
-    "rm": 80,
-    "pet-tc": 240,
-    "eeg": 20
+    "anamnesi-crisi": 15,
+    "visita-neurologica": 30,
+    "rm-encefalo": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-tempo",
-      "prompt": "Da quanti minuti convulsiona senza interruzione?",
+      "id": "quante",
+      "prompt": "Quante crisi ha avuto, e c'era un fattore provocante?",
       "critical": true,
-      "expectedKeywords": ["minuti", "cinque", "continuo"],
-      "rationale": "Oltre i cinque minuti è stato di male. La domanda dura un secondo e non sostituisce il farmaco."
+      "expectedKeywords": [
+        "una",
+        "no",
+        "prima"
+      ],
+      "rationale": "Due crisi a piu di 24 ore fanno epilessia. Una sola no, salvo rischio almeno del 60%."
     },
     {
-      "id": "aq-farmaci",
-      "prompt": "Quale anticrisi prende, e lo ha saltato?",
+      "id": "guida",
+      "prompt": "Quando vuole rimettersi al volante, e che patente ha?",
       "critical": true,
-      "expectedKeywords": ["levetiracetam", "saltato", "dose"],
-      "rationale": "L'aderenza spiega la causa e si chiede mentre si prepara il lorazepam, non prima."
-    },
-    {
-      "id": "aq-sequenza",
-      "prompt": "La benzodiazepina è stata la prima somministrazione, prima di imaging e prima della fenitoina?",
-      "critical": true,
-      "expectedKeywords": ["lorazepam", "prima", "subito"],
-      "rationale": "La sequenza è il gold. Invertirla è la trappola mortale di tempo."
+      "expectedKeywords": [
+        "domani",
+        "gruppo",
+        "auto"
+      ],
+      "rationale": "Gruppo 1, prima crisi non provocata: 6 mesi e specialista."
     }
   ],
   "physicalExam": {
-    "summary": "Crisi tonico-clonica generalizzata in corso, non interrotta, trisma, respiro stertoroso, non valutabile un esame neurologico fine. Si proteggono le vie aeree senza mettere oggetti in bocca, si dà ossigeno, si cronometra. L'esame obiettivo dettagliato e la TC vengono dopo il primo farmaco."
+    "summary": "Oggi esame normale, morso laterale della lingua, niente deficit. GCS 15."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-017-tempo",
-      "source": "knowledge_base/neurologia/clinic/updated-classification-of-epileptic-seizures-2025.pdf",
-      "quote": "Sintesi operativa: una convulsione che non si interrompe oltre pochi minuti è uno stato di male. La benzodiazepina endovena viene subito. Imaging e ricerca della causa non precedono la prima dose."
+      "chunkId": "e",
+      "source": "knowledge_base/neurologia/clinic/web_2023_guida_alle_epilessie.pdf",
+      "quote": "per porre una diagnosi di Epilessia e necessario che il soggetto abbia avuto almeno due crisi epilettiche a distanza di tempo superiore alle 24 ore e che le crisi siano avvenute spontaneamente. In alternativa e possibile gia porre diagnosi qualora il paziente abbia avuto una singola crisi epilettica non provocata e presenti un elevato rischio di ricorrenza di almeno il 60%, che l'epilettologo potra calcolare su clinica ed EEG."
     },
     {
-      "chunkId": "neuro-017-sequenza",
+      "chunkId": "g",
       "source": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
-      "quote": "Sintesi operativa: se la benzodiazepina non basta si passa a un anticrisi endovena come la fenitoina, e se lo stato è refrattario si intuba e si usa un anestetico. Invertire i gradini, o iniziare dalla fenitoina, è un errore di tempo."
+      "quote": "Il candidato con una prima crisi epilettica non provocata puo essere dichiarato idoneo dopo un periodo di 6 mesi senza crisi, solo dopo una valutazione medica specialistica appropriata."
     },
     {
-      "chunkId": "neuro-017-costi",
-      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
-      "quote": "Sintesi operativa sul costo: TC, RM e PET durante le convulsioni non sono il percorso. Consumano minuti e tariffa mentre il farmaco che ferma lo stato non è ancora partito."
+      "chunkId": "o",
+      "source": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
+      "quote": "Il periodo di osservazione dovra essere protratto per 5 anni senza crisi epilettiche."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/neurologia/clinic/web_2023_guida_alle_epilessie.pdf",
+      "quote": "non bisogna tentare di fermare i movimenti, ne di aprire la bocca o cercare di inserire in bocca alcun tipo di oggetto."
+    },
+    {
+      "chunkId": "r",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Tempo di crisi riconosciuto oltre i cinque minuti.",
-      "Lorazepam come primo atto, non la TC.",
-      "Fenitoina solo se il benzo non ha chiuso lo stato.",
-      "Intubazione e propofol se refrattario, non come prima mossa.",
-      "Imaging rinviato a convulsioni cessate."
+      "Prima crisi non provocata: niente idoneita prima di 6 mesi senza crisi e della visita specialistica.",
+      "Non usare la RM encefalo a 300 euro piu bollo come requisito della patente."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Portare in TC un paziente che convulsiva ancora, prima del lorazepam, non aderisce al percorso dello stato di male. L'orario della prima benzodiazepina è il dato che rende difendibile la condotta.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Orario di inizio crisi e orario della prima benzodiazepina scritti.",
-        "Sequenza benzo, poi fenitoina, poi anestesia se refrattario.",
-        "Nessun imaging prima del controllo delle scosse.",
-        "Glicemia misurata in parallelo, non usata come ritardo."
+        "Una crisi sola non e epilessia, salvo rischio almeno del 60% calcolato dall'epilettologo.",
+        "Niente oggetti in bocca.",
+        "Gruppo 1: 6 mesi, non il giorno dopo."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "lorazepam",
-      "name": "Lorazepam endovena",
-      "finding": "Lorazepam endovena immediato. Le scosse si riducono e poi riprendono: non è sufficiente da solo, ma doveva essere il primo farmaco. Senza questa dose, o se arriva dopo la TC, lo stato prosegue e la saturazione cade. È l'omissione mortale di tempo.",
+      "examId": "anamnesi-crisi",
+      "name": "Storia della crisi",
+      "finding": "Una sola crisi, non provocata, ieri. Nessuna precedente.",
       "isAbnormal": true,
-      "priceEuro": 1,
-      "isFatal": true
+      "isFatal": false
     },
     {
-      "examId": "fenitoina",
-      "name": "Fenitoina endovena",
-      "finding": "Fenitoina in infusione dopo il lorazepam, con monitoraggio cardiaco. Non è il primo farmaco. Dopo questa seconda linea le scosse non cessano del tutto: lo stato è refrattario e si passa all'intubazione. Darla per prima, senza benzo, non chiude la crisi.",
+      "examId": "visita-neurologica",
+      "name": "Visita neurologica",
+      "finding": "Esame normale il giorno dopo. Serve comunque la valutazione specialistica prima di ogni idoneita.",
       "isAbnormal": true,
-      "priceEuro": 1
-    },
-    {
-      "examId": "intubazione",
-      "name": "Intubazione e propofol",
-      "finding": "Stato refrattario a benzo e fenitoina. Intubazione e propofol in ambiente rianimatorio. Solo a questo punto, a vie aeree sicure e scosse controllate, si programma la TC per la causa. L'intubazione non è la prima mossa se il lorazepam non è stato nemmeno provato, ma in questo caso, dopo i due gradini, è necessaria.",
-      "isAbnormal": true,
-      "priceEuro": 1
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc",
-      "name": "TC cranio durante le convulsioni",
-      "finding": "TC eseguita mentre il paziente scuoteva: esame degradato dal movimento, nessuna emorragia grossolana visibile, nessun valore decisionale in quel minuto. Costo 120 euro. Andava fatta dopo il controllo delle scosse.",
+      "examId": "rm-encefalo",
+      "name": "RM encefalo per la patente",
+      "finding": "Chiesta al posto dei 6 mesi e dello specialista.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Tempistica errata. 120 euro e 25 minuti contro un ideale di pochi euro, oltre il budget di 50, mentre il lorazepam non è ancora in vena."
-    },
-    {
-      "examId": "rm",
-      "name": "RM encefalo",
-      "finding": "RM non eseguibile durante lo stato convulsivo. Attesa 80 minuti. Nessun referto utile in questa fase. Costo 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Imaging incompatibile con lo stato in corso. Ritardo mortale e costo molto oltre il 50% del percorso di questi minuti."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET-TC impossibile e non indicata. Costo 950 euro.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "Medicina difensiva incompatibile con uno stato di male. Sforamento estremo di tempo e di budget."
+      "wasteRationale": "La norma letta chiede 6 mesi e la valutazione specialistica, non questa RM. Tariffa 300 euro piu bollo.",
+      "priceEuro": 300
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 130,
-      "bloodPressure": "160/95",
-      "spo2": 89,
-      "temperature": 37.2,
-      "respiratoryRate": 28
+      "heartRate": 78,
+      "bloodPressure": "124/76",
+      "spo2": 99,
+      "temperature": 36.6,
+      "respiratoryRate": 14
     },
-    "examBudgetEuro": 50,
-    "demographics": { "age": 40, "sex": "M", "name": "Davide R." },
-    "clinicalSigns": [
-      {
-        "signName": "Crisi in corso",
-        "result": "Scosse tonico-cloniche continue da più di cinque minuti. Non interrotte.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Crisi in corso",
-        "result": "Stato di male convulsivo in atto.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 27,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
-        "glicemia": {
-          "finding": "Stick 110 mg/dL. Non è un'ipoglicemia. Si misura in parallelo al lorazepam, non prima. Costo 2,1 euro.",
-          "isAbnormal": false,
-          "price": 2.1
+        "anamnesi-crisi": {
+          "finding": "Una sola crisi, non provocata, ieri. Nessuna precedente.",
+          "isAbnormal": true
         },
-        "tc": {
-          "finding": "TC durante le scosse: artefatta, nessuna emorragia ovvia. Inappropriata in questo minuto. Costo 120 euro. Ripeterla dopo l'intubazione è un altro discorso, non questo ordine.",
-          "isAbnormal": false,
-          "price": 120
+        "visita-neurologica": {
+          "finding": "Esame normale il giorno dopo. Serve comunque la valutazione specialistica prima di ogni idoneita.",
+          "isAbnormal": true
         },
-        "rm": {
-          "finding": "RM non eseguibile ora. Costo 220 euro di prenotazione inutile e 80 minuti persi.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "pet-tc": {
-          "finding": "PET-TC non indicata. Costo 950 euro.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "eeg": {
-          "finding": "EEG utile dopo il controllo clinico, per vedere se l'attività elettrica persiste. Non è il primo atto mentre il corpo scuote e il lorazepam non è stato dato. Costo 90 euro.",
-          "isAbnormal": true,
-          "price": 90
+        "rm-encefalo": {
+          "finding": "Chiesta al posto dei 6 mesi e dello specialista.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Lorazepam subito, poi fenitoina, poi propofol se refrattario",
-          "anyOf": [{ "id": "lorazepam", "label": "Lorazepam", "aliases": ["lorazepam", "benzodiazepina"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "Imaging o fenitoina come primo atto, senza benzodiazepina", "ids": ["tc-prima", "fenitoina-prima"] }
-      ]
     }
   },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
-    "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
-    "communicationStyle": "CRISI IN ATTO. Il paziente non emette parole. Parla solo la moglie, che grida e risponde a domande secche su farmaco, dosi saltate e durata. Se il medico perde tempo in radiologia, lei descrive solo che lui trema ancora."
-  }
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole guidare domani. Capace. Rifiuta la RM se gli si dice che non firma l'idoneita."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Una crisi non e la diagnosi",
+      "prompt": "Una sola crisi spontanea. L'epilettologo non ha calcolato un rischio di ricorrenza.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non ponga epilessia. La soglia alternativa e un rischio di almeno il 60%, calcolato da lui su clinica ed EEG, non a occhio",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Scriva epilessia gia da questa crisi",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Epilessia con una sola crisi",
+      "prompt": "servono almeno due crisi a distanza superiore alle 24 ore, spontanee. In alternativa una sola crisi non provocata e un rischio di ricorrenza di almeno il 60%, calcolato dall'epilettologo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Durante la crisi, se si ripete davanti a voi",
+      "prompt": "Ieri i colleghi gli hanno aperto la bocca.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non si fermano i movimenti, non si apre la bocca, non si infila nulla",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Tenga pronto un oggetto da mettere in bocca",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Oggetto in bocca",
+      "prompt": "non bisogna tentare di fermare i movimenti, ne di aprire la bocca o cercare di inserire in bocca alcun tipo di oggetto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Patente",
+      "prompt": "Patente di gruppo 1. Vuole l'idoneita domani.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "No: 6 mesi senza crisi e solo dopo valutazione specialistica appropriata",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Lo dichiari idoneo oggi",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Idoneita il giorno dopo",
+      "prompt": "dichiarato idoneo dopo un periodo di 6 mesi senza crisi, solo dopo una valutazione medica specialistica appropriata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "I cinque anni",
+      "prompt": "Lo specialista puo protrarre l'osservazione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Gli dica che l'osservazione puo arrivare a 5 anni senza crisi, non che a 6 mesi e automatica in ogni caso",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Gli garantisca la patente al giorno 180 senza rivederlo",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Sei mesi resi automatici",
+      "prompt": "Il periodo di osservazione dovra essere protratto per 5 anni senza crisi epilettiche.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM encefalo 300 euro piu bollo per firmare la guida. Il testo della patente chiede sei mesi e lo specialista, non questa risonanza.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo prenoti subito: RM encefalo 300 euro piu bollo per firmare la guida",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. Il testo della patente chiede sei mesi e lo specialista, non questa risonanza. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: idoneita alla guida domani, che il testo non consente e che lui, informato, non puo ottenere con una firma. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Quando chiamare il 118",
+      "prompt": "Se la crisi si prolunga, non riprende coscienza, si ripete o si e ferito, la guida LICE dice di chiamare l'ambulanza. Se e breve, isolata, senza trauma rilevante e lui si riprende, l'ambulanza non e indispensabile.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Glielo spieghi cosi",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Gli dica di chiamare sempre il 118 anche per una crisi di trenta secondi gia finita e senza trauma",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Soglia dell'ambulanza inventata",
+      "prompt": "Bisogna chiamare l'ambulanza quando la crisi appare molto prolungata e il soggetto non riprende coscienza, oppure quando presenta crisi ripetute o se si e ferito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Parola da non usare",
+      "prompt": "Nel referto qualcuno scrive Grande Male.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Non usi quella dizione. Il nome e crisi tonico-clonica",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Lasci Grande Male come diagnosi",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dizione abbandonata",
+      "prompt": "crisi tonico-clonica, conosciuta come crisi di Grande Male, dizione questa che pero non deve essere piu utilizzata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Prima crisi: sei mesi e specialista",
+      "prompt": "Non ha fatto diagnosi di epilessia con una sola crisi, non ha firmato la guida, non ha messo oggetti in bocca e non ha usato la RM come permesso di guida.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

@@ -1,236 +1,450 @@
 {
   "id": "NEURO-012",
   "code": "NEURO-012",
-  "title": "Polineuropatia diabetica e piede a rischio",
-  "description": "Antonio R., 67 anni, diabetico da quindici anni, viene per bruciore notturno ai piedi, a calza, da molti mesi. Ha già un'ulcera plantare piccola che lui chiama «un callo» e che non gli fa male. La sensibilità vibratoria è ridotta, i riflessi achillei sono assenti, il monofilamento non lo sente. È una polineuropatia sensitivo-motoria diabetica, non una radicolopatia e non una indicazione a RM lombare. Il percorso è glicemia e HbA1c, EMG di conferma, e le indicazioni scritte sulla prevenzione del piede: ispezione quotidiana, scarpe, dove rivolgersi se compare una lesione. Omettere queste indicazioni è la trappola clinica e legale. La RM del rachide a 220 euro, chiesta perché «potrebbe essere la schiena», sfonda un budget di 150 euro. Il percorso ideale costa circa 84 euro.",
+  "title": "Parkinson iniziale: levodopa a dose minima, non l'ergot e non l'anticolinergico",
+  "description": "Giorgio, 63 anni, tremore a riposo e lentezza da un anno, diagnosi clinica di Parkinson iniziale. Nessun agonista ergot in corso. Ginocchio cronico senza allarme.",
   "difficulty": "MEDIUM",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Polineuropatia distale simmetrica diabetica con piede a rischio",
+  "condition": "Malattia di Parkinson allo stadio iniziale con sintomi motori",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "INTERMEDIATE",
   "setting": "AMBULATORIO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-  "diagnosis": "Polineuropatia sensitivo-motoria distale diabetica, HbA1c alta, EMG assonale lunghezza-dipendente. Piede a rischio per ulcera plantare insensibile. Nessuna indicazione a neuroimaging del rachide.",
-  "pastMedicalHistory": "Diabete tipo 2 da 15 anni, metformina e insulina serale, controlli irregolari. Ultima HbA1c che ricorda «alta», non sa il numero. Ipertensione, retinopatia non proliferante già nota all'oculista. Fuma 10 sigarette. Claudicatio assente. Non ha mal di schiena irradiato, non ha deficit di un solo miomero. Ha inciampato due volte perché non sentiva il terreno. Allergie: nessuna. Vive solo, si taglia le unghie da sé con poca luce.",
-  "presentation": "Cammina con base allargata, non per atassia cerebellare ma perché non sente la pianta. Bruciore notturno simmetrico. Alla pianta destra, sotto la testa del primo metatarso, una lesione di pochi millimetri, non dolente alla pressione, che lui non aveva visto. Polsi pedidi presenti. Parametri: PA 146/84 mmHg, FC 78, SpO2 97%, FR 16, temperatura 36,6 °C. Se il medico parla solo del bruciore e prescrive un farmaco per il dolore neuropatico, Antonio ringrazia e non chiede nulla sul piede. Se gli si mostra la lesione, si spaventa.",
+  "guidelineRef": "lineeguida.pdf SNLG Parkinson 2013; Scheda SIRM; RM paganti",
+  "diagnosis": "In fase iniziale con sintomi motori si puo considerare levodopa piu inibitore della dopa-decarbossilasi, alla dose minima efficace. Levodopa piu entacapone all'inizio non e raccomandata. Gli ergot non sono prima scelta. Gli anticolinergici non sono prima linea. La PET non fa parte del percorso diagnostico.",
+  "pastMedicalHistory": "Nessun deterioramento cognitivo gia noto. Nessuna valvulopatia gia studiata.",
+  "presentation": "Tremore a riposo, bradicinesia, diagnosi clinica iniziale. Vuole un farmaco.",
   "redHerrings": [
-    "Il bruciore notturno spinge a un farmaco sintomatico e fa dimenticare l'ulcera.",
-    "Due inciampi possono essere letti come stenosi del canale e portare alla RM lombare.",
-    "I polsi pedidi presenti escludono l'ischemia critica, non la neuropatia.",
-    "Vive solo e si taglia le unghie: senza istruzioni scritte il rischio non è stato comunicato."
+    "Propongono entacapone subito.",
+    "Propongono un anticolinergico come prima linea e una PET."
   ],
-  "timeLimitMinutes": 50,
-  "patientDeteriorationThreshold": 40,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: STABILE, carattere remissivo e fatalista, non il paziente motivato da manuale. Sei Antonio, 67 anni, ambulatorio, da solo. Minimizza, chiami le cose con i tuoi nomi. Alla «Come sta?»: «I piedi bruciano di notte. È il diabete, lo so. Non è niente.» L'ulcera la chiami callo e non la mostri se non ti chiedono di togliere scarpe e calze e di guardare la pianta. Il diabete lo ammetti, i controlli li salti, non ricordi l'esame del sangue lungo. Non hai mal di schiena. Se ti prescrivono solo una pastiglia per il dolore, ringrazi e te ne vai, sollevato di non aver dato fastidio. Se ti fanno vedere la lesione e ti spiegano come controllare i piedi ogni giorno, che scarpe usare e a chi telefonare se la ferita cresce, ti segni le frasi, un po' in imbarazzo. Se ti propongono la risonanza della schiena, dici che il figlio te l'aveva consigliata e accetti. Non nominare tu neuropatia o piede diabetico. Se la visita ignora le scarpe, a fine colloquio rimetti il callo nel silenzio.",
-  "correctSolution": "Polineuropatia diabetica. Glicemia e HbA1c, EMG assonale, niente RM lombare. Istruzioni scritte sul piede: ispezione quotidiana, no taglio delle unghie alla cieca, scarpe, invio per la lesione plantare. Il farmaco del dolore neuropatico è ammesso dopo questo piano, non al posto della prevenzione.",
-  "goldStandardPath": ["glicemia", "hba1c", "emg", "educazione-piede"],
-  "goldPathNarrative": "1) Glicemia e HbA1c alte: il danno è metabolico e va documentato. 2) Esame: ipoestesia a calza, achillei assenti, monofilamento non percepito, ulcera plantare insensibile, polsi presenti, niente livello radicolare. 3) EMG: polineuropatia assonale sensitivo-motoria lunghezza-dipendente. Costo 70 euro. 4) Educazione del piede scritta in lettera, non un consiglio generico. Costo clinico trascurabile, valore legale alto. Ideale circa 84 euro, budget 150. La RM lombare a 220 euro per degli inciampi, senza lombosciatalgia, è la penalità economica: supera da sola il 50% del percorso e il budget.",
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Giorgio. La mano trema a riposo. Accetto la levodopa se e la combinazione scritta. Non voglio un derivato dell'ergot e non voglio la PET ne la risonanza del ginocchio.",
+  "correctSolution": "Levodopa con inibitore della decarbossilasi, dose minima efficace. Non entacapone ora. Non ergot di prima scelta. Non anticolinergico di prima linea. Non PET. Non RM del ginocchio.",
+  "goldStandardPath": [
+    "visita-motoria",
+    "ecg"
+  ],
+  "goldPathNarrative": "Sintomi motori iniziali. La levodopa con inibitore e considerata, alla dose minima, senza entacapone e senza ergot.",
   "examLatencies": {
-    "glicemia": 5,
-    "hba1c": 15,
-    "emg": 25,
-    "educazione-piede": 10,
-    "rm": 80,
-    "ecocolordoppler": 20,
-    "rx-ossa": 15
+    "visita-motoria": 20,
+    "ecg": 15,
+    "rm-ginocchio": 60
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-diabete",
-      "prompt": "Come è controllato il diabete, e quand'è l'ultima HbA1c?",
+      "id": "fase",
+      "prompt": "I sintomi motori sono all'inizio o e gia in fase avanzata con fluttuazioni?",
       "critical": true,
-      "expectedKeywords": ["diabete", "insulina", "controlli"],
-      "rationale": "Senza il metabolismo la neuropatia resta un formicolio e non si documenta la causa."
+      "expectedKeywords": [
+        "inizio",
+        "anno",
+        "motori"
+      ],
+      "rationale": "Le frasi su entacapone ed ergot sono per lo stadio iniziale."
     },
     {
-      "id": "aq-piede",
-      "prompt": "Si guarda la pianta dei piedi, e ha lesioni che non gli fanno male?",
+      "id": "testa",
+      "prompt": "Ha gia un deterioramento cognitivo?",
       "critical": true,
-      "expectedKeywords": ["pianta", "callo", "scarpe"],
-      "rationale": "La lesione insensibile è il dato legale. Se non si tolgono le scarpe, non si vede."
-    },
-    {
-      "id": "aq-schiena",
-      "prompt": "Il disturbo è simmetrico ai piedi o è un dolore che scende da un lato della schiena?",
-      "critical": true,
-      "expectedKeywords": ["simmetrico", "schiena", "notte"],
-      "rationale": "Distingue la polineuropatia dalla radicolopatia che giustificherebbe una RM."
+      "expectedKeywords": [
+        "no",
+        "memoria",
+        "cognitivo"
+      ],
+      "rationale": "Gli anticolinergici non sono prima linea e il testo ne segnala gli eventi cognitivi."
     }
   ],
   "physicalExam": {
-    "summary": "Ipoestesia tattile e vibratoria a calza fino alle caviglie, monofilamento non percepito sulla pianta, achillei assenti, forza della dorsiflessione lievemente ridotta in modo simmetrico, marcia taloneggiata. Lesione plantare destra sotto la testa del primo metatarso, non dolente. Polsi pedidi e tibiali presenti. Nessun Lasègue, nessun deficit di un solo miomero. Non segni di artropatia acuta."
+    "summary": "Tremore a riposo, rigidita lieve, passo corto. Forza conservata. Ginocchio senza blocco."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-012-clinica",
+      "chunkId": "ld",
       "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
-      "quote": "Sintesi operativa: la polineuropatia distale diabetica si conferma con la distribuzione a calza e, se serve, con l'EMG. Una RM lombare non è indicata se manca un livello radicolare. Il piede insensibile va ispezionato in visita."
+      "quote": "i pazienti con malattia di Parkinson allo stadio iniziale e sintomi motori possono essere considerati per il trattamento con l-dopa in combinazione con inibitori della dopa decarbossilasi. deve essere utilizzata la dose minima efficace di l-dopa per ridurre l'incidenze di eventi avversi."
     },
     {
-      "chunkId": "neuro-012-piede",
-      "source": "knowledge_base/neurologia/legal/Item-8_Paziente-demente-o-con-delirium-valutazione-e-trattamento-non-farmacologico.pdf",
-      "quote": "Sintesi operativa medico-legale, applicata alla comprensione del paziente: le istruzioni sul piede vanno dette e scritte in modo che lui possa eseguirle. Un farmaco per il bruciore, senza la frase sulla lesione, non documenta la prevenzione."
+      "chunkId": "en",
+      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+      "quote": "l'uso di l-dopa e entacapone nelle fasi iniziali di malattia non e raccomandato per l'aumentata incidenza di discinesie rispetto alla l-dopa."
     },
     {
-      "chunkId": "neuro-012-rm",
+      "chunkId": "er",
+      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+      "quote": "gli agonisti della dopamina derivati dall'ergot non devono essere usati come prima scelta nel trattamento della malattia di Parkinson per il rischio moderato-grave di valvulopatia cardiaca e fibrosi pleurica, pericardica, retroperitoneale."
+    },
+    {
+      "chunkId": "ac",
+      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+      "quote": "i farmaci anticolinergici non devono essere utilizzati come trattamento di prima linea in pazienti con malattia di Parkinson."
+    },
+    {
+      "chunkId": "pe",
+      "source": "knowledge_base/neurologia/clinic/lineeguida.pdf",
+      "quote": "l'uso della Pet non e raccomandato come parte del percorso diagnostico per le sindromi parkinsoniane."
+    },
+    {
+      "chunkId": "gi",
+      "source": "knowledge_base/neurologia/clinic/Scheda-SIRM-1-2022_gen_23.pdf",
+      "quote": "Non eseguire di routine Risonanza Magnetica (RM) del ginocchio in caso di dolore acuto da trauma o di dolore cronico."
+    },
+    {
+      "chunkId": "ta",
       "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
-      "quote": "Sintesi operativa sul costo: la RM del rachide è appropriata per un conflitto radicolare, non per un bruciore simmetrico dei piedi in un diabetico. In questo caso è una spesa non giustificata."
+      "quote": "RM muscoloscheletriche tariffe. GINOCCHIO 280+bollo"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Scarpe tolte e pianta ispezionata.",
-      "HbA1c e glicemia richieste.",
-      "EMG coerente con polineuropatia, non con radicolopatia.",
-      "Istruzioni scritte su ispezione, scarpe e a chi rivolgersi.",
-      "Nessuna RM lombare di prima linea."
+      "Levodopa piu inibitore della decarbossilasi, dose minima efficace, in fase iniziale con sintomi motori.",
+      "Non fare PET ne RM del ginocchio a 280 euro piu bollo."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Dimettere un diabetico con ulcera insensibile prescrivendo solo il farmaco del dolore neuropatico, senza istruzioni sul piede, non è un percorso difendibile. La frase va in lettera di dimissione.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Lesione plantare descritta, o pianta dichiarata indenne dopo ispezione.",
-        "Educazione del piede scritta, non solo orale e generica.",
-        "Controllo metabolico documentato con HbA1c.",
-        "RM non richiesta in assenza di un livello radicolare."
+        "Entacapone all'inizio non raccomandato.",
+        "Ergot non di prima scelta.",
+        "Anticolinergici non di prima linea."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "glicemia",
-      "name": "Glicemia",
-      "finding": "Glicemia 214 mg/dL a digiuno non stretto. Coerente con scompenso. Costo 2,1 euro.",
+      "examId": "visita-motoria",
+      "name": "Visita dei segni motori",
+      "finding": "Tremore a riposo e bradicinesia compatibili con Parkinson iniziale. Nessuna fluttuazione gia in trattamento.",
       "isAbnormal": true,
-      "priceEuro": 2.1
+      "isFatal": false
     },
     {
-      "examId": "hba1c",
-      "name": "Emoglobina glicata",
-      "finding": "HbA1c 76 mmol/mol. Controllo metabolico inadeguato, causa mantenuta della neuropatia. Costo 10,5 euro.",
-      "isAbnormal": true,
-      "priceEuro": 10.5
-    },
-    {
-      "examId": "emg",
-      "name": "EMG",
-      "finding": "EMG ed elettroneurografia: polineuropatia assonale sensitivo-motoria, lunghezza-dipendente, arti inferiori più degli superiori. Nessuna radicolopatia. Nessun blocco di conduzione. Costo 70 euro.",
-      "isAbnormal": true,
-      "priceEuro": 70
-    },
-    {
-      "examId": "educazione-piede",
-      "name": "Educazione alla prevenzione del piede diabetico",
-      "finding": "Indicazioni scritte in lettera: guardare la pianta ogni giorno, anche con uno specchio; non camminare scalzo; non tagliare le unghie alla cieca; scarpe chiuse morbide senza cuciture interne; mostrare subito una lesione, anche se non duole, al curante o a un ambulatorio del piede. La lesione attuale sotto il primo metatarso va medicata e rivista, non chiamata callo. Senza questo testo la visita è incompleta anche se l'EMG è giusta.",
-      "isAbnormal": true,
-      "priceEuro": 1
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Utile prima di un eventuale agonista, perche gli ergot hanno rischio valvolare e non sono prima scelta.",
+      "isAbnormal": false,
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "rm",
-      "name": "RM rachide lombosacrale",
-      "finding": "RM lombare: iniziali discopatie senza conflitto radicolare. Non spiega il bruciore simmetrico né l'ulcera. Costo 220 euro.",
+      "examId": "rm-ginocchio",
+      "name": "RM ginocchio",
+      "finding": "Dolore cronico senza allarme.",
       "isAbnormal": false,
-      "priceEuro": 220,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Imaging del rachide senza ipotesi radicolare. 220 euro contro un ideale di circa 84: oltre il 50% e oltre il budget di 150 euro."
-    },
-    {
-      "examId": "ecocolordoppler",
-      "name": "Ecocolordoppler arterioso degli arti",
-      "finding": "Ecocolordoppler: assi arteriosi pervii, indici nella norma. I polsi c'erano già. Costo 65 euro. Non sostituisce l'educazione del piede.",
-      "isAbnormal": false,
-      "priceEuro": 65,
-      "inappropriate": true,
-      "wasteRationale": "Esame vascolare non necessario come primo atto, con polsi presenti. Non è la prevenzione del piede neuropatico."
+      "wasteRationale": "SIRM: niente RM di routine. 280 euro piu bollo.",
+      "priceEuro": 280
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 78,
-      "bloodPressure": "146/84",
-      "spo2": 97,
-      "temperature": 36.6,
-      "respiratoryRate": 16
+      "heartRate": 70,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
     },
-    "examBudgetEuro": 150,
-    "demographics": { "age": 67, "sex": "M", "name": "Antonio R." },
-    "clinicalSigns": [
-      {
-        "signName": "Monofilamento plantare",
-        "result": "Non percepito sulla pianta bilateralmente.",
-        "isPositive": true
-      },
-      {
-        "signName": "Ulcera plantare",
-        "result": "Piccola lesione sotto la testa del primo metatarso destro, non dolente.",
-        "isPositive": true
-      },
-      {
-        "signName": "Polsi pedidi",
-        "result": "Presenti. Nessuna ischemia critica.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Monofilamento plantare",
-        "result": "Non percepito.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 63,
+      "sex": "M",
+      "context": "Ambulatorio"
+    },
     "advancedExams": {
       "values": {
-        "glicemia": {
-          "finding": "Glicemia 214 mg/dL. Costo 2,1 euro.",
-          "isAbnormal": true,
-          "price": 2.1
+        "visita-motoria": {
+          "finding": "Tremore a riposo e bradicinesia compatibili con Parkinson iniziale. Nessuna fluttuazione gia in trattamento.",
+          "isAbnormal": true
         },
-        "hba1c": {
-          "finding": "HbA1c 76 mmol/mol. Costo 10,5 euro.",
-          "isAbnormal": true,
-          "price": 10.5
+        "ecg": {
+          "finding": "Utile prima di un eventuale agonista, perche gli ergot hanno rischio valvolare e non sono prima scelta.",
+          "isAbnormal": false
         },
-        "emg": {
-          "finding": "Polineuropatia assonale lunghezza-dipendente. Niente radicolopatia. Costo 70 euro.",
-          "isAbnormal": true,
-          "price": 70
-        },
-        "rm": {
-          "finding": "RM lombare senza conflitto. Non indicata. Costo 220 euro.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "ecocolordoppler": {
-          "finding": "Doppler arterioso degli arti nella norma. Costo 65 euro. I polsi erano già presenti.",
-          "isAbnormal": false,
-          "price": 65
-        },
-        "rx-ossa": {
-          "finding": "RX del piede: nessuna osteomielite franca su questa lesione superficiale. Non sostituisce l'educazione. Costo 30 euro.",
-          "isAbnormal": false,
-          "price": 30
+        "rm-ginocchio": {
+          "finding": "Dolore cronico senza allarme.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Educazione del piede scritta, oltre all'eventuale farmaco del dolore neuropatico",
-          "anyOf": [{ "id": "educazione-piede", "label": "Prevenzione del piede", "aliases": ["piede diabetico", "ispezione dei piedi"] }]
-        }
-      ],
-      "contraindicated": [
-        { "label": "Solo farmaco del bruciore, senza guardare la pianta", "ids": ["solo-antidolorifico"] }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "PASSIVE",
-    "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "MEDIUM", "socialSupport": "LIMITED" },
-    "communicationStyle": "STABILE, REMISSIVO. Chiama callo l'ulcera, minimizza, accetta qualunque esame compresa la risonanza della schiena. Non mostra la pianta del piede se non gli fanno togliere scarpe e calze."
-  }
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "LOW",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole un farmaco chiaro. Rifiuta ergot, PET e risonanza del ginocchio."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Levodopa iniziale",
+      "prompt": "Parkinson iniziale, sintomi motori, nessun trattamento ancora.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Consideri levodopa piu inibitore della dopa-decarbossilasi, alla dose minima efficace",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Parta con un anticolinergico come prima linea",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Anticolinergico di prima linea",
+      "prompt": "i farmaci anticolinergici non devono essere utilizzati come trattamento di prima linea in pazienti con malattia di Parkinson.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non entacapone adesso",
+      "prompt": "Propongono levodopa-carbidopa-entacapone gia all'inizio, per prevenire le discinesie.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo faccia: all'inizio non e raccomandato, perche le discinesie aumentano rispetto alla levodopa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Aggiunga entacapone da subito",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Entacapone in fase iniziale",
+      "prompt": "l'uso di l-dopa e entacapone nelle fasi iniziali di malattia non e raccomandato per l'aumentata incidenza di discinesie rispetto alla l-dopa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente ergot di prima scelta",
+      "prompt": "Un agonista derivato dell'ergot e proposto come primo farmaco.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non lo usi come prima scelta: rischio valvolare e di fibrosi",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Lo prescriva come prima scelta",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Ergot di prima scelta",
+      "prompt": "gli agonisti della dopamina derivati dall'ergot non devono essere usati come prima scelta nel trattamento della malattia di Parkinson per il rischio moderato-grave di valvulopatia cardiaca e fibrosi pleurica, pericardica, retroperitoneale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "PET non nel percorso",
+      "prompt": "Chiedono una PET per confermare la diagnosi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non la metta nel percorso diagnostico",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "La prenoti come esame di conferma",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET diagnostica",
+      "prompt": "l'uso della Pet non e raccomandato come parte del percorso diagnostico per le sindromi parkinsoniane.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dose minima",
+      "prompt": "Vuole alzare subito la levodopa a una dose alta, senza cercare la minima efficace.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Usi la dose minima efficace",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Parta dalla dose piu alta disponibile",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non minima",
+      "prompt": "deve essere utilizzata la dose minima efficace di l-dopa per ridurre l'incidenze di eventi avversi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM ginocchio 280 euro piu bollo. Dolore cronico: SIRM non la vuole di routine.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo prenoti subito: RM ginocchio 280 euro piu bollo",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: GINOCCHIO 280+bollo. Dolore cronico: SIRM non la vuole di routine. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: agonista ergot, che lui rifiuta. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Agonista non ergot, se lo si considera",
+      "prompt": "Il testo dice che in fase iniziale si puo considerare anche un agonista orale, a rilascio prolungato o transdermico, non ergot. Gli agonisti aumentano disturbi del controllo degli impulsi e sonnolenza rispetto al placebo. Gli inibitori MAO-B si possono considerare, senza una raccomandazione definitiva sulla modificazione di malattia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Se aggiunge un agonista, non sia ergot, e lo avverta di impulsi e sonnolenza. Non prometta che un MAO-B modifica la malattia",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Gli dica che l'agonista ergot e sicuro come prima scelta e che il MAO-B ferma la malattia",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Rischi dell'agonista taciuti",
+      "prompt": "gli agonisti della dopamina sono associati a un incremento del rischio di disturbi del controllo degli impulsi e sonnolenza diurna eccessiva rispetto al placebo. Non possono essere tratte raccomandazioni definitive sull'effetto degli inibitori delle monoamino ossidasi sulla modificazione del decorso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Levodopa iniziale senza entacapone e senza ergot",
+      "prompt": "Ha considerato levodopa piu inibitore alla dose minima, ha escluso entacapone iniziale, ergot, anticolinergico di prima linea, PET e RM del ginocchio.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

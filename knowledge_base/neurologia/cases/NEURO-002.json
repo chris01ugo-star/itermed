@@ -1,318 +1,450 @@
 {
   "id": "NEURO-002",
   "code": "NEURO-002",
-  "title": "L'insidia della medicina difensiva — sospetta ESA",
-  "description": "Chiara B., 34 anni, istruttrice di pilates, arriva in Pronto Soccorso due ore dopo un mal di testa che descrive come un colpo, il peggiore della sua vita, iniziato in pochi secondi durante gli addominali. Ha vomitato una volta. Ha preso 1000 mg di paracetamolo a casa e ora dice che «un po' è passato», cammina, sorride, chiede se può tornare a fare lezione nel pomeriggio. L'esame neurologico è normale: niente rigidità, niente deficit, niente papilla da stasi se si guarda il fondo. La normalità dell'esame è la trappola. Una cefalea a rombo di tuono dopo sforzo è una red flag di emorragia subaracnoidea anche con obiettivo negativo: dimetterla costa il mancato riconoscimento della red flag. Il percorso è anamnesi mirata, TC cranio urgente, e — perché la TC va refertata NEGATIVA — rachicentesi con ricerca della xantocromia. Angio-RM, PET, scintigrafia, polisonnografia e consulenze a raffica sono disponibili, costose e non sostituiscono il liquor.",
+  "title": "Dopo la trombolisi: non spingere la sistolica sotto 140",
+  "description": "Giulia, 74 anni, ictus lieve-moderato, NIHSS 8, trombolisi endovenosa gia conclusa da due ore. Nessuna trombectomia. Sistolica 176. Glicemia 190 mg/dL. Capace.",
   "difficulty": "HARD",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Cefalea a rombo di tuono: ESA con TC negativa, diagnosi appesa alla xantocromia",
-  "frequencyCategory": "MEDIUM",
+  "condition": "Ictus ischemico lieve-moderato gia trattato con trombolisi endovenosa, senza trombectomia",
+  "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/RACHICENTESI-Informativa-e-consenso.pdf",
-  "diagnosis": "Emorragia subaracnoidea aneurismatica misconosciuta alla TC precoce. Obiettività neurologica negativa. Diagnosi con rachicentesi: xantocromia positiva. Non è un'emicrania e non è una cefalea da sforzo benigna.",
-  "pastMedicalHistory": "Emicrania senza aura sporadica, due o tre attacchi l'anno, sempre pulsante, unilaterale, con foto-fonofobia, che sale in un'ora e risponde al triptano. Questo episodio non assomiglia a quelli: è stato istantaneo, bilaterale, a «esplosione», durante lo sforzo. Non fuma. Non usa estroprogestinico. Non è in gravidanza (ultimo ciclo 12 giorni fa, beta-HCG negativa se richiesta). Familiarità: madre con emicrania. Nessun aneurisma noto in famiglia. Nessun trauma. Nessuna febbre nei giorni precedenti. Allergie: nessuna. Assume solo il paracetamolo di oggi.",
-  "presentation": "Seduta sul lettino, lucida, GCS 15, orientata, collaborante. Dolore che lei quantifica 6/10 «adesso», ma insiste che all'esordio era 10/10 e ha raggiunto il massimo in pochi secondi, non in minuti. Ha vomito alimentare singolo. Collo morbido. Kernig e Brudzinski negativi. Forza, sensibilità, campi visivi e nervi cranici integri. Fondo oculare, se richiesto, senza emorragie. Parametri: PA 138/82 mmHg, FC 92 bpm, SpO2 99%, FR 16, temperatura 36,4 °C. Il compagno, in sala d'attesa, ha cercato su internet «tumore al cervello» e chiede PET, risonanza con contrasto e tre consulenze. Chiara, rassicurata dall'esame normale, spinge per la dimissione: «se è tutto a posto firmo e vado». Dimetterla è l'errore. La TC, quando arriva, è negativa: il passo successivo obbligato è il liquor, non un altro imaging costoso.",
+  "setting": "REPARTO",
+  "guidelineRef": "linne guida ictus aha.pdf tabella 7 e classe 3 sulla pressione; RM paganti",
+  "diagnosis": "Dopo trombolisi, nel ictus lieve-moderato, la riduzione intensiva della sistolica sotto 140 rispetto a sotto 180 non e raccomandata. In tabella, se la sistolica supera 180 o la diastolica 105 si tratta per restare a quel livello o sotto. Il bersaglio sotto 140 per 72 ore dopo trombectomia riuscita e un'altra popolazione, e li e dannoso.",
+  "pastMedicalHistory": "Ipertensione. Nessun'altra indicazione di un bersaglio pressorio diverso. Deglutisce. Non vuole un catetere vescicale.",
+  "presentation": "Due ore dopo la fine del farmaco endovena. Parla, deficit lieve-moderato, niente sala angiografica alle spalle. Pressione 176/98.",
   "redHerrings": [
-    "L'esame neurologico è completamente negativo e il dolore è sceso dopo il paracetamolo: sembra una cefalea benigna.",
-    "Ha una storia di emicrania vera, ma questo attacco non ha il suo profilo temporale.",
-    "Il compagno chiede Angio-RM, PET e consulenze multiple: sono medicina difensiva e non vedono la xantocromia.",
-    "La TC negativa viene letta come «esclusa l'emorragia». Entro le prime ore la TC può mancare una ESA piccola."
+    "Un protocollo post-trombectomia vuole la sistolica sotto 140 per 72 ore.",
+    "Propongono insulina endovena per 80-130."
   ],
-  "timeLimitMinutes": 150,
-  "patientDeteriorationThreshold": 45,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: DOLORE ESTREMO, cefalea a tuono ancora in testa. VIETATO parlare bene, essere cortese o spiegare in un paragrafo. Monosillabi, frasi spezzate da lamenti («ah», «nnh»), e se la domanda è lunga la interrompi: «Basta... la testa.» Alla «Come sta?»: «Ah— testa. ...peggio. Basta.» Non un «sono un po' preoccupata, dottore». I fatti escono solo se te li chiedono, e spezzati: partito in pochi secondi mentre facevi gli addominali, il peggiore della vita, hai vomitato una volta, le tue emicranie di solito crescono piano e stanno da un lato, questa era tutta la testa come un tuono. Hai lezione nel pomeriggio e vuoi minimizzare, ma il corpo non collabora: se il medico dice che l'esame è normale e puoi andare, non insistere, accetti con due parole («Sì. ...vado.»), non con un ringraziamento composto. La TC la accetti con un cenno. Se la TC è negativa e ti dimette lo stesso, te ne vai. Se propone la puntura alla schiena, hai paura di restare paralizzata: poche domande rotte dal dolore, firmi solo se ti spiegano perché la TAC negativa non basta. Se propone PET, angio-risonanza o tante consulenze, il compagno dice «sì, facciamo tutto, paghiamo noi»: non correggerlo. Non nominare tu aneurisma, xantocromia o emorragia. Se passano troppi minuti senza TAC e senza puntura, il dolore riesplode e compare un accenno di dolore al collo: ancora meno parole.",
-  "correctSolution": "Cefalea a rombo di tuono = sospetta ESA fino a prova contraria, anche con esame normale. Anamnesi sull'esordio in secondi, TC cranio urgente (referto negativo), poi rachicentesi con xantocromia, che in questo caso è positiva. Consenso alla puntura. Non dimettere. Non sostituire il liquor con Angio-RM, PET o consulenze.",
-  "goldStandardPath": ["anamnesi-cefalea", "tc", "liquidi"],
-  "goldPathNarrative": "1) Anamnesi mirata: esordio in secondi, sforzo, «peggior cefalea della vita», vomito, differenza rispetto all'emicrania nota. L'esame obiettivo negativo non chiude il caso. 2) TC cranio senza contrasto in urgenza. Il referto di questo caso è volutamente NEGATIVO: nessuna ESA visibile, cisterne libere. 3) Rachicentesi, con consenso, a distanza adeguata dall'esordio (qui sono già passate circa due ore e il tempo di esecuzione porta il prelievo nella finestra in cui la xantocromia è cercabile): spettrofotometria positiva. Stop. Angio-RM (catalogo: angio, 350 euro), PET-TC (950), RM (220), scintigrafia (250) e polisonnografia non sono il gradino dopo una TC negativa. Ordinarli al posto della puntura, o insieme «per non sbagliare», è medicina difensiva: il budget ideale del caso è circa 180 euro (TC + liquor). Un solo esame tra PET e angio lo sforza oltre il 50%.",
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Giulia. Il farmaco in vena l'ho gia accettato. Non voglio il catetere in vescica: cammino fino al bagno. Non abbassatemi la pressione a un numero che il testo non chiede.",
+  "correctSolution": "Non punti la sistolica sotto 140 contro sotto 180. Non applichi il divieto delle 72 ore, che vale dopo trombectomia riuscita. Se la sistolica supera 180 o la diastolica 105, tratti per restare a quel livello o sotto. Non usi insulina endovena per 80-130. TC o RM a 24 ore prima di antiaggregante. Niente catetere se puo farne a meno e lei rifiuta.",
+  "goldStandardPath": [
+    "pa-monitor",
+    "glicemia"
+  ],
+  "goldPathNarrative": "Il farmaco e gia stato dato. Il passo successivo e non inseguire 140 di sistolica e non anticipare l'antiaggregante prima dell'imaging delle 24 ore.",
   "examLatencies": {
-    "anamnesi-cefalea": 8,
-    "tc": 20,
-    "liquidi": 35,
-    "consenso-informato": 8,
-    "rm": 120,
-    "angio": 90,
-    "pet-tc": 240,
-    "scintigrafia": 180,
-    "polisonnografia": 200,
-    "pot-evocati": 80,
-    "eeg": 40,
-    "beta-hcg": 25,
-    "emocromo": 20
+    "pa-monitor": 5,
+    "glicemia": 10,
+    "rm-encefalo": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-tuono",
-      "prompt": "In quanti secondi il dolore ha raggiunto il massimo, e cosa stava facendo?",
+      "id": "evt",
+      "prompt": "Hanno fatto una trombectomia riuscita?",
       "critical": true,
-      "expectedKeywords": ["secondi", "sforzo", "peggior", "tuono"],
-      "rationale": "L'esordio a rombo di tuono durante lo sforzo è la red flag. Senza questa domanda l'emicrania nota falsa il giudizio."
+      "expectedKeywords": [
+        "trombectomia",
+        "farmaco",
+        "endovena"
+      ],
+      "rationale": "Il danno del bersaglio sotto 140 per 72 ore e scritto per chi ha una ricanalizzazione endovascolare riuscita."
     },
     {
-      "id": "aq-solito",
-      "prompt": "Questo attacco è identico alle sue emicranie o è diverso?",
+      "id": "gravita",
+      "prompt": "Il deficit e lieve-moderato o e un'occlusione gia riaperta in sala?",
       "critical": true,
-      "expectedKeywords": ["emicrania", "diverso", "istantaneo"],
-      "rationale": "La storia di emicrania non assorbe un attacco con profilo temporale diverso."
-    },
-    {
-      "id": "aq-vomito",
-      "prompt": "Ha vomitato, ha perso conoscenza, ha febbre o un trauma?",
-      "critical": true,
-      "expectedKeywords": ["vomito", "febbre", "trauma"],
-      "rationale": "Il vomito all'esordio alza il sospetto di ESA. Febbre e trauma spostano verso meningite o contusione, qui assenti."
-    },
-    {
-      "id": "aq-dimissione",
-      "prompt": "Perché vuole andare a casa, e le è stato detto che l'esame normale non esclude un sanguinamento?",
-      "critical": true,
-      "expectedKeywords": ["dimissione", "esame normale", "rischio"],
-      "rationale": "La richiesta di dimissione con obiettivo negativo è il momento in cui si perde la red flag."
+      "expectedKeywords": [
+        "lieve",
+        "moderato",
+        "NIHSS"
+      ],
+      "rationale": "La classe 3 sul confronto 140 contro 180 parla di ictus lieve-moderato dopo trombolisi."
     }
   ],
   "physicalExam": {
-    "summary": "GCS 15, linguaggio fluente, nervi cranici integri, forza e sensibilità simmetriche, coordinazione normale, marcia autonoma, rigidità nucale assente, Kernig e Brudzinski negativi, non soffi cardiaci, non febbre. L'obiettività rassicurante è reale e non esclude la ESA. Non c'è alcun segno focale da inseguire con PET o RM prima del liquor."
+    "summary": "Deficit lieve-moderato, vigile, deglutisce, va in bagno con aiuto. Niente cefalea nuova."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-002-cefalea",
-      "source": "knowledge_base/neurologia/clinic/cefalee primarie.pdf",
-      "quote": "Sintesi operativa, non un estratto: le cefalee primarie si diagnosticano quando le red flag sono state escluse. Un esordio a tuono in secondi non è un'emicrania, anche se l'esame obiettivo è normale e la paziente ha attacchi di emicrania in anamnesi."
+      "chunkId": "bp",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In patients with mild to moderate severity AIS who have been treated with IVT, intensive SBP reduction (target of <140 mm Hg compared with <180 mm Hg) is not recommended because it is not associated with an improvement in functional outcome."
     },
     {
-      "chunkId": "neuro-002-lp",
-      "source": "knowledge_base/neurologia/clinic/RACHICENTESI-Informativa-e-consenso.pdf",
-      "quote": "Sintesi operativa: dopo una TC negativa per sospetta emorragia subaracnoidea si discute la puntura lombare, con informativa sul perché si fa e sul fastidio procedurale. Il consenso non è un optional se si procede al prelievo."
+      "chunkId": "harm",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In patients with AIS with LVO of the anterior circulation who have been successfully recanalized by endovascular therapy (mTICI 2b, 2c, or 3) and without other indication for blood pressure management target, intensive SBP reduction target of <140 mm Hg for the first 72 hours is harmful and not recommended."
     },
     {
-      "chunkId": "neuro-002-legal",
-      "source": "knowledge_base/neurologia/legal/RACHICENTESI-Informativa-e-consenso.pdf",
-      "quote": "Sintesi operativa medico-legale: dimettere una cefalea a tuono perché «l'esame è negativo e la TC è negativa» lascia indifendibile il caso se il liquor non è stato cercato. La normalità clinica non è una prova di esclusione."
+      "chunkId": "tab",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "Increase the frequency of BP measurements if SBP is >180 mm Hg or if DBP is >105 mm Hg; administer antihypertensive medications to maintain BP at or below these levels"
     },
     {
-      "chunkId": "neuro-002-tariffa",
-      "source": "knowledge_base/neurologia/economic/Nomenclatore tariffario Fasdac 01012025_v1.pdf",
-      "quote": "Sintesi operativa sul costo: TC e liquor stanno nel budget di questo caso (circa 180 euro). PET, angio-RM e scintigrafia sono prestazioni care che non sostituiscono la xantocromia e configurano medicina difensiva se ordinate per ansia."
+      "chunkId": "glu",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In hospitalized patients with AIS with hyperglycemia, treatment with IV insulin to achieve blood glucose levels in the range of 80 to 130 mg/dL is not recommended to improve 3-month functional outcomes."
+    },
+    {
+      "chunkId": "h24",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "Obtain a follow-up CT or MRI scan at 24 h after IVT before starting anticoagulants or antiplatelet agents"
+    },
+    {
+      "chunkId": "ng",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "Delay placement of nasogastric tubes, indwelling bladder catheters, or intraarterial pressure catheters if the patient can be safely managed without them"
+    },
+    {
+      "chunkId": "rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Anamnesi sull'esordio in secondi, non solo sul dolore residuo.",
-      "TC cranio urgente eseguita e letta come non conclusiva se negativa.",
-      "Rachicentesi con xantocromia dopo la TC negativa.",
-      "Nessuna dimissione sull'esame obiettivo normale.",
-      "Nessuna PET, Angio-RM o pacchetto di imaging al posto del liquor."
+      "Dopo trombolisi in ictus lieve-moderato non puntare la sistolica sotto 140 rispetto a sotto 180.",
+      "Non fare una RM encefalo fuori dal controllo delle 24 ore solo per occupare la lista."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "La dimissione di una cefalea a rombo di tuono con esame normale e senza liquor non è una scelta aderente alle raccomandazioni sulla ESA. L'art. 5 della legge 24/2017 non copre la prudenza apparente di esami costosi che saltano il test decisivo.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Red flag della cefalea a tuono scritta in cartella, anche con obiettivo negativo.",
-        "TC urgente e frase esplicita che la negatività non chiude la ESA.",
-        "Consenso informato alla rachicentesi prima del prelievo.",
-        "Nessuna dimissione prima del liquor o di un rifiuto documentato e compreso."
+        "Classe 3: sotto 140 contro sotto 180 non e raccomandato dopo trombolisi nel quadro lieve-moderato.",
+        "Il bersaglio sotto 140 per 72 ore e dannoso dopo trombectomia riuscita, e lei non e quella paziente.",
+        "Rifiuto del catetere: capitolo sul rifiuto, art. 32 comma 2."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "anamnesi-cefalea",
-      "name": "Anamnesi mirata sulla cefalea",
-      "finding": "Esordio in pochi secondi durante gli addominali, intensità massima immediata, vomito singolo, diverso dalle emicranie note che crescono in un'ora e sono unilaterali. Paracetamolo già assunto, dolore ora 6/10. Nessuna febbre, nessun trauma. Red flag raccolta: non è una cefalea primaria finché la ESA non è esclusa.",
+      "examId": "pa-monitor",
+      "name": "Pressione seriale",
+      "finding": "176/98. Sotto la soglia 180 di sistolica e 105 di diastolica della tabella 7.",
       "isAbnormal": true,
-      "priceEuro": 1
+      "isFatal": false
     },
     {
-      "examId": "tc",
-      "name": "TC cranio urgente",
-      "finding": "REFERTO NEGATIVO. TC encefalo senza mezzo di contrasto, eseguita circa tre ore dopo l'esordio. Parenchima omogeneo. Cisterne della base, cisterne silviane e scissura interemisferica libere, senza iperdensità. Sistema ventricolare normale, linea mediana in asse, nessuna raccolta. Conclusione radiologica: nessun segno diretto di emorragia subaracnoidea. Questa negatività NON esclude una ESA piccola o molto precoce. Il passo successivo è la rachicentesi, non la dimissione e non un altro imaging.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "isFatal": true
-    },
-    {
-      "examId": "liquidi",
-      "name": "Rachicentesi per xantocromia",
-      "finding": "Puntura lombare in decubito laterale dopo consenso. Pressione di apertura 24 cmH2O. Liquor macroscopicamente limpido alla raccolta. Quattro provette: 180 eritrociti/mm3 nella prima, 150 nella quarta, senza esaurimento franco. Dopo centrifugazione immediata e spettrofotometria: xantocromia POSITIVA (picco di bilirubina). Proteine 64 mg/dL, glucosio liquorale 62 mg/dL con glicemia 99 mg/dL, leucociti 4/mm3. Gram e coltura in corso, non attesi positivi. Diagnosi: emorragia subaracnoidea non vista alla TC. Da qui neurochirurgia per studio vascolare mirato, non una PET.",
+      "examId": "glicemia",
+      "name": "Glicemia",
+      "finding": "190 mg/dL. Insulina endovena per 80-130 non e raccomandata per l'esito a 3 mesi.",
       "isAbnormal": true,
-      "priceEuro": 60,
-      "isFatal": true
+      "isFatal": false
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "angio",
-      "name": "Angio-RM / Angio-TC",
-      "finding": "Angio-RM del poligono, referto disponibile solo dopo un'attesa lunga. Si descrive un piccolo aneurisma dell'arteria comunicante anteriore, 3 mm, se il liquor è già positivo. Se il liquor non è stato fatto, il referto resta «non conclusivo per ESA» e non sostituisce la xantocromia: un aneurisma non rotto è frequente e non prova il sanguinamento di oggi. Costo 350 euro.",
-      "isAbnormal": true,
-      "priceEuro": 350,
-      "inappropriate": true,
-      "wasteRationale": "Ordinarla al posto della puntura, o insieme a PET e RM per ansia del familiare, è medicina difensiva. Il vaso si studia dopo la prova del sangue nel liquor, non per evitare l'ago."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC encefalo",
-      "finding": "PET-TC: captazione corticale simmetrica, nessun ipermetabolismo focale, nessun reperto oncologico. Non vede il sangue nelle cisterne. Costo 950 euro. Referto rassicurante e fuorviante.",
+      "examId": "rm-ora",
+      "name": "RM encefalo immediata",
+      "finding": "Risonanza extra, oltre la TC o RM gia prevista a 24 ore prima dell'antiaggregante.",
       "isAbnormal": false,
-      "priceEuro": 950,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "Palese medicina difensiva. La PET non diagnostica la ESA, costa più del quintuplo del percorso ideale e sforerebbe il budget di oltre il 50% anche da sola."
-    },
-    {
-      "examId": "rm",
-      "name": "RM encefalo",
-      "finding": "RM encefalo senza e con contrasto: nessuna lesione espansiva, nessun enhancement leptomeningeo, FLAIR senza iperintensità cisternale convincente. Referto «negativo» che non sostituisce la xantocromia. Costo 220 euro. Insieme alla TC è un doppione.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "TC e RM in sequenza, senza puntura, sono esami ridondanti. La RM negativa non chiude la ESA dopo una cefalea a tuono."
-    },
-    {
-      "examId": "scintigrafia",
-      "name": "Scintigrafia",
-      "finding": "Scintigrafia non indicata. Captazione aspecifica, nessun nesso con la cefalea di oggi. Costo 250 euro.",
-      "isAbnormal": false,
-      "priceEuro": 250,
-      "inappropriate": true,
-      "wasteRationale": "Prestazione inutile nella cefalea a tuono. Fa parte del panico prescrittivo, non del percorso diagnostico."
-    },
-    {
-      "examId": "polisonnografia",
-      "name": "Polisonnografia",
-      "finding": "Polisonnografia non eseguibile in Pronto Soccorso e non attinente. Nessun dato sul sanguinamento. Costo 180 euro più giorni di attesa.",
-      "isAbnormal": false,
-      "priceEuro": 180,
-      "inappropriate": true,
-      "wasteRationale": "Esame fuori indicazione. Non rassicura e non esclude la ESA."
-    },
-    {
-      "examId": "pot-evocati",
-      "name": "Potenziali evocati",
-      "finding": "Potenziali evocati visivi e somatosensoriali nella norma. Nessun contributo alla diagnosi di ESA. Costo 120 euro.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "wasteRationale": "Esame neurologico di secondo livello senza ipotesi. È medicina difensiva da accumulo di referti normali."
+      "wasteRationale": "Tariffa RM cervello 300 euro piu bollo, non richiesta da questo passaggio.",
+      "priceEuro": 300
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 92,
-      "bloodPressure": "138/82",
-      "spo2": 99,
-      "temperature": 36.4,
+      "heartRate": 78,
+      "bloodPressure": "176/98",
+      "spo2": 97,
+      "temperature": 36.7,
       "respiratoryRate": 16
     },
-    "examBudgetEuro": 220,
-    "demographics": { "age": 34, "sex": "F", "name": "Chiara B." },
-    "clinicalSigns": [
-      {
-        "signName": "Esame neurologico obiettivo",
-        "result": "Negativo. Forza, sensibilità, nervi cranici, coordinazione e marcia nella norma. GCS 15.",
-        "isPositive": false
-      },
-      {
-        "signName": "Rigidità nucale",
-        "result": "Assente. Kernig negativo. Brudzinski negativo.",
-        "isPositive": false
-      },
-      {
-        "signName": "Fondo oculare",
-        "result": "Papille a margini netti, nessuna emorragia preretinica visibile.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Esame neurologico obiettivo",
-        "result": "Negativo. Nessun deficit focale. Il reperto rassicurante non autorizza la dimissione.",
-        "isPositive": false
-      }
-    ],
+    "demographics": {
+      "age": 74,
+      "sex": "F",
+      "context": "Stroke unit"
+    },
     "advancedExams": {
       "values": {
-        "tc": {
-          "finding": "REFERTO NEGATIVO. TC cranio senza contrasto: niente sangue nelle cisterne, niente effetto massa, ventricoli normali. La negatività non esclude la ESA. Il passo successivo è la rachicentesi per xantocromia, non la dimissione.",
-          "isAbnormal": false,
-          "price": 120
+        "pa-monitor": {
+          "finding": "176/98. Sotto la soglia 180 di sistolica e 105 di diastolica della tabella 7.",
+          "isAbnormal": true
         },
-        "liquidi": {
-          "finding": "Rachicentesi: pressione di apertura 24 cmH2O, liquor limpido, eritrociti che non si esauriscono tra la prima e l'ultima provetta, xantocromia POSITIVA alla spettrofotometria. Glucosio liquorale normale, cellule bianche non significative. ESA confermata nonostante la TC negativa.",
-          "isAbnormal": true,
-          "price": 60
+        "glicemia": {
+          "finding": "190 mg/dL. Insulina endovena per 80-130 non e raccomandata per l'esito a 3 mesi.",
+          "isAbnormal": true
         },
-        "angio": {
-          "finding": "Angio-RM: possibile aneurisma di 3 mm della comunicante anteriore, reperto che non dimostra da solo la rottura di oggi. Costo 350 euro. Non sostituisce il liquor se la TC è negativa.",
-          "isAbnormal": true,
-          "price": 350
-        },
-        "pet-tc": {
-          "finding": "PET-TC negativa per lesioni ipermetaboliche. Non vede l'emorragia subaracnoidea. Costo 950 euro. Referto inutilmente rassicurante.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "rm": {
-          "finding": "RM encefalo negativa, senza iperintensità cisternale convincente in FLAIR. Non sostituisce la xantocromia. Costo 220 euro. Ridondante rispetto alla TC appena fatta.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "scintigrafia": {
-          "finding": "Scintigrafia non indicata, referto aspecifico. Costo 250 euro.",
-          "isAbnormal": false,
-          "price": 250
-        },
-        "polisonnografia": {
-          "finding": "Polisonnografia non attinente alla cefalea a tuono. Costo 180 euro.",
-          "isAbnormal": false,
-          "price": 180
-        },
-        "pot-evocati": {
-          "finding": "Potenziali evocati nella norma. Nessun ruolo diagnostico qui. Costo 120 euro.",
-          "isAbnormal": false,
-          "price": 120
-        },
-        "eeg": {
-          "finding": "EEG nella norma, nessuna attività epilettiforme. Non spiega una cefalea a tuono e non esclude la ESA.",
-          "isAbnormal": false,
-          "price": 90
-        },
-        "beta-hcg": {
-          "finding": "Beta-HCG sierica negativa. Non è in gravidanza. Utile prima di esami con contrasto, non sostituisce TC e liquor.",
-          "isAbnormal": false,
-          "price": 15
-        },
-        "emocromo": {
-          "finding": "Emocromo nei limiti. Piastrine 268.000/mm3. Nessuna controindicazione ematologica alla puntura lombare.",
-          "isAbnormal": false,
-          "price": 4.8
-        },
-        "pt-ptt-inr": {
-          "finding": "INR 1,0. Coagulazione compatibile con la rachicentesi.",
-          "isAbnormal": false,
-          "price": 8.5
+        "rm-ora": {
+          "finding": "Risonanza extra, oltre la TC o RM gia prevista a 24 ore prima dell'antiaggregante.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Analgesia senza dimissione, in attesa di TC e liquor",
-          "anyOf": [{ "id": "paracetamolo", "label": "Paracetamolo", "aliases": ["paracetamolo", "acetaminofene"] }]
-        }
-      ],
-      "contraindicated": [
-        {
-          "label": "Dimissione al domicilio con esame neurologico negativo",
-          "ids": ["dimissione"]
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "MEDIUM",
-    "emotionalState": "ANXIOUS",
-    "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "GOOD", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "DOLORE ESTREMO. Monosillabi, lamenti, odia le domande lunghe. Se la rassicurano, se ne va in due parole, non con un ringraziamento composto. Il compagno, se entra, spinge esami presi da internet."
-  }
+    "healthLiteracy": "HIGH",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Accetta i controlli. Rifiuta il catetere. Chiede che le si spieghi il numero della pressione."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quale bersaglio di pressione",
+      "prompt": "Trombolisi finita da due ore. Ictus lieve-moderato. Nessuna trombectomia. Sistolica 176. Un ordine chiede di portarla sotto 140.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non insegua sotto 140 contro sotto 180: quel confronto non migliora l'esito",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Imposti il bersaglio di sistolica sotto 140",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Bersaglio intensivo dopo trombolisi",
+      "prompt": "AHA classe 3, nessun beneficio: In patients with mild to moderate severity AIS who have been treated with IVT, intensive SBP reduction (target of <140 mm Hg compared with <180 mm Hg) is not recommended because it is not associated with an improvement in functional outcome.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non e il paziente della trombectomia",
+      "prompt": "Il protocollo della sala angiografica dice: dopo ricanalizzazione mTICI 2b o meglio, sistolica sotto 140 per 72 ore e dannoso. Lei non e passata in sala.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non le applichi quel protocollo: non ha una trombectomia riuscita",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Le tenga la sistolica sotto 140 per 72 ore come dopo una trombectomia",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Protocollo di un'altra popolazione",
+      "prompt": "AHA classe 3, danno: In patients with AIS with LVO of the anterior circulation who have been successfully recanalized by endovascular therapy (mTICI 2b, 2c, or 3) and without other indication for blood pressure management target, intensive SBP reduction target of <140 mm Hg for the first 72 hours is harmful and not recommended.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Soglia della tabella 7",
+      "prompt": "La sistolica resta 176, la diastolica 98. Quando si aumenta la frequenza delle misure e si tratta?",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Tratti se la sistolica supera 180 o la diastolica supera 105, per restare a quel livello o sotto",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Inizi comunque un'infusione per scendere sotto 140 anche con 176",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Soglia 180/105 non usata",
+      "prompt": "Tabella 7: Increase the frequency of BP measurements if SBP is >180 mm Hg or if DBP is >105 mm Hg; administer antihypertensive medications to maintain BP at or below these levels",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Glicemia",
+      "prompt": "Glicemia 190 mg/dL. Propongono insulina endovena per 80-130 mg/dL, per migliorare l'esito a tre mesi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non usi quel bersaglio: non e raccomandato per l'esito funzionale a 3 mesi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Attivi il protocollo insulinico 80-130",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Insulina per un bersaglio non raccomandato",
+      "prompt": "AHA classe 3: In hospitalized patients with AIS with hyperglycemia, treatment with IV insulin to achieve blood glucose levels in the range of 80 to 130 mg/dL is not recommended to improve 3-month functional outcomes.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Imaging prima dell'antiaggregante",
+      "prompt": "Sono passate poche ore dal farmaco. Vogliono aspirina subito, senza aspettare la TC o la RM delle 24 ore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "TC o RM a 24 ore, e solo dopo antiaggregante o anticoagulante",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Inizi l'aspirina ora, senza quell'imaging",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Antiaggregante prima delle 24 ore",
+      "prompt": "Tabella 7: Obtain a follow-up CT or MRI scan at 24 h after IVT before starting anticoagulants or antiplatelet agents",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: seconda RM encefalo subito, tariffa 300 euro piu bollo. Il controllo scritto e uno, a 24 ore. Una risonanza in piu adesso non cambia quel passaggio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo prenoti subito: seconda RM encefalo subito, tariffa 300 euro piu bollo",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. Il controllo scritto e uno, a 24 ore. Una risonanza in piu adesso non cambia quel passaggio. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: catetere vescicale: arriva in bagno e puo essere gestita senza. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dove resta in osservazione",
+      "prompt": "Il monitoraggio della pressione e dell'esame neurologico va continuato. Dove la tieni?",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Resta in stroke unit o in terapia intensiva, con i controlli della tabella",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "La mandi in un reparto senza monitoraggio neurologico ravvicinato",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Niente unita stroke",
+      "prompt": "Tabella 7: Admit the patient to an intensive care or stroke unit for monitoring Misure ogni 15 minuti durante e dopo il farmaco per 2 ore, poi ogni 30 minuti per 6 ore, poi ogni ora fino a 24 ore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Pressione e antiaggregante secondo la tabella",
+      "prompt": "Non ha inseguito la sistolica sotto 140, non ha applicato il protocollo della trombectomia, ha rispettato il rifiuto del catetere e non ha aggiunto una risonanza a pagamento fuori dal controllo delle 24 ore.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

@@ -1,306 +1,455 @@
 {
   "id": "NEURO-001",
   "code": "NEURO-001",
-  "title": "Corsa contro il tempo — ictus ischemico acuto",
-  "description": "Giovanni R., 68 anni, ex tabagista, iperteso in amlodipina, arriva in Pronto Soccorso alle 09:40 accompagnato dalla moglie. Alle 08:10, mentre faceva colazione, ha lasciato cadere la tazzina, non ha più articolato frasi e non muove il braccio destro. Last known well certo, testimoniato: 90 minuti prima dell'arrivo. Non è un ictus al risveglio. È vigile, afasico, con emiparesi destra. La finestra per la trombolisi sistemica (4,5 ore) è ancora aperta: restano circa 180 minuti. Ogni esame lento consuma quella finestra. Il percorso atteso è breve e in sequenza: parametri vitali, stick glicemico, NIHSS, TC cranio senza mezzo di contrasto immediata, consenso informato, alteplase endovena. La RM encefalo e l'EEG sono richiedibili e sono trappole: la RM ritarda la riperfusione oltre la finestra, l'EEG non cambia la decisione in questa fase.",
+  "title": "Ictus a 90 minuti: farmaco endovena prima di angio e risonanza",
+  "description": "Marco, 67 anni, emiplegia destra e afasia da 90 minuti, ultimo momento di benessere certo. TC encefalo senza sangue. Non e in antiaggreganti. Pesa 78 kg. Glicemia 168 mg/dL. Capace di capire e di rifiutare un atto.",
   "difficulty": "HARD",
   "specialty": "neurologia",
   "specialtyLabel": "Neurologia",
-  "condition": "Ictus ischemico iperacuto emisferico sinistro, candidato a trombolisi sistemica",
+  "condition": "Ictus ischemico dell'adulto entro 4,5 ore, eleggibile alla trombolisi endovenosa",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
-  "diagnosis": "Ictus ischemico acuto del territorio dell'arteria cerebrale media sinistra, entro 4,5 ore dall'esordio, senza emorragia alla TC. Indicazione a trombolisi sistemica con alteplase dopo stick glicemico, NIHSS, TC e consenso.",
-  "pastMedicalHistory": "Ipertensione arteriosa da 12 anni, in amlodipina 5 mg. Dislipidemia in atorvastatina 20 mg. Ex fumatore (30 pack-year), stop da 4 anni. Nessun diabete noto. Nessuna fibrillazione atriale nota, non assume anticoagulanti né antiaggreganti. Intervento di cataratta a destra tre anni fa. Allergie: nessuna. Ultima volta visto normale dalla moglie alle 08:10, orario scritto sul telefono perché lei ha chiamato il 118 alle 08:18. Non è caduto. Non ha convulsioni. Non ha trauma cranico.",
-  "presentation": "In barella, vigile, sguardo verso sinistra, non esegue ordini complessi. Dice solo «sì» e «boh», non nomina gli oggetti, non ripete una frase. Braccio destro cade in meno di 5 secondi, gamba destra vince la gravità ma non la resistenza. Solco naso-labiale destro appianito. Riflesso plantare destro in estensione. Non ha cervicalgia, non ha cefalea a rombo di tuono, non vomita. Parametri all'arrivo, se misurati: PA 168/94 mmHg, FC 88 bpm ritmica, SpO2 97% in aria, FR 16, temperatura 36,6 °C. La moglie ripete che «fino alle otto e dieci tagliava il pane». Il paziente si agita se non capisce le domande. Se il medico propone una risonanza «per vedere meglio», la moglie accetta perché le sembra più precisa della TC: non sa che il tempo della trombolisi sta scadendo.",
+  "guidelineRef": "linne guida ictus aha.pdf; linee guida iso spread.pdf; RM paganti; 61302046_est.pdf",
+  "diagnosis": "Ictus ischemico acuto entro 4,5 ore. La classe 1 AHA indica tenecteplase 0,25 mg/kg (massimo 25 mg) oppure alteplase 0,9 mg/kg, senza ritardare per angio-TC, angio-RM o perfusione. ISO-SPREAD: se e eleggibile alla trombolisi endovena, la riperfusione endoarteriosa non la sostituisce; il dosaggio universale richiamato per l'alteplase e 0,9 mg/kg, non 0,6, perche non e nel sottogruppo pretrattato con antiaggreganti.",
+  "pastMedicalHistory": "Ipertensione. Nessun antiaggregante e nessun anticoagulante. Nessun intervento recente riferito. Vive con la moglie, che chiede esami e un sondino.",
+  "presentation": "Esordio testimoniato da 90 minuti. Non parla frasi, muove poco il braccio destro, comprende il rifiuto con un cenno. TC senza emorragia. Non e il quadro del risveglio con ora ignota.",
   "redHerrings": [
-    "La moglie chiede la risonanza perché un vicino «con l'ictus gliel'hanno fatta e si è salvato»: in questo orario la RM ritarda l'alteplase.",
-    "Un infermiere propone l'EEG «perché non parla e potrebbe essere uno stato epilettico»: non ci sono scosse, il quadro è vascolare.",
-    "La pressione è alta ma sotto 185/110: non è una controindicazione e non va trattata in modo aggressivo prima della trombolisi.",
-    "L'afasia può sembrare confusione o demenza: l'esordio è minuti, non mesi."
+    "La moglie chiede la risonanza encefalo prima di ogni farmaco.",
+    "Qualcuno propone tenecteplase 0,4 mg/kg."
   ],
-  "timeLimitMinutes": 180,
-  "patientDeteriorationThreshold": 25,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: AFASIA. Giovanni NON scrive frasi complete, mai. Massimo una o due parole spezzate («sì», «no», «boh», «braccio»), spesso a caso, poi frustrazione. Non nominare oggetti. Non fare il paziente cortese. Alla domanda «Come sta?» rispondi solo così, non con una frase educata: Giovanni: «Braccio... no. ...boh.» Lucia: «Fino alle otto e dieci tagliava il pane. Adesso non mi parla.» I fatti (orario 08:10, arrivo circa 09:40, niente anticoagulanti, niente caduta, niente convulsioni, parametri se misurati PA 168/94 FC 88 saturazione 97% temperatura 36,6) li dice SOLO Lucia, in parole da moglie spaventata, mai in prosa da manuale. Quando parla lei, premetti «Lucia:». Giovanni non riassume il quadro e non suggerisce esami né farmaci. Se calcolano la NIHSS non inventare un altro deficit: non nomina, non ripete, faccia destra storta, braccio destro che cade, gamba destra debole, non sente bene a destra; il punteggio che ottengono è circa 14, ma non dirlo tu con quel nome. Se ordinano la risonanza o l'elettroencefalogramma, Lucia dice «facciamo l'esame più sicuro» e non sa che il tempo stringe. Se spiegano il farmaco nella vena e il rischio di sangue in testa, Lucia ha paura ma firma se il rischio e il beneficio sono detti chiari. Se passa troppo tempo senza la TAC e senza il farmaco, Giovanni non muove più nemmeno la gamba e non dice più «sì». Non rivelare la diagnosi. Non suggerire tu la trombolisi.",
-  "correctSolution": "Ictus ischemico sinistro entro 4,5 ore. Sequenza: parametri, stick glicemico (esclude l'ipoglicemia), NIHSS, TC cranio immediata senza contrasto (esclude l'emorragia), consenso informato, trombolisi sistemica con alteplase. Non attendere la RM. Non chiedere l'EEG in questa fase. Non dimettere.",
+  "timeLimitMinutes": 40,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Marco. Il braccio destro non va. Ho capito il farmaco e lo accetto. Non voglio il sondino nello stomaco se riesco a bere a piccoli sorsi. Non fatelo perche lo chiede mia moglie.",
+  "correctSolution": "Entro 4,5 ore: tenecteplase 0,25 mg/kg fino a 25 mg in push, oppure alteplase 0,9 mg/kg massimo 90 mg con il 10% in un minuto e il resto in 60 minuti. Non aspetti angio o perfusione. Non sostituisca il farmaco endovena con la sola trombectomia. Non usi 0,4 mg/kg. Non punti la glicemia a 80-130 con insulina endovena. Se compare cefalea intensa durante l'alteplase, fermi e faccia la TC. Ricovero in stroke unit. Non metta il sondino se puo farne a meno e lui non aderisce.",
   "goldStandardPath": [
-    "parametri-vitali",
-    "glicemia",
-    "nihss",
-    "tc",
-    "consenso-informato",
-    "trombolisi"
+    "tc-encefalo",
+    "glicemia"
   ],
-  "goldPathNarrative": "Orologio: esordio certo 90 minuti prima del triage, finestra residua circa 180 minuti. 1) Parametri vitali, senza far scendere la pressione sotto la soglia che controindica il farmaco: 168/94 non blocca l'alteplase. 2) Stick glicemico prima del farmaco, per non trombolisare un'ipoglicemia che imita l'ictus. 3) NIHSS, per quantificare il deficit e documentare la decisione. 4) TC cranio senza mezzo di contrasto, subito, non in coda con altri esami: serve a escludere l'emorragia. 5) Consenso informato su beneficio e rischio emorragico, firmato da chi può esprimersi (qui la moglie, con il paziente afasico ma vigile). 6) Trombolisi sistemica endovena entro le 4,5 ore. La RM encefalo, se richiesta, costa circa 160 minuti di orologio simulato e fa scadere la finestra: è la violazione della Golden Hour. L'EEG non distingue l'ictus dall'ipoglicemia e non autorizza né vieta l'alteplase. La PET non ha alcun ruolo iperacuto.",
+  "goldPathNarrative": "Il tempo e certo e la TC non mostra sangue. Il farmaco endovena parte subito, alla dose della classe 1, senza risonanza e senza sostituirlo con la sola sala angiografica.",
   "examLatencies": {
-    "parametri-vitali": 2,
-    "glicemia": 3,
-    "nihss": 4,
-    "tc": 12,
-    "consenso-informato": 5,
-    "trombolisi": 8,
-    "rm": 160,
-    "eeg": 45,
-    "pet-tc": 240,
-    "angio": 80,
-    "pt-ptt-inr": 20,
-    "emocromo": 15,
-    "ecg": 8
+    "tc-encefalo": 15,
+    "glicemia": 10,
+    "rm-encefalo": 80
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-esordio",
-      "prompt": "Quando è stato visto l'ultima volta del tutto normale, e chi lo ha visto?",
+      "id": "ora",
+      "prompt": "A che ora e stato visto bene per l'ultima volta?",
       "critical": true,
-      "expectedKeywords": ["esordio", "08:10", "testimone", "last known well"],
-      "rationale": "Senza un last known well certo non si può aprire la finestra delle 4,5 ore. Qui l'orario è testimoniato, non è un ictus al risveglio."
+      "expectedKeywords": [
+        "ora",
+        "minuti",
+        "esordio"
+      ],
+      "rationale": "La classe 1 vale entro 4,5 ore dall'esordio o dall'ultimo momento di benessere."
     },
     {
-      "id": "aq-farmaci",
-      "prompt": "Assume anticoagulanti, antiaggreganti o ha un'allergia?",
+      "id": "farmaci",
+      "prompt": "Prende aspirina o un anticoagulante?",
       "critical": true,
-      "expectedKeywords": ["anticoagulante", "aspirina", "allergia"],
-      "rationale": "Un anticoagulante in corso cambia controindicazioni e dose. Qui non ne assume."
-    },
-    {
-      "id": "aq-mimic",
-      "prompt": "Ha avuto convulsioni, trauma, cefalea a tuono o un digiuno prolungato?",
-      "critical": true,
-      "expectedKeywords": ["convulsioni", "trauma", "glicemia"],
-      "rationale": "Crisi, trauma ed emorragia subaracnoidea sono controindicazioni o diagnosi alternative. L'ipoglicemia si esclude con lo stick, non con l'anamnesi da sola."
-    },
-    {
-      "id": "aq-nihss",
-      "prompt": "Qual è il deficit adesso: linguaggio, sguardo, faccia, arto superiore, arto inferiore?",
-      "critical": true,
-      "expectedKeywords": ["afasia", "emiparesi", "NIHSS"],
-      "rationale": "La NIHSS rende il deficit misurabile prima del farmaco e serve al consenso e al controllo successivo."
+      "expectedKeywords": [
+        "aspirina",
+        "antiaggregante",
+        "farmaco"
+      ],
+      "rationale": "ISO discute 0,6 mg/kg solo nel sottogruppo gia in antiaggreganti, non come dose universale."
     }
   ],
   "physicalExam": {
-    "summary": "Vigile, afasia globale con produzione limitata a sì/no, deviazione dello sguardo non sostenuta, paresi facciale centrale destra, arto superiore destro che cade prima dei 10 secondi, arto inferiore destro che cade prima dei 5 secondi, estinzione tattile a destra, Babinski destro. NIHSS attesa circa 14 se la scala viene applicata. Torace libero, addome trattabile, polsi periferici presenti. Non rigidità nucale. Non morsicatura della lingua."
+    "summary": "Afasia, caduta del braccio destro, sguardo non forzato in modo estremo. Comprende un si e un no. Niente sangue alla TC gia eseguita."
   },
   "escCitations": [
     {
-      "chunkId": "neuro-001-aha-finestra",
+      "chunkId": "ivt",
       "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
-      "quote": "Sintesi operativa per questo caso, non un estratto letterale: con esordio testimoniato entro 4,5 ore, TC senza emorragia e glicemia non critica, la trombolisi sistemica precede qualsiasi risonanza."
+      "quote": "In adult patients with AIS presenting within 4.5 hours of symptom onset or last known well and eligible for IVT, tenecteplase at a dose of 0.25 mg/kg body weight (max 25 mg) or alteplase at a dose of 0.9 mg/kg body weight is recommended to improve functional outcomes."
     },
     {
-      "chunkId": "neuro-001-nihss",
-      "source": "knowledge_base/neurologia/clinic/NIHSS-Versione-Italiana.pdf",
-      "quote": "Sintesi operativa: la NIHSS si applica prima del farmaco per misurare afasia, sguardo, faccia e arti, e si ripete dopo la trombolisi. Non sostituisce la TC."
+      "chunkId": "fast",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In adult patients with AIS who are eligible for IVT within 4.5 hours of symptom onset, treatment should be initiated as quickly as possible, assuring safe administration and avoiding potential delays associated with additional multimodal neuroimaging, such as CTA/MRA, and CT/MR perfusion imaging."
     },
     {
-      "chunkId": "neuro-001-iso",
+      "chunkId": "alt",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "Alteplase: Infuse 0.9 mg/kg (maximum dose 90 mg) over 60 min, with 10% of the dose given as a bolus over 1 min"
+    },
+    {
+      "chunkId": "tnk",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "Tenecteplase: Push 0.25 mg/kg (up to maximum 25 mg) based on patient body weight"
+    },
+    {
+      "chunkId": "iso",
       "source": "knowledge_base/neurologia/clinic/linee guida iso spread.pdf",
-      "quote": "Sintesi operativa ISO-SPREAD: il tempo door-to-needle conta quanto la diagnosi. Un imaging non necessario che sposta la somministrazione fuori finestra è un errore di percorso, non una prudenza."
+      "quote": "In pazienti eleggibili alla trombolisi ev, trattamenti di riperfusione endoarteriosi non sono indicati in alternativa a questa."
     },
     {
-      "chunkId": "neuro-001-consenso",
-      "source": "knowledge_base/neurologia/clinic/Trattamento-trombolitico-per-via-venosa-e-trombectomia-endovascolare-per-lictus-ischemico-al-risveglio.pdf",
-      "quote": "Sintesi operativa: il consenso alla trombolisi endovena va raccolto prima dell'infusione, spiegando il rischio di emorragia sintomatica. Questo paziente non è un ictus al risveglio: la trombectomia non è il primo gradino se la finestra sistemica è aperta e la TC esclude il sangue."
+      "chunkId": "nor",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "the Norwegian Tenecteplase Stroke Trial (NOR-TEST) 2 trial, which compared tenecteplase 0.4 mg/kg with alteplase 0.9 mg/kg, was prematurely terminated due to worse safety and functional outcomes in the tenecteplase group."
+    },
+    {
+      "chunkId": "glu",
+      "source": "knowledge_base/neurologia/clinic/linne guida ictus aha.pdf",
+      "quote": "In hospitalized patients with AIS with hyperglycemia, treatment with IV insulin to achieve blood glucose levels in the range of 80 to 130 mg/dL is not recommended to improve 3-month functional outcomes."
+    },
+    {
+      "chunkId": "rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Stick glicemico e TC cranio senza contrasto prima di qualsiasi fibrinolitico.",
-      "NIHSS documentata prima dell'alteplase.",
-      "Consenso informato raccolto prima dell'infusione.",
-      "Nessuna RM e nessun EEG prima della trombolisi.",
-      "Somministrazione entro la finestra residua di circa 180 minuti dall'arrivo."
+      "Iniziare tenecteplase 0,25 mg/kg (max 25 mg) o alteplase 0,9 mg/kg senza aspettare la perfusione.",
+      "Non prenotare la RM encefalo a 300 euro piu bollo prima del farmaco."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: la scelta è tracciabile se in cartella restano orario di esordio, NIHSS, referto TC, glicemia, consenso e ora di inizio dell'infusione. La RM chiesta «per completezza» non è aderenza alle linee guida dell'ictus iperacuto.",
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
       "legalCriteria": [
-        "Consenso informato specifico per la trombolisi, con rischio emorragico detto in modo comprensibile.",
-        "Orario di last known well e ora di inizio farmaco scritti in cartella.",
-        "TC che esclude l'emorragia allegata prima del farmaco.",
-        "Nessuna dimissione con deficit focale acuto in corso."
+        "Finestra 4,5 ore: il farmaco non aspetta CTA, MRA o perfusione.",
+        "ISO: la trombectomia non sostituisce la trombolisi endovena in chi e eleggibile.",
+        "Rifiuto del sondino: art. 32 comma 2, come citato nel capitolo sul rifiuto."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "parametri-vitali",
-      "name": "Parametri vitali",
-      "finding": "PA 168/94 mmHg (sotto la soglia 185/110 che controindica l'alteplase), FC 88 bpm ritmica, SpO2 97% in aria ambiente, FR 16 atti/min, temperatura 36,6 °C. Non c'è instabilità che imponga di ritardare la TC.",
+      "examId": "tc-encefalo",
+      "name": "TC encefalo",
+      "finding": "Niente emorragia. Il farmaco endovena non deve aspettare un altro imaging multimodale.",
       "isAbnormal": true,
-      "priceEuro": 1,
       "isFatal": false
     },
     {
       "examId": "glicemia",
-      "name": "Stick glicemico",
-      "finding": "Glicemia capillare 112 mg/dL. Non è un'ipoglicemia che imita l'ictus e non è una iperglicemia estrema che controindica la trombolisi. Si può procedere con la TC e, se negativa per sangue, con l'alteplase.",
-      "isAbnormal": false,
-      "priceEuro": 2.1
-    },
-    {
-      "examId": "nihss",
-      "name": "Scala NIHSS",
-      "finding": "NIHSS 14. Voci principali: afasia grave (non nomina, non ripete), paresi facciale destra parziale, braccio destro caduta senza sforzo contro gravità, gamba destra deriva verso il basso, estinzione sensitiva a destra. Deficit disabilitante, non un TIA risolto. Punteggio utile al consenso e al controllo post-trombolisi.",
+      "name": "Glicemia",
+      "finding": "168 mg/dL. Non e indicata insulina endovena per il bersaglio 80-130.",
       "isAbnormal": true,
-      "priceEuro": 1,
       "isFatal": false
-    },
-    {
-      "examId": "tc",
-      "name": "TC cranio senza mezzo di contrasto",
-      "finding": "TC encefalo basale, senza contrasto, acquisita in urgenza. Non emorragia intraparenchimale, non emorragia subaracnoidea, non effetto massa, non idrocefalo. Iperdensità del tratto M1 dell'arteria cerebrale media sinistra, suggestiva di trombo. ASPECTS 9 (lieve ipodensità insulare sinistra, non un infarto già esteso). Nessuna controindicazione radiologica alla trombolisi sistemica. Non aspettare un secondo imaging per iniziare l'alteplase.",
-      "isAbnormal": true,
-      "priceEuro": 120,
-      "isFatal": true
-    },
-    {
-      "examId": "consenso-informato",
-      "name": "Consenso informato alla trombolisi",
-      "finding": "Colloquio con la moglie, alla presenza del paziente afasico ma vigile. Spiegati il beneficio sulla disabilità e il rischio di emorragia sintomatica intracranica. La moglie comprende e firma. Senza questo passaggio l'infusione non è difendibile.",
-      "isAbnormal": false,
-      "priceEuro": 1
-    },
-    {
-      "examId": "trombolisi",
-      "name": "Trombolisi sistemica con alteplase",
-      "finding": "Alteplase endovena secondo schema per il peso (non inventare una dose se il peso non è stato chiesto: il paziente pesa 82 kg, dose totale 0,9 mg/kg, bolo 10% in un minuto e il resto in 60 minuti). Inizio infusione ancora dentro le 4,5 ore se non sono stati inseriti RM o PET. Controllo neurologico e PA durante l'infusione. Nessun antiaggregante nelle prime 24 ore dopo il farmaco.",
-      "isAbnormal": false,
-      "priceEuro": 1,
-      "isFatal": true
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "rm",
+      "examId": "rm-encefalo",
       "name": "RM encefalo",
-      "finding": "RM encefalo eseguita con grave ritardo rispetto al triage. DWI: restrizione di diffusione nel territorio cortico-sottocorticale silviano sinistro, già estesa all'insula e all'opercolo. FLAIR in parte positiva: il danno non è più solo penombra. Il referto arriva quando la finestra delle 4,5 ore è scaduta o è ai minuti finali. Informazione vera, decisione mancata: la trombolisi andava decisa sulla TC, non su questa RM.",
-      "isAbnormal": true,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "In finestra per l'alteplase la RM encefalo ritarda la riperfusione di circa 160 minuti e fa violare la Golden Hour. La TC senza contrasto bastava a escludere il sangue."
-    },
-    {
-      "examId": "eeg",
-      "name": "EEG",
-      "finding": "EEG standard in urgenza: attività di fondo a 8-9 Hz, asimmetria di ampiezza a sinistra, nessuna crisi elettrica, nessun PLED. Referto non urgente e non decisionale. Il tempo macchina (circa 45 minuti) non aggiunge nulla alla scelta trombolitica.",
+      "finding": "Risonanza prima del farmaco, con ora di esordio gia nota e TC senza sangue.",
       "isAbnormal": false,
-      "priceEuro": 90,
+      "isFatal": false,
       "inappropriate": true,
-      "wasteRationale": "L'EEG non è l'esame dell'ictus iperacuto con deficit focale e orario certo. Non esclude l'emorragia e non autorizza l'alteplase. È inappropriato in questa fase."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "PET-TC non eseguibile in tempi compatibili con la trombolisi. Nessun iperaccumulo interpretabile in acuto. Prestazione da 950 euro, senza alcun effetto sulla decisione delle prossime 3 ore.",
-      "isAbnormal": false,
-      "priceEuro": 950,
-      "inappropriate": true,
-      "wasteRationale": "Medicina difensiva: la PET non stratifica la finestra trombolitica e sforerebbe il costo del percorso ideale (stick, TC, farmaco) di molte volte."
+      "wasteRationale": "La classe 1 dice di non ritardare per imaging multimodale. Tariffa 300 euro piu bollo.",
+      "priceEuro": 300
     }
   ],
   "baselineExamFindings": {
     "vitals": {
-      "heartRate": 88,
+      "heartRate": 92,
       "bloodPressure": "168/94",
       "spo2": 97,
       "temperature": 36.6,
       "respiratoryRate": 16
     },
-    "examBudgetEuro": 180,
-    "demographics": { "age": 68, "sex": "M", "name": "Giovanni R." },
-    "clinicalSigns": [
-      {
-        "signName": "Scala NIHSS",
-        "result": "NIHSS 14: afasia grave, paresi facciale destra, braccio destro che non tiene la posizione, gamba destra debole, estinzione a destra.",
-        "isPositive": true
-      },
-      {
-        "signName": "Babinski destro",
-        "result": "Alluce in estensione a destra. Sinistro indifferente.",
-        "isPositive": true
-      },
-      {
-        "signName": "Rigidità nucale",
-        "result": "Assente. Il mento raggiunge il torace senza dolore.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Scala NIHSS",
-        "result": "NIHSS 14: afasia grave, paresi facciale destra, braccio destro che non tiene la posizione, gamba destra debole, estinzione a destra.",
-        "isPositive": true
-      }
-    ],
+    "demographics": {
+      "age": 67,
+      "sex": "M",
+      "context": "Pronto soccorso"
+    },
     "advancedExams": {
       "values": {
+        "tc-encefalo": {
+          "finding": "Niente emorragia. Il farmaco endovena non deve aspettare un altro imaging multimodale.",
+          "isAbnormal": true
+        },
         "glicemia": {
-          "finding": "Glicemia capillare 112 mg/dL. Esclusa l'ipoglicemia come mimic. Valore compatibile con la trombolisi.",
-          "isAbnormal": false,
-          "price": 2.1
+          "finding": "168 mg/dL. Non e indicata insulina endovena per il bersaglio 80-130.",
+          "isAbnormal": true
         },
-        "tc": {
-          "finding": "TC cranio senza mezzo di contrasto, immediata. Nessuna emorragia. Iperdensità dell'arteria cerebrale media sinistra. ASPECTS 9. Si può trombolisare: non serve attendere la RM.",
-          "isAbnormal": true,
-          "price": 120
-        },
-        "rm": {
-          "finding": "RM encefalo tardiva. DWI positiva su un territorio silviano sinistro già ampio, FLAIR in parte positiva. Il referto è vero e arriva fuori tempo: la finestra delle 4,5 ore è stata consumata dall'attesa del magnete. La trombolisi andava iniziata dopo la TC.",
-          "isAbnormal": true,
-          "price": 220
-        },
-        "eeg": {
-          "finding": "EEG in urgenza: fondo rallentato a sinistra, nessuna crisi. Esame non indicato prima della trombolisi. Ha occupato circa 45 minuti senza cambiare la decisione.",
-          "isAbnormal": false,
-          "price": 90
-        },
-        "pet-tc": {
-          "finding": "PET-TC non indicata nell'ictus iperacuto. Nessun dato utile alla trombolisi. Costo 950 euro.",
-          "isAbnormal": false,
-          "price": 950
-        },
-        "angio": {
-          "finding": "Angio-TC del circolo intracranico, se richiesta dopo la TC basale e senza ritardare il bolo: occlusione del tratto M1 sinistro. Non sostituisce la TC senza contrasto né il consenso. Se viene messa in coda prima della TC basale, ritarda l'esclusione dell'emorragia.",
-          "isAbnormal": true,
-          "price": 350
-        },
-        "pt-ptt-inr": {
-          "finding": "INR 1,0. aPTT ratio 1,0. Non assume anticoagulanti. Non è un motivo per aspettare la RM.",
-          "isAbnormal": false,
-          "price": 8.5
-        },
-        "emocromo": {
-          "finding": "Hb 14,2 g/dL. Piastrine 241.000/mm3. Leucociti 8.400. Nessuna piastrinopenia che controindichi l'alteplase.",
-          "isAbnormal": false,
-          "price": 4.8
-        },
-        "ecg": {
-          "finding": "Ritmo sinusale a 86 bpm. Non sopraslivellamento. Non fibrillazione in questo tracciato. L'ECG non sostituisce la TC e non va atteso se ritarda il farmaco: si può registrare in parallelo.",
-          "isAbnormal": false,
-          "price": 15
+        "rm-encefalo": {
+          "finding": "Risonanza prima del farmaco, con ora di esordio gia nota e TC senza sangue.",
+          "isAbnormal": false
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Alteplase endovena entro 4,5 ore, dopo TC negativa per sangue, glicemia e consenso",
-          "anyOf": [{ "id": "trombolisi", "label": "Trombolisi sistemica", "aliases": ["alteplase", "rt-pa", "rtpa", "fibrinolisi"] }]
-        }
-      ],
-      "contraindicated": [
-        {
-          "label": "Antiaggregante o eparina nelle prime 24 ore dopo l'alteplase",
-          "ids": ["aspirina-immediata", "eparina"]
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
+    "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
     "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
-    "communicationStyle": "AFASIA. Giovanni non costruisce frasi: sì, no, boh, indica il braccio destro, si frustra. Lucia parla al posto suo sui fatti, concreta e spaventata, non come un referto. Vietato un paziente lucido che racconta l'ictus."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Capisce il si e il no. Accetta il farmaco. Rifiuta il sondino. La moglie parla al posto suo e chiede esami."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Ora certa, farmaco subito",
+      "prompt": "L'esordio e di 90 minuti, lui e adulto e la TC non mostra sangue. In sala c'e gia l'angiografo. Qualcuno vuole prima angio-TC e perfusione, e propone di saltare il farmaco endovena.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Inizi subito la trombolisi endovena. Non aspetti CTA, MRA o perfusione e non la sostituisca con la sola trombectomia",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo porta in sala senza farmaco endovena, in attesa della perfusione",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Finestra persa per l'imaging",
+      "prompt": "AHA, classe 1: In adult patients with AIS who are eligible for IVT within 4.5 hours of symptom onset, treatment should be initiated as quickly as possible, assuring safe administration and avoiding potential delays associated with additional multimodal neuroimaging, such as CTA/MRA, and CT/MR perfusion imaging. ISO-SPREAD: In pazienti eleggibili alla trombolisi ev, trattamenti di riperfusione endoarteriosi non sono indicati in alternativa a questa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM cervello e tronco encefalico, 300 euro piu bollo, o la voce Fasdac a 200 euro. L'ora e nota e la TC e gia fatta: questa risonanza ritarda il farmaco della classe 1.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo prenoti subito: RM cervello e tronco encefalico, 300 euro piu bollo, o la voce Fasdac a 200 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. Fasdac: DI RM 000003877 RM cervello e tronco encefalico senza contrasto 200,00. L'ora e nota e la TC e gia fatta: questa risonanza ritarda il farmaco della classe 1. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dose scritta, non 0,4 e non 0,6",
+      "prompt": "Pesa 78 kg. Non prende antiaggreganti. Sul tavolo ci sono tenecteplase e alteplase. Un collega cita 0,4 mg/kg e, per l'alteplase, 0,6 mg/kg.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Tenecteplase 0,25 mg/kg, massimo 25 mg, oppure alteplase 0,9 mg/kg. Non 0,4 mg/kg. Non 0,6 mg/kg come dose di tutti",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Infondi tenecteplase 0,4 mg/kg, la dose di NOR-TEST 2",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose che lo studio ha fermato",
+      "prompt": "Classe 1: In adult patients with AIS presenting within 4.5 hours of symptom onset or last known well and eligible for IVT, tenecteplase at a dose of 0.25 mg/kg body weight (max 25 mg) or alteplase at a dose of 0.9 mg/kg body weight is recommended to improve functional outcomes. NOR-TEST 2: the Norwegian Tenecteplase Stroke Trial (NOR-TEST) 2 trial, which compared tenecteplase 0.4 mg/kg with alteplase 0.9 mg/kg, was prematurely terminated due to worse safety and functional outcomes in the tenecteplase group. ISO richiama 0,9 mg/kg come dosaggio universalmente consigliato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Come si infonde",
+      "prompt": "Scegli l'alteplase. Come lo dai, e dove lo ricoveri?",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "0,9 mg/kg, massimo 90 mg: 10% in bolo in 1 minuto e il resto in 60 minuti. Poi stroke unit o terapia intensiva",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Butti tutta la fiala in dieci minuti e lo lasci in un letto di medicina senza monitoraggio",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Schema di infusione diverso dalla tabella",
+      "prompt": "Tabella 7: Alteplase: Infuse 0.9 mg/kg (maximum dose 90 mg) over 60 min, with 10% of the dose given as a bolus over 1 min Admit the patient to an intensive care or stroke unit for monitoring",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cefalea durante l'infusione",
+      "prompt": "A meta infusione di alteplase ha cefalea forte, vomita e l'esame peggiora.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Ferma l'infusione e fai subito la TC encefalo",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Finisci i 60 minuti e rimandi la TC a domani",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Infusione non fermata",
+      "prompt": "Tabella 7: If the patient develops severe headache, acute hypertension, nausea, or vomiting or has a worsening neurological examination, discontinue the infusion (if IV alteplase is being administered) and obtain an emergency head CT scan.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Glicemia e insulina",
+      "prompt": "La glicemia e 168 mg/dL. Un protocollo propone insulina endovena per tenerla fra 80 e 130.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non usi insulina endovena per quel bersaglio: non e raccomandata per l'esito a 3 mesi",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Imposti il protocollo 80-130 mg/dL",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Bersaglio glicemico non raccomandato",
+      "prompt": "AHA, classe 3 nessun beneficio: In hospitalized patients with AIS with hyperglycemia, treatment with IV insulin to achieve blood glucose levels in the range of 80 to 130 mg/dL is not recommended to improve 3-month functional outcomes.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: sondino nasogastrico: beve a piccoli sorsi e puo essere gestito senza. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Pressione, 24 ore, spasticita",
+      "prompt": "L'infusione e finita. La sistolica e 170. Qualcuno vuole portarla sotto 140 e dare subito l'aspirina. Fra settimane, se il polso restera spastico, la tabella degli usi consolidati autorizza la tossina botulinica per polso e mano dopo ictus, senza milligrammi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Se la sistolica supera 180 o la diastolica 105, tratti per restare a quel livello o sotto. TC o RM a 24 ore prima di antiaggregante. Niente tossina al posto della trombolisi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Punti la sistolica sotto 140 e inizi l'aspirina prima della TC delle 24 ore",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Bersaglio di pressione e aspirina anticipata",
+      "prompt": "Tabella 7: Increase the frequency of BP measurements if SBP is >180 mm Hg or if DBP is >105 mm Hg; administer antihypertensive medications to maintain BP at or below these levels Obtain a follow-up CT or MRI scan at 24 h after IVT before starting anticoagulants or antiplatelet agents La classe 3 sul bersaglio sotto 140 riguarda il confronto con sotto 180 dopo trombolisi, nel ictus lieve-moderato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Farmaco in finestra, senza risonanza inutile",
+      "prompt": "Ha dato tenecteplase o alteplase alla dose scritta, senza ritardare e senza sostituire il farmaco con la sola trombectomia. Ha rispettato il rifiuto del sondino e non ha pagato la risonanza prima della cura.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

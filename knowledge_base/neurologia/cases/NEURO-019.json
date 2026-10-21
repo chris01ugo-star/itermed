@@ -1,0 +1,440 @@
+{
+  "id": "NEURO-019",
+  "code": "NEURO-019",
+  "title": "Crisi solo nel sonno, poi una da sveglio, poi un calo della terapia",
+  "description": "Andrea, 36 anni, epilessia con crisi solo nel sonno da due anni, gia osservate per piu di un anno. Ieri una crisi da sveglio. Il neurologo vuole ridurre il farmaco.",
+  "difficulty": "HARD",
+  "specialty": "neurologia",
+  "specialtyLabel": "Neurologia",
+  "condition": "Crisi in sonno e poi in veglia, e riduzione della terapia decisa dal medico, patente di gruppo 1",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Beghi_Epilessia.pdf",
+  "diagnosis": "Crisi solo nel sonno: idoneita se osservate per un periodo non inferiore a quello dell'epilessia, un anno. Se compare una crisi in veglia, serve un anno senza ulteriori manifestazioni. Se il medico riduce o sospende la terapia, si raccomanda di non guidare per 6 mesi dall'inizio della sospensione. Se durante il cambio c'e una crisi e si ripristina lo stesso trattamento, la sospensione della guida e di 3 mesi.",
+  "pastMedicalHistory": "Crisi notturne documentate per oltre un anno, senza crisi diurne fino a ieri. Terapia in corso.",
+  "presentation": "Ieri crisi a colazione, testimoniata. Il piano e ridurre il farmaco, decisione del medico, non sua.",
+  "redHerrings": [
+    "Visto che prima guidava, continui anche dopo la crisi diurna.",
+    "Una RM per rimetterlo in auto la settimana prossima."
+  ],
+  "timeLimitMinutes": 35,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Sono Andrea. Fino a ieri le crisi erano solo di notte e guidavo. Ieri mattina ne ho avuta una sveglio. Se cambiate la cura, ditemi per quanto non guido. Non voglio la risonanza al posto di quella regola.",
+  "correctSolution": "Dopo la crisi in veglia: un anno senza ulteriori manifestazioni prima di una nuova idoneita. Se lei riduce la terapia, 6 mesi senza guida dall'inizio. Se in quel cambio ha una crisi e rimette lo stesso farmaco, 3 mesi. Non firmi la guida della prossima settimana. Niente RM al posto della regola.",
+  "goldStandardPath": [
+    "diario-sonno",
+    "piano-farmaco"
+  ],
+  "goldPathNarrative": "La crisi diurna azzera il privilegio del solo sonno. Il calo del farmaco, se deciso, aggiunge i 6 mesi.",
+  "examLatencies": {
+    "diario-sonno": 10,
+    "piano-farmaco": 15,
+    "rm-encefalo": 80
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "veglia",
+      "prompt": "La crisi di ieri e stata nel sonno o da sveglio?",
+      "critical": true,
+      "expectedKeywords": [
+        "sveglio",
+        "mattina",
+        "veglia"
+      ],
+      "rationale": "Una crisi in veglia chiede un anno senza ulteriori manifestazioni."
+    },
+    {
+      "id": "calo",
+      "prompt": "Chi ha deciso di ridurre il farmaco?",
+      "critical": true,
+      "expectedKeywords": [
+        "medico",
+        "io",
+        "riduzione"
+      ],
+      "rationale": "I 6 mesi partono se la modifica e decisione del medico."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame normale oggi. Diario notturno lungo, una crisi diurna ieri."
+  },
+  "escCitations": [
+    {
+      "chunkId": "so",
+      "source": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
+      "quote": "Il candidato o il conducente con crisi esclusivamente durante il sonno puo essere dichiarato idoneo a condizione che le crisi siano osservate per un periodo non inferiore al periodo senza crisi previsto per l'epilessia, un anno."
+    },
+    {
+      "chunkId": "ve",
+      "source": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
+      "quote": "In caso di attacchi durante la veglia, e richiesto un periodo di un anno senza ulteriori manifestazioni."
+    },
+    {
+      "chunkId": "se",
+      "source": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
+      "quote": "Al paziente puo essere raccomandato di non guidare per un periodo di 6 mesi dall'inizio della sospensione."
+    },
+    {
+      "chunkId": "ri",
+      "source": "knowledge_base/neurologia/clinic/Beghi_Epilessia.pdf",
+      "quote": "In caso di crisi durante la modificazione o sospensione del trattamento per decisione del medico, il paziente va sospeso dalla guida per 3 mesi se lo stesso trattamento e ripristinato."
+    },
+    {
+      "chunkId": "rm",
+      "source": "knowledge_base/neurologia/economic/RM-NEURO-E-MUSCOLOSCHELETRICHE-PAGANTI.pdf",
+      "quote": "RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo"
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Crisi in veglia: un anno senza ulteriori manifestazioni. Riduzione decisa dal medico: 6 mesi senza guida.",
+      "Non sostituire la regola con una RM a 300 euro piu bollo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il percorso segue solo i passaggi scritti nei PDF di questa cartella. La legge 219/2017 e la legge 38/2010 non sono tra quei file: il rifiuto di un paziente capace si legge nel capitolo 61302046_est.pdf.",
+      "legalCriteria": [
+        "Il solo sonno non sopravvive a una crisi diurna.",
+        "Crisi durante il cambio, con farmaco ripristinato: 3 mesi, non 6.",
+        "Non si firma la guida della prossima settimana."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "diario-sonno",
+      "name": "Diario sonno e veglia",
+      "finding": "Oltre un anno di sole crisi notturne, poi una crisi a colazione ieri.",
+      "isAbnormal": true,
+      "isFatal": false
+    },
+    {
+      "examId": "piano-farmaco",
+      "name": "Piano di riduzione",
+      "finding": "Riduzione decisa dal medico, non ancora iniziata.",
+      "isAbnormal": true,
+      "isFatal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "rm-encefalo",
+      "name": "RM encefalo",
+      "finding": "Chiesta per autorizzare la guida la settimana prossima.",
+      "isAbnormal": false,
+      "isFatal": false,
+      "inappropriate": true,
+      "wasteRationale": "La norma letta parla di anni e di mesi, non di questa RM. 300 euro piu bollo.",
+      "priceEuro": 300
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 70,
+      "bloodPressure": "122/76",
+      "spo2": 99,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "demographics": {
+      "age": 36,
+      "sex": "M",
+      "context": "Ambulatorio"
+    },
+    "advancedExams": {
+      "values": {
+        "diario-sonno": {
+          "finding": "Oltre un anno di sole crisi notturne, poi una crisi a colazione ieri.",
+          "isAbnormal": true
+        },
+        "piano-farmaco": {
+          "finding": "Riduzione decisa dal medico, non ancora iniziata.",
+          "isAbnormal": true
+        },
+        "rm-encefalo": {
+          "finding": "Chiesta per autorizzare la guida la settimana prossima.",
+          "isAbnormal": false
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole continuare a guidare. Capace. Rifiuta una RM al posto della sospensione."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Prima era solo sonno",
+      "prompt": "Fino a ieri: solo sonno, osservato per piu di un anno. Per quello poteva essere idoneo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Riconosca che quella condizione c'era, e che ieri e cambiata",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Gli dica che le crisi in sonno non permettono mai la guida, neanche dopo un anno",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Regola del sonno negata",
+      "prompt": "crisi esclusivamente durante il sonno: idoneo se osservate per un periodo non inferiore a quello dell'epilessia, un anno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "La crisi di ieri",
+      "prompt": "Ieri a colazione, da sveglio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Serve un anno senza ulteriori manifestazioni prima di una nuova idoneita",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo lasci guidare perche l'anno notturno e gia passato",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Crisi diurna ignorata",
+      "prompt": "In caso di attacchi durante la veglia, e richiesto un periodo di un anno senza ulteriori manifestazioni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se riduce adesso",
+      "prompt": "Lei decide di ridurre il farmaco.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Gli raccomandi di non guidare per 6 mesi dall'inizio della sospensione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Gli dica che la riduzione non tocca la guida",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sei mesi non detti",
+      "prompt": "raccomandato di non guidare per un periodo di 6 mesi dall'inizio della sospensione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se durante il calo ha una crisi e lei rimette lo stesso farmaco",
+      "prompt": "Ipotesi scritta nel testo, da spiegare prima.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "In quel caso la guida si sospende per 3 mesi, non si riparte dai 6",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Gli dica che si riparte sempre da un anno, anche se il farmaco e lo stesso di prima",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Tre mesi sostituiti da un'altra cifra",
+      "prompt": "sospeso dalla guida per 3 mesi se lo stesso trattamento e ripristinato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Esame a tariffa",
+      "prompt": "Qualcuno propone questo esame adesso: RM encefalo per autorizzare la guida. Non sostituisce l'anno ne i 6 mesi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo esegui in questo momento: non e il passo scritto e ha una tariffa",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo prenoti subito: RM encefalo per autorizzare la guida",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Tariffa non indicata ora",
+      "prompt": "Tariffa letta nel documento economico: RM cervello e tronco encefalico, incluso distretto vascolare 300+bollo. Non sostituisce l'anno ne i 6 mesi. Farlo ora fa pagare quella voce e sposta il tempo della cura scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto dopo l'informazione",
+      "prompt": "Hai spiegato benefici e rischi di questo atto: nulla osta alla guida la settimana prossima, che il datore chiede e che lui, informato della regola, non puo ottenere. La persona, capace, non aderisce. I familiari chiedono di farlo lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non esegui l'atto. Il rifiuto informato di un paziente capace si rispetta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo esegui perche i familiari insistono",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Atto contro il rifiuto",
+      "prompt": "Capitolo sul rifiuto dei trattamenti sanitari: L'art. 32, 2 comma, Cost. afferma chiaramente che nessuno puo essere obbligato a un determinato trattamento sanitario se non per disposizione di legge. Una volta che il medico abbia fornito al paziente le informazioni necessarie, il paziente puo tanto accettare il piano di cura, fermo restando la possibilita di revocare in ogni momento il consenso precedentemente manifestato, quanto decidere di non aderirvi, o di aderirvi solo parzialmente. Procedere perche lo chiedono i familiari, contro chi e capace e non aderisce, contraddice quel passaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Crisi senza effetto sulla coscienza, se lo fossero state",
+      "prompt": "Non e questo caso: ieri ha perso coscienza. La regola diversa, da non usare qui, vale per crisi che non toccano coscienza ne capacita di agire: osservazione non meno di un anno, e se compare un attacco di altra natura di nuovo un anno.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non applichi quella scorciatoia a una crisi con perdita di coscienza",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "La classifichi senza effetto sulla coscienza per accorciare i tempi",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Coscienza negata",
+      "prompt": "crisi dimostrate che non incidono sulla coscienza e che non causano incapacita funzionale: osservate per non meno di un anno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo chirurgia, se un giorno si operasse",
+      "prompt": "Oggi non e operato. Se lo fosse, l'idoneita chiede un anno senza crisi documentato e certificato dallo specialista.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Non anticipi quella regola. Oggi valgono la crisi diurna e, se riduce, i 6 mesi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Gli dica che un intervento azzera ogni divieto il mese dopo",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Anno post-chirurgico ignorato",
+      "prompt": "Dopo un intervento chirurgico per curare l'epilessia: idoneo dopo un periodo, documentato e certificato dallo specialista, di un anno senza ulteriori crisi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Crisi diurna e riduzione: tempi scritti",
+      "prompt": "Ha rimesso un anno dopo la crisi da sveglio, ha detto i 6 mesi se riduce il farmaco e i 3 mesi se nel cambio c'e una crisi e il farmaco torna lo stesso, senza RM al posto della regola.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}
