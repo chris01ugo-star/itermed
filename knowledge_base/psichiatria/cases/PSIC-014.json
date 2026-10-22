@@ -1,240 +1,439 @@
 {
   "id": "PSIC-014",
   "code": "PSIC-014",
-  "title": "Intossicazione acuta da cocaina",
-  "description": "Simone Ricci, 26 anni, è portato in pronto soccorso da un amico. È paranoico, suda, ha le pupille larghe, il cuore a 142 e la pressione a 186/112. Ha sniffato cocaina un'ora fa: lo dice l'amico, lui dice che lo vogliono arrestare. Il percorso è ECG, screening tossicologico e benzodiazepine. Il beta-bloccante, dato per la tachicardia, è la trappola mortale: vasocostrizione che non si frena. Budget 80 euro: ECG 15 ed esame tossicologico 40 ci stanno, insieme alla benzodiazepina. La TC cranio a 120 euro no, se non c'è un deficit.",
+  "title": "SAD PERSONS da 5 a 6: ricovero fortemente considerato, secondo il follow-up",
+  "description": "Uomo di 50 anni, depresso, solo, tentativo pregresso, alcol: sei punti. Il follow-up di domani e' incerto.",
   "difficulty": "HARD",
   "specialty": "psichiatria",
   "specialtyLabel": "Psichiatria",
-  "condition": "Intossicazione acuta da cocaina con agitazione simpaticomimetica",
-  "frequencyCategory": "MEDIUM",
+  "condition": "SAD PERSONS 5-6 con follow-up non affidabile",
+  "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "Legge 24/2017 art. 5 — niente beta-bloccante nella cocaina",
-  "diagnosis": "Intossicazione acuta da cocaina. Indicati ECG, screening tossicologico e benzodiazepine. Controindicati i beta-bloccanti. Non indicata la TC cranio in assenza di deficit focale.",
-  "pastMedicalHistory": "Uso di cocaina nei fine settimana, mai un infarto. Nessun beta-bloccante a domicilio. Non è epilettico. L'amico ha visto la striscia un'ora fa e poi l'agitazione. Nessun trauma riferito, non è caduto. Allergie: nessuna. Non ha dolore toracico costrittivo tipico: ha paura e il cuore che corre. Se compare dolore, l'ECG c'è già nel percorso.",
-  "presentation": "Sudato, midriasi, si gira di scatto verso la porta. [sguardo fisso] sull'amico e lo accusa. PA 186/112, FC 142, SpO2 97%, FR 22, temperatura 37,6 °C. Se il medico propone un beta-bloccante «per il cuore», l'amico dice «sì, così si calma». Simone non vuole fiale, vuole uscire.",
+  "guidelineRef": "SAD PERSONS; L.833/1978 art. 34",
+  "diagnosis": "Sei punti: considerare fortemente il ricovero, in dipendenza della fiducia nel follow-up. Se nessuno lo riporta e lui non ha un controllo certo, il ricovero va fortemente considerato. Se accetta di restare, e' volontario, non TSO.",
+  "pastMedicalHistory": "Uomo, 52 anni, depressione, separato, tentativo due anni fa, alcol quotidiano. Niente piano organizzato oggi, pensiero integro, un vicino non affidabile. Totale 6.",
+  "presentation": "Vuole andare a casa. Il vicino 'forse passa'. Nessun CSM prenotato. Rifiuta il ricovero ma non c'e' un follow-up credibile.",
   "redHerrings": [
-    "La tachicardia invita al beta-bloccante. Nella cocaina è il farmaco da non dare.",
-    "La paranoia sembra una psicosi da ricoverare in SPDC senza il tossicologico.",
-    "La pressione altissima fa pensare a un'urgenza ipertensiva da trattare con il solito antipertensivo del reparto.",
-    "La TC cranio non vede la cocaina e costa 120 euro."
+    "Dimissione con un forse.",
+    "TSO senza proporre prima il ricovero volontario spiegato."
   ],
-  "timeLimitMinutes": 25,
-  "patientDeteriorationThreshold": 12,
-  "patientPrompt": "ROLEPLAY RIGIDO. Sei Simone Ricci, 26 anni, pronto soccorso. Il tuo amico Luca è con te: «Luca:». Registro: PARANOICO, sudato. [sguardo fisso], [si asciuga la faccia]. Alla «Come sta?»: «Mi avete chiuso qui. Lui è con loro.» [sguardo fisso] Non dire tu cocaina se non te la chiedono in modo diretto. Se ti chiedono che cosa hai preso e quando, Luca dice la striscia un'ora fa e tu neghi, poi ammetti solo se insistono: «Una. Un'ora fa. E allora?» Pupille, sudore e paura li mostri, non li racconti da manuale. Se propongono una pastiglia per il cuore che è un beta-bloccante, non la riconosci: Luca dice di sì. Se ti danno una benzodiazepina e ti spiegano che il cuore rallenta così, resti diffidente ma ti siedi. Se propongono la TAC, dici che è una trappola. Non nominare tu vasocostrizione o tossicologico.",
-  "correctSolution": "Cocaina acuta. ECG senza sovraslivellamento in questo caso, screening tossicologico positivo, benzodiazepina. Niente propranololo, metoprololo, bisoprololo o altri beta-bloccanti. Niente TC cranio senza deficit. Budget 80 euro.",
-  "goldStandardPath": ["ecg", "tossicologico", "azione-benzodiazepina"],
-  "goldPathNarrative": "1) ECG 15 euro, subito: tachicardia sinusale, nessun sopraslivellamento. Si esclude l'infarto che la cocaina può fare, e in questo tracciato non c'è. 2) Screening tossicologico completo, id tossicologico, 40 euro (la voce di catalogo tox-screen vale lo stesso). Positivo per cocaina. 3) Benzodiazepina, diazepam o lorazepam, che frena agitazione e simpatico. Il passo azione- non è un esame. Somma intorno a 58 euro, budget 80. Il beta-bloccante è l'errore mortale, anche se la frequenza è 142. TC cranio 120 euro, senza deficit e senza trauma, supera gli 80 euro.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Sergio. Sei punti, mi hanno detto. Se non c'e' nessuno di sicuro, ditemi del ricovero. Se resto, non chiamatelo TSO.",
+  "correctSolution": "Strongly consider hospitalization perche' il follow-up non e' affidabile. Proporre il ricovero volontario e spiegarlo. Il TSO solo se, oltre al rifiuto, ci sono anche urgenza psichica e assenza di misure extraospedaliere: qui la scala chiede di considerare fortemente il ricovero, non di saltare i tre requisiti. Niente TC.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "5-6: strongly consider hospitalization, depending on confidence in the follow-up arrangement. Il follow-up qui non regge.",
   "examLatencies": {
-    "ecg": 5,
-    "tossicologico": 20,
-    "tox-screen": 20,
-    "azione-benzodiazepina": 4,
-    "tc-cranio": 25,
-    "tc": 25,
-    "rm-encefalo": 40,
-    "troponina-hs": 20
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40,
+    "ecg": 15
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-sostanza",
-      "prompt": "Che cosa ha preso, per quale via, e quanto tempo fa?",
+      "id": "q1",
+      "prompt": "Il follow-up di domani e' affidabile?",
       "critical": true,
-      "expectedKeywords": ["cocaina", "ora"],
-      "rationale": "Senza sostanza, via e tempo la tachicardia resta un'aritmia da beta-bloccante. L'amico è la fonte."
+      "expectedKeywords": [
+        "vicino",
+        "forse",
+        "no"
+      ],
+      "rationale": "La fascia 5-6 dipende dalla fiducia in quel follow-up."
     },
     {
-      "id": "aq-dolore",
-      "prompt": "Ha dolore toracico costrittivo, oltre alla paura?",
+      "id": "q2",
+      "prompt": "Accetterebbe un ricovero volontario se glielo spiega?",
       "critical": true,
-      "expectedKeywords": ["dolore", "petto"],
-      "rationale": "La cocaina causa infarto. L'ECG è obbligatorio anche se il dolore manca; se c'è, non si esce dal monitoraggio."
-    },
-    {
-      "id": "aq-deficit",
-      "prompt": "Ha un lato debole, un trauma, una convulsione?",
-      "critical": true,
-      "expectedKeywords": ["lato", "trauma"],
-      "rationale": "Senza deficit la TC cranio non precede ECG e benzodiazepina."
+      "expectedKeywords": [
+        "ricovero",
+        "spiegare",
+        "si"
+      ],
+      "rationale": "Il ricovero volontario non e' un TSO."
     }
   ],
   "physicalExam": {
-    "summary": "Agitato, sudore profuso, midriasi bilaterale reattiva, tachicardia, ipertensione. Eloquio persecutorio verso l'amico. Nessun deficit motorio, nessun segno di trauma, linguaggio non afasico. Torace senza rumori aggiunti evidenti. Temperatura 37,6 °C. L'amico riferisce la striscia di un'ora fa."
+    "summary": "Alito alcolico lieve, collaborante a tratti, nessun piano scritto, nessun accompagnatore affidabile."
   },
   "escCitations": [
     {
-      "chunkId": "psic-014-beta",
-      "source": "Legge 24/2017 art. 5 — cocaina e beta-bloccanti",
-      "quote": "Sintesi operativa, non un estratto da un PDF assente: nell'intossicazione da cocaina l'agitazione e la tachicardia si trattano con benzodiazepine. Il beta-bloccante lascia l'alfa-stimolo senza freno ed è da non dare. ECG e tossicologico documentano."
+      "chunkId": "s",
+      "source": "knowledge_base/psichiatria/clinic/sadpersons.pdf",
+      "quote": "Total points 5 to 6: Strongly consider hospitalization, depending on confidence in the follow-up arrangement."
     },
     {
-      "chunkId": "psic-014-budget",
-      "source": "Tariffe didattiche del caso PSIC — ECG 15 €, tossicologico 40 €, TC cranio 120 €",
-      "quote": "Sintesi operativa economica: ECG e screening tossicologico completo stanno negli 80 euro insieme alla benzodiazepina. La TC cranio a 120 euro, senza deficit, sfora."
+      "chunkId": "34",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Sostanza, via e tempo ricostruiti, anche tramite l'amico.",
-      "ECG eseguito.",
-      "Screening tossicologico richiesto.",
-      "Benzodiazepina, non beta-bloccante.",
-      "Nessuna TC cranio senza deficit. Spesa entro 80 euro."
+      "Ricovero fortemente considerato se il follow-up non e' credibile.",
+      "Non dimettere con un 'forse'.",
+      "Se accetta di restare, il ricovero e' volontario."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano l'orario dell'assunzione, l'ECG, il tossicologico e la benzodiazepina. Un beta-bloccante per la frequenza a 142 non è difendibile in questo contesto.",
+      "art5Adherence": "Fascia 5-6 della SAD PERSONS. Il TSO resta l'art. 34.",
       "legalCriteria": [
-        "Nessun beta-bloccante prescritto.",
-        "ECG archiviato prima di dichiarare che non c'è ischemia.",
-        "Benzodiazepina registrata.",
-        "Osservazione: non una dimissione immediata con pressione a 186."
+        "Ricovero fortemente considerato se il follow-up non e' credibile.",
+        "Non dimettere con un 'forse'.",
+        "Se accetta di restare, il ricovero e' volontario."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ecg",
-      "name": "ECG",
-      "finding": "Tachicardia sinusale a 140 bpm. Nessun sopraslivellamento, nessun sottoslivellamento significativo. QTc 430 ms. La cocaina può ischemizzare: questo tracciato, ora, no. Costo 15 euro. Si ripete se compare dolore.",
-      "isAbnormal": true,
-      "priceEuro": 15
-    },
-    {
-      "examId": "tossicologico",
-      "name": "Screening tossicologico completo",
-      "finding": "Positivo per cocaina. Negativi oppiacei, amfetamine, cannabinoidi, benzodiazepine. Costo 40 euro. Conferma l'amico e toglie il dubbio di una psicosi primaria da mandare in SPDC senza cura medica.",
-      "isAbnormal": true,
-      "priceEuro": 40,
-      "componentExamIds": ["tox-screen"]
-    },
-    {
-      "examId": "azione-benzodiazepina",
-      "name": "Benzodiazepina",
-      "finding": "Diazepam o lorazepam. Scende l'agitazione e, con lei, parte del simpatico. Non è un beta-bloccante.",
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
       "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 2.0
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+      "isAbnormal": false,
+      "priceEuro": 4.0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc-cranio",
-      "name": "TC Cranio senza mezzo di contrasto",
-      "finding": "TC cranio senza mezzo di contrasto negativa. Nessun deficit da cercare. Costo 120 euro, sopra gli 80. Non vede la cocaina.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "componentExamIds": ["tc"],
-      "wasteRationale": "Senza deficit la TC cranio a 120 euro sfora il budget e non sostituisce ECG e benzodiazepina."
-    },
-    {
       "examId": "tc",
-      "name": "TC encefalo generica",
-      "finding": "TC encefalo negativa. 120 euro.",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "priceEuro": 86.1,
       "inappropriate": true,
-      "wasteRationale": "Stessa TC, stesso sforamento."
-    },
-    {
-      "examId": "rm-encefalo",
-      "name": "RM Encefalo",
-      "finding": "RM encefalo non indicata nell'intossicazione acuta. 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "RM encefalo a 220 euro: fuori tempo e fuori budget."
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
     }
   ],
   "baselineExamFindings": {
-    "context": "Pronto soccorso. Paranoico, tachicardico, iperteso, sudato, midriasi, cocaina un'ora fa.",
     "vitals": {
-      "heartRate": 142,
-      "bloodPressure": "186/112",
-      "spo2": 97,
-      "temperature": 37.6,
-      "respiratoryRate": 22
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 80,
-    "demographics": { "age": 26, "sex": "M", "name": "Simone Ricci" },
-    "killerRules": {
-      "fatalIfPrescribed": [["propranololo", "inderal", "metoprololo", "bisoprololo", "atenololo", "carvedilolo", "beta-bloccante", "betabloccante"]]
-    },
-    "clinicalSigns": [
-      {
-        "signName": "Midriasi",
-        "result": "Pupille larghe, ancora reattive. Coerente con il simpatico della cocaina.",
-        "isPositive": true
-      },
-      {
-        "signName": "Deficit motorio focale",
-        "result": "Assente. La TC cranio non è il primo esame.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Midriasi",
-        "result": "Presente, bilaterale.",
-        "isPositive": true
-      }
-    ],
+    "clinicalSigns": {},
+    "semeiotics": {},
     "advancedExams": {
       "values": {
-        "ecg": {
-          "finding": "Tachicardia sinusale 140 bpm, nessun ST sollevato. Costo 15 euro.",
-          "normalFinding": "Sinusale a 140, nessun sopraslivellamento.",
-          "isAbnormal": true,
-          "price": 15
-        },
-        "tossicologico": {
-          "finding": "Positivo per cocaina, negativo il resto del pannello. Costo 40 euro.",
-          "normalFinding": "Cocaina positiva.",
-          "isAbnormal": true,
-          "price": 40
-        },
-        "tox-screen": {
-          "finding": "Stesso screening: cocaina positiva. Costo 40 euro.",
-          "normalFinding": "Cocaina positiva.",
-          "isAbnormal": true,
-          "price": 40
-        },
-        "troponina-hs": {
-          "finding": "8 ng/L, sotto soglia. Se il dolore toracico resta assente non va seriata per abitudine. Costo 18 euro: con ECG e tossicologico si resta sotto gli 80, ma non è il gold path.",
-          "normalFinding": "8 ng/L.",
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
           "isAbnormal": false,
-          "price": 18
+          "price": 2.0
         },
-        "tc-cranio": { "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro.", "normalFinding": "Nessuna emorragia.", "isAbnormal": false, "price": 120 },
-        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
-        "rm-encefalo": { "finding": "Non indicata. 220 euro.", "normalFinding": "Non sostituisce il tossicologico.", "isAbnormal": false, "price": 220 }
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Benzodiazepina",
-          "anyOf": [
-            { "id": "diazepam", "label": "Diazepam", "aliases": ["diazepam", "valium"], "priceEuro": 2.8 },
-            { "id": "lorazepam", "label": "Lorazepam", "aliases": ["lorazepam", "tavor"], "priceEuro": 4.5 }
-          ]
-        }
-      ],
-      "contraindicated": [
-        {
-          "id": "betabloccante",
-          "label": "Beta-bloccante",
-          "aliases": ["betabloccante", "beta bloccante", "propranololo", "metoprololo", "bisoprololo", "atenololo", "carvedilolo", "inderal"],
-          "priceEuro": 3.2
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "DEFENSIVE",
-    "adherence": "NON_COMPLIANT",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
-    "communicationStyle": "Paranoico, sudato, midriasi, accusa l'amico. La cocaina la dice l'amico subito e lui solo se incalzato. Diffida di ogni fiala, anche di quella giusta."
-  }
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Sergio. Il vicino non e' un piano. Spiegatemi il ricovero prima di parlare di obbligo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sei punti e follow-up incerto",
+      "prompt": "Tentativo, alcol, depressione, solo, uomo, sopra i 44. Il vicino e' un forse.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Consideri fortemente il ricovero: non c'e' fiducia nel follow-up",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo mandi a casa col forse",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Follow-up finto",
+      "prompt": "Strongly consider hospitalization, depending on confidence in the follow-up arrangement.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Proporre il volontario",
+      "prompt": "Non gli hanno ancora chiesto se resta, spiegandogli perche'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Glielo proponga e glielo spieghi. Il ricovero volontario viene prima dell'obbligo",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Parta dal TSO senza proporlo",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Volontario saltato",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "TSO solo coi tre requisiti",
+      "prompt": "Rifiuta. Non c'e' ancora stata la valutazione dei tre requisiti dell'art. 34.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Il TSO si dispone solo se ci sono alterazioni che richiedono urgenza, rifiuto e assenza di misure extraospedaliere",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "TSO solo perche' il punteggio e' 6",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "TSO automatico",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se il follow-up diventa solido",
+      "prompt": "La sorella arriva e garantisce CSM domattina, e lui accetta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Allora la fiducia nel follow-up cambia la decisione della fascia, che dipende da quella fiducia",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Lo ricoveri coatto lo stesso",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Follow-up ignorato",
+      "prompt": "Strongly consider hospitalization, depending on confidence in the follow-up arrangement.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC",
+      "prompt": "TC per l'alcol.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non la faccia come passo della scala",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "TC cranio",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non il commit dei 7-10",
+      "prompt": "Sei non e' otto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non usi la riga hospitalize or commit come se fosse gia' obbligo",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Commit automatico",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Fascia confusa",
+      "prompt": "Total points 7 to 10: Hospitalize or commit. This score is 5 to 6.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso se resta",
+      "prompt": "Dopo la spiegazione accetta la notte in reparto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Ricovero volontario, annotato",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo trasformi in TSO",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Consenso trasformato",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Contare bene l'alcol e il tentativo",
+      "prompt": "Qualcuno non conta il tentativo e lo porta a 5 o meno per dimetterlo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Conti tentativo e alcol: sono punti della scala",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Li ometta per abbassare il punteggio",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Punteggio manipolato",
+      "prompt": "P - Previous attempt: 1 if present. E - Ethanol abuse: 1 if present.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

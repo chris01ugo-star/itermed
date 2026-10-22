@@ -1,0 +1,445 @@
+{
+  "id": "PSIC-024",
+  "code": "PSIC-024",
+  "title": "BPSD pericolosi: aloperidolo o risperidone nelle indicazioni di scheda, non un altro",
+  "description": "Donna di 84 anni, Alzheimer grave, aggressivita' persistente, il non farmacologico e' fallito, rischio di farsi male. Vogliono olanzapina a lungo e una benzodiazepina.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Aggressivita' persistente in Alzheimer da moderato a grave, non farmacologico gia' fallito",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Manuale BPSD 2023, schede di aloperidolo e risperidone",
+  "diagnosis": "Aloperidolo: aggressivita' persistente e sintomi psicotici in Alzheimer da moderata a severa e demenza vascolare, se il non farmacologico e' fallito e c'e' rischio di danno. Risperidone: breve termine, fino a 6 settimane, dell'aggressivita' persistente nell'Alzheimer da moderato a grave, stessi paletti. Gli altri antipsicotici restano off-label. Le benzodiazepine in demenza non sono raccomandate.",
+  "pastMedicalHistory": "Alzheimer grave. Aggressivita' persistente, ha spinto un operatore. Interventi ambientali gia' fatti, senza esito. Nessuna demenza solo vascolare aggiuntiva descritta, ma l'Alzheimer grave c'e'.",
+  "presentation": "Rischio di caduta e di colpire. Proposta: olanzapina per mesi e lorazepam la sera.",
+  "redHerrings": [
+    "Olanzapina come se fosse in scheda.",
+    "Benzodiazepina in demenza.",
+    "Risperidone oltre le 6 settimane senza dirlo."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono la nipote di Ada. Fa male a se' e agli altri. Se serve una medicina, quella scritta in scheda e per il tempo scritto, non una benzodiazepina.",
+  "correctSolution": "Non farmacologico gia' fallito e c'e' pericolo: si puo' considerare aloperidolo nell'indicazione scritta, o risperidone fino a 6 settimane. Non olanzapina come fosse approvata. Non la benzodiazepina. Dire ictus, fratture, aritmie, tromboembolia, polmonite, morte. Rivalutare. Consenso di chi puo' darlo.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Il manuale BPSD limita le indicazioni in scheda ad aloperidolo e risperidone, e il risperidone a 6 settimane.",
+  "examLatencies": {
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40,
+    "ecg": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Il non farmacologico e' gia' fallito e c'e' rischio di danno?",
+      "critical": true,
+      "expectedKeywords": [
+        "fallito",
+        "rischio",
+        "si"
+      ],
+      "rationale": "Senza quei due paletti nemmeno aloperidolo e risperidone stanno in scheda."
+    },
+    {
+      "id": "q2",
+      "prompt": "Da quanto vorrebbero il risperidone?",
+      "critical": true,
+      "expectedKeywords": [
+        "mesi",
+        "sei settimane",
+        "oltre"
+      ],
+      "rationale": "Il risperidone in scheda e' fino a 6 settimane."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Aggressiva al contatto, Alzheimer gia' noto, nessun segno focale nuovo che imponga la TC prima del farmaco."
+  },
+  "escCitations": [
+    {
+      "chunkId": "alo",
+      "source": "knowledge_base/psichiatria/clinic/MANUALE-BPSD-2023-DEF.pdf",
+      "quote": "Aloperidolo: trattamento di aggressivita' persistente e sintomi psicotici in pazienti con demenza di Alzheimer da moderata a severa e demenza vascolare quando i trattamenti non farmacologici hanno fallito e quando vi e' rischio di danno verso se stessi o gli altri."
+    },
+    {
+      "chunkId": "ris",
+      "source": "knowledge_base/psichiatria/clinic/MANUALE-BPSD-2023-DEF.pdf",
+      "quote": "Risperidone: trattamento a breve termine (fino a 6 settimane) dell'aggressivita' persistente in pazienti con demenza di Alzheimer di grado da moderato a grave che non rispondono ad approcci non farmacologici, e quando esiste un rischio di nuocere a se stessi o agli altri."
+    },
+    {
+      "chunkId": "bz",
+      "source": "knowledge_base/psichiatria/clinic/MANUALE-BPSD-2023-DEF.pdf",
+      "quote": "L'utilizzo di benzodiazepine o composti benzodiazepino-simili non e' raccomandato nei pazienti con demenza e dovrebbe essere evitato, se possibile, per l'elevato rischio di sedazione eccessiva, peggioramento cognitivo, confusione, delirium, cadute e fratture."
+    },
+    {
+      "chunkId": "av",
+      "source": "knowledge_base/psichiatria/clinic/MANUALE-BPSD-2023-DEF.pdf",
+      "quote": "Gravi eventi avversi, inclusi ictus ischemico, fratture, aritmie, tromboembolia venosa, polmonite e morte."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Aloperidolo o risperidone solo coi paletti scritti.",
+      "Risperidone fino a 6 settimane.",
+      "Niente benzodiazepina. Niente altro antipsicotico spacciato per in scheda."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Indicazioni di scheda nel manuale BPSD 2023. Nessuna dose in milligrammi inventata: il manuale non la fissa qui.",
+      "legalCriteria": [
+        "Aloperidolo o risperidone solo coi paletti scritti.",
+        "Risperidone fino a 6 settimane.",
+        "Niente benzodiazepina. Niente altro antipsicotico spacciato per in scheda."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+      "isAbnormal": false,
+      "priceEuro": 4.0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 86.1,
+      "inappropriate": true,
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
+        },
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Parla la nipote. Ada si fa male. Il tempo del risperidone va detto, e niente sonnifero."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Paletti",
+      "prompt": "Non farmacologico fallito, rischio di danno, Alzheimer grave, aggressivita' persistente.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Allora si puo' considerare l'indicazione di scheda, non un antipsicotico qualunque",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Olanzapina per mesi",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Fuori scheda",
+      "prompt": "La maggioranza degli antipsicotici non e' approvata per i BPSD. Le eccezioni scritte sono aloperidolo e risperidone, con le indicazioni di scheda.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Risperidone: sei settimane",
+      "prompt": "Lo vogliono per tutto l'inverno.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Se sceglie il risperidone, il testo dice fino a 6 settimane",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Mesi senza dirlo",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Durata oltre scheda",
+      "prompt": "Risperidone: trattamento a breve termine (fino a 6 settimane) dell'aggressivita' persistente.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Aloperidolo nell'indicazione",
+      "prompt": "C'e' anche psicosi e aggressivita' persistente, non farmacologico fallito, rischio di danno.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "L'aloperidolo sta in quell'indicazione. Non e' un via libera a qualsiasi dose: il manuale non fissa qui i milligrammi",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Inventare una dose alta",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non letta",
+      "prompt": "Aloperidolo e' indicato per aggressivita' persistente e sintomi psicotici nell'Alzheimer da moderata a severa quando il non farmacologico ha fallito e c'e' rischio di danno. Il passo non riporta un regime in milligrammi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente benzodiazepina",
+      "prompt": "Lorazepam serale per 'calmarla'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non la usi: in demenza non e' raccomandata",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Lorazepam",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Benzodiazepina in demenza",
+      "prompt": "L'utilizzo di benzodiazepine non e' raccomandato nei pazienti con demenza e dovrebbe essere evitato, se possibile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dire gli eventi gravi",
+      "prompt": "Nessuno nomina ictus e morte.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Li dica, insieme a fratture, aritmie, tromboembolia e polmonite",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Non li dica",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Rischi taciuti",
+      "prompt": "Gravi eventi avversi, inclusi ictus ischemico, fratture, aritmie, tromboembolia venosa, polmonite e morte.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rivalutare",
+      "prompt": "Ricetta e nessun controllo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Sorvegli gli effetti e rivaluti",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "La lasci indefinita",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Rivalutazione assente",
+      "prompt": "E' necessario aggiustamento delle dosi, stretta sorveglianza degli effetti collaterali e rivalutazione periodica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC al posto della scheda",
+      "prompt": "TC cranio per scegliere la molecola, senza segno focale nuovo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non la faccia per quella scelta",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "TC cranio",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso",
+      "prompt": "Ada non capisce. Non c'e' un amministratore. La nipote vuole firmare da sola un TSO per dare l'olanzapina.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Non trasformi l'indicazione di scheda in un TSO per un farmaco fuori scheda. Informi chi puo' decidere nei modi della legge 219 se c'e' un rappresentante; se no, non inventi il TSO",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "TSO per l'olanzapina",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "TSO fuori schema",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

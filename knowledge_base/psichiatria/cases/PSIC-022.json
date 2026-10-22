@@ -1,0 +1,444 @@
+{
+  "id": "PSIC-022",
+  "code": "PSIC-022",
+  "title": "Catatonia maligna o senza risposta a sette giorni: ECT, non l'antipsicotico",
+  "description": "Uomo di 44 anni, catatonia con febbre e rigidita' marcata. Qualcuno da' un antipsicotico. Un'altra paziente ha sospeso la clozapina da tre giorni.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Catatonia maligna, oppure nessuna risposta al lorazepam in sette giorni, oppure sospensione di clozapina oltre 48 ore",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "APA Resource Document on Catatonia",
+  "diagnosis": "Se non c'e' risposta in sette giorni o ci sono segni maligni, si passa a ECT o a un'augmentazione. L'antipsicotico non si da' mai nella catatonia maligna o nella NMS. Se la catatonia viene dalla sospensione brusca di clozapina, si riprende la clozapina: oltre 48 ore si rititola da 12,5 o 25 mg al giorno.",
+  "pastMedicalHistory": "Lorazepam a dosi piene da sette giorni, BFCRS invariata. Febbre, rigidita', instabilita' autonomica. In un secondo letto: clozapina sospesa da 72 ore e ora mutismo.",
+  "presentation": "Il collega propone aloperidolo per 'sbloccarla' e, sull'altra, di non riprendere la clozapina perche' 'e' pericolosa'.",
+  "redHerrings": [
+    "Antipsicotico nella forma maligna.",
+    "Non riprendere la clozapina dopo piu' di 48 ore di stop."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono il medico di guardia che chiede conferma. Non datemi l'antipsicotico se e' maligna. Se la clozapina e' stata sospesa da tre giorni, ditemi da che dose si riparte.",
+  "correctSolution": "ECT o augmentazione se zero risposta a sette giorni o se e' maligna. Mai l'antipsicotico nella maligna o nella NMS. Clozapina da riprendere, rititolazione da 12,5 o 25 mg se lo stop supera 48 ore. Lo scalaggio, quando si fara', e' lento: 10-25% al giorno in ospedale, non lo stop secco.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Il resource document separa la mancata risposta a 7 giorni, la forma maligna e la sospensione di clozapina.",
+  "examLatencies": {
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40,
+    "ecg": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Da quanti giorni il lorazepam non cambia la scala, e c'e' febbre con rigidita'?",
+      "critical": true,
+      "expectedKeywords": [
+        "sette",
+        "febbre",
+        "rigidita"
+      ],
+      "rationale": "A sette giorni senza risposta, o con segni maligni, si passa a ECT o augmentazione."
+    },
+    {
+      "id": "q2",
+      "prompt": "Da quante ore e' sospesa la clozapina?",
+      "critical": true,
+      "expectedKeywords": [
+        "settantadue",
+        "ore",
+        "clozapina"
+      ],
+      "rationale": "Oltre 48 ore si rititola da 12,5 o 25 mg al giorno."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Febbre 38.5, rigidita' marcata, sudorazione, mutismo. Saturazione ancora valida."
+  },
+  "escCitations": [
+    {
+      "chunkId": "7",
+      "source": "knowledge_base/psichiatria/clinic/Resource-Document-on-Catatonia.pdf",
+      "quote": "If no response is seen in 7 days or if malignant features are present, ECT or pharmacologic augmentation strategies should be pursued."
+    },
+    {
+      "chunkId": "nev",
+      "source": "knowledge_base/psichiatria/clinic/Resource-Document-on-Catatonia.pdf",
+      "quote": "Antipsychotics should never be given to patients already displaying malignant catatonia or NMS."
+    },
+    {
+      "chunkId": "clz",
+      "source": "knowledge_base/psichiatria/clinic/Resource-Document-on-Catatonia.pdf",
+      "quote": "In catatonia caused by abrupt cessation of clozapine, re-initiation of clozapine is the treatment of choice. If clozapine therapy is interrupted for more than 48 hours, re-titration from a typical starting dose (e.g., 12.5 mg, 25 mg per day) is required."
+    },
+    {
+      "chunkId": "tap",
+      "source": "knowledge_base/psichiatria/clinic/Resource-Document-on-Catatonia.pdf",
+      "quote": "Tapers should be done slowly to minimize the risk of precipitating catatonia recurrence. With hospitalized patients, we suggest a cautious taper of 10-25% per day."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente antipsicotico nella maligna o nella NMS.",
+      "ECT o augmentazione se non c'e' risposta in sette giorni o se e' maligna.",
+      "Clozapina ripresa e, oltre 48 ore, da 12,5 o 25 mg."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Resource document sulla catatonia: 7 giorni, forma maligna, clozapina.",
+      "legalCriteria": [
+        "Niente antipsicotico nella maligna o nella NMS.",
+        "ECT o augmentazione se non c'e' risposta in sette giorni o se e' maligna.",
+        "Clozapina ripresa e, oltre 48 ore, da 12,5 o 25 mg."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+      "isAbnormal": false,
+      "priceEuro": 4.0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 86.1,
+      "inappropriate": true,
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 120,
+      "bloodPressure": "160/95",
+      "spo2": 96,
+      "temperature": 38.5,
+      "respiratoryRate": 22
+    },
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
+        },
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Chiedo come guardia. La forma con la febbre non vuole l'antipsicotico. La clozapina va ripresa dalla dose scritta."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sette giorni o maligna",
+      "prompt": "Scala ferma da sette giorni, e ora febbre e rigidita'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Passi a ECT o a un'augmentazione farmacologica",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Continui solo il lorazepam senza cambiare strada",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Soglia dei sette giorni persa",
+      "prompt": "If no response is seen in 7 days or if malignant features are present, ECT or pharmacologic augmentation strategies should be pursued.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Mai l'antipsicotico ora",
+      "prompt": "Aloperidolo pronto per la forma maligna.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo dia. Nella catatonia maligna o nella NMS l'antipsicotico non si da'",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Aloperidolo",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Antipsicotico nella maligna",
+      "prompt": "Antipsychotics should never be given to patients already displaying malignant catatonia or NMS.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Clozapina",
+      "prompt": "Stop da 72 ore, ora catatonia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "La riprenda. Oltre 48 ore la rititolazione parte da 12,5 o 25 mg al giorno",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Non la riprenda",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Clozapina non ripresa",
+      "prompt": "Re-initiation of clozapine is the treatment of choice. If interrupted for more than 48 hours, re-titration from a typical starting dose (e.g., 12.5 mg, 25 mg per day) is required.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non lo stop secco quando si scala",
+      "prompt": "Piu' avanti vogliono sospendere il lorazepam in un giorno.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "In ospedale lo scalaggio cauto e' 10-25% al giorno, non lo stop",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Stop in un giorno",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Scalaggio brusco",
+      "prompt": "Tapers should be done slowly. With hospitalized patients, we suggest a cautious taper of 10-25% per day.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Alta potenza comunque evitata",
+      "prompt": "Anche senza febbre, propongono un tipico ad alta potenza 'di appoggio'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "In genere si evita, per il rischio di NMS e di extrapiramidali",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo aggiunga",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Alta potenza",
+      "prompt": "High-potency first generation antipsychotics should generally be avoided in catatonia due to their increased risk for NMS and higher rates of extrapyramidal symptoms.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC al posto dell'ECT",
+      "prompt": "TC per decidere se chiamare l'ECT, senza un quesito focale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la usi come sostituto della decisione",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "TC cranio",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "I familiari chiedono perche' l'ECT.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Spieghi benefici, rischi e alternative",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non spieghi",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione mancata",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso sull'ECT",
+      "prompt": "Il paziente, di nuovo capace, rifiuta l'ECT e accetta di continuare il lorazepam che ora risponde.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Rispetti il rifiuto dell'ECT",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "ECT lo stesso",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "ECT imposta",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

@@ -1,0 +1,444 @@
+{
+  "id": "PSIC-018",
+  "code": "PSIC-018",
+  "title": "Capace che rifiuta il farmaco: non e' un TSO",
+  "description": "Donna di 36 anni, depressione, capace, rifiuta l'antidepressivo. Il marito chiede di somministrarlo di nascosto e il TSO.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Rifiuto di persona capace, senza i requisiti del TSO",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "L.219/2017 art. 1; L.833/1978 art. 33 e 34",
+  "diagnosis": "Capace di agire, rifiuta il farmaco. La legge 219 impone di rispettare il rifiuto, salvo i casi previsti dalla legge. Qui non ci sono i tre requisiti del TSO in degenza: non c'e' l'urgenza psichica che imponga la degenza e lei accetta di tornare a parlare. Gli accertamenti sono di norma volontari.",
+  "pastMedicalHistory": "Episodio depressivo, capace, nessun piano suicidario, marito presente. Rifiuta il farmaco, accetta un controllo fra una settimana.",
+  "presentation": "Ha letto i foglietti e non vuole la compressa. Il marito porta una siringa 'tanto non se ne accorge' e parla di TSO.",
+  "redHerrings": [
+    "Farmaco di nascosto.",
+    "TSO chiesto dal marito."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Marta. Non voglio quel farmaco. Torno fra una settimana. Non datemelo di nascosto e non fatemi il TSO.",
+  "correctSolution": "Rispettare il rifiuto. Informarla di conseguenze e alternative. Non il TSO: manca l'urgenza che richieda la degenza e lei non rifiuta ogni misura, accetta il controllo. Non somministrare di nascosto. Niente TC.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Art. 1 della legge 219 sul rifiuto della persona capace. Art. 33 e 34: l'obbligo e' l'eccezione e la degenza ha tre requisiti.",
+  "examLatencies": {
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40,
+    "ecg": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "E' capace e cosa rifiuta di preciso?",
+      "critical": true,
+      "expectedKeywords": [
+        "capace",
+        "farmaco",
+        "controllo"
+      ],
+      "rationale": "Il rifiuto del farmaco, con accettazione del controllo, non e' un TSO."
+    },
+    {
+      "id": "q2",
+      "prompt": "C'e' un'urgenza che imponga la degenza stanotte?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "piano",
+        "no"
+      ],
+      "rationale": "Senza quell'urgenza e senza il rifiuto di ogni misura, l'art. 34 non si apre."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Lucida, orientata, rifiuto chiaro e ripetuto. Nessun piano."
+  },
+  "escCitations": [
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico."
+    },
+    {
+      "chunkId": "6",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 6: il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale."
+    },
+    {
+      "chunkId": "33",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Legge 23 dicembre 1978, n. 833, art. 33: gli accertamenti ed i trattamenti sanitari sono di norma volontari. Gli accertamenti e i trattamenti sanitari obbligatori sono disposti con provvedimento del sindaco nella sua qualita' di autorita' sanitaria, su proposta motivata di un medico, e devono essere accompagnati da iniziative rivolte ad assicurare il consenso e la partecipazione di chi vi e' obbligato."
+    },
+    {
+      "chunkId": "34",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il rifiuto della persona capace si rispetta.",
+      "Niente farmaco di nascosto.",
+      "Niente TSO senza i tre requisiti."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 219 art. 1 e legge 833 art. 33-34, file nella cartella legal.",
+      "legalCriteria": [
+        "Il rifiuto della persona capace si rispetta.",
+        "Niente farmaco di nascosto.",
+        "Niente TSO senza i tre requisiti."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+      "isAbnormal": false,
+      "priceEuro": 4.0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 86.1,
+      "inappropriate": true,
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
+        },
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Marta. Ho capito i rischi. Il farmaco no. L'appuntamento si'."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rispettare il rifiuto",
+      "prompt": "Rifiuta l'antidepressivo, capace, informata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non lo inizi. Il rifiuto si rispetta",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Glielo dia lo stesso",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Rifiuto scavalcato",
+      "prompt": "Il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non di nascosto",
+      "prompt": "Il marito chiede di metterlo nel cibo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo faccia. Senza consenso il trattamento non si inizia, salvo i casi di legge che qui non ci sono",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Nel cibo",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Senza consenso",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non il TSO",
+      "prompt": "Nessun piano, accetta di tornare, niente urgenza di degenza.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non disponga il TSO. Manca il quadro dell'art. 34",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "TSO perche' lo chiede il marito",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "TSO senza requisiti",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Volontario",
+      "prompt": "Qualcuno dispone un accertamento obbligatorio pur essendo lei consenziente al controllo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "L'accertamento resti volontario",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Accertamento obbligatorio",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "ASO senza presupposti",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 33: gli accertamenti ed i trattamenti sanitari sono di norma volontari. Gli accertamenti e i trattamenti sanitari obbligatori sono disposti con provvedimento del sindaco nella sua qualita' di autorita' sanitaria, su proposta motivata di un medico, e devono essere accompagnati da iniziative rivolte ad assicurare il consenso e la partecipazione di chi vi e' obbligato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Conseguenze del rifiuto",
+      "prompt": "Non le hanno detto cosa puo' succedere senza il farmaco, ne' le alternative non farmacologiche.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Gliele prospetti. Se rifiuta un trattamento, si promuove il sostegno",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "La lasci senza una frase",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Conseguenze taciute",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC per convincerla",
+      "prompt": "TC 'cosi' vede che deve curarsi'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la faccia",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "TC cranio",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Puo' cambiare idea",
+      "prompt": "Oggi no, forse fra una settimana.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Annoti il rifiuto e lasci aperta la possibilita' di cambiare volonta'",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Consideri il no definitivo e chiuda il caso",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Revoca impossibile",
+      "prompt": "Ferma restando la possibilita' per il paziente di modificare la propria volonta', l'accettazione, la revoca e il rifiuto sono annotati nella cartella clinica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Il marito non decide",
+      "prompt": "Vuole firmare lui il consenso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Il consenso e' di lei. Il familiare entra se lei lo desidera",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Firmi il marito",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Consenso del marito",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

@@ -1,261 +1,448 @@
 {
   "id": "PSIC-004",
   "code": "PSIC-004",
-  "title": "Crisi psicotica acuta",
-  "description": "Andrea Vitale, 27 anni, è portato in pronto soccorso dal fratello. Da una settimana non esce, dice che i vicini lo spiano dalle prese della luce e risponde a voce a qualcuno che nella stanza non c'è. Non ha febbre, non ha deficit, non ha un trauma. Il percorso è un colloquio contenitivo, un ECG prima dell'antipsicotico atipico, il farmaco e il ricovero in SPDC. Il budget è 32 euro: l'ECG a 15 euro e un atipico da circa 8 euro ci stanno. La TC cranio a 120 euro e la RM encefalo a 220 euro, senza un segno neurologico, sono medicina difensiva e sforano.",
-  "difficulty": "MEDIUM",
+  "title": "Schizofrenia e QT: ECG, niente pompelmo, cautela con aloperidolo",
+  "description": "Uomo di 52 anni, familiarita' per QT lungo, in antibiotico. Vogliono aloperidolo piu' un altro farmaco che allunga il QT, e un succo di pompelmo.",
+  "difficulty": "HARD",
   "specialty": "psichiatria",
   "specialtyLabel": "Psichiatria",
-  "condition": "Psicosi acuta con deliri di persecuzione e allucinazioni uditive",
+  "condition": "Schizofrenia con rischio di allungamento del QT",
   "frequencyCategory": "MEDIUM",
-  "matrixDifficulty": "INTERMEDIATE",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "Legge 180/1978 — ricovero in SPDC, non neuroimaging difensivo",
-  "diagnosis": "Episodio psicotico acuto, inquadrabile come esordio di schizofrenia finché un decorso non dirà altro. Indicati colloquio contenitivo, antipsicotico atipico dopo ECG, ricovero in SPDC. Non indicata la TC cranio.",
-  "pastMedicalHistory": "Nessun ricovero precedente. Cannabis occasionale fino a sei mesi fa, nega uso nelle ultime settimane. Nessuna epilessia, nessun trauma cranico, nessuna febbre in casa. Il fratello riferisce ritiro sociale da un anno, poi la settimana scorsa le voci. Non assume farmaci. Allergie: nessuna. Non ha cefalea a tuono, non ha un lato del corpo debole, non ha il collo rigido.",
-  "presentation": "In barella, sguardo verso l'angolo vuoto della stanza. Risponde a una voce che il medico non sente, poi accusa il medico di essere d'accordo con i vicini. Il fratello traduce i fatti. Parametri: PA 130/82 mmHg, FC 96, SpO2 98%, FR 18, temperatura 36,8 °C. Se si propone una TC «per vedere il cervello», il fratello dice di sì. Andrea dice che la macchina è una trappola.",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Circolare ER 4/2020; determinazione AIFA citata; nomenclatore",
+  "diagnosis": "Rischio di QT lungo. ECG prima dell'antipsicotico. Non associare farmaci che allungano il QT. Pompelmo, sesso femminile e antibiotici favoriscono l'allungamento. Cautela particolare per aloperidolo, droperidolo e pimozide. Aripiprazolo e paliperidone non sono risultati associati all'allungamento.",
+  "pastMedicalHistory": "Schizofrenia. Madre con QT lungo. Infezione in antibiotico che il foglietto segnala per il QT. Beve succo di pompelmo ogni mattina.",
+  "presentation": "Sta per iniziare aloperidolo insieme a quel antibiotico. Nessun ECG. Il collega dice che il pompelmo 'non c'entra'.",
   "redHerrings": [
-    "La cannabis di sei mesi fa non spiega un delirio di persecuzione con allucinazioni in corso e astinenza già trascorsa.",
-    "Il fratello chiede la risonanza perché un sito parla di tumori che danno le voci.",
-    "Sembra aggressivo, ma si contiene se non lo si smentisce in modo frontale.",
-    "Non ha febbre: non è un delirium infettivo."
+    "Aloperidolo piu' altro farmaco che allunga il QT.",
+    "Pompelmo considerato irrilevante."
   ],
-  "timeLimitMinutes": 35,
-  "patientDeteriorationThreshold": 25,
-  "patientPrompt": "ROLEPLAY RIGIDO. Sei Andrea Vitale, 27 anni, pronto soccorso. Con te c'è tuo fratello Marco: quando parla lui, premetti «Marco:». Registro: DELIRANTE. [sguardo fisso] verso un angolo vuoto. Rispondi alle voci a voce alta, anche se nessuno ha parlato. Alla «Come sta?»: «Zitto. Lo dicono anche a lei?» [sguardo fisso] Poi, all'angolo: «Lo so che siete dietro la presa.» Non spiegare tu che sono allucinazioni. I fatti (una settimana, vicini, prese della luce, niente febbre, niente trauma, cannabis ferma da mesi) li dice SOLO Marco, spaventato, non come un referto. Se il medico smentisce in modo duro («non c'è nessuno»), [urla] e ti alzi. Se il medico non dà ragione al delirio e non lo prende in giro, e dice che in reparto si può stare al sicuro, ti siedi ma continui a guardare l'angolo. Se propongono la TAC, Marco dice «facciamola» e tu dici che è una trappola. Non nominare tu schizofrenia, SPDC, antipsicotico. Non rivelare la diagnosi.",
-  "correctSolution": "Psicosi acuta. Colloquio che non smentisce in modo frontale e non collude. ECG, poi antipsicotico atipico (olanzapina, quetiapina o risperidone). Ricovero in SPDC. Non TC cranio e non RM encefalo in assenza di deficit, febbre, trauma o cefalea a tuono. Budget 32 euro.",
-  "goldStandardPath": ["ecg", "azione-colloquio-contenitivo", "azione-antipsicotico-atipico", "azione-ricovero-spdc"],
-  "goldPathNarrative": "1) Colloquio contenitivo: non si dice che i vicini ci sono, non si dice «è tutto falso» come primo atto. 2) ECG, 15 euro, prima dell'antipsicotico: QTc normale, si può usare un atipico. 3) Antipsicotico atipico, circa 7-8 euro. 4) Ricovero in SPDC, non la dimissione a casa con il fratello e una ricetta. I passi azione- non sono esami. Budget 32 euro. TC cranio 120 euro e RM encefalo 220 euro, senza segni neurologici, sono medicina difensiva e sforano.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Enrico. Mia madre ha il QT lungo e prendo un antibiotico. Non datemi due farmaci che lo allungano. Niente pompelmo se il foglio lo dice.",
+  "correctSolution": "ECG. Non associare due farmaci che allungano il QT. Sospendere il pompelmo. Cautela su aloperidolo, droperidolo e pimozide. Se il QT e' il problema, il testo dice che aripiprazolo e paliperidone non sono risultati associati all'allungamento. Consenso.",
+  "goldStandardPath": [
+    "ecg",
+    "glicemia"
+  ],
+  "goldPathNarrative": "La circolare lega aritmie e morti cardiache improvvise all'allungamento del QT e chiede di non associare altri farmaci che lo allungano. AIFA, citata nel testo, chiede l'ECG all'inizio e cautele su aloperidolo, droperidolo e pimozide.",
   "examLatencies": {
-    "ecg": 8,
-    "azione-colloquio-contenitivo": 10,
-    "azione-antipsicotico-atipico": 5,
-    "azione-ricovero-spdc": 8,
-    "tc-cranio": 25,
-    "tc": 25,
-    "rm-encefalo": 50,
-    "rm": 50,
-    "tossicologico": 40
+    "ecg": 15,
+    "glicemia": 20,
+    "pet-tc": 180
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-voci",
-      "prompt": "Sente voci che altri non sentono, e che cosa gli dicono?",
+      "id": "q1",
+      "prompt": "C'e' familiarita' per il QT, un antibiotico o pompelmo?",
       "critical": true,
-      "expectedKeywords": ["voci", "vicini"],
-      "rationale": "L'allucinazione uditiva e il delirio di persecuzione si eliciano, non si deducono dal silenzio."
+      "expectedKeywords": [
+        "QT",
+        "antibiotico",
+        "pompelmo"
+      ],
+      "rationale": "Familiarita', antibiotici e pompelmo favoriscono l'allungamento del QT."
     },
     {
-      "id": "aq-organico",
-      "prompt": "Ha febbre, un trauma, una cefalea improvvisa o un lato del corpo debole?",
+      "id": "q2",
+      "prompt": "L'aloperidolo e' associato a un altro farmaco che allunga il QT?",
       "critical": true,
-      "expectedKeywords": ["febbre", "trauma", "debole"],
-      "rationale": "Senza red flag neurologiche la TC non precede il ricovero psichiatrico."
-    },
-    {
-      "id": "aq-sostanze",
-      "prompt": "Quando ha usato cannabis o altre sostanze l'ultima volta?",
-      "critical": true,
-      "expectedKeywords": ["cannabis", "mesi"],
-      "rationale": "L'uso fermo da mesi non trasforma l'episodio in un'intossicazione acuta."
+      "expectedKeywords": [
+        "si",
+        "aloperidolo",
+        "insieme"
+      ],
+      "rationale": "La circolare dice di controllare che l'antipsicotico non sia associato ad altri farmaci che allungano il QT."
     }
   ],
   "physicalExam": {
-    "summary": "Vigile, diffidente, risponde a uno spazio vuoto. Eloquio tangenziale, umore teso, affetto inadeguato. Nessuna rigidità nucale. Forza simmetrica, pupille isocoriche normoreagent, non febbre. Non segni traumatici al cuoio capelluto. Il fratello è la fonte affidabile sui tempi."
+    "summary": "Lucido. Nessun ECG in cartella. Beve pompelmo. In antibiotico."
   },
   "escCitations": [
     {
-      "chunkId": "psic-004-spdc",
-      "source": "Legge 180/1978 — ricovero psichiatrico",
-      "quote": "Sintesi operativa, non un estratto da un PDF assente: un episodio psicotico acuto con allucinazioni e delirio, senza red flag neurologiche, si contiene e si ricovera in SPDC. La TC cranio non è il primo atto e non sostituisce il farmaco."
+      "chunkId": "qt",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "Tra i rischi piu' gravi degli AP vi sono aritmie e morti cardiache improvvise. La causa e' associata con l'allungamento del tratto Q-T dell'ECG. Si segnala che l'incidenza sembra dose-dipendente, ed e' importante controllare anche che gli AP non siano associati ad altri farmaci che allungano il tratto Q-T."
     },
     {
-      "chunkId": "psic-004-budget",
-      "source": "Tariffe didattiche del caso PSIC — ECG 15 €, TC cranio 120 €, RM encefalo 220 €",
-      "quote": "Sintesi operativa economica: ECG e antipsicotico atipico restano dentro i 32 euro. TC cranio e RM encefalo, chieste per escludere un tumore in assenza di segni, sforano il budget."
+      "chunkId": "grp",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "Il genere femminile, antibiotici e alimenti come il succo di pompelmo (per l'azione sul citocromo CYP3A4) favoriscono l'allungamento del Q-T. Aripiprazolo e Paliperidone non sono risultati associati ad allungamento del Q-T."
+    },
+    {
+      "chunkId": "aifa",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "La determinazione AIFA del 28 febbraio 2007 stabilisce che sia effettuato un elettrocardiogramma all'inizio del trattamento, seguito da successivi controlli in base alle condizioni cliniche, specificando particolari cautele soprattutto nell'impiego di Aloperidolo, Droperidolo e Pimozide."
+    },
+    {
+      "chunkId": "ecg",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "Prima di iniziare o modificare la terapia AP si raccomanda di effettuare un ECG in particolare se vi e' anamnesi personale o familiare di allungamento Q-T."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Colloquio che non collude e non smentisce in modo frontale.",
-      "ECG prima dell'antipsicotico.",
-      "Antipsicotico atipico, non solo una benzodiazepina per rimandarlo a casa.",
-      "Ricovero in SPDC.",
-      "Nessuna TC né RM. Spesa entro 32 euro."
+      "ECG prima dell'antipsicotico se c'e' familiarita' per il QT.",
+      "Non associare farmaci che allungano il QT. Niente pompelmo.",
+      "Cautela particolare per aloperidolo, droperidolo e pimozide."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5, insieme alla Legge 180/1978: in cartella restano il contenuto del delirio, l'assenza di red flag neurologiche, l'ECG, il farmaco e la decisione di ricovero. La RM chiesta dal fratello non è il percorso.",
+      "art5Adherence": "QT, pompelmo e cautela su aloperidolo, droperidolo e pimozide sono nella circolare 4/2020, che cita la determinazione AIFA.",
       "legalCriteria": [
-        "Ricovero in SPDC, volontario se accetta, con il rifiuto documentato se non accetta.",
-        "Nessuna dimissione notturna con psicosi florida in corso.",
-        "ECG archiviato prima dell'antipsicotico."
+        "ECG prima dell'antipsicotico se c'e' familiarita' per il QT.",
+        "Non associare farmaci che allungano il QT. Niente pompelmo.",
+        "Cautela particolare per aloperidolo, droperidolo e pimozide."
       ]
     }
   },
   "mandatoryExams": [
     {
       "examId": "ecg",
-      "name": "ECG prima dell'antipsicotico",
-      "finding": "Ritmo sinusale a 94 bpm. QTc 408 ms. Nessuna controindicazione elettrocardiografica a un antipsicotico atipico. Costo 15 euro.",
+      "name": "Elettrocardiogramma",
+      "finding": "89.52 ELETTROCARDIOGRAMMA, tariffa 12,50 euro. La circolare lo raccomanda prima di iniziare o modificare un antipsicotico se il foglietto, l'obiettivita' o l'anamnesi di QT lo chiedono. AIFA: cautela particolare per aloperidolo, droperidolo e pimozide.",
       "isAbnormal": false,
-      "priceEuro": 15
+      "priceEuro": 12.5
     },
     {
-      "examId": "azione-colloquio-contenitivo",
-      "name": "Colloquio contenitivo",
-      "finding": "Il medico non conferma i vicini e non umilia il paziente. Andrea resta in stanza. Senza questo passaggio il farmaco arriva su una persona che si sente aggredita.",
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
       "isAbnormal": false,
-      "priceEuro": 0
-    },
-    {
-      "examId": "azione-antipsicotico-atipico",
-      "name": "Antipsicotico atipico",
-      "finding": "Olanzapina, quetiapina o risperidone. Non l'aloperidolo come prima scelta di questo caso, e non la sola benzodiazepina per dimetterlo.",
-      "isAbnormal": false,
-      "priceEuro": 0
-    },
-    {
-      "examId": "azione-ricovero-spdc",
-      "name": "Ricovero in SPDC",
-      "finding": "Ricovero in SPDC. La dimissione a domicilio con il fratello lascia una psicosi florida senza sorveglianza.",
-      "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 2.0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc-cranio",
-      "name": "TC Cranio senza mezzo di contrasto",
-      "finding": "TC cranio senza mezzo di contrasto: non emorragia, non massa, sistema ventricolare nei limiti. Referto normale. Costo 120 euro. Non c'erano deficit, febbre o trauma.",
+      "examId": "pet-tc",
+      "name": "PET-TC globale corporea",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "priceEuro": 1071.7,
       "inappropriate": true,
-      "componentExamIds": ["tc"],
-      "wasteRationale": "Psicosi acuta senza red flag neurologiche: la TC cranio a 120 euro sfora i 32 euro e ritarda il ricovero."
-    },
-    {
-      "examId": "tc",
-      "name": "TC encefalo generica",
-      "finding": "TC encefalo negativa. 120 euro.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "wasteRationale": "Stessa TC, stesso sforamento."
-    },
-    {
-      "examId": "rm-encefalo",
-      "name": "RM Encefalo",
-      "finding": "RM encefalo negativa, anche in diffusione. Costo 220 euro. Non cambia la decisione di ricoverare e trattare.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "componentExamIds": ["rm"],
-      "wasteRationale": "RM encefalo a 220 euro per escludere un tumore che l'esame clinico non suggerisce."
-    },
-    {
-      "examId": "rm",
-      "name": "RM encefalo generica",
-      "finding": "RM encefalo negativa. 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Voce generica di RM, fuori budget."
+      "wasteRationale": "La PET non e' il passo diagnostico o terapeutico scritto per questo quadro."
     }
   ],
   "baselineExamFindings": {
-    "context": "Pronto soccorso. Delirio di persecuzione, risponde al vuoto.",
     "vitals": {
-      "heartRate": 96,
-      "bloodPressure": "130/82",
+      "heartRate": 88,
+      "bloodPressure": "128/78",
       "spo2": 98,
-      "temperature": 36.8,
-      "respiratoryRate": 18
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 32,
-    "demographics": { "age": 27, "sex": "M", "name": "Andrea Vitale" },
-    "clinicalSigns": [
-      {
-        "signName": "Allucinazioni uditive in atto",
-        "result": "Risponde a voce verso un angolo vuoto. Il contenuto, se non lo si interrompe male, è persecutorio.",
-        "isPositive": true
-      },
-      {
-        "signName": "Rigidità nucale",
-        "result": "Assente. Non è una meningite clinica.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Allucinazioni uditive in atto",
-        "result": "Presenti. Parla con persone che non sono nella stanza.",
-        "isPositive": true
-      }
-    ],
+    "clinicalSigns": {},
+    "semeiotics": {},
     "advancedExams": {
       "values": {
         "ecg": {
-          "finding": "Sinusale a 94 bpm, QTc 408 ms. Si può prescrivere un atipico. Costo 15 euro.",
-          "normalFinding": "Sinusale, QTc 408 ms.",
+          "finding": "89.52 ELETTROCARDIOGRAMMA, tariffa 12,50 euro. La circolare lo raccomanda prima di iniziare o modificare un antipsicotico se il foglietto, l'obiettivita' o l'anamnesi di QT lo chiedono. AIFA: cautela particolare per aloperidolo, droperidolo e pimozide.",
+          "normalFinding": "89.52 ELETTROCARDIOGRAMMA, tariffa 12,50 euro. La circolare lo raccomanda prima di iniziare o modificare un antipsicotico se il foglietto, l'obiettivita' o l'anamnesi di QT lo chiedono. AIFA: cautela particolare per aloperidolo, droperidolo e pimozide.",
           "isAbnormal": false,
-          "price": 15
+          "price": 12.5
         },
-        "tc-cranio": {
-          "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro. Non indicata.",
-          "normalFinding": "Nessuna lesione acuta.",
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
           "isAbnormal": false,
-          "price": 120
+          "price": 2.0
         },
-        "tc": {
-          "finding": "TC encefalo negativa. 120 euro.",
-          "normalFinding": "Nei limiti.",
+        "pet-tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
           "isAbnormal": false,
-          "price": 120
-        },
-        "rm-encefalo": {
-          "finding": "RM encefalo negativa. 220 euro.",
-          "normalFinding": "Segnale nei limiti.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "rm": {
-          "finding": "RM encefalo negativa. 220 euro.",
-          "normalFinding": "Nei limiti.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "tossicologico": {
-          "finding": "Screening tossicologico negativo per cocaina, amfetamine, oppiacei, cannabinoidi. Costo 40 euro: da solo supera i 32 euro e non è il primo esame, l'uso è fermo da mesi.",
-          "normalFinding": "Negativo.",
-          "isAbnormal": false,
-          "price": 40
-        },
-        "tox-screen": {
-          "finding": "Stesso screening, negativo. 40 euro, sopra il budget di questo caso puro.",
-          "normalFinding": "Negativo.",
-          "isAbnormal": false,
-          "price": 40
+          "price": 1071.7
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Antipsicotico atipico",
-          "anyOf": [
-            { "id": "olanzapina", "label": "Olanzapina", "aliases": ["olanzapina", "zyprexa"], "priceEuro": 8.4 },
-            { "id": "quetiapina", "label": "Quetiapina", "aliases": ["quetiapina", "seroquel"], "priceEuro": 7.2 },
-            { "id": "risperidone", "label": "Risperidone", "aliases": ["risperidone", "risperdal"], "priceEuro": 6.8 }
-          ]
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "DEFENSIVE",
-    "adherence": "NON_COMPLIANT",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Risponde al vuoto, sguardo fisso, delirio di persecuzione. Il fratello riferisce i tempi. Si agita se lo si sbugiarda, si siede se non lo si prende in giro e gli si offre un posto sicuro."
-  }
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Enrico. Il cuore di famiglia va scritto. Non due farmaci sul QT e non il pompelmo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Fattori del QT",
+      "prompt": "Madre con QT lungo, antibiotico segnalato, pompelmo quotidiano.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Li riconosca come fattori che favoriscono l'allungamento",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Li ignori",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Fattori ignorati",
+      "prompt": "Il genere femminile, antibiotici e alimenti come il succo di pompelmo favoriscono l'allungamento del Q-T. L'ECG e' raccomandato se vi e' anamnesi personale o familiare di allungamento Q-T.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG prima",
+      "prompt": "Nessun tracciato. Stanno per iniziare l'antipsicotico.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Faccia l'ECG 89.52 prima",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Inizi senza ECG",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "ECG saltato",
+      "prompt": "Sia effettuato un elettrocardiogramma all'inizio del trattamento, seguito da successivi controlli in base alle condizioni cliniche.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non due farmaci sul QT",
+      "prompt": "Aloperidolo piu' l'antibiotico che allunga il QT.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non li associ. Controlli che l'antipsicotico non stia con un altro farmaco che allunga il QT",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Li dia insieme",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Associazione sul QT",
+      "prompt": "E' importante controllare anche che gli AP non siano associati ad altri farmaci che allungano il tratto Q-T.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cautela su aloperidolo",
+      "prompt": "Scelgono aloperidolo proprio perche' 'e' il classico'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Usi la cautela scritta per aloperidolo, droperidolo e pimozide. Aripiprazolo e paliperidone non sono risultati associati all'allungamento",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Aloperidolo senza quella cautela",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Cautela persa",
+      "prompt": "Particolari cautele soprattutto nell'impiego di Aloperidolo, Droperidolo e Pimozide. Aripiprazolo e Paliperidone non sono risultati associati ad allungamento del Q-T.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente pompelmo",
+      "prompt": "Vuole continuare il succo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Glielo faccia sospendere: il testo lo mette tra i fattori",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Glielo lasci",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Pompelmo lasciato",
+      "prompt": "Antibiotici e alimenti come il succo di pompelmo (per l'azione sul citocromo CYP3A4) favoriscono l'allungamento del Q-T.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente PET",
+      "prompt": "Chiedono la PET per il QT.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la faccia: il passo e' l'ECG",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "PET-TC",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+      "cost": 1071.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Non sa del rischio di aritmia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Glielo spieghi, con alternative",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non glielo dica",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Rischio taciuto",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controlli dopo",
+      "prompt": "ECG fatto, QTc al limite. Vogliono non ripeterlo mai.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Programmi controlli in base alle condizioni cliniche, come scrive il richiamo AIFA",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Mai piu' un ECG",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Follow-up ECG assente",
+      "prompt": "Elettrocardiogramma all'inizio del trattamento, seguito da successivi controlli in base alle condizioni cliniche.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

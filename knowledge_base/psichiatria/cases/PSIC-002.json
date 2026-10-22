@@ -1,268 +1,448 @@
 {
   "id": "PSIC-002",
   "code": "PSIC-002",
-  "title": "Depressione maggiore lieve",
-  "description": "Giulia Ferrante, 41 anni, insegnante, viene in ambulatorio perché da sei settimane non le importa più di niente. Dorme male, si sveglia alle quattro, ha lasciato la corriera del mattino due volte. Non ha un piano suicidario e lo dice senza enfasi, se glielo si chiede. Il percorso è un emocromo, il TSH per non chiamare depressione un ipotiroidismo, poi un SSRI e l'invio a psicoterapia. La trappola clinica è la benzodiazepina come unica terapia, da rinnovare. Il budget è 42 euro: emocromo 4,80 € e TSH 22 € ci stanno insieme a un SSRI da circa 6 €. La TC cranio a 120 € e la RM encefalo a 220 € no.",
-  "difficulty": "EASY",
+  "title": "Schizofrenia: non alzare la dose prima di due settimane",
+  "description": "Uomo di 41 anni, antipsicotico iniziato da cinque giorni, ancora sintomatico. Vogliono raddoppiare oltre il range del produttore.",
+  "difficulty": "HARD",
   "specialty": "psichiatria",
   "specialtyLabel": "Psichiatria",
-  "condition": "Episodio depressivo maggiore lieve, senza piano suicidario",
+  "condition": "Schizofrenia gia' in antipsicotico da pochi giorni, proposta di aumento precoce e sopra range",
   "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
+  "matrixDifficulty": "ADVANCED",
   "setting": "AMBULATORIO",
-  "guidelineRef": "Legge 24/2017 art. 5 — SSRI e psicoterapia, non sedazione cronica",
-  "diagnosis": "Episodio depressivo maggiore lieve, senza ideazione suicidaria strutturata. TSH e emocromo nei limiti. Indicati SSRI e psicoterapia. La benzodiazepina da sola, protratta, non è la cura.",
-  "pastMedicalHistory": "Nessun ricovero psichiatrico. Nessun tentativo di suicidio. Ipotiroidismo mai diagnosticato. Ciclo regolare, non in gravidanza. Non beve in modo quotidiano. Separazione coniugale tre mesi fa. Vive con la figlia di dodici anni, che la mattina la chiama per alzarsi. Non assume farmaci. Allergie: nessuna. Non ha calo di peso superiore a due chili, non ha lesioni, non ha allucinazioni.",
-  "presentation": "Seduta, cappotto ancora addosso, risponde dopo una pausa. Voce bassa. Se le si chiede solo se è stressata, dice di sì e si ferma. Se si chiedono sonno, piacere, energia, colpa e idee di morte, racconta sei settimane di insonnia terminale, anedonia e nessun piano. Parametri: PA 118/74 mmHg, FC 72, SpO2 98%, FR 14, temperatura 36,5 °C. Non chiede esami. Se le propongono una risonanza «per sicurezza» alza le spalle: «Fate voi».",
+  "guidelineRef": "Circolare ER 4/2020; nomenclatore; L.219/2017",
+  "diagnosis": "Schizofrenia in corso di titolazione. La circolare non sostiene dosi sopra o sotto il range del produttore e di solito chiede almeno due settimane tra una variazione e l'altra. Non ci sono evidenze per le alte dosi.",
+  "pastMedicalHistory": "Schizofrenia nota. Antipsicotico in monoterapia da cinque giorni, dose nel range. Nessuna urgenza vitale. Ipertensione.",
+  "presentation": "Ancora voci, ma dorme e mangia. Il collega vuole raddoppiare oggi e superare il range 'perche' non ha risposto in cinque giorni'. Chiede anche una TC cranio.",
   "redHerrings": [
-    "La separazione fa sembrare il quadro un lutto normale, ma l'anedonia e l'insonnia durano da sei settimane e occupano tutta la giornata.",
-    "Una benzodiazepina la farebbe dormire stanotte e nasconderebbe la depressione.",
-    "Il medico difensivo prenota la RM encefalo «per escludere qualcosa di organico» senza un segno neurologico.",
-    "Non c'è un piano suicidario: trattarla come un TSO è un errore simmetrico al minimizzare."
+    "Cinque giorni scambiati per fallimento.",
+    "Dose sopra il range del produttore."
   ],
-  "timeLimitMinutes": 45,
-  "patientDeteriorationThreshold": 40,
-  "patientPrompt": "ROLEPLAY RIGIDO. Sei Giulia Ferrante, 41 anni, ambulatorio. Registro: APATIA. Pause lunghe, frasi corte, voce spenta. Didascalia: [guarda il pavimento], [tace]. Alla «Come sta?»: «Non lo so. Dormo male.» [guarda il pavimento] Non regalare anedonia, sveglia alle quattro e idee di morte se non te le chiedono. Se ti chiedono sonno, piacere, fame, energia, colpa, e se hai pensato di morire o hai un piano: da sei settimane ti svegli alle quattro, non ti importa della scuola, mangi poco, non hai un piano, non hai salutato nessuno, non hai messo da parte farmaci. Tua figlia ti tira giù dal letto. Se ti prescrivono solo una benzodiazepina da prendere ogni sera per mesi, dici «così almeno dormo» e non chiedi altro. Se ti prescrivono un antidepressivo SSRI e ti parlano di uno psicoterapeuta, annuisci piano: «Va bene. Ci provo.» Se propongono TAC o risonanza: «Se dice lei.» Non nominare tu depressione maggiore, SSRI o TSH. Non rivelare la diagnosi. Non urlare: oggi non hai la forza.",
-  "correctSolution": "Depressione maggiore lieve, senza piano suicidario. Emocromo e TSH per lo screening organico minimo, poi SSRI (sertralina o escitalopram) e invio a psicoterapia. Non benzodiazepina come unica cura protratta. Non TC cranio. Non RM encefalo. Budget 42 euro.",
-  "goldStandardPath": ["emocromo", "tiroide", "azione-ssri", "azione-psicoterapia"],
-  "goldPathNarrative": "1) Emocromo, 4,80 euro: nessuna anemia che spieghi l'astenia. 2) TSH, 22 euro: esclude l'ipotiroidismo che imita la depressione. Insieme fanno 26,80 euro. 3) SSRI, sertralina o escitalopram, circa 6 euro. 4) Invio a psicoterapia, costo zero sul nomenclatore esami. I passi azione- non sono esami. Budget 42 euro: il percorso ci sta. Una benzodiazepina come unico farmaco, da rinnovare, è la trappola clinica: seda il sonno e non cura l'episodio. TC cranio 120 euro e RM encefalo 220 euro superano il budget e non hanno un bersaglio neurologico.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Paolo. Ho iniziato da cinque giorni. Non raddoppiate oggi e non superate il foglio del produttore. Spiegatemi l'attesa.",
+  "correctSolution": "Attendere di solito almeno due settimane. Restare nel range del produttore. Non salire per un presunto effetto soffitto. ECG se si modifica e c'e' ipertensione. Niente TC. Informazione e consenso.",
+  "goldStandardPath": [
+    "ecg",
+    "glicemia"
+  ],
+  "goldPathNarrative": "La circolare chiede almeno due settimane tra le variazioni e non sostiene dosi fuori dal range del produttore. Le linee guida citate non trovano evidenze per le alte dosi.",
   "examLatencies": {
-    "emocromo": 8,
-    "tiroide": 15,
-    "azione-ssri": 3,
-    "azione-psicoterapia": 4,
-    "ecg": 8,
-    "tc-cranio": 30,
-    "tc": 30,
-    "rm-encefalo": 50,
-    "rm": 50
+    "ecg": 15,
+    "glicemia": 20,
+    "tc": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-nucleo",
-      "prompt": "Da quanto tempo non prova piacere, e come dorme nella seconda parte della notte?",
+      "id": "q1",
+      "prompt": "Da quanti giorni e' in corso questa dose e c'e' urgenza clinica?",
       "critical": true,
-      "expectedKeywords": ["piacere", "settimane", "notte"],
-      "rationale": "Anedonia e insonnia terminale distinguono l'episodio depressivo dallo stress di una giornata."
+      "expectedKeywords": [
+        "cinque",
+        "giorni",
+        "no"
+      ],
+      "rationale": "Di solito si attendono almeno due settimane tra una variazione e l'altra."
     },
     {
-      "id": "aq-suicidio",
-      "prompt": "Ha pensato di morire, ha un piano, ha messo da parte dei farmaci?",
+      "id": "q2",
+      "prompt": "La dose proposta sta nel range del produttore?",
       "critical": true,
-      "expectedKeywords": ["morire", "piano", "farmaci"],
-      "rationale": "Qui il piano non c'è. Non chiederlo lascia aperto un rischio che in questo caso è assente, e va scritto."
-    },
-    {
-      "id": "aq-organico",
-      "prompt": "Ha freddo, stitichezza, calo di peso rapido o una tiroide già nota?",
-      "critical": false,
-      "expectedKeywords": ["tiroide", "peso"],
-      "rationale": "L'ipotiroidismo si esclude con il TSH, non con la risonanza."
+      "expectedKeywords": [
+        "range",
+        "sopra",
+        "no"
+      ],
+      "rationale": "La letteratura citata non sostiene dosi sopra o sotto quel range."
     }
   ],
   "physicalExam": {
-    "summary": "Ipofrastenia, eloquio rallentato, contatto di sguardo breve, igiene mantenuta. Non agitazione, non segni di autolesionismo agli avambracci. Tono dell'umore depresso, affetto congruo. Torace e addome nei limiti. Tiroide non aumentata di volume alla palpazione. Nessun deficit neurologico."
+    "summary": "Collaborante, ancora allucinazioni, non agitazione. Pressione 146/90."
   },
   "escCitations": [
     {
-      "chunkId": "psic-002-ssri",
-      "source": "Legge 24/2017 art. 5 — cura dell'episodio depressivo lieve",
-      "quote": "Sintesi operativa, non un estratto da un PDF assente: nell'episodio depressivo lieve senza piano suicidario la cura è un SSRI più la psicoterapia. Una benzodiazepina notturna protratta non sostituisce nessuna delle due."
+      "chunkId": "w",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "Si dovrebbe iniziare il trattamento AP con il dosaggio piu' basso possibile e modularlo in modo cauto, lasciando abbastanza tempo tra ogni variazione per osservare una risposta. Di solito si raccomandano almeno due settimane."
     },
     {
-      "chunkId": "psic-002-budget",
-      "source": "Tariffe didattiche del caso PSIC — emocromo 4,80 €, TSH 22 €, TC cranio 120 €",
-      "quote": "Sintesi operativa economica: emocromo e TSH restano dentro i 42 euro, insieme a un SSRI. La TC cranio a 120 euro e la RM encefalo a 220 euro sono medicina difensiva e fanno scattare la penalità."
+      "chunkId": "r",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "La letteratura disponibile non sostiene l'uso di dosi al di sopra o a disotto del range consigliato dalle case produttrici. Una recente revisione sistematica di RCT non evidenzia vantaggi terapeutici con incrementi del dosaggio in confronto alla continuazione del dosaggio standard in monoterapia."
+    },
+    {
+      "chunkId": "h",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "Le linee guida NICE, SIGN, canadesi e neozelandesi-australiane unanimemente segnalano la mancanza di evidenze a favore di alte dosi di AP."
+    },
+    {
+      "chunkId": "ecg",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "Prima di iniziare o modificare la terapia AP a seconda del farmaco scelto e della situazione clinica, si raccomanda di effettuare un ECG in particolare se l'esame obiettivo ha evidenziato specifici fattori di rischio cardiovascolare (es., ipertensione)."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Richiesta esplicita sul piano suicidario, che qui è assente.",
-      "Emocromo e TSH prima di chiudere come «solo stress».",
-      "SSRI avviato e psicoterapia proposta.",
-      "Nessuna benzodiazepina come unica terapia di fondo.",
-      "Nessuna TC né RM. Spesa entro 42 euro."
+      "Almeno due settimane tra le variazioni, salvo l'urgenza che il testo lega al quadro.",
+      "Niente dose sopra il range del produttore e niente alte dosi senza evidenza.",
+      "ECG se si modifica la terapia e c'e' ipertensione. Niente TC cranio."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano la durata dei sintomi, l'assenza di un piano suicidario, TSH ed emocromo, il principio attivo dell'SSRI e l'invio psicoterapico. La RM non documenta aderenza.",
+      "art5Adherence": "Titolazione secondo la circolare 4/2020. La TC segue il nomenclatore. L'informazione segue la legge 219.",
       "legalCriteria": [
-        "Valutazione del rischio suicidario scritta, con esito negativo per un piano.",
-        "Non un TSO: la paziente è capace e non è in pericolo immediato.",
-        "Consenso all'SSRI con i tempi di latenza detti in modo comprensibile."
+        "Almeno due settimane tra le variazioni, salvo l'urgenza che il testo lega al quadro.",
+        "Niente dose sopra il range del produttore e niente alte dosi senza evidenza.",
+        "ECG se si modifica la terapia e c'e' ipertensione. Niente TC cranio."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "emocromo",
-      "name": "Emocromo",
-      "finding": "Hb 13,1 g/dL, leucociti 6.200, piastrine 240.000. Nessuna anemia che spieghi l'astenia. Costo 4,80 euro.",
+      "examId": "ecg",
+      "name": "Elettrocardiogramma",
+      "finding": "89.52 ELETTROCARDIOGRAMMA, tariffa 12,50 euro. La circolare lo raccomanda prima di iniziare o modificare un antipsicotico se il foglietto, l'obiettivita' o l'anamnesi di QT lo chiedono. AIFA: cautela particolare per aloperidolo, droperidolo e pimozide.",
       "isAbnormal": false,
-      "priceEuro": 4.8
+      "priceEuro": 12.5
     },
     {
-      "examId": "tiroide",
-      "name": "TSH, FT3, FT4",
-      "finding": "TSH 2,1 µUI/mL, FT4 nella norma. Non è un ipotiroidismo. Costo 22 euro. Insieme all'emocromo resta sotto i 42 euro del budget.",
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
       "isAbnormal": false,
-      "priceEuro": 22
-    },
-    {
-      "examId": "azione-ssri",
-      "name": "Prescrizione di un SSRI",
-      "finding": "Sertralina o escitalopram, con la latenza di due-quattro settimane detta a voce. Non è una benzodiazepina.",
-      "isAbnormal": false,
-      "priceEuro": 0
-    },
-    {
-      "examId": "azione-psicoterapia",
-      "name": "Invio a psicoterapia",
-      "finding": "Invio scritto a psicoterapia. Non sostituisce l'SSRI e non è un esame radiologico.",
-      "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 2.0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc-cranio",
-      "name": "TC Cranio senza mezzo di contrasto",
-      "finding": "TC cranio senza mezzo di contrasto negativa. Costo 120 euro. Nessun deficit da indagare. Supera i 42 euro.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "componentExamIds": ["tc"],
-      "wasteRationale": "Depressione lieve senza segni neurologici: la TC cranio a 120 euro sfora il budget di 42 euro."
-    },
-    {
       "examId": "tc",
-      "name": "TC encefalo generica",
-      "finding": "TC encefalo negativa. Costo 120 euro, sopra il budget.",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "priceEuro": 86.1,
       "inappropriate": true,
-      "wasteRationale": "Stesso costo della TC cranio. Medicina difensiva."
-    },
-    {
-      "examId": "rm-encefalo",
-      "name": "RM Encefalo",
-      "finding": "RM encefalo negativa. Costo 220 euro. Non cambia la prescrizione dell'SSRI.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "componentExamIds": ["rm"],
-      "wasteRationale": "RM encefalo a 220 euro: sforamento ampio su un caso che richiede TSH, emocromo e un SSRI."
-    },
-    {
-      "examId": "rm",
-      "name": "RM encefalo generica",
-      "finding": "RM negativa. Costo 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Voce generica di RM a 220 euro, fuori budget."
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
     }
   ],
   "baselineExamFindings": {
-    "context": "Ambulatorio. Apatia e insonnia, nessun piano suicidario.",
     "vitals": {
-      "heartRate": 72,
-      "bloodPressure": "118/74",
+      "heartRate": 88,
+      "bloodPressure": "146/90",
       "spo2": 98,
-      "temperature": 36.5,
-      "respiratoryRate": 14
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 42,
-    "demographics": { "age": 41, "sex": "F", "name": "Giulia Ferrante" },
-    "clinicalSigns": [
-      {
-        "signName": "Ideazione suicidaria strutturata",
-        "result": "Nega un piano, nega di avere messo da parte farmaci, nega un saluto ai familiari. Il rischio acuto non è alto.",
-        "isPositive": false
-      },
-      {
-        "signName": "Gozzo",
-        "result": "Tiroide non palpabile come massa. Il TSH resta indicato lo stesso.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Ideazione suicidaria strutturata",
-        "result": "Assente se viene chiesta. Non va dato per scontato dal silenzio.",
-        "isPositive": false
-      }
-    ],
+    "clinicalSigns": {},
+    "semeiotics": {},
     "advancedExams": {
       "values": {
-        "emocromo": {
-          "finding": "Hb 13,1 g/dL. Leucociti e piastrine nei limiti. Costo 4,80 euro.",
-          "normalFinding": "Hb 13,1 g/dL, formula nei limiti.",
-          "isAbnormal": false,
-          "price": 4.8
-        },
-        "tiroide": {
-          "finding": "TSH 2,1 µUI/mL, FT4 nei limiti. Non è ipotiroidismo. Costo 22 euro.",
-          "normalFinding": "TSH 2,1. FT4 nei limiti.",
-          "isAbnormal": false,
-          "price": 22
-        },
         "ecg": {
-          "finding": "Ritmo sinusale a 70 bpm, QTc 410 ms. Non richiesto dal percorso. Costo 15 euro: con TSH ed emocromo si va oltre i 42 euro.",
-          "normalFinding": "Sinusale, QTc normale.",
+          "finding": "89.52 ELETTROCARDIOGRAMMA, tariffa 12,50 euro. La circolare lo raccomanda prima di iniziare o modificare un antipsicotico se il foglietto, l'obiettivita' o l'anamnesi di QT lo chiedono. AIFA: cautela particolare per aloperidolo, droperidolo e pimozide.",
+          "normalFinding": "89.52 ELETTROCARDIOGRAMMA, tariffa 12,50 euro. La circolare lo raccomanda prima di iniziare o modificare un antipsicotico se il foglietto, l'obiettivita' o l'anamnesi di QT lo chiedono. AIFA: cautela particolare per aloperidolo, droperidolo e pimozide.",
           "isAbnormal": false,
-          "price": 15
+          "price": 12.5
         },
-        "tc-cranio": {
-          "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro. Fuori budget.",
-          "normalFinding": "Nessuna lesione acuta.",
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
           "isAbnormal": false,
-          "price": 120
+          "price": 2.0
         },
         "tc": {
-          "finding": "TC encefalo negativa. 120 euro.",
-          "normalFinding": "Nei limiti.",
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
           "isAbnormal": false,
-          "price": 120
-        },
-        "rm-encefalo": {
-          "finding": "RM encefalo negativa. 220 euro.",
-          "normalFinding": "Segnale nei limiti.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "rm": {
-          "finding": "RM encefalo negativa. 220 euro.",
-          "normalFinding": "Nei limiti.",
-          "isAbnormal": false,
-          "price": 220
+          "price": 86.1
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "SSRI",
-          "anyOf": [
-            { "id": "sertralina", "label": "Sertralina", "aliases": ["sertralina", "zoloft"], "priceEuro": 6.2 },
-            { "id": "escitalopram", "label": "Escitalopram", "aliases": ["escitalopram", "cipralex"], "priceEuro": 5.8 }
-          ]
-        }
-      ],
-      "inappropriate": [
-        {
-          "id": "benzo-lungo-termine",
-          "label": "Benzodiazepina come unica terapia protratta",
-          "aliases": ["lorazepam", "tavor", "diazepam", "valium", "alprazolam", "xanax", "delorazepam"],
-          "priceEuro": 4.5
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "PASSIVE",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
     "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Apatica, pause, non offre il quadro. Se le danno solo una benzodiazepina per dormire, accetta e il caso sembra chiuso. L'SSRI e la psicoterapia li accetta senza entusiasmo, non li chiede."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Paolo. Datemi il tempo scritto nel foglio. Non una dose piu' alta del produttore."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Tempo dall'ultima variazione",
+      "prompt": "Cinque giorni di dose stabile, niente urgenza vitale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non la aumenti oggi: di solito si attendono almeno due settimane",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La raddoppi oggi",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Aumento precoce",
+      "prompt": "Di solito si raccomandano almeno due settimane. La durata del periodo di osservazione varia in funzione dell'urgenza clinica, delle preferenze e delle caratteristiche del paziente.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Range del produttore",
+      "prompt": "La dose proposta supera il range scritto dalla casa produttrice.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Resti nel range. La circolare non sostiene dosi al di sopra o al di sotto",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Superi il range",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Fuori range",
+      "prompt": "La letteratura disponibile non sostiene l'uso di dosi al di sopra o a disotto del range consigliato dalle case produttrici.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente alte dosi",
+      "prompt": "Dicono che piu' milligrammi occupano meglio i recettori.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non salga: le linee guida citate non trovano evidenze per le alte dosi, e la revisione non mostra vantaggi dell'incremento sul dosaggio standard",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Alta dose lo stesso",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Alta dose",
+      "prompt": "Le linee guida NICE, SIGN, canadesi e neozelandesi-australiane unanimemente segnalano la mancanza di evidenze a favore di alte dosi di AP.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Se si modifica, ECG",
+      "prompt": "Ipertensione. Qualcuno modifica lo stesso senza ECG.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Se modifica, faccia prima l'ECG perche' c'e' ipertensione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Modifichi senza ECG",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "ECG saltato",
+      "prompt": "Prima di iniziare o modificare la terapia AP si raccomanda di effettuare un ECG in particolare se l'esame obiettivo ha evidenziato specifici fattori di rischio cardiovascolare (es., ipertensione).",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC",
+      "prompt": "Prenotano la TC cranio 87.03 a 86,10 euro per 'vedere le voci'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non la faccia",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "TC cranio",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione sull'attesa",
+      "prompt": "Non capisce perche' non si sale subito.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Gli spieghi tempi, benefici, rischi e alternative",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Non gli dica nulla",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione mancata",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Preferenza",
+      "prompt": "Preferisce restare su questa dose altre due settimane.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Ne tenga conto",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Ignori la preferenza",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Preferenza ignorata",
+      "prompt": "Si dovrebbe chiedere e tenere in conto per la decisione della preferenza degli utenti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso",
+      "prompt": "Accetta di aspettare. Il fratello vuole l'aumento oggi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Segua lui, non il fratello",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Aumenti perche' lo chiede il fratello",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Consenso del fratello",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

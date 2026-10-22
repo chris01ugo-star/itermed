@@ -1,254 +1,438 @@
 {
   "id": "PSIC-009",
   "code": "PSIC-009",
-  "title": "Anoressia nervosa grave",
-  "description": "Martina Serra, 24 anni, è accompagnata dalla madre in pronto soccorso perché è svenuta alzandosi dal letto. Indice di massa corporea intorno a 13, bradicardia, maglioni uno sull'altro nonostante la stanza calda. Dice che mangia abbastanza e che la madre esagera. Il percorso è salva-vita: elettroliti, ECG, glicemia, emocromo, creatinina, enzimi epatici, potassio se è basso, ricovero. Non è una discussione sulle calorie. Budget 55 euro, abbastanza per il pannello e non per una TC cranio a 120 euro.",
-  "difficulty": "MEDIUM",
+  "title": "Delirium: contenzione solo se il danno e' imminente",
+  "description": "Uomo di 76 anni, delirium ipoattivo, legato al letto 'perche' cosi' fan tutti'. Non c'e' danno imminente.",
+  "difficulty": "HARD",
   "specialty": "psichiatria",
   "specialtyLabel": "Psichiatria",
-  "condition": "Anoressia nervosa con instabilità medica, BMI circa 13",
+  "condition": "Delirium senza danno imminente, contenzione proposta di routine",
   "frequencyCategory": "MEDIUM",
-  "matrixDifficulty": "INTERMEDIATE",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "Legge 24/2017 art. 5 — ricovero per instabilità medica nell'anoressia",
-  "diagnosis": "Anoressia nervosa grave con bradicardia e ipokaliemia. Indicati esami urgenti, correzione del potassio e ricovero. La negazione del problema non autorizza la dimissione.",
-  "pastMedicalHistory": "Restrittiva da almeno un anno, cicli spariti da cinque mesi, peso non dichiarato. Nega lassativi e vomito; la madre ha trovato lassativi nel cassetto. Nessun ricovero. Non è incinta, lo nega e il test non è il centro del caso. Non ha psicosi. Allergie: nessuna. Ultimo pasto «un tè», ieri sera. Non ha un dolore toracico ischemico: ha avuto un capogiro alzandosi.",
-  "presentation": "Maglioni sovrapposti, mani fredde, lanugo sulle braccia se si scopre. Nega. FC 42, PA 88/58, SpO2 98%, FR 12, temperatura 35,8 °C. Si alza e ha un nuovo capogiro. La madre piange e dice il peso approssimativo: 38 kg per 170 cm. Martina dice che la bilancia di casa è rotta.",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "APA delirium, affermazione 5",
+  "diagnosis": "La contenzione fisica non si usa nel delirium salvo danno imminente a se' o ad altri, e solo dopo aver considerato i bias, con monitoraggio frequente e rivalutazione ripetuta rispetto a interventi meno restrittivi.",
+  "pastMedicalHistory": "Delirium ipoattivo. Non si alza. Nessuna aggressivita'. Nessun dispositivo che stia strappando.",
+  "presentation": "Soporoso. L'infermiere prepara le fasce perche' 'di notte tutti i confusi si legano'. Nessun monitoraggio previsto.",
   "redHerrings": [
-    "Dice di mangiare abbastanza: è il sintomo, non la storia sociale.",
-    "La bradicardia può sembrare un cuore «da sportiva». Non si allena. È denutrizione.",
-    "Una TC cranio dopo la sincope ortostatica non precede il potassio.",
-    "Discutere le calorie in pronto soccorso ritarda il ricovero."
+    "Contenzione di routine nel confusionale.",
+    "Nessuna rivalutazione."
   ],
-  "timeLimitMinutes": 30,
-  "patientDeteriorationThreshold": 18,
-  "patientPrompt": "ROLEPLAY RIGIDO. Sei Martina Serra, 24 anni, pronto soccorso. Tua madre Elena parla se la chiamano: «Elena:». Registro: NEGAZIONE, voce sottile, infreddolita. [si stringe nei maglioni]. Alla «Come sta?»: «Sto bene. Mia madre esagera. Mangio.» Non dire tu anoressia, potassio o ricovero. Se ti chiedono peso, cicli, ultimo pasto, svenimento, lassativi, vomito: la bilancia è rotta, i cicli sono irregolari, hai preso un tè, ti sei alzata troppo in fretta, i lassativi non sono tuoi. Elena, se interpellata, dice 38 chili, 170 centimetri, maglioni anche in casa, lassativi nel cassetto, svenuta stamattina. Se ti propongono di restare, rifiuti: «Non sono malata.» Se ti parlano del cuore lento e del sale nel sangue, senza umiliarti, resti in silenzio ma non scappi. Se ti mandano a casa, ti rivesti in fretta. Non nominare BMI. Non rivelare la diagnosi.",
-  "correctSolution": "Anoressia grave, instabile. Elettroliti (ipokaliemia), ECG (bradicardia), glicemia, emocromo, rene, fegato. Correggere il potassio. Ricovero, anche se nega. Non TC cranio come primo atto. Non dimissione. Budget 55 euro. Omettere gli elettroliti è un errore salva-vita.",
-  "goldStandardPath": ["elettroliti", "ecg", "glicemia", "emocromo", "creat-urea-gfr", "enzimi-epatici", "azione-ricovero"],
-  "goldPathNarrative": "1) Elettroliti 6,50 euro: potassio basso, è il numero che può fermare il cuore. Ometterli è fatale sul piano clinico. 2) ECG 15 euro: bradicardia sinusale, QTc da leggere prima di infondere potassio in fretta e male. 3) Glicemia 2,10, emocromo 4,80, creatinina 4,50, enzimi epatici 10 euro. Somma intorno a 43 euro. 4) Potassio cloruro se il valore è basso. 5) Ricovero, non un colloquio ambulatoriale sul cibo. Il passo azione- non è un esame. Budget 55 euro. TC cranio 120 euro dopo una sincope ortostatica, senza trauma, sfora e ritarda il potassio.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Pietro. Sono stanco, non violento. Non legatemi se non c'e' un pericolo vero.",
+  "correctSolution": "Non contenere: non c'e' danno imminente. Se mai servisse, solo dopo i bias, con monitoraggio frequente e rivalutazione, per il tempo in cui il rischio resta piu' alto dell'alternativa. Glicemia e emocromo. Niente TC.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Affermazione 5 della bozza APA: niente contenzione di routine nel delirium.",
   "examLatencies": {
-    "elettroliti": 10,
-    "ecg": 5,
-    "glicemia": 5,
-    "emocromo": 10,
-    "creat-urea-gfr": 10,
-    "enzimi-epatici": 12,
-    "azione-ricovero": 8,
-    "tc-cranio": 25,
-    "tc": 25,
-    "rm-encefalo": 50
+    "glicemia": 20,
+    "emocromo": 20,
+    "tc": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-peso",
-      "prompt": "Quanto pesa, da quanto cala, e i cicli ci sono?",
+      "id": "q1",
+      "prompt": "C'e' un danno imminente a lui o ad altri?",
       "critical": true,
-      "expectedKeywords": ["peso", "cicli"],
-      "rationale": "Il BMI e l'amenorrea stanno nella bocca della madre, non in quella della paziente. Vanno chiesti."
+      "expectedKeywords": [
+        "no",
+        "ipoattivo",
+        "non si alza"
+      ],
+      "rationale": "Senza danno imminente la contenzione non e' raccomandata."
     },
     {
-      "id": "aq-condotte",
-      "prompt": "Vomita, usa lassativi, quanto ha mangiato ieri?",
+      "id": "q2",
+      "prompt": "Se si contenesse, ci sarebbero monitoraggio e rivalutazione?",
       "critical": true,
-      "expectedKeywords": ["lassativi", "mangiato"],
-      "rationale": "Le condotte di eliminazione spiegano il potassio. La paziente nega: serve la madre."
-    },
-    {
-      "id": "aq-sincope",
-      "prompt": "È svenuta da sdraiata o solo alzandosi, e ha battuto la testa?",
-      "critical": true,
-      "expectedKeywords": ["alzandosi", "testa"],
-      "rationale": "La sincope ortostatica senza trauma non apre la TC prima degli elettroliti."
+      "expectedKeywords": [
+        "monitoraggio",
+        "rivalutazione",
+        "no"
+      ],
+      "rationale": "Anche nel caso limite servono monitoraggio frequente e rivalutazione ripetuta."
     }
   ],
   "physicalExam": {
-    "summary": "Cachettica, vestita a strati, estremità fredde, lanugo, pressione 88/58, frequenza 42, temperatura 35,8 °C. Capogiro all'ortostatismo. Non segni di trauma cranico. Addome trattabile. Negazione della malattia. La madre riporta 38 kg e 170 cm."
+    "summary": "Soporoso, attentivo a tratti, non aggressivo, non cade in questo momento."
   },
   "escCitations": [
     {
-      "chunkId": "psic-009-ricovero",
-      "source": "Legge 24/2017 art. 5 — instabilità medica nell'anoressia",
-      "quote": "Sintesi operativa, non un estratto da un PDF assente: bradicardia, ipotensione, ipotermia e ipokaliemia in denutrizione impongono gli esami e il ricovero. La negazione della paziente non è un criterio di dimissione."
+      "chunkId": "s5",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "APA recommends (1C) that physical restraints not be used in patients with delirium, except in situations where injury to self or others is imminent and only after review of factors that can contribute to bias, with frequent monitoring, and with repeated reassessment of the continued risks and benefits of restraint use as compared to less restrictive interventions."
     },
     {
-      "chunkId": "psic-009-budget",
-      "source": "Tariffe didattiche del caso PSIC — elettroliti 6,50 €, ECG 15 €, TC cranio 120 €",
-      "quote": "Sintesi operativa economica: il pannello urgente sta dentro 55 euro. La TC cranio a 120 euro, senza trauma, sfora e non corregge il potassio."
+      "chunkId": "ipo",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "Under-recognition is particularly common among patients with hypoactive delirium."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Peso e condotte chiesti anche alla madre.",
-      "Elettroliti ed ECG urgenti.",
-      "Glicemia, emocromo, rene e fegato.",
-      "Potassio corretto se basso.",
-      "Ricovero disposto. Nessuna dimissione.",
-      "Nessuna TC cranio come primo atto. Spesa entro 55 euro."
+      "Niente fasce senza danno imminente.",
+      "Se il danno e' imminente: bias, monitoraggio frequente, rivalutazione.",
+      "Il delirium ipoattivo va riconosciuto, non legato per abitudine."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano i parametri, il potassio, l'ECG e la decisione di ricovero. Dimettere una bradicardia a 42 con BMI intorno a 13 non è difendibile.",
+      "art5Adherence": "Affermazione 5 della bozza APA. La contenzione non e' un protocollo notturno.",
       "legalCriteria": [
-        "Elettroliti eseguiti prima della dimissione, che non deve avvenire.",
-        "Ricovero anche contro la negazione, come cura salvavita e non come punizione.",
-        "Consenso della paziente cercato; se incapace per la gravità medica, la scelta di trattenere è scritta.",
-        "TC cranio non usata al posto del potassio."
+        "Niente fasce senza danno imminente.",
+        "Se il danno e' imminente: bias, monitoraggio frequente, rivalutazione.",
+        "Il delirium ipoattivo va riconosciuto, non legato per abitudine."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "elettroliti",
-      "name": "Elettroliti",
-      "finding": "Sodio 128 mmol/L, potassio 2,8 mmol/L, fosforo basso nel pannello, magnesio ai limiti. Ipokaliemia che può diventare un'aritmia. Costo 6,50 euro. Va corretto e non mandato a casa.",
-      "isAbnormal": true,
-      "priceEuro": 6.5,
-      "isFatal": true
-    },
-    {
-      "examId": "ecg",
-      "name": "ECG",
-      "finding": "Bradicardia sinusale a 42 bpm. QTc 480 ms, ai limiti alti, da ricontrollare dopo il potassio. Nessun sopraslivellamento. Costo 15 euro.",
-      "isAbnormal": true,
-      "priceEuro": 15
-    },
-    {
       "examId": "glicemia",
-      "name": "Glicemia",
-      "finding": "Glicemia 58 mg/dL. Ipoglicemia da digiuno. Costo 2,10 euro. Glucosio insieme alla correzione, non da solo come tutta la cura.",
-      "isAbnormal": true,
-      "priceEuro": 2.1
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
     },
     {
       "examId": "emocromo",
       "name": "Emocromo",
-      "finding": "Hb 11,2 g/dL, leucociti 3.400, piastrine 160.000. Leucopenia da denutrizione. Costo 4,80 euro.",
-      "isAbnormal": true,
-      "priceEuro": 4.8
-    },
-    {
-      "examId": "creat-urea-gfr",
-      "name": "Creatinina",
-      "finding": "Creatinina 1,3 mg/dL, disidratazione. Costo 4,50 euro. I fluidi si decidono con il potassio in mano, non alla cieca.",
-      "isAbnormal": true,
-      "priceEuro": 4.5
-    },
-    {
-      "examId": "enzimi-epatici",
-      "name": "Enzimi epatici",
-      "finding": "AST 96 U/L, ALT 88 U/L. Rialzo da denutrizione, non un'epatite acuta come diagnosi principale. Costo 10 euro.",
-      "isAbnormal": true,
-      "priceEuro": 10
-    },
-    {
-      "examId": "azione-ricovero",
-      "name": "Ricovero salva-vita",
-      "finding": "Ricovero. La paziente nega e vuole rivestirsi. I numeri non consentono l'ambulatorio.",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
       "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 4.0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc-cranio",
-      "name": "TC Cranio senza mezzo di contrasto",
-      "finding": "TC cranio senza mezzo di contrasto negativa. Non ha battuto la testa. Costo 120 euro, sopra i 55. Il potassio nel frattempo resta a 2,8 se nessuno lo ha chiesto.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "componentExamIds": ["tc"],
-      "wasteRationale": "Sincope ortostatica senza trauma: la TC cranio a 120 euro sfora il budget e non corregge l'ipokaliemia."
-    },
-    {
       "examId": "tc",
-      "name": "TC encefalo generica",
-      "finding": "TC encefalo negativa. 120 euro.",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "priceEuro": 86.1,
       "inappropriate": true,
-      "wasteRationale": "Stessa TC, stesso ritardo."
-    },
-    {
-      "examId": "rm-encefalo",
-      "name": "RM Encefalo",
-      "finding": "RM encefalo non indicata. 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "RM encefalo a 220 euro su una denutrizione instabile."
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
     }
   ],
   "baselineExamFindings": {
-    "context": "Pronto soccorso. BMI circa 13, bradicardia, nega il problema, vestita a strati.",
     "vitals": {
-      "heartRate": 42,
-      "bloodPressure": "88/58",
+      "heartRate": 88,
+      "bloodPressure": "128/78",
       "spo2": 98,
-      "temperature": 35.8,
-      "respiratoryRate": 12
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 55,
-    "demographics": { "age": 24, "sex": "F", "name": "Martina Serra" },
-    "killerRules": {
-      "fatalIfOmitted": [["ricovero", "trattengo", "non dimetto", "ospedalizzo"]]
-    },
-    "clinicalSigns": [
-      {
-        "signName": "Bradicardia",
-        "result": "42 bpm, regolare. Non è un cuore da atleta: non si allena e pesa circa 38 kg.",
-        "isPositive": true
-      },
-      {
-        "signName": "Trauma cranico",
-        "result": "Nega il colpo, cute integra. Sincope al passaggio posturale.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Ipotensione ortostatica",
-        "result": "Capogiro all'alzarsi, pressione già bassa da supina.",
-        "isPositive": true
-      }
-    ],
+    "clinicalSigns": {},
+    "semeiotics": {},
     "advancedExams": {
       "values": {
-        "elettroliti": {
-          "finding": "Na 128, K 2,8 mmol/L, fosforo basso. Costo 6,50 euro. Ipokaliemia.",
-          "normalFinding": "Na 128, K 2,8.",
-          "isAbnormal": true,
-          "price": 6.5
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
         },
-        "ecg": {
-          "finding": "Bradicardia sinusale 42 bpm, QTc 480 ms. Costo 15 euro.",
-          "normalFinding": "Sinusale a 42, QTc ai limiti.",
-          "isAbnormal": true,
-          "price": 15
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
         },
-        "glicemia": { "finding": "58 mg/dL. Costo 2,10 euro.", "normalFinding": "58 mg/dL.", "isAbnormal": true, "price": 2.1 },
-        "emocromo": { "finding": "Hb 11,2 g/dL, leucociti 3.400. Costo 4,80 euro.", "normalFinding": "Leucopenia lieve, Hb 11,2.", "isAbnormal": true, "price": 4.8 },
-        "creat-urea-gfr": { "finding": "Creatinina 1,3 mg/dL. Costo 4,50 euro.", "normalFinding": "Creatinina 1,3.", "isAbnormal": true, "price": 4.5 },
-        "enzimi-epatici": { "finding": "AST 96, ALT 88 U/L. Costo 10 euro.", "normalFinding": "AST 96, ALT 88.", "isAbnormal": true, "price": 10 },
-        "tc-cranio": { "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro.", "normalFinding": "Nessuna lesione traumatica.", "isAbnormal": false, "price": 120 },
-        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
-        "rm-encefalo": { "finding": "RM non indicata. 220 euro.", "normalFinding": "Non sostituisce il potassio.", "isAbnormal": false, "price": 220 }
-      }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Correzione del potassio",
-          "anyOf": [
-            { "id": "potassio", "label": "Potassio cloruro", "aliases": ["potassio", "kloruro"], "priceEuro": 1.8 }
-          ]
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
         }
-      ]
+      }
     }
   },
   "patientProfile": {
-    "healthLiteracy": "HIGH",
-    "emotionalState": "DEFENSIVE",
-    "adherence": "NON_COMPLIANT",
-    "lifestyleAndSocial": { "sleepQuality": "FAIR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
-    "communicationStyle": "Nega, voce sottile, coperta di maglioni. La madre ha i numeri. Rifiuta di restare. Non urla: si riveste se la lasciano andare."
-  }
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Pietro. Non mi legano per la notte. Sono solo assonnato."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Ipoattivo, non violento",
+      "prompt": "Non si alza, non strappa dispositivi, non colpisce.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non lo contenga: non c'e' danno imminente",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo leghi perche' e' confuso",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Contenzione di routine",
+      "prompt": "Physical restraints are not to be used in patients with delirium except where injury to self or others is imminent.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima il meno restrittivo",
+      "prompt": "Anche se piu' tardi si agita, partono dalle fasce.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Confronti la contenzione con interventi meno restrittivi e li provi prima",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Fasce come prima scelta",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Meno restrittivo saltato",
+      "prompt": "Repeated reassessment of the continued risks and benefits of restraint use as compared to less restrictive interventions.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se mai, monitoraggio",
+      "prompt": "Qualcuno dice: legarlo e passare tra sei ore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Se il danno diventasse imminente, monitorizzi spesso e rivaluti",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Lo lasci legato senza passare",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Monitoraggio assente",
+      "prompt": "Restraint, if used, requires frequent monitoring and repeated reassessment.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Bias",
+      "prompt": "E' straniero e di notte 'si legano prima loro'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Riveda i fattori di bias prima di qualsiasi contenzione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Lo leghi per quello",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Bias non visto",
+      "prompt": "Only after review of factors that can contribute to racial/ethnic and other biases in decisions about restraint.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC per giustificare le fasce",
+      "prompt": "TC per 'coprirsi'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non la faccia a quello scopo",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "TC cranio",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Correggere i fattori",
+      "prompt": "Glicemia e anemia non viste.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Le corregga se alterate: e' il passo sui fattori, non la fascia",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Salti gli esami e leghi",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Fattori saltati",
+      "prompt": "Correcting abnormalities in blood pressure, severe anemia, electrolytes, glucose, fluid, and acid-base status, insofar as possible.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Informazione",
+      "prompt": "Quando si risveglia chiede perche' le mani erano legate.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Glielo spieghi non appena possibile",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non gli dica nulla",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Informazione mancata",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non lasciarla 'per la notte'",
+      "prompt": "Alle 22 la confermano fino al mattino senza una nuova valutazione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "La rivaluti. Non e' un ordine che dura da solo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Fino al mattino senza rivederlo",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Durata cieca",
+      "prompt": "Repeated reassessment of the continued risks and benefits of restraint use is required.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

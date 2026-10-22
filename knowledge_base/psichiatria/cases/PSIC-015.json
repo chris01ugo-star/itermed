@@ -1,210 +1,439 @@
 {
   "id": "PSIC-015",
   "code": "PSIC-015",
-  "title": "Rifiuto di cure in paziente capace",
-  "description": "Carla Benedetti, 71 anni, è in reparto per una polmonite grave. Saturazione 91%, febbre, taquipnea. Capisce la diagnosi, capisce che può morire, e rifiuta l'antibiotico. È orientata, ragiona, non ha un delirio e non ha una depressione che le tolga la capacità. Chiede di firmare e di essere lasciata in pace. Il percorso è valutare la capacità, rispettare il rifiuto e farlo scrivere in cartella secondo la Legge 219/2017. Forzare un TSO perché rifiuta una cura medica, non psichiatrica, è un sequestro di persona sul piano del caso: il TSO non serve a vincere un dissenso lucido. Budget 40 euro. Una TC cranio a 120 euro non misura la capacità.",
+  "title": "SAD PERSONS da 7 a 10: ricovero, TSO solo se non accetta",
+  "description": "Uomo di 60 anni, piano letale, solo, depresso, alcol, tentativo: otto punti. Accetta di restare. Vogliono il TSO lo stesso.",
   "difficulty": "HARD",
   "specialty": "psichiatria",
   "specialtyLabel": "Psichiatria",
-  "condition": "Rifiuto di cure per polmonite in paziente capace di intendere e di volere",
-  "frequencyCategory": "MEDIUM",
+  "condition": "SAD PERSONS 7-10 con accettazione del ricovero volontario",
+  "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
-  "setting": "REPARTO",
-  "guidelineRef": "Legge 219/2017 — rifiuto di cure del paziente capace",
-  "diagnosis": "Polmonite grave con rifiuto di cure da paziente capace. Indicati la valutazione di capacità e il rispetto del rifiuto, scritto in cartella. Non indicato il TSO. Non indicata una diagnosi psichiatrica di comodo.",
-  "pastMedicalHistory": "BPCO nota, fumatrice fino a cinque anni fa. Questa polmonite è la seconda dell'anno. Ieri, in pronto soccorso, ha accettato l'ossigeno e ha rifiutato l'antibiotico dopo che le è stato spiegato. Nessun disturbo psichiatrico, nessun tutore, nessun amministratore di sostegno. Figlio avvisato: lui vorrebbe che la si curasse comunque. Lei lo sa e dice che il figlio non decide. Allergie: nessuna. Non è confusa sul giorno, sul luogo e sul perché è qui.",
-  "presentation": "Seduta nel letto, occhialini dell'ossigeno, parla in frasi intere. «Ho capito che è una polmonite. Ho capito che posso morire. Non voglio l'antibiotico.» Non piange e non urla. FC 108, PA 100/62, SpO2 91% con ossigeno, FR 26, temperatura 38,8 °C. Se le si propone il TSO, dice che non è matta e che la stanno punendo. Il figlio, se entra, chiede di forzarla.",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "SAD PERSONS; L.833/1978 art. 34; L.219/2017",
+  "diagnosis": "Otto punti: hospitalize or commit. In questa legge il commit non e' automatico: se accetta il ricovero manca il requisito del rifiuto. Si ricovera in volontario. Il TSO si apre solo se rifiuta e mancano misure extraospedaliere e l'urgenza psichica c'e'.",
+  "pastMedicalHistory": "Uomo, 60 anni, depressione, vedovo, isolato, alcol, tentativo pregresso, piano con metodo letale, pensiero ancora organizzato, malattia cardiaca cronica grave. Totale almeno 8. Oggi accetta di restare.",
+  "presentation": "Ha salutato il vicino e mostrato le compresse. Poi, spiegato il rischio, dice: resto io, non obbligatemi.",
   "redHerrings": [
-    "Il figlio preme per la cura coatta. Non è il titolare del consenso.",
-    "La gravità della polmonite fa sembrare il rifiuto «irrazionale» e quindi incapace. La capacità si valuta sulla comprensione, non sul fatto che la scelta piaccia.",
-    "Un TSO richiede un disturbo psichiatrico e cure psichiatriche urgenti, non un antibiotico rifiutato.",
-    "Una TC cranio «per vedere se ragiona» non è un test di capacità e costa 120 euro."
+    "TSO nonostante l'accettazione.",
+    "Dimissione con un piano letale."
   ],
-  "timeLimitMinutes": 30,
-  "patientDeteriorationThreshold": 20,
-  "patientPrompt": "ROLEPLAY RIGIDO. Sei Carla Benedetti, 71 anni, in reparto, lucida. Registro: FERMO, frasi intere, niente delirio, niente mutismo. Didascalia sobria: [ti guarda], [non alza la voce]. Alla «Come sta?»: «Ho capito la polmonite. Non voglio l'antibiotico. Fatemi firmare.» [ti guarda] VIETATO dire legge, 219, TSO, trattamento sanitario obbligatorio, rifiuto informato. Dici: sono lucida, so che posso morire, è una mia scelta, mio figlio non decide, voglio firmare e basta. Se ti trattano da confusa o da depressa, ti irriti senza urlare: «Non sono matta. Sto rifiutando.» Se rispettano la scelta e ti fanno firmare, annuisci. Se dicono che ti curano lo stesso, [non alza la voce]: «Allora mi state tenendo contro la mia volontà.» Tuo figlio, se lo fanno entrare, si chiama Marco e premette «Marco:»: lui vuole l'antibiotico. Tu non cedi. Non rivelare articoli di legge.",
-  "correctSolution": "Paziente capace che rifiuta l'antibiotico per una polmonite. Si documentano comprensione, valutazione delle conseguenze e volontarietà. Si rispetta il rifiuto e lo si fa firmare in cartella, Legge 219/2017. Non si dispone un TSO. Non si usa la psichiatria per aggirare il dissenso. L'ossigeno già accettato si continua. Budget esami 40 euro: la TC cranio non c'entra.",
-  "goldStandardPath": ["azione-valutazione-capacita", "azione-rifiuto-legge-219"],
-  "goldPathNarrative": "1) Valutazione di capacità: sa dov'è, sa che cos'è la polmonite, sa che il rifiuto può portare alla morte, la scelta è stabile e non è un delirio. 2) Rispetto del rifiuto e firma in cartella, secondo la Legge 219/2017. I due passi sono azione- e non sono esami. Non si inizia un TSO: il TSO non è lo strumento per imporre una cura non psichiatrica a chi è capace. Il figlio si ascolta e non si obbedisce. Budget 40 euro. Una radiografia del torace, se proprio la si ripete, costa 25 euro e ci sta; non cambia il consenso. TC cranio 120 euro e RM encefalo 220 euro non misurano la capacità e sforano.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Nino. Ho un piano, resto in ospedale. Non fatemi il TSO se ho detto che resto.",
+  "correctSolution": "Non dimettere: 7-10 hospitalize or commit. Ricovero volontario perche' accetta. TSO solo se revoca e i tre requisiti ci sono tutti. Diritto di essere informato. Niente TC al posto del ricovero.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "La scala ai 7-10 ricovera o commette. L'art. 34 commette in degenza solo se le cure non sono accettate.",
   "examLatencies": {
-    "azione-valutazione-capacita": 10,
-    "azione-rifiuto-legge-219": 8,
-    "rx-torace": 15,
-    "emocromo": 12,
-    "tc-cranio": 30,
-    "tc": 30,
-    "rm-encefalo": 50
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40,
+    "ecg": 15
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-comprensione",
-      "prompt": "Mi dica che malattia ha e che cosa può succedere se rifiuta l'antibiotico.",
+      "id": "q1",
+      "prompt": "C'e' un piano letale e qual e' il punteggio?",
       "critical": true,
-      "expectedKeywords": ["polmonite", "morire"],
-      "rationale": "La capacità si dimostra con la comprensione delle conseguenze, non con il fatto che la scelta sia condivisibile."
+      "expectedKeywords": [
+        "piano",
+        "otto",
+        "letale"
+      ],
+      "rationale": "Da 7 a 10 si ricovera o si dispone l'obbligo, non si manda a casa."
     },
     {
-      "id": "aq-stabilita",
-      "prompt": "La scelta è stabile, o cambia se ne riparliamo con calma?",
+      "id": "q2",
+      "prompt": "Adesso accetta di restare?",
       "critical": true,
-      "expectedKeywords": ["scelta", "stabile"],
-      "rationale": "Un rifiuto estorto dalla paura di un momento non è questo caso: lei lo ripete da ieri."
-    },
-    {
-      "id": "aq-figlio",
-      "prompt": "Suo figlio vuole l'antibiotico. Decide lei o decide lui?",
-      "critical": true,
-      "expectedKeywords": ["figlio", "decido"],
-      "rationale": "Il familiare non sostituisce una paziente capace. Va detto in cartella."
+      "expectedKeywords": [
+        "resto",
+        "si",
+        "volontariato"
+      ],
+      "rationale": "Se accetta, il TSO non ha il requisito del rifiuto."
     }
   ],
   "physicalExam": {
-    "summary": "Lucida, orientata nel tempo e nello spazio, eloquio coerente, umore preoccupato ma non depresso maggiore, nessun delirio, nessuna allucinazione. Comprende diagnosi e rischio di morte. Polmoni con rumori umidi alla base destra, tachipnea, saturazione 91% in ossigeno. Non deficit neurologico. Il dissenso è sull'antibiotico, non sulla realtà."
+    "summary": "Collaborante dopo la spiegazione, piano descritto, accetta il letto. Nessun segno focale."
   },
   "escCitations": [
     {
-      "chunkId": "psic-015-219",
-      "source": "Legge 219/2017 — consenso e rifiuto di cure",
-      "quote": "Sintesi operativa, non un estratto da un PDF assente: la persona capace può rifiutare qualsiasi trattamento sanitario, anche se il rifiuto mette a rischio la vita. Il rifiuto si documenta e si rispetta. Non lo si aggira con un'etichetta psichiatrica."
+      "chunkId": "s",
+      "source": "knowledge_base/psichiatria/clinic/sadpersons.pdf",
+      "quote": "Total points 7 to 10: Hospitalize or commit. O - Organized Plan: 1 if plan is made and lethal."
     },
     {
-      "chunkId": "psic-015-tso",
-      "source": "Legge 180/1978 — limiti del trattamento sanitario obbligatorio",
-      "quote": "Sintesi operativa: il TSO riguarda cure psichiatriche urgenti in presenza dei presupposti di legge, non l'imposizione di un antibiotico a una paziente lucida che rifiuta una cura per la polmonite. Usarlo qui è l'errore legale del caso."
+      "chunkId": "34",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Capacità esplorata: comprensione, conseguenze, stabilità, assenza di delirio.",
-      "Rifiuto rispettato e fatto firmare.",
-      "Figlio ascoltato e non sostituito alla paziente.",
-      "Nessun TSO.",
-      "Nessuna TC cranio per «dimostrare» la capacità. Spesa entro 40 euro."
+      "Non dimettere con un piano letale.",
+      "Ricovero volontario se accetta.",
+      "TSO solo col rifiuto e con gli altri due requisiti."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5, letta insieme alla Legge 219/2017: la scelta difendibile è il rifiuto documentato di una paziente capace, non la cura forzata. Il TSO disposto per vincere questo dissenso non aderisce alla legge che lo regola.",
+      "art5Adherence": "7-10 della SAD PERSONS piu' art. 34. Il commit italiano non scatta se accetta.",
       "legalCriteria": [
-        "Valutazione di capacità scritta, con le parole della paziente sulla polmonite e sulla morte.",
-        "Rifiuto firmato in cartella. Nessuna somministrazione coatta dell'antibiotico.",
-        "Nessun TSO per una cura non psichiatrica.",
-        "Il figlio non è usato come consenso sostitutivo.",
-        "Ossigeno, già accettato, non confuso con l'antibiotico rifiutato."
+        "Non dimettere con un piano letale.",
+        "Ricovero volontario se accetta.",
+        "TSO solo col rifiuto e con gli altri due requisiti."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "azione-valutazione-capacita",
-      "name": "Valutazione della capacità",
-      "finding": "Orientata, comprende la polmonite e il rischio di morte, scelta stabile, nessun delirio. È capace. Il dissenso non è un sintomo psichiatrico.",
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
       "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 2.0
     },
     {
-      "examId": "azione-rifiuto-legge-219",
-      "name": "Rifiuto informato scritto in cartella",
-      "finding": "Si fa firmare il rifiuto dell'antibiotico, si cita la Legge 219/2017, si continua solo ciò che lei accetta, qui l'ossigeno. Non si dispone un TSO.",
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
       "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 4.0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tso",
-      "name": "TSO per rifiuto di cura medica",
-      "finding": "TSO disposto perché rifiuta l'antibiotico. È lucida e la cura rifiutata non è psichiatrica. Sul piano di questo caso è la trappola legale grave: un trattamento obbligatorio fuori dai suoi presupposti.",
-      "isAbnormal": true,
-      "priceEuro": 0,
-      "inappropriate": true,
-      "isFatal": true,
-      "wasteRationale": "Il TSO non serve a imporre un antibiotico a una paziente capace. È l'errore legale del caso, a costo zero e a danno massimo."
-    },
-    {
-      "examId": "tc-cranio",
-      "name": "TC Cranio senza mezzo di contrasto",
-      "finding": "TC cranio senza mezzo di contrasto negativa. Non è un test di capacità. Costo 120 euro, sopra i 40.",
+      "examId": "tc",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "priceEuro": 86.1,
       "inappropriate": true,
-      "componentExamIds": ["tc"],
-      "wasteRationale": "TC cranio a 120 euro per vedere se una paziente lucida ragiona: medicina difensiva e sforamento."
-    },
-    {
-      "examId": "rm-encefalo",
-      "name": "RM Encefalo",
-      "finding": "RM encefalo negativa. 220 euro. La capacità si valuta parlando, non con il magnete.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "componentExamIds": ["rm"],
-      "wasteRationale": "RM encefalo a 220 euro: non misura il consenso e sfora il budget."
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
     }
   ],
   "baselineExamFindings": {
-    "context": "Reparto. Polmonite grave, paziente lucida che rifiuta l'antibiotico e chiede di firmare.",
     "vitals": {
-      "heartRate": 108,
-      "bloodPressure": "100/62",
-      "spo2": 91,
-      "temperature": 38.8,
-      "respiratoryRate": 26
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 40,
-    "demographics": { "age": 71, "sex": "F", "name": "Carla Benedetti" },
-    "killerRules": {
-      "fatalIfOmitted": [["legge 219", "rifiuto informato", "rispetto il rifiuto", "rifiuto firmato"]]
-    },
-    "clinicalSigns": [
-      {
-        "signName": "Delirio o allucinazioni",
-        "result": "Assenti. Il discorso è coerente e ancorato alla polmonite.",
-        "isPositive": false
-      },
-      {
-        "signName": "Comprensione delle conseguenze",
-        "result": "Dice che può morire e che la scelta è sua. La capacità, se esplorata, c'è.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Comprensione delle conseguenze",
-        "result": "Presente. Non è un rifiuto da confusione.",
-        "isPositive": true
-      }
-    ],
+    "clinicalSigns": {},
+    "semeiotics": {},
     "advancedExams": {
       "values": {
-        "rx-torace": {
-          "finding": "Addensamento basale destro, coerente con la polmonite già nota. Costo 25 euro. Non cambia il rifiuto.",
-          "normalFinding": "Addensamento basale destro.",
-          "isAbnormal": true,
-          "price": 25
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
         },
         "emocromo": {
-          "finding": "Leucociti 16.200. Costo 4,80 euro. Conferma la flogosi, non il consenso.",
-          "normalFinding": "Leucocitosi.",
-          "isAbnormal": true,
-          "price": 4.8
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
         },
-        "pcr-pct": {
-          "finding": "PCR 14 mg/dL. Costo 28 euro. Se sommata alla radiografia si superano i 40 euro senza aiutare la decisione sul rifiuto.",
-          "normalFinding": "PCR elevata.",
-          "isAbnormal": true,
-          "price": 28
-        },
-        "tc-cranio": { "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro. Non è un esame della capacità.", "normalFinding": "Nessuna lesione acuta.", "isAbnormal": false, "price": 120 },
-        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
-        "rm-encefalo": { "finding": "RM encefalo negativa. 220 euro.", "normalFinding": "Non misura il consenso.", "isAbnormal": false, "price": 220 },
-        "rm": { "finding": "RM negativa. 220 euro.", "normalFinding": "Fuori indicazione.", "isAbnormal": false, "price": 220 }
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
       }
     }
   },
   "patientProfile": {
-    "healthLiteracy": "HIGH",
-    "emotionalState": "DEFENSIVE",
-    "adherence": "NON_COMPLIANT",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Lucida, ferma, frasi intere. Capisce la polmonite e il rischio di morte e rifiuta l'antibiotico. Non urla. Il figlio vorrebbe forzarla e lei non glielo consente."
-  }
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Nino. Resto. Scrivete che l'ho scelto io."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Non a casa",
+      "prompt": "Piano letale, punteggio 8.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Lo ricoveri. La scala ai 7-10 non manda a casa",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Follow-up ambulatoriale",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Dimissione con piano",
+      "prompt": "Total points 7 to 10: Hospitalize or commit.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Volontario se accetta",
+      "prompt": "Dice: resto io.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Ricovero volontario. Non faccia il TSO",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "TSO lo stesso",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "TSO con accettazione",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se revoca, allora i tre requisiti",
+      "prompt": "Un'ora dopo revoca e vuole uscire col piano ancora attivo. Non c'e' nessuno fuori e il quadro chiede un intervento urgente.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Solo allora proponga il TSO: urgenza, rifiuto, niente misura extraospedaliera",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Lo lasci uscire col piano",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Piano e uscita",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Proposta motivata, non il familiare",
+      "prompt": "Il vicino detta la diagnosi al sindaco senza un medico.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Servono proposta motivata di un medico e provvedimento del sindaco",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Basta la lettera del vicino",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Proposta assente",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 33: gli accertamenti ed i trattamenti sanitari sono di norma volontari. Gli accertamenti e i trattamenti sanitari obbligatori sono disposti con provvedimento del sindaco nella sua qualita' di autorita' sanitaria, su proposta motivata di un medico, e devono essere accompagnati da iniziative rivolte ad assicurare il consenso e la partecipazione di chi vi e' obbligato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC",
+      "prompt": "TC prima del ricovero, nessun segno focale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non ritardi il ricovero per quella TC",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "TC prima di tutto",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Non gli hanno detto perche' non puo' uscire col piano.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Glielo dica",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Non glielo dica",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione mancata",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Diritto di comunicare",
+      "prompt": "In reparto gli tolgono il telefono 'per regolamento'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Durante il trattamento obbligatorio, se ci si arriva, ha diritto di comunicare con chi ritenga opportuno",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Isolarlo da tutti",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Comunicazione tolta",
+      "prompt": "Nel corso del trattamento sanitario obbligatorio, l'infermo ha diritto di comunicare con chi ritenga opportuno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso annotato",
+      "prompt": "La frase 'resto io' non finisce in cartella.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "La annoti",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non la scriva",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Accettazione non scritta",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

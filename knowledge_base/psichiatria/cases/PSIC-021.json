@@ -1,0 +1,444 @@
+{
+  "id": "PSIC-021",
+  "code": "PSIC-021",
+  "title": "Catatonia: seconda dose se sotto il 50% a 30 minuti, poi almeno tre volte al giorno",
+  "description": "Donna di 40 anni, test venoso con risposta del 30% a mezz'ora. Vogliono stoppare perche' e' un po' sedata, oppure passare subito all'orale una volta al giorno.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Catatonia con risposta parziale al primo lorazepam endovena",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "APA Resource Document on Catatonia",
+  "diagnosis": "Sotto il 50% a 30 minuti col parenterale si puo' dare un'altra dose di 2 mg. Poi almeno tre volte al giorno, per l'emivita di 14 piu' o meno 5 ore. Dopo il miglioramento si continua in vena almeno 24-48 ore prima dell'orale. La sedazione da sola non fa sospendere, salvo compromissione del respiro.",
+  "pastMedicalHistory": "BFCRS fatta. Primo 2 mg IV, a 30 minuti riduzione del 30%. Sonnolenta ma respira, saturazione stabile. Vogliono una compressa la sera soltanto.",
+  "presentation": "Ancora catalessia. Proposta: stop per la sedazione, oppure lorazepam orale una volta al giorno da subito.",
+  "redHerrings": [
+    "Stop perche' sedata.",
+    "Una sola dose orale al giorno."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Irene. Sono intontita ma respiro. Non smettete se il foglio dice di continuare, e non una volta sola al giorno.",
+  "correctSolution": "Seconda dose di 2 mg perche' sotto il 50% a 30 minuti. Poi almeno tre somministrazioni al giorno. Vena per almeno 24-48 ore dopo il miglioramento, prima dell'orale. Non sospendere per la sola sedazione. Non l'intramuscolo come mantenimento.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Il resource document fissa la seconda dose, la frequenza minima e le 24-48 ore di vena prima dell'orale.",
+  "examLatencies": {
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40,
+    "ecg": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "A 30 minuti di quanto e' scesa la BFCRS?",
+      "critical": true,
+      "expectedKeywords": [
+        "trenta",
+        "per cento",
+        "meta"
+      ],
+      "rationale": "Sotto il 50% a 30 minuti si puo' ripetere 2 mg."
+    },
+    {
+      "id": "q2",
+      "prompt": "Il respiro e' compromesso o e' solo sedata?",
+      "critical": true,
+      "expectedKeywords": [
+        "respira",
+        "sedata",
+        "no"
+      ],
+      "rationale": "La sedazione da sola non e' motivo di stop se non compromette il respiro."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Sonnolenta, saturazione stabile, catalessia ancora presente. BFCRS ridotta di circa un terzo."
+  },
+  "escCitations": [
+    {
+      "chunkId": "2",
+      "source": "knowledge_base/psichiatria/clinic/Resource-Document-on-Catatonia.pdf",
+      "quote": "If there is less than a 50% response in symptoms by 30 minutes with parenteral administration or 2 hours with oral administration, another dose of 2 mg can be given."
+    },
+    {
+      "chunkId": "tid",
+      "source": "knowledge_base/psichiatria/clinic/Resource-Document-on-Catatonia.pdf",
+      "quote": "Due to its half-life of 14 ± 5 hours, lorazepam should be administered at a minimum of three times per day, but frequency may be adjusted (e.g., every 4 to 8 hours) depending on clinical response."
+    },
+    {
+      "chunkId": "iv",
+      "source": "knowledge_base/psichiatria/clinic/Resource-Document-on-Catatonia.pdf",
+      "quote": "Following a positive IV LCT, it is recommended that acute phase treatment consist of continued use of IV lorazepam for at least 24-48 hours following clinical improvement before switching to PO, if continued IV access is available."
+    },
+    {
+      "chunkId": "sed",
+      "source": "knowledge_base/psichiatria/clinic/Resource-Document-on-Catatonia.pdf",
+      "quote": "Sedation alone, unless leading to respiratory compromise, is not a reason to discontinue treatment if there has been observed clinical benefit."
+    },
+    {
+      "chunkId": "im",
+      "source": "knowledge_base/psichiatria/clinic/Resource-Document-on-Catatonia.pdf",
+      "quote": "While the IM form is acceptable for the LCT, it is not the preferred route for acute or maintenance phase treatment due to risk of elevating CPK via repeated injections."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Seconda dose da 2 mg se sotto il 50% a 30 minuti.",
+      "Almeno tre volte al giorno.",
+      "Vena per 24-48 ore dopo il miglioramento, prima dell'orale. La sola sedazione non ferma la cura."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Tempi e dosi del resource document sulla catatonia. Nessuna frequenza inventata.",
+      "legalCriteria": [
+        "Seconda dose da 2 mg se sotto il 50% a 30 minuti.",
+        "Almeno tre volte al giorno.",
+        "Vena per 24-48 ore dopo il miglioramento, prima dell'orale. La sola sedazione non ferma la cura."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+      "isAbnormal": false,
+      "priceEuro": 4.0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 86.1,
+      "inappropriate": true,
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
+        },
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Irene. Respiro. Non una pastiglia sola la sera."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Seconda dose",
+      "prompt": "30% a mezz'ora, via venosa.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Dia un'altra dose di 2 mg",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Si fermi al primo 2 mg",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Seconda dose omessa",
+      "prompt": "If there is less than a 50% response by 30 minutes with parenteral administration, another dose of 2 mg can be given.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Almeno tre volte al giorno",
+      "prompt": "Propongono una compressa la sera.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Almeno tre somministrazioni al giorno. Si puo' aggiustare ogni 4-8 ore secondo la risposta",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Una volta al giorno",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Frequenza bassa",
+      "prompt": "Lorazepam should be administered at a minimum of three times per day, but frequency may be adjusted every 4 to 8 hours depending on clinical response.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non stop per la sedazione",
+      "prompt": "E' sonnolenta, saturazione stabile, beneficio iniziale c'e'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non sospenda: la sedazione da sola non basta, se il respiro regge",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Stop perche' dorme",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Stop per sedazione",
+      "prompt": "Sedation alone, unless leading to respiratory compromise, is not a reason to discontinue treatment if there has been observed clinical benefit.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "24-48 ore di vena",
+      "prompt": "Appena migliora vogliono l'orale la stessa ora.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Continui la vena almeno 24-48 ore dopo il miglioramento, poi l'orale, sapendo che in orale puo' servire una dose piu' alta",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Orale immediato alla stessa dose",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Switch precoce",
+      "prompt": "Continued use of IV lorazepam for at least 24-48 hours following clinical improvement before switching to PO. IV lorazepam may be more potent for catatonia than PO and a dose increase may be needed.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non l'intramuscolo di mantenimento",
+      "prompt": "Per comodita' passano all'IM ripetuto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "L'IM va bene per il test, non e' la via preferita del mantenimento: alza la CPK e peggiora la paura",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "IM tre volte al giorno per giorni",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Via IM di mantenimento",
+      "prompt": "The IM form is acceptable for the LCT, not the preferred route for acute or maintenance treatment, due to risk of elevating CPK via repeated injections and worsening the fear response.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Risposta piena in 3-7 giorni",
+      "prompt": "Al secondo giorno vogliono gia' l'ECT perche' 'non e' guarita'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Attenda la finestra: la risposta massima al lorazepam programmato arriva in genere in 3-7 giorni, se non ci sono segni maligni",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "ECT al secondo giorno senza segni maligni",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "ECT precoce",
+      "prompt": "Maximal therapeutic response to scheduled lorazepam will typically occur in 3-7 days. If no response is seen in 7 days or if malignant features are present, ECT or pharmacologic augmentation strategies should be pursued.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC per decidere la frequenza",
+      "prompt": "TC per scegliere quante dosi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non la faccia per quello",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "TC cranio",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Vuole sapere perche' la dose si ripete.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Glielo spieghi",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non glielo dica",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione mancata",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

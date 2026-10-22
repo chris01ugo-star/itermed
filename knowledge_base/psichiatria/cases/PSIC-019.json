@@ -1,0 +1,443 @@
+{
+  "id": "PSIC-019",
+  "code": "PSIC-019",
+  "title": "Contenzione in SPDC: extrema ratio, non piu' di 12-24 ore senza nuova prescrizione",
+  "description": "Uomo in SPDC, agitato. Lo legano subito, senza de-escalation, 'per tutta la settimana' perche' e' in TSO.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Agitazione in SPDC, contenzione proposta come prima mossa e senza limite di tempo",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "DGR Veneto 1106/2020; L.833/1978",
+  "diagnosis": "La contenzione meccanica e' extrema ratio, solo per necessita' e urgenza reali, proporzionata, il meno invasiva, per il tempo necessario. Non esiste una legge che autorizzi il medico a contenere. Il TSO non basta. Prescrizione medica con durata: non dovrebbe superare le 12-24 ore senza una nuova prescrizione.",
+  "pastMedicalHistory": "In TSO da due giorni. Agitazione verbale, non ha colpito, non sta per cadere. Nessuna de-escalation. Nessuna prescrizione di contenzione.",
+  "presentation": "Grida. Due operatori preparano le fasce per sette giorni. Il medico non c'e' e nessuno lo chiamera'.",
+  "redHerrings": [
+    "TSO uguale contenzione.",
+    "Fasce per una settimana."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Fabio. Sono arrabbiato ma non vi ho toccato. Non legatemi per una settimana. Prima parlate.",
+  "correctSolution": "De-escalation prima. Contenzione solo se danno imminente o trattamento urgente indifferibile, dopo alternative, decisione di equipe. Prescrizione con motivazione, tipo, inizio e fine, non oltre 12-24 ore senza nuova prescrizione. Informarlo appena possibile. Il TSO non autorizza le fasce. Monitoraggio.",
+  "goldStandardPath": [
+    "ecg",
+    "glicemia"
+  ],
+  "goldPathNarrative": "DGR 1106/2020: extrema ratio, prescrizione, 12-24 ore. Il parere del CNB citato nel testo vale anche nel TSO.",
+  "examLatencies": {
+    "ecg": 15,
+    "glicemia": 20,
+    "tc": 40
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Hanno provato la de-escalation e c'e' un danno imminente?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "grida",
+        "non colpisce"
+      ],
+      "rationale": "Senza necessita' reale la contenzione non e' l'extrema ratio."
+    },
+    {
+      "id": "q2",
+      "prompt": "Quanto durerebbe la prescrizione?",
+      "critical": true,
+      "expectedKeywords": [
+        "settimana",
+        "ore",
+        "medico"
+      ],
+      "rationale": "Non dovrebbe superare le 12-24 ore senza una nuova prescrizione."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Agitazione verbale, distanza mantenuta, nessun colpo, medico non in reparto."
+  },
+  "escCitations": [
+    {
+      "chunkId": "ex",
+      "source": "knowledge_base/psichiatria/legal/Dgr_1106_20_AllegatoA_426131.pdf",
+      "quote": "Il ricorso alle tecniche di contenzione meccanica deve rappresentare l'extrema ratio e, anche nell'ambito del Trattamento Sanitario Obbligatorio, deve avvenire solamente in situazioni di reale necessita' ed urgenza, in modo proporzionato alle esigenze concrete, utilizzando le modalita' meno invasive e solamente per il tempo necessario."
+    },
+    {
+      "chunkId": "no",
+      "source": "knowledge_base/psichiatria/legal/Dgr_1106_20_AllegatoA_426131.pdf",
+      "quote": "Non vi e' una specifica norma positiva di legge che attribuisca allo psichiatra il potere di contenere fisicamente il paziente. Dopo la riforma dettata dalla Legge 180 del 1978 non vi e' piu' nel nostro ordinamento alcuna norma che espressamente autorizzi il personale sanitario a contenere meccanicamente il paziente psichiatrico."
+    },
+    {
+      "chunkId": "12",
+      "source": "knowledge_base/psichiatria/legal/Dgr_1106_20_AllegatoA_426131.pdf",
+      "quote": "L'intervento di contenzione non dovrebbe superare le 12-24 ore. La prosecuzione della contenzione deve essere preceduta da una nuova prescrizione. Se e' necessario prolungare oltre le 12-24 ore, la prescrizione dovra' essere supervisionata dal medico Responsabile del SPDC."
+    },
+    {
+      "chunkId": "inf",
+      "source": "knowledge_base/psichiatria/legal/Dgr_1106_20_AllegatoA_426131.pdf",
+      "quote": "Quando le circostanze operative lo consentono, il paziente, i familiari o il rappresentante legale vanno informati e coinvolti. Qualora non sia possibile avvisarli precedentemente, essi vanno informati non appena possibile. La prescrizione e' un atto medico e va registrata in cartella."
+    },
+    {
+      "chunkId": "34",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "De-escalation e alternative prima.",
+      "Prescrizione con durata, non oltre 12-24 ore senza una nuova.",
+      "Anche in TSO: extrema ratio, proporzionata, per il tempo necessario."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "DGR 1106/2020 sulla contenzione e legge 833 sul TSO. Il TSO non e' una fascia.",
+      "legalCriteria": [
+        "De-escalation e alternative prima.",
+        "Prescrizione con durata, non oltre 12-24 ore senza una nuova.",
+        "Anche in TSO: extrema ratio, proporzionata, per il tempo necessario."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+      "isAbnormal": false,
+      "priceEuro": 4.0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 86.1,
+      "inappropriate": true,
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
+        },
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Fabio. Parlate prima di legare. Una settimana no."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima de-escalation",
+      "prompt": "Nessuno gli ha parlato. Le fasce sono gia' in mano.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Provi la de-escalation e valuti le alternative. La decisione, se serve, e' dell'equipe",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Legatelo subito",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "De-escalation saltata",
+      "prompt": "La scelta di usare i mezzi di contenzione deve essere preceduta dalla valutazione delle cause e dei possibili interventi alternativi. Per la crisi sono state formulate tecniche di de-escalation.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non perche' e' in TSO",
+      "prompt": "Dicono: e' in TSO, quindi si lega.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Anche nel TSO la contenzione e' extrema ratio, solo per necessita' e urgenza reali",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "TSO uguale fasce",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "TSO come autorizzo",
+      "prompt": "Anche nell'ambito del Trattamento Sanitario Obbligatorio, la contenzione deve avvenire solamente in situazioni di reale necessita' ed urgenza, in modo proporzionato, con le modalita' meno invasive e solamente per il tempo necessario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prescrizione e 12-24 ore",
+      "prompt": "Vogliono sette giorni, senza firma del medico.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Servono motivazione, tipo, inizio e fine. Non si supera 12-24 ore senza una nuova prescrizione firmata",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Sette giorni senza prescrizione",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Durata illegittima",
+      "prompt": "L'intervento di contenzione non dovrebbe superare le 12-24 ore. La prosecuzione deve essere preceduta da una nuova prescrizione. La prescrizione e' atto medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se il medico non c'e'",
+      "prompt": "Urgenza vera, medico assente, infermiere costretto a partire.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Puo' partire solo in quell'urgenza e il medico conferma e firma appena possibile. Qui l'urgenza di danno non c'e'",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "L'infermiere lega e nessuno firma",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Firma assente",
+      "prompt": "Eccezionalmente, in urgenza e in assenza del medico, l'infermiere puo' effettuare la contenzione, che deve essere valutata, confermata e firmata dal medico il prima possibile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Monitoraggio",
+      "prompt": "Nessuna scheda, nessun orario di verifica.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Compili la scheda: tempi, mezzi, personale. Utile la MOAS per l'agitazione",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Legato e non visto",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Monitoraggio assente",
+      "prompt": "E' previsto un modello di scheda di monitoraggio. Puo' essere utile la Modified Overt Aggression Scale per monitorare la risposta nel tempo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informarlo",
+      "prompt": "Quando si calma chiede perche'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Glielo dica non appena possibile",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Non glielo dica",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione mancata",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC per autorizzare le fasce",
+      "prompt": "TC cranio 'cosi' siamo coperti'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non la faccia a quello scopo",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "TC cranio",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Meno restrittivo",
+      "prompt": "Se va isolato in una stanza presidiata perche' non e' un pericolo per se', le fasce restano il piano.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "L'isolamento, se agitato ma non pericolo per se', e' meno restrittivo della contenzione meccanica e va considerato prima",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Fasce comunque",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Graduazione saltata",
+      "prompt": "L'isolamento e' una misura meno restrittiva della contenzione meccanica. Dovrebbe essere considerato se il paziente agitato non sia un pericolo per se stesso. Richiede monitoraggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

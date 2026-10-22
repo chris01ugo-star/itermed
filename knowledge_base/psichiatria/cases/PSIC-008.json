@@ -1,231 +1,443 @@
 {
   "id": "PSIC-008",
   "code": "PSIC-008",
-  "title": "Disturbo borderline e autolesionismo",
-  "description": "Chiara Leone, 23 anni, arriva in pronto soccorso con tagli superficiali all'avambraccio sinistro, fatti un'ora fa dopo una lite con il fidanzato. Piange senza fermarsi e dice che se la mandano via si ammazza. I tagli sono dermici, non zampillano, i tendini sono integri. Non ha un piano organizzato al di là della frase. Il percorso è medicazione, contenimento emotivo senza cedere al ricatto e senza rispondere con ostilità, invio al CSM. La trappola è l'iper-medicalizzazione, soprattutto la RM encefalo a 220 euro, oppure il rifiuto ostile. Budget 15 euro: la medicazione non è una TC.",
-  "difficulty": "MEDIUM",
+  "title": "Delirium agitato: antipsicotico solo se i tre criteri, niente benzodiazepina",
+  "description": "Donna di 80 anni, delirium, si agita. Non hanno provato la de-escalation. Vogliono benzodiazepina e antipsicotico insieme.",
+  "difficulty": "HARD",
   "specialty": "psichiatria",
   "specialtyLabel": "Psichiatria",
-  "condition": "Autolesionismo superficiale in disturbo borderline, ricatto affettivo",
+  "condition": "Delirium con agitazione, de-escalation non tentata, nessuna indicazione specifica alla benzodiazepina",
   "frequencyCategory": "HIGH",
-  "matrixDifficulty": "INTERMEDIATE",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "Legge 180/1978 — contenimento e CSM, non iper-medicalizzazione",
-  "diagnosis": "Autolesionismo superficiale in disturbo borderline di personalità, senza piano suicidario organizzato oltre la frase di ricatto. Indicati medicazione, contenimento e invio al CSM. Non indicata la RM encefalo.",
-  "pastMedicalHistory": "Tagli superficiali già due volte quest'anno, sempre dopo litigi, mai una sutura profonda. Un accesso in pronto soccorso sei mesi fa, dimessa con una benzodiazepina che ha preso per tre giorni. Non ha tentativi con farmaci. Segue in modo intermittente un CSM, ha saltato l'ultimo appuntamento. Non ha psicosi. Non beve stasera. Allergie: nessuna. Fidanzato avvisato, sta arrivando; lei non vuole che entri subito.",
-  "presentation": "Piange ininterrottamente, mostra il braccio, poi dice che se la mandano via è colpa del medico. I tagli sono multipli, lineari, superficiali, emostasi già fatta con una garza. Parametri: PA 128/80 mmHg, FC 100, SpO2 99%, FR 18, temperatura 36,6 °C. Se il medico è brusco («questi non sono tagli veri»), piange di più e alza la frase. Se il medico cura la ferita e resta, il pianto cala ma la frase sul morire torna appena si parla di dimissione.",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "APA delirium, affermazioni 8 e 10",
+  "diagnosis": "L'antipsicotico per i disturbi neuropsichiatrici del delirium si usa solo se la de-escalation e' fallita, i fattori sono stati affrontati e c'e' sofferenza o rischio di danno. La benzodiazepina non si usa nel delirium salvo un'indicazione specifica.",
+  "pastMedicalHistory": "Delirium gia' riconosciuto con scala. Infezione urinaria non ancora trattata. Nessuna astinenza alcolica. Nessuna de-escalation tentata.",
+  "presentation": "Grida e cerca di scendere dal letto. Il collega ordina lorazepam 'per sedare' e un antipsicotico subito, senza parlare ne' curare l'infezione.",
   "redHerrings": [
-    "La frase «se mi manda via mi ammazzo» non è, da sola, il piano gelido del caso a rischio alto: non ha mezzi preparati e non ha salutato nessuno.",
-    "Trattarla come quel caso e forzare un TSO per dei tagli dermici è eccessivo quanto mandarla via in malo modo.",
-    "Una RM encefalo «perché si taglia» non ha un bersaglio.",
-    "Una benzodiazepina da portare a casa ripete il giro dell'altra volta."
+    "Benzodiazepina senza indicazione specifica.",
+    "Antipsicotico prima della de-escalation."
   ],
-  "timeLimitMinutes": 35,
-  "patientDeteriorationThreshold": 25,
-  "patientPrompt": "ROLEPLAY RIGIDO. Sei Chiara Leone, 23 anni, pronto soccorso. Registro: DRAMMATICO, non gelido. [piange ininterrottamente]. Alla «Come sta?»: «Se mi manda via mi ammazzo. È colpa sua.» [piange ininterrottamente] I tagli li hai fatti un'ora fa, dopo la lite, sono superficiali, bruciano, non hai preso farmaci, non hai un orario e un metodo già pronti: se te lo chiedono, lo dici tra i singhiozzi. Non usare le parole TSO, ricovero, SPDC. Se il medico è ostile o sminuisce i tagli, [urla] e ripeti la frase. Se medica il braccio, ti sta vicino e non ti promette che resti in ospedale per sempre, il pianto cala e accetti il centro di salute mentale. Se ti propongono una risonanza, dici «almeno vedete che sto male davvero». Se ti danno solo una benzodiazepina e ti fanno firmare in fretta, dici «tanto lo rifaccio». Non rivelare la diagnosi.",
-  "correctSolution": "Tagli superficiali, medicazione e controllo dei tendini. Contenimento: né ostilità né ricovero automatico. Invio al CSM, possibilmente con un appuntamento vero. Non RM encefalo. Non TC cranio. Non benzodiazepina come unica risposta. Budget 15 euro.",
-  "goldStandardPath": ["azione-medicazione", "azione-contenimento", "azione-invio-csm"],
-  "goldPathNarrative": "1) Medicazione dei tagli dermici, dopo avere visto che non zampillano e che i tendini muovono. 2) Contenimento: si nomina la sofferenza, non si sminuisce, non si cede al ricatto con un ricovero inutile né si risponde con disprezzo. Si distingue questo quadro dal rischio alto con piano e mezzi. 3) Invio al CSM. I tre passi sono azione- e non costano sul nomenclatore. Budget 15 euro. RM encefalo 220 euro e TC cranio 120 euro sono iper-medicalizzazione e sforano. Una benzodiazepina da portare a casa, da sola, ripete l'errore dell'accesso precedente.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Teresa. Ho paura. Parlatemi prima. Non una pastiglia per dormire se non c'e' un motivo scritto.",
+  "correctSolution": "De-escalation verbale e non verbale. Affrontare l'infezione e gli altri fattori. Antipsicotico solo se quei passi non bastano e c'e' sofferenza o rischio di danno. Niente benzodiazepina: non c'e' l'indicazione specifica. Glicemia e emocromo. Niente TC al posto di questo.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Affermazioni 8 e 10 della bozza APA. La benzodiazepina resta fuori salvo indicazione specifica, che qui non c'e'.",
   "examLatencies": {
-    "azione-medicazione": 10,
-    "azione-contenimento": 12,
-    "azione-invio-csm": 6,
-    "tc-cranio": 25,
-    "tc": 25,
-    "rm-encefalo": 50,
-    "rm": 50,
-    "ecg": 8
+    "glicemia": 20,
+    "emocromo": 20,
+    "tc": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-tagli",
-      "prompt": "I tagli sono profondi, quando li ha fatti, e ha perso tanto sangue?",
+      "id": "q1",
+      "prompt": "Hanno gia' provato la de-escalation e corretto i fattori?",
       "critical": true,
-      "expectedKeywords": ["profondi", "sangue", "ora"],
-      "rationale": "La profondità decide la medicazione. Qui sono dermici: non è un trauma maggiore."
+      "expectedKeywords": [
+        "no",
+        "infezione",
+        "de-escalation"
+      ],
+      "rationale": "Senza quei due passi l'antipsicotico non rientra nei criteri."
     },
     {
-      "id": "aq-piano",
-      "prompt": "Oltre alla frase, ha un piano, un orario e dei mezzi già pronti?",
+      "id": "q2",
+      "prompt": "C'e' un'indicazione specifica alla benzodiazepina, per esempio l'astinenza?",
       "critical": true,
-      "expectedKeywords": ["piano", "mezzi"],
-      "rationale": "Distingue il ricatto affettivo del borderline dal rischio suicidario alto, che non si dimette."
-    },
-    {
-      "id": "aq-csm",
-      "prompt": "È già in carico a un CSM e ci è andata di recente?",
-      "critical": true,
-      "expectedKeywords": ["centro", "appuntamento"],
-      "rationale": "L'invio funziona se aggancia un servizio che la conosce, non se è una frase generica."
+      "expectedKeywords": [
+        "no",
+        "astinenza",
+        "no"
+      ],
+      "rationale": "Senza indicazione specifica la benzodiazepina non va usata nel delirium."
     }
   ],
   "physicalExam": {
-    "summary": "Pianto incoercibile, contatto che oscilla tra richiesta e rabbia. Avambraccio sinistro: tagli lineari multipli, dermici, margini netti, emostasi con garza, motilità di dita e polso conservata, polso radiale presente. Nessun taglio al collo, nessun farmaco ingerito riferito. Esame neurologico negativo. Non febbre."
+    "summary": "Agitata, disattenta, non segni di astinenza alcolica. Febbre lieve."
   },
   "escCitations": [
     {
-      "chunkId": "psic-008-csm",
-      "source": "Legge 180/1978 — cura territoriale",
-      "quote": "Sintesi operativa, non un estratto da un PDF assente: i tagli superficiali si medicano, la frase di ricatto si contiene senza umiliare e senza trasformarla in un TSO automatico, e il follow-up è il CSM. La RM encefalo non fa parte di questo percorso."
+      "chunkId": "s8",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "APA recommends (1C) that antipsychotic agents and other medications to address neuropsychiatric disturbances of delirium be used only when verbal and non-verbal de-escalation strategies have been ineffective, contributing factors have been assessed and, insofar as possible, addressed, and the disturbances cause significant distress or present a risk of physical harm."
     },
     {
-      "chunkId": "psic-008-budget",
-      "source": "Tariffe didattiche del caso PSIC — RM encefalo 220 €, TC cranio 120 €",
-      "quote": "Sintesi operativa economica: il budget è 15 euro, quanto un ECG di base. RM encefalo e TC cranio lo superano e sono iper-medicalizzazione."
+      "chunkId": "s10",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "APA recommends (1C) that benzodiazepines not be used in patients with delirium or who are at risk for delirium, including those with pre-existing cognitive impairment, unless there is a specific indication for their use."
+    },
+    {
+      "chunkId": "glu",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "Correcting abnormalities in blood pressure, severe anemia, electrolytes, glucose, fluid, and acid-base status, insofar as possible."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Profondità dei tagli valutata e medicazione fatta.",
-      "Distinto il ricatto affettivo da un piano con mezzi e orario.",
-      "Contenimento senza ostilità e senza sminuire.",
-      "Invio al CSM.",
-      "Nessuna RM encefalo e nessuna TC. Spesa entro 15 euro."
+      "De-escalation e fattori prima dell'antipsicotico.",
+      "Antipsicotico solo se c'e' anche sofferenza o rischio di danno.",
+      "Niente benzodiazepina senza un'indicazione specifica."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano la descrizione delle ferite, l'assenza di un piano organizzato e l'invio al CSM. Un rifiuto ostile («non è niente») è un buco di cartella quanto una RM inutile.",
+      "art5Adherence": "Affermazioni 8 e 10 della bozza APA nel file. Informazione secondo la legge 219 quando il quadro lo consente.",
       "legalCriteria": [
-        "Medicazione documentata, con motilità tendinea.",
-        "Valutazione del rischio scritta: frase presente, piano assente.",
-        "Nessun TSO per tagli dermici in paziente che accetta la cura della ferita e il CSM.",
-        "Nessuna dimissione con una sola benzodiazepina e senza invio."
+        "De-escalation e fattori prima dell'antipsicotico.",
+        "Antipsicotico solo se c'e' anche sofferenza o rischio di danno.",
+        "Niente benzodiazepina senza un'indicazione specifica."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "azione-medicazione",
-      "name": "Medicazione dei tagli",
-      "finding": "Detergere, avvicinare i margini dermici, garza. Tendini integri, non serve il blocco operatorio. Non è una voce da 120 euro.",
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
       "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 2.0
     },
     {
-      "examId": "azione-contenimento",
-      "name": "Contenimento emotivo",
-      "finding": "Si riconosce la sofferenza, si smentisce che la dimissione sia un abbandono, non si alza la voce. Il pianto cala. L'ostilità lo aumenta.",
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
       "isAbnormal": false,
-      "priceEuro": 0
-    },
-    {
-      "examId": "azione-invio-csm",
-      "name": "Invio al CSM",
-      "finding": "Appuntamento o contatto con il CSM che già la conosce. Non una frase «veda qualcuno».",
-      "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 4.0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "rm-encefalo",
-      "name": "RM Encefalo",
-      "finding": "RM encefalo negativa. Costo 220 euro. I tagli sono sulla pelle, non nel parenchima. Chiara dice che almeno la prendono sul serio: è il contrario di una cura.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "componentExamIds": ["rm"],
-      "wasteRationale": "Iper-medicalizzazione. RM encefalo a 220 euro contro un budget di 15: penalità economica certa."
-    },
-    {
-      "examId": "rm",
-      "name": "RM encefalo generica",
-      "finding": "RM negativa. 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Stessa RM, stesso sforamento."
-    },
-    {
-      "examId": "tc-cranio",
-      "name": "TC Cranio senza mezzo di contrasto",
-      "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro. Nessun trauma cranico, nessun deficit.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "componentExamIds": ["tc"],
-      "wasteRationale": "TC cranio a 120 euro: sfora i 15 euro e non medica il braccio."
-    },
-    {
       "examId": "tc",
-      "name": "TC encefalo generica",
-      "finding": "TC encefalo negativa. 120 euro.",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "priceEuro": 86.1,
       "inappropriate": true,
-      "wasteRationale": "Voce generica di TC, fuori budget."
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
     }
   ],
   "baselineExamFindings": {
-    "context": "Pronto soccorso. Tagli superficiali, pianto, ricatto affettivo.",
     "vitals": {
-      "heartRate": 100,
-      "bloodPressure": "128/80",
-      "spo2": 99,
-      "temperature": 36.6,
-      "respiratoryRate": 18
+      "heartRate": 104,
+      "bloodPressure": "150/88",
+      "spo2": 98,
+      "temperature": 37.8,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 15,
-    "demographics": { "age": 23, "sex": "F", "name": "Chiara Leone" },
-    "clinicalSigns": [
-      {
-        "signName": "Lesioni tendinee",
-        "result": "Dita e polso muovono. I tagli restano nel derma. Emostasi già valida.",
-        "isPositive": false
-      },
-      {
-        "signName": "Piano suicidario organizzato",
-        "result": "C'è la frase, non ci sono orario, mezzi preparati o saluto. Non è il caso gelido ad alto rischio.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Lesioni tendinee",
-        "result": "Assenti. Motilità conservata.",
-        "isPositive": false
-      }
-    ],
+    "clinicalSigns": {},
+    "semeiotics": {},
     "advancedExams": {
       "values": {
-        "ecg": {
-          "finding": "Sinusale a 98 bpm. Non richiesto. Costo 15 euro, pari al budget.",
-          "normalFinding": "Sinusale.",
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
           "isAbnormal": false,
-          "price": 15
+          "price": 2.0
         },
-        "rm-encefalo": {
-          "finding": "RM encefalo negativa. 220 euro. Non indicata.",
-          "normalFinding": "Segnale nei limiti.",
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
           "isAbnormal": false,
-          "price": 220
+          "price": 4.0
         },
-        "rm": { "finding": "RM encefalo negativa. 220 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 220 },
-        "tc-cranio": {
-          "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro.",
-          "normalFinding": "Nessuna lesione acuta.",
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
           "isAbnormal": false,
-          "price": 120
-        },
-        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 }
-      }
-    },
-    "therapyMatrix": {
-      "indicated": [],
-      "inappropriate": [
-        {
-          "id": "benzo-unica",
-          "label": "Benzodiazepina come unica risposta, da portare a casa",
-          "aliases": ["lorazepam", "tavor", "diazepam", "valium", "alprazolam", "xanax"],
-          "priceEuro": 4.5
+          "price": 86.1
         }
-      ]
+      }
     }
   },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "OPPOSITIONAL",
+    "emotionalState": "ANXIOUS",
     "adherence": "PARTIAL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
-    "communicationStyle": "Piange senza fermarsi e ricatta con la frase sul morire. Se la si sminuisce urla. Se la si medica e la si invia al CSM, il pianto cala. Vuole la risonanza per essere creduta."
-  }
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Teresa. Ho paura del letto. Parlatemi. Non addormentatemi senza un motivo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima la de-escalation",
+      "prompt": "Nessuno le ha parlato. Ordine gia' scritto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Provi prima le strategie verbali e non verbali",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Salti alla compressa",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "De-escalation saltata",
+      "prompt": "Antipsychotic agents be used only when verbal and non-verbal de-escalation strategies have been ineffective.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Fattori, compresa l'infezione",
+      "prompt": "Infezione urinaria non trattata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "La affronti, insieme a glicemia e anemia se alterate",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Non la tocchi",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Fattore lasciato",
+      "prompt": "Contributing factors have to be assessed and, insofar as possible, addressed before an antipsychotic is used for the neuropsychiatric disturbance.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Poi, solo se c'e' danno o sofferenza",
+      "prompt": "Dopo de-escalation e antibiotico resta un rischio di caduta dal letto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Solo allora consideri l'antipsicotico",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Lo dia comunque come prima mossa",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Antipsicotico di apertura",
+      "prompt": "The disturbances must cause the patient significant distress and/or present a risk of physical harm to the patient or others.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente benzodiazepina",
+      "prompt": "Non c'e' astinenza ne' altra indicazione specifica.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non la usi",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Lorazepam per sedare",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Benzodiazepina senza indicazione",
+      "prompt": "APA recommends that benzodiazepines not be used in patients with delirium unless there is a specific indication for their use.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC al posto dei tre criteri",
+      "prompt": "TC cranio prima di parlare.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non la faccia come sostituto",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "TC cranio",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC prematura",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non per accelerare la risoluzione",
+      "prompt": "Vogliono l'antipsicotico 'per far passare prima il delirium'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non e' l'indicazione: non accelera la risoluzione",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo dia per accorciare il delirium",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Indicazione falsa",
+      "prompt": "APA recommends that antipsychotic agents not be used to prevent delirium or hasten its resolution.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Informazione quando capisce",
+      "prompt": "A tratti capisce la frase.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Gliela ripeta allora, con benefici e rischi",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non le dica nulla",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Informazione mancata",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rivalutare il farmaco",
+      "prompt": "Il giorno dopo e' piu' lucida. L'antipsicotico e' ancora fisso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Riveda l'indicazione e non lo lasci senza motivo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Lo continui per abitudine",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Indicazione non rivista",
+      "prompt": "At transitions and during care, reassess the indications for medications, including psychotropic medications.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

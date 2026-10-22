@@ -1,0 +1,450 @@
+{
+  "id": "PSIC-025",
+  "code": "PSIC-025",
+  "title": "Depressione in demenza: non farmacologico prima, SSRI solo con indicazione precisa, niente triciclici",
+  "description": "Uomo di 79 anni, demenza lieve, tristezza moderata, non e' una depressione maggiore accertata. Vogliono amitriptilina o paroxetina subito.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Sintomi depressivi lievi-moderati in demenza, senza depressione maggiore accertata",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Manuale BPSD 2023, sezione depressione",
+  "diagnosis": "Per i sintomi depressivi lievi-moderati senza depressione maggiore accertata si considerano prima gli interventi psicologici e non farmacologici. L'antidepressivo non si usa salvo una precisa indicazione psichiatrica. Se c'e', gli SSRI sono preferiti; citalopram, escitalopram, sertralina e vortioxetina hanno un profilo migliore di paroxetina, fluoxetina e fluvoxamina. I triciclici si evitano.",
+  "pastMedicalHistory": "Demenza lieve. Tristezza, pianto, non apatia isolata: c'e' distress. Attenzione conservata, non e' un delirium ipocinetico. Nessuna depressione maggiore gia' diagnosticata. Nessun intervento psicologico avviato.",
+  "presentation": "La moglie chiede amitriptilina 'come vent'anni fa' o paroxetina. Nessuno ha distinto l'apatia ne' provato la stimolazione cognitiva.",
+  "redHerrings": [
+    "Triciclico.",
+    "Paroxetina come prima SSRI.",
+    "Antidepressivo senza indicazione psichiatrica precisa."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Renzo. Sono giu', ma capisco. Prima le cose senza pastiglia. Se serve una pastiglia, non quella vecchia che secca la bocca.",
+  "correctSolution": "Escludere apatia e delirium ipocinetico. Non farmacologico prima, perche' non c'e' una depressione maggiore accertata. Antidepressivo solo con indicazione psichiatrica precisa. Allora SSRI, preferendo citalopram, escitalopram, sertralina o vortioxetina rispetto a paroxetina, fluoxetina, fluvoxamina. Niente triciclici. Nessuna dose in milligrammi: il manuale non la fissa. Niente TC.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Il manuale BPSD cita NICE NG97: prima il psicologico nei sintomi lievi-moderati, antidepressivo solo con indicazione precisa, triciclici da evitare.",
+  "examLatencies": {
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40,
+    "ecg": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "E' apatia, delirium ipocinetico o tristezza con distress?",
+      "critical": true,
+      "expectedKeywords": [
+        "tristezza",
+        "pianto",
+        "attenzione"
+      ],
+      "rationale": "L'apatia non ha il distress; il delirium ipocinetico ha il deficit di attenzione."
+    },
+    {
+      "id": "q2",
+      "prompt": "C'e' gia' una diagnosi di depressione maggiore?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "lieve",
+        "moderata"
+      ],
+      "rationale": "Senza quella indicazione l'antidepressivo non e' raccomandato."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Triste, piange, attenzione conservata, orientato. Demenza lieve gia' nota."
+  },
+  "escCitations": [
+    {
+      "chunkId": "nf",
+      "source": "knowledge_base/psichiatria/clinic/MANUALE-BPSD-2023-DEF.pdf",
+      "quote": "Nel formulare un piano di trattamento per i sintomi depressivi di entita' lieve-moderata e' necessario, in primo luogo, prendere in considerazione trattamenti di tipo psicologico nei pazienti con demenza lieve o moderata."
+    },
+    {
+      "chunkId": "no",
+      "source": "knowledge_base/psichiatria/clinic/MANUALE-BPSD-2023-DEF.pdf",
+      "quote": "Tali agenti non dovrebbero essere impiegati per il trattamento della depressione nei pazienti con demenza, salvo che nei casi in cui sussista una precisa indicazione psichiatrica."
+    },
+    {
+      "chunkId": "ssri",
+      "source": "knowledge_base/psichiatria/clinic/MANUALE-BPSD-2023-DEF.pdf",
+      "quote": "Il citalopram, l'escitalopram, la sertralina e la vortioxetina sembrano avere un profilo di sicurezza superiore e sono associati a minori interazioni rispetto a paroxetina, fluoxetina o fluvoxamina, in pazienti con demenza."
+    },
+    {
+      "chunkId": "tca",
+      "source": "knowledge_base/psichiatria/clinic/MANUALE-BPSD-2023-DEF.pdf",
+      "quote": "I farmaci appartenenti alla classe degli antidepressivi triciclici dovrebbero essere evitati nei pazienti con demenza a causa della loro attivita' anticolinergica e dei marcati effetti collaterali."
+    },
+    {
+      "chunkId": "ap",
+      "source": "knowledge_base/psichiatria/clinic/MANUALE-BPSD-2023-DEF.pdf",
+      "quote": "Sia l'apatia che la depressione possono avere perdita di motivazione, ma la prima non si correla a sintomi vegetativi, a tristezza o segni di distress psicologico. Nel delirium ipocinetico e' presente un marcato deficit di attenzione."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Prima gli interventi psicologici e non farmacologici.",
+      "Antidepressivo solo con indicazione psichiatrica precisa.",
+      "Niente triciclici. Se SSRI, il profilo migliore e' citalopram, escitalopram, sertralina o vortioxetina."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Sezione depressione del manuale BPSD 2023. Nessun milligrammo inventato.",
+      "legalCriteria": [
+        "Prima gli interventi psicologici e non farmacologici.",
+        "Antidepressivo solo con indicazione psichiatrica precisa.",
+        "Niente triciclici. Se SSRI, il profilo migliore e' citalopram, escitalopram, sertralina o vortioxetina."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+      "isAbnormal": false,
+      "priceEuro": 4.0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 86.1,
+      "inappropriate": true,
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
+        },
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Renzo. Sono triste e capisco. Non la medicina vecchia. Prima il resto."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Non e' apatia ne' delirium",
+      "prompt": "Piange, dice che la vita non serve, attenzione buona.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La chiami sintomo depressivo, non apatia e non delirium ipocinetico",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La chiami apatia e non faccia nulla, o delirium e la sedi",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Diagnosi differenziale persa",
+      "prompt": "L'apatia non si correla a tristezza o distress. Nel delirium ipocinetico c'e' un marcato deficit di attenzione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima il non farmacologico",
+      "prompt": "Demenza lieve, sintomi moderati, nessuna depressione maggiore accertata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Consideri prima i trattamenti psicologici e non farmacologici",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Amitriptilina oggi",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco di prima mossa",
+      "prompt": "Per i sintomi depressivi di entita' lieve-moderata e' necessario in primo luogo prendere in considerazione trattamenti di tipo psicologico nei pazienti con demenza lieve o moderata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Indicazione precisa",
+      "prompt": "Non c'e' una depressione maggiore gia' diagnosticata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non usi l'antidepressivo salvo che compaia una precisa indicazione psichiatrica",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Lo usi lo stesso",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Senza indicazione",
+      "prompt": "Tali agenti non dovrebbero essere impiegati per il trattamento della depressione nei pazienti con demenza, salvo una precisa indicazione psichiatrica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se l'indicazione c'e', quale SSRI",
+      "prompt": "Piu' avanti una depressione maggiore viene accertata. Propongono paroxetina.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Preferisca citalopram, escitalopram, sertralina o vortioxetina, non paroxetina, fluoxetina o fluvoxamina come prima scelta di profilo",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Paroxetina di default",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "SSRI a profilo peggiore",
+      "prompt": "Citalopram, escitalopram, sertralina e vortioxetina sembrano avere un profilo di sicurezza superiore e minori interazioni rispetto a paroxetina, fluoxetina o fluvoxamina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente triciclico",
+      "prompt": "Amitriptilina 'come una volta'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "La eviti: attivita' anticolinergica e effetti marcati",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Amitriptilina",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Triciclico",
+      "prompt": "Gli antidepressivi triciclici dovrebbero essere evitati nei pazienti con demenza a causa della loro attivita' anticolinergica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente milligrammi inventati",
+      "prompt": "Chiedono la dose esatta. Il capitolo non la fissa.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non inventi la dose. Dica il limite del testo",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Scelga una dose a memoria",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non letta",
+      "prompt": "Il manuale indica le molecole e il profilo di sicurezza. Non fissa in questo passo un regime posologico in milligrammi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC per la tristezza",
+      "prompt": "TC cranio di routine.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non la faccia",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "TC cranio",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione e consenso",
+      "prompt": "Capace su questo punto, vuole sapere rischi e alternative.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Glieli dica e rispetti la scelta",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Imponga la compressa",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Consenso saltato",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

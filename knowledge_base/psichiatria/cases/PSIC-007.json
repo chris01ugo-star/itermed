@@ -1,262 +1,448 @@
 {
   "id": "PSIC-007",
   "code": "PSIC-007",
-  "title": "Delirium tremens",
-  "description": "Pietro Albani, 58 anni, è in pronto soccorso da sei ore, sudato, con tremore grossolano. Vede insetti sulle braccia e cerca di scacciarli. Beveva una bottiglia di vino al giorno e ha smesso l'altro ieri perché «doveva fare gli esami». Non è un'intossicazione in corso: è astinenza. Il percorso è diazepam o lorazepam a dosi ripetute, fluidi, tiamina prima di qualunque glucosio, alcolemia ed elettroliti. Dimenticare la tiamina apre la Wernicke. L'aloperidolo, da solo, abbassa la soglia epilettica ed è la trappola mortale. Budget 40 euro: gli esami indicati ci stanno, la TC cranio a 120 euro no, se non compare un trauma o un deficit.",
-  "difficulty": "MEDIUM",
+  "title": "Delirium: scala, farmaci, interventi non farmacologici, niente antipsicotico per prevenire",
+  "description": "Uomo di 78 anni, dopo un intervento, fluttuante, disattento. Vogliono un antipsicotico per prevenire il delirium e una TC subito.",
+  "difficulty": "HARD",
   "specialty": "psichiatria",
   "specialtyLabel": "Psichiatria",
-  "condition": "Delirium tremens, astinenza da alcol",
-  "frequencyCategory": "MEDIUM",
-  "matrixDifficulty": "INTERMEDIATE",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "Legge 24/2017 art. 5 — tiamina obbligatoria nel delirium tremens",
-  "diagnosis": "Delirium tremens in astinenza alcolica. Indicati benzodiazepine, idratazione e tiamina. Alcolemia bassa, non un'intossicazione acuta. Controindicato l'antipsicotico tipico come sedazione principale.",
-  "pastMedicalHistory": "Alcol quotidiano da vent'anni, circa una bottiglia di vino, riferito dalla moglie. Stop brutale l'altro ieri. Due ricoveri per astinenza, l'ultimo tre anni fa, trattato con diazepam. Nessuna crisi epilettica nota fuori dall'astinenza. Non è diabetico. Fegato «un po' grasso» a un'ecografia vecchia, non cirrosi scompensata nota. Allergie: nessuna. Nessun trauma cranico riferito, non è caduto. Non assume disulfiram.",
-  "presentation": "Agitato, sudato, tremore a riposo che peggiora se allunga le mani. Guarda il lenzuolo e colpisce l'aria. [urla] che gli insetti gli entrano nelle maniche. Temperatura 38,2 °C, FC 124, PA 158/96, SpO2 95%, FR 24. La moglie dice che ieri sera era ancora solo ansioso e che stanotte ha iniziato a vedere gli insetti. Se gli si propone l'aloperidolo «per calmarlo», la moglie accetta qualsiasi fiala.",
+  "condition": "Delirium o rischio di delirium, senza ancora agitazione pericolosa",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "APA delirium guideline (bozza nel file); nomenclatore",
+  "diagnosis": "Il testo APA chiede valutazioni strutturate con strumenti validi, lo stato cognitivo di base, la revisione dei fattori e dei farmaci, e interventi non farmacologici multicomponente. L'antipsicotico non si usa per prevenire il delirium ne' per accelerarne la risoluzione.",
+  "pastMedicalHistory": "Demenza lieve. Benzodiazepina serale da anni. Intervento ieri. Nessuna scala del delirium in cartella.",
+  "presentation": "Attento a tratti, poi no. Non e' aggressivo. Il collega prescrive un antipsicotico 'per non fargli venire il delirium' e una TC cranio prima di leggere la terapia.",
   "redHerrings": [
-    "La febbre fa pensare a una sepsi: va tenuta in conto, ma il tremore, gli insetti e lo stop dell'alcol chiudono il delirium tremens.",
-    "L'alcolemia bassa sembra escludere l'alcol. È il contrario: nell'astinenza il tasso è già sceso.",
-    "L'aloperidolo è nel carrello dell'agitazione e qui è la scelta sbagliata come farmaco principale.",
-    "Una TC cranio «perché è confuso» costa 120 euro e non sostituisce tiamina e diazepam."
+    "Antipsicotico di prevenzione.",
+    "TC prima della revisione dei farmaci."
   ],
-  "timeLimitMinutes": 30,
-  "patientDeteriorationThreshold": 18,
-  "patientPrompt": "ROLEPLAY RIGIDO. Sei Pietro Albani, 58 anni, pronto soccorso. Tua moglie Anna è accanto: quando parla lei, premetti «Anna:». Registro: TERRORIZZATO. [urla], [si gratta le braccia], [trema]. Alla «Come sta?»: «Toglieteli! Sono sotto la pelle!» [si gratta le braccia] Non dire tu astinenza, tiamina o Wernicke. Gli insetti li vedi davvero. I fatti (bottiglia di vino al giorno, stop l'altro ieri, due ricoveri vecchi, niente caduta) li dice SOLO Anna. Se ti chiedono da quanto non bevi e che cosa vedi, Anna risponde e tu indichi il lenzuolo. Se ti danno una benzodiazepina e ti parlano con voce bassa, il tremore non sparisce subito ma smetti di colpire l'aria. Se ti danno un antipsicotico e nessuno nomina la vitamina, continui a urlare e Anna dice «non basta». Non nominare tu il nome dei farmaci.",
-  "correctSolution": "Delirium tremens. Benzodiazepina (diazepam o lorazepam) a dosi ripetute, fluidi, tiamina prima del glucosio. Alcolemia ed elettroliti. Non aloperidolo come sedazione principale. Non dimenticare la tiamina. TC cranio solo se compare un trauma o un deficit, e comunque non al posto della tiamina. Budget 40 euro.",
-  "goldStandardPath": ["alcolemia", "elettroliti", "glicemia", "azione-diazepam", "azione-idratazione", "azione-tiamina"],
-  "goldPathNarrative": "1) Alcolemia 12 euro: valore basso, compatibile con astinenza e non con l'ubriachezza attuale. 2) Elettroliti 6,50 euro e glicemia 2,10 euro: il potassio e lo zucchero si correggono, e il glucosio non si infonde senza tiamina. 3) Diazepam o lorazepam, non l'aloperidolo. 4) Fluidi. 5) Tiamina per via venosa, subito. Ometterla è la porta della Wernicke. I passi azione- non sono esami. Somma esami circa 21 euro, farmaci pochi euro, budget 40. L'antipsicotico tipico è la trappola mortale. La TC cranio a 120 euro, senza caduta e senza deficit, sfora e non cura l'astinenza.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Aldo. Vado e vengo. Non datemi una medicina per prevenire se la guida dice di no. Guardate le pastiglie che gia' prendo.",
+  "correctSolution": "Scala valida e ripetuta. Cognitivo di base. Revisione di fattori e farmaci, specie la benzodiazepina nella compromissione cognitiva. Interventi non farmacologici multicomponente. Niente antipsicotico per prevenire. Glicemia e emocromo tra i fattori da correggere. Niente TC come primo atto.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Le affermazioni 1, 4, 7 e 9 della bozza APA sono il percorso. L'antipsicotico non previene il delirium. La TC non precede la revisione.",
   "examLatencies": {
-    "alcolemia": 15,
-    "elettroliti": 12,
-    "glicemia": 5,
-    "azione-diazepam": 4,
-    "azione-idratazione": 5,
-    "azione-tiamina": 3,
-    "tc-cranio": 25,
-    "tc": 25,
-    "ammoniemia": 20,
-    "cpk": 15
+    "glicemia": 20,
+    "emocromo": 20,
+    "tc": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-stop",
-      "prompt": "Quanto beveva e quando ha smesso?",
+      "id": "q1",
+      "prompt": "C'e' una scala valida del delirium e qual e' il cognitivo di base?",
       "critical": true,
-      "expectedKeywords": ["vino", "smetto", "ieri"],
-      "rationale": "Lo stop brutale l'altro ieri data l'astinenza. Senza questa domanda gli insetti sembrano una psicosi primaria."
+      "expectedKeywords": [
+        "scala",
+        "base",
+        "attenzione"
+      ],
+      "rationale": "Servono valutazioni strutturate e il cognitivo di base."
     },
     {
-      "id": "aq-trauma",
-      "prompt": "È caduto, ha battuto la testa, ha un lato debole?",
+      "id": "q2",
+      "prompt": "Quali farmaci, soprattutto nella compromissione cognitiva, possono contribuire?",
       "critical": true,
-      "expectedKeywords": ["caduta", "testa"],
-      "rationale": "Senza trauma la TC cranio non precede tiamina e benzodiazepina."
-    },
-    {
-      "id": "aq-crisi",
-      "prompt": "Ha avuto crisi epilettiche nelle astinenze precedenti?",
-      "critical": true,
-      "expectedKeywords": ["crisi", "astinenza"],
-      "rationale": "Le crisi note rendono ancora più sbagliato l'antipsicotico tipico come prima sedazione."
+      "expectedKeywords": [
+        "benzodiazepina",
+        "farmaci",
+        "revisione"
+      ],
+      "rationale": "La revisione dei farmaci e' raccomandata specie se c'e' gia' un deficit cognitivo."
     }
   ],
   "physicalExam": {
-    "summary": "Sudato, tremore grossolano a riposo, tachicardia, febbre 38,2 °C, disorientato nel tempo, allucinazioni visive di insetti. Non segni di trauma al cuoio capelluto. Pupille normoreagent. Non rigidità nucale. Linguaggio comprensibile tra un urlo e l'altro. Addome non acuto. La moglie è affidabile sullo stop dell'alcol."
+    "summary": "Attenzione fluttuante, disorientato a tratti, non aggressivo. Nessun segno focale."
   },
   "escCitations": [
     {
-      "chunkId": "psic-007-tiamina",
-      "source": "Legge 24/2017 art. 5 — encefalopatia di Wernicke",
-      "quote": "Sintesi operativa, non un estratto da un PDF assente: nel delirium tremens la tiamina si dà subito e prima del glucosio. Una benzodiazepina controlla agitazione e soglia epilettica. L'aloperidolo da solo non è il farmaco di questa astinenza."
+      "chunkId": "s1",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "APA recommends (1C) that patients with delirium or who are at risk for delirium undergo regular structured assessments for the presence or persistence of delirium using valid and reliable measures."
     },
     {
-      "chunkId": "psic-007-alcolemia",
-      "source": "Tariffe didattiche del caso PSIC — alcolemia 12 €, TC cranio 120 €",
-      "quote": "Sintesi operativa economica: alcolemia, elettroliti e glicemia stanno nel budget di 40 euro. La TC cranio a 120 euro, senza trauma, sfora e non sostituisce la tiamina."
+      "chunkId": "s4",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "APA recommends (1C) that a detailed medication review be conducted in patients with delirium or who are at risk for delirium, especially those with pre-existing cognitive impairment."
+    },
+    {
+      "chunkId": "s7",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "APA recommends (1B) that patients with delirium or who are at risk for delirium receive multi-component non-pharmacological interventions to manage and prevent delirium."
+    },
+    {
+      "chunkId": "s9",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "APA recommends (1C) that antipsychotic agents not be used to prevent delirium or hasten its resolution."
+    },
+    {
+      "chunkId": "glu",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "Correcting abnormalities in blood pressure, severe anemia, electrolytes, glucose, fluid, and acid-base status, insofar as possible."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Datato lo stop dell'alcol.",
-      "Benzodiazepina, non antipsicotico tipico come sedazione principale.",
-      "Tiamina somministrata, prima di eventuale glucosio.",
-      "Fluidi avviati.",
-      "Alcolemia interpretata come astinenza se è bassa.",
-      "Nessuna TC cranio in assenza di trauma. Spesa entro 40 euro."
+      "Scala valida e revisione dei farmaci prima di ogni antipsicotico.",
+      "Interventi non farmacologici multicomponente.",
+      "Niente antipsicotico per prevenire il delirium o per accelerarne la fine."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano lo stop dell'alcol, la benzodiazepina, la tiamina e il motivo per cui non si è usato l'aloperidolo da solo. Omettere la tiamina non è difendibile.",
+      "art5Adherence": "Il percorso usa le raccomandazioni della bozza APA presente nel file. La TC segue il nomenclatore.",
       "legalCriteria": [
-        "Tiamina registrata in terapia, con l'orario.",
-        "Nessun antipsicotico tipico come unico sedativo.",
-        "Sorveglianza: il delirium tremens non si dimette.",
-        "TC cranio solo se compare un trauma o un segno focale, e non al posto della vitamina."
+        "Scala valida e revisione dei farmaci prima di ogni antipsicotico.",
+        "Interventi non farmacologici multicomponente.",
+        "Niente antipsicotico per prevenire il delirium o per accelerarne la fine."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "alcolemia",
-      "name": "Alcolemia",
-      "finding": "Alcolemia 0,1 g/L, quasi assente. Non è ubriaco adesso: è in astinenza. Costo 12 euro. Un valore basso non autorizza a escludere l'alcol.",
-      "isAbnormal": true,
-      "priceEuro": 12
-    },
-    {
-      "examId": "elettroliti",
-      "name": "Elettroliti",
-      "finding": "Sodio 132 mmol/L, potassio 3,2 mmol/L, magnesio ai limiti bassi. Da correggere insieme ai fluidi. Costo 6,50 euro.",
-      "isAbnormal": true,
-      "priceEuro": 6.5
-    },
-    {
       "examId": "glicemia",
-      "name": "Glicemia",
-      "finding": "Glicemia 78 mg/dL. Non infondere glucosio concentrato senza avere già dato la tiamina. Costo 2,10 euro.",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
       "isAbnormal": false,
-      "priceEuro": 2.1
+      "priceEuro": 2.0
     },
     {
-      "examId": "azione-tiamina",
-      "name": "Tiamina",
-      "finding": "Tiamina per via venosa, prima del glucosio. Senza questo passaggio il rischio è l'encefalopatia di Wernicke, anche se gli insetti sembrano «solo psichiatrici».",
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
       "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 4.0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc-cranio",
-      "name": "TC Cranio senza mezzo di contrasto",
-      "finding": "TC cranio senza mezzo di contrasto: nessuna emorragia, nessuna frattura. Costo 120 euro. Non c'era una caduta. Il referto è vero e arriva mentre il paziente continua a tremare se non ha avuto benzodiazepina e tiamina.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "componentExamIds": ["tc"],
-      "wasteRationale": "Senza trauma la TC cranio costa 120 euro, sfora i 40 e non cura l'astinenza."
-    },
-    {
       "examId": "tc",
-      "name": "TC encefalo generica",
-      "finding": "TC encefalo negativa. 120 euro.",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "priceEuro": 86.1,
       "inappropriate": true,
-      "wasteRationale": "Stesso costo e stessa assenza di indicazione."
-    },
-    {
-      "examId": "rm-encefalo",
-      "name": "RM Encefalo",
-      "finding": "RM encefalo non indicata nell'astinenza acuta. Costo 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "RM encefalo a 220 euro: fuori tempo e fuori budget."
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
     }
   ],
   "baselineExamFindings": {
-    "context": "Pronto soccorso. Sudore, tremore, insetti immaginari, stop dell'alcol l'altro ieri.",
     "vitals": {
-      "heartRate": 124,
-      "bloodPressure": "158/96",
-      "spo2": 95,
-      "temperature": 38.2,
-      "respiratoryRate": 24
+      "heartRate": 96,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 37.4,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 40,
-    "demographics": { "age": 58, "sex": "M", "name": "Pietro Albani" },
-    "killerRules": {
-      "fatalIfOmitted": [["tiamina", "benerva", "thiamine", "vitamina b1"]],
-      "fatalIfPrescribed": [["aloperidolo", "serenase", "haloperidol", "clorpromazina", "promazina", "levomepromazina"]]
-    },
-    "clinicalSigns": [
-      {
-        "signName": "Tremore grossolano",
-        "result": "Tremore a riposo, peggiora con le braccia distese. Non è un tremore parkinsoniano fine.",
-        "isPositive": true
-      },
-      {
-        "signName": "Segni di trauma cranico",
-        "result": "Cuoio capelluto integro, moglie nega cadute. La TC non è il primo esame.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Allucinazioni visive",
-        "result": "Vede insetti sul lenzuolo e sulle braccia e cerca di scacciarli.",
-        "isPositive": true
-      }
-    ],
+    "clinicalSigns": {},
+    "semeiotics": {},
     "advancedExams": {
       "values": {
-        "alcolemia": {
-          "finding": "0,1 g/L. Astinenza, non ebbrezza. Costo 12 euro.",
-          "normalFinding": "0,1 g/L.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "elettroliti": {
-          "finding": "Na 132 mmol/L, K 3,2 mmol/L. Costo 6,50 euro.",
-          "normalFinding": "Na 132, K 3,2.",
-          "isAbnormal": true,
-          "price": 6.5
-        },
         "glicemia": {
-          "finding": "78 mg/dL. Non dare glucosio senza tiamina. Costo 2,10 euro.",
-          "normalFinding": "78 mg/dL.",
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
           "isAbnormal": false,
-          "price": 2.1
+          "price": 2.0
         },
-        "ammoniemia": {
-          "finding": "Ammoniemia 32 µg/dL, nei limiti. Non è l'encefalopatia epatica il motore di stanotte. Costo 12 euro.",
-          "normalFinding": "32 µg/dL.",
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
           "isAbnormal": false,
-          "price": 12
+          "price": 4.0
         },
-        "tc-cranio": {
-          "finding": "TC cranio senza mezzo di contrasto: niente sangue, niente frattura. 120 euro.",
-          "normalFinding": "Nessuna lesione traumatica acuta.",
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
           "isAbnormal": false,
-          "price": 120
-        },
-        "tc": { "finding": "TC encefalo negativa per sangue. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
-        "rm-encefalo": { "finding": "RM non indicata in acuto. 220 euro.", "normalFinding": "Non cambia la cura dell'astinenza.", "isAbnormal": false, "price": 220 },
-        "cpk": { "finding": "CPK 280 U/L, rialzo lieve da agitazione, non una neurolettica maligna. Costo 12 euro.", "normalFinding": "280 U/L.", "isAbnormal": true, "price": 12 }
+          "price": 86.1
+        }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Benzodiazepina per l'astinenza",
-          "anyOf": [
-            { "id": "diazepam", "label": "Diazepam", "aliases": ["diazepam", "valium"], "priceEuro": 2.8 },
-            { "id": "lorazepam", "label": "Lorazepam", "aliases": ["lorazepam", "tavor"], "priceEuro": 4.5 }
-          ]
-        },
-        {
-          "label": "Tiamina",
-          "anyOf": [
-            { "id": "tiamina", "label": "Tiamina", "aliases": ["tiamina", "benerva", "thiamine"], "priceEuro": 1.9 }
-          ]
-        }
-      ],
-      "contraindicated": [
-        {
-          "id": "aloperidolo",
-          "label": "Antipsicotico tipico come sedazione principale",
-          "aliases": ["aloperidolo", "serenase", "haloperidol", "clorpromazina"],
-          "priceEuro": 2.4
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
+    "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
-    "adherence": "NON_COMPLIANT",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
-    "communicationStyle": "Terrorizzato dagli insetti, urla, si gratta. La moglie data lo stop dell'alcol. Non ha critica. Si quieta solo in parte con la benzodiazepina."
-  }
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Aldo. A tratti non so che giorno e'. Guardate le medicine. Non una nuova per prevenire."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Scala, non l'occhio",
+      "prompt": "Fluttuazione e disattenzione. Nessuna scala in cartella.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Usi una misura valida e la ripeta. Registri il cognitivo di base",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Decida a occhio e basta",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Scala assente",
+      "prompt": "APA recommends regular structured assessments for the presence or persistence of delirium using valid and reliable measures, and that baseline neurocognitive status be determined.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Farmaci e fattori",
+      "prompt": "Benzodiazepina serale, demenza lieve, post-operatorio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Riveda i farmaci e i fattori, e corregga glicemia e anemia se alterate",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Non legga la terapia",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Revisione saltata",
+      "prompt": "A detailed medication review is recommended especially with pre-existing cognitive impairment. Correct abnormalities in glucose and severe anemia among the contributing factors.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non farmacologico prima",
+      "prompt": "Vogliono solo la compressa.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Faccia interventi non farmacologici multicomponente per gestire e prevenire",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Salti quel passo",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Non farmacologico saltato",
+      "prompt": "APA recommends (1B) that patients with delirium or who are at risk for delirium receive multi-component non-pharmacological interventions to manage and prevent delirium.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non prevenire con l'antipsicotico",
+      "prompt": "Prescrizione: antipsicotico per non far venire il delirium.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non lo usi a quello scopo, ne' per accelerare la risoluzione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Lo dia in prevenzione",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Antipsicotico preventivo",
+      "prompt": "APA recommends (1C) that antipsychotic agents not be used to prevent delirium or hasten its resolution.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC come primo atto",
+      "prompt": "TC cranio prima di aver letto i farmaci. Nessun segno focale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non la metta prima della revisione",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "TC subito",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC prematura",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Ipoattivo non e' demenza sola",
+      "prompt": "Di notte e' soporoso e lo chiamano 'solita demenza'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Lo rivaluti: il delirium ipoattivo si riconosce male senza la scala",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo archivi come demenza",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Ipoattivo perso",
+      "prompt": "Under-recognition is particularly common among patients with hypoactive delirium. Screening should not be accepted uncritically, but absence of a validated tool leads to overlooking delirium.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione a chi puo' riceverla",
+      "prompt": "A tratti capisce. Il figlio vuole decidere tutto anche quando lui capisce.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Informi lui quando le condizioni lo consentono",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Parli solo al figlio",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione saltata",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Alla dimissione si riconcilia",
+      "prompt": "Domani lo trasferiscono.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Riconcili i farmaci e programmi ancora la ricerca del delirium",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Lo mandi senza riconciliazione",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Transizione nuda",
+      "prompt": "At transitions of care, conduct medication review, reconciliation, and reassessment of indications for medications, including psychotropic medications, and continue assessments for persistence of delirium.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

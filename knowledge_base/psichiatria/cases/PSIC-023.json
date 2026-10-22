@@ -1,0 +1,444 @@
+{
+  "id": "PSIC-023",
+  "code": "PSIC-023",
+  "title": "BPSD: prima il non farmacologico, il farmaco solo se c'e' pericolo",
+  "description": "Uomo di 82 anni, Alzheimer lieve, si agita un po' la sera. Vogliono subito un antipsicotico.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Sintomi comportamentali della demenza senza condotta pericolosa",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Manuale BPSD 2023",
+  "diagnosis": "Il non farmacologico e' la prima linea dei BPSD. Il farmaco si riserva a chi ha un impatto funzionale rilevante e una condotta pericolosa per se' o per gli altri. Gli antipsicotici sono la scelta piu' comune ma spesso off-label, con effetti gravi. Qui la sera e' agitata ma non pericolosa: non si parte dal farmaco.",
+  "pastMedicalHistory": "Alzheimer lieve. Irrequietezza serale, nessun colpo, non esce di casa da solo, mangia. Nessun intervento ambientale provato.",
+  "presentation": "La figlia chiede una compressa 'per farlo stare buono'. Nessun pericolo descritto.",
+  "redHerrings": [
+    "Antipsicotico alla prima irrequietezza.",
+    "Saltare l'intervento ambientale."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono la figlia di Giorgio. La sera cammina. Non gli date una medicina se prima non avete provato il resto, e lui non fa male a nessuno.",
+  "correctSolution": "Interventi non farmacologici, psicosociali e ambientali, individualizzati, anche se poi ci fosse un farmaco. Il farmaco solo con impatto rilevante e condotta pericolosa. Qui non c'e'. Niente TC di routine.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Take-home del manuale BPSD: non farmacologico di prima linea; farmaco solo con impatto e pericolo.",
+  "examLatencies": {
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40,
+    "ecg": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "C'e' una condotta pericolosa per lui o per gli altri?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "sera",
+        "cammina"
+      ],
+      "rationale": "Senza pericolo il farmaco non e' il primo passo."
+    },
+    {
+      "id": "q2",
+      "prompt": "E' stato provato un intervento ambientale?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "ambiente",
+        "no"
+      ],
+      "rationale": "Il non farmacologico e' la prima linea e resta anche se si aggiunge un farmaco."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Irrequieto la sera, collaborante di giorno, nessun trauma, nessun segno focale acuto."
+  },
+  "escCitations": [
+    {
+      "chunkId": "1",
+      "source": "knowledge_base/psichiatria/clinic/MANUALE-BPSD-2023-DEF.pdf",
+      "quote": "La terapia non farmacologica e' il trattamento di prima linea per i BPSD. Gli interventi di tipo non farmacologico, psico-sociali ed ambientali, devono essere garantiti anche ai pazienti in trattamento farmacologico."
+    },
+    {
+      "chunkId": "4",
+      "source": "knowledge_base/psichiatria/clinic/MANUALE-BPSD-2023-DEF.pdf",
+      "quote": "Il trattamento farmacologico deve essere riservato ai casi in cui i BPSD abbiano un significativo impatto funzionale e sulla qualita' della vita e che richiedano un intervento rapido e deciso poiche' il paziente mostra condotta pericolosa per se' o per altri."
+    },
+    {
+      "chunkId": "off",
+      "source": "knowledge_base/psichiatria/clinic/MANUALE-BPSD-2023-DEF.pdf",
+      "quote": "I farmaci antipsicotici rappresentano la scelta piu' comune per il trattamento farmacologico dei BPSD, sebbene utilizzati off-label nella maggioranza dei casi."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Non farmacologico prima.",
+      "Farmaco solo con impatto e condotta pericolosa.",
+      "L'antipsicotico di apertura, qui, e' fuori da quel criterio."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Manuale BPSD 2023, take-home del modulo generale.",
+      "legalCriteria": [
+        "Non farmacologico prima.",
+        "Farmaco solo con impatto e condotta pericolosa.",
+        "L'antipsicotico di apertura, qui, e' fuori da quel criterio."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+      "isAbnormal": false,
+      "priceEuro": 4.0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 86.1,
+      "inappropriate": true,
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
+        },
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Parla la figlia. Giorgio cammina la sera. Prima l'ambiente, non la compressa."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima linea",
+      "prompt": "Nessun intervento ambientale. Gia' la ricetta dell'antipsicotico.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Parta dal non farmacologico, individualizzato",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Antipsicotico subito",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco di prima linea",
+      "prompt": "La terapia non farmacologica e' il trattamento di prima linea per i BPSD.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Quando il farmaco",
+      "prompt": "Cammina, non colpisce, mangia, non si perde.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non lo dia: manca la condotta pericolosa",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo dia per farlo stare buono",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco senza pericolo",
+      "prompt": "Il trattamento farmacologico e' riservato a chi ha un impatto rilevante e mostra condotta pericolosa per se' o per altri.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Anche dopo, l'ambiente resta",
+      "prompt": "Se un giorno il pericolo ci fosse, vogliono solo la compressa.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Gli interventi non farmacologici restano anche in chi prende il farmaco",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Solo la compressa",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Ambiente sospeso",
+      "prompt": "Gli interventi non farmacologici, psico-sociali ed ambientali, devono essere garantiti anche ai pazienti in trattamento farmacologico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Off-label non e' un via libera",
+      "prompt": "Dicono: tanto gli antipsicotici si usano tutti.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Nella maggioranza dei casi sono off-label. Non e' un motivo per iniziarli qui",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Off-label come routine",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Off-label di apertura",
+      "prompt": "I farmaci antipsicotici sono utilizzati off-label nella maggioranza dei casi di BPSD.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se si inizia, si rivede",
+      "prompt": "Qualcuno lo prescrive e non fissa un controllo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Se mai si iniziasse: aggiustare la dose, sorvegliare gli effetti, rivalutare",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Ricetta senza controllo",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Rivalutazione assente",
+      "prompt": "In caso di terapie farmacologiche e' necessario provvedere a aggiustamento delle dosi, stretta sorveglianza degli effetti collaterali e rivalutazione periodica del trattamento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC per l'irrequietezza serale",
+      "prompt": "TC cranio senza segni focali nuovi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la faccia come primo passo",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "TC cranio",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione alla figlia e a lui per quel che capisce",
+      "prompt": "Non sanno di ictus, cadute, morte associati agli antipsicotici in demenza.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Se si parla di farmaco, dica anche quegli eventi",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non li dica",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Rischi taciuti",
+      "prompt": "I dati di sicurezza evidenziano gravi eventi avversi, inclusi ictus ischemico, fratture, aritmie, tromboembolia venosa, polmonite e morte.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "Lui, capace su questo punto, non vuole la compressa. La figlia insiste.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Non gliela dia contro il suo rifiuto",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "La dia perche' lo chiede la figlia",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Consenso della figlia",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

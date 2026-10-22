@@ -1,281 +1,448 @@
 {
   "id": "PSIC-006",
   "code": "PSIC-006",
-  "title": "Episodio maniacale",
-  "description": "Stefano Marini, 31 anni, entra in pronto soccorso parlando senza pause. Non dorme da quattro notti, ha prenotato un volo per comprare un'azienda che non esiste e dice di non aver bisogno di medici. La madre, fuori dalla porta, racconta il disturbo bipolare già noto e il litio sospeso due mesi fa. Il percorso è litiemia, elettroliti, creatinina, TSH, ECG, poi litio o valproato e un antipsicotico atipico. Il budget è 85 euro e copre questo pannello più i due farmaci. La TC cranio a 120 euro lo supera.",
-  "difficulty": "MEDIUM",
+  "title": "Deprescrizione: piano lento, un farmaco alla volta, non lo stop",
+  "description": "Uomo di 50 anni, due antipsicotici, remissione da quattro mesi, chiede di smettere tutto domani.",
+  "difficulty": "HARD",
   "specialty": "psichiatria",
   "specialtyLabel": "Psichiatria",
-  "condition": "Episodio maniacale in disturbo bipolare, litio sospeso",
+  "condition": "Schizofrenia in politerapia, richiesta di sospensione senza i passi della deprescrizione",
   "frequencyCategory": "MEDIUM",
-  "matrixDifficulty": "INTERMEDIATE",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "Legge 24/2017 art. 5 — stabilizzatore e litiemia, non RM",
-  "diagnosis": "Episodio maniacale in disturbo bipolare, dopo sospensione del litio. Indicati litiemia ed esami di base, ripresa dello stabilizzatore (litio o valproato) e un antipsicotico atipico. Non indicata la RM encefalo.",
-  "pastMedicalHistory": "Disturbo bipolare diagnosticato a 24 anni. Litio carbonato sospeso da lui due mesi fa perché «andava troppo piano». Ultima litiemia nota, riferita dalla madre, 0,7 mmol/L sei mesi fa. Nessuna insufficienza renale nota. Non è in gravidanza: è un uomo. Nega cocaina stasera. Non ha dormito da quattro notti. Allergie: nessuna. Nessun trauma, nessuna febbre.",
-  "presentation": "In piedi, parla alla madre, al medico e all'infermiere nello stesso fiato. Progetti grandiosi, irritabilità se lo si interrompe, nessuna critica. Parametri: PA 142/88 mmHg, FC 108, SpO2 98%, FR 18, temperatura 37,0 °C. Se gli si propone di restare, dice che l'ospedale è piccolo per lui. La madre chiede che non lo mandino a casa.",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Circolare ER 4/2020, sezione deprescrizione; L.219/2017",
+  "diagnosis": "La sospensione si considera dopo uno-cinque anni di remissione completa, non dopo quattro mesi. Prima si introducono gli interventi psicosociali, poi si riduce un farmaco alla volta, lentamente, con controlli. Lo stop di tutto domani non e' il passo scritto.",
+  "pastMedicalHistory": "Schizofrenia. Due antipsicotici. Remissione clinica da quattro mesi. Chiede lui di ridurre. Nessun intervento psicosociale in corso.",
+  "presentation": "Vuole buttare entrambe le scatole da domani. Il collega o sospende tutto o rifiuta di parlarne.",
   "redHerrings": [
-    "La logorrea può sembrare un'intossicazione da cocaina: nega l'uso e la madre data l'esordio in quattro giorni di insonnia, non in un'ora.",
-    "Vuole l'EEG o la RM per «certificare il genio».",
-    "Un antipsicotico da solo, senza stabilizzatore, spegne l'agitazione e lascia scoperto il bipolare.",
-    "La pressione un po' alta non è l'oggetto della visita."
+    "Stop totale domani.",
+    "Rifiuto di discutere la riduzione."
   ],
-  "timeLimitMinutes": 40,
-  "patientDeteriorationThreshold": 22,
-  "patientPrompt": "ROLEPLAY RIGIDO. Sei Stefano Marini, 31 anni, pronto soccorso. Tua madre Lucia è fuori e entra se il medico la chiama: quando parla lei, premetti «Lucia:». Registro: LOGORROICO. [parla senza pause]. Non fare pause lunghe. Alla «Come sta?»: «Benissimo, anzi ho chiuso un affare, l'ospedale mi sta stretto, quattro notti sveglio e non sono mai stato così lucido, voi siete lenti.» Non dire tu che sei bipolare e che hai sospeso il litio: lo dice SOLO Lucia, concreta e stanca. Se ti chiedono sonno, soldi, idee grandiose, farmaci sospesi, cocaina: non dormi da quattro notti, hai prenotato un volo, non ti serve il litio perché ti rallentava, niente cocaina. Se ti interrompono ti irriti ma non diventi violento. Se ti propongono la risonanza accetti: «Fotografate il cervello, è acceso.» Se ti spiegano che va ripreso uno stabilizzatore e un antipsicotico, e che resti, sbuffi e poi dici «una notte, non di più» se il tono non è punitivo. Non nominare tu mania o litiemia.",
-  "correctSolution": "Mania in bipolare dopo stop del litio. Litiemia, elettroliti, creatinina, TSH, ECG. Poi litio o valproato, più un antipsicotico atipico. Non RM encefalo. Non TC cranio. Budget 85 euro.",
-  "goldStandardPath": ["litiemia", "elettroliti", "creat-urea-gfr", "tiroide", "ecg", "azione-stabilizzatore", "azione-antipsicotico"],
-  "goldPathNarrative": "1) Litiemia 12 euro: è sospeso da due mesi, il valore di stasera è basso e conferma che non è in range. 2) Elettroliti 6,50 euro e creatinina con GFR 4,50 euro, prima di riprendere il litio. 3) TSH 22 euro. 4) ECG 15 euro. Somma esami 60 euro. 5) Stabilizzatore: litio o valproato. 6) Antipsicotico atipico per l'agitazione della fase acuta. I due farmaci didattici stanno nel margine fino a 85 euro. I passi azione- non sono esami. TC cranio 120 euro e RM encefalo 220 euro superano 85 euro e non hanno un bersaglio: non c'è deficit, non c'è trauma.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Marco. Voglio ridurre, ma non buttare tutto domani se il foglio dice un farmaco alla volta. Prima ditemi il piano.",
+  "correctSolution": "Non considerare l'interruzione dopo quattro mesi: il testo parla di uno-cinque anni di remissione. Rivedere anamnesi e preferenze, piano condiviso. Introdurre il psicosociale prima della riduzione. Un farmaco alla volta, lentamente, controlli. Non lo stop di entrambi.",
+  "goldStandardPath": [
+    "ecg",
+    "glicemia"
+  ],
+  "goldPathNarrative": "La circolare lega la deprescrizione a un piano condiviso, al psicosociale prima della riduzione e a un farmaco alla volta. La durata prima di considerare l'interruzione e' in generale da uno a cinque anni di remissione.",
   "examLatencies": {
-    "litiemia": 20,
-    "elettroliti": 12,
-    "creat-urea-gfr": 12,
-    "tiroide": 20,
-    "ecg": 8,
-    "azione-stabilizzatore": 4,
-    "azione-antipsicotico": 4,
-    "tc-cranio": 25,
-    "tc": 25,
-    "rm-encefalo": 50,
-    "rm": 50,
-    "tossicologico": 30
+    "ecg": 15,
+    "glicemia": 20,
+    "pet-tc": 180
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-sonno",
-      "prompt": "Da quante notti non dorme, e si sente più energico o più distrutto?",
+      "id": "q1",
+      "prompt": "Da quanto e' in remissione e quanti antipsicotici prende?",
       "critical": true,
-      "expectedKeywords": ["notti", "quattro", "energia"],
-      "rationale": "Quattro notti senza sonno con aumento di energia sono il nucleo della mania, non dell'insonnia primaria."
+      "expectedKeywords": [
+        "quattro mesi",
+        "due",
+        "remissione"
+      ],
+      "rationale": "Quattro mesi non sono l'intervallo di uno-cinque anni prima di considerare l'interruzione."
     },
     {
-      "id": "aq-litio",
-      "prompt": "Assumeva litio e quando lo ha sospeso?",
+      "id": "q2",
+      "prompt": "C'e' gia' un intervento psicosociale?",
       "critical": true,
-      "expectedKeywords": ["litio", "sospeso"],
-      "rationale": "La sospensione spiega la ricaduta e impone la litiemia prima di riprendere il farmaco."
-    },
-    {
-      "id": "aq-cocaina",
-      "prompt": "Ha usato cocaina o altre sostanze in queste ore?",
-      "critical": true,
-      "expectedKeywords": ["cocaina", "nega"],
-      "rationale": "La tachicardia e la logorrea imitano la cocaina. Qui l'uso è negato e il decorso è di giorni."
+      "expectedKeywords": [
+        "no",
+        "piano",
+        "preferenza"
+      ],
+      "rationale": "Gli interventi psicosociali vanno introdotti prima di iniziare la riduzione."
     }
   ],
   "physicalExam": {
-    "summary": "Eccitamento psicomotorio, eloquio non interrompibile, fuga delle idee, umore espanso e irritabile, nessuna critica di malattia. Non allucinazioni evidenti in questo episodio. Pupille normoreagent, non midriasi da cocaina. Non deficit focali. Cute sudata, non febbrile in modo preoccupante."
+    "summary": "Collaborante, chiede di ridurre. Nessun segno di ricaduta acuta oggi."
   },
   "escCitations": [
     {
-      "chunkId": "psic-006-litio",
-      "source": "Legge 24/2017 art. 5 — mania e stabilizzatori",
-      "quote": "Sintesi operativa, non un estratto da un PDF assente: nella mania con litio sospeso si dosano litiemia, rene, elettroliti e TSH, si fa l'ECG e si riprende uno stabilizzatore insieme a un antipsicotico. La RM non fa diagnosi di mania."
+      "chunkId": "y",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "A seconda delle varie fasi sono raccomandati in generale da uno a cinque anni di completa remissione prima di considerare la possibilita' di interrompere il trattamento."
     },
     {
-      "chunkId": "psic-006-budget",
-      "source": "Tariffe didattiche del caso PSIC — litiemia 12 €, ECG 15 €, TSH 22 €, TC cranio 120 €",
-      "quote": "Sintesi operativa economica: il pannello del litio sta dentro 85 euro. La TC cranio a 120 euro e la RM encefalo a 220 euro no."
+      "chunkId": "st",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "Devono essere applicati precisi step: rivedere l'anamnesi, sollecitare le preferenze del paziente, giungere a una valutazione condivisa sull'opportunita' di fare un piano deprescrittivo."
+    },
+    {
+      "chunkId": "psi",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "Gli interventi psicoterapeutici/psicosociali potenzialmente utili devono essere introdotti prima di iniziare la riduzione dei dosaggi."
+    },
+    {
+      "chunkId": "one",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "Le riduzioni devono procedere lentamente, un farmaco alla volta, e in corso di riduzione devono essere svolti controlli regolari delle condizioni cliniche, con eventuale annullamento o rimodulazione del piano."
+    },
+    {
+      "chunkId": "why",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "Le indicazioni per deprescrivere in psichiatria sono generalmente legate a: sbilanciamento del rapporto rischi-benefici, se i potenziali rischi superano i potenziali benefici; non aderenza alle terapie, per evitare sospensione, rimbalzo e ricadute; mantenimento dell'alleanza terapeutica, se il paziente chiede di ridurre la terapia AP; prescrizione di politerapie."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Sonno, grandiosità e sospensione del litio ricostruiti.",
-      "Litiemia, rene, elettroliti, TSH ed ECG prima di riprendere il litio.",
-      "Stabilizzatore più antipsicotico atipico.",
-      "Nessuna TC né RM.",
-      "Spesa entro 85 euro."
+      "Non interrompere dopo quattro mesi: l'intervallo scritto e' uno-cinque anni di remissione.",
+      "Psicosociale prima della riduzione. Un farmaco alla volta, lentamente.",
+      "Se chiede di ridurre, l'alleanza e' un'indicazione a discuterne, non a sospendere tutto domani."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano la sospensione del litio, la litiemia, la funzione renale e la scelta del farmaco. Dimetterlo perché «è solo euforico» non è aderenza.",
+      "art5Adherence": "Deprescrizione secondo la circolare 4/2020. Il consenso resta della persona, legge 219.",
       "legalCriteria": [
-        "Non una dimissione notturna in mania con insonnia da quattro giorni.",
-        "Litiemia richiesta se si riprende il litio.",
-        "Consenso o, se incapace in fase acuta, decisione di ricovero tracciata."
+        "Non interrompere dopo quattro mesi: l'intervallo scritto e' uno-cinque anni di remissione.",
+        "Psicosociale prima della riduzione. Un farmaco alla volta, lentamente.",
+        "Se chiede di ridurre, l'alleanza e' un'indicazione a discuterne, non a sospendere tutto domani."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "litiemia",
-      "name": "Litiemia",
-      "finding": "Litio 0,2 mmol/L, sotto il range terapeutico 0,6-1,2. Coerente con la sospensione. Costo 12 euro. Prima di riprendere il farmaco il valore va scritto.",
-      "isAbnormal": true,
-      "priceEuro": 12
-    },
-    {
-      "examId": "elettroliti",
-      "name": "Elettroliti",
-      "finding": "Sodio 141 mmol/L, potassio 4,1, creatinina a parte. Nessuna iponatriemia che controindichi il ripristino. Costo 6,50 euro.",
-      "isAbnormal": false,
-      "priceEuro": 6.5
-    },
-    {
-      "examId": "creat-urea-gfr",
-      "name": "Creatinina e GFR",
-      "finding": "Creatinina 0,9 mg/dL, GFR sopra 90. Il rene consente di rivalutare il litio. Costo 4,50 euro.",
-      "isAbnormal": false,
-      "priceEuro": 4.5
-    },
-    {
-      "examId": "tiroide",
-      "name": "TSH",
-      "finding": "TSH 1,8 µUI/mL. Il litio non ha lasciato un ipotiroidismo evidente in questo prelievo. Costo 22 euro.",
-      "isAbnormal": false,
-      "priceEuro": 22
-    },
-    {
       "examId": "ecg",
-      "name": "ECG",
-      "finding": "Tachicardia sinusale a 106 bpm, QTc 416 ms. Nessuna aritmia che blocchi lo stabilizzatore o l'atipico. Costo 15 euro.",
-      "isAbnormal": true,
-      "priceEuro": 15
+      "name": "Elettrocardiogramma",
+      "finding": "89.52 ELETTROCARDIOGRAMMA, tariffa 12,50 euro. La circolare lo raccomanda prima di iniziare o modificare un antipsicotico se il foglietto, l'obiettivita' o l'anamnesi di QT lo chiedono. AIFA: cautela particolare per aloperidolo, droperidolo e pimozide.",
+      "isAbnormal": false,
+      "priceEuro": 12.5
+    },
+    {
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc-cranio",
-      "name": "TC Cranio senza mezzo di contrasto",
-      "finding": "TC cranio senza mezzo di contrasto negativa. Costo 120 euro. Supera gli 85 euro del pannello corretto.",
+      "examId": "pet-tc",
+      "name": "PET-TC globale corporea",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "priceEuro": 1071.7,
       "inappropriate": true,
-      "componentExamIds": ["tc"],
-      "wasteRationale": "Mania senza deficit né trauma: la TC cranio a 120 euro sfora il budget di 85 euro."
-    },
-    {
-      "examId": "tc",
-      "name": "TC encefalo generica",
-      "finding": "TC encefalo negativa. 120 euro.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "wasteRationale": "Stesso costo, stessa mancanza di indicazione."
-    },
-    {
-      "examId": "rm-encefalo",
-      "name": "RM Encefalo",
-      "finding": "RM encefalo negativa. 220 euro. Stefano la voleva per «certificare il genio».",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "componentExamIds": ["rm"],
-      "wasteRationale": "RM encefalo a 220 euro: non diagnostica la mania e distrugge il budget."
-    },
-    {
-      "examId": "rm",
-      "name": "RM encefalo generica",
-      "finding": "RM negativa. 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Voce generica di RM, fuori budget."
+      "wasteRationale": "La PET non e' il passo diagnostico o terapeutico scritto per questo quadro."
     }
   ],
   "baselineExamFindings": {
-    "context": "Pronto soccorso. Logorrea, quattro notti senza sonno, litio sospeso.",
     "vitals": {
-      "heartRate": 108,
-      "bloodPressure": "142/88",
+      "heartRate": 88,
+      "bloodPressure": "128/78",
       "spo2": 98,
-      "temperature": 37,
-      "respiratoryRate": 18
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 85,
-    "demographics": { "age": 31, "sex": "M", "name": "Stefano Marini" },
-    "clinicalSigns": [
-      {
-        "signName": "Fuga delle idee",
-        "result": "Eloquio non interrompibile, progetti grandiosi, irritabilità se lo si ferma.",
-        "isPositive": true
-      },
-      {
-        "signName": "Midriasi",
-        "result": "Pupille normoreagent, non la midriasi della cocaina.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Fuga delle idee",
-        "result": "Presente per tutto il colloquio.",
-        "isPositive": true
-      }
-    ],
+    "clinicalSigns": {},
+    "semeiotics": {},
     "advancedExams": {
       "values": {
-        "litiemia": {
-          "finding": "0,2 mmol/L, sotto il range 0,6-1,2. Costo 12 euro.",
-          "normalFinding": "0,2 mmol/L, non terapeutico.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "elettroliti": {
-          "finding": "Na 141, K 4,1 mmol/L. Costo 6,50 euro.",
-          "normalFinding": "Na 141, K 4,1.",
-          "isAbnormal": false,
-          "price": 6.5
-        },
-        "creat-urea-gfr": {
-          "finding": "Creatinina 0,9 mg/dL, GFR > 90. Costo 4,50 euro.",
-          "normalFinding": "Creatinina 0,9, GFR conservato.",
-          "isAbnormal": false,
-          "price": 4.5
-        },
-        "tiroide": {
-          "finding": "TSH 1,8 µUI/mL. Costo 22 euro.",
-          "normalFinding": "TSH 1,8.",
-          "isAbnormal": false,
-          "price": 22
-        },
         "ecg": {
-          "finding": "Tachicardia sinusale 106 bpm, QTc 416 ms. Costo 15 euro.",
-          "normalFinding": "Sinusale, QTc nei limiti.",
-          "isAbnormal": true,
-          "price": 15
-        },
-        "tc-cranio": {
-          "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro.",
-          "normalFinding": "Nessuna lesione acuta.",
+          "finding": "89.52 ELETTROCARDIOGRAMMA, tariffa 12,50 euro. La circolare lo raccomanda prima di iniziare o modificare un antipsicotico se il foglietto, l'obiettivita' o l'anamnesi di QT lo chiedono. AIFA: cautela particolare per aloperidolo, droperidolo e pimozide.",
+          "normalFinding": "89.52 ELETTROCARDIOGRAMMA, tariffa 12,50 euro. La circolare lo raccomanda prima di iniziare o modificare un antipsicotico se il foglietto, l'obiettivita' o l'anamnesi di QT lo chiedono. AIFA: cautela particolare per aloperidolo, droperidolo e pimozide.",
           "isAbnormal": false,
-          "price": 120
+          "price": 12.5
         },
-        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
-        "rm-encefalo": { "finding": "RM encefalo negativa. 220 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 220 },
-        "rm": { "finding": "RM encefalo negativa. 220 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 220 },
-        "tossicologico": {
-          "finding": "Screening tossicologico negativo, cocaina compresa. Costo 40 euro. Non è il primo esame: la storia è di giorni e la madre è chiara. Se lo si aggiunge al pannello del litio si sfiorano gli 85 euro.",
-          "normalFinding": "Negativo.",
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
           "isAbnormal": false,
-          "price": 40
+          "price": 2.0
+        },
+        "pet-tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "isAbnormal": false,
+          "price": 1071.7
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Stabilizzatore dell'umore",
-          "anyOf": [
-            { "id": "litio", "label": "Litio carbonato", "aliases": ["litio", "carbolithium"], "priceEuro": 5.5 },
-            { "id": "valproato", "label": "Valproato di sodio", "aliases": ["valproato", "depakin"], "priceEuro": 6.1 }
-          ]
-        },
-        {
-          "label": "Antipsicotico atipico nella fase acuta",
-          "anyOf": [
-            { "id": "olanzapina", "label": "Olanzapina", "aliases": ["olanzapina", "zyprexa"], "priceEuro": 8.4 },
-            { "id": "quetiapina", "label": "Quetiapina", "aliases": ["quetiapina", "seroquel"], "priceEuro": 7.2 },
-            { "id": "risperidone", "label": "Risperidone", "aliases": ["risperidone", "risperdal"], "priceEuro": 6.8 }
-          ]
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "HIGH",
+    "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
-    "adherence": "NON_COMPLIANT",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
-    "communicationStyle": "Logorroico, grandioso, non si lascia finire le domande. La madre è l'unica fonte sul litio. Accetta la RM se gliela propongono, accetta una notte solo se non lo si punisce."
-  }
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Marco. Parliamo di ridurre. Non tutto domani e non fate finta di niente."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Quattro mesi non bastano",
+      "prompt": "Remissione da quattro mesi. Vuole interrompere.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non consideri ancora l'interruzione: il testo parla in generale di uno-cinque anni di remissione completa",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Sospenda tutto perche' sta bene da quattro mesi",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Interruzione precoce",
+      "prompt": "Sono raccomandati in generale da uno a cinque anni di completa remissione prima di considerare la possibilita' di interrompere il trattamento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Piano condiviso",
+      "prompt": "O si sospende tutto o non se ne parla.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Riveda anamnesi e preferenze e faccia un piano condiviso, senza sospendere tutto domani",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Butti entrambe le scatole",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Stop totale",
+      "prompt": "Le riduzioni devono procedere lentamente, un farmaco alla volta. Si giunge a una valutazione condivisa sul piano deprescrittivo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima il psicosociale",
+      "prompt": "Non ha alcun intervento psicosociale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Lo introduca prima di iniziare la riduzione",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Riduca senza quel passo",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Psicosociale saltato",
+      "prompt": "Gli interventi psicoterapeutici/psicosociali potenzialmente utili devono essere introdotti prima di iniziare la riduzione dei dosaggi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Un farmaco alla volta",
+      "prompt": "Prende due antipsicotici. Propongono di calarli insieme.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Ne riduca uno alla volta, con controlli, e fermi il piano se il quadro cambia",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Li cali entrambi insieme",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Due riduzioni insieme",
+      "prompt": "Le riduzioni devono procedere lentamente, un farmaco alla volta, e in corso di riduzione devono essere svolti controlli regolari, con eventuale annullamento o rimodulazione del piano.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "La richiesta non e' un no",
+      "prompt": "Chiede di ridurre. Qualcuno chiude la visita.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Ne parli: se il paziente chiede di ridurre, il mantenimento dell'alleanza e' tra le indicazioni a deprescrivere, dentro i passi scritti",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Rifiuti di discuterne",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Alleanza rotta",
+      "prompt": "Mantenimento dell'alleanza terapeutica se il paziente chiede di ridurre la terapia AP. La politerapia e' essa stessa un'indicazione a rivedere la prescrizione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente PET per decidere lo stop",
+      "prompt": "Prenotano la PET.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la faccia",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "PET-TC",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+      "cost": 1071.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Informazione",
+      "prompt": "Non sa di rimbalzo e ricaduta se si smette di colpo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Glieli spieghi",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non glieli dica",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Rischio taciuto",
+      "prompt": "Nella non aderenza occorre evitare rischi di sindrome da sospensione, di effetti di rimbalzo e di ricadute. L'informazione comprende benefici, rischi e alternative.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sul piano",
+      "prompt": "Accetta di non sospendere domani e di iniziare dal psicosociale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Annoti quel consenso",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Sospenda lo stesso",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Consenso scavalcato",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

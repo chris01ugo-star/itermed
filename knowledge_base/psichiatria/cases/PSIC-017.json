@@ -1,0 +1,439 @@
+{
+  "id": "PSIC-017",
+  "code": "PSIC-017",
+  "title": "TSO: 48 ore, giudice, stop al settimo giorno senza nuova proposta",
+  "description": "Uomo al nono giorno di TSO. Nessuna nuova proposta. Il giudice non ebbe la notifica nelle prime 48 ore.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "TSO oltre il settimo giorno senza proposta di prolungamento",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "L.833/1978 art. 35",
+  "diagnosis": "Senza la notifica al giudice entro 48 ore dal ricovero e senza la nuova proposta motivata oltre il settimo giorno, il prolungamento non sta in piedi. L'omissione delle comunicazioni fa cessare gli effetti del provvedimento.",
+  "pastMedicalHistory": "TSO convalidato il giorno 1. Oggi e' il giorno 9. Nessuna proposta di prolungamento. La notifica al giudice fu fatta al quinto giorno.",
+  "presentation": "Sta meglio ma il reparto 'rinnova in automatico'. Vogliono tenerlo altri dieci giorni senza scrivere al sindaco.",
+  "redHerrings": [
+    "Rinnovo automatico.",
+    "Notifica tardiva considerata ancora valida."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Leo. Sono qui da nove giorni. Se mi tenete ancora, fatelo col foglio nuovo. E avvisate il giudice nei tempi.",
+  "correctSolution": "La notifica entro 48 ore dal ricovero era dovuta: farla al quinto giorno non rispetta il termine. Oltre il settimo giorno serve una nuova proposta motivata, in tempo utile, e il sindaco la comunica al giudice. Senza, non si prolunga. Diritto di comunicare.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Art. 35: 48 ore per la notifica, 48 ore per il giudice, nuova proposta oltre il settimo giorno. L'omissione delle comunicazioni fa cessare gli effetti.",
+  "examLatencies": {
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40,
+    "ecg": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "In che giorno siamo e c'e' una proposta di prolungamento?",
+      "critical": true,
+      "expectedKeywords": [
+        "nove",
+        "no",
+        "proposta"
+      ],
+      "rationale": "Oltre il settimo giorno serve una nuova proposta motivata."
+    },
+    {
+      "id": "q2",
+      "prompt": "Quando e' stato avvisato il giudice tutelare?",
+      "critical": true,
+      "expectedKeywords": [
+        "quinto",
+        "giorno",
+        "tardi"
+      ],
+      "rationale": "La notifica va entro 48 ore dal ricovero."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Piu' tranquillo, collaborante, chiede del giudice. Non agitazione."
+  },
+  "escCitations": [
+    {
+      "chunkId": "35",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Legge 23 dicembre 1978, n. 833, art. 35: il provvedimento del sindaco si emana entro 48 ore dalla convalida e si notifica entro 48 ore dal ricovero al giudice tutelare, che entro le successive 48 ore convalida o non convalida. Oltre il settimo giorno, e a ogni ulteriore prolungamento, il sanitario formula in tempo utile una nuova proposta motivata al sindaco."
+    },
+    {
+      "chunkId": "om",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "L'omissione delle comunicazioni di cui al primo, quarto e quinto comma del presente articolo determina la cessazione di ogni effetto del provvedimento."
+    },
+    {
+      "chunkId": "com",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Nel corso del trattamento sanitario obbligatorio, l'infermo ha diritto di comunicare con chi ritenga opportuno."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Notifica al giudice entro 48 ore dal ricovero.",
+      "Oltre il settimo giorno: nuova proposta motivata.",
+      "L'omissione delle comunicazioni fa cessare gli effetti."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Tempi dell'art. 35, testo della legge 833 nel file.",
+      "legalCriteria": [
+        "Notifica al giudice entro 48 ore dal ricovero.",
+        "Oltre il settimo giorno: nuova proposta motivata.",
+        "L'omissione delle comunicazioni fa cessare gli effetti."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+      "isAbnormal": false,
+      "priceEuro": 4.0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 86.1,
+      "inappropriate": true,
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
+        },
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Leo. Nove giorni. O c'e' il foglio nuovo o non e' piu' obbligo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Notifica nelle 48 ore",
+      "prompt": "Il giudice fu avvisato al quinto giorno.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Riconosca che il termine era 48 ore dal ricovero. L'omissione fa cessare gli effetti",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Consideri valida la notifica del quinto giorno",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Termine perso",
+      "prompt": "Il provvedimento e' notificato entro 48 ore dal ricovero al giudice tutelare. L'omissione delle comunicazioni determina la cessazione di ogni effetto del provvedimento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Giudice nelle 48 ore successive",
+      "prompt": "Anche il decreto del giudice arrivo' una settimana dopo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Il giudice provvede entro le successive 48 ore. Senza convalida il sindaco dispone la cessazione",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Si tira avanti lo stesso",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Convalida tardiva",
+      "prompt": "Il giudice tutelare, entro le successive 48 ore, provvede a convalidare o non convalidare. In caso di mancata convalida il sindaco dispone la cessazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Giorno 9",
+      "prompt": "Nessuna proposta di prolungamento.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non lo prolunghi. Serve una proposta motivata in tempo utile",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Rinnovo automatico di dieci giorni",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Settimo giorno saltato",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 35: il provvedimento del sindaco si emana entro 48 ore dalla convalida e si notifica entro 48 ore dal ricovero al giudice tutelare, che entro le successive 48 ore convalida o non convalida. Oltre il settimo giorno, e a ogni ulteriore prolungamento, il sanitario formula in tempo utile una nuova proposta motivata al sindaco.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Puo' telefonare",
+      "prompt": "Telefono sospeso da quando e' in TSO.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Glielo restituisca: ha diritto di comunicare",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Niente contatti",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Comunicazione negata",
+      "prompt": "Nel corso del trattamento sanitario obbligatorio, l'infermo ha diritto di comunicare con chi ritenga opportuno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cessazione se i requisiti cadono",
+      "prompt": "Oggi accetta le cure e il CSM puo' prenderlo domani.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Il sanitario comunica al sindaco la cessazione delle condizioni che richiedono l'obbligo",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo tenga obbligato per abitudine",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Obbligo senza piu' requisiti",
+      "prompt": "Il sanitario comunica al sindaco la cessazione delle condizioni che richiedono l'obbligo del trattamento sanitario. Il sindaco, entro 48 ore, ne da' notizia al giudice tutelare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC per 'coprire' il ritardo",
+      "prompt": "TC cranio per giustificare altri giorni.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la faccia a quello scopo",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "TC cranio",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Non sa di poter chiedere la revoca al sindaco.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Glielo dica: chiunque puo' chiedere revoca o modifica, e il sindaco decide entro dieci giorni",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non glielo dica",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Revoca taciuta",
+      "prompt": "Chiunque puo' rivolgere al sindaco richiesta di revoca o di modifica del provvedimento. Sulle richieste il sindaco decide entro dieci giorni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Ricorso",
+      "prompt": "Vuole scrivere al tribunale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Puo' proporre ricorso contro il provvedimento convalidato",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Gli dica che non si puo'",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Ricorso negato",
+      "prompt": "Chi e' sottoposto a trattamento sanitario obbligatorio, e chiunque vi abbia interesse, puo' proporre al tribunale competente ricorso contro il provvedimento convalidato dal giudice tutelare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

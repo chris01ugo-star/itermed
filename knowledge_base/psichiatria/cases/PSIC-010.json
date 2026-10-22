@@ -1,264 +1,443 @@
 {
   "id": "PSIC-010",
   "code": "PSIC-010",
-  "title": "Delirium da infezione urinaria",
-  "description": "Giuseppe Neri, 80 anni, è portato in pronto soccorso dalla figlia. Ieri era lucido e ha fatto la spesa. Stanotte non riconosce la casa, urla e vuole scendere dal letto. Nessun precedente psichiatrico, nessun neurolettico a domicilio. Brucia quando urina, la figlia lo dice se glielo si chiede. Il percorso è urine, urinocoltura, emocromo, PCR, elettroliti e un antibiotico. Etichettarlo come «vecchio agitato» e sedarlo con un antipsicotico senza cercare la causa è la trappola. Budget 90 euro: il pannello e il ceftriaxone ci stanno. La TC cranio a 120 euro, senza deficit e senza trauma, no.",
-  "difficulty": "MEDIUM",
+  "title": "Delirium in terapia intensiva: dexmedetomidina, non melatonina",
+  "description": "Donna di 70 anni, ventilata dopo chirurgia maggiore. Per prevenire il delirium propongono melatonina e un altro sedativo al posto della dexmedetomidina.",
+  "difficulty": "HARD",
   "specialty": "psichiatria",
   "specialtyLabel": "Psichiatria",
-  "condition": "Delirium iperattivo da infezione urinaria nell'anziano",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "INTERMEDIATE",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "Legge 24/2017 art. 5 — causa organica prima della sedazione",
-  "diagnosis": "Delirium iperattivo secondario a infezione delle vie urinarie. Indicati esame urine, urinocoltura, esami di base e antibiotico. Non è un esordio psichiatrico e non si tratta con la sola sedazione.",
-  "pastMedicalHistory": "Ipertensione in amlodipina. Ipertrofia prostatica, un episodio di ritenzione due anni fa. Nessun ricovero psichiatrico, nessuna demenza nota: ieri compilava le parole crociate. Non beve. Non è caduto. Diabete no. Allergie: nessuna. La figlia riferisce bruciore urinario da tre giorni, minimizzato da lui, e la confusione solo da stanotte.",
-  "presentation": "Agitato, non riconosce la figlia per qualche minuto, poi la insulta e vuole andarsene. [urla]. Temperatura 38,1 °C, FC 104, PA 150/88, SpO2 95%, FR 22. Non ha un lato debole, non ha afasia quando si aggancia una frase. Se il medico chiede solo «è demente?» la figlia si offende e dice che ieri guidava la situazione di casa. Se si chiede la pipì, racconta il bruciore.",
+  "condition": "Prevenzione del delirium in chirurgia maggiore e ventilazione meccanica",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "APA delirium, affermazioni 11, 12 e 13",
+  "diagnosis": "Nella chirurgia maggiore o nella ventilazione meccanica il testo suggerisce la dexmedetomidina piuttosto che altri sedativi per prevenire il delirium. Lo stesso quando il delirium e' sedato per la ventilazione. Melatonina e ramelteon non si usano per prevenire o trattare il delirium.",
+  "pastMedicalHistory": "Chirurgia maggiore ieri. Ventilata. Delirium alla scala. Proposta: melatonina e un sedativo diverso dalla dexmedetomidina.",
+  "presentation": "In terapia intensiva, tubo in sede. Vogliono la melatonina 'per il ritmo' e evitare la dexmedetomidina.",
   "redHerrings": [
-    "L'età fa scattare l'etichetta di demenza. L'esordio è di ore, non di anni.",
-    "L'agitazione chiede un sedativo. Senza urine e senza antibiotico la causa resta.",
-    "Una TC cranio «nell'anziano confuso» è il riflesso difensivo e costa 120 euro.",
-    "La saturazione a 95% non è una polmonite conclamata: il focus è urinario."
+    "Melatonina per prevenire.",
+    "Altro sedativo al posto della dexmedetomidina."
   ],
-  "timeLimitMinutes": 35,
-  "patientDeteriorationThreshold": 20,
-  "patientPrompt": "ROLEPLAY RIGIDO. Sei Giuseppe Neri, 80 anni, pronto soccorso, confuso e aggressivo. Tua figlia Laura è presente: «Laura:». Registro: AGGRESSIVO, frasi fuori luogo. [urla], [cerca di scendere dal letto]. Alla «Come sta?»: «Chi è lei? Mi hanno chiuso qui!» [urla] Non dire tu infezione, urine o antibiotico. Non sei lucido: sbagli il giorno e non sai il nome dell'ospedale. I fatti (ieri lucido, bruciore da tre giorni, niente cadute, niente psichiatria) li dice SOLO Laura, preoccupata, non come un referto. Se il medico parla solo di psichiatria e di una fiala per calmarti, Laura dice «mio padre non è matto, ieri stava bene» e tu continui a urlare. Se cercano la causa e partono le cure, ti agiti meno ma non diventi lucido in dieci minuti. Non nominare tu delirium.",
-  "correctSolution": "Delirium organico da infezione urinaria. Stick e sedimento, urinocoltura, emocromo, PCR, elettroliti. Antibiotico (ceftriaxone, amoxicillina/clavulanato, levofloxacina o piperacillina). Non sedazione pesante come unico atto. Non etichetta psichiatrica. TC cranio non indicata senza trauma o deficit. Budget 90 euro.",
-  "goldStandardPath": ["urine-sed", "urinocoltura", "emocromo", "pcr-pct", "elettroliti", "azione-antibiotico"],
-  "goldPathNarrative": "1) Esame urine 6 euro: leucociti, nitriti, batteri. 2) Urinocoltura 20 euro, prima dell'antibiotico se si riesce a non ritardare la prima dose in un paziente settico-limite: qui è febbrile ma stabile, la coltura si preleva e si parte. 3) Emocromo 4,80 euro e PCR 28 euro. 4) Elettroliti 6,50 euro, perché il delirium ha anche cause metaboliche e qui il sodio è un po' basso. Somma circa 65 euro. 5) Antibiotico, pochi euro. Il passo azione- non è un esame. Budget 90. L'aloperidolo da solo, senza questo pannello, è la trappola clinica. TC cranio 120 euro supera 90 euro.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Elena, ma ora non parlo perche' sono intubata. Chi decide per me segua il foglio della sedazione, non la melatonina.",
+  "correctSolution": "Dexmedetomidina piuttosto che altri sedativi, sia per prevenire in questo setting sia se la si seda per la ventilazione. Non melatonina ne' ramelteon. Scala ripetuta. Niente TC al posto della scelta sedativa.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Affermazioni 11, 12 e 13 della bozza APA. Il setting e' chirurgia maggiore con ventilazione.",
   "examLatencies": {
-    "urine-sed": 15,
-    "urinocoltura": 20,
-    "emocromo": 12,
-    "pcr-pct": 20,
-    "elettroliti": 12,
-    "azione-antibiotico": 5,
-    "tc-cranio": 25,
-    "tc": 25,
-    "rm-encefalo": 50,
-    "rx-torace": 15
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-esordio",
-      "prompt": "Ieri era lucido, e da quante ore è confuso?",
+      "id": "q1",
+      "prompt": "E' in chirurgia maggiore o ventilata?",
       "critical": true,
-      "expectedKeywords": ["ieri", "ore", "lucido"],
-      "rationale": "L'esordio acuto distingue il delirium dalla demenza. Lo dice la figlia, non il paziente."
+      "expectedKeywords": [
+        "ventilata",
+        "chirurgia",
+        "si"
+      ],
+      "rationale": "In quel setting il testo suggerisce la dexmedetomidina rispetto ad altri sedativi."
     },
     {
-      "id": "aq-urine",
-      "prompt": "Brucia quando urina, o la pipì è cambiata?",
+      "id": "q2",
+      "prompt": "Stanno usando melatonina o ramelteon?",
       "critical": true,
-      "expectedKeywords": ["brucia", "urina"],
-      "rationale": "Il focus urinario è la causa. Senza la domanda si resta sull'etichetta psichiatrica."
-    },
-    {
-      "id": "aq-trauma",
-      "prompt": "È caduto o ha un lato del corpo che non muove?",
-      "critical": true,
-      "expectedKeywords": ["caduta", "lato"],
-      "rationale": "Senza trauma e senza deficit la TC cranio non precede urine e antibiotico."
+      "expectedKeywords": [
+        "melatonina",
+        "si",
+        "prevenire"
+      ],
+      "rationale": "Quei due non si usano per prevenire o trattare il delirium."
     }
   ],
   "physicalExam": {
-    "summary": "Disorientato nel tempo e nello spazio, agitazione, attenzione che va e viene. Non afasia, non emiparesi, non segni di trauma. Febbre 38,1 °C. Addome trattabile, Giordano non evocabile in modo affidabile perché non collabora. Ipotesi urinaria appesa all'anamnesi della figlia e poi alle urine. Polmoni senza rumori added a un'auscultazione rapida."
+    "summary": "Intubata, sedazione in corso, scala del delirium positiva. Niente segno focale nuovo."
   },
   "escCitations": [
     {
-      "chunkId": "psic-010-organico",
-      "source": "Legge 24/2017 art. 5 — delirium nell'anziano",
-      "quote": "Sintesi operativa, non un estratto da un PDF assente: un anziano lucido ieri e aggressivo stanotte ha un delirium finché non si prova il contrario. Si cercano urine, sangue e una causa, e si tratta quella. La sedazione non è la diagnosi."
+      "chunkId": "s11",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "APA suggests that (2B) dexmedetomidine be used rather than other sedating agents to prevent delirium in patients who are undergoing major surgery or receiving mechanical ventilation in a critical care setting."
     },
     {
-      "chunkId": "psic-010-budget",
-      "source": "Tariffe didattiche del caso PSIC — urine 6 €, PCR 28 €, TC cranio 120 €",
-      "quote": "Sintesi operativa economica: urine, coltura, emocromo, PCR ed elettroliti stanno sotto i 90 euro insieme all'antibiotico. La TC cranio a 120 euro, senza deficit, sfora."
+      "chunkId": "s12",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "APA suggests (2C) that when patients with delirium are sedated for mechanical ventilation in a critical care setting, dexmedetomidine be used rather than other sedating agents."
+    },
+    {
+      "chunkId": "s13",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "APA suggests (2C) that melatonin and ramelteon not be used to prevent or treat delirium."
+    },
+    {
+      "chunkId": "s1",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "APA recommends (1C) that patients with delirium or who are at risk for delirium undergo regular structured assessments using valid and reliable measures."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Esordio acuto ricostruito con la figlia.",
-      "Sintomi urinari chiesti.",
-      "Urine, urinocoltura, emocromo, PCR, elettroliti.",
-      "Antibiotico avviato.",
-      "Nessuna sedazione come unico atto.",
-      "Nessuna TC cranio senza trauma o deficit. Spesa entro 90 euro."
+      "Dexmedetomidina piuttosto che altri sedativi in chirurgia maggiore o ventilazione.",
+      "Lo stesso se il delirium e' sedato per la ventilazione.",
+      "Niente melatonina o ramelteon per prevenire o trattare."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano l'esordio di ore, il bruciore, le urine e l'antibiotico. Scrivere «psicosi senile» e dare un neurolettico senza esami non è aderenza.",
+      "art5Adherence": "Affermazioni 11-13 della bozza APA. Non si sostituisce la dexmedetomidina con un altro sedativo in questo setting.",
       "legalCriteria": [
-        "Causa organica cercata prima dell'etichetta psichiatrica.",
-        "Antibiotico registrato, non solo un sedativo.",
-        "Contenzione fisica evitata se la causa si tratta e l'agitazione cala.",
-        "TC cranio non usata al posto delle urine."
+        "Dexmedetomidina piuttosto che altri sedativi in chirurgia maggiore o ventilazione.",
+        "Lo stesso se il delirium e' sedato per la ventilazione.",
+        "Niente melatonina o ramelteon per prevenire o trattare."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "urine-sed",
-      "name": "Esame urine",
-      "finding": "Leucociti numerosi, nitriti positivi, batteri. Infezione urinaria. Costo 6 euro. È il referto che toglie l'etichetta psichiatrica.",
-      "isAbnormal": true,
-      "priceEuro": 6
-    },
-    {
-      "examId": "urinocoltura",
-      "name": "Urinocoltura",
-      "finding": "Prelievo inviato. Esito non ancora pronto: in questo scenario didattico la coltura confermerà Escherichia coli sensibile alle molecole di primo impiego. Costo 20 euro. Non si aspetta l'antibiogramma per la prima dose in un paziente febbrile.",
-      "isAbnormal": true,
-      "priceEuro": 20
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
     },
     {
       "examId": "emocromo",
       "name": "Emocromo",
-      "finding": "Leucociti 14.800, neutrofili aumentati. Hb 13,4. Costo 4,80 euro.",
-      "isAbnormal": true,
-      "priceEuro": 4.8
-    },
-    {
-      "examId": "pcr-pct",
-      "name": "PCR",
-      "finding": "PCR 8,6 mg/dL. Procalcitonina non da shock. Costo 28 euro. Conferma flogosi, non localizza: le urine sì.",
-      "isAbnormal": true,
-      "priceEuro": 28
-    },
-    {
-      "examId": "elettroliti",
-      "name": "Elettroliti",
-      "finding": "Sodio 132 mmol/L, potassio 4,0. Iponatriemia lieve, non è da sola il delirium, ma va vista. Costo 6,50 euro.",
-      "isAbnormal": true,
-      "priceEuro": 6.5
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+      "isAbnormal": false,
+      "priceEuro": 4.0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc-cranio",
-      "name": "TC Cranio senza mezzo di contrasto",
-      "finding": "TC cranio senza mezzo di contrasto: atrofia compatibile con l'età, nessuna emorragia, nessun effetto massa. Non spiega l'esordio di stanotte. Costo 120 euro, sopra i 90.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "componentExamIds": ["tc"],
-      "wasteRationale": "Senza deficit e senza trauma la TC cranio a 120 euro sfora il budget e ruba il posto a urine e antibiotico."
-    },
-    {
       "examId": "tc",
-      "name": "TC encefalo generica",
-      "finding": "TC encefalo: atrofia, niente di acuto. 120 euro.",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "priceEuro": 86.1,
       "inappropriate": true,
-      "wasteRationale": "Stessa TC, stesso problema."
-    },
-    {
-      "examId": "rm-encefalo",
-      "name": "RM Encefalo",
-      "finding": "RM encefalo non eseguibile in un paziente che urla e non sta fermo, e non indicata come primo atto. Costo 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "componentExamIds": ["rm"],
-      "wasteRationale": "RM encefalo a 220 euro: fuori indicazione e fuori budget."
-    },
-    {
-      "examId": "rm",
-      "name": "RM encefalo generica",
-      "finding": "RM non indicata. 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Voce generica di RM, fuori budget."
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
     }
   ],
   "baselineExamFindings": {
-    "context": "Pronto soccorso. Ottantenne lucido ieri, aggressivo stanotte, nessun precedente psichiatrico.",
     "vitals": {
-      "heartRate": 104,
-      "bloodPressure": "150/88",
-      "spo2": 95,
-      "temperature": 38.1,
-      "respiratoryRate": 22
+      "heartRate": 98,
+      "bloodPressure": "128/78",
+      "spo2": 96,
+      "temperature": 36.6,
+      "respiratoryRate": 18
     },
-    "examBudgetEuro": 90,
-    "demographics": { "age": 80, "sex": "M", "name": "Giuseppe Neri" },
-    "killerRules": {
-      "fatalIfOmitted": [
-        ["urine", "urinocoltura"],
-        ["antibiotico", "ceftriaxone", "rocefin", "amoxicillina", "augmentin", "levofloxacina", "piperacillina", "tazocin"]
-      ]
-    },
-    "clinicalSigns": [
-      {
-        "signName": "Deficit motorio focale",
-        "result": "Assente quando si ottiene un attimo di collaborazione. Non è il profilo dell'ictus come prima ipotesi.",
-        "isPositive": false
-      },
-      {
-        "signName": "Febbre",
-        "result": "38,1 °C. Il delirium febbrile non è una diagnosi psichiatrica.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Disorientamento temporale",
-        "result": "Non sa il giorno né dove si trova. Ieri, secondo la figlia, era lucido.",
-        "isPositive": true
-      }
-    ],
+    "clinicalSigns": {},
+    "semeiotics": {},
     "advancedExams": {
       "values": {
-        "urine-sed": {
-          "finding": "Leucociti, nitriti positivi, batteri. Costo 6 euro.",
-          "normalFinding": "Infezione urinaria.",
-          "isAbnormal": true,
-          "price": 6
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
         },
-        "urinocoltura": {
-          "finding": "Inviata. Attesa E. coli. Costo 20 euro. Non ritardare la prima dose di antibiotico.",
-          "normalFinding": "Prelievo inviato.",
-          "isAbnormal": true,
-          "price": 20
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
         },
-        "emocromo": { "finding": "Leucociti 14.800. Costo 4,80 euro.", "normalFinding": "Leucocitosi.", "isAbnormal": true, "price": 4.8 },
-        "pcr-pct": { "finding": "PCR 8,6 mg/dL. Costo 28 euro.", "normalFinding": "PCR elevata.", "isAbnormal": true, "price": 28 },
-        "elettroliti": { "finding": "Na 132, K 4,0. Costo 6,50 euro.", "normalFinding": "Na 132, K 4,0.", "isAbnormal": true, "price": 6.5 },
-        "tc-cranio": { "finding": "Atrofia età-compatibile, niente di acuto. 120 euro.", "normalFinding": "Nessuna emorragia.", "isAbnormal": false, "price": 120 },
-        "tc": { "finding": "TC encefalo senza lesioni acute. 120 euro.", "normalFinding": "Nei limiti per l'acuto.", "isAbnormal": false, "price": 120 },
-        "rm-encefalo": { "finding": "Non indicata come primo atto. 220 euro.", "normalFinding": "Non sostituisce le urine.", "isAbnormal": false, "price": 220 },
-        "rm": { "finding": "RM non indicata. 220 euro.", "normalFinding": "Fuori percorso.", "isAbnormal": false, "price": 220 },
-        "rx-torace": { "finding": "Non addensamenti evidenti. Costo 25 euro. Il focus non è polmonare.", "normalFinding": "Parenchima senza addensamenti francamente visibili.", "isAbnormal": false, "price": 25 }
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Antibiotico per l'infezione urinaria",
-          "anyOf": [
-            { "id": "ceftriaxone", "label": "Ceftriaxone", "aliases": ["ceftriaxone", "rocefin"], "priceEuro": 4.5 },
-            { "id": "amoxicillina", "label": "Amoxicillina/clavulanato", "aliases": ["amoxicillina", "augmentin", "clavulanato"], "priceEuro": 8 },
-            { "id": "levofloxacina", "label": "Levofloxacina", "aliases": ["levofloxacina"], "priceEuro": 7.8 },
-            { "id": "piperacillina", "label": "Piperacillina/tazobactam", "aliases": ["piperacillina", "tazocin", "tazobactam"], "priceEuro": 15.5 }
-          ]
-        }
-      ],
-      "inappropriate": [
-        {
-          "id": "solo-aloperidolo",
-          "label": "Antipsicotico come unico trattamento",
-          "aliases": ["aloperidolo", "serenase", "olanzapina", "quetiapina", "risperidone"],
-          "priceEuro": 2.4
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "OPPOSITIONAL",
-    "adherence": "NON_COMPLIANT",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "STRONG" },
-    "communicationStyle": "Confuso e aggressivo, urla, non riferisce i sintomi. La figlia ha l'esordio e il bruciore. Non diventa lucido appena parte l'antibiotico."
-  }
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Elena. Sono intubata. Non voglio la melatonina al posto del sedativo scritto."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Setting",
+      "prompt": "Chirurgia maggiore, ventilazione, terapia intensiva.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La collochi nel setting in cui la dexmedetomidina e' suggerita rispetto ad altri sedativi",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La tratti come un delirium di reparto ordinario",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Setting perso",
+      "prompt": "Dexmedetomidine rather than other sedating agents to prevent delirium in patients undergoing major surgery or receiving mechanical ventilation in a critical care setting.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non un altro sedativo",
+      "prompt": "Propongono un sedativo diverso per prevenire.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Usi la dexmedetomidina piuttosto che quell'altro",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "L'altro sedativo",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sedativo sostituito",
+      "prompt": "APA suggests that dexmedetomidine be used rather than other sedating agents to prevent delirium in this setting.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Anche se gia' e' delirium",
+      "prompt": "La scala e' positiva e va sedata per il tubo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Anche allora dexmedetomidina piuttosto che altri sedativi",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Cambi sedativo perche' il delirium c'e' gia'",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sedazione del delirium",
+      "prompt": "When patients with delirium are sedated for mechanical ventilation, dexmedetomidine be used rather than other sedating agents.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente melatonina",
+      "prompt": "Melatonina per il ritmo e per 'trattare' il delirium.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non la usi, ne' il ramelteon, per prevenire o trattare",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Melatonina",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Melatonina",
+      "prompt": "APA suggests that melatonin and ramelteon not be used to prevent or treat delirium.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scala lo stesso",
+      "prompt": "In intensiva qualcuno non usa la scala.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "La usi e la ripeta",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "A occhio",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Scala assente",
+      "prompt": "Patients with delirium or at risk undergo regular structured assessments using valid and reliable measures. The ICU guidance cited in the text also recommends regular assessment with validated measures.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC al posto della sedazione",
+      "prompt": "TC cranio per scegliere il sedativo. Nessun segno focale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la faccia per quella scelta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "TC cranio",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Fattori",
+      "prompt": "Glicemia e anemia non viste.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Le corregga se alterate",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Le ignori",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Fattori ignorati",
+      "prompt": "Correcting abnormalities in blood pressure, severe anemia, electrolytes, glucose, fluid, and acid-base status, insofar as possible.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Urgenza e volonta'",
+      "prompt": "Non puo' esprimersi. Non ci sono DAT. I familiari chiedono un sedativo 'piu' forte' contro il testo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "In urgenza assicuri le cure necessarie. Non cambi la scelta perche' lo chiede la famiglia contro il testo",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Segua il familiare",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Volonta' dei familiari",
+      "prompt": "Nelle situazioni di emergenza o di urgenza il medico assicura le cure necessarie, nel rispetto della volonta' del paziente ove le condizioni cliniche e le circostanze consentano di recepirla.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

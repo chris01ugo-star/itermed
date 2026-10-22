@@ -1,204 +1,438 @@
 {
   "id": "PSIC-011",
   "code": "PSIC-011",
-  "title": "Agitazione psicomotoria armata",
-  "description": "Davide Riva, 36 anni, spacca il corridoio del pronto soccorso, urla e brandisce una sedia di metallo. Non è il momento del colloquio ravvicinato. Il primo atto sono le forze dell'ordine. Poi la de-escalation a distanza, e solo quando la scena è sicura la sedazione intramuscolo (midazolam, lorazepam o aloperidolo). Contenere fisicamente prima che arrivi chi mette in sicurezza la scena è la trappola legale. Budget esami 25 euro: non si «capisce il cervello» con una TC da 120 euro mentre la sedia è ancora in mano.",
+  "title": "Astinenza alcolica: CIWA-Ar sotto 10, niente farmaco in piu'",
+  "description": "Uomo di 46 anni, ha smesso di bere ieri. CIWA-Ar totale 8. Vogliono un farmaco aggiuntivo e una TC.",
   "difficulty": "HARD",
   "specialty": "psichiatria",
   "specialtyLabel": "Psichiatria",
-  "condition": "Agitazione psicomotoria grave con minaccia mediante oggetto",
-  "frequencyCategory": "MEDIUM",
+  "condition": "Astinenza alcolica con CIWA-Ar inferiore a 10",
+  "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "Legge 180/1978 — sicurezza e forze dell'ordine prima della contenzione",
-  "diagnosis": "Agitazione psicomotoria grave con minaccia. Indicati, in ordine: allerta alle forze dell'ordine, de-escalation a distanza, sedazione intramuscolo quando la scena è sicura. Controindicata la contenzione fisica prima della messa in sicurezza.",
-  "pastMedicalHistory": "Un ricovero in SPDC due anni fa per psicosi, poi abbandono dei farmaci. La sorella, al telefono, dice che da tre giorni non dorme e parla da solo. Non è noto un trauma di oggi. Non c'è un'arma da fuoco: l'oggetto è una sedia del pronto soccorso. Allergie: nessuna. Non si riesce a fare un'anamnesi diretta finché urla.",
-  "presentation": "In corridoio, rovescia un carrello, brandisce la sedia, non lascia avvicinare. [urla]. FC intorno a 130 se qualcuno riesce a vederlo da lontano, sudato. Non c'è un colloquio possibile a un metro. Se un operatore entra per tenerlo, la scena peggiora. Se si parla da distanza, senza invadere, le urla restano ma non carica.",
+  "guidelineRef": "CIWA-Ar, Sullivan 1989, file in clinic",
+  "diagnosis": "CIWA-Ar totale 8, massimo possibile 67. Chi sta sotto 10 di solito non ha bisogno di farmaco aggiuntivo per l'astinenza. Il punteggio si fa con la scala, in circa cinque minuti, non a occhio.",
+  "pastMedicalHistory": "Beveva ogni giorno, ultimo drink ieri. Nausea lieve, tremore lieve, sudore appena visibile. Orientato. Nessuna allucinazione.",
+  "presentation": "CIWA compilata: totale 8. Il collega vuole comunque una benzodiazepina 'di protocollo' e la TC cranio.",
   "redHerrings": [
-    "Il riflesso è tenerlo in quattro e fare la fiala. Senza la polizia è una contenzione illegittima e pericolosa.",
-    "Sembra «solo psichiatrico»: prima è una scena non sicura.",
-    "La TC cranio non si fa a un uomo che brandisce una sedia, e non è il primo atto nemmeno dopo.",
-    "L'aloperidolo è lecito qui, a differenza del delirium tremens, ma dopo la sicurezza, non prima."
+    "Farmaco aggiuntivo sotto 10.",
+    "TC al posto della scala."
   ],
-  "timeLimitMinutes": 20,
-  "patientDeteriorationThreshold": 12,
-  "patientPrompt": "ROLEPLAY RIGIDO. Sei Davide Riva, 36 anni, nel corridoio del pronto soccorso. Registro: MINACCIA. [urla]. Frasi corte. Alla prima domanda: «Indietro! Vi spacco!» [urla] Brandisci una sedia di metallo, non un'arma da fuoco, e non spieghi come colpire: dici solo di stare lontani. VIETATO dire le parole polizia, carabinieri, forze dell'ordine. Se si avvicinano per afferrarti, rovesci il carrello e le urla aumentano. Se parlano da lontano, voce bassa, senza insultarti e senza entrare nel tuo spazio, resti con la sedia ma non carichi. Se la scena viene messa in sicurezza da fuori e poi ti propongono una fiala, resisti una frase e poi, se non ti saltano addosso, la accetti di malavoglia. Non nominare diagnosi. Non diventare lucido e collaborante nel primo minuto.",
-  "correctSolution": "Prima le forze dell'ordine. Poi de-escalation a distanza. Poi sedazione intramuscolo (midazolam, lorazepam o aloperidolo) solo a scena sicura. Non contenzione fisica come primo gesto. Non TC cranio in questa fase. Budget 25 euro.",
-  "goldStandardPath": ["azione-forze-ordine", "azione-de-escalation", "azione-sedazione-im"],
-  "goldPathNarrative": "Ordine tassativo. 1) Allerta alle forze dell'ordine prima di qualsiasi contatto fisico. Senza questo passaggio la contenzione è la trappola legale. 2) De-escalation: distanza, voce bassa, niente sfida. 3) Sedazione intramuscolo quando la sedia non è più una minaccia attiva: midazolam, lorazepam o aloperidolo. I passi azione- non sono esami e costano zero sul nomenclatore. Budget esami 25 euro, quanto un ECG successivo. TC cranio 120 euro e RM encefalo 220 euro, in questa fase, sforano e non mettono in sicurezza il corridoio.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Davide. Ho smesso ieri, un po' di tremore. Non datemi altra medicina se il punteggio e' basso. Non voglio la TC.",
+  "correctSolution": "Compilare la CIWA-Ar. Totale 8: di solito niente farmaco aggiuntivo. Non inventare una dose che il foglio non scrive. Rivalutare la scala. Niente TC. Glicemia se si teme un delirium, ma non cambia la soglia del 10.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Il foglio CIWA-Ar dice che sotto 10 di solito non serve farmaco aggiuntivo per l'astinenza. Non nomina una molecola ne' una dose: non si inventano.",
   "examLatencies": {
-    "azione-forze-ordine": 3,
-    "azione-de-escalation": 6,
-    "azione-sedazione-im": 4,
-    "ecg": 10,
-    "tc-cranio": 30,
-    "tc": 30,
-    "rm-encefalo": 50
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-oggetto",
-      "prompt": "Che cosa ha in mano e chi è già abbastanza lontano da non essere colpito?",
+      "id": "q1",
+      "prompt": "Qual e' il totale CIWA-Ar e da quali item esce?",
       "critical": true,
-      "expectedKeywords": ["sedia", "distanza"],
-      "rationale": "La scena si descrive prima di entrare. L'oggetto è una sedia, non un motivo per il corpo a corpo."
+      "expectedKeywords": [
+        "otto",
+        "tremore",
+        "nausea"
+      ],
+      "rationale": "Sotto 10 di solito non serve farmaco aggiuntivo."
     },
     {
-      "id": "aq-sicurezza",
-      "prompt": "Le forze dell'ordine sono state allertate prima del contatto?",
+      "id": "q2",
+      "prompt": "E' orientato o ha allucinazioni continuative?",
       "critical": true,
-      "expectedKeywords": ["allert", "prima"],
-      "rationale": "La contenzione senza messa in sicurezza è l'errore legale del caso."
-    },
-    {
-      "id": "aq-farmaco",
-      "prompt": "La sedazione è intramuscolo e avviene dopo, non prima, della sicurezza?",
-      "critical": true,
-      "expectedKeywords": ["dopo", "fiala"],
-      "rationale": "Il farmaco è lecito. L'ordine no: prima la scena, poi la fiala."
+      "expectedKeywords": [
+        "orientato",
+        "no",
+        "allucinazioni"
+      ],
+      "rationale": "L'item del sensorio e quelli sensoriali fanno parte della scala, non si saltano."
     }
   ],
   "physicalExam": {
-    "summary": "Esame a distanza: sudato, urlante, brandisce una sedia di metallo, non lascia lo spazio di un metro. Non si palpa l'addome e non si misura la pressione finché la scena non è sicura. Dopo la messa in sicurezza, se sedato: tachicardia intorno a 130, cute sudata, nessun trauma evidente al primo sguardo. L'obiettività fine viene dopo."
+    "summary": "Tremore lieve a braccia tese, sudore appena visibile, orientato nel tempo e nel luogo. Totale CIWA-Ar 8."
   },
   "escCitations": [
     {
-      "chunkId": "psic-011-ordine",
-      "source": "Legge 180/1978 — contenzione e sicurezza",
-      "quote": "Sintesi operativa, non un estratto da un PDF assente: davanti a un paziente che minaccia con un oggetto si allertano le forze dell'ordine prima della contenzione fisica. La sedazione viene quando la scena è sicura, non come sostituto della sicurezza."
+      "chunkId": "10",
+      "source": "knowledge_base/psichiatria/clinic/1104212257_CIWA-Ar.pdf",
+      "quote": "Patients scoring less than 10 do not usually need additional medication for withdrawal. The maximum score is 67. This assessment for monitoring withdrawal symptoms requires approximately 5 minutes to administer."
     },
     {
-      "chunkId": "psic-011-budget",
-      "source": "Tariffe didattiche del caso PSIC — TC cranio 120 €",
-      "quote": "Sintesi operativa economica: questo caso non ha un esame salvavita. Il budget di 25 euro non copre la TC cranio a 120 euro, che in corridoio non è nemmeno eseguibile in sicurezza."
+      "chunkId": "glu",
+      "source": "knowledge_base/psichiatria/clinic/APA-Delirium-Practice-Guideline-Under-Copyediting.pdf",
+      "quote": "Correcting abnormalities in blood pressure, severe anemia, electrolytes, glucose, fluid, and acid-base status, insofar as possible."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Forze dell'ordine allertate per prime.",
-      "De-escalation a distanza, senza invadere lo spazio.",
-      "Sedazione intramuscolo solo dopo la messa in sicurezza.",
-      "Nessuna contenzione fisica come primo atto.",
-      "Nessuna TC in questa fase. Spesa esami entro 25 euro."
+      "Compilare la scala, non decidere a occhio.",
+      "Sotto 10: di solito niente farmaco aggiuntivo per l'astinenza.",
+      "Niente TC cranio al posto del punteggio."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5, e i limiti della contenzione: in cartella restano l'orario della chiamata alle forze dell'ordine, la distanza tenuta e il farmaco dato dopo. Tenere il paziente prima di quella chiamata non è difendibile.",
+      "art5Adherence": "Soglia letta sul foglio CIWA-Ar. Nessuna dose inventata. La TC segue il nomenclatore.",
       "legalCriteria": [
-        "Chiamata alle forze dell'ordine precedente a ogni contatto fisico.",
-        "Contenzione fisica non iniziata da soli, senza sicurezza.",
-        "Farmaco, dose e via intramuscolo scritti dopo, non al posto della chiamata.",
-        "Nessun imaging richiesto mentre la minaccia è in corso."
+        "Compilare la scala, non decidere a occhio.",
+        "Sotto 10: di solito niente farmaco aggiuntivo per l'astinenza.",
+        "Niente TC cranio al posto del punteggio."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "azione-forze-ordine",
-      "name": "Allerta alle forze dell'ordine",
-      "finding": "Chiamata prima di avvicinarsi. È il primo rigo di cartella. Senza, ogni contatto è un rischio per tutti e un problema legale.",
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
       "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 2.0
     },
     {
-      "examId": "azione-de-escalation",
-      "name": "De-escalation a distanza",
-      "finding": "Voce bassa, spazio largo, niente sfida. La sedia resta in mano ma non parte la carica.",
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
       "isAbnormal": false,
-      "priceEuro": 0
-    },
-    {
-      "examId": "azione-sedazione-im",
-      "name": "Sedazione intramuscolo a scena sicura",
-      "finding": "Midazolam, lorazepam o aloperidolo intramuscolo, dopo. Non è il primo gesto e non sostituisce la chiamata.",
-      "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 4.0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "contenzione-fisica",
-      "name": "Contenzione fisica senza forze dell'ordine",
-      "finding": "Il paziente viene tenuto dagli operatori prima che la scena sia messa in sicurezza. È la trappola legale: rischio di lesioni e di un atto non difendibile.",
-      "isAbnormal": true,
-      "priceEuro": 0,
-      "inappropriate": true,
-      "isFatal": true,
-      "wasteRationale": "Contenzione fisica prima delle forze dell'ordine. Non è un risparmio: è l'errore che il caso vuole intercettare."
-    },
-    {
-      "examId": "tc-cranio",
-      "name": "TC Cranio senza mezzo di contrasto",
-      "finding": "Non eseguibile in sicurezza e non indicata come primo atto. Se forzata più tardi, referto senza sangue acuto. Costo 120 euro.",
+      "examId": "tc",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "priceEuro": 86.1,
       "inappropriate": true,
-      "componentExamIds": ["tc"],
-      "wasteRationale": "TC cranio a 120 euro mentre il problema è la scena. Sfora i 25 euro di budget."
-    },
-    {
-      "examId": "rm-encefalo",
-      "name": "RM Encefalo",
-      "finding": "Non eseguibile. Costo teorico 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "RM encefalo a 220 euro: incompatibile con la scena e con il budget."
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
     }
   ],
   "baselineExamFindings": {
-    "context": "Pronto soccorso, corridoio. Urla, brandisce una sedia, non si lascia avvicinare.",
     "vitals": {
-      "heartRate": 130,
-      "bloodPressure": "168/100",
-      "spo2": 97,
-      "temperature": 37.2,
-      "respiratoryRate": 26
+      "heartRate": 96,
+      "bloodPressure": "138/86",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 25,
-    "demographics": { "age": 36, "sex": "M", "name": "Davide Riva" },
-    "killerRules": {
-      "fatalIfOmitted": [["polizia", "carabinieri", "forze dell'ordine", "forze dell ordine"]]
-    },
-    "clinicalSigns": [
-      {
-        "signName": "Minaccia con oggetto",
-        "result": "Brandisce una sedia di metallo. Lo spazio di un metro non è sicuro.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Minaccia con oggetto",
-        "result": "Presente. L'esame ravvicinato non è il primo atto.",
-        "isPositive": true
-      }
-    ],
+    "clinicalSigns": {},
+    "semeiotics": {},
     "advancedExams": {
       "values": {
-        "ecg": { "finding": "Tachicardia sinusale, se si riesce a registrarlo dopo la sedazione. Costo 15 euro.", "normalFinding": "Sinusale tachicardica.", "isAbnormal": true, "price": 15 },
-        "tc-cranio": { "finding": "Non indicata in questa fase. Se eseguita dopo, nessuna emorragia. 120 euro.", "normalFinding": "Nessuna emorragia.", "isAbnormal": false, "price": 120 },
-        "tc": { "finding": "TC encefalo non prioritaria. 120 euro.", "normalFinding": "Nei limiti se eseguita dopo.", "isAbnormal": false, "price": 120 },
-        "rm-encefalo": { "finding": "Non eseguibile. 220 euro.", "normalFinding": "Non indicata.", "isAbnormal": false, "price": 220 }
-      }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Sedazione intramuscolo dopo la messa in sicurezza",
-          "anyOf": [
-            { "id": "midazolam", "label": "Midazolam", "aliases": ["midazolam", "ipnovel"], "priceEuro": 3.2 },
-            { "id": "lorazepam", "label": "Lorazepam", "aliases": ["lorazepam", "tavor"], "priceEuro": 4.5 },
-            { "id": "aloperidolo", "label": "Aloperidolo", "aliases": ["aloperidolo", "serenase"], "priceEuro": 2.4 }
-          ]
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
+        },
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
         }
-      ]
+      }
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "OPPOSITIONAL",
-    "adherence": "NON_COMPLIANT",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "LIMITED" },
-    "communicationStyle": "Urla, minaccia, frasi di due parole, brandisce la sedia. A distanza si ferma senza diventare gentile. Se lo si afferra, la scena peggiora."
-  }
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Davide. Tremo poco. Se il numero e' basso non voglio altra medicina."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Compilare la scala",
+      "prompt": "Nausea lieve, tremore lieve, sudore minimo, orientato. Nessuno ha sommato i punti.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Faccia la CIWA-Ar, ci vogliono circa cinque minuti",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Decida senza punteggio",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Scala saltata",
+      "prompt": "This assessment for monitoring withdrawal symptoms requires approximately 5 minutes to administer. The maximum score is 67.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sotto 10",
+      "prompt": "Il totale e' 8.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non aggiunga farmaco per l'astinenza: sotto 10 di solito non serve",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Benzodiazepina di protocollo",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco sotto soglia",
+      "prompt": "Patients scoring less than 10 do not usually need additional medication for withdrawal.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente dose inventata",
+      "prompt": "Chiedono i milligrammi. Il foglio non li scrive.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non inventi una dose. Il testo non ne da' una",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Scelga una dose a memoria",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non letta",
+      "prompt": "The CIWA-Ar form states the score threshold for additional medication. It does not name a drug or a milligram regimen.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rivalutare",
+      "prompt": "Tra due ore qualcuno non ripete la scala.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "La ripeta: e' uno strumento di monitoraggio",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Una volta basta per sempre",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Monitoraggio fermo",
+      "prompt": "This assessment for monitoring withdrawal symptoms requires approximately 5 minutes to administer.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Glicemia se il sensorio confonde",
+      "prompt": "Per un attimo non fa le addizioni. Poi si orienta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Controlli glicemia e anemia tra i fattori di un delirium, senza trasformare un 8 in un'indicazione al farmaco",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Ignori la glicemia e dia il farmaco",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Soglia scavalcata",
+      "prompt": "Patients scoring less than 10 do not usually need additional medication for withdrawal. Glucose and severe anemia are contributing factors to correct when delirium is in the differential.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC",
+      "prompt": "TC cranio 'per il tremore'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la faccia",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "TC cranio",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Vuole sapere perche' non gli date nulla.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Glielo spieghi con la soglia",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non glielo dica",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione mancata",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "Accetta l'osservazione. La moglie vuole la compressa lo stesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Segua lui",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Dia la compressa perche' la vuole la moglie",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Consenso della moglie",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

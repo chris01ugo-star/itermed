@@ -1,137 +1,227 @@
 [
   {
     "id": "PSIC-001",
-    "title": "Attacco di panico scambiato per infarto",
-    "condition": "Attacco di panico con ECG normale: benzodiazepina breve e rassicurazione, non enzimi seriati né TC",
+    "title": "Schizofrenia: dose piu' bassa efficace, niente doppio antipsicotico di routine",
+    "condition": "Schizofrenia in trattamento antipsicotico a lungo termine, senza indicazione alla politerapia",
     "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
+    "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "Legge 24/2017 art. 5 — appropriatezza, non medicina difensiva"
+    "guidelineRef": "Circolare ER 4/2020; DSM-5-TR; L.219/2017; nomenclatore 14-10-2026"
   },
   {
     "id": "PSIC-002",
-    "title": "Depressione maggiore lieve",
-    "condition": "Episodio depressivo maggiore lieve, senza piano suicidario: SSRI e psicoterapia, non benzodiazepina cronica",
+    "title": "Schizofrenia: non alzare la dose prima di due settimane",
+    "condition": "Schizofrenia gia' in antipsicotico da pochi giorni, proposta di aumento precoce e sopra range",
     "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
+    "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "Legge 24/2017 art. 5 — SSRI e psicoterapia, non sedazione cronica"
+    "guidelineRef": "Circolare ER 4/2020; nomenclatore; L.219/2017"
   },
   {
     "id": "PSIC-003",
-    "title": "Insonnia primaria",
-    "condition": "Insonnia primaria in paziente lucido: igiene del sonno, non TC né polisonnografia",
+    "title": "Schizofrenia: peso, glicemia e lipidi con la cadenza scritta",
+    "condition": "Schizofrenia in antipsicotico, monitoraggio cardiometabolico non avviato",
     "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
+    "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "Legge 24/2017 art. 5 — igiene del sonno prima dell'imaging"
+    "guidelineRef": "Circolare ER 4/2020; nomenclatore 14-10-2026"
   },
   {
     "id": "PSIC-004",
-    "title": "Crisi psicotica acuta",
-    "condition": "Esordio psicotico con deliri di persecuzione e allucinazioni uditive: antipsicotico atipico e SPDC",
+    "title": "Schizofrenia e QT: ECG, niente pompelmo, cautela con aloperidolo",
+    "condition": "Schizofrenia con rischio di allungamento del QT",
     "frequencyCategory": "MEDIUM",
-    "difficulty": "INTERMEDIATE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "Legge 180/1978 — ricovero in SPDC, non neuroimaging difensivo"
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Circolare ER 4/2020; determinazione AIFA citata; nomenclatore"
   },
   {
     "id": "PSIC-005",
-    "title": "Rischio suicidario alto",
-    "condition": "Ideazione suicidaria con piano, mezzi e saluto ai familiari: ricovero protetto o TSO, mai dimissione",
-    "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "Legge 180/1978 — TSO o ricovero volontario protetto"
+    "title": "Effetti extrapiramidali: non restare sul tipico ad alta potenza",
+    "condition": "Schizofrenia con effetti extrapiramidali e preoccupazione per la discinesia tardiva",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Circolare ER 4/2020 raccomandazioni 11-13"
   },
   {
     "id": "PSIC-006",
-    "title": "Episodio maniacale",
-    "condition": "Mania con deprivazione di sonno e grandiosità: litio o valproato, antipsicotico, litiemia",
+    "title": "Deprescrizione: piano lento, un farmaco alla volta, non lo stop",
+    "condition": "Schizofrenia in politerapia, richiesta di sospensione senza i passi della deprescrizione",
     "frequencyCategory": "MEDIUM",
-    "difficulty": "INTERMEDIATE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "Legge 24/2017 art. 5 — stabilizzatore e litiemia, non RM"
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Circolare ER 4/2020, sezione deprescrizione; L.219/2017"
   },
   {
     "id": "PSIC-007",
-    "title": "Delirium tremens",
-    "condition": "Astinenza alcolica complicata: diazepam, fluidi e tiamina. Antipsicotico tipico controindicato",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "INTERMEDIATE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "Legge 24/2017 art. 5 — tiamina obbligatoria nel delirium tremens"
+    "title": "Delirium: scala, farmaci, interventi non farmacologici, niente antipsicotico per prevenire",
+    "condition": "Delirium o rischio di delirium, senza ancora agitazione pericolosa",
+    "frequencyCategory": "HIGH",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "APA delirium guideline (bozza nel file); nomenclatore"
   },
   {
     "id": "PSIC-008",
-    "title": "Disturbo borderline e autolesionismo",
-    "condition": "Tagli superficiali e ricatto affettivo: medicazione, contenimento, invio al CSM. Non RM",
+    "title": "Delirium agitato: antipsicotico solo se i tre criteri, niente benzodiazepina",
+    "condition": "Delirium con agitazione, de-escalation non tentata, nessuna indicazione specifica alla benzodiazepina",
     "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "Legge 180/1978 — contenimento e CSM, non iper-medicalizzazione"
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "APA delirium, affermazioni 8 e 10"
   },
   {
     "id": "PSIC-009",
-    "title": "Anoressia nervosa grave",
-    "condition": "Denutrizione con bradicardia e ipokaliemia: esami urgenti e ricovero salva-vita",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "INTERMEDIATE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "Legge 24/2017 art. 5 — ricovero per instabilità medica nell'anoressia"
-  },
-  {
-    "id": "PSIC-010",
-    "title": "Delirium da infezione urinaria",
-    "condition": "Delirium iperattivo nell'anziano senza storia psichiatrica: urine, esami, antibiotico",
-    "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "Legge 24/2017 art. 5 — causa organica prima della sedazione"
-  },
-  {
-    "id": "PSIC-011",
-    "title": "Agitazione psicomotoria armata",
-    "condition": "Paziente che minaccia con un oggetto: forze dell'ordine prima di contenzione e sedazione",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "ADVANCED",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "Legge 180/1978 — sicurezza e forze dell'ordine prima della contenzione"
-  },
-  {
-    "id": "PSIC-012",
-    "title": "Sindrome neurolettica maligna",
-    "condition": "Ipertermia e rigidità in corso di aloperidolo: stop del neurolettico, CPK, dantrolene o bromocriptina",
-    "frequencyCategory": "LOW",
-    "difficulty": "ADVANCED",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "Legge 24/2017 art. 5 — sospensione immediata del neurolettico"
-  },
-  {
-    "id": "PSIC-013",
-    "title": "Catatonia",
-    "condition": "Stupor, flessibilità cerea, digiuno: lorazepam ad alte dosi dopo CPK per escludere la neurolettica maligna",
-    "frequencyCategory": "LOW",
-    "difficulty": "ADVANCED",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "Legge 24/2017 art. 5 — lorazepam nella catatonia"
-  },
-  {
-    "id": "PSIC-014",
-    "title": "Intossicazione acuta da cocaina",
-    "condition": "Agitazione simpaticomimetica: ECG, tossicologico, benzodiazepine. Beta-bloccanti controindicati",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "ADVANCED",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "Legge 24/2017 art. 5 — niente beta-bloccante nella cocaina"
-  },
-  {
-    "id": "PSIC-015",
-    "title": "Rifiuto di cure in paziente capace",
-    "condition": "Polmonite e rifiuto lucido: Legge 219/2017, non TSO per una cura non psichiatrica",
+    "title": "Delirium: contenzione solo se il danno e' imminente",
+    "condition": "Delirium senza danno imminente, contenzione proposta di routine",
     "frequencyCategory": "MEDIUM",
     "difficulty": "ADVANCED",
     "setting": "REPARTO",
-    "guidelineRef": "Legge 219/2017 — rifiuto di cure del paziente capace"
+    "guidelineRef": "APA delirium, affermazione 5"
+  },
+  {
+    "id": "PSIC-010",
+    "title": "Delirium in terapia intensiva: dexmedetomidina, non melatonina",
+    "condition": "Prevenzione del delirium in chirurgia maggiore e ventilazione meccanica",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "APA delirium, affermazioni 11, 12 e 13"
+  },
+  {
+    "id": "PSIC-011",
+    "title": "Astinenza alcolica: CIWA-Ar sotto 10, niente farmaco in piu'",
+    "condition": "Astinenza alcolica con CIWA-Ar inferiore a 10",
+    "frequencyCategory": "HIGH",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "CIWA-Ar, Sullivan 1989, file in clinic"
+  },
+  {
+    "id": "PSIC-012",
+    "title": "SAD PERSONS da 0 a 2: a casa con follow-up, non il TSO",
+    "condition": "Rischio suicidario basso alla SAD PERSONS, 0-2 punti",
+    "frequencyCategory": "HIGH",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "SAD PERSONS; L.833/1978 art. 33-34; L.219/2017"
+  },
+  {
+    "id": "PSIC-013",
+    "title": "SAD PERSONS da 3 a 4: follow-up stretto, ricovero da considerare",
+    "condition": "SAD PERSONS 3-4 punti",
+    "frequencyCategory": "HIGH",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "SAD PERSONS; L.833/1978; L.219/2017"
+  },
+  {
+    "id": "PSIC-014",
+    "title": "SAD PERSONS da 5 a 6: ricovero fortemente considerato, secondo il follow-up",
+    "condition": "SAD PERSONS 5-6 con follow-up non affidabile",
+    "frequencyCategory": "HIGH",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "SAD PERSONS; L.833/1978 art. 34"
+  },
+  {
+    "id": "PSIC-015",
+    "title": "SAD PERSONS da 7 a 10: ricovero, TSO solo se non accetta",
+    "condition": "SAD PERSONS 7-10 con accettazione del ricovero volontario",
+    "frequencyCategory": "HIGH",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "SAD PERSONS; L.833/1978 art. 34; L.219/2017"
+  },
+  {
+    "id": "PSIC-016",
+    "title": "TSO: i tre requisiti, non uno solo",
+    "condition": "TSO in degenza: tre requisiti dell'art. 34 presenti",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "L.833/1978 art. 33, 34 e 35"
+  },
+  {
+    "id": "PSIC-017",
+    "title": "TSO: 48 ore, giudice, stop al settimo giorno senza nuova proposta",
+    "condition": "TSO oltre il settimo giorno senza proposta di prolungamento",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "L.833/1978 art. 35"
+  },
+  {
+    "id": "PSIC-018",
+    "title": "Capace che rifiuta il farmaco: non e' un TSO",
+    "condition": "Rifiuto di persona capace, senza i requisiti del TSO",
+    "frequencyCategory": "HIGH",
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "L.219/2017 art. 1; L.833/1978 art. 33 e 34"
+  },
+  {
+    "id": "PSIC-019",
+    "title": "Contenzione in SPDC: extrema ratio, non piu' di 12-24 ore senza nuova prescrizione",
+    "condition": "Agitazione in SPDC, contenzione proposta come prima mossa e senza limite di tempo",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "DGR Veneto 1106/2020; L.833/1978"
+  },
+  {
+    "id": "PSIC-020",
+    "title": "Catatonia: BFCRS e lorazepam 2 mg in vena, non l'antipsicotico",
+    "condition": "Catatonia nell'adulto, senza rischio respiratorio, prima del test al lorazepam",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "APA Resource Document on Catatonia; nomenclatore"
+  },
+  {
+    "id": "PSIC-021",
+    "title": "Catatonia: seconda dose se sotto il 50% a 30 minuti, poi almeno tre volte al giorno",
+    "condition": "Catatonia con risposta parziale al primo lorazepam endovena",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "APA Resource Document on Catatonia"
+  },
+  {
+    "id": "PSIC-022",
+    "title": "Catatonia maligna o senza risposta a sette giorni: ECT, non l'antipsicotico",
+    "condition": "Catatonia maligna, oppure nessuna risposta al lorazepam in sette giorni, oppure sospensione di clozapina oltre 48 ore",
+    "frequencyCategory": "LOW",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "APA Resource Document on Catatonia"
+  },
+  {
+    "id": "PSIC-023",
+    "title": "BPSD: prima il non farmacologico, il farmaco solo se c'e' pericolo",
+    "condition": "Sintomi comportamentali della demenza senza condotta pericolosa",
+    "frequencyCategory": "HIGH",
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Manuale BPSD 2023"
+  },
+  {
+    "id": "PSIC-024",
+    "title": "BPSD pericolosi: aloperidolo o risperidone nelle indicazioni di scheda, non un altro",
+    "condition": "Aggressivita' persistente in Alzheimer da moderato a grave, non farmacologico gia' fallito",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "Manuale BPSD 2023, schede di aloperidolo e risperidone"
+  },
+  {
+    "id": "PSIC-025",
+    "title": "Depressione in demenza: non farmacologico prima, SSRI solo con indicazione precisa, niente triciclici",
+    "condition": "Sintomi depressivi lievi-moderati in demenza, senza depressione maggiore accertata",
+    "frequencyCategory": "HIGH",
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Manuale BPSD 2023, sezione depressione"
   }
 ]

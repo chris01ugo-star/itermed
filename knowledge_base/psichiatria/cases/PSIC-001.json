@@ -1,253 +1,453 @@
 {
   "id": "PSIC-001",
   "code": "PSIC-001",
-  "title": "Attacco di panico scambiato per infarto",
-  "description": "Marco Bellini, 34 anni, impiegato, arriva in ambulatorio convinto di avere un infarto. Da trenta minuti ha fitta al petto, formicolio alle mani, fame d'aria e paura di morire. È già successo due volte; l'ECG di allora era normale. Non ha fattori di rischio coronarico maggiori, non usa cocaina, il dolore non è a coltello alla schiena. Il percorso è un ECG di base, la rassicurazione e una benzodiazepina per questo episodio. Il budget è 28 euro: l'ECG (15 €) ci sta, la troponina aggiunta all'ECG (18 €) e la TC cranio (120 €) lo superano.",
-  "difficulty": "EASY",
+  "title": "Schizofrenia: dose piu' bassa efficace, niente doppio antipsicotico di routine",
+  "description": "Donna di 34 anni, schizofrenia gia' inquadrata, chiede di capire il farmaco. Un collega vuole aggiungere un secondo antipsicotico 'per sicurezza' e una PET.",
+  "difficulty": "HARD",
   "specialty": "psichiatria",
   "specialtyLabel": "Psichiatria",
-  "condition": "Attacco di panico con ECG normale",
+  "condition": "Schizofrenia in trattamento antipsicotico a lungo termine, senza indicazione alla politerapia",
   "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
+  "matrixDifficulty": "ADVANCED",
   "setting": "AMBULATORIO",
-  "guidelineRef": "Legge 24/2017 art. 5 — appropriatezza, non medicina difensiva",
-  "diagnosis": "Attacco di panico. ECG senza ischemia. Non servono troponine seriate né TC cranio.",
-  "pastMedicalHistory": "Due episodi simili negli ultimi otto mesi, entrambi con ECG normale in pronto soccorso. Non fuma. Non è diabetico, non è iperteso, colesterolo mai misurato alto. Padre vivo, senza infarto precoce. Nega cocaina e amfetamine. Caffè quattro tazzine al giorno. Dorme male da un mese per una scadenza di lavoro. Nessuna allergia. Non assume farmaci. Non ha sincopi, non ha dolore dorsale a strappo, non ha febbre.",
-  "presentation": "In ambulatorio, in piedi, si stringe il petto e respira con la bocca. Parla a scatti. Se il medico chiede solo «è ansia?» si offende e insiste che sta morendo. Se si ricostruiscono esordio, irradiazione, sintomi vegetativi e gli episodi precedenti, il quadro è un attacco di panico. Parametri, se misurati: PA 148/90 mmHg, FC 118 bpm, SpO2 99% in aria, FR 28, temperatura 36,7 °C. Accetta qualunque esame, compresa la TC, perché ha paura di un ictus.",
+  "guidelineRef": "Circolare ER 4/2020; DSM-5-TR; L.219/2017; nomenclatore 14-10-2026",
+  "diagnosis": "Schizofrenia, criteri DSM di durata e sintomi attivi. La circolare chiede il farmaco piu' appropriato alla dose piu' bassa efficace, con la preferenza della persona. La politerapia antipsicotica non e' di routine.",
+  "pastMedicalHistory": "Due anni di sintomi, funzionamento lavorativo sceso. Nessuna mania. Ipertensione. Nessuna DAT. Vive sola.",
+  "presentation": "Deliri e allucinazioni uditive per piu' di un mese, segni continui da oltre sei mesi, lavoro perso. Capace, chiede spiegazioni. Il collega prepara due antipsicotici insieme e una PET 'per escludere un tumore'.",
   "redHerrings": [
-    "Il formicolio al braccio sinistro gli fa nominare l'infarto del vicino di casa.",
-    "La tachicardia e la pressione alta sembrano un'urgenza cardiaca, ma l'ECG non ha ischemia.",
-    "Chiede lui la TC cranio perché «potrebbe essere un ictus».",
-    "Una troponina singola, aggiunta all'ECG, costa già più del budget di 28 euro."
+    "Secondo antipsicotico di routine.",
+    "PET al posto della scelta condivisa."
   ],
-  "timeLimitMinutes": 40,
-  "patientDeteriorationThreshold": 30,
-  "patientPrompt": "ROLEPLAY RIGIDO. Sei Marco Bellini, 34 anni, ambulatorio, convinto di avere un infarto. Registro: AGITATO. Frasi spezzate, mai un paragrafo lucido. Didascalia fisica tra parentesi quadre almeno una volta ogni due risposte: [respira a fatica], [si stringe il petto], [si alza in piedi]. Alla «Come sta?»: «Il cuore. Mi scoppia. Sto morendo.» [respira a fatica] Non dire tu che è panico. Se ti chiedono da quanto, dove, se stringe o punge, se è già successo, se hai vomitato, se usi droghe: è iniziato mezz'ora fa in ufficio, fitta al petto che va al braccio, mani che formicolano, paura di morire, due volte già, ECG normale, niente cocaina, niente dolore a coltello alla schiena, non fumi. Se propongono l'ECG accetti subito: «Così vedete l'infarto.» Se propongono TAC o risonanza accetti anche: «Fate tutto, ho paura di un ictus.» Se ti spiegano con calma che l'ECG è a posto, che è un attacco di panico, e ti danno una benzodiazepina solo per questo episodio, ti siedi e il respiro rallenta. Se ordinano esami a raffica senza parlarti, [urla]: «Sto morendo e voi scrivete!» Non nominare budget, troponina o linee guida. Non rivelare la diagnosi.",
-  "correctSolution": "Attacco di panico. ECG a 12 derivazioni senza ischemia, rassicurazione esplicita, benzodiazepina per l'episodio acuto. Non troponine seriate. Non TC cranio. Non RM encefalo. Il budget di 28 euro copre l'ECG (15 €) e un margine per la benzodiazepina: la troponina (18 €) sommata all'ECG, e qualunque TC (120 €), lo superano.",
-  "goldStandardPath": ["ecg", "azione-rassicurazione", "azione-benzodiazepina"],
-  "goldPathNarrative": "1) ECG di base, subito: ritmo sinusale tachicardico, nessun sopraslivellamento, QTc normale. Esclude il quadro ischemico che il paziente teme. Costo 15 euro. 2) Rassicurazione: dire che l'ECG non mostra un infarto e nominare l'attacco di panico, collegandolo agli episodi già avuti. 3) Benzodiazepina per questo episodio (lorazepam, diazepam o alprazolam), non una terapia cronica. I passi azione- non sono voci del nomenclatore. Budget 28 euro. Troponina ad alta sensibilità 18 euro: insieme all'ECG fa 33 euro e sfora. Una seconda troponina seriale peggiora lo sforamento. TC cranio senza mezzo di contrasto 120 euro e RM encefalo 220 euro sono medicina difensiva: non c'è deficit neurologico focale.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Giulia. Ho le voci e ho perso il lavoro. Spiegatemi il farmaco e non aggiungetene un secondo se il foglio dice di non farlo di routine. Non voglio la PET.",
+  "correctSolution": "Confermare la durata DSM. Discutere benefici e rischi e tenere la preferenza. Un solo antipsicotico alla dose piu' bassa efficace. Niente associazione di routine. Niente PET. Consenso.",
+  "goldStandardPath": [
+    "ecg",
+    "glicemia"
+  ],
+  "goldPathNarrative": "La circolare 4/2020 vieta l'uso routinario di due antipsicotici e chiede la dose piu' bassa efficace dopo discussione. Il DSM chiede sei mesi e almeno un mese di fase attiva. La PET 92.18.C non e' il passo.",
   "examLatencies": {
-    "ecg": 5,
-    "azione-rassicurazione": 4,
-    "azione-benzodiazepina": 2,
-    "troponina-hs": 25,
-    "tc-cranio": 30,
-    "tc": 30,
-    "rm-encefalo": 50,
-    "rm": 50,
-    "glicemia": 5
+    "ecg": 15,
+    "glicemia": 20,
+    "pet-tc": 180
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-esordio",
-      "prompt": "Quando è iniziato, dove sta il dolore, e si irradia?",
+      "id": "q1",
+      "prompt": "Da quanto durano i sintomi e c'e' stato un calo del funzionamento?",
       "critical": true,
-      "expectedKeywords": ["esordio", "petto", "braccio"],
-      "rationale": "Senza sede, durata e irradiazione l'infarto e il panico restano sovrapposti."
+      "expectedKeywords": [
+        "sei mesi",
+        "lavoro",
+        "voci"
+      ],
+      "rationale": "Il DSM chiede segni continui per almeno sei mesi e un calo del funzionamento."
     },
     {
-      "id": "aq-precedenti",
-      "prompt": "È già successo, e cosa diceva l'ECG di allora?",
+      "id": "q2",
+      "prompt": "Vuole un secondo antipsicotico o preferisce capire il primo?",
       "critical": true,
-      "expectedKeywords": ["già", "ECG", "normale"],
-      "rationale": "Due episodi identici con ECG normale abbassano il sospetto di sindrome coronarica acuta."
-    },
-    {
-      "id": "aq-droghe",
-      "prompt": "Ha usato cocaina o altre sostanze, e c'è un dolore a strappo alla schiena?",
-      "critical": true,
-      "expectedKeywords": ["cocaina", "schiena"],
-      "rationale": "La cocaina cambia la tachicardia e la dissezione aortica non si rassicura con il solo colloquio."
+      "expectedKeywords": [
+        "uno",
+        "preferenza",
+        "rischi"
+      ],
+      "rationale": "La circolare tiene conto della preferenza e non associa due antipsicotici di routine."
     }
   ],
   "physicalExam": {
-    "summary": "Agitato, sudato, polipnea senza uso dei muscoli accessori. Torace libero, toni tachicardici senza sfregamenti né soffi. Addome trattabile. Nessun deficit motorio, pupille isocoriche, linguaggio integro tra una frase e l'altra. Non edema. Il quadro vegetativo è intenso e l'obiettività cardiopolmonare è povera."
+    "summary": "Lucida, allucinazioni uditive, deliri, trascuratezza. Pressione 148/92. Nessun segno neurologico focale."
   },
   "escCitations": [
     {
-      "chunkId": "psic-001-ecg",
-      "source": "Legge 24/2017 art. 5 — appropriatezza prescrittiva",
-      "quote": "Sintesi operativa, non un estratto da un PDF assente: con dolore atipico, episodi identici già studiati ed ECG senza ischemia, la troponina seriata e la TC cranio non sono il passo successivo. Si documenta l'ECG e si tratta l'attacco."
+      "chunkId": "dsm",
+      "source": "knowledge_base/psichiatria/clinic/DSM 5 TR-APA (2022).pdf",
+      "quote": "Schizophrenia lasts for at least 6 months and includes at least 1 month of active-phase symptoms."
     },
     {
-      "chunkId": "psic-001-budget",
-      "source": "Tariffe didattiche del caso PSIC — ECG 15 €, troponina 18 €, TC cranio 120 €",
-      "quote": "Sintesi operativa economica: il budget di 28 euro è calibrato sull'ECG e su un farmaco acuto di pochi euro. Aggiungere la troponina oppure prescrivere la TC cranio senza mezzo di contrasto fa scattare lo sforamento."
+      "chunkId": "crit",
+      "source": "knowledge_base/psichiatria/clinic/DSM 5 TR-APA (2022).pdf",
+      "quote": "Two (or more) of the following, each present for a significant portion of time during a 1-month period (or less if successfully treated). At least one of these must be (1), (2), or (3): Delusions. Hallucinations. Disorganized speech."
+    },
+    {
+      "chunkId": "dose",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "I professionisti dei servizi e gli utenti dovrebbero lavorare insieme per trovare il farmaco piu' appropriato al piu' basso dosaggio efficace. Dovrebbe esserci una dettagliata discussione con gli utenti dei potenziali benefici e rischi dei singoli farmaci. Si dovrebbe chiedere e tenere in conto per la decisione della preferenza degli utenti."
+    },
+    {
+      "chunkId": "poly",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "Non dovrebbe esserci un uso routinario di associazioni di antipsicotici (AP). Qualora si prenda in considerazione la politerapia, vantaggi e svantaggi dovrebbero essere discussi con gli utenti."
+    },
+    {
+      "chunkId": "psico",
+      "source": "knowledge_base/psichiatria/clinic/Circolare 4_2020_Raccomandazioni_antipsicotici.pdf",
+      "quote": "Per le persone con psicosi le linee guida raccomandano la farmacoterapia, sia nella fase di esordio che in seguito, ma raccomandano anche di integrare il trattamento farmacologico con interventi psicosociali."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "ECG eseguito prima di parlare di infarto escluso.",
-      "Rassicurazione esplicita e benzodiazepina limitata all'episodio.",
-      "Nessuna troponina seriata e nessuna TC cranio.",
-      "Spesa entro 28 euro."
+      "Un solo antipsicotico, dose piu' bassa efficace, preferenza della persona.",
+      "Niente politerapia di routine senza discutere vantaggi e svantaggi.",
+      "Consenso, legge 219/2017 art. 1. Niente PET 92.18.C."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano il referto ECG, il ragionamento che esclude l'ischemia acuta e la scelta di non procedere a enzimi seriati o a neuroimaging. La TC chiesta per paura non è aderenza.",
+      "art5Adherence": "Il percorso segue la circolare 4/2020 e il DSM-5-TR letto nel file. Il consenso segue la legge 219. La PET segue il nomenclatore.",
       "legalCriteria": [
-        "ECG allegato prima della rassicurazione sull'infarto.",
-        "Nessuna dimissione senza avere detto la diagnosi di attacco di panico.",
-        "Benzodiazepina non rinnovata come terapia di fondo in questa visita."
+        "Un solo antipsicotico, dose piu' bassa efficace, preferenza della persona.",
+        "Niente politerapia di routine senza discutere vantaggi e svantaggi.",
+        "Consenso, legge 219/2017 art. 1. Niente PET 92.18.C."
       ]
     }
   },
   "mandatoryExams": [
     {
       "examId": "ecg",
-      "name": "ECG di base",
-      "finding": "Ritmo sinusale a 116 bpm. Nessun sopraslivellamento, nessun sottoslivellamento, T non invertite. QTc 418 ms. Non è un infarto in evoluzione e non è una tachicardia a complessi larghi. Basta questo tracciato: non serve una serie di enzimi.",
-      "isAbnormal": true,
-      "priceEuro": 15
+      "name": "Elettrocardiogramma",
+      "finding": "89.52 ELETTROCARDIOGRAMMA, tariffa 12,50 euro. La circolare lo raccomanda prima di iniziare o modificare un antipsicotico se il foglietto, l'obiettivita' o l'anamnesi di QT lo chiedono. AIFA: cautela particolare per aloperidolo, droperidolo e pimozide.",
+      "isAbnormal": false,
+      "priceEuro": 12.5
     },
     {
-      "examId": "azione-rassicurazione",
-      "name": "Rassicurazione esplicita",
-      "finding": "Il medico dice che l'ECG non mostra un infarto, nomina l'attacco di panico e collega l'episodio ai due precedenti. Il paziente si siede. Senza questa frase gli esami non chiudono il caso.",
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
       "isAbnormal": false,
-      "priceEuro": 0
-    },
-    {
-      "examId": "azione-benzodiazepina",
-      "name": "Benzodiazepina per l'episodio",
-      "finding": "Lorazepam, diazepam o alprazolam per l'attacco in corso, non una scatola da rinnovare ogni mese. Il respiro rallenta dopo la spiegazione, non dopo un imaging.",
-      "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 2.0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "troponina-hs",
-      "name": "Troponina ad alta sensibilità",
-      "finding": "Troponina ad alta sensibilità 6 ng/L, sotto la soglia di 14. Il valore è normale. Una seconda determinazione a tre ore, se richiesta, è ancora normale. Costo 18 euro a prelievo: sommata all'ECG di 15 euro supera i 28 euro del budget. Esame vero e inutile in questo tracciato.",
+      "examId": "pet-tc",
+      "name": "PET-TC globale corporea",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
       "isAbnormal": false,
-      "priceEuro": 18,
+      "priceEuro": 1071.7,
       "inappropriate": true,
-      "wasteRationale": "Enzimi cardiaci seriati su un ECG senza ischemia e con storia di attacchi identici: 18 euro che, insieme all'ECG, sforano il budget di 28 euro."
-    },
-    {
-      "examId": "tc-cranio",
-      "name": "TC Cranio senza mezzo di contrasto",
-      "finding": "TC cranio senza mezzo di contrasto: parenchima nei limiti, non emorragia, non effetto massa, seni pervi. Referto normale. Costo 120 euro. Non c'era un deficit focale da cercare.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "componentExamIds": ["tc"],
-      "wasteRationale": "Medicina difensiva. 120 euro contro un budget di 28: la TC cranio fa scattare la penalità economica."
-    },
-    {
-      "examId": "tc",
-      "name": "TC encefalo generica",
-      "finding": "Stesso referto della TC cranio senza mezzo di contrasto: nessuna lesione acuta. Costo 120 euro, fuori budget.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "wasteRationale": "La voce generica di TC encefalo costa come la TC cranio: 120 euro, sopra i 28 del caso."
-    },
-    {
-      "examId": "rm-encefalo",
-      "name": "RM Encefalo",
-      "finding": "RM encefalo senza contrasto: segnale nei limiti, non restrizione di diffusione, non lesioni demielinizzanti. Costo 220 euro. Informazione vera, indicazione assente.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "componentExamIds": ["rm"],
-      "wasteRationale": "RM encefalo a 220 euro per un attacco di panico con esame neurologico povero: sforamento certo."
+      "wasteRationale": "La PET non e' il passo diagnostico o terapeutico scritto per questo quadro."
     }
   ],
   "baselineExamFindings": {
-    "context": "Ambulatorio. Il paziente è certo di avere un infarto.",
     "vitals": {
-      "heartRate": 118,
-      "bloodPressure": "148/90",
-      "spo2": 99,
-      "temperature": 36.7,
-      "respiratoryRate": 28
+      "heartRate": 88,
+      "bloodPressure": "148/92",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 28,
-    "demographics": { "age": 34, "sex": "M", "name": "Marco Bellini" },
-    "clinicalSigns": [
-      {
-        "signName": "Dolore toracico ischemico riproducibile",
-        "result": "Il paziente si stringe il petto ma la palpazione del torace non riproduce il dolore e non c'è sfregamento. Non è una pleurite e non è un infarto clinicamente conclamato.",
-        "isPositive": false
-      },
-      {
-        "signName": "Deficit neurologico focale",
-        "result": "Forza, linguaggio e pupille integri. Nessun segno che giustifichi una TC cranio.",
-        "isPositive": false
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Deficit neurologico focale",
-        "result": "Assente. La TC cranio non ha un bersaglio clinico.",
-        "isPositive": false
-      }
-    ],
+    "clinicalSigns": {},
+    "semeiotics": {},
     "advancedExams": {
       "values": {
         "ecg": {
-          "finding": "Ritmo sinusale a 116 bpm, nessun tratto ST sollevato o depresso, QTc 418 ms. Tachicardia sinusale da allarme, non sindrome coronarica acuta.",
-          "normalFinding": "Ritmo sinusale a 116 bpm, nessun tratto ST sollevato o depresso, QTc 418 ms.",
-          "isAbnormal": true,
-          "price": 15
-        },
-        "troponina-hs": {
-          "finding": "6 ng/L, sotto 14. Se ripetuta a tre ore resta sotto soglia. Ogni dosaggio costa 18 euro e, con l'ECG, supera i 28 euro.",
-          "normalFinding": "6 ng/L, sotto soglia. Ripetuta, ancora negativa.",
+          "finding": "89.52 ELETTROCARDIOGRAMMA, tariffa 12,50 euro. La circolare lo raccomanda prima di iniziare o modificare un antipsicotico se il foglietto, l'obiettivita' o l'anamnesi di QT lo chiedono. AIFA: cautela particolare per aloperidolo, droperidolo e pimozide.",
+          "normalFinding": "89.52 ELETTROCARDIOGRAMMA, tariffa 12,50 euro. La circolare lo raccomanda prima di iniziare o modificare un antipsicotico se il foglietto, l'obiettivita' o l'anamnesi di QT lo chiedono. AIFA: cautela particolare per aloperidolo, droperidolo e pimozide.",
           "isAbnormal": false,
-          "price": 18
-        },
-        "tc-cranio": {
-          "finding": "TC cranio senza mezzo di contrasto negativa. Costo 120 euro. Non indicata.",
-          "normalFinding": "Nessuna emorragia, nessun effetto massa.",
-          "isAbnormal": false,
-          "price": 120
-        },
-        "tc": {
-          "finding": "TC encefalo senza mezzo di contrasto negativa. Stesso costo della TC cranio: 120 euro.",
-          "normalFinding": "Nessuna lesione acuta.",
-          "isAbnormal": false,
-          "price": 120
-        },
-        "rm-encefalo": {
-          "finding": "RM encefalo negativa. Costo 220 euro. Non indicata in un attacco di panico.",
-          "normalFinding": "Segnale parenchimale nei limiti.",
-          "isAbnormal": false,
-          "price": 220
-        },
-        "rm": {
-          "finding": "RM encefalo negativa. Costo 220 euro.",
-          "normalFinding": "Nei limiti.",
-          "isAbnormal": false,
-          "price": 220
+          "price": 12.5
         },
         "glicemia": {
-          "finding": "Glicemia 96 mg/dL. Non è un'ipoglicemia che imita il panico.",
-          "normalFinding": "96 mg/dL.",
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
           "isAbnormal": false,
-          "price": 2.1
+          "price": 2.0
+        },
+        "pet-tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "isAbnormal": false,
+          "price": 1071.7
         }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Benzodiazepina solo per l'episodio acuto",
-          "anyOf": [
-            { "id": "lorazepam", "label": "Lorazepam", "aliases": ["lorazepam", "tavor"], "priceEuro": 4.5 },
-            { "id": "diazepam", "label": "Diazepam", "aliases": ["diazepam", "valium"], "priceEuro": 2.8 },
-            { "id": "alprazolam", "label": "Alprazolam", "aliases": ["alprazolam", "xanax"], "priceEuro": 4.2 }
-          ]
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "HIGH",
+    "healthLiteracy": "MEDIUM",
     "emotionalState": "ANXIOUS",
-    "adherence": "FULL",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Agitato e certo dell'infarto. Frasi di quattro parole, fiato corto, accetta ogni esame. Si calma solo se l'ECG viene spiegato e arriva una benzodiazepina per oggi, non una pila di referti."
-  }
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Giulia. Una medicina, spiegata. Non due insieme e non la PET. Ditemi rischi e alternative."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Durata e sintomi",
+      "prompt": "Deliri e voci da oltre un mese, segni da otto mesi, ha perso il lavoro. Nessun episodio maniacale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La inquadri come schizofrenia: almeno sei mesi e un mese di fase attiva, con calo del funzionamento",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La chiami episodio breve e cambi tutto",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Durata persa",
+      "prompt": "Schizophrenia lasts for at least 6 months and includes at least 1 month of active-phase symptoms. If delusions or hallucinations occur exclusively during a major depressive or manic episode, the diagnosis is depressive or bipolar disorder with psychotic features.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente PET al posto del colloquio",
+      "prompt": "Il collega prenota la PET 92.18.C a 1.071,70 euro prima di parlare del farmaco.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non la faccia: non e' il passo della scelta dell'antipsicotico",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "PET subito",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+      "cost": 1071.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Una molecola, dose bassa",
+      "prompt": "Chiede di capire. Proposta: due antipsicotici insieme, dosi piene, senza discussione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Cerchi con lei il farmaco piu' appropriato alla dose piu' bassa efficace e integri interventi psicosociali",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Due antipsicotici di routine",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Politerapia di routine",
+      "prompt": "Non dovrebbe esserci un uso routinario di associazioni di antipsicotici. Si dovrebbe chiedere e tenere in conto la preferenza degli utenti. Il trattamento farmacologico si integra con interventi psicosociali.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se proprio due, si discute",
+      "prompt": "Un secondo medico insiste: 'a dosi basse due sono piu' sicuri'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Se la politerapia si prende in considerazione, discuta vantaggi e svantaggi. Non la faccia di routine",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "La aggiunga senza dirglielo",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Associazione taciuta",
+      "prompt": "Qualora si prenda in considerazione la politerapia, vantaggi e svantaggi dovrebbero essere discussi con gli utenti. La pratica di utilizzare due AP richiede molta attenzione per l'aumento cumulativo dei dosaggi e le interazioni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG e glicemia all'avvio",
+      "prompt": "Ipertensione nota. Sta per iniziare l'antipsicotico.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Faccia l'ECG 89.52 e programmi glucosio o emoglobina glicata, come lo schema della circolare",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Salti ECG e glicemia",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Monitoraggio saltato",
+      "prompt": "Prima di iniziare o modificare la terapia AP si raccomanda un ECG se l'esame obiettivo ha evidenziato fattori di rischio cardiovascolare, per esempio l'ipertensione. Lo schema prevede glicemia a digiuno o emoglobina glicata all'inizio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Vuole diagnosi, benefici, rischi e alternative, in modo comprensibile.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Glieli spieghi e raccolga il consenso",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Imponga il farmaco senza spiegare",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione mancata",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rifiuto di quella molecola",
+      "prompt": "Capito il foglio, rifiuta quel principio e ne accetta un altro della stessa classe dopo la spiegazione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Rispetti il rifiuto di quella molecola e concordi l'alternativa accettata",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "La somministri lo stesso",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Rifiuto scavalcato",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 6: il medico e' tenuto a rispettare la volonta' espressa dal paziente di rifiutare il trattamento sanitario o di rinunciare al medesimo e, in conseguenza di cio', e' esente da responsabilita' civile o penale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Preferenza annotata",
+      "prompt": "Chiede che la scelta resti scritta e che la famiglia entri solo se lei lo vuole.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Annoti la scelta. Coinvolga i familiari solo se lei lo desidera",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Decida il fratello al posto suo",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Consenso del familiare",
+      "prompt": "Nella relazione di cura sono coinvolti, se il paziente lo desidera, anche i suoi familiari. La scelta dell'antipsicotico si discute con la persona e si tiene conto della sua preferenza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

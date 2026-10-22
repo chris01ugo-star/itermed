@@ -1,0 +1,444 @@
+{
+  "id": "PSIC-016",
+  "code": "PSIC-016",
+  "title": "TSO: i tre requisiti, non uno solo",
+  "description": "Donna di 38 anni, psicosi acuta, rifiuta ogni cura, di notte non esiste un'alternativa territoriale. Manca la convalida e vogliono un ospedale giudiziario.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "TSO in degenza: tre requisiti dell'art. 34 presenti",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "L.833/1978 art. 33, 34 e 35",
+  "diagnosis": "Ci sono alterazioni psichiche che richiedono un intervento urgente, le cure non sono accettate e non c'e' una misura extraospedaliera tempestiva. Servono proposta motivata, convalida di un medico della USL e provvedimento del sindaco. Il ricovero e' in SPDC di ospedale generale, non altrove.",
+  "pastMedicalHistory": "Psicosi acuta, non mangia da giorni, rifiuta CSM, farmaco e ricovero. Nessun servizio territoriale reperibile stanotte. Nessuna convalida in cartella.",
+  "presentation": "Delirante, non collaborante, pericolo clinico immediato per il digiuno e l'agitazione. Il sindaco viene chiamato prima della convalida. Qualcuno parla di struttura giudiziaria.",
+  "redHerrings": [
+    "TSO senza convalida.",
+    "Ricovero fuori dall'SPDC dell'ospedale generale."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Anna. Non voglio niente. Se mi tenete, deve essere nei modi della legge, e devo poter parlare con chi dico io.",
+  "correctSolution": "Verificare i tre requisiti. Proposta motivata, convalida USL, poi il sindaco entro 48 ore dalla convalida. SPDC. Cercare comunque consenso e partecipazione. Diritto di comunicare. Non saltare la convalida.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Art. 34: tre condizioni tutte. Art. 33: proposta motivata e iniziative per il consenso. Art. 35: tempi e SPDC nell'ospedale generale.",
+  "examLatencies": {
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40,
+    "ecg": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Rifiuta le cure e esiste stanotte un'alternativa territoriale?",
+      "critical": true,
+      "expectedKeywords": [
+        "rifiuta",
+        "no",
+        "notte"
+      ],
+      "rationale": "Senza rifiuto o con una misura extraospedaliera il TSO in degenza non si apre."
+    },
+    {
+      "id": "q2",
+      "prompt": "C'e' gia' la convalida di un medico della USL?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "convalida",
+        "sindaco"
+      ],
+      "rationale": "Il provvedimento del sindaco e' preceduto dalla convalida."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Agitata, delirante, disidratata, rifiuta l'esame. Nessun segno focale che imponga prima una TC."
+  },
+  "escCitations": [
+    {
+      "chunkId": "34",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere."
+    },
+    {
+      "chunkId": "33",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Legge 23 dicembre 1978, n. 833, art. 33: gli accertamenti ed i trattamenti sanitari sono di norma volontari. Gli accertamenti e i trattamenti sanitari obbligatori sono disposti con provvedimento del sindaco nella sua qualita' di autorita' sanitaria, su proposta motivata di un medico, e devono essere accompagnati da iniziative rivolte ad assicurare il consenso e la partecipazione di chi vi e' obbligato."
+    },
+    {
+      "chunkId": "35",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Legge 23 dicembre 1978, n. 833, art. 35: il provvedimento del sindaco si emana entro 48 ore dalla convalida e si notifica entro 48 ore dal ricovero al giudice tutelare, che entro le successive 48 ore convalida o non convalida. Oltre il settimo giorno, e a ogni ulteriore prolungamento, il sanitario formula in tempo utile una nuova proposta motivata al sindaco."
+    },
+    {
+      "chunkId": "spdc",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Nei casi di cui al precedente comma il ricovero deve essere attuato presso gli ospedali generali, in specifici servizi psichiatrici di diagnosi e cura."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Tutti e tre i requisiti, non uno solo.",
+      "Proposta motivata e convalida prima del sindaco.",
+      "SPDC nell'ospedale generale. Iniziative per il consenso anche nell'obbligo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Art. 33, 34 e 35 della legge 833, testo nel file.",
+      "legalCriteria": [
+        "Tutti e tre i requisiti, non uno solo.",
+        "Proposta motivata e convalida prima del sindaco.",
+        "SPDC nell'ospedale generale. Iniziative per il consenso anche nell'obbligo."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+      "isAbnormal": false,
+      "priceEuro": 4.0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 86.1,
+      "inappropriate": true,
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
+        },
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Anna. Non firmo. Se e' obbligo, fatelo nei tempi e lasciatemi telefonare."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Tre requisiti",
+      "prompt": "Urgenza psichica, rifiuto, niente CSM stanotte.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Li riconosca tutti e tre. Senza uno, non c'e' TSO in degenza",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Basta il rifiuto",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Requisito unico",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Convalida poi sindaco",
+      "prompt": "Chiamano il sindaco senza convalida del medico USL.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Prima la proposta motivata e la convalida, poi il sindaco entro 48 ore dalla convalida",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Sindaco senza convalida",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Convalida saltata",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 35: il provvedimento del sindaco si emana entro 48 ore dalla convalida e si notifica entro 48 ore dal ricovero al giudice tutelare, che entro le successive 48 ore convalida o non convalida. Oltre il settimo giorno, e a ogni ulteriore prolungamento, il sanitario formula in tempo utile una nuova proposta motivata al sindaco.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "SPDC",
+      "prompt": "Propongono una struttura che non e' l'SPDC dell'ospedale generale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Il ricovero e' nel servizio psichiatrico di diagnosi e cura dell'ospedale generale",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Altra sede",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sede sbagliata",
+      "prompt": "Il ricovero deve essere attuato presso gli ospedali generali, in specifici servizi psichiatrici di diagnosi e cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cercare ancora il consenso",
+      "prompt": "Siccome e' TSO, smettono di parlarle.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Accompagni l'obbligo con iniziative per il consenso e la partecipazione",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Non le parli piu'",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Consenso abbandonato",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 33: gli accertamenti ed i trattamenti sanitari sono di norma volontari. Gli accertamenti e i trattamenti sanitari obbligatori sono disposti con provvedimento del sindaco nella sua qualita' di autorita' sanitaria, su proposta motivata di un medico, e devono essere accompagnati da iniziative rivolte ad assicurare il consenso e la partecipazione di chi vi e' obbligato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Puo' comunicare",
+      "prompt": "Le sequestrano il telefono.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Ha diritto di comunicare con chi ritenga opportuno",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Nessun contatto",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Comunicazione negata",
+      "prompt": "Nel corso del trattamento sanitario obbligatorio, l'infermo ha diritto di comunicare con chi ritenga opportuno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC al posto della proposta",
+      "prompt": "TC cranio prima di scrivere la proposta, senza segno focale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non sostituisca la proposta con la TC",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "TC invece della proposta",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Notifica al giudice",
+      "prompt": "Ricoverata da due giorni, il giudice non e' stato avvisato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Notifichi entro 48 ore dal ricovero",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non notifichi",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Giudice non avvisato",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 35: il provvedimento del sindaco si emana entro 48 ore dalla convalida e si notifica entro 48 ore dal ricovero al giudice tutelare, che entro le successive 48 ore convalida o non convalida. Oltre il settimo giorno, e a ogni ulteriore prolungamento, il sanitario formula in tempo utile una nuova proposta motivata al sindaco.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione comprensibile",
+      "prompt": "Urla ma a tratti ascolta una frase corta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Gliela dica, sul perche' e sulle alternative che non ci sono stanotte",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Nessuna frase",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione assente",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

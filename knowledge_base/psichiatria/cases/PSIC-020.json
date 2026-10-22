@@ -1,0 +1,444 @@
+{
+  "id": "PSIC-020",
+  "code": "PSIC-020",
+  "title": "Catatonia: BFCRS e lorazepam 2 mg in vena, non l'antipsicotico",
+  "description": "Uomo di 32 anni, mutacico, catalessia, non anziano, respiro valido. Vogliono aloperidolo ad alta potenza e 1 mg di lorazepam.",
+  "difficulty": "HARD",
+  "specialty": "psichiatria",
+  "specialtyLabel": "Psichiatria",
+  "condition": "Catatonia nell'adulto, senza rischio respiratorio, prima del test al lorazepam",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "APA Resource Document on Catatonia; nomenclatore",
+  "diagnosis": "Si usa la Bush-Francis. Il test e' lorazepam 2 mg in vena nell'adulto senza rischio respiratorio. 1 mg e' per bambini, anziani o rischio respiratorio. Un antipsicotico di prima generazione ad alta potenza va in genere evitato.",
+  "pastMedicalHistory": "Mutismo, catalessia, echopraxia da due giorni. 32 anni, saturazione buona, non anziano. Nessuna scala. Proposta: aloperidolo.",
+  "presentation": "Immobile, non parla. Il collega prepara aloperidolo IM e chiama la TC cranio prima della scala.",
+  "redHerrings": [
+    "Aloperidolo ad alta potenza come prima mossa.",
+    "1 mg invece di 2 mg in un adulto senza rischio respiratorio."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono il fratello di Matteo, 32 anni, che non parla e sta rigido. Non gli date l'antipsicotico forte se il foglio dice il test al lorazepam.",
+  "correctSolution": "BFCRS. Lorazepam 2 mg IV. Non 1 mg: non e' bambino, anziano o a rischio respiratorio. Non partire dall'aloperidolo ad alta potenza. Non la TC al posto della scala.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Il resource document raccomanda la BFCRS e il lorazepam challenge a 2 mg IV, 1 mg solo nelle categorie scritte.",
+  "examLatencies": {
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40,
+    "ecg": 15
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Eta', respiro e segni catatonici?",
+      "critical": true,
+      "expectedKeywords": [
+        "trentadue",
+        "mutismo",
+        "respiro"
+      ],
+      "rationale": "A 32 anni senza rischio respiratorio la dose iniziale del test e' 2 mg, non 1."
+    },
+    {
+      "id": "q2",
+      "prompt": "Hanno gia' fatto la BFCRS?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "scala",
+        "no"
+      ],
+      "rationale": "Il documento raccomanda la Bush-Francis."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Mutismo, catalessia, respiro valido, 32 anni. Nessun segno focale."
+  },
+  "escCitations": [
+    {
+      "chunkId": "bf",
+      "source": "knowledge_base/psichiatria/clinic/Resource-Document-on-Catatonia.pdf",
+      "quote": "We recommend the use of the Bush-Francis Catatonia Rating Scale (BFCRS). The first 14 items constitute a screening instrument."
+    },
+    {
+      "chunkId": "lct",
+      "source": "knowledge_base/psichiatria/clinic/Resource-Document-on-Catatonia.pdf",
+      "quote": "In the LCT, the initial dose of lorazepam 2 mg IV is given (1 mg in children, older adults, or those at risk of respiratory compromise). A 50% or greater reduction on the BFCRS scale is considered a positive response."
+    },
+    {
+      "chunkId": "fga",
+      "source": "knowledge_base/psichiatria/clinic/Resource-Document-on-Catatonia.pdf",
+      "quote": "High-potency first generation antipsychotics should generally be avoided in catatonia due to their increased risk for NMS and higher rates of extrapyramidal symptoms."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "BFCRS prima del farmaco.",
+      "Lorazepam 2 mg IV in questo adulto.",
+      "Non l'antipsicotico di prima generazione ad alta potenza come prima mossa."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Dosi del resource document APA sulla catatonia, file in clinic.",
+      "legalCriteria": [
+        "BFCRS prima del farmaco.",
+        "Lorazepam 2 mg IV in questo adulto.",
+        "Non l'antipsicotico di prima generazione ad alta potenza come prima mossa."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 2.0
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+      "isAbnormal": false,
+      "priceEuro": 4.0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 86.1,
+      "inappropriate": true,
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
+        },
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Parlo io, il fratello. Matteo ha 32 anni e respira. Fate il test scritto, non l'aloperidolo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "BFCRS",
+      "prompt": "Nessuna scala. Immobile e muto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Usi la Bush-Francis",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Diagnosi a occhio e aloperidolo",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Scala saltata",
+      "prompt": "We recommend the use of the Bush-Francis Catatonia Rating Scale (BFCRS).",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "2 mg, non 1",
+      "prompt": "Adulto, respiro valido. Propongono 1 mg.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Lorazepam 2 mg in vena. 1 mg e' per bambini, anziani o rischio respiratorio",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "1 mg come dose di tutti",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose bassa sbagliata",
+      "prompt": "The initial dose of lorazepam 2 mg IV is given (1 mg in children, older adults, or those at risk of respiratory compromise).",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non l'alta potenza",
+      "prompt": "Aloperidolo IM pronto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non lo dia. Gli antipsicotici di prima generazione ad alta potenza vanno in genere evitati",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Aloperidolo prima del test",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Antipsicotico ad alta potenza",
+      "prompt": "High-potency first generation antipsychotics should generally be avoided in catatonia due to their increased risk for NMS and higher rates of extrapyramidal symptoms.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Risposta al 50%",
+      "prompt": "Dopo il test vogliono decidere senza ri-misurare la scala.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Una riduzione di almeno il 50% sulla BFCRS e' la risposta positiva",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Basta che sembri piu' sveglio",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Soglia non misurata",
+      "prompt": "A 50% or greater reduction on the BFCRS scale is considered a positive response.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC al posto della scala",
+      "prompt": "TC cranio prima della BFCRS, nessun segno focale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non la metta prima",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "TC prima",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Via venosa, non orale per il test",
+      "prompt": "Manca la vena e propongono subito le gocce, che piccano a due ore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Se manca la vena, il lorazepam intramuscolo e' la seconda scelta del test, poi l'orale. La vena resta preferita",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Solo orale come prima scelta",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Via sbagliata",
+      "prompt": "IV administration is preferred. If lorazepam is unavailable IV, IM lorazepam is a second-line option for the LCT, followed by PO formulations.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informare chi decide con lui",
+      "prompt": "Il fratello chiede rischi e alternative. Matteo non parla.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Li spieghi al fratello, e a Matteo se riprende a capire",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Non dite nulla",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione mancata",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non 4 mg di partenza",
+      "prompt": "Qualcuno parte da 4 mg perche' 'e' stato studiato'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Non e' la dose iniziale scritta. Dosi piu' alte del test non hanno mostrato una differenza complessiva",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Parta da 4 mg",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dose iniziale alta",
+      "prompt": "Higher doses for the LCT have been studied (e.g., 4 mg starting dose) without any overall significant difference in response.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

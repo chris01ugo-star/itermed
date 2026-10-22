@@ -1,239 +1,443 @@
 {
   "id": "PSIC-012",
   "code": "PSIC-012",
-  "title": "Sindrome neurolettica maligna",
-  "description": "Paolo Greco, 45 anni, è in pronto soccorso muto, rigido, sudato. Temperatura 40,1 °C. Da una settimana prende aloperidolo intramuscolo prescritto altrove per l'agitazione. La rigidità è a tubo di piombo. Il percorso è sospendere subito il neurolettico, dosare la CPK, idratare, correggere e dare dantrolene o bromocriptina. Un altro antipsicotico «perché è agitato» è la trappola mortale: non è agitazione, è rigidità. Budget 50 euro per CPK, elettroliti e creatinina più il farmaco specifico. La TC cranio a 120 euro non raffredda il paziente.",
+  "title": "SAD PERSONS da 0 a 2: a casa con follow-up, non il TSO",
+  "description": "Donna di 28 anni, punteggio SAD PERSONS 2. Il familiare chiede il TSO.",
   "difficulty": "HARD",
   "specialty": "psichiatria",
   "specialtyLabel": "Psichiatria",
-  "condition": "Sindrome neurolettica maligna in corso di aloperidolo",
-  "frequencyCategory": "LOW",
+  "condition": "Rischio suicidario basso alla SAD PERSONS, 0-2 punti",
+  "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "Legge 24/2017 art. 5 — sospensione immediata del neurolettico",
-  "diagnosis": "Sindrome neurolettica maligna. Indicati sospensione immediata di ogni neurolettico, CPK, fluidi, dantrolene o bromocriptina. Controindicato qualsiasi altro antipsicotico.",
-  "pastMedicalHistory": "Psicosi cronica. Aloperidolo fiale da sette giorni, ultima ieri sera, riferita dal fratello che ha la scatola. Nessun anestetico, nessuna succinilcolina: non è ipertermia maligna da sala operatoria. Nessun trauma. Beve poco. Allergie: nessuna. Ieri camminava rigido, stanotte non parla e scotta.",
-  "presentation": "Supino, muto, sguardo fisso, sudore, rigidità diffusa che non cede. [sguardo fisso]. Temperatura 40,1 °C, FC 128, PA 160/100, SpO2 94%, FR 28. Il fratello porge la scatola di Serenase. Se il medico propone un altro antipsicotico, il fratello dice «è quello che gli danno sempre quando sta male».",
+  "guidelineRef": "SAD PERSONS; L.833/1978 art. 33-34; L.219/2017",
+  "diagnosis": "SAD PERSONS 2: la scala dice di mandare a casa con follow-up. Non e' 'hospitalize or commit'. Il TSO ospedaliero richiede i tre requisiti dell'art. 34, che qui non ci sono: accetta le cure territoriali.",
+  "pastMedicalHistory": "Donna, 28 anni, non depressa in questo punteggio, niente tentativo, niente alcol, pensiero integro, ha il compagno, niente piano, niente malattia cronica grave. Due punti solo se si forzasse eta' o sesso: il conteggio corretto e' 2 o meno. Accetta il follow-up.",
+  "presentation": "Idee di morte senza piano, dopo un litigio. Il padre chiede il ricovero coatto. Lei accetta di tornare domani al CSM.",
   "redHerrings": [
-    "Sembra un paziente «da sedare». La rigidità non è agitazione.",
-    "La febbre alta fa pensare a sepsi: la sepsi non dà il tubo di piombo dopo l'aloperidolo, ma gli esami di base si fanno comunque.",
-    "Un atipico «più leggero» è ancora un neurolettico.",
-    "La TC cranio non spiega la CPK e ritarda la sospensione."
+    "TSO chiesto dal padre.",
+    "Ricovero coatto con punteggio 0-2."
   ],
-  "timeLimitMinutes": 25,
-  "patientDeteriorationThreshold": 12,
-  "patientPrompt": "ROLEPLAY RIGIDO. Sei Paolo Greco, 45 anni, pronto soccorso. Sei MUTO. Non costruire frasi. Al massimo un gemito. Didascalie: [sguardo fisso], [non risponde], [sudore]. Tuo fratello Michele parla: «Michele:». Alla «Come sta?»: [sguardo fisso] Michele: «Non parla da stamattina. Scotta. È rigido. Questa è la scatola, gliela fanno da una settimana.» Se ti visitano, non collabori: il braccio resta piegato dove lo mettono, a fatica, ed è duro. Se propongono un'altra fiala «come l'altra», Michele dice «sì, quella lo calma». Se dicono che quella fiala si sospende e che serve altro, Michele ha paura ma ascolta. Tu non nominare farmaci, CPK o diagnosi. Non diventare loquace.",
-  "correctSolution": "Sindrome neurolettica maligna. Sospensione immediata dell'aloperidolo e di ogni altro antipsicotico. CPK, elettroliti, creatinina. Fluidi. Dantrolene o bromocriptina. Non un altro neurolettico. Non TC cranio al posto di questo. Budget 50 euro.",
-  "goldStandardPath": ["cpk", "elettroliti", "creat-urea-gfr", "azione-sospensione-neurolettico", "azione-dantrolene"],
-  "goldPathNarrative": "1) Sospensione immediata del neurolettico. È un gesto, non un esame, e viene prima del referto. 2) CPK 12 euro: valore molto alto, conferma la lisi muscolare. 3) Elettroliti 6,50 euro e creatinina 4,50 euro: il rene è già sotto sforzo. 4) Fluidi. 5) Dantrolene o, in alternativa, bromocriptina. Il passo azione-dantrolene vale per entrambi. Somma esami 23 euro, dantrolene didattico 12: sotto i 50. Dare olanzapina, quetiapina, risperidone o ancora aloperidolo è l'errore mortale. TC cranio 120 euro sfora e non raffredda.",
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Chiara. Non ho un piano. Voglio tornare a casa e venire domani. Non fatemi il TSO perche' lo chiede mio padre.",
+  "correctSolution": "Contare la SAD PERSONS. 0-2: a casa con follow-up. Non ricoverare per forza e non disporre il TSO: accetta le misure extraospedaliere e non ci sono i tre requisiti. Niente TC.",
+  "goldStandardPath": [
+    "glicemia",
+    "emocromo"
+  ],
+  "goldPathNarrative": "La scala manda a casa con follow-up tra 0 e 2. L'art. 34 non apre il TSO ospedaliero se le cure sono accettate e esiste una misura territoriale tempestiva.",
   "examLatencies": {
-    "cpk": 12,
-    "elettroliti": 10,
-    "creat-urea-gfr": 10,
-    "azione-sospensione-neurolettico": 2,
-    "azione-dantrolene": 5,
-    "tc-cranio": 25,
-    "tc": 25,
-    "rm-encefalo": 50,
-    "emocromo": 12
+    "glicemia": 15,
+    "emocromo": 15,
+    "tc": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "aq-farmaco",
-      "prompt": "Quale fiala ha fatto, e da quanti giorni?",
+      "id": "q1",
+      "prompt": "Quanti punti SAD PERSONS e c'e' un piano?",
       "critical": true,
-      "expectedKeywords": ["aloperidolo", "giorni"],
-      "rationale": "Senza il neurolettico in corso la febbre e la rigidità restano una sepsi generica."
+      "expectedKeywords": [
+        "due",
+        "piano",
+        "no"
+      ],
+      "rationale": "Da 0 a 2 la scala dice di mandare a casa con follow-up."
     },
     {
-      "id": "aq-rigidita",
-      "prompt": "La rigidità è diffusa, a tubo, o è un tremore?",
+      "id": "q2",
+      "prompt": "Accetta il follow-up territoriale?",
       "critical": true,
-      "expectedKeywords": ["rigido", "tubo"],
-      "rationale": "Il tubo di piombo distingue la neurolettica maligna dall'agitazione che si seda."
-    },
-    {
-      "id": "aq-sala",
-      "prompt": "È stato in sala operatoria o ha ricevuto un anestetico?",
-      "critical": false,
-      "expectedKeywords": ["sala", "anestetico"],
-      "rationale": "Esclude l'ipertermia maligna da anestetico, che qui non c'entra."
+      "expectedKeywords": [
+        "si",
+        "domani",
+        "CSM"
+      ],
+      "rationale": "Se accetta, manca il requisito del non accettare le cure."
     }
   ],
   "physicalExam": {
-    "summary": "Muto, sguardo fisso, sudore profuso, febbre 40,1 °C. Rigidità plastica diffusa, a tubo di piombo, non solo cervicale. Non morsicatura della lingua. Cute calda. Tachicardia, tachipnea, saturazione 94%. Il fratello mostra l'aloperidolo. Non segni di addome acuto."
+    "summary": "Collaborante, nessun piano, pensiero organizzato, accompagnata dal compagno."
   },
   "escCitations": [
     {
-      "chunkId": "psic-012-stop",
-      "source": "Legge 24/2017 art. 5 — sindrome neurolettica maligna",
-      "quote": "Sintesi operativa, non un estratto da un PDF assente: si sospende subito ogni neurolettico, si dosa la CPK, si idrata e si dà dantrolene o bromocriptina. Un altro antipsicotico peggiora la rigidità e la febbre."
+      "chunkId": "sad",
+      "source": "knowledge_base/psichiatria/clinic/sadpersons.pdf",
+      "quote": "Guidelines for action with the SAD PERSONS scale. Total points 0 to 2: Send home with follow-up. Total points 7 to 10: Hospitalize or commit."
     },
     {
-      "chunkId": "psic-012-budget",
-      "source": "Tariffe didattiche del caso PSIC — CPK 12 €, TC cranio 120 €",
-      "quote": "Sintesi operativa economica: CPK, elettroliti e creatinina stanno nel budget di 50 euro insieme al dantrolene didattico. La TC cranio a 120 euro no."
+      "chunkId": "34",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere."
+    },
+    {
+      "chunkId": "33",
+      "source": "knowledge_base/psichiatria/legal/L.istitutiva-SSN-n.833_1978.pdf",
+      "quote": "Legge 23 dicembre 1978, n. 833, art. 33: gli accertamenti ed i trattamenti sanitari sono di norma volontari. Gli accertamenti e i trattamenti sanitari obbligatori sono disposti con provvedimento del sindaco nella sua qualita' di autorita' sanitaria, su proposta motivata di un medico, e devono essere accompagnati da iniziative rivolte ad assicurare il consenso e la partecipazione di chi vi e' obbligato."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/psichiatria/legal/allegato115290.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/psichiatria/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Aloperidolo identificato e sospeso subito.",
-      "Nessun altro antipsicotico prescritto.",
-      "CPK, elettroliti, creatinina.",
-      "Fluidi avviati per proteggere il rene.",
-      "Dantrolene o bromocriptina.",
-      "Spesa entro 50 euro, senza TC cranio."
+      "0-2: a casa con follow-up.",
+      "Non il TSO se accetta le misure extraospedaliere.",
+      "Il padre non dispone il trattamento."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Legge 24/2017, art. 5: in cartella restano l'orario di sospensione del neurolettico, la CPK e il farmaco specifico. Aggiungere un atipico «più moderno» non è aderenza.",
+      "art5Adherence": "Disposizione letta sulla SAD PERSONS. TSO solo con l'art. 34 della legge 833. Consenso legge 219.",
       "legalCriteria": [
-        "Sospensione di ogni antipsicotico scritta prima di qualsiasi nuova fiala.",
-        "CPK allegata.",
-        "Dantrolene o bromocriptina registrati.",
-        "Nessuna dimissione con febbre a 40 e rigidità."
+        "0-2: a casa con follow-up.",
+        "Non il TSO se accetta le misure extraospedaliere.",
+        "Il padre non dispone il trattamento."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "cpk",
-      "name": "CPK",
-      "finding": "CPK 18.400 U/L. Lisi muscolare. Costo 12 euro. Conferma il sospetto clinico, non lo sostituisce: la sospensione non aspetta il numero.",
-      "isAbnormal": true,
-      "priceEuro": 12
-    },
-    {
-      "examId": "elettroliti",
-      "name": "Elettroliti",
-      "finding": "Potassio 5,4 mmol/L, sodio 148. Il muscolo che si rompe alza il potassio. Costo 6,50 euro.",
-      "isAbnormal": true,
-      "priceEuro": 6.5
-    },
-    {
-      "examId": "creat-urea-gfr",
-      "name": "Creatinina",
-      "finding": "Creatinina 2,1 mg/dL. Il rene è già coinvolto: i fluidi sono parte della cura. Costo 4,50 euro.",
-      "isAbnormal": true,
-      "priceEuro": 4.5
-    },
-    {
-      "examId": "azione-sospensione-neurolettico",
-      "name": "Sospensione immediata del neurolettico",
-      "finding": "Stop all'aloperidolo e divieto di un altro antipsicotico, tipico o atipico. Si scrive l'orario.",
+      "examId": "glicemia",
+      "name": "Glucosio a digiuno",
+      "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
       "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 2.0
     },
     {
-      "examId": "azione-dantrolene",
-      "name": "Dantrolene o bromocriptina",
-      "finding": "Dantrolene oppure bromocriptina, più fluidi. Non un benzodiazepinico da solo come tutta la cura, e non un neurolettico.",
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
       "isAbnormal": false,
-      "priceEuro": 0
+      "priceEuro": 4.0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc-cranio",
-      "name": "TC Cranio senza mezzo di contrasto",
-      "finding": "TC cranio senza mezzo di contrasto negativa. Non spiega febbre e CPK. Costo 120 euro, sopra i 50. Il paziente nel frattempo resta a 40 gradi se il neurolettico non è stato sospeso.",
-      "isAbnormal": false,
-      "priceEuro": 120,
-      "inappropriate": true,
-      "componentExamIds": ["tc"],
-      "wasteRationale": "TC cranio a 120 euro: non è la cura della neurolettica maligna e sfora il budget."
-    },
-    {
-      "examId": "rm-encefalo",
-      "name": "RM Encefalo",
-      "finding": "RM non praticabile in un paziente rigido e instabile, e non indicata. 220 euro.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "RM encefalo a 220 euro: fuori tempo clinico e fuori budget."
-    },
-    {
       "examId": "tc",
-      "name": "TC encefalo generica",
-      "finding": "TC encefalo negativa. 120 euro.",
+      "name": "TC cranio-encefalo",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
       "isAbnormal": false,
-      "priceEuro": 120,
+      "priceEuro": 86.1,
       "inappropriate": true,
-      "wasteRationale": "Stessa TC, stesso ritardo."
+      "wasteRationale": "La TC cranio non sostituisce la scala, la revisione dei farmaci o il criterio legale."
     }
   ],
   "baselineExamFindings": {
-    "context": "Pronto soccorso. Muto, febbre a 40, rigidità a tubo di piombo, aloperidolo da una settimana.",
     "vitals": {
-      "heartRate": 128,
-      "bloodPressure": "160/100",
-      "spo2": 94,
-      "temperature": 40.1,
-      "respiratoryRate": 28
+      "heartRate": 88,
+      "bloodPressure": "128/78",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
     },
-    "examBudgetEuro": 50,
-    "demographics": { "age": 45, "sex": "M", "name": "Paolo Greco" },
-    "killerRules": {
-      "fatalIfOmitted": [
-        ["dantrolene", "dantrium", "bromocriptina", "parlodel"],
-        ["sospeso", "sospensione", "sospendo", "stop neurolettico", "stop aloperidolo"]
-      ],
-      "fatalIfPrescribed": [["aloperidolo", "serenase", "olanzapina", "zyprexa", "quetiapina", "seroquel", "risperidone", "risperdal", "clorpromazina"]]
-    },
-    "clinicalSigns": [
-      {
-        "signName": "Rigidità a tubo di piombo",
-        "result": "Diffusa, plastica, non cede. Non è un'opposizione volontaria.",
-        "isPositive": true
-      },
-      {
-        "signName": "Mutismo",
-        "result": "Non produce frasi. Il fratello è la fonte sul farmaco.",
-        "isPositive": true
-      }
-    ],
-    "semeiotics": [
-      {
-        "signName": "Rigidità a tubo di piombo",
-        "result": "Presente ai quattro arti e al tronco.",
-        "isPositive": true
-      }
-    ],
+    "clinicalSigns": {},
+    "semeiotics": {},
     "advancedExams": {
       "values": {
-        "cpk": { "finding": "18.400 U/L. Costo 12 euro.", "normalFinding": "18.400 U/L.", "isAbnormal": true, "price": 12 },
-        "elettroliti": { "finding": "K 5,4 mmol/L, Na 148. Costo 6,50 euro.", "normalFinding": "K 5,4, Na 148.", "isAbnormal": true, "price": 6.5 },
-        "creat-urea-gfr": { "finding": "Creatinina 2,1 mg/dL. Costo 4,50 euro.", "normalFinding": "Creatinina 2,1.", "isAbnormal": true, "price": 4.5 },
-        "emocromo": { "finding": "Leucociti 12.000. Costo 4,80 euro. Non sposta la diagnosi.", "normalFinding": "Leucocitosi lieve.", "isAbnormal": true, "price": 4.8 },
-        "tc-cranio": { "finding": "TC cranio senza mezzo di contrasto negativa. 120 euro.", "normalFinding": "Nessuna lesione acuta.", "isAbnormal": false, "price": 120 },
-        "tc": { "finding": "TC encefalo negativa. 120 euro.", "normalFinding": "Nei limiti.", "isAbnormal": false, "price": 120 },
-        "rm-encefalo": { "finding": "Non indicata. 220 euro.", "normalFinding": "Non sostituisce la sospensione del farmaco.", "isAbnormal": false, "price": 220 }
+        "glicemia": {
+          "finding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "normalFinding": "90.27.1 GLUCOSIO, tariffa 2,00 euro. La circolare lo mette all'avvio, a 3 mesi e poi ogni anno, insieme all'emoglobina glicata 90.28.1 da 11,00 euro.",
+          "isAbnormal": false,
+          "price": 2.0
+        },
+        "emocromo": {
+          "finding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "normalFinding": "90.62.2 EMOCROMO, tariffa 4,00 euro. Il testo APA sul delirium include, tra i fattori da correggere, l'anemia severa insieme a glicemia, elettroliti e equilibrio acido-base.",
+          "isAbnormal": false,
+          "price": 4.0
+        },
+        "tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+          "isAbnormal": false,
+          "price": 86.1
+        }
       }
-    },
-    "therapyMatrix": {
-      "indicated": [
-        {
-          "label": "Dantrolene o bromocriptina",
-          "anyOf": [
-            { "id": "dantrolene", "label": "Dantrolene", "aliases": ["dantrolene", "dantrium"], "priceEuro": 12 },
-            { "id": "bromocriptina", "label": "Bromocriptina", "aliases": ["bromocriptina", "parlodel"], "priceEuro": 7.5 }
-          ]
-        }
-      ],
-      "contraindicated": [
-        {
-          "id": "altro-neurolettico",
-          "label": "Qualsiasi altro antipsicotico",
-          "aliases": ["aloperidolo", "serenase", "olanzapina", "quetiapina", "risperidone", "clorpromazina"],
-          "priceEuro": 8
-        }
-      ]
     }
   },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "PASSIVE",
-    "adherence": "NON_COMPLIANT",
-    "lifestyleAndSocial": { "sleepQuality": "POOR", "stressLevel": "HIGH", "socialSupport": "ADEQUATE" },
-    "communicationStyle": "Muto, sguardo fisso, sudato, rigido. Non risponde. Il fratello ha la scatola dell'aloperidolo e accetta un'altra fiala se gliela propongono."
-  }
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Chiara. Domani dal CSM va bene. Il TSO no."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Contare i punti",
+      "prompt": "Sesso femminile 0, eta' 28 quindi 0 sulla fascia sotto 20 o sopra 44, niente depressione, niente tentativo, niente alcol, pensiero integro, sostegno presente, niente piano, ha il compagno, niente malattia grave.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Il totale non supera 2. La mandi a casa con follow-up",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La ricoveri coattamente",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Azione sbagliata per il punteggio",
+      "prompt": "Total points 0 to 2: Send home with follow-up.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Follow-up vero",
+      "prompt": "Dicono 'a casa' senza un appuntamento.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Programmi il follow-up, come scrive la scala",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "La dimetta nel nulla",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Follow-up assente",
+      "prompt": "Total points 0 to 2: Send home with follow-up.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non il TSO",
+      "prompt": "Il padre insiste per il ricovero obbligatorio. Lei accetta il CSM domani.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non disponga il TSO: le cure sono accettate e c'e' una misura extraospedaliera",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "TSO su richiesta del padre",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "TSO senza requisiti",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 34: il trattamento sanitario obbligatorio per malattia mentale puo' prevedere che le cure vengano prestate in condizioni di degenza ospedaliera solo se esistano alterazioni psichiche tali da richiedere urgenti interventi terapeutici, se gli stessi non vengano accettati dall'infermo e se non vi siano le condizioni e le circostanze che consentano di adottare tempestive ed idonee misure sanitarie extraospedaliere.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Accertamento volontario",
+      "prompt": "Qualcuno propone un accertamento obbligatorio pur essendo lei consenziente.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "L'accertamento resti volontario. L'obbligatorio e' l'eccezione, su proposta motivata e provvedimento del sindaco",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Accertamento obbligatorio di routine",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "ASO senza i presupposti",
+      "prompt": "Legge 23 dicembre 1978, n. 833, art. 33: gli accertamenti ed i trattamenti sanitari sono di norma volontari. Gli accertamenti e i trattamenti sanitari obbligatori sono disposti con provvedimento del sindaco nella sua qualita' di autorita' sanitaria, su proposta motivata di un medico, e devono essere accompagnati da iniziative rivolte ad assicurare il consenso e la partecipazione di chi vi e' obbligato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC",
+      "prompt": "TC cranio perche' 'ha pensieri brutti'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non la faccia",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "TC cranio",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.03 TC CRANIO-ENCEFALO, tariffa 86,10 euro; 87.03.1 TC CRANIO-ENCEFALO SENZA E CON MDC, tariffa 138,50 euro. Si prescrive solo se il testo del caso la colloca in questo passo.",
+      "cost": 86.1,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Vuole sapere perche' non la tengono.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Glielo spieghi",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Non glielo dica",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione mancata",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "Accetta di tornare. Il padre firma un foglio di ricovero al posto suo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non valga la firma del padre",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "La ricoveri con quella firma",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Consenso del padre",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Distinguere il 7-10",
+      "prompt": "Un collega legge solo 'commit' in fondo alla scala e lo applica a tutti.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Quel verbo sta sui 7-10, non sui 0-2",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Commit anche a 2 punti",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Soglia confusa",
+      "prompt": "Total points 7 to 10: Hospitalize or commit. Total points 0 to 2: Send home with follow-up.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gli otto passi restano dentro i documenti della cartella: niente dose, farmaco, tempo o requisito di TSO che quei testi non scrivono.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }
