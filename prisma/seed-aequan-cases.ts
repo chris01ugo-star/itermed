@@ -19,6 +19,7 @@ const SSM_SPECIALTIES: Array<{ name: string; description: string }> = [
   { name: "Cardiologia", description: "Sindromi coronariche acute, aritmie e scompenso — fast-track dolore toracico." },
   { name: "Chirurgia Generale", description: "Addome acuto, trauma e patologie chirurgiche comuni." },
   { name: "Dermatologia", description: "Dermatiti acute, infezioni cutanee e urgenze dermatologiche." },
+  { name: "Ematologia", description: "Leucemie, linfomi, mieloma e terapia trasfusionale." },
   { name: "Endocrinologia", description: "Diabete scompensato, tiroide e urgenze metaboliche." },
   { name: "Gastroenterologia", description: "Emorragia digestiva, pancreatite e addome medico." },
   { name: "Geriatria", description: "Paziente fragile, delirium e multimorbidità." },

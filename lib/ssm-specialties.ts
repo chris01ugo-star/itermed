@@ -4,6 +4,7 @@ export const SSM_SPECIALTY_CATEGORIES = [
   "Cardiologia",
   "Chirurgia Generale",
   "Dermatologia",
+  "Ematologia",
   "Endocrinologia",
   "Gastroenterologia",
   "Geriatria",
