@@ -16,6 +16,7 @@ import {
   extractPatientPromptFromNode,
 } from "@/lib/cases/case-payload";
 import { ensureRegisteredCaseInDb, findClinicalCaseForSimulation } from "@/lib/cases/ensure-registered-case";
+import { withLabFlow } from "@/lib/simulator/load-lab-flow";
 import { decodeCaseParam, getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 
@@ -240,7 +241,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     const effectivePrompt =
       isVariant && session?.variantPrompt ? session.variantPrompt : basePatientPrompt;
 
-    const initialCaseData = buildSimulatorCasePayload({
+    const initialCaseData = await withLabFlow(buildSimulatorCasePayload({
       id: caseData.id,
       title: caseData.title,
       description: caseData.description,
@@ -250,7 +251,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       patientPrompt: effectivePrompt,
       baselineExamFindings: caseData.baselineExamFindings,
       timeLimitMinutes: caseData.timeLimitMinutes ?? null,
-    });
+    }));
 
     return (
       <LiveAequanClinicalWorkspace

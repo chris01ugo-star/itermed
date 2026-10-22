@@ -123,7 +123,8 @@ import {
   toPlayerCareSetting,
 } from "../../lib/simulator/exam-finding-text";
 import { partitionExamsByChartSection } from "@/lib/clinical/diagnostic-exam-category";
-import { isLaboratorySpecialty } from "@/lib/simulator/laboratory-specialty";
+import { LaboratoryLisDashboard } from "./LaboratoryLisDashboard";
+import type { LabFlowNode } from "@/lib/simulator/laboratory-lis";
 import { parseClinicalSigns } from "@/lib/clinical/clinical-signs";
 
 type Exam = SimulatorExam;
@@ -161,6 +162,8 @@ type InitialCaseData = {
   examLatencies?: Record<string, number> | null;
   goldStandardPath?: string[] | null;
   patientDeteriorationThreshold?: number | null;
+  /** Decision tree for Medicina di Laboratorio. Absent for every other specialty. */
+  labFlow?: LabFlowNode[];
 };
 
 type SimulatorClientProps = {
@@ -410,7 +413,13 @@ export function SimulatorClient({
   const [activeTab, setActiveTab] = useState<
     "history" | "exam" | "labs" | "imaging" | "instrumental" | "notes"
   >("history");
-  const isLaboratoryCase = isLaboratorySpecialty(initialCaseData.specialty);
+  const caseData = initialCaseData;
+  const isLab =
+    caseData?.specialty?.toLowerCase() === "medicina_laboratorio" ||
+    caseData?.specialty?.toLowerCase() === "laboratorio" ||
+    caseData?.specialty?.toLowerCase() === "medicina di laboratorio" ||
+    Boolean(caseData?.id?.startsWith("LABO-"));
+  const isLaboratoryCase = isLab;
   useEffect(() => {
     if (!isLaboratoryCase) return;
     if (activeTab === "exam") setActiveTab("labs");
@@ -1935,7 +1944,7 @@ export function SimulatorClient({
                   {toPlayerCareSetting(patient.context) ?? "Ospedale San Carlo"}
                 </p>
               <span className="inline-flex shrink-0 items-center rounded-md bg-[#345884]/10 px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#345884]">
-                  Pronto Soccorso
+                  {isLab ? "LIS" : "Pronto Soccorso"}
                 </span>
               </div>
               <span className="mt-0.5 inline-flex items-center gap-1.5 text-[11px] font-medium text-[#345884]">
@@ -2021,6 +2030,16 @@ export function SimulatorClient({
           </div>
         ) : null}
 
+        {isLab ? (
+          <LaboratoryLisDashboard
+            caseId={initialCaseData.id}
+            title={initialCaseData.title}
+            requestText={initialCaseData.patientPrompt || initialCaseData.description}
+            labFlow={initialCaseData.labFlow ?? []}
+            disabled={isPaused}
+          />
+        ) : (
+        <>
         {!embedded ? (
           <>
             <VitalSignsBoard
@@ -2975,6 +2994,8 @@ export function SimulatorClient({
             ) : null}
           </div>
         </div>
+        </>
+        )}
 
         {embedded ? (
           <footer className="grid w-full shrink-0 grid-cols-1 items-center gap-y-2 rounded-xl border border-slate-200/80 bg-white/90 px-3.5 py-2 shadow-sm sm:grid-cols-[1fr_auto_1fr]">

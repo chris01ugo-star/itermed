@@ -16,6 +16,7 @@ import {
   extractPatientPromptFromNode,
 } from "@/lib/cases/case-payload";
 import { ensureRegisteredCaseInDb, findClinicalCaseForSimulation } from "@/lib/cases/ensure-registered-case";
+import { withLabFlow } from "@/lib/simulator/load-lab-flow";
 import { decodeCaseParam, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 type CasePageProps = {
   params: Promise<{ id: string }> | { id: string };
@@ -174,7 +175,7 @@ export default async function CasePage(props: CasePageProps) {
     const effectivePrompt =
       isVariant && session?.variantPrompt ? session.variantPrompt : basePatientPrompt;
 
-    const initialCaseData = buildSimulatorCasePayload({
+    const initialCaseData = await withLabFlow(buildSimulatorCasePayload({
       id: caseData.id,
       title: caseData.title,
       description: caseData.description,
@@ -184,7 +185,7 @@ export default async function CasePage(props: CasePageProps) {
       patientPrompt: effectivePrompt,
       baselineExamFindings: caseData.baselineExamFindings,
       timeLimitMinutes: caseData.timeLimitMinutes ?? null,
-    });
+    }));
 
     return (
       <LiveAequanClinicalWorkspace
