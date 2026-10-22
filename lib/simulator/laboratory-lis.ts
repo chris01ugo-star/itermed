@@ -12,6 +12,8 @@ export type LabFlowNode = {
   prompt: string;
   outcome?: "positive" | "negative";
   choices?: LabFlowChoice[];
+  /** Alias di `choices`, usato dal pannello azioni. */
+  options?: LabFlowChoice[];
 };
 
 export type LabActionTone = "critical" | "reject" | "primary" | "reflex" | "neutral";
@@ -51,26 +53,41 @@ export function parseLabFlow(raw: unknown): LabFlowNode[] | null {
     if (typeof record.id !== "string" || typeof record.title !== "string" || typeof record.prompt !== "string") {
       continue;
     }
-    const choices = Array.isArray(record.choices)
-      ? record.choices.flatMap((choice) => {
-          if (!choice || typeof choice !== "object") return [];
-          const item = choice as Record<string, unknown>;
-          if (typeof item.id !== "string" || typeof item.label !== "string" || typeof item.next !== "string") {
-            return [];
-          }
-          return [{ id: item.id, label: item.label, next: item.next }];
-        })
-      : undefined;
+    const rawList = Array.isArray(record.choices)
+      ? record.choices
+      : Array.isArray(record.options)
+        ? record.options
+        : [];
+    const choices = rawList.flatMap((choice) => {
+      if (!choice || typeof choice !== "object") return [];
+      const item = choice as Record<string, unknown>;
+      if (typeof item.id !== "string" || typeof item.label !== "string" || typeof item.next !== "string") {
+        return [];
+      }
+      return [{ id: item.id, label: item.label, next: item.next }];
+    });
+    const playable = choices.length > 0 ? choices : undefined;
     parsed.push({
       id: record.id,
       type: record.type,
       title: record.title,
       prompt: record.prompt,
       outcome: record.outcome === "positive" || record.outcome === "negative" ? record.outcome : undefined,
-      choices: choices && choices.length > 0 ? choices : undefined,
+      choices: playable,
+      options: playable,
     });
   }
   return parsed.length > 0 ? parsed : null;
+}
+
+export function stepOptions(node: LabFlowNode | null | undefined): LabFlowChoice[] {
+  if (!node || node.type === "resolution") return [];
+  return node.options ?? node.choices ?? [];
+}
+
+export function isTerminalLabStep(node: LabFlowNode | null | undefined): boolean {
+  if (!node) return true;
+  return node.type === "resolution" || stepOptions(node).length === 0;
 }
 
 /** Visual tone only. The click handler still receives the choice id. */

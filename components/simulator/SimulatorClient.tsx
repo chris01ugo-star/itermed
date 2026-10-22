@@ -2054,8 +2054,20 @@ export function SimulatorClient({
             caseId={initialCaseData.id}
             title={initialCaseData.title}
             requestText={initialCaseData.patientPrompt || initialCaseData.description}
+            ward={toPlayerCareSetting(patient.context) ?? "Reparto"}
             labFlow={initialCaseData.labFlow ?? []}
             disabled={isPaused}
+            completing={reportLoading}
+            completeError={reportError}
+            onCompleteCase={() => void generateReportAndNavigate()}
+            onRecordOption={(optionId) => {
+              setExtraExecutedActionIds((prev) => {
+                if (prev.includes(optionId)) return prev;
+                const next = [...prev, optionId];
+                extraExecutedActionIdsRef.current = next;
+                return next;
+              });
+            }}
           />
         ) : (
         <>
