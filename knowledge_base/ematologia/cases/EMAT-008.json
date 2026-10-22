@@ -1,0 +1,452 @@
+{
+  "id": "EMAT-008",
+  "code": "EMAT-008",
+  "title": "RUNX1::RUNX1T1 con 12% di blasti: e' gia' AML",
+  "description": "12% di blasti e RUNX1::RUNX1T1. La ELN 2022 allinea questa anomalia alla soglia del 10%. Aspettare il 20% e' fuori testo. GO, se CD33 e rischio favorevole, e' 3 mg/m2 con tetto di 5 mg.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "AML con RUNX1::RUNX1T1 e 12% di blasti",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ELN AML 2022",
+  "diagnosis": "Il 12% con RUNX1::RUNX1T1 basta per l'AML. Non si aspetta il 20%. Se si aggiunge GO, la dose scritta e' 3 mg/m2, massimo 5 mg, nel CD33 positivo a rischio favorevole o intermedio.",
+  "pastMedicalHistory": "Uomo di 44 anni, fit, 12% di blasti, FISH positiva per RUNX1::RUNX1T1, CD33 positivo.",
+  "presentation": "Propongono di chiamarlo MDS fino al 20% e, in alternativa, GO a 9 mg/m2.",
+  "redHerrings": [
+    "Attendere il 20%.",
+    "GO a 9 mg/m2.",
+    "PET diagnostica."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Davide. Mi hanno detto che i blasti sono pochi. Voglio la diagnosi scritta nel testo, non una dose che non c'e'.",
+  "correctSolution": "Diagnosticare l'AML. Non aspettare il 20%. Se si usa GO: 3 mg/m2, massimo 5 mg, non 9.",
+  "goldStandardPath": [
+    "emocromo",
+    "pt-ptt-inr"
+  ],
+  "goldPathNarrative": "Genetica gia' nota. Emocromo e coagulazione.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pt-ptt-inr": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Con RUNX1::RUNX1T1, che soglia di blasti usa il testo?",
+      "critical": true,
+      "expectedKeywords": [
+        "10",
+        "dodici",
+        "12"
+      ],
+      "rationale": "La soglia richiamata e' il 10%."
+    },
+    {
+      "id": "q2",
+      "prompt": "Qual e' la dose di GO scritta?",
+      "critical": true,
+      "expectedKeywords": [
+        "tre",
+        "cinque",
+        "mg"
+      ],
+      "rationale": "3 mg/m2 con tetto di 5 mg."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Stabile, niente sanguinamento del sistema nervoso."
+  },
+  "escCitations": [
+    {
+      "chunkId": "b10",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "This 10% blast threshold aligns with previously AML-defining abnormalities, such as PML::RARA, CBFB::MYH11, and RUNX1::RUNX1T1."
+    },
+    {
+      "chunkId": "bcraml",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "To avoid potential overlap with chronic myeloid leukemia in accelerated phase, AML with BCR::ABL1 still requires 20% blasts."
+    },
+    {
+      "chunkId": "non",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "Non-FLT3 mutant: Daunorubicin 60 mg/m2 IV d1-3, idarubicin 12 mg/m2 IV d1-3, or mitoxantrone 12 mg/m2 IV d1-3; and cytarabine 100-200 mg/m2/d CIV d1-7."
+    },
+    {
+      "chunkId": "go",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "GO dosed at 3 mg/m2 (capped at 5 mg) D1, 4, and 7 of induction and day 1 of consolidation has been approved for patients with previously untreated CD33 antigen positive AML in combination with daunorubicin and cytarabine."
+    },
+    {
+      "chunkId": "go2",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "Gemtuzumab ozogamicin (GO) for CD33-positive AML, favorable (or intermediate) cytogenetic risk. GO 3 mg/m2 (maximum dose 5 mg) IV, d1, 4, 7."
+    },
+    {
+      "chunkId": "idac",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "3-4 cycles of IDAC 1000-1500 mg/m2 IV (500-1000 mg/m2 if 60 years or older) over 3h q12h d1-3."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "12% con questa fusione e' AML.",
+      "GO 3 mg/m2, massimo 5 mg.",
+      "Non 9 mg/m2."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Soglia del 10% e dose di GO lette sulla ELN 2022.",
+      "legalCriteria": [
+        "12% con questa fusione e' AML.",
+        "GO 3 mg/m2, massimo 5 mg.",
+        "Non 9 mg/m2."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT)",
+      "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+      "isAbnormal": false,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pt-ptt-inr": {
+          "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole il nome giusto della malattia e la dose scritta."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Soglia del 10%",
+      "prompt": "RUNX1::RUNX1T1 e' tra le anomalie che il testo allinea al 10% di blasti.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Diagnosticare l'AML",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Attendere il 20%",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Soglia sbagliata",
+      "prompt": "Aspettare il 20% contraddice l'allineamento scritto per RUNX1::RUNX1T1.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non e' l'eccezione BCR::ABL1",
+      "prompt": "L'eccezione che resta al 20% e' l'AML con BCR::ABL1, non questa fusione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non applicare l'eccezione del Philadelphia",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Trattarla come un Philadelphia",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Eccezione sbagliata",
+      "prompt": "Il Philadelphia e' l'eccezione nominata, questa fusione no.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Induzione scritta",
+      "prompt": "Nella riga non FLT3: daunorubicina 60 mg/m2 giorni 1-3 piu' citarabina 100-200 mg/m2 giorni 1-7.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Usare quelle dosi se e' fit e non FLT3",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Daunorubicina 90 mg/m2",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non in tabella",
+      "prompt": "La tabella selezionata scrive 60 mg/m2, non 90.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "GO se si aggiunge",
+      "prompt": "CD33 positivo, rischio favorevole: GO 3 mg/m2, massimo 5 mg, giorni 1, 4 e 7, insieme a daunorubicina e citarabina.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Se si usa GO, 3 mg/m2 e tetto 5 mg",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "GO 9 mg/m2",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose di GO non scritta",
+      "prompt": "Il testo mette 3 mg/m2 con tetto di 5 mg.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non al posto del FLT3",
+      "prompt": "Il FLT3 va comunque saputo. GO non sostituisce la riga del midostaurin se il FLT3 e' mutato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere il referto FLT3",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "GO al posto di un FLT3 non cercato",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Gene saltato",
+      "prompt": "FLT3 e' tra i geni da cercare per i bersagli.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "La definizione e' citogenetica e morfologica.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiedere la PET",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "Non conta i blasti ne' la fusione.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consolidamento",
+      "prompt": "IDAC 1000-1500 mg/m2, o 500-1000 se ha 60 anni o piu'. Lui ne ha 44.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Se si consolida, la fascia sotto i 60",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Citarabina 3000 mg/m2 come dose scritta unica",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dose di consolidamento non scelta dal testo",
+      "prompt": "Il testo segnala che 3000 mg/m2 si usa ancora in alcuni centri ed e' piu' tossica. La tabella scrive 1000-1500 sotto i 60 anni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "GO e trapianto",
+      "prompt": "Se e' previsto il trapianto allogenico, il testo dice di considerare l'omissione del GO per il rischio di malattia veno-occlusiva.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non dare GO per abitudine se il trapianto e' gia' il piano",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "GO in tutti i cicli anche col trapianto fissato",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Rischio non letto",
+      "prompt": "L'omissione e' scritta per ridurre quel rischio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

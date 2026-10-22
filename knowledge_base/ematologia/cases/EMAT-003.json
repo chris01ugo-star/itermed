@@ -1,0 +1,440 @@
+{
+  "id": "EMAT-003",
+  "code": "EMAT-003",
+  "title": "LMC a 6 mesi sopra il 10%: resistenza stabilita, non un warning",
+  "description": "BCR::ABL1 IS 18% a 6 mesi, confermato. La tabella ELN 2025 mette sopra il 10% a 6 mesi come resistenza stabilita, switch preferito. A 12 mesi il taglio sfavorevole e' sopra l'1%.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "LMC con BCR::ABL1 IS persistentemente sopra il 10% a 6 mesi",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ELN CML 2025, milestone a 6 e 12 mesi",
+  "diagnosis": "A 6 mesi sopra il 10% e' sfavorevole, resistenza stabilita. Lo switch e' preferito e si cerca la mutazione. Un valore tra 0,1 e 1% a 12 mesi sarebbe un warning, non la stessa riga.",
+  "pastMedicalHistory": "Uomo di 61 anni, imatinib 400 mg, due PCR a 6 mesi entrambe sopra il 10%. Assume il farmaco.",
+  "presentation": "Propongono di aspettare altri sei mesi senza mutazione, oppure una PET.",
+  "redHerrings": [
+    "Attendere senza switch.",
+    "Chiamare failure un futuro 0,4%.",
+    "PET al posto della mutazione."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Paolo. Prendo tutte le compresse. Il numero non scende. Ditemi se questo e' gia' un fallimento scritto.",
+  "correctSolution": "A 6 mesi, sopra il 10% confermato: sfavorevole, switch preferito, analisi di mutazione. Non restare sull'imatinib. Non fare la PET.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "La decisione e' sulla tabella IS, non sull'imaging.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Cosa dice la tabella a 6 mesi se si e' sopra il 10%?",
+      "critical": true,
+      "expectedKeywords": [
+        "resistenza",
+        "sfavorevole",
+        "switch"
+      ],
+      "rationale": "E' resistenza stabilita, switch preferito."
+    },
+    {
+      "id": "q2",
+      "prompt": "Un 0,4% a 12 mesi in che fascia sta?",
+      "critical": true,
+      "expectedKeywords": [
+        "warning",
+        "0,1",
+        "uno"
+      ],
+      "rationale": "Tra 0,1 e 1% e' warning, non la riga sopra l'1%."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Esame stabile, nessuna progressione clinica evidente."
+  },
+  "escCitations": [
+    {
+      "chunkId": "m6",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "6 months <=1% >1-10% >10%-established resistance. 12 months <=0.1% >0.1-1% >1% (1-10%: see text for other considerations)."
+    },
+    {
+      "chunkId": "terms",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "The phrases 'optimal', 'warning' and 'failure' are replaced by 'favorable' (treatment switch unnecessary), 'warning' (treatment switch may become necessary) and 'unfavorable' (treatment switch preferred)."
+    },
+    {
+      "chunkId": "dose",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "The TKI labels recommend starting doses of imatinib of 400 mg daily, dasatinib 100 mg daily, bosutinib 400 mg daily, and nilotinib 300 mg twice daily."
+    },
+    {
+      "chunkId": "one",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "First, no decision to switch treatment should be made on a single estimate of BCR::ABL1 IS."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "emo",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Sopra il 10% a 6 mesi: switch preferito.",
+      "Cercare la mutazione sulla risposta sfavorevole.",
+      "A 12 mesi sopra l'1% e' un'altra riga rispetto allo 0,4%."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Tabella 4 ELN 2025 letta per le fasce a 6 e 12 mesi.",
+      "legalCriteria": [
+        "Sopra il 10% a 6 mesi: switch preferito.",
+        "Cercare la mutazione sulla risposta sfavorevole.",
+        "A 12 mesi sopra l'1% e' un'altra riga rispetto allo 0,4%."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole sapere se deve cambiare, senza esami inutili."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Fascia a 6 mesi",
+      "prompt": "Due valori sopra il 10% a 6 mesi. Il favorevole e' entro l'1%, il warning tra 1 e 10, sopra il 10 e' resistenza stabilita.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Classificarlo sfavorevole",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Chiamarlo warning e aspettare",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Fascia sbagliata",
+      "prompt": "Sopra il 10% a 6 mesi la tabella scrive established resistance.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Switch preferito",
+      "prompt": "Nella colonna sfavorevole lo switch e' preferito. Restare sull'imatinib non e' la riga.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Cambiare TKI dopo la mutazione",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Continuare imatinib altri 6 mesi",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Niente switch",
+      "prompt": "Lo switch e' la condotta preferita in questa casella, non l'attesa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Mutazione",
+      "prompt": "Una risposta subottimale persistente, incluso il warning, indica lo screening mutazionale e la verifica dell'aderenza. Qui si e' oltre il warning.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiedere la mutazione di BCR::ABL1",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Non cercarla",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Mutazione omessa",
+      "prompt": "Il testo indica lo screening mutazionale nella risposta non favorevole.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non alzare a 800",
+      "prompt": "La dose in scheda resta 400 mg al giorno. Non c'e' una riga che porti l'imatinib a 800 per questa resistenza.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere le dosi di scheda del nuovo TKI",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Imatinib 800 mg",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose assente",
+      "prompt": "800 mg non e' la dose di partenza scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Come si leggerebbe un 0,4% a 12 mesi",
+      "prompt": "A 12 mesi il favorevole e' entro 0,1%, il warning da sopra 0,1 a 1%, lo sfavorevole sopra l'1%.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiamare failure uno 0,4%",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Scrivere failure su uno 0,4%",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Fascia dei 12 mesi sbagliata",
+      "prompt": "Lo 0,4% sta nel warning. Sopra l'1% e' la casella sfavorevole.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Sopra l'1% a 12 mesi",
+      "prompt": "Il testo dice che sopra il 10% a 12 mesi la sopravvivenza cade, e sopra l'1% la tabella e' sfavorevole, con le cautele scritte per la fascia 1-10%.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non equiparare 0,4% e 4%",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "Stesso switch per 0,4% e per 4%",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Soglie mescolate",
+      "prompt": "Le due fasce non sono la stessa riga della tabella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente PET",
+      "prompt": "La milestone non e' metabolica.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Restare sulla PCR",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro non sostituiscono la scala internazionale.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Aderenza gia' verificata",
+      "prompt": "Assume il farmaco. Non c'e' una riduzione che spieghi il valore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non attribuire il 18% a un salto inesistente",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Sospendere per una finta intolleranza",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Stop immotivato",
+      "prompt": "L'interruzione si discute se c'e' tossicita', non per aggirare una resistenza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

@@ -1,0 +1,440 @@
+{
+  "id": "EMAT-002",
+  "code": "EMAT-002",
+  "title": "LMC a 3 mesi: non si cambia TKI su un solo valore sopra il 10%",
+  "description": "BCR::ABL1 IS 14% a 3 mesi, un solo prelievo. La ELN 2025 non cambia il TKI su una stima isolata. L'EMR mancata va confermata, almeno 4 settimane dopo.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "LMC in fase cronica, un solo BCR::ABL1 IS sopra il 10% a 3 mesi",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ELN CML 2025, tabelle di risposta",
+  "diagnosis": "Un solo valore sopra il 10% a 3 mesi non basta per lo switch. Si conferma con un prelievo successivo, almeno 4 settimane dopo, e si guarda aderenza e cinetica.",
+  "pastMedicalHistory": "Donna di 46 anni, imatinib 400 mg da 3 mesi, dice di aver saltato alcune compresse in viaggio.",
+  "presentation": "Il referto di ieri e' 14% IS. Non ci sono prelievi intermedi. Propongono dasatinib 100 mg da stasera.",
+  "redHerrings": [
+    "Switch su un solo 14%.",
+    "Dasatinib senza conferma.",
+    "Ignorare le dosi saltate."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Giulia. In viaggio ho saltato delle compresse. Non cambiate farmaco su un solo numero.",
+  "correctSolution": "Non switchare su una sola PCR. Ripetere almeno 4 settimane dopo, verificare l'aderenza, leggere la cinetica. Il dasatinib 100 mg e' una dose di scheda, non la mossa automatica.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "La risposta si giudica sulla serie molecolare, non su una PET.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Si cambia il TKI su una sola PCR?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "singolo",
+        "conferma"
+      ],
+      "rationale": "Nessuna decisione su una sola stima."
+    },
+    {
+      "id": "q2",
+      "prompt": "Quanto si aspetta per confermare l'EMR mancata?",
+      "critical": true,
+      "expectedKeywords": [
+        "quattro",
+        "settimane",
+        "dopo"
+      ],
+      "rationale": "Almeno 4 settimane, o entro 1-3 mesi secondo la tabella."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Nessun segno di progressione. Milza non piu' palpabile."
+  },
+  "escCitations": [
+    {
+      "chunkId": "one",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "First, no decision to switch treatment should be made on a single estimate of BCR::ABL1 IS."
+    },
+    {
+      "chunkId": "emr",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "A change of TKI at 3 months due to BCR::ABL1IS >10% (lack of early molecular response (EMR)), if confirmed by a subsequent sample at least 4 weeks later, has been controversial, largely because there has been no evidence for a better outcome following a TKI switch."
+    },
+    {
+      "chunkId": "terms",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "The phrases 'optimal', 'warning' and 'failure' are replaced by 'favorable' (treatment switch unnecessary), 'warning' (treatment switch may become necessary) and 'unfavorable' (treatment switch preferred)."
+    },
+    {
+      "chunkId": "dose",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "The TKI labels recommend starting doses of imatinib of 400 mg daily, dasatinib 100 mg daily, bosutinib 400 mg daily, and nilotinib 300 mg twice daily."
+    },
+    {
+      "chunkId": "m6",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "6 months <=1% >1-10% >10%-established resistance. 12 months <=0.1% >0.1-1% >1% (1-10%: see text for other considerations)."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente switch su un solo valore.",
+      "Conferma ad almeno 4 settimane.",
+      "Prima si guarda l'aderenza."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Terminologia ELN 2025: favorevole, warning, sfavorevole. Lo switch non nasce da un numero isolato.",
+      "legalCriteria": [
+        "Niente switch su un solo valore.",
+        "Conferma ad almeno 4 settimane.",
+        "Prima si guarda l'aderenza."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Chiede di non essere cambiata di farmaco senza un secondo prelievo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Un solo 14%",
+      "prompt": "A 3 mesi il favorevole e' entro il 10%. Qui e' 14%, ma e' un prelievo solo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non switchare oggi",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Dasatinib 100 mg stasera",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Switch su un numero solo",
+      "prompt": "Il testo vieta di decidere lo switch su una sola stima di BCR::ABL1 IS.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Aderenza",
+      "prompt": "Ha saltato compresse. La riduzione di dose e la non aderenza vanno lette prima dello switch.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Ricostruire le assunzioni",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Ignorare i salti",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Aderenza omessa",
+      "prompt": "Il testo chiede di considerare interruzioni, riduzioni e aderenza prima di cambiare TKI.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Secondo prelievo",
+      "prompt": "L'EMR mancata, se si usa, va confermata da un campione successivo almeno 4 settimane dopo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Ripetere la PCR tra 4 settimane",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Cambiare senza ripetere",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Niente conferma",
+      "prompt": "Senza il secondo campione non c'e' la conferma scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Cinetica",
+      "prompt": "Se i valori successivi scendono in modo costante si puo' essere di fronte a un late responder e lo switch puo' non servire.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Leggere la serie",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Switch comunque, anche se scende",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Switch cieco",
+      "prompt": "Una discesa costante puo' rendere lo switch non necessario.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se resta sopra il 10%",
+      "prompt": "Sopra il 10% a 3 mesi, se confermato entro 1-3 mesi, la tabella lo mette tra gli sfavorevoli: lo switch e' preferito, non obbligatorio a occhi chiusi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Rivalutare dopo la conferma",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Raddoppiare l'imatinib a 800 mg",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non in scheda",
+      "prompt": "La dose di partenza resta 400 mg. Il raddoppio non e' la riga della tabella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "La milestone e' molecolare.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere la PCR",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "PET per vedere la risposta",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "La PET TC total body non misura il BCR::ABL1 IS.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Mutazioni se sale",
+      "prompt": "Una PCR in salita senza spiegazione (stop, riduzione, non aderenza) fa fare cariotipo, mutazione e switch.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Mutazione solo se sale senza spiegazione",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Mutazione su questo 14% isolato",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Test prematuro",
+      "prompt": "In fase cronica il test alla diagnosi non e' raccomandato; qui la salita non e' ancora documentata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Linguaggio",
+      "prompt": "Non si dice piu' failure su questo punto. Si dice sfavorevole solo dopo la conferma.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Usare la terminologia 2025",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Scrivere failure e stop immediato",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Failure fuori testo",
+      "prompt": "Favorable, warning, unfavorable sostituiscono optimal, warning e failure.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

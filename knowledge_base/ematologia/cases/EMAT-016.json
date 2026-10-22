@@ -1,0 +1,439 @@
+{
+  "id": "EMAT-016",
+  "code": "EMAT-016",
+  "title": "LLC da trattare: prima del(17p), TP53 e IGHV",
+  "description": "Emoglobina scesa sotto 100 g/L e perdita di peso superiore al 10% in sei mesi. E' malattia attiva. Prima della terapia si valutano del(17p), TP53 e IGHV. Una piastrinopenia stabile, da sola, non obbliga a trattare.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "LLC con malattia attiva documentata",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ESMO LLC 2020",
+  "diagnosis": "L'emoglobina sotto 100 g/L e il dimagramento documentano l'indicazione. Il farmaco si sceglie dopo del(17p), TP53 e IGHV. Non si parte prima. Non si fa una PET per 'confermare' l'indicazione.",
+  "pastMedicalHistory": "Donna di 71 anni, Binet C, emoglobina 92 g/L in discesa, calo ponderale 12% in sei mesi, piastrine 130.",
+  "presentation": "Propongono di iniziare subito, senza i geni, perche' 'tanto si usa un nuovo farmaco'.",
+  "redHerrings": [
+    "Terapia senza TP53.",
+    "PET per l'indicazione.",
+    "Trattare una piastrinopenia stabile come se fosse questa paziente."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Carla. Sono stanca e sono dimagrita. Fate gli esami che servono a scegliere, poi la cura.",
+  "correctSolution": "Documentare i criteri. Poi del(17p), TP53 e IGHV. Solo dopo la terapia. Niente PET di routine.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "L'emocromo documenta l'emoglobina. I geni non sono la PET.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Sotto quale emoglobina il testo vede in genere un'indicazione?",
+      "critical": true,
+      "expectedKeywords": [
+        "100",
+        "92"
+      ],
+      "rationale": "Sotto 100 g/L."
+    },
+    {
+      "id": "q2",
+      "prompt": "Cosa si valuta prima della terapia?",
+      "critical": true,
+      "expectedKeywords": [
+        "TP53",
+        "IGHV",
+        "17"
+      ],
+      "rationale": "del(17p), TP53 e IGHV."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Pallida, linfonodi, niente sanguinamento maggiore."
+  },
+  "escCitations": [
+    {
+      "chunkId": "act",
+      "source": "knowledge_base/ematologia/clinic/PIIS092375342042469X.pdf",
+      "quote": "Active disease should be clearly documented to initiate therapy. Cut-off levels of haemoglobin below 100 g/l or platelet counts below 100 x 10 to the 9 per litre are generally regarded as indications for treatment. Platelet counts below that level may remain stable and this situation does not automatically require therapeutic intervention."
+    },
+    {
+      "chunkId": "tp",
+      "source": "knowledge_base/ematologia/clinic/PIIS092375342042469X.pdf",
+      "quote": "del(17p), TP53 mutations and IGHV status are relevant for choice of therapy and should be assessed before treatment."
+    },
+    {
+      "chunkId": "img",
+      "source": "knowledge_base/ematologia/clinic/PIIS092375342042469X.pdf",
+      "quote": "Routine imaging during a watch-and-wait period is not recommended unless there are clinical symptoms."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/ematologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (3).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "emo",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Malattia attiva documentata.",
+      "Geni prima della scelta del farmaco.",
+      "Niente PET per l'indicazione."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "ESMO: criteri di malattia attiva e test prima del trattamento.",
+      "legalCriteria": [
+        "Malattia attiva documentata.",
+        "Geni prima della scelta del farmaco.",
+        "Niente PET per l'indicazione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Accetta la cura dopo i test, non prima."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Documentare l'attivita'",
+      "prompt": "Emoglobina 92 g/L in discesa e calo di peso superiore al 10% in sei mesi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Scrivere entrambi i criteri",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Iniziare senza scriverli",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Indicazione non documentata",
+      "prompt": "Il testo vuole la malattia attiva documentata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Geni prima",
+      "prompt": "del(17p), TP53 e IGHV si valutano prima del trattamento.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiederli ora",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Iniziare il farmaco e farli dopo",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Scelta cieca",
+      "prompt": "Servono alla scelta della terapia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non prima dei referti",
+      "prompt": "Senza quei dati la scelta non e' quella raccomandata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Aspettare i referti",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Partire oggi comunque",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Terapia prematura",
+      "prompt": "Il grado e' prima del trattamento, non durante.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Piastrine",
+      "prompt": "Sotto 100 per 10 alla nona puo' essere un'indicazione, ma una conta stabile non obbliga da sola. Qui le piastrine sono 130: non sono il criterio. Lo sono emoglobina e peso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non trattare 'per le piastrine'",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Dire che si tratta per le piastrine a 130",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Criterio falso",
+      "prompt": "130 non e' sotto la soglia scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente PET",
+      "prompt": "L'indicazione non e' un imaging di routine.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederla per partire",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body per autorizzare la cura",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "I criteri sono clinici e di emocromo.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente dose inventata",
+      "prompt": "Il PDF nomina ibrutinib fino a progressione o terapie a tempo con venetoclax, senza i milligrammi in questa estrazione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non scrivere 420 mg",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "Ibrutinib 420 mg da stasera",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose assente",
+      "prompt": "420 mg non e' una frase letta qui.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Trial se possibile",
+      "prompt": "Quando possibile il paziente va trattato dentro un trial, in tutte le linee.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Proporlo",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Escluderlo per principio",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Opzione non detta",
+      "prompt": "E' la prima frase della gestione avanzata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Dolore o fatigue",
+      "prompt": "La fatigue significativa e' un criterio possibile. Se c'e' dolore in ricovero, la legge 38 lo mette in cartella.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Registrarli",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Non misurare ne' il peso ne' il dolore",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Criteri e legge saltati",
+      "prompt": "Il peso e' gia' un criterio. Il dolore, se c'e', ha l'articolo 7.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

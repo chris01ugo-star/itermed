@@ -1,0 +1,438 @@
+{
+  "id": "EMAT-021",
+  "code": "EMAT-021",
+  "title": "Anemia cronica stabile a 9,1 g/dL: non si trasfonde",
+  "description": "Hb 9,1 g/dL, paziente stabile, senza scompenso cardiaco o respiratorio, non in chemio. SIMTI: sopra 8 g/dL la trasfusione nell'anemia cronica e' rara, grado 1A. La soglia di 10 g/dL e' un suggerimento per chi fa chemio o radioterapia. Serve il consenso se si trasfonde.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Anemia cronica stabile, Hb 9,1 g/dL",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "SIMTI 2008; modulo di consenso; legge 219/2017",
+  "diagnosis": "Non si trasfondono emazie. Non si applica la soglia dei 10 g/dL della chemio. Se qualcuno trasfonde lo stesso, servono informazione e modulo, e la paziente capace puo' rifiutare.",
+  "pastMedicalHistory": "Donna di 72 anni, mielodisplasia nota, Hb stabile 9,1 g/dL, cammina, niente dispnea a riposo, niente chemio in corso.",
+  "presentation": "Propongono due unita' stanotte e di non far firmare il modulo perche' 'e' solo sangue'.",
+  "redHerrings": [
+    "Trasfusione a 9,1.",
+    "Soglia 10 della chemio.",
+    "Modulo saltato."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Piera. Respiro bene. Non voglio sangue se il numero non lo prevede, e comunque voglio firmare io.",
+  "correctSolution": "Non trasfondere. Spiegare. Non usare la soglia della chemio. Niente PET per 'capire l'anemia'.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "L'emocromo da' l'emoglobina. La decisione e' la soglia SIMTI.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Sopra quale Hb, nell'anemia cronica stabile, la trasfusione e' rara?",
+      "critical": true,
+      "expectedKeywords": [
+        "otto",
+        "nove"
+      ],
+      "rationale": "Sopra 8 g/dL."
+    },
+    {
+      "id": "q2",
+      "prompt": "La soglia di 10 g/dL di chi e'?",
+      "critical": true,
+      "expectedKeywords": [
+        "chemio",
+        "radioterapia"
+      ],
+      "rationale": "Di chi fa chemioterapia o radioterapia."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Rosea abbastanza, niente edemi, saturazione buona."
+  },
+  "escCitations": [
+    {
+      "chunkId": "hb",
+      "source": "knowledge_base/ematologia/clinic/Raccomandazioni SIMTI per l_uso di emocomponenti (2).pdf",
+      "quote": "Per questo motivo e' rara la necessita' trasfusionale in pazienti con valori di Hb > 8 g/dL. Valori di Hb inferiori a 6 g/dL rendono quasi sempre necessaria la terapia trasfusionale. Per valori superiori a 10 g/dL, e' rarissima la necessita' di trasfusione."
+    },
+    {
+      "chunkId": "chemo10",
+      "source": "knowledge_base/ematologia/clinic/Raccomandazioni SIMTI per l_uso di emocomponenti (2).pdf",
+      "quote": "In pazienti sottoposti a trattamenti con chemioterapia o radioterapia, nei quali non si puo' attendere l'effetto della terapia con eritropoietina o questa non puo' essere utilizzata, si puo' suggerire una soglia trasfusionale di 10 g/dL."
+    },
+    {
+      "chunkId": "cons",
+      "source": "knowledge_base/ematologia/clinic/Raccomandazioni SIMTI per l_uso di emocomponenti (2).pdf",
+      "quote": "La terapia con emocomponenti/emoderivati necessita del consenso informato del ricevente."
+    },
+    {
+      "chunkId": "form",
+      "source": "knowledge_base/ematologia/legal/A3 - modulo 001 consenso informato trasfusione.pdf",
+      "quote": "sono stato informato che per le mie condizioni cliniche potrebbe essere necessario essere sottoposto a trasfusioni di sangue e di emocomponenti. ACCONSENTO oppure NON ACCONSENTO ad essere sottoposto alle trasfusioni."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/ematologia/legal/allegato115290.pdf",
+      "quote": "Ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico. Qualora il paziente esprima il rifiuto di trattamenti sanitari necessari alla propria sopravvivenza, il medico prospetta le conseguenze di tale decisione e le possibili alternative."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Non trasfondere a 9,1 in cronica stabile.",
+      "Non usare la soglia 10 della chemio.",
+      "Il consenso e' del ricevente."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "SIMTI grado 1A e modulo di consenso trasfusionale.",
+      "legalCriteria": [
+        "Non trasfondere a 9,1 in cronica stabile.",
+        "Non usare la soglia 10 della chemio.",
+        "Il consenso e' del ricevente."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Rifiuta il sangue non indicato e vuole decidere lei."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Soglia dell'anemia cronica",
+      "prompt": "Hb 9,1, stabile, senza fallo cardiaco o respiratorio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non trasfondere",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Due unita' di emazie stanotte",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Trasfusione sopra 8",
+      "prompt": "Sopra 8 g/dL la necessita' e' rara, grado 1A.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non la soglia della chemio",
+      "prompt": "10 g/dL e' un suggerimento per chemio o radioterapia. Lei non le sta facendo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non applicarla",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Trasfondere perche' sotto 10",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Soglia di un'altra popolazione",
+      "prompt": "Il suggerimento dei 10 g/dL non e' questa paziente.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sotto 6 sarebbe diverso",
+      "prompt": "Sotto 6 g/dL la trasfusione e' quasi sempre necessaria. Lei non e' li'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non confondere le due frasi",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Trattare 9,1 come se fosse 5",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Soglia dei 6 spostata",
+      "prompt": "9,1 non e' sotto 6.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Consenso se si propone",
+      "prompt": "Emocomponenti ed emoderivati richiedono il consenso del ricevente. Il modulo ha ACCONSENTO e NON ACCONSENTO.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Se si propone, far leggere e firmare",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Trasfondere senza modulo",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Consenso saltato",
+      "prompt": "SIMTI e il modulo SIMT lo chiedono.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Lei e' capace",
+      "prompt": "Puo' rifiutare anche un trattamento, e va informata di benefici, rischi e alternative.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Lasciare a lei la firma",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Far firmare il figlio",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Firma di un altro",
+      "prompt": "Il ricevente capace decide.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Cercare la causa, non solo il sangue",
+      "prompt": "Nell'anemia cronica si valuta l'eziologia e, se possibile, una terapia diversa dal sangue, per esempio gli ematinici nelle forme carenziali.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiedere ferritina, B12 o folati se non noti",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "Solo trasfondere e chiudere",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Causa non cercata",
+      "prompt": "Il testo mette le alternative prima della trasfusione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "Non spiega questa anemia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederla",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro non sono un emocromo.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Sopra 10 e' rarissimo",
+      "prompt": "Anche in generale, sopra 10 g/dL la trasfusione e' rarissima, grado 1A. Lei e' a 9,1 e in piu' e' nel gruppo cronico stabile.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non alzare il bersaglio a 11",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Trasfondere fino a 11 per stare larghi",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Bersaglio liberale",
+      "prompt": "Sopra 10 la necessita' e' rarissima.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

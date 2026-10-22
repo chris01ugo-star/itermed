@@ -1,0 +1,452 @@
+{
+  "id": "EMAT-013",
+  "code": "EMAT-013",
+  "title": "DLBCL: R-CHOP ogni 21 giorni, per 6-8 cicli",
+  "description": "Linfoma diffuso a grandi cellule B, FDG-avido. AIOM 2018: R-CHOP ogni 21 giorni per 6-8 cicli. Il confronto con ogni 14 giorni non ha dato un vantaggio di PFS e ha piu' neutropenia. La risposta si legge con PET e Deauville.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "DLBCL di nuova diagnosi, malattia FDG-avida",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "AIOM linfomi 2018; nomenclatore FASDAC 2026",
+  "diagnosis": "Lo schema di riferimento e' R-CHOP ogni 21 giorni, 6-8 cicli. Non si preferisce il dose-dense ogni 14. A fine terapia la PET negativa e' Deauville 1-3. La TC encefalo non stadia questo linfoma senza sintomi neurologici.",
+  "pastMedicalHistory": "Donna di 66 anni, DLBCL nodale, avidita' FDG gia' nota, niente sintomi neurologici. Dolore in sede di massa.",
+  "presentation": "Propongono R-CHOP14 e una TC encefalo 'per completezza', senza scrivere il dolore.",
+  "redHerrings": [
+    "R-CHOP ogni 14 giorni come standard.",
+    "TC encefalo di routine.",
+    "Dolore non in cartella."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Lucia. Ho una massa che fa male. Voglio lo schema scritto nelle linee guida, non uno piu' fitto se non vince.",
+  "correctSolution": "R-CHOP21 per 6-8 cicli. Risposta con FDG-PET e Deauville. Scrivere il dolore in cartella. Non la TC encefalo.",
+  "goldStandardPath": [
+    "emocromo",
+    "pet-tc"
+  ],
+  "goldPathNarrative": "Emocromo e PET di malattia avida. Non la TC encefalo.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120,
+    "tc-encefalo": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Ogni quanti giorni e' lo schema di riferimento?",
+      "critical": true,
+      "expectedKeywords": [
+        "21",
+        "giorni"
+      ],
+      "rationale": "Ogni 21 giorni."
+    },
+    {
+      "id": "q2",
+      "prompt": "Quanti cicli?",
+      "critical": true,
+      "expectedKeywords": [
+        "sei",
+        "otto"
+      ],
+      "rationale": "6-8 cicli."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Linfonodo laterocervicale dolente. Niente deficit neurologico."
+  },
+  "escCitations": [
+    {
+      "chunkId": "rchop",
+      "source": "knowledge_base/ematologia/clinic/2018_LG_AIOM_Linfomi.pdf",
+      "quote": "Lo schema di riferimento e' il regimen R-CHOP somministrato ogni 21 giorni per 6-8 cicli."
+    },
+    {
+      "chunkId": "r14",
+      "source": "knowledge_base/ematologia/clinic/2018_LG_AIOM_Linfomi.pdf",
+      "quote": "Non e' stata registrata nessuna differenza significativa della PFS a 2 anni tra R-CHOP ogni 14 giorni e R-CHOP ogni 21. Nel braccio dose-dense c'e' stata maggiore tossicita' midollare con neutropenia di grado 3 o 4."
+    },
+    {
+      "chunkId": "fdg",
+      "source": "knowledge_base/ematologia/clinic/2018_LG_AIOM_Linfomi.pdf",
+      "quote": "Nei pazienti con malattia FDG avida, la risposta deve essere rivalutata con FDG-PET secondo i criteri di Deauville. Nei pazienti con malattia non avida per FDG puo' essere utilizzata la TAC."
+    },
+    {
+      "chunkId": "dev",
+      "source": "knowledge_base/ematologia/clinic/2018_LG_AIOM_Linfomi.pdf",
+      "quote": "Sono considerati in remissione completa i pazienti con PET positiva all'esordio e che ottengono una PET negativa (Deauville 1-3) al termine della terapia, indipendentemente dalle masse linfonodali residue alla TAC."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/ematologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (3).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI TC N000004210 TC encefalo senza contrasto 136,00 euro."
+    },
+    {
+      "chunkId": "emo",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "R-CHOP21, 6-8 cicli.",
+      "Non R-CHOP14 come scelta preferita.",
+      "PET Deauville se la malattia e' avida.",
+      "Dolore in cartella."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "AIOM 2018 e legge 38 articolo 7. La TC encefalo e' 136 euro e qui non e' indicata.",
+      "legalCriteria": [
+        "R-CHOP21, 6-8 cicli.",
+        "Non R-CHOP14 come scelta preferita.",
+        "PET Deauville se la malattia e' avida.",
+        "Dolore in cartella."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC di risposta",
+      "finding": "Nel linfoma FDG-avido la risposta si legge con FDG-PET e Deauville. Tariffa FASDAC della PET TC total body senza contrasto: 1.050,00 euro. Qui l'esame e' quello scritto, non uno spreco.",
+      "isAbnormal": true,
+      "priceEuro": 1050.0
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC encefalo senza contrasto",
+      "finding": "DI TC N000004210 TC encefalo senza contrasto, 136,00 euro. Non stadia un linfoma senza sintomi neurologici.",
+      "isAbnormal": false,
+      "priceEuro": 136.0,
+      "inappropriate": true,
+      "wasteRationale": "TC encefalo da 136 euro senza indicazione neurologica nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "Nel linfoma FDG-avido la risposta si legge con FDG-PET e Deauville. Tariffa FASDAC della PET TC total body senza contrasto: 1.050,00 euro. Qui l'esame e' quello scritto, non uno spreco.",
+          "isAbnormal": true,
+          "price": 1050.0
+        },
+        "tc-encefalo": {
+          "finding": "DI TC N000004210 TC encefalo senza contrasto, 136,00 euro. Non stadia un linfoma senza sintomi neurologici.",
+          "isAbnormal": false,
+          "price": 136.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Indica la massa e chiede che il dolore sia scritto."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Schema di riferimento",
+      "prompt": "R-CHOP ogni 21 giorni per 6-8 cicli.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Scegliere R-CHOP21",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "R-CHOP ogni 14 giorni come standard",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose-dense non superiore",
+      "prompt": "Gli studi citati non mostrano un guadagno di PFS e mostrano piu' neutropenia di grado 3-4.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non inventare i milligrammi",
+      "prompt": "Il PDF nomina il regime, non le dosi in mg/m2 di doxorubicina o rituximab in quel paragrafo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non scrivere dosi assenti",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Rituximab 375 mg/m2 perche' lo ricordo",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non nel paragrafo",
+      "prompt": "Quel numero non e' in questa sezione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "PET perche' e' avida",
+      "prompt": "La risposta della malattia FDG-avida si valuta con FDG-PET e Deauville.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Programmare la PET di risposta",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Solo la TAC anche se e' avida",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Risposta senza PET",
+      "prompt": "Per la malattia non avida si puo' usare la TAC. Qui e' avida.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Deauville 1-3",
+      "prompt": "Remissione completa: PET negativa, Deauville 1-3, anche se resta una massa alla TAC.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiamare fallimento una massa con PET 2",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Nuovo ciclo perche' la massa c'e' ancora",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Massa residua letta male",
+      "prompt": "La massa residua con Deauville 1-3 non toglie la remissione completa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Dolore",
+      "prompt": "La massa fa male. In cartella: caratteristiche, evoluzione, tecnica, farmaci, dosi, risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Scriverlo",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Non rilevare il dolore",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Legge 38 omessa",
+      "prompt": "Articolo 7, sezioni medica e infermieristica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la TC encefalo",
+      "prompt": "Niente sintomi neurologici. Tariffa 136 euro.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non farla di routine",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "TC encefalo senza contrasto",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC da 136 euro",
+      "prompt": "Non e' lo staging di questo DLBCL.",
+      "cost": 136,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "G-CSF nel dose-dense",
+      "prompt": "Se qualcuno insiste sul giorno 14, il testo lega quel braccio a piu' G-CSF per la neutropenia. Non e' un motivo per sceglierlo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Restare sul giorno 21",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Passare al giorno 14 e aggiungere G-CSF di default",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Schema non preferito",
+      "prompt": "Il maggiore uso di G-CSF e' un costo del braccio che non ha vinto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Emocromo prima del ciclo",
+      "prompt": "Serve per la tossicita' midollare, non al posto della PET di risposta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Emocromo e PET, ruoli diversi",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Emocromo al posto della PET finale",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Risposta ematologica scambiata",
+      "prompt": "La risposta di malattia avida e' la PET.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

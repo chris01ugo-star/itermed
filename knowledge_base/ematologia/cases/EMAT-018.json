@@ -1,0 +1,439 @@
+{
+  "id": "EMAT-018",
+  "code": "EMAT-018",
+  "title": "Mielofibrosi: JAK2 assente non la esclude; il ruxolitinib non si interrompe di colpo",
+  "description": "PMF possibile con JAK2 negativo. La mutazione e' in circa il 60% di TE e PMF, quindi manca in una quota larga. Il ruxolitinib e' per milza sintomatica o sintomi costituzionali, non per il basso rischio asintomatico dove l'etichetta non lo approva. Lo stop brusco puo' dare una sindrome da shock e va scalato.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Sospetta mielofibrosi primaria, JAK2 V617F assente, paziente asintomatico",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ESMO MPN 2015",
+  "diagnosis": "Non si nega la PMF solo perche' JAK2 e' negativo. Non si inizia ruxolitinib in un basso rischio asintomatico. Se un giorno e' in corso, non si sospende di colpo.",
+  "pastMedicalHistory": "Uomo di 69 anni, milza non sintomatica, JAK2 negativo, biopsia compatibile con mielofibrosi, niente sintomi costituzionali.",
+  "presentation": "Propongono di escludere la diagnosi e, in alternativa, ruxolitinib da sospendere il venerdi' perche' va in vacanza.",
+  "redHerrings": [
+    "PMF solo se JAK2 positivo.",
+    "Ruxolitinib nell'asintomatico.",
+    "Stop brusco."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Franco. Il JAK2 e' negativo. Non cancellate la diagnosi per questo, e non datemi un farmaco da interrompere di colpo.",
+  "correctSolution": "Completare la diagnosi morfologica. Non il ruxolitinib ora. Se fosse gia' in terapia, scalarlo, non sospenderlo di netto.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "L'emocromo fa parte dello score, non decide da solo il JAK2.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "JAK2 V617F in che quota sta circa, nella mielofibrosi?",
+      "critical": true,
+      "expectedKeywords": [
+        "60",
+        "non tutti"
+      ],
+      "rationale": "Circa il 60% di TE e PMF."
+    },
+    {
+      "id": "q2",
+      "prompt": "Lo stop del ruxolitinib puo' essere brusco?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "scalare",
+        "shock"
+      ],
+      "rationale": "Lo stop brusco va evitato."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Milza di un dito, non dolente. Niente febbre notturna ne' sudori."
+  },
+  "escCitations": [
+    {
+      "chunkId": "jak",
+      "source": "knowledge_base/ematologia/clinic/PIIS0923753419471743.pdf",
+      "quote": "These mutations include the Janus kinase (JAK) 2V617F mutation, found in at least 95% of PV and about 60% of ET and PMF patients. Presence of JAK2V617F or JAK2 exon 12 mutation is a major criterion for polycythaemia vera."
+    },
+    {
+      "chunkId": "rux",
+      "source": "knowledge_base/ematologia/clinic/PIIS0923753419471743.pdf",
+      "quote": "It has been reported that sudden ruxolitinib withdrawal can provoke a shock-like syndrome, due to the re-emergence of the suppressed inflammatory cytokines. Though this side-effect is rare, abrupt interruption should be avoided and withdrawal of the drug should be tapered."
+    },
+    {
+      "chunkId": "low",
+      "source": "knowledge_base/ematologia/clinic/PIIS0923753419471743.pdf",
+      "quote": "For patients presenting with symptomatic splenomegaly and/or constitutional symptoms if allowed by the label. Countries where ruxolitinib is not approved for low-risk patients are noted in the same footnote."
+    },
+    {
+      "chunkId": "asa",
+      "source": "knowledge_base/ematologia/clinic/PIIS0923753419471743.pdf",
+      "quote": "Low-dose aspirin is the second cornerstone of PV therapy. It has been shown in the ECLAP study to significantly reduce a primary combined end point, including cardiovascular death, non-fatal myocardial infarction, non-fatal stroke and major venous thromboembolism."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "emo",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "JAK2 negativo non esclude la PMF.",
+      "Niente ruxolitinib se asintomatico e a basso rischio fuori etichetta.",
+      "Niente stop brusco."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "ESMO: prevalenza di JAK2, nota sul basso rischio, sospensione del ruxolitinib.",
+      "legalCriteria": [
+        "JAK2 negativo non esclude la PMF.",
+        "Niente ruxolitinib se asintomatico e a basso rischio fuori etichetta.",
+        "Niente stop brusco."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole la diagnosi giusta e niente farmaco inutile."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "JAK2 non e' tutto",
+      "prompt": "E' in circa il 60% delle PMF. MPL e' in un'altra quota. Un negativo non chiude la diagnosi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non escluderla",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Refertare 'non e' mielofibrosi' solo per il JAK2",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Criterio reso unico",
+      "prompt": "Il 60% lascia fuori una parte ampia dei pazienti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Morfologia",
+      "prompt": "La fibrosi e i megacariociti vanno integrati con gli altri elementi, non sostituiti da un gene.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere la biopsia nel giudizio",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Buttare la biopsia",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Diagnosi solo molecolare",
+      "prompt": "Il testo dice che i reperti vanno integrati.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non il ruxolitinib ora",
+      "prompt": "E' per milza sintomatica o sintomi costituzionali, se l'etichetta lo consente. Nel basso rischio diversi Paesi non lo approvano.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non iniziarlo",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Ruxolitinib oggi",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Fuori indicazione di testo",
+      "prompt": "Non ha quei sintomi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se fosse gia' in corso",
+      "prompt": "Lo stop brusco puo' provocare una sindrome tipo shock per il ritorno delle citochine. Si scala.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non sospenderlo il venerdi'",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Stop netto per la vacanza",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sospensione brusca",
+      "prompt": "Il testo dice di evitarla e di scalare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Risposta di milza",
+      "prompt": "L'endpoint dei phase III e' almeno il 35% di riduzione del volume di milza all'imaging, non un 'un po' meno' alla palpazione come unica prova.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Se si tratta, misurare cosi'",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Dichiarare risposta senza imaging",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Endpoint perso",
+      "prompt": "COMFORT usa l'imaging.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "Non sostituisce la biopsia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederla per la diagnosi",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro non sono la biopsia osteomidollare.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non il bersaglio della PV",
+      "prompt": "L'ematocrito sotto il 45% e' l'obiettivo della policitemia, dal CYTO-PV. Non e' un motivo per salassare questa mielofibrosi senza policitemia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non salassare per quel bersaglio",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Salassi per portare l'ematocrito sotto 45%",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Obiettivo della PV spostato",
+      "prompt": "Il trial riguarda i pazienti con PV.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sintomi costituzionali",
+      "prompt": "Entrano negli score IPSS e DIPSS. Vanno chiesti, non presunti.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiedere febbre, sudori, peso",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Dare un punto senza aver chiesto",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Score falso",
+      "prompt": "Lo score conta quei sintomi solo se ci sono.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

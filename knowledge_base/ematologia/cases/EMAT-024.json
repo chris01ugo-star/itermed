@@ -1,0 +1,459 @@
+{
+  "id": "EMAT-024",
+  "code": "EMAT-024",
+  "title": "CID senza emorragia: niente piastrine, plasma o crioprecipitato",
+  "description": "Sospetta CID, niente sanguinamento. LG9: senza emorragia non si suggerisce il supporto, qualunque sia il laboratorio. Con sanguinamento si suggerisce. Lo score ISTH serve alla diagnosi. SIMTI, se c'e' emorragia importante, ritiene ragionevole una conta intorno a 50.000.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "CID senza emorragia in corso",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "LG9 CID; SIMTI",
+  "diagnosis": "Si calcola lo score ISTH. Non si trasfondono piastrine, plasma o crioprecipitato finche' non c'e' emorragia. Il D-dimero entra nello score, non e' da solo una trasfusione.",
+  "pastMedicalHistory": "Donna di 64 anni, sepsi, piastrine 35.000, PT allungato, D-dimero alto, fibrinogeno basso, niente sanguinamento.",
+  "presentation": "Propongono plasma e piastrine stanotte per i numeri, e una PET per la sepsi.",
+  "redHerrings": [
+    "Supporto senza emorragia.",
+    "Trasfusione sul solo D-dimero.",
+    "PET al posto dello score."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Nora. Non sanguino. Non datemi plasma solo perche' i numeri sono brutti.",
+  "correctSolution": "Score ISTH. Nessun supporto in assenza di emorragia. Se compare un'emorragia importante, allora supporto, e per le piastrine SIMTI indica un ordine di grandezza intorno a 50.000.",
+  "goldStandardPath": [
+    "emocromo",
+    "pt-ptt-inr",
+    "ddimero"
+  ],
+  "goldPathNarrative": "Emocromo, PT e D-dimero servono allo score, non a trasfondere da soli.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pt-ptt-inr": 20,
+    "ddimero": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Senza emorragia si trasfonde nella CID?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "emorragia"
+      ],
+      "rationale": "Il supporto non e' suggerito."
+    },
+    {
+      "id": "q2",
+      "prompt": "Con quale score si pone la diagnosi?",
+      "critical": true,
+      "expectedKeywords": [
+        "ISTH",
+        "score"
+      ],
+      "rationale": "Score ISTH."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Cute integra, niente sangue nel sondino, diuresi presente. Temperatura 38,2."
+  },
+  "escCitations": [
+    {
+      "chunkId": "cid",
+      "source": "knowledge_base/ematologia/clinic/LG9.pdf",
+      "quote": "Nei pazienti con CID e sanguinamento in atto si suggerisce l'uso di terapia di supporto (trasfusione di piastrine, plasma, crioprecipitato). Nei pazienti con CID cronica o senza emorragia non si suggerisce l'uso di terapia di supporto indipendentemente dai risultati di test di laboratorio."
+    },
+    {
+      "chunkId": "isth",
+      "source": "knowledge_base/ematologia/clinic/LG9.pdf",
+      "quote": "In pazienti con sospetto di CID si suggerisce l'uso dello score ISTH per effettuare la diagnosi."
+    },
+    {
+      "chunkId": "proc",
+      "source": "knowledge_base/ematologia/clinic/Raccomandazioni SIMTI per l_uso di emocomponenti (2).pdf",
+      "quote": "Per interventi di chirurgia maggiore o manovre invasive quali rachicentesi, anestesia epidurale, biopsia epatica, endoscopia con biopsia, posizionamento di catetere venoso centrale, si suggerisce di portare la conta piastrinica sopra 50.000/microlitro."
+    },
+    {
+      "chunkId": "cons",
+      "source": "knowledge_base/ematologia/clinic/Raccomandazioni SIMTI per l_uso di emocomponenti (2).pdf",
+      "quote": "La terapia con emocomponenti/emoderivati necessita del consenso informato del ricevente."
+    },
+    {
+      "chunkId": "dd",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000003215 D-dimero 14,40 euro."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente supporto senza emorragia.",
+      "ISTH per la diagnosi.",
+      "Con emorragia importante, piastrine intorno a 50.000."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "LG9 grado di suggerimento sul supporto e SIMTI sulla conta in corso di emorragia.",
+      "legalCriteria": [
+        "Niente supporto senza emorragia.",
+        "ISTH per la diagnosi.",
+        "Con emorragia importante, piastrine intorno a 50.000."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT)",
+      "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+      "isAbnormal": false,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "ddimero",
+      "name": "D-dimero",
+      "finding": "DL LB N000003215 D-dimero 14,40 euro. Entra nello score ISTH della CID, non nella stadiazione di un linfoma.",
+      "isAbnormal": true,
+      "priceEuro": 14.4
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "106/64",
+      "spo2": 96,
+      "temperature": 38.2,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pt-ptt-inr": {
+          "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "ddimero": {
+          "finding": "DL LB N000003215 D-dimero 14,40 euro. Entra nello score ISTH della CID, non nella stadiazione di un linfoma.",
+          "isAbnormal": true,
+          "price": 14.4
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Non sanguina e non vuole plasma 'preventivo'."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Score ISTH",
+      "prompt": "Il sospetto si conferma con lo score, non a occhio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Calcolarlo",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Trasfondere senza score",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Diagnosi non fatta",
+      "prompt": "LG9 suggerisce lo score ISTH.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente supporto",
+      "prompt": "Senza emorragia non si suggeriscono piastrine, plasma o crioprecipitato, qualunque sia il laboratorio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non trasfondere",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Plasma e piastrine per i numeri",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Supporto senza sangue",
+      "prompt": "La raccomandazione e' esplicita.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se sanguina",
+      "prompt": "Con sanguinamento in atto il supporto si suggerisce. SIMTI, nell'emorragia importante, ritiene ragionevole una conta intorno a 50.000, grado 2C.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere pronta quella soglia, non usarla ora",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Portare le piastrine a 50.000 gia' adesso",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Soglia dell'emorragia senza emorragia",
+      "prompt": "L'emorragia importante non c'e'.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non il sangue intero di routine",
+      "prompt": "In sepsi o neoplasie ematologiche con CID non si suggerisce la sostituzione di plasma o sangue intero come voce a parte rispetto al supporto legato al sanguinamento.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non ordinare sangue intero",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Due unita' di sangue intero",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sostituzione non suggerita",
+      "prompt": "LG9 non la suggerisce in questo gruppo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "D-dimero",
+      "prompt": "Entra nello score. Da solo non e' una trasfusione. Tariffa 14,40 euro.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Usarlo nello score",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Trasfondere perche' il D-dimero e' alto",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Numero isolato",
+      "prompt": "Il testo stacca il laboratorio dall'emorragia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Consenso se il quadro cambia",
+      "prompt": "Se compare emorragia e si propone il supporto, serve il consenso del ricevente, se capace.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Informare in quel momento",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "Trasfondere senza dirlo appena il fibrinogeno scende",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Consenso saltato",
+      "prompt": "SIMTI lo chiede per gli emocomponenti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "Non diagnostica la CID.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederla",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro non sono lo score ISTH.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rivalutare il sanguinamento",
+      "prompt": "La raccomandazione dipende dall'emorragia, non da un ordine fisso per tutta la degenza.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Ricontrollare se compare sangue",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Lasciare il plasma in continuo per 48 ore",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Supporto automatico",
+      "prompt": "Senza emorragia il supporto non e' suggerito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

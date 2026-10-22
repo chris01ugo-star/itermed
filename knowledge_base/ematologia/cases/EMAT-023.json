@@ -1,0 +1,439 @@
+{
+  "id": "EMAT-023",
+  "code": "EMAT-023",
+  "title": "Piastrine 15.000 stabili: soglia 10.000; per la rachicentesi sopra 50.000",
+  "description": "AML non promielocitica, piastrine 15.000, niente febbre, niente sanguinamento, paziente stabile. SIMTI: soglia profilattica 10.000. Se si programma una rachicentesi, la conta va portata sopra 50.000. Nell'autoimmune si trasfonde solo per emorragia maggiore.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Piastrinopenia iporigenerativa stabile, procedura invasiva poi proposta",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "SIMTI, trasfusione di piastrine",
+  "diagnosis": "Oggi non si trasfonde: 15.000 e stabile, soglia 10.000. Se domani serve la rachicentesi e le piastrine sono 40.000, allora si trasfonde per superare 50.000. Non e' una ITP.",
+  "pastMedicalHistory": "Uomo di 49 anni, AML non M3, piastrine 15.000, afebrilie, niente petecchie fresche, proposta di profilassi e, a parte, di una rachicentesi con piastrine a 40.000.",
+  "presentation": "Propongono un pool stanotte e la rachicentesi domani senza ricontrollare.",
+  "redHerrings": [
+    "Profilassi a 15.000 nel stabile.",
+    "Rachicentesi a 40.000.",
+    "Soglia dell'autoimmune copiata sull'AML."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Omar. Non sanguino e non ho febbre. Se dovete pungermi la schiena, ditemi prima se le piastrine bastano.",
+  "correctSolution": "Non trasfondere oggi. Non fare la rachicentesi a 40.000. Trasfondere solo per portarle sopra 50.000 se la manovra e' indicata.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "La conta e' l'emocromo. La soglia dipende da stabilita' e manovra.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Qual e' la soglia nel stabile senza i fattori di instabilita'?",
+      "critical": true,
+      "expectedKeywords": [
+        "10.000",
+        "10000",
+        "dieci"
+      ],
+      "rationale": "10.000 per microlitro."
+    },
+    {
+      "id": "q2",
+      "prompt": "Prima della rachicentesi, sopra quanto?",
+      "critical": true,
+      "expectedKeywords": [
+        "50.000",
+        "50000"
+      ],
+      "rationale": "Sopra 50.000."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Cute senza porpora fresca. Temperatura normale. Lucido."
+  },
+  "escCitations": [
+    {
+      "chunkId": "plt",
+      "source": "knowledge_base/ematologia/clinic/Raccomandazioni SIMTI per l_uso di emocomponenti (2).pdf",
+      "quote": "In questi casi la soglia trasfusionale attualmente raccomandata e' di 10.000 PLT/microlitro nei pazienti clinicamente stabili. In presenza di condizioni di instabilita' clinica la soglia raccomandata e' di 20.000 PLT/microlitro, nella leucemia acuta esclusa la promielocitica."
+    },
+    {
+      "chunkId": "proc",
+      "source": "knowledge_base/ematologia/clinic/Raccomandazioni SIMTI per l_uso di emocomponenti (2).pdf",
+      "quote": "Per interventi di chirurgia maggiore o manovre invasive quali rachicentesi, anestesia epidurale, biopsia epatica, endoscopia con biopsia, posizionamento di catetere venoso centrale, si suggerisce di portare la conta piastrinica sopra 50.000/microlitro."
+    },
+    {
+      "chunkId": "itp",
+      "source": "knowledge_base/ematologia/clinic/Raccomandazioni SIMTI per l_uso di emocomponenti (2).pdf",
+      "quote": "Trombocitopenia autoimmune: le trasfusioni piastriniche sono riservate ai soli episodi di emorragia maggiore e/o pericolosa, per esempio gravi emorragie intestinali, endocraniche, endoculari."
+    },
+    {
+      "chunkId": "cons",
+      "source": "knowledge_base/ematologia/clinic/Raccomandazioni SIMTI per l_uso di emocomponenti (2).pdf",
+      "quote": "La terapia con emocomponenti/emoderivati necessita del consenso informato del ricevente."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "emo",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente profilassi a 15.000 se stabile.",
+      "Rachicentesi solo sopra 50.000.",
+      "ITP: solo emorragia maggiore."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "SIMTI: 10.000 nel stabile, 20.000 se instabile nell'acuta non M3, 50.000 per la rachicentesi.",
+      "legalCriteria": [
+        "Niente profilassi a 15.000 se stabile.",
+        "Rachicentesi solo sopra 50.000.",
+        "ITP: solo emorragia maggiore."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole sapere se il pungiglione della schiena si puo' fare cosi'."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Oggi e' stabile",
+      "prompt": "15.000, niente febbre sopra 38,5, niente sepsi, niente sanguinamento.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non trasfondere",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Pool piastrinico profilattico",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sopra la soglia dei 10.000",
+      "prompt": "La soglia del stabile e' 10.000.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se compare instabilita'",
+      "prompt": "Nella leucemia acuta, esclusa la promielocitica, con instabilita' la soglia sale a 20.000. Ora non c'e'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non anticiparla",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Trasfondere gia' a 15.000 'per la soglia dei 20.000'",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Instabilita' assente",
+      "prompt": "I fattori elencati non ci sono.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non e' M3",
+      "prompt": "L'eccezione dei 5.000 e quella dei 20.000 sono scritte per l'acuta esclusa la promielocitica. Qui la diagnosi e' non M3 e il quadro e' stabile: resta 10.000.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non usare i 5.000",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Scendere a 5.000 senza il rischio di refrattarieta' indicato",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Soglia dei 5.000 fuori caso",
+      "prompt": "I 5.000 sono per un rischio particolare di alloimmunizzazione, non per tutti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Rachicentesi",
+      "prompt": "Per rachicentesi, epidurale, biopsia epatica, endoscopia con biopsia o CVC si porta la conta sopra 50.000.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non pungere a 40.000",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Rachicentesi domani a 40.000",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Manovra sotto soglia",
+      "prompt": "40.000 non e' sopra 50.000.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se la manovra e' necessaria",
+      "prompt": "Allora si trasfonde per superare 50.000, non per 'abitudine notturna' senza manovra.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Trasfondere solo in vista della manovra",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Lasciare 40.000 e pungere",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Soglia della manovra ignorata",
+      "prompt": "Il testo suggerisce di portarle sopra 50.000.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se fosse ITP",
+      "prompt": "Nell'autoimmune le piastrine si riservano all'emorragia maggiore: intestinale, endocranica, endoculare. Le petecchie non bastano.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non copiare quella regola al contrario sull'AML, e non trasfondere una ITP per le petecchie",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "Pool per petecchie in una ITP",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "ITP profilattica",
+      "prompt": "SIMTI la limita all'emorragia pericolosa.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Consenso",
+      "prompt": "Anche il pool e' un emocomponente: consenso del ricevente.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Informare se si trasfonde per la manovra",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Trasfondere senza dirlo",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Consenso saltato",
+      "prompt": "SIMTI e il modulo lo richiedono.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "Non muove la soglia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederla",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro non alzano le piastrine.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

@@ -1,0 +1,438 @@
+{
+  "id": "EMAT-020",
+  "code": "EMAT-020",
+  "title": "Mieloma da biomarcatore: 60% di plasmacellule anche senza CRAB",
+  "description": "Plasmacellule clonali 65%, niente CRAB. Caldini: il 60% o piu' e' biomarcatore di malignita', come il rapporto delle catene leggere almeno 100 con la coinvolta almeno 100 mg/L al Freelite, o piu' di una lesione focale alla MRI.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Mieloma multiplo definito dal biomarcatore, senza CRAB",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Caldini, criteri IMWG 2014; legge 38/2010",
+  "diagnosis": "Non e' uno smouldering. Il 65% di plasmacellule clonali basta. Il dolore osseo va in cartella. Non si usa una creatinina di 1,3 come CRAB renale.",
+  "pastMedicalHistory": "Uomo di 70 anni, plasmacellule 65%, emoglobina 128 g/L, eGFR 70, calcemia normale, dolore lombare meccanico da descrivere. Lesioni litiche non cercate ancora.",
+  "presentation": "Propongono di chiamarlo smouldering perche' non c'e' CRAB e di ignorare il dolore.",
+  "redHerrings": [
+    "Smouldering nonostante il 65%.",
+    "CRAB renale falso.",
+    "Dolore non in cartella."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Sergio. Il midollo e' pieno di plasmacellule. Ho mal di schiena. Non chiamatelo 'solo un picco' se il testo dice altro.",
+  "correctSolution": "Diagnosticare il mieloma per il biomarcatore >=60%. Scrivere il dolore. Non inventare un CRAB renale. La MRI entra se si cerca la lesione focale; la PET non sostituisce il 65% gia' diagnostico.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "L'emoglobina esclude l'anemia da CRAB. Il biomarcatore e' il midollo.",
+  "examLatencies": {
+    "emocromo": 20,
+    "tc-encefalo": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Che percentuale di plasmacellule e' gia' un biomarcatore?",
+      "critical": true,
+      "expectedKeywords": [
+        "60",
+        "65"
+      ],
+      "rationale": "Dal 60% in su."
+    },
+    {
+      "id": "q2",
+      "prompt": "Il rapporto delle catene, con quale reattivo e' valido nel testo?",
+      "critical": true,
+      "expectedKeywords": [
+        "Freelite",
+        "reagente"
+      ],
+      "rationale": "Freelite, non un altro metodo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Dolore lombare. Niente paresi. Emoglobina conservata."
+  },
+  "escCitations": [
+    {
+      "chunkId": "slim",
+      "source": "knowledge_base/ematologia/clinic/1117_275-280_Caldini.pdf",
+      "quote": "Plasmacellule clonali midollari >=60%. Rapporto tra catena leggera coinvolta/non coinvolta >=100; la catena leggera monoclonale deve essere >=100 mg/L. >1 lesione focale, visualizzata con MRI. Questi valori delle catene leggere sono basati sul reagente Freelite."
+    },
+    {
+      "chunkId": "egfr",
+      "source": "knowledge_base/ematologia/clinic/1117_275-280_Caldini.pdf",
+      "quote": "L'IMWG ha modificato la precedente indicazione definendo l'insufficienza renale come un valore di eGFR inferiore a 40 mL/min/1,73 m2, oppure creatinina sierica superiore a 2,00 mg/dL. Il danno d'organo deve essere attribuibile alla proliferazione plasmacellulare."
+    },
+    {
+      "chunkId": "bone",
+      "source": "knowledge_base/ematologia/clinic/1117_275-280_Caldini.pdf",
+      "quote": "Lesioni ossee: una o piu' lesioni litiche determinate con radiografia, CT o PET-CT. I criteri CRAB non si applicano se le plasmacellule midollari sono inferiori a 10%."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/ematologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (3).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "mgus",
+      "source": "knowledge_base/ematologia/clinic/1117_275-280_Caldini.pdf",
+      "quote": "MGUS: componente monoclonale sierica <30 g/L. Plasmacellule clonali midollari <10%. Assenza di danno d'organo (CRAB). Tutti i criteri devono essere soddisfatti."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI TC N000004210 TC encefalo senza contrasto 136,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "65% di plasmacellule: mieloma.",
+      "Freelite se si usa il rapporto.",
+      "Dolore in cartella."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Tabella 2 di Caldini e articolo 7 della legge 38.",
+      "legalCriteria": [
+        "65% di plasmacellule: mieloma.",
+        "Freelite se si usa il rapporto.",
+        "Dolore in cartella."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tc-encefalo",
+      "name": "TC encefalo senza contrasto",
+      "finding": "DI TC N000004210 TC encefalo senza contrasto, 136,00 euro. Non stadia un linfoma senza sintomi neurologici.",
+      "isAbnormal": false,
+      "priceEuro": 136.0,
+      "inappropriate": true,
+      "wasteRationale": "TC encefalo da 136 euro senza indicazione neurologica nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "tc-encefalo": {
+          "finding": "DI TC N000004210 TC encefalo senza contrasto, 136,00 euro. Non stadia un linfoma senza sintomi neurologici.",
+          "isAbnormal": false,
+          "price": 136.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole il nome della malattia e che il dolore sia scritto."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Biomarcatore",
+      "prompt": "Plasmacellule clonali >=60% definiscono il mieloma anche senza CRAB.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiamarlo mieloma",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Chiamarlo smouldering",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "SMM sbagliato",
+      "prompt": "Lo smouldering esclude i criteri del mieloma. Il 60% e' uno di quelli.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Se si usano le catene",
+      "prompt": "Rapporto >=100 e catena coinvolta >=100 mg/L, solo Freelite. Un altro metodo non valida quei numeri.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non applicare la soglia a un altro kit",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Rapporto 80 con un altro metodo chiamato positivo",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Soglia e metodo",
+      "prompt": "Il testo limita i numeri al Freelite.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Lesione focale",
+      "prompt": "Piu' di una lesione focale alla MRI e' l'altro biomarcatore. Non serve se il 65% c'e' gia'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non ritardare la diagnosi per fare prima una PET",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Aspettare la PET per poter dire mieloma",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Diagnosi rinviata",
+      "prompt": "Il 65% basta da solo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non un CRAB renale falso",
+      "prompt": "eGFR 70 e creatinina non sopra 2. Il rene da mieloma e' sotto 40 di eGFR o sopra 2 di creatinina, ed e' del clone.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non segnarlo",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Scrivere insufficienza renale",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "CRAB inventato",
+      "prompt": "I numeri non ci sono.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Dolore",
+      "prompt": "In ricovero va in cartella: caratteristiche, evoluzione, tecnica, farmaci, dosi, risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Scriverlo prima di scegliere l'analgesia",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Non rilevarlo",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Legge 38 omessa",
+      "prompt": "Articolo 7.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Osso se si cerca una litica",
+      "prompt": "Radiografia, CT o PET-CT sono i metodi scritti per la lesione litica. Non una TC encefalo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Se serve l'osso, usare uno di quei tre",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "TC encefalo per la schiena",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC da 136 euro",
+      "prompt": "L'encefalo non e' la colonna.",
+      "cost": 136,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non una dose inventata",
+      "prompt": "La guida paziente elenca schemi con bortezomib, senza che questo caso fissi i milligrammi. Non si inventano.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non scrivere una dose assente",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Bortezomib 1,3 mg/m2 da subito",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Milligrammi non letti per questo passo",
+      "prompt": "Quel numero non e' nella tabella diagnostica che sta decidendo il caso.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Anemia da CRAB",
+      "prompt": "Sarebbe emoglobina sotto 100 g/L o 20 g/L sotto il limite. Lui e' a 128. Non e' il suo criterio, e non gli toglie il biomarcatore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non pretendere anche l'anemia",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Dire che senza anemia non e' mieloma",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "CRAB reso obbligatorio",
+      "prompt": "Basta uno dei criteri, e il biomarcatore e' gia' uno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

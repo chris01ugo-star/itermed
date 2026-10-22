@@ -1,0 +1,449 @@
+{
+  "id": "EMAT-001",
+  "code": "EMAT-001",
+  "title": "LMC: niente imatinib senza BCR::ABL1, poi 400 mg al giorno",
+  "description": "Leucocitosi. La ELN 2025 dice che la diagnosi di LMC dipende dal BCR::ABL1. L'imatinib di partenza in scheda e' 400 mg al giorno. L'interferone non si aggiunge di routine.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Sospetta leucemia mieloide cronica, fusione non ancora dimostrata",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ELN CML 2025; nomenclatore FASDAC 2026",
+  "diagnosis": "La LMC si riconosce dal BCR::ABL1, con morfologia e cariotipo sul midollo e RT-PCR. Senza la fusione non si inizia l'imatinib. Se c'e', la dose di partenza in scheda e' 400 mg al giorno.",
+  "pastMedicalHistory": "Uomo di 54 anni, emocromo gia' con leucocitosi e spostamento a sinistra. Nessun farmaco. Nessuna gravidanza.",
+  "presentation": "Il collega propone imatinib oggi, prima del midollo, e una PET total body per 'stadiare'.",
+  "redHerrings": [
+    "Imatinib sulla sola leucocitosi.",
+    "Interferone aggiunto di routine.",
+    "PET da 1.050 euro."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Marco. Ho tanti globuli bianchi. Non iniziate una pastiglia prima di aver visto se c'e' il cromosoma Philadelphia.",
+  "correctSolution": "Dimostrare BCR::ABL1 con citogenetica o FISH o RT-PCR, morfologia e cariotipo sul midollo. Poi imatinib 400 mg al giorno, non l'associazione di routine con interferone, non la PET.",
+  "goldStandardPath": [
+    "emocromo",
+    "pt-ptt-inr"
+  ],
+  "goldPathNarrative": "Emocromo e coagulazione di inquadramento. La diagnosi e' la fusione, non la PET. La dose scritta dell'imatinib e' 400 mg al giorno.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pt-ptt-inr": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "La diagnosi di LMC da cosa dipende?",
+      "critical": true,
+      "expectedKeywords": [
+        "BCR",
+        "Philadelphia",
+        "fusione"
+      ],
+      "rationale": "Dipende dalla dimostrazione di BCR::ABL1."
+    },
+    {
+      "id": "q2",
+      "prompt": "Qual e' la dose di partenza dell'imatinib in scheda?",
+      "critical": true,
+      "expectedKeywords": [
+        "400",
+        "mg",
+        "giorno"
+      ],
+      "rationale": "400 mg al giorno."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Milza palpabile di un dito. Nessun sanguinamento. Parametri stabili."
+  },
+  "escCitations": [
+    {
+      "chunkId": "hall",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "The hallmark of CML is the presence of the BCR::ABL1 fusion gene, created by the t(9;22) which gives rise to the Philadelphia (Ph) chromosome abnormality, and diagnosis depends on its detection or inference, by cytogenetics (conventional chromosome banding analysis (CBA) or fluorescent in situ hybridization (FISH)) and/or by reverse transcriptase polymerase chain reaction (RT-PCR) assays."
+    },
+    {
+      "chunkId": "bm",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "We continue to recommend morphology and CBA on bone marrow (BM) and RT-PCR on peripheral blood (PB) or BM at diagnosis, so as to accurately stage the disease, detect variant translocations, cryptic BCR::ABL1 rearrangements and additional chromosomal abnormalities (ACA)."
+    },
+    {
+      "chunkId": "dose",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "The TKI labels recommend starting doses of imatinib of 400 mg daily, dasatinib 100 mg daily, bosutinib 400 mg daily, and nilotinib 300 mg twice daily."
+    },
+    {
+      "chunkId": "ifn",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "Improvements were offset by an increase in toxicity often necessitating IFN dose reduction or cessation, such that the addition of IFN cannot be routinely recommended."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "emo",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente TKI senza BCR::ABL1.",
+      "Imatinib 400 mg al giorno se la fusione c'e'.",
+      "Niente interferone di routine.",
+      "Niente PET al posto del midollo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Diagnosi e dose lette sulla ELN 2025. La PET e' tariffata 1.050 euro nel nomenclatore FASDAC 2026 e qui non e' l'esame diagnostico.",
+      "legalCriteria": [
+        "Niente TKI senza BCR::ABL1.",
+        "Imatinib 400 mg al giorno se la fusione c'e'.",
+        "Niente interferone di routine.",
+        "Niente PET al posto del midollo."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT)",
+      "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+      "isAbnormal": false,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pt-ptt-inr": {
+          "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Parla piano, chiede di vedere il referto del midollo prima di ogni compressa."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Non e' gia' una LMC",
+      "prompt": "Leucocitosi e milza. Il BCR::ABL1 non c'e' ancora.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiedere la fusione prima del TKI",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Imatinib oggi lo stesso",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "TKI senza la fusione",
+      "prompt": "La ELN dice che la diagnosi dipende dal riscontro del BCR::ABL1. Senza, l'imatinib non ha il bersaglio scritto in questo testo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Midollo e RT-PCR",
+      "prompt": "Morfologia e cariotipo sul midollo, RT-PCR su sangue o midollo, per stadiare e per il tipo di trascritto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Prenotare midollo e biologia",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body al posto del midollo",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET fuori diagnosi",
+      "prompt": "La PET TC total body senza contrasto e' 1.050 euro. Non dimostra il Philadelphia.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "La fusione c'e'",
+      "prompt": "Cariotipo con t(9;22) e RT-PCR positiva per il trascritto tipico. Fase cronica, non blasti.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Passare alla dose in scheda",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Ripetere la PET per conferma",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Seconda PET inutile",
+      "prompt": "La conferma e' citogenetica o molecolare, non un'altra PET da 1.050 euro.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Imatinib 400 mg",
+      "prompt": "Le schede indicano imatinib 400 mg al giorno, dasatinib 100 mg, bosutinib 400 mg, nilotinib 300 mg due volte al giorno.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Imatinib 400 mg al giorno",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Imatinib 800 mg di partenza",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non in scheda",
+      "prompt": "La dose di partenza scritta dell'imatinib e' 400 mg al giorno, non il doppio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente interferone di routine",
+      "prompt": "L'aggiunta di interferone all'imatinib o a un TKI di seconda generazione non e' raccomandata di routine.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Solo il TKI",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Imatinib piu' interferone subito",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Associazione non di routine",
+      "prompt": "Il testo dice che l'aggiunta di interferone non puo' essere raccomandata di routine.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Mutazioni alla diagnosi",
+      "prompt": "In fase cronica le mutazioni di BCR::ABL1 all'esordio sono rarissime e il test non e' raccomandato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non cercare la mutazione oggi",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "Pannello mutazionale prima di iniziare",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Test non raccomandato in fase cronica",
+      "prompt": "In fase cronica il test mutazionale alla diagnosi non e' un requisito.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "ELTS, non i vecchi score",
+      "prompt": "Sokal, Euro ed EUTOS sono sostituiti dall'ELTS per il rischio di morire di LMC in chi prende un TKI.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Calcolare l'ELTS",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Usare il Sokal come score attuale",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Score superato",
+      "prompt": "Il testo dice che i punteggi precedenti sono stati sostituiti dall'ELTS.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Monitoraggio, non la PET",
+      "prompt": "La risposta si legge sul BCR::ABL1 in scala internazionale, non su una PET.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Programmare la PCR",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "PET di controllo a tre mesi",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "PET di follow-up",
+      "prompt": "Il follow-up molecolare non e' una PET da 1.050 euro.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

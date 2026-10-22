@@ -1,0 +1,438 @@
+{
+  "id": "EMAT-006",
+  "code": "EMAT-006",
+  "title": "Stop del TKI: servono piu' di 5 anni e una MR4 da piu' di 2 anni",
+  "description": "Imatinib da 18 mesi, MR4 da 6 mesi. Il minimo per tentare lo stop e' TKI da piu' di 5 anni (piu' di 4 se TKI di seconda generazione) e DMR MR4 o meglio da piu' di 2 anni. Prima fase cronica, monitoraggio IS.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "LMC in prima fase cronica, stop del TKI proposto troppo presto",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ELN CML 2025, tabella 6 sulla sospensione",
+  "diagnosis": "Lo stop non e' consentito a 18 mesi. Servono piu' di 5 anni di TKI e piu' di 2 anni di MR4 o meglio. Se in futuro si perde la MMR, si riparte senza aspettare di regola una seconda conferma.",
+  "pastMedicalHistory": "Uomo di 49 anni, prima fase cronica, imatinib 400 mg da 18 mesi, MR4 da 6 mesi, trascritto tipico, molto motivato.",
+  "presentation": "Vuole smettere il mese prossimo. Qualcuno propone di smettere e controllare la PCR una volta l'anno.",
+  "redHerrings": [
+    "Stop a 18 mesi.",
+    "Controllo annuale dopo lo stop.",
+    "PET per autorizzare lo stop."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Andrea. Sto bene e la PCR e' bassissima da sei mesi. Posso smettere se il testo lo permette, altrimenti no.",
+  "correctSolution": "Non sospendere. Mancano durata del TKI e durata della DMR. Se un giorno si perde la MMR, si riprende il TKI senza attendere di regola un secondo campione.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "I requisiti sono di durata e di laboratorio molecolare.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Quanti anni di imatinib servono come minimo per lo stop?",
+      "critical": true,
+      "expectedKeywords": [
+        "cinque",
+        "anni"
+      ],
+      "rationale": "Piu' di 5 anni in prima linea."
+    },
+    {
+      "id": "q2",
+      "prompt": "Quanto deve durare la MR4?",
+      "critical": true,
+      "expectedKeywords": [
+        "due",
+        "anni"
+      ],
+      "rationale": "Piu' di 2 anni di MR4 o meglio."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Asintomatico, emocromo normale."
+  },
+  "escCitations": [
+    {
+      "chunkId": "tfr",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "Duration of TKI therapy >5 years (>4 years for 2GTKI). Duration of DMR (MR 4 or better) >2 years."
+    },
+    {
+      "chunkId": "mmr",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "Loss of MMR has been the trigger for restarting therapy in most studies. Confirmation of loss of MMR on a second occasion is not usually necessary and could delay restarting therapy."
+    },
+    {
+      "chunkId": "cp",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "Mandatory: CML in first CP only (data are lacking outside this setting). Motivated patient with structured communication. Access to high quality molecular monitoring using the International Scale (IS)."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "emo",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine) 4,80 euro."
+    },
+    {
+      "chunkId": "dose",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "The TKI labels recommend starting doses of imatinib of 400 mg daily, dasatinib 100 mg daily, bosutinib 400 mg daily, and nilotinib 300 mg twice daily."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente stop prima dei tempi minimi.",
+      "Monitoraggio IS fitto dopo un eventuale stop.",
+      "Alla perdita della MMR si riparte."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Tabella 6 ELN 2025, requisiti mandatory e minimal.",
+      "legalCriteria": [
+        "Niente stop prima dei tempi minimi.",
+        "Monitoraggio IS fitto dopo un eventuale stop.",
+        "Alla perdita della MMR si riparte."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole smettere solo se i tempi scritti ci sono."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Durata del TKI",
+      "prompt": "18 mesi di imatinib. Il minimo e' piu' di 5 anni, piu' di 4 solo per un TKI di seconda generazione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non sospendere",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Stop il mese prossimo",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Stop troppo presto",
+      "prompt": "18 mesi non raggiungono i 5 anni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Durata della MR4",
+      "prompt": "La MR4 dura da 6 mesi. Serve piu' di 2 anni di MR4 o meglio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Aspettare i 2 anni",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Basta la MR4 di oggi",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "DMR troppo breve",
+      "prompt": "Sei mesi non sono due anni.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Prima fase cronica",
+      "prompt": "E' un requisito mandatory. Qui c'e', ma non basta da solo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Registrare la fase e non stoppare",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Stop perche' e' fase cronica",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Un requisito solo",
+      "prompt": "La fase cronica e' necessaria e non sufficiente.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Scala internazionale",
+      "prompt": "Serve un laboratorio IS con tempi di refertazione rapidi. Non e' il momento dello stop, ma e' il requisito da non sostituire con la PET.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere la PCR IS",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "PET per dichiarare la remissione profonda",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "La remissione profonda e' molecolare.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se un giorno si stoppa",
+      "prompt": "Dopo lo stop: PCR ogni 6-8 settimane nei primi 6 mesi, poi ogni 2 mesi fino a 12, poi ogni 3-6 mesi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non un controllo annuale",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "PCR una volta l'anno",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Monitoraggio rado",
+      "prompt": "Il primo semestre e' il periodo in cui avviene piu' dell'80% delle perdite di MMR.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Perdita della MMR",
+      "prompt": "La perdita della MMR e' il trigger per ripartire. Una seconda conferma di solito non serve e puo' ritardare la ripresa.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Ripartire senza aspettare il secondo campione",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "Attendere tre PCR prima di riprendere",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Ritardo alla ripresa",
+      "prompt": "Il testo dice che la seconda conferma di solito non e' necessaria.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Stesso TKI",
+      "prompt": "Di regola si riprende lo stesso TKI, salvo effetti avversi che impongano il cambio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Prevedere lo stesso imatinib",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Cambiare a caso alla ripresa",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Switch non motivato",
+      "prompt": "Il cambio si fa per effetti avversi, non per abitudine.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Ottimale non e' il minimo",
+      "prompt": "L'ottimale considera piu' di 3 anni di MR4, o piu' di 2 anni di MR4.5, sempre con piu' di 5 anni di TKI. Non accorcia i 18 mesi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non confondere ottimale e minimo",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Stop perche' la MR4.5 non e' richiesta al minimo",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Tempi ancora sbagliati",
+      "prompt": "Neanche il minimo e' soddisfatto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

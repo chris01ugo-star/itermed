@@ -1,0 +1,438 @@
+{
+  "id": "EMAT-019",
+  "code": "EMAT-019",
+  "title": "MGUS: sotto 30 g/L, plasmacellule sotto il 10%, niente CRAB",
+  "description": "Componente 12 g/L, plasmacellule 6%, creatinina 1,4 mg/dL, eGFR 62. Caldini: MGUS se CM sotto 30 g/L, plasmacellule sotto 10% e niente CRAB. Il rene da mieloma e' eGFR sotto 40 o creatinina sopra 2, e deve essere dovuto al clone.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Gammopatia monoclonale, non mieloma",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Caldini, criteri IMWG",
+  "diagnosis": "E' una MGUS. Non si tratta come mieloma. La creatinina 1,4 con eGFR 62 non e' il criterio renale. La PET non trasforma la MGUS in mieloma.",
+  "pastMedicalHistory": "Donna di 66 anni, picco IgG 12 g/L, midollo 6%, calcemia normale, emoglobina 132 g/L, nessun dolore osseo.",
+  "presentation": "Propongono di chiamarlo mieloma per la creatinina e di fare una PET total body.",
+  "redHerrings": [
+    "Mieloma con plasmacellule al 6%.",
+    "Rene da creatinina 1,4.",
+    "PET nella MGUS."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Teresa. Ho un picco piccolo. Non chiamatelo mieloma se i criteri non ci sono.",
+  "correctSolution": "MGUS. Controllo, non terapia da mieloma. Niente PET per forzare la diagnosi.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "Emoglobina e funzione renale si leggono con gli esami giusti, non con la PET.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Sotto quale percentuale di plasmacellule, con picco sotto 30 g/L e senza CRAB, si resta in MGUS?",
+      "critical": true,
+      "expectedKeywords": [
+        "10",
+        "sei"
+      ],
+      "rationale": "Sotto il 10%."
+    },
+    {
+      "id": "q2",
+      "prompt": "Qual e' la soglia di eGFR del danno renale da mieloma?",
+      "critical": true,
+      "expectedKeywords": [
+        "40",
+        "eGFR"
+      ],
+      "rationale": "Sotto 40 mL/min."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Niente dolore osseo. Esame nella norma."
+  },
+  "escCitations": [
+    {
+      "chunkId": "mgus",
+      "source": "knowledge_base/ematologia/clinic/1117_275-280_Caldini.pdf",
+      "quote": "MGUS: componente monoclonale sierica <30 g/L. Plasmacellule clonali midollari <10%. Assenza di danno d'organo (CRAB). Tutti i criteri devono essere soddisfatti."
+    },
+    {
+      "chunkId": "egfr",
+      "source": "knowledge_base/ematologia/clinic/1117_275-280_Caldini.pdf",
+      "quote": "L'IMWG ha modificato la precedente indicazione definendo l'insufficienza renale come un valore di eGFR inferiore a 40 mL/min/1,73 m2, oppure creatinina sierica superiore a 2,00 mg/dL. Il danno d'organo deve essere attribuibile alla proliferazione plasmacellulare."
+    },
+    {
+      "chunkId": "bone",
+      "source": "knowledge_base/ematologia/clinic/1117_275-280_Caldini.pdf",
+      "quote": "Lesioni ossee: una o piu' lesioni litiche determinate con radiografia, CT o PET-CT. I criteri CRAB non si applicano se le plasmacellule midollari sono inferiori a 10%."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/ematologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (3).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "emo",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "MGUS, non mieloma.",
+      "eGFR 62 non e' sotto 40.",
+      "Niente PET diagnostica."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Tabella IMWG commentata da Caldini e aggiornamento eGFR.",
+      "legalCriteria": [
+        "MGUS, non mieloma.",
+        "eGFR 62 non e' sotto 40.",
+        "Niente PET diagnostica."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole il nome preciso, non una cura da tumore."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Tre criteri di MGUS",
+      "prompt": "Picco sotto 30 g/L, plasmacellule sotto 10%, niente CRAB. Tutti e tre.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiamarla MGUS",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Chiamarla mieloma",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Diagnosi in eccesso",
+      "prompt": "Manca il danno e manca il 10% di plasmacellule.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Rene",
+      "prompt": "Il criterio aggiornato e' eGFR sotto 40 o creatinina sopra 2 mg/dL, e deve dipendere dal clone. Qui eGFR 62.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non segnare CRAB renale",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "CRAB renale per creatinina 1,4",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Soglia renale sbagliata",
+      "prompt": "1,4 non e' sopra 2 e 62 non e' sotto 40.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "CRAB non vale sotto il 10%",
+      "prompt": "Se le plasmacellule sono sotto il 10%, i criteri CRAB non si applicano come definitori.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non forzare un CRAB",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Cercare un CRAB comunque decisivo",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Regola del 10% saltata",
+      "prompt": "Caldini lo scrive in nota.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non trattare come mieloma",
+      "prompt": "La MGUS non ha il danno d'organo ne' i biomarcatori del mieloma.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Osservare",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Iniziare bortezomib",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Terapia senza malattia",
+      "prompt": "Quei farmaci stanno nella guida paziente del mieloma, non in questa MGUS.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "Le lesioni litiche si cercano con radiografia, CT o PET-CT quando il quadro e' quello del mieloma. Qui i criteri di mieloma non ci sono.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non farla per promuovere la diagnosi",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro non creano un CRAB.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Il rischio di MGUS non e' zero",
+      "prompt": "Caldini ricorda una progressione intorno all'1% l'anno. Non e' una terapia immediata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Controllare, non trattare",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "Dire che non diventera' mai nulla",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Storia naturale negata",
+      "prompt": "L'1% l'anno giustifica il controllo, non la chemio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Dolore osseo assente",
+      "prompt": "Non c'e'. Se compare in un ricovero, la legge 38 lo scrive in cartella.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiederlo e lasciarlo negativo",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Non chiedere il dolore",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Dolore non esplorato",
+      "prompt": "Fa parte del CRAB osseo e, in ricovero, dell'articolo 7.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Clonalita'",
+      "prompt": "La clonalita' si dimostra con restrizione kappa/lambda. Un picco da solo, senza il resto, non e' mieloma.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere la tipizzazione gia' fatta",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Ripetere una PET al posto dell'immunofissazione",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Esame sbagliato",
+      "prompt": "La clonalita' non e' una PET.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

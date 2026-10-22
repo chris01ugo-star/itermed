@@ -1,0 +1,436 @@
+{
+  "id": "EMAT-025",
+  "code": "EMAT-025",
+  "title": "FANV: ECG prima, e la Nota 97 non parte sotto soglia",
+  "description": "Donna con palpitazioni, CHA2DS2-VASc 2, nessun ECG. Nota 97: la FANV si conferma con ECG e clinica. L'anticoagulante a carico del percorso e' per CHA2DS2-VASc almeno 2 negli uomini e almeno 3 nelle donne. INR e PTT non gestiscono i DOAC.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Sospetta fibrillazione atriale non valvolare, punteggio sotto la soglia femminile, senza ECG",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Nota AIFA 97; nomenclatore FASDAC 2026",
+  "diagnosis": "Non si inizia un DOAC. Manca l'ECG. Il punteggio 2 in una donna non raggiunge la soglia di 3 della Nota. Non si dosa il DOAC sull'INR. Non si fa una PET.",
+  "pastMedicalHistory": "Donna di 67 anni, palpitazioni, ipertesa, CHA2DS2-VASc 2, ECG non ancora fatto, ritmo non documentato.",
+  "presentation": "Propongono apixaban stasera e un INR di controllo fra tre giorni, piu' una PET 'per l'embolia'.",
+  "redHerrings": [
+    "DOAC senza ECG.",
+    "Soglia femminile ignorata.",
+    "INR per gestire il DOAC."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Elena. Ho avuto un batticuore. Non iniziate un anticoagulante se non avete visto il tracciato e se il punteggio non e' quello scritto.",
+  "correctSolution": "Fare l'ECG. Non iniziare l'anticoagulante: donna con punteggio 2. Non usare INR o PTT per un eventuale DOAC. Non la PET.",
+  "goldStandardPath": [
+    "ecg"
+  ],
+  "goldPathNarrative": "L'ECG e' l'esame che la Nota mette prima della diagnosi.",
+  "examLatencies": {
+    "ecg": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Con che esame si conferma la FANV?",
+      "critical": true,
+      "expectedKeywords": [
+        "ECG",
+        "elettrocardiogramma"
+      ],
+      "rationale": "ECG e valutazione clinica."
+    },
+    {
+      "id": "q2",
+      "prompt": "Da che punteggio, in una donna, la Nota dice che l'anticoagulante dovra' essere fatto?",
+      "critical": true,
+      "expectedKeywords": [
+        "tre",
+        "donne"
+      ],
+      "rationale": "Da 3 in su."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Ritmo non noto alla visita. Niente deficit neurologico. Pressione nota e gia' trattata."
+  },
+  "escCitations": [
+    {
+      "chunkId": "ecg",
+      "source": "knowledge_base/ematologia/clinic/nota-97.pdf",
+      "quote": "La diagnosi di FANV deve essere sempre confermata da un elettrocardiogramma e dalla valutazione clinica del paziente."
+    },
+    {
+      "chunkId": "cha",
+      "source": "knowledge_base/ematologia/clinic/nota-97.pdf",
+      "quote": "La terapia anticoagulante dovra' essere in tutti i pazienti con punteggio CHA2DS2-VASc uguale o superiore a 2 se maschi e uguale o superiore a 3 se femmine."
+    },
+    {
+      "chunkId": "inr",
+      "source": "knowledge_base/ematologia/clinic/nota-97.pdf",
+      "quote": "I NAO/DOAC non necessitano di controlli periodici dell'attivita' anticoagulante. INR e PTT non vanno utilizzati per la gestione della terapia e delle complicanze emorragiche dei NAO/DOAC."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/ematologia/legal/allegato115290.pdf",
+      "quote": "Ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico. Qualora il paziente esprima il rifiuto di trattamenti sanitari necessari alla propria sopravvivenza, il medico prospetta le conseguenze di tale decisione e le possibili alternative."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "emo",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "ECG prima della diagnosi.",
+      "Nella donna la soglia scritta e' almeno 3.",
+      "INR e PTT non gestiscono il DOAC."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Nota 97, percorso A e C. PET non e' nel percorso.",
+      "legalCriteria": [
+        "ECG prima della diagnosi.",
+        "Nella donna la soglia scritta e' almeno 3.",
+        "INR e PTT non gestiscono il DOAC."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "La Nota 97 conferma la FANV con l'elettrocardiogramma e la valutazione clinica. Il nomenclatore della cartella non riporta una tariffa isolata dell'ECG: non se ne inventa una.",
+      "isAbnormal": false
+    },
+    {
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "La Nota 97 conferma la FANV con l'elettrocardiogramma e la valutazione clinica. Il nomenclatore della cartella non riporta una tariffa isolata dell'ECG: non se ne inventa una.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "ecg": {
+          "finding": "La Nota 97 conferma la FANV con l'elettrocardiogramma e la valutazione clinica. Il nomenclatore della cartella non riporta una tariffa isolata dell'ECG: non se ne inventa una.",
+          "isAbnormal": false,
+          "price": 0
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole il tracciato prima di una pastiglia che puo' far sanguinare."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "ECG",
+      "prompt": "La diagnosi di FANV si conferma sempre con l'elettrocardiogramma e la clinica.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Farlo prima di ogni farmaco",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Iniziare il DOAC sulle palpitazioni",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "FANV senza ECG",
+      "prompt": "Senza tracciato la diagnosi del percorso non c'e'.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Soglia della donna",
+      "prompt": "L'anticoagulante del percorso e' per punteggio almeno 2 negli uomini e almeno 3 nelle donne. Lei ha 2.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non iniziarlo",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Apixaban stasera",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sotto la soglia femminile",
+      "prompt": "2 non e' almeno 3.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non l'INR",
+      "prompt": "I DOAC non richiedono controlli periodici dell'attivita' anticoagulante. INR e PTT non si usano per gestirli.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non programmare l'INR per dosarli",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "INR fra tre giorni per aggiustare il DOAC",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Monitoraggio sbagliato",
+      "prompt": "La Nota lo vieta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Il punteggio si calcola, non si arrotonda",
+      "prompt": "Ipertensione e eta' tra 65 e 74 danno i punti scritti. Non si aggiunge un punto 'per prudenza'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere il 2",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Scrivere 3 per poter prescrivere",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Punteggio forzato",
+      "prompt": "Il percorso parte dal punteggio vero.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Rischio emorragico",
+      "prompt": "Anche quando il punteggio c'e', la scelta considera i fattori emorragici. Qui il punteggio non c'e' ancora come indicazione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non saltare quel giudizio il giorno in cui il punteggio salira'",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Ignorare sempre il sanguinamento perche' il punteggio comanda",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Rischio cancellato",
+      "prompt": "La Nota lo mette accanto al punteggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "Non conferma la fibrillazione. Costa 1.050 euro.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederla",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body per l'embolia",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "L'embolia non e' documentata e la PET non e' l'ECG.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Consenso",
+      "prompt": "Un anticoagulante e' un trattamento: informazione su rischi, benefici e alternative.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Informare se un giorno sara' indicato",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Farlo firmare oggi senza ECG",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Consenso su una diagnosi assente",
+      "prompt": "Legge 219: l'informazione include la diagnosi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se l'ECG mostrera' la FANV e il punteggio raggiungera' 3",
+      "prompt": "Allora il percorso della Nota si apre, sempre con il giudizio clinico e il rischio emorragico. Non oggi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Rivalutare dopo l'ECG",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Lasciare il DOAC 'nel caso'",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Profilassi senza diagnosi",
+      "prompt": "Oggi mancano ECG e soglia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

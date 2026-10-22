@@ -1,0 +1,446 @@
+{
+  "id": "EMAT-009",
+  "code": "EMAT-009",
+  "title": "BCR::ABL1 e 15% di blasti: non e' AML",
+  "description": "15% di blasti e BCR::ABL1. La ELN 2022 lascia l'AML con BCR::ABL1 al 20%, per non sovrapporla alla fase accelerata di LMC. Non si parte con il 7+3 dell'AML.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Neoplasia mieloide con BCR::ABL1 e 15% di blasti",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ELN AML 2022; ELN CML 2025",
+  "diagnosis": "Quindici per cento di blasti non raggiunge il 20% richiesto per l'AML con BCR::ABL1. Si stadia come LMC, con morfologia e cariotipo sul midollo, non come AML da induzione.",
+  "pastMedicalHistory": "Uomo di 63 anni, BCR::ABL1 positivo, blasti midollari 15%, milza.",
+  "presentation": "Propongono daunorubicina e citarabina da AML e midostaurin, piu' una PET.",
+  "redHerrings": [
+    "Chiamarla AML al 15%.",
+    "7+3 da AML.",
+    "PET al posto della stadiazione."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Giorgio. Mi hanno trovato il Philadelphia e dei blasti. Non chiamatela leucemia acuta se la soglia non c'e'.",
+  "correctSolution": "Non diagnosticare l'AML. Completare la stadiazione della LMC. Non iniziare l'induzione dell'AML ne' il midostaurin su questa percentuale.",
+  "goldStandardPath": [
+    "emocromo",
+    "pt-ptt-inr"
+  ],
+  "goldPathNarrative": "Emocromo e coagulazione. La diagnosi non e' la PET.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pt-ptt-inr": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Che percentuale di blasti serve per chiamarla AML con BCR::ABL1?",
+      "critical": true,
+      "expectedKeywords": [
+        "20",
+        "quindici",
+        "15"
+      ],
+      "rationale": "Il testo resta al 20%."
+    },
+    {
+      "id": "q2",
+      "prompt": "Si parte con l'induzione dell'AML?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "LMC"
+      ],
+      "rationale": "Sotto soglia non e' quella diagnosi."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Milza palpabile, niente sanguinamento maggiore."
+  },
+  "escCitations": [
+    {
+      "chunkId": "bcraml",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "To avoid potential overlap with chronic myeloid leukemia in accelerated phase, AML with BCR::ABL1 still requires 20% blasts."
+    },
+    {
+      "chunkId": "b10",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "This 10% blast threshold aligns with previously AML-defining abnormalities, such as PML::RARA, CBFB::MYH11, and RUNX1::RUNX1T1."
+    },
+    {
+      "chunkId": "hall",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "The hallmark of CML is the presence of the BCR::ABL1 fusion gene, created by the t(9;22) which gives rise to the Philadelphia (Ph) chromosome abnormality, and diagnosis depends on its detection or inference, by cytogenetics (conventional chromosome banding analysis (CBA) or fluorescent in situ hybridization (FISH)) and/or by reverse transcriptase polymerase chain reaction (RT-PCR) assays."
+    },
+    {
+      "chunkId": "bm",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "We continue to recommend morphology and CBA on bone marrow (BM) and RT-PCR on peripheral blood (PB) or BM at diagnosis, so as to accurately stage the disease, detect variant translocations, cryptic BCR::ABL1 rearrangements and additional chromosomal abnormalities (ACA)."
+    },
+    {
+      "chunkId": "dose",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "The TKI labels recommend starting doses of imatinib of 400 mg daily, dasatinib 100 mg daily, bosutinib 400 mg daily, and nilotinib 300 mg twice daily."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Soglia 20% per AML con BCR::ABL1.",
+      "Non il 7+3.",
+      "Stadiazione da LMC."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Eccezione scritta nella ELN 2022 e diagnosi di LMC nella ELN 2025.",
+      "legalCriteria": [
+        "Soglia 20% per AML con BCR::ABL1.",
+        "Non il 7+3.",
+        "Stadiazione da LMC."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT)",
+      "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+      "isAbnormal": false,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pt-ptt-inr": {
+          "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole il nome giusto prima di una chemioterapia pesante."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Soglia del Philadelphia",
+      "prompt": "BCR::ABL1 con 15% di blasti. L'eccezione AML resta al 20%.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiamarla AML",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Diagnosticare AML e ricoverare per il 7+3",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "AML sotto soglia",
+      "prompt": "Il testo tiene il 20% proprio per non sovrapporsi alla LMC.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Stadio di LMC",
+      "prompt": "Morfologia e cariotipo sul midollo e RT-PCR, per la fase e per il trascritto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Completare midollo e PCR",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Saltare il midollo",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Stadio omesso",
+      "prompt": "La ELN CML chiede midollo e PCR alla diagnosi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non l'induzione AML",
+      "prompt": "Daunorubicina 60 e citarabina 100-200 sono la riga dell'AML fit, non di questo 15%.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non avviare il 7+3",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Daunorubicina 60 mg/m2 e citarabina oggi",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Induzione fuori diagnosi",
+      "prompt": "Senza la diagnosi di AML quella tabella non si applica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non il midostaurin",
+      "prompt": "Il midostaurin sta nella riga FLT3 dell'AML.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non darlo",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Midostaurin 50 mg ogni 12 ore",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Bersaglio dell'AML FLT3",
+      "prompt": "Qui non c'e' l'AML e non c'e' quella riga.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se e' fase cronica",
+      "prompt": "Con la fusione dimostrata e la fase cronica, la dose di partenza scritta dell'imatinib e' 400 mg al giorno.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Se la fase e' cronica, imatinib 400 mg",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Imatinib 800 mg",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non in scheda",
+      "prompt": "La scheda scrive 400 mg al giorno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "Non distingue AML e LMC.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederla",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro non contano i blasti.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non la soglia del 10%",
+      "prompt": "RUNX1::RUNX1T1 e le altre anomalie richiamate usano il 10%. Il BCR::ABL1 no.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non importare la soglia del 10%",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Abbassare la soglia perche' c'e' un gene",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Soglia delle altre AML",
+      "prompt": "L'eccezione e' nominata.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Mutazioni in fase cronica",
+      "prompt": "Alla diagnosi in fase cronica il test mutazionale di BCR::ABL1 non e' raccomandato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederlo se resta fase cronica",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Pannello mutazionale obbligatorio oggi",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Test non raccomandato",
+      "prompt": "Il testo lo riserva alla resistenza e alla fase blastica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

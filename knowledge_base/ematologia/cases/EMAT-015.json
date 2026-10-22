@@ -1,0 +1,439 @@
+{
+  "id": "EMAT-015",
+  "code": "EMAT-015",
+  "title": "LLC iniziale asintomatica: watch and wait",
+  "description": "Binet A, nessun criterio di malattia attiva. ESMO: watch and wait. Niente imaging di routine. Niente del(17p), TP53 e IGHV finche' non c'e' indicazione a trattare.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "LLC Binet A asintomatica",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ESMO LLC 2020",
+  "diagnosis": "Non si inizia una terapia. Controlli clinici ed emocromo ogni 3 mesi nel primo anno, poi ogni 3-12 mesi. Non la PET e non il pannello prognostico di terapia.",
+  "pastMedicalHistory": "Uomo di 74 anni, linfocitosi, Binet A, niente sintomi, emoglobina e piastrine buone.",
+  "presentation": "Il figlio chiede ibrutinib subito e una PET, e il test TP53 'per sapere'.",
+  "redHerrings": [
+    "Terapia nella fase precoce asintomatica.",
+    "PET in watch and wait.",
+    "TP53 prima dell'indicazione."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Renato. Sto bene. Non iniziate una cura se le linee guida dicono di aspettare.",
+  "correctSolution": "Watch and wait. Emocromo e visita. Niente imaging di routine. Niente del(17p)/TP53/IGHV finche' non si tratta.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "L'emocromo e la visita sono il controllo della LLC asintomatica. La PET non e' un imaging di routine.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Qual e' il trattamento standard della malattia precoce asintomatica?",
+      "critical": true,
+      "expectedKeywords": [
+        "watch",
+        "attesa",
+        "niente"
+      ],
+      "rationale": "Watch and wait."
+    },
+    {
+      "id": "q2",
+      "prompt": "Si fa imaging di routine?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "sintomi"
+      ],
+      "rationale": "Solo se ci sono sintomi clinici."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Linfonodi piccoli, milza non palpabile, nessun dimagramento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "ww",
+      "source": "knowledge_base/ematologia/clinic/PIIS092375342042469X.pdf",
+      "quote": "The standard treatment of patients with early asymptomatic disease is a watch-and-wait strategy [I, A]. Blood cell counts and clinical examinations should be carried out every 3-12 months after the first year, when 3-monthly intervals should be applied for all patients."
+    },
+    {
+      "chunkId": "img",
+      "source": "knowledge_base/ematologia/clinic/PIIS092375342042469X.pdf",
+      "quote": "Routine imaging during a watch-and-wait period is not recommended unless there are clinical symptoms."
+    },
+    {
+      "chunkId": "early",
+      "source": "knowledge_base/ematologia/clinic/PIIS092375342042469X.pdf",
+      "quote": "Routine evaluation of del(17p), TP53 mutation and IGHV status in early and asymptomatic stage is not recommended."
+    },
+    {
+      "chunkId": "act",
+      "source": "knowledge_base/ematologia/clinic/PIIS092375342042469X.pdf",
+      "quote": "Active disease should be clearly documented to initiate therapy. Cut-off levels of haemoglobin below 100 g/l or platelet counts below 100 x 10 to the 9 per litre are generally regarded as indications for treatment. Platelet counts below that level may remain stable and this situation does not automatically require therapeutic intervention."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/ematologia/legal/allegato115290.pdf",
+      "quote": "Ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico. Qualora il paziente esprima il rifiuto di trattamenti sanitari necessari alla propria sopravvivenza, il medico prospetta le conseguenze di tale decisione e le possibili alternative."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Watch and wait.",
+      "Niente imaging di routine.",
+      "Niente TP53 finche' non c'e' da trattare."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Raccomandazioni ESMO sulla malattia precoce.",
+      "legalCriteria": [
+        "Watch and wait.",
+        "Niente imaging di routine.",
+        "Niente TP53 finche' non c'e' da trattare."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Sta bene e non vuole una cura anticipata."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non trattare",
+      "prompt": "Malattia precoce asintomatica: watch and wait, evidenza I, A.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Osservare",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Iniziare un inibitore oggi",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Terapia precoce",
+      "prompt": "Il trattamento precoce con chemioterapia non allunga la sopravvivenza e per i nuovi farmaci i trial sono ancora pendenti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Tempi",
+      "prompt": "Ogni 3 mesi nel primo anno, poi ogni 3-12 mesi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Fissare quei controlli",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Controllo tra due anni",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Intervallo fuori testo",
+      "prompt": "Il primo anno e' trimestrale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente imaging di routine",
+      "prompt": "Non e' raccomandato in watch and wait, salvo sintomi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiedere TAC o PET",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body annuale",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro senza un sintomo che la autorizzi.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TP53 ora",
+      "prompt": "del(17p), TP53 e IGHV non si valutano di routine nello stadio precoce asintomatico.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Rimandarli a quando ci sara' da trattare",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Farli oggi per scegliere il farmaco",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Pannello prematuro",
+      "prompt": "La scelta del farmaco non e' di oggi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Malattia attiva assente",
+      "prompt": "Niente anemia evolutiva, milza sintomatica, linfonodi massivi, raddoppio, sintomi B.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Documentare l'assenza",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Trattare perche' i linfociti ci sono",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Indicazione non documentata",
+      "prompt": "La malattia attiva va documentata prima di iniziare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non il R-CHOP",
+      "prompt": "E' lo schema del DLBCL, non della LLC asintomatica.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non importarlo",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "R-CHOP21 per 6 cicli",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Regime di un altro linfoma",
+      "prompt": "AIOM e ESMO non si scambiano cosi'.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Binet e Rai",
+      "prompt": "Restano i sistemi per l'indicazione, insieme ai sintomi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Registrarli a ogni controllo",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Abbandonarli perche' ci sono i geni",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Stadio buttato",
+      "prompt": "Il testo li tiene rilevanti per l'indicazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Consenso",
+      "prompt": "Se si propone un esame non indicato, la legge 219 chiede di dire alternative e conseguenze.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Spiegare perche' si aspetta",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Far firmare la PET senza alternativa",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Informazione incompleta",
+      "prompt": "L'alternativa e' il controllo clinico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

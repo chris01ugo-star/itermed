@@ -1,0 +1,440 @@
+{
+  "id": "EMAT-005",
+  "code": "EMAT-005",
+  "title": "LMC in gravidanza: si sospende il TKI alla conferma",
+  "description": "Gravidanza confermata a 9 settimane, in MMR. La ELN 2025 sospende il TKI alla conferma. L'imatinib 400 mg entra solo dopo la settimana 16 se la risposta si perde.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "LMC in fase cronica, gravidanza al primo trimestre, ancora in MMR",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ELN CML 2025, gravidanza",
+  "diagnosis": "Si sospende il TKI quando la gravidanza e' confermata. Fino alla settimana 16 non si riparte con l'imatinib se la risposta tiene. Dopo la 16, se la PCR sale in fretta o si perde la risposta ematologica, imatinib 400 mg al giorno.",
+  "pastMedicalHistory": "Donna di 33 anni, dasatinib 100 mg, MMR stabile, test di gravidanza positivo, ecografia a 9 settimane.",
+  "presentation": "Propongono di continuare il dasatinib perche' la PCR e' buona, oppure di iniziare subito imatinib 400 mg.",
+  "redHerrings": [
+    "Continuare il dasatinib.",
+    "Imatinib prima della settimana 16 con MMR tenuta.",
+    "PET in gravidanza."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Elena. Sono incinta di nove settimane. La PCR era a posto. Non voglio un farmaco nel primo trimestre se il testo dice di sospenderlo.",
+  "correctSolution": "Sospendere il TKI alla conferma. Controllare PCR ed emocromo. Imatinib 400 mg solo dopo la settimana 16 se la risposta si perde. Non la PET.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "La decisione e' ostetrica e molecolare: si sospende il TKI e si controllano PCR ed emocromo, senza PET.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Cosa si fa del TKI alla conferma di gravidanza?",
+      "critical": true,
+      "expectedKeywords": [
+        "sospende",
+        "stop",
+        "conferma"
+      ],
+      "rationale": "Si sospende alla conferma."
+    },
+    {
+      "id": "q2",
+      "prompt": "Quando si puo' iniziare imatinib 400 mg?",
+      "critical": true,
+      "expectedKeywords": [
+        "16",
+        "settimana",
+        "dopo"
+      ],
+      "rationale": "Dopo la settimana 16, se la risposta si perde."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Gravidanza iniziale, parametri stabili, nessun sanguinamento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "stopp",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "Discontinue the TKI at confirmation of pregnancy."
+    },
+    {
+      "chunkId": "w16",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "If RT-qPCR is increasing rapidly and/or loss of CHR and after week 16, start imatinib 400 mg daily. Nilotinib up to 400 mg daily can be used in case of imatinib resistance or intolerance."
+    },
+    {
+      "chunkId": "dose",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "The TKI labels recommend starting doses of imatinib of 400 mg daily, dasatinib 100 mg daily, bosutinib 400 mg daily, and nilotinib 300 mg twice daily."
+    },
+    {
+      "chunkId": "tfr",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "Duration of TKI therapy >5 years (>4 years for 2GTKI). Duration of DMR (MR 4 or better) >2 years."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "emo",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Stop del TKI alla conferma.",
+      "Imatinib 400 mg non prima della settimana 16 se la MMR tiene.",
+      "Niente PET."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Tabella della gravidanza ELN 2025, senza dosi inventate oltre i 400 mg scritti.",
+      "legalCriteria": [
+        "Stop del TKI alla conferma.",
+        "Imatinib 400 mg non prima della settimana 16 se la MMR tiene.",
+        "Niente PET."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole proteggere la gravidanza e capire quando il farmaco rientra."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Stop alla conferma",
+      "prompt": "La gravidanza e' confermata a 9 settimane e la paziente e' in MMR.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Sospendere il dasatinib",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Continuare dasatinib 100 mg",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "TKI nel primo trimestre",
+      "prompt": "Il testo dice di sospendere il TKI alla conferma della gravidanza.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non l'imatinib ora",
+      "prompt": "L'imatinib 400 mg si introduce dopo la settimana 16 se la PCR sale in fretta o si perde la risposta ematologica completa.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non iniziarlo a 9 settimane",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Imatinib 400 mg da oggi",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Imatinib troppo presto",
+      "prompt": "A 9 settimane, con MMR, quella riga non e' ancora aperta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controlli",
+      "prompt": "PCR ed emocromo ogni 6-8 settimane, da adattare al quadro.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Programmare PCR ed emocromo",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Nessun controllo fino al parto",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Follow-up omesso",
+      "prompt": "Il testo chiede RT-qPCR ed emocromo ogni 6-8 settimane.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Interferone possibile",
+      "prompt": "L'interferone puo' essere introdotto per controllare le conte. Non e' obbligatorio se la malattia resta ferma.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Valutarlo se le conte salgono",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Interferone piu' dasatinib insieme",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "TKI non sospeso",
+      "prompt": "Il dasatinib va sospeso. L'interferone non lo sostituisce tenendo il TKI.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo la 16",
+      "prompt": "Se dopo la settimana 16 si perde la risposta, la dose scritta e' imatinib 400 mg al giorno. Nilotinib fino a 400 mg al giorno solo se imatinib resistente o non tollerato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere pronta quella soglia",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Nilotinib 300 mg due volte al giorno gia' ora",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Nilotinib di prima linea in gravidanza",
+      "prompt": "300 mg due volte al giorno e' la dose di partenza fuori gravidanza, non questa riga.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Ostetricia",
+      "prompt": "Il testo manda in ostetricia e chiede ecografie fetali precoci e regolari.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Inviare in ostetricia",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "Evitare le ecografie",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Scansioni omesse",
+      "prompt": "Le ecografie fetali sono nel percorso scritto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente PET",
+      "prompt": "Non stadia la gravidanza ne' la LMC.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederla",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro senza un passo che la preveda.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Non e' un tentativo di stop programmato",
+      "prompt": "Qui lo stop e' la gravidanza, non i criteri della treatment-free remission.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non applicare i tempi della TFR",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Chiedere 5 anni di TKI prima di sospendere",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Criterio TFR fuori luogo",
+      "prompt": "In gravidanza confermata il TKI si sospende anche se non sono maturi i tempi della TFR.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

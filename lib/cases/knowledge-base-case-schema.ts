@@ -114,9 +114,9 @@ const KbBaselineExamFindingsSchema = z
   })
   .passthrough();
 
-/** Prefissi dei casi knowledge-base, incluso Geriatria (`GERIA-001`). Case-insensitive. */
+/** Prefissi dei casi knowledge-base, incluso Ematologia (`EMAT-001`). Case-insensitive. */
 const KNOWLEDGE_BASE_CASE_ID_RE =
-  /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO|PSIC|REUMA|GERIA)-\d{3}$/i;
+  /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO|PSIC|REUMA|GERIA|EMAT)-\d{3}$/i;
 
 const CaseFlowChoiceSchema = z.object({
   id: z.string().min(1).max(80),
@@ -175,6 +175,7 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
     "psichiatria",
     "reumatologia",
     "geriatria",
+    "ematologia",
   ]),
   specialtyLabel: z.enum([
     "Cardiologia",
@@ -188,6 +189,7 @@ export const KnowledgeBaseCaseSchema = CaseImportSchema.extend({
     "Psichiatria",
     "Reumatologia",
     "Geriatria",
+    "Ematologia",
   ]),
   condition: z.string().min(3).max(240),
   frequencyCategory: MatrixFrequencySchema,

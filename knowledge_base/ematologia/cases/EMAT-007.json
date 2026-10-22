@@ -1,0 +1,445 @@
+{
+  "id": "EMAT-007",
+  "code": "EMAT-007",
+  "title": "AML: 20% di blasti e niente bersaglio senza il gene",
+  "description": "Blasti midollari 28%, nessuna genetica ancora. Le altre AML richiedono il 20% di blasti. FLT3, IDH1, IDH2 e NPM1 si cercano perche' sono bersagli. Midostaurin non si mette prima del FLT3.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Sospetta leucemia mieloide acuta, genetica non ancora disponibile",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ELN AML 2022",
+  "diagnosis": "Con 28% di blasti, fuori dai riarrangiamenti che abbassano la soglia, la diagnosi di AML e' raggiunta. Non si aggiunge midostaurin finche' il FLT3 non e' noto. La PET non sostituisce il midollo.",
+  "pastMedicalHistory": "Donna di 57 anni, fit, blasti midollari 28%, emocromo con pancitopenia. Proposta di midostaurin dal primo giorno e di PET.",
+  "presentation": "Qualcuno vuole chiamarla mielodisplasia perche' 'i blasti non sono 30', e saltare la genetica.",
+  "redHerrings": [
+    "Soglia del 30%.",
+    "Midostaurin senza FLT3.",
+    "PET al posto del pannello."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Sara. Mi hanno trovato tanti blasti. Non datemi un farmaco mirato se non avete ancora il gene.",
+  "correctSolution": "Diagnosticare l'AML al 20%. Chiedere FLT3, IDH1, IDH2, NPM1 e i riarrangiamenti. Non iniziare midostaurin alla cieca. Non fare la PET come diagnosi.",
+  "goldStandardPath": [
+    "emocromo",
+    "pt-ptt-inr"
+  ],
+  "goldPathNarrative": "Emocromo, coagulazione e genetica. Non la PET.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pt-ptt-inr": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Che percentuale di blasti serve qui, senza un riarrangiamento che definisce l'AML al 10%?",
+      "critical": true,
+      "expectedKeywords": [
+        "20",
+        "blasti"
+      ],
+      "rationale": "Le altre AML richiedono il 20%."
+    },
+    {
+      "id": "q2",
+      "prompt": "Si puo' dare midostaurin prima del FLT3?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "FLT3"
+      ],
+      "rationale": "Il midostaurin e' nella riga FLT3 mutato."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Pallida, niente sanguinamento maggiore, niente deficit neurologico."
+  },
+  "escCitations": [
+    {
+      "chunkId": "b20",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "Although all other AML subtypes require 20% blasts for diagnosis, a new category of MDS/AML has been introduced to include cases with 10% to 19% blasts in the bone marrow or blood."
+    },
+    {
+      "chunkId": "gen",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "Screening for gene mutations required for establishing the diagnosis and to identify actionable therapeutic targets: FLT3, IDH1, IDH2, NPM1. Screening for gene rearrangements: PML::RARA, CBFB::MYH11, RUNX1::RUNX1T1, KMT2A rearrangements, BCR::ABL1."
+    },
+    {
+      "chunkId": "ind",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "AML with FLT3 mutation: Daunorubicin 60 mg/m2 IV d1-3; or idarubicin 12 mg/m2 IV d1-3; and cytarabine 100-200 mg/m2/d CIV d1-7; plus midostaurin 50 mg q12h PO d8-21."
+    },
+    {
+      "chunkId": "non",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "Non-FLT3 mutant: Daunorubicin 60 mg/m2 IV d1-3, idarubicin 12 mg/m2 IV d1-3, or mitoxantrone 12 mg/m2 IV d1-3; and cytarabine 100-200 mg/m2/d CIV d1-7."
+    },
+    {
+      "chunkId": "aza",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "Oral azacitidine 300 mg PO daily d1-14, q4 wk, until disease progression. In Table 10 this line is the maintenance column after intensive induction for non-FLT3 AML."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Soglia 20% in questo quadro.",
+      "Genetica prima del farmaco a bersaglio.",
+      "Niente midostaurin senza FLT3."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "ELN 2022: blasti, geni azionabili, niente dose inventata prima del referto.",
+      "legalCriteria": [
+        "Soglia 20% in questo quadro.",
+        "Genetica prima del farmaco a bersaglio.",
+        "Niente midostaurin senza FLT3."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT)",
+      "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+      "isAbnormal": false,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pt-ptt-inr": {
+          "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Accetta il midollo, rifiuta un farmaco scelto a caso."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Contare i blasti",
+      "prompt": "28% sul midollo. Non e' un caso con riarrangiamento gia' noto che usi la soglia del 10%.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiamarla AML",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Chiamarla solo MDS perche' non e' al 30%",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Soglia vecchia",
+      "prompt": "Il testo mette il 20% per le AML che non hanno l'eccezione genetica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Pannello",
+      "prompt": "Servono FLT3, IDH1, IDH2, NPM1 e i riarrangiamenti, tra cui BCR::ABL1 e PML::RARA.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiedere la genetica",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Iniziare senza geni",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Bersaglio al buio",
+      "prompt": "I geni servono per la diagnosi e per i bersagli terapeutici.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente midostaurin oggi",
+      "prompt": "Il midostaurin 50 mg ogni 12 ore, giorni 8-21, sta nella riga FLT3 mutato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Aspettare il FLT3",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Midostaurin dal giorno 1 senza referto",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco senza mutazione",
+      "prompt": "Senza FLT3 mutato quella riga non si apre.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se il FLT3 e' negativo",
+      "prompt": "La riga non mutata e' daunorubicina 60 mg/m2 giorni 1-3, o idarubicina 12, o mitoxantrone 12, piu' citarabina 100-200 mg/m2 in continuo giorni 1-7, senza midostaurin.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere pronta la riga senza FLT3",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Mettere midostaurin lo stesso",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Midostaurin fuori riga",
+      "prompt": "Nella riga non mutata il midostaurin non c'e'.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Coagulazione",
+      "prompt": "La ELN elenca gli esami di coagulazione all'esordio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiedere PT e PTT",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Saltare la coagulazione",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Coagulazione omessa",
+      "prompt": "E' nel pannello di diagnosi, anche per non perdere una coagulopatia.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "La diagnosi e' midollo, citofluorimetria e genetica.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non stadiare con la PET",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro non contano i blasti.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non la azacitidina orale da 300 mg",
+      "prompt": "300 mg al giorno, giorni 1-14, e' la manutenzione dopo l'induzione intensiva nella riga non FLT3, non il farmaco di oggi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non usarla come induzione",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Azacitidina orale 300 mg subito",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Manutenzione al posto dell'induzione",
+      "prompt": "Quella riga viene dopo l'induzione intensiva.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Tempi dei referti",
+      "prompt": "Citogenetica preferibilmente in 5-7 giorni, FLT3 e NPM1 in 3-5 giorni.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiudere la terapia prima",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Dichiarare il piano definitivo stamattina",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Piano prematuro",
+      "prompt": "Il testo da' questi tempi proprio perche' la terapia mirata li aspetta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

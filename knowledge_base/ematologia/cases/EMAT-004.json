@@ -1,0 +1,436 @@
+{
+  "id": "EMAT-004",
+  "code": "EMAT-004",
+  "title": "LMC con T315I: ponatinib o asciminib, non nilotinib",
+  "description": "Mutazione T315I. La tabella 5 ELN 2025 indica ponatinib e asciminib. Nilotinib, imatinib e dasatinib non sono la riga di quella mutazione.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "LMC con mutazione T315I di BCR::ABL1",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ELN CML 2025, tabella 5",
+  "diagnosis": "Per T315I i TKI indicati in tabella sono ponatinib e asciminib. Nilotinib 300 mg due volte al giorno non e' quella riga.",
+  "pastMedicalHistory": "Uomo di 58 anni, imatinib poi dasatinib, PCR in salita, sequenziamento con T315I.",
+  "presentation": "Propongono nilotinib 300 mg x 2 perche' e' la dose di prima linea in scheda, e una PET.",
+  "redHerrings": [
+    "Nilotinib sulla T315I.",
+    "Restare su dasatinib.",
+    "PET al posto della tabella mutazionale."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Luca. Mi hanno detto che c'e' una mutazione che non sente certi farmaci. Non datemi il nilotinib se la tabella non lo prevede.",
+  "correctSolution": "Sulla T315I usare ponatinib o asciminib, come in tabella 5. Non nilotinib e non imatinib.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "La scelta del TKI sta nella tabella mutazionale della ELN 2025, non in una PET e non nella dose di un farmaco di un'altra riga.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Quali TKI indica la tabella per T315I?",
+      "critical": true,
+      "expectedKeywords": [
+        "ponatinib",
+        "asciminib"
+      ],
+      "rationale": "Solo quei due in quella riga."
+    },
+    {
+      "id": "q2",
+      "prompt": "Il nilotinib 300 mg x 2 copre la T315I?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "nilotinib"
+      ],
+      "rationale": "Non e' la riga T315I."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Stabile, nessuna crisi blastica clinica."
+  },
+  "escCitations": [
+    {
+      "chunkId": "t315",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "Table 5. Recommended tyrosine kinase inhibitors in case of BCR::ABL1 mutations. T315I Ponatinib, asciminib."
+    },
+    {
+      "chunkId": "dose",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "The TKI labels recommend starting doses of imatinib of 400 mg daily, dasatinib 100 mg daily, bosutinib 400 mg daily, and nilotinib 300 mg twice daily."
+    },
+    {
+      "chunkId": "ifn",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "Improvements were offset by an increase in toxicity often necessitating IFN dose reduction or cessation, such that the addition of IFN cannot be routinely recommended."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI TC N000004210 TC encefalo senza contrasto 136,00 euro."
+    },
+    {
+      "chunkId": "emo",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "T315I: ponatinib o asciminib.",
+      "Non riportare il nilotinib di prima linea su questa mutazione."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Tabella 5 letta per nome di mutazione, senza dosi non scritte per ponatinib.",
+      "legalCriteria": [
+        "T315I: ponatinib o asciminib.",
+        "Non riportare il nilotinib di prima linea su questa mutazione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole il farmaco della riga giusta, non un altro TKI a caso."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Leggere la mutazione",
+      "prompt": "Il referto dice T315I, non una mutazione sensibile al nilotinib.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Aprire la riga T315I",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Ignorare il nome della mutazione",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Mutazione non letta",
+      "prompt": "La tabella e' per mutazione, non per abitudine di reparto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ponatinib o asciminib",
+      "prompt": "La riga T315I indica ponatinib e asciminib.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Scegliere uno dei due",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Nilotinib 300 mg due volte al giorno",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Nilotinib sulla T315I",
+      "prompt": "Il nilotinib e' in altre righe, non in quella della T315I.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non imatinib e non dasatinib",
+      "prompt": "Y253H e T315I non mettono l'imatinib. La T315I non mette il dasatinib.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non tornare a imatinib o dasatinib",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Alzare il dasatinib",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "TKI non in riga",
+      "prompt": "Aumentare un TKI che la tabella non elenca per T315I non e' la raccomandazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dose di nilotinib non trasferibile",
+      "prompt": "300 mg due volte al giorno e' la dose di partenza del nilotinib, non una copertura della T315I.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non usare quella dose qui",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Nilotinib comunque, a meta' dose",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose fuori indicazione di tabella",
+      "prompt": "Dimezzare un farmaco non indicato non crea l'indicazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente PET",
+      "prompt": "La mutazione gia' spiega la scelta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiedere la PET",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "La PET non sceglie il TKI sulla T315I.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non e' fase cronica di esordio",
+      "prompt": "Il test mutazionale qui e' indicato perche' c'e' resistenza, a differenza dell'esordio in fase cronica.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere il risultato e agire",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "Ripetere il pannello tre volte prima di cambiare",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Ritardo",
+      "prompt": "La risposta sfavorevole gia' indica lo screening: il risultato c'e'.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non aggiungere interferone",
+      "prompt": "L'interferone di routine non e' raccomandato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non associare interferone",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Ponatinib piu' interferone di routine",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Associazione non scritta",
+      "prompt": "Il testo non raccomanda l'aggiunta di routine dell'interferone.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "PCR dopo lo switch",
+      "prompt": "La risposta si rimisura in scala internazionale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Programmare la PCR",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Controllo con TC encefalo",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "TC encefalo da 136 euro",
+      "prompt": "La TC encefalo senza contrasto costa 136 euro e non misura la fusione.",
+      "cost": 136,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

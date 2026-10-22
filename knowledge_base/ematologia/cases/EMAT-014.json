@@ -1,0 +1,437 @@
+{
+  "id": "EMAT-014",
+  "code": "EMAT-014",
+  "title": "Linfoma non avido: la risposta si puo' leggere con la TAC, non con la PET",
+  "description": "Linfoma gia' classificato come non avido per FDG. AIOM 2018: in quel caso si puo' usare la TAC. La PET TC total body senza contrasto costa 1.050 euro.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Linfoma non avido per FDG, valutazione di risposta",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "AIOM linfomi 2018; nomenclatore FASDAC 2026",
+  "diagnosis": "Non si chiede la PET per leggere la risposta di una malattia non avida. Si puo' usare la TAC. Il dolore, se c'e', va in cartella.",
+  "pastMedicalHistory": "Uomo di 70 anni, linfoma indolente non avido, controllo di fine terapia, dolore osseo notturno.",
+  "presentation": "Propongono PET total body 'perche' nei linfomi si fa sempre'.",
+  "redHerrings": [
+    "PET di routine nel non avido.",
+    "Dolore non scritto."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Pietro. Mi hanno detto che il mio linfoma non cattura il glucosio. Non fatemi l'esame da mille euro se non serve.",
+  "correctSolution": "Valutare la risposta con la TAC. Non con la PET. Registrare il dolore.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "L'emocromo non sostituisce la TAC. La PET qui e' lo spreco.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Con malattia non avida, quale imaging consente il testo per la risposta?",
+      "critical": true,
+      "expectedKeywords": [
+        "TAC",
+        "TC"
+      ],
+      "rationale": "Nel linfoma non avido la risposta si puo' leggere con la TAC."
+    },
+    {
+      "id": "q2",
+      "prompt": "Quanto costa la PET TC total body senza contrasto?",
+      "critical": true,
+      "expectedKeywords": [
+        "1050",
+        "1.050"
+      ],
+      "rationale": "1.050 euro nel FASDAC 2026."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Linfonodi stabili alla visita. Dolore lombare che descrive con chiarezza."
+  },
+  "escCitations": [
+    {
+      "chunkId": "fdg",
+      "source": "knowledge_base/ematologia/clinic/2018_LG_AIOM_Linfomi.pdf",
+      "quote": "Nei pazienti con malattia FDG avida, la risposta deve essere rivalutata con FDG-PET secondo i criteri di Deauville. Nei pazienti con malattia non avida per FDG puo' essere utilizzata la TAC."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/ematologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (3).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/ematologia/legal/allegato115290.pdf",
+      "quote": "Ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico. Qualora il paziente esprima il rifiuto di trattamenti sanitari necessari alla propria sopravvivenza, il medico prospetta le conseguenze di tale decisione e le possibili alternative."
+    },
+    {
+      "chunkId": "rchop",
+      "source": "knowledge_base/ematologia/clinic/2018_LG_AIOM_Linfomi.pdf",
+      "quote": "Lo schema di riferimento e' il regimen R-CHOP somministrato ogni 21 giorni per 6-8 cicli."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI TC N000004210 TC encefalo senza contrasto 136,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "TAC nel non avido.",
+      "Niente PET da 1.050 euro.",
+      "Dolore in cartella."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Frase AIOM sulla malattia non avida e tariffa PET.",
+      "legalCriteria": [
+        "TAC nel non avido.",
+        "Niente PET da 1.050 euro.",
+        "Dolore in cartella."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Distingue il suo linfoma da quelli che captano e chiede di non pagare un esame inutile."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Avidita'",
+      "prompt": "E' gia' non avido. La PET di risposta e' per i FDG-avidi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non prenotare la PET",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "PET TC total body",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "Nel non avido il testo consente la TAC.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TAC",
+      "prompt": "La TAC e' l'alternativa scritta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Usare la TAC per la risposta",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Aspettare la PET e non fare nulla",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Risposta non valutata",
+      "prompt": "Senza TAC e senza un criterio, la risposta non e' quella del testo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Deauville non si applica",
+      "prompt": "Deauville 1-3 definisce la remissione quando la PET era l'esame. Qui non lo e'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non forzare Deauville",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Scrivere Deauville 4 senza PET",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Punteggio senza esame",
+      "prompt": "Deauville e' un punteggio PET.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Dolore osseo",
+      "prompt": "Va descritto in cartella con evoluzione, tecnica, farmaci, dosi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Registrarlo",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Ignorarlo perche' e' un linfoma indolente",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Legge 38 omessa",
+      "prompt": "L'indolente non cancella l'articolo 7.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non un R-CHOP 'per sicurezza'",
+      "prompt": "Il R-CHOP21 e' lo schema del DLBCL, non la risposta di questo istotipo non avido.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non cambiare istotipo",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "R-CHOP21 oggi",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Regime di un'altra malattia",
+      "prompt": "Il testo separa la risposta del non avido dallo schema dei grandi linfociti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Emocromo",
+      "prompt": "Serve alle conte, non a dichiarare la captazione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Emocromo si, PET no",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "Emocromo piu' PET 'tanto costa poco l'emocromo'",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET aggiunta",
+      "prompt": "L'emocromo da 4,80 euro non rende appropriata la PET.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non la TC encefalo",
+      "prompt": "Il dolore e' lombare, non neurologico. La TC encefalo e' 136 euro.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non spostare l'imaging sulla testa",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "TC encefalo per il mal di schiena",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "TC fuori sede",
+      "prompt": "136 euro senza un segno encefalico.",
+      "cost": 136,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Consenso sugli esami",
+      "prompt": "La legge 219 informa su benefici, rischi e alternative prima di un accertamento.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Spiegare perche' la TAC e non la PET",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Fare la PET senza dirlo",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Informazione saltata",
+      "prompt": "L'alternativa c'e' ed e' scritta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

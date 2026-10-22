@@ -1,0 +1,439 @@
+{
+  "id": "EMAT-022",
+  "code": "EMAT-022",
+  "title": "Hb 5,4 e rifiuto firmato: non si trasfonde",
+  "description": "Hb 5,4 g/dL. SIMTI: sotto 6 la trasfusione e' quasi sempre necessaria. La paziente capace ha firmato NON ACCONSENTO sul modulo. La legge 219 impone di rispettare il rifiuto, anche se il trattamento serve a sopravvivere, e di spiegare le conseguenze.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Anemia grave con rifiuto di trasfusione di persona capace",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "Legge 219/2017; SIMTI; modulo consenso 2024",
+  "diagnosis": "Non si trasfonde. Si spiegano le conseguenze e le alternative. Il marito non firma al posto suo. Il modulo NON ACCONSENTO e' gia' li'.",
+  "pastMedicalHistory": "Donna di 58 anni, capace, Hb 5,4 g/dL, tachicardica, ha firmato NON ACCONSENTO dopo l'informazione. Il marito chiede di trasfondere lo stesso.",
+  "presentation": "Propongono di trasfondere 'perche' sotto 6 si deve' e di far firmare il marito.",
+  "redHerrings": [
+    "Trasfusione contro il rifiuto.",
+    "Firma del marito.",
+    "Modulo ignorato."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Irene. Ho capito che senza sangue posso morire. Ho firmato che non acconsento. Rispettatelo.",
+  "correctSolution": "Non trasfondere. Rilegge con lei le conseguenze. Non accetta la firma del marito. Cerca alternative che lei accetta, senza nascondere il sangue.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "L'emoglobina conferma la gravit�. Il vincolo e' il rifiuto.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Sotto 6 g/dL cosa dice SIMTI?",
+      "critical": true,
+      "expectedKeywords": [
+        "quasi",
+        "sempre",
+        "necessaria"
+      ],
+      "rationale": "Quasi sempre necessaria."
+    },
+    {
+      "id": "q2",
+      "prompt": "Il rifiuto di una capace si puo' scavalcare?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "rifiuto"
+      ],
+      "rationale": "La legge 219 lo fa rispettare."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Tachicardica, lucida, orientata, firma gia' apposta."
+  },
+  "escCitations": [
+    {
+      "chunkId": "hb",
+      "source": "knowledge_base/ematologia/clinic/Raccomandazioni SIMTI per l_uso di emocomponenti (2).pdf",
+      "quote": "Per questo motivo e' rara la necessita' trasfusionale in pazienti con valori di Hb > 8 g/dL. Valori di Hb inferiori a 6 g/dL rendono quasi sempre necessaria la terapia trasfusionale. Per valori superiori a 10 g/dL, e' rarissima la necessita' di trasfusione."
+    },
+    {
+      "chunkId": "219",
+      "source": "knowledge_base/ematologia/legal/allegato115290.pdf",
+      "quote": "Ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico. Qualora il paziente esprima il rifiuto di trattamenti sanitari necessari alla propria sopravvivenza, il medico prospetta le conseguenze di tale decisione e le possibili alternative."
+    },
+    {
+      "chunkId": "form",
+      "source": "knowledge_base/ematologia/legal/A3 - modulo 001 consenso informato trasfusione.pdf",
+      "quote": "sono stato informato che per le mie condizioni cliniche potrebbe essere necessario essere sottoposto a trasfusioni di sangue e di emocomponenti. ACCONSENTO oppure NON ACCONSENTO ad essere sottoposto alle trasfusioni."
+    },
+    {
+      "chunkId": "cons",
+      "source": "knowledge_base/ematologia/clinic/Raccomandazioni SIMTI per l_uso di emocomponenti (2).pdf",
+      "quote": "La terapia con emocomponenti/emoderivati necessita del consenso informato del ricevente."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "emo",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Rifiuto rispettato nonostante la soglia dei 6 g/dL.",
+      "Conseguenze spiegate.",
+      "Niente firma del coniuge."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 219 articolo 1 e modulo con la casella NON ACCONSENTO. SIMTI non cancella il rifiuto.",
+      "legalCriteria": [
+        "Rifiuto rispettato nonostante la soglia dei 6 g/dL.",
+        "Conseguenze spiegate.",
+        "Niente firma del coniuge."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 112,
+      "bloodPressure": "104/68",
+      "spo2": 97,
+      "temperature": 36.7,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Lucida, ripete il rifiuto, chiede che il marito non decida."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "La soglia clinica c'e'",
+      "prompt": "Hb 5,4 e' sotto 6: SIMTI dice che la trasfusione e' quasi sempre necessaria.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Riconoscerlo e non trasfondere lo stesso",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Trasfondere perche' sotto 6",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Rifiuto scavalcato",
+      "prompt": "La necessita' clinica non cancella il rifiuto di chi e' capace.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Modulo gia' firmato",
+      "prompt": "La casella NON ACCONSENTO e' barrata, dopo l'informazione sui rischi di fare e di non fare.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Fermarsi",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Ignorare il modulo",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Modulo vanificato",
+      "prompt": "Il modulo esiste proprio per questa scelta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Conseguenze",
+      "prompt": "Se il rifiuto riguarda un trattamento necessario a sopravvivere, il medico prospetta conseguenze e alternative e sostiene la paziente.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Spiegarle di nuovo e restare sul rifiuto",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Spiegare e poi trasfondere",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Spiegazione usata come scusa",
+      "prompt": "Prospettare non significa scavalcare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Non il marito",
+      "prompt": "Lei e' capace. Il rappresentante del modulo e' per chi non ha autonomia, con i poteri documentati.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non far firmare il marito",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Firma del marito e trasfusione",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Consenso di un terzo",
+      "prompt": "Il ricevente capace e' lei.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente sangue nascosto",
+      "prompt": "Il rifiuto copre le trasfusioni di emocomponenti per la durata della terapia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non metterlo in un'altra flebo",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Emazie senza dirlo",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Trasfusione occulta",
+      "prompt": "E' il trattamento che ha rifiutato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Puo' cambiare idea",
+      "prompt": "La legge lascia la possibilita' di modificare la volonta'. Non la si anticipa trasfondendo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Restare disponibili se revoca",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "Trasfondere perche' forse cambiera' idea",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Revoca presunta",
+      "prompt": "Finche' non revoca, il rifiuto resta.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "Non scioglie il rifiuto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederla per convincere",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro non sono un argomento per trasfondere.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Alternative accettate",
+      "prompt": "Si promuove il sostegno e si cercano alternative che lei accetta. Non si inventa una soglia diversa per aggirare la firma.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Offrire cio' che accetta",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Alzare la soglia a 4 g/dL e trasfondere di nascosto sotto quella",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Soglia aggirata",
+      "prompt": "Nessun PDF autorizza una trasfusione nascosta sotto una soglia nuova.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

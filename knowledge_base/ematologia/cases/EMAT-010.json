@@ -1,0 +1,445 @@
+{
+  "id": "EMAT-010",
+  "code": "EMAT-010",
+  "title": "AML FLT3: midostaurin 50 mg ogni 12 ore, giorni 8-21",
+  "description": "AML fit, FLT3-ITD positivo. Induzione: daunorubicina 60 mg/m2 giorni 1-3 oppure idarubicina 12, piu' citarabina 100-200 mg/m2 giorni 1-7, piu' midostaurin 50 mg ogni 12 ore per bocca nei giorni 8-21.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "AML di nuova diagnosi, FLT3 mutato, paziente fit",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ELN AML 2022, tabella 10",
+  "diagnosis": "La riga FLT3 e' scritta: antraciclina e citarabina nei giorni 1-7, midostaurin dal giorno 8 al 21, 50 mg ogni 12 ore. Non dal giorno 1 e non al posto di un GO a dose diversa.",
+  "pastMedicalHistory": "Uomo di 52 anni, fit, blasti 40%, FLT3-ITD, CD33 positivo, rischio non favorevole.",
+  "presentation": "Propongono midostaurin dal giorno 1, oppure GO 9 mg/m2 al posto del midostaurin.",
+  "redHerrings": [
+    "Midostaurin dal giorno 1.",
+    "GO al posto del FLT3.",
+    "Daunorubicina 90 mg/m2."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Enrico. Il gene FLT3 e' mutato. Datemi i giorni scritti, non una dose che non c'e'.",
+  "correctSolution": "Daunorubicina 60 o idarubicina 12, giorni 1-3, citarabina 100-200 giorni 1-7, midostaurin 50 mg ogni 12 ore giorni 8-21.",
+  "goldStandardPath": [
+    "emocromo",
+    "pt-ptt-inr"
+  ],
+  "goldPathNarrative": "Emocromo e coagulazione all'esordio, genetica gia' nota.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pt-ptt-inr": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "In che giorni si da' il midostaurin in induzione?",
+      "critical": true,
+      "expectedKeywords": [
+        "otto",
+        "21"
+      ],
+      "rationale": "Giorni 8-21."
+    },
+    {
+      "id": "q2",
+      "prompt": "Qual e' la dose?",
+      "critical": true,
+      "expectedKeywords": [
+        "50",
+        "12"
+      ],
+      "rationale": "50 mg ogni 12 ore."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Febbre assente, niente emorragia maggiore."
+  },
+  "escCitations": [
+    {
+      "chunkId": "ind",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "AML with FLT3 mutation: Daunorubicin 60 mg/m2 IV d1-3; or idarubicin 12 mg/m2 IV d1-3; and cytarabine 100-200 mg/m2/d CIV d1-7; plus midostaurin 50 mg q12h PO d8-21."
+    },
+    {
+      "chunkId": "go2",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "Gemtuzumab ozogamicin (GO) for CD33-positive AML, favorable (or intermediate) cytogenetic risk. GO 3 mg/m2 (maximum dose 5 mg) IV, d1, 4, 7."
+    },
+    {
+      "chunkId": "idac",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "3-4 cycles of IDAC 1000-1500 mg/m2 IV (500-1000 mg/m2 if 60 years or older) over 3h q12h d1-3."
+    },
+    {
+      "chunkId": "aza",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "Oral azacitidine 300 mg PO daily d1-14, q4 wk, until disease progression. In Table 10 this line is the maintenance column after intensive induction for non-FLT3 AML."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "pt",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DL LB N000002643 Tempo di protrombina (PT) 4,80 euro. DL LB N000002645 Tempo di tromboplastina parziale (PTT) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Midostaurin giorni 8-21.",
+      "50 mg ogni 12 ore.",
+      "Non sostituirlo con GO in questo rischio."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Tabella 10 ELN 2022, riga FLT3.",
+      "legalCriteria": [
+        "Midostaurin giorni 8-21.",
+        "50 mg ogni 12 ore.",
+        "Non sostituirlo con GO in questo rischio."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT)",
+      "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+      "isAbnormal": false,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pt-ptt-inr": {
+          "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole il calendario del farmaco, non un'approssimazione."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antraciclina scritta",
+      "prompt": "Daunorubicina 60 mg/m2 giorni 1-3 oppure idarubicina 12 mg/m2 giorni 1-3.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Usare una di queste",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Daunorubicina 90 mg/m2",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non in tabella",
+      "prompt": "La riga scrive 60 mg/m2, non 90.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Citarabina",
+      "prompt": "100-200 mg/m2 al giorno in continuo, giorni 1-7.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere quell'intervallo",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Citarabina 3000 mg/m2 in induzione",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Induzione ad alta dose non in riga",
+      "prompt": "3000 mg/m2 non e' l'induzione di questa riga.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Midostaurin dal giorno 8",
+      "prompt": "50 mg ogni 12 ore per bocca, giorni 8-21.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Iniziarlo il giorno 8",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Iniziarlo il giorno 1 insieme alla daunorubicina",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Giorno sbagliato",
+      "prompt": "La tabella scrive d8-21, non d1.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non il GO al suo posto",
+      "prompt": "GO 3 mg/m2, massimo 5 mg, e' per CD33 positivo a rischio favorevole o intermedio, insieme all'induzione, non il sostituto del midostaurin nel FLT3.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere il midostaurin",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "GO 9 mg/m2 al posto del midostaurin",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "GO fuori riga",
+      "prompt": "Ne' la dose 9 mg/m2 ne' la sostituzione sono scritte.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se non risponde",
+      "prompt": "Re-induzione con un secondo 7+3 oppure con citarabina piu' alta, ciascuno piu' midostaurin; il testo preferisce la citarabina piu' alta se non c'e' stata risposta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non omettere il midostaurin nel re-induction",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Re-induzione senza midostaurin",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Farmaco perso",
+      "prompt": "La riga dice each plus midostaurin.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consolidamento",
+      "prompt": "Ha 52 anni: IDAC 1000-1500 mg/m2, non la riduzione dei 60 anni, piu' midostaurin 50 mg ogni 12 ore giorni 8-21.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Usare 1000-1500",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "IDAC 500 mg/m2 perche' e' piu' sicuro",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Riduzione d'eta' non dovuta",
+      "prompt": "La riduzione 500-1000 e' scritta se ha 60 anni o piu'.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "Non sceglie la riga FLT3.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederla",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "Il bersaglio e' gia' il referto FLT3.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Manutenzione",
+      "prompt": "Nella stessa riga: midostaurin 50 mg ogni 12 ore, giorni 1-28, ogni 4 settimane, per 12 cicli. Il valore della manutenzione resta incerto, ma non e' l'azacitidina orale di un'altra riga.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non scambiare la manutenzione",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Azacitidina orale 300 mg al posto del midostaurin",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Manutenzione della riga sbagliata",
+      "prompt": "300 mg e' la colonna non FLT3.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

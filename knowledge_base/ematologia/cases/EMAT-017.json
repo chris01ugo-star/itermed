@@ -1,0 +1,444 @@
+{
+  "id": "EMAT-017",
+  "code": "EMAT-017",
+  "title": "Policitemia vera: ematocrito sotto 45% e aspirina, citoreduzione solo se alto rischio",
+  "description": "PV con JAK2. CYTO-PV: ematocrito strettamente sotto il 45%. Aspirina a basso dosaggio. Citoreduzione se eta' sopra 60 anni o evento vascolare. Resistenza all'idrossiurea: ancora salassi per tenere l'ematocrito sotto 45% dopo 3 mesi di almeno 2 g al giorno.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Policitemia vera JAK2 positiva, basso rischio",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ESMO MPN 2015",
+  "diagnosis": "Uomo sotto i 60 anni senza evento vascolare: salassi per ematocrito sotto 45% e aspirina a basso dosaggio. Non si parte con l'idrossiurea. Non si chiama PV senza JAK2 o senza i criteri. Non la PET.",
+  "pastMedicalHistory": "Uomo di 48 anni, ematocrito 54%, JAK2 V617F, nessun evento vascolare, niente ulcere.",
+  "presentation": "Propongono idrossiurea subito e un bersaglio di ematocrito al 50%, senza aspirina.",
+  "redHerrings": [
+    "Ematocrito al 50%.",
+    "Idrossiurea nel basso rischio.",
+    "PV senza JAK2."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Matteo. Ho il sangue spesso. Toglietemi il sangue se serve, ma non datemi un citostatico se non sono ad alto rischio.",
+  "correctSolution": "Salassi fino a ematocrito sotto 45% e aspirina a basso dosaggio. Niente idrossiurea: ha 48 anni e non ha eventi. JAK2 gia' positivo, e' un criterio maggiore.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "L'ematocrito si legge sull'emocromo e il bersaglio e' sotto il 45%. La PET non guida la policitemia.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Qual e' il bersaglio di ematocrito?",
+      "critical": true,
+      "expectedKeywords": [
+        "45",
+        "sotto"
+      ],
+      "rationale": "Strettamente sotto il 45%."
+    },
+    {
+      "id": "q2",
+      "prompt": "Chi riceve il citostatico in prima linea?",
+      "critical": true,
+      "expectedKeywords": [
+        "60",
+        "evento",
+        "alto"
+      ],
+      "rationale": "Eta' sopra 60 o evento vascolare."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Faccia pletoica, niente deficit neurologico acuto."
+  },
+  "escCitations": [
+    {
+      "chunkId": "jak",
+      "source": "knowledge_base/ematologia/clinic/PIIS0923753419471743.pdf",
+      "quote": "These mutations include the Janus kinase (JAK) 2V617F mutation, found in at least 95% of PV and about 60% of ET and PMF patients. Presence of JAK2V617F or JAK2 exon 12 mutation is a major criterion for polycythaemia vera."
+    },
+    {
+      "chunkId": "hct",
+      "source": "knowledge_base/ematologia/clinic/PIIS0923753419471743.pdf",
+      "quote": "A recent multicentre, randomised clinical trial (CYTO-PV) showed that the HCT should be maintained strictly below 45% to efficiently reduce the risk of thrombotic events."
+    },
+    {
+      "chunkId": "asa",
+      "source": "knowledge_base/ematologia/clinic/PIIS0923753419471743.pdf",
+      "quote": "Low-dose aspirin is the second cornerstone of PV therapy. It has been shown in the ECLAP study to significantly reduce a primary combined end point, including cardiovascular death, non-fatal myocardial infarction, non-fatal stroke and major venous thromboembolism."
+    },
+    {
+      "chunkId": "hu",
+      "source": "knowledge_base/ematologia/clinic/PIIS0923753419471743.pdf",
+      "quote": "A cytoreductive drug should be prescribed in high-risk PV patients, i.e. above 60 years and/or with a history of a vascular event. Hydroxyurea and interferon-alfa were recommended as first-line treatments for high-risk patients."
+    },
+    {
+      "chunkId": "res",
+      "source": "knowledge_base/ematologia/clinic/PIIS0923753419471743.pdf",
+      "quote": "Need for phlebotomy to keep HCT below 45% after 3 months of at least 2 g/day of hydroxyurea is a criterion of resistance or intolerance."
+    },
+    {
+      "chunkId": "low",
+      "source": "knowledge_base/ematologia/clinic/PIIS0923753419471743.pdf",
+      "quote": "For patients presenting with symptomatic splenomegaly and/or constitutional symptoms if allowed by the label. Countries where ruxolitinib is not approved for low-risk patients are noted in the same footnote."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Ematocrito sotto 45%.",
+      "Aspirina a basso dosaggio.",
+      "Niente idrossiurea nel basso rischio."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "ESMO: CYTO-PV, ECLAP, alto rischio, criterio JAK2.",
+      "legalCriteria": [
+        "Ematocrito sotto 45%.",
+        "Aspirina a basso dosaggio.",
+        "Niente idrossiurea nel basso rischio."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Accetta i salassi, chiede perche' un farmaco."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "JAK2",
+      "prompt": "JAK2 V617F o esone 12 e' criterio maggiore. E' presente in almeno il 95% delle PV.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere il referto e non rifare la diagnosi senza",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Chiamarla PV anche se JAK2 fosse negativo e l'esone 12 non cercato",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Criterio saltato",
+      "prompt": "Senza quella mutazione manca un criterio maggiore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sotto il 45%",
+      "prompt": "CYTO-PV: ematocrito strettamente sotto il 45% per ridurre gli eventi trombotici.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Salassi fino a quel bersaglio",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Fermarsi al 50%",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Bersaglio lasso",
+      "prompt": "Il 50% non e' il risultato del trial.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Aspirina",
+      "prompt": "A basso dosaggio e' il secondo cardine. ECLAP riduce morte cardiovascolare, infarto, ictus e tromboembolia venosa maggiore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Darla, senza inventare i milligrammi",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Niente aspirina",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Cardine omesso",
+      "prompt": "Il PDF non scrive i milligrammi in questa sezione: si dice basso dosaggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non l'idrossiurea",
+      "prompt": "La citoreduzione e' per l'alto rischio: sopra i 60 anni o un evento vascolare. Lui ha 48 anni e non ha eventi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non iniziarla",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Idrossiurea da oggi",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Citoreduzione nel basso rischio",
+      "prompt": "Non e' la popolazione della raccomandazione.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Se un giorno fosse resistenza",
+      "prompt": "Serve ancora il salasso per tenere l'ematocrito sotto 45% dopo 3 mesi di almeno 2 g al giorno. Non si dichiara a una settimana.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non dichiararla ora",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Resistenza dopo sette giorni a dose bassa",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Criterio anticipato",
+      "prompt": "Sono 3 mesi e almeno 2 g al giorno.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "Non misura l'ematocrito.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederla",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro fuori dal percorso della PV.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non il ruxolitinib di partenza",
+      "prompt": "Nel basso rischio diversi Paesi non lo approvano, e il testo lo lega a milza sintomatica o sintomi costituzionali quando l'etichetta lo consente.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non partire dal ruxolitinib",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Ruxolitinib al posto dei salassi",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco fuori dalla prima riga del basso rischio",
+      "prompt": "La prima riga scritta qui e' salasso e aspirina.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Fumo e rischio vascolare",
+      "prompt": "I fattori vascolari, fumo compreso, vanno trattati in modo aggressivo. Non sostituiscono l'ematocrito.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiedere il fumo e tenerlo nel piano",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Ignorarlo perche' c'e' il JAK2",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Rischio non chiesto",
+      "prompt": "Il testo lo mette tra gli obiettivi di cura.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

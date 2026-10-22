@@ -1,0 +1,446 @@
+{
+  "id": "EMAT-011",
+  "code": "EMAT-011",
+  "title": "AML non fit: venetoclax con azacitidina, non il 7+3",
+  "description": "Paziente non candidabile all'induzione intensiva. La ELN 2022 indica venetoclax aggiunto all'azacitidina come nuovo standard negli anziani o non fit: risposte complete 66,4% contro 28,3%. Non scrive qui i milligrammi del venetoclax. L'azacitidina orale da 300 mg e' un'altra riga.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "AML in paziente non fit per chemioterapia intensiva",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ELN AML 2022",
+  "diagnosis": "Non si fa daunorubicina e citarabina intensiva. Si usa l'associazione che il testo chiama standard: azacitidina piu' venetoclax, senza inventare i milligrammi. Non si parte con l'azacitidina orale da 300 mg.",
+  "pastMedicalHistory": "Donna di 78 anni, comorbidita' che la mettono fuori dall'induzione intensiva, blasti 35%, FLT3 non mutato.",
+  "presentation": "Propongono il 7+3 'ridotto' e, in alternativa, azacitidina orale 300 mg come induzione.",
+  "redHerrings": [
+    "7+3 nel non fit.",
+    "Azacitidina orale 300 mg come induzione.",
+    "Dose di venetoclax inventata."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Anna. Sono anziana e fragile. Non voglio la chemioterapia forte se il testo ne ha un'altra, e non inventate i milligrammi.",
+  "correctSolution": "Azacitidina piu' venetoclax, senza una dose di venetoclax che il testo non da'. Niente 7+3. Niente azacitidina orale da 300 mg come induzione.",
+  "goldStandardPath": [
+    "emocromo",
+    "pt-ptt-inr"
+  ],
+  "goldPathNarrative": "Emocromo e coagulazione. La PET non sceglie il regime.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pt-ptt-inr": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Quale associazione e' lo standard nel non fit?",
+      "critical": true,
+      "expectedKeywords": [
+        "venetoclax",
+        "azacitidina"
+      ],
+      "rationale": "Venetoclax aggiunto all'azacitidina."
+    },
+    {
+      "id": "q2",
+      "prompt": "L'azacitidina orale da 300 mg e' l'induzione?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "manutenzione",
+        "300"
+      ],
+      "rationale": "E' la manutenzione dopo l'induzione intensiva nella riga non FLT3."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Fragile, niente sanguinamento maggiore. Performance ridotta."
+  },
+  "escCitations": [
+    {
+      "chunkId": "ven",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "Compared with azacitidine alone, addition of the BCL2 inhibitor venetoclax improved clinical response (CR/CRi, 66.4% vs 28.3%) and median OS (14.7 vs 9.6 months), establishing a new standard of care for older or unfit patients with AML."
+    },
+    {
+      "chunkId": "aza",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "Oral azacitidine 300 mg PO daily d1-14, q4 wk, until disease progression. In Table 10 this line is the maintenance column after intensive induction for non-FLT3 AML."
+    },
+    {
+      "chunkId": "non",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "Non-FLT3 mutant: Daunorubicin 60 mg/m2 IV d1-3, idarubicin 12 mg/m2 IV d1-3, or mitoxantrone 12 mg/m2 IV d1-3; and cytarabine 100-200 mg/m2/d CIV d1-7."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/ematologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (3).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI MN N000003627 Tomoscintigrafia PET TC total body senza contrasto 1.050,00 euro."
+    },
+    {
+      "chunkId": "ind",
+      "source": "knowledge_base/ematologia/clinic/ELN2022.pdf",
+      "quote": "AML with FLT3 mutation: Daunorubicin 60 mg/m2 IV d1-3; or idarubicin 12 mg/m2 IV d1-3; and cytarabine 100-200 mg/m2/d CIV d1-7; plus midostaurin 50 mg q12h PO d8-21."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente induzione intensiva.",
+      "Venetoclax con azacitidina, senza milligrammi inventati.",
+      "300 mg orali non sono questa induzione."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "ELN 2022: standard del non fit e colonna di manutenzione distinte.",
+      "legalCriteria": [
+        "Niente induzione intensiva.",
+        "Venetoclax con azacitidina, senza milligrammi inventati.",
+        "300 mg orali non sono questa induzione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT)",
+      "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+      "isAbnormal": false,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pt-ptt-inr": {
+          "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Chiede di non ricevere un'induzione da giovane."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non e' fit",
+      "prompt": "Il testo riconosce il progresso proprio in chi non e' candidabile all'intensiva. Qui il giudizio clinico e' gia' questo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non proporre il 7+3",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Daunorubicina 60 e citarabina 100-200",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Intensiva nel non fit",
+      "prompt": "Quella riga e' per chi e' fit.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Azacitidina piu' venetoclax",
+      "prompt": "Aggiungere venetoclax all'azacitidina porta le risposte complete al 66,4% contro 28,3% e diventa lo standard negli anziani o non fit.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Proporre quell'associazione",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Solo idrossiurea senza alternativa scritta",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Standard non offerto",
+      "prompt": "Il testo lo chiama new standard of care.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente milligrammi inventati",
+      "prompt": "In questo capitolo non c'e' la dose in mg del venetoclax.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non scrivere una dose assente",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "Venetoclax 400 mg da subito",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non letta",
+      "prompt": "400 mg non e' una frase di questo PDF.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non i 300 mg orali",
+      "prompt": "Azacitidina orale 300 mg, giorni 1-14, e' la manutenzione dopo l'induzione intensiva della riga non FLT3.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non usarla come induzione",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Azacitidina orale 300 mg da oggi",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Manutenzione scambiata",
+      "prompt": "Lei non ha fatto l'induzione intensiva.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "FLT3 gia' negativo",
+      "prompt": "Il midostaurin non entra nella riga non mutata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non aggiungerlo",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Midostaurin 50 mg ogni 12 ore",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "FLT3 negativo",
+      "prompt": "La riga mutata non e' la sua.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non la PET",
+      "prompt": "Non decide il fitness.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non chiederla",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "PET total body",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "1.050 euro non distinguono fit e non fit.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Mielosoppressione",
+      "prompt": "Il testo dice di limitare la mielosoppressione prolungata e la lisi. Non autorizza un'intensiva per 'andare piu' in fretta'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Vigilare lisi e conte, restare sull'associazione",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Passare al 7+3 se i bianchi scendono",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Intensiva come soccorso",
+      "prompt": "La discesa dei conteggi e' un rischio dell'associazione, non l'indicazione al 7+3.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Dolore se c'e'",
+      "prompt": "Se compare dolore in ricovero, la legge 38 vuole caratteristiche, evoluzione, tecnica, farmaci, dosi e risultato in cartella.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Registrarlo se c'e'",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Non scrivere il dolore",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Cartella senza dolore",
+      "prompt": "L'articolo 7 lo mette in cartella medica e infermieristica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}

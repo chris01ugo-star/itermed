@@ -1,0 +1,447 @@
+{
+  "id": "EMAT-012",
+  "code": "EMAT-012",
+  "title": "ALL dell'adulto: BCR::ABL1 e MRD sono obbligatori",
+  "description": "ALL-B sospetta. Il pannello ELN 2024 rende obbligatori t(9;22)/BCR::ABL1 e la MRD. Non si chiama Philadelphia-negativa senza il test. La scarsa risposta al prednisone e' una conta periferica di almeno 1 per 10 alla nona a fine prefase, non una dose inventata.",
+  "difficulty": "HARD",
+  "specialty": "ematologia",
+  "specialtyLabel": "Ematologia",
+  "condition": "Leucemia linfoblastica acuta dell'adulto, genetica non ancora fatta",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ELN ALL 2024",
+  "diagnosis": "Non si chiude il Philadelphia senza BCR::ABL1. La MRD, molecolare o in citofluorimetria, e' obbligatoria per il follow-up. La PET non sostituisce ne' il gene ne' la MRD.",
+  "pastMedicalHistory": "Uomo di 41 anni, blasti linfoidi, proposta di protocollo 'non Philadelphia' senza aver cercato la fusione, e di una PET al posto della MRD.",
+  "presentation": "Vogliono anche una TC encefalo di routine, senza sintomi neurologici.",
+  "redHerrings": [
+    "Philadelphia negativo senza test.",
+    "PET al posto della MRD.",
+    "TC encefalo di routine."
+  ],
+  "timeLimitMinutes": 55,
+  "patientDeteriorationThreshold": 40,
+  "patientPrompt": "Sono Fabio. Prima di dirmi che non ho il Philadelphia, fatemi il test. Non sostituite il midollo con una PET.",
+  "correctSolution": "Cercare BCR::ABL1, KMT2A e TCF3::PBX1. Impostare un saggio di MRD. Non dichiarare il gruppo di rischio senza questi. Non fare PET o TC encefalo al loro posto.",
+  "goldStandardPath": [
+    "emocromo",
+    "pt-ptt-inr"
+  ],
+  "goldPathNarrative": "Emocromo e coagulazione. La genetica non e' la PET.",
+  "examLatencies": {
+    "emocromo": 20,
+    "pt-ptt-inr": 20,
+    "pet-tc": 120
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Quale fusione e' obbligatoria nel pannello?",
+      "critical": true,
+      "expectedKeywords": [
+        "BCR",
+        "Philadelphia",
+        "22"
+      ],
+      "rationale": "t(9;22)/BCR::ABL1 e' mandatory."
+    },
+    {
+      "id": "q2",
+      "prompt": "La MRD e' facoltativa?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "obbligatoria",
+        "MRD"
+      ],
+      "rationale": "E' mandatory."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Niente deficit neurologico. Gengive non sanguinanti in modo maggiore."
+  },
+  "escCitations": [
+    {
+      "chunkId": "allg",
+      "source": "knowledge_base/ematologia/clinic/blood_bld-2023-020794-main.pdf",
+      "quote": "Molecular genetics Mandatory t(9;22)/Ph positive/BCR::ABL1, t(4;11)/KMT2A rearrangement, t(1;19)/TCF3::PBX1, other high-risk cytogenetics."
+    },
+    {
+      "chunkId": "mrd",
+      "source": "knowledge_base/ematologia/clinic/blood_bld-2023-020794-main.pdf",
+      "quote": "MRD (molecular or MFC) Mandatory. Individual MRD assay for further follow-up."
+    },
+    {
+      "chunkId": "pred",
+      "source": "knowledge_base/ematologia/clinic/blood_bld-2023-020794-main.pdf",
+      "quote": "Poor prednisone response (PB count >=1 x 10^9/L at the end of prephase). Historical relevance, occasionally considered."
+    },
+    {
+      "chunkId": "dose",
+      "source": "knowledge_base/ematologia/clinic/Apperley_ J. et al_ Leukemia (2025). 2025 European LeukemiaNet recommendations for the management of chronic myeloid leukemia.pdf",
+      "quote": "The TKI labels recommend starting doses of imatinib of 400 mg daily, dasatinib 100 mg daily, bosutinib 400 mg daily, and nilotinib 300 mg twice daily."
+    },
+    {
+      "chunkId": "l38",
+      "source": "knowledge_base/ematologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (3).pdf",
+      "quote": "All'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/ematologia/economic/NT_2026_v09.pdf",
+      "quote": "Nomenclatore FASDAC aggiornamento 01.01.2026: DI TC N000004210 TC encefalo senza contrasto 136,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "BCR::ABL1 prima di dire Philadelphia-negativo.",
+      "MRD obbligatoria.",
+      "Niente PET al posto del gene."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Tabella diagnostica ELN ALL 2024.",
+      "legalCriteria": [
+        "BCR::ABL1 prima di dire Philadelphia-negativo.",
+        "MRD obbligatoria.",
+        "Niente PET al posto del gene."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo completo con formula",
+      "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "pt-ptt-inr",
+      "name": "Coagulazione (PT, PTT)",
+      "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+      "isAbnormal": false,
+      "priceEuro": 4.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pet-tc",
+      "name": "PET-TC",
+      "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+      "isAbnormal": false,
+      "priceEuro": 1050.0,
+      "inappropriate": true,
+      "wasteRationale": "PET-TC da 1.050 euro fuori dal passo scritto nel testo."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "128/76",
+      "spo2": 98,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 80,
+    "clinicalSigns": {},
+    "semeiotics": {},
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "DL LB N000002513, 4,80 euro. Emocromo con formula: e' il primo conteggio scritto per leucemie, linfomi, mieloma e prima di una soglia trasfusionale.",
+          "isAbnormal": true,
+          "price": 4.8
+        },
+        "pt-ptt-inr": {
+          "finding": "PT 4,80 euro e PTT 4,80 euro nel nomenclatore FASDAC 2026. Serve dove il testo chiede la coagulazione, non per dosare un DOAC.",
+          "isAbnormal": false,
+          "price": 4.8
+        },
+        "pet-tc": {
+          "finding": "DI MN N000003627 PET TC total body senza contrasto, 1.050,00 euro. Si sanziona se il testo non la mette in questo passo.",
+          "isAbnormal": false,
+          "price": 1050.0
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Vuole il nome biologico prima del protocollo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Pannello obbligatorio",
+      "prompt": "t(9;22)/BCR::ABL1, t(4;11)/KMT2A e t(1;19)/TCF3::PBX1 sono mandatory.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Chiederli prima del protocollo",
+          "next": "d2"
+        },
+        {
+          "id": "bad",
+          "label": "Partire come non-Philadelphia",
+          "next": "res-1"
+        }
+      ]
+    },
+    {
+      "id": "res-1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Gene saltato",
+      "prompt": "Senza il test il gruppo Philadelphia non si puo' escludere.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Citofluorimetria di linea",
+      "prompt": "Per la B servono almeno CD19, cCD79a, c/sCD22. Non basta un emocromo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Completare il pannello di linea",
+          "next": "d3"
+        },
+        {
+          "id": "bad",
+          "label": "Fermarsi all'emocromo",
+          "next": "res-2"
+        }
+      ]
+    },
+    {
+      "id": "res-2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Linea non tipizzata",
+      "prompt": "Il testo marca quei marcatori come requisito minimo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "MRD",
+      "prompt": "Un saggio individuale di MRD, molecolare o in citofluorimetria, e' obbligatorio per il follow-up.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Impostare la MRD",
+          "next": "d4"
+        },
+        {
+          "id": "bad",
+          "label": "PET seriate al posto della MRD",
+          "next": "res-3"
+        }
+      ]
+    },
+    {
+      "id": "res-3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET da 1.050 euro",
+      "prompt": "La MRD non e' una PET TC total body.",
+      "cost": 1050,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prednisone",
+      "prompt": "La scarsa risposta e' una conta periferica di almeno 1 x 10^9/L a fine prefase. Il PDF non da' i milligrammi del prednisone in quella riga.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non inventare la dose",
+          "next": "d5"
+        },
+        {
+          "id": "bad",
+          "label": "Prednisone 60 mg/m2 perche' e' lo standard ricordato a memoria",
+          "next": "res-4"
+        }
+      ]
+    },
+    {
+      "id": "res-4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose assente",
+      "prompt": "Quel numero non e' in questa tabella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non usare la MRD del BCR::ABL1 da sola se discordante",
+      "prompt": "Il testo segnala discrepanze tra MRD sul BCR::ABL1 e MRD su IG/TR. Non si butta il secondo saggio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Tenere i due piani se discordano",
+          "next": "d6"
+        },
+        {
+          "id": "bad",
+          "label": "Ignorare una MRD IG/TR positiva",
+          "next": "res-5"
+        }
+      ]
+    },
+    {
+      "id": "res-5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "MRD dimezzata",
+      "prompt": "La discordanza e' scritta e non si risolve cancellando un saggio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC encefalo",
+      "prompt": "Non c'e' un sintomo neurologico. La TC encefalo senza contrasto e' 136 euro.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non farla di routine",
+          "next": "d7"
+        },
+        {
+          "id": "bad",
+          "label": "TC encefalo per stadiare l'ALL",
+          "next": "res-6"
+        }
+      ]
+    },
+    {
+      "id": "res-6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC da 136 euro",
+      "prompt": "Non e' l'esame del pannello obbligatorio.",
+      "cost": 136,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non un TKI della LMC a 400 mg per abitudine",
+      "prompt": "Imatinib 400 mg al giorno e' la dose di scheda della LMC, non una riga di questo PDF sull'ALL.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Non copiare la dose della LMC",
+          "next": "d8"
+        },
+        {
+          "id": "bad",
+          "label": "Imatinib 400 mg perche' forse e' Philadelphia",
+          "next": "res-7"
+        }
+      ]
+    },
+    {
+      "id": "res-7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose trasferita senza test",
+      "prompt": "Prima serve il test. La dose dell'ALL non e' quella frase.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore",
+      "prompt": "Se c'e' dolore in ricovero, va in cartella con tecnica, farmaci, dosi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "ok",
+          "label": "Registrarlo",
+          "next": "res-ok"
+        },
+        {
+          "id": "bad",
+          "label": "Lasciare la cartella muta",
+          "next": "res-8"
+        }
+      ]
+    },
+    {
+      "id": "res-8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Legge 38 saltata",
+      "prompt": "Articolo 7, sezioni medica e infermieristica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi",
+      "prompt": "Le scelte restano dentro le frasi lette: diagnosi, dose o soglia, consenso e esame. Non e' stato aggiunto un farmaco, un milligrammo o un criterio assente dai PDF.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
+}
