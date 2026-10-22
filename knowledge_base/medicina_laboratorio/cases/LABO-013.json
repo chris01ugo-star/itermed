@@ -1,0 +1,381 @@
+{
+  "id": "LABO-013",
+  "code": "LABO-013",
+  "title": "TSH 0,30 e FT4 1,40: si aggiunge l'FT3",
+  "description": "TSH 0,30, sotto 0,45: il protocollo aggiunge l'FT4. L'FT4 e' 1,40 ng/dL, cioe' minore o uguale a 1,70: si aggiunge anche l'FT3.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "TSH sotto 0,45 e FT4 entro 1,70 ng/dL",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Protocollo TSH reflex, laboratorio Casale; FASDAC 2026",
+  "diagnosis": "Reflex corretto: FT4 gia' aggiunta, poi FT3 perche' l'FT4 non supera 1,70 ng/dL.",
+  "pastMedicalHistory": "TSH reflex. TSH 0,30 microU/mL. FT4 gia' eseguita: 1,40 ng/dL.",
+  "presentation": "Qualcuno vuole fermarsi all'FT4. Qualcun altro aveva chiesto l'FT3 prima ancora dell'FT4.",
+  "redHerrings": [
+    "Stop all'FT4.",
+    "FT3 prima dell'FT4.",
+    "Soglia 1,70 ignorata."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Il TSH e' basso e l'FT4 e' 1,40. Il protocollo vuole l'FT3.",
+  "correctSolution": "Aggiungere l'FT3. Il TSH sotto 0,45 fa aggiungere l'FT4; se l'FT4 e' minore o uguale a 1,70 ng/dL si aggiunge l'FT3. Non aggiungerla prima di aver visto l'FT4.",
+  "goldStandardPath": [
+    "tsh",
+    "ft4",
+    "ft3"
+  ],
+  "goldPathNarrative": "Sotto 0,45 si parte dall'FT4. A 1,40 ng/dL, sotto o uguale a 1,70, si aggiunge l'FT3.",
+  "examLatencies": {
+    "tsh": 20,
+    "ft4": 20,
+    "ft3": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Sotto quale TSH si aggiunge l'FT4?",
+      "critical": true,
+      "expectedKeywords": [
+        "0,45",
+        "FT4"
+      ],
+      "rationale": "Sotto 0,45 microU/mL."
+    },
+    {
+      "id": "q2",
+      "prompt": "Con FT4 a che valore si aggiunge l'FT3?",
+      "critical": true,
+      "expectedKeywords": [
+        "1,70",
+        "FT3"
+      ],
+      "rationale": "Se l'FT4 e' minore o uguale a 1,70 ng/dL."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "Se il TSH e' inferiore a 0,45 microU/mL il laboratorio aggiunge autonomamente il test FT4 e se questo rientra nei valori di riferimento il test FT3."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "FT4 minore o uguale a 1,70 ng/dL: FT3. FT4 maggiore di 1,70 ng/dL: STOP."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: FT4 8,40 euro, FT3 8,40 euro, TSH 9,60 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "FT4 aggiunta perche' il TSH e' sotto 0,45.",
+      "FT3 aggiunta perche' l'FT4 e' 1,40, non sopra 1,70."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Protocollo: sequenza TSH, poi FT4, poi FT3 solo se l'FT4 rientra.",
+      "legalCriteria": [
+        "Il paziente corrisponde il ticket dei test aggiunti dal protocollo.",
+        "Non si salta l'FT4."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ft4",
+      "name": "FT4",
+      "finding": "Aggiunta per TSH 0,30. Risultato 1,40 ng/dL.",
+      "isAbnormal": true,
+      "priceEuro": 8.4
+    },
+    {
+      "examId": "ft3",
+      "name": "FT3",
+      "finding": "Da aggiungere perche' l'FT4 e' minore o uguale a 1,70 ng/dL.",
+      "isAbnormal": false,
+      "priceEuro": 8.4
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ngs",
+      "name": "Pannello NGS 79 geni",
+      "finding": "Proposto insieme al reflex.",
+      "isAbnormal": false,
+      "priceEuro": 400,
+      "inappropriate": true,
+      "wasteRationale": "Quattrocento euro, solo dopo visita genetica. Il reflex autorizzato e' FT4 e poi FT3, non la genomica."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "TSH 0,30, sotto 0,45. FT4 gia' 1,40 ng/dL.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Seguo il reflex, non la genomica.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Apro il pannello NGS da 400 euro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Siero sufficiente per l'FT3, idoneo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Lo uso per l'FT3.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Chiedo un nuovo prelievo senza bisogno.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Nessuna interferenza descritta su questo siero.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non fermo l'FT3 per un'interferenza assente.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "La fermo per una biotina non dichiarata.",
+          "next": "r-bio"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "FT4 1,40 e' minore o uguale a 1,70. Il protocollo aggiunge l'FT3.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Aggiungo l'FT3.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Mi fermo all'FT4.",
+          "next": "r-stop"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Ne' 0,30 ne' 1,40 sono un panic value della lista.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessuna telefonata di panico.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono una tireotossicosi.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Il referto mostra TSH, FT4 e FT3, con la regola usata.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Scrivo la sequenza.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Scrivo solo il TSH.",
+          "next": "r-stop"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "L'FT3 aggiunta dal protocollo e' 8,40 euro ed e' a carico del ticket previsto. Il NGS no.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Addebito l'FT3, non il NGS.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Addebito il pannello da 400 euro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto TSH sotto 0,45 e FT4 minore o uguale a 1,70.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non scrivo la soglia.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-stop",
+      "type": "resolution",
+      "title": "FT3 omessa",
+      "prompt": "Con FT4 a 1,40 ng/dL il protocollo aggiunge l'FT3. Fermarsi e' uscire dallo schema.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Nuovo prelievo inutile",
+      "prompt": "Il siero c'e' ed e' idoneo. Il protocollo lavora su quello.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-bio",
+      "type": "resolution",
+      "title": "Biotina non dichiarata",
+      "prompt": "Senza anamnesi di biotina non si blocca un reflex che il protocollo chiede.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Panico non previsto",
+      "prompt": "Questi numeri non sono nella lista dei valori critici.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "NGS al posto del reflex",
+      "prompt": "Quattrocento euro senza visita genetica. Il test dovuto e' l'FT3 a 8,40 euro.",
+      "cost": 400,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Soglia non scritta",
+      "prompt": "Manca 1,70 ng/dL nella traccia.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "FT3 aggiunta",
+      "prompt": "TSH sotto 0,45, FT4 1,40 ng/dL, FT3 eseguita. Niente NGS.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il paziente non vuole altri prelievi, ma il siero c'e' gia'."
+  }
+}

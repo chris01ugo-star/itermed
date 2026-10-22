@@ -25,6 +25,10 @@ const SSM_SPECIALTIES: Array<{ name: string; description: string }> = [
   { name: "Geriatria", description: "Paziente fragile, delirium e multimorbidità." },
   { name: "Malattie Infettive", description: "Sepsis, meningite e infezioni sistemiche." },
   {
+    name: "Medicina di Laboratorio",
+    description: "Idoneità del campione, interferenze analitiche, test riflessi e refertazione.",
+  },
+  {
     name: "Medicina d'Emergenza-Urgenza",
     description: "Triage, stabilizzazione e percorsi di emergenza.",
     // Slug JSON e cartella knowledge_base: medicina_urgenza

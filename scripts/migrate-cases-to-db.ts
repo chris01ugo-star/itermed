@@ -12,6 +12,7 @@
  *   knowledge_base/reumatologia/cases/REUMA-*.json
  *   knowledge_base/geriatria/cases/GERIA-*.json
  *   knowledge_base/ematologia/cases/EMAT-*.json
+ *   knowledge_base/medicina_laboratorio/cases/LABO-*.json
  *   knowledge_base/tutorials/TUTORIAL-*.json
  *
  * Medicina Interna rows are also upserted into `ClinicalCase` and linked to the
@@ -22,6 +23,8 @@
  * Oncologia rows (slug `oncologia`) are linked to the seed name "Oncologia".
  * Psichiatria rows (slug `psichiatria`) are linked to the seed name "Psichiatria".
  * Ematologia rows (slug `ematologia`) are linked to the seed name "Ematologia".
+ * Medicina di Laboratorio rows (slug `medicina_laboratorio`) are linked to the
+ * seed name "Medicina di Laboratorio".
  *
  * Usage:
  *   npx tsx scripts/migrate-cases-to-db.ts
@@ -53,8 +56,9 @@ const SPECIALTIES = [
   "reumatologia",
   "geriatria",
   "ematologia",
+  "medicina_laboratorio",
 ] as const;
-const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO|PSIC|REUMA|GERIA|EMAT)-\d{3}\.json$/i;
+const CASE_FILE_RE = /^(CARDIO|PNEUMO|GASTRO|TUTORIAL|INTMED|EMERG|NEURO|INF|ONCO|PSIC|REUMA|GERIA|EMAT|LABO)-\d{3}\.json$/i;
 const MEDICINA_INTERNA_SPECIALTY_NAME = "Medicina Interna";
 const MEDICINA_URGENZA_SPECIALTY_NAME = "Medicina d'Emergenza-Urgenza";
 const NEUROLOGIA_SPECIALTY_NAME = "Neurologia";
@@ -62,6 +66,7 @@ const INFETTIVE_SPECIALTY_NAME = "Malattie Infettive";
 const ONCOLOGIA_SPECIALTY_NAME = "Oncologia";
 const PSICHIATRIA_SPECIALTY_NAME = "Psichiatria";
 const EMATOLOGIA_SPECIALTY_NAME = "Ematologia";
+const MEDICINA_LABORATORIO_SPECIALTY_NAME = "Medicina di Laboratorio";
 
 function isCaseFile(full: string, name: string): boolean {
   if (CASE_FILE_RE.test(name)) return true;
@@ -247,6 +252,19 @@ async function main(): Promise<void> {
       select: { id: true, name: true },
     });
   }
+  let medicinaLaboratorio = await prisma.medicalSpecialty.findFirst({
+    where: { name: { equals: MEDICINA_LABORATORIO_SPECIALTY_NAME, mode: "insensitive" } },
+    select: { id: true, name: true },
+  });
+  if (!medicinaLaboratorio) {
+    medicinaLaboratorio = await prisma.medicalSpecialty.create({
+      data: {
+        name: MEDICINA_LABORATORIO_SPECIALTY_NAME,
+        description: "Idoneità del campione, interferenze analitiche, test riflessi e refertazione.",
+      },
+      select: { id: true, name: true },
+    });
+  }
   const author = await prisma.user.findFirst({
     where: { role: "ADMIN" },
     orderBy: { createdAt: "asc" },
@@ -278,7 +296,8 @@ async function main(): Promise<void> {
         `${infettive ? `; Malattie Infettive → ${infettive.id}` : ""}` +
         `${oncologia ? `; Oncologia → ${oncologia.id}` : ""}` +
         `${psichiatria ? `; Psichiatria → ${psichiatria.id}` : ""}` +
-        `${ematologia ? `; Ematologia → ${ematologia.id}` : ""}`,
+        `${ematologia ? `; Ematologia → ${ematologia.id}` : ""}` +
+        `${medicinaLaboratorio ? `; Medicina di Laboratorio → ${medicinaLaboratorio.id}` : ""}`,
     );
   }
 
@@ -336,7 +355,8 @@ async function main(): Promise<void> {
         kb.specialty === "malattie_infettive" ||
         kb.specialty === "oncologia" ||
         kb.specialty === "psichiatria" ||
-        kb.specialty === "ematologia"
+        kb.specialty === "ematologia" ||
+        kb.specialty === "medicina_laboratorio"
       ) {
         const linked =
           kb.specialty === "medicina_interna"
@@ -351,7 +371,9 @@ async function main(): Promise<void> {
                     ? psichiatria
                     : kb.specialty === "ematologia"
                       ? ematologia
-                      : infettive;
+                      : kb.specialty === "medicina_laboratorio"
+                        ? medicinaLaboratorio
+                        : infettive;
         const linkedLabel =
           kb.specialty === "medicina_interna"
             ? MEDICINA_INTERNA_SPECIALTY_NAME
@@ -365,7 +387,9 @@ async function main(): Promise<void> {
                     ? PSICHIATRIA_SPECIALTY_NAME
                     : kb.specialty === "ematologia"
                       ? EMATOLOGIA_SPECIALTY_NAME
-                      : INFETTIVE_SPECIALTY_NAME;
+                      : kb.specialty === "medicina_laboratorio"
+                        ? MEDICINA_LABORATORIO_SPECIALTY_NAME
+                        : INFETTIVE_SPECIALTY_NAME;
         if (!linked || !author) {
           failures.push({
             file,

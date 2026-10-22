@@ -1,0 +1,356 @@
+{
+  "id": "LABO-024",
+  "code": "LABO-024",
+  "title": "HIV s/co 0,6: negativo, senza Western blot",
+  "description": "Screening HIV 0,6 s/co, sotto 1,0. Il protocollo dice negativo e STOP. Il Western blot da 67,20 euro non si aggiunge.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Screening HIV sotto 1,0 s/co",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Protocollo HIV, Casale; FASDAC 2026",
+  "diagnosis": "Referto negativo. Nessun test di conferma. L'indeterminato parte da 1,0, non da 0,6.",
+  "pastMedicalHistory": "Paziente non noto. Screening HIV. Risultato 0,6 s/co.",
+  "presentation": "Per prudenza vogliono il Western blot, 67,20 euro, e chiamarlo indeterminato.",
+  "redHerrings": [
+    "Western blot prudenziale.",
+    "Si chiama indeterminato.",
+    "Si ripete senza essere nel ramo dubbio."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "E' 0,6. Fermatevi. Non e' un dubbio.",
+  "correctSolution": "Refertare negativo e fermarsi. Sotto 1,0 il protocollo dice STOP. Il ramo indeterminato e' tra 1,0 e 5,0. Il Western blot non si aggiunge.",
+  "goldStandardPath": [
+    "hiv"
+  ],
+  "goldPathNarrative": "Sotto 1,0 lo screening HIV e' negativo e il protocollo si ferma.",
+  "examLatencies": {
+    "hiv": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Sotto quale s/co lo screening e' negativo e ci si ferma?",
+      "critical": true,
+      "expectedKeywords": [
+        "1,0",
+        "negativo"
+      ],
+      "rationale": "Sotto 1,0: negativo, STOP."
+    },
+    {
+      "id": "q2",
+      "prompt": "Da dove parte il ramo indeterminato?",
+      "critical": true,
+      "expectedKeywords": [
+        "1,0",
+        "5,0"
+      ],
+      "rationale": "Da 1,0 a 5,0 s/co."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "Screening HIV, unita' s/co. s/co minore di 1,0: negativo, STOP. Tra 1,0 e 5,0: indeterminato, centrifugazione e ripetizione. Sopra 5,0: positivo, test di conferma INNOLIA."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "In caso di risultato dubbio in un paziente non noto il laboratorio aggiunge il test LIA-HIV."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002383 Anticorpi anti HIV 14,00 euro. DL LB N000002647 Test di conferma HIV Western blot 67,20 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Sotto 1,0 non si conferma.",
+      "67,20 euro di Western blot non sono prudenza: sono fuori protocollo."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "STOP scritto sotto 1,0.",
+      "legalCriteria": [
+        "Il dubbio del paziente non noto parte dal risultato dubbio, non dal negativo.",
+        "Non si sposta 0,6 nella fascia 1,0-5,0."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "hiv",
+      "name": "Screening HIV",
+      "finding": "0,6 s/co, negativo. Si referta e ci si ferma. Tariffa 14 euro.",
+      "isAbnormal": false,
+      "priceEuro": 14
+    },
+    {
+      "examId": "hiv",
+      "name": "Stop",
+      "finding": "Nessuna conferma INNOLIA o Western blot.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "hiv-wb",
+      "name": "Western blot HIV",
+      "finding": "Conferma su un negativo.",
+      "isAbnormal": false,
+      "priceEuro": 67.2,
+      "inappropriate": true,
+      "wasteRationale": "Sessantasette euro e venti. Il protocollo la riserva al ramo della conferma, non al risultato sotto 1,0."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Screening 0,6 s/co. Qualcuno spunta il Western blot da 67,20 euro.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Tolgo la conferma.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "La lascio in richiesta.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Campione identificato, idoneo allo screening.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Accetto lo 0,6.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Lo riclassifico indeterminato.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Nessuna interferenza descritta che sposti uno 0,6 sopra 1,0.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non alzo il numero.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Lo porto a 1,2 per entrare nel dubbio.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Sotto 1,0 il reflex di conferma non parte. Il LIA e' per il dubbio.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "STOP.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Aggiungo il LIA-HIV.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Un negativo non si notifica come infezione.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessuna telefonata di panico.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono un HIV positivo.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Referto: negativo, sotto 1,0, nessuna conferma.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Lo scrivo.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Scrivo indeterminato.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "14 euro di screening si. 67,20 di blot no.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Addebito solo lo screening.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Addebito il blot.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto la soglia 1,0 e lo STOP.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non scrivo la soglia.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Negativo spostato nel dubbio",
+      "prompt": "0,6 e' sotto 1,0. Non e' la fascia 1,0-5,0.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "Western blot su un negativo",
+      "prompt": "Sessantasette euro e venti fuori dal protocollo, che sotto 1,0 si ferma.",
+      "cost": 67.2,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Positivita' notificata",
+      "prompt": "Non si telefona un'infezione su uno screening negativo.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Soglia assente",
+      "prompt": "Manca lo STOP sotto 1,0.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "HIV negativo, stop",
+      "prompt": "0,6 s/co refertato negativo. Western blot non eseguito e non addebitato.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Lo sportello teme il falso negativo e vuole la conferma a pagamento."
+  }
+}

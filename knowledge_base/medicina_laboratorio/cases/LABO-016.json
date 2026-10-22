@@ -1,0 +1,371 @@
+{
+  "id": "LABO-016",
+  "code": "LABO-016",
+  "title": "TSH 4,8 e AbTPO 18: si aggiunge l'anti-tireoglobulina",
+  "description": "TSH 4,8, sopra 3,50. AbTPO 18 UI/mL, sotto 34. Il protocollo aggiunge FT4, AbTPO e poi l'anti-tireoglobulina.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "TSH sopra 3,50 e AbTPO sotto 34 UI/mL",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Protocollo TSH reflex, Casale; FASDAC 2026",
+  "diagnosis": "Si completa il reflex con l'anti-tireoglobulina. Non ci si ferma all'AbTPO.",
+  "pastMedicalHistory": "TSH 4,8 microU/mL. AbTPO 18 UI/mL. FT4 in corso.",
+  "presentation": "Il banco vuole chiudere senza l'anti-tireoglobulina per risparmiare 8,40 euro.",
+  "redHerrings": [
+    "Stop per risparmiare.",
+    "AbTPO scambiata per sopra 34.",
+    "NGS tiroideo."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "L'AbTPO e' 18, sotto 34. Aggiungete l'anti-tireoglobulina.",
+  "correctSolution": "Aggiungere l'anti-tireoglobulina perche' l'AbTPO e' sotto 34 UI/mL. Tenere FT4 e AbTPO. Il ticket di questo test aggiunto e' previsto dal protocollo.",
+  "goldStandardPath": [
+    "tsh",
+    "abtpo",
+    "abtg"
+  ],
+  "goldPathNarrative": "Sotto 34 UI/mL di AbTPO il protocollo non si ferma: aggiunge l'anti-tireoglobulina.",
+  "examLatencies": {
+    "tsh": 20,
+    "abtpo": 20,
+    "abtg": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Sotto quale AbTPO si aggiunge l'anti-tireoglobulina?",
+      "critical": true,
+      "expectedKeywords": [
+        "34",
+        "tireoglobulina"
+      ],
+      "rationale": "Sotto 34 UI/mL."
+    },
+    {
+      "id": "q2",
+      "prompt": "Il paziente paga i test aggiunti dal protocollo?",
+      "critical": true,
+      "expectedKeywords": [
+        "ticket",
+        "si"
+      ],
+      "rationale": "Si. Il protocollo lo dice."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "Se l'anti-tireoperossidasi rientra nei valori di riferimento il laboratorio aggiunge il test anti-tireoglobulina. Il paziente e' tenuto a corrispondere il ticket per i test aggiunti."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "AbTPO minore di 34 UI/mL: anti-tireoglobulina."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: anti-tireoglobulina 8,40 euro. AbTPO 11,20 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "AbTg dovuta sotto 34 UI/mL.",
+      "Non si omette per risparmiare il ticket."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Soglia 34 UI/mL scritta nel protocollo di Casale.",
+      "legalCriteria": [
+        "Il ticket dei test aggiunti e' nel protocollo.",
+        "Omettere il test non e' un risparmio lecito."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "abtg",
+      "name": "Anti-tireoglobulina",
+      "finding": "Da aggiungere: AbTPO 18, sotto 34.",
+      "isAbnormal": false,
+      "priceEuro": 8.4
+    },
+    {
+      "examId": "abtpo",
+      "name": "AbTPO",
+      "finding": "18 UI/mL, dentro il ramo che prosegue.",
+      "isAbnormal": true,
+      "priceEuro": 11.2
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ngs",
+      "name": "Pannello NGS 79 geni",
+      "finding": "Proposto al posto dell'AbTg.",
+      "isAbnormal": false,
+      "priceEuro": 400,
+      "inappropriate": true,
+      "wasteRationale": "Quattrocento euro senza visita genetica. Il test dovuto costa 8,40 euro ed e' l'anti-tireoglobulina."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "TSH 4,8. AbTPO 18, sotto 34.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Completo il reflex.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Salto l'AbTg per non far pagare 8,40 euro.",
+          "next": "r-skip"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Siero idoneo, abbastanza per l'AbTg.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Lo uso.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Chiedo un secondo prelievo senza necessita'.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Nessuna interferenza.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Proseguo.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Blocco per colore del siero non misurato.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Sotto 34 UI/mL si aggiunge l'anti-tireoglobulina.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "La aggiungo.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Apro il pannello NGS.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Non e' un panic value.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessuna telefonata di panico.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono un allarme.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Referto con la cascata e la soglia 34.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Lo scrivo.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Chiudo senza AbTg.",
+          "next": "r-skip"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "8,40 euro sono il ticket del test aggiunto. 400 euro no.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Addebito l'AbTg, non il NGS.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Addebito il NGS.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Scrivo AbTPO 18 e la regola sotto 34.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non registro la soglia.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-skip",
+      "type": "resolution",
+      "title": "AbTg omessa per risparmio",
+      "prompt": "Sotto 34 UI/mL il protocollo aggiunge l'anti-tireoglobulina. Il ticket e' dovuto.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Prelievo o blocco non previsti",
+      "prompt": "Il siero e' idoneo e il reflex va completato.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "NGS al posto dell'AbTg",
+      "prompt": "Quattrocento euro senza visita genetica, al posto di 8,40 euro previsti.",
+      "cost": 400,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Panico non in lista",
+      "prompt": "Non e' un valore critico.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Soglia non scritta",
+      "prompt": "Manca il perche' dell'AbTg.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "AbTg aggiunta",
+      "prompt": "Anti-tireoglobulina eseguita perche' l'AbTPO e' 18 UI/mL, sotto 34. Ticket di quel test, non il NGS.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Chiedono di contenere il ticket saltando un test del protocollo."
+  }
+}

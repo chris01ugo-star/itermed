@@ -1,0 +1,380 @@
+{
+  "id": "LABO-025",
+  "code": "LABO-025",
+  "title": "NGS a 79 geni senza visita e senza consenso: non si esegue",
+  "description": "Pannello di prevenzione tumorale, 79 geni, 400 euro, su persona asintomatica. Manca la visita genetica e manca il sospetto. La casella del consenso informato, legge 219/2017, e' vuota.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Pannello NGS predittivo senza visita e senza consenso",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "FASDAC 2026; legge 22 dicembre 2017, n. 219",
+  "diagnosis": "Non si esegue e non si rimborsa. Servono visita specialistica genetica, diagnosi o sospetto, e consenso informato documentato.",
+  "pastMedicalHistory": "Check-up. Nessun sospetto scritto. Nessuna visita genetica. Modulo di consenso senza spunta. Richiesta del pannello NGS a 79 geni.",
+  "presentation": "Lo sportello dice che il prelievo e' gia' in mano e che la casella vuota si puo' considerare un si'.",
+  "redHerrings": [
+    "Casella vuota come consenso.",
+    "Si rimborsa lo stesso.",
+    "Si esegue e si chiede il consenso dopo."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Non c'e' la visita e non c'e' la spunta. Non sequenziate.",
+  "correctSolution": "Non eseguire il pannello. Il nomenclatore lo rimborsa solo dopo visita specialistica genetica o della branca di pertinenza, con diagnosi o sospetto. La legge 219 vieta di iniziare un accertamento senza consenso libero e informato, e vuole quel consenso in cartella.",
+  "goldStandardPath": [
+    "ngs"
+  ],
+  "goldPathNarrative": "Quattrocento euro non si spendono senza visita e senza consenso documentato. La casella vuota non e' un si'.",
+  "examLatencies": {
+    "ngs": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Quando una prestazione di genomica e' rimborsabile?",
+      "critical": true,
+      "expectedKeywords": [
+        "visita",
+        "genetica"
+      ],
+      "rationale": "Dopo visita specialistica genetica, con diagnosi o sospetto."
+    },
+    {
+      "id": "q2",
+      "prompt": "Il consenso della legge 219 dove si inserisce?",
+      "critical": true,
+      "expectedKeywords": [
+        "cartella",
+        "documentato"
+      ],
+      "rationale": "Nella cartella clinica e nel fascicolo, in qualunque forma sia stato espresso."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "n",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Qualunque prestazione di genomica e' rimborsabile solo se prescritta a seguito di visita specialistica genetica o della branca specialistica di pertinenza, con indicazione della diagnosi o del sospetto diagnostico."
+    },
+    {
+      "chunkId": "q",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Pannello completo di prevenzione tumorale con tipizzazione multigenica in NGS (79 geni), non ripetibile nel corso della vita, 400,00 euro."
+    },
+    {
+      "chunkId": "l",
+      "source": "knowledge_base/medicina_laboratorio/legal/allegato115290.pdf",
+      "quote": "Nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/medicina_laboratorio/legal/allegato115290.pdf",
+      "quote": "Il consenso informato, in qualunque forma espresso, e' inserito nella cartella clinica e nel fascicolo sanitario elettronico. Ogni persona capace di agire ha il diritto di rifiutare qualsiasi accertamento diagnostico."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente NGS senza visita e senza sospetto.",
+      "Niente esecuzione con la casella del consenso vuota."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 219/2017, articolo 1: niente accertamento senza consenso documentato.",
+      "legalCriteria": [
+        "Il nomenclatore blocca il rimborso senza visita genetica.",
+        "La casella vuota non e' consenso."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ngs",
+      "name": "Verifica della richiesta",
+      "finding": "Mancano visita genetica, sospetto e spunta del consenso. Pannello non eseguito.",
+      "isAbnormal": true
+    },
+    {
+      "examId": "ngs",
+      "name": "Consenso",
+      "finding": "Non documentato in cartella. Accertamento non iniziato.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ngs",
+      "name": "Pannello NGS 79 geni",
+      "finding": "Eseguito su asintomatico senza visita e senza consenso.",
+      "isAbnormal": false,
+      "priceEuro": 400,
+      "inappropriate": true,
+      "wasteRationale": "Quattrocento euro non rimborsabili: manca la visita specialistica genetica e manca la diagnosi o il sospetto. Manca anche il consenso della legge 219."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "79 geni, 400 euro. Nessuna visita genetica, nessun sospetto, casella del consenso vuota.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Non accetto la richiesta.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "La metto in lavoro perche' il sangue c'e'.",
+          "next": "r-run"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "La provetta e' identificata, ma il consenso non c'e'.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "La fermo.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "La processo: l'etichetta basta.",
+          "next": "r-run"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Non e' un problema di emolisi. E' un problema di consenso e di nota del nomenclatore.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non cerco un'interferenza per sbloccare la corsa.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "La sequenzio lo stesso.",
+          "next": "r-run"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Nessun reflex aggiunge altri geni a un pannello gia' non indicato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non allargo il pannello.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Passo al pannello da 500 geni.",
+          "next": "r-more"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Non c'e' un risultato. Non c'e' un panic value.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Non telefono varianti.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Anticipo un rischio eredo-familiare.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Scrivo: non eseguito, mancano visita, sospetto e consenso documentato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Lo scrivo.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Scrivo pannello nella norma.",
+          "next": "r-fake"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "400 euro non si rimborsano.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non addebito.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Addebito il pannello.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto la casella vuota e l'assenza della visita.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro in cartella.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Considero il silenzio un consenso.",
+          "next": "r-consent"
+        }
+      ]
+    },
+    {
+      "id": "r-run",
+      "type": "resolution",
+      "title": "NGS eseguito senza consenso",
+      "prompt": "La legge 219 non permette di iniziare l'accertamento senza consenso libero e informato, inserito in cartella.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-consent",
+      "type": "resolution",
+      "title": "Casella vuota letta come si'",
+      "prompt": "Il consenso va documentato. La casella vuota non e' un consenso.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-fake",
+      "type": "resolution",
+      "title": "Referto di un esame non eseguibile",
+      "prompt": "Non si scrive un esito di un pannello che non andava fatto.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Rischio genetico anticipato",
+      "prompt": "Non si comunica una variante di un test non consentito e non indicato.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-more",
+      "type": "resolution",
+      "title": "Pannello ancora piu' largo",
+      "prompt": "Allargare i geni non cura l'assenza di visita e di consenso.",
+      "cost": 400,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "Quattrocento euro rimborsati lo stesso",
+      "prompt": "Senza visita specialistica genetica e senza diagnosi o sospetto il nomenclatore non rimborsa.",
+      "cost": 400,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Pannello non eseguito",
+      "prompt": "NGS fermo. Mancano visita, sospetto e consenso documentato. Nessun rimborso.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il paziente dice di aver firmato qualcosa allo sportello, ma sul modulo la spunta del consenso non c'e'."
+  }
+}

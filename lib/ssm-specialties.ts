@@ -9,6 +9,7 @@ export const SSM_SPECIALTY_CATEGORIES = [
   "Gastroenterologia",
   "Geriatria",
   "Malattie Infettive",
+  "Medicina di Laboratorio",
   "Medicina d'Emergenza-Urgenza",
   "Medicina Interna",
   "Neurologia",

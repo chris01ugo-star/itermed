@@ -1,0 +1,361 @@
+{
+  "id": "LABO-002",
+  "code": "LABO-002",
+  "title": "Coagulo in emocromo: la conta non si firma",
+  "description": "Emocromo su provetta con microcoaguli visibili e allarme piastrinico. I campioni coagulati destinati all'emocromo non si processano.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Emocromo su campione coagulato",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "SIBioC campioni non idonei 2007; FASDAC 2026",
+  "diagnosis": "Non si esegue l'emocromo. Si chiede un secondo campione oppure si mette il commento di campione coagulato.",
+  "pastMedicalHistory": "Il reparto vuole la conta piastrinica. Nella provetta si vedono coaguli e il citogramma segnala aggregati.",
+  "presentation": "Il tecnico propone di firmare piastrine 18 per mille microlitri e di telefonarle come critiche.",
+  "redHerrings": [
+    "Firmare le piastrine del coagulo.",
+    "Telefonare un numero non eseguito.",
+    "Secondo emocromo pagato sullo stesso coagulo."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "C'e' un coagulo. Non firmate quella conta.",
+  "correctSolution": "Non eseguire l'emocromo ne' gli esami di coagulazione su quel campione. Chiedere un secondo prelievo. Se non arriva, commento: analisi non eseguibile per campione coagulato.",
+  "goldStandardPath": [
+    "emocromo"
+  ],
+  "goldPathNarrative": "Il coagulo consuma piastrine e fattori: emocromo e coagulazione non si eseguono.",
+  "examLatencies": {
+    "emocromo": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Che esami non si eseguono se il campione primario e' coagulato?",
+      "critical": true,
+      "expectedKeywords": [
+        "emocromo",
+        "coagulazione"
+      ],
+      "rationale": "Emocitometrici ed emocoagulativi, grado A."
+    },
+    {
+      "id": "q2",
+      "prompt": "Che commento si usa se non arriva un secondo campione?",
+      "critical": true,
+      "expectedKeywords": [
+        "coagulato",
+        "eseguibile"
+      ],
+      "rationale": "Analisi non eseguibile per campione coagulato."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "In presenza di campioni coagulati destinati ad analisi emocoagulative ed emocromocitometriche, gli esami non devono essere eseguiti ed il laboratorio dovrebbe richiedere un secondo campione."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "Se cio' non e' possibile, si raccomanda di sostituire al valore dell'analita un commento codificato nel referto, ad esempio Analisi non eseguibile per campione coagulato."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "Campione coagulato: presenza di micro o macrocoaguli visibili in campioni che non dovrebbero contenerli, destinati ad esami di emocitometria e coagulazione."
+    },
+    {
+      "chunkId": "d",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002513 Esame emocromocitometrico e morfologico (Hb, GR, GB, conta piastrine, ecc.) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Emocromo e coagulazione non si eseguono sul coagulo.",
+      "Si chiede un secondo campione, grado A."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Raccomandazione di grado A: non eseguire e chiedere un altro campione.",
+      "legalCriteria": [
+        "Commento codificato se il secondo campione non arriva.",
+        "Non si notifica una conta letta su un coagulo."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo",
+      "finding": "Non eseguibile per campione coagulato. Listino 4,80 euro, non da validare come conta.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "emocromo",
+      "name": "Secondo prelievo",
+      "finding": "Richiesto un campione senza coaguli prima di qualsiasi conta.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo ripetuto sul coagulo",
+      "finding": "Stesso campione coagulato rimesso in corsa e addebitato.",
+      "isAbnormal": false,
+      "priceEuro": 4.8,
+      "inappropriate": true,
+      "wasteRationale": "Il nomenclatore prezza l'emocromo 4,80 euro, ma il documento vieta di eseguirlo sul coagulo. Addebitarlo come conta valida e' uno scarto."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "La richiesta e' l'emocromo, 4,80 euro. La provetta ha coaguli visibili.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Accetto il quesito e fermo l'esecuzione.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Metto in lavoro l'emocromo e lo addebito.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Microcoaguli e allarme di aggregati piastrinici: il campione non dovrebbe contenerli.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Lo marco coagulato, codice C-COAG.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Ignoro i coaguli e centrifugo per la conta.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Il coagulo consuma piastrine, fattori e incorpora elementi corpuscolati.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non uso quel numero di piastrine.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Firmo piastrine basse come dato reale.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Nessun reflex autorizza a ripetere l'emocromo sullo stesso coagulo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non aggiungo reflex. Chiedo un prelievo nuovo.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Rilancio l'emocromo sulla stessa provetta.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Non esiste una conta attendibile. La soglia IFCC delle piastrine sotto 20 non si applica a un esame non eseguito.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Non notifico un panic value.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono piastrine 18 come critiche.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Se il secondo campione non arriva, il referto porta il commento codificato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Scrivo: analisi non eseguibile per campione coagulato.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Lascio la conta nel referto.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "L'emocromo costa 4,80 euro solo se e' un esame eseguito su campione idoneo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non addebito la conta del coagulo.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Addebito 4,80 euro per l'emocromo firmato.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Registro C-COAG, la richiesta del nuovo campione e chi e' stato avvisato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Chiudo la non conformita' con la traccia.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Butto via la registrazione.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Emocromo firmato sul coagulo",
+      "prompt": "Gli esami emocromocitometrici su campione coagulato non devono essere eseguiti.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Panic value senza esame",
+      "prompt": "Non si telefona una conta piastrinica ottenuta, o inventata sul LIS, da un coagulo.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "Emocromo addebitato sul coagulo",
+      "prompt": "Quattro euro e ottanta di emocromo non si validano su un campione che il documento dice di non processare.",
+      "cost": 4.8,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Coagulo senza traccia",
+      "prompt": "Manca la registrazione della non conformita' e manca il commento.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Coagulo chiuso",
+      "prompt": "Emocromo non eseguito. Secondo campione chiesto. Commento di campione coagulato pronto se il prelievo non arriva.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il reparto dice che 18 mila piastrine bastano per trasfondere stanotte."
+  }
+}

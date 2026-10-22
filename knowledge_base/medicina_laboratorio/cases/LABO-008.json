@@ -1,0 +1,366 @@
+{
+  "id": "LABO-008",
+  "code": "LABO-008",
+  "title": "Potassio 6,8 in nefrologia: la soglia di reparto puo' essere piu' alta",
+  "description": "Lo stesso 6,8 mmol/L, ma il paziente e' in unita' operativa di nefrologia. Il documento dice che puo' non essere critico e che la soglia di quel reparto puo' essere piu' alta.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Potassio 6,8 mmol/L in nefrologia",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "SIBioC risultati critici 2018",
+  "diagnosis": "Non si applica in automatico la soglia generica. Si rispetta la soglia condivisa con la nefrologia, che puo' essere piu' alta di 6,2.",
+  "pastMedicalHistory": "Paziente ricoverato in nefrologia. Siero idoneo. Potassio 6,8 mmol/L. La lista locale di quel reparto non e' la tabella generica.",
+  "presentation": "Il turno vuole la stessa telefonata di panico usata in medicina, perche' 6,8 supera 6,2.",
+  "redHerrings": [
+    "Panic value automatico.",
+    "Si nasconde il risultato.",
+    "Si usa 6,2 come legge rigida."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "E' un paziente di nefrologia. Non trattate il 6,8 come il critico generico.",
+  "correctSolution": "Non lanciare la notifica di panico generica. Il documento dice che 6,8 mmol/L puo' non essere critico in nefrologia e che la soglia puo' essere piu' alta. Refertare il numero e applicare la lista condivisa con quel reparto. Non cancellare il risultato.",
+  "goldStandardPath": [
+    "potassiemia"
+  ],
+  "goldPathNarrative": "La tabella e' un punto di partenza, non una linea rigida. In nefrologia 6,8 puo' non essere critico.",
+  "examLatencies": {
+    "potassiemia": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Per quale reparto 6,8 mmol/L di potassio puo' non essere critico?",
+      "critical": true,
+      "expectedKeywords": [
+        "nefrologia",
+        "unita"
+      ],
+      "rationale": "Unita' operativa di nefrologia."
+    },
+    {
+      "id": "q2",
+      "prompt": "La tabella 2018 e' una linea rigida per tutti i reparti?",
+      "critical": true,
+      "expectedKeywords": [
+        "partenza",
+        "no"
+      ],
+      "rationale": "E' un punto di partenza, non una linea guida rigida per ogni scenario."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "n",
+      "source": "knowledge_base/medicina_laboratorio/legal/Italy - 2018 Critical results.pdf",
+      "quote": "Un valore di 6,8 mmol/L di potassio puo' non essere critico per pazienti ricoverati presso una unita' operativa di nefrologia, e la soglia per la comunicazione del valore critico puo' essere piu' alta per quel reparto."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/legal/Italy - 2018 Critical results.pdf",
+      "quote": "Le informazioni contenute nelle tabelle sono da considerare come punto di partenza per la costruzione dell'elenco di risultati critici di un laboratorio e non come una rigorosa linea guida applicabile a tutti gli scenari clinici."
+    },
+    {
+      "chunkId": "k",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002612 Potassiemia 2,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente panico automatico in nefrologia solo perche' 6,8 supera 6,2.",
+      "Il risultato si referta comunque."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Deroga esplicita per la nefrologia.",
+      "legalCriteria": [
+        "La tabella non e' una soglia unica per ogni reparto.",
+        "Non si cancella il dato."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "potassiemia",
+      "name": "Potassiemia",
+      "finding": "6,8 mmol/L da refertare, senza panic value generico.",
+      "isAbnormal": true,
+      "priceEuro": 2.8
+    },
+    {
+      "examId": "potassiemia",
+      "name": "Lista di reparto",
+      "finding": "Si applica la soglia condivisa con la nefrologia, che puo' essere piu' alta.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "tnt",
+      "name": "Troponina T",
+      "finding": "Aggiunta senza quesito cardiaco.",
+      "isAbnormal": false,
+      "priceEuro": 20.4,
+      "inappropriate": true,
+      "wasteRationale": "Troponina T cardiaca, FASDAC DL LB N000002958, 20,40 euro. Non e' nel quesito e non trasforma il 6,8 della nefrologia in un critico generico."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Potassio 6,8 mmol/L, provetta idonea, ricovero in nefrologia.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Apro la lista di quel reparto, non l'allarme generico.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Aggiungo la troponina T, 20,40 euro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Siero idoneo. Il numero e' del paziente.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Lo refertto.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Lo scarto perche' il reparto e' la nefrologia.",
+          "next": "r-hide"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Nessuna emolisi. Non correggo il valore.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Lascio 6,8.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Lo abbasso sotto 6,2 per evitare l'allarme.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Nessun reflex di troponina parte da questo potassio.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non aggiungo la troponina.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "La lancio in automatico.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "In nefrologia 6,8 puo' non essere critico e la soglia puo' essere piu' alta.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Non lancio il panic value generico.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono il panico come in medicina, solo perche' supera 6,2.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Il referto riporta 6,8 mmol/L e la provenienza nefrologia.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Scrivo il numero e il reparto.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Ometto il numero.",
+          "next": "r-hide"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "La troponina da 20,40 euro non e' nel quesito.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non la valido.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "La addebito.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto che la soglia generica non e' stata applicata, in base al testo sulla nefrologia.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro la decisione.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non lascio traccia del perche' non ho telefonato.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Panico generico in nefrologia",
+      "prompt": "Il documento dice che 6,8 mmol/L puo' non essere critico in nefrologia.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-hide",
+      "type": "resolution",
+      "title": "Risultato nascosto",
+      "prompt": "La deroga riguarda la soglia di notifica, non la cancellazione del potassio.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Potassio corretto a mano",
+      "prompt": "Non si abbassa il numero per spegnere l'allarme.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "Troponina non richiesta",
+      "prompt": "Venti euro e quaranta di troponina T senza quesito cardiaco.",
+      "cost": 20.4,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Deroga senza traccia",
+      "prompt": "Va scritto perche' non si e' usata la soglia generica.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Soglia di nefrologia rispettata",
+      "prompt": "Potassio 6,8 refertato. Panic value generico non lanciato. Traccia della deroga scritta.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il sistema propone lo stesso allarme di medicina."
+  }
+}

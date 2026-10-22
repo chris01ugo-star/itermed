@@ -1,0 +1,370 @@
+{
+  "id": "LABO-023",
+  "code": "LABO-023",
+  "title": "Provetta senza nome sicuro: non si rietichetta",
+  "description": "Due etichette discordanti sulla stessa provetta. Il laboratorio non rietichetta. Chiede un altro campione. Se non arriva, non processa e mette il commento di errore di identificazione.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Identificazione dubbia del campione",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "SIBioC campioni non idonei 2007",
+  "diagnosis": "Nuovo prelievo. Niente rietichettatura. Se il nuovo campione non c'e', commento: campione non analizzabile per errori di identificazione.",
+  "pastMedicalHistory": "Chimica urgente. Sull'etichetta il cognome non coincide con la richiesta. Il reparto propone di correggere l'etichetta al banco.",
+  "presentation": "Il campione e' gia' centrifugato. Perdere tempo sembra peggio che correggere il nome.",
+  "redHerrings": [
+    "Rietichettatura al banco.",
+    "Si processa lo stesso.",
+    "NGS sulla provetta anonima."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Il nome non torna. Non correggete l'etichetta e non processate.",
+  "correctSolution": "Non rietichettare. Chiedere un altro campione, grado A. Se non arriva, non processare e usare il commento di errore di identificazione. La rietichettatura e' fortemente sconsigliata, grado D.",
+  "goldStandardPath": [
+    "identificazione"
+  ],
+  "goldPathNarrative": "Il dubbio di identita' si chiude con un nuovo prelievo, non con un'etichetta nuova sulla stessa provetta.",
+  "examLatencies": {
+    "identificazione": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Che cosa si fa se l'identificazione resta dubbia?",
+      "critical": true,
+      "expectedKeywords": [
+        "altro",
+        "campione"
+      ],
+      "rationale": "Si richiede un altro campione, grado A."
+    },
+    {
+      "id": "q2",
+      "prompt": "La rietichettatura che grado ha?",
+      "critical": true,
+      "expectedKeywords": [
+        "grado",
+        "sconsigliata"
+      ],
+      "rationale": "Fortemente sconsigliata, grado D."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "Qualora persistano dubbi legittimi sulla corretta identificazione, il laboratorio deve richiedere un altro campione, raccomandazione di grado A."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "Procedure di rietichettatura dei campioni ad opera di personale del laboratorio, del reparto o di terzi sono fortemente sconsigliate, raccomandazione di grado D."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "Nell'impossibilita' di ottenere ulteriori campioni, quelli con problemi di identificazione non devono essere processati, sostituendo ai risultati un commento codificato, ad esempio Campione non analizzabile per errori di identificazione."
+    },
+    {
+      "chunkId": "d",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "Campione con identificazione dubbia o assente: C-NC."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente rietichettatura.",
+      "Nuovo campione, grado A. Altrimenti non si processa."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Grado A sulla richiesta del nuovo campione.",
+      "legalCriteria": [
+        "Grado D sulla rietichetta.",
+        "Commento codificato se non c'e' un altro prelievo."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "identificazione",
+      "name": "Verifica identita'",
+      "finding": "Discordanza etichetta-richiesta. Codice C-NC. Esami non processati.",
+      "isAbnormal": true
+    },
+    {
+      "examId": "identificazione",
+      "name": "Nuovo prelievo",
+      "finding": "Richiesto prima di qualsiasi risultato.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ngs",
+      "name": "Pannello NGS 79 geni",
+      "finding": "Proposto sulla provetta non identificata.",
+      "isAbnormal": false,
+      "priceEuro": 400,
+      "inappropriate": true,
+      "wasteRationale": "Quattrocento euro, e comunque non si processa un campione con identita' dubbia."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Chimica urgente. Cognome discordante. Nessun consenso a correggere l'etichetta.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Ferma tutto e chiedo un nuovo prelievo.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Aggiungo il pannello NGS e vado avanti.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Identificazione dubbia. Codice C-NC.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Non la processa.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Correggo il cognome e la metto in lavoro.",
+          "next": "r-label"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Il problema non e' l'emolisi. E' il nome.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non cerco un'interferenza per salvare il campione.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Lo processo perche' il siero e' limpido.",
+          "next": "r-run"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Nessun reflex su un campione non identificato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non ne lancio.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Lancio il pannello NGS.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Non ho risultati. Non ho un panic value.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Non telefono numeri.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono un potassio letto dopo la rietichetta.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Se il nuovo prelievo non arriva: campione non analizzabile per errori di identificazione.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Preparo quel commento.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Lascio i risultati della provetta corretta a mano.",
+          "next": "r-run"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "Niente NGS e niente chimica su questa provetta.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Nessun addebito di esami non eseguibili.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Addebito chimica e NGS.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Registro C-NC, il rifiuto della rietichetta e chi e' stato avvisato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Chiudo la traccia.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non scrivo la discordanza.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-label",
+      "type": "resolution",
+      "title": "Provetta rietichettata",
+      "prompt": "La rietichettatura e' fortemente sconsigliata, grado D.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-run",
+      "type": "resolution",
+      "title": "Esami su identita' dubbia",
+      "prompt": "Senza un altro campione non si processa. Il commento sostituisce i numeri.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Critico su provetta anonima",
+      "prompt": "Non si notifica un risultato di un campione non identificato.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "NGS sulla provetta sbagliata",
+      "prompt": "Quattrocento euro su un campione che non si puo' processare.",
+      "cost": 400,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Discordanza senza codice",
+      "prompt": "Manca il C-NC.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Identita' non forzata",
+      "prompt": "Nuovo prelievo chiesto. Rietichetta rifiutata. Commento pronto se il campione non arriva.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il reparto e' in ritardo e chiede di sistemare il cognome al telefono."
+  }
+}

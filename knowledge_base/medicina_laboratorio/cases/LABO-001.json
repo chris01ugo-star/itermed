@@ -1,0 +1,381 @@
+{
+  "id": "LABO-001",
+  "code": "LABO-001",
+  "title": "Siero emolizzato: non si referta il potassio",
+  "description": "Potassiemia su siero con emoglobina libera 0,50 g/L. L'emolisi visibile, dopo centrifugazione, e' sopra 0,30 g/L. Il numero non si comunica.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Potassiemia su siero emolizzato",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "SIBioC campioni non idonei 2007; FASDAC 2026",
+  "diagnosis": "Campione emolizzato. Commento codificato, secondo prelievo, niente potassio firmato.",
+  "pastMedicalHistory": "Medicina chiede il potassio. Dopo centrifugazione l'emoglobina libera e' 0,50 g/L e il LIS mostra 6,1 mmol/L.",
+  "presentation": "Propongono di validare 6,1 mmol/L, di correggerlo senza commento o di telefonarlo come critico.",
+  "redHerrings": [
+    "Validare il 6,1.",
+    "Formula senza commento.",
+    "Panic value sul numero emolizzato."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Il siero e' emolizzato. Non firmate quel potassio.",
+  "correctSolution": "Non eseguire ne' comunicare il potassio. Commento di campione emolitico, nuovo prelievo, traccia della non conformita'.",
+  "goldStandardPath": [
+    "potassiemia"
+  ],
+  "goldPathNarrative": "Sopra 0,30 g/L di emoglobina libera il siero e' emolizzato e il potassio non si referta.",
+  "examLatencies": {
+    "potassiemia": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Da quale emoglobina libera il siero centrifugato e' emolizzato?",
+      "critical": true,
+      "expectedKeywords": [
+        "0,30",
+        "emoglobina"
+      ],
+      "rationale": "Sopra 0,30 g/L, pari a 18,8 mmol/L."
+    },
+    {
+      "id": "q2",
+      "prompt": "Che commento sostituisce il numero?",
+      "critical": true,
+      "expectedKeywords": [
+        "emolitico",
+        "eseguibile"
+      ],
+      "rationale": "Analisi non eseguibile per campione emolitico."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "d",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "L'emolisi visibile nel campione dopo centrifugazione e' definita dalla presenza di concentrazioni di emoglobina libera nel siero o nel plasma >0,30 g/L (18,8 mmol/L)."
+    },
+    {
+      "chunkId": "n",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "E' assolutamente da evitare la trasmissione da parte del laboratorio di risultati viziati da non conformita' documentata senza farvi seguire alcun intervento."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "Sostituendo quindi al risultato dell'analita un commento codificato nel referto, ad esempio Analisi non eseguibile per campione emolitico."
+    },
+    {
+      "chunkId": "k",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002612 Potassiemia 2,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Non si referta il potassio sopra 0,30 g/L di emoglobina libera.",
+      "Si chiede un secondo campione e un commento codificato."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "SIBioC 2007: niente risultato viziato senza intervento.",
+      "legalCriteria": [
+        "Commento codificato al posto del numero.",
+        "Niente panic value su un dato non attendibile."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "potassiemia",
+      "name": "Potassiemia",
+      "finding": "Non eseguibile: emoglobina libera 0,50 g/L, sopra 0,30 g/L.",
+      "isAbnormal": true,
+      "priceEuro": 2.8
+    },
+    {
+      "examId": "potassiemia",
+      "name": "Nuovo prelievo",
+      "finding": "Richiesto un secondo campione e registrata la non conformita'.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ngs",
+      "name": "Pannello NGS 79 geni",
+      "finding": "Aggiunta sul siero emolizzato.",
+      "isAbnormal": false,
+      "priceEuro": 400,
+      "inappropriate": true,
+      "wasteRationale": "La genomica FASDAC si rimborsa solo dopo visita specialistica genetica, con diagnosi o sospetto. Il pannello di prevenzione tumorale e' 400 euro. Il quesito e' il potassio."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Il quesito e' la potassiemia, 2,80 euro. Emoglobina libera 0,50 g/L.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Blocco il risultato e resto sul quesito del potassio.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Aggiungo il pannello NGS da 79 geni, 400 euro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "L'emolisi visibile dopo centrifugazione e' emoglobina libera sopra 0,30 g/L.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Classifico il siero emolizzato.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Processo e referto potassio 6,1 mmol/L.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Senza un metodo che elimini l'interferenza, l'analita non si esegue e non si comunica.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non eseguo e non comunico il potassio.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Correggo con una formula e firmo senza commento.",
+          "next": "r-corr"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Nessun reflex di questa cartella parte da una potassiemia emolizzata.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non aggiungo reflex. Chiedo un altro campione.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Aggiungo FT4 e FT3, 8,40 euro l'uno.",
+          "next": "r-ft"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "6,1 mmol/L e' sotto la soglia IFCC di 6,2 ed e' letto su siero non idoneo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Non lo notifico come critico.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono il 6,1 come panic value.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Il numero si sostituisce con un commento codificato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Scrivo: analisi non eseguibile per campione emolitico.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Lascio il referto senza commento.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "Non si trasforma il prelievo in un pannello genomico.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Niente NGS e niente potassio validato.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Addebito potassiemia valida e NGS da 400 euro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Si registrano operatore, ora, campione e persona avvisata.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro la non conformita' e chiedo il nuovo prelievo.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Cancello la traccia.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Potassio su siero emolizzato",
+      "prompt": "Refertare 6,1 mmol/L con emoglobina libera 0,50 g/L trasmette un risultato viziato.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-corr",
+      "type": "resolution",
+      "title": "Formula senza commento",
+      "prompt": "La correzione dell'emolisi senza commento e' la soluzione di grado E.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Panic value inattendibile",
+      "prompt": "Non si telefona come critico un potassio letto su siero emolizzato.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-ft",
+      "type": "resolution",
+      "title": "FT4 e FT3 di troppo",
+      "prompt": "FT4 e FT3 sono 8,40 euro ciascuno e non sono il reflex di questa richiesta.",
+      "cost": 16.8,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "NGS non rimborsabile",
+      "prompt": "Il pannello NGS da 79 geni costa 400 euro e si rimborsa solo dopo visita genetica, con diagnosi o sospetto.",
+      "cost": 400,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Referto senza commento",
+      "prompt": "Manca il commento codificato e manca il nuovo campione.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Emolisi chiusa",
+      "prompt": "Potassio non comunicato. Commento di campione emolitico. Nuovo prelievo e traccia registrati.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il reparto vuole il numero gia' sul LIS, senza un secondo prelievo."
+  }
+}

@@ -1,0 +1,355 @@
+{
+  "id": "LABO-004",
+  "code": "LABO-004",
+  "title": "Ittero: non basta il colore, servono 450 e 575 nm",
+  "description": "Siero giallo. La definizione di ittero a occhio sul campione centrifugato puo' non essere attendibile. Si chiede la lettura fotometrica a 450 e 575 nm prima di refertare.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Siero cromaticamente itterico, idoneita' non ancora misurata",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "SIBioC campioni non idonei 2007",
+  "diagnosis": "Non si decide l'ittero a occhio. Si legge a 450 e 575 nm. Poi si applica la regola degli interferenti.",
+  "pastMedicalHistory": "Chimica clinica su siero intensamente giallo. Nessuna lettura fotometrica e' ancora stata fatta.",
+  "presentation": "Il banco vuole scartare tutto a vista, oppure firmare tutto perche' il giallo sembra modesto.",
+  "redHerrings": [
+    "Scarto solo a occhio.",
+    "Firma solo a occhio.",
+    "NGS aggiunto al siero giallo."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Non decidete l'ittero guardando la provetta.",
+  "correctSolution": "Non classificare ne' accettare l'ittero con la sola ispezione. Eseguire la lettura a 450 e 575 nm. Solo dopo si decide quali analiti hanno interferenza e non vanno comunicati.",
+  "goldStandardPath": [
+    "ittero-fotometrico"
+  ],
+  "goldPathNarrative": "L'ittero a occhio non e' attendibile. La lettura e' a 450 e 575 nm.",
+  "examLatencies": {
+    "ittero-fotometrico": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Perche' l'ittero non si definisce a occhio?",
+      "critical": true,
+      "expectedKeywords": [
+        "fotometrica",
+        "attendibile"
+      ],
+      "rationale": "L'ispezione visiva del centrifugato puo' non essere attendibile."
+    },
+    {
+      "id": "q2",
+      "prompt": "A quali lunghezze d'onda si legge?",
+      "critical": true,
+      "expectedKeywords": [
+        "450",
+        "575"
+      ],
+      "rationale": "Lettura a 450 e 575 nm."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "i",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "La definizione di ittero alla sola ispezione visiva del campione centrifugato puo' non essere attendibile; si raccomanda quindi di utilizzare una rilevazione fotometrica, mediante lettura a 450 e 575 nm."
+    },
+    {
+      "chunkId": "n",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "Gli esami per cui non e' descritta interferenza possono essere normalmente eseguiti e comunicati, mentre quelli per cui e' descritta interferenza non devono essere eseguiti ne' tanto meno comunicati."
+    },
+    {
+      "chunkId": "g",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: qualunque prestazione di genomica e' rimborsabile solo se prescritta a seguito di visita specialistica genetica, con indicazione della diagnosi o del sospetto diagnostico. Pannello NGS di prevenzione tumorale, 79 geni, 400 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente idoneita' decisa a occhio.",
+      "Lettura fotometrica a 450 e 575 nm prima del referto."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "SIBioC 2007: l'ittero visivo puo' non essere attendibile.",
+      "legalCriteria": [
+        "Gli analiti con interferenza non si comunicano.",
+        "Niente pannello genomico sul siero giallo."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ittero-fotometrico",
+      "name": "Lettura a 450 e 575 nm",
+      "finding": "Obbligatoria prima di dire se il siero e' itterico in modo analiticamente rilevante.",
+      "isAbnormal": true
+    },
+    {
+      "examId": "ittero-fotometrico",
+      "name": "Selezione degli analiti",
+      "finding": "Si comunicano solo gli esami senza interferenza descritta.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ngs",
+      "name": "Pannello NGS 79 geni",
+      "finding": "Aggiunto al siero giallo senza visita genetica.",
+      "isAbnormal": false,
+      "priceEuro": 400,
+      "inappropriate": true,
+      "wasteRationale": "Quattrocento euro, rimborsabili solo dopo visita specialistica genetica con diagnosi o sospetto. Il quesito e' l'interferenza da ittero."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Chimica su siero giallo. Nessun quesito genetico.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Resto sulla chimica e verifico l'ittero.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Aggiungo il pannello NGS da 400 euro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Il colore da solo non definisce l'ittero.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Non scarto e non accetto a vista. Chiedo la lettura.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Scarto tutta la chimica perche' la provetta e' gialla.",
+          "next": "r-eye"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "La lettura raccomandata e' a 450 e 575 nm.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Faccio misurare il campione a quelle due lunghezze.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Firmo tutti gli analiti senza lettura.",
+          "next": "r-eye"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Non c'e' un reflex genomico collegato al colore del siero.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Nessun reflex. Attendo la fotometria.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Lancio il pannello NGS in reflex.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Senza la lettura non ho un risultato da notificare.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessun panic value finche' l'analita non e' idoneo.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono un valore letto sul siero non verificato.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Gli analiti con interferenza, se confermata, prendono il commento e non il numero.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Preparo il commento solo per gli analiti interferiti.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Lascio tutti i numeri nudi.",
+          "next": "r-eye"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "Il pannello da 79 geni non e' nel quesito.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non lo addebito.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Lo validi insieme alla chimica.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Registro se la decisione si basa sulla fotometria e non sull'occhio.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Annoto lunghezza d'onda e esito.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Scrivo solo: siero un po' giallo.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-eye",
+      "type": "resolution",
+      "title": "Ittero deciso a occhio",
+      "prompt": "L'ispezione visiva del centrifugato puo' non essere attendibile. Servono 450 e 575 nm.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Critico senza verifica",
+      "prompt": "Non si notifica un numero di un siero di cui non si e' misurata l'interferenza.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "NGS sul siero giallo",
+      "prompt": "Quattrocento euro di pannello NGS senza visita genetica e senza sospetto scritto.",
+      "cost": 400,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Nessuna traccia della lettura",
+      "prompt": "Manca la documentazione della rilevazione fotometrica.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Ittero misurato",
+      "prompt": "Idoneita' decisa dopo lettura a 450 e 575 nm. Analiti interferiti non comunicati. Niente NGS.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Due tecnici non sono d'accordo sul colore e vogliono chiudere il referto lo stesso."
+  }
+}

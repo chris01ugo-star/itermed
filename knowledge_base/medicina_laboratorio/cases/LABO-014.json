@@ -1,0 +1,362 @@
+{
+  "id": "LABO-014",
+  "code": "LABO-014",
+  "title": "Sierologia COVID per fare la diagnosi: non e' l'esame",
+  "description": "Chiedono la sierologia su sangue venoso, 36 euro, per diagnosticare l'infezione acuta. Di norma la sierologia non si usa per la diagnosi. Puo' affiancare la molecolare solo in casi precisi.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Sierologia SARS-CoV-2 chiesta come diagnosi",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "SIBioC sierologia SARS-CoV-2 2021; FASDAC 2026",
+  "diagnosis": "Non si valida la sierologia come diagnosi. La diagnosi non e' quell'esame. La molecolare resta l'esame, salvo l'eccezione scritta.",
+  "pastMedicalHistory": "Paziente con febbre da due giorni. Nessun tampone fatto. Richiesta: sierologia IgG e IgM per diagnosi.",
+  "presentation": "Lo sportello vuole il referto sierologico come risposta al quesito diagnostico.",
+  "redHerrings": [
+    "Sierologia come diagnosi.",
+    "Si salta il molecolare.",
+    "Si usa il test sul dito al posto del tampone."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Non firmatemi la sierologia come diagnosi di infezione.",
+  "correctSolution": "Non usare la sierologia per la diagnosi. Puo' affiancare la molecolare solo se i molecolari ripetuti sono negativi e il sospetto clinico e' alto. Tariffa sierologica venosa 36 euro: non sostituisce il molecolare da 68 euro.",
+  "goldStandardPath": [
+    "covid-molecolare"
+  ],
+  "goldPathNarrative": "La sierologia di norma non diagnostica l'infezione. Il molecolare non si salta.",
+  "examLatencies": {
+    "covid-molecolare": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "La sierologia si usa di norma per la diagnosi?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "norma"
+      ],
+      "rationale": "Di norma no."
+    },
+    {
+      "id": "q2",
+      "prompt": "Quando puo' affiancare la molecolare?",
+      "critical": true,
+      "expectedKeywords": [
+        "negativita",
+        "sospetto"
+      ],
+      "rationale": "Negativita' molecolare ripetuta e alto sospetto clinico."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "u",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2021-Raccomandazioni-ad-interim-di-SIBioC-per-lanalisi-sierologica-dellinfezione.pdf",
+      "quote": "L'analisi sierologica di norma non e' utilizzata per la diagnosi d'infezione da SARS-CoV-2. Puo' affiancare l'analisi molecolare solo in circostanze specifiche (ripetuta negativita' agli esami molecolari contestualmente a elevato sospetto clinico)."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N053312735 Test per COVID-19 su sangue venoso, sierologico IgG e IgM, 36,00 euro. DL LB N053311806 Test molecolare diretto, 68,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "La sierologia da 36 euro non chiude la diagnosi.",
+      "Il molecolare non si omette al primo giorno di febbre."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "SIBioC 2021: di norma non e' diagnosi.",
+      "legalCriteria": [
+        "L'eccezione e' scritta e qui non c'e'.",
+        "Non si sostituisce il tampone col sangue."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "covid-molecolare",
+      "name": "Test molecolare",
+      "finding": "E' l'esame della diagnosi. Tariffa 68 euro. Qui non e' stato fatto.",
+      "isAbnormal": true,
+      "priceEuro": 68
+    },
+    {
+      "examId": "covid-sierologia",
+      "name": "Sierologia",
+      "finding": "Non va validata come diagnosi. Tariffa 36 euro.",
+      "isAbnormal": false,
+      "priceEuro": 36
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "covid-sierologia",
+      "name": "Sierologia come diagnosi",
+      "finding": "IgG e IgM venosi al posto del molecolare.",
+      "isAbnormal": false,
+      "priceEuro": 36,
+      "inappropriate": true,
+      "wasteRationale": "Trentasei euro di sierologia non diagnosticano l'infezione. Il molecolare e' 68 euro e non e' stato fatto."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Quesito: diagnosi di infezione. In richiesta c'e' la sierologia da 36 euro. Nessun molecolare.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Non accetto la sierologia come diagnosi.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "La valido come risposta al quesito.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Il sangue venoso non sostituisce il tampone per questo quesito.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Chiedo il molecolare.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Processo solo il siero.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Non e' un problema di emolisi. E' un problema di quesito.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non cerco un'interferenza per giustificare il referto.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Firmo IgM positiva come infezione certa.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "L'unica aggiunta ammessa e' affiancare la molecolare nell'eccezione scritta, che qui non c'e'.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non lancio reflex sierologici.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Aggiungo anche il test sul dito, 16 euro.",
+          "next": "r-dito"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Una sierologia non e' un panic value della lista.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessuna telefonata di panico.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono una diagnosi di COVID.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Il referto dice che la sierologia non e' la diagnosi.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Lo scrivo e indirizzo al molecolare.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Scrivo: infezione in atto.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "36 euro non si spendono per chiudere una diagnosi che il testo non affida alla sierologia.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non la valido a quel fine.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "La addebito come diagnosi.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto l'assenza di molecolari negativi ripetuti.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro perche' l'eccezione non scatta.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non scrivo nulla.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Sierologia firmata come diagnosi",
+      "prompt": "Di norma la sierologia non diagnostica l'infezione.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-dito",
+      "type": "resolution",
+      "title": "Test sul dito aggiunto",
+      "prompt": "Sedici euro di test capillare non sono l'eccezione scritta nel documento.",
+      "cost": 16,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Diagnosi telefonata senza molecolare",
+      "prompt": "Non si notifica una diagnosi che l'esame non puo' fare.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "Sierologia addebitata come diagnosi",
+      "prompt": "Trentasei euro per un uso che il documento esclude.",
+      "cost": 36,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Eccezione non verificata",
+      "prompt": "Manca la nota che non ci sono molecolari negativi ripetuti.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Sierologia non usata come diagnosi",
+      "prompt": "Quesito rinviato al molecolare. Sierologia non validata come diagnosi. Eccezione del documento non presente.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il paziente preferisce il prelievo di sangue al tampone."
+  }
+}

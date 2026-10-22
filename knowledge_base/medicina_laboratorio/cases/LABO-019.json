@@ -1,0 +1,370 @@
+{
+  "id": "LABO-019",
+  "code": "LABO-019",
+  "title": "Biotina sopra 5 mg: non si firma l'immunodosaggio e non si dosa la biotina a tutti",
+  "description": "TSH discordante dalla clinica. Il paziente prende biotina sopra 5 mg al giorno. Si ripete l'anamnesi, si aspetta 24-48 ore dall'ultima dose, si mette la nota di possibile interferenza. Non si quantifica la biotina su tutti i campioni.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Immunodosaggio in paziente con biotina ad alto dosaggio",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "SIBioC interferenza da biotina 2019",
+  "diagnosis": "Risultato non definitivo. Nota di interferenza. Nuovo prelievo non prima di 24-48 ore. Niente dosaggio della biotina su tutta la serie.",
+  "pastMedicalHistory": "TSH molto basso, clinica non compatibile. Il paziente dichiara integratore di biotina, piu' di 5 mg al giorno, preso stamattina.",
+  "presentation": "Vogliono firmare l'ipertiroidismo e dosare la biotina su tutti i sieri del turno.",
+  "redHerrings": [
+    "Diagnosi dallo stesso siero.",
+    "Biotina su tutti i campioni.",
+    "Prelievo immediato."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Prende biotina ad alto dosaggio da stamattina. Non firmatemi quel TSH.",
+  "correctSolution": "Non refertare il TSH come definitivo. Nota: possibile interferenza per alte dosi di biotina. Il prelievo, se va ripetuto, almeno 24-48 ore dopo l'ultima dose. Non quantificare la biotina in tutti i campioni: quella raccomandazione e' di grado D.",
+  "goldStandardPath": [
+    "tsh"
+  ],
+  "goldPathNarrative": "Sopra 5 mg al giorno l'anamnesi e' obbligatoria. Il prelievo utile sta 24-48 ore dopo. La nota va sul referto.",
+  "examLatencies": {
+    "tsh": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Da quale dose giornaliera di biotina l'anamnesi e' particolarmente indicata?",
+      "critical": true,
+      "expectedKeywords": [
+        "cinque",
+        "mg"
+      ],
+      "rationale": "Sopra 5 mg al giorno, grado A."
+    },
+    {
+      "id": "q2",
+      "prompt": "Dopo quante ore dall'ultima dose si puo' ripetere il prelievo?",
+      "critical": true,
+      "expectedKeywords": [
+        "24",
+        "48"
+      ],
+      "rationale": "Almeno 24-48 ore."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2019-interferenza-da-biotina-negli-immunodosaggi.pdf",
+      "quote": "Comunicare ai clinici di valutare sempre in anamnesi se i pazienti facciano uso di biotina come supplemento alimentare, soprattutto ad alto dosaggio (>5 mg/die). Grado A."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2019-interferenza-da-biotina-negli-immunodosaggi.pdf",
+      "quote": "In pazienti che utilizzino biotina ad alto dosaggio il prelievo deve essere eseguito ad almeno 24-48 ore dall'ultima somministrazione. Grado A."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2019-interferenza-da-biotina-negli-immunodosaggi.pdf",
+      "quote": "Negli immunodosaggi competitivi l'interferenza produce una concentrazione misurata dell'antigene falsamente aumentata. Nei non competitivi, o sandwich, la riduzione del segnale si traduce in una falsa diminuzione."
+    },
+    {
+      "chunkId": "d",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2019-interferenza-da-biotina-negli-immunodosaggi.pdf",
+      "quote": "Quantificare la concentrazione di biotina in tutti i campioni in cui siano previsti test con possibile interferenza: grado D. Aggiungere una nota in refertazione: POSSIBILE INTERFERENZA PER ALTE DOSI DI BIOTINA. Grado B."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente TSH definitivo con biotina sopra 5 mg presa oggi.",
+      "Niente dosaggio della biotina su tutti i campioni."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Grado A sull'anamnesi e sulle 24-48 ore.",
+      "legalCriteria": [
+        "La direzione dell'errore dipende dal metodo, competitivo o sandwich.",
+        "Il dosaggio universale della biotina e' grado D, non la prassi."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "tsh",
+      "name": "TSH",
+      "finding": "Non definitivo: biotina sopra 5 mg/die, ultima dose oggi.",
+      "isAbnormal": true,
+      "priceEuro": 9.6
+    },
+    {
+      "examId": "tsh",
+      "name": "Nota di referto",
+      "finding": "POSSIBILE INTERFERENZA PER ALTE DOSI DI BIOTINA.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "biotina",
+      "name": "Biotina su tutti i sieri del turno",
+      "finding": "Dosaggio esteso a ogni immunodosaggio.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "wasteRationale": "La raccomandazione di quantificare la biotina in tutti i campioni e' di grado D. Non e' la condotta da adottare."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "TSH discordante. Biotina sopra 5 mg, presa stamattina.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Non chiudo la diagnosi. Apro la nota.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Firmo l'ipertiroidismo.",
+          "next": "r-sign"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Il siero di stamattina non e' quello da ripetere subito.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Lo fermo.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Lo processo come definitivo.",
+          "next": "r-sign"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Il documento distingue: competitivo, falso aumento; non competitivo o sandwich, falsa diminuzione. Non so da questo solo se il TSH del turno e' l'uno o l'altro.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non firmo una diagnosi senza il metodo e senza la nota.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Ignoro la direzione e firmo.",
+          "next": "r-sign"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Non e' un TSH reflex di Casale: manca un TSH attendibile.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non lancio FT4 e FT3 su questo siero.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Aggiungo FT4 e FT3, 8,40 euro l'uno.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Un TSH alterato dalla biotina non e' un panic value.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Non telefono una tireotossicosi.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "La telefono.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Nota obbligatoria di grado B, con la frase del documento.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "La scrivo.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Referto nudo.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "Non doso la biotina su tutti i campioni e non addebito FT4 e FT3.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Niente reflex e niente dosaggio universale.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Doso la biotina a tutto il turno.",
+          "next": "r-all"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto dose, ora dell'ultima assunzione e le 24-48 ore.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non scrivo l'integratore.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-sign",
+      "type": "resolution",
+      "title": "TSH firmato sotto biotina",
+      "prompt": "Con piu' di 5 mg al giorno e prelievo in giornata il risultato non e' definitivo.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "FT4 e FT3 sul siero interferito",
+      "prompt": "Sedici euro e ottanta di reflex su un TSH non attendibile.",
+      "cost": 16.8,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Tireotossicosi notificata",
+      "prompt": "Non si telefona una diagnosi prodotta dall'interferenza.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-all",
+      "type": "resolution",
+      "title": "Biotina dosata a tutti",
+      "prompt": "Quantificarla in tutti i campioni e' raccomandazione di grado D, non la prassi.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Nota assente",
+      "prompt": "Manca la frase sulla possibile interferenza per alte dosi di biotina.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Interferenza dichiarata",
+      "prompt": "TSH non definitivo. Nota scritta. Riprelievo non prima di 24-48 ore. Biotina non dosata su tutti i sieri.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il paziente vuole la diagnosi oggi e ha la boccetta dell'integratore in mano."
+  }
+}

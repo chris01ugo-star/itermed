@@ -1,0 +1,370 @@
+{
+  "id": "LABO-011",
+  "code": "LABO-011",
+  "title": "Siero centrifugato con trigliceridi a 450: non e' il limite del sangue intero",
+  "description": "Campione centrifugato, trigliceridi 450 mg/dL. La lipemia del centrifugato parte di solito da sopra 300 mg/dL. Il limite di 1000 mg/dL e' del sangue intero.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Lipemia su campione centrifugato",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "SIBioC campioni non idonei 2007",
+  "diagnosis": "Campione lipemico. Non si usano i 1000 mg/dL. Gli analiti con interferenza non si comunicano senza intervento.",
+  "pastMedicalHistory": "Chimica su siero centrifugato. Trigliceridi 450 mg/dL. Il siero e' torbido.",
+  "presentation": "Dicono che sotto 1000 mg/dL si puo' firmare tutta la chimica.",
+  "redHerrings": [
+    "Soglia 1000 sul centrifugato.",
+    "Firma senza commento.",
+    "Si scarta anche cio' che non ha interferenza."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "E' un centrifugato a 450. Non usate la soglia del sangue intero.",
+  "correctSolution": "Classificare lipemico il centrifugato sopra 300 mg/dL. Non comunicare gli analiti con interferenza descritta. Gli altri si possono eseguire. Non applicare i 1000 mg/dL, che sono del sangue intero.",
+  "goldStandardPath": [
+    "trigliceridi"
+  ],
+  "goldPathNarrative": "Nel centrifugato la lipemia parte di solito da trigliceridi sopra 300 mg/dL, non da 1000.",
+  "examLatencies": {
+    "trigliceridi": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Da quali trigliceridi il centrifugato e' di solito lipemico?",
+      "critical": true,
+      "expectedKeywords": [
+        "300",
+        "centrifugato"
+      ],
+      "rationale": "Sopra 300 mg/dL, cioe' sopra 3,4 mmol/L."
+    },
+    {
+      "id": "q2",
+      "prompt": "A che campione appartengono i 1000 mg/dL?",
+      "critical": true,
+      "expectedKeywords": [
+        "intero",
+        "sangue"
+      ],
+      "rationale": "Al sangue intero."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "l",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "La lipemia nei campioni e' definita in termini di torbidita' e corrisponde solitamente ad una concentrazione di trigliceridi >1000 mg/dL (11,3 mmol/L) nei campioni di sangue intero e >300 mg/dL (>3,4 mmol/L) nei campioni centrifugati."
+    },
+    {
+      "chunkId": "n",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "E' assolutamente da evitare la trasmissione da parte del laboratorio di risultati viziati da non conformita' documentata senza farvi seguire alcun intervento."
+    },
+    {
+      "chunkId": "tg",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Hypercholesterolemia-and-laboratory-report.pdf",
+      "quote": "Triglycerides >10 mmol/L; 890 mg/dL. Severe hypertriglyceridemia with high risk of acute pancreatitis."
+    },
+    {
+      "chunkId": "e",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "Gli esami per cui non e' descritta interferenza possono essere normalmente eseguiti e comunicati, mentre quelli per cui e' descritta interferenza non devono essere eseguiti ne' tanto meno comunicati."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Centrifugato: soglia 300 mg/dL, non 1000.",
+      "Si bloccano solo gli analiti con interferenza descritta."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Definizione distinta per intero e centrifugato.",
+      "legalCriteria": [
+        "Niente risultato viziato senza intervento.",
+        "Non si butta tutta la richiesta se l'interferenza non e' descritta."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "trigliceridi",
+      "name": "Trigliceridi",
+      "finding": "450 mg/dL sul centrifugato, sopra 300. Lipemia.",
+      "isAbnormal": true
+    },
+    {
+      "examId": "trigliceridi",
+      "name": "Selezione analiti",
+      "finding": "Si comunicano solo gli esami senza interferenza descritta.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ngs",
+      "name": "Pannello NGS 79 geni",
+      "finding": "Aggiunto alla chimica lipemica.",
+      "isAbnormal": false,
+      "priceEuro": 400,
+      "inappropriate": true,
+      "wasteRationale": "Quattrocento euro, solo dopo visita genetica con diagnosi o sospetto."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Chimica su centrifugato. Trigliceridi 450 mg/dL. Nessun quesito genetico.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Valuto la lipemia e basta.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Aggiungo il pannello NGS da 400 euro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "E' centrifugato, non sangue intero.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Uso la soglia di 300 mg/dL.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Lo tengo idoneo perche' e' sotto 1000.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Si bloccano gli analiti con interferenza descritta, non tutti.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Separo i due gruppi.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "O firmo tutto, o scarto tutto.",
+          "next": "r-all"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Nessun reflex genomico.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non ne lancio.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Lancio il pannello.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "I trigliceridi a 450 non sono il critico dei lipidi del referto (quello dei trigliceridi e' sopra 10 mmol/L, 890 mg/dL).",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Non apro un panic value lipidico.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono una pancreatite solo per i 450.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Gli analiti interferiti prendono il commento, non il numero nudo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Scrivo il commento su quelli.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Lascio tutti i numeri.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "Niente NGS.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non lo valido.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Lo addebito.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Registro lipemia del centrifugato e soglia usata.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Annoto 300 mg/dL, non 1000.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non scrivo la soglia.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Soglia del sangue intero sul centrifugato",
+      "prompt": "450 mg/dL superano i 300 del centrifugato. I 1000 mg/dL sono un'altra matrice.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-all",
+      "type": "resolution",
+      "title": "Tutto firmato o tutto scartato",
+      "prompt": "Si comunicano gli esami senza interferenza e si bloccano gli altri.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Panico lipidico fuori tabella",
+      "prompt": "Il commento di ipertrigliceridemia severa con rischio di pancreatite, nel referto dei lipidi, parte da sopra 10 mmol/L, cioe' 890 mg/dL. 450 non e' quella riga.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "NGS sulla lipemia",
+      "prompt": "Quattrocento euro senza visita genetica.",
+      "cost": 400,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Lipemia senza traccia",
+      "prompt": "Manca la soglia applicata.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Lipemia del centrifugato gestita",
+      "prompt": "Soglia 300 mg/dL applicata. Analiti interferiti non comunicati. Gli altri si. Niente panico a 450 e niente NGS.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il turno vuole una soglia sola per tutte le provette."
+  }
+}

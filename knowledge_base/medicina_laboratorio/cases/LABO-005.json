@@ -1,0 +1,356 @@
+{
+  "id": "LABO-005",
+  "code": "LABO-005",
+  "title": "Citrato semivuoto: il PT non si firma",
+  "description": "PT su citrato riempito a meta' del volume nominale. Il rapporto corretto e' 9:1. Sotto il piu' o meno 10 per cento del volume nominale l'esame non si esegue.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "PT su citrato sotto-riempito",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "SIBioC campioni non idonei 2007; coagulazione 2019; FASDAC 2026",
+  "diagnosis": "Riempimento non idoneo. PT non eseguito. Commento di riempimento inadeguato. Niente allungamento interpretato come coagulopatia.",
+  "pastMedicalHistory": "La provetta da coagulazione e' citrato ed e' riempita circa al 50 per cento del volume nominale. Il quesito e' il PT.",
+  "presentation": "Il banco vuole firmare un PT lungo e chiamare il reparto per una coagulopatia.",
+  "redHerrings": [
+    "PT lungo firmato.",
+    "Si ignora il 9:1.",
+    "Si usa la soglia del 1000 dei trigliceridi."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "La provetta e' mezza vuota. Non firmatemi quel PT.",
+  "correctSolution": "Non eseguire il PT. Il riempimento e' fuori dal piu' o meno 10 per cento del nominale e il rapporto non e' 9:1. Commento di riempimento inadeguato e nuovo prelievo.",
+  "goldStandardPath": [
+    "pt"
+  ],
+  "goldPathNarrative": "Il citrato in eccesso allunga i tempi. Il PT di una provetta mezza vuota non e' il paziente.",
+  "examLatencies": {
+    "pt": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Qual e' il rapporto sangue-citrato raccomandato?",
+      "critical": true,
+      "expectedKeywords": [
+        "9:1",
+        "nove"
+      ],
+      "rationale": "Nove parti di sangue e una di anticoagulante."
+    },
+    {
+      "id": "q2",
+      "prompt": "Entro quale scostamento dal volume nominale si puo' ancora eseguire il coagulativo?",
+      "critical": true,
+      "expectedKeywords": [
+        "dieci",
+        "nominale"
+      ],
+      "rationale": "Non si esegue fuori dal piu' o meno 10 per cento."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "r",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2019-la-variabilita-preanalitica-in-coagulazione.pdf",
+      "quote": "Il rapporto sangue-anticoagulante raccomandato per un corretto riempimento della provetta e' di 9 parti di sangue e 1 parte di anticoagulante (9:1). Se questo rapporto e' inferiore, il sodio citrato in eccesso determina un allungamento dei tempi di coagulazione."
+    },
+    {
+      "chunkId": "v",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "La prassi consigliata e' quella di non eseguire le analisi in presenza di riempimento piu' o meno 10 per cento rispetto al volume nominale della provetta primaria, sostituendo al valore dell'analita un commento codificato nel referto, ad esempio Analisi non eseguibile per inadeguato riempimento della provetta. Cio' vale per gli esami emocoagulativi, raccomandazione di grado A."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002643 Tempo di protrombina (PT) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente PT fuori dal piu' o meno 10 per cento del volume nominale.",
+      "Il rapporto di riferimento resta 9:1."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Grado A: non eseguire il coagulativo se il riempimento e' fuori tolleranza.",
+      "legalCriteria": [
+        "L'allungamento da citrato in eccesso non e' una coagulopatia.",
+        "Non si notifica un PT non eseguito."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "pt",
+      "name": "Tempo di protrombina",
+      "finding": "Non eseguibile: riempimento circa 50 per cento, fuori dal piu' o meno 10 per cento.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "pt",
+      "name": "Nuova provetta",
+      "finding": "Si chiede un citrato riempito 9:1.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "pt",
+      "name": "PT firmato sulla provetta mezza vuota",
+      "finding": "Addebito di un PT non idoneo.",
+      "isAbnormal": false,
+      "priceEuro": 4.8,
+      "inappropriate": true,
+      "wasteRationale": "Il PT costa 4,80 euro ma non si valida se il riempimento e' fuori dal piu' o meno 10 per cento del nominale."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Quesito: PT, 4,80 euro. La provetta citrato e' a meta' volume.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Accetto il quesito e fermo l'esecuzione.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Metto il PT in lavoro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Il rapporto raccomandato e' 9:1. Meta' provetta non lo rispetta.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "La scarto per sotto-riempimento.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "La considero accettabile perche' c'e' abbastanza plasma.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Il citrato in eccesso diluisce il plasma e allunga i tempi.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non interpreto un PT lungo come coagulopatia.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Firmo il PT lungo.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Nessun reflex corregge un citrato sotto-riempito.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Chiedo una provetta nuova, senza reflex.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Ripeto il PT sulla stessa provetta.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Non ho un PT attendibile da notificare. La soglia RCP dell'INR sopra 6,50 riguarda il paziente in TAO, non un artefatto.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessuna telefonata di panico.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono una coagulopatia.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Il commento codificato parla di riempimento inadeguato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Lo inserisco e chiedo il nuovo prelievo.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Lascio il PT nel referto.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "4,80 euro non si addebitano per un PT non idoneo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non lo valido.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Lo addebito.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Registro il sotto-riempimento e chi e' stato avvisato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Chiudo la non conformita'.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Nessuna registrazione.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "PT firmato su citrato mezza vuota",
+      "prompt": "Fuori dal piu' o meno 10 per cento del volume nominale l'esame non si esegue. Il citrato in eccesso allunga i tempi.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Coagulopatia inesistente",
+      "prompt": "Non si notifica come critico un PT allungato dal sotto-riempimento.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "PT addebitato",
+      "prompt": "Quattro euro e ottanta per un tempo di protrombina che non andava eseguito.",
+      "cost": 4.8,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Sotto-riempimento senza traccia",
+      "prompt": "Manca il commento di riempimento inadeguato.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "PT non eseguito",
+      "prompt": "Provetta sotto-riempita respinta. Commento inserito. Nuovo citrato 9:1 richiesto.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il reparto dice che mezzo tubo basta se il paziente e' difficile da pungere."
+  }
+}

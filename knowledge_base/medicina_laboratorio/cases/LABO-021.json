@@ -1,0 +1,365 @@
+{
+  "id": "LABO-021",
+  "code": "LABO-021",
+  "title": "Anziano istituzionalizzato: la 25 OH non e' un obbligo prima del supplemento",
+  "description": "Anziano in struttura, senza i criteri della nota 96 che rendono appropriata la misura. Per istituzionalizzati, gravide, allattamento e osteoporosi non candidata a remineralizzante, il supplemento puo' partire senza dosare la vitamina D.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Richiesta di 25 OH vitamina D in anziano istituzionalizzato asintomatico",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "SIBioC-SIOMMMS nota 96, 2020; FASDAC 2026",
+  "diagnosis": "Non si pretende la 25 OH prima del supplemento. Il test da 14 euro non e' il lasciapassare in questo gruppo.",
+  "pastMedicalHistory": "Ottantadue anni, istituzionalizzato. Nessun sintomo di carenza, nessun malassorbimento, nessuna osteopatia, nessun farmaco interferente, PTH non inviato. Chiedono la 25 OH come condizione per dare la vitamina D.",
+  "presentation": "Senza il risultato non vogliono autorizzare il supplemento.",
+  "redHerrings": [
+    "25 OH obbligatoria.",
+    "Si usa la 1-25 OH.",
+    "Si nega il supplemento."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "E' istituzionalizzato e non ha i criteri della nota. Non bloccate il supplemento per un esame da 14 euro.",
+  "correctSolution": "Non richiedere la 25 OH come condizione. La nota 96 ammette il supplemento diretto, senza misura preventiva, nell'anziano istituzionalizzato. La misura resta appropriata se ci sono sintomi, farmaci interferenti, malassorbimento, patologia ossea o PTH alto con calcemia bassa o normale: qui non ci sono.",
+  "goldStandardPath": [
+    "vitamina-d"
+  ],
+  "goldPathNarrative": "In questo gruppo la misura preventiva non e' necessaria. Quattordici euro non sono il lasciapassare.",
+  "examLatencies": {
+    "vitamina-d": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "L'anziano istituzionalizzato deve avere la 25 OH prima del supplemento?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "senza"
+      ],
+      "rationale": "No. Supplemento diretto, senza misura preventiva."
+    },
+    {
+      "id": "q2",
+      "prompt": "Quanto costa la 25 OH nel nomenclatore?",
+      "critical": true,
+      "expectedKeywords": [
+        "14",
+        "euro"
+      ],
+      "rationale": "14,00 euro."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2020-Documento-congiunto-di-SIBIOC-della-Societa-Italiana-dellOsteoporosi-del.pdf",
+      "quote": "Persone anziane istituzionalizzate, donne in gravidanza o in allattamento e persone affette da osteoporosi o osteopatie accertate non candidate a terapia remineralizzante sono contraddistinte dal riconoscimento della possibilita' di supplementazione diretta con vitamina D, senza necessita' della sua preventiva misura."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2020-Documento-congiunto-di-SIBIOC-della-Societa-Italiana-dellOsteoporosi-del.pdf",
+      "quote": "L'appropriatezza della determinazione e' riconosciuta per chi ha sintomi di carenza, terapia lunga con farmaci interferenti, malassorbimento, patologie ossee accertate, oppure PTH elevato e calcemia bassa o normale."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002672 Vitamina D3 (25 OH) 14,00 euro. DL LB N000003281 Vitamina D (1-25 OH) 14,00 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente 25 OH obbligatoria in questo istituzionalizzato.",
+      "Non si sostituisce con la 1-25 OH."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Nota 96, come riportata dal documento congiunto.",
+      "legalCriteria": [
+        "I criteri che rendono appropriata la misura qui mancano.",
+        "1-25 OH non e' il metabolita che la nota usa per questa decisione."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "vitamina-d",
+      "name": "Valutazione della nota 96",
+      "finding": "Istituzionalizzato senza criteri di misura: supplemento diretto, esame non necessario.",
+      "isAbnormal": false
+    },
+    {
+      "examId": "vitamina-d",
+      "name": "25 OH non eseguita come lasciapassare",
+      "finding": "Il test da 14 euro non condiziona il supplemento.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "vitamina-d",
+      "name": "25 OH vitamina D",
+      "finding": "Imposta come obbligo prima del supplemento.",
+      "isAbnormal": false,
+      "priceEuro": 14,
+      "inappropriate": true,
+      "wasteRationale": "Quattordici euro. Nel gruppo dell'anziano istituzionalizzato la misura preventiva non e' necessaria."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Chiedono la 25 OH, 14 euro, per sbloccare il supplemento. Paziente istituzionalizzato, senza i criteri di misura.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Non rendo l'esame obbligatorio.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Lo eseguo come lasciapassare.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Non serve un prelievo per questo scopo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Non lo processo a questo fine.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Lo processo comunque.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "La biotina puo' interferire con la 25 OH, ma qui l'esame non e' indicato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non apro una ricerca di interferenza su un test non dovuto.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Doso la 25 OH e poi discuto la biotina.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "La 1-25 OH, altri 14 euro, non e' il reflex della nota.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non la aggiungo.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "La aggiungo.",
+          "next": "r-125"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Non c'e' un risultato, e la vitamina D non e' nella lista dei panic value.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessuna telefonata.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono una carenza non misurata.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Scrivo che la misura preventiva non e' necessaria in questo gruppo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Lo scrivo.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Scrivo: esame obbligatorio non eseguito, supplemento sospeso.",
+          "next": "r-block"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "14 euro non si addebitano come condizione del farmaco.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non valido la 25 OH.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "La addebito.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto istituzionalizzato e assenza dei criteri di misura.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non scrivo il perche'.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "25 OH imposta",
+      "prompt": "Quattordici euro per una misura che in questo gruppo non e' necessaria prima del supplemento.",
+      "cost": 14,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-125",
+      "type": "resolution",
+      "title": "1-25 OH aggiunta",
+      "prompt": "Altri 14 euro. Non e' il test della nota per questa decisione.",
+      "cost": 14,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-block",
+      "type": "resolution",
+      "title": "Supplemento bloccato",
+      "prompt": "Il documento ammette il supplemento diretto, senza misura preventiva.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Carenza notificata senza misura",
+      "prompt": "Non si telefona un valore che non c'e' e che non e' un critico della lista.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Criterio non scritto",
+      "prompt": "Manca la ragione per cui l'esame non e' stato il lasciapassare.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Supplemento senza 25 OH obbligatoria",
+      "prompt": "Esame da 14 euro non eseguito come condizione. Il gruppo istituzionalizzato puo' essere supplementato senza misura preventiva.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "La struttura non consegna la vitamina D senza un numero di laboratorio."
+  }
+}

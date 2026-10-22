@@ -1,0 +1,373 @@
+{
+  "id": "LABO-022",
+  "code": "LABO-022",
+  "title": "Discrasia non AL: catene leggere libere, non le totali, e il commento sull'elettroforesi",
+  "description": "Sospetto di discrasia plasmacellulare, non amiloidosi AL. Le catene leggere totali non sono appropriate. Si chiedono le libere con il rapporto. L'elettroforesi va sempre con un commento interpretativo. La Bence Jones non e' il primo esame, salvo l'AL.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Sospetta discrasia plasmacellulare, non AL",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "SIBioC diagnostica proteica 2019; FASDAC 2026",
+  "diagnosis": "sFLC con rapporto e intervallo di riferimento. Elettroforesi con commento. Non le catene totali. Non la Bence Jones come esame di partenza.",
+  "pastMedicalHistory": "Prima valutazione per sospetta discrasia. Non c'e' un sospetto di amiloidosi AL. In richiesta: catene leggere totali e Bence Jones. L'elettroforesi e' senza spazio per il commento.",
+  "presentation": "Vogliono firmare le totali e la Bence Jones, 4,80 euro, e un tracciato muto.",
+  "redHerrings": [
+    "Catene totali.",
+    "Bence Jones di prima scelta.",
+    "Elettroforesi senza commento."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Non e' un'amiloidosi AL. Non firmatemi le catene totali e non lasciate il tracciato senza commento.",
+  "correctSolution": "Non eseguire le catene leggere totali. Chiedere le libere sieriche, rapporto kappa/lambda e intervallo di riferimento, stesso laboratorio e stessa piattaforma nei controlli. Elettroforesi sempre con commento. La Bence Jones e' l'alternativa solo nell'eccezione dell'amiloidosi AL, che qui non c'e'.",
+  "goldStandardPath": [
+    "protidogramma",
+    "sflc"
+  ],
+  "goldPathNarrative": "Le totali sono obsolete. Fuori dall'AL si usano le libere, non la Bence Jones come partenza. Il tracciato non esce senza commento.",
+  "examLatencies": {
+    "protidogramma": 20,
+    "sflc": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Le catene leggere totali sono appropriate nella discrasia?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "totali"
+      ],
+      "rationale": "No. Non ci sono evidenze e la misura e' obsoleta."
+    },
+    {
+      "id": "q2",
+      "prompt": "L'elettroforesi puo' uscire senza commento?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "commento"
+      ],
+      "rationale": "No. Va sempre accompagnata da un commento interpretativo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2019-APPROPRIATEZZA-E-ARMONIZZAZIONE-DELLA-DIAGNOSTICA-PROTEICA.pdf",
+      "quote": "La richiesta della misura delle catene leggere totali nel siero e nelle urine non e' appropriata, non essendoci evidenze scientifiche sul loro utilizzo nella diagnostica delle discrasie plasmacellulari."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2019-APPROPRIATEZZA-E-ARMONIZZAZIONE-DELLA-DIAGNOSTICA-PROTEICA.pdf",
+      "quote": "Le sFLC e il rapporto kappa/lambda si richiedono al primo riscontro di componente monoclonale, nel sospetto di discrasia in alternativa alla proteina di Bence Jones, con la sola eccezione dell'amiloidosi AL."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2019-APPROPRIATEZZA-E-ARMONIZZAZIONE-DELLA-DIAGNOSTICA-PROTEICA.pdf",
+      "quote": "L'elettroforesi va sempre accompagnata da un commento interpretativo."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002620 Elettroforesi delle sieroproteine 6,00 euro. DL LB N000002460 Proteine Bence Jones 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente catene totali.",
+      "Elettroforesi con commento. Bence Jones non di partenza fuori dall'AL."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Le totali non sono appropriate.",
+      "legalCriteria": [
+        "L'eccezione Bence Jones e' solo l'AL.",
+        "Il commento sull'elettroforesi e' sempre dovuto."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "protidogramma",
+      "name": "Elettroforesi",
+      "finding": "Da refertare con commento interpretativo. Tariffa 6,00 euro.",
+      "isAbnormal": false,
+      "priceEuro": 6.0
+    },
+    {
+      "examId": "sflc",
+      "name": "Catene leggere libere",
+      "finding": "Kappa, lambda, rapporto e intervallo di riferimento. Stesso metodo nei controlli.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "bence",
+      "name": "Bence Jones",
+      "finding": "Chiesta come esame di partenza, non in AL.",
+      "isAbnormal": false,
+      "priceEuro": 4.8,
+      "inappropriate": true,
+      "wasteRationale": "Quattro euro e ottanta. Fuori dall'amiloidosi AL il documento indica le libere in alternativa alla Bence Jones, non come primo pannello insieme alle totali."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Sospetto di discrasia, non AL. In richiesta: totali e Bence Jones.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Tolgo le totali e non parto dalla Bence Jones.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Le valido entrambe.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Siero e urine identificate, idonee per il percorso giusto.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Le uso per elettroforesi e libere.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Le uso per le totali.",
+          "next": "r-tot"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Il documento segnala problemi analitici delle libere: il risultato si valuta con elettroforesi e immunofissazione.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non firmo le libere da sole, senza il tracciato.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Le firmo isolate.",
+          "next": "r-solo"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Non c'e' un reflex verso le totali.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Chiedo le libere e il rapporto.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Aggiungo le totali in reflex.",
+          "next": "r-tot"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Una componente monoclonale non e' un panic value della lista 2018.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessuna telefonata di panico. C'e' il commento.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono un'urgenza trasfusionale.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "L'elettroforesi esce col commento interpretativo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Lo scrivo, insieme a metodo e piattaforma.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Lascio il tracciato muto.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "Bence Jones 4,80 euro non e' l'esame di partenza. Elettroforesi 6,00 si, col commento.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Addebito l'elettroforesi, non la Bence Jones di partenza.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Addebito Bence Jones e totali.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto: non AL, quindi libere e non Bence Jones di partenza.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non scrivo l'eccezione.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-tot",
+      "type": "resolution",
+      "title": "Catene totali eseguite",
+      "prompt": "La misura delle catene leggere totali non e' appropriata nella discrasia.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-solo",
+      "type": "resolution",
+      "title": "Libere senza tracciato",
+      "prompt": "Il risultato delle libere va letto con le tecniche qualitative, elettroforesi e immunofissazione.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Panico non in lista",
+      "prompt": "Non e' un valore critico della tabella 2018.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "Bence Jones di partenza",
+      "prompt": "Quattro euro e ottanta fuori dall'eccezione dell'amiloidosi AL.",
+      "cost": 4.8,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Elettroforesi senza commento",
+      "prompt": "Il documento dice che l'elettroforesi va sempre con un commento interpretativo.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Percorso proteico corretto",
+      "prompt": "Catene totali non eseguite. Libere con rapporto. Elettroforesi commentata. Bence Jones non usata come partenza.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il reparto vuole il pannello che ha sempre chiesto, totali comprese."
+  }
+}

@@ -1,0 +1,366 @@
+{
+  "id": "LABO-009",
+  "code": "LABO-009",
+  "title": "Glicemia 40 mg/dL: si telefona, non si lascia in segreteria",
+  "description": "Glicemia 40 mg/dL, sotto 45 mg/dL e sotto 2,5 mmol/L della colonna IFCC. Notifica immediata. Fax o segreteria senza read-back non bastano.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Glicemia 40 mg/dL",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "SIBioC risultati critici 2018; FASDAC 2026",
+  "diagnosis": "Valore critico. Telefonata con read-back e traccia. Non si aspetta il referto di routine.",
+  "pastMedicalHistory": "Paziente in pronto soccorso. Plasma idoneo. Glicemia 40 mg/dL.",
+  "presentation": "Il referto e' pronto. Nessuno ha chiamato. Propongono la segreteria telefonica.",
+  "redHerrings": [
+    "Solo referto.",
+    "Segreteria telefonica.",
+    "Si aspetta la seconda glicemia di domani."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "La glicemia e' 40. Telefonate adesso e fatevi rileggere il numero.",
+  "correctSolution": "Notificare subito per telefono il glucosio sotto 45 mg/dL, con read-back e registrazione. Non usare fax o segreteria se manca il read-back.",
+  "goldStandardPath": [
+    "glicemia"
+  ],
+  "goldPathNarrative": "40 mg/dL e' sotto la soglia IFCC di 45 mg/dL, cioe' sotto 2,5 mmol/L.",
+  "examLatencies": {
+    "glicemia": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Sotto quale glicemia in mg/dL scatta il limite inferiore IFCC?",
+      "critical": true,
+      "expectedKeywords": [
+        "45",
+        "mg"
+      ],
+      "rationale": "Sotto 45 mg/dL, pari a sotto 2,5 mmol/L."
+    },
+    {
+      "id": "q2",
+      "prompt": "Il fax senza read-back e' accettabile?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "read-back"
+      ],
+      "rationale": "No, salvo privacy, traccia intera e read-back."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "g",
+      "source": "knowledge_base/medicina_laboratorio/legal/Italy - 2018 Critical results.pdf",
+      "quote": "Glucosio, limiti IFCC: mmol/L inferiore <2,5 e superiore >27,8; mg/dL inferiore <45 e superiore >500."
+    },
+    {
+      "chunkId": "f",
+      "source": "knowledge_base/medicina_laboratorio/legal/Italy - 2018 Critical results.pdf",
+      "quote": "La notifica effettuata a mezzo fax o con segreteria telefonica non e' accettabile eccetto quando possa essere garantita la privacy e la globale e intera tracciabilita' della notifica, compreso la riprova del read-back."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002551 Glicemia 2,40 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Glicemia sotto 45 mg/dL notificata subito.",
+      "Niente segreteria senza read-back."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Soglia IFCC scritta in tabella.",
+      "legalCriteria": [
+        "Tracciabilita' della notifica obbligatoria.",
+        "Il referto elettronico non sostituisce la chiamata."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glicemia",
+      "finding": "40 mg/dL, sotto 45. Da telefonare.",
+      "isAbnormal": true,
+      "priceEuro": 2.4
+    },
+    {
+      "examId": "glicemia",
+      "name": "Read-back",
+      "finding": "Valore, unita', identita' e ora registrati.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "vitd",
+      "name": "Vitamina D3 25 OH",
+      "finding": "Aggiunta sulla stessa richiesta urgente.",
+      "isAbnormal": false,
+      "priceEuro": 14,
+      "inappropriate": true,
+      "wasteRationale": "FASDAC DL LB N000002672 Vitamina D3 (25 OH) 14,00 euro. Non c'entra con la glicemia critica e la nota 96 non la rende un reflex."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Glicemia 2,40 euro, risultato 40 mg/dL, campione idoneo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Apro la notifica critica.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Aggiungo la vitamina D a 14 euro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Plasma idoneo, non emolizzato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Accetto il 40 mg/dL.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Lo scarto perche' mi sembra basso.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Nessuna interferenza descritta.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non correggo il numero.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Lo porto a 80 a mano.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "La vitamina D non e' un reflex della glicemia critica.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non la aggiungo.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "La lancio.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "40 mg/dL e' sotto 45, soglia IFCC.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Telefono subito.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Lascio il referto e basta.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Chiedo il read-back. Non lascio la segreteria.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Faccio rileggere il valore.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Lascio un messaggio in segreteria senza read-back.",
+          "next": "r-fax"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "14 euro di vitamina D non si validano.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Li tolgo.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Li addebito.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Ora, chi riceve, chi notifica.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non scrivo nulla.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Glicemia alterata a mano",
+      "prompt": "40 mg/dL su campione idoneo non si cancella e non si corregge.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Critico non telefonato",
+      "prompt": "Sotto 45 mg/dL la notifica immediata non puo' ridursi al referto.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-fax",
+      "type": "resolution",
+      "title": "Segreteria senza read-back",
+      "prompt": "La segreteria telefonica non e' accettabile senza read-back e traccia.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "Vitamina D sull'urgenza",
+      "prompt": "Quattordici euro di 25 OH non sono il reflex di una glicemia critica.",
+      "cost": 14,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Chiamata senza traccia",
+      "prompt": "Manca la registrazione della notifica.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Glicemia critica notificata",
+      "prompt": "40 mg/dL telefonati con read-back e traccia. Vitamina D non aggiunta.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il pronto soccorso chiede di lasciare un messaggio in segreteria."
+  }
+}

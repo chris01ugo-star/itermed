@@ -1,0 +1,361 @@
+{
+  "id": "LABO-012",
+  "code": "LABO-012",
+  "title": "TSH 2,10: il reflex si ferma",
+  "description": "TSH reflex 2,10 microU/mL, dentro 0,45-3,50. Il protocollo dice STOP. Non si aggiungono FT4 ne' FT3.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "TSH nell'intervallo 0,45-3,50",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Protocollo TSH reflex, laboratorio Casale; FASDAC 2026",
+  "diagnosis": "STOP. Si referta solo il TSH. FT4 e FT3 non si aggiungono.",
+  "pastMedicalHistory": "Richiesta di TSH reflex. Risultato 2,10 microU/mL. Nessun altro quesito tiroideo.",
+  "presentation": "Il LIS propone di aggiungere FT4 e FT3 perche' il paziente e' stanco.",
+  "redHerrings": [
+    "FT4 di routine.",
+    "FT3 di routine.",
+    "Si esce dall'intervallo per stanchezza."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Il TSH e' 2,10. Fermatevi.",
+  "correctSolution": "Non aggiungere FT4 ne' FT3. L'intervallo di stop e' da 0,45 a 3,50 microU/mL compresi.",
+  "goldStandardPath": [
+    "tsh"
+  ],
+  "goldPathNarrative": "Tra 0,45 e 3,50 il protocollo si ferma al TSH.",
+  "examLatencies": {
+    "tsh": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Tra quali valori di TSH il protocollo si ferma?",
+      "critical": true,
+      "expectedKeywords": [
+        "0,45",
+        "3,50"
+      ],
+      "rationale": "Da 0,45 a 3,50 microU/mL."
+    },
+    {
+      "id": "q2",
+      "prompt": "Si aggiunge l'FT3 se il TSH e' in quell'intervallo?",
+      "critical": true,
+      "expectedKeywords": [
+        "no",
+        "stop"
+      ],
+      "rationale": "No: in quell'intervallo il protocollo dice STOP."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "s",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "0,45 microU/mL minore o uguale al TSH minore o uguale a 3,50 microU/mL: STOP. Se il TSH e' inferiore a 0,45 il laboratorio aggiunge FT4; se e' superiore a 3,50 aggiunge FT4 e anti-tireoperossidasi."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002604 Ormone tireotropo (TSH) 9,60 euro. DL LB N000002642 Tiroxina libera (FT4) 8,40 euro. DL LB N000002639 Triiodotironina libera (FT3) 8,40 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "TSH 2,10: nessuno reflex.",
+      "FT4 e FT3 restano fuori, 8,40 euro ciascuno."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Protocollo Casale: STOP nell'intervallo.",
+      "legalCriteria": [
+        "Non si allarga il reflex per un sintomo non scritto.",
+        "Il ticket dei test aggiunti non si chiede se il protocollo non li aggiunge."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "tsh",
+      "name": "TSH",
+      "finding": "2,10 microU/mL, dentro 0,45-3,50. Si referta da solo.",
+      "isAbnormal": false,
+      "priceEuro": 9.6
+    },
+    {
+      "examId": "tsh",
+      "name": "Stop del reflex",
+      "finding": "FT4 e FT3 non eseguiti.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ft4",
+      "name": "FT4 piu' FT3",
+      "finding": "Aggiunti con TSH in intervallo.",
+      "isAbnormal": false,
+      "priceEuro": 16.8,
+      "inappropriate": true,
+      "wasteRationale": "FT4 8,40 e FT3 8,40. Il protocollo nello intervallo 0,45-3,50 dice STOP."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "TSH reflex, 9,60 euro. Risultato 2,10.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Resto sul TSH.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Aggiungo subito FT4 e FT3.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Siero idoneo, identificato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Accetto il TSH.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Lo rifaccio perche' vorrei un valore fuori range.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Nessuna interferenza descritta su questo TSH.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non lo correggo.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Lo sposto sopra 3,50 a mano.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "2,10 e' tra 0,45 e 3,50. STOP.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non aggiungo FT4 ne' FT3.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Li aggiungo lo stesso.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "2,10 non e' un valore critico della lista.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessuna telefonata di panico.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono un ipotiroidismo.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Il referto riporta il TSH e lo stop del reflex.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Lo scrivo.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Scrivo FT4 e FT3 non dosati come se fossero normali.",
+          "next": "r-fake"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "8,40 piu' 8,40 non si addebitano.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non li valido.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Li metto in ticket, come dice il protocollo solo per i test davvero aggiunti.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto la regola 0,45-3,50.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro lo STOP.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non scrivo perche' mi sono fermato.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "TSH spostato a mano",
+      "prompt": "Non si modifica il 2,10 per far partire un reflex.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "FT4 e FT3 fuori protocollo",
+      "prompt": "Sedici euro e ottanta di ormoni che il protocollo, tra 0,45 e 3,50, non aggiunge.",
+      "cost": 16.8,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Panico su un TSH in intervallo",
+      "prompt": "2,10 microU/mL non e' un critico da telefonare.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-fake",
+      "type": "resolution",
+      "title": "Ormoni mai dosati dati per normali",
+      "prompt": "Non si scrivono FT4 e FT3 se non sono stati eseguiti.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Stop senza traccia",
+      "prompt": "Manca la regola applicata.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Reflex fermo",
+      "prompt": "Solo TSH 2,10. FT4 e FT3 non aggiunti e non addebitati.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il paziente chiede tutti gli ormoni gia' che e' li'."
+  }
+}

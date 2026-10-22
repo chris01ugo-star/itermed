@@ -1,0 +1,366 @@
+{
+  "id": "LABO-018",
+  "code": "LABO-018",
+  "title": "Gravida, digiuno 98 mg/dL: la curva si ferma",
+  "description": "Curva da 75 g in gravida. Digiuno 98 mg/dL, cioe' almeno 92. Il protocollo ferma la curva: diabete gestazionale. Niente carico, niente prelievi a 60 e 120 minuti.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "OGTT in gravidanza con digiuno almeno 92 mg/dL",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Protocollo curva in gravida, Casale",
+  "diagnosis": "STOP. Non si somministrano i 75 g. La paziente e' considerata affetta da diabete gestazionale, come scrive il protocollo.",
+  "pastMedicalHistory": "Gravida. Curva richiesta. Glicemia a digiuno 98 mg/dL.",
+  "presentation": "Vogliono comunque il carico e i prelievi a 60 e 120 minuti.",
+  "redHerrings": [
+    "Carico comunque.",
+    "Soglia 126 del non gravido.",
+    "Si minimizza il 98."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "E' gravida e il digiuno e' 98. Fermate la curva.",
+  "correctSolution": "Non dare i 75 g. Il protocollo si ferma da 92 mg/dL in su e considera diabete gestazionale. I prelievi sono quelli dell'ambulatorio di diabetologia, non la curva a 60 e 120.",
+  "goldStandardPath": [
+    "glicemia"
+  ],
+  "goldPathNarrative": "In gravidanza, da 92 mg/dL a digiuno, la curva si interrompe.",
+  "examLatencies": {
+    "glicemia": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Da quale digiuno, in gravidanza, la curva si ferma?",
+      "critical": true,
+      "expectedKeywords": [
+        "92",
+        "gravida"
+      ],
+      "rationale": "Da 92 mg/dL in su."
+    },
+    {
+      "id": "q2",
+      "prompt": "Il protocollo che diagnosi scrive a quel punto?",
+      "critical": true,
+      "expectedKeywords": [
+        "gestazionale",
+        "diabete"
+      ],
+      "rationale": "Diabete gestazionale."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "Se il dosaggio di glucosio a digiuno e' inferiore a 92 mg/dL si somministrano 75 g di glucosio e si eseguono prelievi dopo 60 e 120 minuti."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "Se il dosaggio di glucosio a digiuno e' superiore a 92 mg/dL la curva glicemica viene interrotta in quanto la paziente viene considerata affetta da diabete gestazionale."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002551 Glicemia 2,40 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente carico se il digiuno della gravida e' almeno 92.",
+      "Non si usa la soglia 126."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Soglia 92 mg/dL scritta per la curva in gravidanza.",
+      "legalCriteria": [
+        "Il protocollo nomina il diabete gestazionale.",
+        "I prelievi a 60 e 120 non partono."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glicemia a digiuno",
+      "finding": "98 mg/dL, sopra 92. Curva interrotta.",
+      "isAbnormal": true,
+      "priceEuro": 2.4
+    },
+    {
+      "examId": "glicemia",
+      "name": "Stop",
+      "finding": "Niente 75 g e niente prelievi a 60 e 120 minuti.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glicemie a 60 e 120 minuti",
+      "finding": "Eseguite dopo un carico non dovuto.",
+      "isAbnormal": false,
+      "priceEuro": 2.4,
+      "inappropriate": true,
+      "wasteRationale": "Glicemie da 2,40 euro di un carico che sopra 92 mg/dL, in gravidanza, il protocollo interrompe."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Gravida. Digiuno 98 mg/dL. Curva da 75 g richiesta.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Interrompo la curva.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Procedo col carico.",
+          "next": "r-load"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Prelievo a digiuno idoneo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Uso il 98.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Lo ripeto per scendere sotto 92.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "E' glicemia di laboratorio, non capillare.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non la correggo dell'11 per cento.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "La abbasso come se fosse un glucometro.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Il protocollo dice STOP, non i prelievi a 60 e 120.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non programmo quei prelievi.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Li tengo in agenda.",
+          "next": "r-load"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "98 mg/dL non e' sotto 45. Non e' un panic value.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessun panico glicemico.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono un'ipoglicemia.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Scrivo l'interruzione e il riferimento al diabete gestazionale del protocollo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Lo scrivo.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Scrivo curva nella norma.",
+          "next": "r-load"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "Non addebito i prelievi del carico.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Solo il digiuno.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Addebito tutta la curva.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto 98 e la soglia 92.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non scrivo la soglia.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-load",
+      "type": "resolution",
+      "title": "Carico in gravidanza sopra 92",
+      "prompt": "Da 92 mg/dL il protocollo interrompe la curva e non da' i 75 g.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Glicemia ritoccata",
+      "prompt": "Non si cerca un digiuno sotto 92 e non si applica il fattore del capillare.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Panic value sbagliato",
+      "prompt": "98 mg/dL non e' la soglia critica sotto 45 mg/dL.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "Curva addebitata",
+      "prompt": "Glicemie del carico che non andava eseguito.",
+      "cost": 2.4,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Soglia 92 assente",
+      "prompt": "Manca la regola nel referto.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Curva interrotta",
+      "prompt": "Niente 75 g. Il protocollo considera diabete gestazionale con digiuno a 98 mg/dL.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "La paziente ha tempo solo stamattina e insiste per finire la curva."
+  }
+}

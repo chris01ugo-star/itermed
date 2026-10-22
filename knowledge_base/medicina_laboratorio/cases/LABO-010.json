@@ -1,0 +1,371 @@
+{
+  "id": "LABO-010",
+  "code": "LABO-010",
+  "title": "Troponina 0,5 ng/mL in ambulatorio: e' un critico del 2008",
+  "description": "Paziente ambulatoriale. Troponina 0,5 ng/mL, sopra 0,4 ng/mL. Nella lista 2008 quel limite vale solo per gli ambulatoriali. Si notifica. Non si inventa un cut-off hs.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Troponina ambulatoriale sopra 0,4 ng/mL",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "GdS-VEA valori critici 2008; FASDAC 2026",
+  "diagnosis": "Valore critico ambulatoriale. Notifica immediata documentata. Non si archivia come routine perche' il paziente e' uscito.",
+  "pastMedicalHistory": "Prelievo ambulatoriale. Troponina 0,5 ng/mL. Non e' un ricovero.",
+  "presentation": "Il paziente e' gia' andato a casa. Propongono di lasciare il referto in busta, senza telefono.",
+  "redHerrings": [
+    "Busta senza telefono.",
+    "Soglia hs inventata.",
+    "Si applica la regola solo ai ricoverati."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "E' un ambulatoriale e la troponina e' 0,5. La lista dice sopra 0,4. Chiamate.",
+  "correctSolution": "Notificare il valore perche' la nota 2008 limita il critico troponina >0,4 ng/mL ai pazienti ambulatoriali. Read-back e traccia. Non sostituire 0,4 con un cut-off hs non scritto in quel documento.",
+  "goldStandardPath": [
+    "troponina"
+  ],
+  "goldPathNarrative": "Per l'ambulatoriale, sopra 0,4 ng/mL la troponina della lista 2008 si notifica.",
+  "examLatencies": {
+    "troponina": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Da quale troponina, in ng/mL, parte il critico della lista 2008?",
+      "critical": true,
+      "expectedKeywords": [
+        "0,4",
+        "0.4"
+      ],
+      "rationale": "Sopra 0,4 ng/mL."
+    },
+    {
+      "id": "q2",
+      "prompt": "A quali pazienti si applica quella nota?",
+      "critical": true,
+      "expectedKeywords": [
+        "ambulatoriali",
+        "ambulatorio"
+      ],
+      "rationale": "Solo pazienti ambulatoriali."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "t",
+      "source": "knowledge_base/medicina_laboratorio/legal/2008_GdS-VEA_Valori_critici_protetto.pdf",
+      "quote": "Troponina >0.4 ng/mL. Nota: solo per pazienti ambulatoriali."
+    },
+    {
+      "chunkId": "n",
+      "source": "knowledge_base/medicina_laboratorio/legal/Italy - 2018 Critical results.pdf",
+      "quote": "Qualunque sia il sistema di notifica, deve essere documentata la tracciabilita' di ogni azione che deve essere registrata, sia per i risultati critici, sia per quelli a rischio significativo."
+    },
+    {
+      "chunkId": "h",
+      "source": "knowledge_base/medicina_laboratorio/clinic/R58Y2026N01A0068.pdf",
+      "quote": "An elevated cTn value above the 99th percentile URL is the decision limit recalled by the international guidelines. The 99th percentile URL values of the hs-cTnI and hs-cTnT methods are usually higher than 10 ng/L."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002958 Troponina T cardiaca (TnT) 20,40 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Ambulatoriale con troponina sopra 0,4 ng/mL: si notifica.",
+      "Non si inventa il percentile 99 come numero unico."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Nota 2008: solo ambulatoriali, sopra 0,4 ng/mL.",
+      "legalCriteria": [
+        "La notifica si documenta.",
+        "Il paper 2026 non fornisce un unico cut-off in ng/L da sostituire a 0,4."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "troponina",
+      "name": "Troponina",
+      "finding": "0,5 ng/mL in ambulatoriale, sopra 0,4. Da notificare. Tariffa TnT 20,40 euro.",
+      "isAbnormal": true,
+      "priceEuro": 20.4
+    },
+    {
+      "examId": "troponina",
+      "name": "Traccia della chiamata",
+      "finding": "Read-back, ora e identita' di chi riceve.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ngs",
+      "name": "Pannello NGS prevenzione ictus",
+      "finding": "79 o 128 geni aggiunti allo sportello.",
+      "isAbnormal": false,
+      "priceEuro": 400,
+      "inappropriate": true,
+      "wasteRationale": "Il pannello NGS di prevenzione ictus e' 400 euro e si rimborsa solo dopo visita genetica con diagnosi o sospetto. Non sostituisce la notifica della troponina."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "TnT 20,40 euro. Risultato 0,5 ng/mL. Paziente ambulatoriale.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Apro la notifica del critico 2008.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Aggiungo un pannello NGS da 400 euro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Campione idoneo, identificato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Accetto il risultato.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Lo annullo perche' il paziente e' uscito.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Nessuna emolisi descritta. Non cambio il numero.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Lascio 0,5 ng/mL.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Lo porto sotto 0,4 a mano.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Il paper hs dice che l'elevazione e' sopra il 99o percentile, di solito oltre 10 ng/L, ma non da' un numero unico. Non lo uso al posto della lista.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non sostituisco 0,4 con un cut-off inventato.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Invento un cut-off hs e spengo l'allarme.",
+          "next": "r-hs"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "0,5 e' sopra 0,4 e il paziente e' ambulatoriale.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Telefono e documento.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Lascio la busta allo sportello.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Il referto tiene 0,5 ng/mL e la nota che e' stato notificato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Scrivo valore e notifica.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Scrivo: nella norma.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "Il pannello da 400 euro non e' la troponina.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non lo valido.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Lo addebito.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Ora, read-back, chi ha ricevuto.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Nessuna nota.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Troponina tolta o abbassata",
+      "prompt": "0,5 ng/mL in ambulatoriale non si cancella per comodita' di sportello.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-hs",
+      "type": "resolution",
+      "title": "Cut-off hs inventato",
+      "prompt": "Il paper dice sopra il 99o percentile, di solito oltre 10 ng/L, e non autorizza un numero unico al posto dello 0,4 della lista.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Critico ambulatoriale non chiamato",
+      "prompt": "La nota 2008 mette la troponina sopra 0,4 ng/mL tra i valori da notificare proprio negli ambulatoriali.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "NGS allo sportello",
+      "prompt": "Quattrocento euro senza visita genetica.",
+      "cost": 400,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Chiamata senza traccia",
+      "prompt": "Manca la documentazione della notifica.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Troponina ambulatoriale notificata",
+      "prompt": "0,5 ng/mL telefonato perche' sopra 0,4 e il paziente e' ambulatoriale. Traccia scritta.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Lo sportello dice che l'ambulatoriale puo' leggere il referto domani."
+  }
+}

@@ -1,0 +1,357 @@
+{
+  "id": "LABO-006",
+  "code": "LABO-006",
+  "title": "PT su EDTA: il tempo lungo non e' del paziente",
+  "description": "Il PT arriva su EDTA. Sul citrato 3,2% il PT dei volontari sta tra 11,5 e 13,2 secondi; sull'EDTA tra 19 e 27. Il potassio sopra 14 mmol/L smaschera l'EDTA.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "PT prelevato in EDTA",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "SIBioC coagulazione 2019; FASDAC 2026",
+  "diagnosis": "Matrice EDTA. PT non refertabile. Il potassio sopra 14 mmol/L conferma la provetta sbagliata.",
+  "pastMedicalHistory": "Quesito di PT. La provetta e' EDTA. Un potassio di controllo supera 14 mmol/L.",
+  "presentation": "Il PT esce a 24 secondi. Il banco vuole firmarlo come deficit coagulativo.",
+  "redHerrings": [
+    "PT a 24 secondi firmato.",
+    "EDTA scambiato per citrato.",
+    "Pannello NGS aggiunto."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Questa e' EDTA. Non firmatemi il PT.",
+  "correctSolution": "Non refertare il PT. La matrice EDTA allunga il tempo rispetto al citrato 3,2%. Il potassio sopra 14 mmol/L conferma l'EDTA. Chiedere un citrato.",
+  "goldStandardPath": [
+    "pt"
+  ],
+  "goldPathNarrative": "PT su EDTA 19-27 secondi contro 11,5-13,2 sul citrato. Il potassio sopra 14 mmol/L e' la firma dell'EDTA.",
+  "examLatencies": {
+    "pt": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "In quale intervallo sta il PT sull'EDTA, nella tabella?",
+      "critical": true,
+      "expectedKeywords": [
+        "19",
+        "27"
+      ],
+      "rationale": "Tra 19 e 27 secondi, contro 11,5-13,2 sul citrato."
+    },
+    {
+      "id": "q2",
+      "prompt": "Che potassio distingue l'EDTA?",
+      "critical": true,
+      "expectedKeywords": [
+        "14",
+        "mmol"
+      ],
+      "rationale": "Potassio sopra 14 mmol/L."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "t",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2019-la-variabilita-preanalitica-in-coagulazione.pdf",
+      "quote": "Tempo di protrombina (secondi): sodio citrato 3,2% (0,109 mmol/L) 11,5-13,2; EDTA 19-27. Potassio: citrato diminuito; EDTA >14 mmol/L."
+    },
+    {
+      "chunkId": "n",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "Campione raccolto in contenitore (provetta) inadeguato: C-NI."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002643 Tempo di protrombina (PT) 4,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Il PT sull'EDTA non si referta.",
+      "Il potassio sopra 14 mmol/L identifica l'EDTA."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Tabella di matrice: EDTA non e' citrato.",
+      "legalCriteria": [
+        "Codice C-NI.",
+        "Niente PT a 24 secondi firmato come coagulopatia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "pt",
+      "name": "PT",
+      "finding": "Non refertabile: provetta EDTA, tempo atteso nella fascia 19-27 secondi della tabella.",
+      "isAbnormal": true,
+      "priceEuro": 4.8
+    },
+    {
+      "examId": "potassiemia",
+      "name": "Potassio di matrice",
+      "finding": "Sopra 14 mmol/L conferma EDTA, non e' l'iperkaliemia del paziente.",
+      "isAbnormal": true,
+      "priceEuro": 2.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "ngs",
+      "name": "Pannello NGS 79 geni",
+      "finding": "Aggiunto alla richiesta di PT.",
+      "isAbnormal": false,
+      "priceEuro": 400,
+      "inappropriate": true,
+      "wasteRationale": "Quattrocento euro, solo dopo visita genetica con diagnosi o sospetto. Il quesito e' un PT sulla provetta sbagliata."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Quesito PT, 4,80 euro. La provetta e' EDTA e il potassio supera 14 mmol/L.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Ferma il PT.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Aggiungo il pannello NGS da 400 euro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "L'EDTA non e' l'anticoagulante del PT. Codice C-NI.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Chiedo un citrato.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "La processo come se fosse citrato.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Sull'EDTA il PT della tabella sta tra 19 e 27 secondi.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non firmo 24 secondi come dato del paziente.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Firmo 24 secondi.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Il potassio sopra 14 mmol/L non e' un reflex da refertare: e' il marcatore della provetta.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Lo uso solo per riconoscere l'EDTA.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Lo notifico come iperkaliemia critica.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Non c'e' un PT del paziente da telefonare.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessun panic value.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono una coagulopatia grave.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Commento di contenitore inadeguato, non un PT numerico.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Lo scrivo.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Lascio 24 secondi nel referto.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "Ne' il PT ne' il pannello NGS si validano.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Nessun addebito improprio.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Addebito PT e NGS.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Registro C-NI e il potassio di matrice sopra 14 mmol/L.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Chiudo la traccia.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non registro la provetta.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "PT firmato su EDTA",
+      "prompt": "Il PT sull'EDTA sta, in tabella, tra 19 e 27 secondi. Non e' il citrato.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Critico artefattuale",
+      "prompt": "Non si telefona ne' il PT dell'EDTA ne' il potassio sopra 14 mmol/L come valore del paziente.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "NGS sulla provetta sbagliata",
+      "prompt": "Quattrocento euro di genomica senza visita genetica, su una richiesta di PT.",
+      "cost": 400,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "EDTA senza codice",
+      "prompt": "Manca il C-NI.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "EDTA respinto",
+      "prompt": "PT non firmato. Citrato richiesto. Potassio sopra 14 mmol/L usato solo come firma della provetta.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il reparto ha una sola provetta e vuole comunque un numero."
+  }
+}

@@ -1,0 +1,371 @@
+{
+  "id": "LABO-015",
+  "code": "LABO-015",
+  "title": "TSH 5,8 e AbTPO 60: non si aggiunge l'anti-tireoglobulina",
+  "description": "TSH 5,8, sopra 3,50: si aggiungono FT4 e AbTPO. AbTPO 60 UI/mL, cioe' almeno 34: STOP, niente anti-tireoglobulina.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "TSH sopra 3,50 e AbTPO almeno 34 UI/mL",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Protocollo TSH reflex, Casale; FASDAC 2026",
+  "diagnosis": "FT4 e AbTPO si. Anti-tireoglobulina no, perche' l'AbTPO non e' sotto 34.",
+  "pastMedicalHistory": "TSH reflex. TSH 5,8 microU/mL. AbTPO 60 UI/mL. FT4 gia' in corso.",
+  "presentation": "Il LIS vuole aggiungere anche l'anti-tireoglobulina, 8,40 euro.",
+  "redHerrings": [
+    "AbTg aggiunta.",
+    "Si salta l'FT4.",
+    "Soglia 34 ignorata."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "L'AbTPO e' 60. Non aggiungete l'anti-tireoglobulina.",
+  "correctSolution": "Aggiungere FT4 e AbTPO perche' il TSH supera 3,50. Non aggiungere l'anti-tireoglobulina: si aggiunge solo se l'AbTPO e' sotto 34 UI/mL.",
+  "goldStandardPath": [
+    "tsh",
+    "ft4",
+    "abtpo"
+  ],
+  "goldPathNarrative": "Sopra 3,50 si aggiungono FT4 e AbTPO. Da 34 UI/mL in su l'anti-tireoglobulina si ferma.",
+  "examLatencies": {
+    "tsh": 20,
+    "ft4": 20,
+    "abtpo": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Con TSH sopra 3,50 quali test si aggiungono subito?",
+      "critical": true,
+      "expectedKeywords": [
+        "FT4",
+        "tireoperossidasi"
+      ],
+      "rationale": "FT4 e anti-tireoperossidasi."
+    },
+    {
+      "id": "q2",
+      "prompt": "Sotto quale AbTPO si aggiunge l'anti-tireoglobulina?",
+      "critical": true,
+      "expectedKeywords": [
+        "34",
+        "UI"
+      ],
+      "rationale": "Sotto 34 UI/mL."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "Se il TSH e' superiore a 3,50 microU/mL il laboratorio aggiunge autonomamente i test FT4 e anti-tireoperossidasi e, se l'anti-tireoperossidasi rientra nei valori di riferimento, il test anti-tireoglobulina."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "AbTPO minore di 34 UI/mL: anti-tireoglobulina. AbTPO maggiore o uguale a 34 UI/mL: STOP."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: AbTPO DL LB N000002424 11,20 euro. Anti-tireoglobulina DL LB N000002436 8,40 euro. FT4 8,40 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "FT4 e AbTPO si aggiungono.",
+      "AbTg no, perche' 60 non e' sotto 34."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Soglia 34 UI/mL scritta nel protocollo.",
+      "legalCriteria": [
+        "Il ticket vale per i test che il protocollo aggiunge, non per gli altri.",
+        "Non si salta l'FT4."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ft4",
+      "name": "FT4",
+      "finding": "Dovuta con TSH 5,8.",
+      "isAbnormal": false,
+      "priceEuro": 8.4
+    },
+    {
+      "examId": "abtpo",
+      "name": "AbTPO",
+      "finding": "60 UI/mL, non sotto 34. Reflex dell'AbTg fermo.",
+      "isAbnormal": true,
+      "priceEuro": 11.2
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "abtg",
+      "name": "Anti-tireoglobulina",
+      "finding": "Aggiunta con AbTPO a 60.",
+      "isAbnormal": false,
+      "priceEuro": 8.4,
+      "inappropriate": true,
+      "wasteRationale": "Otto euro e quaranta. Il protocollo la aggiunge solo se l'AbTPO e' sotto 34 UI/mL."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "TSH 5,8, sopra 3,50. AbTPO gia' 60.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Aggiungo FT4 se manca, e mi fermo sull'AbTg.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Aggiungo subito l'AbTg.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Siero idoneo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Lo uso per l'FT4.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Lo scarto senza motivo.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Nessuna interferenza descritta.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non blocco l'FT4.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "La blocco.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "60 UI/mL non e' sotto 34. STOP sull'anti-tireoglobulina.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non la aggiungo.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "La aggiungo perche' l'AbTPO e' alta.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Questi titoli non sono un panic value.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessuna telefonata.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono una tiroidite acuta.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Referto: TSH, FT4, AbTPO 60, AbTg non indicata.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Lo scrivo.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Scrivo AbTg negativa senza averla dosata.",
+          "next": "r-fake"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "8,40 euro di AbTg non sono dovuti.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non li addebito.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Li metto in ticket.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto la soglia di 34 UI/mL.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non la scrivo.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "AbTg fuori protocollo",
+      "prompt": "Con AbTPO a 60 UI/mL l'anti-tireoglobulina non si aggiunge. Costa 8,40 euro.",
+      "cost": 8.4,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "FT4 bloccata",
+      "prompt": "Il TSH sopra 3,50 chiede l'FT4. Non si omette.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Panico non in lista",
+      "prompt": "Non e' un valore critico della lista 2018.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-fake",
+      "type": "resolution",
+      "title": "AbTg inventata nel referto",
+      "prompt": "Non si scrive un risultato non eseguito.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Soglia 34 assente",
+      "prompt": "Manca la regola nel referto.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "AbTg non aggiunta",
+      "prompt": "FT4 e AbTPO eseguiti. Anti-tireoglobulina ferma perche' 60 UI/mL non e' sotto 34.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il paziente vuole il pannello tiroideo completo."
+  }
+}

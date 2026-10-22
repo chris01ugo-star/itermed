@@ -1,0 +1,370 @@
+{
+  "id": "LABO-020",
+  "code": "LABO-020",
+  "title": "LDL 210 mg/dL: nel referto ci sono tutte le classi, e il commento sull'FH",
+  "description": "LDL 210 mg/dL, sopra 190. Il commento da considerare e' l'ipercolesterolemia familiare eterozigote. Nel referto vanno elencati tutti i bersagli di classe, perche' il laboratorio non conosce il rischio del paziente.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "LDL-colesterolo 210 mg/dL",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Referto dell'ipercolesterolemia; FASDAC genomica 2026",
+  "diagnosis": "Referto con tutti i bersagli e commento di possibile FH eterozigote. Non si stampa solo il bersaglio sotto 55. Niente APOE senza visita genetica.",
+  "pastMedicalHistory": "Paziente ambulatoriale. LDL 210 mg/dL. Il laboratorio non ha diabete, pressione, rene o eventi nella richiesta.",
+  "presentation": "Il sistema stampa solo il bersaglio very high, sotto 55 mg/dL, e propone l'APOE a 68 euro.",
+  "redHerrings": [
+    "Solo il bersaglio sotto 55.",
+    "APOE di default.",
+    "Si omette il commento sopra 190."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "L'LDL e' 210. Mettete tutte le classi e il commento. Non l'APOE.",
+  "correctSolution": "Elencare i bersagli di tutte le classi. Commento: sopra 190 mg/dL considerare l'FH eterozigote. Non ordinare l'APOE: 68 euro, rimborsabili solo dopo visita genetica con diagnosi o sospetto.",
+  "goldStandardPath": [
+    "ldl"
+  ],
+  "goldPathNarrative": "Il laboratorio non conosce la classe di rischio, quindi le scrive tutte. Sopra 190 mg/dL il commento e' l'FH eterozigote.",
+  "examLatencies": {
+    "ldl": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Perche' nel referto ci sono tutte le classi di rischio?",
+      "critical": true,
+      "expectedKeywords": [
+        "tutte",
+        "laboratorio"
+      ],
+      "rationale": "Il laboratorio non ha la clinica che colloca il paziente."
+    },
+    {
+      "id": "q2",
+      "prompt": "Che commento si associa a un LDL sopra 190 mg/dL?",
+      "critical": true,
+      "expectedKeywords": [
+        "eterozigote",
+        "familiare"
+      ],
+      "rationale": "Considerare l'ipercolesterolemia familiare eterozigote."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Hypercholesterolemia-and-laboratory-report.pdf",
+      "quote": "The laboratory obviously does not have this information available, so the values differentiated by risk class must all be listed in the report."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Hypercholesterolemia-and-laboratory-report.pdf",
+      "quote": "LDL Cholesterol >5 mmol/L; 190 mg/dL: Consider heterozygous FH. LDL Cholesterol >13 mmol/L; 500 mg/dL: Consider homozygous FH."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Hypercholesterolemia-and-laboratory-report.pdf",
+      "quote": "LDL-Cholesterol therapeutic goals: low <3.0 mmol/L, <116 mg/dL; moderate <2.6 mmol/L, <100 mg/dL; high <1.81 mmol/L, <70 mg/dL; very high <1.42 mmol/L, <55 mg/dL."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL GN N000003143 Indagine di genetica molecolare APO E 68,00 euro. Qualunque prestazione di genomica e' rimborsabile solo se prescritta a seguito di visita specialistica genetica, con indicazione della diagnosi o del sospetto diagnostico."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Tutte le classi nel referto.",
+      "Commento FH eterozigote sopra 190 mg/dL. Niente APOE di default."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Il laboratorio non sceglie una classe sola.",
+      "legalCriteria": [
+        "500 mg/dL sarebbe l'omozigote: qui siamo a 210.",
+        "APOE solo dopo visita genetica."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "ldl",
+      "name": "LDL colesterolo",
+      "finding": "210 mg/dL. Commento: considerare FH eterozigote. Bersagli di tutte le classi in referto.",
+      "isAbnormal": true
+    },
+    {
+      "examId": "ldl",
+      "name": "Referto completo",
+      "finding": "Low sotto 116, moderate sotto 100, high sotto 70, very high sotto 55 mg/dL, tutti elencati.",
+      "isAbnormal": false
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "apoe",
+      "name": "APOE",
+      "finding": "Genetica molecolare senza visita.",
+      "isAbnormal": false,
+      "priceEuro": 68,
+      "inappropriate": true,
+      "wasteRationale": "Sessantotto euro. Il nomenclatore rimborsa la genomica solo dopo visita specialistica genetica, con diagnosi o sospetto."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "LDL 210 mg/dL. Nessuna visita genetica in richiesta.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Preparo il referto dei lipidi, non l'APOE.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Aggiungo APOE a 68 euro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Siero idoneo per il colesterolo LDL.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Accetto il 210.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Lo scarto senza una non conformita'.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Nessuna lipemia dichiarata su questo siero.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non correggo l'LDL.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Lo abbasso sotto 190 per togliere il commento.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Il commento sopra 190 non e' un reflex genetico automatico.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Metto il commento FH eterozigote, non l'APOE.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Lancio l'APOE.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "210 non e' sopra 500 mg/dL, riga dell'omozigote, e non e' un panic value della lista 2018.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessun panico. C'e' il commento interpretativo.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono un'emergenza omozigote.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Elenco tutte le classi e il commento eterozigote.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Scrivo low, moderate, high, very high e il commento.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Stampo solo sotto 55 mg/dL.",
+          "next": "r-one"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "APOE 68 euro non si rimborsa senza visita.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non lo valido.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Lo addebito.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto che la classe clinica non era nota.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Scelgo io la classe very high.",
+          "next": "r-one"
+        }
+      ]
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "LDL modificato o scartato",
+      "prompt": "210 mg/dL su siero idoneo non si abbassa per evitare il commento.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-one",
+      "type": "resolution",
+      "title": "Una sola classe in referto",
+      "prompt": "Il laboratorio non conosce la classe: deve elencarle tutte.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Omozigote notificato a 210",
+      "prompt": "La riga omozigote e' sopra 500 mg/dL. Qui il commento e' l'eterozigote, sopra 190.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "APOE senza visita",
+      "prompt": "Sessantotto euro non rimborsabili senza visita specialistica genetica e senza sospetto scritto.",
+      "cost": 68,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Commento assente",
+      "prompt": "Manca il commento sopra 190 mg/dL.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Referto lipidico completo",
+      "prompt": "Tutte le classi elencate. Commento di FH eterozigote. APOE non eseguito.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il referto automatico tiene una riga sola e un flag genetico."
+  }
+}

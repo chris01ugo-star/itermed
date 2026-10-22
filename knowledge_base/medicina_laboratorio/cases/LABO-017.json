@@ -1,0 +1,377 @@
+{
+  "id": "LABO-017",
+  "code": "LABO-017",
+  "title": "Curva da 75 grammi: a digiuno 140 mg/dL non si da' il carico",
+  "description": "Curva da 75 g. Glicemia a digiuno 140 mg/dL, cioe' almeno 126. Il protocollo converte la curva in profilo e non somministra il glucosio.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "OGTT con glicemia a digiuno almeno 126 mg/dL",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "Protocollo curva glicemica 75 g, Casale; FASDAC 2026",
+  "diagnosis": "Niente carico da 75 g. La curva diventa profilo: prelievo due ore dopo colazione e due ore dopo pranzo.",
+  "pastMedicalHistory": "Richiesta di curva con 75 g. Prima glicemia a digiuno: 140 mg/dL.",
+  "presentation": "La soluzione e' gia' sul banco. Vogliono farla bere lo stesso.",
+  "redHerrings": [
+    "Carico comunque.",
+    "Si usa la soglia della gravida.",
+    "Si ferma tutto senza profilo."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Il digiuno e' 140. Non date i 75 grammi.",
+  "correctSolution": "Non somministrare i 75 g. Convertire in profilo glicemico: altri due prelievi, due ore dopo la colazione e due ore dopo il pranzo. La soglia di stop della gravida, 92, non e' questa.",
+  "goldStandardPath": [
+    "glicemia"
+  ],
+  "goldPathNarrative": "Da 126 mg/dL a digiuno in su non si da' il carico. Si passa al profilo.",
+  "examLatencies": {
+    "glicemia": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Da quale glicemia a digiuno non si da' il carico da 75 g?",
+      "critical": true,
+      "expectedKeywords": [
+        "126",
+        "digiuno"
+      ],
+      "rationale": "Da 126 mg/dL in su."
+    },
+    {
+      "id": "q2",
+      "prompt": "Che cosa diventa la curva?",
+      "critical": true,
+      "expectedKeywords": [
+        "profilo",
+        "colazione"
+      ],
+      "rationale": "Profilo: due ore dopo colazione e due ore dopo pranzo."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "a",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "Se il dosaggio di glucosio a digiuno e' inferiore a 126 mg/dL si somministrano 75 g di glucosio e dopo 120 minuti si esegue un secondo prelievo."
+    },
+    {
+      "chunkId": "b",
+      "source": "knowledge_base/medicina_laboratorio/clinic/01_rpl_lab_casale_protocolli.pdf",
+      "quote": "Se il dosaggio di glucosio a digiuno e' superiore a 126 mg/dL la curva glicemica viene convertita in profilo glicemico. Il paziente e' sottoposto ad altri due prelievi, rispettivamente 2 ore dopo la colazione e 2 ore dopo il pasto di mezzogiorno."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002551 Glicemia 2,40 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente 75 g se il digiuno e' almeno 126 mg/dL.",
+      "Si converte in profilo, non si cancella il percorso."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Soglia 126 scritta per il non gravido.",
+      "legalCriteria": [
+        "Il profilo ha due prelievi orari precisi.",
+        "Non si usa la soglia 92, che e' della gravida."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glicemia a digiuno",
+      "finding": "140 mg/dL, sopra 126. Carico non indicato.",
+      "isAbnormal": true,
+      "priceEuro": 2.4
+    },
+    {
+      "examId": "glicemia",
+      "name": "Profilo",
+      "finding": "Due prelievi: due ore dopo colazione e due ore dopo pranzo.",
+      "isAbnormal": false,
+      "priceEuro": 2.4
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "glicemia",
+      "name": "Glicemie del carico non dovuto",
+      "finding": "Secondi prelievi dopo 75 g somministrati comunque.",
+      "isAbnormal": false,
+      "priceEuro": 2.4,
+      "inappropriate": true,
+      "wasteRationale": "Ogni glicemia e' 2,40 euro. Il protocollo vieta il carico sopra 126 mg/dL e indica un altro schema."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Curva da 75 g. Digiuno 140 mg/dL.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Converto in profilo.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Faccio bere i 75 g.",
+          "next": "r-load"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Il prelievo a digiuno e' idoneo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Uso il 140 per la decisione.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "Lo ripeto sperando in un valore sotto 126.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Non e' un glucometro capillare. E' la glicemia di laboratorio.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non applico lo sconto dell'11 per cento del capillare.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "La tratto come capillare.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Il reflex scritto e' il profilo, non un altro carico.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Programmo i due prelievi del profilo.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Aggiungo una curva in gravidanza, soglia 92.",
+          "next": "r-grav"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "140 mg/dL non e' sotto 45 ne' sopra 500. Non e' il critico IFCC.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Nessun panic value.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono un coma.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Scrivo: carico non eseguito, digiuno sopra 126, convertito in profilo.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Lo scrivo.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Scrivo curva eseguita.",
+          "next": "r-load"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "Non addebito le glicemie di un carico vietato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Addebito solo i prelievi del profilo.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Addebito la curva completa.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Annoto 140 e la soglia 126.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Registro.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non scrivo la soglia.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-load",
+      "type": "resolution",
+      "title": "Carico da 75 g eseguito",
+      "prompt": "Sopra 126 mg/dL a digiuno il protocollo non somministra i 75 g.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Prelievo o matrice sbagliati",
+      "prompt": "Il 140 di laboratorio decide. Non si cerca un numero piu' comodo e non e' un capillare.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-grav",
+      "type": "resolution",
+      "title": "Soglia della gravida",
+      "prompt": "92 mg/dL e' il protocollo della paziente gravida, non questo.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Critico non in tabella",
+      "prompt": "140 mg/dL non e' la soglia IFCC sotto 45 o sopra 500.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "Curva addebitata",
+      "prompt": "Glicemie da 2,40 euro di un carico che non andava fatto.",
+      "cost": 2.4,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Soglia non scritta",
+      "prompt": "Manca 126 mg/dL nel referto.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Profilo, non carico",
+      "prompt": "75 g non dati. Percorso convertito nel profilo del protocollo.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il paziente ha gia' firmato per la curva e vuole finire stamattina."
+  }
+}

@@ -1,0 +1,359 @@
+{
+  "id": "LABO-003",
+  "code": "LABO-003",
+  "title": "Citrato al posto del siero: sodio e potassio non si firmano",
+  "description": "Richiesta di sodiemia e potassiemia su plasma citrato 3,2%. La tabella distingue il citrato dal siero: sodio molto alto, potassio basso. Non e' il quadro del paziente.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Elettroliti su plasma citrato",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "SIBioC coagulazione 2019; campioni non idonei 2007",
+  "diagnosis": "Contenitore inadeguato per gli elettroliti. Non si refertano sodio e potassio. Si chiede la provetta giusta.",
+  "pastMedicalHistory": "Il prelievo arriva in citrato trisodico 3,2% (0,109 mmol/L). Il quesito e' sodio e potassio, non la coagulazione.",
+  "presentation": "Il LIS mostra sodio altissimo e potassio basso. Qualcuno vuole firmare i due numeri e, gia' che c'e', l'emocromo sulla stessa provetta.",
+  "redHerrings": [
+    "Firmare il potassio basso.",
+    "Emocromo sulla stessa provetta citrato.",
+    "Scambiare il citrato per EDTA."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Questa e' una provetta citrato. Non firmatemi sodio e potassio.",
+  "correctSolution": "Non refertare sodiemia e potassiemia sul citrato. Codice C-NI, nuovo prelievo nella provetta corretta. Non eseguire l'emocromo su quel citrato.",
+  "goldStandardPath": [
+    "potassiemia",
+    "sodiemia"
+  ],
+  "goldPathNarrative": "Sul citrato 3,2% il sodio sale e il potassio scende rispetto al siero. Quei numeri non sono il paziente.",
+  "examLatencies": {
+    "potassiemia": 20,
+    "sodiemia": 20
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Come si muovono sodio e potassio nel plasma citrato 3,2% rispetto al siero?",
+      "critical": true,
+      "expectedKeywords": [
+        "sodio",
+        "potassio"
+      ],
+      "rationale": "Sodio aumentato, potassio diminuito."
+    },
+    {
+      "id": "q2",
+      "prompt": "Che codice ha il contenitore inadeguato?",
+      "critical": true,
+      "expectedKeywords": [
+        "C-NI",
+        "inadeguato"
+      ],
+      "rationale": "Campione raccolto in contenitore inadeguato: C-NI."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita il paziente in corsia. L'atto e' sulla richiesta, sulla provetta, sull'interferenza, sul reflex, sull'eventuale valore critico e sul commento."
+  },
+  "escCitations": [
+    {
+      "chunkId": "t",
+      "source": "knowledge_base/medicina_laboratorio/clinic/2019-la-variabilita-preanalitica-in-coagulazione.pdf",
+      "quote": "Sodio citrato (3,2%; 0,109 mmol/L): sodio aumentato in modo marcato, potassio diminuito, rispetto alle provette per siero o con sodio eparina. Con EDTA il potassio supera 14 mmol/L."
+    },
+    {
+      "chunkId": "n",
+      "source": "knowledge_base/medicina_laboratorio/clinic/Raccomandazioni per la rilevazione e la gestione dei campioni non idonei.pdf",
+      "quote": "Campione raccolto in contenitore (provetta) inadeguato: C-NI."
+    },
+    {
+      "chunkId": "k",
+      "source": "knowledge_base/medicina_laboratorio/economic/Nomenclatore tariffario Fasdac 01012026_v1.pdf",
+      "quote": "Nomenclatore Tariffario FASDAC aggiornamento 01.01.2026: DL LB N000002612 Potassiemia 2,80 euro. DL LB N000002631 Sodiemia 2,80 euro."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Non si firmano sodio e potassio sul citrato.",
+      "L'emocromo non si esegue sulla provetta sbagliata."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "La provetta citrato non e' la matrice degli elettroliti.",
+      "legalCriteria": [
+        "Codice C-NI e nuovo prelievo.",
+        "Niente emocromo sullo stesso citrato."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "potassiemia",
+      "name": "Potassiemia",
+      "finding": "Non refertabile: matrice citrato, potassio falsamente basso.",
+      "isAbnormal": true,
+      "priceEuro": 2.8
+    },
+    {
+      "examId": "sodiemia",
+      "name": "Sodiemia",
+      "finding": "Non refertabile: matrice citrato, sodio falsamente alto.",
+      "isAbnormal": true,
+      "priceEuro": 2.8
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "emocromo",
+      "name": "Emocromo su citrato",
+      "finding": "Stessa provetta citrato usata per la conta.",
+      "isAbnormal": false,
+      "priceEuro": 4.8,
+      "inappropriate": true,
+      "wasteRationale": "Emocromo FASDAC 4,80 euro. Il citrato e' contenitore inadeguato, codice C-NI: non si converte in emocromo."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Triage",
+      "prompt": "Il quesito e' sodio e potassio, 2,80 euro ciascuno. La provetta e' citrato 3,2%.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d10",
+          "label": "Ferma gli elettroliti: matrice sbagliata.",
+          "next": "d2"
+        },
+        {
+          "id": "d11",
+          "label": "Accetto e lancio anche l'emocromo, 4,80 euro.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Provetta",
+      "prompt": "Il citrato 3,2% non e' siero ne' eparina. Codice di contenitore inadeguato: C-NI.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d20",
+          "label": "Marco C-NI e chiedo la provetta corretta.",
+          "next": "d3"
+        },
+        {
+          "id": "d21",
+          "label": "La tratto come siero e la processo.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Interferenza",
+      "prompt": "Sul citrato il sodio e' molto aumentato e il potassio diminuito. Non e' l'EDTA, dove il potassio supera 14 mmol/L.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d30",
+          "label": "Non firmo ne' il sodio alto ne' il potassio basso.",
+          "next": "d4"
+        },
+        {
+          "id": "d31",
+          "label": "Firmo il potassio basso come ipokaliemia vera.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Nessun reflex aggiunge l'emocromo a una richiesta di elettroliti su citrato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d40",
+          "label": "Non aggiungo l'emocromo.",
+          "next": "d5"
+        },
+        {
+          "id": "d41",
+          "label": "Eseguo l'emocromo sulla stessa provetta.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Valore critico",
+      "prompt": "Il potassio basso e' un artefatto di matrice, non un valore da notificare.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d50",
+          "label": "Non apro la procedura del valore critico.",
+          "next": "d6"
+        },
+        {
+          "id": "d51",
+          "label": "Telefono l'ipokaliemia del citrato.",
+          "next": "r-panic"
+        }
+      ]
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Commento",
+      "prompt": "Il referto dice che l'analisi non e' eseguibile per contenitore inadeguato.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d60",
+          "label": "Metto il commento e chiedo un nuovo prelievo.",
+          "next": "d7"
+        },
+        {
+          "id": "d61",
+          "label": "Lascio i numeri senza commento.",
+          "next": "r-pre"
+        }
+      ]
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Costo",
+      "prompt": "Sodiemia e potassiemia sono 2,80 euro solo su matrice idonea.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d70",
+          "label": "Non addebito gli elettroliti del citrato ne' l'emocromo.",
+          "next": "d8"
+        },
+        {
+          "id": "d71",
+          "label": "Addebito sodio, potassio ed emocromo.",
+          "next": "r-eco"
+        }
+      ]
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Traccia",
+      "prompt": "Registro C-NI e la persona del reparto avvisata.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "d80",
+          "label": "Chiudo con la traccia.",
+          "next": "res-ok"
+        },
+        {
+          "id": "d81",
+          "label": "Non registro nulla.",
+          "next": "r-mute"
+        }
+      ]
+    },
+    {
+      "id": "r-pre",
+      "type": "resolution",
+      "title": "Elettroliti firmati sul citrato",
+      "prompt": "Sodio e potassio sul citrato 3,2% non sono il siero del paziente.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-panic",
+      "type": "resolution",
+      "title": "Ipokaliemia artefattuale notificata",
+      "prompt": "Non si telefona come critico un potassio abbassato dal citrato.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "r-eco",
+      "type": "resolution",
+      "title": "Emocromo sulla provetta citrato",
+      "prompt": "Quattro euro e ottanta di emocromo su un contenitore inadeguato, codice C-NI.",
+      "cost": 4.8,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "r-mute",
+      "type": "resolution",
+      "title": "Citrato senza traccia",
+      "prompt": "Manca il codice C-NI e manca la richiesta della provetta giusta.",
+      "cost": 0,
+      "score": -30,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "title": "Citrato respinto",
+      "prompt": "Elettroliti non firmati. Emocromo non eseguito. Nuova provetta richiesta e C-NI registrato.",
+      "cost": 0,
+      "score": 30,
+      "outcome": "positive"
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "examBudgetEuro": 40,
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "MEDIUM",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Il reparto dice che una provetta vale l'altra se il tappo e' pieno."
+  }
+}
