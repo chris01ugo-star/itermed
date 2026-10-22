@@ -1,0 +1,385 @@
+{
+  "id": "LABO-026",
+  "code": "LABO-026",
+  "title": "Allarme Analizzatore: Piastrinopenia Severa e Schistociti",
+  "description": "Campione di sangue in EDTA e Litio-Eparina dal Pronto Soccorso. Paziente donna, 42 anni, giunta per astenia severa, petecchie e stato confusionale. L'analizzatore ematologico si blocca e segnala un allarme rosso: PLT 18.000/mmc (Delta Check: ieri erano 150.000 da esami esterni), Hb 7.2 g/dL. Flag strumentali: 'Schistocytes?', 'RBC Fragments', 'Thrombocytopenia'.",
+  "difficulty": "HARD",
+  "specialty": "medicina_laboratorio",
+  "specialtyLabel": "Medicina di Laboratorio",
+  "condition": "Piastrinopenia con delta check e schistociti",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "Legge 22 dicembre 2017, n. 219",
+  "diagnosis": "Sospetto di porpora trombotica trombocitopenica. Non si validano i flag alla cieca, si guarda lo striscio, si chiama il pronto soccorso, si aggiungono LDH, reticolociti, aptoglobina, bilirubina e coagulazione di base. Non si trasfondono piastrine. Si avvia il plasma-exchange.",
+  "pastMedicalHistory": "Donna di 42 anni, astenia severa, petecchie e stato confusionale. Provette EDTA e litio-eparina dal pronto soccorso. Ieri, su esami esterni, le piastrine erano 150.000/mmc.",
+  "presentation": "L'analizzatore si blocca: PLT 18.000/mmc, Hb 7.2 g/dL, flag Schistocytes?, RBC Fragments, Thrombocytopenia. Il delta check rispetto a ieri e' un crollo. Propongono di validare alla cieca, di refertare gli schistociti senza chiamare, di chiedere ADAMTS13 e genetica in urgenza, o di inviare due sacche di piastrine.",
+  "redHerrings": [
+    "Validare il referto alla cieca.",
+    "Referto gli schistociti e passo oltre.",
+    "ADAMTS13 e genetica in urgenza.",
+    "Due sacche di piastrine."
+  ],
+  "timeLimitMinutes": 45,
+  "patientDeteriorationThreshold": 30,
+  "patientPrompt": "Delta check da 150.000 a 18.000, con flag di schistociti. Non firmate alla cieca.",
+  "correctSolution": "Controllo visivo della provetta e striscio. Se gli schistociti sono confermati, chiamata immediata al pronto soccorso per sospetta anemia emolitica microangiopatica. Reflex: LDH, reticolociti, aptoglobina, bilirubina frazionata, PT, aPTT e fibrinogeno. Niente piastrine. Plasma-exchange. Poi emocromo e LDH.",
+  "goldStandardPath": [
+    "opt_1b",
+    "opt_2b",
+    "opt_3a",
+    "opt_4b",
+    "opt_5a"
+  ],
+  "goldPathNarrative": "Si escludono i micro-coaguli, si conferma lo striscio, si telefona il panic value, si aggiunge solo il reflex utile in urgenza e si rifiutano le piastrine a favore del plasma-exchange.",
+  "examLatencies": {
+    "striscio": 15,
+    "emocromo": 10
+  },
+  "anamnesisQuestions": [
+    {
+      "id": "q1",
+      "prompt": "Qual e' la prima azione davanti al delta check e all'allarme schistociti?",
+      "critical": true,
+      "expectedKeywords": [
+        "striscio",
+        "coaguli"
+      ],
+      "rationale": "Escludere i micro-coaguli e guardare lo striscio prima di firmare."
+    },
+    {
+      "id": "q2",
+      "prompt": "Che cosa non si trasfonde se il sospetto e' la PTT?",
+      "critical": true,
+      "expectedKeywords": [
+        "piastrine",
+        "plasma"
+      ],
+      "rationale": "Non le piastrine. Si avvia il plasma-exchange."
+    }
+  ],
+  "physicalExam": {
+    "summary": "Il direttore non visita la paziente in corsia. L'atto e' sulla provetta, sul delta check, sullo striscio, sulla chiamata al pronto soccorso e sul rifiuto delle piastrine."
+  },
+  "escCitations": [
+    {
+      "chunkId": "l",
+      "source": "knowledge_base/medicina_laboratorio/legal/allegato115290.pdf",
+      "quote": "Nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/medicina_laboratorio/legal/allegato115290.pdf",
+      "quote": "Il consenso informato, in qualunque forma espresso, e' inserito nella cartella clinica e nel fascicolo sanitario elettronico. Ogni persona capace di agire ha il diritto di rifiutare qualsiasi accertamento diagnostico."
+    }
+  ],
+  "auditMetrics": {
+    "appropriatenessIndicators": [
+      "Niente validazione alla cieca di un allarme di schistociti.",
+      "Niente ADAMTS13 o genetica al posto del reflex in urgenza.",
+      "Niente concentrato piastrinico se il sospetto e' la PTT."
+    ],
+    "gelliBiancoShield": {
+      "art5Adherence": "Legge 219/2017: i test genetici per aHUS non partono senza consenso scritto.",
+      "legalCriteria": [
+        "La chiamata al pronto soccorso resta in traccia.",
+        "Il rifiuto delle piastrine resta in traccia."
+      ]
+    }
+  },
+  "mandatoryExams": [
+    {
+      "examId": "striscio",
+      "name": "Striscio di sangue periferico",
+      "finding": "Piastrinopenia severa e numerosi schistociti, frammenti eritrocitari superiori al 2%. PLT 18.000/mmc, Hb 7.2 g/dL.",
+      "isAbnormal": true
+    },
+    {
+      "examId": "emocromo",
+      "name": "Reflex di emolisi e coagulazione",
+      "finding": "LDH, reticolociti, aptoglobina, bilirubina frazionata, PT, aPTT e fibrinogeno per confermare l'emolisi e distinguere la PTT dalla CID.",
+      "isAbnormal": true
+    }
+  ],
+  "inappropriateExams": [
+    {
+      "examId": "adamts13",
+      "name": "ADAMTS13 e genetica aHUS in urgenza",
+      "finding": "Richiesti prima del plasma-exchange. ADAMTS13 non e' un test in urgenza. La genetica richiede il consenso della legge 219.",
+      "isAbnormal": false,
+      "inappropriate": true,
+      "wasteRationale": "Non sono propedeutici alla terapia salvavita. I test genetici non si avviano senza consenso scritto."
+    }
+  ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 76,
+      "bloodPressure": "122/74",
+      "spo2": 98,
+      "temperature": 36.5,
+      "respiratoryRate": 14
+    },
+    "clinicalSigns": {},
+    "semeiotics": {}
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Il pronto soccorso vuole le piastrine e un numero gia' validato sul LIS."
+  },
+  "clinical_case": "Campione di sangue in EDTA e Litio-Eparina dal Pronto Soccorso. Paziente donna, 42 anni, giunta per astenia severa, petecchie e stato confusionale. L'analizzatore ematologico si blocca e segnala un allarme rosso: PLT 18.000/mmc (Delta Check: ieri erano 150.000 da esami esterni), Hb 7.2 g/dL. Flag strumentali: 'Schistocytes?', 'RBC Fragments', 'Thrombocytopenia'.",
+  "steps": [
+    {
+      "id": "step_1",
+      "question": "Di fronte a questo allarme strumentale e al crollo improvviso delle piastrine (Delta Check), qual è la tua prima azione pre-analitica?",
+      "options": [
+        {
+          "id": "opt_1a",
+          "text": "Valido il referto alla cieca e lo invio al PS: l'analizzatore è tarato di recente.",
+          "score_changes": { "anamnesi": -50, "diagnosi": -30, "empatia": 0, "economia": 0, "legale": -40 },
+          "resolution": "Grave errore. Validare un allarme strumentale alla cieca senza verifica morfologica è una negligenza. Il paziente potrebbe avere una pseudopiastrinopenia da EDTA o una patologia fulminante.",
+          "is_fatal": true
+        },
+        {
+          "id": "opt_1b",
+          "text": "Controllo visivamente la provetta per escludere micro-coaguli e allestisco immediatamente uno striscio di sangue periferico.",
+          "score_changes": { "anamnesi": 40, "diagnosi": 30, "empatia": 10, "economia": 10, "legale": 10 },
+          "resolution": "Azione perfetta. Il rigore pre-analitico impone di escludere coaguli (che consumano piastrine) e di verificare l'allarme 'Schistociti' direttamente al microscopio.",
+          "next_step": "step_2"
+        }
+      ]
+    },
+    {
+      "id": "step_2",
+      "question": "Mettendo il vetrino al microscopio ottico, confermi una severa piastrinopenia e osservi numerosi schistociti (frammenti eritrocitari > 2%). Qual è la tua decisione refertativa?",
+      "options": [
+        {
+          "id": "opt_2a",
+          "text": "Referto il dato, aggiungo il commento 'Numerosi schistociti' e passo alla provetta successiva.",
+          "score_changes": { "anamnesi": 0, "diagnosi": -10, "empatia": -40, "economia": 0, "legale": -30 },
+          "resolution": "Sbagliato. Hai fatto il tecnico, non il medico. La presenza di schistociti associata a piastrinopenia severa in una paziente neurologica è un PANIC VALUE assoluto (sospetto clinico di PTT). Devi chiamare il reparto.",
+          "next_step": "step_3"
+        },
+        {
+          "id": "opt_2b",
+          "text": "PANIC VALUE: Telefono immediatamente al medico di PS, blocco la refertazione standard e comunico il sospetto di Anemia Emolitica Microangiopatica.",
+          "score_changes": { "anamnesi": 20, "diagnosi": 30, "empatia": 40, "economia": 0, "legale": 20 },
+          "resolution": "Eccellente! Hai usato la 'Comunicazione Inter-professionale' (Empatia) per salvare la paziente. La Porpora Trombotica Trombocitopenica (PTT) è un'emergenza medica che richiede plasmaferesi immediata.",
+          "next_step": "step_3"
+        }
+      ]
+    },
+    {
+      "id": "step_3",
+      "question": "Il medico di PS ti ringrazia per l'allerta e ti chiede quali esami in urgenza (Reflex Testing) aggiungere sul plasma in Eparina per confermare l'emolisi ed escludere una CID.",
+      "options": [
+        {
+          "id": "opt_3a",
+          "text": "Aggiungo LDH, Reticolociti, Aptoglobina, Bilirubina frazionata e un test di coagulazione di base (PT, aPTT, Fibrinogeno).",
+          "score_changes": { "anamnesi": 10, "diagnosi": 30, "empatia": 10, "economia": 20, "legale": 10 },
+          "resolution": "Scelta diagnostica economica e mirata. LDH, aptoglobina e reticolociti confermano l'emolisi. La coagulazione normale esclude la CID a favore della PTT.",
+          "next_step": "step_4"
+        },
+        {
+          "id": "opt_3b",
+          "text": "Aggiungo LDH, Aptoglobina e richiedo in urgenza il dosaggio dell'ADAMTS13 e la ricerca di mutazioni genetiche per aHUS.",
+          "score_changes": { "anamnesi": 0, "diagnosi": 10, "empatia": 0, "economia": -50, "legale": -20 },
+          "resolution": "Inappropriato. L'ADAMTS13 non è un test eseguibile in urgenza (richiede giorni) e i test genetici richiedono consenso scritto (Legge 219/2017). Hai sprecato budget per esami non propedeutici alla terapia salvavita.",
+          "next_step": "step_4"
+        }
+      ]
+    },
+    {
+      "id": "step_4",
+      "question": "Il medico di PS richiama in allarme: 'La paziente sanguina, le piastrine sono 18.000. Ti richiedo l'invio urgente di 2 sacche di concentrato piastrinico dal Centro Trasfusionale'. Come rispondi?",
+      "options": [
+        {
+          "id": "opt_4a",
+          "text": "Accetto la richiesta ed evado le sacche piastriniche in emergenza.",
+          "score_changes": { "anamnesi": -30, "diagnosi": -50, "empatia": -20, "economia": -30, "legale": -40 },
+          "resolution": "Errore Fatale. Nella PTT la trasfusione di piastrine è CONTROINDICATA perché alimenta i microtrombi sistemici, aggravando l'ischemia cerebrale e renale.",
+          "is_fatal": true
+        },
+        {
+          "id": "opt_4b",
+          "text": "Nego l'invio delle piastrine spiegando la controindicazione assoluta nella PTT, e sollecito l'avvio immediato del plasma-exchange (PEX).",
+          "score_changes": { "anamnesi": 20, "diagnosi": 40, "empatia": 30, "economia": 20, "legale": 30 },
+          "resolution": "Clinicamente perfetto. Hai evitato una pratica iatrogena fatale e confermato l'indicazione per l'unica terapia salvavita.",
+          "next_step": "step_5"
+        }
+      ]
+    },
+    {
+      "id": "step_5",
+      "question": "Dopo la prima seduta di plasma-exchange (PEX), il reparto ti chiede quali marcatori monitorare quotidianamente per valutare l'efficacia della terapia.",
+      "options": [
+        {
+          "id": "opt_5a",
+          "text": "Emocromo (per conta piastrinica) e LDH sierico.",
+          "score_changes": { "anamnesi": 10, "diagnosi": 30, "empatia": 10, "economia": 20, "legale": 10 },
+          "resolution": "Corretto. La risalita delle piastrine e la discesa dell'LDH (marcatore di lisi ed ischemia tissutale) sono i parametri d'elezione per guidare il trattamento.",
+          "is_fatal": false
+        },
+        {
+          "id": "opt_5b",
+          "text": "Ripetere lo striscio periferico per la conta degli schistociti tutti i giorni.",
+          "score_changes": { "anamnesi": 10, "diagnosi": 10, "empatia": 0, "economia": -20, "legale": 0 },
+          "resolution": "Sub-ottimale. La conta degli schistociti è operatore-dipendente e meno responsiva a breve termine rispetto all'LDH e alla conta piastrinica. Generi lavoro inutile.",
+          "is_fatal": false
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "step_1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Delta check",
+      "prompt": "Di fronte a questo allarme strumentale e al crollo improvviso delle piastrine (Delta Check), qual è la tua prima azione pre-analitica?",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "opt_1a",
+          "label": "Valido il referto alla cieca e lo invio al PS: l'analizzatore è tarato di recente.",
+          "next": "res_1a"
+        },
+        {
+          "id": "opt_1b",
+          "label": "Controllo visivamente la provetta per escludere micro-coaguli e allestisco immediatamente uno striscio di sangue periferico.",
+          "next": "step_2"
+        }
+      ]
+    },
+    {
+      "id": "step_2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Striscio",
+      "prompt": "Mettendo il vetrino al microscopio ottico, confermi una severa piastrinopenia e osservi numerosi schistociti (frammenti eritrocitari > 2%). Qual è la tua decisione refertativa?",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "opt_2a",
+          "label": "Referto il dato, aggiungo il commento 'Numerosi schistociti' e passo alla provetta successiva.",
+          "next": "step_3"
+        },
+        {
+          "id": "opt_2b",
+          "label": "PANIC VALUE: Telefono immediatamente al medico di PS, blocco la refertazione standard e comunico il sospetto di Anemia Emolitica Microangiopatica.",
+          "next": "step_3"
+        }
+      ]
+    },
+    {
+      "id": "step_3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Reflex",
+      "prompt": "Il medico di PS ti ringrazia per l'allerta e ti chiede quali esami in urgenza (Reflex Testing) aggiungere sul plasma in Eparina per confermare l'emolisi ed escludere una CID.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "opt_3a",
+          "label": "Aggiungo LDH, Reticolociti, Aptoglobina, Bilirubina frazionata e un test di coagulazione di base (PT, aPTT, Fibrinogeno).",
+          "next": "step_4"
+        },
+        {
+          "id": "opt_3b",
+          "label": "Aggiungo LDH, Aptoglobina e richiedo in urgenza il dosaggio dell'ADAMTS13 e la ricerca di mutazioni genetiche per aHUS.",
+          "next": "step_4"
+        }
+      ]
+    },
+    {
+      "id": "step_4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Piastrine",
+      "prompt": "Il medico di PS richiama in allarme: 'La paziente sanguina, le piastrine sono 18.000. Ti richiedo l'invio urgente di 2 sacche di concentrato piastrinico dal Centro Trasfusionale'. Come rispondi?",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "opt_4a",
+          "label": "Accetto la richiesta ed evado le sacche piastriniche in emergenza.",
+          "next": "res_4a"
+        },
+        {
+          "id": "opt_4b",
+          "label": "Nego l'invio delle piastrine spiegando la controindicazione assoluta nella PTT, e sollecito l'avvio immediato del plasma-exchange (PEX).",
+          "next": "step_5"
+        }
+      ]
+    },
+    {
+      "id": "step_5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Monitoraggio",
+      "prompt": "Dopo la prima seduta di plasma-exchange (PEX), il reparto ti chiede quali marcatori monitorare quotidianamente per valutare l'efficacia della terapia.",
+      "cost": 0,
+      "score": 0,
+      "choices": [
+        {
+          "id": "opt_5a",
+          "label": "Emocromo (per conta piastrinica) e LDH sierico.",
+          "next": "res_5a"
+        },
+        {
+          "id": "opt_5b",
+          "label": "Ripetere lo striscio periferico per la conta degli schistociti tutti i giorni.",
+          "next": "res_5b"
+        }
+      ]
+    },
+    {
+      "id": "res_1a",
+      "type": "resolution",
+      "title": "Validazione alla cieca",
+      "prompt": "Grave errore. Validare un allarme strumentale alla cieca senza verifica morfologica è una negligenza. Il paziente potrebbe avere una pseudopiastrinopenia da EDTA o una patologia fulminante.",
+      "cost": 0,
+      "score": -120,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res_4a",
+      "type": "resolution",
+      "title": "Piastrine trasfuse",
+      "prompt": "Errore Fatale. Nella PTT la trasfusione di piastrine è CONTROINDICATA perché alimenta i microtrombi sistemici, aggravando l'ischemia cerebrale e renale.",
+      "cost": 0,
+      "score": -170,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res_5a",
+      "type": "resolution",
+      "title": "Piastrine e LDH",
+      "prompt": "Corretto. La risalita delle piastrine e la discesa dell'LDH (marcatore di lisi ed ischemia tissutale) sono i parametri d'elezione per guidare il trattamento.",
+      "cost": 0,
+      "score": 80,
+      "outcome": "positive"
+    },
+    {
+      "id": "res_5b",
+      "type": "resolution",
+      "title": "Schistociti quotidiani",
+      "prompt": "Sub-ottimale. La conta degli schistociti è operatore-dipendente e meno responsiva a breve termine rispetto all'LDH e alla conta piastrinica. Generi lavoro inutile.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    }
+  ]
+}
