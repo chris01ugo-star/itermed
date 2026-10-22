@@ -14,7 +14,7 @@ export type LabFlowNode = {
   choices?: LabFlowChoice[];
 };
 
-export type LabActionTone = "critical" | "reject" | "primary" | "neutral";
+export type LabActionTone = "critical" | "reject" | "primary" | "reflex" | "neutral";
 
 export type LabSampleBadge = {
   label: string;
@@ -86,10 +86,21 @@ export function classifyLabAction(label: string): LabActionTone {
   if (/\bc-ni\b|\bc-coag\b|rigetta|non idone|blocco il risultato|\bferma\b/.test(text)) {
     return "reject";
   }
-  if (!negated && /\b(valida|validare|refert|reflex|esegui)\b/.test(text)) {
+  if (!negated && /\breflex\b/.test(text)) {
+    return "reflex";
+  }
+  if (!negated && /\b(valida|validare|refert|esegui)\b/.test(text)) {
     return "primary";
   }
   return "neutral";
+}
+
+export function labActionHint(tone: LabActionTone): string {
+  if (tone === "critical") return "Allerta il reparto: panic value";
+  if (tone === "reject") return "Rigetta il campione";
+  if (tone === "reflex") return "Esegui il reflex test";
+  if (tone === "primary") return "Valida o referta";
+  return "Decisione sul campione";
 }
 
 export function labSampleBadges(text: string): LabSampleBadge[] {
