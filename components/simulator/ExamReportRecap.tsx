@@ -45,6 +45,8 @@ type ExamReportRecapProps = {
   caseExamValues: Record<string, CaseExamOverride>;
   examMacroCatalog: ExamMacroCategory[];
   className?: string;
+  /** Laboratory cases omit the physical-exam folder. Default keeps the existing recap. */
+  hideObjective?: boolean;
 };
 
 type RecapEntry = {
@@ -167,13 +169,14 @@ export function ExamReportRecap({
   caseExamValues,
   examMacroCatalog,
   className,
+  hideObjective = false,
 }: ExamReportRecapProps) {
   const [openId, setOpenId] = useState<string | null>(null);
 
   const folders = useMemo((): RecapFolder[] => {
     const result: RecapFolder[] = [];
 
-    if (objectiveFindings.length > 0) {
+    if (!hideObjective && objectiveFindings.length > 0) {
       const meta = MACRO_META.obiettivo;
       const palette = PRASSI_PASTELS[meta.paletteIndex];
       result.push({
@@ -246,7 +249,7 @@ export function ExamReportRecap({
     }
 
     return result;
-  }, [caseExamValues, examCatalog, examMacroCatalog, exams, objectiveFindings]);
+  }, [caseExamValues, examCatalog, examMacroCatalog, exams, hideObjective, objectiveFindings]);
 
   const openFolder = folders.find((f) => f.id === openId) ?? null;
   const totalEntries = folders.reduce((n, f) => n + f.entries.length, 0);

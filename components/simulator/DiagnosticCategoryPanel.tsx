@@ -39,6 +39,8 @@ type DiagnosticCategoryPanelProps = {
   /** Cartella Imaging vs Strumentale — re-buckets mixed catalog rows. */
   chartSection?: ChartDiagnosticSection;
   disabled?: boolean;
+  /** Optional section title. Omitted for every specialty except laboratory. */
+  heading?: string;
 };
 
 type CategoryVisual = {
@@ -137,6 +139,7 @@ export function DiagnosticCategoryPanel({
   macroFilter,
   chartSection,
   disabled = false,
+  heading,
 }: DiagnosticCategoryPanelProps) {
   const [target, setTarget] = useState<PickerTarget | null>(null);
 
@@ -195,6 +198,9 @@ export function DiagnosticCategoryPanel({
 
   return (
     <div className="space-y-2.5">
+      {heading ? (
+        <h3 className="text-sm font-semibold text-slate-900">{heading}</h3>
+      ) : null}
       <p className="text-xs leading-relaxed text-slate-500">
         Apri una categoria, cerca e richiedi. I referti compaiono nel recap in alto.
       </p>

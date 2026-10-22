@@ -19,7 +19,9 @@ import {
   HeartPulse,
   MessageCircle,
   FileText,
+  Microscope,
   Pill,
+  TestTube2,
   Pause,
   Play,
   Send,
@@ -121,6 +123,7 @@ import {
   toPlayerCareSetting,
 } from "../../lib/simulator/exam-finding-text";
 import { partitionExamsByChartSection } from "@/lib/clinical/diagnostic-exam-category";
+import { isLaboratorySpecialty } from "@/lib/simulator/laboratory-specialty";
 import { parseClinicalSigns } from "@/lib/clinical/clinical-signs";
 
 type Exam = SimulatorExam;
@@ -407,6 +410,11 @@ export function SimulatorClient({
   const [activeTab, setActiveTab] = useState<
     "history" | "exam" | "labs" | "imaging" | "instrumental" | "notes"
   >("history");
+  const isLaboratoryCase = isLaboratorySpecialty(initialCaseData.specialty);
+  useEffect(() => {
+    if (!isLaboratoryCase) return;
+    if (activeTab === "exam") setActiveTab("labs");
+  }, [isLaboratoryCase, activeTab]);
   const [sessionNotes, setSessionNotes] = useState("");
   const [selectedExamIds, setSelectedExamIds] = useState<string[]>([]);
   const selectedExamIdsRef = useRef<string[]>([]);
@@ -2151,14 +2159,20 @@ export function SimulatorClient({
                 <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-100 bg-slate-50/90 px-4 py-2.5">
                   <div className="flex min-w-0 items-center gap-2.5">
                     <span className="flex h-7 w-7 items-center justify-center rounded-md bg-[#345884]/10 text-[#345884]">
-                      <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                      {isLaboratoryCase ? (
+                        <TestTube2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+                      ) : (
+                        <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                      )}
                     </span>
                     <div className="min-w-0">
                       <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
-                        Dialogo clinico
+                        {isLaboratoryCase ? "Richiesta elettronica" : "Dialogo clinico"}
                       </p>
                       <p className="text-sm font-semibold text-slate-900">
-                        Anamnesi con il paziente
+                        {isLaboratoryCase
+                          ? "Richiesta Elettronica / Quesito Clinico"
+                          : "Anamnesi con il paziente"}
                       </p>
                     </div>
                   </div>
@@ -2197,6 +2211,7 @@ export function SimulatorClient({
                     disabled={isPaused}
                     userTurnCount={userMessageCount}
                     maxTurns={PATIENT_MAX_TURNS}
+                    laboratoryMode={isLaboratoryCase}
                   />
                 </div>
               </div>
@@ -2214,6 +2229,7 @@ export function SimulatorClient({
                 examCatalog={examCatalog}
                 caseExamValues={caseAdvancedExamValues}
                 examMacroCatalog={examMacroCatalog}
+                hideObjective={isLaboratoryCase}
                 className="h-full min-h-0 flex-1"
               />
             </aside>
@@ -2269,7 +2285,9 @@ export function SimulatorClient({
                     Cartella clinica elettronica
                   </CardTitle>
                   <CardDescription className="text-xs text-slate-500">
-                    Anamnesi, esame obiettivo, laboratorio, imaging e strumentale.
+                    {isLaboratoryCase
+                      ? "Richiesta elettronica, gestione campione e refertazione."
+                      : "Anamnesi, esame obiettivo, laboratorio, imaging e strumentale."}
                   </CardDescription>
                 </div>
                 <TabsList className="flex w-full min-w-0 flex-wrap sm:w-auto">
@@ -2278,21 +2296,23 @@ export function SimulatorClient({
                     currentValue={activeTab}
                     onSelect={(value) => setActiveTab(value as typeof activeTab)}
                   >
-                    Anamnesi
+                    {isLaboratoryCase ? "Richiesta Elettronica / Quesito Clinico" : "Anamnesi"}
                   </TabsTrigger>
-                  <TabsTrigger
-                    value="exam"
-                    currentValue={activeTab}
-                    onSelect={(value) => setActiveTab(value as typeof activeTab)}
-                  >
-                    Esame obiettivo
-                  </TabsTrigger>
+                  {isLaboratoryCase ? null : (
+                    <TabsTrigger
+                      value="exam"
+                      currentValue={activeTab}
+                      onSelect={(value) => setActiveTab(value as typeof activeTab)}
+                    >
+                      Esame obiettivo
+                    </TabsTrigger>
+                  )}
                   <TabsTrigger
                     value="labs"
                     currentValue={activeTab}
                     onSelect={(value) => setActiveTab(value as typeof activeTab)}
                   >
-                    Laboratorio
+                    {isLaboratoryCase ? "Gestione Campione e Refertazione" : "Laboratorio"}
                   </TabsTrigger>
                   <TabsTrigger
                     value="imaging"
@@ -2336,19 +2356,22 @@ export function SimulatorClient({
                       disabled={isPaused}
                       userTurnCount={userMessageCount}
                       maxTurns={PATIENT_MAX_TURNS}
+                      laboratoryMode={isLaboratoryCase}
                     />
                   </TabsContent>
-                  <TabsContent value="exam" currentValue={activeTab} className="mt-3 w-full min-w-0">
-                    <PhysicalExamTab
-                      sessionId={effectiveSessionId}
-                      resolveSessionId={ensureSessionId}
-                      patientPrompt={initialCaseData.patientPrompt}
-                      caseId={initialCaseData.id}
-                      onExamResult={handleExamFinding}
-                      disabled={isPaused}
-                      clinicalSigns={clinicalSignsForExam}
-                    />
-                  </TabsContent>
+                  {isLaboratoryCase ? null : (
+                    <TabsContent value="exam" currentValue={activeTab} className="mt-3 w-full min-w-0">
+                      <PhysicalExamTab
+                        sessionId={effectiveSessionId}
+                        resolveSessionId={ensureSessionId}
+                        patientPrompt={initialCaseData.patientPrompt}
+                        caseId={initialCaseData.id}
+                        onExamResult={handleExamFinding}
+                        disabled={isPaused}
+                        clinicalSigns={clinicalSignsForExam}
+                      />
+                    </TabsContent>
+                  )}
                   <TabsContent value="labs" currentValue={activeTab} className="mt-3 w-full min-w-0">
                     <DiagnosticCategoryPanel
                       selectedExamIds={selectedExamIds}
@@ -2358,6 +2381,7 @@ export function SimulatorClient({
                       examMacroCatalog={examMacroCatalog}
                       macroFilter={["lab"]}
                       disabled={isPaused}
+                      heading={isLaboratoryCase ? "Gestione Campione e Refertazione" : undefined}
                     />
                   </TabsContent>
                   <TabsContent value="imaging" currentValue={activeTab} className="mt-3 w-full min-w-0">
@@ -2424,17 +2448,19 @@ export function SimulatorClient({
                         onSelect={(value) => setActiveTab(value as typeof activeTab)}
                         className="shrink-0 whitespace-nowrap"
                       >
-                        Anamnesi
+                        {isLaboratoryCase ? "Richiesta Elettronica / Quesito Clinico" : "Anamnesi"}
                       </TabsTrigger>
-                      <TabsTrigger
-                        value="exam"
-                        currentValue={activeTab}
-                        onSelect={(value) => setActiveTab(value as typeof activeTab)}
-                        data-tour="chart"
-                        className="shrink-0 whitespace-nowrap"
-                      >
-                        Esame obiettivo
-                      </TabsTrigger>
+                      {isLaboratoryCase ? null : (
+                        <TabsTrigger
+                          value="exam"
+                          currentValue={activeTab}
+                          onSelect={(value) => setActiveTab(value as typeof activeTab)}
+                          data-tour="chart"
+                          className="shrink-0 whitespace-nowrap"
+                        >
+                          Esame obiettivo
+                        </TabsTrigger>
+                      )}
                       <TabsTrigger
                         value="labs"
                         currentValue={activeTab}
@@ -2442,7 +2468,7 @@ export function SimulatorClient({
                         data-tour="exams"
                         className="shrink-0 whitespace-nowrap"
                       >
-                        Esami
+                        {isLaboratoryCase ? "Gestione Campione e Refertazione" : "Esami"}
                       </TabsTrigger>
                       <TabsTrigger
                         value="imaging"
@@ -2479,21 +2505,29 @@ export function SimulatorClient({
                             <section className="overflow-hidden rounded-2xl border border-slate-200/90 bg-gradient-to-b from-[#F7F9FC] to-white">
                               <div className="flex items-center gap-2.5 border-b border-slate-100 px-3.5 py-2.5">
                                 <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#345884]/10 text-[#345884]">
-                                  <ClipboardList className="h-4 w-4" strokeWidth={1.75} />
+                                  {isLaboratoryCase ? (
+                                    <TestTube2 className="h-4 w-4" strokeWidth={1.75} />
+                                  ) : (
+                                    <ClipboardList className="h-4 w-4" strokeWidth={1.75} />
+                                  )}
                                 </span>
                                 <div className="min-w-0">
                                   <p className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
-                                    Ingresso
+                                    {isLaboratoryCase ? "Richiesta elettronica" : "Ingresso"}
                                   </p>
                                   <p className="text-sm font-semibold text-slate-900">
-                                    Anamnesi iniziale
+                                    {isLaboratoryCase
+                                      ? "Richiesta Elettronica / Quesito Clinico"
+                                      : "Anamnesi iniziale"}
                                   </p>
                                 </div>
                               </div>
                               <p className="px-3.5 py-3 text-sm leading-relaxed text-slate-700">
                                 {toPlayerAnamnesisText(reportSections.anamnesisObjective) ||
                                   toPlayerAnamnesisText(patient.mainComplaint) ||
-                                  "Usa il dialogo a sinistra per raccogliere l'anamnesi."}
+                                  (isLaboratoryCase
+                                    ? "Quesito clinico della richiesta elettronica."
+                                    : "Usa il dialogo a sinistra per raccogliere l'anamnesi.")}
                               </p>
                             </section>
 
@@ -2501,10 +2535,14 @@ export function SimulatorClient({
                               <section className="rounded-2xl border border-slate-200/90 bg-white px-3.5 py-3 shadow-[0_1px_0_rgba(15,23,42,0.03)]">
                                 <div className="flex items-center gap-2">
                                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-600">
-                                    <HeartPulse className="h-3.5 w-3.5" strokeWidth={1.75} />
+                                    {isLaboratoryCase ? (
+                                      <FlaskConical className="h-3.5 w-3.5" strokeWidth={1.75} />
+                                    ) : (
+                                      <HeartPulse className="h-3.5 w-3.5" strokeWidth={1.75} />
+                                    )}
                                   </span>
                                   <p className="text-xs font-semibold text-slate-800">
-                                    Storia clinica
+                                    {isLaboratoryCase ? "Quesito clinico" : "Storia clinica"}
                                   </p>
                                 </div>
                                 <p className="mt-2 text-sm leading-relaxed text-slate-600">
@@ -2530,17 +2568,19 @@ export function SimulatorClient({
                             </div>
                           </div>
                         </TabsContent>
-                        <TabsContent value="exam" currentValue={activeTab} className="mt-0">
-                          <PhysicalExamTab
-                            sessionId={effectiveSessionId}
-                            resolveSessionId={ensureSessionId}
-                            patientPrompt={initialCaseData.patientPrompt}
-                            caseId={initialCaseData.id}
-                            onExamResult={handleExamFinding}
-                            disabled={isPaused}
-                            clinicalSigns={clinicalSignsForExam}
-                          />
-                        </TabsContent>
+                        {isLaboratoryCase ? null : (
+                          <TabsContent value="exam" currentValue={activeTab} className="mt-0">
+                            <PhysicalExamTab
+                              sessionId={effectiveSessionId}
+                              resolveSessionId={ensureSessionId}
+                              patientPrompt={initialCaseData.patientPrompt}
+                              caseId={initialCaseData.id}
+                              onExamResult={handleExamFinding}
+                              disabled={isPaused}
+                              clinicalSigns={clinicalSignsForExam}
+                            />
+                          </TabsContent>
+                        )}
                         <TabsContent value="labs" currentValue={activeTab} className="mt-0">
                           <DiagnosticCategoryPanel
                             selectedExamIds={selectedExamIds}
@@ -2550,6 +2590,7 @@ export function SimulatorClient({
                             examMacroCatalog={examMacroCatalog}
                             macroFilter={["lab"]}
                             disabled={isPaused}
+                            heading={isLaboratoryCase ? "Gestione Campione e Refertazione" : undefined}
                           />
                         </TabsContent>
                         <TabsContent value="imaging" currentValue={activeTab} className="mt-0">
@@ -2598,7 +2639,7 @@ export function SimulatorClient({
                 <div className="flex items-center gap-2">
                   <FlaskConical className="h-3.5 w-3.5 text-[#345884]" />
                   <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                    Esami richiesti
+                    {isLaboratoryCase ? "Gestione Campione e Refertazione" : "Esami richiesti"}
                   </p>
                 </div>
                 {selectedExams.length > 0 ? (
@@ -2624,9 +2665,13 @@ export function SimulatorClient({
 
               <section className="space-y-2">
                 <div className="flex items-center gap-2">
-                  <Pill className="h-3.5 w-3.5 text-[#345884]" />
+                  {isLaboratoryCase ? (
+                    <TestTube2 className="h-3.5 w-3.5 text-[#345884]" />
+                  ) : (
+                    <Pill className="h-3.5 w-3.5 text-[#345884]" />
+                  )}
                   <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                    Ricettario
+                    {isLaboratoryCase ? "Gestione Campione e Refertazione" : "Ricettario"}
                   </p>
                 </div>
                 {prescribedMedications.length > 0 ? (
@@ -3183,7 +3228,9 @@ export function SimulatorClient({
           <DialogHeader>
             <DialogTitle>Cartella paziente</DialogTitle>
             <DialogDescription>
-              Base: anagrafica e motivo di accesso. Referto: esame obiettivo di sessione ed esami diagnostici con valori dal caso.
+              {isLaboratoryCase
+                ? "Base: anagrafica e quesito clinico della richiesta elettronica. Referto: esami diagnostici e commento di refertazione."
+                : "Base: anagrafica e motivo di accesso. Referto: esame obiettivo di sessione ed esami diagnostici con valori dal caso."}
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-wrap items-center gap-1.5 rounded-2xl border border-zinc-200/80 bg-zinc-100/70 p-1.5">
@@ -3228,7 +3275,9 @@ export function SimulatorClient({
                   <p className="text-[11px] font-medium text-zinc-700">Sintomo principale</p>
                   <p className="text-sm text-zinc-900">
                     {toPlayerAnamnesisText(patient.mainComplaint) ||
-                      "Motivo di accesso da approfondire con il paziente."}
+                      (isLaboratoryCase
+                        ? "Quesito clinico della richiesta elettronica."
+                        : "Motivo di accesso da approfondire con il paziente.")}
                   </p>
                 </div>
 
@@ -3242,6 +3291,7 @@ export function SimulatorClient({
               </>
             ) : (
               <div className="space-y-4">
+                {isLaboratoryCase ? null : (
                 <div className="space-y-1.5">
                   <p className="text-[11px] font-medium text-zinc-700">
                     Esame obiettivo (reperti di sessione)
@@ -3269,10 +3319,13 @@ export function SimulatorClient({
                     </ul>
                   )}
                 </div>
+                )}
 
                 <div className="space-y-1.5 border-t border-zinc-200/80 pt-3">
                   <p className="text-[11px] font-medium text-zinc-700">
-                    Laboratorio (valori dal caso)
+                    {isLaboratoryCase
+                      ? "Gestione Campione e Refertazione"
+                      : "Laboratorio (valori dal caso)"}
                   </p>
                   {selectedExamsBySection.lab.length === 0 ? (
                     <p className="text-[11px] text-zinc-500">
@@ -3425,6 +3478,12 @@ export function SimulatorClient({
         onConfirm={confirmPrescription}
         busy={isPrescribeBusy}
         alreadyPrescribedIds={prescribedMedications.map((rx) => rx.id)}
+        heading={isLaboratoryCase ? "Gestione Campione e Refertazione" : undefined}
+        headingDescription={
+          isLaboratoryCase
+            ? "Verifica del campione, esami riflessi e commento interpretativo"
+            : undefined
+        }
       />
 
       <Dialog open={isHelpOpen}>
@@ -3451,10 +3510,16 @@ export function SimulatorClient({
           <div className="space-y-2.5 px-5 py-4">
             <div className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3">
               <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#345884] shadow-sm ring-1 ring-slate-100">
-                <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                {isLaboratoryCase ? (
+                  <TestTube2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+                ) : (
+                  <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                )}
               </span>
               <p className="text-sm leading-relaxed text-slate-600">
-                Usa il dialogo per raccogliere l&apos;anamnesi ponendo domande aperte.
+                {isLaboratoryCase
+                  ? "Parti dalla richiesta elettronica e dal quesito clinico. Il colloquio diretto col paziente non è previsto in questo modulo."
+                  : "Usa il dialogo per raccogliere l'anamnesi ponendo domande aperte."}
               </p>
             </div>
             <div className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3">
@@ -3462,9 +3527,19 @@ export function SimulatorClient({
                 <FolderOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
               </span>
               <p className="text-sm leading-relaxed text-slate-600">
-                Consulta la{" "}
-                <span className="font-semibold text-slate-800">Cartella clinica</span> a destra per
-                anamnesi, esame obiettivo, laboratorio, imaging e strumentale.
+                {isLaboratoryCase ? (
+                  <>
+                    Consulta la{" "}
+                    <span className="font-semibold text-slate-800">Cartella clinica</span> a destra
+                    per il quesito clinico e per la gestione del campione e la refertazione.
+                  </>
+                ) : (
+                  <>
+                    Consulta la{" "}
+                    <span className="font-semibold text-slate-800">Cartella clinica</span> a destra per
+                    anamnesi, esame obiettivo, laboratorio, imaging e strumentale.
+                  </>
+                )}
               </p>
             </div>
             <div className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3">
@@ -3600,6 +3675,8 @@ type HistoryChatProps = {
   userTurnCount?: number;
   /** Soft-stop budget (must match the chat gate). */
   maxTurns?: number;
+  /** Laboratory module: relabel the chat and hide the direct patient interview. */
+  laboratoryMode?: boolean;
 };
 
 function HistoryChat({
@@ -3620,6 +3697,7 @@ function HistoryChat({
   disabled = false,
   userTurnCount = 0,
   maxTurns = PATIENT_MAX_TURNS,
+  laboratoryMode = false,
 }: HistoryChatProps) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -3665,25 +3743,41 @@ function HistoryChat({
           scrollRef.current.scrollTop += event.deltaY;
         }}
       >
-        {visibleMessages.length === 0 && (
-          <div className="mt-14 flex min-h-[160px] flex-col items-center justify-start gap-2.5 px-6 pb-6 pt-2 text-center opacity-70">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#E4EAF3] text-[#345884]">
-              <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+        {visibleMessages.length === 0 &&
+          (laboratoryMode ? (
+            <div className="mt-14 flex min-h-[160px] flex-col items-center justify-start gap-2.5 px-6 pb-6 pt-2 text-center opacity-70">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#E4EAF3] text-[#345884]">
+                <TestTube2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-slate-800">
+                  Richiesta Elettronica / Quesito Clinico
+                </p>
+                <p className="mx-auto max-w-sm text-xs leading-relaxed text-slate-500">
+                  Il colloquio diretto col paziente non è previsto. Annota il quesito clinico e le
+                  verifiche sul campione.
+                </p>
+              </div>
             </div>
-            <div className="space-y-1">
-              <p className="text-sm font-semibold text-slate-800">Inizia l&apos;anamnesi</p>
-              <p className="mx-auto max-w-sm text-xs leading-relaxed text-slate-500">
-                Fai una domanda aperta al paziente. Esempio: &quot;Mi racconti cosa è successo da
-                quando sono iniziati i sintomi?&quot;
+          ) : (
+            <div className="mt-14 flex min-h-[160px] flex-col items-center justify-start gap-2.5 px-6 pb-6 pt-2 text-center opacity-70">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#E4EAF3] text-[#345884]">
+                <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-slate-800">Inizia l&apos;anamnesi</p>
+                <p className="mx-auto max-w-sm text-xs leading-relaxed text-slate-500">
+                  Fai una domanda aperta al paziente. Esempio: &quot;Mi racconti cosa è successo da
+                  quando sono iniziati i sintomi?&quot;
+                </p>
+              </div>
+              <p className="max-w-sm border-l-2 border-[#345884]/30 pl-2.5 text-left text-[11px] leading-relaxed text-slate-500">
+                Oppure usa il pulsante{" "}
+                <span className="font-medium text-slate-700">Modulo consenso</span> sotto, quando serve
+                spiegare una procedura.
               </p>
             </div>
-            <p className="max-w-sm border-l-2 border-[#345884]/30 pl-2.5 text-left text-[11px] leading-relaxed text-slate-500">
-              Oppure usa il pulsante{" "}
-              <span className="font-medium text-slate-700">Modulo consenso</span> sotto, quando serve
-              spiegare una procedura.
-            </p>
-          </div>
-        )}
+          ))}
         {visibleMessages.map((message) => {
           const isDoctor = message.role === "user";
           const text = messageText(message);
@@ -3698,8 +3792,12 @@ function HistoryChat({
                 <div className="flex max-w-[85%] flex-col items-end gap-1">
                   <div className="w-full rounded-2xl rounded-br-md border border-[#345884]/25 bg-[#EEF2F9] p-3.5 text-left shadow-sm">
                     <p className="mb-1 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-[#345884]">
-                      <Pill className="h-3 w-3" />
-                      Ricettario SSN
+                      {laboratoryMode ? (
+                        <TestTube2 className="h-3 w-3" />
+                      ) : (
+                        <Pill className="h-3 w-3" />
+                      )}
+                      {laboratoryMode ? "Gestione Campione e Refertazione" : "Ricettario SSN"}
                     </p>
                     <p className="text-sm font-medium leading-relaxed text-slate-800">{text}</p>
                   </div>
@@ -3715,7 +3813,11 @@ function HistoryChat({
               ) : (
                 <div className="flex max-w-[78%] items-end gap-2.5">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-100 ring-2 ring-white shadow-sm">
-                    <User className="h-4 w-4 text-slate-500" />
+                    {laboratoryMode ? (
+                      <Microscope className="h-4 w-4 text-slate-500" />
+                    ) : (
+                      <User className="h-4 w-4 text-slate-500" />
+                    )}
                   </div>
                   <div className="rounded-2xl rounded-bl-md border border-slate-100 bg-slate-50 p-4 text-sm font-medium leading-relaxed text-slate-800 shadow-sm">
                     {text}
@@ -3729,7 +3831,11 @@ function HistoryChat({
           <div className="flex justify-start">
             <div className="flex max-w-[78%] items-end gap-2.5">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-100 ring-2 ring-white shadow-sm">
-                <User className="h-4 w-4 text-slate-500" />
+                {laboratoryMode ? (
+                  <Microscope className="h-4 w-4 text-slate-500" />
+                ) : (
+                  <User className="h-4 w-4 text-slate-500" />
+                )}
               </div>
               <SkeletonChatBubble />
             </div>
@@ -3742,8 +3848,9 @@ function HistoryChat({
             role="status"
             className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[12px] leading-snug text-amber-950"
           >
-            Anamnesi completata. Hai usato i {maxTurns} turni: procedi ora con gli esami
-            di laboratorio/strumentali o con la diagnosi finale.
+            {laboratoryMode
+              ? `Quesito registrato. Hai usato i ${maxTurns} turni: procedi con la gestione del campione e la refertazione.`
+              : `Anamnesi completata. Hai usato i ${maxTurns} turni: procedi ora con gli esami di laboratorio/strumentali o con la diagnosi finale.`}
           </div>
         ) : chatError ? (
           <div
@@ -3799,7 +3906,7 @@ function HistoryChat({
                 ) : null}
               </>
             ) : null}
-            {onOpenPrescriptionPad ? (
+            {onOpenPrescriptionPad && !laboratoryMode ? (
               <button
                 type="button"
                 data-tour="prescription"
@@ -3813,8 +3920,24 @@ function HistoryChat({
                 Ricettario
               </button>
             ) : null}
+            {onOpenPrescriptionPad && laboratoryMode ? (
+              <button
+                type="button"
+                data-tour="prescription"
+                onClick={onOpenPrescriptionPad}
+                disabled={isLoading || prescriptionBusy || disabled}
+                aria-label="Apri gestione campione e refertazione"
+                title="Gestione del campione e refertazione"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-[#345884]/25 bg-[#EEF2F9] px-2.5 py-1.5 text-[11px] font-medium text-[#345884] transition hover:bg-[#345884] hover:text-white disabled:opacity-50"
+              >
+                <TestTube2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+                Gestione Campione e Refertazione
+              </button>
+            ) : null}
             <span className="text-[10px] leading-snug text-slate-400 sm:text-[11px]">
-              Consenso prima delle procedure invasive · Ricettario per la terapia SSN.
+              {laboratoryMode
+                ? "Consenso sul referto · gestione del campione e refertazione."
+                : "Consenso prima delle procedure invasive · Ricettario per la terapia SSN."}
             </span>
           </div>
         ) : null}
@@ -3830,7 +3953,9 @@ function HistoryChat({
                 ? `Limite di ${maxTurns} turni raggiunto`
                 : disabled
                   ? "Simulazione in pausa"
-                  : "Scrivi la domanda al paziente…"
+                  : laboratoryMode
+                    ? "Annota il quesito clinico o la verifica sul campione…"
+                    : "Scrivi la domanda al paziente…"
             }
             value={input}
             disabled={disabled || atTurnLimit}
@@ -3846,7 +3971,7 @@ function HistoryChat({
           <button
             type="submit"
             disabled={isLoading || disabled || atTurnLimit || !input.trim()}
-            aria-label="Invia domanda"
+            aria-label={laboratoryMode ? "Invia annotazione" : "Invia domanda"}
             className="mb-0.5 inline-flex h-9 shrink-0 items-center gap-1.5 rounded-xl bg-[#1E324E] px-3.5 text-xs font-semibold text-white transition hover:bg-[#2A486D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#345884]/35 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
           >
             {isLoading ? (

@@ -47,6 +47,9 @@ type PrescriptionPadProps = {
   onConfirm: (payload: ConfirmedPrescription) => void | Promise<void>;
   busy?: boolean;
   alreadyPrescribedIds?: string[];
+  /** Defaults preserve the SSN therapy sheet for every non-laboratory case. */
+  heading?: string;
+  headingDescription?: string;
 };
 
 const ROUTE_LABELS: Record<AdministrationRoute, string> = {
@@ -80,6 +83,8 @@ export function PrescriptionPad({
   onConfirm,
   busy = false,
   alreadyPrescribedIds = [],
+  heading = "Foglio Unico di Terapia",
+  headingDescription = "Prescrizione interna · prontuario AIFA · ricetta SSN di reparto",
 }: PrescriptionPadProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<PrescriptionPadMedication[]>([]);
@@ -188,10 +193,10 @@ export function PrescriptionPad({
               </p>
               <DialogHeader className="mb-0 mt-1 space-y-0.5 text-left">
                 <DialogTitle className="font-serif text-[1.35rem] font-semibold tracking-tight text-white">
-                  Foglio Unico di Terapia
+                  {heading}
                 </DialogTitle>
                 <DialogDescription className="text-[11px] text-white/75">
-                  Prescrizione interna · prontuario AIFA · ricetta SSN di reparto
+                  {headingDescription}
                 </DialogDescription>
               </DialogHeader>
             </div>
