@@ -211,6 +211,7 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
             radarData={radarData}
             caseTitle={registered?.title}
             currentCaseId={caseId}
+            specialty={registered?.specialty}
             sessionId={session.id}
             shareUrl={reportShareUrl(session.id, config.APP_URL)}
             accessionCode={reportAccessionCode(session.id)}

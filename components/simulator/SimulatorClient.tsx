@@ -125,6 +125,7 @@ import {
 import { partitionExamsByChartSection } from "@/lib/clinical/diagnostic-exam-category";
 import { LaboratoryLisDashboard } from "./LaboratoryLisDashboard";
 import type { LabFlowNode } from "@/lib/simulator/laboratory-lis";
+import { labPillarCopy, labPillarLabel } from "@/lib/reports/lab-evaluation-labels";
 import { parseClinicalSigns } from "@/lib/clinical/clinical-signs";
 
 type Exam = SimulatorExam;
@@ -1737,14 +1738,15 @@ export function SimulatorClient({
               <div className="scrollbar-aequan flex items-center gap-2 overflow-x-auto pb-1">
                 {(
                   [
-                    { id: "clinical", label: "Accuratezza clinica" },
-                    { id: "legal", label: "Legal compliance" },
-                    { id: "prescribing", label: "Appropriatezza prescrittiva" },
-                    { id: "empathy", label: "Empatia" },
-                    { id: "economy", label: "Sostenibilità economica" },
+                    { id: "clinical", key: "clinical", label: "Accuratezza clinica" },
+                    { id: "legal", key: "legal", label: "Legal compliance" },
+                    { id: "prescribing", key: "prescribing", label: "Appropriatezza prescrittiva" },
+                    { id: "empathy", key: "empathy", label: "Empatia" },
+                    { id: "economy", key: "economy", label: "Sostenibilità economica" },
                   ] as const
                 ).map((t) => {
                   const isActive = t.id === activeReportTab;
+                  const tabLabel = isLab ? labPillarLabel(t.key, t.label) : t.label;
                   return (
                     <button
                       key={t.id}
@@ -1757,7 +1759,7 @@ export function SimulatorClient({
                           : "border-transparent bg-slate-50 text-slate-600 hover:bg-white hover:text-slate-900")
                       }
                     >
-                      {t.label}
+                      {tabLabel}
                     </button>
                   );
                 })}
@@ -1777,16 +1779,33 @@ export function SimulatorClient({
                     <div className="flex flex-wrap items-center justify-center gap-10 border-b border-slate-100 pb-6">
                       <ScoreProgressRing
                         score={reportData.scores.clinical}
-                        label="Accuratezza clinica"
+                        label={isLab ? labPillarLabel("clinical", "Accuratezza clinica") : "Accuratezza clinica"}
                       />
-                      <ScoreProgressRing score={reportData.scores.legal} label="Tutela medico-legale" />
+                      <ScoreProgressRing
+                        score={reportData.scores.legal}
+                        label={isLab ? labPillarLabel("legal", "Tutela medico-legale") : "Tutela medico-legale"}
+                      />
                     </div>
                     <div className="space-y-4">
-                      <MetricBar label="Accuratezza clinica" score={reportData.scores.clinical} />
-                      <MetricBar label="Tutela medico-legale" score={reportData.scores.legal} />
-                      <MetricBar label="Appropriatezza esami" score={reportData.scores.exams} />
-                      <MetricBar label="Empatia" score={reportData.scores.empathy} />
-                      <MetricBar label="Sostenibilità economica" score={reportData.scores.economy} />
+                      {(
+                        [
+                          { key: "clinical", label: "Accuratezza clinica", score: reportData.scores.clinical },
+                          { key: "legal", label: "Tutela medico-legale", score: reportData.scores.legal },
+                          { key: "exams", label: "Appropriatezza esami", score: reportData.scores.exams },
+                          { key: "empathy", label: "Empatia", score: reportData.scores.empathy },
+                          { key: "economy", label: "Sostenibilità economica", score: reportData.scores.economy },
+                        ] as const
+                      ).map((row) => {
+                        const copy = isLab ? labPillarCopy(row.key) : null;
+                        return (
+                          <div key={row.key}>
+                            <MetricBar label={copy?.label ?? row.label} score={row.score} />
+                            {copy ? (
+                              <p className="mt-1 text-[11px] leading-snug text-slate-500">{copy.description}</p>
+                            ) : null}
+                          </div>
+                        );
+                      })}
                     </div>
                     {activeReportTab === "clinical" && (
                       <div className="rounded-xl border border-slate-100 border-l-4 border-l-[#345884] bg-slate-50 p-4">

@@ -41,6 +41,11 @@ import { ReportShareBarcode } from "@/components/report/ReportShareBarcode";
 import { LegalAuditSection } from "@/components/report/LegalAuditSection";
 import { reportAccessionCode, reportShareUrl } from "@/lib/reports/share-link";
 import {
+  isLabEvaluationCase,
+  labPillarCopy,
+  labPillarLabel,
+} from "@/lib/reports/lab-evaluation-labels";
+import {
   coerceLegalReportDto,
   type FormattedLegalReportDTO,
 } from "@/lib/mappers/legal-audit-mapper";
@@ -68,6 +73,7 @@ type EliteResultsClientProps = {
   radarData: RadarDatumWithKey[];
   caseTitle?: string | null;
   currentCaseId?: string | null;
+  specialty?: string | null;
   sessionId?: string | null;
   shareUrl?: string | null;
   accessionCode?: string | null;
@@ -447,6 +453,7 @@ export function EliteResultsClient({
   radarData,
   caseTitle,
   currentCaseId,
+  specialty = null,
   sessionId,
   shareUrl,
   accessionCode,
@@ -469,19 +476,24 @@ export function EliteResultsClient({
   const legalDto = coerceLegalReportDto(legalReport);
   const clinicalNarrative = clinicalNarrativeFromAudit(clinicalAudit);
   const economicNarrative = economicNarrativeFromAudit(economicAudit);
+  const isLab = isLabEvaluationCase({ specialty, caseId: currentCaseId });
   const resolvedRadarData = radarData.map((point) => {
-    if (point.key === "legalComplianceGelliBianco" && legalDto) {
-      return { ...point, score: legalDto.compliancePercentage };
-    }
-    if (point.key === "clinicalAccuracy") {
-      const audited = clinicalAccuracyPercentFromAudit(clinicalAudit);
-      if (audited != null) return { ...point, score: audited };
-    }
-    if (point.key === "prescribingAppropriateness" || point.key === "economicSustainability") {
-      const audited = efficiencyPercentFromAudit(economicAudit);
-      if (audited != null) return { ...point, score: audited };
-    }
-    return point;
+    const scored = (() => {
+      if (point.key === "legalComplianceGelliBianco" && legalDto) {
+        return { ...point, score: legalDto.compliancePercentage };
+      }
+      if (point.key === "clinicalAccuracy") {
+        const audited = clinicalAccuracyPercentFromAudit(clinicalAudit);
+        if (audited != null) return { ...point, score: audited };
+      }
+      if (point.key === "prescribingAppropriateness" || point.key === "economicSustainability") {
+        const audited = efficiencyPercentFromAudit(economicAudit);
+        if (audited != null) return { ...point, score: audited };
+      }
+      return point;
+    })();
+    if (!isLab) return scored;
+    return { ...scored, metric: labPillarLabel(scored.key, scored.metric) };
   });
 
   const normalizedScore = safeDisplayTrentesimi(totalScore);
@@ -764,13 +776,20 @@ export function EliteResultsClient({
                         : "";
                   const flag = pillarFlag(score);
                   const Icon = pillar.icon;
+                  const labCopy = isLab ? labPillarCopy(pillar.key) : null;
+                  const pillarLabel = labCopy?.label ?? pillar.label;
                   return (
                     <tr key={pillar.key} className={i % 2 === 0 ? "bg-[var(--aequan-panel-bg)]" : "bg-[var(--aequan-border-subtle)]"}>
                       <td className="border-t border-[var(--aequan-border)] px-3 py-3 align-top">
                         <p className="flex items-center gap-2 font-semibold text-[var(--aequan-brand-primary)]">
                           <Icon className="h-3.5 w-3.5 shrink-0 text-[var(--aequan-text-secondary)]" strokeWidth={1.75} />
-                          {pillar.label}
+                          {pillarLabel}
                         </p>
+                        {labCopy ? (
+                          <p className="mt-1 max-w-md text-[12px] leading-snug text-[var(--aequan-text-secondary)]">
+                            {labCopy.description}
+                          </p>
+                        ) : null}
                         {auditSummary ? (
                           <p className="mt-1.5 max-w-md text-sm leading-relaxed text-muted-foreground text-slate-600">
                             <SafeLlmText as="span">{auditSummary}</SafeLlmText>
@@ -791,8 +810,9 @@ export function EliteResultsClient({
                                 : "text-[#D97706]",
                             )}
                           >
-                            Penalità per stress: il paziente ha terminato la visita in stato di agitazione (-
-                            {scoreBreakdown?.communication?.stressPenalty} punti)
+                            {isLab
+                              ? `Penalità di comunicazione: la notifica al reparto non è stata tempestiva (-${scoreBreakdown?.communication?.stressPenalty} punti)`
+                              : `Penalità per stress: il paziente ha terminato la visita in stato di agitazione (-${scoreBreakdown?.communication?.stressPenalty} punti)`}
                           </p>
                         ) : null}
                       </td>
@@ -1027,13 +1047,17 @@ export function EliteResultsClient({
                           ? economicNarrative
                           : coachingFeedback?.[key];
                     if (!text?.trim()) return null;
+                    const rowLabel = isLab ? labPillarLabel(key, label) : label;
                     return (
                       <div
                         key={key}
-                        className="border border-[var(--aequan-border)] bg-[var(--aequan-border-subtle)] px-3.5 py-3 sm:grid sm:grid-cols-[6rem_1fr] sm:gap-3"
+                        className={cn(
+                          "border border-[var(--aequan-border)] bg-[var(--aequan-border-subtle)] px-3.5 py-3 sm:grid sm:gap-3",
+                          isLab ? "sm:grid-cols-[14rem_1fr]" : "sm:grid-cols-[6rem_1fr]",
+                        )}
                       >
                         <dt className="text-[11px] font-bold uppercase tracking-wide text-[var(--aequan-brand-primary)]">
-                          {label}
+                          {rowLabel}
                         </dt>
                         <dd className="mt-1 text-sm leading-relaxed text-[var(--aequan-text-primary)] sm:mt-0">
                           <SafeLlmText as="span" className="whitespace-pre-line">
